@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10057</OriginatingSystemId>
+  <RegisteredDate>2105-11-24T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235747</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-12-05T18:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-0E601D09DF21</Identifier>
+    <FirstName>Marion</FirstName>
+    <BirthName>LAZOTE</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Verte à cliquet</CommonName>
+    <ScientificName>Viridi Rana Strepiti</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Verte à détente</CommonName>
+    <ScientificName>Viridi Rana Elasticis</ScientificName>
+  </Frog>
+</File>

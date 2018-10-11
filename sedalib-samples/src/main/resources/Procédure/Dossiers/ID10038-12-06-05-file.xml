@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10038</OriginatingSystemId>
+  <RegisteredDate>2105-06-12T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235320</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-06-22T20:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-8588E486457D</Identifier>
+    <FirstName>Edouard</FirstName>
+    <BirthName>LAZOTE</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Bleu lumineuse</CommonName>
+    <ScientificName>Hyacinthum Lux Rana</ScientificName>
+  </Frog>
+</File>

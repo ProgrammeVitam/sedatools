@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10504</OriginatingSystemId>
+  <RegisteredDate>2104-10-26T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-234547</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2104-11-07T16:00:00</EventDateTime>
+    <OutCome>KO</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-40D3297E0120</Identifier>
+    <FirstName>Jean</FirstName>
+    <BirthName>ENVERS</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Verte à cliquet</CommonName>
+    <ScientificName>Viridi Rana Strepiti</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+</File>

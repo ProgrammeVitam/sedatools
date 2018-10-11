@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10060</OriginatingSystemId>
+  <RegisteredDate>2105-12-25T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235822</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2106-01-07T23:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-79E08D33E2A3</Identifier>
+    <FirstName>Edouard</FirstName>
+    <BirthName>ENVERS</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+</File>

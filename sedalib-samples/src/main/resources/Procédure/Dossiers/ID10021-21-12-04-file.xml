@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10021</OriginatingSystemId>
+  <RegisteredDate>2104-12-21T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-234920</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-01-07T14:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-A6F5414D3EFB</Identifier>
+    <FirstName>Edouard</FirstName>
+    <BirthName>CHEVAL</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Verte à détente</CommonName>
+    <ScientificName>Viridi Rana Elasticis</ScientificName>
+  </Frog>
+</File>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>
+  <RegisteredDate>2104-05-13T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-234452</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2104-05-31T01:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-16F14A19BF22</Identifier>
+    <FirstName>Edouard</FirstName>
+    <BirthName>AFINA</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Verte à détente</CommonName>
+    <ScientificName>Viridi Rana Elasticis</ScientificName>
+  </Frog>
+</File>

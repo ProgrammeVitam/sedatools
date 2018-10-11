@@ -1,0 +1,202 @@
+
+Programme Vitam - Présentation Tuleap -  29/04/2016
+
+Présentation Tuleap
+
+Se connecter
+Par défaut projet vitam (sauf parfois projet
+intégration)
+
+Media wiki : Un wiki avec des aides et mode
+d’emploi pour tous (fonctionnels et techs)
+dans Référentiels implémentation, pour
+l’instant 2 catégories
+
+• règles codage
+• études codes erreurs : tout le monde
+
+la remplit, ajoute, commente
+Tout le monde peut remplir la partie étude ,
+ensuite une décision collective est prise et
+cela passe dans règles codage
+
+Dans tracker sélectionner User stories
+On peut changer l’affichage : le nombre de
+colonnes, leur ordre
+
+• possibilité de se faire une mise en
+forme personnelle save as
+
+• Les user story sont initiées par les
+PO et BA au fur et à mesure de
+leur travail
+
+chaque nouvelle user story est rattachée à
+l’activité et au domaine supérieur
+
+Il faut remplir les valeurs métiers et
+complexité (techniques) : elles vont servir
+pour calculer la réalisation de chaque sprint
+La complexité est déterminée dans les sprints
+planning, c’est ce qui va servir pour calculer
+la complexité (en conformité avec les post-it)
+
+Les référents : PO ou BA à contacter en cas
+de difficultés sur les problèmes de réalisation
+
+• NE PAS HESITER à LES
+
+
+
+Programme Vitam - Présentation Tuleap -  29/04/2016
+
+CONTACTER
+
+Statut = États d’avancement
+• À spécifier
+• En cours
+• Validation PO : Édouard
+• Validation tech : = tech design
+• Ce qui concerne les équipes de dev : 
+
+◦ À développer = To do
+◦ En cours = WIP
+◦ À Recetter
+◦ À revoir
+◦ Fini : uniquement quand la user story est recettée et revue (y compris sonar, examens entre équipes…)
+
+Critères d’acceptance : Tests que veulent faire passer les PO/BA à la user story pour voir si la réalisation est effective
+
+• Entrée : Input
+• Pré-requis : ce que l’on doit avoir en
+
+main pour faire les tests et réaliser la
+user story, il peut s’agir d’éléments
+externes
+
+• Sortie : Output ce que l’on attend du
+test
+
+Description métier : 
+Précision sur ce qui est attendu, donner des
+cas d’usages concrets
+
+Pistes d’amélioration : 
+Prochaines évolutions qui pourraient être
+ajoutées à la user story
+Donne une idée de la complexité qui pourra
+être ajoutée à la user story dans le futur
+
+• Parfois il peut s’agir de problèmes
+rencontrés par le fonctionnel et qui
+pourront être étudiés dans le techdesign
+
+IHM : 3 types d’IHM :
+• IHM Administration, fonctionnelle et techniques
+• IHM mini : fonctionnalité pour faire des tests, démontrer ce qui est fait dans des activités, mais ne sera pas 
+
+forcément utilisé par les projets d’implémentation, qui voudraient pouvoir avoir des workflow plus précis
+◦ N’a pas vocation a être maintenue
+
+• IHM de démo : montrer à l’extérieur ce qui peut être fait par les API
+
+Sélect Artefact to link : description d’une
+tâche technique
+= découpage de la user story en tâches
+techniques (post-it des kanban des équipes de
+dev)
+
+On peut ajouter des pièces jointes : vision de
+l’IHM pour charger des SIP
+EX : Jeux de tests préparés par Gwendoline et
+Birkan
+
+
+
+Programme Vitam - Présentation Tuleap -  29/04/2016
+
+Possible depuis une user story de voir ses
+« enfants » toutes les tâches qui lui sont
+raccrochées
+
+Agile Dashboard
+Aller dans Project Vitam backlog
+
+Les user story figurent dans To be planned
+
+Quand elles ont été validées par la partie
+métier et technique (tech design), les
+PO/BA peuvent transférer la user story pour
+la prioriser dans la release (milestones)
+
+De la même façon dans la release on peut
+passer une user story dans l’itération : il y a
+alors 2 parties (1 par équipe) toutes les
+tâches d’une même user story sont
+attribuées à une même équipe.
+
+Trackers :
+• Doit être rempli par les dev
+
+Report : Dans le tracker de tâches on voit la
+liste des tâches et leur état d’avancement
+
+Tâche
+
+
+
+Programme Vitam - Présentation Tuleap -  29/04/2016
+
+Description
+
+4 types différents pour coder : 
+• Développement
+• Analyse si on doit faire un POC,
+
+une étude ou documenter outil
+• Intégration : éléments qui sont en
+
+rapport avec intégration
+• Autres : ce qui ne colle pas
+
+Statut
+• A faire
+• En cours : dès qu’on commence
+• Revue technique
+• Recette
+• Fini
+
+Module/sujet
+
+Détail : Espace ou ajouter plus de détail technique : 
+• résumer
+• détail du contenu de la tâche, du besoin…
+
+• Points de complexité : Indiquer le
+nombre de point définis en ???
+
+• Reste à faire
+• Temps passé, avant, pendant la
+
+review, pendant les tests : permet
+d’améliorer le travail et la stratégie
+
+• Date butoir
+• Personne chargée de la tâche :
+
+possibilité de faire des
+notifications en cas de
+changement, assignations
+multiples
+
+Artefacts links : se remplit
+automatiquement lorsque l’on crée la tâche
+depuis la user story
+
+• Possibilité de lier une tâche à une
+autre tâche
+
+• Dans super sprint : accès au kanban
+• En user story ou en tâches : on peut ajouter des commentaires
+
+

@@ -1,0 +1,17 @@
+{
+  "archiveTransferGlobalMetadata" : {
+    "comment" : "Avec valeurs utilisables sur environnement de démo Vitam",
+    "date" : null,
+    "nowFlag" : true,
+    "messageIdentifier" : "SIP SEDA de test",
+    "archivalAgreement" : "ArchivalAgreement0",
+    "codeListVersionsXmlData" : "  <CodeListVersions>\n    <ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion>\n    <MessageDigestAlgorithmCodeListVersion>MessageDigestAlgorithmCodeListVersion0</MessageDigestAlgorithmCodeListVersion>\n    <MimeTypeCodeListVersion>MimeTypeCodeListVersion0</MimeTypeCodeListVersion>\n    <EncodingCodeListVersion>EncodingCodeListVersion0</EncodingCodeListVersion>\n    <FileFormatCodeListVersion>FileFormatCodeListVersion0</FileFormatCodeListVersion>\n    <CompressionAlgorithmCodeListVersion>CompressionAlgorithmCodeListVersion0</CompressionAlgorithmCodeListVersion>\n    <DataObjectVersionCodeListVersion>DataObjectVersionCodeListVersion0</DataObjectVersionCodeListVersion>\n    <StorageRuleCodeListVersion>StorageRuleCodeListVersion0</StorageRuleCodeListVersion>\n    <AppraisalRuleCodeListVersion>AppraisalRuleCodeListVersion0</AppraisalRuleCodeListVersion>\n    <AccessRuleCodeListVersion>AccessRuleCodeListVersion0</AccessRuleCodeListVersion>\n    <DisseminationRuleCodeListVersion>DisseminationRuleCodeListVersion0</DisseminationRuleCodeListVersion>\n    <ReuseRuleCodeListVersion>ReuseRuleCodeListVersion0</ReuseRuleCodeListVersion>\n    <ClassificationRuleCodeListVersion>ClassificationRuleCodeListVersion0</ClassificationRuleCodeListVersion>\n    <AuthorizationReasonCodeListVersion>AuthorizationReasonCodeListVersion0</AuthorizationReasonCodeListVersion>\n    <RelationshipCodeListVersion>RelationshipCodeListVersion0</RelationshipCodeListVersion>\n  </CodeListVersions>",
+    "managementMetadataXmlData" : "    <ManagementMetadata>\n      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n      <LegalStatus>Public Archive</LegalStatus>\n      <OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>\n      <SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>\n    </ManagementMetadata>",
+    "transferRequestReplyIdentifier" : "Identifier3",
+    "archivalAgencyIdentifier" : "Identifier4",
+    "archivalAgencyOrganizationDescriptiveMetadata" : null,
+    "transferringAgencyIdentifier" : "Identifier5",
+    "transferringAgencyOrganizationDescriptiveMetadata" : null
+  },
+  "serializationVersion" : "1.0"
+}

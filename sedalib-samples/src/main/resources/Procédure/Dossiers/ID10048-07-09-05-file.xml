@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10048</OriginatingSystemId>
+  <RegisteredDate>2105-09-07T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235560</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-09-18T23:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-D0753F7063AC</Identifier>
+    <FirstName>Mélanie</FirstName>
+    <BirthName>BORDE</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+</File>

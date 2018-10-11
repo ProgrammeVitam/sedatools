@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10008</OriginatingSystemId>
+  <RegisteredDate>2104-08-19T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-234636</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2104-09-02T01:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-8BA441CCCE9F</Identifier>
+    <FirstName>Nathalie</FirstName>
+    <BirthName>BOURG</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Verte à cliquet</CommonName>
+    <ScientificName>Viridi Rana Strepiti</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+</File>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10058</OriginatingSystemId>
+  <RegisteredDate>2105-11-28T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235778</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-12-17T07:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-ACC81853BA7E</Identifier>
+    <FirstName>Pierre</FirstName>
+    <BirthName>LAZOTE</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+</File>

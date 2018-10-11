@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10041</OriginatingSystemId>
+  <RegisteredDate>2105-07-10T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235392</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-07-21T09:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-22649833BFF8</Identifier>
+    <FirstName>Emmanuel</FirstName>
+    <BirthName>AFINA</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+</File>

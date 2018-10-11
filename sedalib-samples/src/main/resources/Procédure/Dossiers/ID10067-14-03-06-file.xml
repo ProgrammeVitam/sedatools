@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10067</OriginatingSystemId>
+  <RegisteredDate>2106-03-14T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235980</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2106-04-03T01:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-BE3F5CD85105</Identifier>
+    <FirstName>Marion</FirstName>
+    <BirthName>CHEVAL</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Bleu lumineuse</CommonName>
+    <ScientificName>Hyacinthum Lux Rana</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Verte à cliquet</CommonName>
+    <ScientificName>Viridi Rana Strepiti</ScientificName>
+  </Frog>
+</File>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10016</OriginatingSystemId>
+  <RegisteredDate>2104-10-30T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-234815</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2104-11-13T12:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-C0621E6D86B1</Identifier>
+    <FirstName>Mehdi</FirstName>
+    <BirthName>BOURG</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+</File>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10065</OriginatingSystemId>
+  <RegisteredDate>2106-02-20T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235939</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2106-03-04T06:00:00</EventDateTime>
+    <OutCome>KO</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-24742A1AD010</Identifier>
+    <FirstName>Jean</FirstName>
+    <BirthName>BORDE</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Verte à détente</CommonName>
+    <ScientificName>Viridi Rana Elasticis</ScientificName>
+  </Frog>
+</File>

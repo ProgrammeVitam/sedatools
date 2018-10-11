@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10062</OriginatingSystemId>
+  <RegisteredDate>2106-01-28T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235867</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2106-02-15T21:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-81EC64B06368</Identifier>
+    <FirstName>Pierre</FirstName>
+    <BirthName>AFINA</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Verte à cliquet</CommonName>
+    <ScientificName>Viridi Rana Strepiti</ScientificName>
+  </Frog>
+</File>

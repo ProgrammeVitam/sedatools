@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10091</OriginatingSystemId>
+  <RegisteredDate>2106-10-07T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-236531</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2106-10-24T16:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-16F14A19BF22</Identifier>
+    <FirstName>Edouard</FirstName>
+    <BirthName>AFINA</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Bleu lumineuse</CommonName>
+    <ScientificName>Hyacinthum Lux Rana</ScientificName>
+  </Frog>
+</File>

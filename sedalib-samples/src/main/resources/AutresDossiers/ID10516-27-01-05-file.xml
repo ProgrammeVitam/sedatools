@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10516</OriginatingSystemId>
+  <RegisteredDate>2105-01-27T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-234806</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-02-11T15:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-47576556DE2B</Identifier>
+    <FirstName>Nathalie</FirstName>
+    <BirthName>ROMIN</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Verte à cliquet</CommonName>
+    <ScientificName>Viridi Rana Strepiti</ScientificName>
+  </Frog>
+</File>

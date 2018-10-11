@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10052</OriginatingSystemId>
+  <RegisteredDate>2105-10-20T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235653</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-11-06T11:00:00</EventDateTime>
+    <OutCome>OK</OutCome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-40D3297E0120</Identifier>
+    <FirstName>Jean</FirstName>
+    <BirthName>ENVERS</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Bleu lumineuse</CommonName>
+    <ScientificName>Hyacinthum Lux Rana</ScientificName>
+  </Frog>
+</File>
