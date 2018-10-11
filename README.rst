@@ -7,7 +7,7 @@ VITAM
 For a quick presentation in english, please follow `this link <README.en.rst>`_.
 
 
-.. image:: doc/fr/logo_vitam.png
+.. image:: logo_vitam.png
         :alt: Logo Vitam
         :align: center
 
