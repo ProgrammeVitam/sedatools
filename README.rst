@@ -32,6 +32,10 @@ Build
 
     mkdir test
     cd test
+    git clone https://github.com/digital-preservation/droid.git
+    cd droid/
+    mvn install
+    cd ..
     git clone https://gitlab.dev.programmevitam.fr/jslair/sedatools.git
     cd sedatools/
     mvn install
