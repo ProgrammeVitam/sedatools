@@ -9,7 +9,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import mslinks.ShellLink;
 import mslinks.ShellLinkException;
 
-class TestPrepare {
+public class TestUtilities {
 
 	public static boolean isPrepared = false;
 	public static boolean isWindows = false;
@@ -85,5 +85,25 @@ class TestPrepare {
 			isPrepared = true;
 		}
 	}
+	// Utility function to get rid of line-ending differences and enbaling cross-platform compilation
+	public static String JSonStrip(String json) {
+		StringBuilder sb = new StringBuilder();
+		boolean inString = false;
 
+		char[] chars = json.toCharArray();
+		for (int i = 0, n = chars.length; i < n; i++) {
+			char c = chars[i];
+			if (c == '"')
+				inString = !inString;
+			else if (c == '\\') {
+				if ((inString) && (chars[i + 1] == '\\'))
+					i++;
+				i++;
+				continue;
+			} else if (!inString && Character.isWhitespace(c) && c!='\n')
+				continue;
+			sb.append(c);
+		}
+		return sb.toString();
+	}
 }

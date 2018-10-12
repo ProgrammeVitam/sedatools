@@ -11,6 +11,6 @@ public interface UseTestFiles {
 
 	    @BeforeAll
 	    static void initializeTestFiles() throws IOException, ShellLinkException, SEDALibException {
-	    	TestPrepare.ContructTestFiles();
+	    	TestUtilities.ContructTestFiles();
 	    }
 }

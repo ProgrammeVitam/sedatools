@@ -88,9 +88,12 @@ public abstract class SEDAMetadata {
 		try {
 			Method method=target.getMethod("fromSedaXml", SEDAXMLEventReader.class);
 			return (SEDAMetadata) method.invoke(null, xmlReader);
-		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+		} catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException
 				| SecurityException e) {
 			throw new SEDALibException("Erreur de construction du "+target.getSimpleName()+"\n->" + e.getMessage());
+		}
+		catch (InvocationTargetException te){
+				throw new SEDALibException("Erreur de construction du "+target.getSimpleName()+"\n->" + te.getTargetException().getMessage());
 		}
 	}
 

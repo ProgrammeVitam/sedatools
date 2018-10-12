@@ -96,11 +96,9 @@ public class StringType extends NamedTypeMetadata {
 	@Override
 	public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
 		try {
-			xmlWriter.writeStartElement(elementName);
-			xmlWriter.writeCharacters(value);
-			xmlWriter.writeEndElement();
+			xmlWriter.writeElementValue(elementName,value);
 		} catch (XMLStreamException e) {
-			throw new SEDALibException("Erreur d'écriture XML dans un élément de type TextType\n->" + e.getMessage());
+			throw new SEDALibException("Erreur d'écriture XML dans un élément de type StringType\n->" + e.getMessage());
 		}
 	}
 

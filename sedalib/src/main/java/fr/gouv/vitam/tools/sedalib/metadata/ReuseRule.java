@@ -28,6 +28,7 @@
 
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import java.util.Date;
 import java.util.List;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
@@ -58,7 +59,7 @@ public class ReuseRule extends RuleType {
 	 * @param rule        the rule
 	 * @param startDate   the start date
 	 */
-	public ReuseRule(String rule, String startDate) {
+	public ReuseRule(String rule, Date startDate) {
 		super("ReuseRule", rule, startDate);
 	}
 

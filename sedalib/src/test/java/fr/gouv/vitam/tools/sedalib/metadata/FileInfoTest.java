@@ -11,34 +11,34 @@ import org.junit.jupiter.api.Test;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+
 class FileInfoTest {
 
-	public String toSedaXmlFragments(FileInfo fi) throws SEDALibException {
-		String result = null;
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
-			fi.toSedaXml(xmlWriter);
-			xmlWriter.close();
-			result = baos.toString("UTF-8");
-			baos.close();
-		} catch (SEDALibException | XMLStreamException | IOException e) {
-			throw new SEDALibException("Erreur interne ->" + e.getMessage());
-		}
-		return result;
-	}
+    @Test
+    void test() throws SEDALibException {
+        // Given
+        FileInfo fi = new FileInfo("TestFileName", "TestCreatingApplicationName",
+                "TestCreatingApplicationVersion", "TestCreatingOs",
+                "TestCreatingOsVersion", FileTime.fromMillis(0));
 
-	@Test
-	void test() throws SEDALibException {
-		FileInfo fi;
+        String fiOut = fi.toString();
+//        System.out.println("Value to verify=" + fiOut);
 
-		fi = new FileInfo("filename", "creatingApplicationName", "creatingApplicationVersion", "creatingOs",
-				"creatingOsVersion", FileTime.fromMillis(0));
+        // When read write in XML string format
+        FileInfo fiNext = (FileInfo) SEDAMetadata.fromString(fiOut, FileInfo.class);
+        String fiNextOut = fiNext.toString();
 
-		System.err.println(toSedaXmlFragments(fi));
-		
-		fi = new FileInfo("filename", null, null,null,null,null);
-
-		System.err.println(toSedaXmlFragments(fi));
-	}
+        //Then
+        String testOut = "<FileInfo>\n" +
+                "  <Filename>TestFileName</Filename>\n" +
+                "  <CreatingApplicationName>TestCreatingApplicationName</CreatingApplicationName>\n" +
+                "  <CreatingApplicationVersion>TestCreatingApplicationVersion</CreatingApplicationVersion>\n" +
+                "  <CreatingOs>TestCreatingOs</CreatingOs>\n" +
+                "  <CreatingOsVersion>TestCreatingOsVersion</CreatingOsVersion>\n" +
+                "  <LastModified>1970-01-01T00:00:00Z</LastModified>\n" +
+                "</FileInfo>";
+        assertThat(fiNextOut).isEqualTo(testOut);
+    }
 
 }

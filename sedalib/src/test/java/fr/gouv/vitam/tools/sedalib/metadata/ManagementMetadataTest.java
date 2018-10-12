@@ -1,34 +1,68 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
+import java.util.Date;
+
 class ManagementMetadataTest {
 
 	@Test
 	void test() throws SEDALibException {
-		ManagementMetadata mm = new ManagementMetadata();
+        //Given
+        ManagementMetadata mm = new ManagementMetadata();
 
-		mm.addNewMetadata("ArchivalProfile", "TestArchivalProfile", "TestSchemeAgencyID", "TestSchemeAgencyName",
-				"TestSchemeDataURI", "TestSchemeID", "TestSchemeName", "TestSchemeURI", "TestSchemeVersionID");
+        // When loaded with all different kind of metadata
 
-		mm.addNewMetadata("OriginatingAgencyIdentifier", "TestOriginatingAgencyIdentifier");
-		mm.addNewMetadata("SubmissionAgencyIdentifier", "TestSubmissionAgencyIdentifier");
+        // Test SchemeType metadata
+        mm.addNewMetadata("ArchivalProfile", "TestArchivalProfile", "TestSchemeAgencyID", "TestSchemeAgencyName",
+                "TestSchemeDataURI", "TestSchemeID", "TestSchemeName", "TestSchemeURI", "TestSchemeVersionID");
 
-		String mmOut = mm.toString();
+        // Test StringType metadata
+        mm.addNewMetadata("OriginatingAgencyIdentifier", "TestOriginatingAgencyIdentifier");
+        mm.addNewMetadata("SubmissionAgencyIdentifier", "TestSubmissionAgencyIdentifier");
 
-		mm = (ManagementMetadata) SEDAMetadata.fromString(mmOut, ManagementMetadata.class);
-		System.out.println(mm.toString());
+        // Test RuleType metadata
+        mm.addNewMetadata("AccessRule", "TestAccRule1)", new Date(0));
+        AppraisalRule appraisalRule = new AppraisalRule();
+        appraisalRule.addRule("TestAppRule1", new Date(0));
+        appraisalRule.setPreventInheritance(true);
+        appraisalRule.addRule("TestAppRule2");
+        appraisalRule.addRefNonRuleId("TestAppRule3");
+        appraisalRule.setFinalAction("Keep");
+        mm.addMetadata(appraisalRule);
 
-		String testOut = "<ManagementMetadata>\n"
-				+ "  <ArchivalProfile schemeAgencyID=\"TestSchemeAgencyID\" schemeAgencyName=\"TestSchemeAgencyName\" schemeDataURI=\"TestSchemeDataURI\" schemeID=\"TestSchemeID\" schemeName=\"TestSchemeName\" schemeURI=\"TestSchemeURI\" schemeVersionID=\"TestSchemeVersionID\">TestArchivalProfile</ArchivalProfile>\n"
-				+ "  <OriginatingAgencyIdentifier>TestOriginatingAgencyIdentifier</OriginatingAgencyIdentifier>\n"
-				+ "  <SubmissionAgencyIdentifier>TestSubmissionAgencyIdentifier</SubmissionAgencyIdentifier>\n"
-				+ "</ManagementMetadata>";
+        // ...other types all tested in Management metadata
 
-		assertEquals(testOut, mm.toString());
-	}
+        String mmOut = mm.toString();
+//        System.out.println("Value to verify=" + mmOut);
+
+        // Test read write in XML string format
+        ManagementMetadata mmNext = (ManagementMetadata) SEDAMetadata.fromString(mmOut, ManagementMetadata.class);
+        String mmNextOut = mmNext.toString();
+
+        // Then
+        String testOut = "<ManagementMetadata>\n" +
+                "  <ArchivalProfile schemeAgencyID=\"TestSchemeAgencyID\" schemeAgencyName=\"TestSchemeAgencyName\" schemeDataURI=\"TestSchemeDataURI\" schemeID=\"TestSchemeID\" schemeName=\"TestSchemeName\" schemeURI=\"TestSchemeURI\" schemeVersionID=\"TestSchemeVersionID\">TestArchivalProfile</ArchivalProfile>\n" +
+                "  <OriginatingAgencyIdentifier>TestOriginatingAgencyIdentifier</OriginatingAgencyIdentifier>\n" +
+                "  <SubmissionAgencyIdentifier>TestSubmissionAgencyIdentifier</SubmissionAgencyIdentifier>\n" +
+                "  <AppraisalRule>\n" +
+                "    <Rule>TestAppRule1</Rule>\n" +
+                "    <StartDate>1970-01-01</StartDate>\n" +
+                "    <Rule>TestAppRule2</Rule>\n" +
+                "    <PreventInheritance>true</PreventInheritance>\n" +
+                "    <RefNonRuleId>TestAppRule3</RefNonRuleId>\n" +
+                "    <FinalAction>Keep</FinalAction>\n" +
+                "  </AppraisalRule>\n" +
+                "  <AccessRule>\n" +
+                "    <Rule>TestAccRule1)</Rule>\n" +
+                "    <StartDate>1970-01-01</StartDate>\n" +
+                "  </AccessRule>\n" +
+                "</ManagementMetadata>";
+        assertThat(mmNextOut).isEqualTo(testOut);
+    }
 }

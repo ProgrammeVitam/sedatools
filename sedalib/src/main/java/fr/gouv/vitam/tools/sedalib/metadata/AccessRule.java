@@ -28,6 +28,7 @@
 
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import java.util.Date;
 import java.util.List;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
@@ -58,7 +59,7 @@ public class AccessRule extends RuleType {
 	 * @param rule        the rule
 	 * @param startDate   the start date
 	 */
-	public AccessRule(String rule, String startDate) {
+	public AccessRule(String rule, Date startDate) {
 		super("AccessRule",rule,startDate);
 	}
 

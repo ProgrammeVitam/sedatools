@@ -108,8 +108,11 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 				constructor = mi.metadataClass.getConstructor(String.class, Object[].class);
 			return (SEDAMetadata) constructor.newInstance(elementName, args);
 		} catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
-				| IllegalArgumentException | InvocationTargetException e) {
+				| IllegalArgumentException  e) {
 			throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]");
+		}
+		catch (InvocationTargetException te){
+			throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]\n->" + te.getTargetException().getMessage());
 		}
 	}
 
@@ -132,7 +135,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 			if (addOrderIndex == -1) {
 				if (isNotExpendable())
 					throw new SEDALibException(
-							"Il n'est pas possible d'étendre le schéma avec des métadonnées non prévues ["
+							"Impossible d'étendre le schéma avec des métadonnées non prévues ["
 									+ elementName + "]");
 				manyFlag = true;
 				boolean noBeforeEqual = true;
@@ -184,7 +187,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 		if (addOrderIndex == -1) {
 			if (isNotExpendable())
 				throw new SEDALibException(
-						"Il n'est pas possible d'étendre le schéma avec des métadonnées non prévues ["
+						"Impossible d'étendre le schéma avec des métadonnées non prévues ["
 								+ elementName + "]");
 			manyFlag = true;
 			boolean noBeforeEqual = true;
@@ -269,12 +272,14 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 				xmlReader.peekUsefullEvent();
 				String tmp = xmlReader.peekName();
 				while (tmp != null) {
+					if (tmp.equals("Event"))
+						System.out.println("Here");
 					MetadataKind mi = complexListType.getMetadataMap().get(tmp);
 					if (mi == null) {
 						if (complexListType.isNotExpendable())
 							throw new SEDALibException(
-									"Il n'est pas possible d'étendre le schéma avec des métadonnées non prévues ["
-											+ complexListType.elementName + "]");
+									"Impossible d'étendre le schéma avec des métadonnées non prévues ["
+											+ tmp + "]");
 						else
 							metadataClass = GenericXMLBlockType.class;
 					} else
@@ -287,7 +292,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 			} else
 				return null;
 		} catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-			throw new SEDALibException("Erreur de lecture XML dans un élément Content\n->" + e.getMessage());
+			throw new SEDALibException("Erreur de lecture XML dans un élément ["+complexListType.elementName+"]\n->" + e.getMessage());
 		}
 		return complexListType;
 	}
@@ -311,8 +316,8 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 				if (mi == null) {
 					if (isNotExpendable())
 						throw new SEDALibException(
-								"Il n'est pas possible d'étendre le schéma avec des métadonnées non prévues ["
-										+ elementName + "]");
+								"Impossible d'étendre le schéma avec des métadonnées non prévues ["
+										+ tmp + "]");
 					else
 						metadataClass = GenericXMLBlockType.class;
 				} else
