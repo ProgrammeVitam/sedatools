@@ -2,7 +2,49 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Git synchro correction (line-ending change)">
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib-samples/src/main/java/App.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample1.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample2.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample3.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample3plus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/DateTimeType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfileTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FormatIdentificationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib-samples/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AccessRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AccessRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AppraisalRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AppraisalRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ClassificationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ClassificationRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Content.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Content.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/DisseminationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/DisseminationRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ReuseRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ReuseRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/SEDAMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/SEDAMetadata.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/StorageRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/StorageRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/RuleType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/RuleType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/SchemeType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/SchemeType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/StringType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/StringType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLEventReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLEventReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLStreamWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLStreamWriter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/TestPrepare.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/TestUtilities.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/UseTestFiles.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/UseTestFiles.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/AccessRuleTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FileInfoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FileInfoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementMetadataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementMetadataTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/sedalib/target/" />
@@ -14,10 +56,14 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/sedatools$All_in_sedalib.ic" NAME="All in sedalib Coverage Results" MODIFIED="1539368031337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/sedatools$fr_gouv_vitam_tools_sedalib_metadata_in_sedalib.ic" NAME="fr.gouv.vitam.tools.sedalib.metadata in sedalib Coverage Results" MODIFIED="1539368012884" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>fr.gouv.vitam.tools.sedalib.metadata.*</FILTER>
+    </SUITE>
     <SUITE FILE_PATH="coverage/sedatools$All_in_sedalib__1_.ic" NAME="All in sedalib (1) Coverage Results" MODIFIED="1539214442701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CoverageViewManager">
-    <option name="myElementSize" value="235" />
+    <option name="myElementSize" value="358" />
   </component>
   <component name="FUSProjectUsageTrigger">
     <session id="487714043">
@@ -70,106 +116,68 @@
     <session id="1917609319">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="1" />
+          <entry key="project.closed" value="3" />
+          <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.12" value="1" />
+          <entry key="project.open.time.13" value="2" />
           <entry key="project.open.time.8" value="1" />
-          <entry key="project.opened" value="2" />
+          <entry key="project.opened" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
+          <entry key="class" value="1" />
           <entry key="gitattributes" value="2" />
           <entry key="gitignore" value="1" />
-          <entry key="java" value="10" />
+          <entry key="java" value="93" />
           <entry key="png" value="1" />
           <entry key="rst" value="1" />
-          <entry key="xml" value="1" />
+          <entry key="xml" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
+          <entry key="CLASS" value="1" />
           <entry key="Image" value="1" />
-          <entry key="JAVA" value="10" />
+          <entry key="JAVA" value="93" />
           <entry key="PLAIN_TEXT" value="4" />
-          <entry key="XML" value="1" />
+          <entry key="XML" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
+          <entry key="dummy" value="17" />
           <entry key="gitattributes" value="114" />
-          <entry key="java" value="34" />
+          <entry key="java" value="4551" />
           <entry key="txt" value="55" />
+          <entry key="xml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="34" />
-          <entry key="PLAIN_TEXT" value="169" />
+          <entry key="JAVA" value="4551" />
+          <entry key="PLAIN_TEXT" value="186" />
+          <entry key="XML" value="1" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitattributes">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="22" column="2" selection-start-line="22" selection-start-column="2" selection-end-line="22" selection-end-column="2" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib-samples/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="42">
-              <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/App.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="20" selection-start-line="20" selection-end-line="20" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample1.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="6" column="34" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample2.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="18" column="34" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+            <state relative-caret-position="355">
+              <caret line="138" column="27" selection-start-line="138" selection-start-column="27" selection-end-line="138" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/DateTimeType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="355">
+              <caret line="106" column="55" selection-start-line="106" selection-start-column="55" selection-end-line="106" selection-end-column="55" />
             </state>
           </provider>
         </entry>
@@ -180,6 +188,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package-info" />
+        <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -202,12 +212,21 @@
       <find>isBadly</find>
       <find>LogBook mal formé dans le DataObjectGroup</find>
       <find>SmallContract.json</find>
+      <find>JSonStrip</find>
+      <find>sch</find>
+      <find>sdf</find>
+      <find>Il n'est pas possible</find>
+      <find>InvocationTargetException</find>
+      <find>Impossible d'étendre</find>
+      <find>StartDate</find>
     </findStrings>
     <replaceStrings>
       <replace>&quot;target/tmpJunit&quot;</replace>
       <replace>sedalib</replace>
       <replace>resources</replace>
       <replace>isNotExpendable</replace>
+      <replace>Impossible</replace>
+      <replace>TestUtilities.JSonStrip</replace>
     </replaceStrings>
     <dirStrings>
       <dir>F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib\src\main\java</dir>
@@ -222,48 +241,16 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/FileInfo.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/FormatIdentification.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Event.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/json/DataObjectPackageDeserializer.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnit.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveTransfer.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObject.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/GenericXMLBlockType.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/GlobalMetadata.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/SchemeType.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/SEDAMetadata.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/StringType.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/TextType.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/WindowsShortcut.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/IndentXMLTool.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveDeliveryRequestReply.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/DataObjectPackageToDiskExporter.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/PhysicalDataObject.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/package-info.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/package-info.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLEventReader.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/StorageRule.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/json/DataObjectPackageSerializer.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/droid/DroidIdentifier.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/ArchiveTransferToDiskExporter.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackage.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AppraisalRule.java" />
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageTest.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectGroup.java" />
         <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/package-info.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ClassificationRule.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/PersonType.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/SIPToArchiveTransferImporter.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DIPToArchiveDeliveryRequestReplyImporter.java" />
-        <option value="$PROJECT_DIR$/sedalib/pom.xml" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/UpdateOperation.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLStreamWriter.java" />
         <option value="$PROJECT_DIR$/sedalib-samples/pom.xml" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java" />
         <option value="$PROJECT_DIR$/README.rst" />
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/TestPrepare.java" />
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveTransferToFromXmlTest.java" />
@@ -273,6 +260,38 @@
         <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample2.java" />
         <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3.java" />
         <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java" />
+        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/App.java" />
+        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample1.java" />
+        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample2.java" />
+        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample3.java" />
+        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample3plus.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/TestUtilities.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfile.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/SchemeType.java" />
+        <option value="$PROJECT_DIR$/sedalib/pom.xml" />
+        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfileTest.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AppraisalRule.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AccessRule.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/DisseminationRule.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ReuseRule.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/StorageRule.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementMetadataTest.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ClassificationRule.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementTest.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FileInfoTest.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FormatIdentificationTest.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/DateType.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/StringType.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLStreamWriter.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLEventReader.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/RuleType.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Event.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Content.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/SEDAMetadata.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/DateTimeType.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java" />
       </list>
     </option>
   </component>
@@ -354,7 +373,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -377,6 +395,132 @@
             <path>
               <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
               <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="metadata" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="metadata" type="462c0819:PsiDirectoryNode" />
+              <item name="namedtype" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="xml" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="json" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="inout" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="metadata" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="target" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
               <item name="sedalib-samples" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -399,40 +543,43 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib-samples" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="samples" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539342941253" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539368029698" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib\src\main\java\fr\gouv\vitam\tools\sedalib\metadata\namedtype" />
-      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib-samples\src\main\java\fr\gouv\vitam\tools\sedalib\samples" />
-      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib-samples" />
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="fr.gouv.vitam.tools.sedalib.metadata" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\jean-severin.lair\intelliJGit\sedatools\sedalib-samples\src\main" />
       <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib-samples\src\main\java\fr\gouv\vitam\tools\sedalib\samples" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="fr.gouv.vitam.tools.sedalib.metadata.namedtype" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib\src\main\java\fr\gouv\vitam\tools\sedalib\metadata\namedtype" />
+      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib-samples\src\main\java\fr\gouv\vitam\tools\sedalib\samples" />
+      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib-samples" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -447,22 +594,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.All in sedalib (3)">
-    <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="fr.gouv.vitam.tools.sedalib.samples.App" />
-      <module name="sedalibsamples" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/sedalib-samples" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="fr.gouv.vitam.tools.sedalib.samples.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="All in sedalib (3)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.All in sedalib">
+    <configuration name="All in sedalib" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="sedalib" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
@@ -470,46 +603,81 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.core.BinaryDataObjectTest]" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="ContentTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="sedalib" />
-      <option name="PACKAGE_NAME" value="" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.gouv.vitam.tools.sedalib.metadata.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fr.gouv.vitam.tools.sedalib.metadata" />
+      <option name="MAIN_CLASS_NAME" value="fr.gouv.vitam.tools.sedalib.metadata.ContentTest" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ContentTest.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sedalib" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.gouv.vitam.tools.sedalib.metadata.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fr.gouv.vitam.tools.sedalib.metadata" />
+      <option name="MAIN_CLASS_NAME" value="fr.gouv.vitam.tools.sedalib.metadata.ContentTest" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.metadata.ContentTest]" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sedalib" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.gouv.vitam.tools.sedalib.metadata.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fr.gouv.vitam.tools.sedalib.metadata" />
       <option name="TEST_OBJECT" value="uniqueId" />
       <uniqueIds>
-        <uniqueId value="[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.core.BinaryDataObjectTest]" />
+        <uniqueId value="[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.metadata.ContentTest]" />
       </uniqueIds>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.inout.ArchiveTransferToFromXmlTest]" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="fr.gouv.vitam.tools.sedalib.metadata in sedalib" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="sedalib" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="TEST_OBJECT" value="uniqueId" />
-      <uniqueIds>
-        <uniqueId value="[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.inout.ArchiveTransferToFromXmlTest]" />
-      </uniqueIds>
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.gouv.vitam.tools.sedalib.metadata.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fr.gouv.vitam.tools.sedalib.metadata" />
+      <option name="TEST_OBJECT" value="package" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
-    </configuration>
-    <configuration name="sedalib-samples-0.9-SNAPSHOT-shaded.jar" type="JarApplication" factoryName="JAR Application" temporary="true">
-      <option name="JAR_PATH" value="$PROJECT_DIR$/sedalib-samples/target/sedalib-samples-0.9-SNAPSHOT-shaded.jar" />
-      <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Application.App" />
-      <item itemvalue="JAR Application.sedalib-samples-0.9-SNAPSHOT-shaded.jar" />
-      <item itemvalue="JUnit.All in sedalib (3)" />
-      <item itemvalue="JUnit.[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.core.BinaryDataObjectTest]" />
-      <item itemvalue="JUnit.[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.inout.ArchiveTransferToFromXmlTest]" />
+      <item itemvalue="JUnit.fr.gouv.vitam.tools.sedalib.metadata in sedalib" />
+      <item itemvalue="JUnit.ContentTest" />
+      <item itemvalue="JUnit.[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.metadata.ContentTest]" />
+      <item itemvalue="JUnit.ContentTest.test" />
+      <item itemvalue="JUnit.All in sedalib" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in sedalib (3)" />
-        <item itemvalue="JUnit.[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.inout.ArchiveTransferToFromXmlTest]" />
-        <item itemvalue="JUnit.[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.core.BinaryDataObjectTest]" />
-        <item itemvalue="Application.App" />
-        <item itemvalue="JAR Application.sedalib-samples-0.9-SNAPSHOT-shaded.jar" />
+        <item itemvalue="JUnit.All in sedalib" />
+        <item itemvalue="JUnit.fr.gouv.vitam.tools.sedalib.metadata in sedalib" />
+        <item itemvalue="JUnit.ContentTest" />
+        <item itemvalue="JUnit.ContentTest.test" />
+        <item itemvalue="JUnit.[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.metadata.ContentTest]" />
       </list>
     </recent_temporary>
   </component>
@@ -549,35 +717,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_sedalib_(3) - 2018.10.11 at 01h 59m 49s.xml">
-      <configuration name="All in sedalib (3)" configurationId="JUnit" />
+    <history-entry file="ContentTest_test - 2018.10.12 at 19h 47m 12s.xml">
+      <configuration name="ContentTest.test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_sedalib_(3) - 2018.10.11 at 02h 03m 27s.xml">
-      <configuration name="All in sedalib (3)" configurationId="JUnit" />
+    <history-entry file="ContentTest_test - 2018.10.12 at 19h 53m 59s.xml">
+      <configuration name="ContentTest.test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_sedalib_(3) - 2018.10.11 at 02h 06m 07s.xml">
-      <configuration name="All in sedalib (3)" configurationId="JUnit" />
+    <history-entry file="ContentTest - 2018.10.12 at 19h 54m 37s.xml">
+      <configuration name="ContentTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="[engine_junit-jupiter]_[class_fr_gouv_vitam_tools_sedalib_core_BinaryDataObjectTest] - 2018.10.12 at 12h 32m 30s.xml">
-      <configuration name="[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.core.BinaryDataObjectTest]" configurationId="JUnit" />
+    <history-entry file="ContentTest - 2018.10.12 at 19h 55m 16s.xml">
+      <configuration name="ContentTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_sedalib_(3) - 2018.10.12 at 12h 33m 01s.xml">
-      <configuration name="All in sedalib (3)" configurationId="JUnit" />
+    <history-entry file="ContentTest_test - 2018.10.12 at 20h 01m 49s.xml">
+      <configuration name="ContentTest.test" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_sedalib_(3) - 2018.10.12 at 12h 58m 28s.xml">
-      <configuration name="All in sedalib (3)" configurationId="JUnit" />
+    <history-entry file="ContentTest - 2018.10.12 at 20h 05m 39s.xml">
+      <configuration name="ContentTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="[engine_junit-jupiter]_[class_fr_gouv_vitam_tools_sedalib_inout_ArchiveTransferToFromXmlTest] - 2018.10.12 at 12h 59m 40s.xml">
-      <configuration name="[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.inout.ArchiveTransferToFromXmlTest]" configurationId="JUnit" />
+    <history-entry file="ContentTest - 2018.10.12 at 20h 06m 13s.xml">
+      <configuration name="ContentTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="[engine_junit-jupiter]_[class_fr_gouv_vitam_tools_sedalib_inout_ArchiveTransferToFromXmlTest] - 2018.10.12 at 13h 01m 38s.xml">
-      <configuration name="[engine:junit-jupiter]/[class:fr.gouv.vitam.tools.sedalib.inout.ArchiveTransferToFromXmlTest]" configurationId="JUnit" />
+    <history-entry file="ContentTest - 2018.10.12 at 20h 07m 08s.xml">
+      <configuration name="ContentTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_sedalib_(3) - 2018.10.12 at 13h 04m 38s.xml">
-      <configuration name="All in sedalib (3)" configurationId="JUnit" />
+    <history-entry file="ContentTest - 2018.10.12 at 20h 10m 33s.xml">
+      <configuration name="ContentTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="All_in_sedalib_(3) - 2018.10.12 at 13h 05m 41s.xml">
-      <configuration name="All in sedalib (3)" configurationId="JUnit" />
+    <history-entry file="ContentTest - 2018.10.12 at 20h 12m 07s.xml">
+      <configuration name="ContentTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView" selected-index="4">
@@ -593,7 +761,7 @@
     <frame x="-9" y="-9" width="1856" height="1098" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3286517" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3438202" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -603,7 +771,7 @@
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3290461" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.3290461" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3290461" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39978564" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -619,35 +787,40 @@
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
       <window_info anchor="right" id="Maven Projects" order="5" weight="0.3296582" />
-      <window_info anchor="right" id="Coverage" order="6" side_tool="true" weight="0.3296582" />
+      <window_info anchor="right" id="Coverage" order="6" side_tool="true" weight="0.38146067" />
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25523704" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.33876404" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Inspection Results" order="0" visible="true" weight="0.32917964" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="Find" order="2" weight="0.32917964" />
-      <window_info anchor="bottom" id="Run" order="3" weight="0.32917964" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.3997923" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" weight="0.32917964" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="10" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.32917964" />
+      <window_info id="Image Layers" order="6" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3290461" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3290461" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.39978564" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32917964" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32917964" />
+      <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.3290461" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3290461" />
+      <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.32917964" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Maven Projects" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="5" weight="0.3296582" />
+      <window_info anchor="right" id="Coverage" order="6" side_tool="true" weight="0.38146067" />
+      <window_info anchor="right" id="Capture Analysis" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -686,270 +859,31 @@
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java</url>
-          <line>147</line>
+          <url>file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/GenericXMLBlockType.java</url>
+          <line>97</line>
           <properties />
-          <option name="timeStamp" value="6" />
+          <option name="timeStamp" value="23" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java</url>
+          <line>84</line>
+          <properties />
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java</url>
+          <line>275</line>
+          <properties />
+          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/IndentXMLTool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="90" column="44" lean-forward="true" selection-start-line="90" selection-start-column="44" selection-end-line="90" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/PhysicalDataObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="224" selection-start-line="224" selection-end-line="224" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/package-info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="87" selection-start-line="1" selection-start-column="87" selection-end-line="1" selection-end-column="87" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/package-info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" column="82" selection-start-line="1" selection-start-column="82" selection-end-line="1" selection-end-column="82" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLEventReader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="77" column="4" selection-start-line="77" selection-start-column="4" selection-end-line="77" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/StorageRule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="50" column="4" selection-start-line="50" selection-start-column="4" selection-end-line="50" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/json/DataObjectPackageSerializer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="91" column="28" selection-start-line="91" selection-start-column="28" selection-end-line="91" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/droid/DroidIdentifier.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="165" column="16" selection-start-line="165" selection-start-column="16" selection-end-line="165" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/ArchiveTransferToDiskExporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="85" selection-end-line="170" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/DataObjectPackageToDiskExporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="222" column="45" selection-start-line="222" selection-start-column="45" selection-end-line="222" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AppraisalRule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="49" column="34" selection-start-line="49" selection-start-column="34" selection-end-line="49" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="656" column="62" selection-start-line="656" selection-start-column="48" selection-end-line="656" selection-end-column="75" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectGroup.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="189" column="24" selection-start-line="189" selection-start-column="24" selection-end-line="189" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/package-info.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="6" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/package-info.java" />
-    <entry file="file://$PROJECT_DIR$/sedalib/target/site/apidocs/doc/index.html" />
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/PersonType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-23">
-          <caret line="112" column="21" selection-start-line="112" selection-start-column="11" selection-end-line="112" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ClassificationRule.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="93" column="29" selection-start-line="93" selection-start-column="11" selection-end-line="93" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObjectTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-17">
-          <caret line="20" column="6" selection-start-line="20" selection-start-column="6" selection-end-line="20" selection-end-column="6" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="86" selection-start-line="86" selection-end-line="86" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/json/ArchiveTransferSerDeserializerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/SIPToArchiveTransferImporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="266">
-          <caret line="166" selection-start-line="160" selection-end-line="166" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DIPToArchiveDeliveryRequestReplyImporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="169" selection-start-line="169" selection-end-line="169" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithoutLinkFlatManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="39" selection-start-column="39" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithoutLinksModelV1/Root/Node 2/Node 2.3 - Many/vitam-logbook-messages_fr.properties">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="572" selection-start-line="572" selection-end-line="572" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/UpdateOperation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="35" selection-start-line="35" selection-end-line="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveDeliveryRequestReply.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="155" column="89" selection-start-line="155" selection-start-column="89" selection-end-line="155" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="80" selection-start-line="80" selection-end-line="80" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLStreamWriter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="50" selection-start-line="50" selection-end-line="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="222" selection-start-line="222" selection-end-line="222" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/misc.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/compiler.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/vcs.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="231" column="19" selection-start-line="231" selection-start-column="19" selection-end-line="231" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/logo_vitam.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="567">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="37" column="4" selection-start-line="37" selection-start-column="4" selection-end-line="37" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="276">
           <caret line="493" column="40" selection-start-line="493" selection-start-column="31" selection-end-line="493" selection-end-column="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/TestPrepare.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="452">
-          <caret line="75" column="71" selection-start-line="75" selection-start-column="71" selection-end-line="75" selection-end-column="71" />
         </state>
       </provider>
     </entry>
@@ -964,19 +898,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="376">
           <caret line="102" lean-forward="true" selection-start-line="102" selection-end-line="102" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="881">
-          <caret line="147" selection-start-line="147" selection-end-line="147" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/App.java" />
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample1.java" />
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample2.java" />
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3.java" />
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java" />
     <entry file="file://$PROJECT_DIR$/.gitattributes">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="462">
@@ -987,42 +916,307 @@
     <entry file="file://$PROJECT_DIR$/sedalib-samples/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="42">
-          <caret line="2" column="7" lean-forward="true" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/App.java">
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveDeliveryRequestReply.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="504">
+          <caret line="155" column="89" selection-start-line="155" selection-start-column="89" selection-end-line="155" selection-end-column="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/Sample1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="672">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/Sample3plus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="421">
+          <caret line="115" selection-start-line="115" selection-end-line="115" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.2.0/junit-platform-commons-1.2.0.jar!/org/junit/platform/commons/util/ReflectionUtils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3115">
+          <caret line="199" column="13" selection-start-line="199" selection-start-column="13" selection-end-line="199" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/UseTestFiles.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/TestUtilities.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="88" column="18" selection-start-line="88" selection-start-column="18" selection-end-line="88" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3318">
+          <caret line="158" selection-start-line="158" selection-end-line="158" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/SchemeType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="229">
+          <caret line="127" column="8" selection-start-line="127" selection-start-column="8" selection-end-line="127" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="28" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/PersonType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="112" column="21" selection-start-line="112" selection-start-column="11" selection-end-line="112" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/FileInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-277">
+          <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfileTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="33" column="2" selection-start-line="33" selection-start-column="2" selection-end-line="33" selection-end-column="2" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/App.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
+          <caret line="20" column="1" selection-start-line="20" selection-start-column="1" selection-end-line="20" selection-end-column="1" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample1.java">
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AccessRule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="6" column="34" selection-start-line="6" selection-start-column="34" selection-end-line="6" selection-end-column="34" />
+        <state relative-caret-position="105">
+          <caret line="46" column="42" lean-forward="true" selection-start-line="46" selection-start-column="42" selection-end-line="46" selection-end-column="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample2.java">
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/DisseminationRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="61" column="46" selection-start-line="61" selection-start-column="46" selection-end-line="61" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ReuseRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="470">
+          <caret line="61" column="38" selection-start-line="61" selection-start-column="38" selection-end-line="61" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/AccessRuleTest.java" />
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementMetadata.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="268">
+          <caret line="125" selection-start-line="125" selection-end-line="125" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/StorageRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="84" column="40" selection-start-line="84" selection-start-column="40" selection-end-line="84" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AppraisalRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="606">
+          <caret line="108" selection-start-line="108" selection-end-line="108" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ClassificationRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="56">
+          <caret line="257" column="30" lean-forward="true" selection-start-line="257" selection-start-column="30" selection-end-line="257" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Management.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-153">
+          <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FileInfoTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="25" column="2" selection-start-line="25" selection-start-column="2" selection-end-line="25" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/FormatIdentification.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="214">
+          <caret line="79" column="104" selection-start-line="79" selection-start-column="39" selection-end-line="79" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FormatIdentificationTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
-          <caret line="18" column="34" selection-start-line="18" selection-start-column="34" selection-end-line="18" selection-end-column="34" />
+          <caret line="18" column="3" selection-start-line="18" selection-start-column="3" selection-end-line="18" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3.java">
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/Sample2.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+        <state relative-caret-position="-906">
+          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java">
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/Sample3.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="20" column="34" selection-start-line="20" selection-start-column="34" selection-end-line="20" selection-end-column="34" />
+        <state relative-caret-position="523">
+          <caret line="25" column="39" selection-start-line="25" selection-end-line="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLStreamWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="503">
+          <caret line="110" column="56" selection-start-line="110" selection-start-column="56" selection-end-line="110" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLEventReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="422">
+          <caret line="100" column="56" selection-start-line="100" selection-start-column="56" selection-end-line="100" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/RuleType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="207" column="50" lean-forward="true" selection-start-line="207" selection-start-column="50" selection-end-line="207" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="489">
+          <caret line="140" column="30" selection-start-line="140" selection-start-column="30" selection-end-line="140" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementMetadataTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="20" selection-start-line="18" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/StringType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/GenericXMLBlockType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="166">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/SEDAMetadata.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="89" selection-start-line="89" selection-end-line="89" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="118" selection-start-line="118" selection-end-line="118" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Content.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1105">
+          <caret line="180" selection-start-line="180" selection-end-line="180" />
+          <folding>
+            <element signature="e#8892#8893#0" expanded="true" />
+            <element signature="e#8917#8918#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="447">
+          <caret line="289" column="17" lean-forward="true" selection-start-line="289" selection-start-column="17" selection-end-line="289" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/DateTimeType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="106" column="55" selection-start-line="106" selection-start-column="55" selection-end-line="106" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="138" column="27" selection-start-line="138" selection-start-column="27" selection-end-line="138" selection-end-column="27" />
         </state>
       </provider>
     </entry>

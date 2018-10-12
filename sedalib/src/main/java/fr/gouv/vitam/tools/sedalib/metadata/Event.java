@@ -32,6 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateTimeType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -67,7 +68,7 @@ public class Event extends ComplexListType {
 				new ComplexListType.MetadataKind(StringType.class, false));
 		metadataMap.put("EventTypeCode", new ComplexListType.MetadataKind(StringType.class, false));
 		metadataMap.put("EventType", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("EventDateTime", new ComplexListType.MetadataKind(StringType.class, false));
+		metadataMap.put("EventDateTime", new ComplexListType.MetadataKind(DateTimeType.class, false));
 		metadataMap.put("EventDetail", new ComplexListType.MetadataKind(TextType.class, true));
 		metadataMap.put("Outcome", new ComplexListType.MetadataKind(StringType.class, false));
 		metadataMap.put("OutcomeDetail", new ComplexListType.MetadataKind(StringType.class, false));

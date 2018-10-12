@@ -106,7 +106,10 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 	private int idCounter;
 
 	/** The SimpleDateFormat for XML formatted date. */
-	final private SimpleDateFormat sdf;
+	final public SimpleDateFormat dayTimeSdf;
+
+	/** The SimpleDateFormat for XML formatted only day date. */
+	final public SimpleDateFormat daySdf;
 
 	// constructors
 
@@ -150,7 +153,8 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 		this.firstLineFlag = true;
 
 		this.idCounter = 1;
-		this.sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		this.dayTimeSdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		this.daySdf = new SimpleDateFormat("yyyy-MM-dd");
 	}
 
 	/**
@@ -273,7 +277,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 		} else {
 			d = date;
 		}
-		return sdf.format(d);
+		return dayTimeSdf.format(d);
 	}
 
 	/**

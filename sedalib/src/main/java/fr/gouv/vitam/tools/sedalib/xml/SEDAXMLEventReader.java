@@ -96,7 +96,10 @@ public class SEDAXMLEventReader implements AutoCloseable {
 	public XMLEventReader xmlReader;
 
 	/** The SimpleDateFormat for XML formatted date. */
-	final private SimpleDateFormat sdf;
+	public final SimpleDateFormat dayTimeSdf;
+
+	/** The SimpleDateFormat for XML formatted only day date. */
+	public final SimpleDateFormat daySdf;
 
 	/**
 	 * Gets the named element.
@@ -204,7 +207,8 @@ public class SEDAXMLEventReader implements AutoCloseable {
 				}
 			throw new SEDALibException("Impossible d'ouvrir un flux de lecture XML (" + e.getMessage() + ")");
 		}
-		this.sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		this.dayTimeSdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		this.daySdf = new SimpleDateFormat("yyyy-MM-dd");
 	}
 
 	/*
@@ -226,7 +230,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
 	 */
 
 	public Date getDateFromString(String dateString) throws ParseException {
-		return sdf.parse(dateString);
+		return dayTimeSdf.parse(dateString);
 	}
 
 	/**
