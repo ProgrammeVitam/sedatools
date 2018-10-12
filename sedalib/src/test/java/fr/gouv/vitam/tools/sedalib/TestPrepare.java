@@ -72,8 +72,8 @@ class TestPrepare {
 			prefix = "src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/";
 			// regenerate PacketSamples.SampleWithWindowsLinksAndShortcutsModelV2 links
 			createSymbolicLink(prefix + "Link Node 1.2", prefix + "Node 1/Node 1.2");
-			createSymbolicLink(prefix + "Link SmallContract.json",
-					prefix + "Node 2/Node 2.3 - Many/SmallContract.json");
+			createSymbolicLink(prefix + "Link SmallContract.text",
+					prefix + "Node 2/Node 2.3 - Many/SmallContract.text");
 			createShortcutIfWindows(prefix + "Shortcut Node 2.4 - OG Link.lnk", prefix + "Node 2/Node 2.4 - OG Link");
 			createShortcutIfWindows(prefix + "ShortCut OK-RULES-MDRULES.zip.lnk",
 					prefix + "Node 2/Node 2.3 - Many/OK-RULES-MDRULES.zip");

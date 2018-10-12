@@ -101,9 +101,9 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
 		xmlWriter.close();
 		String generatedHierarchicalManifest = baos.toString().replaceAll("<LastModified>.*</LastModified>\n", "");
 
-//		IOUtils.write(generatedFlatManifest, 
+//		IOUtils.write(generatedFlatManifest,
 //				new FileOutputStream("src/test/resources/PacketSamples/SampleWithoutLinkFlatManifest.xml"),Charsets.UTF_8);
-//		IOUtils.write(generatedHierarchicalManifest, 
+//		IOUtils.write(generatedHierarchicalManifest,
 //				new FileOutputStream("src/test/resources/PacketSamples/SampleWithoutLinkHierarchicalManifest.xml"),Charsets.UTF_8);
 
 		String fileManifest = readFileToString("src/test/resources/PacketSamples/SampleWithoutLinkFlatManifest.xml");

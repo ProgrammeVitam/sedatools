@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="sedalib" />
+        <module name="sedalib-samples" />
         <module name="sedalibsamples" />
       </profile>
     </annotationProcessing>
