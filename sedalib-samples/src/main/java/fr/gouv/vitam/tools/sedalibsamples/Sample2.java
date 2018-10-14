@@ -5,6 +5,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.Content;
 import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -21,17 +22,6 @@ import java.util.stream.Stream;
 
 public class Sample2 {
 
-    static public Logger createLogger(Level logLevel) {
-        Logger logger;
-
-        Properties props = System.getProperties();
-        props.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%n");
-        logger = Logger.getLogger("sedalib-samples");
-        logger.setLevel(logLevel);
-
-        return logger;
-    }
-
     static private String stripFileName(String fileName) {
         String tmp = fileName.substring(fileName.indexOf("-") + 1);
         if (tmp.lastIndexOf('.') >= 0)
@@ -41,7 +31,7 @@ public class Sample2 {
     }
 
     static void run() throws Exception {
-        ProgressLogger pl = new ProgressLogger(createLogger(Level.ALL), ProgressLogger.STEP);
+        ProgressLogger pl = new ProgressLogger(LoggerFactory.getLogger("sedalibsamples"), ProgressLogger.OBJECTS_GROUP);
         try (SIPBuilder sb = new SIPBuilder("samples/Sample2.zip", pl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");

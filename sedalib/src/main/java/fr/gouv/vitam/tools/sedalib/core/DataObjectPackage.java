@@ -899,7 +899,7 @@ public class DataObjectPackage {
             throw new SEDALibException("Erreur d'écriture XML des métadonnées des DataObjects\n->" + e.getMessage());
         }
         if (progressLogger != null)
-            progressLogger.progressLog(ProgressLogger.STEP,
+            progressLogger.progressLog(ProgressLogger.OBJECTS_GROUP,
                     Integer.toString(getNextInOutCounter()) + " DataObject (métadonnées) exportées");
     }
 
@@ -943,7 +943,7 @@ public class DataObjectPackage {
             throw new SEDALibException("Erreur d'écriture XML des métadonnées des ArchiveUnits\n->" + e.getMessage());
         }
         if (progressLogger != null)
-            progressLogger.progressLog(ProgressLogger.STEP, Integer.toString(getNextInOutCounter()) +
+            progressLogger.progressLog(ProgressLogger.OBJECTS_GROUP, Integer.toString(getNextInOutCounter()) +
                     " ArchiveUnit exportés");
     }
 

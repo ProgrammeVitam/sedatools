@@ -20,22 +20,11 @@ import fr.gouv.vitam.tools.sedalib.metadata.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonType;
 import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import org.slf4j.LoggerFactory;
 
 public class Sample3plus {
 
-    static SimpleDateFormat daySdf = new SimpleDateFormat("yyyy-MM-dd");
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
-    static public Logger createLogger(Level logLevel) {
-        Logger logger;
-
-        Properties props = System.getProperties();
-        props.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%n");
-        logger = Logger.getLogger("sedalib-samples");
-        logger.setLevel(logLevel);
-
-        return logger;
-    }
 
     static private String stripFileName(String fileName) {
         String tmp = fileName.substring(fileName.indexOf("-") + 1);
@@ -46,7 +35,7 @@ public class Sample3plus {
     }
 
     static void run() throws Exception {
-        ProgressLogger pl = new ProgressLogger(createLogger(Level.ALL), ProgressLogger.STEP);
+        ProgressLogger pl = new ProgressLogger(LoggerFactory.getLogger("sedalibsamples"), ProgressLogger.OBJECTS_GROUP);
         try (SIPBuilder sb = new SIPBuilder("samples/Sample3plus.zip", pl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");

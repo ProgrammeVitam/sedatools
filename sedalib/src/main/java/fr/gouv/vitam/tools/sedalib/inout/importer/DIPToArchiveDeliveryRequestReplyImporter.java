@@ -126,7 +126,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                     IOUtils.copy(is, fos);
                     counter++;
                     if (progressLogger!=null)
-                        progressLogger.progressLogIfStep(ProgressLogger.STEP, counter, Integer.toString(counter) + " fichiers " +
+                        progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
                                 "extraits");
                     is.close();
                     fos.close();
@@ -137,7 +137,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                     + outputFolder + "]\n->" + ex.getMessage());
         }
         if (progressLogger!=null)
-            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter, Integer.toString(counter) + " fichiers " +
+            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
                 "extraits");
         if (manifest == null)
             throw new SEDALibException("SIP mal formé, pas de manifest");

@@ -541,7 +541,7 @@ public class DiskToDataObjectPackageImporter {
 
         inCounter++;
         if (progressLogger!=null)
-            progressLogger.progressLogIfStep(ProgressLogger.STEP, inCounter, Integer.toString(inCounter) +
+            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
                 " ArchiveUnits importées");
 
         String dirName = path.getFileName().toString();
@@ -587,7 +587,7 @@ public class DiskToDataObjectPackageImporter {
                     if (fileName.equals("ArchiveUnitContent.xml")) {
                         modelVersion |= 1;
                         try {
-                            au.contentXmlData = new String(Files.readAllBytes(curPath), "UTF-8");
+                            au.setContentXmlData(new String(Files.readAllBytes(curPath), "UTF-8"));
                         } catch (IOException e) {
                             throw new SEDALibException("Impossible d'accéder au fichier [" + curPath.toString() + "]");
                         }
@@ -637,7 +637,7 @@ public class DiskToDataObjectPackageImporter {
                 }
 
             }
-            if ((!auMetadataDefined) && (au.contentXmlData == null))
+            if ((!auMetadataDefined) && (au.getContent() == null))
                 au.setDefaultContentXmlData(dirName, "RecordGrp");
         } catch (IOException e) {
             throw new SEDALibException(
@@ -681,7 +681,7 @@ public class DiskToDataObjectPackageImporter {
 
         inCounter++;
         if (progressLogger!=null)
-            progressLogger.progressLogIfStep(ProgressLogger.STEP, inCounter, Integer.toString(inCounter) +
+            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
                 " ArchiveUnits importées");
 
         dog = new DataObjectGroup(dataObjectPackage, path);
@@ -784,7 +784,7 @@ public class DiskToDataObjectPackageImporter {
                 dataObjectPackage.addRootAu(au);
             }
             if (progressLogger!=null)
-                progressLogger.progressLog(ProgressLogger.STEP, Integer.toString(inCounter) + " ArchiveUnits importées");
+                progressLogger.progressLog(ProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " ArchiveUnits importées");
         } catch (SEDALibException e) {
             throw new SEDALibException("Impossible d'importer les ressources du répertoire ["
                     + currentDiskImportDirectory.toString() + "]\n->" + e.getMessage());
@@ -796,11 +796,11 @@ public class DiskToDataObjectPackageImporter {
                 pair.getValue().extractTechnicalElements(progressLogger);
             inCounter++;
             if (progressLogger!=null)
-                progressLogger.progressLogIfStep(ProgressLogger.STEP, inCounter, Integer.toString(inCounter) +
+                progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
                     " BinaryDataObject analysés");
         }
         if (progressLogger!=null)
-            progressLogger.progressLog(ProgressLogger.STEP, Integer.toString(inCounter) + " BinaryDataObject analysés");
+            progressLogger.progressLog(ProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " BinaryDataObject analysés");
         end = Instant.now();
     }
 

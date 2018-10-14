@@ -28,8 +28,10 @@
 package fr.gouv.vitam.tools.sedalib.utils;
 
 import java.text.DecimalFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.Marker;
+import org.slf4j.MarkerFactory;
 
 /**
  * The Class ProgressLogger.
@@ -43,7 +45,8 @@ import java.util.logging.Logger;
  * <ul>
  * <li>GLOBAL: global information on the process</li>
  * <li>STEP: information on treatment steps of one uniq element (for exemple DataObjectPackage treatment steps when
- * imported) or accumulation step of multiple elements treatment (for exemple each 1000 ArchiveUnits)</li>
+ * imported) </li>
+ * <li>OBJECTS_GROUPS: accumulation event of "step" value multiple elements treatment (for exemple each 1000 ArchiveUnits)</li>
  * <li>OBJECTS: information on the treatment of one of multiple elements (ArchiveUnits, DataObjects...)</li>
  * <li>OBJECTS_WARNINGS : alert issued from treatment of one of multiple elements (ArchiveUnits, DataObjects...)
  * </li>
@@ -53,9 +56,15 @@ public class ProgressLogger {
 
     //** ProgressLog level. */
     public static final int GLOBAL = 10;
+    public static final Marker GLOBAL_MARKER = MarkerFactory.getMarker("GLOBAL");
     public static final int STEP = 20;
-    public static final int OBJECTS = 30;
-    public static final int OBJECTS_WARNINGS = 40;
+    public static final Marker STEP_MARKER = MarkerFactory.getMarker("STEP");
+    public static final int OBJECTS_GROUP = 30;
+    public static final Marker OBJECTS_GROUP_MARKER = MarkerFactory.getMarker("OBJECTS_GROUP");
+    public static final int OBJECTS = 40;
+    public static final Marker OBJECTS_MARKER = MarkerFactory.getMarker("OBJECTS");
+    public static final int OBJECTS_WARNINGS = 50;
+    public static final Marker OBJECTS_WARNINGS_MARKER = MarkerFactory.getMarker("OBJECTS_WARNINGS");
 
     /**
      * The Interface ProgressLogFunc.
@@ -171,10 +180,26 @@ public class ProgressLogger {
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
+    private Marker getMarker(int level) {
+        switch (level) {
+            case GLOBAL:
+                return GLOBAL_MARKER;
+            case STEP:
+                return STEP_MARKER;
+            case OBJECTS_GROUP:
+                return OBJECTS_GROUP_MARKER;
+            case OBJECTS:
+                return OBJECTS_MARKER;
+            case OBJECTS_WARNINGS:
+                return OBJECTS_WARNINGS_MARKER;
+        }
+        return GLOBAL_MARKER;
+    }
+
     public void log(int level, String message) {
         if (level <= progressLogLevel) {
             if (logger != null)
-                logger.log(Level.INFO, level+" - "+message);
+                logger.info(getMarker(level), message);
         }
     }
 }

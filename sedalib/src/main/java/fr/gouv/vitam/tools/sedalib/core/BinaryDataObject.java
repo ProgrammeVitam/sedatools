@@ -418,7 +418,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
 
         int counter = getDataObjectPackage().getNextInOutCounter();
         if (progressLogger != null)
-            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
+            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) exportés");
     }
 
@@ -557,7 +557,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         bdo.dataObjectGroupId = null;
         int counter = dataObjectPackage.getNextInOutCounter();
         if (progressLogger != null)
-            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
+            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) importés");
         return bdo;
     }

@@ -200,11 +200,13 @@ public class DataObjectPackageToDiskExporter {
 	 * @param au the ArchiveUnit
 	 * @return the file name
 	 */
-	private String constructDirectoryName(ArchiveUnit au) {
+	private String constructDirectoryName(ArchiveUnit au) throws SEDALibException {
 		String result = "";
-		if (au.contentXmlData != null) {
-			result = SEDAXMLEventReader.extractNamedElement("Title", au.contentXmlData);
-			if (result.length() > 12)
+		if (au.getContent() != null) {
+			result = au.getContent().getSimpleMetadata("Title");
+			if (result==null)
+				result="NoTitle";
+			else if (result.length() > 12)
 				result = result.substring(0, 11);
 			result += "_";
 		}
@@ -490,7 +492,7 @@ public class DataObjectPackageToDiskExporter {
 
 			int counter = dataObjectPackage.getNextInOutCounter();
 			if (progressLogger!=null)
-				progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
+				progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
 						Integer.toString(counter) + " ArchiveUnit/DataObject analysés");
 		}
 	}
@@ -528,7 +530,7 @@ public class DataObjectPackageToDiskExporter {
 			exportArchiveUnit(au, exportPath);
 
 		if (progressLogger!=null)
-			progressLogger.progressLogIfStep(ProgressLogger.STEP, dataObjectPackage.getInOutCounter(),
+			progressLogger.progressLog(ProgressLogger.OBJECTS_GROUP,
 				Integer.toString(dataObjectPackage.getInOutCounter()) + " ArchiveUnit/DataObject exportées\n"
 						+ dataObjectPackage.getDescription());
 	}

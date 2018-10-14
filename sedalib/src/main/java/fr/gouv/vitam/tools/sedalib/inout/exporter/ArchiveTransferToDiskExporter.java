@@ -149,11 +149,6 @@ public class ArchiveTransferToDiskExporter {
             exportArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata(), exportPath);
         dataObjectPackageToDiskExporter.doExport(directoryName);
 
-        if (progressLogger !=null)
-            progressLogger.progressLogIfStep(ProgressLogger.STEP,
-                archiveTransfer.getDataObjectPackage().getInOutCounter(),
-                Integer.toString(archiveTransfer.getDataObjectPackage().getInOutCounter())
-                        + " ArchiveUnit/DataObject exportés");
         end = Instant.now();
     }
 

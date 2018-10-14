@@ -206,7 +206,7 @@ public class SIPBuilder implements AutoCloseable  {
             c.addNewMetadata("Description", description);
         } catch (SEDALibException ignored) {
         }
-        au.contentXmlData = c.toString();
+        au.setContent(c);
 
         return au;
     }
@@ -306,7 +306,7 @@ public class SIPBuilder implements AutoCloseable  {
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
         c.addNewMetadata("Title", title);
         c.addNewMetadata("Description", description);
-        au.contentXmlData = c.toString();
+        au.setContent(c);
         parentAU.addChildArchiveUnit(au);
         if (progressLogger!=null)
             progressLogger.log(ProgressLogger.OBJECTS,
@@ -362,7 +362,7 @@ public class SIPBuilder implements AutoCloseable  {
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
         c.addNewMetadata("Title", title);
         c.addNewMetadata("Description", description);
-        au.contentXmlData = c.toString();
+        au.setContent(c);
         parentAU.addChildArchiveUnit(au);
         Path path = Paths.get(onDiskPath);
         bdo = new BinaryDataObject(archiveTransfer.getDataObjectPackage(), path, path.getFileName().toString(),

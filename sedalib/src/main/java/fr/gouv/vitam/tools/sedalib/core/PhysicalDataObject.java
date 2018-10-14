@@ -177,7 +177,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
 
         int counter = getDataObjectPackage().getNextInOutCounter();
         if (progressLogger != null)
-            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
+            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) exportés");
     }
 
@@ -299,7 +299,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
 
         int counter = dataObjectPackage.getNextInOutCounter();
         if (progressLogger != null)
-            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
+            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) importés");
         return pdo;
     }

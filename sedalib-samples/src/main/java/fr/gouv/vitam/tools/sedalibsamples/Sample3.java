@@ -13,6 +13,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
 import fr.gouv.vitam.tools.sedalib.metadata.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.Content;
@@ -20,22 +21,11 @@ import fr.gouv.vitam.tools.sedalib.metadata.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonType;
 import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import org.slf4j.LoggerFactory;
 
 public class Sample3 {
 
-    static SimpleDateFormat daySdf = new SimpleDateFormat("yyyy-MM-dd");
     static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
-    static public Logger createLogger(Level logLevel) {
-        Logger logger;
-
-        Properties props = System.getProperties();
-        props.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%n");
-        logger = Logger.getLogger("sedalib-samples");
-        logger.setLevel(logLevel);
-
-        return logger;
-    }
 
     static private String stripFileName(String fileName) {
         String tmp = fileName.substring(fileName.indexOf("-") + 1);
@@ -46,7 +36,7 @@ public class Sample3 {
     }
 
     static void run() throws Exception {
-        ProgressLogger pl = new ProgressLogger(createLogger(Level.ALL), ProgressLogger.STEP);
+        ProgressLogger pl = new ProgressLogger(LoggerFactory.getLogger("sedalibsamples"), ProgressLogger.OBJECTS_GROUP);
         try (SIPBuilder sb = new SIPBuilder("samples/Sample3.zip", pl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");
@@ -121,8 +111,12 @@ public class Sample3 {
 
             // keep last file for history in Contexte part and without AppraisalRuleOld
             if (procId != null) {
-                sb.addNewSubArchiveUnit("Contexte", "Exemple de dossier", "RecordGrp", "Exemple de dossier",
-                        "Ensemble des fichiers d'un dossier pour en conserver la forme");
+                Content c = sb.getContent(procId);
+                sb.addNewSubArchiveUnit("Contexte", "Exemple de dossier",
+                        "RecordGrp", "Exemplaire de dossier",
+                        "Ensemble des fichiers d'un dossier pour en conserver la forme.\nTitre original:"+
+                                c.getSimpleMetadata("Title")+"\nDescription originale:"+
+                                c.getSimpleMetadata("Description"));
                 sb.addArchiveUnitSubTree("Exemple de dossier", procId);
             }
 
