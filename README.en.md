@@ -29,4 +29,8 @@ Build
     cd sedatools/
     mvn install
     cd sedalib-samples/
+
+Sample application execution
+============================
+
     java -jar target/sedalib-samples-0.9-SNAPSHOT-shaded.jar
