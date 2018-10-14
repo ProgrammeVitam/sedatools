@@ -29,6 +29,7 @@ Build
     git clone https://gitlab.dev.programmevitam.fr/jslair/sedatools.git
     cd sedatools/
     mvn install
+    cd sedalib-samples/
     java -jar target/sedalib-samples-0.9-SNAPSHOT-shaded.jar
 
 Première approche
