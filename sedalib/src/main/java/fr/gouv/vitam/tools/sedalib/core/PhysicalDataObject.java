@@ -177,7 +177,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
 
         int counter = getDataObjectPackage().getNextInOutCounter();
         if (progressLogger != null)
-            progressLogger.progressLogIfStep(Level.FINE, counter,
+            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) exportés");
     }
 
@@ -288,7 +288,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             dataObjectPackage.addDataObjectGroup(dog);
             dog.addDataObject(pdo);
             if (progressLogger!=null)
-                progressLogger.log(Level.FINEST, "DataObjectGroup [" + dog.inDataPackageObjectId
+                progressLogger.log(ProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
                     + "] créé depuis PhysicalDataObject [" + pdo.inDataPackageObjectId + "]");
         } else if (pdo.dataObjectGroupReferenceId != null) {
             dog = dataObjectPackage.getDataObjectGroupById(pdo.dataObjectGroupReferenceId);
@@ -299,7 +299,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
 
         int counter = dataObjectPackage.getNextInOutCounter();
         if (progressLogger != null)
-            progressLogger.progressLogIfStep(Level.FINE, counter,
+            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) importés");
         return pdo;
     }

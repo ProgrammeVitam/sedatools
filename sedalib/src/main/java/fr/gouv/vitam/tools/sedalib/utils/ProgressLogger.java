@@ -27,9 +27,9 @@
  */
 package fr.gouv.vitam.tools.sedalib.utils;
 
-import java.util.logging.Logger;
 import java.text.DecimalFormat;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The Class ProgressLogger.
@@ -40,15 +40,22 @@ import java.util.logging.Level;
  * progress dialog.
  * <p>
  * The progress levels are defined with java.util.logging level:
- *<ul>
- *     <li>INFO: global information on the process</li>
- *     <li>FINE: information on the treatment of one uniq element (for exemple DataObjectPackage treatment steps when
- *     imported) or accumulation step of multiple elements treatment (for exemple each 1000 ArchiveUnits)</li>
- *     <li>FINER: information on the treatment of one of multiple elements (ArchiveUnits, DataObjects...)</li>
- *     <li>FINEST : alert issued from treatment of one of multiple elements (ArchiveUnits, DataObjects...)</li>
- *</ul>
+ * <ul>
+ * <li>GLOBAL: global information on the process</li>
+ * <li>STEP: information on treatment steps of one uniq element (for exemple DataObjectPackage treatment steps when
+ * imported) or accumulation step of multiple elements treatment (for exemple each 1000 ArchiveUnits)</li>
+ * <li>OBJECTS: information on the treatment of one of multiple elements (ArchiveUnits, DataObjects...)</li>
+ * <li>OBJECTS_WARNINGS : alert issued from treatment of one of multiple elements (ArchiveUnits, DataObjects...)
+ * </li>
+ * </ul>
  */
 public class ProgressLogger {
+
+    //** ProgressLog level. */
+    public static final int GLOBAL = 10;
+    public static final int STEP = 20;
+    public static final int OBJECTS = 30;
+    public static final int OBJECTS_WARNINGS = 40;
 
     /**
      * The Interface ProgressLogFunc.
@@ -65,37 +72,52 @@ public class ProgressLogger {
         void doprogressLog(int count, String log);
     }
 
-    /** The progress log func. */
+    /**
+     * The progress log func.
+     */
     private ProgressLogFunc progressLogFunc;
 
-    /** The logger. */
+    /**
+     * The logger.
+     */
     private Logger logger;
 
-    /** The number used to determine if an accumulation as to be a progress log or not. */
+    /**
+     * The number used to determine if an accumulation as to be a progress log or not.
+     */
     private int step;
+
+    /**
+     * The progressLogLevel.
+     */
+    private int progressLogLevel;
 
     /**
      * Instantiates a new SEDA lib progress logger.
      *
-     * @param logger the logger
+     * @param logger           the logger
+     * @param progressLogLevel the progress log level
      */
-    public ProgressLogger(Logger logger) {
+    public ProgressLogger(Logger logger, int progressLogLevel) {
         this.progressLogFunc = null;
         this.logger = logger;
         this.step = Integer.MAX_VALUE;
+        this.progressLogLevel = progressLogLevel;
     }
 
     /**
      * Instantiates a new SEDA lib progress logger.
      *
-     * @param progressConsumer the lambda function called to follow the progress
      * @param logger           the standard logger
+     * @param progressLogLevel the progress log level
+     * @param progressConsumer the lambda function called to follow the progress
      * @param step             the step value
      */
-    public ProgressLogger(Logger logger, ProgressLogFunc progressConsumer, int step) {
+    public ProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer, int step) {
         this.progressLogFunc = progressConsumer;
         this.logger = logger;
         this.step = step;
+        this.progressLogLevel = progressLogLevel;
     }
 
     /**
@@ -106,14 +128,16 @@ public class ProgressLogger {
      * @param log   the log
      * @throws InterruptedException the interrupted exception
      */
-    public void progressLogIfStep(Level level, int count, String log) throws InterruptedException {
-        if ((count!=-1) && (count % step != 0))
-            return;
-        if (progressLogFunc != null) {
-            progressLogFunc.doprogressLog(count, log);
+    public void progressLogIfStep(int level, int count, String log) throws InterruptedException {
+        if (level <= progressLogLevel) {
+            if ((count == 0) || (count % step != 0))
+                return;
+            if (progressLogFunc != null) {
+                progressLogFunc.doprogressLog(count, log);
+            }
+            log(level, log);
+            Thread.sleep(1);
         }
-        log(level, log);
-        Thread.sleep(1);
     }
 
     /**
@@ -123,12 +147,14 @@ public class ProgressLogger {
      * @param log   the log
      * @throws InterruptedException the interrupted exception
      */
-    public void progressLog(Level level, String log) throws InterruptedException {
-         if (progressLogFunc != null) {
-            progressLogFunc.doprogressLog(-1, log);
+    public void progressLog(int level, String log) throws InterruptedException {
+        if (level <= progressLogLevel) {
+            if (progressLogFunc != null) {
+                progressLogFunc.doprogressLog(-1, log);
+            }
+            log(level, log);
+            Thread.sleep(1);
         }
-        log(level, log);
-        Thread.sleep(1);
     }
 
     /**
@@ -145,8 +171,10 @@ public class ProgressLogger {
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
-    public void log(Level level, String message) {
-        if (logger != null)
-            logger.log(level, message);
+    public void log(int level, String message) {
+        if (level <= progressLogLevel) {
+            if (logger != null)
+                logger.log(Level.INFO, level+" - "+message);
+        }
     }
 }

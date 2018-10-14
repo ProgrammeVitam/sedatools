@@ -110,9 +110,9 @@ public class SIPToArchiveTransferImporter {
                             throw new SEDALibException("SIP mal formé, plusieurs fichiers manifest potentiels");
                         manifest = fileName;
                         if (progressLogger != null)
-                            progressLogger.log(Level.FINER, "Unzip manifest [" + zipFile + "]");
+                            progressLogger.log(ProgressLogger.OBJECTS, "Unzip manifest [" + zipFile + "]");
                     } else if (progressLogger != null)
-                        progressLogger.log(Level.FINER, "Unzip fichier [" + zipFile + "]");
+                        progressLogger.log(ProgressLogger.OBJECTS, "Unzip fichier [" + zipFile + "]");
 
                     // create all non exists folders
                     // else you will hit FileNotFoundException for compressed folder
@@ -124,7 +124,7 @@ public class SIPToArchiveTransferImporter {
                     IOUtils.copy(is, fos);
                     counter++;
                     if (progressLogger!=null)
-                        progressLogger.progressLogIfStep(Level.FINE, counter, Integer.toString(counter) + " fichiers " +
+                        progressLogger.progressLogIfStep(ProgressLogger.STEP, counter, Integer.toString(counter) + " fichiers " +
                                 "extraits");
                     is.close();
                     fos.close();
@@ -135,7 +135,7 @@ public class SIPToArchiveTransferImporter {
                     + "] dans le répertoire [" + outputFolder + "]\n->" + ex.getMessage());
         }
         if (progressLogger!=null)
-            progressLogger.progressLogIfStep(Level.FINE, counter, Integer.toString(counter) + " fichiers extraits");
+            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter, Integer.toString(counter) + " fichiers extraits");
         if (manifest == null)
             throw new SEDALibException("SIP mal formé, pas de manifest");
         return manifest;
@@ -184,7 +184,7 @@ public class SIPToArchiveTransferImporter {
         Date d = new Date();
         start = Instant.now();
         if (progressLogger!=null)
-            progressLogger.log(Level.INFO, "Début de l'import du SIP [" + zipFile + "] date="
+            progressLogger.log(ProgressLogger.GLOBAL, "Début de l'import du SIP [" + zipFile + "] date="
                 + DateFormat.getDateTimeInstance().format(d));
 
         manifest = unZipSip(zipFile, unCompressDirectory);
@@ -199,7 +199,7 @@ public class SIPToArchiveTransferImporter {
 
         end = Instant.now();
         if (progressLogger!=null)
-            progressLogger.log(Level.INFO, getSummary());
+            progressLogger.log(ProgressLogger.GLOBAL, getSummary());
     }
 
     /**

@@ -207,7 +207,7 @@ public class ArchiveTransfer {
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
             }
             if (progressLogger!=null)
-                progressLogger.log(Level.FINE, "Début de l'import du document ArchiveTransfer");
+                progressLogger.log(ProgressLogger.STEP, "Début de l'import du document ArchiveTransfer");
 
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML\n->" + e.getMessage());
@@ -227,7 +227,7 @@ public class ArchiveTransfer {
                                      ProgressLogger progressLogger) throws SEDALibException {
         try {
             if (progressLogger!=null)
-                progressLogger.log(Level.FINE, "Début de l'import de l'entête");
+                progressLogger.log(ProgressLogger.STEP, "Début de l'import de l'entête");
             archiveTransfer.globalMetadata.comment = xmlReader.nextValueIfNamed("Comment");
             archiveTransfer.globalMetadata.date = xmlReader.nextMandatoryValue("Date");
             archiveTransfer.globalMetadata.messageIdentifier = xmlReader.nextMandatoryValue("MessageIdentifier");
@@ -237,7 +237,7 @@ public class ArchiveTransfer {
             archiveTransfer.globalMetadata
                     .codeListVersionsXmlData = xmlReader.nextMandatoryBlockAsString("CodeListVersions");
             if (progressLogger!=null)
-                progressLogger.log(Level.FINE, "Entête importé");
+                progressLogger.log(ProgressLogger.STEP, "Entête importé");
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML d'entête du manifest\n->" + e.getMessage());
         }

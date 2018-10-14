@@ -112,9 +112,9 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                             throw new SEDALibException("SIP mal formé, plusieurs fichiers manifest potentiels");
                         manifest = fileName;
                         if (progressLogger != null)
-                            progressLogger.log(Level.FINER, "Unzip manifest [" + zipFile + "]");
+                            progressLogger.log(ProgressLogger.OBJECTS, "Unzip manifest [" + zipFile + "]");
                     } else if (progressLogger != null)
-                        progressLogger.log(Level.FINER, "Unzip fichier [" + zipFile + "]");
+                        progressLogger.log(ProgressLogger.OBJECTS, "Unzip fichier [" + zipFile + "]");
 
                     // create all non exists folders
                     // else you will hit FileNotFoundException for compressed folder
@@ -126,7 +126,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                     IOUtils.copy(is, fos);
                     counter++;
                     if (progressLogger!=null)
-                        progressLogger.progressLogIfStep(Level.FINE, counter, Integer.toString(counter) + " fichiers " +
+                        progressLogger.progressLogIfStep(ProgressLogger.STEP, counter, Integer.toString(counter) + " fichiers " +
                                 "extraits");
                     is.close();
                     fos.close();
@@ -137,7 +137,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                     + outputFolder + "]\n->" + ex.getMessage());
         }
         if (progressLogger!=null)
-            progressLogger.progressLogIfStep(Level.FINE, counter, Integer.toString(counter) + " fichiers " +
+            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter, Integer.toString(counter) + " fichiers " +
                 "extraits");
         if (manifest == null)
             throw new SEDALibException("SIP mal formé, pas de manifest");
@@ -189,7 +189,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
         Date d = new Date();
         start = Instant.now();
         if (progressLogger!=null)
-            progressLogger.log(Level.INFO,
+            progressLogger.log(ProgressLogger.GLOBAL,
                 "Début de l'import du DIP [" + zipFile + "] date=" + DateFormat.getDateTimeInstance().format(d));
 
         manifest = unZipDip(zipFile, unCompressDirectory);
@@ -205,7 +205,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
 
         end = Instant.now();
         if (progressLogger!=null)
-            progressLogger.log(Level.INFO, getSummary());
+            progressLogger.log(ProgressLogger.GLOBAL, getSummary());
     }
 
     /**

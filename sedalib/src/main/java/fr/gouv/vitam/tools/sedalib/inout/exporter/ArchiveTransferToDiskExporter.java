@@ -135,7 +135,7 @@ public class ArchiveTransferToDiskExporter {
         log += "en [" + directoryName + "]";
         log += " date=" + DateFormat.getDateTimeInstance().format(d);
         if (progressLogger!=null)
-            progressLogger.log(Level.INFO,log);
+            progressLogger.log(ProgressLogger.GLOBAL,log);
 
         exportPath = Paths.get(directoryName);
         try {
@@ -150,7 +150,7 @@ public class ArchiveTransferToDiskExporter {
         dataObjectPackageToDiskExporter.doExport(directoryName);
 
         if (progressLogger !=null)
-            progressLogger.progressLogIfStep(Level.FINE,
+            progressLogger.progressLogIfStep(ProgressLogger.STEP,
                 archiveTransfer.getDataObjectPackage().getInOutCounter(),
                 Integer.toString(archiveTransfer.getDataObjectPackage().getInOutCounter())
                         + " ArchiveUnit/DataObject exportés");

@@ -305,7 +305,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             ir = DroidIdentifier.getInstance().getIdentificationResult(onDiskPath);
         } catch (SEDALibException e) {
             if (progressLogger!=null)
-                 progressLogger.log(Level.FINEST, "Impossible de faire l'identification Droid pour le fichier ["
+                 progressLogger.log(ProgressLogger.OBJECTS_WARNINGS, "Impossible de faire l'identification Droid pour le fichier ["
                     + onDiskPath.toString() + "]\n->" + e.getMessage());
         }
         if (ir != null)
@@ -418,7 +418,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
 
         int counter = getDataObjectPackage().getNextInOutCounter();
         if (progressLogger != null)
-            progressLogger.progressLogIfStep(Level.FINE, counter,
+            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) exportés");
     }
 
@@ -545,7 +545,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             dataObjectPackage.addDataObjectGroup(dog);
             dog.addDataObject(bdo);
             if (progressLogger != null)
-                progressLogger.log(Level.FINEST, "DataObjectGroup [" + dog.inDataPackageObjectId
+                progressLogger.log(ProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
                     + "] créé depuis BinaryDataObject [" + bdo.inDataPackageObjectId + "]");
         } else if (bdo.dataObjectGroupReferenceId != null) {
             dog = dataObjectPackage.getDataObjectGroupById(bdo.dataObjectGroupReferenceId);
@@ -557,7 +557,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         bdo.dataObjectGroupId = null;
         int counter = dataObjectPackage.getNextInOutCounter();
         if (progressLogger != null)
-            progressLogger.progressLogIfStep(Level.FINE, counter,
+            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) importés");
         return bdo;
     }

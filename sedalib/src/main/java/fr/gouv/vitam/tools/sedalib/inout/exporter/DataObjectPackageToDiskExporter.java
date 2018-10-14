@@ -404,7 +404,7 @@ public class DataObjectPackageToDiskExporter {
 		} catch (Exception e) {
 			if (isWindows) {
 				if (progressLogger!=null)
-					progressLogger.log(Level.FINEST,
+					progressLogger.log(ProgressLogger.OBJECTS_WARNINGS,
 						"La création de lien n'a pas pu avoir lieu, essai de création de raccourci sous Windows");
 				ShellLink sl = new ShellLink();
 				sl.setTarget(target.toString());
@@ -490,7 +490,7 @@ public class DataObjectPackageToDiskExporter {
 
 			int counter = dataObjectPackage.getNextInOutCounter();
 			if (progressLogger!=null)
-				progressLogger.progressLogIfStep(Level.FINE, counter,
+				progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
 						Integer.toString(counter) + " ArchiveUnit/DataObject analysés");
 		}
 	}
@@ -528,7 +528,7 @@ public class DataObjectPackageToDiskExporter {
 			exportArchiveUnit(au, exportPath);
 
 		if (progressLogger!=null)
-			progressLogger.progressLogIfStep(Level.FINE, dataObjectPackage.getInOutCounter(),
+			progressLogger.progressLogIfStep(ProgressLogger.STEP, dataObjectPackage.getInOutCounter(),
 				Integer.toString(dataObjectPackage.getInOutCounter()) + " ArchiveUnit/DataObject exportées\n"
 						+ dataObjectPackage.getDescription());
 	}

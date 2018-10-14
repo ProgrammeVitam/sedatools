@@ -468,7 +468,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
 
             int counter = getDataObjectPackage().getNextInOutCounter();
             if (progressLogger != null)
-                progressLogger.progressLogIfStep(Level.FINE, counter,
+                progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
                         Integer.toString(counter) + " ArchiveUnit exportés");
         } catch (XMLStreamException e) {
             throw new SEDALibException(
@@ -585,7 +585,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
 
         int counter = dataObjectPackage.getNextInOutCounter();
         if (progressLogger != null)
-            progressLogger.progressLogIfStep(Level.FINE, counter, Integer.toString(counter) + " ArchiveUnit analysés");
+            progressLogger.progressLogIfStep(ProgressLogger.STEP, counter, Integer.toString(counter) + " ArchiveUnit analysés");
         return au.inDataPackageObjectId;
     }
 

@@ -131,7 +131,7 @@ public class ArchiveTransferToSIPExporter {
 		log += "en [" + fileName + "]";
 		log += " date=" + DateFormat.getDateTimeInstance().format(d);
 		if (progressLogger!=null)
-			progressLogger.log(Level.INFO,log);
+			progressLogger.log(ProgressLogger.GLOBAL,log);
 
 		this.exportPath = Paths.get(fileName);
 		this.hierarchicalFlag = hierarchicalFlag;
@@ -144,7 +144,7 @@ public class ArchiveTransferToSIPExporter {
 			throw new SEDALibException("Echec de l'export du manifest dans le fichier [" + fileName + "]");
 		}
 		if (progressLogger!=null)
-			progressLogger.progressLogIfStep(Level.FINE,
+			progressLogger.progressLogIfStep(ProgressLogger.STEP,
 				archiveTransfer.getDataObjectPackage().getInOutCounter(),
 				Integer.toString(archiveTransfer.getDataObjectPackage().getInOutCounter())
 						+ " ArchiveUnit/DataObject (métadonnées) exportés\n" + archiveTransfer.getDescription());
@@ -169,7 +169,7 @@ public class ArchiveTransferToSIPExporter {
 		log += "en [" + fileName + "]";
 		log += " date=" + DateFormat.getDateTimeInstance().format(d);
 		if (progressLogger!=null)
-			progressLogger.log(Level.INFO,log);
+			progressLogger.log(ProgressLogger.GLOBAL,log);
 
 		this.exportPath = Paths.get(fileName);
 		this.hierarchicalFlag = hierarchicalFlag;
@@ -188,7 +188,7 @@ public class ArchiveTransferToSIPExporter {
 			exportManifestOutputStream(zipout, hierarchicalFlag, indentedFlag);
 			zipout.closeEntry();
 			if (progressLogger!=null)
-				progressLogger.progressLogIfStep(Level.FINE,
+				progressLogger.progressLogIfStep(ProgressLogger.STEP,
 					archiveTransfer.getDataObjectPackage().getInOutCounter(),
 					Integer.toString(archiveTransfer.getDataObjectPackage().getInOutCounter())
 							+ " ArchiveUnit/DataObject (métadonnées) exportés\n" + archiveTransfer.getDescription());
@@ -206,7 +206,7 @@ public class ArchiveTransferToSIPExporter {
 							zipout.closeEntry();
 							counter++;
 							if (progressLogger!=null)
-								progressLogger.progressLogIfStep(Level.FINE, counter,
+								progressLogger.progressLogIfStep(ProgressLogger.STEP, counter,
 										Integer.toString(counter) + " BinaryDataObject (fichiers) exportés");
 						}
 					}
@@ -216,7 +216,7 @@ public class ArchiveTransferToSIPExporter {
 			throw new SEDALibException("Echec de l'export du SIP dans le fichier [" + fileName + "]");
 		}
 		if (progressLogger!=null)
-			progressLogger.progressLog(Level.FINE, Integer.toString(counter) + " " +
+			progressLogger.progressLog(ProgressLogger.STEP, Integer.toString(counter) + " " +
 				"BinaryDataObject (fichiers) exportés");
 		end = Instant.now();
 	}

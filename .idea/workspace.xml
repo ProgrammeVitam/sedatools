@@ -1,158 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Major cleaning&#10;&#10;- Refactor ProgressLogger to distinct from debug logger (and add if ProgressLogger null no log performed)&#10;- Clean and improve some tests&#10;- General code sytle cleaning">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/markdown-navigator.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/markdown-navigator/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.en.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/PhysicalDataObjectTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/sedalib/src/test/logback-test.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.rst" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/java/App.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample1.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample3.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample3plus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10500-23-09-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10500-23-09-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10501-25-09-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10501-25-09-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10502-07-10-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10502-07-10-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10503-23-10-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10503-23-10-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10504-26-10-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10504-26-10-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10505-28-10-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10505-28-10-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10506-30-10-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10506-30-10-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10507-05-11-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10507-05-11-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10508-21-11-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10508-21-11-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10509-04-12-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10509-04-12-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10510-15-12-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10510-15-12-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10511-15-12-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10511-15-12-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10512-23-12-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10512-23-12-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10513-11-01-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10513-11-01-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10514-19-01-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10514-19-01-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10515-20-01-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10515-20-01-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10516-27-01-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10516-27-01-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10517-12-02-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10517-12-02-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10518-25-02-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10518-25-02-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10519-03-03-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/AutresDossiers/ID10519-03-03-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10000-13-05-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10000-13-05-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10001-26-05-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10001-26-05-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10002-07-06-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10002-07-06-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10003-21-06-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10003-21-06-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10004-08-07-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10004-08-07-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10005-19-07-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10005-19-07-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10006-28-07-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10006-28-07-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10007-15-08-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10007-15-08-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10008-19-08-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10008-19-08-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10009-22-08-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10009-22-08-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10010-10-09-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10010-10-09-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10011-15-09-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10011-15-09-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10012-18-09-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10012-18-09-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10013-05-10-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10013-05-10-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10014-21-10-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10014-21-10-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10015-25-10-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10015-25-10-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10016-30-10-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10016-30-10-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10017-15-11-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10017-15-11-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10018-16-11-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10018-16-11-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10019-27-11-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10019-27-11-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10020-15-12-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10020-15-12-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10021-21-12-04-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10021-21-12-04-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10022-04-01-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10022-04-01-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10023-22-01-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10023-22-01-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10024-04-02-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10024-04-02-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10025-12-02-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10025-12-02-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10026-27-02-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10026-27-02-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10027-04-03-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10027-04-03-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10028-15-03-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10028-15-03-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10029-27-03-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10029-27-03-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10030-05-04-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10030-05-04-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10031-17-04-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10031-17-04-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10032-19-04-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10032-19-04-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10033-23-04-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10033-23-04-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10034-10-05-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10034-10-05-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10035-19-05-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10035-19-05-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10036-26-05-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10036-26-05-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10037-30-05-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10037-30-05-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10038-12-06-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10038-12-06-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10039-28-06-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10039-28-06-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10040-10-07-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10040-10-07-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10041-10-07-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10041-10-07-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10042-27-07-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10042-27-07-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10043-06-08-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10043-06-08-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10044-15-08-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10044-15-08-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10045-28-08-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10045-28-08-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10046-03-09-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10046-03-09-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10047-03-09-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10047-03-09-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10048-07-09-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10048-07-09-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10049-18-09-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10049-18-09-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10050-25-09-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10050-25-09-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10051-06-10-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10051-06-10-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10052-20-10-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10052-20-10-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10053-20-10-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10053-20-10-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10054-25-10-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10054-25-10-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10055-11-11-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10055-11-11-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10056-24-11-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10056-24-11-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10057-24-11-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10057-24-11-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10058-28-11-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10058-28-11-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10059-09-12-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10059-09-12-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10060-25-12-05-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10060-25-12-05-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10061-09-01-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10061-09-01-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10062-28-01-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10062-28-01-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10063-12-02-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10063-12-02-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10064-16-02-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10064-16-02-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10065-20-02-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10065-20-02-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10066-28-02-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10066-28-02-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10067-14-03-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10067-14-03-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10068-26-03-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10068-26-03-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10069-27-03-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10069-27-03-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10070-06-04-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10070-06-04-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10071-09-04-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10071-09-04-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10072-17-04-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10072-17-04-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10073-24-04-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10073-24-04-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10074-28-04-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10074-28-04-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10075-01-05-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10075-01-05-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10076-20-05-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10076-20-05-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10077-03-06-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10077-03-06-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10078-18-06-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10078-18-06-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10079-25-06-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10079-25-06-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10080-13-07-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10080-13-07-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10081-23-07-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10081-23-07-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10082-03-08-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10082-03-08-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10083-11-08-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10083-11-08-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10084-13-08-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10084-13-08-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10085-31-08-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10085-31-08-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10086-11-09-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10086-11-09-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10087-16-09-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10087-16-09-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10088-20-09-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10088-20-09-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10089-25-09-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10089-25-09-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10090-07-10-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10090-07-10-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10091-07-10-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10091-07-10-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10092-10-10-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10092-10-10-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10093-21-10-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10093-21-10-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10094-29-10-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10094-29-10-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10095-11-11-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10095-11-11-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10096-11-11-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10096-11-11-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10097-18-11-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10097-18-11-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10098-20-11-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10098-20-11-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10099-02-12-06-file.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10099-02-12-06-file.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/pom.xml" afterDir="false" />
+    <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Major cleaning&#10;&#10;- Refactor ProgressLogger to distinct from debug logger (and ensure that if ProgressLogger null simply no log is performed without nullPointerException)&#10;- Clean and improve some tests&#10;- General code style cleaning">
+      <change beforePath="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveDeliveryRequestReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveDeliveryRequestReply.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveTransfer.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveTransfer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnit.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnitRefList.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnitRefList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageIdElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageIdElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectRefList.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectRefList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/GlobalMetadata.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/GlobalMetadata.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/PhysicalDataObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/PhysicalDataObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/json/DataObjectPackageDeserializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/json/DataObjectPackageDeserializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/json/DataObjectPackageSerializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/json/DataObjectPackageSerializer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/json/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/json/package-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/package-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/package-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/droid/DroidIdentifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/droid/DroidIdentifier.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/ArchiveTransferToDiskExporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/ArchiveTransferToDiskExporter.java" afterDir="false" />
@@ -162,37 +18,13 @@
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToArchiveTransferImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToArchiveTransferImporter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/SIPToArchiveTransferImporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/SIPToArchiveTransferImporter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Content.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Content.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/DateTimeType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/DateTimeType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/RuleType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/RuleType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/StringType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/StringType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/TextType.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/TextType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/SEDALibProgressLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLStreamWriter.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLStreamWriter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/TestUtilities.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/TestUtilities.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObjectTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObjectTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/GlobalMetadataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/GlobalMetadataTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/json/ArchiveTransferSerDeserializerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/json/ArchiveTransferSerDeserializerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveDeliveryRequestReplyFromXmlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveDeliveryRequestReplyFromXmlTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveTransferToFromXmlTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveTransferToFromXmlTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfileTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfileTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FileInfoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FileInfoTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FormatIdentificationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FormatIdentificationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementMetadataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementMetadataTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.3 - Many/vitam-logbook-messages_fr.text" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.3 - Many/vitam-logbook-messages_fr.text" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithoutLinksModelV1/Root/Node 2/Node 2.3 - Many/vitam-logbook-messages_fr.text" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithoutLinksModelV1/Root/Node 2/Node 2.3 - Many/vitam-logbook-messages_fr.text" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithoutLinksModelV2/Root/Node 2/Node 2.3 - Many/vitam-logbook-messages_fr.text" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithoutLinksModelV2/Root/Node 2/Node 2.3 - Many/vitam-logbook-messages_fr.text" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/sedalib/target/" />
@@ -282,7 +114,7 @@
           <entry key="class" value="4" />
           <entry key="gitattributes" value="2" />
           <entry key="gitignore" value="1" />
-          <entry key="java" value="208" />
+          <entry key="java" value="216" />
           <entry key="md" value="2" />
           <entry key="png" value="1" />
           <entry key="rst" value="2" />
@@ -293,7 +125,7 @@
         <counts>
           <entry key="CLASS" value="4" />
           <entry key="Image" value="1" />
-          <entry key="JAVA" value="208" />
+          <entry key="JAVA" value="216" />
           <entry key="Markdown" value="2" />
           <entry key="PLAIN_TEXT" value="5" />
           <entry key="XML" value="6" />
@@ -303,17 +135,17 @@
         <counts>
           <entry key="dummy" value="17" />
           <entry key="gitattributes" value="114" />
-          <entry key="java" value="14207" />
+          <entry key="java" value="15009" />
           <entry key="md" value="2262" />
-          <entry key="txt" value="439" />
+          <entry key="txt" value="491" />
           <entry key="xml" value="56" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="14207" />
+          <entry key="JAVA" value="15009" />
           <entry key="Markdown" value="2262" />
-          <entry key="PLAIN_TEXT" value="570" />
+          <entry key="PLAIN_TEXT" value="622" />
           <entry key="XML" value="56" />
         </counts>
       </usages-collector>
@@ -322,19 +154,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageTest.java">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="79" column="48" lean-forward="true" selection-start-line="79" selection-start-column="48" selection-end-line="79" selection-end-column="48" />
+            <state relative-caret-position="188">
+              <caret line="543" column="64" selection-start-line="543" selection-start-column="45" selection-end-line="543" selection-end-column="64" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/GlobalMetadataTest.java">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="52" column="83" selection-start-line="52" selection-start-column="83" selection-end-line="52" selection-end-column="83" />
+            <state relative-caret-position="337">
+              <caret line="176" column="37" selection-start-line="176" selection-start-column="37" selection-end-line="176" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -343,67 +175,70 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveTransferToFromXmlTest.java">
+        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="189">
-              <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+            <state relative-caret-position="362">
+              <caret line="44" selection-start-line="43" selection-end-line="44" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnit.java">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObject.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="164">
-              <caret line="587" column="42" lean-forward="true" selection-start-line="587" selection-start-column="42" selection-end-line="587" selection-end-column="42" />
+            <state relative-caret-position="2678">
+              <caret line="420" selection-start-line="420" selection-end-line="420" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObjectTest.java">
+        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="319">
-              <caret line="103" column="8" selection-start-line="103" selection-start-column="8" selection-end-line="103" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/PhysicalDataObjectTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="81" column="8" selection-start-line="81" selection-start-column="8" selection-end-line="81" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="188">
-              <caret line="151" column="33" selection-start-line="151" selection-start-column="33" selection-end-line="151" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveDeliveryRequestReplyFromXmlTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="401">
-              <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+            <state relative-caret-position="387">
+              <caret line="49" column="69" selection-start-line="49" selection-start-column="69" selection-end-line="49" selection-end-column="69" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java">
+        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="229">
-              <caret line="64" column="26" selection-start-line="64" selection-start-column="26" selection-end-line="64" selection-end-column="26" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="250">
+              <caret line="49" column="74" selection-start-line="49" selection-start-column="74" selection-end-line="49" selection-end-column="74" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="344">
+              <caret line="116" column="51" lean-forward="true" selection-start-line="116" selection-start-column="51" selection-end-line="116" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample1.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="399">
+              <caret line="24" column="69" selection-start-line="24" selection-start-column="69" selection-end-line="24" selection-end-column="69" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/App.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="126">
+              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -412,7 +247,7 @@
         <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/ArchiveTransferToSIPExporter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="124">
-              <caret line="199" column="63" lean-forward="true" selection-start-line="199" selection-start-column="63" selection-end-line="199" selection-end-column="63" />
+              <caret line="199" column="63" selection-start-line="199" selection-start-column="63" selection-end-line="199" selection-end-column="63" />
             </state>
           </provider>
         </entry>
@@ -430,12 +265,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>OutCome</find>
-      <find>Management</find>
-      <find>ghost</find>
-      <find>ArchiveUnit(dataObjectPackage</find>
-      <find>&lt;Rule&gt;ACC-00002&lt;/Rule&gt;</find>
-      <find>System.out</find>
       <find>SEDALibProgressLogger</find>
       <find>logger</find>
       <find>.logger.finest(</find>
@@ -458,8 +287,14 @@
       <find>progressLogger.progressLog</find>
       <find>progressLog</find>
       <find>progressLog(</find>
-      <find>-1,</find>
       <find>progressLogger.progressLogIfStep(Level.FINE, -1,</find>
+      <find>-1,</find>
+      <find>-1</find>
+      <find>Lancement de la génération</find>
+      <find>Level.FINE</find>
+      <find>Level.FINER</find>
+      <find>Level.FINEST</find>
+      <find>Level.INFO</find>
     </findStrings>
     <replaceStrings>
       <replace>&quot;target/tmpJunit&quot;</replace>
@@ -478,6 +313,11 @@
       <replace>LineEndNormalize(</replace>
       <replace>progressLogger.progressLogIfStep</replace>
       <replace>progressLogIfStep(</replace>
+      <replace>progressLogger.progressLog(Level.FINE,</replace>
+      <replace>ProgressLogger.STEP</replace>
+      <replace>ProgressLogger.OBJECTS</replace>
+      <replace>ProgressLogger.OBJECTS_WARNINGS</replace>
+      <replace>ProgressLogger.GLOBAL</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\Users\jean-severin.lair\intelliJGit\sedatools\sedalib\src\test\java</dir>
@@ -494,8 +334,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FileInfoTest.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/FormatIdentificationTest.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/DateType.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLEventReader.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/RuleType.java" />
@@ -510,8 +348,6 @@
         <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/Sample3.java" />
         <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/App.java" />
         <option value="$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10000-13-05-04-file.xml" />
-        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3.java" />
-        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/ComplexListType.java" />
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementTest.java" />
         <option value="$PROJECT_DIR$/sedalib/pom.xml" />
@@ -520,7 +356,6 @@
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLoggedProcess.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/droid/DroidIdentifier.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveDeliveryRequestReply.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/SIPToArchiveTransferImporter.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObject.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveTransfer.java" />
@@ -532,8 +367,6 @@
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/json/ArchiveTransferSerDeserializerTest.java" />
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/TestUtilities.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/xml/SEDAXMLStreamWriter.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObject.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackage.java" />
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" />
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ContentTest.java" />
@@ -544,7 +377,14 @@
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/GlobalMetadataTest.java" />
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveTransferToFromXmlTest.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnit.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObject.java" />
+        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java" />
+        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample2.java" />
+        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample1.java" />
+        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3.java" />
+        <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java" />
       </list>
     </option>
   </component>
@@ -666,63 +506,42 @@
               <item name="sedatools" type="462c0819:PsiDirectoryNode" />
               <item name="sedalib" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib-samples" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib-samples" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib-samples" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib-samples" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
               <item name="sedatools" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib-samples" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
+              <item name="samples" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -731,7 +550,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539535572495" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1539538264680" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/sedalib-samples/src/main/java" />
@@ -778,7 +597,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.All in sedalib">
+  <component name="RunManager" selected="Application.App">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="fr.gouv.vitam.tools.sedalib.samples.App" />
       <module name="sedalib-samples" />
@@ -854,11 +673,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.App" />
         <item itemvalue="JUnit.All in sedalib" />
         <item itemvalue="JUnit.PhysicalDataObjectTest" />
         <item itemvalue="JUnit.BinaryDataObjectTest" />
         <item itemvalue="JUnit.DiskImportExportTest.TestDiskImportWithLink" />
-        <item itemvalue="Application.App" />
       </list>
     </recent_temporary>
   </component>
@@ -908,16 +727,17 @@
       <option name="project" value="LOCAL" />
       <updated>1539368256673</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Major cleaning&#10;&#10;- Refactor ProgressLogger to distinct from debug logger (and ensure that if ProgressLogger null simply no log is performed without nullPointerException)&#10;- Clean and improve some tests&#10;- General code style cleaning">
+      <created>1539535669661</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1539535669661</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="BinaryDataObjectTest - 2018.10.14 at 17h 19m 24s.xml">
-      <configuration name="BinaryDataObjectTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="BinaryDataObjectTest - 2018.10.14 at 17h 21m 13s.xml">
-      <configuration name="BinaryDataObjectTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="BinaryDataObjectTest - 2018.10.14 at 17h 21m 49s.xml">
       <configuration name="BinaryDataObjectTest" configurationId="JUnit" />
     </history-entry>
@@ -942,6 +762,12 @@
     <history-entry file="All_in_sedalib - 2018.10.14 at 18h 13m 58s.xml">
       <configuration name="All in sedalib" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_sedalib - 2018.10.14 at 18h 46m 28s.xml">
+      <configuration name="All in sedalib" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="All_in_sedalib - 2018.10.14 at 19h 25m 32s.xml">
+      <configuration name="All in sedalib" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -956,7 +782,7 @@
     <frame x="-9" y="-9" width="1856" height="1098" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3769663" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3769663" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -965,7 +791,7 @@
       <window_info id="Image Layers" order="6" />
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info active="true" anchor="bottom" id="Find" order="1" visible="true" weight="0.3290461" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3290461" />
       <window_info anchor="bottom" id="Debug" order="2" weight="0.39978564" />
       <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
@@ -973,7 +799,7 @@
       <window_info anchor="bottom" id="Terminal" order="6" weight="0.32917964" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3290461" />
-      <window_info anchor="bottom" id="Messages" order="9" weight="0.3290461" />
+      <window_info anchor="bottom" id="Messages" order="9" visible="true" weight="0.3290461" />
       <window_info anchor="bottom" id="Inspection Results" order="10" weight="0.3290461" />
       <window_info anchor="bottom" id="Run" order="11" weight="0.3290461" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -986,6 +812,37 @@
       <window_info anchor="right" id="Capture Analysis" order="7" />
       <window_info anchor="right" id="Theme Preview" order="8" />
     </layout>
+    <layout-to-restore>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3769663" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Learn" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Image Layers" order="6" />
+      <window_info id="Capture Tool" order="7" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3290461" />
+      <window_info anchor="bottom" id="Debug" order="2" weight="0.39978564" />
+      <window_info anchor="bottom" id="Cvs" order="3" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="5" weight="0.32917964" />
+      <window_info anchor="bottom" id="Terminal" order="6" weight="0.32917964" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3290461" />
+      <window_info anchor="bottom" id="Messages" order="9" weight="0.3290461" />
+      <window_info anchor="bottom" id="Inspection Results" order="10" weight="0.3290461" />
+      <window_info anchor="bottom" id="Run" order="11" visible="true" weight="0.3290461" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Palette&#9;" order="4" />
+      <window_info anchor="right" id="Maven Projects" order="5" weight="0.3296582" />
+      <window_info anchor="right" id="Coverage" order="6" side_tool="true" weight="0.38146067" />
+      <window_info anchor="right" id="Capture Analysis" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
@@ -1007,17 +864,12 @@
     <MESSAGE value="Git synchro correction (line-ending change)" />
     <MESSAGE value="Add DateTimeType for Event" />
     <MESSAGE value="Metadata test cleaning and doing so discovered bug fixing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Metadata test cleaning and doing so discovered bug fixing" />
+    <MESSAGE value="Major cleaning&#10;&#10;- Refactor ProgressLogger to distinct from debug logger (and ensure that if ProgressLogger null simply no log is performed without nullPointerException)&#10;- Clean and improve some tests&#10;- General code style cleaning" />
+    <option name="LAST_COMMIT_MESSAGE" value="Major cleaning&#10;&#10;- Refactor ProgressLogger to distinct from debug logger (and ensure that if ProgressLogger null simply no log is performed without nullPointerException)&#10;- Clean and improve some tests&#10;- General code style cleaning" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java</url>
-          <line>243</line>
-          <properties />
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackage.java</url>
           <line>665</line>
@@ -1042,6 +894,18 @@
           <properties />
           <option name="timeStamp" value="36" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java</url>
+          <line>151</line>
+          <properties />
+          <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java</url>
+          <line>134</line>
+          <properties />
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
@@ -1060,45 +924,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/App.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="24" selection-start-column="24" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample1.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="32" selection-start-column="32" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="85" selection-start-line="85" selection-end-line="85" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/resources/Procédure/Dossiers/ID10000-13-05-04-file.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="168">
           <caret line="8" column="9" selection-start-line="8" selection-start-column="9" selection-end-line="8" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="85" column="64" selection-start-line="85" selection-start-column="64" selection-end-line="85" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="74" column="71" selection-start-line="74" selection-start-column="71" selection-end-line="74" selection-end-column="71" />
         </state>
       </provider>
     </entry>
@@ -1164,13 +993,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
           <caret line="246" column="7" lean-forward="true" selection-start-line="246" selection-start-column="7" selection-end-line="246" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4452">
-          <caret line="265" column="7" selection-start-line="265" selection-start-column="7" selection-end-line="265" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1279,27 +1101,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObject.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1276">
-          <caret line="418" selection-start-line="418" selection-end-line="418" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AccessRule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="197">
           <caret line="72" column="29" selection-start-line="72" selection-start-column="29" selection-end-line="72" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="399" column="10" lean-forward="true" selection-start-line="399" selection-start-column="10" selection-end-line="399" selection-end-column="10" />
         </state>
       </provider>
     </entry>
@@ -1334,14 +1139,14 @@
     <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveDeliveryRequestReplyFromXmlTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="401">
-          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackageTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
-          <caret line="79" column="48" lean-forward="true" selection-start-line="79" selection-start-column="48" selection-end-line="79" selection-end-column="48" />
+          <caret line="79" column="48" selection-start-line="79" selection-start-column="48" selection-end-line="79" selection-end-column="48" />
         </state>
       </provider>
     </entry>
@@ -1372,31 +1177,93 @@
     <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/ArchiveTransferToFromXmlTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
-          <caret line="25" column="5" lean-forward="true" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
+          <caret line="25" column="5" selection-start-line="25" selection-start-column="5" selection-end-line="25" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnit.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="164">
-          <caret line="587" column="42" lean-forward="true" selection-start-line="587" selection-start-column="42" selection-end-line="587" selection-end-column="42" />
+          <caret line="587" column="42" selection-start-line="587" selection-start-column="42" selection-end-line="587" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/ArchiveTransferToSIPExporter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="124">
-          <caret line="199" column="63" lean-forward="true" selection-start-line="199" selection-start-column="63" selection-end-line="199" selection-end-column="63" />
+          <caret line="199" column="63" selection-start-line="199" selection-start-column="63" selection-end-line="199" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="543" column="64" selection-start-line="543" selection-start-column="45" selection-end-line="543" selection-end-column="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/BinaryDataObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2678">
+          <caret line="420" selection-start-line="420" selection-end-line="420" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="116" column="51" lean-forward="true" selection-start-line="116" selection-start-column="51" selection-end-line="116" selection-end-column="51" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="229">
-          <caret line="64" column="26" selection-start-line="64" selection-start-column="26" selection-end-line="64" selection-end-column="26" />
+        <state relative-caret-position="337">
+          <caret line="176" column="37" selection-start-line="176" selection-start-column="37" selection-end-line="176" selection-end-column="37" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/App.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="362">
+          <caret line="44" selection-start-line="43" selection-end-line="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample1.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="399">
+          <caret line="24" column="69" selection-start-line="24" selection-start-column="69" selection-end-line="24" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="49" column="69" selection-start-line="49" selection-start-column="69" selection-end-line="49" selection-end-column="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalib/samples/Sample3plus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="49" column="74" selection-start-line="49" selection-start-column="74" selection-end-line="49" selection-end-column="74" />
         </state>
       </provider>
     </entry>

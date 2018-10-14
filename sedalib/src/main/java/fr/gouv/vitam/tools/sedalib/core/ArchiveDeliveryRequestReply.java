@@ -103,7 +103,7 @@ public class ArchiveDeliveryRequestReply {
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
             }
             if (progressLogger!=null)
-                progressLogger.log(Level.FINE, "Début de l'import du document ArchiveTransferRequestReply");
+                progressLogger.log(ProgressLogger.STEP, "Début de l'import du document ArchiveTransferRequestReply");
 
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML\n->" + e.getMessage());
@@ -124,7 +124,7 @@ public class ArchiveDeliveryRequestReply {
                                      ArchiveDeliveryRequestReply archiveDeliveryRequestReply, ProgressLogger progressLogger) {
         try {
             if (progressLogger!=null)
-                progressLogger.log(Level.FINE, "Début de l'import de l'entête");
+                progressLogger.log(ProgressLogger.STEP, "Début de l'import de l'entête");
             archiveDeliveryRequestReply.globalMetadata.comment = xmlReader.nextValueIfNamed("Comment");
             archiveDeliveryRequestReply.globalMetadata.date = xmlReader.nextMandatoryValue("Date");
             archiveDeliveryRequestReply.globalMetadata
@@ -136,11 +136,11 @@ public class ArchiveDeliveryRequestReply {
             archiveDeliveryRequestReply.globalMetadata
                     .codeListVersionsXmlData = xmlReader.nextMandatoryBlockAsString("CodeListVersions");
             if (progressLogger!=null)
-                progressLogger.log(Level.FINE, "Entête importé");
+                progressLogger.log(ProgressLogger.STEP, "Entête importé");
         } catch (XMLStreamException | SEDALibException e) {
             // TODO to correct when VITAM DIP will use more elements
             if (progressLogger!=null)
-                progressLogger.log(Level.FINE,
+                progressLogger.log(ProgressLogger.STEP,
                     "L'entête n'est pas conforme à un ArchiveDeliveryRequestReply, mais la tentative d'analyse continue");
             archiveDeliveryRequestReply.globalMetadata = null;
             // throw new SEDALibException("Erreur de lecture XML d'entête du manifest\n->" +

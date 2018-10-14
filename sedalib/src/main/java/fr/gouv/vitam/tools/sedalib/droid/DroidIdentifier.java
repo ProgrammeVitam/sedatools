@@ -166,7 +166,7 @@ public class DroidIdentifier {
 		String[] fileList = dir.list(droidFilter);
 		if ((fileList==null) || (fileList.length == 0)) {
 			if (progressLogger != null)
-				progressLogger.log(Level.INFO,
+				progressLogger.log(ProgressLogger.GLOBAL,
 						"Can't find a DROID signature file, copy from ressource to file DROID_SignatureFile_V88.xml");
 			try (InputStream is = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("DROID_SignatureFile_V88.xml")) {
@@ -245,7 +245,7 @@ public class DroidIdentifier {
 		String[] fileList = dir.list(droidFilter);
 		if ((fileList==null) || (fileList.length == 0)) {
 			if (progressLogger != null)
-				progressLogger.log(Level.INFO,
+				progressLogger.log(ProgressLogger.GLOBAL,
 						"Can't find a DROID container signature file, copy from ressource to file container-signature-20171130.xml");
 			try (InputStream is = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("container-signature-20171130.xml")) {

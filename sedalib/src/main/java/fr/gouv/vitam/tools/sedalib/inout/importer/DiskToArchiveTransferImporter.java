@@ -206,7 +206,7 @@ public class DiskToArchiveTransferImporter {
 		log += "]";
 		log += " date=" + DateFormat.getDateTimeInstance().format(d);
 		if (progressLogger!=null)
-			progressLogger.log(Level.INFO,log);
+			progressLogger.log(ProgressLogger.GLOBAL,log);
 
 		if (onDiskGlobalMetadataPath != null)
 			archiveTransfer.setGlobalMetadata(processGlobalMetadata(onDiskGlobalMetadataPath));
@@ -214,7 +214,7 @@ public class DiskToArchiveTransferImporter {
 		archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
 		end = Instant.now();
 		if (progressLogger!=null)
-			progressLogger.log(Level.INFO,getSummary());
+			progressLogger.log(ProgressLogger.GLOBAL,getSummary());
 }
 
 	/**

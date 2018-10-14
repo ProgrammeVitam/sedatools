@@ -899,7 +899,7 @@ public class DataObjectPackage {
             throw new SEDALibException("Erreur d'écriture XML des métadonnées des DataObjects\n->" + e.getMessage());
         }
         if (progressLogger != null)
-            progressLogger.progressLog(Level.FINE,
+            progressLogger.progressLog(ProgressLogger.STEP,
                     Integer.toString(getNextInOutCounter()) + " DataObject (métadonnées) exportées");
     }
 
@@ -943,7 +943,7 @@ public class DataObjectPackage {
             throw new SEDALibException("Erreur d'écriture XML des métadonnées des ArchiveUnits\n->" + e.getMessage());
         }
         if (progressLogger != null)
-            progressLogger.progressLog(Level.FINE, Integer.toString(getNextInOutCounter()) +
+            progressLogger.progressLog(ProgressLogger.STEP, Integer.toString(getNextInOutCounter()) +
                     " ArchiveUnit exportés");
     }
 
@@ -989,7 +989,7 @@ public class DataObjectPackage {
         boolean inDataObjectObjects = true;
 
         if (progressLogger != null)
-            progressLogger.log(Level.FINE, "Début de l'import de l'ArchiveTransfer - partie objets");
+            progressLogger.log(ProgressLogger.STEP, "Début de l'import de l'ArchiveTransfer - partie objets");
         try {
             if (!xmlReader.nextBlockIfNamed("DataObjectPackage"))
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
@@ -999,7 +999,7 @@ public class DataObjectPackage {
                     case "DataObjectGroup":
                         String dogId = DataObjectGroup.idFromSedaXml(xmlReader, archiveTransfer, rootDir, progressLogger);
                         if (progressLogger != null)
-                            progressLogger.log(Level.FINER, "DataObjectGroup [" + dogId + "] " +
+                            progressLogger.log(ProgressLogger.OBJECTS, "DataObjectGroup [" + dogId + "] " +
                                     "importé");
                         break;
                     case "BinaryDataObject":
@@ -1007,13 +1007,13 @@ public class DataObjectPackage {
                         //noinspection ConstantConditions
                         bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.uri);
                         if (progressLogger != null)
-                            progressLogger.log(Level.FINER, "BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé");
+                            progressLogger.log(ProgressLogger.OBJECTS, "BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé");
                         break;
                     case "PhysicalDataObject":
                         pdo = PhysicalDataObject.fromSedaXml(xmlReader, archiveTransfer, progressLogger);
                         //noinspection ConstantConditions
                         if (progressLogger != null)
-                            progressLogger.log(Level.FINER, "PhysicalDataObject [" + pdo.inDataPackageObjectId +
+                            progressLogger.log(ProgressLogger.OBJECTS, "PhysicalDataObject [" + pdo.inDataPackageObjectId +
                                     "] importé");
                         break;
                     default:
@@ -1024,9 +1024,9 @@ public class DataObjectPackage {
             throw new SEDALibException("Erreur de lecture des métadonnées des DataObjects\n->" + e.getMessage());
         }
         if (progressLogger != null) {
-            progressLogger.progressLog(Level.FINE,
+            progressLogger.progressLog(ProgressLogger.STEP,
                     Integer.toString(archiveTransfer.getNextInOutCounter()) + " DataObject (métadonnées) importées");
-            progressLogger.log(Level.FINE, "ArchiveTransfer - partie objets importée");
+            progressLogger.log(ProgressLogger.STEP, "ArchiveTransfer - partie objets importée");
         }
     }
 
@@ -1048,7 +1048,7 @@ public class DataObjectPackage {
         boolean inArchiveUnits = true;
 
         if (progressLogger != null)
-            progressLogger.log(Level.FINE, "Début de l'import de l'ArchiveTransfer - partie metadata");
+            progressLogger.log(ProgressLogger.STEP, "Début de l'import de l'ArchiveTransfer - partie metadata");
         try {
             if (!xmlReader.nextBlockIfNamed("DescriptiveMetadata"))
                 throw new SEDALibException("Pas d'élément DescriptiveMetadata");
@@ -1060,7 +1060,7 @@ public class DataObjectPackage {
                     case "ArchiveUnit":
                         String auId = ArchiveUnit.idFromSedaXml(xmlReader, dataObjectPackage, progressLogger);
                         if (progressLogger != null)
-                            progressLogger.log(Level.FINER, "ArchiveUnit [" + auId + "] importé");
+                            progressLogger.log(ProgressLogger.OBJECTS, "ArchiveUnit [" + auId + "] importé");
                         break;
                     default:
                         inArchiveUnits = false;
@@ -1073,9 +1073,9 @@ public class DataObjectPackage {
             throw new SEDALibException("Erreur de lecture des métadonnées des ArchiveUnits\n->" + e.getMessage());
         }
         if (progressLogger != null) {
-            progressLogger.progressLog(Level.FINE,
+            progressLogger.progressLog(ProgressLogger.STEP,
                     Integer.toString(dataObjectPackage.getNextInOutCounter()) + " ArchiveUnits importées");
-            progressLogger.log(Level.FINE, "ArchiveTransfer - partie metadata importée");
+            progressLogger.log(ProgressLogger.STEP, "ArchiveTransfer - partie metadata importée");
         }
     }
 
@@ -1118,7 +1118,7 @@ public class DataObjectPackage {
                         .addRootAu(dataObjectPackage.getArchiveUnitById(pair.getValue().inDataPackageObjectId));
 
         if (progressLogger!=null)
-            progressLogger.progressLog(Level.FINE, "Manifest importé");
+            progressLogger.progressLog(ProgressLogger.STEP, "Manifest importé");
 
         return dataObjectPackage;
     }
