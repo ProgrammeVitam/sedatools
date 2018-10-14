@@ -38,12 +38,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Stream;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
 
 /**
  * The Class DiskToArchiveTransferImporter.
@@ -78,7 +79,7 @@ public class DiskToArchiveTransferImporter {
 	private Instant start, end;
 
 	/** The progress logger. */
-	private SEDALibProgressLogger progressLogger;
+	private ProgressLogger progressLogger;
 
 	/**
 	 * Instantiates a new ArchiveTransfer importer from a single directory name.
@@ -87,10 +88,10 @@ public class DiskToArchiveTransferImporter {
 	 * ArchiveUnit or a special metadata file
 	 *
 	 * @param directory      the directory name
-	 * @param progressLogger the progress logger
+	 * @param progressLogger the progress logger or null if no progress log expected
 	 * @throws SEDALibException if not a directory
 	 */
-	public DiskToArchiveTransferImporter(String directory, SEDALibProgressLogger progressLogger)
+	public DiskToArchiveTransferImporter(String directory, ProgressLogger progressLogger)
 			throws SEDALibException {
 		Path path;
 		Iterator<Path> pi;
@@ -128,9 +129,9 @@ public class DiskToArchiveTransferImporter {
 	 * ArchiveUnit or a special metadata file
 	 *
 	 * @param paths          the paths
-	 * @param progressLogger the progress logger
+	 * @param progressLogger the progress logger or null if no progress log expected
 	 */
-	public DiskToArchiveTransferImporter(List<Path> paths, SEDALibProgressLogger progressLogger) {
+	public DiskToArchiveTransferImporter(List<Path> paths, ProgressLogger progressLogger) {
 		this.onDiskGlobalMetadataPath = null;
 		this.archiveTransfer = new ArchiveTransfer();
 		this.progressLogger = progressLogger;
@@ -204,14 +205,16 @@ public class DiskToArchiveTransferImporter {
 		}
 		log += "]";
 		log += " date=" + DateFormat.getDateTimeInstance().format(d);
-		progressLogger.logger.info(log);
+		if (progressLogger!=null)
+			progressLogger.log(Level.INFO,log);
 
 		if (onDiskGlobalMetadataPath != null)
 			archiveTransfer.setGlobalMetadata(processGlobalMetadata(onDiskGlobalMetadataPath));
 		diskToDataObjectPackageImporter.doImport();
 		archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
 		end = Instant.now();
-		progressLogger.logger.info(getSummary());
+		if (progressLogger!=null)
+			progressLogger.log(Level.INFO,getSummary());
 }
 
 	/**

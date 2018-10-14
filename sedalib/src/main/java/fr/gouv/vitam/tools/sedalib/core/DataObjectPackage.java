@@ -27,24 +27,18 @@
  */
 package fr.gouv.vitam.tools.sedalib.core;
 
-import java.io.File;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.logging.Level;
-
-import javax.xml.stream.XMLStreamException;
-
+import fr.gouv.vitam.tools.sedalib.metadata.Content;
+import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+
+import javax.xml.stream.XMLStreamException;
+import java.io.File;
+import java.text.DecimalFormat;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.logging.Level;
 
 /**
  * The Class DataObjectPackage
@@ -140,7 +134,12 @@ public class DataObjectPackage {
 
         this.bdoInDataObjectPackageIdMap = new HashMap<String, BinaryDataObject>();
         this.pdoInDataObjectPackageIdMap = new HashMap<String, PhysicalDataObject>();
-        this.ghostRootAu = new ArchiveUnit(null, "GhostRootAu");
+        this.ghostRootAu = new ArchiveUnit();
+        Content c = new Content();
+        try {
+            c.addNewMetadata("Title", "GhostRootAu");
+        } catch (SEDALibException ignored) {
+        }
         this.ghostRootAu.setDataObjectPackage(this);
 
         this.resetIdCounter();
@@ -562,7 +561,15 @@ public class DataObjectPackage {
         childDataObjectPackage.setDogInDataObjectPackageIdMap(new HashMap<String, DataObjectGroup>());
         childDataObjectPackage.setBdoInDataObjectPackageIdMap(new HashMap<String, BinaryDataObject>());
         childDataObjectPackage.setPdoInDataObjectPackageIdMap(new HashMap<String, PhysicalDataObject>());
-        childDataObjectPackage.setGhostRootAu(new ArchiveUnit(childDataObjectPackage, "GhostRootAu"));
+        childDataObjectPackage.setGhostRootAu(new ArchiveUnit());
+        Content c = new Content();
+        try {
+            c.addNewMetadata("Title", "GhostRootAu");
+        } catch (SEDALibException ignored) {
+        }
+        childDataObjectPackage.getGhostRootAu().setDataObjectPackage(this);
+        childDataObjectPackage.getGhostRootAu().setContent(c);
+
     }
 
     // Test and normalization methods
@@ -824,31 +831,29 @@ public class DataObjectPackage {
     /**
      * The ID comparator to sort elements by inDataPackageObjectId.
      */
-    private static Comparator<String> IDComparator = new Comparator<String>() {
-        public int compare(String ID1, String ID2) {
-            int num1, num2;
-            if (ID1.toLowerCase().startsWith("id") && ID2.toLowerCase().startsWith("id")) {
-                try {
-                    num1 = Integer.parseInt(ID1.substring(2));
-                    num2 = Integer.parseInt(ID2.substring(2));
-                    return num1 - num2;
-                } catch (Exception e) {
-                    // forget it
-                }
+    private static Comparator<String> IDComparator = (ID1, ID2) -> {
+        int num1, num2;
+        if (ID1.toLowerCase().startsWith("id") && ID2.toLowerCase().startsWith("id")) {
+            try {
+                num1 = Integer.parseInt(ID1.substring(2));
+                num2 = Integer.parseInt(ID2.substring(2));
+                return num1 - num2;
+            } catch (Exception e) {
+                // forget it
             }
-            return ID1.compareTo(ID2);
         }
+        return ID1.compareTo(ID2);
     };
 
     /**
      * Export data object package, DataObjects part, of SEDA DataObjectPackage XML.
      *
      * @param xmlWriter      the SEDAXMLStreamWriter generating the SEDA manifest
-     * @param progressLogger the progress logger
+     * @param progressLogger the progress logger or null if no progress log expected
      * @throws InterruptedException if export process is interrupted
      * @throws SEDALibException     if the XML can't be written
      */
-    public void exportDataObjectPackageObjects(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger progressLogger)
+    public void exportDataObjectPackageObjects(SEDAXMLStreamWriter xmlWriter, ProgressLogger progressLogger)
             throws InterruptedException, SEDALibException {
         try {
             xmlWriter.writeStartElement("DataObjectPackage");
@@ -893,8 +898,9 @@ public class DataObjectPackage {
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML des métadonnées des DataObjects\n->" + e.getMessage());
         }
-        progressLogger.ProgressLog(Level.FINE, -1,
-                Integer.toString(getNextInOutCounter()) + " DataObject (métadonnées) exportées");
+        if (progressLogger != null)
+            progressLogger.progressLog(Level.FINE,
+                    Integer.toString(getNextInOutCounter()) + " DataObject (métadonnées) exportées");
     }
 
     /**
@@ -905,12 +911,12 @@ public class DataObjectPackage {
      * @param imbricateFlag  indicates if the manifest ArchiveUnits are to be
      *                       exported in imbricate mode (true) or in flat mode
      *                       (false)
-     * @param progressLogger the progress logger
+     * @param progressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
      */
     public void exportDataObjectPackageMetadata(SEDAXMLStreamWriter xmlWriter, boolean imbricateFlag,
-                                                SEDALibProgressLogger progressLogger) throws SEDALibException, InterruptedException {
+                                                ProgressLogger progressLogger) throws SEDALibException, InterruptedException {
         try {
             resetTouchedInDataObjectPackageIdMap();
             xmlWriter.writeStartElement("DescriptiveMetadata");
@@ -936,7 +942,9 @@ public class DataObjectPackage {
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur d'écriture XML des métadonnées des ArchiveUnits\n->" + e.getMessage());
         }
-        progressLogger.ProgressLog(Level.FINE, -1, Integer.toString(getNextInOutCounter()) + " ArchiveUnit exportés");
+        if (progressLogger != null)
+            progressLogger.progressLog(Level.FINE, Integer.toString(getNextInOutCounter()) +
+                    " ArchiveUnit exportés");
     }
 
     /**
@@ -946,11 +954,11 @@ public class DataObjectPackage {
      * @param imbricateFlag  indicates if the manifest ArchiveUnits are to be
      *                       exported in imbricate mode (true) or in flat mode
      *                       (false)
-     * @param progressLogger the progress logger
+     * @param progressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
      */
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, boolean imbricateFlag, SEDALibProgressLogger progressLogger)
+    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, boolean imbricateFlag, ProgressLogger progressLogger)
             throws SEDALibException, InterruptedException {
         resetRefIdCounter();
         resetInOutCounter();
@@ -968,19 +976,20 @@ public class DataObjectPackage {
      * @param archiveTransfer the ArchiveTransfer to be completed
      * @param rootDir         the directory where the BinaryDataObject files are
      *                        exported
-     * @param progressLogger  the progress logger
+     * @param progressLogger  the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected
      * @throws InterruptedException if export process is interrupted
      */
     public static void importDataObjectPackageObjects(SEDAXMLEventReader xmlReader, DataObjectPackage archiveTransfer,
-                                                      String rootDir, SEDALibProgressLogger progressLogger) throws SEDALibException, InterruptedException {
+                                                      String rootDir, ProgressLogger progressLogger) throws SEDALibException, InterruptedException {
         String tmp;
         BinaryDataObject bdo;
         PhysicalDataObject pdo;
         boolean inDataObjectObjects = true;
 
-        progressLogger.logger.fine("Début de l'import du ArchiveTransfer - partie objets");
+        if (progressLogger != null)
+            progressLogger.log(Level.FINE, "Début de l'import de l'ArchiveTransfer - partie objets");
         try {
             if (!xmlReader.nextBlockIfNamed("DataObjectPackage"))
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
@@ -989,18 +998,23 @@ public class DataObjectPackage {
                 switch (tmp) {
                     case "DataObjectGroup":
                         String dogId = DataObjectGroup.idFromSedaXml(xmlReader, archiveTransfer, rootDir, progressLogger);
-                        progressLogger.logger.finer("DataObjectGroup [" + dogId + "] importé");
+                        if (progressLogger != null)
+                            progressLogger.log(Level.FINER, "DataObjectGroup [" + dogId + "] " +
+                                    "importé");
                         break;
                     case "BinaryDataObject":
                         bdo = BinaryDataObject.fromSedaXml(xmlReader, archiveTransfer, rootDir, progressLogger);
                         //noinspection ConstantConditions
                         bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.uri);
-                        progressLogger.logger.finer("BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé");
+                        if (progressLogger != null)
+                            progressLogger.log(Level.FINER, "BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé");
                         break;
                     case "PhysicalDataObject":
                         pdo = PhysicalDataObject.fromSedaXml(xmlReader, archiveTransfer, progressLogger);
                         //noinspection ConstantConditions
-                        progressLogger.logger.finer("PhysicalDataObject [" + pdo.inDataPackageObjectId + "] importé");
+                        if (progressLogger != null)
+                            progressLogger.log(Level.FINER, "PhysicalDataObject [" + pdo.inDataPackageObjectId +
+                                    "] importé");
                         break;
                     default:
                         inDataObjectObjects = false;
@@ -1009,9 +1023,11 @@ public class DataObjectPackage {
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture des métadonnées des DataObjects\n->" + e.getMessage());
         }
-        progressLogger.ProgressLog(Level.FINE, -1,
-                Integer.toString(archiveTransfer.getNextInOutCounter()) + " DataObject (métadonnées) importées");
-        progressLogger.logger.fine("ArchiveTransfer - partie objets importée");
+        if (progressLogger != null) {
+            progressLogger.progressLog(Level.FINE,
+                    Integer.toString(archiveTransfer.getNextInOutCounter()) + " DataObject (métadonnées) importées");
+            progressLogger.log(Level.FINE, "ArchiveTransfer - partie objets importée");
+        }
     }
 
     /**
@@ -1020,18 +1036,19 @@ public class DataObjectPackage {
      *
      * @param xmlReader         the SEDAXMLEventReader reading the SEDA manifest
      * @param dataObjectPackage the ArchiveTransfer to be completed
-     * @param progressLogger    the progress logger
+     * @param progressLogger    the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected
      * @throws InterruptedException if export process is interrupted
      */
     public static void importDataObjectPackageMetadata(SEDAXMLEventReader xmlReader,
-                                                       DataObjectPackage dataObjectPackage, SEDALibProgressLogger progressLogger)
+                                                       DataObjectPackage dataObjectPackage, ProgressLogger progressLogger)
             throws SEDALibException, InterruptedException {
         String tmp;
         boolean inArchiveUnits = true;
 
-        progressLogger.logger.fine("Début de l'import du ArchiveTransfer - partie metadata");
+        if (progressLogger != null)
+            progressLogger.log(Level.FINE, "Début de l'import de l'ArchiveTransfer - partie metadata");
         try {
             if (!xmlReader.nextBlockIfNamed("DescriptiveMetadata"))
                 throw new SEDALibException("Pas d'élément DescriptiveMetadata");
@@ -1042,7 +1059,8 @@ public class DataObjectPackage {
                 switch (tmp) {
                     case "ArchiveUnit":
                         String auId = ArchiveUnit.idFromSedaXml(xmlReader, dataObjectPackage, progressLogger);
-                        progressLogger.logger.finer("ArchiveUnit [" + auId + "] importé");
+                        if (progressLogger != null)
+                            progressLogger.log(Level.FINER, "ArchiveUnit [" + auId + "] importé");
                         break;
                     default:
                         inArchiveUnits = false;
@@ -1054,9 +1072,11 @@ public class DataObjectPackage {
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture des métadonnées des ArchiveUnits\n->" + e.getMessage());
         }
-        progressLogger.ProgressLog(Level.FINE, -1,
-                Integer.toString(dataObjectPackage.getNextInOutCounter()) + " ArchiveUnits importées");
-        progressLogger.logger.fine("ArchiveTransfer - partie metadata importée");
+        if (progressLogger != null) {
+            progressLogger.progressLog(Level.FINE,
+                    Integer.toString(dataObjectPackage.getNextInOutCounter()) + " ArchiveUnits importées");
+            progressLogger.log(Level.FINE, "ArchiveTransfer - partie metadata importée");
+        }
     }
 
     /**
@@ -1065,14 +1085,14 @@ public class DataObjectPackage {
      * @param xmlReader      the SEDAXMLEventReader reading the SEDA manifest
      * @param rootDir        the directory where the BinaryDataObject files are
      *                       exported
-     * @param progressLogger the progress logger
+     * @param progressLogger the progress logger or null if no progress log expected
      * @return the read ArchiveTransfer
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected
      * @throws InterruptedException if export process is interrupted
      */
     public static DataObjectPackage fromSedaXml(SEDAXMLEventReader xmlReader, String rootDir,
-                                                SEDALibProgressLogger progressLogger) throws SEDALibException, InterruptedException {
+                                                ProgressLogger progressLogger) throws SEDALibException, InterruptedException {
         DataObjectPackage dataObjectPackage = new DataObjectPackage();
         dataObjectPackage.resetInOutCounter();
         importDataObjectPackageObjects(xmlReader, dataObjectPackage, rootDir, progressLogger);
@@ -1097,7 +1117,8 @@ public class DataObjectPackage {
                 dataObjectPackage
                         .addRootAu(dataObjectPackage.getArchiveUnitById(pair.getValue().inDataPackageObjectId));
 
-        progressLogger.ProgressLog(Level.FINE, -1, "Manifest importé");
+        if (progressLogger!=null)
+            progressLogger.progressLog(Level.FINE, "Manifest importé");
 
         return dataObjectPackage;
     }

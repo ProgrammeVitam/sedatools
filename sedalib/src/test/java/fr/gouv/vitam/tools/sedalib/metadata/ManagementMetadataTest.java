@@ -1,7 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 

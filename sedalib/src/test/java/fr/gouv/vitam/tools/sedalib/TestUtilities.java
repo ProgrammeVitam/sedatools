@@ -11,15 +11,14 @@ import mslinks.ShellLinkException;
 
 public class TestUtilities {
 
-	public static boolean isPrepared = false;
-	public static boolean isWindows = false;
+	private static boolean isPrepared = false;
+	private static boolean isWindows = false;
 
-	public static void createSymbolicLink(String link, String target) throws SEDALibException {
+	private static void createSymbolicLink(String link, String target) throws SEDALibException {
 		Path linkpath = Paths.get(link);
 		Path targetpath = Paths.get(target);
 		try {
 			Files.delete(linkpath);
-			Files.delete(Paths.get(linkpath.toString()+".lnk"));
 		} catch (Exception ignored) {
 		}
 		try {
@@ -47,7 +46,7 @@ public class TestUtilities {
 		}
 	}
 
-	public static void createShortcutIfWindows(String link, String target)
+	private static void createShortcutIfWindows(String link, String target)
 			throws IOException, SEDALibException {
 		if (!isWindows)
 			createSymbolicLink(link, target);
@@ -63,7 +62,7 @@ public class TestUtilities {
 		}
 	}
 
-	static void ContructTestFiles() throws IOException, ShellLinkException, SEDALibException {
+	static void ContructTestFiles() throws IOException, SEDALibException {
 		if (!isPrepared) {
 			String prefix;
 			isWindows=System.getProperty("os.name").toLowerCase().contains("win");
@@ -86,11 +85,11 @@ public class TestUtilities {
 		}
 	}
 	// Utility function to get rid of line-ending differences and enbaling cross-platform compilation
-	public static String JSonStrip(String json) {
+	public static String LineEndNormalize(String text) {
 		StringBuilder sb = new StringBuilder();
 		boolean inString = false;
 
-		char[] chars = json.toCharArray();
+		char[] chars = text.toCharArray();
 		for (int i = 0, n = chars.length; i < n; i++) {
 			char c = chars[i];
 			if (c == '"')

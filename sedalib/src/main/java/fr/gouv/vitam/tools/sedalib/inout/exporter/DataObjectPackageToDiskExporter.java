@@ -49,7 +49,7 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectRefList;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import mslinks.ShellLink;
@@ -117,7 +117,7 @@ public class DataObjectPackageToDiskExporter {
 	private boolean isWindows;
 
 	/** The progress logger. */
-	private SEDALibProgressLogger progressLogger;
+	private ProgressLogger progressLogger;
 
 	/**
 	 * The ArchiveUnit path string map, used to manage symbolic links.
@@ -135,9 +135,9 @@ public class DataObjectPackageToDiskExporter {
 	/**
 	 * Instantiates a new DataObjectPackage to disk exporter.
 	 *
-	 * @param progressLogger the progress logger
+	 * @param progressLogger the progress logger or null if no progress log expected
 	 */
-	private DataObjectPackageToDiskExporter(SEDALibProgressLogger progressLogger) {
+	private DataObjectPackageToDiskExporter(ProgressLogger progressLogger) {
 		this.dataObjectPackage = null;
 		this.progressLogger = progressLogger;
 		this.auPathStringMap = new HashMap<ArchiveUnit, Path>();
@@ -152,7 +152,7 @@ public class DataObjectPackageToDiskExporter {
 	 * @param dataObjectPackage the archive transfer
 	 * @param progressLogger    the progress logger
 	 */
-	public DataObjectPackageToDiskExporter(DataObjectPackage dataObjectPackage, SEDALibProgressLogger progressLogger) {
+	public DataObjectPackageToDiskExporter(DataObjectPackage dataObjectPackage, ProgressLogger progressLogger) {
 		this(progressLogger);
 		this.dataObjectPackage = dataObjectPackage;
 	}
@@ -403,7 +403,8 @@ public class DataObjectPackageToDiskExporter {
 			Files.createSymbolicLink(linkOnDiskPath, linkOnDiskPath.toAbsolutePath().getParent().relativize(target.toAbsolutePath()));
 		} catch (Exception e) {
 			if (isWindows) {
-				progressLogger.logger.warning(
+				if (progressLogger!=null)
+					progressLogger.log(Level.FINEST,
 						"La création de lien n'a pas pu avoir lieu, essai de création de raccourci sous Windows");
 				ShellLink sl = new ShellLink();
 				sl.setTarget(target.toString());
@@ -488,8 +489,8 @@ public class DataObjectPackageToDiskExporter {
 				exportArchiveUnit(childAu, auPath);
 
 			int counter = dataObjectPackage.getNextInOutCounter();
-			if ((progressLogger != null) && ((counter + 1) % progressLogger.step == 0))
-				progressLogger.ProgressLog(Level.FINE, counter,
+			if (progressLogger!=null)
+				progressLogger.progressLogIfStep(Level.FINE, counter,
 						Integer.toString(counter) + " ArchiveUnit/DataObject analysés");
 		}
 	}
@@ -526,7 +527,8 @@ public class DataObjectPackageToDiskExporter {
 		for (ArchiveUnit au : dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList())
 			exportArchiveUnit(au, exportPath);
 
-		progressLogger.ProgressLog(Level.FINE, dataObjectPackage.getInOutCounter(),
+		if (progressLogger!=null)
+			progressLogger.progressLogIfStep(Level.FINE, dataObjectPackage.getInOutCounter(),
 				Integer.toString(dataObjectPackage.getInOutCounter()) + " ArchiveUnit/DataObject exportées\n"
 						+ dataObjectPackage.getDescription());
 	}

@@ -51,7 +51,7 @@ import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
@@ -79,7 +79,7 @@ public class ArchiveTransferToSIPExporter {
 	private Instant start, end;
 
 	/** The progress logger. */
-	private SEDALibProgressLogger progressLogger;
+	private ProgressLogger progressLogger;
 	
 	/** The export mode. */
 	private boolean manifestOnly;
@@ -90,7 +90,7 @@ public class ArchiveTransferToSIPExporter {
 	 * @param archiveTransfer the ArchiveTransfer
 	 * @param progressLogger  the progress logger
 	 */
-	public ArchiveTransferToSIPExporter(ArchiveTransfer archiveTransfer, SEDALibProgressLogger progressLogger) {
+	public ArchiveTransferToSIPExporter(ArchiveTransfer archiveTransfer, ProgressLogger progressLogger) {
 		this.archiveTransfer = archiveTransfer;
 		this.progressLogger = progressLogger;
 	}
@@ -130,7 +130,8 @@ public class ArchiveTransferToSIPExporter {
 		String log = "Début de l'export d'un ArchiveTransfer dans un manifest SEDA\n";
 		log += "en [" + fileName + "]";
 		log += " date=" + DateFormat.getDateTimeInstance().format(d);
-		progressLogger.logger.info(log);
+		if (progressLogger!=null)
+			progressLogger.log(Level.INFO,log);
 
 		this.exportPath = Paths.get(fileName);
 		this.hierarchicalFlag = hierarchicalFlag;
@@ -142,7 +143,9 @@ public class ArchiveTransferToSIPExporter {
 		} catch (SEDALibException | IOException e) {
 			throw new SEDALibException("Echec de l'export du manifest dans le fichier [" + fileName + "]");
 		}
-		progressLogger.ProgressLog(Level.FINE, archiveTransfer.getDataObjectPackage().getInOutCounter(),
+		if (progressLogger!=null)
+			progressLogger.progressLogIfStep(Level.FINE,
+				archiveTransfer.getDataObjectPackage().getInOutCounter(),
 				Integer.toString(archiveTransfer.getDataObjectPackage().getInOutCounter())
 						+ " ArchiveUnit/DataObject (métadonnées) exportés\n" + archiveTransfer.getDescription());
 		end = Instant.now();
@@ -165,7 +168,8 @@ public class ArchiveTransferToSIPExporter {
 		String log = "Début de l'export d'un ArchiveTransfer dans un SIP\n";
 		log += "en [" + fileName + "]";
 		log += " date=" + DateFormat.getDateTimeInstance().format(d);
-		progressLogger.logger.info(log);
+		if (progressLogger!=null)
+			progressLogger.log(Level.INFO,log);
 
 		this.exportPath = Paths.get(fileName);
 		this.hierarchicalFlag = hierarchicalFlag;
@@ -183,7 +187,9 @@ public class ArchiveTransferToSIPExporter {
 			zipout.putNextEntry(e);
 			exportManifestOutputStream(zipout, hierarchicalFlag, indentedFlag);
 			zipout.closeEntry();
-			progressLogger.ProgressLog(Level.FINE, archiveTransfer.getDataObjectPackage().getInOutCounter(),
+			if (progressLogger!=null)
+				progressLogger.progressLogIfStep(Level.FINE,
+					archiveTransfer.getDataObjectPackage().getInOutCounter(),
 					Integer.toString(archiveTransfer.getDataObjectPackage().getInOutCounter())
 							+ " ArchiveUnit/DataObject (métadonnées) exportés\n" + archiveTransfer.getDescription());
 			// all binary objects
@@ -199,8 +205,8 @@ public class ArchiveTransferToSIPExporter {
 							IOUtils.copy(fis, zipout);
 							zipout.closeEntry();
 							counter++;
-							if (counter % 1000 == 0)
-								progressLogger.ProgressLog(Level.FINE, -1,
+							if (progressLogger!=null)
+								progressLogger.progressLogIfStep(Level.FINE, counter,
 										Integer.toString(counter) + " BinaryDataObject (fichiers) exportés");
 						}
 					}
@@ -209,7 +215,9 @@ public class ArchiveTransferToSIPExporter {
 		} catch (IOException | SEDALibException e) {
 			throw new SEDALibException("Echec de l'export du SIP dans le fichier [" + fileName + "]");
 		}
-		progressLogger.ProgressLog(Level.FINE, -1, Integer.toString(counter) + " BinaryDataObject (fichiers) exportés");
+		if (progressLogger!=null)
+			progressLogger.progressLog(Level.FINE, Integer.toString(counter) + " " +
+				"BinaryDataObject (fichiers) exportés");
 		end = Instant.now();
 	}
 

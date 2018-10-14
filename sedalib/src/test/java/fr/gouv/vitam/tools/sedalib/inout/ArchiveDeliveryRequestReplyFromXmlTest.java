@@ -1,9 +1,8 @@
 package fr.gouv.vitam.tools.sedalib.inout;
 
+import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,43 +16,11 @@ import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DIPToArchiveDeliveryRequestReplyImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 class ArchiveDeliveryRequestReplyFromXmlTest {
 
-	static public Logger createLogger(Level logLevel) {
-		Logger logger;
-
-		Properties props = System.getProperties();
-		props.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%n");// "[%1$tc] %4$s: %5$s%n");
-		logger = Logger.getLogger("SEDALibTest");
-		logger.setLevel(logLevel);
-
-		return logger;
-	}
-
-	String JSonStrip(String json) {
-		StringBuilder sb = new StringBuilder();
-		boolean inString = false;
-
-		char[] chars = json.toCharArray();
-		for (int i = 0, n = chars.length; i < n; i++) {
-			char c = chars[i];
-			if (inString && (c == '"'))
-				inString = !inString;
-			else if (c == '\\')
-				i++;
-			else if (!inString && Character.isWhitespace(c))
-				continue;
-			sb.append(c);
-		}
-		return sb.toString();
-	}
-
 	@Test
 	void test() throws SEDALibException, InterruptedException, JsonProcessingException {
-		SEDALibProgressLogger spl = new SEDALibProgressLogger(createLogger(Level.FINEST));
-
 		// create jackson object mapper
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
@@ -63,7 +30,7 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		DIPToArchiveDeliveryRequestReplyImporter si = new DIPToArchiveDeliveryRequestReplyImporter(
-				"src/test/resources/PacketSamples/TestDIP.zip", "target/tmpJunit", spl);
+				"src/test/resources/PacketSamples/TestDIP.zip", "target/tmpJunit", null);
 		si.doImport();
 		
 		String testog = "{\n" + 
@@ -108,7 +75,7 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 		String sog = mapper.writeValueAsString(og);
 		sog = sog.replaceAll("\"onDiskPath\" : .*\"", "");
 		testog = testog.replaceAll("\"onDiskPath\" : .*\"", "");
-		assertEquals(JSonStrip(testog),JSonStrip(sog));
+		assertEquals(LineEndNormalize(testog),LineEndNormalize(sog));
 	}
 
 }

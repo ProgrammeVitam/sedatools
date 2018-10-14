@@ -42,7 +42,7 @@ import java.util.logging.Level;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
 
 /**
  * The Class ArchiveTransferToDiskExporter.
@@ -76,7 +76,7 @@ public class ArchiveTransferToDiskExporter {
     private Instant start, end;
 
     /** The progress logger. */
-    private final SEDALibProgressLogger progressLogger;
+    private final ProgressLogger progressLogger;
 
     /**
      * Instantiates a new ArchiveTransfer to disk exporter
@@ -84,7 +84,7 @@ public class ArchiveTransferToDiskExporter {
      * @param archiveTransfer the archive transfer
      * @param progressLogger  the progress logger
      */
-    public ArchiveTransferToDiskExporter(ArchiveTransfer archiveTransfer, SEDALibProgressLogger progressLogger) {
+    public ArchiveTransferToDiskExporter(ArchiveTransfer archiveTransfer, ProgressLogger progressLogger) {
         this.progressLogger = progressLogger;
         this.archiveTransfer = archiveTransfer;
         dataObjectPackageToDiskExporter = new DataObjectPackageToDiskExporter(archiveTransfer.getDataObjectPackage(),
@@ -134,7 +134,8 @@ public class ArchiveTransferToDiskExporter {
         String log = "Début de l'export d'un ArchiveTransfer dans une hiérarchie sur disque\n";
         log += "en [" + directoryName + "]";
         log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        progressLogger.logger.info(log);
+        if (progressLogger!=null)
+            progressLogger.log(Level.INFO,log);
 
         exportPath = Paths.get(directoryName);
         try {
@@ -148,7 +149,9 @@ public class ArchiveTransferToDiskExporter {
             exportArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata(), exportPath);
         dataObjectPackageToDiskExporter.doExport(directoryName);
 
-        progressLogger.ProgressLog(Level.FINE, archiveTransfer.getDataObjectPackage().getInOutCounter(),
+        if (progressLogger !=null)
+            progressLogger.progressLogIfStep(Level.FINE,
+                archiveTransfer.getDataObjectPackage().getInOutCounter(),
                 Integer.toString(archiveTransfer.getDataObjectPackage().getInOutCounter())
                         + " ArchiveUnit/DataObject exportés");
         end = Instant.now();

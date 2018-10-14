@@ -31,6 +31,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -272,8 +273,6 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 				xmlReader.peekUsefullEvent();
 				String tmp = xmlReader.peekName();
 				while (tmp != null) {
-					if (tmp.equals("Event"))
-						System.out.println("Here");
 					MetadataKind mi = complexListType.getMetadataMap().get(tmp);
 					if (mi == null) {
 						if (complexListType.isNotExpendable())
@@ -355,4 +354,27 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 		return false;
 	}
 
+    /**
+     * Gets the value of a simple metadata (String, Text or DateTime type) determined only by a metadata name in String
+     * format or null if not found
+     *
+     * @param metadataName the metadata name
+     * @return the String formatted metadata value
+     */
+	public String getSimpleMetadata(String metadataName){
+		for (SEDAMetadata sm:metadataList){
+			if (sm.getXmlElementName().equals(metadataName)){
+				if (sm instanceof StringType)
+					return ((StringType)sm).getValue();
+                else if ((sm instanceof TextType) && (((TextType)sm).getLang()==null)) {
+                    return ((TextType)sm).getValue();
+                }
+				else if (sm instanceof DateTimeType) {
+                    SimpleDateFormat dayTimeSdf = new SimpleDateFormat(SEDAXMLStreamWriter.dayTimePattern);
+                    return dayTimeSdf.format(((DateTimeType)sm).getValue());
+                }
+			}
+		}
+		return null;
+	}
 }

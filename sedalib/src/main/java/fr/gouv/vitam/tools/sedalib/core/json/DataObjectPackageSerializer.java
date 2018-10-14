@@ -27,15 +27,14 @@
  */
 package fr.gouv.vitam.tools.sedalib.core.json;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Set;
-
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Set;
 
 /**
  * The Class DataObjectPackageSerializer.
@@ -44,7 +43,9 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
  */
 public class DataObjectPackageSerializer extends StdSerializer<DataObjectPackage> {
 
-    /** The Constant serialVersionUID. */
+    /**
+     * The Constant serialVersionUID.
+     */
     private static final long serialVersionUID = -2569548330768460458L;
 
     /**

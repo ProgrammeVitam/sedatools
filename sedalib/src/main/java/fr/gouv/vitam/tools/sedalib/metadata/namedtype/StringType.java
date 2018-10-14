@@ -86,6 +86,15 @@ public class StringType extends NamedTypeMetadata {
 			throw new SEDALibException("Mauvais constructeur de l'élément [" + elementName + "]");
 	}
 
+	/**
+	 * Get the value
+	 *
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

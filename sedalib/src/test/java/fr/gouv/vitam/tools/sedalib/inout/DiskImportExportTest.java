@@ -3,9 +3,6 @@ package fr.gouv.vitam.tools.sedalib.inout;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,44 +24,29 @@ import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToDiskExporter;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DiskImportExportTest implements UseTestFiles {
 
-    static public Logger createLogger(Level logLevel) {
-        Logger logger;
-
-        Properties props = System.getProperties();
-        props.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%n");// "[%1$tc] %4$s: %5$s%n");
-        logger = Logger.getLogger("SEDALibTest");
-        logger.setLevel(logLevel);
-
-        return logger;
-    }
-
-
-    void eraseAll(String dirOrFile) {
+    private void eraseAll(String dirOrFile) {
         try {
             Files.delete(Paths.get(dirOrFile));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
         try {
             FileUtils.deleteDirectory(new File(dirOrFile));
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     }
 
     @Test
-    public void TestDiskImportWithoutLink() throws IllegalArgumentException, Exception {
-
-        SEDALibProgressLogger spl = new SEDALibProgressLogger(createLogger(Level.FINEST));
+    public void TestDiskImportWithoutLink() throws Exception {
 
         // do import of test directory
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/SampleWithoutLinksModelV1", spl);
+                "src/test/resources/PacketSamples/SampleWithoutLinksModelV1", null);
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
         di.doImport();
@@ -155,12 +137,12 @@ public class DiskImportExportTest implements UseTestFiles {
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.1");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
-        sog = TestUtilities.JSonStrip(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sog = TestUtilities.LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         testog = testog.replaceAll("\"lastModified\" : .*", "");
         Matcher mtestog = pog.matcher(testog);
         boolean testogpath = mtestog.find();
-        testog = TestUtilities.JSonStrip(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(sogpath & testogpath);
         assertEquals(sog, testog);
@@ -183,30 +165,28 @@ public class DiskImportExportTest implements UseTestFiles {
         Pattern pau = Pattern.compile("\"onDiskPath\" : .*Node 1\"");
         Matcher mtestau = pau.matcher(testau);
         boolean testaupath = mtestau.find();
-        testau = TestUtilities.JSonStrip(testau.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testau = TestUtilities.LineEndNormalize(testau.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         ArchiveUnit au = di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID11");
         String sau = mapper.writeValueAsString(au);
-        System.out.println(sau);
+        //System.out.println(sau);
         Matcher msau = pau.matcher(sau);
         boolean saupath = msau.find();
-        sau = TestUtilities.JSonStrip(sau.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sau = TestUtilities.LineEndNormalize(sau.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(saupath & testaupath);
         assertEquals(testau, sau);
     }
 
     @Test
-    public void TestDiskImportWithLink() throws IllegalArgumentException, Exception {
-
-        SEDALibProgressLogger spl = new SEDALibProgressLogger(createLogger(Level.FINEST));
+    public void TestDiskImportWithLink() throws Exception {
 
         // do import of test directory
         DiskToArchiveTransferImporter di;
 //		if (System.getProperty("os.name").toLowerCase().contains("win"))
 //			di = new DiskToArchiveTransferImporter("src/test/ressources/PacketSamples/SampleWithWindowsLinksAndShortcutsModelV2",spl);
 //		else
-        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithLinksModelV2", spl);
+        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithLinksModelV2", null);
 
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
@@ -250,12 +230,12 @@ public class DiskImportExportTest implements UseTestFiles {
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.2");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
-        sog = TestUtilities.JSonStrip(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sog = TestUtilities.LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         testog = testog.replaceAll("\"lastModified\" : .*", "");
         Matcher mtestog = pog.matcher(testog);
         boolean testogpath = mtestog.find();
-        testog = TestUtilities.JSonStrip(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertEquals(sog, testog);
         assertTrue(sogpath & testogpath);
@@ -273,23 +253,21 @@ public class DiskImportExportTest implements UseTestFiles {
         Pattern pau = Pattern.compile("\"onDiskPath\" : .*Node 2.3 - Many\"");
         Matcher mtestau = pau.matcher(testau);
         boolean testaupath = mtestau.find();
-        testau = TestUtilities.JSonStrip(testau.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testau = TestUtilities.LineEndNormalize(testau.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         ArchiveUnit au = di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID40");
         String sau = mapper.writeValueAsString(au);
 //		System.out.println(sau);
         Matcher msau = pau.matcher(sau);
         boolean saupath = msau.find();
-        sau = TestUtilities.JSonStrip(sau.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sau = TestUtilities.LineEndNormalize(sau.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(saupath & testaupath);
         assertEquals(sau, testau);
     }
 
     @Test
-    public void TestDiskImportExport() throws IllegalArgumentException, Exception {
-
-        SEDALibProgressLogger spl = new SEDALibProgressLogger(createLogger(Level.FINEST));
+    public void TestDiskImportExport() throws Exception {
 
         // create jackson object mapper
         ObjectMapper mapper = new ObjectMapper();
@@ -300,16 +278,16 @@ public class DiskImportExportTest implements UseTestFiles {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip", "target/tmpJunit", spl);
+                "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip", "target/tmpJunit", null);
         si.doImport();
 
-        ArchiveTransferToDiskExporter atde = new ArchiveTransferToDiskExporter(si.getArchiveTransfer(), spl);
+        ArchiveTransferToDiskExporter atde = new ArchiveTransferToDiskExporter(si.getArchiveTransfer(), null);
         eraseAll("target/tmpJunit/SWLMV2");
         atde.doExport("target/tmpJunit/SWLMV2");
 
         // do import of test directory
         DiskToArchiveTransferImporter dai1;
-        dai1 = new DiskToArchiveTransferImporter("target/tmpJunit/SWLMV2", spl);
+        dai1 = new DiskToArchiveTransferImporter("target/tmpJunit/SWLMV2", null);
 
         dai1.addIgnorePattern("Thumbs.db");
         dai1.addIgnorePattern("pagefile.sys");
@@ -320,7 +298,7 @@ public class DiskImportExportTest implements UseTestFiles {
         dai1.getArchiveTransfer().getGlobalMetadata().setNowFlag(false);
 
         ArchiveTransferToSIPExporter attse;
-        attse = new ArchiveTransferToSIPExporter(dai1.getArchiveTransfer(), spl);
+        attse = new ArchiveTransferToSIPExporter(dai1.getArchiveTransfer(), null);
         attse.doExportToSEDAXMLManifest("target/tmpJunit/SWLMV2.xml", true, true);
 
         // assert macro results
@@ -329,19 +307,19 @@ public class DiskImportExportTest implements UseTestFiles {
 
         // do export of test directory
         ArchiveTransferToDiskExporter adi;
-        adi = new ArchiveTransferToDiskExporter(dai1.getArchiveTransfer(), spl);
+        adi = new ArchiveTransferToDiskExporter(dai1.getArchiveTransfer(), null);
         eraseAll("target/tmpJunit/SWLMV2.1");
         adi.doExport("target/tmpJunit/SWLMV2.1");
 
         // do reimport of test directory
         DiskToArchiveTransferImporter dai2;
-        dai2 = new DiskToArchiveTransferImporter("target/tmpJunit/SWLMV2.1", spl);
+        dai2 = new DiskToArchiveTransferImporter("target/tmpJunit/SWLMV2.1", null);
 
         dai2.addIgnorePattern("Thumbs.db");
         dai2.addIgnorePattern("pagefile.sys");
         dai2.doImport();
 
-        attse = new ArchiveTransferToSIPExporter(dai2.getArchiveTransfer(), spl);
+        attse = new ArchiveTransferToSIPExporter(dai2.getArchiveTransfer(), null);
         attse.doExportToSEDAXMLManifest("target/tmpJunit/SWLMV2.1.xml", true, true);
 
         String gm1 = dai1.getArchiveTransfer().getGlobalMetadata().toSedaXmlFragments();

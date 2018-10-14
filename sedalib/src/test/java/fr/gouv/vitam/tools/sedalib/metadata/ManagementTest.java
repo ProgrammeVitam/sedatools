@@ -1,9 +1,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
@@ -78,7 +76,7 @@ class ManagementTest {
 		m.addNewMetadata("UpdateOperation","TestMetadataName", "TestMetadataValue"); // verify that uniq metadata is overwritten
 
 		String mOut = m.toString();
-        System.out.println("Value to verify=" + mOut);
+ //       System.out.println("Value to verify=" + mOut);
 
 		// Test read write in XML string format
 		Management mNext = (Management) SEDAMetadata.fromString(mOut, Management.class);
@@ -143,7 +141,7 @@ class ManagementTest {
 	}
 
 	@Test
-	void testAddNewMetadata() throws SEDALibException {
+	void testAddNewMetadata() {
 	}
 
 }

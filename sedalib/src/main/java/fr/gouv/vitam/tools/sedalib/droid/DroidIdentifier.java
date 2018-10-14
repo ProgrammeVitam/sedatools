@@ -40,9 +40,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
 import uk.gov.nationalarchives.droid.core.BinarySignatureIdentifier;
 import uk.gov.nationalarchives.droid.core.SignatureParseException;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationRequest;
@@ -90,11 +91,11 @@ public class DroidIdentifier {
 	/**
 	 * Instantiates a new DROID identifier.
 	 *
-	 * @param progressLogger the progress logger
+	 * @param progressLogger the progress logger or null if no progress log expected
 	 * @param configDir      the config dir
 	 * @throws SEDALibException if the identifier can't be initialised, may be due to wrong signatures files
 	 */
-	private DroidIdentifier(SEDALibProgressLogger progressLogger, String configDir) throws SEDALibException {
+	private DroidIdentifier(ProgressLogger progressLogger, String configDir) throws SEDALibException {
 		this .configDir=configDir;
 		initSignatureDroid(progressLogger);
 		initContainerDroid(progressLogger);
@@ -103,12 +104,12 @@ public class DroidIdentifier {
 	/**
 	 * Initialises the single instance of DroidIdentifier.
 	 *
-	 * @param progressLogger the progress logger
+	 * @param progressLogger the progress logger or null if no progress log expected
 	 * @param configDir      the config dir
 	 * @return single instance of DroidIdentifier
 	 * @throws SEDALibException if the identifier can't be initialised, may be due to wrong signatures files
 	 */
-	static public DroidIdentifier init(SEDALibProgressLogger progressLogger, String configDir) throws SEDALibException {
+	static public DroidIdentifier init(ProgressLogger progressLogger, String configDir) throws SEDALibException {
 		instance = new DroidIdentifier(progressLogger,configDir);
 		return instance;
 	}
@@ -140,23 +141,21 @@ public class DroidIdentifier {
 	 *                          resources
 	 */
 	// search for a DROID_SignatureFile or extract from resources
-	private String getBinarySignatureFileName(SEDALibProgressLogger progressLogger) throws SEDALibException {
+	private String getBinarySignatureFileName(ProgressLogger progressLogger) throws SEDALibException {
 		String result = null;
 
-		FilenameFilter droidFilter = new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				if (name.startsWith("DROID_SignatureFile_V") && name.endsWith(".xml")) {
-					String serial = name.substring(21, name.lastIndexOf(".xml"));
-					try {
-						Integer.parseInt(serial);
-					} catch (NumberFormatException e) {
-						return false;
-					}
-					return true;
-				}
-				return false;
-			}
-		};
+		FilenameFilter droidFilter = (dir, name) -> {
+            if (name.startsWith("DROID_SignatureFile_V") && name.endsWith(".xml")) {
+                String serial = name.substring(21, name.lastIndexOf(".xml"));
+                try {
+                    Integer.parseInt(serial);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        };
 
 		File dir = new File(configDir);
 		if (dir.isFile())
@@ -167,7 +166,7 @@ public class DroidIdentifier {
 		String[] fileList = dir.list(droidFilter);
 		if ((fileList==null) || (fileList.length == 0)) {
 			if (progressLogger != null)
-				progressLogger.logger.info(
+				progressLogger.log(Level.INFO,
 						"Can't find a DROID signature file, copy from ressource to file DROID_SignatureFile_V88.xml");
 			try (InputStream is = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("DROID_SignatureFile_V88.xml")) {
@@ -197,7 +196,7 @@ public class DroidIdentifier {
 	 *
 	 * @throws SEDALibException if unable to parse the signature file
 	 */
-	private void initSignatureDroid(SEDALibProgressLogger progressLogger) throws SEDALibException {
+	private void initSignatureDroid(ProgressLogger progressLogger) throws SEDALibException {
 		binarySignatureIdentifier = new BinarySignatureIdentifier();
 
 		String sigFileName = getBinarySignatureFileName(progressLogger);
@@ -221,23 +220,21 @@ public class DroidIdentifier {
 	 * @throws SEDALibException if unable to get container signature file from disk
 	 *                          and from resources
 	 */
-	private String getContainerSignatureFileName(SEDALibProgressLogger progressLogger) throws SEDALibException {
+	private String getContainerSignatureFileName(ProgressLogger progressLogger) throws SEDALibException {
 		String result = null;
 
-		FilenameFilter droidFilter = new FilenameFilter() {
-			public boolean accept(File dir, String name) {
-				if (name.startsWith("container-signature-") && name.endsWith(".xml")) {
-					String serial = name.substring(20, name.lastIndexOf(".xml"));
-					try {
-						Integer.parseInt(serial);
-					} catch (NumberFormatException e) {
-						return false;
-					}
-					return true;
-				}
-				return false;
-			}
-		};
+		FilenameFilter droidFilter = (dir, name) -> {
+            if (name.startsWith("container-signature-") && name.endsWith(".xml")) {
+                String serial = name.substring(20, name.lastIndexOf(".xml"));
+                try {
+                    Integer.parseInt(serial);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+                return true;
+            }
+            return false;
+        };
 
 		File dir = new File(configDir);
 		if (dir.isFile())
@@ -248,7 +245,7 @@ public class DroidIdentifier {
 		String[] fileList = dir.list(droidFilter);
 		if ((fileList==null) || (fileList.length == 0)) {
 			if (progressLogger != null)
-				progressLogger.logger.info(
+				progressLogger.log(Level.INFO,
 						"Can't find a DROID container signature file, copy from ressource to file container-signature-20171130.xml");
 			try (InputStream is = Thread.currentThread().getContextClassLoader()
 					.getResourceAsStream("container-signature-20171130.xml")) {
@@ -284,7 +281,7 @@ public class DroidIdentifier {
 	 * @throws SEDALibException if unable to parse the container file
 	 */
 	@SuppressWarnings("rawtypes")
-	private void initContainerDroid(SEDALibProgressLogger progressLogger) throws SEDALibException {
+	private void initContainerDroid(ProgressLogger progressLogger) throws SEDALibException {
 		// get container signature definitions
 		String containerSigFileName = getContainerSignatureFileName(progressLogger);
 		try {

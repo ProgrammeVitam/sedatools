@@ -6,7 +6,7 @@
     <EventIdentifier>AUT-236699</EventIdentifier>
     <EventTypeCode>Autorisation</EventTypeCode>
     <EventDateTime>2106-12-07T04:00:00</EventDateTime>
-    <OutCome>OK</OutCome>
+    <Outcome>OK</Outcome>
   </Event>
   <Requirer>
     <Identifier>REF-D73EF99919FA</Identifier>

@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,28 +17,15 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 class ArchiveTransferSerDeserializerTest implements UseTestFiles {
 
-	static public Logger createLogger(Level logLevel) {
-		Logger logger;
-
-		Properties props = System.getProperties();
-		props.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%n");// "[%1$tc] %4$s: %5$s%n");
-		logger = Logger.getLogger("SEDALibTest");
-		logger.setLevel(logLevel);
-
-		return logger;
-	}
-
 	@Test
 	void TestSipSerializationDeserialization()
-			throws SEDALibException, FileNotFoundException, IOException, InterruptedException {
-		SEDALibProgressLogger spl = new SEDALibProgressLogger(createLogger(Level.FINEST));
-
+			throws SEDALibException, IOException, InterruptedException {
 		// do import of test directory
-		DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithoutLinksModelV1", spl);
+		DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples" +
+				"/SampleWithoutLinksModelV1", null);
 		di.addIgnorePattern("Thumbs.db");
 		di.addIgnorePattern("pagefile.sys");
 		di.doImport();

@@ -1,10 +1,8 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
+import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,66 +15,45 @@ import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 class DataObjectPackageTest {
 
-    static public Logger createLogger(Level logLevel) {
-        Logger logger;
+    @Test
+    void testCycleDetectionOK() throws SEDALibException, InterruptedException {
+        // Given
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit", null);
+        si.doImport();
+        SIPToArchiveTransferImporter wrongSi = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples" +
+                "/TestSipCyclic.zip", "target/tmpJunit"
+                , null);
+        wrongSi.doImport();
 
-        Properties props = System.getProperties();
-        props.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%n");// "[%1$tc] %4$s: %5$s%n");
-        logger = Logger.getLogger("SEDALibTest");
-        logger.setLevel(logLevel);
+        // When test for acyclic
+        si.getArchiveTransfer().getDataObjectPackage().verifyAcyclic();
 
-        return logger;
-    }
-
-    String JSonStrip(String json) {
-        StringBuilder sb = new StringBuilder();
-        boolean inString = false;
-
-        char[] chars = json.toCharArray();
-        for (int i = 0, n = chars.length; i < n; i++) {
-            char c = chars[i];
-            if (inString && (c == '"'))
-                inString = !inString;
-            else if (c == '\\')
-                i++;
-            else if (!inString && Character.isWhitespace(c))
-                continue;
-            sb.append(c);
-        }
-        return sb.toString();
+        // Then ok
     }
 
     @Test
-    void testCycleDetection() throws SEDALibException, InterruptedException, JsonProcessingException {
-
-        SEDALibProgressLogger spl = new SEDALibProgressLogger(createLogger(Level.FINEST));
-
-        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit", spl);
+    void testCycleDetectionKO() throws SEDALibException, InterruptedException {
+        // Given
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples" +
+                "/TestSipCyclic.zip", "target/tmpJunit"
+                , null);
         si.doImport();
-        si.getArchiveTransfer().getDataObjectPackage().verifyAcyclic();
 
-        si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples/TestSipCyclic.zip", "target/tmpJunit", spl);
-        si.doImport();
-        try {
+        // When test for acyclic, then KO
+        assertThatThrownBy(() -> {
             si.getArchiveTransfer().getDataObjectPackage().verifyAcyclic();
             fail("Devrait détecter un cycle");
-        } catch (SEDALibException e) {
-            System.err.println(e.getMessage());
-            assert (e.getMessage().contains("ID4->ID8->ID20->ID34->ID8"));
-        }
+        }).hasMessageContaining("ID4->ID8->ID20->ID34->ID8");
     }
 
     @Test
     void testDogNormalisation() throws SEDALibException, InterruptedException, JsonProcessingException {
 
-        SEDALibProgressLogger spl = new SEDALibProgressLogger(createLogger(Level.FINEST));
-
-        // create jackson object mapper
+        //Given
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
@@ -85,7 +62,7 @@ class DataObjectPackageTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip", "target/tmpJunit", spl);
+                "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip", "target/tmpJunit", null);
         si.doImport();
         try {
             si.getArchiveTransfer().getDataObjectPackage().verifyDogUnicityCapacity();
@@ -95,7 +72,8 @@ class DataObjectPackageTest {
             assert (e.getMessage().contains("impossible sur l'ArchiveUnit [ID21]"));
         }
 
-        si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples/TestSipDogMerge.zip", "target/tmpJunit", spl);
+        si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples/TestSipDogMerge.zip", "target" +
+                "/tmpJunit", null);
         si.doImport();
         String testau = "{\r\n" + "  \"archiveUnitProfileXmlData\" : null,\r\n" + "  \"managementXmlData\" : null,\r\n"
                 + "  \"contentXmlData\" : \"<Content>\\n              <DescriptionLevel>Item</DescriptionLevel>\\n              <Title>20160429_tuleap.pdf</Title>\\n              <Description>Document \\\"20160429_tuleap.pdf\\\" joint au message &lt;a8f34cc23a55bf2de3606d4e45609230@culture.gouv.fr></Description>\\n            </Content>\",\r\n"
@@ -106,7 +84,7 @@ class DataObjectPackageTest {
 
         ArchiveUnit au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID21");
         String sau = mapper.writeValueAsString(au);
-        assertEquals(JSonStrip(testau), JSonStrip(sau));
+        assertEquals(LineEndNormalize(testau), LineEndNormalize(sau));
 
         si.getArchiveTransfer().getDataObjectPackage().normalizeUniqDataObjectGroup();
 
@@ -134,7 +112,7 @@ class DataObjectPackageTest {
         au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID21");
         sau = mapper.writeValueAsString(au);
 //		System.out.println(sau);
-        assertEquals(JSonStrip(testau), JSonStrip(sau));
+        assertEquals(LineEndNormalize(testau), LineEndNormalize(sau));
         System.err.println("La fusion des DOG a bien eue lieu");
 
         String testog = "{\r\n" +
@@ -337,10 +315,10 @@ class DataObjectPackageTest {
                 .get("ID52");
 //		System.out.println(mapper.writeValueAsString(og));
         String sog = mapper.writeValueAsString(og).replaceAll("\"lastModified\" : .*", "");
-        sog = JSonStrip(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sog = LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         testog = testog.replaceAll("\"lastModified\" : .*", "");
-        testog = JSonStrip(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testog = LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertEquals(sog, testog);
         System.err.println("La fusion des DOG a bien eue lieu");
@@ -348,9 +326,6 @@ class DataObjectPackageTest {
 
     @Test
     void testRegenerateIds() throws SEDALibException, InterruptedException, JsonProcessingException {
-
-        SEDALibProgressLogger spl = new SEDALibProgressLogger(createLogger(Level.FINEST));
-
         // create jackson object mapper
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
@@ -359,7 +334,8 @@ class DataObjectPackageTest {
         mapper.registerModule(module);
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit", spl);
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples/TestSip" +
+                ".zip", "target/tmpJunit", null);
         si.doImport();
         si.getArchiveTransfer().getDataObjectPackage().regenerateContinuousIds();
 
@@ -379,7 +355,7 @@ class DataObjectPackageTest {
 
         ArchiveUnit au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID19");
         String sau = mapper.writeValueAsString(au);
-        System.out.println(sau);
-        assertEquals(JSonStrip(testau), JSonStrip(sau));
+    //    System.out.println(sau);
+        assertEquals(LineEndNormalize(testau), LineEndNormalize(sau));
     }
 }

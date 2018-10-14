@@ -144,4 +144,13 @@ public class DateTimeType extends NamedTypeMetadata {
         }
         return st;
     }
+
+    /**
+     * Get the value
+     *
+     * @return the value
+     */
+    public Date getValue() {
+         return value;
+    }
 }

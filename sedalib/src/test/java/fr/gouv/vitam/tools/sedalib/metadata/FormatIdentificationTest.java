@@ -3,10 +3,7 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
-import java.nio.file.attribute.FileTime;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class FormatIdentificationTest {
 

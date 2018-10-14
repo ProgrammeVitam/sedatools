@@ -57,6 +57,8 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
  */
 public class SEDAXMLStreamWriter implements AutoCloseable {
 
+	public static final String dayTimePattern="yyyy-MM-dd'T'HH:mm:ss";
+
 	/** The Constant LINEFEED_CHAR. */
 	private static final String LINEFEED_CHAR = "\n";
 
@@ -153,7 +155,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 		this.firstLineFlag = true;
 
 		this.idCounter = 1;
-		this.dayTimeSdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		this.dayTimeSdf = new SimpleDateFormat(dayTimePattern);
 		this.daySdf = new SimpleDateFormat("yyyy-MM-dd");
 	}
 

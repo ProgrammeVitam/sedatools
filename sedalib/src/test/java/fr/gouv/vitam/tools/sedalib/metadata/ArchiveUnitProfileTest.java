@@ -3,7 +3,6 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 // test ArchveUnitProfile and SchemeType subclass
 class ArchiveUnitProfileTest {

@@ -2,7 +2,6 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
 import org.junit.jupiter.api.Test;
@@ -79,7 +78,7 @@ class ContentTest {
                 "  </Frog>");
 
         String cOut = c.toString();
-        System.out.println("Value to verify=" + cOut);
+//        System.out.println("Value to verify=" + cOut);
 
         // Test read write in XML string format
         Content cNext = (Content) SEDAMetadata.fromString(cOut, Content.class);
@@ -141,27 +140,27 @@ class ContentTest {
     }
 
     @Test
-    void testSomeExceptions() throws SEDALibException {
+    void testSomeExceptions() {
         // Given
         Content c = new Content();
 
         // When loaded with all different kind of metadata
 
         //Test wrong args in addNewMetadata
-        assertThatThrownBy(() -> {c.addNewMetadata("DescriptionLevel", "Test1","Test2"); })
+        assertThatThrownBy(() -> c.addNewMetadata("DescriptionLevel", "Test1","Test2"))
                 .hasMessageContaining("Impossible de construire"); // for StringType
-        assertThatThrownBy(() -> {c.addNewMetadata("Description", "Test1","Test2","Test3"); })
+        assertThatThrownBy(() -> c.addNewMetadata("Description", "Test1","Test2","Test3"))
                 .hasMessageContaining("Impossible de construire"); // for TextType
-        assertThatThrownBy(() -> {c.addNewMetadata("Recipient", "Test"); })
+        assertThatThrownBy(() -> c.addNewMetadata("Recipient", "Test"))
                 .hasMessageContaining("Impossible de construire"); // for PersonType
-        assertThatThrownBy(() -> {c.addNewMetadata("XMLTest", new Date(0)); })
+        assertThatThrownBy(() -> c.addNewMetadata("XMLTest", new Date(0)))
                 .hasMessageContaining("Impossible de construire"); // for GenericXMLBlock
         Event event=new Event();
-        assertThatThrownBy(() -> {event.addNewMetadata("EventDateTime", "Date");})
+        assertThatThrownBy(() -> event.addNewMetadata("EventDateTime", "Date"))
                 .hasMessageContaining("Impossible de construire"); // for DateTimeType
-        assertThatThrownBy(() -> {event.addNewMetadata("NewElement", "<NewElement></NewElement>");})
+        assertThatThrownBy(() -> event.addNewMetadata("NewElement", "<NewElement></NewElement>"))
                 .hasMessageContaining("Impossible d'étendre"); // for DateTimeType
-        assertThatThrownBy(() -> {event.addSedaXmlFragments("<NewElement>Test</NewElement>");})
+        assertThatThrownBy(() -> event.addSedaXmlFragments("<NewElement>Test</NewElement>"))
                 .hasMessageContaining("Impossible d'étendre"); // for DateTimeType
     }
 }

@@ -31,11 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.GenericXMLBlockType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
@@ -132,14 +128,14 @@ public class Content extends ComplexListType {
 		metadataMap.put("Source", new ComplexListType.MetadataKind(StringType.class, false));
 		metadataMap.put("RelatedObjectReference",
 				new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
-		metadataMap.put("CreatedDate", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("TransactedDate", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("AcquiredDate", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("SentDate", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("ReceivedDate", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("RegisteredDate", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("StartDate", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("EndDate", new ComplexListType.MetadataKind(StringType.class, false));
+		metadataMap.put("CreatedDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
+		metadataMap.put("TransactedDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
+		metadataMap.put("AcquiredDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
+		metadataMap.put("SentDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
+		metadataMap.put("ReceivedDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
+		metadataMap.put("RegisteredDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
+		metadataMap.put("StartDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
+		metadataMap.put("EndDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
 		metadataMap.put("Event", new ComplexListType.MetadataKind(Event.class, true));
 		metadataMap.put("Signature", new ComplexListType.MetadataKind(GenericXMLBlockType.class, true));
 		metadataMap.put("Gps", new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));

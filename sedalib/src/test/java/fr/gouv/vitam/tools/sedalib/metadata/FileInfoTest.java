@@ -1,15 +1,10 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.file.attribute.FileTime;
-
-import javax.xml.stream.XMLStreamException;
 
 import org.junit.jupiter.api.Test;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 

@@ -6,7 +6,7 @@
     <EventIdentifier>AUT-235371</EventIdentifier>
     <EventTypeCode>Autorisation</EventTypeCode>
     <EventDateTime>2105-07-23T01:00:00</EventDateTime>
-    <OutCome>KO</OutCome>
+    <Outcome>KO</Outcome>
   </Event>
   <Requirer>
     <Identifier>REF-3182D6204A41</Identifier>

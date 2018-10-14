@@ -1,15 +1,10 @@
 package fr.gouv.vitam.tools.sedalib.inout;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.ByteArrayOutputStream;
 //import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -21,36 +16,22 @@ import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 class ArchiveTransferToFromXmlTest implements UseTestFiles {
 
-	static public Logger createLogger(Level logLevel) {
-		Logger logger;
-
-		Properties props = System.getProperties();
-		props.setProperty("java.util.logging.SimpleFormatter.format", "%4$s: %5$s%n");// "[%1$tc] %4$s: %5$s%n");
-		logger = Logger.getLogger("SEDALibTest");
-		logger.setLevel(logLevel);
-
-		return logger;
-	}
-
-	static String readFileToString(String path) throws IOException {
+	private static String readFileToString(String path) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
-		return new String(encoded);
+		return new String(encoded,"UTF-8");
 	}
 
 	@Test
 	void testToSedaXml()
 			throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
 
-		SEDALibProgressLogger spl = new SEDALibProgressLogger(createLogger(Level.FINEST));
-
 		// do import of test directory
 		DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-				"src/test/resources/PacketSamples/SampleWithLinksModelV2", spl);
+				"src/test/resources/PacketSamples/SampleWithLinksModelV2", null);
 		di.addIgnorePattern("Thumbs.db");
 		di.addIgnorePattern("pagefile.sys");
 
@@ -90,14 +71,14 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
 		// flat
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2);
-		di.getArchiveTransfer().toSedaXml(xmlWriter, false, spl);
+		di.getArchiveTransfer().toSedaXml(xmlWriter, false, null);
 		xmlWriter.close();
 		String generatedFlatManifest = baos.toString().replaceAll("<LastModified>.*</LastModified>\n", "");
 
 		// hierarchical
 		baos.reset();
 		xmlWriter = new SEDAXMLStreamWriter(baos, 2);
-		di.getArchiveTransfer().toSedaXml(xmlWriter, true, spl);
+		di.getArchiveTransfer().toSedaXml(xmlWriter, true, null);
 		xmlWriter.close();
 		String generatedHierarchicalManifest = baos.toString().replaceAll("<LastModified>.*</LastModified>\n", "");
 

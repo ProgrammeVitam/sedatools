@@ -81,7 +81,7 @@ STP_PERSONAL_CERTIFICATE_CHECK=Vérification du certificat personnel
 STP_PERSONAL_CERTIFICATE_CHECK.KO=Échec de la vérification du certificat personnel
 
 #Les clefs suivantes seront modifiées dans des versions ultérieures
-#un seul eventType avec avec des outcomeDetail différents
+#un seul eventType avec avec des OutcomeDetail différents
 #Les différentes clefs présentent les différents cas de KO possibles
 #sur la meme tache CHECK_SEDA (multi KO et non multi traitement)
 

@@ -1,38 +1,38 @@
 /**
  * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- *
+ * <p>
  * contact.vitam@programmevitam.fr
- * 
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives 
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high 
+ * <p>
+ * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
+ * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
  * volumetry securely and efficiently.
- *
+ * <p>
  * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
  * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
  * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- *
+ * <p>
  * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
  * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
  * successive licensors have only limited liability.
- *
+ * <p>
  * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
  * developing or reproducing the software by the user in light of its specific status of free software, that may mean
  * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
  * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
  * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
  * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- *
+ * <p>
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
 package fr.gouv.vitam.tools.sedalib.core;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSetter;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * The Class DataObjectPackageIdElement.
@@ -44,95 +44,95 @@ import com.fasterxml.jackson.annotation.JsonSetter;
  */
 public class DataObjectPackageIdElement extends DataObjectPackageElement {
 
-	/** The id in DataObjectPackage. */
-	protected String inDataPackageObjectId;
-	
-	/** The on disk path. */
-	protected Path onDiskPath;
+    /** The id in DataObjectPackage. */
+    protected String inDataPackageObjectId;
 
-	/**
-	 * Instantiates a new DataObjectPackage id element.
-	 */
-	public DataObjectPackageIdElement() {
-		this(null);
-	}
+    /** The on disk path. */
+    protected Path onDiskPath;
 
-	/**
-	 * Instantiates a new DataObjectPackage id element.
-	 *
-	 * @param dataObjectPackage the DataObjectPackage
-	 */
-	public DataObjectPackageIdElement(DataObjectPackage dataObjectPackage) {
-		super(dataObjectPackage);
-		inDataPackageObjectId = null;
-	}
+    /**
+     * Instantiates a new DataObjectPackage id element.
+     */
+    public DataObjectPackageIdElement() {
+        this(null);
+    }
 
-	/**
-	 * Gets the inDataPackageObjectId.
-	 *
-	 * @return the inDataPackageObjectId
-	 */
-	public String getInDataObjectPackageId() {
-		return inDataPackageObjectId;
-	}
+    /**
+     * Instantiates a new DataObjectPackage id element.
+     *
+     * @param dataObjectPackage the DataObjectPackage
+     */
+    public DataObjectPackageIdElement(DataObjectPackage dataObjectPackage) {
+        super(dataObjectPackage);
+        inDataPackageObjectId = null;
+    }
 
-	/**
-	 * Sets the inDataPackageObjectId.
-	 *
-	 * @param inDataObjectPackageId the new inDataPackageObjectId
-	 */
-	public void setInDataObjectPackageId(String inDataObjectPackageId) {
-		this.inDataPackageObjectId = inDataObjectPackageId;
-	}
+    /**
+     * Gets the inDataPackageObjectId.
+     *
+     * @return the inDataPackageObjectId
+     */
+    public String getInDataObjectPackageId() {
+        return inDataPackageObjectId;
+    }
 
-	/**
-	 * Gets the disk path where the DataObjectPackageIdElement is described or null.
-	 *
-	 * @return the disk path
-	 */
-	@JsonIgnore
-	public Path getOnDiskPath() {
-		return onDiskPath;
-	}
+    /**
+     * Sets the inDataPackageObjectId.
+     *
+     * @param inDataObjectPackageId the new inDataPackageObjectId
+     */
+    public void setInDataObjectPackageId(String inDataObjectPackageId) {
+        this.inDataPackageObjectId = inDataObjectPackageId;
+    }
 
-	/**
-	 * Sets the disk Path where the DataObjectPackageIdElement is described.
-	 *
-	 * @param onDiskPath the new on disk path
-	 */
-	@JsonIgnore
-	public void setOnDiskPath(Path onDiskPath) {
-		if (onDiskPath == null)
-			this.onDiskPath = null;
-		else
-			this.onDiskPath = onDiskPath.toAbsolutePath().normalize();
-	}
+    /**
+     * Gets the disk path where the DataObjectPackageIdElement is described or null.
+     *
+     * @return the disk path
+     */
+    @JsonIgnore
+    public Path getOnDiskPath() {
+        return onDiskPath;
+    }
 
-	/**
-	 * Gets the onDiskPath to string.
-	 *
-	 * @return the onDiskPath in String form
-	 */
-	@JsonGetter("onDiskPath")
-	public String getOnDiskPathToString() {
-		if (onDiskPath == null)
-			return null;
-		else
-			return onDiskPath.toString();
-	}
+    /**
+     * Sets the disk Path where the DataObjectPackageIdElement is described.
+     *
+     * @param onDiskPath the new on disk path
+     */
+    @JsonIgnore
+    public void setOnDiskPath(Path onDiskPath) {
+        if (onDiskPath == null)
+            this.onDiskPath = null;
+        else
+            this.onDiskPath = onDiskPath.toAbsolutePath().normalize();
+    }
 
-	/**
-	 * Sets the onDiskPath from string.
-	 *
-	 * @param onDiskPathString the new onDiskPath in String form
-	 */
-	@JsonSetter("onDiskPath")
-	public void setOnDiskPathFromString(String onDiskPathString) {
-		if (onDiskPathString == null)
-			this.onDiskPath = null;
-		else
-			this.onDiskPath = Paths.get(onDiskPathString).toAbsolutePath().normalize();
-	}
+    /**
+     * Gets the onDiskPath to string.
+     *
+     * @return the onDiskPath in String form
+     */
+    @JsonGetter("onDiskPath")
+    public String getOnDiskPathToString() {
+        if (onDiskPath == null)
+            return null;
+        else
+            return onDiskPath.toString();
+    }
+
+    /**
+     * Sets the onDiskPath from string.
+     *
+     * @param onDiskPathString the new onDiskPath in String form
+     */
+    @JsonSetter("onDiskPath")
+    public void setOnDiskPathFromString(String onDiskPathString) {
+        if (onDiskPathString == null)
+            this.onDiskPath = null;
+        else
+            this.onDiskPath = Paths.get(onDiskPathString).toAbsolutePath().normalize();
+    }
 
 
 }
