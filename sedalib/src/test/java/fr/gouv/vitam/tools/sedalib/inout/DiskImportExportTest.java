@@ -103,9 +103,9 @@ public class DiskImportExportTest implements UseTestFiles {
                 "    \"dataObjectGroupId\" : null,\n" +
                 "    \"dataObjectVersion\" : \"TextContent_1\",\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : \"d3f3481e1c633b3dc87661b44798777f0c0ce7af74da2a21d7f2428626d0d6fa44aad0293fc63571079df7a6d4fb7fdcf5315f3ccea8d5374b94b2222348a146\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"size\" : 3557,\n" +
+                "    \"messageDigest\":\"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
+                "    \"messageDigestAlgorithm\":\"SHA-512\",\n" +
+                "    \"size\":3307,\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
                 "      \"formatLitteral\" : \"Plain Text File\",\n" +

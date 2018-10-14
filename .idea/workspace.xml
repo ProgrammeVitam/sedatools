@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Fix dual xmlData / SEDAMetadata format in ArchiveUnit">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" afterPath="$PROJECT_DIR$/.gitattributes" afterDir="false" />
+    <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Try to fix git line-ending on samples">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/sedalib/target/" />
@@ -39,17 +45,17 @@
         <counts>
           <entry key="gitattributes" value="14" />
           <entry key="gitignore" value="34" />
-          <entry key="java" value="1966" />
+          <entry key="java" value="1975" />
           <entry key="md" value="9" />
           <entry key="rst" value="408" />
-          <entry key="txt" value="91" />
+          <entry key="txt" value="137" />
           <entry key="xml" value="138" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="1966" />
-          <entry key="PLAIN_TEXT" value="556" />
+          <entry key="JAVA" value="1975" />
+          <entry key="PLAIN_TEXT" value="602" />
           <entry key="XML" value="138" />
         </counts>
       </usages-collector>
@@ -182,10 +188,10 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitattributes">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
+            <state relative-caret-position="453">
               <caret line="41" column="2" selection-start-line="41" selection-end-line="41" selection-end-column="22" />
             </state>
           </provider>
@@ -209,11 +215,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4539">
-              <caret line="293" selection-start-line="293" selection-end-line="293" />
+            <state relative-caret-position="262">
+              <caret line="107" column="21" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -358,11 +364,11 @@
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/SIPBuilder.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/DataObjectPackageToDiskExporter.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnit.java" />
         <option value="$PROJECT_DIR$/sedalib-samples/src/main/java/fr/gouv/vitam/tools/sedalibsamples/Sample3.java" />
         <option value="$PROJECT_DIR$/AUTHORS.md" />
         <option value="$PROJECT_DIR$/.gitattributes" />
+        <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java" />
       </list>
     </option>
   </component>
@@ -472,6 +478,14 @@
             <path>
               <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
               <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
               <item name="sedalib-samples" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -561,7 +575,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.App">
+  <component name="RunManager" selected="JUnit.DiskImportExportTest.TestDiskImportWithoutLink">
     <configuration name="App" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="fr.gouv.vitam.tools.sedalibsamples.App" />
       <module name="sedalibsamples" />
@@ -598,20 +612,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BinaryDataObjectTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="sedalib" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="fr.gouv.vitam.tools.sedalib.core.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="fr.gouv.vitam.tools.sedalib.core" />
-      <option name="MAIN_CLASS_NAME" value="fr.gouv.vitam.tools.sedalib.core.BinaryDataObjectTest" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DiskImportExportTest.TestDiskImportExport" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="sedalib" />
       <extension name="coverage">
@@ -623,6 +623,22 @@
       <option name="PACKAGE_NAME" value="fr.gouv.vitam.tools.sedalib.inout" />
       <option name="MAIN_CLASS_NAME" value="fr.gouv.vitam.tools.sedalib.inout.DiskImportExportTest" />
       <option name="METHOD_NAME" value="TestDiskImportExport" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="DiskImportExportTest.TestDiskImportWithoutLink" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="sedalib" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="fr.gouv.vitam.tools.sedalib.inout.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="fr.gouv.vitam.tools.sedalib.inout" />
+      <option name="MAIN_CLASS_NAME" value="fr.gouv.vitam.tools.sedalib.inout.DiskImportExportTest" />
+      <option name="METHOD_NAME" value="TestDiskImportWithoutLink" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -645,17 +661,17 @@
     <list>
       <item itemvalue="Application.App" />
       <item itemvalue="JUnit.All in sedalib" />
-      <item itemvalue="JUnit.BinaryDataObjectTest" />
       <item itemvalue="JUnit.PhysicalDataObjectTest" />
       <item itemvalue="JUnit.DiskImportExportTest.TestDiskImportExport" />
+      <item itemvalue="JUnit.DiskImportExportTest.TestDiskImportWithoutLink" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.App" />
+        <item itemvalue="JUnit.DiskImportExportTest.TestDiskImportWithoutLink" />
         <item itemvalue="JUnit.All in sedalib" />
+        <item itemvalue="Application.App" />
         <item itemvalue="JUnit.DiskImportExportTest.TestDiskImportExport" />
         <item itemvalue="Application.App" />
-        <item itemvalue="JUnit.PhysicalDataObjectTest" />
       </list>
     </recent_temporary>
   </component>
@@ -719,16 +735,17 @@
       <option name="project" value="LOCAL" />
       <updated>1539555708921</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Try to fix git line-ending on samples">
+      <created>1539557187503</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1539557187503</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="All_in_sedalib - 2018.10.14 at 19h 25m 32s.xml">
-      <configuration name="All in sedalib" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="All_in_sedalib - 2018.10.14 at 21h 29m 35s.xml">
-      <configuration name="All in sedalib" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="All_in_sedalib - 2018.10.14 at 21h 58m 51s.xml">
       <configuration name="All in sedalib" configurationId="JUnit" />
     </history-entry>
@@ -753,6 +770,12 @@
     <history-entry file="All_in_sedalib - 2018.10.14 at 23h 55m 11s.xml">
       <configuration name="All in sedalib" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="All_in_sedalib - 2018.10.15 at 00h 50m 40s.xml">
+      <configuration name="All in sedalib" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DiskImportExportTest_TestDiskImportWithoutLink - 2018.10.15 at 00h 51m 43s.xml">
+      <configuration name="DiskImportExportTest.TestDiskImportWithoutLink" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TodoView" selected-index="4">
     <todo-panel id="selected-file">
@@ -767,7 +790,7 @@
     <frame x="249" y="26" width="1400" height="1000" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3216418" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3216418" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -783,10 +806,10 @@
       <window_info anchor="bottom" id="TODO" order="5" weight="0.32917964" />
       <window_info anchor="bottom" id="Terminal" order="6" weight="0.32917964" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.3290461" />
+      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32871974" />
       <window_info anchor="bottom" id="Messages" order="9" weight="0.32756633" />
       <window_info anchor="bottom" id="Inspection Results" order="10" weight="0.3290461" />
-      <window_info anchor="bottom" id="Run" order="11" weight="0.32756633" />
+      <window_info active="true" anchor="bottom" id="Run" order="11" visible="true" weight="0.32756633" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -851,7 +874,8 @@
     <MESSAGE value="Metadata test cleaning and doing so discovered bug fixing" />
     <MESSAGE value="Major cleaning&#10;&#10;- Refactor ProgressLogger to distinct from debug logger (and ensure that if ProgressLogger null simply no log is performed without nullPointerException)&#10;- Clean and improve some tests&#10;- General code style cleaning" />
     <MESSAGE value="Fix dual xmlData / SEDAMetadata format in ArchiveUnit" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix dual xmlData / SEDAMetadata format in ArchiveUnit" />
+    <MESSAGE value="Try to fix git line-ending on samples" />
+    <option name="LAST_COMMIT_MESSAGE" value="Try to fix git line-ending on samples" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1189,13 +1213,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4539">
-          <caret line="293" selection-start-line="293" selection-end-line="293" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToArchiveTransferImporter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2839">
@@ -1219,8 +1236,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitattributes">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="697">
+        <state relative-caret-position="453">
           <caret line="41" column="2" selection-start-line="41" selection-end-line="41" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/DiskImportExportTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="107" column="21" selection-start-line="107" selection-start-column="21" selection-end-line="107" selection-end-column="21" />
         </state>
       </provider>
     </entry>
