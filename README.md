@@ -20,8 +20,8 @@ Les modules contiennent:
 Build
 =====
 
-    mkdir test
-    cd test
+    mkdir test-sedatools
+    cd test-sedatools
     git clone https://github.com/digital-preservation/droid.git
     cd droid/
     mvn install
