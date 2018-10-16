@@ -33,8 +33,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -53,6 +54,9 @@ import com.ctc.wstx.api.WstxInputProperties;
 import com.ctc.wstx.api.WstxOutputProperties;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+
+import static java.time.format.DateTimeFormatter.ISO_DATE;
+import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 
 /**
  * The Class SEDAXMLEventReader.
@@ -94,12 +98,6 @@ public class SEDAXMLEventReader implements AutoCloseable {
 
 	/** The xml reader. */
 	public XMLEventReader xmlReader;
-
-	/** The SimpleDateFormat for XML formatted date. */
-	public final SimpleDateFormat dayTimeSdf;
-
-	/** The SimpleDateFormat for XML formatted only day date. */
-	public final SimpleDateFormat daySdf;
 
 	/**
 	 * Gets the named element.
@@ -207,8 +205,6 @@ public class SEDAXMLEventReader implements AutoCloseable {
 				}
 			throw new SEDALibException("Impossible d'ouvrir un flux de lecture XML (" + e.getMessage() + ")");
 		}
-		this.dayTimeSdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		this.daySdf = new SimpleDateFormat("yyyy-MM-dd");
 	}
 
 	/*
@@ -222,15 +218,27 @@ public class SEDAXMLEventReader implements AutoCloseable {
 	}
 
 	/**
-	 * Get the date from XML format "yyyy-MM-dd'T'HH:mm:ss"
+	 * Get the date and time from XML format "yyyy-MM-dd'T'HH:mm:sszone-offset"
+	 *
+	 * @param datetimeString contains XML formated date of the given date
+	 * @return the date and time
+	 * @throws ParseException if not a well formed date and time
+	 */
+
+	public static LocalDateTime getDateTimeFromString(String datetimeString) throws ParseException {
+		return LocalDateTime.parse(datetimeString,ISO_DATE_TIME);
+	}
+
+	/**
+	 * Get the date from XML format "yyyy-MM-ddzone-offset"
 	 *
 	 * @param dateString contains XML formated date of the given date
-	 * @return a date the date
+	 * @return the date and time
 	 * @throws ParseException if not a well formed date
 	 */
 
-	public Date getDateFromString(String dateString) throws ParseException {
-		return dayTimeSdf.parse(dateString);
+	public static LocalDate getDateFromString(String dateString) throws ParseException {
+		return LocalDate.parse(dateString,ISO_DATE);
 	}
 
 	/**
@@ -418,15 +426,15 @@ public class SEDAXMLEventReader implements AutoCloseable {
 	 * Next Date value if named.
 	 *
 	 * @param tag the tag
-	 * @return the value Date for the "tag" element, or null if next element is not
+	 * @return the value LocalDateTime for the "tag" element, or null if next element is not
 	 *         the "tag" element
 	 * @throws XMLStreamException the XML stream exception
 	 * @throws SEDALibException   if "tag" element is badly formed
 	 */
-	public Date nextDateValueIfNamed(String tag) throws XMLStreamException, SEDALibException {
+	public LocalDateTime nextDateValueIfNamed(String tag) throws XMLStreamException, SEDALibException {
 		XMLEvent event;
 		String tmp = null;
-		Date result = null;
+		LocalDateTime result = null;
 
 		if (nextBlockIfNamed(tag)) {
 			event = nextUsefullEvent();
@@ -437,7 +445,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
 			if (!event.isEndElement() || !event.asEndElement().getName().getLocalPart().equals(tag) || (tmp == null))
 				throw new SEDALibException("Elément date " + tag + " mal formé");
 			try {
-				result = getDateFromString(tmp);
+				result = getDateTimeFromString(tmp);
 			} catch (ParseException e) {
 				throw new SEDALibException("Valeur non interprétable [" + tmp + "] dans l'élément date " + tag);
 			}

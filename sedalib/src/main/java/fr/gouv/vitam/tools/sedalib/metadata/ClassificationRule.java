@@ -28,9 +28,9 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
@@ -50,13 +50,11 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
  */
 public class ClassificationRule extends SEDAMetadata {
 
-    static SimpleDateFormat daySdf = new SimpleDateFormat("yyyy-MM-dd");
-
     /** The rules. */
     private List<String> rules;
 
     /** The start dates. */
-    private List<Date> startDates;
+    private List<LocalDate> startDates;
 
     /** The prevent inheritance. */
     private Boolean preventInheritance;
@@ -71,7 +69,7 @@ public class ClassificationRule extends SEDAMetadata {
     private String classificationOwner;
 
     /** The classification reassessing date. */
-    private Date classificationReassessingDate;
+    private LocalDate classificationReassessingDate;
 
     /** The need reassessing authorization flag. */
     private Boolean needReassessingAuthorization;
@@ -81,7 +79,7 @@ public class ClassificationRule extends SEDAMetadata {
      */
     public ClassificationRule() {
         this.rules = new ArrayList<String>();
-        this.startDates = new ArrayList<Date>();
+        this.startDates = new ArrayList<LocalDate>();
         this.preventInheritance = null;
         this.refNonRuleIds = new ArrayList<String>();
         this.classificationLevel = null;
@@ -144,7 +142,7 @@ public class ClassificationRule extends SEDAMetadata {
      * @param rule      the rule
      * @param startDate the start date
      */
-    public void addRule(String rule, Date startDate) {
+    public void addRule(String rule, LocalDate startDate) {
         rules.add(rule);
         startDates.add(startDate);
     }
@@ -190,7 +188,7 @@ public class ClassificationRule extends SEDAMetadata {
      *
      * @param classificationReassessingDate the new classification reassessing date
      */
-    public void setClassificationReassessingDate(Date classificationReassessingDate) {
+    public void setClassificationReassessingDate(LocalDate classificationReassessingDate) {
         this.classificationReassessingDate = classificationReassessingDate;
     }
 
@@ -216,7 +214,7 @@ public class ClassificationRule extends SEDAMetadata {
             for (int i = 0; i < rules.size(); i++) {
                 xmlWriter.writeElementValue("Rule", rules.get(i));
                 if (startDates.get(i) != null)
-                    xmlWriter.writeElementValue("StartDate", daySdf.format(startDates.get(i)));
+                    xmlWriter.writeElementValue("StartDate", SEDAXMLStreamWriter.getStringFromDate(startDates.get(i)));
             }
             if (preventInheritance != null)
                 xmlWriter.writeElementValue("PreventInheritance", preventInheritance.toString());
@@ -226,7 +224,7 @@ public class ClassificationRule extends SEDAMetadata {
             xmlWriter.writeElementValueIfNotEmpty("ClassificationOwner", classificationOwner);
             if (classificationReassessingDate != null)
                 xmlWriter.writeElementValue("ClassificationReassessingDate",
-                        daySdf.format(classificationReassessingDate));
+                        SEDAXMLStreamWriter.getStringFromDate(classificationReassessingDate));
             if (needReassessingAuthorization != null)
                 xmlWriter.writeElementValueIfNotEmpty("NeedReassessingAuthorization",
                         needReassessingAuthorization.toString());
@@ -246,7 +244,7 @@ public class ClassificationRule extends SEDAMetadata {
     public static ClassificationRule fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         ClassificationRule cr = null;
         String tmp, tmpDate;
-        Date startDate;
+        LocalDate startDate;
         try {
             if (xmlReader.nextBlockIfNamed("ClassificationRule")) {
                 cr = new ClassificationRule();
@@ -256,7 +254,7 @@ public class ClassificationRule extends SEDAMetadata {
                     if (tmpDate == null)
                         startDate = null;
                     else try {
-                        startDate = daySdf.parse(tmpDate);
+                        startDate = SEDAXMLEventReader.getDateFromString(tmpDate);
                     } catch (ParseException e) {
                         throw new SEDALibException("La date d'une règle est mal formatée");
                     }
@@ -274,7 +272,7 @@ public class ClassificationRule extends SEDAMetadata {
                 tmpDate = xmlReader.nextValueIfNamed("ClassificationReassessingDate");
                 if (tmpDate != null)
                     try {
-                        cr.classificationReassessingDate = daySdf.parse(tmpDate);
+                        cr.classificationReassessingDate = SEDAXMLEventReader.getDateFromString(tmpDate);
                     } catch (ParseException e) {
                         throw new SEDALibException("La date ClassificationReassessingDate est mal formatée");
                     }

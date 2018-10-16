@@ -31,8 +31,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -47,6 +47,9 @@ import org.codehaus.stax2.XMLOutputFactory2;
 import com.ctc.wstx.api.WstxOutputProperties;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+
+import static java.time.format.DateTimeFormatter.ISO_DATE;
+import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 
 /**
  * The Class SEDAXMLStreamWriter.
@@ -107,12 +110,6 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 	/** The id counter. */
 	private int idCounter;
 
-	/** The SimpleDateFormat for XML formatted date. */
-	final public SimpleDateFormat dayTimeSdf;
-
-	/** The SimpleDateFormat for XML formatted only day date. */
-	final public SimpleDateFormat daySdf;
-
 	// constructors
 
 	/**
@@ -155,8 +152,6 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 		this.firstLineFlag = true;
 
 		this.idCounter = 1;
-		this.dayTimeSdf = new SimpleDateFormat(dayTimePattern);
-		this.daySdf = new SimpleDateFormat("yyyy-MM-dd");
 	}
 
 	/**
@@ -266,20 +261,37 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 	}
 
 	/**
-	 * Get the date in XML format "yyyy-MM-dd'T'HH:mm:ss".
+	 * Get the date and time in XML format "yyyy-MM-dd'T'HH:mm:sszone-offset".
+	 *
+	 * @param dateTime the date and time
+	 * @return a String which contains XML formated date and time of the given date and time
+	 */
+
+	public static String getStringFromDateTime(LocalDateTime dateTime) {
+		LocalDateTime d;
+		if (dateTime == null) {
+			d = LocalDateTime.now();
+		} else {
+			d = dateTime;
+		}
+		return d.format(ISO_DATE_TIME);
+	}
+
+	/**
+	 * Get the date in XML format "yyyy-MM-ddzone-offset".
 	 *
 	 * @param date the date
 	 * @return a String which contains XML formated date of the given date
 	 */
 
-	public String getStringFromDate(Date date) {
-		Date d;
+	public static String getStringFromDate(LocalDate date) {
+		LocalDate d;
 		if (date == null) {
-			d = new Date();
+			d = LocalDate.now();
 		} else {
 			d = date;
 		}
-		return dayTimeSdf.format(d);
+		return d.format(ISO_DATE);
 	}
 
 	/**

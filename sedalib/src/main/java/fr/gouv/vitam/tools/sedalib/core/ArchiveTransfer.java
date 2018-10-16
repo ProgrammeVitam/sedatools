@@ -35,7 +35,6 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
-import java.util.logging.Level;
 
 /**
  * The Class ArchiveTransfer
@@ -116,7 +115,7 @@ public class ArchiveTransfer {
         try {
             xmlWriter.writeElementValueIfNotEmpty("Comment", globalMetadata.comment);
             if (globalMetadata.isNowFlag())
-                globalMetadata.date = xmlWriter.getStringFromDate(null);
+                globalMetadata.date = xmlWriter.getStringFromDateTime(null);
             xmlWriter.writeElementValueIfNotEmpty("Date", globalMetadata.date);
             xmlWriter.writeElementValueIfNotEmpty("MessageIdentifier", globalMetadata.messageIdentifier);
             xmlWriter.writeElementValueIfNotEmpty("ArchivalAgreement", globalMetadata.archivalAgreement);

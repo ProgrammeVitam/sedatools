@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Properties;
 import java.util.Scanner;
@@ -20,11 +21,10 @@ import fr.gouv.vitam.tools.sedalib.metadata.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonType;
 import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import org.slf4j.LoggerFactory;
 
 public class Sample3plus {
-
-    static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     static private String stripFileName(String fileName) {
         String tmp = fileName.substring(fileName.indexOf("-") + 1);
@@ -50,11 +50,11 @@ public class Sample3plus {
                 String line = scanner.nextLine();
                 StringTokenizer st = new StringTokenizer(line, ";");
                 String id = st.nextToken();
-                Date registeredDate = sdf.parse(st.nextToken());
+                LocalDateTime registeredDate = SEDAXMLEventReader.getDateTimeFromString(st.nextToken());
                 String requirerId = st.nextToken();
                 String birthname = st.nextToken();
                 String firstname = st.nextToken();
-                Date resultDate = sdf.parse(st.nextToken());
+                LocalDateTime resultDate = SEDAXMLEventReader.getDateTimeFromString(st.nextToken());
                 String result = st.nextToken();
                 procId = "Cerfa-1244771-" + id;
 
@@ -77,7 +77,7 @@ public class Sample3plus {
                 sb.setContent(procId, content);
                 Management management = sb.getManagement(procId);
                 AppraisalRule appraisalRule = new AppraisalRule();
-                appraisalRule.addRule("APP-1069001", resultDate);
+                appraisalRule.addRule("APP-1069001", resultDate.toLocalDate());
                 appraisalRule.setFinalAction("Destroy");
                 management.addMetadata(appraisalRule);
                 sb.setManagement(procId, management);

@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 class ManagementMetadataTest {
 
@@ -26,9 +27,9 @@ class ManagementMetadataTest {
         mm.addNewMetadata("SubmissionAgencyIdentifier", "TestSubmissionAgencyIdentifier");
 
         // Test RuleType metadata
-        mm.addNewMetadata("AccessRule", "TestAccRule1)", new Date(0));
+        mm.addNewMetadata("AccessRule", "TestAccRule1)",LocalDate.of(1970,1,1));
         AppraisalRule appraisalRule = new AppraisalRule();
-        appraisalRule.addRule("TestAppRule1", new Date(0));
+        appraisalRule.addRule("TestAppRule1", LocalDate.of(1970,1,1));
         appraisalRule.setPreventInheritance(true);
         appraisalRule.addRule("TestAppRule2");
         appraisalRule.addRefNonRuleId("TestAppRule3");

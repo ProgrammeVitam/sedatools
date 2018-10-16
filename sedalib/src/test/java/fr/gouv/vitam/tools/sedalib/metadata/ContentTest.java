@@ -10,6 +10,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 class ContentTest {
@@ -50,7 +51,7 @@ class ContentTest {
 
         // Test Event metadata
         Event event=new Event();
-        event.addNewMetadata("EventDateTime",new Date(0));
+        event.addNewMetadata("EventDateTime",LocalDateTime.of(1970,1,1,1,0));
         event.addNewMetadata("Outcome","OK");
         c.addMetadata(event);
 

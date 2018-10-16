@@ -28,6 +28,8 @@
 
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class AccessRule extends RuleType {
 	 * @param rule        the rule
 	 * @param startDate   the start date
 	 */
-	public AccessRule(String rule, Date startDate) {
+	public AccessRule(String rule, LocalDate startDate) {
 		super("AccessRule",rule,startDate);
 	}
 

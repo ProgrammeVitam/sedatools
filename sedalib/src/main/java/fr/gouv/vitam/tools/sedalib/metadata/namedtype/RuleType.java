@@ -28,6 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +51,7 @@ public abstract class RuleType extends NamedTypeMetadata {
     private List<String> rules;
 
     /** The start dates. */
-    private List<Date> startDates;
+    private List<LocalDate> startDates;
 
     /** The prevent inheritance. */
     private Boolean preventInheritance;
@@ -75,7 +77,7 @@ public abstract class RuleType extends NamedTypeMetadata {
     public RuleType(String elementName) {
         super(elementName);
         rules = new ArrayList<String>();
-        startDates = new ArrayList<Date>();
+        startDates = new ArrayList<LocalDate>();
         preventInheritance = null;
         refNonRuleIds = new ArrayList<String>();
     }
@@ -87,7 +89,7 @@ public abstract class RuleType extends NamedTypeMetadata {
      * @param rule        the rule
      * @param startDate   the start date
      */
-    public RuleType(String elementName, String rule, Date startDate) {
+    public RuleType(String elementName, String rule, LocalDate startDate) {
         this(elementName);
         rules.add(rule);
         startDates.add(startDate);
@@ -103,7 +105,7 @@ public abstract class RuleType extends NamedTypeMetadata {
      * @throws SEDALibException if the FinalAction field or value is not expected in
      *                          this kind of rule
      */
-    public RuleType(String elementName, String rule, Date startDate, String finalAction) throws SEDALibException {
+    public RuleType(String elementName, String rule, LocalDate startDate, String finalAction) throws SEDALibException {
         this(elementName);
         rules.add(rule);
         startDates.add(startDate);
@@ -119,13 +121,13 @@ public abstract class RuleType extends NamedTypeMetadata {
      */
     public RuleType(String elementName, Object[] args) throws SEDALibException {
         this(elementName);
-        if ((args.length == 2) && (args[0] instanceof String) && (args[1] instanceof Date)) {
+        if ((args.length == 2) && (args[0] instanceof String) && (args[1] instanceof LocalDate)) {
             rules.add((String) args[0]);
-            startDates.add((Date) args[1]);
-        } else if ((args.length == 3) && (args[0] instanceof String) && (args[1] instanceof Date)
+            startDates.add((LocalDate) args[1]);
+        } else if ((args.length == 3) && (args[0] instanceof String) && (args[1] instanceof LocalDate)
                 && (args[2] instanceof String)) {
             rules.add((String) args[0]);
-            startDates.add((Date) args[1]);
+            startDates.add((LocalDate) args[1]);
             setFinalAction((String) args[2]);
         } else
             throw new SEDALibException("Mauvais constructeur de l'élément [" + elementName + "]");
@@ -147,7 +149,7 @@ public abstract class RuleType extends NamedTypeMetadata {
      * @param rule      the rule
      * @param startDate the start date
      */
-    public void addRule(String rule, Date startDate) {
+    public void addRule(String rule, LocalDate startDate) {
         rules.add(rule);
         startDates.add(startDate);
     }
@@ -200,7 +202,7 @@ public abstract class RuleType extends NamedTypeMetadata {
             for (int i = 0; i < rules.size(); i++) {
                 xmlWriter.writeElementValue("Rule", rules.get(i));
                 if (startDates.get(i) != null)
-                    xmlWriter.writeElementValue("StartDate", xmlWriter.daySdf.format(startDates.get(i)));
+                    xmlWriter.writeElementValue("StartDate", xmlWriter.getStringFromDate(startDates.get(i)));
             }
             if (preventInheritance != null)
                 xmlWriter.writeElementValue("PreventInheritance", preventInheritance.toString());
@@ -226,7 +228,7 @@ public abstract class RuleType extends NamedTypeMetadata {
     public static RuleType fromSedaXmlInObject(SEDAXMLEventReader xmlReader, RuleType ruleType)
             throws SEDALibException {
         String tmp, tmpDate;
-        Date startDate;
+        LocalDate startDate;
         try {
             if (xmlReader.nextBlockIfNamed(ruleType.elementName)) {
                 tmp = xmlReader.nextValueIfNamed("Rule");
@@ -235,7 +237,7 @@ public abstract class RuleType extends NamedTypeMetadata {
                     if (tmpDate == null)
                         startDate = null;
                     else try {
-                        startDate = xmlReader.daySdf.parse(tmpDate);
+                        startDate = xmlReader.getDateFromString(tmpDate);
                     } catch (ParseException e) {
                         throw new SEDALibException("La date est mal formatée");
                     }

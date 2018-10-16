@@ -28,6 +28,8 @@
 
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -35,6 +37,7 @@ import java.util.List;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import org.apache.tools.ant.taskdefs.Local;
 
 /**
  * The Class AppraisalRule.
@@ -69,7 +72,7 @@ public class AppraisalRule extends RuleType {
 	 * @param rule        the rule
 	 * @param startDate   the start date
 	 */
-	public AppraisalRule(String rule, Date startDate) {
+	public AppraisalRule(String rule, LocalDate startDate) {
 		super("AppraisalRule", rule, startDate);
 	}
 
@@ -82,7 +85,7 @@ public class AppraisalRule extends RuleType {
 	 * @throws SEDALibException if the FinalAction field or value is not expected in
 	 *                          this kind of rule
 	 */
-	public AppraisalRule(String rule, Date startDate, String finalAction) throws SEDALibException {
+	public AppraisalRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
 		super("AppraisalRule", rule, startDate, finalAction);
 	}
 

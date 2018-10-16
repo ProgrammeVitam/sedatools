@@ -2,7 +2,8 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -19,11 +20,11 @@ class ManagementTest {
 		// When loaded with all different kind of metadata
 
 		// Test StorageRule and RuleType subclass newmetadata
-		m.addNewMetadata("StorageRule","TestStoRule1",new Date(0),"Transfer");
+		m.addNewMetadata("StorageRule","TestStoRule1",LocalDate.of(1970,1,1),"Transfer");
 
 		// Test AppraisalRule and RuleType subclass metadata add
 		AppraisalRule appraisalRule = new AppraisalRule();
-		appraisalRule.addRule("TestAppRule1", new Date(0));
+		appraisalRule.addRule("TestAppRule1", LocalDate.of(1970,1,1));
 		appraisalRule.setPreventInheritance(true);
 		appraisalRule.addRule("TestAppRule2");
 		appraisalRule.addRefNonRuleId("TestAppRule3");
@@ -32,7 +33,7 @@ class ManagementTest {
 
 		// Test AccessRule and RuleType subclass metadata add
 		AccessRule accessRule = new AccessRule();
-		accessRule.addRule("TestAccRule1", new Date(0));
+		accessRule.addRule("TestAccRule1", LocalDate.of(1970,1,1));
 		accessRule.setPreventInheritance(true);
 		accessRule.addRule("TestAccRule2");
 		accessRule.addRefNonRuleId("TestAccRule3");
@@ -40,7 +41,7 @@ class ManagementTest {
 
 		// Test DisseminationRule and RuleType subclass metadata add
 		DisseminationRule disseminationRule = new DisseminationRule();
-		disseminationRule.addRule("TestDisRule1", new Date(0));
+		disseminationRule.addRule("TestDisRule1", LocalDate.of(1970,1,1));
 		disseminationRule.setPreventInheritance(true);
 		disseminationRule.addRule("TestDisRule2");
 		disseminationRule.addRefNonRuleId("TestDisRule3");
@@ -48,7 +49,7 @@ class ManagementTest {
 
 		// Test ReuseRule and RuleType subclass metadata add
 		ReuseRule reuseRule = new ReuseRule();
-		reuseRule.addRule("TestReuRule1", new Date(0));
+		reuseRule.addRule("TestReuRule1", LocalDate.of(1970,1,1));
 		reuseRule.setPreventInheritance(true);
 		reuseRule.addRule("TestReuRule2");
 		reuseRule.addRefNonRuleId("TestReuRule3");
@@ -56,13 +57,13 @@ class ManagementTest {
 
 		// Test ClassificationRule and RuleType subclass metadata add
 		ClassificationRule classificationRule = new ClassificationRule();
-		classificationRule.addRule("TestRule1", new Date(0));
+		classificationRule.addRule("TestRule1", LocalDate.of(1970,1,1));
 		classificationRule.setPreventInheritance(true);
 		classificationRule.addRule("TestRule2");
 		classificationRule.addRefNonRuleId("TestRule3");
 		classificationRule.setClassificationLevel("TestCD");
 		classificationRule.setClassificationOwner("TestOwner");
-		classificationRule.setClassificationReassessingDate(new Date(0));
+		classificationRule.setClassificationReassessingDate(LocalDate.of(1970,1,1));
 		classificationRule.setNeedReassessingAuthorization(true);
 		m.addMetadata(classificationRule);
 

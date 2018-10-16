@@ -27,8 +27,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
@@ -69,7 +69,7 @@ public class StorageRule extends RuleType {
 	 * @param rule      the rule
 	 * @param startDate the start date
 	 */
-	public StorageRule(String rule, Date startDate) {
+	public StorageRule(String rule, LocalDate startDate) {
 		super("StorageRule", rule, startDate);
 	}
 
@@ -82,7 +82,7 @@ public class StorageRule extends RuleType {
 	 * @throws SEDALibException if the FinalAction field or value is not expected in
 	 *                          this kind of rule
 	 */
-	public StorageRule(String rule, Date startDate, String finalAction) throws SEDALibException {
+	public StorageRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
 		super("StorageRule", rule, startDate, finalAction);
 	}
 

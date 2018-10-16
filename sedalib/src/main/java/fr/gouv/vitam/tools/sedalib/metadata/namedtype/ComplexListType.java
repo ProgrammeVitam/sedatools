@@ -31,7 +31,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -370,8 +369,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
                     return ((TextType)sm).getValue();
                 }
 				else if (sm instanceof DateTimeType) {
-                    SimpleDateFormat dayTimeSdf = new SimpleDateFormat(SEDAXMLStreamWriter.dayTimePattern);
-                    return dayTimeSdf.format(((DateTimeType)sm).getValue());
+                    return SEDAXMLStreamWriter.getStringFromDateTime(((DateTimeType)sm).getValue());
                 }
 			}
 		}
