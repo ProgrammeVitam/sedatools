@@ -25,6 +25,7 @@ import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -151,7 +152,7 @@ public class DiskImportExportTest implements UseTestFiles {
         String testau = "{\n" +
                 "  \"archiveUnitProfileXmlData\" : null,\n" +
                 "  \"managementXmlData\" : \"<Management>\\r\\n  <AccessRule>\\r\\n    <Rule>ACC-00002</Rule>\\r\\n    <StartDate>2015-11-19</StartDate>\\r\\n  </AccessRule>\\r\\n</Management>\",\n" +
-                "  \"contentXmlData\" : \"<Content>  <DescriptionLevel>Item</DescriptionLevel>  <Title>CSIC Tech : points remarquables PMO</Title>  <OriginatingSystemId>&lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></OriginatingSystemId>  <Writer>    <FirstName>PLANCHOT Benjamin</FirstName>    <BirthName>PLANCHOT Benjamin</BirthName>    <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>  </Writer>  <Addressee>    <FirstName>frederic.deguilhen@culture.gouv.fr</FirstName>    <BirthName>frederic.deguilhen@culture.gouv.fr</BirthName>    <Identifier>frederic.deguilhen@culture.gouv.fr</Identifier>  </Addressee>  <Addressee>    <FirstName>jean-severin.lair@culture.gouv.fr</FirstName>    <BirthName>jean-severin.lair@culture.gouv.fr</BirthName>    <Identifier>jean-severin.lair@culture.gouv.fr</Identifier>  </Addressee>  <Recipient>    <FirstName>PLANCHOT Benjamin</FirstName>    <BirthName>PLANCHOT Benjamin</BirthName>    <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>  </Recipient>  <SentDate>2016-08-30T10:14:17</SentDate>  <ReceivedDate>2016-08-30T10:14:18</ReceivedDate>  <TextContent>Bonjour,Vous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l'avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.Pour rappel :- L'objectif est de remonter l'état des activités (statut, livrable/jalon, points importants).- Les colonnes de N à V sont à mettre à jour si nécessaire (fond orange clair).Merci par avance.Bien cordialement,[http://www.modernisation.gouv.fr/sites/default/files/bloc-sgmap-2.jpg]&lt; http://www.modernisation.gouv.fr/&gt;Benjamin PLANCHOT | PMOService « performance des services numériques »Direction interministérielle du numérique et du système d'information et de communication de l'Etat01 40 15 71 50 | Tour Mirabeau - 39-43 Quai André Citroën, 75015 Paris - Bureau 4027modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent></Content>\",\n" +
+                "  \"contentXmlData\" : \"<Content>\\r\\n    <DescriptionLevel>Item</DescriptionLevel>\\r\\n    <Title>CSIC Tech : points remarquables PMO</Title>\\r\\n    <OriginatingSystemId>&lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize&gt;</OriginatingSystemId>\\r\\n    <Writer>\\r\\n        <FirstName>PLANCHOT Benjamin</FirstName>\\r\\n        <BirthName>PLANCHOT Benjamin</BirthName>\\r\\n        <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>\\r\\n    </Writer>\\r\\n    <Addressee>\\r\\n        <FirstName>frederic.deguilhen@culture.gouv.fr</FirstName>\\r\\n        <BirthName>frederic.deguilhen@culture.gouv.fr</BirthName>\\r\\n        <Identifier>frederic.deguilhen@culture.gouv.fr</Identifier>\\r\\n    </Addressee>\\r\\n    <Addressee>\\r\\n        <FirstName>jean-severin.lair@culture.gouv.fr</FirstName>\\r\\n        <BirthName>jean-severin.lair@culture.gouv.fr</BirthName>\\r\\n        <Identifier>jean-severin.lair@culture.gouv.fr</Identifier>\\r\\n    </Addressee>\\r\\n    <Recipient>\\r\\n        <FirstName>PLANCHOT Benjamin</FirstName>\\r\\n        <BirthName>PLANCHOT Benjamin</BirthName>\\r\\n        <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>\\r\\n    </Recipient>\\r\\n    <SentDate>2016-08-30T10:14:17Z</SentDate>\\r\\n    <ReceivedDate>2016-08-30T10:14:18Z</ReceivedDate>\\r\\n    <TextContent>Bonjour,\\r\\n\\r\\nVous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l&apos;avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.\\r\\n\\r\\nPour rappel :\\r\\n- L&apos;objectif est de remonter l&apos;état des activités (statut, livrable/jalon, points importants).\\r\\n- Les colonnes de N à V sont à mettre à jour si nécessaire (fond orange clair).\\r\\n\\r\\nMerci par avance.\\r\\n\\r\\nBien cordialement,\\r\\n\\r\\n\\r\\n[http://www.modernisation.gouv.fr/sites/default/files/bloc-sgmap-2.jpg]&lt; http://www.modernisation.gouv.fr/&gt;\\r\\n\\r\\nBenjamin PLANCHOT | PMO\\r\\nService « performance des services numériques »\\r\\nDirection interministérielle du numérique et du système d&apos;information et de communication de l&apos;Etat\\r\\n01 40 15 71 50 | Tour Mirabeau - 39-43 Quai André Citroën, 75015 Paris - Bureau 4027\\r\\nmodernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent>\\r\\n</Content>\",\n" +
                 "  \"childrenAuList\" : {\n" +
                 "    \"inDataObjectPackageIdList\" : [ \"ID12\", \"ID16\" ]\n" +
                 "  },\n" +
@@ -159,7 +160,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "    \"inDataObjectPackageIdList\" : [ \"ID19\" ]\n" +
                 "  },\n" +
                 "  \"inDataObjectPackageId\" : \"ID11\",\n" +
-                "  \"onDiskPath\" : \"/home/js/GitTemp/sedalib/src/test/ressources/PacketSamples/SampleWithoutLinksModelV1/Root/Node 1\"\n" +
+                "  \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\"\n" +
                 "}";
 
         Pattern pau = Pattern.compile("\"onDiskPath\" : .*Node 1\"");
@@ -174,8 +175,8 @@ public class DiskImportExportTest implements UseTestFiles {
         boolean saupath = msau.find();
         sau = TestUtilities.LineEndNormalize(sau.replaceAll("\"onDiskPath\" : .*\"", ""));
 
-        assertTrue(saupath & testaupath);
-        assertEquals(testau, sau);
+        assertThat(saupath).isEqualTo(testaupath);
+        assertThat(sau).isEqualTo(testau);
     }
 
     @Test

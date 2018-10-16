@@ -34,7 +34,9 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 /**
  * The Class StringType.
@@ -76,6 +78,17 @@ public class DateTimeType extends NamedTypeMetadata {
     }
 
     /**
+     * Instantiates a new string.
+     *
+     * @param elementName the XML element name
+     * @param dateValue       the date (no time) value
+     */
+    public DateTimeType(String elementName, LocalDate dateValue) {
+        super(elementName);
+        this.value = dateValue.atStartOfDay();
+    }
+
+    /**
      * Instantiates a new string from args.
      *
      * @param elementName the XML element name
@@ -86,6 +99,8 @@ public class DateTimeType extends NamedTypeMetadata {
         super(elementName);
         if ((args.length == 1) && (args[0] instanceof LocalDateTime))
             this.value = (LocalDateTime) args[0];
+        else if ((args.length == 1) && (args[0] instanceof LocalDate))
+            this.value = ((LocalDate) args[0]).atStartOfDay();
         else
             throw new SEDALibException("Mauvais constructeur de l'élément [" + elementName + "]");
     }
@@ -131,7 +146,7 @@ public class DateTimeType extends NamedTypeMetadata {
                 tmpDate = event.asCharacters().getData();
                 try {
                     st.value = xmlReader.getDateTimeFromString(tmpDate);
-                } catch (ParseException e) {
+                } catch (DateTimeParseException e) {
                     throw new SEDALibException("La date est mal formatée");
                 }
                 event = xmlReader.nextUsefullEvent();

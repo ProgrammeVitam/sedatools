@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -238,7 +239,7 @@ public abstract class RuleType extends NamedTypeMetadata {
                         startDate = null;
                     else try {
                         startDate = xmlReader.getDateFromString(tmpDate);
-                    } catch (ParseException e) {
+                    } catch (DateTimeParseException e) {
                         throw new SEDALibException("La date est mal formatée");
                     }
                     ruleType.addRule(tmp, startDate);

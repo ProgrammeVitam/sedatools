@@ -36,6 +36,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventReader;
@@ -222,11 +223,17 @@ public class SEDAXMLEventReader implements AutoCloseable {
 	 *
 	 * @param datetimeString contains XML formated date of the given date
 	 * @return the date and time
-	 * @throws ParseException if not a well formed date and time
+	 * @throws DateTimeParseException if not a well formed date and time
 	 */
 
-	public static LocalDateTime getDateTimeFromString(String datetimeString) throws ParseException {
-		return LocalDateTime.parse(datetimeString,ISO_DATE_TIME);
+	public static LocalDateTime getDateTimeFromString(String datetimeString) throws DateTimeParseException {
+        LocalDateTime ldt;
+        try {
+             ldt = LocalDateTime.parse(datetimeString, ISO_DATE_TIME);
+        }catch (DateTimeParseException e) {
+		    ldt=LocalDate.parse(datetimeString,ISO_DATE).atStartOfDay();
+        }
+		return ldt;
 	}
 
 	/**
@@ -234,10 +241,10 @@ public class SEDAXMLEventReader implements AutoCloseable {
 	 *
 	 * @param dateString contains XML formated date of the given date
 	 * @return the date and time
-	 * @throws ParseException if not a well formed date
+	 * @throws DateTimeParseException if not a well formed date
 	 */
 
-	public static LocalDate getDateFromString(String dateString) throws ParseException {
+	public static LocalDate getDateFromString(String dateString) throws DateTimeParseException {
 		return LocalDate.parse(dateString,ISO_DATE);
 	}
 
@@ -446,7 +453,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
 				throw new SEDALibException("Elément date " + tag + " mal formé");
 			try {
 				result = getDateTimeFromString(tmp);
-			} catch (ParseException e) {
+			} catch (DateTimeParseException e) {
 				throw new SEDALibException("Valeur non interprétable [" + tmp + "] dans l'élément date " + tag);
 			}
 		}

@@ -588,6 +588,8 @@ public class DiskToDataObjectPackageImporter {
                         modelVersion |= 1;
                         try {
                             au.setContentXmlData(new String(Files.readAllBytes(curPath), "UTF-8"));
+                            if (!au.getContentXmlData().isEmpty())
+                                auMetadataDefined = true;
                         } catch (IOException e) {
                             throw new SEDALibException("Impossible d'accéder au fichier [" + curPath.toString() + "]");
                         }
@@ -604,7 +606,8 @@ public class DiskToDataObjectPackageImporter {
                         modelVersion |= 2;
                         try {
                             au.fromSedaXmlFragments(new String(Files.readAllBytes(curPath), "UTF-8"));
-                            auMetadataDefined = true;
+                            if ((au.getContentXmlData()!=null) && !au.getContentXmlData().isEmpty())
+                                auMetadataDefined = true;
                         } catch (IOException e) {
                             throw new SEDALibException(
                                     "Impossible de lire les métadonnées de l'ArchiveUnit depuis le fichier ["
@@ -637,7 +640,7 @@ public class DiskToDataObjectPackageImporter {
                 }
 
             }
-            if ((!auMetadataDefined) && (au.getContent() == null))
+            if (!auMetadataDefined)
                 au.setDefaultContentXmlData(dirName, "RecordGrp");
         } catch (IOException e) {
             throw new SEDALibException(

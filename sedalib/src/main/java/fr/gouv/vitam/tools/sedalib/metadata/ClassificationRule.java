@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -255,7 +256,7 @@ public class ClassificationRule extends SEDAMetadata {
                         startDate = null;
                     else try {
                         startDate = SEDAXMLEventReader.getDateFromString(tmpDate);
-                    } catch (ParseException e) {
+                    } catch (DateTimeParseException e) {
                         throw new SEDALibException("La date d'une règle est mal formatée");
                     }
                     cr.addRule(tmp, startDate);
@@ -273,7 +274,7 @@ public class ClassificationRule extends SEDAMetadata {
                 if (tmpDate != null)
                     try {
                         cr.classificationReassessingDate = SEDAXMLEventReader.getDateFromString(tmpDate);
-                    } catch (ParseException e) {
+                    } catch (DateTimeParseException e) {
                         throw new SEDALibException("La date ClassificationReassessingDate est mal formatée");
                     }
                 cr.needReassessingAuthorization = xmlReader.nextBooleanValueIfNamed("NeedReassessingAuthorization");
