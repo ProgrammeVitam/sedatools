@@ -361,18 +361,20 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * @return the String formatted metadata value
      */
 	public String getSimpleMetadata(String metadataName){
+		String langText=null;
 		for (SEDAMetadata sm:metadataList){
 			if (sm.getXmlElementName().equals(metadataName)){
 				if (sm instanceof StringType)
 					return ((StringType)sm).getValue();
-                else if ((sm instanceof TextType) && (((TextType)sm).getLang()==null)) {
-                    return ((TextType)sm).getValue();
-                }
+				else if ((sm instanceof TextType) && (((TextType)sm).getLang()==null))
+					return ((TextType)sm).getValue();
+                else if ((sm instanceof TextType) && (((TextType)sm).getLang().equals("fr")))
+                        langText = ((TextType) sm).getValue();
 				else if (sm instanceof DateTimeType) {
                     return SEDAXMLStreamWriter.getStringFromDateTime(((DateTimeType)sm).getValue());
                 }
 			}
 		}
-		return null;
+		return langText;
 	}
 }
