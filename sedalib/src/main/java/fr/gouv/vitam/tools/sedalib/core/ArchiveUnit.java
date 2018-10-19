@@ -151,7 +151,6 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         if (archiveUnitProfile == null)
             return null;
         archiveUnitProfileXmlData = archiveUnitProfile.toString();
-        archiveUnitProfile = null;
         return archiveUnitProfileXmlData;
     }
 
@@ -178,7 +177,6 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
         archiveUnitProfile = (ArchiveUnitProfile) ArchiveUnitProfile.fromString(archiveUnitProfileXmlData,
                 ArchiveUnitProfile.class);
-        archiveUnitProfileXmlData = null;
         return archiveUnitProfile;
     }
 
@@ -203,7 +201,6 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         if (management == null)
             return null;
         managementXmlData = management.toString();
-        management = null;
         return managementXmlData;
     }
 
@@ -230,7 +227,6 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
         management = (Management) Management.fromString(managementXmlData,
                 Management.class);
-        managementXmlData = null;
         return management;
     }
 
@@ -255,7 +251,6 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         if (content == null)
             return null;
         contentXmlData = content.toString();
-        content = null;
         return contentXmlData;
     }
 
@@ -282,7 +277,6 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
         content = (Content) Content.fromString(contentXmlData,
                 Content.class);
-        contentXmlData = null;
         return content;
     }
 
@@ -299,13 +293,13 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
     // Methods
 
     /**
-     * Sets the Content xml element constructed with given title and description.
+     * Sets the Content xml element constructed with given title and description level.
      *
      * @param title            the ArchiveUnit title
      * @param descriptionLevel the ArchiveUnit description level
      * @throws SEDALibException if the description level is not valid in SEDA                          standard
      */
-    public void setDefaultContentXmlData(String title, String descriptionLevel) throws SEDALibException {
+    public void setDefaultContent(String title, String descriptionLevel) throws SEDALibException {
         Content c = new Content();
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
         c.addNewMetadata("Title", title);
@@ -571,9 +565,9 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
 
         if (au.getContentXmlData() == null)
             throw new SEDALibException("La partie <Content> de l'ArchiveUnit est obligatoire");
-        this.archiveUnitProfileXmlData = au.archiveUnitProfileXmlData;
-        this.managementXmlData = au.managementXmlData;
-        this.contentXmlData = au.contentXmlData;
+       setArchiveUnitProfileXmlData(au.getArchiveUnitProfileXmlData());
+       setManagementXmlData(au.getManagementXmlData());
+       setContentXmlData(au.getContentXmlData());
     }
 
     // Getters and setters

@@ -27,6 +27,7 @@
     <modules>
         <module>sedalib</module>
         <module>sedalib-samples</module>
+        <module>resip</module>
     </modules>
 
 </project>

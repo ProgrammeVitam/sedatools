@@ -40,7 +40,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -641,7 +640,7 @@ public class DiskToDataObjectPackageImporter {
 
             }
             if (!auMetadataDefined)
-                au.setDefaultContentXmlData(dirName, "RecordGrp");
+                au.setDefaultContent(dirName, "RecordGrp");
         } catch (IOException e) {
             throw new SEDALibException(
                     "Impossible de parcourir le répertoire [" + path.toString() + "]->" + e.getMessage());
@@ -691,7 +690,7 @@ public class DiskToDataObjectPackageImporter {
         bdo = new BinaryDataObject(dataObjectPackage, path, null, "BinaryMaster_1");
         au = new ArchiveUnit(dataObjectPackage);
         au.setOnDiskPath(path);
-        au.setDefaultContentXmlData(path.getFileName().toString(), "Item");
+        au.setDefaultContent(path.getFileName().toString(), "Item");
 
         auPathStringMap.put(au.getOnDiskPath().toString(), au);
         dogPathStringMap.put(dog.getOnDiskPath().toString(), dog);
