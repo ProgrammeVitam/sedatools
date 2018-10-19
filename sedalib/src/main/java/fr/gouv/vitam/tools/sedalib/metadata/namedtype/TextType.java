@@ -105,24 +105,6 @@ public class TextType extends NamedTypeMetadata {
 			throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
 	}
 
-	/**
-	 * Get the lang
-	 *
-	 * @return the lang
-	 */
-	public String getLang() {
-		return lang;
-	}
-
-	/**
-	 * Get the value
-	 *
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -173,4 +155,44 @@ public class TextType extends NamedTypeMetadata {
 		}
 		return tt;
 	}
+
+	// Getters and setters
+
+	/**
+	 * Get the lang
+	 *
+	 * @return the lang
+	 */
+	public String getLang() {
+		return lang;
+	}
+
+	/**
+	 * Get the value
+	 *
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * Sets value.
+	 *
+	 * @param value the value
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	/**
+	 * Sets lang.
+	 *
+	 * @param lang the lang
+	 */
+	public void setLang(String lang) {
+		this.lang = lang;
+	}
+
+
 }

@@ -42,7 +42,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
  * <p>
  * A management ArchiveUnit metadata.
  * <p>
- * Standard quote: "Gestion de la communicabilité"
+ * Standard quote: "Gestion de la diffusion"
  */
 public class DisseminationRule extends RuleType {
 

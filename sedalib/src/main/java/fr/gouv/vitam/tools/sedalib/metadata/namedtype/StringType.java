@@ -86,15 +86,6 @@ public class StringType extends NamedTypeMetadata {
 			throw new SEDALibException("Mauvais constructeur de l'élément [" + elementName + "]");
 	}
 
-	/**
-	 * Get the value
-	 *
-	 * @return the value
-	 */
-	public String getValue() {
-		return value;
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -138,5 +129,25 @@ public class StringType extends NamedTypeMetadata {
 			throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType\n->" + e.getMessage());
 		}
 		return st;
+	}
+
+	// Getters and setters
+
+	/**
+	 * Get the value
+	 *
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * Sets value.
+	 *
+	 * @param value the value
+	 */
+	public void setValue(String value) {
+		this.value = value;
 	}
 }

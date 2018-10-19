@@ -51,7 +51,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 	/**
 	 * The Class MetadataItem.
 	 */
-	protected class MetadataKind {
+	public class MetadataKind {
 
 		/** The c. */
 		public Class<?> metadataClass;

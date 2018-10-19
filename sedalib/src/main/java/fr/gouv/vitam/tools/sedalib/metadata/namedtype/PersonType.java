@@ -87,12 +87,12 @@ public class PersonType extends ComplexListType {
     /**
      * The metadata ordered list.
      */
-    static protected List<String> metadataOrderedList;
+    static public List<String> metadataOrderedList;
 
     /**
      * The metadata map.
      */
-    static protected HashMap<String, MetadataKind> metadataMap;
+    public static HashMap<String, MetadataKind> metadataMap;
 
     /**
      * Instantiates a new person type.

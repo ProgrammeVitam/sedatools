@@ -124,4 +124,24 @@ public class GenericXMLBlockType extends NamedTypeMetadata {
 		}
 		return xbt;
 	}
+
+	// Getters and setters
+
+	/**
+	 * Gets raw xml.
+	 *
+	 * @return the raw xml
+	 */
+	public String getRawXml() {
+		return rawXml;
+	}
+
+	/**
+	 * Sets raw xml.
+	 *
+	 * @param rawXml the raw xml
+	 */
+	public void setRawXml(String rawXml) {
+		this.rawXml = rawXml;
+	}
 }

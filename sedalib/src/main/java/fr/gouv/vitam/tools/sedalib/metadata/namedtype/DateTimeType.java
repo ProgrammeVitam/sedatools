@@ -160,6 +160,8 @@ public class DateTimeType extends NamedTypeMetadata {
         return st;
     }
 
+    // Getters and setters
+    
     /**
      * Get the value
      *
@@ -168,4 +170,15 @@ public class DateTimeType extends NamedTypeMetadata {
     public LocalDateTime getValue() {
          return value;
     }
+
+    /**
+     * Sets value.
+     *
+     * @param value the value
+     */
+    public void setValue(LocalDateTime value) {
+        this.value = value;
+    }
+
+
 }

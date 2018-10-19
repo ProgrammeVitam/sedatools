@@ -246,4 +246,152 @@ public class SchemeType extends NamedTypeMetadata {
         }
         return schemeType;
     }
+
+    // Getters and setters
+
+    /**
+     * Gets value.
+     *
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * Sets value.
+     *
+     * @param value the value
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    /**
+     * Gets scheme agency id.
+     *
+     * @return the scheme agency id
+     */
+    public String getSchemeAgencyID() {
+        return schemeAgencyID;
+    }
+
+    /**
+     * Sets scheme agency id.
+     *
+     * @param schemeAgencyID the scheme agency id
+     */
+    public void setSchemeAgencyID(String schemeAgencyID) {
+        this.schemeAgencyID = schemeAgencyID;
+    }
+
+    /**
+     * Gets scheme agency name.
+     *
+     * @return the scheme agency name
+     */
+    public String getSchemeAgencyName() {
+        return schemeAgencyName;
+    }
+
+    /**
+     * Sets scheme agency name.
+     *
+     * @param schemeAgencyName the scheme agency name
+     */
+    public void setSchemeAgencyName(String schemeAgencyName) {
+        this.schemeAgencyName = schemeAgencyName;
+    }
+
+    /**
+     * Gets scheme data uri.
+     *
+     * @return the scheme data uri
+     */
+    public String getSchemeDataURI() {
+        return schemeDataURI;
+    }
+
+    /**
+     * Sets scheme data uri.
+     *
+     * @param schemeDataURI the scheme data uri
+     */
+    public void setSchemeDataURI(String schemeDataURI) {
+        this.schemeDataURI = schemeDataURI;
+    }
+
+    /**
+     * Gets scheme id.
+     *
+     * @return the scheme id
+     */
+    public String getSchemeID() {
+        return schemeID;
+    }
+
+    /**
+     * Sets scheme id.
+     *
+     * @param schemeID the scheme id
+     */
+    public void setSchemeID(String schemeID) {
+        this.schemeID = schemeID;
+    }
+
+    /**
+     * Gets scheme name.
+     *
+     * @return the scheme name
+     */
+    public String getSchemeName() {
+        return schemeName;
+    }
+
+    /**
+     * Sets scheme name.
+     *
+     * @param schemeName the scheme name
+     */
+    public void setSchemeName(String schemeName) {
+        this.schemeName = schemeName;
+    }
+
+    /**
+     * Gets scheme uri.
+     *
+     * @return the scheme uri
+     */
+    public String getSchemeURI() {
+        return schemeURI;
+    }
+
+    /**
+     * Sets scheme uri.
+     *
+     * @param schemeURI the scheme uri
+     */
+    public void setSchemeURI(String schemeURI) {
+        this.schemeURI = schemeURI;
+    }
+
+    /**
+     * Gets scheme version id.
+     *
+     * @return the scheme version id
+     */
+    public String getSchemeVersionID() {
+        return schemeVersionID;
+    }
+
+    /**
+     * Sets scheme version id.
+     *
+     * @param schemeVersionID the scheme version id
+     */
+    public void setSchemeVersionID(String schemeVersionID) {
+        this.schemeVersionID = schemeVersionID;
+    }
+
+
 }

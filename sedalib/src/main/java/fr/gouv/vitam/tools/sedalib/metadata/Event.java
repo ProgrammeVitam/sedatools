@@ -79,10 +79,10 @@ public class Event extends ComplexListType {
 	}
 
 	/** The metadata ordered list. */
-	static protected List<String> metadataOrderedList;
+	public static List<String> metadataOrderedList;
 
 	/** The metadata map. */
-	static protected HashMap<String, MetadataKind> metadataMap;
+	public static HashMap<String, MetadataKind> metadataMap;
 
 	@Override
 	public List<String> getMetadataOrderedList() {
