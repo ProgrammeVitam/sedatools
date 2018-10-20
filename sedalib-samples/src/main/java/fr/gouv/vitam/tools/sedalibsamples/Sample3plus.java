@@ -19,7 +19,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.Management;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonOrEntityType;
 import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import org.slf4j.LoggerFactory;
@@ -69,7 +69,7 @@ public class Sample3plus {
                 event.addNewMetadata("EventDateTime", resultDate);
                 event.addNewMetadata("Outcome", result);
                 content.addMetadata(event);
-                PersonType requirer = new PersonType("Requirer");
+                PersonOrEntityType requirer = new PersonOrEntityType("Requirer");
                 requirer.addNewMetadata("Identifier", requirerId);
                 requirer.addNewMetadata("FirstName", firstname);
                 requirer.addNewMetadata("BirthName", birthname);

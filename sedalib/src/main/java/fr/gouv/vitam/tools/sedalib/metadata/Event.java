@@ -140,9 +140,4 @@ public class Event extends ComplexListType {
 			initMetadataMap();
 		return metadataMap;
 	}
-
-	@Override
-	public boolean isNotExpendable() {
-		return true;
-	}
 }

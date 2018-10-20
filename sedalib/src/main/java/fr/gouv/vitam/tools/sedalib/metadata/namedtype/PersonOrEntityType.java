@@ -39,11 +39,11 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 /**
- * The Class PersonType.
+ * The Class PersonOrEntityType.
  * <p>
  * For abstract person type SEDA metadata
  */
-public class PersonType extends ComplexListType {
+public class PersonOrEntityType extends ComplexListType {
 
     /** Init the metadata possibilities. */ {
         initMetadataOrderedList();
@@ -65,7 +65,7 @@ public class PersonType extends ComplexListType {
      *
      * @param elementName the element name
      */
-    public PersonType(String elementName) {
+    public PersonOrEntityType(String elementName) {
         super(elementName);
     }
 
@@ -76,7 +76,7 @@ public class PersonType extends ComplexListType {
      * @param firstName   the first name
      * @param birthName   the birth name
      */
-    public PersonType(String elementName, String firstName, String birthName) {
+    public PersonOrEntityType(String elementName, String firstName, String birthName) {
         super(elementName);
         try {
             addNewMetadata("FirstName", firstName);
@@ -93,7 +93,7 @@ public class PersonType extends ComplexListType {
      * @param birthName   the birth name
      * @param identifier  the identifier
      */
-    public PersonType(String elementName, String firstName, String birthName, String identifier) {
+    public PersonOrEntityType(String elementName, String firstName, String birthName, String identifier) {
         super(elementName);
         try {
             addNewMetadata("FirstName", firstName);
@@ -110,7 +110,7 @@ public class PersonType extends ComplexListType {
      * @param args        the generic args for NameTypeMetadata construction
      * @throws SEDALibException if args are not suitable for constructor
      */
-    public PersonType(String elementName, Object[] args) throws SEDALibException {
+    public PersonOrEntityType(String elementName, Object[] args) throws SEDALibException {
         super(elementName);
         if ((args.length == 2) && (args[0] instanceof String) && (args[1] instanceof String)) {
             addNewMetadata("FirstName", (String) args[0]);
@@ -124,21 +124,21 @@ public class PersonType extends ComplexListType {
     }
 
     /**
-     * Import the PersonType in XML expected form for the SEDA Manifest.
+     * Import the PersonOrEntityType in XML expected form for the SEDA Manifest.
      *
      * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read PersonType
+     * @return the read PersonOrEntityType
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not                          respected
      */
-    public static PersonType fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
+    public static PersonOrEntityType fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         XMLEvent event;
         try {
             event = xmlReader.peekUsefullEvent();
-            PersonType personType = new PersonType(event.asStartElement().getName().getLocalPart());
+            PersonOrEntityType personType = new PersonOrEntityType(event.asStartElement().getName().getLocalPart());
             fromSedaXmlInObject(xmlReader, personType);
             return personType;
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type PersonType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type PersonOrEntityType\n->" + e.getMessage());
         }
     }
 

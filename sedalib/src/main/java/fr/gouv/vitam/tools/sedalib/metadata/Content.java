@@ -165,12 +165,12 @@ public class Content extends ComplexListType {
         metadataMap.put("SubmissionAgency",
                 new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
         // can't implement AgentAbstract (abstract in middle of th list...)
-        metadataMap.put("AuthorizedAgent", new ComplexListType.MetadataKind(PersonType.class, true));
-        metadataMap.put("Writer", new ComplexListType.MetadataKind(PersonType.class, true));
-        metadataMap.put("Addressee", new ComplexListType.MetadataKind(PersonType.class, true));
-        metadataMap.put("Recipient", new ComplexListType.MetadataKind(PersonType.class, true));
-        metadataMap.put("Transmitter", new ComplexListType.MetadataKind(PersonType.class, true));
-        metadataMap.put("Sender", new ComplexListType.MetadataKind(PersonType.class, true));
+        metadataMap.put("AuthorizedAgent", new ComplexListType.MetadataKind(PersonOrEntityType.class, true));
+        metadataMap.put("Writer", new ComplexListType.MetadataKind(PersonOrEntityType.class, true));
+        metadataMap.put("Addressee", new ComplexListType.MetadataKind(PersonOrEntityType.class, true));
+        metadataMap.put("Recipient", new ComplexListType.MetadataKind(PersonOrEntityType.class, true));
+        metadataMap.put("Transmitter", new ComplexListType.MetadataKind(PersonOrEntityType.class, true));
+        metadataMap.put("Sender", new ComplexListType.MetadataKind(PersonOrEntityType.class, true));
         metadataMap.put("Source", new ComplexListType.MetadataKind(StringType.class, false));
         metadataMap.put("RelatedObjectReference",
                 new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
