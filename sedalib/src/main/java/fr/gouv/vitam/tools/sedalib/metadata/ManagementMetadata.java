@@ -50,62 +50,17 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
  */
 public class ManagementMetadata extends ComplexListType {
 
-	{
-		metadataOrderedList = new ArrayList<String>();
-		metadataOrderedList.add("ArchivalProfile");
-		metadataOrderedList.add("ServiceLevel");
-		metadataOrderedList.add("AcquisitionInformation");
-		metadataOrderedList.add("LegalStatus");
-		metadataOrderedList.add("OriginatingAgencyIdentifier");
-		metadataOrderedList.add("SubmissionAgencyIdentifier");
-		metadataOrderedList.add("StorageRule");
-		metadataOrderedList.add("AppraisalRule");
-		metadataOrderedList.add("AccessRule");
-		metadataOrderedList.add("DisseminationRule");
-		metadataOrderedList.add("ReuseRule");
-		metadataOrderedList.add("ClassificationRule");
-		metadataOrderedList.add("LogBook");
-		metadataOrderedList.add("NeedAuthorization");
+    /** Init the metadata possibilities. */
+    {
+        initMetadataOrderedList();
+        initMetadataMap();
+    }
 
-		metadataMap = new HashMap<String, ComplexListType.MetadataKind>();
-		metadataMap.put("ArchivalProfile",
-				new ComplexListType.MetadataKind(SchemeType.class, false));
-		metadataMap.put("ServiceLevel", new ComplexListType.MetadataKind(SchemeType.class, false));
-		metadataMap.put("AcquisitionInformation",
-				new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("LegalStatus", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("OriginatingAgencyIdentifier",
-				new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("SubmissionAgencyIdentifier",
-				new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("StorageRule", new ComplexListType.MetadataKind(StorageRule.class, false));
-		metadataMap.put("AppraisalRule", new ComplexListType.MetadataKind(AppraisalRule.class, false));
-		metadataMap.put("AccessRule", new ComplexListType.MetadataKind(AccessRule.class, false));
-		metadataMap.put("DisseminationRule",
-				new ComplexListType.MetadataKind(DisseminationRule.class, false));
-		metadataMap.put("ReuseRule", new ComplexListType.MetadataKind(ReuseRule.class, false));
-		metadataMap.put("ClassificationRule",
-				new ComplexListType.MetadataKind(ClassificationRule.class, false));
-		metadataMap.put("LogBook", new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
-		metadataMap.put("NeedAuthorization",
-				new ComplexListType.MetadataKind(StringType.class, false));
-	}
+    /** The metadata ordered list. */
+    protected static List<String> metadataOrderedList;
 
-	/** The metadata ordered list. */
-	static protected List<String> metadataOrderedList;
-	
 	/** The metadata map. */
-	static protected HashMap<String, MetadataKind> metadataMap;
-
-	@Override
-	public List<String> getMetadataOrderedList() {
-		return metadataOrderedList;
-	}
-
-	@Override
-	public HashMap<String, MetadataKind> getMetadataMap() {
-		return metadataMap;
-	}
+    protected static HashMap<String, MetadataKind> metadataMap;
 
 	/**
 	 * Instantiates a new Management.
@@ -127,4 +82,71 @@ public class ManagementMetadata extends ComplexListType {
 		managementMetadata = (ManagementMetadata) fromSedaXmlInObject(xmlReader, managementMetadata);
 		return managementMetadata;
 	}
+
+    // Init
+
+    /**
+     * Init metadata ordered list.
+     */
+    protected void initMetadataOrderedList() {
+			metadataOrderedList = new ArrayList<String>();
+			metadataOrderedList.add("ArchivalProfile");
+			metadataOrderedList.add("ServiceLevel");
+			metadataOrderedList.add("AcquisitionInformation");
+			metadataOrderedList.add("LegalStatus");
+			metadataOrderedList.add("OriginatingAgencyIdentifier");
+			metadataOrderedList.add("SubmissionAgencyIdentifier");
+			metadataOrderedList.add("StorageRule");
+			metadataOrderedList.add("AppraisalRule");
+			metadataOrderedList.add("AccessRule");
+			metadataOrderedList.add("DisseminationRule");
+			metadataOrderedList.add("ReuseRule");
+			metadataOrderedList.add("ClassificationRule");
+			metadataOrderedList.add("LogBook");
+			metadataOrderedList.add("NeedAuthorization");
+	}
+
+    /**
+     * Init metadata map.
+     */
+    protected void initMetadataMap() {
+			metadataMap = new HashMap<String, ComplexListType.MetadataKind>();
+			metadataMap.put("ArchivalProfile",
+					new ComplexListType.MetadataKind(SchemeType.class, false));
+			metadataMap.put("ServiceLevel", new ComplexListType.MetadataKind(SchemeType.class, false));
+			metadataMap.put("AcquisitionInformation",
+					new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("LegalStatus", new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("OriginatingAgencyIdentifier",
+					new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("SubmissionAgencyIdentifier",
+					new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("StorageRule", new ComplexListType.MetadataKind(StorageRule.class, false));
+			metadataMap.put("AppraisalRule", new ComplexListType.MetadataKind(AppraisalRule.class, false));
+			metadataMap.put("AccessRule", new ComplexListType.MetadataKind(AccessRule.class, false));
+			metadataMap.put("DisseminationRule",
+					new ComplexListType.MetadataKind(DisseminationRule.class, false));
+			metadataMap.put("ReuseRule", new ComplexListType.MetadataKind(ReuseRule.class, false));
+			metadataMap.put("ClassificationRule",
+					new ComplexListType.MetadataKind(ClassificationRule.class, false));
+			metadataMap.put("LogBook", new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
+			metadataMap.put("NeedAuthorization",
+					new ComplexListType.MetadataKind(StringType.class, false));
+	}
+
+    // Getters and setters
+
+    @Override
+    public List<String> getMetadataOrderedList() {
+        if (metadataOrderedList == null)
+            initMetadataOrderedList();
+        return metadataOrderedList;
+    }
+
+    @Override
+    public HashMap<String, MetadataKind> getMetadataMap() {
+        if (metadataMap == null)
+            initMetadataMap();
+        return metadataMap;
+    }
 }

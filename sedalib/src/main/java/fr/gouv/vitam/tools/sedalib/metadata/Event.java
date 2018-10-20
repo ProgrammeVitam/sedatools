@@ -51,53 +51,17 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
  */
 public class Event extends ComplexListType {
 
+	/** Init the metadata possibilities. */
 	{
-		metadataOrderedList = new ArrayList<String>();
-		metadataOrderedList.add("EventIdentifier");
-		metadataOrderedList.add("EventTypeCode");
-		metadataOrderedList.add("EventType");
-		metadataOrderedList.add("EventDateTime");
-		metadataOrderedList.add("EventDetail");
-		metadataOrderedList.add("Outcome");
-		metadataOrderedList.add("OutcomeDetail");
-		metadataOrderedList.add("OutcomeDetailMessage");
-		metadataOrderedList.add("EventDetailData");
-
-		metadataMap = new HashMap<String, ComplexListType.MetadataKind>();
-		metadataMap.put("EventIdentifier",
-				new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("EventTypeCode", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("EventType", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("EventDateTime", new ComplexListType.MetadataKind(DateTimeType.class, false));
-		metadataMap.put("EventDetail", new ComplexListType.MetadataKind(TextType.class, true));
-		metadataMap.put("Outcome", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("OutcomeDetail", new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("OutcomeDetailMessage",
-				new ComplexListType.MetadataKind(StringType.class, false));
-		metadataMap.put("EventDetailData",
-				new ComplexListType.MetadataKind(StringType.class, false));
+		initMetadataOrderedList();
+		initMetadataMap();
 	}
 
 	/** The metadata ordered list. */
-	public static List<String> metadataOrderedList;
+	protected static List<String> metadataOrderedList;
 
 	/** The metadata map. */
-	public static HashMap<String, MetadataKind> metadataMap;
-
-	@Override
-	public List<String> getMetadataOrderedList() {
-		return metadataOrderedList;
-	}
-
-	@Override
-	public HashMap<String, MetadataKind> getMetadataMap() {
-		return metadataMap;
-	}
-
-	@Override
-	public boolean isNotExpendable() {
-		return true;
-	}
+	protected static HashMap<String, MetadataKind> metadataMap;
 
 	/**
 	 * Instantiates a new Content.
@@ -118,5 +82,67 @@ public class Event extends ComplexListType {
 		Event event = new Event();
 		event = (Event) fromSedaXmlInObject(xmlReader, event);
 		return event;
+	}
+
+	// Init
+
+	/**
+	 * Init metadata ordered list.
+	 */
+	protected void initMetadataOrderedList() {
+		if (metadataOrderedList == null) {
+			metadataOrderedList = new ArrayList<String>();
+			metadataOrderedList.add("EventIdentifier");
+			metadataOrderedList.add("EventTypeCode");
+			metadataOrderedList.add("EventType");
+			metadataOrderedList.add("EventDateTime");
+			metadataOrderedList.add("EventDetail");
+			metadataOrderedList.add("Outcome");
+			metadataOrderedList.add("OutcomeDetail");
+			metadataOrderedList.add("OutcomeDetailMessage");
+			metadataOrderedList.add("EventDetailData");
+		}
+	}
+
+	/**
+	 * Init metadata map.
+	 */
+	protected void initMetadataMap() {
+		if (metadataMap == null) {
+			metadataMap = new HashMap<String, ComplexListType.MetadataKind>();
+			metadataMap.put("EventIdentifier",
+					new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("EventTypeCode", new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("EventType", new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("EventDateTime", new ComplexListType.MetadataKind(DateTimeType.class, false));
+			metadataMap.put("EventDetail", new ComplexListType.MetadataKind(TextType.class, true));
+			metadataMap.put("Outcome", new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("OutcomeDetail", new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("OutcomeDetailMessage",
+					new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("EventDetailData",
+					new ComplexListType.MetadataKind(StringType.class, false));
+		}
+	}
+
+	// Getters and setters
+
+	@Override
+	public List<String> getMetadataOrderedList() {
+		if (metadataOrderedList == null)
+			initMetadataOrderedList();
+		return metadataOrderedList;
+	}
+
+	@Override
+	public HashMap<String, MetadataKind> getMetadataMap() {
+		if (metadataMap == null)
+			initMetadataMap();
+		return metadataMap;
+	}
+
+	@Override
+	public boolean isNotExpendable() {
+		return true;
 	}
 }

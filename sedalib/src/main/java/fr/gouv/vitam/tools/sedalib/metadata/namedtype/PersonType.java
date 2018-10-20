@@ -34,6 +34,7 @@ import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
+import fr.gouv.vitam.tools.sedalib.metadata.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
@@ -44,55 +45,20 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
  */
 public class PersonType extends ComplexListType {
 
-    {
-        metadataOrderedList = new ArrayList<String>();
-        metadataOrderedList.add("FirstName");
-        metadataOrderedList.add("BirthName");
-        metadataOrderedList.add("FullName");
-        metadataOrderedList.add("GivenName");
-        metadataOrderedList.add("Gender");
-        metadataOrderedList.add("BirthDate");
-        metadataOrderedList.add("BirthPlace");
-        metadataOrderedList.add("DeathDate");
-        metadataOrderedList.add("DeathPlace");
-        metadataOrderedList.add("Nationality");
-        metadataOrderedList.add("Corpname");
-        metadataOrderedList.add("Identifier");
-        metadataOrderedList.add("Function");
-        metadataOrderedList.add("Activity");
-        metadataOrderedList.add("Position");
-        metadataOrderedList.add("Role");
-        metadataOrderedList.add("Mandate");
-
-        metadataMap = new HashMap<String, ComplexListType.MetadataKind>();
-        metadataMap.put("FirstName", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("BirthName", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("FullName", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("GivenName", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("Gender", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("BirthDate", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("BirthPlace", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("DeathDate", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("DeathPlace", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("Nationality", new ComplexListType.MetadataKind(StringType.class, true));
-        metadataMap.put("Corpname", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("Identifier", new ComplexListType.MetadataKind(StringType.class, true));
-        metadataMap.put("Function", new ComplexListType.MetadataKind(TextType.class, true));
-        metadataMap.put("Activity", new ComplexListType.MetadataKind(TextType.class, true));
-        metadataMap.put("Position", new ComplexListType.MetadataKind(TextType.class, true));
-        metadataMap.put("Role", new ComplexListType.MetadataKind(TextType.class, true));
-        metadataMap.put("Mandate", new ComplexListType.MetadataKind(TextType.class, true));
+    /** Init the metadata possibilities. */ {
+        initMetadataOrderedList();
+        initMetadataMap();
     }
 
     /**
      * The metadata ordered list.
      */
-    static public List<String> metadataOrderedList;
+    protected static List<String> metadataOrderedList;
 
     /**
      * The metadata map.
      */
-    public static HashMap<String, MetadataKind> metadataMap;
+    protected static HashMap<String, MetadataKind> metadataMap;
 
     /**
      * Instantiates a new person type.
@@ -157,21 +123,6 @@ public class PersonType extends ComplexListType {
             throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
     }
 
-    @Override
-    public List<String> getMetadataOrderedList() {
-        return metadataOrderedList;
-    }
-
-    @Override
-    public HashMap<String, MetadataKind> getMetadataMap() {
-        return metadataMap;
-    }
-
-    @Override
-    public boolean isNotExpendable() {
-        return true;
-    }
-
     /**
      * Import the PersonType in XML expected form for the SEDA Manifest.
      *
@@ -189,5 +140,76 @@ public class PersonType extends ComplexListType {
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type PersonType\n->" + e.getMessage());
         }
+    }
+
+    // Init
+
+    /**
+     * Init metadata ordered list.
+     */
+    protected void initMetadataOrderedList() {
+        metadataOrderedList = new ArrayList<String>();
+        metadataOrderedList.add("FirstName");
+        metadataOrderedList.add("BirthName");
+        metadataOrderedList.add("FullName");
+        metadataOrderedList.add("GivenName");
+        metadataOrderedList.add("Gender");
+        metadataOrderedList.add("BirthDate");
+        metadataOrderedList.add("BirthPlace");
+        metadataOrderedList.add("DeathDate");
+        metadataOrderedList.add("DeathPlace");
+        metadataOrderedList.add("Nationality");
+        metadataOrderedList.add("Corpname");
+        metadataOrderedList.add("Identifier");
+        metadataOrderedList.add("Function");
+        metadataOrderedList.add("Activity");
+        metadataOrderedList.add("Position");
+        metadataOrderedList.add("Role");
+        metadataOrderedList.add("Mandate");
+    }
+
+    /**
+     * Init metadata map.
+     */
+    protected void initMetadataMap() {
+        metadataMap = new HashMap<String, ComplexListType.MetadataKind>();
+        metadataMap.put("FirstName", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("BirthName", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("FullName", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("GivenName", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("Gender", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("BirthDate", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("BirthPlace", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("DeathDate", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("DeathPlace", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("Nationality", new ComplexListType.MetadataKind(StringType.class, true));
+        metadataMap.put("Corpname", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("Identifier", new ComplexListType.MetadataKind(StringType.class, true));
+        metadataMap.put("Function", new ComplexListType.MetadataKind(TextType.class, true));
+        metadataMap.put("Activity", new ComplexListType.MetadataKind(TextType.class, true));
+        metadataMap.put("Position", new ComplexListType.MetadataKind(TextType.class, true));
+        metadataMap.put("Role", new ComplexListType.MetadataKind(TextType.class, true));
+        metadataMap.put("Mandate", new ComplexListType.MetadataKind(TextType.class, true));
+    }
+
+    // Getters and setters
+
+    @Override
+    public List<String> getMetadataOrderedList() {
+        if (metadataOrderedList == null)
+            initMetadataOrderedList();
+        return metadataOrderedList;
+    }
+
+    @Override
+    public HashMap<String, MetadataKind> getMetadataMap() {
+        if (metadataMap == null)
+            initMetadataMap();
+        return metadataMap;
+    }
+
+    @Override
+    public boolean isNotExpendable() {
+        return true;
     }
 }
