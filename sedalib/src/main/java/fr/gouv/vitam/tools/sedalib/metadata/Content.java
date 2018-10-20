@@ -183,7 +183,7 @@ public class Content extends ComplexListType {
         metadataMap.put("StartDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
         metadataMap.put("EndDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
         metadataMap.put("Event", new ComplexListType.MetadataKind(Event.class, true));
-        metadataMap.put("Signature", new ComplexListType.MetadataKind(GenericXMLBlockType.class, true));
+        metadataMap.put("Signature", new ComplexListType.MetadataKind(Signature.class, true));
         metadataMap.put("Gps", new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
     }
 

@@ -25,25 +25,32 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateTimeType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
-
-import fr.gouv.vitam.tools.sedalib.metadata.*;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
-
 /**
- * The Class PersonOrEntityType.
+ * The Class Signer.
  * <p>
- * For abstract person type SEDA metadata
+ * Class for Signer metadata.
+ * <p>
+ * Part of Signature ArchiveUnit metadata.
+ * <p>
+ * Standard quote: "Signataire(s) de la transaction ou de l'objet"
  */
-public class PersonOrEntityType extends ComplexListType {
+public class Signer extends ComplexListType {
 
     /** Init the metadata possibilities. */ {
         initMetadataOrderedList();
@@ -61,82 +68,87 @@ public class PersonOrEntityType extends ComplexListType {
     protected static HashMap<String, MetadataKind> metadataMap;
 
     /**
-     * Instantiates a new person type.
-     *
-     * @param elementName the element name
+     * Instantiates a new signer type.
      */
-    public PersonOrEntityType(String elementName) {
-        super(elementName);
+    public Signer() {
+        super("Signer");
     }
 
     /**
-     * Instantiates a new person type with firstname and birthname.
+     * Instantiates a new signer type with firstname, birthname and signing time.
      *
      * @param elementName the element name
      * @param firstName   the first name
      * @param birthName   the birth name
+     * @param signingTime the signing time
      */
-    public PersonOrEntityType(String elementName, String firstName, String birthName) {
+    public Signer(String elementName, String firstName, String birthName, LocalDateTime signingTime) {
         super(elementName);
         try {
             addNewMetadata("FirstName", firstName);
             addNewMetadata("BirthName", birthName);
+            addNewMetadata("SigningTime", signingTime);
         } catch (SEDALibException ignored) {
         }
     }
 
     /**
-     * Instantiates a new person type with firstname, birthname and identifier.
+     * Instantiates a new signer type with firstname, birthname, identifier and signing time.
      *
      * @param elementName the element name
      * @param firstName   the first name
      * @param birthName   the birth name
      * @param identifier  the identifier
      */
-    public PersonOrEntityType(String elementName, String firstName, String birthName, String identifier) {
+    public Signer(String elementName, String firstName, String birthName, String identifier, LocalDateTime signingTime) {
         super(elementName);
         try {
             addNewMetadata("FirstName", firstName);
             addNewMetadata("BirthName", birthName);
             addNewMetadata("Identifier", identifier);
+            addNewMetadata("SigningTime", signingTime);
         } catch (SEDALibException ignored) {
         }
     }
 
     /**
-     * Instantiates a new person type from args.
+     * Instantiates a new signer type from args.
      *
      * @param elementName the XML element name
      * @param args        the generic args for NameTypeMetadata construction
      * @throws SEDALibException if args are not suitable for constructor
      */
-    public PersonOrEntityType(String elementName, Object[] args) throws SEDALibException {
+    public Signer(String elementName, Object[] args) throws SEDALibException {
         super(elementName);
-        if ((args.length == 2) && (args[0] instanceof String) && (args[1] instanceof String)) {
+        if ((args.length == 3) && (args[0] instanceof String) && (args[1] instanceof String)
+                && (args[2] instanceof LocalDateTime)) {
             addNewMetadata("FirstName", (String) args[0]);
             addNewMetadata("BirthName", (String) args[1]);
-        } else if ((args.length == 3) && (args[0] instanceof String) && (args[1] instanceof String) && (args[2] instanceof String)) {
+            addNewMetadata("SigningTime", (String) args[2]);
+        } else if ((args.length == 4) && (args[0] instanceof String) && (args[1] instanceof String)
+                && (args[2] instanceof String) && (args[3] instanceof LocalDateTime)) {
             addNewMetadata("FirstName", (String) args[0]);
             addNewMetadata("BirthName", (String) args[1]);
             addNewMetadata("Identifier", (String) args[2]);
+            addNewMetadata("SigningTime", (String) args[3]);
         } else
             throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
     }
 
     /**
-     * Import the PersonOrEntityType in XML expected form for the SEDA Manifest.
+     * Import the Signer in XML expected form for the SEDA Manifest.
      *
      * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read PersonOrEntityType
+     * @return the read Signer
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not                          respected
      */
-    public static PersonOrEntityType fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
+    public static Signer fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         XMLEvent event;
         try {
             event = xmlReader.peekUsefullEvent();
-            PersonOrEntityType personType = new PersonOrEntityType(event.asStartElement().getName().getLocalPart());
-            fromSedaXmlInObject(xmlReader, personType);
-            return personType;
+            Signer signer = new Signer();
+            fromSedaXmlInObject(xmlReader, signer);
+            return signer;
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type PersonOrEntityType\n->" + e.getMessage());
         }
@@ -161,25 +173,37 @@ public class PersonOrEntityType extends ComplexListType {
         metadataOrderedList.add("Nationality");
         metadataOrderedList.add("Corpname");
         metadataOrderedList.add("Identifier");
+        metadataOrderedList.add("SigningTime");
+        metadataOrderedList.add("Function");
+        metadataOrderedList.add("Activity");
+        metadataOrderedList.add("Position");
+        metadataOrderedList.add("Role");
+        metadataOrderedList.add("Mandate");
     }
 
     /**
      * Init metadata map.
      */
     protected void initMetadataMap() {
-        metadataMap = new HashMap<String, ComplexListType.MetadataKind>();
-        metadataMap.put("FirstName", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("BirthName", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("FullName", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("GivenName", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("Gender", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("BirthDate", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("BirthPlace", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("DeathDate", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("DeathPlace", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("Nationality", new ComplexListType.MetadataKind(StringType.class, true));
-        metadataMap.put("Corpname", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("Identifier", new ComplexListType.MetadataKind(StringType.class, true));
+        metadataMap = new HashMap<String, MetadataKind>();
+        metadataMap.put("FirstName", new MetadataKind(StringType.class, false));
+        metadataMap.put("BirthName", new MetadataKind(StringType.class, false));
+        metadataMap.put("FullName", new MetadataKind(StringType.class, false));
+        metadataMap.put("GivenName", new MetadataKind(StringType.class, false));
+        metadataMap.put("Gender", new MetadataKind(StringType.class, false));
+        metadataMap.put("BirthDate", new MetadataKind(StringType.class, false));
+        metadataMap.put("BirthPlace", new MetadataKind(StringType.class, false));
+        metadataMap.put("DeathDate", new MetadataKind(StringType.class, false));
+        metadataMap.put("DeathPlace", new MetadataKind(StringType.class, false));
+        metadataMap.put("Nationality", new MetadataKind(StringType.class, true));
+        metadataMap.put("Corpname", new MetadataKind(StringType.class, false));
+        metadataMap.put("Identifier", new MetadataKind(StringType.class, true));
+        metadataMap.put("SigningTime", new MetadataKind(DateTimeType.class, false));
+        metadataMap.put("Function", new MetadataKind(TextType.class, true));
+        metadataMap.put("Activity", new MetadataKind(TextType.class, true));
+        metadataMap.put("Position", new MetadataKind(TextType.class, true));
+        metadataMap.put("Role", new MetadataKind(TextType.class, true));
+        metadataMap.put("Mandate", new MetadataKind(TextType.class, true));
     }
 
     // Getters and setters
