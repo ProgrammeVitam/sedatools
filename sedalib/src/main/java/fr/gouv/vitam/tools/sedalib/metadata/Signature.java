@@ -120,4 +120,9 @@ public class Signature extends ComplexListType {
             initMetadataMap();
         return metadataMap;
     }
+
+    @Override
+    public boolean isNotExpendable() {
+        return true;
+    }
 }

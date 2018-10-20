@@ -1,0 +1,53 @@
+<Management>
+  <AccessRule>
+    <Rule>ACC-00002</Rule>
+    <StartDate>2015-11-19</StartDate>
+  </AccessRule>
+</Management>
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>CSIC Tech : points remarquables PMO</Title>
+    <OriginatingSystemId>&lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>PLANCHOT Benjamin</FirstName>
+        <BirthName>PLANCHOT Benjamin</BirthName>
+        <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>frederic.deguilhen@culture.gouv.fr</FirstName>
+        <BirthName>frederic.deguilhen@culture.gouv.fr</BirthName>
+        <Identifier>frederic.deguilhen@culture.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>jean-severin.lair@culture.gouv.fr</FirstName>
+        <BirthName>jean-severin.lair@culture.gouv.fr</BirthName>
+        <Identifier>jean-severin.lair@culture.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>PLANCHOT Benjamin</FirstName>
+        <BirthName>PLANCHOT Benjamin</BirthName>
+        <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-08-30T10:14:17Z</SentDate>
+    <ReceivedDate>2016-08-30T10:14:18Z</ReceivedDate>
+    <TextContent>Bonjour,
+
+Vous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l&apos;avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.
+
+Pour rappel :
+- L&apos;objectif est de remonter l&apos;état des activités (statut, livrable/jalon, points importants).
+- Les colonnes de N à V sont à mettre à jour si nécessaire (fond orange clair).
+
+Merci par avance.
+
+Bien cordialement,
+
+
+[http://www.modernisation.gouv.fr/sites/default/files/bloc-sgmap-2.jpg]&lt; http://www.modernisation.gouv.fr/&gt;
+
+Benjamin PLANCHOT | PMO
+Service « performance des services numériques »
+Direction interministérielle du numérique et du système d&apos;information et de communication de l&apos;Etat
+01 40 15 71 50 | Tour Mirabeau - 39-43 Quai André Citroën, 75015 Paris - Bureau 4027
+modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent>
+</Content>

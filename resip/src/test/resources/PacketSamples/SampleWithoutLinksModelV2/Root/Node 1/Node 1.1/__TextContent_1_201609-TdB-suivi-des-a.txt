@@ -1,0 +1,250 @@
+
+
+???
+ sur 
+			Tableau de suivi des projets et activités récurrentes 
+		
+				Sélection à la main des éléments les plus importants à présenter en CSIC Tech (hors sujets déjà évoqués dans la présentation). 3 type d'info : 
+Information, Nouveau, Risques
+	
+				
+								
+				Vert = faible  
+Jaune = Modéré
+Orange = Substantiel
+Rouge = Majeur
+
+			
+			PRJ : projet
+A/R : activité récurrente
+
+				NA = activité récurrente  (pas de date, ni de progression) ou non applicable
+				
+								Statut du mois  précédent
+			
+		3
+	4
+	7
+	8
+	14
+		15
+	19
+	17
+	29
+		A REMPLIR PAR LE RESPONSABLE D'ACTIVITE MENSUELLEMENT
+			
+		ID Axe
+	Axes directeurs
+	ID Prog
+	Programme
+	ID Projet
+	PRJ ou A/R
+	Libellé projet ou activité récurrente
+	Equipe
+	DP
+	Statut M-1
+	Début initial
+	Fin initial
+	Début révisé
+	Fin révisé
+	Date livrable/jalon
+	Prochain livrable/jalon
+	Progression
+	% d'avancement projet
+	Statut
+	Points remarquables
+	Points de vigilances / risques
+	
+	44
+	Axe_2
+	2 - Construire les infra. stratégiques
+	Prog_2
+	2.9 - Valeurs Immatérielles Transférées aux Archives pour Mémoire (VITAM)
+	PRJ_2.9.1
+	PRJ
+	2.9.1 - Développer les premières versions de la solution logicielle
+	VITAM
+	Jean-Séverin LAIR
+	Orange
+	Mar-15
+	Dec-19
+	Mar-15
+	Dec-19
+	Nov-16
+	Livraison de la version Béta
+	Démarré
+	30%
+	Orange
+	Installation dans les nouveaux locaux réalisée mais il reste une intervention ERDF qui devrait avoir lieu fin août pour pouvoir disposer du 5ème étage. Le 6ème étage est complètement occupé, ce qui limite les possibilités de recours à de nouveaux prestataires.
+	La livraison de la Béta est prévue au 15/11/2016 mais la faible vélocité des équipes actuelles et la non disponibilité du 5ème étage font porter un risque sur l'atteinte de cet objectif.
+	
+	45
+	Axe_2
+	2 - Construire les infra. stratégiques
+	Prog_2
+	2.9 - Valeurs Immatérielles Transférées aux Archives pour Mémoire (VITAM)
+	PRJ_2.9.2
+	PRJ
+	2.9.2 - Lancer le projet et mettre en œuvre sa gouvernance
+	VITAM
+	Jean-Séverin LAIR
+	Vert
+	Dec-15
+	Dec-19
+	Feb-14
+	Dec-19
+	Jul-16
+	- Volet cadrage : échanges réguliers avec les chefs de projets (bilatérales, instances dédiées du programme) 
+- Volet pilotage : production d’une première version de l’outil de pilotage pour le programme regroupant les indicateurs de tous les projets et présentation lors du prochain CODIR Vitam (12 juillet)
+	Démarré
+	50%
+	Vert
+	La PMO du programme Vitam travaille sur la mise en cohérence des différents outils et indicateurs pour présentation aux instances de gouvernance. 
+Travail en cours par les projets pour déterminer le volume des données à archiver en 2020. 
+	Avoir des outils de pilotage communs pour tous les projets du programme.
+	
+	
+
+	
+					
+	
+			
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+									
+	
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+	
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+	
+
+	
+
+	
+		
+		
+		
+	
+				
+				
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		
+		
+		
+		
+	
+		
+		
+		
+	
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+	
+
+	
+
+	
+
+	
+
