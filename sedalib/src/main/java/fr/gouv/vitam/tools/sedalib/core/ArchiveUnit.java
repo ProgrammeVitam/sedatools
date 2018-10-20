@@ -177,6 +177,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
         archiveUnitProfile = (ArchiveUnitProfile) ArchiveUnitProfile.fromString(archiveUnitProfileXmlData,
                 ArchiveUnitProfile.class);
+        archiveUnitProfileXmlData=null;
         return archiveUnitProfile;
     }
 
@@ -227,6 +228,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
         management = (Management) Management.fromString(managementXmlData,
                 Management.class);
+        managementXmlData=null;
         return management;
     }
 
@@ -277,6 +279,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
         content = (Content) Content.fromString(contentXmlData,
                 Content.class);
+        contentXmlData=null;
         return content;
     }
 
