@@ -295,8 +295,8 @@ public class ResipApp {
             }
         } else {
             try {
-                exportContext = new ExportContext(cmd.getOptionValue("context"));
-            } catch (SEDALibException e) {
+                exportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
+            } catch (Exception e) {
                 exportContext = new ExportContext();
                 exportContext.setDefaultPrefs();
             }

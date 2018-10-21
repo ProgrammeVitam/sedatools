@@ -331,7 +331,7 @@ public class MainWindow extends JFrame {
         ogInformationPane.setLayout(gbl_ogInformationPane);
 
 
-        metadataComboBox = new JComboBox<String>();//AddMetadataItem.getAddContentMetadataArray());
+        metadataComboBox = new JComboBox<String>(AddMetadataItem.getAddContentMetadataArray());
         metadataComboBox.setEnabled(false);
         GridBagConstraints gbc_metadataComboBox = new GridBagConstraints();
         gbc_metadataComboBox.fill = GridBagConstraints.HORIZONTAL;
