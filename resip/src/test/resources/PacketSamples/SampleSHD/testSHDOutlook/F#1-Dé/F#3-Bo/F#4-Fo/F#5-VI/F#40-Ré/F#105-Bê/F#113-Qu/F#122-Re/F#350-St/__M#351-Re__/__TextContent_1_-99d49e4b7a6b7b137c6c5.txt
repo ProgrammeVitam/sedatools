@@ -1,0 +1,128 @@
+Bonsoir,
+
+Je reviens vers vous comme convenu ce jour s'agissant du périmètre. 
+
+ENT-02 : la version bêta permet de faire une entrée, qu'elle soit unitaire ou par flux. On ne peut pas encore parler de test à blanc. 
+
+GAE-09 : je vous renvoie à notre échange de ce matin
+
+Un dernier point sera confirmé demain matin en marge du COPIL Vitam à l'équipe ArchiPél.
+
+Bien cordialement
+
+Edouard Vasseur
+
+ 
+
+ 
+
+Le 2016-10-19 10:53, AJJAZ Franck a écrit :
+
+	Bonjour à tous,
+
+	 
+
+	Voici l’ordre du jour pour l’atelier de stratégie de demain ainsi que le support qui sera présenté.
+
+	 
+
+	·         Stratégie de test de VITAM :
+
+	o   Validation du périmètre
+
+	Préciser décisions du premier atelier sur le point suivant :
+
+	o    Types de document testés et profondeur de test pour chacun
+
+	-       Préciser les formats office (juste les derniers, 2 derniers, à voir pour chaque format)
+
+	-       Comment intégrer au ref des formats
+
+	 
+
+	·         Jeux de données :
+
+	o    Définition, récupération
+
+	 
+
+	·         Paramétrage :
+
+	Pour les 3 thèmes suivants :
+
+	-       règles d’organisation du classement
+
+	-       référentiel de règles de gestion 
+
+	-       référentiel de format
+
+	 
+
+	·         Précisions Tests IHMs :
+
+	o    IHMs à tester ?
+
+	 
+
+	·         Entrants de la prestation : documents et disponibilité des acteurs nécessaires pour
+
+	o    Point sur entrants reçus
+
+	 
+
+	·         Gestion des anomalies :
+
+	o    revoir workflow des anomalies
+
+	o    Modèle de communication entre les gestionnaires d’anomalies VITAM et ALTRAN
+
+	o    Statuer sur correction ou non des anomalies
+
+	o    Si correction, process de livraison
+
+	 
+
+	·         Ateliers de paramétrage 
+
+	o    Entrants et mode de fonctionnement de l’atelier
+
+	o    Planification des ateliers
+
+	 
+
+	·         Ateliers de couverture de test :
+
+	o    Entrants et mode de fonctionnement de l’atelier
+
+	o    Planification des ateliers
+
+	 
+
+	·         Ateliers de définition de l’infrastructure et de l’installation :
+
+	o    Entrants et mode de fonctionnement de l’atelier
+
+	o    Planification des ateliers
+
+	 
+
+	·         Ateliers de transfert de compétences au SHD :
+
+	o    Mode de fonctionnement de l’atelier
+
+	o    Planification des ateliers
+
+	 
+
+	 
+
+	Cordialement,
+
+	 
+
+	Franck AJJAZ
+
+	Chef de Projet
+
+	TRA VITAM
+	franck.ajjaz@altran.com

@@ -1,0 +1,44 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=61 
+====================================================================== 
+Rapporteur:                 Omar
+Responsable:                Omar
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   61
+Catégorie:                  VITAM
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-09 16:53 CET
+Dernière modification:      2017-01-09 16:53 CET
+====================================================================== 
+Résumé:                     [API-télécharger un SIP :Impossible de
+télécharger un SIP (non prévue - besoin Métier légitime)
+Description: 
+Il n'est pas possible de télécharger un SIP qui a était chargé.
+Fonctionnalité non prévue alors que c'est un besoin Métier déclarée
+légitime.
+Impact sur les cas de tests suivants
+PVI-715:Télécharger un SIP 1 trouvé via une recherche API
+PVI-716:Télécharger un SIP 2 trouvé via une recherche API
+PVI-717:Télécharger un SIP 3 trouvé via une recherche API
+
+
+Étapes pour le reproduire: 
+N/A car non prévu par les API
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-09 16:53 Omar           Nouveau bogue                                
+2017-01-09 16:53 Omar           Statut                   nouveau => affecté  
+2017-01-09 16:53 Omar           Assigné à                 => Omar            
+======================================================================

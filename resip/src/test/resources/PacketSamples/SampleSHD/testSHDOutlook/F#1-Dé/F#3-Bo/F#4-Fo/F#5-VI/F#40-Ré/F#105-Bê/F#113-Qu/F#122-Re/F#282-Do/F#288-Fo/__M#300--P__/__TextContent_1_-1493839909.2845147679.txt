@@ -1,0 +1,24 @@
+Programme Vitam - Information
+
+Casimirius, 
+
+Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur>  vous recommande de consulter generateur seda 20161018-RC <https://vitam.jaliosagora.com/jcms/c_2005275/fr/generateur-seda-20161018-rc> 
+
+Ce message a été envoyé au groupe suivant : Chantier Storymap - Participants
+
+ Edouard Vasseur<https://vitam.jaliosagora.com/upload/photos/2015-11/mbr_c_2000063.jpg.associated/th-40x40-mbr_c_2000063.jpg.jpg?authKey=Y18yMDAzMTU5OjE1MDgzMjgyMDc1NzQ6JDJhJDA0JEtOd084cU1UNnJBNUJNWE1pTlI0ak9qQWthL3dqVHdReWZjdjAzSDZMNDdVbmN6dVFGZjZT> 
+ 	 
+Bonjour, Vous trouverez sur Jalios une nouvelle version du générateur de SIP conformes au SEDA 2.0. 
+
+Les 3 modifications apportées sont les suivantes : - correction d'un bug sur la reconnaissance de l'usage auquel correspond un fichier (DataObjectVersion) - mise à jour de l'outil d'identification des formats Siegfried (version 1.6.5. à 32 bits au lieu de la version 1.5.0. à 64 bits) - mise à jour du référentiel PRONOM utilisé par Siegfried (version utilisée : v88) 
+
+Dans le cas où vous auriez téléchargé la précédente version diffusée, voici la procédure à suivre : * Sauvegarde du fichier conf/ArchiveTransferConfig.json si une configuration particulière avait été faite (et des fichiers générés si voulu) * Suppression du répertoire "Générateur SEDA" * Remplacement par le nouveau répertoire * Récupération du fichier ArchiveTransferConfig.json pour le remettre dans conf/ArchiveTransferConfig.json 
+
+L'équipe Vitam reste à votre disposition pour toute demande d'information ou de précision 
+
+L'équipe Vitam 
+
+18/10/2016 13:58 · Chantier Solution logicielle Vitam <https://vitam.jaliosagora.com/jcms/c_2001230/fr/chantier-solution-logicielle-vitam>  
+Mon profil <https://vitam.jaliosagora.com/jcms/c_2003159/fr/casimirius-thierry>  · Accueil <https://vitam.jaliosagora.com/>  
+Ce mail vous a été envoyé par Programme Vitam
+ <https://vitam.jaliosagora.com/jcore/alert/mail/markAsRead.jsp?img=true&id=91942_Alert&authKey=djI7Y18yMDAzMTU5OzE1MDgzMjgyMDM2NDE7R0VUOzs7JDJhJDA0JDkuWlcxUXNaV3JIVVE3ajFJMTQ4c3VyZzZvV1F1N3k4bmRDVDQuYVNPd2diOWxTR2xhcTJX>

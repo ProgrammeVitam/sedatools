@@ -1,0 +1,82 @@
+Merci Thierry, 
+
+ 
+
+Je comprends qu’il te manquerait :
+
+ 
+
+•       Les champs non-obligatoires implémentés en base de données (surtout sur MD BMT)
+
+•       Une documentation plus précise
+
+•       Un Exemple de requête DSL 
+
+ 
+
+Je peux inscrire ces points à la présentation du SHD lors du COPIL VITAM de la semaine prochaine si tu le juge nécessaire.
+
+ 
+
+Nicolas
+
+ 
+
+De : CASIMIRIUS Thierry IDEF MINDEF 
+Envoyé : jeudi 8 décembre 2016 14:54
+À : BEL Nicolas ASC NIV I OA
+Cc : CHEVENIER Olivier ASC NIV I OA
+Objet : TR: CR COPIL TRA VITAM du 5/12/2016
+
+ 
+
+Nicolas,
+
+ 
+
+En PJ, le projet de CR
+
+Il manque encore quelques entrants VITAM pour Altran.
+
+ 
+
+Cordialement,
+
+ 
+
+Thierry CASIMIRIUS
+
+Chef du bureau des technologies de l’information
+
+Service historique de la Défense
+
+SGA/DMPA/SHD/PPST/BTI
+
+Tél : 01 41 93 20 45
+
+ 
+
+De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+Envoyé : jeudi 8 décembre 2016 14:37
+À : DANYACH-DESCHAMPS Myriam ASC
+Cc : CASIMIRIUS Thierry IDEF MINDEF; MORENO Mario ASC
+Objet : CR COPIL
+
+ 
+
+Bonjour,
+
+ 
+
+Voici le CR du Copil de lundi.
+
+ 
+
+Cordialement,
+
+Franck AJJAZ
+
+Chef de Projet
+
+TRA VITAM
+franck.ajjaz@altran.com

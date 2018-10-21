@@ -1,0 +1,134 @@
+BusinessMessageType
+	SEDA	Balise XML	Correspondance	Balise JSON	Est Différent SEDA
+	ArchiveTransfer	<ArchiveTransfer>	Balise technique du SEDA. N’a pas vocation à être enregistrée en dehors de l’AT (remarque l’Archive Transfer est stocké dans VITAM).	Je comprends que l'ArchiveTransfer et l'ArchiveTransferReply se retrouvent dans le LogbookOperation mais quelle est la forme dédiée dont il est question pour chacun des champs SEDA évoqué?
+	ArchivalAgency	<ArchivalAgency>	1	Actuellement non enregistré mais renvoyé dans l’ATR tel que. Champ hors ArchiveUnit, relevant de l'entête et a donc vocation à être présent sous une forme dédiée dans les Journaux
+	ArchivalAgreement	<ArchivalAgreement>	2	Actuellement non enregistré mais renvoyé dans l’ATR tel que. Champ hors ArchiveUnit, relevant de l'entête et a donc vocation à être présent sous une forme dédiée dans les Journaux
+	Comment	<Comment>	3	Actuellement non enregistré: Champ hors ArchiveUnit, relevant de l'entête et a donc vocation à être présent sous une forme dédiée dans les Journaux
+	DataObjectPackage	<DataObjectPackage>	4	Balise technique du SEDA. N’a pas vocation à être enregistrée en dehors de l’AT et l’ATR.
+	Date	<Date>	5	Actuellement non enregistré: Champ hors ArchiveUnit, relevant de l'entête et a donc vocation à être présent sous une forme dédiée dans les Journaux
+	MessageIdentifier	<MessageIdentifier>	6	obIdIn du sous événement tel que evType=STP_INGEST_CONTROL_SIP	Oui
+	TransferringAgency	<TransferringAgency>	7	Actuellement non enregistré mais renvoyé dans l’ATR tel que. Champ hors ArchiveUnit, relevant de l'entête et a donc vocation à être présent sous une forme dédiée dans les Journaux
+	ArchiveTransferReply	<ArchiveTransferReply>	Balise technique du SEDA. N’a pas vocation à être enregistrée en dehors de l’ATR (remarque l’Archive Transfer Reply est stocké dans VITAM).
+	ArchivalAgency	<ArchivalAgency>	1	Actuellement non enregistré mais renvoyé dans l’ATR tel qu’il est dans l’AT. Champ hors ArchiveUnit, relevant de l'entête et a donc vocation à être présent sous une forme dédiée dans les Journaux
+	ArchivalAgreement	<ArchivalAgreement>	2	Actuellement non enregistré mais renvoyé dans l’ATR tel qu’il est dans l’AT. Champ hors ArchiveUnit, relevant de l'entête et a donc vocation à être présent sous une forme dédiée dans les Journaux
+	Comment	<Comment>	3	Champ optionnel actuellement non utilisé par VITAM
+	DataObjectPackage	<DataObjectPackage>	4	Balise technique du SEDA. N’a pas vocation à être enregistrée en dehors de l’AT et l’ATR.
+	Date	<Date>	5	Champ renseigné dans l’ATR. actuellement non enregistré hors de l’ATR. 
+	GrantDate	<GrantDate>	Champ renseigné dans l’ATR. actuellement non enregistré hors de l’ATR. 
+	MessageIdentifier	<MessageIdentifier>	6	evIdProc du logbook opération mais bug connu 1557
+Contournement : récupérer le nom du fichier ATR qui lui contient bien l'evtIdProc de l'opération qui a généré l'ATR.
+(permet également de retrouver le fichier ATR relatif à une opération sur le système de fichier de l'offre de stockage)	Oui
+	MessageRequestIdentifier	<MessageRequestIdentifier>	obIdIn du sous événement tel que evType=STP_INGEST_CONTROL_SIP	Oui
+	TransferringAgency	<TransferringAgency>	7	Actuellement non enregistré mais renvoyé dans l’ATR tel qu’il est dans l’AT. Champ hors ArchiveUnit, relevant de l'entête et a donc vocation à être présent sous une forme dédiée dans les Journaux
+
+
+
+DescriptiveMetadataType
+	SEDA	Balise XML	Correspondance	Balise JSON	Est Différent SEDA
+	Content	<Content>	Implicite = racine de l'ArchiveUnit
+	Coverage	<Coverage>	Coverage	Non
+	EndDate	<EndDate>	EndDate	Non
+	OriginatingAgency	<OriginatingAgency>	OriginatingAgency	Non
+	OriginatingAgencyArchiveUnitIdentifier	<OriginatingAgencyArchiveUnitIdentifier>	OriginatingAgencyArchiveUnitIdentifier	Non
+	OriginatingSystemId	<OriginatingSystemId>	OriginatingSystemId	Non
+	StartDate	<StartDate>	StartDate	Non
+	Title	<Title>	Title	Non
+	SubmissionAgency	<SubmissionAgency>	SubmissionAgency	Non
+	Identifier	<Identifier>	Identifier	Non
+	OrganizationDescriptiveMetadata	<OrganizationDescriptiveMetadata>	OrganizationDescriptiveMetadata	Non
+
+
+
+ManagementMetadataType
+	SEDA	Balise XML	Correspondance	Balise JSON	Est Différent SEDA
+	AccesRule	<AccessRule>	AccesRule	Non
+	Rule	<Rule>	1	Rule	Non
+	StartDate	<StartDate>	2	StartDate	Non
+	AppraisalRule	<AppraisalRule>	AppraisalRule	Non
+	FinalAction	<FinalAction>	FinalAction	Non
+	Rule	<Rule>	1	Rule	Non
+	StartDate	<StartDate>	2	StartDate	Non
+	ClassificationRule	<ClassificationRule>	ClassificationRule	Non
+	CassificationLevel	<ClassificationLevel>	CassificationLevel	Non
+	ClassificationOwner	<ClassificationOwner>	ClassificationOwner	Non
+	ClassificationReassessingDate	<ClassificationReassessingDate>	ClassificationReassessingDate	Non
+	Rule	<Rule>	1	Rule	Non
+	StartDate	<StartDate>	2	StartDate	Non
+	DisseminationRule	<DisseminationRule>	DisseminationRule	Non
+	Rule	<Rule>	1	Rule	Non
+	StartDate	<StartDate>	2	StartDate	Non
+	ReuseRule	<ReuseRule>	ReuseRule	Non
+	Rule	<Rule>	1	Rule	Non
+	StartDate	<StartDate>	2	StartDate	Non
+	StorageRule	<StorageRule>	StorageRule	Non
+	Rule	<Rule>	1	Rule	Non
+	StartDate	<StartDate>	2	StartDate	Non
+
+
+BinaryDataObjectType
+	SEDA	Balise XML	Correspondance	Balise JSON	Est Différent SEDA
+
+	Attachment	<Attachment>	Contient le binaire d'origine (embarqué dans l'XML), mais méthode non supportée par VITAM
+	DataObjectGroupId	<DataObjectGroupReferenceId>	_id	Oui	Dans l’ATR reprend la valeur du champs DataObjectGroupId du Manifest. La valeur de _id dans le MDD de l’OG est portée dans DataObjectGroupSystemId dans l’ATR
+
+	CreatingApplicationName	<CreatingApplicationName>	CreatingApplicationName	Non
+	DateCreatedByApplication	<DateCreatedByApplication>	DateCreatedByApplication	Non
+	Filename	<Filename>	Filename	Non
+	LastModified	<LastModified>	LastModified	Non
+
+	FormatId	<FormatId>	FormatId	Non
+	FormatLitteral	<FormatLitteral>	FormatLitteral	Non
+
+	<MimeType>	MimeType	
+	Audio	Audio	Audio	Non
+	Document	Document	Document	Non
+	Image	Image	Image	Non
+	Text	Text	Text	Non
+	Video	Video	Video	Non
+
+
+
+Interrogations
+	Etat	SEDA	Collection	Balise XML	Balise JSON	Détails	Reponse VITAM
+	Répondu	DescriptiveMetadataType	Content	AccessionRegisterSummary	<OriginatingAgencyIdentifier>	"OriginatingAgency"	“OriginatingAgency” : La valeur de ce champ est une chaîne de caractère. Ce champ est la clef primaire
+et sert de concaténation pour toutes les entrées effectuées sur ce producteur d’archives. Il est contenu entre les baslises
+<OriginatinAgencyIdentifier> du bordereau	Probabilité
+	Répondu	DescriptiveMetadataType	Content / (vu dans le data model)	Unit / (vu dans le data model)	<Description> / (vu dans le data model)	"Description"	Correspondance OK mais contenu de la balise différent dans XML et le JSON	Contenu identique et non différent du XML modulo les traductions de champs avec attributs (Exemple : <Title lang= « fr »>	Forte
+	Répondu	DescriptiveMetadataType	Content	AccessionRegisterDetail	<OriginatingAgency>	"OriginatingAgency"	Lien manquant dans le model de données	Lien non-manquant	Moyenne
+	Non-Répondu	DescriptiveMetadataType	Content	????	<OriginatingAgencyArchiveUnitIdentifier>	Balise non retrouvée dans le model de données	Le modèle de données ne pointe que vers les métadonnées obliagtoires du SEDA ou dans VITAM, les autres (optionnelles au sens SEDA et VITAM) sont décrites dans le SEDA directement et n'ont pas à être décrites par Vitam	Cela signifie-t-il que ces balises, transmises par le SHD, sont bien vérifiables dans VITAM ? Si oui comment je peux retrouver ces balises pour effectuer mes vérifications si elles ne sont pas recensées dans le model de données ?
+
+OUI	Faible
+	Non-Répondu	DescriptiveMetadataType	Content	????	<OriginatingSystemId>	Balise non retrouvée dans le model de données	Le modèle de données ne pointe que vers les métadonnées obliagtoires du SEDA ou dans VITAM, les autres (optionnelles au sens SEDA et VITAM) sont décrites dans le SEDA directement et n'ont pas à être décrites par Vitam
+	Non-Répondu	DescriptiveMetadataType	Content	Unit	<OrganizationDescriptiveMetadata>	"OrganizationDescriptiveMetadata"	Lien manquant dans le model de données	Le modèle de données ne pointe que vers les métadonnées obliagtoires du SEDA ou dans VITAM, les autres (optionnelles au sens SEDA et VITAM) sont décrites dans le SEDA directement et n'ont pas à être décrites par Vitam
+	Répondu	BinaryDataObjectType	*Rule	Règle de gestion	AccesRule
+AppraisalRule
+ClassificationRule
+DisseminationRule
+ReuseRule
+StorageRule	Quand VITAM va recevoir via XML :
+<nom de la règle>
+     <RuleID>
+Il sera capable de déduire le RuleValue, RuleDescription,RuleDuration,RuleMeasurement ?
+
+AppraisalRule : Finale action : correspondance non trouvée
+ClassificationRule : ClassificationLevel, Owner, ReassessingDate : correspondance non trouvées car ces informations sont contenues par nature dans la rule en question (en JSON)	Le fait que certaines balises XML deviennent de simples valeurs est validé par VITAM notemment pour 
+
+Les particularités des Rules type FinalAction pour l'AppraisalRule sont directement porteés par XML et donc en JSON également.
+
+La balise est <Rule>Id</Rule> et non <RuleId> même si dans le fichier CSV c'est RuleId ainsi que dans la collection. L'ArchiveUnit dispose bien du champs Rule dans le bloc Management (_mgt).
+
+Dans l'XML, on a une construction du type :
+<StorageRule><Rule>...</StorageRule>
+<AppraisalRule><Rule>...</AppraisalRule>
+
+Dans Vitam, on obtient :
+StorageRule : { Rule : … },
+AppraisalRule : { Rule : … }
+
+La correspondance est donc totale.
+	Répondu	BusinessMessageType	ArchiveTransfer	????	Groupe de balises non retrouvées dans le model de données	cf. Onglet BusinessMesssageType
+	Répondu	BusinessMessageType	ArchiveTransferReply	????	Groupe de balises non retrouvées dans le model de données	cf. Onglet BusinessMesssageType
+	DataObject	L'objet (Object) est-il une unité archivistique dupliquée X fois à l'exacte identique ?
+(Lu dans le document "Glossaire du Programme VITAM")	Voir autre document
+
+

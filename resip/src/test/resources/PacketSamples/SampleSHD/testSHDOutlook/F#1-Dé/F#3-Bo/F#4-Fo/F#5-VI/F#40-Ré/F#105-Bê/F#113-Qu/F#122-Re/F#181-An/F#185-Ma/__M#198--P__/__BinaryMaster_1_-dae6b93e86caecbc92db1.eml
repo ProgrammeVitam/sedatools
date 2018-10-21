@@ -1,0 +1,315 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242])        by smtp.gmail.com with
+ ESMTPSA id k7sm15163852wjz.33.2017.01.09.07.07.31        for
+ <thierry.casimirius@intradef.gouv.fr>        (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);        Mon, 09 Jan 2017
+ 07:07:31 -0800 (PST)
+Date: Mon, 9 Jan 2017 16:07:32 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <dae6b93e86caecbc92db10185ef093cd@213.32.79.242>
+Subject: [Projet VITAM 0000060]:
+ [API-/access-access-external/v1/objects/{ido}] :Retour avec "httpCode":
+ 406, "message": "HTTP 406 Not Acceptable" au lieu de 200
+Keywords:  [Projet VITAM] BugFromTestlink
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_253_21080319.1517006384557"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted
+         :keywords:mime-version:content-transfer-encoding;
+        bh=mvnVh8ycUjexKgYpSbWoZMtjHY7LJQiUdJgK+OZYwHg=;
+        b=VV9MU3eeBjr62+56fMi/Dnms/KcPolkiFg4nsAvrIDHAerIs9AmsW36MBVjf0HUA1Z
+         D68nU5GdexkY3f8ebi8NAaWdFAdygpCI69ojac7Fs5Ho2tLdEXy6BQUAE6M2P8L0DY+T
+         /dUBQaVGoZ5M+GE1Q/OUyAkh9cMGqqPdul2O0ac9hKq9267TlyFHYakEaLLbDqLe9r5r
+         j9FvzkSeX9taXxicWDUt1Rf519OVQc+jYnv2OcDjxkuAF5xry27hYSM63eB79G+yZx09
+         1+YtVFua1vDem/Vwt4dmAP4XtcEAFtkKpoOpw53PJmyYKJsc/wMgqhRXOS/AgN1JsPO4
+         uaBg==
+X-Gm-Message-State:  AIkVDXJaa2pUulIPtl9U/Mdbm5BiJa6axhXv/GDL8UbNkpG2ActLTg7SvPgLazRKI1v9Ig==
+X-Received:  by 10.28.215.6 with SMTP id o6mr4540447wmg.5.1483974452474;
+        Mon, 09 Jan 2017 07:07:32 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 2017.1.9.150016
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report='
+ HTML_00_01 0.05, HTML_00_10 0.05, DKIM_SIGNATURE 0, FROM_NAME_PHRASE 0, IP_HTTP_ADDR 0, IP_HTTP_ADDR_WITH_PORT 0, SPF_PASS 0, URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0, WEBMAIL_XMAILER 0, __ANY_URI 0, __CP_URI_IN_BODY 0, __CT 0, __CTE 0, __CT_TEXT_PLAIN 0, __DQ_NEG_HEUR 0, __DQ_NEG_IP 0, __FRAUD_MONEY_CURRENCY 0, __FRAUD_MONEY_CURRENCY_DOLLAR 0, __FRAUD_WEBMAIL 0, __FRAUD_WEBMAIL_FROM 0, __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, __HAS_X_MAILER 0, __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, __HTTPS_URI 0, __MIME_TEXT_ONLY 0, __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 0, __MSGID_32HEX 0, __MULTIPLE_URI_TEXT 0, __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, __PHISH_SUBJ_PHRASE2 0, __RDNS_GMAIL 0, __SANE_MSGID 0, __STOCK_PHRASE_24 0, __TO_MALFORMED_2 0, __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 0, __URI_NO_WWW 0, __URI_WITH_PATH 0, __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:to:from:subject:message-id:auto-submitted:keywords
+         :mime-version:content-transfer-encoding;
+        bh=mvnVh8ycUjexKgYpSbWoZMtjHY7LJQiUdJgK+OZYwHg=;
+        b=WjCvp8SN9z4Efu5eoWJkEsdazythk3qCAQPZXMfUuvQQrcWkB2cXGZBfvDkRDAy6Pf
+         E/wx7pldAdeXOk9VvA3vy/Jp1HVMP652/Wuk803QOkV8SeMRQbpf1unvwkkgUXFGoU/Y
+         x9fzlY2OCb5muFnXb867LLEL5l84n1rUduWeoMurq2SHfziPKMdfe/KwxnWHVddPs8/S
+         vmHPG+hTb9Va8Ay5RMgPRcuRcgi9UA91KPpVizyKpwcnTZzVuS3bGVsLqcGZUNbPt8/o
+         C5G7RaA35UvOIIAwkAVFdT18AuHCeZ/aNKk696ehn4HO5Xfi+JpP1777E7d98CXGY9Bv
+         ulVw==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]50,0,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:1:2:41:152:355:379:493:509:541:543:836:882:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1593:1594:1730:1747:1777:1792:1801:2198:2199:2393:2525:2565:2682:2685:2859:2901:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3355:3876:3877:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4051:4250:4321:4605:5007:6114:6117:6119:6238:6261:6642:6653:6996:6997:7809:7875:8599:8603:8957:8985:8987:9025:9121:9388:9413:10004:10849:11026:11233:11473:11658:11783:12043:12114:12291:12438:12517:12519:12555:12663:12679:12683:12740:13025:13206:13229:13255:13870:14110:14687:21063:21064:21080:21212:21433:21444:30017:30054:30080,0,RBL:74.125.82.65:@gmail.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.net-62.50.0.100 64.100.201.100;04ygua394hdugc
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1314500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM07.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_253_21080319.1517006384557
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_254_14136568.1517006384557"
+
+------=_Part_254_14136568.1517006384557
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D60=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Omar
+Responsable:                Omar
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   60
+Cat=C3=A9gorie:                  BugFromTestlink
+Reproductibilit=C3=A9:           toujours
+Impact:                     majeur
+Priorit=C3=A9:                   =C3=A9lev=C3=A9e
+Statut:                     affect=C3=A9
+Comportement attendu:       =20
+US concern=C3=A9e:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2017-01-09 16:07 CET
+Derni=C3=A8re modification:      2017-01-09 16:07 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     [API-/access-access-external/v1/objec=
+ts/{ido}]
+:Retour avec "httpCode": 406, "message": "HTTP 406 Not Acceptable" au lieu =
+de
+200
+Description:=20
+Lorsque l'on soumet une requ=C3=AAte pour obtenir un fichier appartenant =
+=C3=A0 un GOT
+via la collection access/obects/{ido}, l'API retourne un httpCode 406 quelq=
+ue
+soit le qualifier Dissemination, Thumbnail ou TextContent (ie fichier du GO=
+T).
+On joint le SIP avec ATR OK pour qui le t=C3=A9l=C3=A9chargement ainsi l'af=
+fichage des
+objets est ok via IHM.=20
+
+A noter que le POST avec dans le Header  Accept=3Dapplication/json, fonctio=
+nne, cf
+ci dessous la requ=C3=AAte envoy=C3=A9 et la r=C3=A9ponse obtenue
+Requ=C3=AAte envoy=C3=A9e
+
+POST
+https://213.32.79.242:8444/access-external/v1/objects/aeaaaaaaaaaam7mxaayie=
+akzqoenaqiaaaaq
+HTTP/1.1
+X-Http-Method-Override: GET
+Accept: application/json
+Content-Type: application/json
+Content-Length: 72
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+R=C3=A9ponse obtenue avec Accept=3DApplication/json
+{
+   "$hits":    {
+      "total": 1,
+      "offset": 0,
+      "limit": 1,
+      "size": 1
+   },
+   "$results": [   {
+      "FileInfo":       {
+         "Filename": "vitam_-_modele_de_workflow.pdf",
+         "LastModified": "2017-01-02T10:44:04.893+01:00"
+      },
+      "#id": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+      "#nbobjects": 0,
+      "#qualifiers":       {
+         "BinaryMaster":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxaayieakzqoenapyaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+               "DataObjectVersion": "BinaryMaster_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Acrobat PDF 1.5 - Portable Document
+Format",
+                  "MimeType": "application/pdf",
+                  "FormatId": "fmt/19"
+               },
+               "FileInfo":                {
+                  "Filename": "vitam_-_modele_de_workflow.pdf",
+                  "LastModified": "2017-01-02T10:44:04.893+01:00"
+               },
+               "Size": 1066218,
+               "Uri": "Content/ID5.pdf",
+               "MessageDigest":
+"0207ce2192c32d771abf8662afce53b0bee7381a033346409637fa41a918cec99a4a9f4558=
+aa7c2805600203d8e701fd8eed71be4846f194b79800b4770e2287",
+               "Algorithm": "SHA-512"
+            }]
+         },
+         "Dissemination":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxaayieakzqoenbwaaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+               "DataObjectVersion": "Dissemination_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Acrobat PDF 1.5 - Portable Document
+Format",
+                  "MimeType": "application/pdf",
+                  "FormatId": "fmt/19"
+               },
+               "FileInfo":                {
+                  "Filename": "vitam_-_scenarios_de_test.pdf",
+                  "LastModified": "2017-01-02T10:44:05.610+01:00"
+               },
+               "Size": 212295,
+               "Uri": "Content/ID13.pdf",
+               "MessageDigest":
+"74bc122c6924e16ccf9232c51a6752f0964897253dbb50bb011ddafc103db5b2602c7fc0fa=
+adac76e71f460fd4b5f86b44b44430dc57d7e059b09536ea2b0a7d",
+               "Algorithm": "SHA-512"
+            }]
+         },
+         "TextContent":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxaayieakzqoenbvaaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+               "DataObjectVersion": "TextContent_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Acrobat PDF/A - Portable Document Form=
+at",
+                  "MimeType": "application/pdf",
+                  "FormatId": "fmt/95"
+               },
+               "FileInfo":                {
+                  "Filename":
+"vitam_-_organisation_de_linformation_2016-11-29_17-39-38_110.pdf",
+                  "LastModified": "2017-01-02T10:44:05.767+01:00"
+               },
+               "Size": 1149256,
+               "Uri": "Content/ID9.pdf",
+               "MessageDigest":
+"234e8564a44fc3729e88618f010d6addcf1e97fbaafd82d440655f6b020ec7a4f98e59c636=
+a64d205ee7f6f6e8c388b49fcb1d474e1a458e0d9ec996a5cef991",
+               "Algorithm": "SHA-512"
+            }]
+         },
+         "Thumbnail":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxaayieakzqoenbwyaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+               "DataObjectVersion": "Thumbnail_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Acrobat PDF/A - Portable Document Form=
+at",
+                  "MimeType": "application/pdf",
+                  "FormatId": "fmt/95"
+               },
+               "FileInfo":                {
+                  "Filename":
+"vitam_-_structuration_des_submission_information_package_sip.pdf",
+                  "LastModified": "2017-01-02T10:44:04.969+01:00"
+               },
+               "Size": 799691,
+               "Uri": "Content/ID17.pdf",
+               "MessageDigest":
+"638fed05381e9c17213d9ff3ae8362b9fb5db6270cf696fefe474297a03622e735122f6aa5=
+ed341ea4deab499b419cb3b1149211d7d44c666923fb1a0234baf8",
+               "Algorithm": "SHA-512"
+            }]
+         }
+      },
+      "#type": "",
+      "#tenant": 0,
+      "#unitups": ["aeaaaaaaaaaam7mxaayieakzqoenbxqaaaaq"],
+      "#operations": ["aedqaaaaacaam7mxaba7uakzqoekqhyaaaaq"]
+   }],
+   "$context":    {
+      "$roots": [],
+      "$query": [],
+      "$filter": {},
+      "$projection": {}
+   }
+}
+
+=C3=89tapes pour le reproduire:=20
+Int=C3=A9grer le SIP JOINT SIP-20170109145552.zip
+Aller sur l'IHM et r=C3=A9cup=C3=A9rer les id des objets
+aller sur SOAP UI et solliciter les API avec les ID correspondants sur les
+requ=C3=AAtes suivantes
+PVI-721:T=C3=A9l=C3=A9charger un fichier 1 appartenant =C3=A0 un GOT via AP=
+I
+PVI-722:T=C3=A9l=C3=A9charger un fichier 2 appartenant =C3=A0 un GOT via AP=
+I
+PVI-723:T=C3=A9l=C3=A9charger un fichier 3 appartenant =C3=A0 un GOT via AP=
+I
+
+exemple=20
+POST
+https://213.32.79.242:8444/access-external/v1/objects/aeaaaaaaaaaam7mxaayie=
+akzqoenaqiaaaaq
+HTTP/1.1
+X-Http-Method-Override: GET
+Content-Type: application/json
+Accept: application/zip
+Content-Length: 72
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{
+  "$roots": [],
+  "$query": [],
+  "$filter": {},
+  "$projection": {}
+}
+
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2017-01-09 16:07 Omar           Nouveau bogue                              =
+ =20
+2017-01-09 16:07 Omar           Statut                   nouveau =3D> affec=
+t=C3=A9 =20
+2017-01-09 16:07 Omar           Assign=C3=A9 =C3=A0                 =3D> Om=
+ar           =20
+2017-01-09 16:07 Omar           Fichier ajout=C3=A9:
+ATR_aedqaaaaacaam7mxaba7uakzqoekqhyaaaaq.xml                   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_254_14136568.1517006384557--
+
+------=_Part_253_21080319.1517006384557--

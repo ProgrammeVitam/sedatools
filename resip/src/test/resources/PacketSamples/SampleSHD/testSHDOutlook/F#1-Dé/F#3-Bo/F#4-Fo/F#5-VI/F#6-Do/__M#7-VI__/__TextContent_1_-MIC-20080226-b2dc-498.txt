@@ -1,0 +1,45 @@
+Nicolas,
+
+ 
+
+Comme suite au point d’itération hier
+
+ 
+
+Quelques idées générales avant de rentrer  plus profondément dans la documentation (sachant que je ne suis pas compétent sur la partie technique) :
+
+ 
+
+-          La liste des user stories : en R4, nous avons eu la liste des user stories développées pendant la R4.  La liste complète, exhaustive, et fiable des user stories ou fonctionnalités couvertes dans la  solution doit aussi être présentée pour ceux qui n’ont pas l’antériorité, mais aussi comme synthèse globale. 
+
+-          Le modèle de données : ALTRAN avait indiqué lors de sa prestation et dans son document de fin de mission, qu’il avait « perdu » du temps pour connaitre les collections qui étaient disponibles, et quels opérateurs étaient implémentés dans cette collection, pour déterminer la fiabilité des anomalies remontées 
+
+La lecture de la dernière version de la documentation ne me permet pas de confirmer que ces attendus sont remplis. Ci-dessous le travail d’ALTRAN sur ce point.
+
+Je suggère qu’un tableau de synthèse équivalent et actualisé soit joint  dans la documentation ( modèle de données ???)
+
+-          La documentation d’architecture : pourquoi ne retrouve t-on pas dans le document d’architecture (voire d’installation), les éléments de dimensionnement pour les environnements en PJ , ou au moins des exemples similaires permettant au projet de partir sur les mêmes hypothèses de calcul ?
+
+ 
+
+Voilà, je verrais la semaine prochaine, si j’ai plus de temps , mais en me limitant aux documents pas trop techniques. Mais il y en a peu…
+
+ 
+
+A+
+
+ 
+
+Cordialement, 
+
+ 
+
+Thierry CASIMIRIUS
+
+Chef du bureau des technologies de l’information
+
+Service historique de la Défense
+
+SGA/DPMA/SHD/PPST/BTI
+
+Tél : 01 41 93 20 45

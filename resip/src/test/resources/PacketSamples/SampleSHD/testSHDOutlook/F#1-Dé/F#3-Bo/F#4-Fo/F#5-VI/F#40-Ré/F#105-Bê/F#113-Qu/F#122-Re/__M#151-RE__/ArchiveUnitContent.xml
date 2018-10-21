@@ -1,0 +1,105 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>RE: CR COPIL TRA VITAM du 5/12/2016</Title>
+    <OriginatingSystemId>&lt;0CEBDBC4E24A8C46BD4E1D2201D75741E54C43@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>BEL Nicolas ASC NIV I OA</FirstName>
+        <BirthName>BEL Nicolas ASC NIV I OA</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>CHEVENIER Olivier ASC NIV I OA</FirstName>
+        <BirthName>CHEVENIER Olivier ASC NIV I OA</BirthName>
+        <Identifier>olivier.chevenier@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-12-08T14:12:31Z</SentDate>
+    <ReceivedDate>2016-12-08T14:12:32Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C66DC30@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Merci Thierry, 
+
+ 
+
+Je comprends qu’il te manquerait :
+
+ 
+
+•       Les champs non-obligatoires implémentés en base de données (surtout sur MD BMT)
+
+•       Une documentation plus précise
+
+•       Un Exemple de requête DSL 
+
+ 
+
+Je peux inscrire ces points à la présentation du SHD lors du COPIL VITAM de la semaine prochaine si tu le juge nécessaire.
+
+ 
+
+Nicolas
+
+ 
+
+De : CASIMIRIUS Thierry IDEF MINDEF 
+Envoyé : jeudi 8 décembre 2016 14:54
+À : BEL Nicolas ASC NIV I OA
+Cc : CHEVENIER Olivier ASC NIV I OA
+Objet : TR: CR COPIL TRA VITAM du 5/12/2016
+
+ 
+
+Nicolas,
+
+ 
+
+En PJ, le projet de CR
+
+Il manque encore quelques entrants VITAM pour Altran.
+
+ 
+
+Cordialement,
+
+ 
+
+Thierry CASIMIRIUS
+
+Chef du bureau des technologies de l’information
+
+Service historique de la Défense
+
+SGA/DMPA/SHD/PPST/BTI
+
+Tél : 01 41 93 20 45
+
+ 
+
+De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+Envoyé : jeudi 8 décembre 2016 14:37
+À : DANYACH-DESCHAMPS Myriam ASC
+Cc : CASIMIRIUS Thierry IDEF MINDEF; MORENO Mario ASC
+Objet : CR COPIL
+
+ 
+
+Bonjour,
+
+ 
+
+Voici le CR du Copil de lundi.
+
+ 
+
+Cordialement,
+
+Franck AJJAZ
+
+Chef de Projet
+
+TRA VITAM
+franck.ajjaz@altran.com</TextContent>
+</Content>

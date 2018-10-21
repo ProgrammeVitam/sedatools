@@ -1,0 +1,185 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242]) by smtp.gmail.com with ESMTPSA
+     id js10sm41588111wjb.19.2016.12.09.02.35.49 for
+     <thierry.casimirius@intradef.gouv.fr>     (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Fri,     09 Dec 2016
+ 02:35:49 -0800 (PST)
+Date: Fri, 9 Dec 2016 11:35:49 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <1a78231bfe95959176783cdb7084a5d8@213.32.79.242>
+Subject: =?UTF-8?Q?[Projet_VITAM_0000007]:_[API-acces?=
+ =?UTF-8?Q?s-external/v1/units-PUT]_:_La_balis?=
+ =?UTF-8?Q?e_r=C3=A9ponse_"#diff"_ne_contient_pas_?=
+ =?UTF-8?Q?syst=C3=A9matiquement_la_balise_modifi=C3=A9e?=
+Keywords:  [Projet VITAM] VITAM
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_359_31016305.1517006385125"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; 
+    s=20130820; 
+    h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted 
+    :keywords:mime-version:content-transfer-encoding; 
+    bh=IAM+fV02kEXwYfabECP3kXluEFHDXZFW2pK0JAK9WPg=; 
+    b=UV1cxcm/2BeaJ9EQ6Q4HZaoJ03SX6boXrW4Udi+CbArbWaRCeX0PY3VRAlSDRw4rhg 
+    L8Rp5/lnjP5VdAetdjSPjn7gCTC4D7FjFfoQj4Dm8OSUqRzquEczh9XlyeCETv3e/mEO 
+    LE3or5LmyLShBV+2xg22oPSfTQn6TTidVepZEFvL2UEwWM3+A1xkq8GXS2khOVtR2qlz 
+    yvaaKpjLIj/3eboZpRX8lVg7haKrVAn3+grkMawX6d8ss6nn7C2NBd7vFejOTGOo2yvh 
+    fqaTPUFLc8Ipg3+NUyyZa79Yh+2uAurHJt96hVCTfosaJSufGEUF1dMBhDilDOt5jRYt 
+    iS5g==
+X-Gm-Message-State:  AKaTC02yEdqw9686w6dnNazStZ7D5qxj/XZZx8UgCLXLGgjSVkjOGxww7o2ajtM2w5qMNA==
+X-Received:  by 10.28.17.213 with SMTP id 204mr6375273wmr.17.1481279749830; 
+    Fri, 09 Dec 2016 02:35:49 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 
+    2016.12.9.103016
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report=' HTML_00_01 0.05, 
+    HTML_00_10 0.05, SUPERLONG_LINE 0.05, BODY_SIZE_4000_4999 0, 
+    BODY_SIZE_5000_LESS 0, BODY_SIZE_7000_LESS 0, DKIM_SIGNATURE 0, 
+    FROM_NAME_PHRASE 0, IP_HTTP_ADDR 0, IP_HTTP_ADDR_WITH_PORT 0, 
+    SPF_PASS 0, URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0, WEBMAIL_XMAILER 0, 
+    __ANY_URI 0, __CP_URI_IN_BODY 0, __CT 0, __CTE 0, __CT_TEXT_PLAIN 0, 
+    __DQ_NEG_HEUR 0, __DQ_NEG_IP 0, __FRAUD_MONEY_CURRENCY 0, 
+    __FRAUD_MONEY_CURRENCY_DOLLAR 0, __FRAUD_WEBMAIL 0, 
+    __FRAUD_WEBMAIL_FROM 0, __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, 
+    __HAS_X_MAILER 0, __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, 
+    __HTTPS_URI 0, __MIME_TEXT_ONLY 0, __MIME_TEXT_P 0, __MIME_TEXT_P1 0, 
+    __MIME_VERSION 0, __MSGID_32HEX 0, __MULTIPLE_URI_TEXT 0, 
+    __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, 
+    __PHISH_SPEAR_STRUCTURE_2 0, __RDNS_GMAIL 0, __SANE_MSGID 0, 
+    __STOCK_PHRASE_24 0, __SUBJ_HIGHBIT 0, __TO_MALFORMED_2 0, 
+    __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 0, __URI_NO_WWW 0, 
+    __URI_WITH_PATH 0, __UTF8_SUBJ 0, __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; 
+    d=gmail.com; s=20120113; 
+    h=date:to:from:subject:message-id:auto-submitted:keywords 
+    :mime-version:content-transfer-encoding; 
+    bh=IAM+fV02kEXwYfabECP3kXluEFHDXZFW2pK0JAK9WPg=; 
+    b=BbqpA0d4+emihwF+n087Bf4eATpY7j/quckq5UcOxOaZ9kIgnL4jWcufGMRFjsZIut 
+    zdz/b0hC0JaoUkYBXVq4RQw9Efl/JUKmX6cJ1yEfaNfYzfSEt6vF7HQK9SuCZrBafL46 
+    XiopsQwK+rF6+EGNlH2rDABKjViHCAlxMLSmyrLyyQgjIQY5ROOD/yids1pec7lOeE9k 
+    +0S8xb0mQPR5Pr1U2S8cblytyafX7BhRK8pabOs4AcuLIJhjabu5bNSdQ+cUer97Ac35 
+    3sjaB3v/gyGARTM+WezPG+HdKTbaC0WZIyaER8pKuSsUvdH12sov62aZOKRdyArM8JRe 
+    c1pw==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]10,1,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:41:46:150:152:355:379:493:509:541:543:836:882:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1535:1542:1593:1594:1711:1730:1747:1777:1792:1801:2198:2199:2393:2525:2561:2564:2682:2685:2859:2901:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3876:3877:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4119:4250:4321:4605:5007:6114:6261:6642:6653:6690:6996:6997:8599:8957:8985:8987:9025:9121:9388:9413:10004:10400:10471:10849:11233:11473:11658:11783:12043:12109:12114:12291:12438:12517:12519:12663:12679:12683:12740:13025:13206:13229:13255:14110:14181:14687:14721:21063:21080:21434:21444:30054:30080,0,RBL:74.125.82.65:@gmail.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.net-62.50.0.100 64.100.201.100;04yrkj8aicie3s3gn4wb1o
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1294500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM02.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_359_31016305.1517006385125
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_360_30417729.1517006385125"
+
+------=_Part_360_30417729.1517006385125
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D7=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Omar
+Responsable:                Omar
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   7
+Cat=C3=A9gorie:                  VITAM
+Reproductibilit=C3=A9:           toujours
+Impact:                     mineur
+Priorit=C3=A9:                   normale
+Statut:                     affect=C3=A9
+Comportement attendu:       =20
+US concern=C3=A9e:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2016-12-09 11:35 CET
+Derni=C3=A8re modification:      2016-12-09 11:35 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     [API-access-external/v1/units-PUT] : =
+La balise
+r=C3=A9ponse "#diff" ne contient pas syst=C3=A9matiquement la balise modifi=
+=C3=A9e
+Description:=20
+lors de mise =C3=A0 jour d'un titre via la reqqu=C3=AAte suivante :
+
+PUT
+https://213.32.79.242:8444/access-external/v1/units/aeaaaaaaaaaam7mxaaekoak=
+y2uk7n7iaaaaq
+HTTP/1.1
+Accept-Encoding: gzip,deflate
+Content-Type: application/json
+X-Http-Method-Override: GET
+charset: UTF-8
+Accept: application/json
+
+
+{
+=09"$roots":[],
+=09"$query":
+=09=09=09[],
+=09"$filter":
+=09{
+=09=09"$orderby":
+=09=09{
+=09=09=09"TransactedDate":1}},
+=09"$action":
+=09=09=09=09=09[
+=09=09=09{
+=09=09=09=09"$set":
+=09=09=09=09{
+=09=09=09=09=09"Title":"g_Title_DEFAUT"}}]}
+
+..
+Le JSON de la r=C3=A9ponse ne contient pas syst=C3=A9matiquement dans la ba=
+lise "#diff":
+" l'item modifi=C3=A9 (ie ici  "#diff": "-  Title : g_Title_DEFAUT.....).
+
+A noter que cela peut =C3=AAtre un comportement "normal" de la part de VITA=
+M si on
+lance cette m=C3=AAme requ=C3=AAte deux fois de suite, il serait donc logiq=
+ue de ne pas
+re re modifier car l'ancienne valeur et la nouvelle sont les m=C3=AAmes.
+Or si on lance cette m=C3=AAme requ=C3=AAte via un autre "canal" (ex via so=
+ap-ui sur un
+autre niveau avec exactement la m=C3=AAme requ=C3=AAte JSON) la balise est =
+renvoy=C3=A9e
+m=C3=AAme si l'ancien titre et le nouveau sont les m=C3=AAmes !=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2016-12-09 11:35 Omar           Nouveau bogue                              =
+ =20
+2016-12-09 11:35 Omar           Statut                   nouveau =3D> affec=
+t=C3=A9 =20
+2016-12-09 11:35 Omar           Assign=C3=A9 =C3=A0                 =3D> Om=
+ar           =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_360_30417729.1517006385125--
+
+------=_Part_359_31016305.1517006385125--

@@ -1,0 +1,41 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=36 
+====================================================================== 
+Rapporteur:                 Vincent
+Responsable:                Vincent
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   36
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-23 16:45 CET
+Dernière modification:      2016-12-23 16:45 CET
+====================================================================== 
+Résumé:                     Possibilité de remplir la balise
+DataObjectVersion avec PhysicalMaster pour un BinaryDataObject
+Description: 
+Lorsque l'on rempli la balise DataObjectVersion avec PhysicalMaster pour un
+BinaryDataObject dans le manifest du SIP, lors d'un ingest via API, l'ATR
+signale un RepluCode OK au lieu de KO.
+
+Informations complémentaires: 
+PVI-24
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-23 16:45 Vincent        Nouveau bogue                                
+2016-12-23 16:45 Vincent        Statut                   nouveau => affecté  
+2016-12-23 16:45 Vincent        Assigné à                 => Vincent         
+2016-12-23 16:45 Vincent        Fichier ajouté:
+ATR_SIP-20161223162409.zip_2016-12-23_16-26-50.xml                    
+======================================================================

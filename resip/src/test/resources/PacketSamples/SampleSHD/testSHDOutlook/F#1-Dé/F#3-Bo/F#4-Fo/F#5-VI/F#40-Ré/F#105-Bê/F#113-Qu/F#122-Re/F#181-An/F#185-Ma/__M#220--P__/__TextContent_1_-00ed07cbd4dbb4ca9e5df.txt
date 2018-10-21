@@ -1,0 +1,67 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=37 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   37
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-23 16:51 CET
+Dernière modification:      2016-12-23 16:51 CET
+====================================================================== 
+Résumé:                     Aucun ATR fournit lors d'une erreur FATAL
+Description: 
+Lors de nos essais d'INGEST de SIP ne contenant que des PhysicalDataObject nous
+nous sommes aperçu que nos ne recevons aucun ATR lors que notre INGEST était
+en statut FATAL, que ce soit via l'IHM ou via l'API
+
+Lors que nous effectuons un INGEST via l'API, nous obtenons un fichier .xml qui
+est bien nommé ATR mais où sont contenu ne présente qu'une erreur 500 :
+
+- <html>
+- <head>
+  <meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1" /> 
+  <title>Error 500</title> 
+  </head>
+- <body>
+  <h2>HTTP ERROR: 500</h2> 
+- <p>
+  Problem accessing /ingest/v1/ingests. Reason: 
+  <pre>Internal Server Error</pre> 
+  </p>
+  <hr /> 
+  </body>
+  </html>
+
+De plus, lorsque nous tentons d'injecter le même SIP mais via l'IHM nous
+n'obtenons aucun retour de vitam, juste la croix qui signifie qu'il y a eu un
+erreur lors de notre INGEST.
+
+Il nous est possible de consulter l'état de notre transfert aussi bien via le
+Suivi des opérations d'entrée que le journal des opérations avec un statut
+"FATAL" au niveau du contrôle de la cohérence du bordereau.
+
+Nous sommes parvenu a récupérer un ATR complet dans l'offre de stockage, donc
+il a bien été crée.
+ 
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-23 16:51 Jonathan       Nouveau bogue                                
+2016-12-23 16:51 Jonathan       Statut                   nouveau => affecté  
+2016-12-23 16:51 Jonathan       Assigné à                 => Jonathan        
+2016-12-23 16:51 Jonathan       Fichier ajouté: Anomalie FATAL.zip             
+      
+======================================================================

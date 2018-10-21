@@ -1,0 +1,225 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: Ano Tuleap 45 - Mantis  [Projet VITAM 0000047]: Ingest réussi d&apos;un format de fichier inconnu dans PRONOM =&gt;Rejeté - demande d&apos;accès à l&apos;adresse spécifiée pour vérification</Title>
+    <OriginatingSystemId>&lt;f9120ca89e4be9859105f1474f68516d@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>nathanael.attar.ext</FirstName>
+        <BirthName>nathanael.attar.ext</BirthName>
+        <Identifier>nathanael.attar.ext@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>&apos;emmanuel.laborde@culture.gouv.fr&apos; &lt;emmanuel.laborde@culture.gouv.fr&gt;, &quot;AJJAZ Franc</FirstName>
+        <BirthName>&apos;emmanuel.laborde@culture.gouv.fr&apos; &lt;emmanuel.laborde@culture.gouv.fr&gt;, &quot;AJJAZ Franc</BirthName>
+        <Identifier>franck.ajjaz@altran.com</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>BEL Nicolas</FirstName>
+        <BirthName>BEL Nicolas</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2017-01-06T15:04:01Z</SentDate>
+    <ReceivedDate>2017-01-06T15:07:59Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D3007D44E@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour Thierry,
+
+Je vous confirme que Vitam utilise bien le référentiel PRONOM : pour les besoins de la démonstration, j&apos;ai cependant utilisé Siegfried qui se base lui-même sur PRONOM (http://www.itforarchivists.com/siegfried).
+
+L&apos;explication est la suivante : on ne se base pas uniquement sur l&apos;extension. En effet, vous vous êtes basés à juste titre sur l&apos;extension qui est la méthode utilisée nativement par la nomenclature PRONOM. 
+
+Or VITAM, qui se base sur PRONOM, va plus loin que l&apos;extension elle même et vérifie surtout le contenu du fichier.
+
+Le malentendu vient du fait que pour PRONOM, &quot;.GRM&quot; ne ressort pas, alors même que le référentiel Siegfried, qui se base sur PRONOM, identifie l&apos;intégrité du fichier lui même, comme le fait exactement VITAM.
+
+C&apos;est en l&apos;état un exercice intéressant dans la mesure où nous pourrions par exemple uploader un fichier dont on changerait l&apos;extension : VITAM s&apos;attachera quand même à en identifier le format natif.
+
+Dernier élément qui confirme notre démonstration : si l&apos;on ouvre le manifeste relatif au SIP utilisé (depuis &quot;AnomalieGRM&quot;), on observe bien à l&apos;emplacement suivant les deux lignes suivantes : 
+
+&lt; MimeType&gt;application/octet-stream&lt; /MimeType&gt;
+
+&lt; FormatId&gt;fmt/899&lt; /FormatId&gt;
+
+... Ce qui nous confirme que l&apos;intégrité du format est cohérente avec le référentiel, c&apos;est à dire que format fmt/899 est bien reconnu comme valide et qu&apos;en conséquence, qu&apos;il ne s&apos;agit pas d&apos;un bug.
+
+En espérant vous avoir apporté les éclaircissements nécessaires, je reste bien entendu à votre disposition pour toute information complémentaire,
+
+Cordialement,
+
+Nathanael Attar
+
+ 
+
+ 
+
+Le 2017-01-06 15:28, CASIMIRIUS Thierry a écrit :
+
+	Bonjour Nathan, Emmanuel
+
+	 
+
+	Le bug Tuleap 45 vient d’être rejeté pour la raison suivante.
+
+	 
+
+	Nathanael Attar (nattar)il y a 3 heures
+
+	Dernière édition par: Nathanael Attar (nattar) il y a 3 heures
+
+	Bonjour,
+
+	 
+
+	Sauf erreur, il ne s&apos;agit pas d&apos;un bug car le format .GRM est bien pris en compte dans le référentiel des formats de Vitam :
+
+	 
+
+	Vérification via l&apos;adresse suivante : via : https://int2.env.programmevitam.fr/ihm-demo/#!/admin/formats
+
+	 
+
+	PUID : fmt/899
+
+	Nom de format : Windows Portable Executable
+
+	Version: 32 bit
+
+	MIME : application/octet-stream
+
+	Extensions : dll,exe,sys
+
+	 
+
+	ID du format vérifiable à cette adresse : ID fmt/899 vérifiable sur ce site par exemple : http://www.itforarchivists.com/siegfried
+
+	 
+
+	Mais l’extension .GRM n’est pas spécifié dans les extensions indiquées ci-dessous.
+
+	Et le référentiel de format de VITAM indiqué (https://int2.env.programmevitam.fr/ihm-demo/#!/admin/formats) n’est pas accessible.
+
+	Quel login et mdp utiliser pour accéder à ce référentiel ? 
+
+	 
+
+	Et nous avions compris que la base à utiliser pour le référentiel de format était PRONOM (http://www.nationalarchives.gov.uk/PRONOM/BasicSearch/proBasicSearch.aspx?status=new)
+
+	VITAM utilise-t-il un autre référentiel ??
+
+	 
+
+	 
+
+	D’avance, merci pour votre retour,
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	-----Message d&apos;origine-----
+	De : Mantis Bug Tracker [mailto:admtlvitam@gmail.com] 
+	Envoyé : mercredi 4 janvier 2017 10:13
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : [Projet VITAM 0000047]: Ingest réussi d&apos;un format de fichier inconnu dans PRONOM
+
+	 
+
+	 
+
+	Le bogue suivant a été soumis. 
+
+	======================================================================
+
+	http://213.32.79.242/mantisbt/view.php?id=47 &lt; http://213.32.79.242/mantisbt/view.php?id=47&gt; 
+
+	====================================================================== 
+
+	Rapporteur:                 Jonathan
+
+	Responsable:                Jonathan
+
+	====================================================================== 
+
+	Projet:                     Projet VITAM
+
+	Bogue ID:                   47
+
+	Catégorie:                  BugFromTestlink
+
+	Reproductibilité:           toujours
+
+	Impact:                     majeur
+
+	Priorité:                   normale
+
+	Statut:                     affecté
+
+	Comportement attendu:        
+
+	US concernée:                
+
+	====================================================================== 
+
+	Date de soumission:         2017-01-04 10:13 CET
+
+	Dernière modification:      2017-01-04 10:13 CET
+
+	====================================================================== 
+
+	Résumé:                     Ingest réussi d&apos;un format de fichier inconnu dans
+
+	PRONOM
+
+	Description: 
+
+	Nous avons effectué un INGEST d&apos;un fichier .GRM tout seul dans VITAM et nous avons obtenu un ATR avec un ReplyCode OK.
+
+	Le fichier est bien accessible dans VITAM avec un PUID correspondant a un fichier .exe L&apos;INGEST a été effectué avec les APIs mais aussi avec l&apos;IHM avec toujours le même résultat 
+
+	 
+
+	Informations complémentaires: 
+
+	PVI-215
+
+	====================================================================== 
+
+	 
+
+	Historique du bogue 
+
+	Date de modificationNom d’utilisateurChamp                    Changement      
+
+	    
+
+	====================================================================== 
+
+	2017-01-04 10:13 Jonathan       Nouveau bogue                                
+
+	2017-01-04 10:13 Jonathan       Statut                   nouveau =&gt; affecté  
+
+	2017-01-04 10:13 Jonathan       Assigné à                 =&gt; Jonathan        
+
+	2017-01-04 10:13 Jonathan       Fichier ajouté: Anomalie GRM.zip               
+
+	    
+
+	======================================================================</TextContent>
+</Content>

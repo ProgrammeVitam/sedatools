@@ -1,0 +1,39 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Programme Vitam] [Information] Recommandation sur &quot;20161209&quot;</Title>
+    <OriginatingSystemId>&lt;1271803112.251481565153945.JavaMail.vitam@jalios03.xsalto.net&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>&quot;Edouard Vasseur (Programme Vitam)&quot;</FirstName>
+        <BirthName>&quot;Edouard Vasseur (Programme Vitam)&quot;</BirthName>
+        <Identifier>agora@vitam.jaliosagora.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>Casimirius Thierry</FirstName>
+        <BirthName>Casimirius Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-12T17:52:33Z</SentDate>
+    <ReceivedDate>2016-12-12T17:52:40Z</ReceivedDate>
+    <TextContent>Programme Vitam - Information
+
+Casimirius, 
+
+Edouard Vasseur &lt; https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur&gt;  vous recommande de consulter 20161209 &lt; https://vitam.jaliosagora.com/jcms/c_2005806/fr/20161209&gt; 
+
+Ce message a été envoyé au groupe suivant : Chantier Storymap - Participants
+
+ Edouard Vasseur&lt; https://vitam.jaliosagora.com/upload/photos/2015-11/mbr_c_2000063.jpg.associated/th-40x40-mbr_c_2000063.jpg.jpg?authKey=Y18yMDAzMTU5OjE1MTMxMDExNTM5NDI6JDJhJDA0JHFkZS9IYUNiMmZnbjdUOWFrZ3NkNGVKYUZNTW5Fa3gycmFlTlAuNTV0RlI1aWkycE1jLnp1&gt; 
+ 	 
+Bonjour, Vous trouverez sur l&apos;espace du chantier Solution logicielle une nouvelle version du générateur de SIP. Cette nouvelle version inclut les fonctionnalités suivantes ; * les fonctionnalités déjà intégrées dans la v.0.3 du mois de novembre * la possibilité de rejeter les fichiers dont le format n&apos;est pas identifié par l&apos;outil Siegfried * la possibilité de rejeter les fichiers ayant une extension contenant un caractère &quot;URL-encoded&quot; 
+
+Enfin, le générateur peut désormais être installé dans un répertoire contenant un caractère espace &quot; &quot; et peut générer un SIP à partir d&apos;un répertoire contenant un caractère &quot;espace&quot; &quot; &quot; 
+
+Nous restons à votre disposition pour toute question ou interrogation. 
+
+L&apos;équipe Vitam 
+
+12/12/2016 18:45 · Chantier Solution logicielle Vitam &lt; https://vitam.jaliosagora.com/jcms/c_2001230/fr/chantier-solution-logicielle-vitam&gt;  
+Mon profil &lt; https://vitam.jaliosagora.com/jcms/c_2003159/fr/casimirius-thierry&gt;  · Accueil &lt; https://vitam.jaliosagora.com/&gt;  
+Ce mail vous a été envoyé par Programme Vitam
+ &lt; https://vitam.jaliosagora.com/jcore/alert/mail/markAsRead.jsp?img=true&amp;id=105650_Alert&amp;authKey=djI7Y18yMDAzMTU5OzE1MTMxMDExNTM5Mzk7R0VUOzs7JDJhJDA0JDhhODZHdXpyYXFOVTFHLjl6eWYucE9pSVk0U3dZZDVxcWVmV2FSeTEyUkxzTlQxYWVEUTRh&gt;</TextContent>
+</Content>

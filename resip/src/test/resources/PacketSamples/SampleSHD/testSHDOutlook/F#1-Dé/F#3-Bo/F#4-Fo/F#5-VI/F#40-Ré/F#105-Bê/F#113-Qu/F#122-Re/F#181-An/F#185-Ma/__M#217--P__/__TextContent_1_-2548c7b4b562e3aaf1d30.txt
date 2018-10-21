@@ -1,0 +1,38 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=40 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   40
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-26 12:03 CET
+Dernière modification:      2016-12-26 12:03 CET
+====================================================================== 
+Résumé:                     [Besoin Metier Légitime] Balise
+MimeTypeCodeListVersion n'est pas contrôlée
+Description: 
+La balise MimeTypeCodeListVersion du manifest n'est pas contrôlée lors de
+l'ingest, une valeur aléatoire fait quand meme passé le SIP en OK 
+
+Informations complémentaires: 
+PVI-30
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-26 12:03 Jonathan       Nouveau bogue                                
+2016-12-26 12:03 Jonathan       Statut                   nouveau => affecté  
+2016-12-26 12:03 Jonathan       Assigné à                 => Jonathan        
+======================================================================

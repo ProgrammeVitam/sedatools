@@ -1,0 +1,45 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=25 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   25
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-21 10:29 CET
+Dernière modification:      2016-12-21 10:29 CET
+====================================================================== 
+Résumé:                     Difficulté à faire une recherche partielle sur
+le titre
+Description: 
+Nous avons rencontré des difficultés à effectuer une recherche via le titre
+ou la description via la recherche d'archives de l'IHM.
+Nous n'avons pas réussi a faire de recherche partielle sur certains éléments,
+notamment ceux qui possèdent des "_" dans le titre ou la description. 
+Il est possible que l'"_" ne soit pas considéré comme un séparateur mais un
+archiviste voulant faire une recherche ne prendra pas en compte le fait que
+l'"_" soit un caractère et non un séparateur. 
+
+Informations complémentaires: 
+PVI-141
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-21 10:29 Jonathan       Nouveau bogue                                
+2016-12-21 10:29 Jonathan       Statut                   nouveau => affecté  
+2016-12-21 10:29 Jonathan       Assigné à                 => Jonathan        
+2016-12-21 10:29 Jonathan       Fichier ajouté: SIP-20161221102644.zip         
+          
+======================================================================

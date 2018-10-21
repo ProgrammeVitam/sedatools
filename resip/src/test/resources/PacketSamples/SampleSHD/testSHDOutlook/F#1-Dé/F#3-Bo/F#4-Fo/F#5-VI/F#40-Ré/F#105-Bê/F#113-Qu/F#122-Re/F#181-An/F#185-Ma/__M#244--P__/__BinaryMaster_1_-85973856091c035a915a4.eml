@@ -1,0 +1,151 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242]) by smtp.gmail.com with ESMTPSA
+     id di9sm62795779wjc.37.2016.12.13.07.53.11 for
+     <thierry.casimirius@intradef.gouv.fr>     (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Tue,     13 Dec 2016
+ 07:53:11 -0800 (PST)
+Date: Tue, 13 Dec 2016 16:53:12 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <85973856091c035a915a427470b38fc8@213.32.79.242>
+Subject: =?UTF-8?Q?[Projet_VITAM_0000015]:_Impossibilit=C3=A9_d'importer_SIP_av?=
+ =?UTF-8?Q?ec_Storage_Rule_avec_final_Action_(Copier;_valeur_SEDA)?=
+Keywords:  [Projet VITAM] BugFromTestlink
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_345_31259367.1517006385049"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; 
+    s=20130820; 
+    h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted 
+    :keywords:mime-version:content-transfer-encoding; 
+    bh=KclbTMPojZLHIafZ225Lp3AqKqgdtmOud3/o3T4JdyM=; 
+    b=TdkUvap+6XjJZfElKkQD4lqs9H7nPICQCfC/f2ntC/+tgK8IafVwe+O6pWmBEW3SWh 
+    upOboszPCd37atz5sh6e6d2tI6jlp54z7l0VoAmEkelZSrKAE/1bqC6wKL9R/uT9uN0N 
+    6H/Eqmm8V5bBDgZrNYoaeFN7/0e8TTpUhyd91BrdJ/9qdEwtxTiHhaQuk3gtC7gjtVGk 
+    F2UxKh2MepF7mZ0wjPSCuH++rUFapBmUVHu0JWoTMHVUwrPXpdLFpQ8tBPCvZy8OP5xl 
+    3ItfdIlGrin13NK5GUQZ/gfOdZFRvpYQV0HhDt3K1C/S9C8Nf9q5jPbqsZ0RzXqmZ3wJ 
+    iBTw==
+X-Gm-Message-State:  AKaTC01pV2xPwGNs8EfVZXCwhGzynz4Pg/7tIJWb0UgxQU2WU+ECGvA1P5R9MrpDkkmr0A==
+X-Received:  by 10.28.137.193 with SMTP id l184mr3074841wmd.88.1481644392537; 
+    Tue, 13 Dec 2016 07:53:12 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 
+    2016.12.13.154517
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report=' HTML_00_01 0.05, 
+    HTML_00_10 0.05, BODY_SIZE_3000_3999 0, BODY_SIZE_5000_LESS 0, 
+    BODY_SIZE_7000_LESS 0, DKIM_SIGNATURE 0, FROM_NAME_PHRASE 0, 
+    IP_HTTP_ADDR 0, NO_URI_HTTPS 0, SINGLE_URI_IN_BODY 0, SPF_PASS 0, 
+    URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0, WEBMAIL_XMAILER 0, __ANY_URI 0, 
+    __CP_URI_IN_BODY 0, __CT 0, __CTE 0, __CT_TEXT_PLAIN 0, __DQ_NEG_HEUR 
+    0, __DQ_NEG_IP 0, __FRAUD_WEBMAIL 0, __FRAUD_WEBMAIL_FROM 0, 
+    __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, __HAS_X_MAILER 0, 
+    __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, __MIME_TEXT_ONLY 0, 
+    __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 0, __MSGID_32HEX 0, 
+    __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, 
+    __PHISH_SPEAR_STRUCTURE_2 0, __RDNS_GMAIL 0, __SANE_MSGID 0, 
+    __SINGLE_URI_TEXT 0, __STOCK_PHRASE_24 0, __SUBJ_HIGHBIT 0, 
+    __TO_MALFORMED_2 0, __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 
+    0, __URI_NO_WWW 0, __URI_WITH_PATH 0, __UTF8_SUBJ 0, __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; 
+    d=gmail.com; s=20120113; 
+    h=date:to:from:subject:message-id:auto-submitted:keywords 
+    :mime-version:content-transfer-encoding; 
+    bh=KclbTMPojZLHIafZ225Lp3AqKqgdtmOud3/o3T4JdyM=; 
+    b=Yf/LHLqZHmqCf99cIWa9fxz3WVEXqe5UC5b2jZrRRS8CL0PMcC1j73AXTqmDk+EdyY 
+    1hbeqK7rIg1TJK9SNpKax1c17FcuITh2Bg+fBagj8CiG5bw7P5DVTPl9+ssU/d3sH65G 
+    NcABzCBR38UzQWitSmphVgqwBPHF5G9MiEypQlEu5a2mXOYMjUMNQeeE5s1K0QS540MJ 
+    1x0sp4LVuC8IDtcM4tIGlkWgnAvT6ScysNzSS+8DNBvxv5HmLuN/T8+Y8fHeiYnmxHOD 
+    d+OZMi6E5P16KrY5UeMEG13KjB1LYw+NYacIg7qWDOmuaWA8VEoHSF/iMNmmbQ7CRsyL 
+    iERQ==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]10,1,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:41:46:150:152:355:379:493:541:543:836:882:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1535:1542:1593:1594:1711:1730:1747:1777:1792:1801:2393:2525:2560:2563:2682:2685:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3876:3877:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4118:4250:4321:4605:5007:6114:6261:6642:6653:6996:6997:8599:8957:8987:9025:9121:9388:9413:10004:10400:10471:10849:11233:11473:11658:11984:12043:12114:12291:12517:12519:12555:12663:12679:12683:12740:13025:13191:13192:13206:13229:13255:13870:14110:14181:14664:14687:14721:21063:21080:21444:30054:30075:30080,0,RBL:74.125.82.50:@gmail.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.net-62.50.0.100 66.100.201.100;04y81k4i49ipe1d59b5u3tq969awqop65
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1295700;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM01.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_345_31259367.1517006385049
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_346_27284103.1517006385049"
+
+------=_Part_346_27284103.1517006385049
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D15=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Franck
+Responsable:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   15
+Cat=C3=A9gorie:                  BugFromTestlink
+Reproductibilit=C3=A9:           toujours
+Impact:                     bloquant
+Priorit=C3=A9:                   normale
+Statut:                     nouveau
+Comportement attendu:       =20
+US concern=C3=A9e:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2016-12-13 16:53 CET
+Derni=C3=A8re modification:      2016-12-13 16:53 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     Impossibilit=C3=A9 d'importer SIP ave=
+c Storage Rule
+avec final Action (Copier; valeur SEDA)
+Description:=20
+L'imporation d'un SIP contenant une unit soumise =C3=A0 une storage Rule n'=
+est pas
+possible
+
+Nous joignons un SIP ou la balise FinalAction a =C3=A9t=C3=A9 renseign=C3=
+=A9e avec la valeur
+"Copier" qui est une valeur indiqu=C3=A9e dans le SEDA.
+
+Nous avons fait un autre essaie avec la valeur "Keep" (celle ci passait ave=
+c les
+AppraisalRule)
+Nous avons aussi fait un essaie en supprimant la startDate
+
+
+Informations compl=C3=A9mentaires:=20
+PVI-68
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2016-12-13 16:53 Franck         Nouveau bogue                              =
+ =20
+2016-12-13 16:53 Franck         Fichier ajout=C3=A9: 20161213163700.zip    =
+        =20
+     =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_346_27284103.1517006385049--
+
+------=_Part_345_31259367.1517006385049--

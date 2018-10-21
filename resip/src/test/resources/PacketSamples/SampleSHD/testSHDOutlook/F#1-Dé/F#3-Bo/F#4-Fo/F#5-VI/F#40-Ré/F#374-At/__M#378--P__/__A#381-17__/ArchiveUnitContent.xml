@@ -1,0 +1,1856 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>17022016_VITAM_support_quatrième_chantier_technique_V1.0.pdf</Title>
+    <Description>Document &quot;17022016_VITAM_support_quatrième_chantier_technique_V1.0.pdf&quot; joint au message &lt;56BE165D.7080306@culture.gouv.fr&gt;</Description>
+    <CreatedDate>2016-02-12T17:29:28Z</CreatedDate>
+    <TextContent>
+VITAM
+
+Chantier Technique 4 du 17/02/2016
+Modèles approfondis d&apos;implémentation
+
+Profils concepteur d&apos;application
+
+Valeurs Immatérielles Transférées aux Archives pour Mémoire
+
+
+
+2Programme VITAM
+
+Aperçus des chantiers techniques 1/2
+Vision non limitative
+
+• Quelle infrastructure pour Vitam ?
+– Quels matériels, OS, socles logiciels ?
+– Quels stockages ?
+– Quelles implantations ?
+– Quel PRA / PCA ?
+
+• Quelle intégration de Vitam dans mon SI ?
+– Intégration fonctionnelle
+
+• hors scope (voir chantiers fonctionnels)
+– Intégration de l&apos;exploitation
+
+• Comment superviser ?
+• Comment sauvegarder / restaurer ?
+
+– Intégration applicative : API
+• Application frontale (Front-Office) via les API Vitam
+
+Objectif transverse : Quelles clauses dans un marché public pour la 
+réalisation de l&apos;intégration (2016 : API, 2018 : Stockage, IaaS) ?
+
+
+
+3Programme VITAM
+
+Aperçus des chantiers techniques 2/2
+Premiers chantiers envisagés
+
+• 09/12/2015 : Chantier 1) Infrastructures actuelles : profils exploitation, architecture technique
+– Infrastructure : Outils de déploiement (Virtualisation, OS), Stockage
+– Exploitation : Supervision, Sauvegarde/Restauration, PRA/PCA
+– Outils de transfert de fichiers
+
+• 12/01/2015 : Chantier 2) RETEX et préconisations existantes : profils concepteur d&apos;application, 
+architecture applicative
+– Outils de transfert de fichiers
+– API REST et Authentification d&apos;application à application
+– Langage de programmation pour l&apos;usage de bibliothèques Vitam
+
+• XX/02/2015 Chantier 3) Contraintes de sécurité : profils architecture de production, RSSI
+– Zoning, Multi-sites, PCA/PRA, Déploiement, Multi-tenants
+– Protocoles, Authentification
+– Outils (Antivirus, Pare-feu, sondes, …)
+– Logs et traces, anonymisation dans le cadre du support
+
+• XX/02/2015 Chantier 4) Modèles approfondis d&apos;implémentation : profils concepteur d&apos;application
+– Modèles d&apos;API par usage (versement, accès, administration), Outillage
+– Modèle de Déploiement de Vitam
+
+• XX/03/2015 Chantier 5) Modèles approfondis d&apos;implémentation : profils exploitation, architecture 
+technique
+– Prise en compte de l&apos;adhérence avec les contextes d&apos;exploitation et de sécurité
+– Modèles de sauvegarde, Modèle de stockage
+– Modèle de déploiement, PaaS
+
+Avez vous d&apos;autres suggestions de sujets techniques ?
+
+11 - 2015 12 01 - 2016 02 03 04
+1 2 3 4 5
+
+
+
+4Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+5Programme VITAM
+
+L’architecture générale de la solution logicielle 
+Vitam
+
+Interfaçage, Indépendance, Réutilisation, Sécurité
+
+Accès
+AccèsVersement
+
+Versement
+Administration
+
+Administration
+
+Gestion de la donnée
+Gestion de la donnée
+
+Pérennisation &amp; Intégrité
+Pérennisation &amp; Intégrité
+
+Stockage
+Stockage
+
+Archival Storage
+
+Preservation Planning
+
+Data Management
+
+Administration
+Ingest Access
+
+Service de
+Stockage (Z 42-020)
+
+Connecteur d&apos;accès
+Lecture / Écriture
+
+aux archives
+
+VITAM
+(OAIS + Z 42-013)
+
+Connecteurs pour 
+les dépôts de SIP
+(SEDA → Z 44-022)
+
+Application métier
+
+SIRH, SI Achat, ...
+
+Application métier
+ 
+
+SIRH, SI Achat, SIA
+
+Service de
+Stockage (Z 42-020)
+
+Plusieurs offres
+de stockage
+
+concurremment
+(au moins 1 sera
+
+proposée par VITAM)
+
+Connecteurs pour 
+les requêtes
+depuis des
+
+Applications métiers
+
+
+
+6Programme VITAM
+
+L’architecture fonctionnelle de la solution logicielle 
+Vitam
+
+
+
+7Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+8Programme VITAM
+
+Objectifs
+
+• L&apos;objet est ici principalement sur une prévue des API
+– Les End-points principaux
+– Les expressions de requêtes et réponses
+
+• L&apos;objectif est d&apos;essayer d&apos;obtenir une API
+– Compréhensible
+– Simple à utiliser
+– Simple à interfacer avec une application existante
+– Mais aussi de voir les aides qui peuvent être apportées pour le 
+
+développement des inter-connexions
+• Documentation
+• Exemple de codes
+• Framework de génération de requêtes et de parsing de 
+
+réponses
+• Framework de connexions (protocole HTTPS)
+
+C
+o
+m
+p
+l
+e
+x
+i 
+t
+é
+
+
+
+9Programme VITAM
+
+Modèle général
+
+• Responsabilités de l&apos;application Front-office
+– Ne pas donner accès « directement » à Vitam : en rupture de flux
+
+• Gestion des droits fins d&apos;accès
+• Front-offices seuls autorisés à accéder à Vitam, pas les navigateurs
+
+• End-Point
+– Respect du modèle REST Full
+
+• Requête
+– Exprimé dans le Body via la définition d&apos;un langage spécifique (Domain Specific 
+
+Language)
+– Exprimable pour certains End-Point sur des cas simples dans l&apos;URI
+
+• Mais sera toujours aussi exprimable dans le Body
+• Réponse
+
+– Exprimé dans le Body mais aussi dans le Header
+• Authentification
+
+– CF propositions séance n°2 : SSL/TLS + BASIC avec possibilité d&apos;externalisation
+• Externalisation pour bénéficier de OAUTH2, Certificats, autres méthodes
+
+• Tâches asynchrones
+• Multi-tenants
+
+
+
+10Programme VITAM
+
+Modèle général : End-Points
+
+• Versionning des API
+– Domaine = nom DNS du service
+– Application = domaine de l&apos;application (versement, accès, gestion, …)
+– Version = v1, v2, … versions majeures uniquement (version fine dans le header)
+
+https://domaine/application/version/
+• Accès à une ressource/collection
+
+https://domaine/application/version/ressources
+• Accès à un élément de cette ressource
+
+https://domaine/application/version/ressources/identifiant_ressource
+• Accès à une deuxième ressource issue d&apos;un élément
+
+https://domaine/application/version/ressources/identifiant_ressource/ressources2
+• Commandes : 
+
+– GET : Lecture
+– POST : Création
+– PUT : Mise à jour complète
+– PATCH : Mise à jour partielle, modification d&apos;un état (nécessité mais PUT possible)
+– DELETE : Effacement, Annulation
+– HEAD : Informations succinctes (a priori non nécessaire)
+– OPTIONS : Opérations permises (a priori non nécessaire)
+
+
+
+11Programme VITAM
+
+Modèle général : End-Points
+
+• Services transverses offerts par chaque « application »
+https://domaine/application
+– Pour les API externes
+
+• API de vérification du statut du module
+• API permettant de consulter la version du service et la version de 
+
+l’application déployée
+– Pour les API internes (non visibles), en plus
+
+• API de vérification de l’état des dépendances directes du module
+• API d&apos;activation/désactivation d&apos;un service
+• API de récupération des métriques du module
+
+– Métriques système et JVM
+– Métriques d’utilisation des API (par version)
+
+» Cette fonctionnalité pourrait remonter pour chaque « endpoint » : 
+» le nombre d’appels, 
+» les temps d’exécution  maximum/minimum/moyen/etc.
+» le nombre d’erreurs rencontrées
+» etc.
+» Le tout sur différentes fenêtres temporelles. 
+
+• API de sauvegarde (export) et de restauration (import) (interne)
+
+
+
+12Programme VITAM
+
+Modèle général : Requête
+
+• Arguments
+– Cas simples (a priori exclu) : dans l&apos;URL (https://domaine/application?arguments)
+– Cas complexes : dans le body HTTP
+
+• Compatibilité multi-framework
+– Toutes les commandes ne sont pas implémentées, ni toutes les 
+
+possibilités HTTP comme le body avec un GET
+• Header : « X-HTTP-Method-Override: GET » permet de prendre en compte 
+
+une requête « GET virtuelle » avec Body en utilisant un « POST »
+• Codes retours : standard HTTP
+
+– Quelques codes
+• 200 : OK, 201 : créé, 202 : accepté (requête asynchrone)
+• 204 : OK sur un effacement, 206 : réponse partielle (pagination)
+• 302 : API dépréciée, 410 : API obsolète, 501 : API non encore disponible
+• 400 : requête incorrecte, 401 : non authentifié, 403 : non autorisé
+• 404 : non trouvé
+• 429 : fréquence d&apos;appels trop élevée
+• 503 : Service indisponible
+
+
+
+13Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+14Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+15Programme VITAM
+
+Protocoles, Authentifications
+
+• Protocoles d&apos;échanges entre le SI et Vitam
+– Protocoles envisagés
+
+• HTTPS
+• Autres protocoles pour des flux de fort dimensionnement (FTPS, WAARP, …)
+
+– Selon les protocoles, différents mécanismes d&apos;authentifications peuvent 
+être mis en œuvre
+• Clef (côté serveur Vitam, côté client Vitam) pour la partie SSL
+• User/Password
+• Mécanisme SI pour la partie HTTPS ?
+
+– Un connecteur devra permettre l&apos;utilisation d&apos;authentifications liées 
+au SI (cf Digest Scheme, JSON Web Token, …)
+
+– A noter RGI : Recommandation OAUTH2 mais très orienté utilisateur 
+transmis entre 2 applications, ce qui n&apos;est pas notre cas
+
+
+
+16Programme VITAM
+
+Protocoles, Authentification
+Grandes familles, complémentaires ?
+
+Avantages Inconvénients
+Challenge (ex : Digest) Pas de tiers de confiance nécessaire
+
+Pas de risque de rejeu
+Nécessite 2 requêtes pour faire 
+l’authentification
+Nécessite de stocker le mot de passe/secret 
+sur le serveur
+Dans le cas de Vitam : Nombre de secrets à 
+gérer
+Risque de Man-In-The-Middle si le client peut 
+gérer des méthodes d’authentification 
+dégradées (ex : Basic) / Complexe à mettre en 
+œuvre proprement
+
+Scellement (ex : HMAC) Authentification et requête dans la même 
+requête HTTP (stateless)
+Pas de tiers de confiance nécessaire
+
+Nécessite de stocker le mot de passe/secret 
+sur le serveur
+Sensible au rejeu (nécessite de définir une 
+date d’expiration du sceau)
+Nombre de secrets à gérer
+
+Certificat client TLS Une révocation de la chaîne de confiance 
+est prise en compte immédiatement par le 
+système
+Apporte une authentification « plus forte » 
+(clé privée + passphrase de la clé privée)
+Pas de risque de rejeu
+
+Complexe à mettre en œuvre (chaîne de 
+confiance, vérification des CRL) et à maintenir 
+Une révocation d’une AC intermédiaire peut 
+provoquer un incident de production
+
+Systèmes basés sur un 
+fournisseur d’identitié (Oauth2, 
+SAML, Keystone pour 
+Openstack)
+
+Gestion centralisée de l’identité de la 
+plateforme
+
+Complexité de mise en oeuvre
+Le fournisseur d’identité est un composant 
+central critique/SPOF dans les échanges
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+17Programme VITAM
+
+Protocoles, Authentifications
+Challenge et Scellement = Authorization: Oauth realm, Digest Scheme 
+
+Source :
+http://fr.slideshare.net/stormpath/rest-api-security
+
+Challenge sous la forme de Digest
+Côté Client
+request.headers[&apos;Client-Id&apos;] = getMyId()
+String digest = hmacSha256(request, password)
+String val = &apos;Foo &apos; + digest
+Request.headers[&apos;Authorization&apos;] = val
+send(request)
+
+Côté Serveur
+String clientId = request.headers[&apos;Client-Id&apos;]
+Byte[] password = lookupPasswordClient(clientId)
+String serverComputeDigest = hmacSha256(request, password)
+String val = request.headers[&apos;Authorization&apos;]
+String clientSpecifiedDigest = val.remove(&apos;Foo &apos;)
+If (clientSpecifiedDigest!= serverComputeDigest) (
+
+sendError(401, response)
+return
+
+)
+// Sinon requête authentifiée
+
+Exemple : Oauth 1.0a
+Authorization: OAuth realm=&apos;http://app.example.com&apos;,
+oauth_consumer_key=&apos;xxxxxxxxx&apos;,
+oauth_token=&apos;xxxxxxxxxxx&apos;,
+oauth_signature_method=&apos;HMAC-SHA1&apos;,
+oauth_signature=&apos;xxxxxxxxxxxxxxxxxxxxxxxx&apos;,
+oauth_timestamp=&apos;123456789&apos;,
+oauth_nonce=&apos;xxxxxxxxxxxxxxxxxxxxxxxxxxxxx&apos;
+
+Avantages :
+• Probablement le plus sécurisé
+• Password jamais transmis
+• Garantie de l&apos;authenticité du message (ce que ne fait pas 
+HTTPS)
+• Non susceptible d&apos;attaque « Man In The Middle »
+
+Inconvénients :
+• Difficile à implémenter de manière sûre
+• Difficile à comprendre et utiliser
+• Difficile d&apos;implémenter des bibliothèques
+• Le client doit avoir un password stable
+
+http://app.example.com/
+
+
+18Programme VITAM
+
+Protocoles, Authentifications
+Fournisseur d&apos;identité : Authorization: OAUTH2
+
+Voir norme : 
+http://tools.ietf.org/html/rfc6749
+
+Avantages :
+• Plus facile à utiliser qu&apos;un Digest
+• Un standard de fait pour le format du token (JWT)
+• Peut contenir un état – pas de session serveur
+• Ne nécessite pas l&apos;accès constant au password 
+utilisateur
+
+Inconvénients :
+• HTTPS requis
+• Ne garantie pas l&apos;authenticité du message (comme 
+Digest le peut)
+• Sujet à attaques « Man In The Middle »
+• La création de Token et le renouvellement peut être 
+compliqué et confus
+• Le contenu des Token n&apos;est pas standardisé
+
+
+
+19Programme VITAM
+
+Protocoles, Authentifications
+Fournisseur d&apos;identité : Token Authorization: Bearer, Json Web Token
+
+JWT est une chaîne encodée en Base64 Une fois décodée, le contenu est :
+
+JWT : la partie « claims » est la plus intéressante Avantages :
+• Authenticité valide en raison de la signature
+• Structuré, inter-opérable
+• Peut contenir un état – pas de session serveur
+• Ne nécessite pas l&apos;accès constant au password 
+utilisateur
+
+Inconvénients :
+• HTTPS requis
+• L&apos;authenticité est limitée dans le temps par la durée 
+de validité du Token
+• La création de Token et le renouvellement peut être 
+compliqué et confus
+• Attention au stockage des JWT (chiffrés) côté 
+serveur
+
+Source :
+http://fr.slideshare.net/stormpath/rest-api-security
+
+Xxxxxxxxxxxxxxxx,    ← Header
+
+Yyyyyyyyyyyyyyy,     ← Body (Claims)
+Zzzzzzzzzzzzzzzzz      ← Cryptographic Signature
+
+{ &apos;typ&apos; : &apos;JWT&apos; ; &apos;alg&apos; : &apos;HS256&apos; },    ← Header
+{ &apos;iss&apos; : &apos;http://trustyapp.com/&apos;, 
+  &apos;exp&apos; : 1234567890,
+  &apos;sub&apos; : &apos;users/123456789&apos;, 
+  &apos;scope&apos; : &apos;self api/buy&apos;},    ← Body (Claims)
+{ &apos;tls&apos; : &apos;xxxxxxxxxxxxx&apos; }       ← Cryptographic Signature
+
+{
+  &apos;iss&apos; : &apos;http://trustyapp.com/&apos;,  ← Qui a fournit le token
+  &apos;exp&apos; : 1234567890,                   ← Quand il expire
+  &apos;sub&apos; : &apos;users/123456789&apos;,        ← Qui il représente
+  &apos;scope&apos; : &apos;self api/buy&apos;               ← Ce qu&apos;il peut faire
+}
+
+GET /admin HTTP/1.1
+Authorization: Bearer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+http://trustyapp.com/
+http://trustyapp.com/
+
+
+20Programme VITAM
+
+Multi-tenants
+
+• Les aspects multi-tenants seront pris en compte selon 2 
+modalités
+1) Implicitement
+● L&apos;application Front-office n&apos;est utilisée que pour un seul tenant
+● Vitam ajoute systématiquement les informations à chaque requête du 
+
+tenant concerné
+2) Explicitement
+● L&apos;application Front-office utilise plusieurs tenants (fonction de 
+
+l&apos;utilisateur connecté)
+● L&apos;application doit intégrer un code dans le Header pour indiquer le code 
+
+du tenant concerné
+● X-TenantId : valeur
+
+● La séparation est logique
+● Données : séparation par filtre
+● Stockage : séparation par container
+
+
+
+21Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+22Programme VITAM
+
+Domain Specific Language Vitam
+Règles générales
+
+• Dans le body : langage de requête
+– DSL VITAM
+
+• SQL : pas de plein texte, parser difficile
+• NoSQL : pas de norme
+• Abstraction indispensable (masquer l&apos;implémentation) 
+
+• Typographie
+– Snake : « propriete_avec_multiple_noms »
+
+• Mais pas « proprieteAvecMultipleNoms »
+– Variables protégées : préfixe = « _ » en URL
+
+• Exemple : « _limit=10 »
+– Body au format JSON
+
+• Contient des informations spécifiques à la requête pour la collection
+• Peut contenir une « Query » (DSL)
+
+• Pagination
+– _offset/_limit en URL, offset / limit dans la Query
+– Range dans le Header pour les octets d&apos;un fichier binaire)
+
+• Tri
+– _sort=champ, _desc=champ en URL, orderby dans la Query
+
+
+
+23Programme VITAM
+
+Domain Specific Language Vitam
+Query dans le Body
+
+• DSL : Un langage (JSON), Logique SQL =&gt; NoSQL
+Projections, Collections, Requêtes (critères=query), Filtres (tri, limite)
+SELECT field1, field2 FROM table WHERE field3 &lt;  value LIMIT n SORT field1 ASC
+
+• Modèle générique CRUD
+– Create = POST
+
+• data : { champ : valeur, champ : { champ : valeur } }
+– Read = GET
+
+• filter : { limit, offset, orderby }, projection : { field : 0/1, … }
+– Update = PUT (avec forme ~ POST) / PATCH
+
+• action : { set : { field : value, …}, inc : { field : value }, … }
+– Delete = DELETE
+
+• filter : { mult : true/false }
+– roots = liste des Id de départ (sommet de l&apos;arbre de classement)
+
+HTTP POST/PUT 
+/ressources 
+{
+  roots : [ liste Id ],
+  queries : [
+     { query1 },
+     { query2 }
+  ], 
+  filter : { filter },
+  data : { data }
+}
+
+HTTP GET /ressources 
+{
+  roots : [ liste Id ],
+  queries : [
+     { query1 },
+     { query2 }
+  ], 
+  filter : { filter },
+  projection : { projection }
+}
+
+HTTP PATCH /ressources
+{
+  roots : [ liste Id ],
+  queries : [
+     { query1 },
+     { query2 }
+  ], 
+  filter : { filter },
+  action : { action }
+}
+
+HTTP DELETE /ressources 
+{
+  roots : [ liste Id ],
+  queries : [
+     { query1 },
+     { query2 }
+  ], 
+  filter : { filter }
+}
+
+
+
+24Programme VITAM
+
+Domain Specific Language Vitam
+Query
+
+• Une Query est exprimée avec des opérateurs (inspiré MongoDB / Elasticsearch) 
+Catégorie Opérateur Arguments Commentaire
+
+Accès direct $path identifiants Accès direct à un nœud
+
+Booléens $and, $or, $not opérateurs Combinaison logique d’opérateurs
+
+Comparaison
+$eq, $ne, $lt, $lte, $gt, $gte Champ et valeur Comparaison de la valeur d’un champ et la valeur passée en argument (nombre, date)
+
+$range Champ, $lt, $lte, 
+$gt, $gte et valeurs
+
+Comparaison de la valeur d’un champ avec 
+l’intervalle passé en argument (nombre, date)
+
+Existence $exists, $missing, $isNull Champ Existence d’un champ
+
+Tableau
+
+$in, $nin Champ et valeurs Présence de valeurs dans un tableau
+
+$size Champ et taille Taille d’un tableau
+
+[n] Position (n &gt;= 0) Élément d’un tableau
+
+Textuel
+
+$term, $wildcard Champ, mot clef Comparaison de champs mots-clefs
+
+$match, $matchPhrase, 
+$matchPhrasePrefix
+
+Champ, phrase,
+$max_expansions Recherche de phrase
+
+$regex Champ, 
+Expression Recherche via une expression régulière
+
+$search Champ, valeur Recherche du type moteur de recherche
+
+$flt, $mlt Champ, valeur Recherche « More Like This »
+
+Géomatique
+
+$geometry, $box, $polygon, 
+$center Positions Définition d’une position géographique
+
+$geoWithin, $geoIntersects, 
+$near Une forme Recherche par rapport à une forme géométrique
+
+
+
+25Programme VITAM
+
+Domain Specific Language Vitam
+Modèle général de réponse à une Query
+
+• Format de réponse
+– Hits : donne les informations de positionnement 
+
+de la réponse
+– Query : rappelle les informations de requêtes
+– Results : donne les résultats (partiels)
+
+• Format d&apos;erreur
+– Context : contexte d&apos;exécution de l&apos;erreur
+– Code : code HTTP, State : code court
+– Message : message court
+– Description : message long
+– Errors : erreurs sous-jacentes liées
+
+{
+  hits : { 
+      total : 67, 
+      offset : 12, 
+      limit : 50,
+  },
+  query : {
+    roots : [ liste d&apos;Id ],
+    queries : [
+     { query1 },
+     { query2 }
+    ], 
+    filter : { filter },
+    projection : { projection }
+  },
+  “results” : [ 
+       { … }, 
+       { … },
+       … 
+  ]
+}
+
+{
+  ”code”: 999,  ”context”: ”xxx”,  ”state”: ”xxx”,
+  ”message” : ”string”,
+  ”description”: ”string”,
+  ”errors” : [
+    {”code” : 401, ”context” : ”c1”, ”state” : ”s1”, ”message” : ”s1”, ”description” :  ”long s1”},
+    {”code” : 402, ”context” : ”c2”, ”state” : ”s1”, ”message” : ”s2”, ”description” :  ”long s2”},
+    {”code” : 403, ”context” : ”c3”, ”state” : ”s1”, ”message” : ”s3”, ”description” :  ”long s3”}
+  ]
+}
+
+
+
+26Programme VITAM
+
+Domain Specific Language Vitam
+HATEOAS
+
+• Usuellement en HTML
+• &lt; link rel=&apos;self&apos; href=&apos;https://xxxxx/collections/123456&apos;/&gt;
+
+• Format Json
+– Pour chaque Result du tableau « results »
+
+• &apos;_links&apos;: [ { &apos;rel&apos;: &apos;self&apos;, &apos;href&apos;: &apos;https://xxxxx/collections/123456&apos; } ]
+– Limiter à quelques cas « pratiques » et significatifs
+
+• Dossiers parents (Units cf. plus loin)
+– &apos;rel&apos; : &apos;parent&apos;
+
+• Existence de documents sous-jacents réunis dans un ObjectGroup
+– &apos;rel&apos; : &apos;objectgroup&apos;
+
+– Mais pas à tous les cas possibles
+• Dossiers fils
+
+– Potentiellement trop nombreux
+• Tous les documents d&apos;un Groupe d&apos;Objets
+
+– Dépend des formats attendus
+– Mais étude pour faciliter l&apos;accès à des usages
+
+» &apos;object_conservation&apos;, &apos;object_hd&apos;, &apos;object_ld&apos;, &apos;object_thumbnail&apos;
+
+
+
+27Programme VITAM
+
+Domain Specific Language Vitam
+Modèle général de réponse
+
+• Identifiant de corrélation : « X-CID »
+– Permet de tracer les événements de part et d&apos;autre (Front-office et Back-
+
+office), l&apos;identifiant étant généré par Vitam
+– Permet si nécessaire faire le lien entre une action (vu du Back-office) et un 
+
+utilisateur (vu du Front-office)
+– Il sera possible d&apos;intégrer un identifiant non signifiant (X-AID) en provenance de 
+
+l&apos;application Front-office pour journalisation dans Vitam avec la transaction
+• Permet la factorisation des informations dans l&apos;application Front-office sur des 
+
+notions de session utilisateur (X-AID = Id de session par exemple)
+
+Client Service Externe Service Interne
+
+Génération X-CID 
+Appel REST 
+
+Pas encore de X-CID X-CID=AAAA 
+
+Appel - Header X-CID=AAAA
+
+Réponse - Header X-CID=AAAA
+
+Réponse - Header X-CID=AAAA
+
+Appel - Header X-CID=AAAA
+
+Réponse - Header X-CID=AAAA
+
+
+
+28Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+29Programme VITAM
+
+Tâches asynchrones
+
+
+
+30Programme VITAM
+
+Tâches asynchrones
+
+• Ressource : /async_tasks/
+– id : identifiant technique de la tâche ;
+– type : type de tâche ;
+– state : statut de la tâche : &apos;pending&apos;, &apos;done&apos;, &apos;error&apos; ;
+– start_date : date de soumission de la tâche ;
+– end_date : date de passage de l&apos;état &apos;pending&apos; à l&apos;état &apos;end&apos; ou &apos;error&apos;, &apos;null&apos; tant 
+
+que la tâche est à l&apos;état &apos;pending&apos; ;
+– expiration_date : la date d&apos;expiration est fixée lors du passage de la ressource 
+
+à l&apos;état &apos;done&apos; ou &apos;error&apos;,  elle pourra être fixée selon les besoins fonctionnels. 
+• Exemple : end_date+24h. La valeur de ce champ reste à &apos;null&apos; tant que la tâche est 
+
+à l&apos;état &apos;pending&apos;. Lorsque la date d&apos;expiration est dépassée, un mécanisme de 
+purge peu alors libérer les ressources ;
+
+– result_link : lien vers la sous-ressource permettant l&apos;accès au résultat, &apos;null&apos; 
+tant que la tâche est à l&apos;état &apos;pending&apos; ;
+
+– error : la valeur de ce champ reste à &apos;null&apos; tant que la tâche n&apos;est pas à l&apos;état 
+&apos;error&apos;. Le format est identique à celui d&apos;un retour en body d&apos;erreur.
+
+• Un GET sur cette ressource retourne un 202 tant que la tâche est à l&apos;état 
+&apos;pending&apos;.
+
+
+
+31Programme VITAM
+
+Tâches asynchrones
+
+• Exemple Pooling : GET https://xxx/v1/async_tasks/456
+
+202 OK
+{
+  &apos;id&apos; : 456,
+  &apos;state&apos; : &apos;pending&apos;,
+  &apos;type&apos; : &apos;snapshot&apos;
+  &apos;start_date&apos; : &apos;2014-01-10T03:06:17.396Z&apos;,
+  &apos;end_date&apos;:null,
+  &apos;expiration_date&apos;:null,
+  &apos;result_link&apos;:null,
+  &apos;error&apos;:null
+} 
+
+200 OK
+{
+  &apos;id&apos; : 456,
+  &apos;state&apos; : &apos;done&apos;,
+  &apos;type&apos; : &apos;snapshot&apos;
+  &apos;start_date&apos; : &apos;2014-01-10T03:06:17.396Z&apos;,
+  &apos;end_date&apos;:&apos;2014-01-20T03:06:17.396Z&apos;,
+  &apos;expiration_date&apos;:&apos;2014-02-20T03:06:17.396Z&apos;,
+  &apos;result_link&apos;: &apos;https://xxx/v1/async_tasks/456/result&apos;,
+  &apos;error&apos;:null
+} 
+
+Pooling par le client
+
+https://xxx/v1/async_tasks/456
+
+
+32Programme VITAM
+
+Tâches asynchrones
+
+• Callback : 
+GET https://xxx/v1/servers/5/snapshot
+&lt;  {
+&lt;    &apos;callback&apos;:{
+&lt;      uri : &apos;https://client_domain/callback?id={id}&amp;status={status}&apos;,
+&lt;      method :&apos;GET&apos;
+&lt;    }
+&lt;  }
+Réponse :
+202 OK
+Location: https://xxx/v1/async_tasks/456
+
+Callback par le serveur :
+GET https://client_domain/callback?id=456&amp;status=done
+
+Une fois la tâche asynchrone terminée
+
+
+
+33Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+34Programme VITAM
+
+Modèle de données
+
+• Units
+– Description d&apos;archives : métadonnées de description et archivistiques (gestion)
+– Un dossier (plan de classement) et/ou une description d&apos;un item. 
+– Porte l&apos;arborescence d&apos;un plan de classement, éventuellement multiples :
+
+• Plusieurs racines (Units de plus haut niveau)
+• Plusieurs parents (un sous-dossier peut être rattaché à plusieurs dossiers)
+
+– SEDA : ArchiveUnit, Isad(G) / EAD : Description Unit
+– Au plus un seul groupe d&apos;objets d&apos;archives est attachée à une Unit. 
+– Un même groupe d&apos;objets d&apos;archives peut être attaché à de multiples Unit.
+
+• ObjectGroups
+– Objets d&apos;archives : binaires ou non binaires (référence à des objet d&apos;archives physiques 
+
+ou externes au système) et métadonnées techniques
+– Plusieurs versions (Objets) pour différencier des usages comme version de conservation, 
+
+version de diffusion...
+– SEDA : DataObjectGroup, EAD : Digital Archive Object Group
+– Chaque Groupe d&apos;Objets est attaché à au moins un parent Unit
+
+• Objects
+– Fichiers : par usage et version d&apos;archives dans un Groupe et métadonnées techniques
+– SEDA : DataObject (BinaryDataObject ou PhysicalDataObject), EAD : Digital Archive 
+
+Object
+
+
+
+35Programme VITAM
+
+Modèle de données
+
+• Units
+
+
+
+36Programme VITAM
+
+Modèle de données
+
+• ObjectGroups (1) et Objects (~ 2) et Copies (~ 4)
+
+
+
+37Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+38Programme VITAM
+
+API Accès
+
+• Accès aux Unités
+– La requête utilise le langage de requête (DSL) de Vitam en entrée
+– Retourne un JSON format décrit avant avec en résultat une liste 
+
+d&apos;identifiants uniques en cas de succès et/ou des objets JSON contenant 
+les métadonnées demandées
+
+/units GET (select) PATCH (mise à jour massive)
+/units/{id_unit} GET (select) PATCH (mise à jour)
+/units/{id_unit}/check GET (valeur probante) ou End Point précédent et argument
+/units/{id_unit}/object_groups GET (select)
+/units/{id_unit}/object_groups/check GET (valeur probante) ou End Point précédent et argument
+/units/{id_unit}/object_groups/{id_object_group} GET (select)
+/units/{id_unit}/object_groups/{id_object_group}/check GET (valeur probante)
+/units/{id_unit}/object_groups/{id_object_group}/objects GET (select)
+/units/{id_unit}/object_groups/{id_object_group}/objects/check GET (valeur probante)
+/units/{id_unit}/object_groups/{id_object_group}/objects/{id_object} GET (select)
+/units/{id_unit}/object_groups/{id_object_group}/objects/{id_object}/check GET (valeur probante)
+
+
+
+39Programme VITAM
+
+API Accès
+
+• Accès aux Groupes d&apos;Objets et aux Objets
+– La requête utilise le langage de requête (DSL) de Vitam en entrée
+– Retourne un JSON format décrit avant avec en résultat une liste 
+
+d&apos;identifiants uniques en cas de succès et/ou des objets JSON contenant 
+les métadonnées demandées ou le binaire selon l&apos;option 
+• accept : application/json, application/octet-stream
+
+– /object_groups GET (select)
+– /object_groups/{id_object_group} GET (select)
+– /object_groups/{id_object_group}/check GET (valeur probante) ou End Point précédent et argument
+– /object_groups/{id_object_group}/objects GET (select)
+– /object_groups/{id_object_group}/objects/check GET (valeur probante)
+– /object_groups/{id_object_group}/objects/{id_object} GET (select)
+– /object_groups/{id_object_group}/objects/{id_object}/check GET (valeur probante)
+
+– /objects GET (select)
+– /objects/{id_object} GET (select)
+– /objects/{id_object}/check GET (valeur probante)
+
+
+
+40Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+41Programme VITAM
+
+API Versement
+
+• L&apos;API de Versement (Ingest) 1/2
+– La version la plus simple est celle utilisant le modèle SEDA
+– /ingests GET (select) POST (creation)
+
+• La commande POST contient
+– Soit un ZIP contenant tout
+– Soit un multipart avec le fichier XML SEDA et les fichiers numériques (Objects) 
+
+associés
+
+• La requête est asynchrone
+
+• La commande GET permet de lister les versements en cours
+
+• La commande POST est similaire à un transfert de fichier via un autre protocole
+
+– /ingests/{id_async} GET (select status = tâche asynchrone) DELETE (annulation)
+
+
+
+42Programme VITAM
+
+API Versement
+
+• L&apos;API de Versement (Ingest) 2/2
+– Permet une version sous forme d&apos;une transaction de versement
+
+• Adapté à des versements fréquents de petites tailles
+– /ingests/ est le point d&apos;entrée pour le processus de versement
+
+• Il reproduit le SEDA mais sous forme « constructive », bien adapté pour de petits 
+versements
+
+• Il suit la logique d&apos;accès à « units » et « object_groups » mais selon les modes de 
+création, mise à jour et effacement
+
+• Les opérations sur des Units ou ObjectGroups pré-existants sont autorisées 
+uniquement en mode mise à jour (Units) et ajout d&apos;Objets (ObjectGroups).
+
+• Toutes les autres opérations s&apos;appliquent uniquement aux Units, ObjectGroups et 
+Objects nouvellement créés.
+
+– /ingests GET (select) POST (création)
+– /ingests/{id_async} GET (select) PATCH (finalisation avant exécution) DELETE (annulation)
+– /ingests/{id_async}/units GET (select) POST (création) PATCH (mise à jour) DELETE (effacement)
+– /ingests/{id_async}/units/{id_unit} GET (select) PATCH (mise à jour) DELETE (effacement)
+– ...
+– /ingests/{id_async}/object_groups GET (select) POST (création) DELETE (effacement)
+– /ingests/{id_async}/object_groups/{id_object_group} GET (select) PUT (ajout) DELETE 
+
+(effacement)
+– ...
+
+
+
+43Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+44Programme VITAM
+
+API Gestion
+
+• Exemple : Opérations de destruction
+– Les listes des Units et ObjectGroups à éliminer est produite par les batch de 
+
+préparation de destruction
+• La sélection se fait sur la base des métadonnées de gestion relatives à l&apos;élimination
+• La mise à jour sur la liste produite porte sur ces mêmes métadonnées de gestion et 
+
+permet de retirer en conséquence des archives du lot d&apos;élimination
+• La validation de la liste (PATCH sur /destructions/{id_sync}) permet de lancer le 
+
+batch de finalisation qui vérifie à nouveau les métadonnées de gestion avant de 
+procéder aux destructions
+
+– Une transaction de destruction est une tâche asynchrone volatile, ce qui 
+signifie qu&apos;elle peut disparaître dès qu&apos;elle est terminée. Cependant les 
+Journaux (logbooks) garderont une trace de celle-ci.
+
+– /destructions GET (select)
+– /destructions/{id_async} GET (select) PATCH (finalisation) DELETE (annulation)
+– /destructions/{id_async}/units GET (select) PATCH (mise à jour de masse)
+– /destructions/{id_async}/units/{id_unit} GET (select) PATCH (mise à jour)
+– /destructions/{id_async}/units/{id_unit}/object_groups GET (select)
+– /destructions/{id_async}/units/{id_unit}/object_groups/{id_object_group} GET (select)
+– ...
+
+
+
+45Programme VITAM
+
+API Gestion
+
+• Exemple : Accès aux journaux
+– Les journaux sont de 3 natures
+
+• Journal du SAE : journal central rassemblant tous les événements
+– Sur les archives, les grands éléments du journal des opérations et des 
+
+journaux du cycle de vie
+– Sur le SAE, les éléments liés aux évolutions du SAE (mise à jour, 
+
+activation / désactivation / modification de configurations, 
+arrêt/relance, …)
+
+– /logbooks GET (select)
+– /logbooks/{id_day} GET (select)
+
+• Journal des opérations : journal regroupant les entrées, les éliminations, 
+les transformations, … par lot d&apos;archives (filières)
+– /operation_logbooks GET (select)
+– /operation_logbooks/{id_op} GET (select)
+
+• Journal du cycle de vie : journal par Unit et par ObjectGroup retraçant 
+toute la vie de l&apos;item
+– /units/{id_unit}/lifecyle GET (select)
+– /object_groups/{id_object_group}/lifecyle GET (select)
+
+
+
+46Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+47Programme VITAM
+
+Outillage
+
+• Documentation
+– Quelle forme ?
+
+• Exemple de codes
+– Quelle forme ?
+
+• Framework de génération de requêtes et de parsing de réponses
+– Permettrait de générer un « body » pour une requête HTTPS vers un Vitam
+– Permettrait de parser un « body » de réponse d&apos;un Vitam
+
+• Framework de connexions (protocole HTTPS)
+– Va plus loin que la génération ou le parsing des contenus
+– Gère les URI et les connexions HTTPS
+
+• Pooling
+• Chiffrement, authentification
+
+– Mais limité à des configurations « standards » (authentification à base de 
+certificat par exemple)
+
+– Limité à une bibliothèque de support réseau potentiellement divergente de 
+votre framework applicatif, rendant difficile la gestion en mode flux des 
+réponses
+» Limite les possibilités de « pass-through » pour les réponses binaires 
+
+(contenu d&apos;une archive)
+
+
+
+48Programme VITAM
+
+Outillage et Intégration
+
+• Quelles seraient les limites à l&apos;intégration de Vitam dans votre SI ?
+
+– Il s&apos;agit d&apos;identifier des coûts récurrents qui pourraient être 
+mutualisés.
+
+• Sur un plan Application Front-Office ?
+
+• Sur un plan Intégration dans votre SI (outillage de votre 
+production, règles, sécurité, …) ?
+
+• Sur un plan Exploitation dans votre SI (organisations, 
+compétences, formations, …) ?
+
+– Que pourriez vous attendre du Programme Vitam ?
+
+
+
+49Programme VITAM
+
+Agenda
+
+• Modèles approfondis d&apos;implémentation
+– Modèle général
+– Modèles d&apos;API par usage
+• Authentification et Multi-tenants
+• Modèle de requêtes : Domain Specific Language
+• Tâches asynchrones
+• Modèle de données
+• Accès
+• Versement
+• Gestion
+
+– Outillage
+– Exemples (annexe)
+
+
+
+50Programme VITAM
+
+Exemple d&apos;usage
+Versement d&apos;un lot d&apos;archives
+
+• Supposition : Fichier SEDA et ZIP contenant tous les fichiers plus le 
+fichier SEDA
+1) POST https://vitam/ingest/v1/ingests 
+
+Header : authentification + id contrat de versement
+Body : ZIP
+
+2)  Réponse 201 (requête créée)
+Header : X-CID (id transaction), id_ingest
+
+3)  GET https://vitam/ingest/v1/ingests/id_ingest
+Header : X-CID, authentification
+
+4)  Réponse 202 (requête toujours en cours)
+Header : X-CID (id transaction), id_ingest
+
+Répétition des étapes 3 et 4 : pooling
+
+5)  GET https://vitam/ingest/v1/ingests/id_ingest
+Header : X-CID, authentification
+
+6)  Réponse 200 (requête terminée) ou 40x (erreur)
+Header : X-CID (id transaction), id_ingest
+Body : Résultat JSON (détail du versement ou de l&apos;erreur)
+
+
+
+51Programme VITAM
+
+Exemple d&apos;usage
+Versement d&apos;un lot d&apos;archives : variante 2
+
+• Supposition : Fichier SEDA et ZIP contenant tous les fichiers plus le 
+fichier SEDA avec variante Callback
+1) POST https://vitam/ingest/v1/ingests
+
+Header : authentification + id contrat de versement + callback : uri
+Body : ZIP
+
+2)  Réponse 201 (requête créée)
+Header : X-CID (id transaction), id_ingest
+
+ … temps de traitement
+
+3)  Vitam appelle https://URI_CALLBACK?X_CID=id&amp;ID=id_ingest&amp;status=ok/ko
+Header : X-CID (id transaction), id_ingest
+
+4)  GET https://vitam/ingest/v1/ingests/id_ingest
+Header : X-CID, authentification
+
+5)  Réponse 200 (requête terminée) ou 40x (erreur)
+Header : X-CID (id transaction), id_ingest
+Body : Résultat JSON (détail du versement ou de l&apos;erreur)
+
+
+
+52Programme VITAM
+
+Exemple d&apos;usage
+Versement d&apos;un lot d&apos;archives : variante 3 1/3
+
+• Supposition : Métadonnées pour chaque dossier et chaque fichier 
+avec une arborescence mais pas de SEDA
+
+• MD globales
+• /Dossier1 + MD1
+• /Dossier1/Dossier1.1 + MD1.1
+• /Dossier1/Dossier1.1/Fichier1.1.1 + MD 1.1.1
+• /Dossier1/Dossier1.1/Fichier1.1.2 + MD 1.1.2
+
+1) POST https://vitam/ingest/v1/ingests 
+Header : authentification + id contrat de versement
+Body : MD globales
+
+2)  Réponse 201 (requête créée)
+Header : X-CID (id transaction), id_ingest
+
+• Création d&apos;un ObjectGroup
+3)  POST https://vitam/ingest/v1/ingests/id_ingest/object_groups
+
+Header : X-CID, authentification
+Body : Multipart MD1.1.1 + Fichier1.1.1
+
+4)  Réponse 200 (groupe d&apos;objet créé) et identifiant og111
+
+
+
+53Programme VITAM
+
+Exemple d&apos;usage
+Versement d&apos;un lot d&apos;archives : variante 3 2/3
+
+• Suite : les Units et les liens avec les ObjectGroups
+5) POST https://vitam/ingest/v1/ingests/id_ingest/units 
+
+Header : authentification + id contrat de versement
+Body : MD1
+
+6)  Réponse 200 (Unit créée) et identifiant unit1
+Header : X-CID (id transaction), id_ingest
+
+7)  POST https://vitam/ingest/v1/ingests/id_ingest/units
+Header : X-CID, authentification
+Body : MD1.1 + liaison avec unit1
+
+8)  Réponse 200 (Unit créée) et identifiant unit11
+
+• Lien avec un ObjectGroup déjà créé
+9)  PATCH https://vitam/ingest/v1/ingests/id_ingest/units/unit11/object_groups/og111
+
+Header : X-CID, authentification
+10) Réponse 201 (groupe d&apos;objet lié)
+
+• Lien avec un ObjectGroup nouvellement créé
+11) POST https://vitam/ingest/v1/ingests/id_ingest/units/unit11/object_groups
+
+Header : X-CID, authentification
+Body : Multipart MD1.1.2 + Fichier1.1.2
+
+12) Réponse 200 (groupe d&apos;objet créé et lié) et identifiant og112
+
+
+
+54Programme VITAM
+
+Exemple d&apos;usage
+Versement d&apos;un lot d&apos;archives : variante 3 3/3
+
+• Suite : finalisation
+15) PATCH https://vitam/ingest/v1/ingests/id_ingest
+
+Header : authentification + id contrat de versement
+Body : status=ready
+
+16) Réponse 201 (requête asynchrone acceptée)
+Header : X-CID (id transaction), id_ingest
+
+17) GET https://vitam/ingest/v1/ingests/id_ingest
+Header : X-CID, authentification
+
+18) Réponse 202 (requête toujours en cours)
+Header : X-CID (id transaction), id_ingest
+
+19) GET https://vitam/ingest/v1/ingests/id_ingest
+Header : X-CID, authentification
+
+20) Réponse 200 (requête terminée) ou 40x (erreur)
+Header : X-CID (id transaction), id_ingest
+Body : Résultat JSON (détail du versement ou de l&apos;erreur)
+
+
+
+55Programme VITAM
+
+Exemple d&apos;usage
+Versement d&apos;un lot d&apos;archives : variante 4
+
+• Supposition : Métadonnées pour chaque dossier et chaque fichier 
+avec une arborescence mais pas de SEDA et 2 versions d&apos;un même 
+groupe d&apos;objets
+
+• /Dossier1/Groupe1.1/version papier + MD 1.1.1
+• /Dossier1/Groupe1.1/version scan Fichier1.1.2 + MD 1.1.2
+• Zoom sur le changement ObjectGroups (aucun changement sur le reste)
+
+1)  POST https://vitam/ingest/v1/ingests/id_ingest/object_groups
+Header : X-CID, authentification
+Body : Multipart MD1.1.1 + information version papier
+
+2)  Réponse 201 (groupe d&apos;objets créé) et identifiant groupe d&apos;objets og111 et objet o111
+3)  POST https://vitam/ingest/v1/ingests/id_ingest/object_groups/og111/objects
+
+Header : X-CID, authentification
+Body : Multipart MD1.1.2 + Fichier1.1.2 + information version scan
+
+4)  Réponse 201 (objet créé et ajouté au groupe d&apos;objets) et identifiant o112
+
+
+
+56Programme VITAM
+
+Exemple d&apos;usage
+Élimination d&apos;archives
+
+• Supposition : Un lot d&apos;archives (identifié par 1 filière) est candidat à être 
+éliminé
+1)  GET https://vitam/management/v1/destructions
+
+Header : authentification + id contrat d&apos;accès, Body : query { queries : [ { $eq : { filière : « filièreId » } } ] }
+2)  Réponse 200
+
+Header : X-CID (id transaction), Body : { hits : …, query : …, results : [ { identifiant de la liste id_async } ] }
+3)  GET https://vitam/management/v1/destructions/id_async
+
+Header : X-CID, authentification
+• Permet d&apos;afficher le lot d&apos;archives, par types, dates, contenus, ...
+
+4)  Réponse 200 + Body = lot d&apos;archives
+5)  PATCH https://vitam/management/v1/destructions/id_async/units
+
+Header : X-CID, authentification
+• Mise à jour massive d&apos;un sous-ensemble (query) de Units sur les métadonnées de gestion
+
+6)  Réponse 200 + Body = Résultat de l&apos;opération
+7)  PATCH https://vitam/management/v1/destructions/id_async
+
+Header : X-CID, authentification, Body : status = ready
+• Permet de valider le lot de destruction (que Vitam va réanalyser suite aux modifications)
+
+8)  Réponse 201 (requête créée)
+9)  GET https://vitam/management/v1/destructions/id_async
+
+Header : X-CID, authentification
+10) Réponse 200 (requête terminée) ou 40x (erreur)
+
+Header : X-CID (id transaction), id_async, Body : Résultat JSON
+• Permet de récupérer les informations de destructions effectives
+
+
+
+57Programme VITAM
+
+Exemple d&apos;usage
+Accès au journal des entrées, des éliminations
+
+• Supposition : connaissance de l&apos;identifiant d&apos;une filière
+1) GET https://vitam/management/v1/operation_logbooks
+
+Header : authentification + id contrat d&apos;accès, Body : filtre sur type d&apos;opérations (entrée / 
+élimination) et sur la filière concernée
+
+2)  Réponse 200
+Header : X-CID (id transaction)
+Body : { hits : …, query : …, results : [ { liste de id_async } ] }
+
+• Permet d&apos;afficher la liste des opérations (entrée, élimination, …) selon un filtre
+3)  GET https://vitam/management/v1/operation_logbooks/id_async
+
+Header : X-CID, authentification
+• Permet d&apos;afficher le contenu du journal concerné (accès direct possible)
+
+4)  Réponse 200
+Body = contenu du journal (de l&apos;entrée ou de l&apos;élimination)
+
+5)  GET https://vitam/management/v1/operation_logbooks
+Header : X-CID, authentification
+Body : indiquant le contenu attendu (détail de l&apos;entrée, statut de chacune des Units de l&apos;entrée, 
+notamment en termes d&apos;élimination, …) pour une filière donnée
+
+• Permet la construction d&apos;un journal d&apos;élimination par filière ou par entrée
+6)  Réponse 200
+
+Body = contenu du journal demandé (déduit des journaux du cycle de vie le cas échéant)
+
+
+
+58Programme VITAM
+
+Exemple d&apos;usage
+Recherche d&apos;une unité d&apos;archives
+
+• Supposition : Métadonnées à rechercher est « title = mon titre »
+1) GET https://vitam/access/v1/units
+
+Header : authentification + id contrat d&apos;accès
+Body : query { queries : [ { $eq : { title : « mon titre » } } ] }
+
+2)  Réponse 200
+Header : X-CID (id transaction)
+Body : { hits : { total : 1, offset : 0, limit : 50 }, 
+query { queries : [ { $eq : { title : « mon titre » } } ] },
+results : [ { toutes les métadonnées du Unit + référence à l&apos;ObjectGroup refog } ] }
+
+3)  GET https://vitam/access/v1/object_groups/refog
+Header : X-CID, authentification, X-Format:vignette
+              accept : application/octet-stream
+
+• Permet d&apos;afficher les métadonnées et la vignette quasi simultanément dans l&apos;IHM
+4)  Réponse 200 + Body = Usage Vignette, Dernière version
+5)  GET https://vitam/access/v1/object_groups/refog
+
+Header : X-CID, authentification, X-Format:diffusion
+              accept : application/octet-stream
+
+• L&apos;utilisateur a cliqué sur la vignette pour voir le document en grand
+6)  Réponse 200 + Body = Usage Diffusion, Dernière version
+
+
+
+59Programme VITAM
+
+Exemple d&apos;usage
+Recherches complexes
+
+• Supposition :
+– Recherche 1 : chercher les dossiers « nom=Dupont » tel que un sous-dossier est « activité=fin »
+– Recherche 2 : chercher les dossiers « propriété=x » tel que l&apos;objet binaire associé soit de type « Video »
+1) GET https://vitam/access/v1/units
+
+Header : authentification + id contrat d&apos;accès
+Body : query { queries : [ 
+   { $eq : { nom : « Dupont » } },
+   { $eq : { activité : « fin » }, $depth : 1 }, // $depth =&gt; profondeur (ici fils immédiat) (défaut=*)
+   { $depth : -1 } ] } // $depth =&gt; profondeur inverse (ici parent immédiat)
+
+● Réponse 200
+Header : X-CID (id transaction)
+Body : { hits : { total : 10, offset : 0, limit : 50 }, query : ...,
+results : [ liste des Units répondant aux critères ] }
+
+2) GET https://vitam/access/v1/units
+Header : authentification + id contrat d&apos;accès
+Body : query { queries : [ 
+   { $eq : { propriété : « x » } },
+   { $eq : { type : « VIDEO » }, $objectgroup : 1 }, // $objectgroup =&gt; profondeur de groupe d&apos;objets
+   { $unit : -1 } ] } // $unit =&gt; profondeur inverse (ici Unit parent immédiat)
+
+● Réponse 200 similaire
+• Il est possible de faire la même chose en multiples requêtes, moins efficace
+
+1) GET /Units { $eq : { nom : « Dupont » } } 
+2) GET /Units roots : [liste résultat précédent ] { $eq : { activité : « fin » }, $depth : 1 }
+3) GET /Units roots : [liste résultat précédent ] { $depth : -1 }
+
+
+	Diapo 1
+	Diapo 2
+	Diapo 3
+	Diapo 4
+	Diapo 5
+	Diapo 6
+	Diapo 7
+	Diapo 8
+	Diapo 9
+	Diapo 10
+	Diapo 11
+	Diapo 12
+	Diapo 13
+	Diapo 14
+	Diapo 15
+	Diapo 16
+	Diapo 17
+	Diapo 18
+	Diapo 19
+	Diapo 20
+	Diapo 21
+	Diapo 22
+	Diapo 23
+	Diapo 24
+	Diapo 25
+	Diapo 26
+	Diapo 27
+	Diapo 28
+	Diapo 29
+	Diapo 30
+	Diapo 31
+	Diapo 32
+	Diapo 33
+	Diapo 34
+	Diapo 35
+	Diapo 36
+	Diapo 37
+	Diapo 38
+	Diapo 39
+	Diapo 40
+	Diapo 41
+	Diapo 42
+	Diapo 43
+	Diapo 44
+	Diapo 45
+	Diapo 46
+	Diapo 47
+	Diapo 48
+	Diapo 49
+	Diapo 50
+	Diapo 51
+	Diapo 52
+	Diapo 53
+	Diapo 54
+	Diapo 55
+	Diapo 56
+	Diapo 57
+	Diapo 58
+	Diapo 59
+
+</TextContent>
+</Content>

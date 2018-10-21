@@ -1,0 +1,42 @@
+Feuil1
+	Réf	§	Page	(M)ajeur	Commentaire
+	(m)ineur
+	(F)orme
+	(Q)uestion
+	1	2.2	8	F	L'autre objet y fait référence
+	2	2.2	M	Serait-il possible de développer et expliciter la phrase  « Chaque objet doit déclarer la version ou l'usage qu'il est »?
+
+	3	2.2	Q	Il est indiqué : « Le profil permettra d'identifier les documents à verser ou à éliminer » : pourquoi est-il fait mention ici des documents à éliminer ?  
+	4	2.2	Q	Normalisation du Champs date : la norme recommande la virgule plutôt que le point entre seconde et fraction de seconde, le Z signifie-t-il que nous devons formater l'application et les versement en temps universel?
+	5	8	M	Balise MessageIdentifier : il parait nécessaire de mettre en cohérence le niveau de contrainte entre le nommage du SIP et le nom de l’entrée. En l’état, l’utilisation de la balise est optionnelle (« peut ») et si le champ est vide, la directive sur le nommage du SIP ne peut être respectée. 
+	6	2.2	42621	Q	« Utiliser les types de versions et d'usage définis par défaut dans la solution logicielle » :
+	La solution dont il est question est-elle VITAM, Archipel ou l'application versante?
+	7	2.2	10	Q	« Utiliser la balise uri plutôt que la balise attachment » :
+	Nous sommes dans un cadre de directives : est-ce là une obligation ou peut-on déroger?
+	8	2.2	10	Q	Algorythme d'empreinte : 3 algorythme sont cités un 4ème est utilisé page 11 : s'agit-il d'une obligation ou d'une directive?
+	9	2.2	10	Q	Qui génère l'empreinte : le générateur fourni en sera-t-il capable ou cela est il du ressort des applications versantes ou du testeur? 
+	La fourniture d’une empreinte est-elle obligatoire ? 
+	10	2.3	12	Q	Le nom  des fichiers sous forme d'empreinte :
+	changer le nom du fichier change-t-il l'empreinte?
+	Qui doit convertir le nom et calculer l'empreinte?
+	Le nom sous forme d'empreinte est-il conservé dans VITAM? Si oui que se passe-t-il quand on fait une conversion pour diffusion ou conservation ?
+	11	3.	13	Q	La première phrase sur les flux technique mériterait d'être explicité : doit-on comprendre que si un SIP est inférieur à 1Go l'HTTPS est possible mais non recommandé, ou l'inverse? 
+	12	3.	13	Q	« Il sera proposé d'autres possibilité de transfert » : qui fera ces propositions ? 
+	13	Annexe 1	14	Q	Peut-on éclaircir les notions d’extension par substitution et d’extension par redéfinition ? 
+	14	Annexe 1	14	Q	« requêtes permettant de gérer la récursivité et de pointer vers un objet-archives supposé être déjà géré par le SAE » : La définition est donnée par le SEDA, mais elle n’est pas claire. Que signifie « requête » ici ? peut-on expliquer la récursivité ? Peut-on avoir un exemple ?
+	15	Annexe 1	14	F	La balise  <XXXTechnicalMetadataType> : A la place de XXX, il serait plus clair de lister les différentes balises permettant de gérer les métadonnées selon les types de fichier : 
+	TextTechnicalMetadataType
+	DocumentTechnicalMetadataType
+	ImageTechnicalMetadataType
+	AudioTechnicalMetadataType
+	VideoTechnicalMetadataType
+	16	Annexe 1	14	Q	serait-il possible d'avoir des exemples pour accompagner ces extensions? Celles-ci devront-elle être spécifiées dès la phase de test?
+
+
+
+Feuil2
+
+
+Feuil3
+
+

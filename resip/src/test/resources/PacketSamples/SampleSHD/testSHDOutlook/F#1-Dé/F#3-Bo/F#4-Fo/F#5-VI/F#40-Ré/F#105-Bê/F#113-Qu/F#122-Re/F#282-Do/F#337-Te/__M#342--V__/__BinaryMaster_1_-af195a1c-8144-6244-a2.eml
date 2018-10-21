@@ -1,0 +1,805 @@
+Return-Path: jean-severin.lair@culture.gouv.fr
+Received:  from [192.168.43.160] (unknown [80.12.37.165])	(using TLSv1 with
+ cipher DHE-RSA-AES128-SHA (128/128 bits))	(Client did not present a
+ certificate)	by rubicon.culture.fr (Postfix) with ESMTP id 39A0A9E44;	Mon, 24
+ Oct 2016 12:31:44 +0200 (CEST)
+Date: Mon, 24 Oct 2016 12:31:17 +0200 (CEST)
+From: "=?UTF-8?Q?=22jean-s=c3=a9verin_LAIR-Telem=22@c?="
+	<jean-severin.lair@culture.gouv.fr>
+Reply-To: <jean-severin.lair@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>,
+	<franck.ajjaz@altran.com>,<vincent.hernin@altran.com>,
+	pierre LE CLAINCHE <pierre.le-clainche@culture.gouv.fr>,Julien Georges <julien.georges@culture.gouv.fr>,
+	Fabienne Ricciarini <fabienne.ricciarini@culture.gouv.fr>,<arnaud.sampic@diplomatie.gouv.fr>,<jean-baptiste.battiato@diplomatie.gouv.fr>,
+	<alain.nicolas@diplomatie.gouv.fr>,<remy.delmotte@developpement-durable.gouv.fr>,
+	<laurent.gautrot@developpement-durable.gouv.fr>,<adam.nazir-ahmed@developpement-durable.gouv.fr>
+CC: DANYACH-DESCHAMPS Myriam <myriam.danyach-deschamps@intradef.gouv.fr>,
+	thomas.van-de-walle@culture.gouv.fr <thomas.van-de-walle@culture.gouv.fr>,JOSSE Isabelle <isabelle.josse@diplomatie.gouv.fr>,
+	WATEL Francoise <francoise.watel@diplomatie.gouv.fr>,
+	=?UTF-8?Q?NOULET_Christ=C3=A8le_(Chef_de_la_mission)_-_SG/SPSSI/M?= =?UTF-8?Q?AP_<christele.noulet@developpement-durable.gouv.fr>?=,=?UTF-8?Q?=C3=A9tienne_CARRIERE_<etienne.carriere@culture.gouv.fr>?=,
+	=?UTF-8?Q?fr=C3=A9d=C3=A9ric_BREGIER_<frederic.bregier@culture.gouv.fr>?=,Emmanuel Laborde <emmanuel.laborde@culture.gouv.fr>,
+	kristopher WALTZER <kristopher.waltzer.ext@culture.gouv.fr>,DEGUILHEN Frederic <frederic.deguilhen@culture.gouv.fr>
+Message-ID: <af195a1c-8144-6244-a234-67595e4d9225@culture.gouv.fr>
+Subject: =?UTF-8?Q?[VITAM]_R=C3=A9union_technique_d?=
+ =?UTF-8?Q?u_17_octobre_-_2=C3=A8me_courriel?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_484_16518339.1517006387358"
+Organization:  MCC
+User-Agent:  Mozilla/5.0 (Windows NT 6.1; WOW64; rv:45.0) Gecko/20100101
+ Thunderbird/45.4.0
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8327 signatures=670684
+X-TM-AS-MML:  disable
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXutTf;1211700;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM02.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_484_16518339.1517006387358
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_485_9236705.1517006387358"
+
+------=_Part_485_9236705.1517006387358
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Ce message contenait un fichier joint executable qui a ete supprime.
+
+La suite des pi=C3=A8ces jointes
+
+
+---------------------------------------------------------------------------=
+-------------------------------------------
+
+Bonjour,
+
+Comme annonc=C3=A9 lors de la r=C3=A9union de pr=C3=A9sentation technique d=
+e Vitam, vous trouverez en pi=C3=A8ce jointe (dans plusieurs courriels pour=
+ des raisons de taille) :=20
+
+
+*=09Les documents techniques (DAT et DIN) dans leur version RC-1 de l'it=C3=
+=A9ration 9
+
+*=09Comme le DIN a fortement =C3=A9volu=C3=A9 depuis, nous vous fournissons=
+ la mise =C3=A0 jour du DIN en version de travail . Comme indiqu=C3=A9 en r=
+=C3=A9union lundi 17/10, bien que la documentation pour l'IGC de test soit =
+d=C3=A9crite dans le DIN, celle-ci n'est pas incluse dans les scripts d'ins=
+tallations fournis.
+
+*=09Les scripts servant =C3=A0  l'installation de Vitam (ansible). Concerna=
+nt le fichier vault contenant les secrets de plateformes, son mot de passe =
+est changeit.
+
+Comme il a =C3=A9t=C3=A9 pr=C3=A9cis=C3=A9 en s=C3=A9ance, les =C3=A9l=C3=
+=A9ments fournis sont issus d=E2=80=99une version de travail du d=C3=A9velo=
+ppement et de sa documentation, et ne refl=C3=A8te pas encore la qualit=C3=
+=A9 et compl=C3=A9tude des m=C3=AAmes =C3=A9l=C3=A9ments dans leur version =
+finale.
+
+Vous pouvez aussi dans la suite trouver un CR rapide des =C3=A9changes dans=
+ la r=C3=A9union.
+
+Cordialement
+
+JS Lair
+
+_______________________________________________________________________
+
+Voici le compte-rendu synth=C3=A9tique reprenant les points soulev=C3=A9s l=
+ors de la r=C3=A9union du 17/10 :
+
+Tour de table
+
+Interlocuteurs minist=C3=A9riels
+
+
+*=09Thierry Casimirius - Minist=C3=A8re de la d=C3=A9fense - (thierry.casim=
+irius@intradef.gouv.fr)
+*=09Franck Ajjaz - Altran - Chef de projet Recette Altran (franck.ajjaz@alt=
+ran.com)
+*=09Vincent Hernin - Altran - Administrateur technique Altran  (vincent.her=
+nin@altran.com)
+*=09Pierre le Clainche  - Minist=C3=A8re de la culture - Architecte SDSI (p=
+ierre.le-clainche@culture.gouv.fr)
+*=09Julien Georges - Minist=C3=A8re de la culture -  Chef de projet Infrast=
+ructure Adamant (julien.georges@culture.gouv.fr)
+*=09Fabienne Ricciarini - Minist=C3=A8re de la culture (fabienne.ricciarini=
+@culture.gouv.fr)
+*=09Arnaud Sampic - Minist=C3=A8re des affaires =C3=A9trang=C3=A8res -  (ar=
+naud.sampic@diplomatie.gouv.fr)
+*=09Jean-Baptiste Battiato - Minist=C3=A8re des affaires =C3=A9trang=C3=A8r=
+es - (jean-baptiste.battiato@diplomatie.gouv.fr)
+*=09Alain Nicolas - Minist=C3=A8re des affaires =C3=A9trang=C3=A8res - (ala=
+in.nicolas@diplomatie.gouv.fr)
+=09
+*=09Remy Delmotte - Minist=C3=A8re Environnement (remy.delmotte@developpeme=
+nt-durable.gouv.fr)
+*=09Laurent Gautrot - Minist=C3=A8re de l'environnement (laurent.gautrot@de=
+veloppement-durable.gouv.fr)
+*=09Adam Nazir-Ahmed - Minist=C3=A8re de l'environnement (adam.nazir-ahmed@=
+developpement-durable.gouv.fr)
+
+Equipe Vitam
+
+
+*=09Fr=C3=A9d=C3=A9ric Bregier : Directeur technique de Vitam
+*=09Emmanuel Laborde : Architecte Vitam
+*=09Etienne Carri=C3=A8re : Architecte technique Vitam
+*=09Charles Pouplin : Gestionnaire technique de Plateforme Vitam
+*=09Kristopher Waltzer : Responsable technique de l'=C3=A9quipe d'int=C3=A9=
+gration Thal=C3=A8s
+*=09Olivier Marsol : Int=C3=A9grateur
+*=09Joachim Gonthier : Int=C3=A9grateur
+*=09Nicolas M=C3=A9n=C3=A9trier : Int=C3=A9grateur
+=09
+
+
+Remarques et questions sur la pr=C3=A9sentation Vitam
+
+
+*=09Offre de stockage
+
+En b=C3=AAta, on fournit une seule offre
+Pour la V1 , la cible est d'=C3=AAtre compatible avec des offres de stockag=
+es SWIFT
+Post V1, d'autres offres de stockage seront disponibles : =20
+    Ex : Offre de stockage froide bas=C3=A9 sur LTO et LTFS
+    Du fait que le code est libre, chaque client peut r=C3=A9impl=C3=A9ment=
+er
+=20
+
+
+*=09L'IHM d=C3=A9mo est un application externe "presque comme les autres"
+
+Il utilise les m=C3=AAme endpoints qu'une autre application/SIA
+En particulier,d=C3=A8s la b=C3=AAta, il est possible d'ins=C3=A9rer des r=
+=C3=A9ferentiels aussi bien par l'IHM que par une application externe
+Les r=C3=A9f=C3=A9rentiels g=C3=A9r=C3=A9s en b=C3=AAta sont les r=C3=A9f=
+=C3=A9rentiels de formats et de r=C3=A9gles de gestion
+
+
+*=09RPM/DEB
+
+Le MAEDI attend des packages DEB. Cela ne sera pas possible =C3=A0 la date =
+de la B=C3=A9ta, des solutions de contournement pour leur permettre dans un=
+ d=C3=A9lais raisonnable d'installer la B=C3=A9ta sont =C3=A0 l'=C3=A9tude.
+Pr=C3=A9sence des fichiers de configuration dans le RPM . Une piste serait =
+d'avoir un fichier d'exemple seulement (=C3=A0 noter que le fichier est d=
+=C3=A9j=C3=A0 pr=C3=A9sent en template dans ansible)
+
+
+*=09Date de mise =C3=A0 disposition des sources
+
+Fournies pour la b=C3=AAta=20
+
+*=09Iptables
+
+Pas d'action de l'installation sur Iptables durant la b=C3=AAta
+Le filtrage sur OS n'est pas fourni par Vitam, les pratiques des partenaire=
+s sont trop diff=C3=A9rentes : MAEDI (iptables par machines), Minist=C3=A8r=
+e de l'environnement (security Group (openstack))...
+
+
+*=09Antivirus
+
+L'antivirus est consid=C3=A9r=C3=A9 comme en dehors du scope de Vitam
+Vitam utilise pour ses tests et recette "ClamAV"
+La question sur la mise =C3=A0 jour des bases virales pour ClamAV est =C3=
+=A0 traiter
+
+
+*=09Diff=C3=A9rentiation des interfaces
+
+DAns les DSI, les VMs ont plusieurs interfaces entre les diff=C3=A9rents ty=
+pes de r=C3=A9seau (fonctionnement, administration, sauvegarde, =E2=80=A6)
+Pour la b=C3=AAta, Vitam ne g=C3=A9re que les VM avec une seule interface r=
+=C3=A9seau=20
+Pour la V1, le principe devrait =C3=AAtre bas=C3=A9 sur une diff=C3=A9renti=
+ation du nom de l'interface de service par rapport =C3=A0 l'interface d'adm=
+inistration
+
+
+*=09Choix du serveur d'application : Jetty
+
+Le choix a =C3=A9t=C3=A9 fait de Jetty embedded (sans war), pour des raison=
+s d'efficacit=C3=A9
+Question du support =C3=A0 =C3=A9tudier (Le MCC & MAEDI ont un support (SLL=
+ ?) pour Tomcat mais pas de support pour Jetty)
+
+
+*=09Etat de ce qui est install=C3=A9
+
+Comment avoir un =C3=A9tat de l'installation ?=20
+Savoir si un composant est tomb=C3=A9 ?
+Avec l'UI Consul.
+
+
+*=09R=C3=A9f=C3=A9rentiels
+
+On ne dispose que des use cases d'initialisation et non les use cases d'upd=
+ate/delete, qui interviendront en V1.
+- R=C3=A9gles de gestion :
+    Doit =C3=AAtre g=C3=A9r=C3=A9 par un 'archiviste =C3=A0 tendance techni=
+que'
+    Est un CSV devant =C3=AAtre g=C3=A9n=C3=A9r=C3=A9 hors IHM (via tableur=
+ par exemple )
+- R=C3=A9f=C3=A9rentiel des Formats :
+    Format de r=C3=A9f=C3=A9rence des archives britanniques (PRONOM)
+    Capacit=C3=A9 d'ajout de formats sp=C3=A9cifiques ?
+        En b=C3=AAta, la liste des signatures PRONOM dans Siegfried est sta=
+tique
+        En v1, la partie du r=C3=A9f=C3=A9rentiel des formats venant de PRO=
+NOM sera synchrone avec la liste des signatures Siegfried
+        En v1, si un minist=C3=A8re d=C3=A9sire enrichir le r=C3=A9f=C3=A9r=
+entiel des formats cela sera possible
+
+
+*=09Consul
+
+Consul ne fait pas d'alerting, ni de red=C3=A9marrage des services KO (cont=
+rairement =C3=A0 corosync par exemple)
+
+
+*=09Livraison de Topbeat
+
+Souhait d'avoir Topbeat (et ses dashboards) livr=C3=A9s de mani=C3=A8re opt=
+ionnelle (extra)
+
+
+*=09Format de mise =C3=A0 disposition souhait=C3=A9 des livrables de la b=
+=C3=AAta
+=09
+
+Sur un site internet, si possible de communiquer sur Internet (discussion S=
+GMAP/DINSIC en cours)...
+
+
+*=09Bug tracker
+
+Mise =C3=A0 disposition d=E2=80=99un tracker commun public au sein de la co=
+mmunaut=C3=A9 de partenaires (prot=C3=A9g=C3=A9 par authentification login/=
+mdp)
+
+
+
+*=09Retour des interlocuteurs
+
+L'assistance est globalement satisfaite de la pr=C3=A9sentation technique
+Retours sp=C3=A9cifiques par minist=C3=A8res :
+    Pour le Minist=C3=A8re de la d=C3=A9fense, la production n'=C3=A9tait p=
+as pr=C3=A9sente. Seul le projet et l'=C3=A9quipe de TRA =C3=A9tait repr=C3=
+=A9sent=C3=A9
+    Pour le Minist=C3=A8re des affaires =C3=A9trang=C3=A8res, point =C3=A0 =
+traiter sur la stack logicielle
+        - format du packaging (DEB/RPM)
+        - solution d'automatisation : en phase d'identification d'une solut=
+ion (orientation pour l'instant vers une solution diff=C3=A9rente d'Ansible=
+, =C3=A0 savoir Salt)
+    Pour le Minist=C3=A8re de la culture, demande, si possible, de r=C3=A9c=
+up=C3=A9rer les travaux qui avaient =C3=A9t=C3=A9 faits sur Docker
+
+
+--=20
+
+
+=20
+
+Jean-S=C3=A9verin LAIR
+Directeur de programme/Program head manager
+Programme Vitam
+Services du Premier Ministre, SGMAP - DINSIC
+47 rue de la chapelle, 75018 Paris
+jean-severin.lair@culture.gouv.fr <mailto:jean-severin.lair@culture.gouv.fr=
+>=20
+Le programme est h=C3=A9berg=C3=A9 par les moyens informatiques du MCC
+Suivez-nous sur Twitter @ProgVitam <https://twitter.com/progvitam>=20
+
+
+
+--
+Message envoy=C3=A9 gr=C3=A2ce =C3=A0 OBM <http://obm.org> , la Communicati=
+on Libre par Linagora <http://www.linagora.com/>=20
+--
+Message envoy=C3=A9 gr=C3=A2ce =C3=A0 OBM <http://obm.org> , la Communicati=
+on Libre par Linagora <http://www.linagora.com/>
+------=_Part_485_9236705.1517006387358
+Content-Type: multipart/related; 
+	boundary="----=_Part_486_28431610.1517006387358"
+
+------=_Part_486_28431610.1517006387358
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body bgcolor=3D"#FFFFFF" text=3D"#000000">
+<div>
+Ce message contenait un fichier joint executable qui a ete supprime.<br>
+</div>
+    La suite des pi=C3=A8ces jointes<br>
+    <br>
+    <br>
+---------------------------------------------------------------------------=
+-------------------------------------------<br>
+    <br>
+    Bonjour,<br>
+    <br>
+    Comme annonc=C3=A9 lors de la r=C3=A9union de pr=C3=A9sentation techniq=
+ue de Vitam,
+    vous trouverez en pi=C3=A8ce jointe (dans plusieurs courriels pour des
+    raisons de taille) : <br>
+    <ul>
+      <li>Les documents techniques (DAT et DIN) dans leur version RC-1
+        de l'it=C3=A9ration 9</li>
+    </ul>
+    <ul>
+      <li>Comme le DIN a fortement =C3=A9volu=C3=A9 depuis, nous vous fourn=
+issons
+        la mise =C3=A0 jour du DIN en version de travail . Comme indiqu=C3=
+=A9 en
+        r=C3=A9union lundi 17/10, bien que la documentation pour l'IGC de
+        test soit d=C3=A9crite dans le DIN, celle-ci n'est pas incluse dans
+        les scripts d'installations fournis.</li>
+    </ul>
+    <ul>
+      <li>Les scripts servant =C3=A0&nbsp; l'installation de Vitam (ansible=
+).
+        Concernant le fichier vault contenant les secrets de
+        plateformes, son mot de passe est changeit.</li>
+    </ul>
+    Comme il a =C3=A9t=C3=A9 pr=C3=A9cis=C3=A9 en s=C3=A9ance, les =C3=A9l=
+=C3=A9ments fournis sont issus
+    d=E2=80=99une version de travail du d=C3=A9veloppement et de sa documen=
+tation, et
+    ne refl=C3=A8te pas encore la qualit=C3=A9 et compl=C3=A9tude des m=C3=
+=AAmes =C3=A9l=C3=A9ments
+    dans leur version finale.<br>
+    <br>
+    Vous pouvez aussi dans la suite trouver un CR rapide des =C3=A9changes
+    dans la r=C3=A9union.<br>
+    <br>
+    Cordialement<br>
+    <br>
+    JS Lair<br>
+    <br>
+_______________________________________________________________________<br>
+    <br>
+    Voici le compte-rendu synth=C3=A9tique reprenant les points soulev=C3=
+=A9s lors
+    de la r=C3=A9union du 17/10 :<br>
+    <br>
+    <b>Tour de table</b><br>
+    <br>
+    Interlocuteurs minist=C3=A9riels<br>
+    <ul>
+      <li>Thierry Casimirius - Minist=C3=A8re de la d=C3=A9fense - (<a clas=
+s=3D"moz-txt-link-abbreviated" href=3D"mailto:thierry.casimirius@intradef.g=
+ouv.fr">thierry.casimirius@intradef.gouv.fr</a>)</li>
+      <li>Franck Ajjaz - Altran - Chef de projet Recette Altran (<a class=
+=3D"moz-txt-link-abbreviated" href=3D"mailto:franck.ajjaz@altran.com">franc=
+k.ajjaz@altran.com</a>)</li>
+      <li>Vincent Hernin - Altran - Administrateur technique Altran&nbsp; (=
+<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:vincent.hernin@altran.=
+com">vincent.hernin@altran.com</a>)</li>
+      <li>Pierre le Clainche&nbsp; - Minist=C3=A8re de la culture - Archite=
+cte
+        SDSI (<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:pierre.l=
+e-clainche@culture.gouv.fr">pierre.le-clainche@culture.gouv.fr</a>)</li>
+      <li>Julien Georges - Minist=C3=A8re de la culture -&nbsp; Chef de pro=
+jet
+        Infrastructure Adamant (<a class=3D"moz-txt-link-abbreviated" href=
+=3D"mailto:julien.georges@culture.gouv.fr">julien.georges@culture.gouv.fr</=
+a>)</li>
+      <li>Fabienne Ricciarini - Minist=C3=A8re de la culture (<a class=3D"m=
+oz-txt-link-abbreviated" href=3D"mailto:fabienne.ricciarini@culture.gouv.fr=
+">fabienne.ricciarini@culture.gouv.fr</a>)</li>
+      <li>Arnaud Sampic - Minist=C3=A8re des affaires =C3=A9trang=C3=A8res =
+-&nbsp; (<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:arnaud.sampic=
+@diplomatie.gouv.fr">arnaud.sampic@diplomatie.gouv.fr</a>)</li>
+      <li>Jean-Baptiste Battiato - Minist=C3=A8re des affaires =C3=A9trang=
+=C3=A8res - (<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:jean-bapt=
+iste.battiato@diplomatie.gouv.fr">jean-baptiste.battiato@diplomatie.gouv.fr=
+</a>)</li>
+      <li>Alain Nicolas - Minist=C3=A8re des affaires =C3=A9trang=C3=A8res =
+- (<a class=3D"moz-txt-link-abbreviated" href=3D"mailto:alain.nicolas@diplo=
+matie.gouv.fr">alain.nicolas@diplomatie.gouv.fr</a>)<br>
+      </li>
+      <li>Remy Delmotte - Minist=C3=A8re Environnement (<a class=3D"moz-txt=
+-link-abbreviated" href=3D"mailto:remy.delmotte@developpement-durable.gouv.=
+fr">remy.delmotte@developpement-durable.gouv.fr</a>)</li>
+      <li>Laurent Gautrot - Minist=C3=A8re de l'environnement (<a class=3D"=
+moz-txt-link-abbreviated" href=3D"mailto:laurent.gautrot@developpement-dura=
+ble.gouv.fr">laurent.gautrot@developpement-durable.gouv.fr</a>)</li>
+      <li>Adam Nazir-Ahmed - Minist=C3=A8re de l'environnement (<a class=3D=
+"moz-txt-link-abbreviated" href=3D"mailto:adam.nazir-ahmed@developpement-du=
+rable.gouv.fr">adam.nazir-ahmed@developpement-durable.gouv.fr</a>)</li>
+    </ul>
+    Equipe Vitam<br>
+    <ul>
+      <li>Fr=C3=A9d=C3=A9ric Bregier : Directeur technique de Vitam</li>
+      <li>Emmanuel Laborde : Architecte Vitam</li>
+      <li>Etienne Carri=C3=A8re : Architecte technique Vitam</li>
+      <li>Charles Pouplin : Gestionnaire technique de Plateforme Vitam</li>
+      <li>Kristopher Waltzer : Responsable technique de l'=C3=A9quipe
+        d'int=C3=A9gration Thal=C3=A8s</li>
+      <li>Olivier Marsol : Int=C3=A9grateur</li>
+      <li>Joachim Gonthier : Int=C3=A9grateur</li>
+      <li>Nicolas M=C3=A9n=C3=A9trier : Int=C3=A9grateur<br>
+      </li>
+    </ul>
+    <br>
+    <b>Remarques et questions sur la pr=C3=A9sentation Vitam</b><br>
+    <ul>
+      <li>Offre de stockage</li>
+    </ul>
+    En b=C3=AAta, on fournit une seule offre<br>
+    Pour la V1 , la cible est d'=C3=AAtre compatible avec des offres de
+    stockages SWIFT<br>
+    Post V1, d'autres offres de stockage seront disponibles :&nbsp; <br>
+    &nbsp;&nbsp;&nbsp; Ex : Offre de stockage froide bas=C3=A9 sur LTO et L=
+TFS<br>
+    &nbsp;&nbsp;&nbsp; Du fait que le code est libre, chaque client peut r=
+=C3=A9impl=C3=A9menter<br>
+    &nbsp;<br>
+    <ul>
+      <li>L'IHM d=C3=A9mo est un application externe &quot;presque comme le=
+s
+        autres&quot;</li>
+    </ul>
+    Il utilise les m=C3=AAme endpoints qu'une autre application/SIA<br>
+    En particulier,d=C3=A8s la b=C3=AAta, il est possible d'ins=C3=A9rer de=
+s
+    r=C3=A9ferentiels aussi bien par l'IHM que par une application externe<=
+br>
+    Les r=C3=A9f=C3=A9rentiels g=C3=A9r=C3=A9s en b=C3=AAta sont les r=C3=
+=A9f=C3=A9rentiels de formats et
+    de r=C3=A9gles de gestion<br>
+    <ul>
+      <li>RPM/DEB</li>
+    </ul>
+    Le MAEDI attend des packages DEB. Cela ne sera pas possible =C3=A0 la
+    date de la B=C3=A9ta, des solutions de contournement pour leur permettr=
+e
+    dans un d=C3=A9lais raisonnable d'installer la B=C3=A9ta sont =C3=A0 l'=
+=C3=A9tude.<br>
+    Pr=C3=A9sence des fichiers de configuration dans le RPM . Une piste
+    serait d'avoir un fichier d'exemple seulement (=C3=A0 noter que le
+    fichier est d=C3=A9j=C3=A0 pr=C3=A9sent en template dans ansible)<br>
+    <ul>
+      <li>Date de mise =C3=A0 disposition des sources</li>
+    </ul>
+    Fournies pour la b=C3=AAta
+    <ul>
+      <li>Iptables</li>
+    </ul>
+    Pas d'action de l'installation sur Iptables durant la b=C3=AAta<br>
+    Le filtrage sur OS n'est pas fourni par Vitam, les pratiques des
+    partenaires sont trop diff=C3=A9rentes : MAEDI (iptables par machines),
+    Minist=C3=A8re de l'environnement (security Group (openstack))...<br>
+    <ul>
+      <li>Antivirus</li>
+    </ul>
+    L'antivirus est consid=C3=A9r=C3=A9 comme en dehors du scope de Vitam<b=
+r>
+    Vitam utilise pour ses tests et recette &quot;ClamAV&quot;<br>
+    La question sur la mise =C3=A0 jour des bases virales pour ClamAV est =
+=C3=A0
+    traiter<br>
+    <ul>
+      <li>Diff=C3=A9rentiation des interfaces</li>
+    </ul>
+    DAns les DSI, les VMs ont plusieurs interfaces entre les diff=C3=A9rent=
+s
+    types de r=C3=A9seau (fonctionnement, administration, sauvegarde, =E2=
+=80=A6)<br>
+    Pour la b=C3=AAta, Vitam ne g=C3=A9re que les VM avec une seule interfa=
+ce
+    r=C3=A9seau <br>
+    Pour la V1, le principe devrait =C3=AAtre bas=C3=A9 sur une diff=C3=A9r=
+entiation du
+    nom de l'interface de service par rapport =C3=A0 l'interface
+    d'administration<br>
+    <ul>
+      <li>Choix du serveur d'application : Jetty</li>
+    </ul>
+    Le choix a =C3=A9t=C3=A9 fait de Jetty embedded (sans war), pour des ra=
+isons
+    d'efficacit=C3=A9<br>
+    Question du support =C3=A0 =C3=A9tudier (Le MCC &amp; MAEDI ont un supp=
+ort
+    (SLL ?) pour Tomcat mais pas de support pour Jetty)<br>
+    <ul>
+      <li>Etat de ce qui est install=C3=A9</li>
+    </ul>
+    Comment avoir un =C3=A9tat de l'installation ? <br>
+    Savoir si un composant est tomb=C3=A9 ?<br>
+    Avec l'UI Consul.<br>
+    <ul>
+      <li>R=C3=A9f=C3=A9rentiels</li>
+    </ul>
+    On ne dispose que des use cases d'initialisation et non les use
+    cases d'update/delete, qui interviendront en V1.<br>
+    - R=C3=A9gles de gestion :<br>
+    &nbsp;&nbsp;&nbsp; Doit =C3=AAtre g=C3=A9r=C3=A9 par un 'archiviste =C3=
+=A0 tendance technique'<br>
+    &nbsp;&nbsp;&nbsp; Est un CSV devant =C3=AAtre g=C3=A9n=C3=A9r=C3=A9 ho=
+rs IHM (via tableur par exemple
+    )<br>
+    - R=C3=A9f=C3=A9rentiel des Formats :<br>
+    &nbsp;&nbsp;&nbsp; Format de r=C3=A9f=C3=A9rence des archives britanniq=
+ues (PRONOM)<br>
+    &nbsp;&nbsp;&nbsp; Capacit=C3=A9 d'ajout de formats sp=C3=A9cifiques ?<=
+br>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; En b=C3=AAta, la liste des signat=
+ures PRONOM dans Siegfried est
+    statique<br>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; En v1, la partie du r=C3=A9f=C3=
+=A9rentiel des formats venant de PRONOM
+    sera synchrone avec la liste des signatures Siegfried<br>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; En v1, si un minist=C3=A8re d=C3=
+=A9sire enrichir le r=C3=A9f=C3=A9rentiel des
+    formats cela sera possible<br>
+    <ul>
+      <li>Consul</li>
+    </ul>
+    Consul ne fait pas d'alerting, ni de red=C3=A9marrage des services KO
+    (contrairement =C3=A0 corosync par exemple)<br>
+    <ul>
+      <li>Livraison de Topbeat</li>
+    </ul>
+    Souhait d'avoir Topbeat (et ses dashboards) livr=C3=A9s de mani=C3=A8re
+    optionnelle (extra)<br>
+    <ul>
+      <li>Format de mise =C3=A0 disposition souhait=C3=A9 des livrables de =
+la b=C3=AAta<br>
+      </li>
+    </ul>
+    Sur un site internet, si possible de communiquer sur Internet
+    (discussion SGMAP/DINSIC en cours)...<br>
+    <ul>
+      <li>Bug tracker</li>
+    </ul>
+    Mise =C3=A0 disposition d=E2=80=99un tracker commun public au sein de l=
+a
+    communaut=C3=A9 de partenaires (prot=C3=A9g=C3=A9 par authentification =
+login/mdp)<br>
+    <br>
+    <ul>
+      <li>Retour des interlocuteurs</li>
+    </ul>
+    L'assistance est globalement satisfaite de la pr=C3=A9sentation techniq=
+ue<br>
+    Retours sp=C3=A9cifiques par minist=C3=A8res :<br>
+    &nbsp;&nbsp;&nbsp; Pour le Minist=C3=A8re de la d=C3=A9fense, la produc=
+tion n'=C3=A9tait pas
+    pr=C3=A9sente. Seul le projet et l'=C3=A9quipe de TRA =C3=A9tait repr=
+=C3=A9sent=C3=A9<br>
+    &nbsp;&nbsp;&nbsp; Pour le Minist=C3=A8re des affaires =C3=A9trang=C3=
+=A8res, point =C3=A0 traiter sur
+    la stack logicielle<br>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - format du packaging (DEB/RPM)<b=
+r>
+    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; - solution d'automatisation : en =
+phase d'identification
+    d'une solution (orientation pour l'instant vers une solution
+    diff=C3=A9rente d'Ansible, =C3=A0 savoir Salt)<br>
+    &nbsp;&nbsp;&nbsp; Pour le Minist=C3=A8re de la culture, demande, si po=
+ssible, de
+    r=C3=A9cup=C3=A9rer les travaux qui avaient =C3=A9t=C3=A9 faits sur Doc=
+ker<br>
+    <br>
+    <div class=3D"moz-signature">-- <br>
+      <br>
+      <table height=3D"155" border=3D"0" cellpadding=3D"2" cellspacing=3D"2=
+" width=3D"506">
+        <tbody>
+          <tr>
+            <td align=3D"center" valign=3D"middle">
+              <p align=3D"center"><img src=3D"cid:part13.FBC51900.F7381FAD@=
+culture.gouv.fr" alt=3D""> </p>
+            </td>
+            <td align=3D"left" valign=3D"middle">
+              <p><font face=3D"Calibri, sans-serif"><font style=3D"font-siz=
+e: 11pt" size=3D"2"><b>Jean-S=C3=A9verin
+                      LAIR</b><br>
+                  </font></font><tt><font face=3D"Calibri, sans-serif"><fon=
+t style=3D"font-size: 11pt" size=3D"2"><small><font face=3D"Calibri, sans-s=
+erif"><big>Directeur de
+                            programme/Program head manager</big><br>
+                        </font></small> Programme Vitam<br>
+                      Services du Premier Ministre, SGMAP - DINSIC<br>
+                      47 rue de la chapelle, 75018 Paris</font></font></tt>=
+<br>
+                <a href=3D"mailto:jean-severin.lair@culture.gouv.fr"><font =
+face=3D"Calibri, sans-serif"><font style=3D"font-size:
+                      11pt" size=3D"2">jean-severin.lair@culture.gouv.fr</f=
+ont></font></a><br>
+                <tt class=3D"western"><font style=3D"font-size: 8pt" size=
+=3D"1"><i>Le programme est h=C3=A9berg=C3=A9 par les moyens
+                      informatiques du MCC</i><br>
+                  </font></tt><font face=3D"Calibri, sans-serif"><font size=
+=3D"2">Suivez-nous sur Twitter <a href=3D"https://twitter.com/progvitam">@P=
+rogVitam</a></font></font><br>
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+    </div>
+    <div>
+      <div>--</div>
+      <div>Message envoy=C3=A9 gr=C3=A2ce =C3=A0 <a href=3D"http://obm.org"=
+>OBM</a>, la
+        Communication Libre par <a href=3D"http://www.linagora.com/">Linago=
+ra</a></div>
+    </div>
+    <div><div>--</div><div>Message envoy=C3=A9 gr=C3=A2ce =C3=A0
+        <a href=3D"http://obm.org">OBM</a>, la Communication Libre par
+        <a href=3D"http://www.linagora.com/">Linagora</a></div></div>
+  </body>
+</html>
+------=_Part_486_28431610.1517006387358
+Content-Type: image/png; name=ATT00001.png
+Content-Transfer-Encoding: base64
+Content-ID: <part13.FBC51900.F7381FAD@culture.gouv.fr>
+Content-Disposition: inline; filename="ATT00001.png"
+
+/9j/4AAQSkZJRgABAQEBLAEsAAD/4gxYSUNDX1BST0ZJTEUAAQEAAAxITGlubwIQAABtbnRyUkdC
+IFhZWiAHzgACAAkABgAxAABhY3NwTVNGVAAAAABJRUMgc1JHQgAAAAAAAAAAAAAAAAAA9tYAAQAA
+AADTLUhQICAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABFj
+cHJ0AAABUAAAADNkZXNjAAABhAAAAGx3dHB0AAAB8AAAABRia3B0AAACBAAAABRyWFlaAAACGAAA
+ABRnWFlaAAACLAAAABRiWFlaAAACQAAAABRkbW5kAAACVAAAAHBkbWRkAAACxAAAAIh2dWVkAAAD
+TAAAAIZ2aWV3AAAD1AAAACRsdW1pAAAD+AAAABRtZWFzAAAEDAAAACR0ZWNoAAAEMAAAAAxyVFJD
+AAAEPAAACAxnVFJDAAAEPAAACAxiVFJDAAAEPAAACAx0ZXh0AAAAAENvcHlyaWdodCAoYykgMTk5
+OCBIZXdsZXR0LVBhY2thcmQgQ29tcGFueQAAZGVzYwAAAAAAAAASc1JHQiBJRUM2MTk2Ni0yLjEA
+AAAAAAAAAAAAABJzUkdCIElFQzYxOTY2LTIuMQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAWFlaIAAAAAAAAPNRAAEAAAABFsxYWVogAAAAAAAAAAAAAAAA
+AAAAAFhZWiAAAAAAAABvogAAOPUAAAOQWFlaIAAAAAAAAGKZAAC3hQAAGNpYWVogAAAAAAAAJKAA
+AA+EAAC2z2Rlc2MAAAAAAAAAFklFQyBodHRwOi8vd3d3LmllYy5jaAAAAAAAAAAAAAAAFklFQyBo
+dHRwOi8vd3d3LmllYy5jaAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAABkZXNjAAAAAAAAAC5JRUMgNjE5NjYtMi4xIERlZmF1bHQgUkdCIGNvbG91ciBzcGFjZSAt
+IHNSR0IAAAAAAAAAAAAAAC5JRUMgNjE5NjYtMi4xIERlZmF1bHQgUkdCIGNvbG91ciBzcGFjZSAt
+IHNSR0IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAZGVzYwAAAAAAAAAsUmVmZXJlbmNlIFZpZXdpbmcg
+Q29uZGl0aW9uIGluIElFQzYxOTY2LTIuMQAAAAAAAAAAAAAALFJlZmVyZW5jZSBWaWV3aW5nIENv
+bmRpdGlvbiBpbiBJRUM2MTk2Ni0yLjEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHZpZXcAAAAA
+ABOk/gAUXy4AEM8UAAPtzAAEEwsAA1yeAAAAAVhZWiAAAAAAAEwJVgBQAAAAVx/nbWVhcwAAAAAA
+AAABAAAAAAAAAAAAAAAAAAAAAAAAAo8AAAACc2lnIAAAAABDUlQgY3VydgAAAAAAAAQAAAAABQAK
+AA8AFAAZAB4AIwAoAC0AMgA3ADsAQABFAEoATwBUAFkAXgBjAGgAbQByAHcAfACBAIYAiwCQAJUA
+mgCfAKQAqQCuALIAtwC8AMEAxgDLANAA1QDbAOAA5QDrAPAA9gD7AQEBBwENARMBGQEfASUBKwEy
+ATgBPgFFAUwBUgFZAWABZwFuAXUBfAGDAYsBkgGaAaEBqQGxAbkBwQHJAdEB2QHhAekB8gH6AgMC
+DAIUAh0CJgIvAjgCQQJLAlQCXQJnAnECegKEAo4CmAKiAqwCtgLBAssC1QLgAusC9QMAAwsDFgMh
+Ay0DOANDA08DWgNmA3IDfgOKA5YDogOuA7oDxwPTA+AD7AP5BAYEEwQgBC0EOwRIBFUEYwRxBH4E
+jASaBKgEtgTEBNME4QTwBP4FDQUcBSsFOgVJBVgFZwV3BYYFlgWmBbUFxQXVBeUF9gYGBhYGJwY3
+BkgGWQZqBnsGjAadBq8GwAbRBuMG9QcHBxkHKwc9B08HYQd0B4YHmQesB78H0gflB/gICwgfCDII
+RghaCG4IggiWCKoIvgjSCOcI+wkQCSUJOglPCWQJeQmPCaQJugnPCeUJ+woRCicKPQpUCmoKgQqY
+Cq4KxQrcCvMLCwsiCzkLUQtpC4ALmAuwC8gL4Qv5DBIMKgxDDFwMdQyODKcMwAzZDPMNDQ0mDUAN
+Wg10DY4NqQ3DDd4N+A4TDi4OSQ5kDn8Omw62DtIO7g8JDyUPQQ9eD3oPlg+zD88P7BAJECYQQxBh
+EH4QmxC5ENcQ9RETETERTxFtEYwRqhHJEegSBxImEkUSZBKEEqMSwxLjEwMTIxNDE2MTgxOkE8UT
+5RQGFCcUSRRqFIsUrRTOFPAVEhU0FVYVeBWbFb0V4BYDFiYWSRZsFo8WshbWFvoXHRdBF2UXiReu
+F9IX9xgbGEAYZRiKGK8Y1Rj6GSAZRRlrGZEZtxndGgQaKhpRGncanhrFGuwbFBs7G2MbihuyG9oc
+AhwqHFIcexyjHMwc9R0eHUcdcB2ZHcMd7B4WHkAeah6UHr4e6R8THz4faR+UH78f6iAVIEEgbCCY
+IMQg8CEcIUghdSGhIc4h+yInIlUigiKvIt0jCiM4I2YjlCPCI/AkHyRNJHwkqyTaJQklOCVoJZcl
+xyX3JicmVyaHJrcm6CcYJ0kneierJ9woDSg/KHEooijUKQYpOClrKZ0p0CoCKjUqaCqbKs8rAis2
+K2krnSvRLAUsOSxuLKIs1y0MLUEtdi2rLeEuFi5MLoIuty7uLyQvWi+RL8cv/jA1MGwwpDDbMRIx
+SjGCMbox8jIqMmMymzLUMw0zRjN/M7gz8TQrNGU0njTYNRM1TTWHNcI1/TY3NnI2rjbpNyQ3YDec
+N9c4FDhQOIw4yDkFOUI5fzm8Ofk6Njp0OrI67zstO2s7qjvoPCc8ZTykPOM9Ij1hPaE94D4gPmA+
+oD7gPyE/YT+iP+JAI0BkQKZA50EpQWpBrEHuQjBCckK1QvdDOkN9Q8BEA0RHRIpEzkUSRVVFmkXe
+RiJGZ0arRvBHNUd7R8BIBUhLSJFI10kdSWNJqUnwSjdKfUrESwxLU0uaS+JMKkxyTLpNAk1KTZNN
+3E4lTm5Ot08AT0lPk0/dUCdQcVC7UQZRUFGbUeZSMVJ8UsdTE1NfU6pT9lRCVI9U21UoVXVVwlYP
+VlxWqVb3V0RXklfgWC9YfVjLWRpZaVm4WgdaVlqmWvVbRVuVW+VcNVyGXNZdJ114XcleGl5sXr1f
+D19hX7NgBWBXYKpg/GFPYaJh9WJJYpxi8GNDY5dj62RAZJRk6WU9ZZJl52Y9ZpJm6Gc9Z5Nn6Wg/
+aJZo7GlDaZpp8WpIap9q92tPa6dr/2xXbK9tCG1gbbluEm5rbsRvHm94b9FwK3CGcOBxOnGVcfBy
+S3KmcwFzXXO4dBR0cHTMdSh1hXXhdj52m3b4d1Z3s3gReG54zHkqeYl553pGeqV7BHtje8J8IXyB
+fOF9QX2hfgF+Yn7CfyN/hH/lgEeAqIEKgWuBzYIwgpKC9INXg7qEHYSAhOOFR4Wrhg6GcobXhzuH
+n4gEiGmIzokziZmJ/opkisqLMIuWi/yMY4zKjTGNmI3/jmaOzo82j56QBpBukNaRP5GokhGSepLj
+k02TtpQglIqU9JVflcmWNJaflwqXdZfgmEyYuJkkmZCZ/JpomtWbQpuvnByciZz3nWSd0p5Anq6f
+HZ+Ln/qgaaDYoUehtqImopajBqN2o+akVqTHpTilqaYapoum/adup+CoUqjEqTepqaocqo+rAqt1
+q+msXKzQrUStuK4trqGvFq+LsACwdbDqsWCx1rJLssKzOLOutCW0nLUTtYq2AbZ5tvC3aLfguFm4
+0blKucK6O7q1uy67p7whvJu9Fb2Pvgq+hL7/v3q/9cBwwOzBZ8Hjwl/C28NYw9TEUcTOxUvFyMZG
+xsPHQce/yD3IvMk6ybnKOMq3yzbLtsw1zLXNNc21zjbOts83z7jQOdC60TzRvtI/0sHTRNPG1EnU
+y9VO1dHWVdbY11zX4Nhk2OjZbNnx2nba+9uA3AXcit0Q3ZbeHN6i3ynfr+A24L3hROHM4lPi2+Nj
+4+vkc+T85YTmDeaW5x/nqegy6LzpRunQ6lvq5etw6/vshu0R7ZzuKO6070DvzPBY8OXxcvH/8ozz
+GfOn9DT0wvVQ9d72bfb794r4Gfio+Tj5x/pX+uf7d/wH/Jj9Kf26/kv+3P9t////2wBDAAMCAgMC
+AgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIU
+FRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQU
+FBQUFBQUFBQUFBQUFBT/wgARCABQAJYDAREAAhEBAxEB/8QAHQAAAQQDAQEAAAAAAAAAAAAAAAEG
+BwgEBQkCA//EABsBAQACAwEBAAAAAAAAAAAAAAABAgMEBQYH/9oADAMBAAIQAxAAAAG1IgABHm0k
+PULIAAAAAAABAAY2yqh6C96fK0JAAAAAAAAIAkKLeqv8LL5eToSAAAAAAAAQCPNtQf12WTefW93l
+aLIAAAAAAAQhXoy78EV67Foe6Vrt+K3nlTVi33OOYvFY1G3nb7Cx8jzDUZZcmvDVzHThZEGPsKA+
+wyWF41YK6s2t8/V3czcwO7igj6M3vksb585SF+rbxEPfp5I43raTFX5asZ+hG/1a3n89VIVl7lq0
+9yzt1o6AeRo1cse7TSP7Bs3j+Q60c7Ewt1JYu3axSXdyqtfbmON9ZnyOPn/6vL0s8biQ8FE/VXn3
+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
+------=_Part_486_28431610.1517006387358--
+
+------=_Part_485_9236705.1517006387358--
+
+------=_Part_484_16518339.1517006387358--

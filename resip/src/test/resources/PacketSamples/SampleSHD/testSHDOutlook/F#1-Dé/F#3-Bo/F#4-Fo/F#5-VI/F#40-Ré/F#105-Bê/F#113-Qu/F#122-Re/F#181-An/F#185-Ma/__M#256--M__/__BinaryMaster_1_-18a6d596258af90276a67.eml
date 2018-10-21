@@ -1,0 +1,49 @@
+Return-Path: admin@example.com
+Received:  by vitam-tra1.localdomain (Postfix, from userid 48)	id ADE85221E1;
+ Mon,  5 Dec 2016 15:59:38 +0100 (CET)
+Date: Mon, 5 Dec 2016 15:59:38 +0100 (CET)
+From: Mantis Bug Tracker <noreply@example.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <18a6d596258af90276a67e47f5b41d10@213.32.79.242>
+Subject: [MantisBT] Account registration
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_369_29346557.1517006385176"
+X-PHP-Originating-Script:  48:class.phpmailer.php
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 2016.12.5.153016
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report='
+ HTML_00_01 0.05, HTML_00_10 0.05, BODYTEXTP_SIZE_3000_LESS 0, BODY_SIZE_1000_LESS 0, BODY_SIZE_2000_LESS 0, BODY_SIZE_5000_LESS 0, BODY_SIZE_500_599 0, BODY_SIZE_7000_LESS 0, FROM_NAME_PHRASE 0, HAS_X_PHP_SCRIPT 0, IP_HTTP_ADDR 0, NO_URI_HTTPS 0, RDNS_NXDOMAIN 0, RDNS_SUSP 0, RDNS_SUSP_GENERIC 0, SINGLE_URI_IN_BODY 0, SPF_FAIL 0, URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0, WEBMAIL_XMAILER 0, __ANY_URI 0, __CP_URI_IN_BODY 0, __CT 0, __CTE 0, __CT_TEXT_PLAIN 0, __HAS_FROM 0, __HAS_MSGID 0, __HAS_X_MAILER 0, __HAS_X_PHP_ORIG_SCRIPT 0, __HAS_X_PRIORITY 0, __MIME_TEXT_ONLY 0, __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 0, __MSGID_32HEX 0, __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_PASSWORD_1 0, __PHISH_SPEAR_STRUCTURE_1 0, __PHISH_SPEAR_STRUCTURE_2 0, __SANE_MSGID 0, __SINGLE_URI_TEXT 0, __TO_MALFORMED_2 0, __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 0, __URI_NO_WWW 0, __URI_WITH_PATH 0'
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]30,2,0,,d41d8cd98f00b204,noreply@example.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:41:152:355:379:493:541:543:836:882:967:973:988:989:1252:1256:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1534:1538:1566:1593:1594:1711:1714:1730:1747:1777:1792:2084:2198:2199:2393:2525:2560:2563:2682:2685:2693:2731:2859:2890:2901:2915:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3865:3867:3868:3870:3871:3872:3873:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4042:5007:6248:6261:6996:6997:8599:8784:8957:8987:9025:9344:9388:10004:10044:10400:10798:11473:11658:12043:12292:12438:12682:12740:12812:13025:13069:13095:13161:13229:13311:13357:13845:13972:14181:14721:14777:21080:21191:21347:21433:30001:30037:30051:30052:30054:30076,0,RBL:213.32.79.242:@example.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.net-62.20.73.100 64.201.201.201;04y
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1293900;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM08.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_369_29346557.1517006385176
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_370_23498944.1517006385176"
+
+------=_Part_370_23498944.1517006385176
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+The user administrator has created an account for you with username "Thierry".
+In order to complete your registration, visit the following URL (make sure it is
+entered as the single line) and set your own access password:
+
+http://213.32.79.242/mantisbt/verify.php?id=7&confirm_hash=GUPOpkvATkFnYs0Yuj5Di3veUcXbZHR8KcFQxLneTDKccIfPHL4iT50qGD1YwuczrQYy78_pS6_3oFqNGqqL
+
+If you did not request any registration, ignore this message and nothing will
+happen.
+
+Do not reply to this message
+------=_Part_370_23498944.1517006385176--
+
+------=_Part_369_29346557.1517006385176--

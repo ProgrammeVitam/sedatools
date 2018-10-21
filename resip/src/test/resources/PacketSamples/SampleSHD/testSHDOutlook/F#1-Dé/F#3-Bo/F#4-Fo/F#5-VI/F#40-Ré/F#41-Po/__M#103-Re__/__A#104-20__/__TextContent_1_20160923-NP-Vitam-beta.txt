@@ -1,0 +1,823 @@
+
+VITAM
+
+Itération n° 8 – Présentation aux projets 
+ministériels et aux partenaires
+
+23/09/2016
+
+Valeurs Immatérielles Transférées aux Archives pour Mémoire
+
+
+
+Programme VITAM
+
+2 / 40
+
+Ordre du jour
+
+• Introduction
+
+• Rappels sur la méthode de réalisation de la solution logicielle
+
+• Présentation du générateur de bordereaux SEDA
+
+• Présentation du périmètre à la fin de l’itération 08
+
+• Démonstration
+– Présentation
+– Réactions sur le produit
+
+• Périmètre de l'itération 9 et de la bêta
+
+• Recette de la version bêta
+
+• Réactions & clôture
+
+
+
+Programme VITAM
+
+3 / 40
+
+Introduction
+
+• Après le PP, un premier pas dans la mise en commun du 
+développement :
+
+– une première version de tous les modules du socle technique est en 
+place
+
+– des fonctions sont clairement démontrables
+– le test de la Bêta s’approche
+
+• Un travail effectif d’innovation technique mais aussi fonctionnelle 
+
+• Des orientations et une conception à partager (itérations à venir, 
+concepts d’organisation des données, de consolidation...)
+
+• … et deux petits points :
+– l’essentiel de Vitam n’est pas l’interface qui n’est à ce stade que 
+
+de démonstration et qui restera minimale… l’important est le 
+moteur sous le capot
+
+– Bill Gates a démontré que l’effet démo arrive aux plus forts (ça 
+c’est au cas où...)
+
+
+
+Programme VITAM
+
+4 / 40
+
+Présentation de la méthode de 
+réalisation de la solution 
+
+logicielle
+
+
+
+Programme VITAM
+
+6 / 40
+
+Le cycle de développement
+
+Développements
+
+Développements Développements
+
+Daily
+Meetings
+
+Tous
+
+Définition
+des US
+PO/BA
+
+Résoudre 
+les 
+problèmes 
+quotidiens
+
+Informer les 
+stakeholders
+
+Copil
+Codir
+Resp.
+
+Backlog 
+Refinement
+
+PO/Tech
+
+Techdesign
+Tech/BA
+
+Démo 
+Sprint review
+
+tous
+
+Sprint
+Planning
+
+tous
+
+Evaluer 
+et  
+
+prioriserRetours sur le sprint
+Culture de 
+l’apprentissage
+
+Intégration
+
+
+
+Programme VITAM
+
+7 / 40
+
+Élaboration des User Stories (1)
+De l’idée …
+
+• Définition d‘une User Story (Cas d’usage) : 
+
+– C’est une description simple et compréhensible d’une fonctionnalité qui a une 
+valeur métier.
+
+• 4 types de user story : métier, techniques, bugs et la dette technique
+• L’Idée de conception d’une user story peut provenir de la Story Map, d’une 
+
+demande des partenaires (stakeholders) ou de l’équipe projet 
+
+• Processus de conception
+
+– Sélection des Stories métiers par priorités (définies par les archivistes)
+
+– Échanges entre archivistes / BA / développeurs / architectes pour définir les 
+enjeux et paramètres de la user story
+
+– Rédaction de la User Story via un outil collaboratif :
+• Une description brève et claire du besoin (Description métier)
+• Une définition des critères fonctionnels ou techniques à respecter (Critères 
+
+d’acceptance)
+
+
+
+Programme VITAM
+
+8 / 40
+
+Tuleap
+
+
+
+Programme VITAM
+
+9 / 40
+
+Élaboration des User Stories (2)
+… à la mise en œuvre 
+
+• Lorsque tous les critères précédents sont réunis, la phase de 
+développement peut débuter
+
+• Les équipes
+
+- réalisent et développent les critères fonctionnels, techniques et logiques 
+- effectuent les différents livrables auprès de l’administration
+
+• Recette par les archivistes pour vérifier la conformité du besoin exprimé
+
+• Validation par l’administration
+
+
+
+Programme VITAM
+
+10 / 40
+
+Focus sur les IHM
+objectifs et définition
+
+• Définition
+– Interface Homme Machine : interface visuelle
+
+• Objectifs
+– Faciliter les recettes pour les archivistes
+– Permettre de vérifier que les fonctions ont bien été implémentées
+– Simuler les comportements attendus par les archivistes dans leurs SIA
+– Présenter une démo compréhensible visuellement
+
+• NB : les IHM pourront être substituées par celles développées par les projets 
+ministériels
+
+• Charte graphique
+– Maquette réalisée par un ergonome
+– Définition de la charte VITAM (lilas et blanc)
+– Consistance et cohérence des IHM crées ou mises à jour par les analystes avec 
+
+la charte établie
+
+
+
+Programme VITAM
+
+11 / 40
+
+Focus sur les IHM
+
+
+
+Programme VITAM
+
+12 / 40
+
+Présentation du générateur de 
+bordereaux SEDA
+
+
+
+Programme VITAM
+
+Besoin
+
+• Générer un message SEDA « ArchiveTransfer »
+– Compatible SEDA v2.0
+– Simplement : ne pas avoir à l’éditer à la main (via Oxygen par 
+
+exemple)
+– Rapidement : capacité à faire un SEDA avec des milliers d’unités 
+
+d’archives et des milliers de fichiers
+– De manière fiable (ne pas copier à la main le «MessageDigest » pour 
+
+les BinaryDataObjects)
+
+• Pour générer des jeux de recettes pour Vitam
+
+
+
+Programme VITAM
+
+Fonctionnalités
+
+– Fichier conforme à SEDA 2.0 – MEDONA (conforme xsd du SEDA)
+• Pas de gestion des extensions/profils dérivés du SEDA
+
+– Sur les fichiers binaires (BinaryDataObject)
+• Calcule l’empreinte (avec l’algorithme de hachage paramétrable. Par 
+
+défaut SHA-512)
+• Calcule la taille du fichier 
+• Récupère le nom du fichier et sa date de dernière modification 
+
+(FileInfo)
+• Identifie le format (pronomID, mime-type) via Siegfried
+
+– Sur les unités d’archives (ArchiveUnit)
+• Gestion des relations entre ArchiveUnit, DataObjectGroup et 
+
+BinaryDataObject
+• Gestion des méta-données descriptives
+
+–  Gestion des dates TransactedDate, StartDate, EndDate en fonction des dates 
+de modification dans l’arborescence 
+
+– Génération des champs Description,Title à partir du chemin du fichier 
+– (en phase de test) ajout de méta-données par un fichier externe
+
+
+
+Programme VITAM
+
+Principes d’utilisation (1/2)
+
+• Création d’un bordereau SEDA pour le répertoire 
+SHDGR__GR_H_1 (appelé prefix après)
+
+– ArchiveUnit :  <prefix> « père »
+– ArchiveUnit :  <prefix>_001 fils de <prefix>
+– ArchiveUnit :  <prefix>_001_0001 fils de _001
+– ArchiveUnit : TileGroup0 fils de _001_0001
+– Pour chaque fichier
+
+• Création d’un ArchiveUnit ayant
+– DescriptionLevel : ITEM
+– Title : le nom du fichier
+
+• Création d’un groupe d’objet de données 
+(DataObjectGroup) fils de l’ArchiveUnit
+
+• Création d’un Objet binaire faisant le pointeur 
+vers le fichier binaire
+
+• Dans le bordereau SEDA, la gestion des relations entre 
+ArchiveUnit est faite comme une arrête et non comme 
+une inclusion d’ArchiveUnit les uns dans les autres 
+
+• Nombre d’objets gérés (hors cas des répertoires 
+« groupes d’objets ») : 
+
+– Nombre d’archive Unit = Nombre de répertoire + 
+nombre de fichiers 
+
+– Nombre de BinaryObjets = Nombre de fichiers 
+présents (hors fichiers techniques et rejetés)
+
+
+
+Programme VITAM
+
+Principes d’utilisations (2/2)
+
+• Fichiers de configuration
+– Configuration « globale » de l’ArchiveTransfer
+
+• Gère les balises « globales » de l’ArchiveTransfer
+– Comment,MessageIdentifier,ArchivalAgreement,
+– Gestion partielle (Identifier) de ArchivalAgency,TransferringAgency et 
+
+CodeListVersions
+
+• Exclusion de certains fichiers (par exemple Thumbs.db, *.vcf)
+– Type de fichier : json (fichier « ArchiveTransferConfig.json »)
+– Emplacement 
+
+• A la racine de chaque arborescence scannée
+• Dans le répertoire de configuration de l’outil
+
+• Enrichissement des métadonnées de description
+– Pour l’ArchiveUnit correspond à un répertoire, il est possible 
+
+d’enrichir les métadonnées de description avec un fichier présent 
+dans le répertoire correspondant
+
+– Type de fichier : json (manifest.json)
+– Emplacement : il est possible d’être placé dans chaque répertoire
+
+
+
+Programme VITAM
+
+17 / 40
+
+Générateur SEDA : démonstration
+
+
+
+Programme VITAM
+
+18 / 40
+
+Générateur SEDA : réactions
+
+
+
+Programme VITAM
+
+19 / 40
+
+Présentation de la solution 
+logicielle (état à la fin de 
+
+l’itération 08)
+
+
+
+Programme VITAM
+
+20 / 40
+
+Prérequis sur le SIP
+
+• SIP conforme aux spécifications du document Design SIP 
+qui a été communiqué pour avis aux projets ministériels et 
+aux partenaires
+
+• SIP permettant de transférer des objets binaires mais pas 
+encore des objets physiques (story en cours de 
+planification)
+
+• Nombre d’objets encore limité (5 000 objets par SIP, 
+limite amenée par la technologique « primitive » de 
+stockage utilisée à ce jour mais montée en capacité à 50 
+000 objets en cours d’examen)
+
+• Possibilité de rattachement d’un même objet binaire à 
+plusieurs unités archivistiques
+
+
+
+Programme VITAM
+
+21 / 40
+
+Présentation du périmètre de la solution 
+logicielle à la fin de l’itération 08 (1)
+
+ENT-02 Entrées à blanc
+
+ENT-03 Entrées par flux
+X
+
+ENT-04 Entrées unitaires
+
+ENT-06 Contrat d’entrée
+
+ACC-01 Recherche avancée X
+
+ACC-02 Recherche avancée X
+
+ACC-03 Recherche via le journal des entrées
+
+ACC-05 Consultation des résultats X
+
+ACC-08 Contrat d’accès
+
+GAE-02 Modification des métadonnées X
+
+GAE-03 Modification de l’organisation de classement
+
+GAE-08 Référentiel des règles de gestion X
+
+PRE-04 Référentiel des formats X
+
+STO-01 Gestion des offres de stockage X
+
+
+
+Programme VITAM
+
+22 / 40
+
+Présentation du périmètre de la solution 
+logicielle à la fin de l’itération 08 (2)
+
+AFC-02 Administration et consultation des journaux X
+
+AFC-03 Consultation des statistiques
+
+AFC-07 Administration des autres référentiels (filières, etc.)
+
+AFC-09 Gestion des droits archivistiques
+
+AFC-10 Planification et gestion des priorités
+
+AFC-11 Gestion des utilisateurs X
+
+ATE-01 Tester la connexion au SAE
+
+ATE-02 Gérer les applications connectées au SAE X
+
+ATE-03 Gestion et consultation des logs X
+
+ATE-04 Statistiques techniques
+
+ATE-05 Installation X
+
+ATE-07 Supervision technique X
+
+ATE-08 Lancer et arrêter des services X
+
+ATE-11 Accéder aux informations techniques
+
+
+
+Programme VITAM
+
+23 / 40
+
+Périmètre des itérations – Premier produit
+
+IT01
+IT02
+
+Mise en place de l’espace de stockage temporaire + mise en place de MongoDB + 
+exploitation du manifeste SEDA
+
+IT03
+IT04
+
+ENT-03 : chargement d’un SIP + contrôle de la présence du bordereau + indexation 
+des métadonnées descriptives + initialisation du journal des opérations + contrôle du 
+nombre d’objets
+AFC-02 : suivi et recherche d’opérations d’entrées + affichage du détail d’une 
+opération d’entrée + journalisation des opérations
+
+IT05 ENT-03 : journalisation des événements sur les units et les objets + indexation des 
+groupes d’objets techniques + contrôle de conformité
+ACC-01 : recherche avancée
+ACC-05 : consultation des résultats (liste + détail des résultats)
+
+
+
+Programme VITAM
+
+24 / 40
+
+Périmètre des itérations - bêta
+
+IT06 ENT-03 : contrôle sanitaire + prise en compte de bordereaux arborescents + 
+stockage des objets
+GAE-02 : modification des métadonnées
+PRE-04 : création du référentiel des formats + affichage et recherche dans le 
+référentiel des formats
+
+IT07 ENT-03 : amélioration du processus global
+ACC-01 : étude recherche non exacte (POC ElasticSearch)
+AFC-02 : application charte graphique
+
+IT08 ENT-03 :  application charte graphique + amélioration du processus global
+ACC-01 : application charte graphique + recherche non exacte + recherche 
+multicritères (dont dates)
+ACC-02 : création d’écran de recherche simple + recherche non exacte
+ACC-05 : application charte graphique indication de l’existence d’objets sur liste des 
+résultats + affichage du fil d’Ariane + affichage du détail des métadonnées 
+techniques + tableau de téléchargement
+GAE-08 : import du référentiel, affichage du référentiel, recherche dans le référentiel
+PRE-04 : application charte graphique + correction de bugs + ordre alphabétique des 
+résultats
+AFC-11 : authentification des utilisateurs (individuels et applicatifs)
+ATE-03 : consultation des logs (1e étape)
+
+
+
+Programme VITAM
+
+25 / 40
+
+Scénario 1 :  authentification
+
+• L'utilisateur se connecte depuis la page d'accueil :
+– 3 utilisateurs définis à ce jour : Admin, User, Guest,
+– Redirection vers la page de login si non connecté,
+– Redirection vers la page après login si session expirée,
+– Erreur de mauvais login
+
+
+
+Programme VITAM
+
+26 / 40
+
+Scénario 1 : démonstration
+
+
+
+Programme VITAM
+
+27 / 40
+
+Scénario 2 :  entrée d’un SIP
+
+• Entrée d'un SIP : 
+– Récupération du SIP depuis l’IHM de transfert et transfert du 
+
+fichier
+– Connexion à l’écran de suivi des opérations d’entrées
+– Consultation du détail de l’opération d’entrée correspondante
+
+• Cas possibles :
+– SIP OK
+– SIP au mauvais format
+– SIP avec virus
+– SIP non conforme au schéma .xsd SEDA
+– SIP avec nombre d’objets KO
+– SIP avec objets KO (problème d’empreinte)
+
+
+
+Programme VITAM
+
+28 / 40
+
+Scénario 2 : démonstration
+
+
+
+Programme VITAM
+
+29 / 40
+
+Scénario 3 : recherche d’archives et 
+modification de métadonnées descriptives
+
+• Types de recherches
+– Recherche simple (google like)
+– Recherche avancée (formulaire de recherche)
+
+• Consultation des résultats
+– Liste de résultats
+– Tri des résultats
+– Présence de fichiers
+
+• Consultation et modification du détail d’une unité 
+archivistique
+
+– « Fil d’Ariane » et rebond entre unités archivistiques
+– Consultation des métadonnées
+– Affichage de la présentation d’objets
+– Modification d’une métadonnée
+
+• Récupération d’un objet
+– Téléchargement de l’objet
+
+
+
+Programme VITAM
+
+30 / 40
+
+Scénario 3 : démonstration
+
+
+
+Programme VITAM
+
+31 / 40
+
+Scénario 4 :  administration des référentiels
+
+• Deux référentiels concernés : formats et règles de gestion
+
+• Fonctionnalités :
+– Chargement des fichiers qui vont alimenter le référentiel 
+
+(signatures PRONOM pour formats, fichier .csv pour règles de 
+gestion)
+
+– Vérification de la validité et de la conformité du fichier
+– Import dans bases Vitam
+– Affichage du référentiel
+– Recherche par formulaire
+– Affichage des résultats
+
+• Pour les formats : consultation d’une fiche détaillée et renvoi vers 
+référentiel PRONOM
+
+
+
+Programme VITAM
+
+32 / 40
+
+Scénario 4 : démonstration
+
+
+
+Programme VITAM
+
+33 / 40
+
+Réactions et questions
+
+
+
+Programme VITAM
+
+34 / 40
+
+Prochains développements
+
+
+
+Programme VITAM
+
+35 / 40
+
+Périmètre de l'itération 09 et de la bêta 
+(sous réserve)
+
+IT09 ENT-03 : amélioration du processus global + contrôle de cohérence + 
+identification des formats + notification de prise en charge
+AFC-02 : affichage et recherche du journal des opérations + simplification des 
+journaux + consultation des journaux de cycle de vie
+
+Sujets en 
+cours de 
+discussion
+
+ENT-03 : prise en compte des PhysicalDataObject + vérification de l’existence 
+du contrat + calcul des échéances + enregistrement des entrées dans le 
+registre des fonds + sécurisation des journaux + notification des échecs
+ENT-05 : initialisation des contrats d’entrée
+ACC-04 : affichage et recherche dans le registre des fonds
+GAE-08 : recherche non exacte dans le référentiel des règles de gestion
+PRE-04 : recherche non exacte dans le référentiel des formats
+
+
+
+Programme VITAM
+
+36 / 40
+
+Recette de la version bêta
+
+
+
+Programme VITAM
+
+37 / 40
+
+Mode de travail avec projets
+
+• Mindef :
+– Prestation ALTRAN
+– 2 réunions de cadrage avec Vitam
+– Équipe projet : DéSIAG, DIRISI, SHD, Altran avec appui Vitam
+– Base de 1000 tests à réaliser (tests automatisés)
+– Calendrier : définition de la stratégie de tests à partir du 15/10, 
+
+exécution des tests à partir du 22/11
+
+• MEEM :
+– Réalisation en régie
+– 1 réunion de cadrage avec Vitam
+– Équipe projet : MAP, DOIP avec appui Vitam
+– Tests manuels
+– Calendrier : 1e phase de tests (installation, exploitation, recette 
+
+fonctionnelle) sur novembre-décembre, 2e phase en janvier pour 
+interfaçage avec une application métier
+
+
+
+Programme VITAM
+
+Accompagnement à l’installation
+
+• 5 jours d’accompagnement sont prévus pour chaque release :
+– nous proposons d’en utiliser 1 avant la release ;
+– ce jour pourrait être consacré à des ateliers de prises en main de 
+
+l’installation de Vitam en avance de phase ;
+• 1 atelier par itération (itération 9 et itération 10) 
+
+• Sur le plan pratique, proposition :
+– réunion de l’itération 9 en commun avec les 3 partenaires (MAEDI, 
+
+MCC et MINDEF) ;
+– réunion de l’itération 10 en bilatérale ;
+– le choix définitif sera arbitré au COPIL du 28/09/2016
+
+
+
+Programme VITAM
+
+39 / 40
+
+Documentation livrée pour la solution logicielle
+
+• Documentation métier :
+– Manuel utilisateur
+– Document de spécification des SIP
+– User Stories
+– Scénarii de tests, avec jeux de tests associés
+
+• Documentation technique :
+– Documentation d’architecture technique (DAT), dont partie sur les tests 
+
+de sécurité
+– Documentation d’exploitation (DEX)
+– Documentation d’installation (DIN)
+
+• Documentation pour développeurs
+– Manuel de développement
+– Javadoc
+– Modèles de données
+– Documentation des API
+– TODOs
+
+
+
+Programme VITAM
+
+40 / 40
+
+Livraison pour le générateur de SIP
+
+• Exécutables dans un répertoire Windows (installable sur 
+poste local)
+
+– Prérequis : Java8 installé sur le poste de travail
+
+• Manuel utilisateur
+
+• Exemples de fichiers de configuration et de paramétrage
+
+
+
+Programme VITAM
+
+41 / 40
+
+Réactions et clôture
+
+

@@ -1,0 +1,193 @@
+Dernier courriel avec la présentation faite en séance.
+
+
+----------------------------------------------------------------------------------------------------------------------
+
+Bonjour,
+
+Comme annoncé lors de la réunion de présentation technique de Vitam, vous trouverez en pièce jointe (dans plusieurs courriels pour des raisons de taille) : 
+
+
+*	Les documents techniques (DAT et DIN) dans leur version RC-1 de l'itération 9
+
+*	Comme le DIN a fortement évolué depuis, nous vous fournissons la mise à jour du DIN en version de travail . Comme indiqué en réunion lundi 17/10, bien que la documentation pour l'IGC de test soit décrite dans le DIN, celle-ci n'est pas incluse dans les scripts d'installations fournis.
+
+*	Les scripts servant à  l'installation de Vitam (ansible). Concernant le fichier vault contenant les secrets de plateformes, son mot de passe est changeit.
+
+Comme il a été précisé en séance, les éléments fournis sont issus d’une version de travail du développement et de sa documentation, et ne reflète pas encore la qualité et complétude des mêmes éléments dans leur version finale.
+
+Vous pouvez aussi dans la suite trouver un CR rapide des échanges dans la réunion.
+
+Cordialement
+
+JS Lair
+
+_______________________________________________________________________
+
+Voici le compte-rendu synthétique reprenant les points soulevés lors de la réunion du 17/10 :
+
+Tour de table
+
+Interlocuteurs ministériels
+
+
+*	Thierry Casimirius - Ministère de la défense - (thierry.casimirius@intradef.gouv.fr)
+*	Franck Ajjaz - Altran - Chef de projet Recette Altran (franck.ajjaz@altran.com)
+*	Vincent Hernin - Altran - Administrateur technique Altran  (vincent.hernin@altran.com)
+*	Pierre le Clainche  - Ministère de la culture - Architecte SDSI (pierre.le-clainche@culture.gouv.fr)
+*	Julien Georges - Ministère de la culture -  Chef de projet Infrastructure Adamant (julien.georges@culture.gouv.fr)
+*	Fabienne Ricciarini - Ministère de la culture (fabienne.ricciarini@culture.gouv.fr)
+*	Arnaud Sampic - Ministère des affaires étrangères -  (arnaud.sampic@diplomatie.gouv.fr)
+*	Jean-Baptiste Battiato - Ministère des affaires étrangères - (jean-baptiste.battiato@diplomatie.gouv.fr)
+*	Alain Nicolas - Ministère des affaires étrangères - (alain.nicolas@diplomatie.gouv.fr)
+	
+*	Remy Delmotte - Ministère Environnement (remy.delmotte@developpement-durable.gouv.fr)
+*	Laurent Gautrot - Ministère de l'environnement (laurent.gautrot@developpement-durable.gouv.fr)
+*	Adam Nazir-Ahmed - Ministère de l'environnement (adam.nazir-ahmed@developpement-durable.gouv.fr)
+
+Equipe Vitam
+
+
+*	Frédéric Bregier : Directeur technique de Vitam
+*	Emmanuel Laborde : Architecte Vitam
+*	Etienne Carrière : Architecte technique Vitam
+*	Charles Pouplin : Gestionnaire technique de Plateforme Vitam
+*	Kristopher Waltzer : Responsable technique de l'équipe d'intégration Thalès
+*	Olivier Marsol : Intégrateur
+*	Joachim Gonthier : Intégrateur
+*	Nicolas Ménétrier : Intégrateur
+	
+
+
+Remarques et questions sur la présentation Vitam
+
+
+*	Offre de stockage
+
+En bêta, on fournit une seule offre
+Pour la V1 , la cible est d'être compatible avec des offres de stockages SWIFT
+Post V1, d'autres offres de stockage seront disponibles :  
+    Ex : Offre de stockage froide basé sur LTO et LTFS
+    Du fait que le code est libre, chaque client peut réimplémenter
+ 
+
+
+*	L'IHM démo est un application externe "presque comme les autres"
+
+Il utilise les même endpoints qu'une autre application/SIA
+En particulier,dès la bêta, il est possible d'insérer des réferentiels aussi bien par l'IHM que par une application externe
+Les référentiels gérés en bêta sont les référentiels de formats et de régles de gestion
+
+
+*	RPM/DEB
+
+Le MAEDI attend des packages DEB. Cela ne sera pas possible à la date de la Béta, des solutions de contournement pour leur permettre dans un délais raisonnable d'installer la Béta sont à l'étude.
+Présence des fichiers de configuration dans le RPM . Une piste serait d'avoir un fichier d'exemple seulement (à noter que le fichier est déjà présent en template dans ansible)
+
+
+*	Date de mise à disposition des sources
+
+Fournies pour la bêta 
+
+*	Iptables
+
+Pas d'action de l'installation sur Iptables durant la bêta
+Le filtrage sur OS n'est pas fourni par Vitam, les pratiques des partenaires sont trop différentes : MAEDI (iptables par machines), Ministère de l'environnement (security Group (openstack))...
+
+
+*	Antivirus
+
+L'antivirus est considéré comme en dehors du scope de Vitam
+Vitam utilise pour ses tests et recette "ClamAV"
+La question sur la mise à jour des bases virales pour ClamAV est à traiter
+
+
+*	Différentiation des interfaces
+
+DAns les DSI, les VMs ont plusieurs interfaces entre les différents types de réseau (fonctionnement, administration, sauvegarde, …)
+Pour la bêta, Vitam ne gére que les VM avec une seule interface réseau 
+Pour la V1, le principe devrait être basé sur une différentiation du nom de l'interface de service par rapport à l'interface d'administration
+
+
+*	Choix du serveur d'application : Jetty
+
+Le choix a été fait de Jetty embedded (sans war), pour des raisons d'efficacité
+Question du support à étudier (Le MCC & MAEDI ont un support (SLL ?) pour Tomcat mais pas de support pour Jetty)
+
+
+*	Etat de ce qui est installé
+
+Comment avoir un état de l'installation ? 
+Savoir si un composant est tombé ?
+Avec l'UI Consul.
+
+
+*	Référentiels
+
+On ne dispose que des use cases d'initialisation et non les use cases d'update/delete, qui interviendront en V1.
+- Régles de gestion :
+    Doit être géré par un 'archiviste à tendance technique'
+    Est un CSV devant être généré hors IHM (via tableur par exemple )
+- Référentiel des Formats :
+    Format de référence des archives britanniques (PRONOM)
+    Capacité d'ajout de formats spécifiques ?
+        En bêta, la liste des signatures PRONOM dans Siegfried est statique
+        En v1, la partie du référentiel des formats venant de PRONOM sera synchrone avec la liste des signatures Siegfried
+        En v1, si un ministère désire enrichir le référentiel des formats cela sera possible
+
+
+*	Consul
+
+Consul ne fait pas d'alerting, ni de redémarrage des services KO (contrairement à corosync par exemple)
+
+
+*	Livraison de Topbeat
+
+Souhait d'avoir Topbeat (et ses dashboards) livrés de manière optionnelle (extra)
+
+
+*	Format de mise à disposition souhaité des livrables de la bêta
+	
+
+Sur un site internet, si possible de communiquer sur Internet (discussion SGMAP/DINSIC en cours)...
+
+
+*	Bug tracker
+
+Mise à disposition d’un tracker commun public au sein de la communauté de partenaires (protégé par authentification login/mdp)
+
+
+
+*	Retour des interlocuteurs
+
+L'assistance est globalement satisfaite de la présentation technique
+Retours spécifiques par ministères :
+    Pour le Ministère de la défense, la production n'était pas présente. Seul le projet et l'équipe de TRA était représenté
+    Pour le Ministère des affaires étrangères, point à traiter sur la stack logicielle
+        - format du packaging (DEB/RPM)
+        - solution d'automatisation : en phase d'identification d'une solution (orientation pour l'instant vers une solution différente d'Ansible, à savoir Salt)
+    Pour le Ministère de la culture, demande, si possible, de récupérer les travaux qui avaient été faits sur Docker
+
+
+-- 
+
+
+ 
+
+Jean-Séverin LAIR
+Directeur de programme/Program head manager
+Programme Vitam
+Services du Premier Ministre, SGMAP - DINSIC
+47 rue de la chapelle, 75018 Paris
+jean-severin.lair@culture.gouv.fr <mailto:jean-severin.lair@culture.gouv.fr> 
+Le programme est hébergé par les moyens informatiques du MCC
+Suivez-nous sur Twitter @ProgVitam <https://twitter.com/progvitam> 
+
+
+
+--
+Message envoyé grâce à OBM <http://obm.org> , la Communication Libre par Linagora <http://www.linagora.com/> 
+--
+Message envoyé grâce à OBM <http://obm.org> , la Communication Libre par Linagora <http://www.linagora.com/> 
+--
+Message envoyé grâce à OBM <http://obm.org> , la Communication Libre par Linagora <http://www.linagora.com/>

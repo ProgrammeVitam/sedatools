@@ -1,0 +1,1 @@
+package fr.gouv.vitam.tools.resip.frame;

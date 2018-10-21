@@ -1,0 +1,38 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Notifications par email du Support Vitam</Title>
+    <OriginatingSystemId>&lt;92117105e1a92d4d003fc73debce3e11@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>nathanael.attar.ext</FirstName>
+        <BirthName>nathanael.attar.ext</BirthName>
+        <Identifier>nathanael.attar.ext@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>nicolas.menetrier.ext</FirstName>
+        <BirthName>nicolas.menetrier.ext</BirthName>
+        <Identifier>nicolas.menetrier.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>kristopher WALTZER</FirstName>
+        <BirthName>kristopher WALTZER</BirthName>
+        <Identifier>kristopher.waltzer.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-12-22T14:43:15Z</SentDate>
+    <ReceivedDate>2016-12-22T14:43:27Z</ReceivedDate>
+    <TextContent>Bonjour Thierry,
+
+J&apos;ai passé le bug #15 sous le statut &quot;Correction Documentaire&quot;, comme convenu.
+
+Pouvez vous me confirmer  s&apos;il vous plait si vous avez bien reçu la notification Tuleap en ce sens ?
+
+D&apos;avance, un grand merci pour votre retour,
+
+Cdt
+
+Nathanael</TextContent>
+</Content>

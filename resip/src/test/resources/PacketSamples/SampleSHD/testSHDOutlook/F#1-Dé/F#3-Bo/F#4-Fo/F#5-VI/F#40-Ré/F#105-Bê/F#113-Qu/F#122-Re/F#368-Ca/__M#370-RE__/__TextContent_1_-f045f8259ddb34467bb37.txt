@@ -1,0 +1,249 @@
+Thierry,
+
+mes réponses dans le texte (en fuchsia)
+
+Edouard
+
+ 
+
+ 
+
+Le 2016-10-11 15:49, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Serait-il possible de préciser lors du point d’itération jeudi :
+
+	 
+
+	- SIP avec problèmes de valeurs dans le champ DataObjectVersion du manifeste : je n’ai pas vu dans SEDA de valeurs type à utiliser. Donc quel pourrait-être le problème ? Et comment cela pourrait être détecté s’il n’y a pas de liste de valeurs préétablie ?
+
+	La liste de valeurs est définie dans le document de spécification des SIP. La nouvelle version sera disponible d'ici la fin de la semaine
+	
+
+	- SIP avec problème de récursivité dans l'arborescence des métadonnées : serait-il possible d’avoir un exemple ? Je ne comprends pas la notion de récursivité
+
+	un fils déclare un père qui a lui même pour père son fils
+	
+
+	- SIP avec objets orphelins : cela signifie que l’objet n’est pas décrit dans le bordereau ? Qu’il n’est pas dans un répertoire ? 
+
+	un objet qui n'est rattaché à aucune unité archivistique dans le bordereau (partie DescriptiveMetadata du message ArchiveTransfer du SEDA)
+
+	D’avance, merci
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : edouard VASSEUR [mailto:edouard.vasseur@culture.gouv.fr] 
+	Envoyé : mardi 11 octobre 2016 15:22
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Cc : 'emmanuel.laborde@culture.gouv.fr'; BEL Nicolas ASC NIV I OA
+	Objet : RE: TR: [Programme Vitam] [Information] : demandes de précisions sur les cas de SIP NOK pour VITAM // Types d'erreurs lors de création des SIP
+
+	 
+
+	Rebonjour Thierry,
+
+	Mes réponses dans le texte, correspondant aux cas d'erreur traités à la fin de l'IT09
+
+	Bien à toi
+
+	Edouard
+
+	 
+
+	 
+
+	Le 2016-10-11 15:09, CASIMIRIUS Thierry a écrit :
+
+		Bonjour,
+
+		 
+
+		Encore quelques questions autour du thème des SIP 
+
+		 
+
+		1-      Les SIP VITAM 
+
+		Quels sont les cas de SIP NOK pour VITAM ? 
+
+		- SIP au mauvais format (.pdf par exemple)
+
+		- SIP avec un fichier virusé
+
+		- SIP sans bordereau
+
+		- SIP avec bordereau mais au mauvais format (.pdf par exemple)
+
+		- SIP avec bordereau non conforme au schéma SEDA 2.0
+
+		- SIP avec un nombre d'objet incohérent (inférieur ou supérieur à ce qui est déclaré dans le bordereau)
+
+		- SIP avec problème d'intégrité (un objet substitué à un autre)
+
+		- SIP avec problèmes de valeurs dans le champ DataObjectVersion du manifeste
+
+		- SIP avec problème de récursivité dans l'arborescence des métadonnées
+
+		- SIP avec objets orphelins
+
+		- SIP avec un FormatId inconnu du référentiel interne Vitam
+
+		J'en oublie peut être ;-)
+
+		 
+
+		Quelques cas de figure de SIP NOK ont été décrits lors du dernier point d’itération (page 27 du PPT : nb objets, et pb empreinte), mais est-ce exhaustif ( format non reconnu, format différent entre bordereau et fichier, taille du fichier incohérente, ….)? 
+
+		- non, ce n'était pas exhaustif
+
+		Quel est le nombre d’objets max à traiter par VITAM dans un SIP pour la Beta ? est- tjs 50 000 ?
+
+		- point de performance jeudi lors de la démonstration de l'IT09
+
+		Quelle est la taille max d’un SIP pouvant être traité par VITAM en Beta ? 1 Go , 10 Go , … ?
+
+		- à ce jour limite à 80 Mo
+
+		 
+
+		2-      Le générateur :
+
+		Quels sont les cas d’erreur possibles lors de la création d’un SIP ?
+
+		- Aucun
+
+		Doit-on respecter un type d’arborescence minimale ? Le nombre de niveau de sous-répertoires avec des documents d’« archives » est-il limité ?
+
+		- je n'ai pas testé les limites en termes d'arborescence. Je me renseigne d'ici jeudi
+
+		 
+
+		 
+
+		D’avance, merci pour vos précisions,
+
+		 
+
+		Cordialement,
+
+		 
+
+		Thierry CASIMIRIUS
+
+		Adjoint au chef du bureau des technologies d’information
+
+		Service historique de la Défense
+
+		SGA/DMPA/SHD/PPST/BTI
+
+		Tél : 01 41 93 20 45
+
+		 
+
+		De : edouard VASSEUR [mailto:edouard.vasseur@culture.gouv.fr] 
+		Envoyé : mardi 11 octobre 2016 10:51
+		À : CASIMIRIUS Thierry IDEF MINDEF
+		Cc : 'emmanuel.laborde@culture.gouv.fr'; BEL Nicolas ASC NIV I OA
+		Objet : Re: TR: [Programme Vitam] [Information] : remarques sur documentation associée au générateur SIP SEDA
+
+		 
+
+		Rebonjour Thierry,
+
+		C'est corrigé avec la bonne version mise à jour sur Jalios.
+
+		Edouard
+
+		 
+
+		Le 2016-10-11 10:46, CASIMIRIUS Thierry a écrit :
+
+			Bonjour,
+
+			 
+
+			Une remarque sur la documentation associée au générateur SIP SEDA VITAM :
+
+			Page 18 : il est indiqué qu’ «  il est possible de paramétrer l’entête du bordereau en utilisant le fichier ArchiveUnitMetada.json »
+
+			N’y a-t-il pas une erreur, vu que l’on est au niveau du répertoire ???
+
+			 
+
+			D’avance, merci pour vos précisions
+
+			 
+
+			Cordialement,
+
+			 
+
+			Thierry CASIMIRIUS
+
+			Adjoint au chef du bureau des technologies d’information
+
+			Service historique de la Défense
+
+			SGA/DMPA/SHD/PPST/BTI
+
+			Tél : 01 41 93 20 45
+
+			 
+
+			De : Programme Vitam [mailto:agora@vitam.jaliosagora.com] 
+			Envoyé : mardi 11 octobre 2016 09:00
+			À : CASIMIRIUS Thierry IDEF MINDEF
+			Objet : [Programme Vitam] [Information] Changements récents
+
+			 
+
+
+Programme Vitam - Changements récents
+
+Casimirius,
+
+Voici 2 nouvelles contributions / mises à jour sur Programme Vitam. 
+
+Chantier Solution logicielle Vitam <https://vitam.jaliosagora.com/jcms/c_2001230/fr/chantier-solution-logicielle-vitam> 
+
+generateur SEDA <https://vitam.jaliosagora.com/jcms/c_2005156/fr/generateur-seda> 
+
+Image supprimée par l'expéditeur. Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur> 
+
+Publié par Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur>  · 10/10/2016 · 12:28 
+
+Catégories : Générateur SEDA <https://vitam.jaliosagora.com/jcms/c_2005155/fr/generateur-seda> 
+
+ 
+
+20161010 NP Vitam Vitamtools-generateurSEDA-presentation-v0.1 <https://vitam.jaliosagora.com/jcms/c_2005157/fr/20161010-np-vitam-vitamtools-generateurseda-presentation-v0-1> 
+
+Image supprimée par l'expéditeur. Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur> 
+
+Publié par Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur>  · 10/10/2016 · 12:28 
+
+Catégories : Générateur SEDA <https://vitam.jaliosagora.com/jcms/c_2005155/fr/generateur-seda> 
+
+Mon profil <https://vitam.jaliosagora.com/jcms/c_2003159/fr/casimirius-thierry>  · Accueil <https://vitam.jaliosagora.com/>  
+
+Ce mail vous a été envoyé par Programme Vitam

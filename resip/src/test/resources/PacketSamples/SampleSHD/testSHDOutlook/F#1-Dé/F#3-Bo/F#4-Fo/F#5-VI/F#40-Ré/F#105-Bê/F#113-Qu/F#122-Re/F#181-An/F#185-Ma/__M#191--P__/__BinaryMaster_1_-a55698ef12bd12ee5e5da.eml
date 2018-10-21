@@ -1,0 +1,175 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242]) by smtp.gmail.com with ESMTPSA
+     id 14sm8043465wmk.1.2017.01.11.01.24.37 for
+     <thierry.casimirius@intradef.gouv.fr>     (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Wed,     11 Jan 2017
+ 01:24:37 -0800 (PST)
+Date: Wed, 11 Jan 2017 10:24:38 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <a55698ef12bd12ee5e5dad5cb79c93a1@213.32.79.242>
+Subject: =?UTF-8?Q?[Projet_VITAM_0000067]:_[API-ingest-external/v1/ingests/rules_o?=
+ =?UTF-8?Q?u_formats_en_POST]_:R=C3=A9ponse_ave?=
+ =?UTF-8?Q?c_"httpCode":_201,_non_document=C3=A9?=
+Keywords:  [Projet VITAM] BugFromTestlink
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_239_32395035.1517006384171"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; 
+    s=20161025; 
+    h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted 
+    :keywords:mime-version:content-transfer-encoding; 
+    bh=R9A6Va7Y5Mk0T7x23uOXhWHj13SlBq9Y8C9WQI08Fho=; 
+    b=mFFf6ZNxcKNr2bdXNrMW5pvwXNINNPaCp9kmNesoGKms1cXE0gdakg9pdN1QeVid2u 
+    Ms78XAGa94inWib7iKwPFuedVLyH9oZrRI+nNGFmo+naiBx3viU/H3zr1LV9CHrZRmdU 
+    sLOnfMujmSkyTASrBExdX+Ezcv047JRDvJDwxmZ7bJEgB848oXVnxgdWniwDwyU6dnvj 
+    Tpt8WzMCmYD4UjNK+sqBnw8+2Do4bkuJhbFuTi2T+TiO+WCFFFoRFKKmTh5V1CxtVsAq 
+    4UheFUliyMH2Ip+QMFhCEm4ZuKv+sSs9JK1WgpqmjS3EfQ4yPUT6hdYhvv4s91x0x7a7 
+    8A9A==
+X-Gm-Message-State:  AIkVDXJG2JRMvaR8qP+2oJ2Lmw4+PHXcCbqnwbXWN3x9VTGrhWJprATXSGxeRGc1zOXbgA==
+X-Received:  by 10.194.56.234 with SMTP id d10mr4804666wjq.78.1484126678449; 
+    Wed, 11 Jan 2017 01:24:38 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 
+    2017.1.11.91516
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report=' HTML_00_01 0.05, 
+    HTML_00_10 0.05, BODY_SIZE_4000_4999 0, BODY_SIZE_5000_LESS 0, 
+    BODY_SIZE_7000_LESS 0, DKIM_SIGNATURE 0, FROM_NAME_PHRASE 0, 
+    IP_HTTP_ADDR 0, NO_URI_HTTPS 0, SINGLE_URI_IN_BODY 0, SPF_PASS 0, 
+    URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0, WEBMAIL_XMAILER 0, __ANY_URI 0, 
+    __CP_URI_IN_BODY 0, __CT 0, __CTE 0, __CT_TEXT_PLAIN 0, __DQ_NEG_HEUR 
+    0, __DQ_NEG_IP 0, __FRAUD_WEBMAIL 0, __FRAUD_WEBMAIL_FROM 0, 
+    __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, __HAS_X_MAILER 0, 
+    __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, __MIME_TEXT_ONLY 0, 
+    __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 0, __MSGID_32HEX 0, 
+    __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, 
+    __PHISH_SPEAR_STRUCTURE_2 0, __RDNS_GMAIL 0, __SANE_MSGID 0, 
+    __SINGLE_URI_TEXT 0, __STOCK_PHRASE_24 0, __SUBJ_HIGHBIT 0, 
+    __TO_MALFORMED_2 0, __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 
+    0, __URI_NO_WWW 0, __URI_WITH_PATH 0, __UTF8_SUBJ 0, __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; 
+    d=gmail.com; s=20161025; 
+    h=date:to:from:subject:message-id:auto-submitted:keywords 
+    :mime-version:content-transfer-encoding; 
+    bh=R9A6Va7Y5Mk0T7x23uOXhWHj13SlBq9Y8C9WQI08Fho=; 
+    b=lm8Xnwa/y1BxByLpAfGA83BxVBYIulIJUYwU1V5rfnAT8yRnW9AKXDQmeXGMCNjD2e 
+    VnBA1mvLvXbgGSZVEzDVdggWKO9/urOE6ZtXEWCoiomnSmeEcG9SnTA5JgWlTwyiRQbv 
+    tckHuTKI3AZk01ClvEWddQ09/R4Rr6M7Q4QFLvYYhWbJDBLvJj3e2sRR3+hPENFum0RT 
+    Z7xxx53DtrNzPU8pRNLZ51cDw/RowBjlC8g/tHXx7rthxJku8pZCeBo6xG6TGhBNhUJB 
+    qbzqtO6jZN+UXLJ63jtd5hF6PtzkqFEZOVB8qI8uZLHDGhyOluF9niXd/YtOKwwBznDM 
+    +smQ==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]10,1,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:41:46:150:152:355:379:493:541:543:836:882:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1535:1542:1593:1594:1711:1730:1747:1777:1792:1801:2393:2525:2553:2560:2563:2682:2685:2689:2859:2898:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3876:3877:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4119:4250:4321:4605:5007:6114:6119:6261:6642:6653:6996:6997:8599:8957:8987:9025:9121:9388:9413:10004:10400:10471:10849:11026:11233:11473:11658:11783:12043:12114:12262:12266:12291:12438:12517:12519:12555:12663:12679:12683:12740:13025:13095:13206:13229:13255:14110:14181:14687:14721:21063:21064:21080:21433:21444:21451:30012:30045:30054:30080:30090:30091,0,RBL:209.85.210.196:@gmail.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1314900;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM07.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_239_32395035.1517006384171
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_240_23805764.1517006384171"
+
+------=_Part_240_23805764.1517006384171
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D67=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Omar
+Responsable:                Omar
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   67
+Cat=C3=A9gorie:                  BugFromTestlink
+Reproductibilit=C3=A9:           toujours
+Impact:                     mineur
+Priorit=C3=A9:                   normale
+Statut:                     affect=C3=A9
+Comportement attendu:       =20
+US concern=C3=A9e:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2017-01-11 10:24 CET
+Derni=C3=A8re modification:      2017-01-11 10:24 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     [API-ingest-external/v1/ingests/rules=
+ ou formats
+en POST] :R=C3=A9ponse avec "httpCode": 201, non document=C3=A9
+Description:=20
+Lors de post de nouveau fichier (valide) de r=C3=A8gles ou de formats le co=
+de retour
+est 201 mais qui n'est n'est pas document=C3=A9.
+
+cd pi=C3=A8ces jointes pour les fichiers d'entr=C3=A9e + r=C3=A9ponses en r=
+etour + requ=C3=AAtes
+envoy=C3=A9es.
+exemple de post sur rules
+
+POST /admin-external/v1/rules HTTP/1.1
+Host: 213.32.79.242:8444
+User-Agent: curl/7.46.0
+Accept: */*
+Transfer-Encoding:chunked
+Content-Type:application/octet-stream
+Expect: 100-continue
+
+HEADER retour de cette requ=C3=AAte REST :
+
+HTTP/1.1 201 Created
+Date: Tue, 10 Jan 2017 12:52:09 GMT
+Set-Cookie: rememberMe=3DdeleteMe; Path=3D/; Max-Age=3D0; Expires=3DMon, 09=
+-Jan-2017
+12:52:09 GMT
+Content-Type: application/json
+X-REQUEST-ID: aeeaaaaaacaam7mxabapkakzrbxy7caaaaaq
+Content-Length: 137
+Server: Jetty(9.3.13.v20161014)
+
+R=C3=A9ponse retour de cette requ=C3=AAte REST :
+{"httpCode":201,"code":"CREATED","context":"ADMIN_EXTERNAL","state":"code_v=
+itam","message":"Created","description":"Created","errors":[]}
+
+=C3=89tapes pour le reproduire:=20
+Purger le r=C3=A9f=C3=A9rentiel (rules ou formats)
+Lancer le script SOAP qui ex=C3=A9cute la commande curl d'import=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2017-01-11 10:24 Omar           Nouveau bogue                              =
+ =20
+2017-01-11 10:24 Omar           Statut                   nouveau =3D> affec=
+t=C3=A9 =20
+2017-01-11 10:24 Omar           Assign=C3=A9 =C3=A0                 =3D> Om=
+ar           =20
+2017-01-11 10:24 Omar           Fichier ajout=C3=A9:
+response_imports_rules_10012016_18_03.txt                   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_240_23805764.1517006384171--
+
+------=_Part_239_32395035.1517006384171--

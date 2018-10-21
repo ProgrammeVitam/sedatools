@@ -1,0 +1,62 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000065]: Impossible d&apos;intégrer un SIP contenant 10000 objets et plus</Title>
+    <OriginatingSystemId>&lt;23e9dd09d3d1f5ebc5a58800e58a2411@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-10T12:30:05Z</SentDate>
+    <ReceivedDate>2017-01-10T12:30:12Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=65 
+====================================================================== 
+Rapporteur:                 Vincent
+Responsable:                Vincent
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   65
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:               769 
+====================================================================== 
+Date de soumission:         2017-01-10 13:29 CET
+Dernière modification:      2017-01-10 13:30 CET
+====================================================================== 
+Résumé:                     Impossible d&apos;intégrer un SIP contenant 10000
+objets et plus
+Description: 
+Lors de l&apos;intégration via l&apos;IHM, d&apos;un SIP contenant environs 10000 objets,
+l&apos;opération tombe en erreur : dans le journal des opérations, il y a des
+erreurs fatales au niveau du processus de rangement des objet et des groupes
+d’objets sur l&apos;offre de stockage.
+
+Étapes pour le reproduire: 
+Intégré via l&apos;IHM, un SIP de 10000 objets et plus.
+
+Informations complémentaires: 
+PVI-697
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-10 13:29 Vincent        Nouveau bogue                                
+2017-01-10 13:29 Vincent        Statut                   nouveau =&gt; affecté  
+2017-01-10 13:29 Vincent        Assigné à                 =&gt; Vincent         
+2017-01-10 13:30 Vincent        Fichier ajouté: PVI-697_Step-6.JPG             
+      
+======================================================================</TextContent>
+</Content>

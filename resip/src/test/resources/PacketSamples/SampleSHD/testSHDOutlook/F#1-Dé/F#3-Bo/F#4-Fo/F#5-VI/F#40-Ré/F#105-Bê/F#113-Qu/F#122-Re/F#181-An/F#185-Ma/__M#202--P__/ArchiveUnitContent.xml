@@ -1,0 +1,72 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000055]: Rejet des SIP ne contenant pas de groupe d&apos;objet technique</Title>
+    <OriginatingSystemId>&lt;8884dff234d75153b841d80623ea5ae5@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-06T17:01:03Z</SentDate>
+    <ReceivedDate>2017-01-06T17:01:09Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=55 
+====================================================================== 
+Rapporteur:                 Blaise
+Responsable:                Blaise
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   55
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-06 18:00 CET
+Dernière modification:      2017-01-06 18:00 CET
+====================================================================== 
+Résumé:                     Rejet des SIP ne contenant pas de groupe d&apos;objet
+technique
+Description: 
+Tous les SIP ne contenant pas les balises ci-après sont rejetés lors de la
+phase d&apos;importation : DataObjectGroupId, DataObjectVersion, DataObjectReference&quot;
+et DataObjectGroupReferenceId. 
+D&apos;après le SEDA (SEDA_description_standard_v2_0), les balises indiqués
+ci-dessus sont optionnelles.
+
+Étapes pour le reproduire: 
+Trois scenarii peuvent être déroulés pour reproduire l&apos;anomalie 
+----------------------------------------------------------------
+
+1- cas : importez un SIP ne contenant pas les balises &quot;DataObjectGroupId&quot; et
+&quot;DataObjectVersion&quot; dans le bloc &quot;BinaryDataObject&quot;.
+
+2-cas : importez un SIP ne contenant pas les balises suivantes : 
+- &quot;DataObjectReference&quot; et &quot;DataObjectGroupReferenceId&quot; dans le bloc
+&quot;ArchiveUnit&quot;.
+- &quot;DataObjectGroupId&quot; et &quot;DataObjectVersion&quot; dans le bloc &quot;BinaryDataObject&quot;.
+
+3-cas : importez un SIP ne contenant pas les balises &quot;DataObjectReference&quot; et
+&quot;DataObjectGroupReferenceId&quot; dans le bloc &quot;ArchiveUnit&quot;
+
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-06 18:00 Blaise         Nouveau bogue                                
+2017-01-06 18:00 Blaise         Statut                   nouveau =&gt; affecté  
+2017-01-06 18:00 Blaise         Assigné à                 =&gt; Blaise          
+2017-01-06 18:00 Blaise         Fichier ajouté: Altran.7z                    
+======================================================================</TextContent>
+</Content>

@@ -1,0 +1,937 @@
+Return-Path: edouard.vasseur@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur03.culture.fr with ESMTP id u9EBhqLG032608;	Fri, 14 Oct 2016
+ 13:43:52 +0200
+Date: Fri, 14 Oct 2016 13:43:51 +0200 (CEST)
+From: edouard VASSEUR <edouard.vasseur@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+CC: emmanuel.laborde <emmanuel.laborde@culture.gouv.fr>,
+	BEL Nicolas <nicolas.bel@intradef.gouv.fr>,CHEVENIER Olivier <olivier.chevenier@intradef.gouv.fr>,
+	DANYACH-DESCHAMPS Myriam <myriam.danyach-deschamps@intradef.gouv.fr>,=?UTF-8?Q?jean-s=C3=A9verin_LAIR_<jean-severin.lair@culture.gouv.fr>?=
+Message-ID: <2d99d9028c1420ad2685cf46db6aa3cd@culture.gouv.fr>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D1C635F30@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D1C635F30@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: =?UTF-8?Q?Re:_TRA_Vitam_B=C3=AAta_:_param=C3=A9trage_du_r=C3=A9f=C3=A9re?=
+ =?UTF-8?Q?ntiel_des_r=C3=A8gles_de_gestion_-_questions_SHD?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_478_19060896.1517006386901"
+X-Proofpoint-Sentinel:  stfsU2FsdGVkX1/7BRiHCgYU/Qv7gTGVe3DQjPZgcDYSRc4TtqEORn4zgHmu
+ LSMBPhpiyhmiX42hlDK53ECial+ZfI0NZl8BHQe51OhwnfgDHlUIb1iF9/pu4Ebon42LPLxY
+X-Sender:  edouard.vasseur@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8317 signatures=670715
+X-TM-AS-MML:  disable
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1283300;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM07.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_478_19060896.1517006386901
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_479_19575438.1517006386901"
+
+------=_Part_479_19575438.1517006386901
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour Thierry,
+
+Mes r=C3=A9ponses dans le corps du texte.
+
+N'h=C3=A9site pas =C3=A0 m'appeler pour toute pr=C3=A9cision ou question (0=
+1.86.69.60.03)
+
+Bonne fin de semaine
+
+Edouard
+
+=20
+
+=20
+
+Le 2016-10-14 12:55, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09Bonjour,
+
+=09=20
+
+=09Comme suite =C3=A0 nos =C3=A9changes hier sur le =C2=AB param=C3=A9trage=
+ VITAM =C2=BB, je vous adresse ce mail pour pr=C3=A9ciser quelques-unes de =
+nos interrogations sur le r=C3=A9f=C3=A9rentiel de gestion :
+
+=09=20
+
+=09Dans le document en PJ, nous trouvons en ligne 57, le texte suivant. En =
+jaune, ci-dessous quelques questions et commentaires du SHD  :
+
+=09=20
+
+=09=20
+
+=09=20
+
+=09Le r=C3=A9f=C3=A9rentiel de r=C3=A8gles de gestion est un outil qui d=C3=
+=A9crit les r=C3=A8gles de gestion permettant de calculer les =C3=A9ch=C3=
+=A9ances auxquelles sont soumises les archives prises en charge par la solu=
+tion Vitam et qui vont entra=C3=AEner le d=C3=A9clenchement d=E2=80=99op=C3=
+=A9rations les concernant dans Vitam.
+
+=09A terme il sera  impossible d'utiliser Vitam sans ce r=C3=A9f=C3=A9renti=
+el.
+
+=09Pour avoir un ordre id=C3=A9e, le nombre de r=C3=A8gles de gestion peut =
+aller de la centaine =C3=A0 plusieurs dizaines de milliers.=20
+
+=09Sur un exemple concret, un des minist=C3=A8res poss=C3=A8de environs 700=
+0 r=C3=A8gles, qui correspondront =C3=A0 l'import initial lors d'un d=C3=A9=
+ploiement de Vitam chez eux.
+
+=09=C3=B0  peut-on savoir lequel ?
+
+=09EV : Nous nous sommes bas=C3=A9s pour faire cette =C3=A9valuation sur le=
+ "plan de classement" utilis=C3=A9 par le minist=C3=A8re de l'Environnement=
+ dans son SIA. Cet objet Spark Archives m=C3=A9lange =C3=A0 la fois la noti=
+on de plan de classement de celle de tableau de gestion. l'export fourni pa=
+r le MEEM comprend 7971 lignes. si on enl=C3=A8ve les parties arborescentes=
+ du plan de classement, je crois que nous arrivons =C3=A0 7000 r=C3=A8gles.=
+ Il s'agit de r=C3=A8gles associ=C3=A9es =C3=A0 des typologies de dossiers
+
+=09=20
+
+=09Pour information, =C3=A0 propos de la responsabilit=C3=A9 du r=C3=A9f=C3=
+=A9rentiel de gestion :
+
+=09-          Vitam =C3=A9tant un projet devant =C3=AAtre autonome, il est =
+obligatoire de poss=C3=A9der l'ensemble des r=C3=A8gles n=C3=A9cessaires et=
+ suffisantes pour g=C3=A9rer ses archives y compris sans SIA
+
+=09=20
+
+=09=C3=B0  y-a-t-il d=C3=A9j=C3=A0 un r=C3=A9f=C3=A9rentiel complet chez Vi=
+tam ?.
+
+=09EV : cela d=C3=A9pend de ce que tu entends par r=C3=A9f=C3=A9rentiel com=
+plet. il vaut mieux que tu m=E2=80=99appelles pour expliciter de vive voix.=
+ =20
+=09
+
+=09-          Les SIA poss=C3=A8dent aujourd'hui leurs propres r=C3=A9f=C3=
+=A9rentiels de gestion. Il conviendra de voir quels informations seront iss=
+ues de Vitam et lesquelles de leurs propres syst=C3=A8mes. A l'=C3=A9critur=
+e de cette story, il s'agit encore d'un chantier tr=C3=A8s =C3=A9loign=C3=
+=A9.
+
+=09-          Les SIA =C3=A9tant tr=C3=A8s h=C3=A9t=C3=A9rog=C3=A8nes, il e=
+st pr=C3=A9f=C3=A9rable de partir sur un socle commun et relativement compl=
+et dans Vitam.=20
+
+=09=20
+
+=09=C3=B0  Nous comprenons que l=E2=80=99on part donc  des r=C3=A8gles de g=
+estion fournies par VITAM. Et qu=E2=80=99il faut les adapter aux r=C3=A9ali=
+t=C3=A9s du SHD pour faire le param=C3=A9trage ? Ou bien on fournit des r=
+=C3=A8gles de gestion =C3=A0 Vitam via notre param=C3=A9trage ?)
+
+=09 EV : vous allez disposer du cadre pour alimenter le r=C3=A9f=C3=A9renti=
+el interne de votre Vitam. Vitam ne peut fournir en standard que les r=C3=
+=A8gles communes =C3=A0 toutes les impl=C3=A9mentations, c'est =C3=A0 dire =
+quasiment aucune. Seules les r=C3=A8gles li=C3=A9es =C3=A0 la communicabili=
+t=C3=A9 (AccessRule) sont compl=C3=A8tes dans le fichier joint car communes=
+ =C3=A0 tous les projets. Les autres ne sont que des exemples.
+
+=09Par ailleurs, vous pouvez utiliser le r=C3=A9f=C3=A9rentiel comme propos=
+=C3=A9 dans le fichier joint, mais vous pouvez aussi choisir une autre impl=
+=C3=A9mentation (exemple indicatif) :
+=09
+
+=09APP-001 / Appraisal Rule / Un an / Unit=C3=A9s archivistiques dont la DU=
+A doit =C3=AAtre trait=C3=A9e au bout d'un an / 01 / Ann=C3=A9e
+
+=09La structure du r=C3=A9f=C3=A9rentiel est le suivant :
+
+=09-          identifiants de la r=C3=A8gle=20
+
+=09=20
+
+=09=C3=B0  est-ce un identifiant sp=C3=A9cifique =C3=A0 Vitam ? Faut-il par=
+tager la m=C3=AAme famille d=E2=80=99identifiants ?)
+
+=09EVR : il y a une cl=C3=A9 primaire dans la base et un identifiant dans u=
+ne forme que nous proposons : 3 premi=C3=A8res lettres du type de r=C3=A8gl=
+e en anglais + num=C3=A9ro
+
+=09-          type de r=C3=A8gle (DUA, DCOMM, DUC, DDIFF, DREUT, DCLASS)
+
+=09-          intitul=C3=A9 de la r=C3=A8gle
+
+=09-          dur=C3=A9e associ=C3=A9e =C3=A0 la r=C3=A8gle
+
+=09-          unit=C3=A9 de valeur associ=C3=A9e (jours, mois, ann=C3=A9es)
+
+=09-          r=C3=A9f=C3=A9rences l=C3=A9gales
+
+=09-          date d=E2=80=99activation de la r=C3=A8gle (?)=20
+
+=09-          date de d=C3=A9sactivation de la r=C3=A8gle (?)
+
+=09=20
+
+=09=C3=B0          pourquoi y-a-t-il un point d=E2=80=99interrogation ici ?=
+)
+
+=09EV : le champ est utilis=C3=A9 pour discussion entre archivistes et arch=
+itectes. il s'agissait d'une interrogation sur l'utilit=C3=A9 de la cr=C3=
+=A9ation de ces champs lors de l'initialisation du r=C3=A9f=C3=A9rentiel. V=
+=C3=A9rification impossible dans la base pour le moment pour cause de d=C3=
+=A9ploiement=20
+=09
+
+=09=20
+
+=09D=C3=A9tails des types des r=C3=A8gles :
+
+=09-          Dur=C3=A9e d'utilit=C3=A9 Administrative (DUA) / Appraisal Ru=
+le
+
+=09-          D=C3=A9lai de Communicabilit=C3=A9 (DCOMM) / AccessRule
+
+=09-          Dur=C3=A9e d'utilit=C3=A9 courante (DUC) / StorageRule
+
+=09-          D=C3=A9lai de diffusion (DDIFF) / DisseminationRule
+
+=09-          Dur=C3=A9e de r=C3=A9utilisation (DREUT) / ReuseRule
+
+=09-          Dur=C3=A9e de classification (DCLASS) / ClassificationRule
+
+=09=20
+
+=09Un fichier contenant un r=C3=A9f=C3=A9rentiel valide respecte toutes les=
+ conditions suivante :
+
+=09-          Pr=C3=A9sente un format CSV dont la structure est bien form=
+=C3=A9e
+
+=09-          Poss=C3=A8de des valeurs dont le format est correct (pas de t=
+exte)=20
+
+=09=20
+
+=09=C3=B0  quel est le format correct du fichier CSV =C3=A0 respecter ?
+
+=09EVR : le mod=C3=A8le d'import utilis=C3=A9 actuellement est fourni en pi=
+=C3=A8ce jointe=20
+=09
+
+=09=C3=B0  quel est le format des valeurs =C3=A0 respecter ?)
+
+=09EVR : ces informations seront fournies dans le mod=C3=A8le de donn=C3=A9=
+es
+=09
+
+=09=20
+
+=09=20
+
+=09=20
+
+=09En vous remerciant d=E2=80=99avance, pour vos =C3=A9l=C3=A9ments de r=C3=
+=A9ponse,
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Adjoint au chef du bureau des technologies d=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+------=_Part_479_19575438.1517006386901
+Content-Type: multipart/related; 
+	boundary="----=_Part_480_4512897.1517006386901"
+
+------=_Part_480_4512897.1517006386901
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>Bonjour Thierry,</p>
+<p>Mes r=C3=A9ponses dans le corps du texte.</p>
+<p>N'h=C3=A9site pas =C3=A0 m'appeler pour toute pr=C3=A9cision ou question=
+ (01.86.69.60.03)</p>
+<p>Bonne fin de semaine</p>
+<p>Edouard</p>
+<p>&nbsp;</p>
+<div>&nbsp;</div>
+<p>Le 2016-10-14 12:55, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Bonjour,<!-- o ignor=
+ed --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Comme suite =C3=A0 n=
+os =C3=A9changes hier sur le =C2=AB&nbsp;param=C3=A9trage VITAM&nbsp;=C2=BB=
+, je vous adresse ce mail pour pr=C3=A9ciser quelques-unes de nos interroga=
+tions sur le r=C3=A9f=C3=A9rentiel de gestion&nbsp;:<!-- o ignored --></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Dans le document en =
+PJ, nous trouvons en ligne 57, le texte suivant. En jaune, ci-dessous quelq=
+ues questions et commentaires du SHD &nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;">Le r=C3=A9f=C3=A9rent=
+iel de r=C3=A8gles de gestion est un outil qui d=C3=A9crit les r=C3=A8gles =
+de gestion permettant de calculer les =C3=A9ch=C3=A9ances auxquelles sont s=
+oumises les archives prises en charge par la solution Vitam et qui vont ent=
+ra=C3=AEner le d=C3=A9clenchement d=E2=80=99op=C3=A9rations les concernant =
+dans Vitam.<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 35.4pt;">A terme il ser=
+a&nbsp; impossible d'utiliser Vitam sans ce r=C3=A9f=C3=A9rentiel.<!-- o ig=
+nored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 35.4pt;">Pour avoir un =
+ordre id=C3=A9e, le nombre de r=C3=A8gles de gestion peut aller de la centa=
+ine =C3=A0 plusieurs dizaines de milliers. <!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 35.4pt;">Sur un exemple=
+ concret, un des minist=C3=A8res poss=C3=A8de environs 7000 r=C3=A8gles, qu=
+i correspondront =C3=A0 l'import initial lors d'un d=C3=A9ploiement de Vita=
+m chez eux.<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-indent: -1=
+8.0pt; mso-list: l1 level1 lfo7;"><span style=3D"font-family: Wingdings;"><=
+span style=3D"mso-list: Ignore;">=C3=B0<span style=3D"font: 7.0pt  'Times N=
+ew Roman';">&nbsp; </span></span></span><span style=3D"background: yellow; =
+mso-highlight: yellow;">peut-on savoir lequel&nbsp;</span>?<!-- o ignored -=
+-></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-indent: -1=
+8.0pt; mso-list: l1 level1 lfo7;"><strong>EV : Nous nous sommes bas=C3=A9s =
+pour faire cette =C3=A9valuation sur le &quot;plan de classement&quot; util=
+is=C3=A9 par le minist=C3=A8re de l'Environnement dans son SIA. Cet objet S=
+park Archives m=C3=A9lange =C3=A0 la fois la notion de plan de classement d=
+e celle de tableau de gestion. l'export fourni par le MEEM comprend 7971 li=
+gnes. si on enl=C3=A8ve les parties arborescentes du plan de classement, je=
+ crois que nous arrivons =C3=A0 7000 r=C3=A8gles. Il s'agit de r=C3=A8gles =
+associ=C3=A9es =C3=A0 des typologies de dossiers</strong></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 0cm;"><span style=3D"co=
+lor: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 35.4pt;">Pour informati=
+on, =C3=A0 propos de la responsabilit=C3=A9 du r=C3=A9f=C3=A9rentiel de ges=
+tion :<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l2 level1 lfo2;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>Vitam =C3=A9tant un projet devant =C3=
+=AAtre autonome, il est obligatoire de poss=C3=A9der l'ensemble des r=C3=A8=
+gles n=C3=A9cessaires et suffisantes pour g=C3=A9rer ses archives y compris=
+ sans SIA<!-- o ignored --></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-indent: -1=
+8.0pt; mso-list: l1 level1 lfo7;"><span style=3D"font-family: Wingdings;"><=
+span style=3D"mso-list: Ignore;">=C3=B0<span style=3D"font: 7.0pt  'Times N=
+ew Roman';">&nbsp; </span></span></span><span style=3D"background: yellow; =
+mso-highlight: yellow;">y-a-t-il d=C3=A9j=C3=A0 un r=C3=A9f=C3=A9rentiel co=
+mplet chez Vitam ?</span>.<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l2 level1 lfo2;"><span style=3D"mso-list: Ignore;"><strong=
+>EV : cela d=C3=A9pend de ce que tu entends par r=C3=A9f=C3=A9rentiel compl=
+et. il vaut mieux que tu m=E2=80=99appelles pour expliciter de vive voix.&n=
+bsp; </strong><br></span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l2 level1 lfo2;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>Les SIA poss=C3=A8dent aujourd'hui leur=
+s propres r=C3=A9f=C3=A9rentiels de gestion. Il conviendra de voir quels in=
+formations seront issues de Vitam et lesquelles de leurs propres syst=C3=A8=
+mes. A l'=C3=A9criture de cette story, il s'agit encore d'un chantier tr=C3=
+=A8s =C3=A9loign=C3=A9.<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l2 level1 lfo2;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>Les SIA =C3=A9tant tr=C3=A8s h=C3=A9t=
+=C3=A9rog=C3=A8nes, il est pr=C3=A9f=C3=A9rable de partir sur un socle comm=
+un et relativement complet dans Vitam. <!-- o ignored --></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d; background: yellow; m=
+so-highlight: yellow;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-indent: -1=
+8.0pt; mso-list: l1 level1 lfo7;"><span style=3D"font-family: Wingdings;"><=
+span style=3D"mso-list: Ignore;">=C3=B0<span style=3D"font: 7.0pt  'Times N=
+ew Roman';">&nbsp; </span></span></span><span style=3D"color: #1f497d; back=
+ground: yellow; mso-highlight: yellow;">Nous comprenons que l=E2=80=99o</sp=
+an><span style=3D"background: yellow; mso-highlight: yellow;">n part<span s=
+tyle=3D"color: #1f497d;"> donc </span>&nbsp;des r=C3=A8gles de gestion four=
+nies par VITAM. <span style=3D"color: #1f497d;">Et qu=E2=80=99il faut les</=
+span> adapte<span style=3D"color: #1f497d;">r</span> aux r=C3=A9alit=C3=A9s=
+ du SHD pour faire le param=C3=A9trage&nbsp;? Ou bien on fournit des r=C3=
+=A8gles de gestion =C3=A0 Vitam via notre param=C3=A9trage&nbsp;?</span>)<!=
+-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;"><!-- o ignored -->&nb=
+sp;<strong>EV : vous allez disposer du cadre pour alimenter le r=C3=A9f=C3=
+=A9rentiel interne de votre Vitam. Vitam ne peut fournir en standard que le=
+s r=C3=A8gles communes =C3=A0 toutes les impl=C3=A9mentations, c'est =C3=A0=
+ dire quasiment aucune. Seules les r=C3=A8gles li=C3=A9es =C3=A0 la communi=
+cabilit=C3=A9 (AccessRule) sont compl=C3=A8tes dans le fichier joint car co=
+mmunes =C3=A0 tous les projets. Les autres ne sont que des exemples.</stron=
+g></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;"><strong>Par ailleurs,=
+ vous pouvez utiliser le r=C3=A9f=C3=A9rentiel comme propos=C3=A9 dans le f=
+ichier joint, mais vous pouvez aussi choisir une autre impl=C3=A9mentation =
+(exemple indicatif) :<br></strong></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;"><strong>APP-001 / App=
+raisal Rule / Un an / Unit=C3=A9s archivistiques dont la DUA doit =C3=AAtre=
+ trait=C3=A9e au bout d'un an / 01 / Ann=C3=A9e</strong></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;">La structure du r=C3=
+=A9f=C3=A9rentiel est le suivant :<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l3 level1 lfo4;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>identifiants de la r=C3=A8gle <!-- o ig=
+nored --></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d; background: yellow; m=
+so-highlight: yellow;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-indent: -1=
+8.0pt; mso-list: l1 level1 lfo7;"><span style=3D"font-family: Wingdings;"><=
+span style=3D"mso-list: Ignore;">=C3=B0<span style=3D"font: 7.0pt  'Times N=
+ew Roman';">&nbsp; </span></span></span><span style=3D"background: yellow; =
+mso-highlight: yellow;">est-ce un identifiant sp=C3=A9cifique =C3=A0 Vitam&=
+nbsp;? Faut-il partager la m=C3=AAme famille d=E2=80=99identifiants&nbsp;?)=
+</span><!-- o ignored --></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored --><s=
+pan style=3D"color: #000000;"><strong> EVR : il y a une cl=C3=A9 primaire d=
+ans la base et un identifiant dans une forme que nous proposons : 3 premi=
+=C3=A8res lettres du type de r=C3=A8gle en anglais &#43; num=C3=A9ro</stron=
+g></span></span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l3 level1 lfo4;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>type de r=C3=A8gle (DUA, DCOMM, DUC, DD=
+IFF, DREUT, DCLASS)<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l3 level1 lfo4;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>intitul=C3=A9 de la r=C3=A8gle<!-- o ig=
+nored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l3 level1 lfo4;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>dur=C3=A9e associ=C3=A9e =C3=A0 la r=C3=
+=A8gle<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l3 level1 lfo4;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>unit=C3=A9 de valeur associ=C3=A9e (jou=
+rs, mois, ann=C3=A9es)<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l3 level1 lfo4;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>r=C3=A9f=C3=A9rences l=C3=A9gales<!-- o=
+ ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l3 level1 lfo4;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>date d=E2=80=99activation de la r=C3=A8=
+gle (?) <!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l3 level1 lfo4;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>date de d=C3=A9sactivation de la r=C3=
+=A8gle (?)<!-- o ignored --></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d; background: yellow; m=
+so-highlight: yellow;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-indent: -1=
+8.0pt; mso-list: l1 level1 lfo7;"><span style=3D"font-family: Wingdings;"><=
+span style=3D"mso-list: Ignore;">=C3=B0<span style=3D"font: 7.0pt  'Times N=
+ew Roman';">&nbsp; </span></span></span><span style=3D"color: #1f497d; back=
+ground: yellow; mso-highlight: yellow;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp; </span><span style=3D"background: yellow; mso-highlight: yellow;">p=
+ourquoi y-a-t-il un point d=E2=80=99interrogation ici&nbsp;?</span>)<!-- o =
+ignored --></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;"><span style=3D"color:=
+ #1f497d;"><!-- o ignored --> <span style=3D"color: #000000;"><strong>EV : =
+le champ est utilis=C3=A9 pour discussion entre archivistes et architectes.=
+ il s'agissait d'une interrogation sur l'utilit=C3=A9 de la cr=C3=A9ation d=
+e ces champs lors de l'initialisation du r=C3=A9f=C3=A9rentiel. V=C3=A9rifi=
+cation impossible dans la base pour le moment pour cause de d=C3=A9ploiemen=
+t</strong></span> <br></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;">D=C3=A9tails des type=
+s des r=C3=A8gles :<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l0 level1 lfo6;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>Dur=C3=A9e d'utilit=C3=A9 Administrativ=
+e (DUA) / Appraisal Rule<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l0 level1 lfo6;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>D=C3=A9lai de Communicabilit=C3=A9 (DCO=
+MM) / AccessRule<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l0 level1 lfo6;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>Dur=C3=A9e d'utilit=C3=A9 courante (DUC=
+) / StorageRule<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l0 level1 lfo6;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>D=C3=A9lai de diffusion (DDIFF) / Disse=
+minationRule<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l0 level1 lfo6;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>Dur=C3=A9e de r=C3=A9utilisation (DREUT=
+) / ReuseRule<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-indent: -1=
+8.0pt; mso-list: l0 level1 lfo6;"><span style=3D"mso-list: Ignore;">-<span =
+style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span>Dur=C3=A9e de classification (DCLASS) /=
+ ClassificationRule<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt; text-align: justify;">=
+<span style=3D"mso-fareast-language: FR;"><!-- o ignored -->&nbsp;</span></=
+p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt; text-align: justify;">=
+<span style=3D"mso-fareast-language: FR;">Un fichier contenant un r=C3=A9f=
+=C3=A9rentiel valide respecte toutes les conditions suivante :<!-- o ignore=
+d --></span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-align: jus=
+tify; text-indent: -18.0pt; mso-list: l0 level1 lfo6;"><span style=3D"mso-f=
+areast-language: FR;"><span style=3D"mso-list: Ignore;">-<span style=3D"fon=
+t: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; </span></span></span><span style=3D"mso-fareast-language: FR;">Pr=
+=C3=A9sente un format CSV dont la structure est bien form=C3=A9e<!-- o igno=
+red --></span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 71.4pt; text-align: jus=
+tify; text-indent: -18.0pt; mso-list: l0 level1 lfo6;"><span style=3D"mso-f=
+areast-language: FR;"><span style=3D"mso-list: Ignore;">-<span style=3D"fon=
+t: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp; </span></span></span><span style=3D"mso-fareast-language: FR;">Po=
+ss=C3=A8de des valeurs dont le format est correct (pas de texte) <!-- o ign=
+ored --></span></p>
+<p class=3D"MsoNormal" style=3D"text-align: justify;"><span style=3D"color:=
+ #1f497d; background: yellow; mso-highlight: yellow; mso-fareast-language: =
+FR;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-align: jus=
+tify; text-indent: -18.0pt; mso-list: l1 level1 lfo7;"><span style=3D"font-=
+family: Wingdings; color: #1f497d; background: yellow; mso-highlight: yello=
+w; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C3=B0<span=
+ style=3D"font: 7.0pt  'Times New Roman';">&nbsp; </span></span></span><spa=
+n style=3D"background: yellow; mso-highlight: yellow; mso-fareast-language:=
+ FR;">quel est le format correct <span style=3D"color: #1f497d;">du fichier=
+ CSV =C3=A0 respecter&nbsp;?<!-- o ignored --></span></span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-align: jus=
+tify; text-indent: -18.0pt; mso-list: l1 level1 lfo7;"><span style=3D"backg=
+round: yellow; mso-highlight: yellow; mso-fareast-language: FR;"><span styl=
+e=3D"color: #1f497d;"><span style=3D"color: #000000;"><strong><span style=
+=3D"background-color: #ffffff;">EVR : le mod=C3=A8le d'import utilis=C3=A9 =
+actuellement est fourni en pi=C3=A8ce jointe</span> </strong></span><br></s=
+pan></span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-align: jus=
+tify; text-indent: -18.0pt; mso-list: l1 level1 lfo7;"><span style=3D"font-=
+family: Wingdings; color: #1f497d; background: yellow; mso-highlight: yello=
+w; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C3=B0<span=
+ style=3D"font: 7.0pt  'Times New Roman';">&nbsp; </span></span></span><spa=
+n style=3D"color: #1f497d; background: yellow; mso-highlight: yellow; mso-f=
+areast-language: FR;">quel est le format </span><span style=3D"background: =
+yellow; mso-highlight: yellow; mso-fareast-language: FR;">des valeurs&nbsp;=
+<span style=3D"color: #1f497d;">=C3=A0 respecter </span>?</span><span style=
+=3D"mso-fareast-language: FR;">)<span style=3D"color: #1f497d; background: =
+yellow; mso-highlight: yellow;"><!-- o ignored --></span></span></p>
+<p class=3D"MsoListParagraph" style=3D"margin-left: 53.4pt; text-align: jus=
+tify; text-indent: -18.0pt; mso-list: l1 level1 lfo7;"><span style=3D"mso-f=
+areast-language: FR;"><strong>EVR : ces informations seront fournies dans l=
+e mod=C3=A8le de donn=C3=A9es</strong><br></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt; text-align: justify;">=
+<span style=3D"mso-fareast-language: FR;"><!-- o ignored -->&nbsp;</span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language: FR;"><!-- o ign=
+ored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">En vous remerciant d=
+=E2=80=99avance, pour vos =C3=A9l=C3=A9ments de r=C3=A9ponse,<!-- o ignored=
+ --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Cordialement,<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Thierry CASIMIRIUS<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Adjoint au chef du bureau des technologies d=E2=80=99information<!-- o =
+ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Service historique de la D=C3=A9fense<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+</div>
+</blockquote>
+</body></html>
+------=_Part_480_4512897.1517006386901
+Content-Type: text/plain; name=jeu_donnees_OK_regles_CSV.csv; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <26E597E82A253C4E9472082956FCB619@DR-RES.INTRADEF.GOUV.FR>
+Content-Disposition: inline; filename="jeu_donnees_OK_regles_CSV.csv"
+
+RuleId,RuleType,RuleValue,RuleDescription,RuleDuration,RuleMeasurement
+APP-00001,AppraisalRule,Dossier individuel d?agent civil,"Dur=E9e de conser=
+vation des dossiers individuels d?agents.=20
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date de naissance de l?agent=
+",80,Ann=E9e
+APP-00002,AppraisalRule,Offres non retenues des march=E9s,"Dur=E9e de conse=
+rvation des offres non retenues des march=E9s publics
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date de notification du marc=
+h=E9 au titulaire",5,Ann=E9e
+ACC-00001,AccessRule,Libre communicabilit=E9,D=E9lai de communicabilit=E9 a=
+pplicable par d=E9faut,0,Ann=E9e
+ACC-00002,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+ secret des d=E9lib=E9rations du gouvernement et des autorit=E9s responsabl=
+es relevant du pouvoir ex=E9cutif (date du document le plus r=E9cent dans l=
+e dossier),"Dur=E9e de communicabilit=E9 applicable aux informations portan=
+t atteinte au secret des d=E9lib=E9rations du gouvernement et des autorit=
+=E9s responsables relevant du pouvoir ex=E9cutif
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",25,Ann=E9e
+ACC-00003,AccessRule,Communicabilit=E9 des informations portant atteinte =
+=E0 la conduite des relations ext=E9rieures (date du document),"Dur=E9e de =
+communicabilit=E9 applicable aux informations portant atteinte =E0 la condu=
+ite des relations ext=E9rieures
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",25,Ann=E9e
+ACC-00004,AccessRule,Communicabilit=E9 des informations portant atteinte =
+=E0 la monnaie et au cr=E9dit public (date du document),"Dur=E9e de communi=
+cabilit=E9 applicable aux informations portant atteinte =E0 la monnaie et a=
+u cr=E9dit public
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",25,Ann=E9e
+ACC-00005,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+ secret en mati=E8re commerciale et industrielle (date du document),"Dur=E9=
+e de communicabilit=E9 applicable aux informations portant atteinte au secr=
+et en mati=E8re industrielle et commerciale
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",25,Ann=E9e
+ACC-00006,AccessRule,Communicabilit=E9 des informations portant atteinte =
+=E0 la recherche par les services comp=E9tents des infractions fiscales ou =
+douani=E8res (date du document),"Dur=E9e de communicabilit=E9 applicable au=
+x informations portant atteinte =E0 la recherche par les services comp=E9te=
+nts des infractions fiscales et douani=E8res
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",25,Ann=E9e
+ACC-00007,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+ secret en mati=E8re de statistiques sauf lorsque sont en cause des donn=E9=
+es collect=E9es au moyen de questionnaires ayant trait aux faits et comport=
+ements d'ordre priv=E9 mentionn=E9es aux 4=B0 et 5=B0 (date du document),"D=
+ur=E9e de communicabilit=E9 applicable aux informations portant atteinte au=
+ secret en mati=E8re de statistiques sauf lorsque sont en cause des donn=E9=
+es collect=E9es au moyen de questionnaires ayant trait aux faits et comport=
+ements d'ordre priv=E9 mentionn=E9es aux 4=B0 et 5=B0
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",25,Ann=E9e
+ACC-00008,AccessRule,Communicabilit=E9 des documents mentionn=E9s =E0 l?art=
+icle L311-2 du code des relations entre le public et l?administration,"Dur=
+=E9e de communicabilit=E9 applicable aux documents mentionn=E9s =E0 l?artic=
+le L311-2 du code des relations entre le public et l?administration
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",25,Ann=E9e
+ACC-00009,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+ secret m=E9dical (date de naissance de l?int=E9ress=E9),"Dur=E9e de commun=
+icabilit=E9 applicable aux informations portant atteinte au secret m=E9dica=
+l=20
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date de naissance de l?int=
+=E9ress=E9",120,Ann=E9e
+ACC-00010,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+ secret m=E9dical (date de d=E9c=E8s de l?int=E9ress=E9),"Dur=E9e de commun=
+icabilit=E9 applicable aux informations portant atteinte au secret m=E9dica=
+l=20
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date de d=E9c=E8s de l?int=
+=E9ress=E9",25,Ann=E9e
+ACC-00011,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+ secret de la d=E9fense nationale,"Dur=E9e de communicabilit=E9 applicable =
+aux informations portant atteinte au secret de la d=E9fense nationale
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",50,Ann=E9e
+ACC-00012,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+x int=E9r=EAts fondamentaux de l?=C9tat dans la conduite de la politique ex=
+t=E9rieure,"Dur=E9e de communicabilit=E9 applicable aux informations portan=
+t atteinte aux int=E9r=EAts fondamentaux de l?=C9tat dans la conduite de la=
+ politique ext=E9rieure
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",50,Ann=E9e
+ACC-00013,AccessRule,Communicabilit=E9 des informations portant atteinte =
+=E0 la s=FBret=E9 de l?=C9tat,"Dur=E9e de communicabilit=E9 applicable aux =
+informations portant atteinte =E0 la s=FBret=E9 de l?=C9tat
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",50,Ann=E9e
+ACC-00014,AccessRule,Communicabilit=E9 des informations portant atteinte =
+=E0 la s=E9curit=E9 publique,"Dur=E9e de communicabilit=E9 applicable aux i=
+nformations portant atteinte =E0 la s=E9curit=E9 publique
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",50,Ann=E9e
+ACC-00015,AccessRule,Communicabilit=E9 des informations portant atteinte =
+=E0 la s=E9curit=E9 des personnes,"Dur=E9e de communicabilit=E9 applicable =
+aux informations portant atteinte =E0 la s=E9curit=E9 des personnes=20
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",50,Ann=E9e
+ACC-00016,AccessRule,Communicabilit=E9 des informations portant atteinte =
+=E0 la protection de la vie priv=E9e,"Dur=E9e de communicabilit=E9 applicab=
+le aux informations portant atteinte =E0 la protection de la vie priv=E9e
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",50,Ann=E9e
+ACC-00017,AccessRule,"Communicabilit=E9 des informations portant portent un=
+e appr=E9ciation ou un jugement de valeur sur une personne physique, nomm=
+=E9ment d=E9sign=E9e ou facilement identifiable, ou qui font appara=EEtre l=
+e comportement d'une personne dans des conditions susceptibles de lui porte=
+r pr=E9judice ","Dur=E9e de communicabilit=E9 applicable aux informations p=
+ortant portent une appr=E9ciation ou un jugement de valeur sur une personne=
+ physique, nomm=E9ment d=E9sign=E9e ou facilement identifiable, ou qui font=
+ appara=EEtre le comportement d'une personne dans des conditions susceptibl=
+es de lui porter pr=E9judice=20
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",50,Ann=E9e
+ACC-00018,AccessRule,"Communicabilit=E9 des informations relatifs =E0 la co=
+nstruction, =E0 l'=E9quipement et au fonctionnement des ouvrages, b=E2timen=
+ts ou parties de b=E2timent utilis=E9s pour la d=E9tention des personnes ou=
+ recevant habituellement des personnes d=E9tenues","Dur=E9e de communicabil=
+it=E9 applicable aux informations relatifs =E0 la construction, =E0 l'=E9qu=
+ipement et au fonctionnement des ouvrages, b=E2timents ou parties de b=E2ti=
+ment utilis=E9s pour la d=E9tention des personnes ou recevant habituellemen=
+t des personnes d=E9tenues
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la fin de l?affectation =E0 ces=
+ usages des ouvrages, b=E2timents ou parties de b=E2timents en cause",50,An=
+n=E9e
+ACC-00019,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+ secret en mati=E8re de statistiques lorsque sont en cause des donn=E9es co=
+llect=E9es au moyen de questionnaires ayant trait aux faits et comportement=
+s d'ordre priv=E9 (individus dont la date de d=E9c=E8s est inconnue),"Dur=
+=E9e de communicabilit=E9 applicable aux informations portant atteinte au s=
+ecret en mati=E8re de statistiques lorsque sont en cause des donn=E9es coll=
+ect=E9es au moyen de questionnaires ayant trait aux faits et comportements =
+d'ordre priv=E9 (individus dont la date de d=E9c=E8s est inconnue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",75,Ann=E9e
+ACC-00020,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+ secret en mati=E8re de statistiques lorsque sont en cause des donn=E9es co=
+llect=E9es au moyen de questionnaires ayant trait aux faits et comportement=
+s d'ordre priv=E9 (individus dont la date de d=E9c=E8s est connue),"Dur=E9e=
+ de communicabilit=E9 applicable aux informations portant atteinte au secre=
+t en mati=E8re de statistiques lorsque sont en cause des donn=E9es collect=
+=E9es au moyen de questionnaires ayant trait aux faits et comportements d'o=
+rdre priv=E9 (individus dont la date de d=E9c=E8s est connue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du d=E9c=E8s de l?int=
+=E9ress=E9",25,Ann=E9e
+ACC-00021,AccessRule,Communicabilit=E9 des informations portant atteinte au=
+ secret en mati=E8re de statistiques lorsque sont en cause des donn=E9es co=
+llect=E9es au moyen de questionnaires ayant trait aux faits et comportement=
+s d'ordre priv=E9 (individus mineurs dont la date de d=E9c=E8s est inconnue=
+),"Dur=E9e de communicabilit=E9 applicable aux informations portant atteint=
+e au secret en mati=E8re de statistiques lorsque sont en cause des donn=E9e=
+s collect=E9es au moyen de questionnaires ayant trait aux faits et comporte=
+ments d'ordre priv=E9 (individus mineurs dont la date de d=E9c=E8s est inco=
+nnue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",100,Ann=E9e
+ACC-00022,AccessRule,Communicabilit=E9 des informations relatives aux enqu=
+=EAtes r=E9alis=E9es par les services de police judiciaire (individus dont =
+la date de d=E9c=E8s est connue),"Dur=E9e de communicabilit=E9 applicable a=
+ux informations relatives aux enqu=EAtes r=E9alis=E9es par les services de =
+police judiciaire (individus dont la date de d=E9c=E8s est connue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date de d=E9c=E8s de l?int=
+=E9ress=E9",75,Ann=E9e
+ACC-00023,AccessRule,Communicabilit=E9 des informations relatives aux enqu=
+=EAtes r=E9alis=E9es par les services de police judiciaire (individus dont =
+la date de d=E9c=E8s est inconnue),"Dur=E9e de communicabilit=E9 applicable=
+ aux informations relatives aux enqu=EAtes r=E9alis=E9es par les services d=
+e police judiciaire (individus dont la date de d=E9c=E8s est connue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",25,Ann=E9e
+ACC-00024,AccessRule,Communicabilit=E9 des informations relatives aux enqu=
+=EAtes r=E9alis=E9es par les services de police judiciaire (individus mineu=
+rs dont la date de d=E9c=E8s est inconnue),"Dur=E9e de communicabilit=E9 ap=
+plicable aux informations relatives aux enqu=EAtes r=E9alis=E9es par les se=
+rvices de police judiciaire (individus dont la date de d=E9c=E8s est connue=
+)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",100,Ann=E9e
+ACC-00025,AccessRule,"Communicabilit=E9 des informations relatives aux affa=
+ires port=E9es devant les juridictions, sous r=E9serve des dispositions par=
+ticuli=E8res relatives aux jugements, et =E0 l'ex=E9cution des d=E9cisions =
+de justice (individus dont la date de d=E9c=E8s est inconnue)","Dur=E9e de =
+communicabilit=E9 applicable aux informations relatives aux affaires port=
+=E9es devant les juridictions, sous r=E9serve des dispositions particuli=E8=
+res relatives aux jugements, et =E0 l'ex=E9cution des d=E9cisions de justic=
+e (individus dont la date de d=E9c=E8s est inconnue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",75,Ann=E9e
+ACC-00026,AccessRule,"Communicabilit=E9 des informations relatives aux affa=
+ires port=E9es devant les juridictions, sous r=E9serve des dispositions par=
+ticuli=E8res relatives aux jugements, et =E0 l'ex=E9cution des d=E9cisions =
+de justice (individus dont la date de d=E9c=E8s est connue)","Dur=E9e de co=
+mmunicabilit=E9 applicable aux informations relatives aux affaires port=E9e=
+s devant les juridictions, sous r=E9serve des dispositions particuli=E8res =
+relatives aux jugements, et =E0 l'ex=E9cution des d=E9cisions de justice (i=
+ndividus dont la date de d=E9c=E8s est connue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du d=E9c=E8s de l?int=
+=E9ress=E9",25,Ann=E9e
+ACC-00027,AccessRule,"Communicabilit=E9 des informations relatives aux affa=
+ires port=E9es devant les juridictions, sous r=E9serve des dispositions par=
+ticuli=E8res relatives aux jugements, et =E0 l'ex=E9cution des d=E9cisions =
+de justice (individus mineurs dont la date de d=E9c=E8s est inconnue)","Dur=
+=E9e de communicabilit=E9 applicable aux informations relatives aux affaire=
+s port=E9es devant les juridictions, sous r=E9serve des dispositions partic=
+uli=E8res relatives aux jugements, et =E0 l'ex=E9cution des d=E9cisions de =
+justice (individus mineurs dont la date de d=E9c=E8s est inconnue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",100,Ann=E9e
+ACC-00028,AccessRule,Communicabilit=E9 des minutes et r=E9pertoires des off=
+iciers publics ou minist=E9riels (individus dont la date de d=E9c=E8s est i=
+nconnue),"Dur=E9e de communicabilit=E9 applicable aux minutes et r=E9pertoi=
+res des officiers publics ou minist=E9riels (individus dont la date de d=E9=
+c=E8s est inconnue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",75,Ann=E9e
+ACC-00029,AccessRule,Communicabilit=E9 des minutes et r=E9pertoires des off=
+iciers publics ou minist=E9riels (individus dont la date de d=E9c=E8s est c=
+onnue),"Dur=E9e de communicabilit=E9 applicable aux minutes et r=E9pertoire=
+s des officiers publics ou minist=E9riels (individus dont la date de d=E9c=
+=E8s est connue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du d=E9c=E8s de l?int=
+=E9ress=E9",25,Ann=E9e
+ACC-00030,AccessRule,Communicabilit=E9 des minutes et r=E9pertoires des off=
+iciers publics ou minist=E9riels (individus mineurs dont la date de d=E9c=
+=E8s est inconnue),"Dur=E9e de communicabilit=E9 applicable aux minutes et =
+r=E9pertoires des officiers publics ou minist=E9riels (individus mineurs do=
+nt la date de d=E9c=E8s est inconnue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",100,Ann=E9e
+ACC-00031,AccessRule,"Communicabilit=E9 des registres de naissance et de ma=
+riage de l'=E9tat civil, =E0 compter de leur cl=F4ture (individus dont la d=
+ate de d=E9c=E8s est inconnue)","Dur=E9e de communicabilit=E9 applicable au=
+x registres de naissance et de mariage de l'=E9tat civil, =E0 compter de le=
+ur cl=F4ture (individus dont la date de d=E9c=E8s est inconnue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la cl=F4ture du registre",75,An=
+n=E9e
+ACC-00032,AccessRule,"Communicabilit=E9 des registres de naissance et de ma=
+riage de l'=E9tat civil, =E0 compter de leur cl=F4ture (individus dont la d=
+ate de d=E9c=E8s est connue)","Dur=E9e de communicabilit=E9 applicable aux =
+registres de naissance et de mariage de l'=E9tat civil, =E0 compter de leur=
+ cl=F4ture (individus dont la date de d=E9c=E8s est connue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du d=E9c=E8s de l?int=
+=E9ress=E9",25,Ann=E9e
+ACC-00033,AccessRule,"Communicabilit=E9 des registres de naissance et de ma=
+riage de l'=E9tat civil, =E0 compter de leur cl=F4ture (individus mineurs d=
+ont la date de d=E9c=E8s est inconnue)","Dur=E9e de communicabilit=E9 appli=
+cable aux registres de naissance et de mariage de l'=E9tat civil, =E0 compt=
+er de leur cl=F4ture (individus mineurs dont la date de d=E9c=E8s est incon=
+nue)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la cl=F4ture du registre",100,A=
+nn=E9e
+ACC-00034,AccessRule,Communicabilit=E9 des documents couverts ou ayant =E9t=
+=E9 couverts par le secret de la d=E9fense nationale dont la communication =
+est de nature =E0 porter atteinte =E0 la s=E9curit=E9 de personnes nomm=E9m=
+ent d=E9sign=E9es ou facilement identifiables (date du document),"Dur=E9e d=
+e communicabilit=E9 applicable aux documents couverts ou ayant =E9t=E9 couv=
+erts par le secret de la d=E9fense nationale dont la communication est de n=
+ature =E0 porter atteinte =E0 la s=E9curit=E9 de personnes nomm=E9ment d=E9=
+sign=E9es ou facilement identifiables
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",100,Ann=E9e
+ACC-00035,AccessRule,"Communicabilit=E9 des documents relatifs aux enqu=EAt=
+es r=E9alis=E9es par les services de la police judiciaire, aux affaires por=
+t=E9es devant les juridictions, sous r=E9serve des dispositions particuli=
+=E8res relatives aux jugements, et =E0 l'ex=E9cution des d=E9cisions de jus=
+tice dont la communication porte atteinte =E0 l'intimit=E9 de la vie sexuel=
+le des personnes (date du document)","Dur=E9e de communicabilit=E9 applicab=
+le aux documents relatifs aux enqu=EAtes r=E9alis=E9es par les services de =
+la police judiciaire, aux affaires port=E9es devant les juridictions, sous =
+r=E9serve des dispositions particuli=E8res relatives aux jugements, et =E0 =
+l'ex=E9cution des d=E9cisions de justice dont la communication porte attein=
+te =E0 l'intimit=E9 de la vie sexuelle des personnes
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document ou du docum=
+ent le plus r=E9cent inclus dans le dossier",100,Ann=E9e
+ACC-00036,AccessRule,"Communicabilit=E9 des documents dont la communication=
+ est susceptible d'entra=EEner la diffusion d'informations permettant de co=
+ncevoir, fabriquer, utiliser ou localiser des armes nucl=E9aires, biologiqu=
+es, chimiques ou toutes autres armes ayant des effets directs ou indirects =
+de destruction d'un niveau analogue","Dur=E9e de communicabilit=E9 applicab=
+le aux documents dont la communication est susceptible d'entra=EEner la dif=
+fusion d'informations permettant de concevoir, fabriquer, utiliser ou local=
+iser des armes nucl=E9aires, biologiques, chimiques ou toutes autres armes =
+ayant des effets directs ou indirects de destruction d'un niveau analogue
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document",9999,Ann=
+=E9e
+STO-00001,StorageRule,Dossier individuel d?agent civil,"Dur=E9e de conserva=
+tion dans les syst=E8mes m=E9tiers des dossiers individuels des agents civi=
+ls
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date o=F9 l?agent quitte l?o=
+rganisation",1,Ann=E9e
+STO-00002,StorageRule,D=E9claration de revenus en ligne (imp=F4t sur le rev=
+enu),"Dur=E9e de conservation dans les syst=E8mes m=E9tiers des dossiers in=
+dividuels des d=E9clarations de revenus en ligne (imp=F4t sur le revenu)
+L?=E9ch=E9ance est calcul=E9e =E0 partir de l?ouverture du service pour l?a=
+nn=E9e fiscale en cours",4,Mois
+STO-00001,StorageRule,"Signalements des cas de harc=E8lement, discriminatio=
+ns et violences sexuels, ou =E0 connotation sexiste ou li=E9s =E0 l?orienta=
+tion sexuelle des personnes commis soit en service ou =E0 l?occasion de l?e=
+x=E9cution du service (signalements fond=E9s)","Dur=E9e de conservation dan=
+s les syst=E8mes m=E9tiers des signalements fond=E9s
+L?=E9ch=E9ance est calcul=E9e =E0 partir de l?enregistrement du signalement
+Arr=EAt=E9 du 17 juillet 2015 autorisant le traitement automatis=E9 de donn=
+=E9es =E0 caract=E8re personnel d=E9nomm=E9 =AB GESSIT =BB",5,Ann=E9e
+DIS-00001,DisseminationRule,Actes de d=E9c=E8s,"D=E9lai de diffusion en lig=
+ne des actes de d=E9c=E8s
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date d?enregistrement du d=
+=E9c=E8s",25,Ann=E9e
+DIS-00002,DisseminationRule,Actes de mariage,"D=E9lai de diffusion en ligne=
+ des actes de mariage
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date de c=E9l=E9bration du m=
+ariage",75,Ann=E9e
+DIS-00003,DisseminationRule,Actes de naissance (avec mentions),"D=E9lai de =
+diffusion en ligne des actes de naissance, avec les mentions marginales
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date d?enregistrement de la =
+naissance",100,Ann=E9e
+DIS-00004,DisseminationRule,Dossier individuel d?agent civil,"D=E9lai de di=
+ffusion en ligne des dossiers individuels des agents civils
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date du document le plus r=
+=E9cent dans le dossier",100,Ann=E9e
+REU-00001,ReuseRule,Actes de d=E9c=E8s,"Dur=E9e d?exclusivit=E9 accord=E9 =
+=E0 la soci=E9t=E9 XXX pour la r=E9utilisation du produit de la num=E9risat=
+ion des registres d?=E9tat civil du d=E9partement de XXX
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date de signature du contrat=
+",10,Ann=E9e
+CLASS-00001,ClassificationRule,R=E9=E9valuation par d=E9faut de la classifi=
+cation des documents prot=E9g=E9s au titre du secret de la d=E9fense nation=
+ale,"D=E9lai de r=E9=E9valuation par d=E9faut du niveau de protection d?un =
+document au titre du secret de la d=E9fense nationale
+L?=E9ch=E9ance est calcul=E9e =E0 partir de la date d?=E9mission du documen=
+t",10,Ann=E9e
+
+------=_Part_480_4512897.1517006386901--
+
+------=_Part_479_19575438.1517006386901--
+
+------=_Part_478_19060896.1517006386901--

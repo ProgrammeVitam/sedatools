@@ -1,0 +1,230 @@
+Bonjour Thierry,
+
+Bonne année également.
+
+Merci
+
+Emmanuel Laborde
+
+ 
+
+ 
+
+Le 2017-01-03 15:25, CASIMIRIUS Thierry a écrit :
+
+	Bonjour Emmanuel,
+
+	 
+
+	L’anomalie 34 de tuleap peut être fermée.
+
+	 
+
+	Merci pour le mode opératoire.
+
+	 
+
+	Et bonne année.
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+	Envoyé : mardi 3 janvier 2017 15:18
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : RE: 0000024: Impossibilité de retrouver le contenu de balise MessageIdentifier du bordereau d'entrée (manifest) : besoin de JSON pour reproduire le bug
+
+	 
+
+	Bonjour,
+
+	 
+
+	Nous retrouvons bien le messageidentifier en suivant cette consigne.
+
+	 
+
+	Le bug peut être fermé.
+
+	 
+
+	Cordialement,
+
+	Franck AJJAZ
+
+	Chef de Projet
+
+	TRA VITAM
+	franck.ajjaz@altran.com
+
+	 
+
+	 
+
+	 
+
+	De : CASIMIRIUS Thierry [mailto:thierry.casimirius@intradef.gouv.fr] 
+	Envoyé : mardi 3 janvier 2017 12:15
+	À : AJJAZ Franck
+	Objet : 0000024: Impossibilité de retrouver le contenu de balise MessageIdentifier du bordereau d'entrée (manifest) : besoin de JSON pour reproduire le bug
+
+	 
+
+	Franck, 
+
+	 
+
+	Voici le retour de VITAM sur bug de 000024 ( 34 pour Tuleap)
+
+	 
+
+	 
+
+	Nous ne reproduisons pas. Nous retrouvons bien la valeur de messageIdentifier dans pour le bloc tel que evType=STP_INGEST_CONTROL_SIP, champ obIdIn=<valeur du message identifier du Manifest>.
+
+	 
+
+	Merci de nous joindre le Json de réponse à la requête la requête de recherche logbookopération avec comme identifiant l'id retrouvé dans le nom de l'ATR.
+
+	La valeur de la balise MessageIdentifier doit se trouver à l'endroit suivant : pour le bloc tel que evType=STP_INGEST_CONTROL_SIP et "outcome": "OK", le champ obIdIn=<la valeur du message identifier du Manifest>.
+
+	 
+
+	Dans l'ATR la balise <MessageIdentifier> contient le messageIdentifier de celui qui répond, c'est a dire VITAM. Il est normal qu'il soit différent du <MessageIdentifier> de l'apellant, la valeur de la balise <MessageIdentifier> du manifest se retrouve dans la balise <MessageRequestIdentifier> de l'ATR.
+
+	 
+
+	Nous proposons de rejeter ce bug sauf si vous pouvez joindre le Json demandé, montrant que le champ obIdIn vaut "null" pour le bloc tel que evType=STP_INGEST_CONTROL_SIP et "outcome": "OK",
+
+	 
+
+	 
+
+	Merci de me renvoyer le JSON pour dépôt sur tuleap, pour que ce bug ne soit pas rejeté.
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	 
+
+	-----Message d'origine-----
+	De : Mantis Bug Tracker [mailto:admtlvitam@gmail.com] 
+	Envoyé : mercredi 21 décembre 2016 10:14
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : [Projet VITAM 0000024]: Pas de champs "lot d'archive" dans le journal sur ihm ni dans collection
+
+	 
+
+	 
+
+	Le bogue suivant a été soumis. 
+
+	======================================================================
+
+	http://213.32.79.242/mantisbt/view.php?id=24 <https://urldefense.proofpoint.com/v2/url?u=http-3A__213.32.79.242_mantisbt_view.php-3Fid-3D24&d=DgMGaQ&c=cxWN2QSDopt5SklNfbjIjg&r=QoR2lifbZEFIS4BgOn-DRYzMLEvEx_HUym5g_q0Xqr0&m=VeXpBKXFeeIh2ba0RwjJzcJXv3TUTUHkFEw1JUS8XWo&s=AI9XkGDbVM7ap7MuL0zxO5ak-7xvpKnO9UUcavlSZDI&e=> 
+
+	====================================================================== 
+
+	Rapporteur:                 Franck
+
+	Responsable:                
+
+	====================================================================== 
+
+	Projet:                     Projet VITAM
+
+	Bogue ID:                   24
+
+	Catégorie:                  BugFromTestlink
+
+	Reproductibilité:           toujours
+
+	Impact:                     mineur
+
+	Priorité:                   normale
+
+	Statut:                     nouveau
+
+	Comportement attendu:        
+
+	US concernée:                
+
+	====================================================================== 
+
+	Date de soumission:         2016-12-21 10:14 CET
+
+	Dernière modification:      2016-12-21 10:14 CET
+
+	====================================================================== 
+
+	Résumé:                     Pas de champs "lot d'archive" dans le journal sur
+
+	ihm ni dans collection
+
+	Description: 
+
+	On veut retrouver le contenu de la balise MessageIdentifier de notre bordereau dans le journal des opérations
+
+	 
+
+	Nous ne retrouvons nulle part le contenu de notre balise.
+
+	 
+
+	La US 941 dit :
+
+	La balise d'un messageIdentifier d'un bordereau est actuellement un message lisibile par un humain et qui correspond à l'écran, dans le journal des opérations d'entrée, à "lot d'archive".
+
+	 
+
+	 
+
+	====================================================================== 
+
+	 
+
+	Historique du bogue 
+
+	Date de modificationNom d’utilisateurChamp                    Changement      
+
+	    
+
+	====================================================================== 
+
+	2016-12-21 10:14 Franck         Nouveau bogue                                
+
+	2016-12-21 10:14 Franck         Fichier ajouté: SIP-20161220103134.zip         
+
+	          
+
+	======================================================================

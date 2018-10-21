@@ -1,0 +1,76 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=58 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   58
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     nouveau
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-09 15:48 CET
+Dernière modification:      2017-01-09 15:48 CET
+====================================================================== 
+Résumé:                     Résultat aléatoire avec l'opérateur Match dans
+la collection Units
+Description: 
+Nous avons tester l'opérateur Match sur quelques champs disponible dans la
+collection Unit.
+Comme attendu, l'opérateur fonctionne avec les champs Nom et Description.
+Cependant nous avons obtenus des résultats aléatoire avec d'autres champs.
+
+Par exemple : Nous avons effectué une recherche d'Units qui possèdent une
+valeur "ITEM LEVEL" dans le champs DescriptionLevel.
+Nous avons utilisé la requête suivante :
+ {
+  "$roots": [],
+  "$query": [
+    {
+      "$match": {
+        "DescriptionLevel": "Level"
+      },
+      "$depth": 20
+    }
+  ],
+  "$filter": {
+    "$orderby": {
+      "TransactedDate": 1
+    }
+  },
+  "$projection": {
+    "$fields": {
+      "TransactedDate": 1,
+      "#id": 1,
+      "Title": 1,
+      "#object": 1
+    }
+  }
+}
+
+Nous n'obtenons 0 résultat mais un code HTTP 200.
+
+Nous obtenons le même résultat avec les balises OriginatingAgency.Identifier
+et OriginatingAgency.OrganizationDescriptiveMetadata
+
+Lorsque nous effectuons une recherche sur TransactedDate, StartDate et Enddate
+nous obtenons une erreur 405 METHOD NOT ALLOWED.
+
+L'opérateur Match ne doit fonctionner que sur les balises Title et Description,
+mais nous obtenons des résultats aléatoire pour les autres balises.
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-09 15:48 Jonathan       Nouveau bogue                                
+2017-01-09 15:48 Jonathan       Fichier ajouté: SIP-20161026171755.zip         
+          
+======================================================================

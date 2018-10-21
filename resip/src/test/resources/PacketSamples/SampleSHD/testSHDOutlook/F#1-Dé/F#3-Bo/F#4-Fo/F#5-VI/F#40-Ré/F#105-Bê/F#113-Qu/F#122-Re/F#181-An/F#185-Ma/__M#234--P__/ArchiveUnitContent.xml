@@ -1,0 +1,286 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000023]: [API-access-external/v1/objects-POST-Override-GET] : httpCode 501 - NOT_IMPLEMENTED au lieu de httpcode200</Title>
+    <OriginatingSystemId>&lt;b9d6d97244289f33cf912a27af398275@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-20T15:41:17Z</SentDate>
+    <ReceivedDate>2016-12-20T15:41:24Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=23 
+====================================================================== 
+Rapporteur:                 Omar
+Responsable:                Omar
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   23
+Catégorie:                  VITAM
+Reproductibilité:           toujours
+Impact:                     bloquant
+Priorité:                   immédiate
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-20 16:41 CET
+Dernière modification:      2016-12-20 16:41 CET
+====================================================================== 
+Résumé:                     [API-access-external/v1/objects-POST-Override-GET]
+: httpCode 501 - NOT_IMPLEMENTED au lieu de httpcode200
+Description: 
+On indique dans la documentation
+&lt; serveur&gt;/doc/raml/externe/access.html#objects_post, que cette collection
+accepte la méthode POST telle qu&apos;on le fait ci dessous (avec ou X-Qualifier:
+BinaryMaster). Par contre pour nous le résultat est le même, nous obtenons un
+code HTTP/1.1 501 Not Implemented
+
+Voici la reqquête que nous soumettons via SOAPUI
+
+
+POST https://213.32.79.242:8444/access-external/v1/objects HTTP/1.1
+X-Qualifier: BinaryMaster
+X-Http-Method-Override: GET
+Accept: application/json
+Content-Type: application/json
+Content-Length: 72
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{
+  &quot;$roots&quot;: [],
+  &quot;$query&quot;: [],
+  &quot;$filter&quot;: {},
+  &quot;$projection&quot;: {}
+}
+
+
+cette requête renvoie, la réponse ci dessous
+
+{
+   &quot;httpCode&quot;: 501,
+   &quot;code&quot;: &quot;NOT_IMPLEMENTED&quot;,
+   &quot;context&quot;: &quot;ACCESS_EXTERNAL&quot;,
+   &quot;state&quot;: &quot;code_vitam&quot;,
+   &quot;message&quot;: &quot;Not Implemented&quot;,
+   &quot;description&quot;: &quot;Not Implemented&quot;,
+   &quot;errors&quot;: []
+}
+
+
+Pour information, via la version Alpha (bouchon) =&gt; en postant la requête
+suivante:
+POST http://127.0.0.1:8082/external/v1/objects HTTP/1.1
+X-Qualifier: BinaryMaster
+X-Http-Method-Override: GET
+Content-Type: application/json
+Accept: application/json
+Content-Length: 75
+Host: 127.0.0.1:8082
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{
+  &quot;$roots&quot;: [ ],
+  &quot;$query&quot;: [ ],
+  &quot;$filter&quot;: {},
+  &quot;$projection&quot;: { }
+}
+
+
+le retour est le suivant:
+
+{
+   &quot;$hits&quot;:    {
+      &quot;total&quot;: 3,
+      &quot;size&quot;: 3,
+      &quot;offset&quot;: 0,
+      &quot;limit&quot;: 100,
+      &quot;time_out&quot;: false
+   },
+   &quot;$context&quot;:    {
+      &quot;$roots&quot;: [],
+      &quot;$query&quot;: [],
+      &quot;$filter&quot;: {},
+      &quot;$projection&quot;: {}
+   },
+   &quot;$results&quot;:    [
+            {
+         &quot;#id&quot;: &quot;id101&quot;,
+         &quot;#type&quot;: &quot;Document&quot;,
+         &quot;#qualifiers&quot;:          {
+            &quot;BinaryMaster&quot;: 5,
+            &quot;Thumbnail&quot;: 1,
+            &quot;Dissemination&quot;: 1,
+            &quot;TextContent&quot;: 1
+         },
+         &quot;#parents&quot;: [         {
+            &quot;#id&quot;: &quot;id1&quot;,
+            &quot;#type&quot;: &quot;DemandeCongés&quot;,
+            &quot;#sector&quot;: &quot;RessourcesHumaines&quot;
+         }]
+      },
+            {
+         &quot;#id&quot;: &quot;id102&quot;,
+         &quot;#type&quot;: &quot;Document&quot;,
+         &quot;#qualifiers&quot;:          {
+            &quot;BinaryMaster&quot;: 5,
+            &quot;Thumbnail&quot;: 1,
+            &quot;Dissemination&quot;: 1,
+            &quot;TextContent&quot;: 1
+         },
+         &quot;#parents&quot;: [         {
+            &quot;#id&quot;: &quot;id2&quot;,
+            &quot;#type&quot;: &quot;DemandeCongés&quot;,
+            &quot;#sector&quot;: &quot;RessourcesHumaines&quot;
+         }]
+      },
+            {
+         &quot;#id&quot;: &quot;id103&quot;,
+         &quot;#type&quot;: &quot;Document&quot;,
+         &quot;#qualifiers&quot;:          {
+            &quot;BinaryMaster&quot;: 3,
+            &quot;Thumbnail&quot;: 1,
+            &quot;Dissemination&quot;: 1,
+            &quot;TextContent&quot;: 1
+         },
+         &quot;#parents&quot;: [         {
+            &quot;#id&quot;: &quot;id3&quot;,
+            &quot;#type&quot;: &quot;DemandeCongés&quot;,
+            &quot;#sector&quot;: &quot;RessourcesHumaines&quot;
+         }]
+      }
+   ]
+}
+
+
+
+
+Pour information sur Vitam Beta, le post-override get sur la collection
+access-external/v1/objects/{idu} fonctionne, cf ci dessous
+
+POST
+https://213.32.79.242:8444/access-external/v1/objects/aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaba
+HTTP/1.1
+X-Http-Method-Override: GET
+Accept: application/json
+Content-Type: application/json
+Content-Length: 72
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{
+  &quot;$roots&quot;: [],
+  &quot;$query&quot;: [],
+  &quot;$filter&quot;: {},
+  &quot;$projection&quot;: {}
+}
+
+
+
+réponse sur Beta
+
+{
+   &quot;$hits&quot;:    {
+      &quot;total&quot;: 1,
+      &quot;offset&quot;: 0,
+      &quot;limit&quot;: 1,
+      &quot;size&quot;: 1
+   },
+   &quot;$results&quot;: [   {
+      &quot;FileInfo&quot;:       {
+         &quot;Filename&quot;: &quot;SHDMC_REP_1A_V2009.pdf&quot;,
+         &quot;LastModified&quot;: &quot;2015-11-10T12:12:30.000+01:00&quot;
+      },
+      &quot;#id&quot;: &quot;aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaba&quot;,
+      &quot;#nbobjects&quot;: 0,
+      &quot;#qualifiers&quot;:       {
+         &quot;BinaryMaster&quot;:          {
+            &quot;_nbc&quot;: 1,
+            &quot;versions&quot;: [            {
+               &quot;_id&quot;: &quot;aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaaq&quot;,
+               &quot;DataObjectGroupId&quot;: &quot;aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaba&quot;,
+               &quot;DataObjectVersion&quot;: &quot;BinaryMaster_1&quot;,
+               &quot;FormatIdentification&quot;:                {
+                  &quot;FormatLitteral&quot;: &quot;Acrobat PDF 1.4 - Portable Document
+Format&quot;,
+                  &quot;MimeType&quot;: &quot;application/pdf&quot;,
+                  &quot;FormatId&quot;: &quot;fmt/18&quot;
+               },
+               &quot;FileInfo&quot;:                {
+                  &quot;Filename&quot;: &quot;SHDMC_REP_1A_V2009.pdf&quot;,
+                  &quot;LastModified&quot;: &quot;2015-11-10T12:12:30.000+01:00&quot;
+               },
+               &quot;Size&quot;: 102887,
+               &quot;Uri&quot;: &quot;Content/ID5.pdf&quot;,
+               &quot;MessageDigest&quot;:
+&quot;eb43f029e26ce2e4f5660e095db7efd4b924adbaf7b8966a765b595958c5b0a10e2c6fd7a5714634b3cc673d3da249284339a88bff89ccdfd2ea7d4821d79b86&quot;,
+               &quot;Algorithm&quot;: &quot;SHA-512&quot;
+            }]
+         },
+         &quot;Thumbnail&quot;:          {
+            &quot;_nbc&quot;: 1,
+            &quot;versions&quot;: [            {
+               &quot;_id&quot;: &quot;aeaaaaaaaaaam7mxabmk4akzdo5kb3aaaaaq&quot;,
+               &quot;DataObjectGroupId&quot;: &quot;aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaba&quot;,
+               &quot;DataObjectVersion&quot;: &quot;Thumbnail_1&quot;,
+               &quot;FormatIdentification&quot;:                {
+                  &quot;FormatLitteral&quot;: &quot;Microsoft Excel for Windows&quot;,
+                  &quot;MimeType&quot;:
+&quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,
+                  &quot;FormatId&quot;: &quot;fmt/214&quot;
+               },
+               &quot;FileInfo&quot;:                {
+                  &quot;Filename&quot;: &quot;SHDMC_REP_1A_V2009.xlsx&quot;,
+                  &quot;LastModified&quot;: &quot;2016-12-13T16:04:50.492+01:00&quot;
+               },
+               &quot;Size&quot;: 8414,
+               &quot;Uri&quot;: &quot;Content/ID9.xlsx&quot;,
+               &quot;MessageDigest&quot;:
+&quot;65b217aedf5be57d023af92c48cbe40b53ee03874634a258a911209e34c5981bc6815a1e45e73f01ed87c4fe998c873665b9296a5ffa4d4555481e47e1d91db6&quot;,
+               &quot;Algorithm&quot;: &quot;SHA-512&quot;
+            }]
+         }
+      },
+      &quot;#type&quot;: &quot;&quot;,
+      &quot;#tenant&quot;: 0,
+      &quot;#unitups&quot;: [&quot;aeaaaaaaaaaam7mxabmk4akzdo5kb3yaaaaq&quot;],
+      &quot;#operations&quot;: [&quot;aedqaaaaacaam7mxabpvoakzdo5ijtiaaaaq&quot;]
+   }],
+   &quot;$context&quot;:    {
+      &quot;$roots&quot;: [],
+      &quot;$query&quot;: [],
+      &quot;$filter&quot;: {},
+      &quot;$projection&quot;: {}
+   }
+}
+
+
+
+
+Étapes pour le reproduire: 
+poster une des requêtes indiquées dans Description
+
+Informations complémentaires: 
+La version alpha utilisée est celle sur le site api vitam
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-20 16:41 Omar           Nouveau bogue                                
+2016-12-20 16:41 Omar           Statut                   nouveau =&gt; affecté  
+2016-12-20 16:41 Omar           Assigné à                 =&gt; Omar            
+======================================================================</TextContent>
+</Content>

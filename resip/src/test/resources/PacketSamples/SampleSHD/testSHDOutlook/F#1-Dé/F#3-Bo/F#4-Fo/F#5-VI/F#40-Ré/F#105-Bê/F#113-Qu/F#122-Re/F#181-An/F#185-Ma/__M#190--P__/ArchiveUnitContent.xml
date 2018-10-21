@@ -1,0 +1,54 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000068]: Possibilité d&apos;avoir des Id Rule identique dans VITAM</Title>
+    <OriginatingSystemId>&lt;9fbb51f2405c540a0cb0142f3d4d86c7@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-11T09:39:31Z</SentDate>
+    <ReceivedDate>2017-01-11T09:39:40Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=68 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                Franck
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   68
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-11 10:39 CET
+Dernière modification:      2017-01-11 10:39 CET
+====================================================================== 
+Résumé:                     Possibilité d&apos;avoir des Id Rule identique dans
+VITAM
+Description: 
+Suite à un import par API, on peut avoir des rules avec des Id identiques dans
+VITAM. (et même en triple et plus)
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-11 10:39 Franck         Nouveau bogue                                
+2017-01-11 10:39 Franck         Statut                   nouveau =&gt; affecté  
+2017-01-11 10:39 Franck         Assigné à                 =&gt; Franck          
+2017-01-11 10:39 Franck         Fichier ajouté: AnoRulesAPI.png                
+   
+======================================================================</TextContent>
+</Content>

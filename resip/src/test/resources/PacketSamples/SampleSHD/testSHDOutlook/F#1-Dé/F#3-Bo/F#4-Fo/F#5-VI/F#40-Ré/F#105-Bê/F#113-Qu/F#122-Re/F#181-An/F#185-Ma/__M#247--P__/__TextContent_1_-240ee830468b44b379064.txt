@@ -1,0 +1,56 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=11 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   11
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-12 16:03 CET
+Dernière modification:      2016-12-12 16:03 CET
+====================================================================== 
+Résumé:                     Impossibilité d'obtenir une liste d'archive via
+la balise Rule de AccessRule
+Description: 
+Nous cherchons a obtenir toutes les archives soumise par une règle d'ACCESSRULE
+
+En réponse nous obtenons une erreur HTTP 412
+Nous avons essayé de modifier notre requête en remplaçant des {} par des []
+mais avec toujours le même résultat  
+La requête : 
+{
+  "$roots": [],
+  "$query": {
+    
+      "$match": {
+        "RuleId": "ACC"
+      }
+     },
+  "$filter": {},
+  "$action": []
+}
+
+Méthode : Post
+Override : Get
+
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-12 16:03 Jonathan       Nouveau bogue                                
+2016-12-12 16:03 Jonathan       Statut                   nouveau => affecté  
+2016-12-12 16:03 Jonathan       Assigné à                 => Jonathan        
+2016-12-12 16:03 Jonathan       Fichier ajouté:
+PVI-252_12-12-2016-03-50_OUT.json                    
+======================================================================

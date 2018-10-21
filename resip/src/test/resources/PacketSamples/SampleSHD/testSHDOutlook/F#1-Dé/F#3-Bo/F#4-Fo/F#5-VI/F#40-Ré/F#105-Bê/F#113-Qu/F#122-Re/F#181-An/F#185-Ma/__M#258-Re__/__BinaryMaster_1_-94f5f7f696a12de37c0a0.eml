@@ -1,0 +1,1491 @@
+Return-Path: nathanael.attar.ext@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur02.culture.fr with ESMTP id v099WOYv009901;	Mon, 09 Jan 2017
+ 10:32:24 +0100
+Date: Mon, 9 Jan 2017 10:32:24 +0100 (CET)
+From: <nathanael.attar.ext@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+CC: emmanuel.laborde <emmanuel.laborde@culture.gouv.fr>,
+	AJJAZ Franck (franck.ajjaz@altran.com) <franck.ajjaz@altran.com>
+Message-ID: <94f5f7f696a12de37c0a0a81e70d9c85@culture.gouv.fr>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D3007D4F4@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D3007D4F4@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: =?UTF-8?Q?Re:_TR:_[Projet_VITAM_0000022]?=
+ =?UTF-8?Q?:_Impossibilit=C3=A9_d'effectuer_une?=
+ =?UTF-8?Q?_query_si_plusieurs_=C3=A9l=C3=A9ments_da?=
+ =?UTF-8?Q?ns_roots_:_demande_de_pr=C3=A9cision?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_373_16164345.1517006385204"
+X-Proofpoint-Sentinel:  stfjhiC6vaEai5Gyrog6LO8a1gwipyN8o03CkGefkYSD/OlTYWx0ZWRfXzp0
+ d5WokQ1VYCKJiKx1FLBeqoHycViJvHQbYOto4wiL2ZRjlMExlPU7DEg0R+lU6u51dipFnu59+0hJ
+ GP1HfLjVh2FIa2rCDg==
+X-Sender:  nathanael.attar.ext@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8402 signatures=670795
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1314500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM08.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_373_16164345.1517006385204
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_374_4065423.1517006385204"
+
+------=_Part_374_4065423.1517006385204
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour Thierry,
+
+Suite =C3=A0 votre question, nous ne pouvons pas en m=C3=AAme temps interro=
+ger tous les fils et les roots associ=C3=A9s.
+
+En synth=C3=A8se :
+
+- $depth < 0 =3D> seuls les noeuds parents de roots sont pris en compte (pa=
+s roots)
+
+- $depth =3D 0 =3D> seul les noeuds de roots sont pris en compte (ni p=C3=
+=A8re, ni fils)
+
+- $depth > 0 =3D> Seul les noeuds fils sont pris en compte (pas roots)
+
+On ne peut donc pas =C3=A0 la fois chercher sur les "roots" et les "fils de=
+ roots": il faut faire 2 requ=C3=AAtes (distinctes).
+
+Par contre, on peut en 1 requ=C3=AAte chercher un sous-ensemble des "roots"=
+, puis sur cette base les fils de ce sous-ensemble (multi-query dans une re=
+qu=C3=AAte)
+
+=20
+
+Cordialement,
+
+Nathanael
+
+=20
+
+=20
+
+Le 2017-01-06 16:12, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09Bonjour,
+
+=09=20
+
+=09Nous avons bien pris en compte vos pr=C3=A9cisions sur l=E2=80=99utilisa=
+tion de $depth.
+
+=09Par contre, =C3=A0 la lecture de votre r=C3=A9ponse, nous avons une ques=
+tion suppl=C3=A9mentaire :
+
+=09Est-il bien possible d=E2=80=99interroger tous les fils (en partant d=E2=
+=80=99un ou n roots) et le /  les roots associ=C3=A9s ?=20
+
+=09Et alors, comment ?
+
+=09=20
+
+=09En vous remerciant d=E2=80=99avance, pour votre retour,=20
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Chef du bureau des technologies de l=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+
+=09=20
+
+=09De : CASIMIRIUS Thierry IDEF MINDEF=20
+=09Envoy=C3=A9 : vendredi 6 janvier 2017 15:53
+=09=C3=80 : 'AJJAZ Franck'
+=09Objet : RE: [Projet VITAM 0000022]: Impossibilit=C3=A9 d'effectuer une q=
+uery si plusieurs =C3=A9l=C3=A9ments dans roots : r=C3=A9ponse VITAM
+
+=09=20
+
+=09Franck,
+
+=09=20
+
+=09Voici les compl=C3=A9ments apport=C3=A9s en commentaire sur cette anomal=
+ie tuleap / mantis=20
+
+=09=20
+
+=09Merci de m=E2=80=99indiquer qu=E2=80=99elle peut donc =C3=AAtre ferm=C3=
+=A9e.
+
+=09=20
+
+=09=20
+
+=09Nathanael Attar (nattar) <https://support.programmevitam.fr/users/nattar=
+> il y a 23 heures
+
+=09En compl=C3=A9ment, suite aux pr=C3=A9c=C3=A9dents commentaires :
+=09Si $depth =3D 0, alors on inclut les "roots" dans la recherche
+=09Si $depth > 0, alors pas de roots dans les fils
+=09Si $depth < 0, alors pas de roots dans les parents.
+
+=09=20
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Chef du bureau des technologies de l=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+
+=09=20
+
+=09De : AJJAZ Franck [mailto:franck.ajjaz@altran.com]=20
+=09Envoy=C3=A9 : vendredi 6 janvier 2017 15:45
+=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09Objet : RE: [Projet VITAM 0000022]: Impossibilit=C3=A9 d'effectuer une q=
+uery si plusieurs =C3=A9l=C3=A9ments dans roots : r=C3=A9ponse VITAM
+
+=09=20
+
+=09Thierry,
+
+=09=20
+
+=09En effet, en mettant depth =3D 0, la requ=C3=AAte fonctionne.
+
+=09=20
+
+=09Il faudrait maintenant comprendre pourquoi il est n=C3=A9cessaire de met=
+tre cette valeur.
+
+=09=20
+
+=09Ne comprenant pas l=E2=80=99explication donn=C3=A9 dans TULEAP par Fr=C3=
+=A9d=C3=A9ric, je pense laisser l=E2=80=99anomalie ouverte jusqu=E2=80=99=
+=C3=A0 ce que nous ayons le retour de VITAM (ils nous ont dit hier qu=E2=80=
+=99ils reviendraient vers nous pour =C3=A9claircir l=E2=80=99explication).
+
+=09=20
+
+=09Cordialement,
+
+=09Franck AJJAZ
+
+=09Chef de Projet
+
+=09TRA VITAM
+=09franck.ajjaz@altran.com
+
+=09=20
+
+=09=20
+
+=09=20
+
+=09De : CASIMIRIUS Thierry [mailto:thierry.casimirius@intradef.gouv.fr]=20
+=09Envoy=C3=A9 : mercredi 4 janvier 2017 18:15
+=09=C3=80 : AJJAZ Franck
+=09Objet : TR: [Projet VITAM 0000022]: Impossibilit=C3=A9 d'effectuer une q=
+uery si plusieurs =C3=A9l=C3=A9ments dans roots : r=C3=A9ponse VITAM
+
+=09=20
+
+=09=20
+
+=09Franck,
+
+=09=20
+
+=09La r=C3=A9ponse de VITAM pour l=E2=80=99anomalie 22 Mantis / 32 tuleap.
+
+=09=20
+
+=09https://support.programmevitam.fr/themes/common/images/avatar_default.pn=
+g
+
+=09Nathanael Attar (nattar) <https://urldefense.proofpoint.com/v2/url?u=3Dh=
+ttps-3A__support.programmevitam.fr_users_nattar&d=3DDgMGaQ&c=3DcxWN2QSDopt5=
+SklNfbjIjg&r=3DQoR2lifbZEFIS4BgOn-DRYzMLEvEx_HUym5g_q0Xqr0&m=3D219BZsQY19Ug=
+dAcjLlOOUAQ7shGd0t6ZBfTmz3Zau0c&s=3Di29klW3I9fZya7LN3CnPzSJteV2_BcCdDTq5l-I=
+TlGg&e=3D> il y a 14 jours
+
+=09Selon l'=C3=A9quipe de Dev, "Je confirme que la requ=C3=AAte marche bien=
+ avec le $depth =3D 0 (Capture =C3=A9cran attach=C3=A9). Il y a autre erreu=
+r dans la requ=C3=AAte, le titre de AU dans le SIP fourni est "PVI58fic_pr_=
+empreinte_Appraisalerule.txt", et on ne peut pas chercher avec "PVI58fic_po=
+ur_empreinte_Appraisalerule""
+=09
+=09N'est en cons=C3=A9quence plus consid=C3=A9r=C3=A9 comme un bug ("Non Co=
+rrig=C3=A9")
+
+=09=20
+
+=09=20
+
+=09L=E2=80=99anomalie est-elle =C3=A0 fermer ???
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Chef du bureau des technologies de l=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+
+=09=20
+
+=09-----Message d'origine-----
+=09De : Mantis Bug Tracker [mailto:admtlvitam@gmail.com]=20
+=09Envoy=C3=A9 : lundi 19 d=C3=A9cembre 2016 14:10
+=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09Objet : [Projet VITAM 0000022]: Impossibilit=C3=A9 d'effectuer une query=
+ si plusieurs =C3=A9l=C3=A9ments dans roots
+
+=09=20
+
+=09=20
+
+=09Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+=09http://213.32.79.242/mantisbt/view.php?id=3D22 <https://urldefense.proof=
+point.com/v2/url?u=3Dhttp-3A__213.32.79.242_mantisbt_view.php-3Fid-3D22&d=
+=3DDgMGaQ&c=3DcxWN2QSDopt5SklNfbjIjg&r=3DQoR2lifbZEFIS4BgOn-DRYzMLEvEx_HUym=
+5g_q0Xqr0&m=3D219BZsQY19UgdAcjLlOOUAQ7shGd0t6ZBfTmz3Zau0c&s=3DSMXuLnGrxJhCF=
+wepkxtORBhMMwPyoVOdSfOk6pb9erw&e=3D>=20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09Rapporteur:                 Franck
+
+=09Responsable:               =20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09Projet:                     Projet VITAM
+
+=09Bogue ID:                   22
+
+=09Cat=C3=A9gorie:                  BugFromTestlink
+
+=09Reproductibilit=C3=A9:           toujours
+
+=09Impact:                     majeur
+
+=09Priorit=C3=A9:                   normale
+
+=09Statut:                     nouveau
+
+=09Comportement attendu:       =20
+
+=09US concern=C3=A9e:               =20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09Date de soumission:         2016-12-19 14:09 CET
+
+=09Derni=C3=A8re modification:      2016-12-19 14:09 CET
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09R=C3=A9sum=C3=A9:                     Impossibilit=C3=A9 d'effectuer une=
+ query si plusieurs
+
+=09=C3=A9l=C3=A9ments dans roots
+
+=09Description:=20
+
+=09Lorsque l'on veut effectuer une requ=C3=AAte dans un sous-ensemble d=C3=
+=A9fini dans le roots, celle ci ne fonctionne pas.
+
+=09=20
+
+=09Nous effectuons notre test dans la collection Unit Notre requ=C3=AAte "$=
+eq" seule fonctionne :
+
+=09=20
+
+=09{
+
+=09  "$roots": [],
+
+=09  "$query": [
+
+=09=20
+
+=09      {
+
+=09          "$eq": {
+
+=09            "Title": "PVI58fic_pour_empreinte_Appraisalerule"
+
+=09          }
+
+=09       =20
+
+=09      ,
+
+=09      "$depth": 20
+
+=09    }
+
+=09  ],
+
+=09  "$filter": {
+
+=09    "$orderby": {
+
+=09      "TransactedDate": 1
+
+=09    }
+
+=09  },
+
+=09  "$projection": {
+
+=09    "$fields": {
+
+=09      "TransactedDate": 1,
+
+=09      "#id": 1,
+
+=09      "Title": 1,
+
+=09      "#object": 1
+
+=09    }
+
+=09  }
+
+=09}
+
+=09=20
+
+=09Cette requ=C3=AAte nous donne bien la unit recherch=C3=A9e:
+
+=09=20
+
+=09{
+
+=09   "$hits":    {
+
+=09      "total": 1,
+
+=09      "offset": 0,
+
+=09      "limit": 1,
+
+=09      "size": 1
+
+=09   },
+
+=09   "$results": [   {
+
+=09      "Title": "PVI58fic_pour_empreinte_Appraisalerule",
+
+=09      "TransactedDate": "2016-12-08T17:53:38",
+
+=09      "#id": "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+
+=09      "#tenant": 0,
+
+=09      "#object": "aeaaaaaaaaaam7mxaaa3gaky35ur56yaaaba"
+
+=09   }],
+
+=09   "$context":    {
+
+=09      "$roots": [],
+
+=09      "$query": [{"$eq": {"Title": "PVI58fic_pour_empreinte_Appraisaleru=
+le"}}],
+
+=09      "$filter": {"$orderby": {"TransactedDate": 1}},
+
+=09      "$projection": {"$fields":       {
+
+=09         "TransactedDate": 1,
+
+=09         "_id": 1,
+
+=09         "Title": 1,
+
+=09         "_og": 1
+
+=09      }}
+
+=09   }
+
+=09}
+
+=09=20
+
+=09Nous pouvons aussi mettre deux id dans le roots :
+
+=09=20
+
+=09{
+
+=09  "$roots":
+
+=09["aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq","aeaaaaaaaaaam7mxaadx2aky66alm6q=
+aaaaq"],
+
+=09  "$query": [],
+
+=09  "$filter": {
+
+=09    "$orderby": {
+
+=09      "TransactedDate": 1
+
+=09    }
+
+=09  },
+
+=09  "$projection": {
+
+=09    "$fields": {
+
+=09      "TransactedDate": 1,
+
+=09      "#id": 1,
+
+=09      "Title": 1,
+
+=09      "#object": 1
+
+=09    }
+
+=09  }
+
+=09}
+
+=09cela nous donne bien les deux unit dont les id sont dans le roots:
+
+=09=20
+
+=09{
+
+=09   "$hits":    {
+
+=09      "total": 2,
+
+=09      "offset": 0,
+
+=09      "limit": 1,
+
+=09      "size": 2
+
+=09   },
+
+=09   "$results":    [
+
+=09            {
+
+=09         "Title": "Arm=C3=A9e de France.pdf",
+
+=09         "TransactedDate": "2016-10-07T14:13:00",
+
+=09         "#id": "aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq",
+
+=09         "#tenant": 0,
+
+=09         "#object": "aeaaaaaaaaaam7mxaadx2aky66almyaaaaaq"
+
+=09      },
+
+=09            {
+
+=09         "Title": "PVI58fic_pour_empreinte_Appraisalerule",
+
+=09         "TransactedDate": "2016-12-08T17:53:38",
+
+=09         "#id": "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+
+=09         "#tenant": 0,
+
+=09         "#object": "aeaaaaaaaaaam7mxaaa3gaky35ur56yaaaba"
+
+=09      }
+
+=09   ],
+
+=09   "$context":    {
+
+=09      "$roots":       [
+
+=09         "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+
+=09         "aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq"
+
+=09      ],
+
+=09      "$query": [],
+
+=09      "$filter": {"$orderby": {"TransactedDate": 1}},
+
+=09      "$projection": {"$fields":       {
+
+=09         "TransactedDate": 1,
+
+=09         "_id": 1,
+
+=09         "Title": 1,
+
+=09         "_og": 1
+
+=09      }}
+
+=09   }
+
+=09}
+
+=09=20
+
+=09En revanche, nous ne pouvons pas filtrer sur le titre si nous avons r=C3=
+=A9duit l'ensemble dans le roots :
+
+=09=20
+
+=09{
+
+=09  "$roots":
+
+=09["aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq","aeaaaaaaaaaam7mxaadx2aky66alm6q=
+aaaaq"],
+
+=09  "$query": [
+
+=09=20
+
+=09      {
+
+=09          "$eq": {
+
+=09            "Title": "PVI58fic_pour_empreinte_Appraisalerule"
+
+=09          }
+
+=09       =20
+
+=09      ,
+
+=09      "$depth": 20
+
+=09    }
+
+=09  ],
+
+=09  "$filter": {
+
+=09    "$orderby": {
+
+=09      "TransactedDate": 1
+
+=09    }
+
+=09  },
+
+=09  "$projection": {
+
+=09    "$fields": {
+
+=09      "TransactedDate": 1,
+
+=09      "#id": 1,
+
+=09      "Title": 1,
+
+=09      "#object": 1
+
+=09    }
+
+=09  }
+
+=09}
+
+=09=20
+
+=09Cette requ=C3=AAte nous renvoie 0 r=C3=A9sultat :
+
+=09=20
+
+=09{
+
+=09   "$hits":    {
+
+=09      "total": 0,
+
+=09      "offset": 0,
+
+=09      "limit": 1,
+
+=09      "size": 0
+
+=09   },
+
+=09   "$results": [],
+
+=09   "$context":    {
+
+=09      "$roots":       [
+
+=09         "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+
+=09         "aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq"
+
+=09      ],
+
+=09      "$query": [{"$eq": {"Title": "PVI58fic_pour_empreinte_Appraisaleru=
+le"}}],
+
+=09      "$filter": {"$orderby": {"TransactedDate": 1}},
+
+=09      "$projection": {"$fields":       {
+
+=09         "TransactedDate": 1,
+
+=09         "_id": 1,
+
+=09         "Title": 1,
+
+=09         "_og": 1
+
+=09      }}
+
+=09   }
+
+=09}
+
+=09=20
+
+=09=C3=89tapes pour le reproduire:=20
+
+=09Nous joignons un SIP mais les id internes VITAM ne seront pas les m=C3=
+=AAmes.
+
+=09Il suffit de r=C3=A9cup=C3=A9rer deux id VITAM dans la BDD pour reprodui=
+re le test.
+
+=09=20
+
+=09=20
+
+=09=20
+
+=09Informations compl=C3=A9mentaires:=20
+
+=09PVI-455
+
+=09dans le cas de test, la d=C3=A9marche est la m=C3=AAme mais sur deux col=
+lections;
+
+=09=20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09=20
+
+=09Historique du bogue=20
+
+=09Date de modificationNom d=E2=80=99utilisateurChamp                    Ch=
+angement     =20
+
+=09   =20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=092016-12-19 14:09 Franck         Nouveau bogue                           =
+    =20
+
+=092016-12-19 14:09 Franck         Fichier ajout=C3=A9: SIP-20161208175358.=
+zip        =20
+
+=09         =20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_374_4065423.1517006385204
+Content-Type: multipart/related; 
+	boundary="----=_Part_375_33341174.1517006385204"
+
+------=_Part_375_33341174.1517006385204
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>Bonjour Thierry,</p>
+<p>Suite =C3=A0 votre question, nous ne pouvons pas en m=C3=AAme temps inte=
+rroger tous les fils et les roots associ=C3=A9s.</p>
+<p>En synth=C3=A8se :</p>
+<p>- $depth &lt; 0 =3D&gt; seuls les noeuds parents de roots sont pris en c=
+ompte (<strong>pas roots</strong>)</p>
+<p>- $depth =3D 0 =3D&gt; seul les noeuds de roots sont pris en compte <str=
+ong>(ni p=C3=A8re, ni fils</strong>)</p>
+<p>- $depth &gt; 0 =3D&gt; Seul les noeuds fils sont pris en compte (<stron=
+g>pas roots</strong>)</p>
+<p>On ne peut donc pas =C3=A0 la fois chercher sur les &quot;roots&quot; et=
+ les &quot;fils de roots&quot;: il faut faire 2 requ=C3=AAtes (distinctes).=
+</p>
+<p>Par contre, on peut en 1 requ=C3=AAte chercher un sous-ensemble des &quo=
+t;roots&quot;, puis sur cette base les fils de ce sous-ensemble (multi-quer=
+y dans une requ=C3=AAte)</p>
+<p>&nbsp;</p>
+<p>Cordialement,</p>
+<p>Nathanael</p>
+<p>&nbsp;</p>
+<div>&nbsp;</div>
+<p>Le 2017-01-06 16:12, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->=
+<!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Bonjour,<!-- o ignor=
+ed --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Nous avons bien pris=
+ en compte vos pr=C3=A9cisions sur l=E2=80=99utilisation de </span><span st=
+yle=3D"font-size: 12.0pt; font-family: 'Times New Roman','serif'; backgroun=
+d: yellow; mso-highlight: yellow; mso-fareast-language: FR;">$depth</span><=
+span style=3D"font-size: 12.0pt; font-family: 'Times New Roman','serif'; ms=
+o-fareast-language: FR;">.<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Par contre, =C3=A0 l=
+a lecture de votre r=C3=A9ponse, nous avons une question suppl=C3=A9mentair=
+e&nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Est-il bien possible=
+ d=E2=80=99interroger tous les fils (en partant d=E2=80=99un ou n roots) et=
+ le / &nbsp;les roots associ=C3=A9s&nbsp;? <!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Et alors, comment&nb=
+sp;?<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">En vous remerciant d=
+=E2=80=99avance, pour votre retour, <!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Cordialement,<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Thierry CASIMIRIUS<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Chef du bureau des technologies de l=E2=80=99information<!-- o ignored =
+--></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Service historique de la D=C3=A9fense<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o ignored --></span></p>
+</div>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<div>
+<div style=3D"border: none; border-top: solid  #B5C4DF  1.0pt; padding: 3.0=
+pt  0cm  0cm  0cm;">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Tahoma','sans-serif'; mso-fareast-language: FR;">De&nbsp;:</span></stro=
+ng><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; ms=
+o-fareast-language: FR;"> CASIMIRIUS Thierry IDEF MINDEF <br><strong>Envoy=
+=C3=A9&nbsp;:</strong> vendredi 6 janvier 2017 15:53<br><strong>=C3=80&nbsp=
+;:</strong> 'AJJAZ Franck'<br><strong>Objet&nbsp;:</strong> RE: [Projet VIT=
+AM 0000022]: Impossibilit=C3=A9 d'effectuer une query si plusieurs =C3=A9l=
+=C3=A9ments dans roots : r=C3=A9ponse VITAM<!-- o ignored --></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Franck,<!-- o ignore=
+d --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Voici les compl=C3=
+=A9ments apport=C3=A9s en commentaire sur cette anomalie tuleap / mantis <!=
+-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Merci de m=E2=80=99i=
+ndiquer qu=E2=80=99elle peut donc =C3=AAtre ferm=C3=A9e.<!-- o ignored --><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;"><span style=3D"color:=
+ #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;"><span style=3D"font-s=
+ize: 12.0pt; font-family: 'Times New Roman','serif'; background: yellow; ms=
+o-highlight: yellow; mso-fareast-language: FR;"><a href=3D"https://support.=
+programmevitam.fr/users/nattar">Nathanael Attar (nattar)</a>il y a 23 heure=
+s<!-- o ignored --></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;"><span style=3D"font-s=
+ize: 12.0pt; font-family: 'Times New Roman','serif'; background: yellow; ms=
+o-highlight: yellow; mso-fareast-language: FR;">En compl=C3=A9ment, suite a=
+ux pr=C3=A9c=C3=A9dents commentaires :<br> Si $depth =3D 0, alors on inclut=
+ les &quot;roots&quot; dans la recherche<br> Si $depth &gt; 0, alors pas de=
+ roots dans les fils<br> Si $depth &lt; 0, alors pas de roots dans les pare=
+nts.</span><span style=3D"font-size: 12.0pt; font-family: 'Times New Roman'=
+,'serif'; mso-fareast-language: FR;"><!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Cordialement,<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Thierry CASIMIRIUS<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Chef du bureau des technologies de l=E2=80=99information<!-- o ignored =
+--></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Service historique de la D=C3=A9fense<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o ignored --></span></p>
+</div>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<div>
+<div style=3D"border: none; border-top: solid  #B5C4DF  1.0pt; padding: 3.0=
+pt  0cm  0cm  0cm;">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Tahoma','sans-serif'; mso-fareast-language: FR;">De&nbsp;:</span></stro=
+ng><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; ms=
+o-fareast-language: FR;"> AJJAZ Franck [<a href=3D"mailto:franck.ajjaz@altr=
+an.com">mailto:franck.ajjaz@altran.com</a>] <br><strong>Envoy=C3=A9&nbsp;:<=
+/strong> vendredi 6 janvier 2017 15:45<br><strong>=C3=80&nbsp;:</strong> CA=
+SIMIRIUS Thierry IDEF MINDEF<br><strong>Objet&nbsp;:</strong> RE: [Projet V=
+ITAM 0000022]: Impossibilit=C3=A9 d'effectuer une query si plusieurs =C3=A9=
+l=C3=A9ments dans roots : r=C3=A9ponse VITAM<!-- o ignored --></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Thierry,<!-- o ignor=
+ed --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">En effet, en mettant=
+ depth =3D 0, la requ=C3=AAte fonctionne.<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Il faudrait maintena=
+nt comprendre pourquoi il est n=C3=A9cessaire de mettre cette valeur.<!-- o=
+ ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Ne comprenant pas l=
+=E2=80=99explication donn=C3=A9 dans TULEAP par Fr=C3=A9d=C3=A9ric, je pens=
+e laisser l=E2=80=99anomalie ouverte jusqu=E2=80=99=C3=A0 ce que nous ayons=
+ le retour de VITAM (ils nous ont dit hier qu=E2=80=99ils reviendraient ver=
+s nous pour =C3=A9claircir l=E2=80=99explication).<!-- o ignored --></span>=
+</p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Cordialement,<!-- o =
+ignored --></span></p>
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Arial','sans-serif'; color: blue; mso-fareast-language: FR;">Franck AJJ=
+AZ</span></strong><span style=3D"color: #1f497d; mso-fareast-language: FR;"=
+><!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Aria=
+l','sans-serif'; color: #1f497d; mso-fareast-language: FR;">Chef de Projet<=
+!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Aria=
+l','sans-serif'; color: #1f497d; mso-fareast-language: FR;">TRA VITAM</span=
+><span style=3D"font-size: 8.0pt; font-family: 'Arial','sans-serif'; color:=
+ gray; mso-fareast-language: FR;"><br></span><span style=3D"font-size: 7.5p=
+t; font-family: 'Arial','sans-serif'; color: gray; mso-fareast-language: FR=
+;"><a href=3D"mailto:franck.ajjaz@altran.com">franck.ajjaz@altran.com</a><!=
+-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<div>
+<div style=3D"border: none; border-top: solid  #B5C4DF  1.0pt; padding: 3.0=
+pt  0cm  0cm  0cm;">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Tahoma','sans-serif'; mso-fareast-language: FR;">De&nbsp;:</span></stro=
+ng><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; ms=
+o-fareast-language: FR;"> CASIMIRIUS Thierry [<a href=3D"mailto:thierry.cas=
+imirius@intradef.gouv.fr">mailto:thierry.casimirius@intradef.gouv.fr</a>] <=
+br><strong>Envoy=C3=A9&nbsp;:</strong> mercredi 4 janvier 2017 18:15<br><st=
+rong>=C3=80&nbsp;:</strong> AJJAZ Franck<br><strong>Objet&nbsp;:</strong> T=
+R: [Projet VITAM 0000022]: Impossibilit=C3=A9 d'effectuer une query si plus=
+ieurs =C3=A9l=C3=A9ments dans roots : r=C3=A9ponse VITAM<!-- o ignored --><=
+/span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Franck,<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">La r=C3=A9ponse de VITAM pour l=E2=80=99anomalie =
+22 Mantis / 32 tuleap.<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><img id=3D"Rectangle_x0020_1" src=3D"cid:51620ef60a2=
+f321771ac6d0e69ca7203@culture.gouv.fr" alt=3D"https://support.programmevita=
+m.fr/themes/common/images/avatar_default.png" width=3D"32" height=3D"32" bo=
+rder=3D"0"><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;"><span class=3D"tracke=
+rartifactfollowuptitleuser"><span style=3D"background: yellow; mso-highligh=
+t: yellow;"><a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3=
+A__support.programmevitam.fr_users_nattar&amp;d=3DDgMGaQ&amp;c=3DcxWN2QSDop=
+t5SklNfbjIjg&amp;r=3DQoR2lifbZEFIS4BgOn-DRYzMLEvEx_HUym5g_q0Xqr0&amp;m=3D21=
+9BZsQY19UgdAcjLlOOUAQ7shGd0t6ZBfTmz3Zau0c&amp;s=3Di29klW3I9fZya7LN3CnPzSJte=
+V2_BcCdDTq5l-ITlGg&amp;e=3D">Nathanael Attar (nattar)</a></span></span><spa=
+n style=3D"background: yellow; mso-highlight: yellow;">il y a 14 jours<!-- =
+o ignored --></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 35.4pt;"><span style=3D"backgr=
+ound: yellow; mso-highlight: yellow;">Selon l'=C3=A9quipe de Dev, &quot;Je =
+confirme que la requ=C3=AAte marche bien avec le $depth =3D 0 (Capture =C3=
+=A9cran attach=C3=A9). Il y a autre erreur dans la requ=C3=AAte, le titre d=
+e AU dans le SIP fourni est &quot;PVI58fic_pr_empreinte_Appraisalerule.txt&=
+quot;, et on ne peut pas chercher avec &quot;PVI58fic_pour_empreinte_Apprai=
+salerule&quot;&quot;<br><br> N'est en cons=C3=A9quence plus consid=C3=A9r=
+=C3=A9 comme un bug (&quot;Non Corrig=C3=A9&quot;)</span><!-- o ignored -->=
+</p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">L=E2=80=99anomalie est-elle =C3=A0 fermer&nbsp;??=
+?<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Cordialement,<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Thierry CASIMIRIUS<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Chef du bureau des technologies de l=E2=80=99info=
+rmation<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Service historique de la D=C3=A9fense<!-- o ignor=
+ed --></p>
+<p class=3D"MsoPlainText">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></p>
+<p class=3D"MsoPlainText">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o ignored --><=
+/p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText"><span style=3D"mso-fareast-language: FR;">-----Me=
+ssage d'origine-----<br> De&nbsp;: Mantis Bug Tracker [<a href=3D"mailto:ad=
+mtlvitam@gmail.com">mailto:admtlvitam@gmail.com</a>] <br> Envoy=C3=A9&nbsp;=
+: lundi 19 d=C3=A9cembre 2016 14:10<br> =C3=80&nbsp;: CASIMIRIUS Thierry ID=
+EF MINDEF<br> Objet&nbsp;: [Projet VITAM 0000022]: Impossibilit=C3=A9 d'eff=
+ectuer une query si plusieurs =C3=A9l=C3=A9ments dans roots</span><!-- o ig=
+nored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Le bogue suivant a =C3=A9t=C3=A9 soumis. <!-- o i=
+gnored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><a href=3D"https://urldefense.proofpoint.com/v2/u=
+rl?u=3Dhttp-3A__213.32.79.242_mantisbt_view.php-3Fid-3D22&amp;d=3DDgMGaQ&am=
+p;c=3DcxWN2QSDopt5SklNfbjIjg&amp;r=3DQoR2lifbZEFIS4BgOn-DRYzMLEvEx_HUym5g_q=
+0Xqr0&amp;m=3D219BZsQY19UgdAcjLlOOUAQ7shGd0t6ZBfTmz3Zau0c&amp;s=3DSMXuLnGrx=
+JhCFwepkxtORBhMMwPyoVOdSfOk6pb9erw&amp;e=3D"><span style=3D"color: windowte=
+xt; text-decoration: none;">http://213.32.79.242/mantisbt/view.php?id=3D22<=
+/span></a><!-- o ignored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Rapporteur:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Franck<!-- o ign=
+ored --></p>
+<p class=3D"MsoPlainText">Responsable:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- o ignored --></p=
+>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Projet:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; Projet VITAM<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Bogue ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 22<!--=
+ o ignored --></p>
+<p class=3D"MsoPlainText">Cat=C3=A9gorie:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BugFro=
+mTestlink<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Reproductibilit=C3=A9:&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; toujours<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Impact:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; majeur<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Priorit=C3=A9:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n=
+ormale<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Statut:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; nouveau<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Comportement attendu:&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp; <!-- o ignored --></p>
+<p class=3D"MsoPlainText">US concern=C3=A9e:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- o ignored =
+--></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Date de soumission:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; 2016-12-19 14:09 CET<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Derni=C3=A8re modification:&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; 2016-12-19 14:09 CET<!-- o ignored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">R=C3=A9sum=C3=A9:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; Impossibilit=C3=A9 d'effectuer une query si plusieurs<!-- o i=
+gnored --></p>
+<p class=3D"MsoPlainText">=C3=A9l=C3=A9ments dans roots<!-- o ignored --></=
+p>
+<p class=3D"MsoPlainText">Description: <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Lorsque l'on veut effectuer une requ=C3=AAte dans=
+ un sous-ensemble d=C3=A9fini dans le roots, celle ci ne fonctionne pas.<!-=
+- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Nous effectuons notre test dans la collection Uni=
+t Notre requ=C3=AAte &quot;$eq&quot; seule fonctionne :<!-- o ignored --></=
+p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">{<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$roots&quot;: [],<!-- o ignored --><=
+/p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$query&quot;: [<!-- o ignored --></p=
+>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<!-- o ignored --=
+></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; &quot;$eq&quot;: {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &quot;Title&quot;: &quot;PVI58fic_pour_empreinte_Appraisa=
+lerule&quot;<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- o=
+ ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,<!-- o ignor=
+ed --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$depth&quot;=
+: 20<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; ],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$filter&quot;: {<!-- o ignored --></=
+p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; &quot;$orderby&quot;: {<!-- o =
+ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;TransactedDa=
+te&quot;: 1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; },<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$projection&quot;: {<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; &quot;$fields&quot;: {<!-- o i=
+gnored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;TransactedDa=
+te&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;#id&quot;: 1=
+,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;Title&quot;:=
+ 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;#object&quot=
+;: 1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">}<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Cette requ=C3=AAte nous donne bien la unit recher=
+ch=C3=A9e:<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">{<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; &quot;$hits&quot;:&nbsp;&nbsp;&nbsp;=
+ {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;total&quot;:=
+ 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;offset&quot;=
+: 0,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;limit&quot;:=
+ 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;size&quot;: =
+1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; },<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; &quot;$results&quot;: [&nbsp;&nbsp; =
+{<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;Title&quot;:=
+ &quot;PVI58fic_pour_empreinte_Appraisalerule&quot;,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;TransactedDa=
+te&quot;: &quot;2016-12-08T17:53:38&quot;,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;#id&quot;: &=
+quot;aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq&quot;,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;#tenant&quot=
+;: 0,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;#object&quot=
+;: &quot;aeaaaaaaaaaam7mxaaa3gaky35ur56yaaaba&quot;<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; }],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; &quot;$context&quot;:&nbsp;&nbsp;&nb=
+sp; {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$roots&quot;=
+: [],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$query&quot;=
+: [{&quot;$eq&quot;: {&quot;Title&quot;: &quot;PVI58fic_pour_empreinte_Appr=
+aisalerule&quot;}}],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$filter&quot=
+;: {&quot;$orderby&quot;: {&quot;TransactedDate&quot;: 1}},<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$projection&=
+quot;: {&quot;$fields&quot;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<!-- o ig=
+nored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;TransactedDate&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;_id&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;Title&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;_og&quot;: 1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }}<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">}<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Nous pouvons aussi mettre deux id dans le roots :=
+<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">{<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$roots&quot;:<!-- o ignored --></p>
+<p class=3D"MsoPlainText">[&quot;aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq&quot;=
+,&quot;aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq&quot;],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$query&quot;: [],<!-- o ignored --><=
+/p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$filter&quot;: {<!-- o ignored --></=
+p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; &quot;$orderby&quot;: {<!-- o =
+ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;TransactedDa=
+te&quot;: 1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; },<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$projection&quot;: {<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; &quot;$fields&quot;: {<!-- o i=
+gnored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;TransactedDa=
+te&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;#id&quot;: 1=
+,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;Title&quot;:=
+ 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;#object&quot=
+;: 1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">}<!-- o ignored --></p>
+<p class=3D"MsoPlainText">cela nous donne bien les deux unit dont les id so=
+nt dans le roots:<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">{<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; &quot;$hits&quot;:&nbsp;&nbsp;&nbsp;=
+ {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;total&quot;:=
+ 2,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;offset&quot;=
+: 0,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;limit&quot;:=
+ 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;size&quot;: =
+2<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; },<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; &quot;$results&quot;:&nbsp;&nbsp;&nb=
+sp; [<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;Title&quot;: &quot;Arm=C3=A9e de France.pdf&quot;,<!-- o ignored --><=
+/p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;TransactedDate&quot;: &quot;2016-10-07T14:13:00&quot;,<!-- o ignored =
+--></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;#id&quot;: &quot;aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq&quot;,<!-- o ig=
+nored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;#tenant&quot;: 0,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;#object&quot;: &quot;aeaaaaaaaaaam7mxaadx2aky66almyaaaaaq&quot;<!-- o=
+ ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; },<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;Title&quot;: &quot;PVI58fic_pour_empreinte_Appraisalerule&quot;,<!-- =
+o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;TransactedDate&quot;: &quot;2016-12-08T17:53:38&quot;,<!-- o ignored =
+--></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;#id&quot;: &quot;aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq&quot;,<!-- o ig=
+nored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;#tenant&quot;: 0,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;#object&quot;: &quot;aeaaaaaaaaaam7mxaaa3gaky35ur56yaaaba&quot;<!-- o=
+ ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<!-- o ignored --=
+></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; ],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; &quot;$context&quot;:&nbsp;&nbsp;&nb=
+sp; {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$roots&quot;=
+:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq&quot;,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq&quot;<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ],<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$query&quot;=
+: [],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$filter&quot=
+;: {&quot;$orderby&quot;: {&quot;TransactedDate&quot;: 1}},<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$projection&=
+quot;: {&quot;$fields&quot;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<!-- o ig=
+nored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;TransactedDate&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;_id&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;Title&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;_og&quot;: 1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }}<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">}<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">En revanche, nous ne pouvons pas filtrer sur le t=
+itre si nous avons r=C3=A9duit l'ensemble dans le roots :<!-- o ignored -->=
+</p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">{<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$roots&quot;:<!-- o ignored --></p>
+<p class=3D"MsoPlainText">[&quot;aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq&quot;=
+,&quot;aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq&quot;],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$query&quot;: [<!-- o ignored --></p=
+>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<!-- o ignored --=
+></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; &quot;$eq&quot;: {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; &quot;Title&quot;: &quot;PVI58fic_pour_empreinte_Appraisa=
+lerule&quot;<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- o=
+ ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;,<!-- o ignor=
+ed --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$depth&quot;=
+: 20<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; ],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$filter&quot;: {<!-- o ignored --></=
+p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; &quot;$orderby&quot;: {<!-- o =
+ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;TransactedDa=
+te&quot;: 1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; },<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; &quot;$projection&quot;: {<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; &quot;$fields&quot;: {<!-- o i=
+gnored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;TransactedDa=
+te&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;#id&quot;: 1=
+,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;Title&quot;:=
+ 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;#object&quot=
+;: 1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">}<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Cette requ=C3=AAte nous renvoie 0 r=C3=A9sultat :=
+<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">{<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; &quot;$hits&quot;:&nbsp;&nbsp;&nbsp;=
+ {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;total&quot;:=
+ 0,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;offset&quot;=
+: 0,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;limit&quot;:=
+ 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;size&quot;: =
+0<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; },<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; &quot;$results&quot;: [],<!-- o igno=
+red --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; &quot;$context&quot;:&nbsp;&nbsp;&nb=
+sp; {<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$roots&quot;=
+:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq&quot;,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq&quot;<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ],<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$query&quot;=
+: [{&quot;$eq&quot;: {&quot;Title&quot;: &quot;PVI58fic_pour_empreinte_Appr=
+aisalerule&quot;}}],<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$filter&quot=
+;: {&quot;$orderby&quot;: {&quot;TransactedDate&quot;: 1}},<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;$projection&=
+quot;: {&quot;$fields&quot;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<!-- o ig=
+nored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;TransactedDate&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;_id&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;Title&quot;: 1,<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =
+&quot;_og&quot;: 1<!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }}<!-- o ignored -=
+-></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp; }<!-- o ignored --></p>
+<p class=3D"MsoPlainText">}<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">=C3=89tapes pour le reproduire: <!-- o ignored --=
+></p>
+<p class=3D"MsoPlainText">Nous joignons un SIP mais les id internes VITAM n=
+e seront pas les m=C3=AAmes.<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Il suffit de r=C3=A9cup=C3=A9rer deux id VITAM da=
+ns la BDD pour reproduire le test.<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Informations compl=C3=A9mentaires: <!-- o ignored=
+ --></p>
+<p class=3D"MsoPlainText">PVI-455<!-- o ignored --></p>
+<p class=3D"MsoPlainText">dans le cas de test, la d=C3=A9marche est la m=C3=
+=AAme mais sur deux collections;<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Historique du bogue <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Date de modificationNom d=E2=80=99utilisateurCham=
+p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Changement&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; <!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">2016-12-19 14:09 Franck&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp; Nouveau bogue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!=
+-- o ignored --></p>
+<p class=3D"MsoPlainText">2016-12-19 14:09 Franck&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp; Fichier ajout=C3=A9: SIP-20161208175358.zip&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+</div>
+</blockquote>
+</body></html>
+------=_Part_375_33341174.1517006385204
+Content-Type: image/png; name=image001.png
+Content-Transfer-Encoding: base64
+Content-ID: <51620ef60a2f321771ac6d0e69ca7203@culture.gouv.fr>
+Content-Disposition: inline; filename="image001.png"
+
+iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAAAXNSR0ICQMB9xQAAAANQTFRFAAAA
+p3o92gAAAAF0Uk5TAEDm2GYAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAZdEVYdFNvZnR3YXJlAE1p
+Y3Jvc29mdCBPZmZpY2V/7TVxAAAAEklEQVQ4y2NgGAWjYBSMAuwAAAQgAAFWu83mAAAAAElFTkSu
+QmCC
+------=_Part_375_33341174.1517006385204--
+
+------=_Part_374_4065423.1517006385204--
+
+------=_Part_373_16164345.1517006385204--

@@ -1,0 +1,33 @@
+Bonjour,
+
+J'ai demandé un retour à Nicolas Ménétrier, de notre équipe d'intégration, qui vous a assisté hier.
+L'installation a fonctionné. Bravo!
+
+Toutefois mon attention a été attirée par le dimensionnement. 
+Celui retenu n'est pas en accord avec la communication faite lors du 12/09 (dernière communication faite par Altran indiquant que la plateforme d'installation Altran était prévu avec 10 VM). Un dimensionnement d'exemple avait été fourni le 17/10 avec de l'ordre d'une quinzaine de VM avec une plateforme de l'ordre d'une cinquantaine de vCPU. La structure même des serveurs retenue me semble étrange 2vCPU pour 30Go relève d'un rapport assez atypique de 15 (GO/vCPU) alors que nos plateformes sont plutôt envisagées avec un rapport 2. Pourquoi ce choix d'architecture physique?
+
+Sinon à noter deux risques:
+- Les VM ont plus d'une interface alors qu'il était indiqué dans le DAT que seule des VM avec 1 seule interface était gérées en bêta (également mentionné dans le support lors de la réunion du 17/10) Cela peut avoir des effets de bord à ce stade.
+- L'ouverture complète sur Internet avec accès à travers l'interface de présentation de la plateforme (http://213.32.79.242/vitam/) jusqu'aux fichiers de conf de la plateforme...
+
+Cordialement
+
+
+-- 
+
+
+ 
+
+Jean-Séverin LAIR
+Directeur de programme/Program head manager
+Programme Vitam
+Services du Premier Ministre, SGMAP - DINSIC
+47 rue de la chapelle, 75018 Paris
+jean-severin.lair@culture.gouv.fr <mailto:jean-severin.lair@culture.gouv.fr> 
+Le programme est hébergé par les moyens informatiques du MCC
+Suivez-nous sur Twitter @ProgVitam <https://twitter.com/progvitam> 
+
+
+
+--
+Message envoyé grâce à OBM <http://obm.org> , la Communication Libre par Linagora <http://www.linagora.com/>

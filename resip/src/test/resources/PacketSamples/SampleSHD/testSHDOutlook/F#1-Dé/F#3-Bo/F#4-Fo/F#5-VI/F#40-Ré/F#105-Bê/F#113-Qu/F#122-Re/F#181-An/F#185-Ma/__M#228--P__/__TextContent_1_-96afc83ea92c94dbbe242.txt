@@ -1,0 +1,204 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=29 
+====================================================================== 
+Rapporteur:                 Blaise
+Responsable:                Blaise
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   29
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-21 16:58 CET
+Dernière modification:      2016-12-21 16:58 CET
+====================================================================== 
+Résumé:                     Impossible d'effectuer une requête avec le DSL
+sur la collection OBJECTS
+Description: 
+Depuis SAOPUI, nous devez exécuter une requête avec le DSL sur la collection
+OBJECTS.  
+Exemple de balises à interroger : "#id", "Title" ou "FileInfo.Filename".
+
+Étapes pour le reproduire: 
+A partir de l'outil SOAPUI, exécutez la requête ci-après :
+
+1- Interrogation de la collection OBJECTS via l'exécution de la requête
+ci-après : 
+
+POST
+https://213.32.79.242:8444/access-external/v1/objects/aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaba
+HTTP/1.1
+Accept-Encoding: gzip,deflate
+X-Http-Method-Override: GET
+Content-Type: application/json
+Accept: application/json
+Content-Length: 141
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{
+  "$roots": [],
+  "$query": [
+    
+  ],
+  "$filter": {
+    "$orderby": {
+      "TransactedDate": 1
+    }
+  },
+  "$projection": {
+    
+  }
+}
+
+Résultat de la requête
+=======================
+
+{
+   "$hits":    {
+      "total": 1,
+      "offset": 0,
+      "limit": 1,
+      "size": 1
+   },
+   "$results": [   {
+      "FileInfo":       {
+         "Filename": "SHDMC_REP_1A_V2009.pdf",
+         "LastModified": "2015-11-10T12:12:30.000+01:00"
+      },
+      "#id": "aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaba",
+      "#nbobjects": 0,
+      "#qualifiers":       {
+         "BinaryMaster":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaba",
+               "DataObjectVersion": "BinaryMaster_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Acrobat PDF 1.4 - Portable Document
+Format",
+                  "MimeType": "application/pdf",
+                  "FormatId": "fmt/18"
+               },
+               "FileInfo":                {
+                  "Filename": "SHDMC_REP_1A_V2009.pdf",
+                  "LastModified": "2015-11-10T12:12:30.000+01:00"
+               },
+               "Size": 102887,
+               "Uri": "Content/ID5.pdf",
+               "MessageDigest":
+"eb43f029e26ce2e4f5660e095db7efd4b924adbaf7b8966a765b595958c5b0a10e2c6fd7a5714634b3cc673d3da249284339a88bff89ccdfd2ea7d4821d79b86",
+               "Algorithm": "SHA-512"
+            }]
+         },
+         "Thumbnail":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxabmk4akzdo5kb3aaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaba",
+               "DataObjectVersion": "Thumbnail_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Microsoft Excel for Windows",
+                  "MimeType":
+"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                  "FormatId": "fmt/214"
+               },
+               "FileInfo":                {
+                  "Filename": "SHDMC_REP_1A_V2009.xlsx",
+                  "LastModified": "2016-12-13T16:04:50.492+01:00"
+               },
+               "Size": 8414,
+               "Uri": "Content/ID9.xlsx",
+               "MessageDigest":
+"65b217aedf5be57d023af92c48cbe40b53ee03874634a258a911209e34c5981bc6815a1e45e73f01ed87c4fe998c873665b9296a5ffa4d4555481e47e1d91db6",
+               "Algorithm": "SHA-512"
+            }]
+         }
+      },
+      "#type": "",
+      "#tenant": 0,
+      "#unitups": ["aeaaaaaaaaaam7mxabmk4akzdo5kb3yaaaaq"],
+      "#operations": ["aedqaaaaacaam7mxabpvoakzdo5ijtiaaaaq"]
+   }],
+   "$context":    {
+      "$roots": [],
+      "$query": [],
+      "$filter": {"$orderby": {"TransactedDate": 1}},
+      "$projection": {}
+   }
+}
+
+
+2- Ensuite vous devez interroger les balises qui font partie de la collection
+OBJECTS via la requête ci-après. Dans cet exemple, nous avons utilisé la
+balise "ID". Mais le résultat est le même avec les balises suivantes :
+"#nbobjects", "DataObjectGroupId", "ou "FileInfo.Filename".
+
+Requête
+======= 
+
+POST https://213.32.79.242:8444/access-external/v1/objects HTTP/1.1
+Accept-Encoding: gzip,deflate
+X-Http-Method-Override: GET
+Accept: application/json
+Content-Type: application/json
+Content-Length: 196
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{
+  "$roots": [],
+  "$query": {
+
+"$eq": {
+    "#id":"aeaaaaaaaaaam7mxabmk4akzdo5kbtqaaaba"
+         
+     }
+},
+  "$filter": {"$orderby": {
+      "TransactedDate": 1
+    }},
+  "$projection": {}
+
+
+}
+
+
+Résultat obtenu 
+================
+
+Aucun résultat n'est renvoyé. Ci-après le resultat. 
+
+HTTP/1.1 501 Not Implemented
+Date: Wed, 21 Dec 2016 15:43:57 GMT
+Set-Cookie: rememberMe=deleteMe; Path=/; Max-Age=0; Expires=Tue, 20-Dec-2016
+15:43:57 GMT
+Content-Type: application/json
+X-REQUEST-ID: aeeaaaaaacaam7mxabpfmakzeig2prqaaaaq
+Content-Length: 162
+Server: Jetty(9.3.13.v20161014)
+
+{"httpCode":501,"code":"NOT_IMPLEMENTED","context":"ACCESS_EXTERNAL","state":"code_vitam","message":"Not
+Implemented","description":"Not Implemented","errors":[]}
+
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-21 16:58 Blaise         Nouveau bogue                                
+2016-12-21 16:58 Blaise         Statut                   nouveau => affecté  
+2016-12-21 16:58 Blaise         Assigné à                 => Blaise          
+2016-12-21 16:58 Blaise         Fichier ajouté: SIP-20161213160536.zip         
+          
+======================================================================

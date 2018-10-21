@@ -1,0 +1,62 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000025]: Difficulté à faire une recherche partielle sur le titre</Title>
+    <OriginatingSystemId>&lt;a06927bf99accaec444ffdfb86c764b4@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-21T09:29:53Z</SentDate>
+    <ReceivedDate>2016-12-21T09:29:58Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=25 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   25
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-21 10:29 CET
+Dernière modification:      2016-12-21 10:29 CET
+====================================================================== 
+Résumé:                     Difficulté à faire une recherche partielle sur
+le titre
+Description: 
+Nous avons rencontré des difficultés à effectuer une recherche via le titre
+ou la description via la recherche d&apos;archives de l&apos;IHM.
+Nous n&apos;avons pas réussi a faire de recherche partielle sur certains éléments,
+notamment ceux qui possèdent des &quot;_&quot; dans le titre ou la description. 
+Il est possible que l&apos;&quot;_&quot; ne soit pas considéré comme un séparateur mais un
+archiviste voulant faire une recherche ne prendra pas en compte le fait que
+l&apos;&quot;_&quot; soit un caractère et non un séparateur. 
+
+Informations complémentaires: 
+PVI-141
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-21 10:29 Jonathan       Nouveau bogue                                
+2016-12-21 10:29 Jonathan       Statut                   nouveau =&gt; affecté  
+2016-12-21 10:29 Jonathan       Assigné à                 =&gt; Jonathan        
+2016-12-21 10:29 Jonathan       Fichier ajouté: SIP-20161221102644.zip         
+          
+======================================================================</TextContent>
+</Content>

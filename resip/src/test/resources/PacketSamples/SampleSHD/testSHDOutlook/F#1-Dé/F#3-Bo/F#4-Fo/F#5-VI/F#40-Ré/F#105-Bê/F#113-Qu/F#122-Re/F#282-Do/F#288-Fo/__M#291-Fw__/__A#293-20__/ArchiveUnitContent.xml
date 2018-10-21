@@ -1,0 +1,1200 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>20170123_Design_SIP_V1.5.odt</Title>
+    <Description>Document &quot;20170123_Design_SIP_V1.5.odt&quot; joint au message &lt;82a430c47c0101a255c96f379050e8ba@culture.gouv.fr&gt;</Description>
+    <CreatedDate>2017-01-23T17:26:32Z</CreatedDate>
+    <TextContent>
+CC BY-SA 3.0 FR											
+  
+
+Programme Vitam – Structuration des Submission Information Package (SIP) – V 1.4
+
+Licence CC BY-SA 3.0 FR										
+Licence CC BY-SA 3.0 FR										
+4 (Release Bêta IT11.1)
+18
+1
+9
+19
+19
+20
+26
+.
+
+
+
+
+
+
+
+
+
+
+
+Structuration des 
+Submission Information Package (SIP)
+
+
+	Date
+	Version
+
+	16/01/2017
+	1.5.
+
+
+
+
+État du document
+
+Maîtrise du document
+	Responsabilité
+	Nom
+	Entité
+	Date
+
+	Rédaction
+	MAF, GST
+	Équipe Vitam
+	29/06/2016
+
+	Vérification 
+	Équipe
+	Équipe Vitam
+	10/01/2017
+
+	Validation 
+	EVR
+	Équipe Vitam
+	16/01/2017
+
+
+Suivi des modifications
+	Version
+	Date
+	Auteur
+	Modifications
+
+	0.1
+	29/06/2016
+	MAF
+GST
+	Initialisation
+
+	1.0
+	22/07/2016
+	EVR
+	Relecture globale et intégration des modifications proposées par l’ensemble de l’équipe Vitam
+
+	1.1
+	11/10/2016
+	EVR
+	Prise en compte des commentaires formulés par les ministères porteurs et par les partenaires du programme Vitam 
+
+	1.2
+	28/11/2016
+	EVR
+	Synchronisation de version - Release Bêta 0.11.0
+
+	1.3
+	09/01/2017
+	EVR
+	Intégration des décisions prises lors du COPIL SEDA du 14/12/2016
+
+	1.4
+	10/01/2017
+	MRS
+	Ajout de la licence
+
+	1.5.
+	23/01/2017
+	EVR
+	Ajout de précisions suite aux tests réalisés par le ministère de la Défense sur la version bêta
+
+
+Documents de référence
+	Document
+	Date
+	Remarques
+
+	Référentiel général de sécurité (RGS) – v. 2.0
+	10/06/2015
+	
+
+	ISO 14721:2012 – Systèmes de transfert des informations et données spatiales -- Système ouvert d&apos;archivage d&apos;information (SOAI) -- Modèle de référence
+	01/09/2012
+	
+
+	NF Z44-022 – MEDONA - Modélisation des données pour l’archivage
+	18/01/2014
+	
+
+	Standard d’échange de données pour l’archivage – SEDA – v. 2.0
+	31/12/2015
+	
+
+
+
+
+Licence
+Ce document est distribué sous les termes de la licence Creative Commons Attribution - Partage dans les Mêmes Conditions 3.0 France (CC BY-SA 3.0 FR).
+Table des matières
+
+1. Introduction	4
+1.1. Définition	4
+1.2. Contexte normatif	4
+L’OAIS (Open Archival Information System)	4
+Le SEDA (Standard d’Échanges de Données pour l’Archivage) et la norme MEDONA (Modèle d’Échange de DONnées pour l&apos;Archivage)	5
+
+2. Constitution d’un Submission Information Package (SIP) pour une plate-forme utilisant la solution logicielle Vitam	6
+2.1. Le paquet à archiver	6
+2.2. Le bordereau	7
+2.3. Le répertoire et ses objets	17
+
+3. Import dans Vitam	18
+
+Annexes	20
+Annexe 1 : extensions du SEDA	20
+Annexe 2 : exemple de bordereau simple réalisé pour un jeu de test Vitam	21
+Annexe 3 : exemple de bordereau « complexe » réalisé pour un jeu de test Vitam	27
+
+
+	Introduction
+
+
+	1.1. Définition
+
+
+
+
+Dans le milieu archivistique, le processus d’entrée d’archives au sein d’un service d’archives s’effectue traditionnellement par la rédaction d’un bordereau de versement accompagné des archives référencées dans ce dernier. 
+
+
+Dans l’univers numérique, peuvent être transférés à un service d’archives des archives nativement numériques, des versions numérisées d’archives papier, mais aussi des références à des archives physiques, chacune d’elles accompagnées de leurs métadonnées. 
+
+Le présent document décrit la manière de préparer des entrées d’archives destinées à être transférées dans une plate-forme utilisant la solution logicielle Vitam.
+
+						1.2. Contexte normatif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Une entrée destinée à être transférée dans une plate-forme utilisant la solution logicielle Vitam doit être réalisée conformément aux deux normes suivantes. 
+
+	L’OAIS (Open Archival Information System)
+
+L’OAIS est un modèle conceptuel de référence décrivant dans les grandes lignes les fonctions, les responsabilités et l’organisation d’un système qui voudrait préserver sur le long terme de l’information, en particulier des données numériques.
+
+Le modèle OAIS repose sur l’idée que l’information constitue des paquets, et que ces paquets ne sont pas les mêmes suivant qu’on est en train de produire l’information, d’essayer de la conserver, ou de la communiquer à un utilisateur.
+
+Il existe d’après cette norme trois sortes de paquets :
+	les paquets pris en charge par le système ou Submission Information Package (SIP) préparés par les producteurs à destination de la solution logicielle Vitam ;
+
+	les paquets gérés par le système ou Archival Information Package (AIP) transformés par la solution logicielle Vitam à partir du SIP dans une forme plus facile à conserver et à gérer dans le temps ;
+
+	les paquets communiqués par le système ou Dissemination Information Package (DIP) transformés par la solution logicielle Vitam à partir d’un ou plusieurs AIP.
+
+
+
+Une entrée destinée à être transférée dans une plate-forme utilisant la solution logicielle Vitam constitue un SIP au sens du modèle OAIS.
+
+	Le SEDA (Standard d’Échanges de Données pour l’Archivage) et la norme MEDONA (Modèle d’Échange de DONnées pour l&apos;Archivage)
+
+La norme MEDONA et le standard SEDA constituent des modèles standards pour les transactions d’échange entre les acteurs de l’archivage, et notamment entre une entité souhaitant transférer une entrée à un service d’archives et le service d’archives lui-même.
+
+La norme AFNOR NF Z44-022, intitulée &quot;Modèle d’Échange de DONnées pour l’Archivage&quot; ou MEDONA a été publiée en 2014. Elle apporte un cadre normatif pour les différents échanges d’informations (données comme métadonnées) entre le Service d’archives et ses partenaires comme le service versant (entité qui transfère un ensemble d’informations) et la façon dont s’organisent ces échanges. Elle définit des diagrammes d’activités et des modèles de données selon le formalisme UML. Les échanges se traduisent par des messages formalisés par des schémas XML.
+
+Le schéma ci-dessous modélise les échanges associés au transfert à un service d’archives d’un ensemble d’archives – un SIP au sens de la norme OAIS.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Le SEDA est le « Standard d’Échange de Données pour l’Archivage » relatif aux données d’archives publiques. Créé en 2006 par la Direction des Archives de France et la Direction Générale pour la Modernisation de L’État, il a été révisé en 2010 (v0.2), en 2012 (v1.0) et plus récemment en 2015 (v2.0) pour assurer sa compatibilité avec la norme MEDONA. Il comporte à la fois le modèle fonctionnel et un modèle de données pour les échanges de données d’archives entre acteurs de la sphère publique : description, acteurs, règles de gestion, référentiels métier et techniques.
+
+Cependant, si le SEDA explique de manière générale à quoi ressemble le processus de transfert de données numériques, ce standard ne spécifie pas les règles de constitution du paquet à transférer. 
+
+C’est pourquoi le présent document vise à :
+	apporter des recommandations complémentaires pour constituer les SIP qui entreront dans une plate-forme utilisant la solution logicielle Vitam ;
+
+	expliciter les choix faits par l’équipe chargée de la réalisation de la solution logicielle Vitam quand le standard SEDA en laissait la responsabilité aux implémentations.
+
+
+À défaut de précision apportée par le présent document, la documentation accompagnant le standard SEDA 2.0. et accessible sur le site internet du Service interministériel des Archives de France fait foi1  Disponible à l’adresse suivante (lien vérifié le 28 septembre 2016) : http://www.archivesdefrance.culture.gouv.fr/seda/. .
+
+	Constitution d’un Submission Information Package (SIP) pour une plate-forme utilisant la solution logicielle Vitam
+
+
+
+2.1. Le paquet à archiver
+
+
+D’après le SEDA, un SIP est constitué d’un bordereau et d’un ou plusieurs objets à archiver, qu’ils soient physiques ou numériques. Il peut être uniquement composé d’un bordereau, notamment dans le cadre d’un enrichissement de métadonnées ou d’un versement d’archives physiques.
+
+Les directives de l’équipe projet Vitam sur l’implémentation sont les suivantes. 
+
+	Intitulé
+	Description
+	Niveau de recommandation
+
+	Structuration du SIP
+	Un SIP se compose :
+	d’un bordereau nommé « manifest.xml »
+
+	d’un répertoire nommé « content » rassemblant les objets numériques à transférer au service d’archives.
+
+
+
+En l’absence d’objet, la présence du répertoire « content » n’est pas obligatoire.
+	Obligatoire
+
+	Type de format du SIP
+	ZIP ou TAR (tar, tar.gz ou tar.gz2)
+	Obligatoire
+
+	Nommage du SIP
+	Il est recommandé d’utiliser le contenu du champ MessageIdentifier du bordereau SEDA
+	Recommandation
+
+	Formatage du ZIP
+	Si le format ZIP est utilisé, il est obligatoire de faire le zip à l’intérieur du répertoire contenant le bordereau et le répertoire des objets (et non pas en faisant un zip du répertoire les contenant).
+À l’unzip, le bordereau et le répertoire des objets seront directement visibles.
+	Obligatoire
+
+	Formatage du TAR
+	Si le format Tar est utilisé (tar, tar.gz ou tar.gz2), l’alimentation du conteneur doit se faire dans l’ordre suivant :
+1/ l’écriture du bordereau ;
+2/ la création du répertoire content avec les objets.
+Cet ordre permettra d’accéder directement au bordereau. La commande sera du type tar cf SIP.tar manifest.xml content.
+Tout comme le ZIP, à l’untar, le bordereau et le répertoire des objets seront directement visibles.
+	Obligatoire
+
+
+
+2.2. Le bordereau
+
+
+À la racine du SIP se trouve le bordereau qui décrit l&apos;ensemble des métadonnées du paquet à archiver. Il est composé :
+	d’un en-tête (Identifiant du lot et celui de la convention de transfert) ;
+
+	d’une déclaration des objets binaires (DataObjectPackage &gt; BinaryDataObject) ou des objets physiques (DataObjectPackage &gt; PhysicalDataObject) ;
+
+	d’une description des archives représentées par ces objets : 
+	Métadonnées descriptives : DescriptiveMetadata ;
+
+	Métadonnées de gestion : ManagementMetadata ;
+
+	Arborescence intellectuelle : ArchiveUnit ;
+
+
+
+	des déclarations du service versant et du service d’Archives (fin de message où figurent les identités du service d’Archives et du service versant).
+
+
+
+
+Il est possible d’ajouter des champs supplémentaires non-définis dans le SEDA. Ces extensions sont présentées dans la partie annexe 1 du présent document.
+
+Une même archive peut prendre plusieurs formes tout en conservant une cohérence intellectuelle :
+	une photographie peut être transférée à un service d’archives sous deux formes différentes : un fichier en Basse Définition pour des besoins de diffusion rapide et un fichier ou master de conservation en Haute Définition. Ces deux fichiers correspondant à la même photographie répondent à deux usages différents de cette dernière ;
+
+	le format des fichiers correspondant à la photographie peut avoir fait l’objet de transformations au cours du temps, via des migrations de formats. Il pourra être nécessaire de transférer au service d’archives plusieurs versions d’un même fichier, en fonction de la politique de conservation du service. Un même fichier pourra ainsi être transféré au même moment dans son format d’origine et dans un format généré à l’occasion d’une opération de migration. Ces deux fichiers correspondant à la même photographie correspondant à deux versions différentes du fichier.
+
+
+
+D’après le SEDA, ces différentes formes prises par les archives doivent être regroupées dans un groupe d’objet représentant l’unité intellectuelle.
+Le SEDA représente ce groupe d’objet par l’élément &lt; DataObjectGroup&gt;. Au sein du bordereau, seul un des objets portera la déclaration du groupe intellectuel (DataObjectGroup) auquel il appartient via la balise &lt; DataObjectGroupId&gt;, l’autre objet y fera référence via la balise &lt; DataObjectGroupReferenceId&gt;. Chaque objet doit déclarer la version ou l’usage auquel il correspond via la balise &lt; DataObjectVersion&gt;.
+
+NB1 : le groupe d’objet ne doit être utilisé que pour les différents usages d’une même archive. A titre d’illustration, lorsque le SIP est généré à partir d’une arborescence de fichiers, il est obligatoire de créer autant d’ArchiveUnit que de fichiers enregistrés dans l’arborescence, sauf dans le cas où ces fichiers constituent des usages différents d’une même archive au sens intellectuel du terme.
+
+ex. Un répertoire d’une arborescence de fichiers contient 4 fichiers. Lors de la génération du bordereau à intégrer dans le SIP, un ArchiveUnit devra être créé pour le répertoire et 4 ArchiveUnit pour chacun des fichiers enregistrés dans le répertoire. Les ArchiveUnit correspondant aux fichiers référenceront dans le bordereau les BinaryDataObject correspondant aux fichiers. 
+
+NB2 : seuls les usages et versions existants ou nécessaires à la conservation et à l’accès aux archives doivent être transférés dans la plate-forme d’archivage. Si une archive à transférer n’existe que sous une seule forme (considérée par défaut comme un « original numérique »), elle peut n’être transférée que sous cette forme.
+
+Pour automatiser les transferts de SIP depuis une application d’un service producteur au service d’archives, il sera nécessaire d’établir un profil SEDA. Le profil permettra d’identifier les documents à transférer au service d’archives, de déterminer des métadonnées utiles, de définir les règles de gestion à associer aux archives (durées d’utilité administrative, délai de communicabilité, etc.) et de structurer l’information dans chaque versement.
+
+Les directives de l’équipe projet Vitam sur l’implémentation sont les suivantes. 
+
+	Intitulé
+	Description
+	Niveau de recommandation
+
+	Bordereau
+
+	Nom du bordereau
+	manifest.xml
+	Obligatoire
+
+	Format du bordereau
+	xml
+	Obligatoire
+
+	Version du SEDA
+	SEDA 2.0.
+	Obligatoire
+
+	Nombre de bordereau par SIP
+	Un seul bordereau
+	Obligatoire
+
+	Taille du bordereau
+	100 Mo recommandé
+1 Go maximum, pour une plate-forme dimensionnée de manière adéquate
+	Recommandation
+
+	Normalisation des champs
+	Les champs « date » doivent être au format AAAA-MM-JJ.
+Les champs « datetime » doivent être au format AAAA-MM-JJThh:mm:ss,nnnZ2  - Pour tous les formats acceptés dans la norme ISO 8601, il est possible de spécifier le fuseau horaire : https://fr.wikipedia.org/wiki/ISO_8601#Fuseau_horaire  (format ISO 8601) ou l’équivalent en remplaçant Z par le décalage de fuseau horaire (+/-hh:mm)
+
+Les noms des champs respectent la casse UpperCamelCase (Majuscule à chaque début de mot), uniquement avec des lettres de A à Z, de a à z et des chiffres de 0 à 9.
+	Obligatoire
+
+	En-tête du bordereau
+
+	Comment
+	Il est recommandé d’utiliser le champ Comment pour attribuer un intitulé intelligible humainement au transfert réalisé
+	Recommandation
+
+	CodeList
+Version
+	Il est recommandé d’utiliser le bloc CodeListVersion pour lister les référentiels et les versions de référentiels utilisés par l’implémentation de la solution logicielle dans le cadre des différentes transactions.
+Dans le cas où une implémentation souhaite utiliser un référentiel « organisation » ou « producteurs », il est recommandé d’étendre le schéma SEDA 2.0. en utilisant la balise OtherCodeListAbstract
+	Recommandation
+
+	Objets d’archives (DataObjectPackage)
+
+	Type de version ou d’usage correspondant au BinaryData
+Object ou  PhysicalData
+Object
+	Lorsque plusieurs usages d’une même archive sont transférées dans la plate-forme et qu’un groupe d’objet doit être créé, il est obligatoire d’utiliser les nomenclatures définies par l’implémentation de la solution logicielle Vitam. 
+Par défaut, la solution logicielle Vitam a défini les nomenclatures suivantes :
+Valeurs possibles pour la notion d’usage :
+	conservation papier : PhysicalMaster 
+
+	conservation numérique : BinaryMaster 
+
+	diffusion : Dissemination 
+
+	Vignette : Thumbnail 
+
+	Contenu brut : TextContent
+
+
+Valeurs possibles pour la notion de version :
+	version initiale : 1
+
+	version suivante (après migration) : 2
+
+
+La notation dans le champ « DataObjectVersion » doit avoir la forme suivante :
+	usage
+	La version est implicitement à 1
+
+	Exemple : PhysicalMaster
+
+
+
+	usage_version
+	Exemple : BinaryMaster_1
+
+
+
+
+	Obligatoire
+
+	Création des groupes d’objets techniques (archivage de plusieurs usages d’une même archive)
+	Dans le cas où une archive est transférée sous plusieurs formes, il est obligatoire de créer un groupe d’objet (DataObjectGroup). 
+
+Un des DataObject doit déclarer le groupe d’objet auquel seront rattachés les autres fichiers, en utilisant la balise &lt; DataObjectGroupId&gt;. Les autres DataObject référenceront alors le groupe d’objets en utilisant la balise &lt; DataObjectGroupReferenceId&gt;. 
+Exemple :
+ &lt; BinaryDataObject id=&quot;ID011&quot;&gt;
+  &lt; DataObjectGroupId&gt;ID006&lt; /DataObjectGroupId&gt;
+  &lt; DataObjectVersion&gt;BinaryMaster&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;content/e726e114f302c871b64569a00acb3a19badb7ee8ce4aef72cc2a043ace4905b8e8fca6f4771f8d6f67e221a53a4bbe170501af318c8f2c026cc8ea60f66fa804.odp&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;&gt;e726e114f302c871b64569a00acb3a19badb7ee8ce4aef72cc2a043ace4905b8e8fca6f4771f8d6f67e221a53a4bbe170501af318c8f2c026cc8ea60f66fa804&lt; /MessageDigest&gt;
+  &lt; Size&gt;100646&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;OpenDocument Presentation&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;application/vnd.oasis.opendocument.presentation&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/293&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;Vitam-Sensibilisation-API-V1.0.odp&lt; /Filename&gt;
+  &lt; CreatingApplicationName&gt;LibreOffice/Impress&lt; /CreatingApplicationName&gt;
+  &lt; CreatingApplicationVersion&gt;5.0.5.2&lt; /CreatingApplicationVersion&gt;
+  &lt; CreatingOs&gt;Windows_X86_64&lt; /CreatingOs&gt;
+  &lt; CreatingOsVersion&gt;10&lt; /CreatingOsVersion&gt;
+  &lt; LastModified&gt;2016-05-05T20:45:20&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; /BinaryDataObject&gt;
+  &lt; BinaryDataObject id=&quot;ID012&quot;&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID006&lt; /DataObjectGroupReferenceId&gt;
+  &lt; DataObjectVersion&gt;Dissemination&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;content/abead17e841c937187270cb95b0656bf3f7a9e71c8ca95e7fc8efa38cfffcab9889f353a95136fa3073a422d825175bf1bef24dc355bfa081f7e48b106070fd5.pdf&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;&gt;abead17e841c937187270cb95b0656bf3f7a9e71c8ca95e7fc8efa38cfffcab9889f353a95136fa3073a422d825175bf1bef24dc355bfa081f7e48b106070fd5&lt; /MessageDigest&gt;
+  &lt; Size&gt;186536&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;Acrobat PDF 1.4 - Portable Document Format&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;application/pdf&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/18&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;Vitam-Sensibilisation-API-V1.0.pdf&lt; /Filename&gt;
+  &lt; CreatingApplicationName&gt;LibreOffice 5.0/Impress&lt; /CreatingApplicationName&gt;
+  &lt; CreatingApplicationVersion&gt;5.0.5.2&lt; /CreatingApplicationVersion&gt;
+  &lt; CreatingOs&gt;Windows_X86_64&lt; /CreatingOs&gt;
+  &lt; CreatingOsVersion&gt;10&lt; /CreatingOsVersion&gt;
+  &lt; LastModified&gt;2016-05-05T20:45:32&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; /BinaryDataObject&gt;
+	Obligatoire
+
+	Création des groupes d’objets techniques (archivage d’un seul usage pour une archive)
+	La création d’un groupe d’objet (DataObjectGroup) est recommandée. 
+	Recommandation
+
+	Description des objets appartenant à un groupe d’objet
+	Si une entité transfère deux versions ou deux usages d’un même objet intellectuel, il est obligatoire que celui-ci soit décrit dans un seul ArchiveUnit.
+Si un même objet est versé par deux entités distinctes, alors celui-ci peut être décrit dans deux ArchiveUnit qui référenceront le même groupe d’objet technique.
+	Obligatoire
+
+	Emplacement de l’objet binaire
+	Il est obligatoire d’utiliser la balise &lt; Uri&gt; plutôt que la balise &lt; Attachment&gt;
+	Obligatoire
+
+	Format de l’Uri
+	L’Uri doit correspondre à un chemin relatif (à l’intérieur du SIP) et non pas un chemin absolu à partir de la racine.
+Constitution du chemin : content/nomdufichier.extension et non C:\[...]\content\nomdufichier.extension
+	Obligatoire
+
+	Empreinte
+	Il est fortement recommandé de fournir dans le manifest une empreinte pour chaque objet, calculée, lors de la phase de préparation des entrées. 
+
+Il est recommandé pour le calcul de cette empreinte l’utilisation des algorithmes suivants,  conformément aux recommandations actuelles du Référentiel général de sécurité :
+	SHA-256 (préconisation actuelle du RGS) ;
+
+	SHA-384 ;
+
+	SHA-512.
+
+
+Pour les objets destinés à être conservés plus de 10 ans, le SHA-512 est recommandé.
+	Recommandation
+
+	Gestion des archives (ManagementMetadata)
+
+	Service producteur
+	Afin de faciliter le référencement de l’opération d’entrée, notamment dans le cas où plusieurs ArchiveUnit sont à la racine du bloc DescriptiveMetadata, il est obligatoire de placer cette information au niveau des métadonnées de gestion via une extension du schéma &lt; OtherManagementAbstract&gt; en ajoutant la balise &lt; OriginatingAgencyIdentifier&gt;.
+	Obligatoire
+
+	Service versant
+	Afin de faciliter le référencement de l’opération d’entrée, notamment dans le cas où plusieurs ArchiveUnit sont à la racine du bloc DescriptiveMetadata, il est recommandé de placer cette information au niveau des métadonnées de gestion via une extension du schéma &lt; OtherManagementAbstract&gt; en ajoutant la balise &lt; SubmissionAgencyIdentifier&gt;.
+	Recommandation
+
+	Description des archives (DescriptiveMetadata/ArchiveUnit)
+
+	Métadonnées descriptives (bloc content)
+	Les métadonnées descriptives de chaque ArchiveUnit doivent utiliser les éléments présents dans l’ontologie SEDA (bloc Content de l’ArchiveUnit).
+Ce bloc peut être étendu, pour répondre aux besoins propres des utilisateurs (cf. documentation accompagnant le SEDA 2.0. et Annexe 1 du présent document)
+	Obligatoire
+
+	Titre
+	Le champ titre (Title) est obligatoire dans le SEDA, à tous les niveaux de description. Il doit donc être systématiquement renseigné. 
+
+Cas particuliers
+
+1/ SIP constitué à partir d’une arborescence de fichier bureautique : le nom du fichier peut être récupéré pour alimenter le champ Title, même s’il est également récupéré pour alimenter le champ FileInfo/FileName du bloc des métadonnées techniques.
+
+2/ Dans le cas où le profil prévoit une récupération riche de métadonnées dans le bloc content, il est recommandé de prêter une attention particulière à la manière dont ce champ doit être alimenté pour pouvoir être affichés dans des listes de résultats basées sur lui.
+	Obligatoire
+
+	Description
+	Dans le cas où le profil prévoit une récupération riche de métadonnées dans le bloc content, il est recommandé de prêter une attention particulière à la manière dont ce champ doit être alimenté pour pouvoir être affichés dans des listes de résultats basées sur lui.
+	Recommandation
+
+	Lien entre métadonnées descriptives et métadonnées techniques (ArchiveUnit et Groupe d’objet)
+	Il est obligatoire de référencer dans l’ArchiveUnit les objets physiques ou numériques accompagnant l’archive. 
+Le SEDA 2.0. offre la possibilité de référencer depuis l’ArchiveUnit :
+	soit les groupes d’objets 
+
+	soit les objets eux-mêmes.
+
+
+
+Si une archive est transférée avec plusieurs usages, l’ArchiveUnit doit référencer un groupe d’objet (utilisation de la balise DataObjectGroupReferenceId).
+
+Si l’archive est transférée sous la forme d’un seul usage, deux implémentations sont possibles :
+	un groupe d’objet a été systématiquement créé pour chaque objet (option recommandée) : dans ce cas, il est obligatoire de référencer le groupe d’objets en utilisant la balise DataObjectGroupReferenceId ;
+
+
+
+Exemple :
+&lt; BinaryDataObject id=&quot;ID011&quot;&gt;
+  &lt; DataObjectGroupId&gt;ID006&lt; /DataObjectGroupId&gt;
+  &lt; DataObjectVersion&gt;BinaryMaster&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;content/BAD0431E2C5E80E5BD42D547A3ED5966.odt&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;MD5&quot;&gt;BAD0431E2C5E80E5BD42D547A3ED5966&lt; /MessageDigest&gt;
+  &lt; Size&gt;251686&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;manuel_utilisateur_IHM.odt&lt; /Filename&gt;
+  &lt; /FileInfo&gt;
+  &lt; /BinaryDataObject&gt;
+
+&lt; DescriptiveMetadata&gt;
+  &lt; ArchiveUnit id=&quot;ID015&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;Item&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;manuel utilisateur&lt; /Title&gt;
+  &lt; Description&gt;Il existe une version papier et une version électronique du manuel utilisateur pour l&apos;IHM minimale de la solution logicielle Vitam&lt; /Description&gt;
+  &lt; TransactedDate&gt;2016-06-23&lt; /TransactedDate&gt;
+  &lt; /Content&gt;
+  &lt; DataObjectReference&gt; &lt; DataObjectGroupReferenceId&gt;ID006&lt; /DataObjectGroupReferenceId&gt;
+  &lt; /DataObjectReference&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; /DescriptiveMetadata&gt;
+
+	un groupe d’objet n’a pas été systématiquement créé pour chaque objet : dans ce cas, il est obligatoire de référencer l’objet en utilisant la balise DataObjectReferenceId.
+
+
+
+Exemple :
+&lt; BinaryDataObject id=&quot;ID011&quot;&gt;
+&lt; Uri&gt;content/BAD0431E2C5E80E5BD42D547A3ED5966.odt&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;MD5&quot;&gt;BAD0431E2C5E80E5BD42D547A3ED5966&lt; /MessageDigest&gt;
+  &lt; Size&gt;251686&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;manuel_utilisateur_IHM.odt&lt; /Filename&gt;
+  &lt; /FileInfo&gt;
+  &lt; /BinaryDataObject&gt;
+
+&lt; DescriptiveMetadata&gt;
+  &lt; ArchiveUnit id=&quot;ID015&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;Item&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;manuel utilisateur&lt; /Title&gt;
+  &lt; Description&gt;Il existe une version papier et une version électronique du manuel utilisateur pour l&apos;IHM minimale de la solution logicielle Vitam&lt; /Description&gt;
+  &lt; TransactedDate&gt;2016-06-23&lt; /TransactedDate&gt;
+  &lt; /Content&gt;
+  &lt; DataObjectReference&gt; &lt; DataObjectReferenceId&gt;ID011&lt; /DataObjectReferenceId&gt;
+  &lt; /DataObjectReference&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; /DescriptiveMetadata&gt;
+	Obligatoire
+
+
+
+Deux exemples de bordereaux sont proposés en annexes :
+	un exemple de bordereau (annexe 2) correspondant à une arborescence de fichiers, avec quelques métadonnées descriptives et aucune métadonnée de gestion ;
+
+	un exemple de bordereau complexe (annexe 3) qui comprend 4 versions d’un même objet intellectuel (groupe d’objet), des métadonnées techniques riches, et quelques métadonnées de description et de gestion.
+
+
+
+2.3. Le Répertoire et ses objets
+
+
+À la racine du SIP se trouve un répertoire nommé « content » qui regroupe un ou plusieurs objets numériques.
+
+Les directives de l’équipe projet Vitam sur l’implémentation sont les suivantes. 
+
+	Intitulé
+	Description
+	Niveau de recommandation
+
+	Nom du répertoire
+	Content
+	Obligatoire
+
+	Nombre de répertoire à la racine du SIP
+	Un seul répertoire
+	Obligatoire
+
+	Structuration du répertoire
+	Il est recommandé de mettre tous les fichiers à plat dans le répertoire content.
+
+Répertoire portant une arborescence de sous-répertoires
+
+Si le répertoire content porte une arborescence de sous-répertoires contenant des fichiers,  cette arborescence sera ignorée lors de la prise en charge du SIP par le SAE.
+C’est en effet l’arborescence décrite dans le partie DescriptiveMetadata du manifest qui porte l’arborescence intellectuelle des fichiers, qui fait le lien entre les niveaux de description intellectuelle et les fichiers présents dans le SIP et qui permeta posteriori de reconstituer la structuration des fichiers définie par l’utilisateur ou l’archiviste avant la constitution du SIP. Dans cette optique, le maintien d’une structuration des fichiers dans le répertoire content s’avère inutile.
+Il est par ailleurs recommandé de limiter la profondeur des sous-répertoires pour éviter les problèmes de limitation de longueur des noms de fichiers sous certaines versions de Windows – limitation de la longueur des noms de fichier (répertoire + nom) à 256 caractères.
+	Recommandation
+
+	Nommage des fichiers
+	Pour faciliter le transfert des fichiers, assurer une spécification d’emplacement sûre dans la balise Uri, éviter les problèmes liés à la longueur de leur nom et à l’encodage des caractères de leur nom, il est obligatoire de renommer les fichiers en utilisant une règle systématique et « neutre » d’un point de vue transfert.
+
+Par ailleurs, les fichiers transférés doivent avoir une extension.
+
+Le nommage utilisé pour le transfert des fichiers ne sera pas conservé par la solution logicielle Vitam.
+	Obligatoire
+
+	Mode de renommage des fichiers
+	Deux solutions sont recommandées :
+1/ utiliser l’empreinte du fichier, plus son extension native. Cette solution a l’avantage de permettre un dédoublonnage automatique des objets numériques au moment de la constitution du SIP, une fois et une fois seulement le bordereau élaboré. Cette solution doit néanmoins être utilisée avec précaution dans le cas où des groupes d’objets doivent être générés lors de la phase de préparation du SIP, pour éviter des conflits dans le cas de groupes d&apos;objets différents utilisant partiellement des mêmes objets ou dans le cas d&apos;un même objet utilisé à la fois dans un groupe d’objet et hors groupe d&apos;objets ;
+2/ utiliser l’identifiant attribué au BinaryDataObject dans le xml. Il convient de signaler cependant que le SEDA 2.0. ne rend pas cet identifiant obligatoire.
+	Recommandation
+
+	Formats de fichier
+	Au sein du répertoire, tous les formats de fichiers sont potentiellement acceptés. Ainsi, on pourra trouver des formats bureautiques (PDF), des exports XML de bases de données, des images d’une GED (dossiers numérisés), etc. 
+Cependant, il est recommandé aux implémentations de restreindre les formats de fichiers acceptés en fonction de la politique du service d’archives.
+	Recommandation
+
+	Taille des objets
+	Si la taille d’un objet est supérieure à 100 Go, il est obligatoire de le transférer dans un SIP propre
+	Obligation
+
+
+
+3. Import dans Vitam
+
+
+Les SIP peuvent être transférés dans la plate-forme utilisant la solution logicielle Vitam :
+	manuellement depuis le poste d’un utilisateur ou d’un administrateur ;
+
+	par flux automatisés.
+
+
+
+Les directives de l’équipe projet Vitam sur l’implémentation sont les suivantes. 
+
+	Intitulé
+	Description
+	Niveau de recommandation
+
+	Flux techniques
+	Flux https :
+	si le SIP &lt;  1 Go (zippé), l’utilisation d’un flux https est possible ;
+
+	si le SIP &gt; 1 Go (zippé), l’utilisation d’un flux https est déconseillée.
+
+
+
+La solution logicielle Vitam offrira plusieurs possibilités de transferts (FTPS, SFTP, Waarp, etc.), à charge des implémentations d’utiliser celles qui conviennent le mieux, en fonction de leurs contraintes de sécurité et des outils déployés sur leur système d’information.
+	Recommandation
+
+
+
+Annexes
+
+Annexe 1 : extensions du schéma SEDA
+
+Les extensions techniquement possibles sont les suivantes :
+Des extensions dont la définition est obligatoire pour que le schéma soit valide (extensions par substitution, de type abstract). Sont concernés :
+	Dans les métadonnées techniques :
+	&lt; OtherDimensionsAbstract&gt; : autres dimensions possibles pour un objet physique ;
+
+	&lt; OtherCoreTechnicalMetadataAbstract&gt; : métadonnées techniques essentielles ne correspondant ni à des fichiers de type texte, ni à des fichiers de type document, ni à des fichiers de type image, ni à des fichiers de type audio, ni à des fichiers de type vidéo (ex. : bases de données, plans 2D, plans 3D) ;
+
+
+
+	Dans les métadonnées descriptives :
+	&lt; ObjectGroupExtensionAbstract&gt; : métadonnées descriptives complémentaires ;
+
+	&lt; ArchiveUnitReferenceAbstract&gt; : requêtes permettant de gérer la récursivité et de pointer vers un objet-archives supposé être déjà géré par le SAE ;
+
+
+
+	Dans les métadonnées de gestion :
+	&lt; OtherManagementAbstract&gt; : autres métadonnées de gestion ;
+
+
+
+
+
+Des extensions dont la définition n’est pas obligatoire pour que le schéma soit valide (extensions par redéfinition, de type OpenType). Leur type peut être défini selon les besoins des utilisateurs qui peuvent y mettre ce qu’ils veulent. Aucune vérification sur ces extensions ne pourra être faite lors des transactions tant que le type de ces extensions n’est pas défini. Sont concernés :
+	Dans le noyau du schéma (main) :
+	&lt; OrganizationDescriptiveMetadataType&gt; : métadonnées descriptives pour une organisation ;
+
+	&lt; SignatureType&gt; : signature utilisée lors des échanges de messages ;
+
+
+
+	Dans les métadonnées techniques :
+	&lt; XXXTechnicalMetadataType&gt; : métadonnées techniques essentielles correspondant à des fichiers de types texte, document, image, audio et vidéo ;
+
+	&lt; DescriptiveTechnicalMetadataType&gt; : autres métadonnées techniques.
+
+
+
+
+
+
+
+Annexe 2 : exemple de bordereau « simple » réalisé pour un jeu de test Vitam
+
+NB : cet exemple a été généré à partir d’une arborescence de fichiers, en utilisant le générateur de SIP en cours de développement par l’équipe Vitam. Il n’a été procédé à aucun enrichissement des métadonnées de gestion, ce qui ne signifie aucunement qu’il ne soit pas possible de le faire. 
+
+&lt; ?xml version=&quot;1.0&quot; ?&gt;
+&lt; ArchiveTransfer xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot; xmlns:pr=&quot;info:lc/xmlns/premis-v2&quot;
+  xmlns=&quot;fr:gouv:culture:archivesdefrance:seda:v2.0&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;fr:gouv:culture:archivesdefrance:seda:v2.0 seda-2.0-main.xsd&quot; xml:id=&quot;ID1&quot;&gt;
+  &lt; Comment&gt;Documentation sur la description archivistique&lt; /Comment&gt;
+  &lt; Date&gt;2016-09-28T11:17:34&lt; /Date&gt;
+  &lt; MessageIdentifier&gt;20160928001&lt; /MessageIdentifier&gt;
+  &lt; ArchivalAgreement&gt;ArchivalAgreement0&lt; /ArchivalAgreement&gt;
+  &lt; CodeListVersions&gt;
+  &lt; ReplyCodeListVersion&gt;ReplyCodeListVersion0&lt; /ReplyCodeListVersion&gt;
+  &lt; MessageDigestAlgorithmCodeListVersion&gt;MessageDigestAlgorithmCodeListVersion0&lt; /MessageDigestAlgorithmCodeListVersion&gt;
+  &lt; MimeTypeCodeListVersion&gt;MimeTypeCodeListVersion0&lt; /MimeTypeCodeListVersion&gt;
+  &lt; EncodingCodeListVersion&gt;EncodingCodeListVersion0&lt; /EncodingCodeListVersion&gt;
+  &lt; FileFormatCodeListVersion&gt;FileFormatCodeListVersion0&lt; /FileFormatCodeListVersion&gt;
+  &lt; CompressionAlgorithmCodeListVersion&gt;CompressionAlgorithmCodeListVersion0&lt; /CompressionAlgorithmCodeListVersion&gt;
+  &lt; DataObjectVersionCodeListVersion&gt;DataObjectVersionCodeListVersion0&lt; /DataObjectVersionCodeListVersion&gt;
+  &lt; StorageRuleCodeListVersion&gt;StorageRuleCodeListVersion0&lt; /StorageRuleCodeListVersion&gt;
+  &lt; AppraisalRuleCodeListVersion&gt;AppraisalRuleCodeListVersion0&lt; /AppraisalRuleCodeListVersion&gt;
+  &lt; AccessRuleCodeListVersion&gt;AccessRuleCodeListVersion0&lt; /AccessRuleCodeListVersion&gt;
+  &lt; DisseminationRuleCodeListVersion&gt;DisseminationRuleCodeListVersion0&lt; /DisseminationRuleCodeListVersion&gt;
+  &lt; ReuseRuleCodeListVersion&gt;ReuseRuleCodeListVersion0&lt; /ReuseRuleCodeListVersion&gt;
+  &lt; ClassificationRuleCodeListVersion&gt;ClassificationRuleCodeListVersion0&lt; /ClassificationRuleCodeListVersion&gt;
+  &lt; AuthorizationReasonCodeListVersion&gt;AuthorizationReasonCodeListVersion0&lt; /AuthorizationReasonCodeListVersion&gt;
+  &lt; RelationshipCodeListVersion&gt;RelationshipCodeListVersion0&lt; /RelationshipCodeListVersion&gt;
+  &lt; /CodeListVersions&gt;
+  &lt; DataObjectPackage xml:id=&quot;ID2&quot;&gt;
+  &lt; BinaryDataObject id=&quot;ID7&quot;&gt;
+  &lt; DataObjectGroupId&gt;ID6&lt; /DataObjectGroupId&gt;
+  &lt; DataObjectVersion&gt;BinaryMaster&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;Content/ID7.pdf&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;
+  &gt;064b19fbfb4d8e8975a2c0fb8d4f50e06f75595af72b3faffa381a128bf582b7e6cf4858ab338af195c120e1530c49579da335ac593d4b52d8d141405b671329&lt; /MessageDigest&gt;
+  &lt; Size&gt;1831135&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;Acrobat PDF 1.6 - Portable Document Format&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;application/pdf&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/20&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;TagLibrary-VersionEAD3.pdf&lt; /Filename&gt;
+  &lt; LastModified&gt;2015-09-23T18:18:20.900+02:00&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; /BinaryDataObject&gt;
+  &lt; BinaryDataObject id=&quot;ID13&quot;&gt;
+  &lt; DataObjectGroupId&gt;ID12&lt; /DataObjectGroupId&gt;
+  &lt; DataObjectVersion&gt;BinaryMaster&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;Content/ID13.pdf&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;
+  &gt;8293e8e6dbcb0d215119c15ce200ec4bf9ab65b9c828850368e7d5b708849490189c50d7d7f1fe7ea773b6751449c0f9bc9c5382bf822c31fcc507710218da8c&lt; /MessageDigest&gt;
+  &lt; Size&gt;397820&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;Acrobat PDF 1.5 - Portable Document Format&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;application/pdf&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/19&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;CBPS_Guidelines_ISAAR_Second-edition_FR[1].pdf&lt; /Filename&gt;
+  &lt; LastModified&gt;2013-12-19T16:05:10.000+01:00&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; /BinaryDataObject&gt;
+  &lt; BinaryDataObject id=&quot;ID17&quot;&gt;
+  &lt; DataObjectGroupId&gt;ID16&lt; /DataObjectGroupId&gt;
+  &lt; DataObjectVersion&gt;BinaryMaster&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;Content/ID17.pdf&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;
+  &gt;226d69afccc3a801ad7ef8ec9028b16b7fd7527ce035a4cda36fb4b062a416704e8d7baa958597f5840b9b6d2c17b60c0744fa1d97efebb9dc01382ebb41d56a&lt; /MessageDigest&gt;
+  &lt; Size&gt;166112&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;Acrobat PDF 1.4 - Portable Document Format&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;application/pdf&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/18&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;ifla.pdf&lt; /Filename&gt;
+  &lt; LastModified&gt;2005-10-20T13:53:16.000+02:00&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; /BinaryDataObject&gt;
+  &lt; BinaryDataObject id=&quot;ID23&quot;&gt;
+  &lt; DataObjectGroupId&gt;ID22&lt; /DataObjectGroupId&gt;
+  &lt; DataObjectVersion&gt;BinaryMaster&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;Content/ID23.pdf&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;
+  &gt;a27064d3a0db9c1ef9277c82a7a619b0867b8913a5c4829cf86bbddd2ee1e3dfb38d81f22b67a5b56465fc0ef6fe11302ac8e853c94821bce4bb1dff9bc40497&lt; /MessageDigest&gt;
+  &lt; Size&gt;484496&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;Acrobat PDF 1.2 - Portable Document Format&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;application/pdf&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/16&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;ISAD(G).pdf&lt; /Filename&gt;
+  &lt; LastModified&gt;2013-12-19T16:06:04.000+01:00&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; /BinaryDataObject&gt;
+  &lt; BinaryDataObject id=&quot;ID29&quot;&gt;
+  &lt; DataObjectGroupId&gt;ID28&lt; /DataObjectGroupId&gt;
+  &lt; DataObjectVersion&gt;BinaryMaster&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;Content/ID29.pdf&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;
+  &gt;d179c65e5af63121c33d94414064fefa4cab8c846604a67a520cce20efbe2c6d0470338a3eeb6da19a2510001be481a11d1f053d2ad95feec2d5c20de199cca3&lt; /MessageDigest&gt;
+  &lt; Size&gt;396788&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;Acrobat PDF 1.4 - Portable Document Format&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;application/pdf&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/18&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;CBPS_2007_Guidelines_ISDF_First-edition_FR[1].pdf&lt; /Filename&gt;
+  &lt; LastModified&gt;2013-12-19T16:05:44.000+01:00&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; /BinaryDataObject&gt;
+  &lt; DescriptiveMetadata&gt;
+  &lt; ArchiveUnit id=&quot;ID3&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;File&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Description archivistique&lt; /Title&gt;
+  &lt; StartDate&gt;2005-10-20T13:53:16&lt; /StartDate&gt;
+  &lt; EndDate&gt;2015-09-23T18:18:20&lt; /EndDate&gt;
+  &lt; /Content&gt;
+  &lt; ArchiveUnit id=&quot;ID5&quot;&gt;
+  &lt; ArchiveUnitRefId&gt;ID4&lt; /ArchiveUnitRefId&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID11&quot;&gt;
+  &lt; ArchiveUnitRefId&gt;ID10&lt; /ArchiveUnitRefId&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID21&quot;&gt;
+  &lt; ArchiveUnitRefId&gt;ID20&lt; /ArchiveUnitRefId&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID27&quot;&gt;
+  &lt; ArchiveUnitRefId&gt;ID26&lt; /ArchiveUnitRefId&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID4&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;File&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Documentation relative à l&apos;Encoded Archival Description (EAD)&lt; /Title&gt;
+  &lt; EndDate&gt;2015-09-23T18:18:20&lt; /EndDate&gt;
+  &lt; /Content&gt;
+  &lt; ArchiveUnit id=&quot;ID9&quot;&gt;
+  &lt; ArchiveUnitRefId&gt;ID8&lt; /ArchiveUnitRefId&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID8&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;Item&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Tag Library&lt; /Title&gt;
+  &lt; TransactedDate&gt;2015-09-23T18:18:20&lt; /TransactedDate&gt;
+  &lt; /Content&gt;
+  &lt; DataObjectReference&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID6&lt; /DataObjectGroupReferenceId&gt;
+  &lt; /DataObjectReference&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID10&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;File&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Documentation relative à la norme ISAAR (CPF)&lt; /Title&gt;
+  &lt; StartDate&gt;2005-10-20T13:53:16&lt; /StartDate&gt;
+  &lt; EndDate&gt;2013-12-19T16:05:10&lt; /EndDate&gt;
+  &lt; /Content&gt;
+  &lt; ArchiveUnit id=&quot;ID15&quot;&gt;
+  &lt; ArchiveUnitRefId&gt;ID14&lt; /ArchiveUnitRefId&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID19&quot;&gt;
+  &lt; ArchiveUnitRefId&gt;ID18&lt; /ArchiveUnitRefId&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID14&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;Item&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Norme ISAAR (CPF) - 2e édition&lt; /Title&gt;
+  &lt; TransactedDate&gt;2013-12-19T16:05:10&lt; /TransactedDate&gt;
+  &lt; /Content&gt;
+  &lt; DataObjectReference&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID12&lt; /DataObjectGroupReferenceId&gt;
+  &lt; /DataObjectReference&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID18&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;Item&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Présentation de la norme ISAAR (CPF) élaborée par l&apos;IFLA&lt; /Title&gt;
+  &lt; TransactedDate&gt;2005-10-20T13:53:16&lt; /TransactedDate&gt;
+  &lt; /Content&gt;
+  &lt; DataObjectReference&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID16&lt; /DataObjectGroupReferenceId&gt;
+  &lt; /DataObjectReference&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID20&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;File&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Documentation relative à la norme ISAD(G)&lt; /Title&gt;
+  &lt; StartDate&gt;2013-12-19T16:06:04&lt; /StartDate&gt;
+  &lt; EndDate&gt;2013-12-19T16:06:04&lt; /EndDate&gt;
+  &lt; /Content&gt;
+  &lt; ArchiveUnit id=&quot;ID25&quot;&gt;
+  &lt; ArchiveUnitRefId&gt;ID24&lt; /ArchiveUnitRefId&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID24&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;Item&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Norme ISAD(G) - 2e édition&lt; /Title&gt;
+  &lt; TransactedDate&gt;2013-12-19T16:06:04&lt; /TransactedDate&gt;
+  &lt; /Content&gt;
+  &lt; DataObjectReference&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID22&lt; /DataObjectGroupReferenceId&gt;
+  &lt; /DataObjectReference&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID26&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;File&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Documentation relative à la norme ISDF&lt; /Title&gt;
+  &lt; StartDate&gt;2013-12-19T16:05:44&lt; /StartDate&gt;
+  &lt; EndDate&gt;2013-12-19T16:05:44&lt; /EndDate&gt;
+  &lt; /Content&gt;
+  &lt; ArchiveUnit id=&quot;ID31&quot;&gt;
+  &lt; ArchiveUnitRefId&gt;ID30&lt; /ArchiveUnitRefId&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; ArchiveUnit id=&quot;ID30&quot;&gt;
+  &lt; Content&gt;
+  &lt; DescriptionLevel&gt;Item&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Norme ISDF - 1e édition&lt; /Title&gt;
+  &lt; TransactedDate&gt;2013-12-19T16:05:44&lt; /TransactedDate&gt;
+  &lt; /Content&gt;
+  &lt; DataObjectReference&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID28&lt; /DataObjectGroupReferenceId&gt;
+  &lt; /DataObjectReference&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; /DescriptiveMetadata&gt;
+  &lt; ManagementMetadata/&gt;
+  &lt; /DataObjectPackage&gt;
+  &lt; ArchivalAgency&gt;
+  &lt; Identifier&gt;Identifier4&lt; /Identifier&gt;
+  &lt; /ArchivalAgency&gt;
+  &lt; TransferringAgency&gt;
+  &lt; Identifier&gt;Identifier5&lt; /Identifier&gt;
+  &lt; /TransferringAgency&gt;
+&lt; /ArchiveTransfer&gt;
+
+Annexe 3 : exemple de bordereau « complexe » réalisé pour un jeu de test Vitam
+
+NB : cet exemple a été généré manuellement en utilisant un éditeur xml. Le bordereau est conforme au schéma SEDA 2.0. même si les valeurs ne sont pas représentatives. 
+
+&lt; ArchiveTransfer xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;
+  xmlns:pr=&quot;info:lc/xmlns/premis-v2&quot;
+  xmlns=&quot;fr:gouv:culture:archivesdefrance:seda:v2.0&quot;
+  xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+  xsi:schemaLocation=&quot;fr:gouv:culture:archivesdefrance:seda:v2.0 seda-2.0-main.xsd&quot; xml:id=&quot;ID002&quot;&gt;
+  &lt; Date&gt;2016-06-23T09:45:51.0&lt; /Date&gt;
+  &lt; MessageIdentifier&gt;Entrée_avec_groupe_d_objet&lt; /MessageIdentifier&gt;
+  &lt; ArchivalAgreement&gt;ArchivalAgreement0&lt; /ArchivalAgreement&gt;
+  &lt; CodeListVersions xml:id=&quot;ID005&quot;&gt;
+  &lt; ReplyCodeListVersion&gt;ReplyCodeListVersion0&lt; /ReplyCodeListVersion&gt;
+  &lt; MessageDigestAlgorithmCodeListVersion&gt;MessageDigestAlgorithmCodeListVersion0&lt; /MessageDigestAlgorithmCodeListVersion&gt;
+  &lt; MimeTypeCodeListVersion&gt;MimeTypeCodeListVersion0&lt; /MimeTypeCodeListVersion&gt;  &lt; EncodingCodeListVersion&gt;EncodingCodeListVersion0&lt; /EncodingCodeListVersion&gt;  &lt; FileFormatCodeListVersion&gt;FileFormatCodeListVersion0&lt; /FileFormatCodeListVersion&gt;  &lt; CompressionAlgorithmCodeListVersion&gt;CompressionAlgorithmCodeListVersion0&lt; /CompressionAlgorithmCodeListVersion&gt;  &lt; DataObjectVersionCodeListVersion&gt;DataObjectVersionCodeListVersion0&lt; /DataObjectVersionCodeListVersion&gt;  &lt; StorageRuleCodeListVersion&gt;StorageRuleCodeListVersion0&lt; /StorageRuleCodeListVersion&gt;  &lt; AppraisalRuleCodeListVersion&gt;AppraisalRuleCodeListVersion0&lt; /AppraisalRuleCodeListVersion&gt;  &lt; AccessRuleCodeListVersion&gt;AccessRuleCodeListVersion0&lt; /AccessRuleCodeListVersion&gt;  &lt; DisseminationRuleCodeListVersion&gt;DisseminationRuleCodeListVersion0&lt; /DisseminationRuleCodeListVersion&gt;  &lt; ReuseRuleCodeListVersion&gt;ReuseRuleCodeListVersion0&lt; /ReuseRuleCodeListVersion&gt;  &lt; ClassificationRuleCodeListVersion&gt;ClassificationRuleCodeListVersion0&lt; /ClassificationRuleCodeListVersion&gt;  &lt; AuthorizationReasonCodeListVersion&gt;AuthorizationReasonCodeListVersion0&lt; /AuthorizationReasonCodeListVersion&gt;
+  &lt; RelationshipCodeListVersion&gt;RelationshipCodeListVersion0&lt; /RelationshipCodeListVersion&gt;
+  &lt; /CodeListVersions&gt;
+  
+  &lt; DataObjectPackage xml:id=&quot;ID007&quot;&gt;
+  &lt; PhysicalDataObject id=&quot;ID009&quot;&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID006&lt; /DataObjectGroupReferenceId&gt;
+  &lt; DataObjectVersion&gt;PhysicalMaster&lt; /DataObjectVersion&gt;
+  &lt; PhysicalId&gt;1500W03&lt; /PhysicalId&gt;
+  &lt; PhysicalDimensions&gt;
+				&lt; NumberOfPage&gt;23&lt; /NumberOfPage&gt;
+  &lt; /PhysicalDimensions&gt;
+  &lt; /PhysicalDataObject&gt;
+  
+  &lt; BinaryDataObject id=&quot;ID011&quot;&gt;
+  &lt; DataObjectGroupId&gt;ID006&lt; /DataObjectGroupId&gt;
+  &lt; DataObjectVersion&gt;BinaryMaster&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;content/e726e114f302c871b64569a00acb3a19badb7ee8ce4aef72cc2a043ace4905b8e8fca6f4771f8d6f67e221a53a4bbe170501af318c8f2c026cc8ea60f66fa804.odp&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;&gt;e726e114f302c871b64569a00acb3a19badb7ee8ce4aef72cc2a043ace4905b8e8fca6f4771f8d6f67e221a53a4bbe170501af318c8f2c026cc8ea60f66fa804&lt; /MessageDigest&gt;
+  &lt; Size&gt;100646&lt; /Size&gt;
+
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;OpenDocument Presentation&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;application/vnd.oasis.opendocument.presentation&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/293&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;Vitam-Sensibilisation-API-V1.0.odp&lt; /Filename&gt;
+  &lt; CreatingApplicationName&gt;LibreOffice/Impress&lt; /CreatingApplicationName&gt;
+  &lt; CreatingApplicationVersion&gt;5.0.5.2&lt; /CreatingApplicationVersion&gt;
+  &lt; CreatingOs&gt;Windows_X86_64&lt; /CreatingOs&gt;
+  &lt; CreatingOsVersion&gt;10&lt; /CreatingOsVersion&gt;
+  &lt; LastModified&gt;2016-05-05T20:45:20&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; Metadata&gt;
+  &lt; Document&gt;&lt; !--  --&gt;&lt; /Document&gt;
+  &lt; /Metadata&gt;
+  &lt; OtherMetadata&gt;&lt; !--  --&gt;&lt; /OtherMetadata&gt;
+  &lt; /BinaryDataObject&gt;
+  &lt; BinaryDataObject id=&quot;ID012&quot;&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID006&lt; /DataObjectGroupReferenceId&gt;
+  &lt; DataObjectVersion&gt;Dissemination&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;content/abead17e841c937187270cb95b0656bf3f7a9e71c8ca95e7fc8efa38cfffcab9889f353a95136fa3073a422d825175bf1bef24dc355bfa081f7e48b106070fd5.pdf&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;&gt;abead17e841c937187270cb95b0656bf3f7a9e71c8ca95e7fc8efa38cfffcab9889f353a95136fa3073a422d825175bf1bef24dc355bfa081f7e48b106070fd5&lt; /MessageDigest&gt;
+  &lt; Size&gt;186536&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;Acrobat PDF 1.4 - Portable Document Format&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;application/pdf&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/18&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;Vitam-Sensibilisation-API-V1.0.pdf&lt; /Filename&gt;
+  &lt; CreatingApplicationName&gt;LibreOffice 5.0/Impress&lt; /CreatingApplicationName&gt;
+  &lt; CreatingApplicationVersion&gt;5.0.5.2&lt; /CreatingApplicationVersion&gt;
+  &lt; CreatingOs&gt;Windows_X86_64&lt; /CreatingOs&gt;
+  &lt; CreatingOsVersion&gt;10&lt; /CreatingOsVersion&gt;
+  &lt; LastModified&gt;2016-05-05T20:45:32&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; Metadata&gt;
+  &lt; Document&gt;&lt; !--  --&gt;&lt; /Document&gt;
+  &lt; /Metadata&gt;
+  &lt; OtherMetadata&gt;&lt; !--  --&gt;&lt; /OtherMetadata&gt;
+  &lt; /BinaryDataObject&gt;
+  &lt; BinaryDataObject id=&quot;ID013&quot;&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID006&lt; /DataObjectGroupReferenceId&gt;
+  &lt; DataObjectVersion&gt;Thumbnail&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;content/fe2b0664fc66afd85f839be6ee4b6433b60a06b9a4481e0743c9965394fa0b8aa51b30df11f3281fef3d7f6c86a35cd2925351076da7abc064ad89369edf44f0.png&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;&gt;fe2b0664fc66afd85f839be6ee4b6433b60a06b9a4481e0743c9965394fa0b8aa51b30df11f3281fef3d7f6c86a35cd2925351076da7abc064ad89369edf44f0&lt; /MessageDigest&gt;
+  &lt; Size&gt;40740&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;Portable Network Graphics&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;image/png&lt; /MimeType&gt;
+  &lt; FormatId&gt;fmt/11&lt; /FormatId&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;Vitam-Sensibilisation-API-V1.0.png&lt; /Filename&gt;
+  &lt; CreatingApplicationName&gt;LibreOffice/Impress&lt; /CreatingApplicationName&gt;
+  &lt; CreatingApplicationVersion&gt;5.0.5.2&lt; /CreatingApplicationVersion&gt;
+  &lt; CreatingOs&gt;Windows_X86_64&lt; /CreatingOs&gt;
+  &lt; CreatingOsVersion&gt;10&lt; /CreatingOsVersion&gt;
+  &lt; LastModified&gt;2016-06-23T12:45:20&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; Metadata&gt;
+  &lt; Image&gt;&lt; !--  --&gt;&lt; /Image&gt;
+  &lt; /Metadata&gt;
+  &lt; OtherMetadata&gt;&lt; !--  --&gt;&lt; /OtherMetadata&gt;
+  &lt; /BinaryDataObject&gt;
+  &lt; BinaryDataObject id=&quot;ID014&quot;&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID006&lt; /DataObjectGroupReferenceId&gt;
+  &lt; DataObjectVersion&gt;TextContent&lt; /DataObjectVersion&gt;
+  &lt; Uri&gt;content/cb27754e97d86e44dd5ac063afd8d25c4ebd89aa7c0f3e89ad72b5d4b0ccfea142ce505e231e8a3c56391546eaa4ea46a71869e59a6e07be01e1abb1f057feee.txt&lt; /Uri&gt;
+  &lt; MessageDigest algorithm=&quot;SHA-512&quot;&gt;cb27754e97d86e44dd5ac063afd8d25c4ebd89aa7c0f3e89ad72b5d4b0ccfea142ce505e231e8a3c56391546eaa4ea46a71869e59a6e07be01e1abb1f057feee&lt; /MessageDigest&gt;
+  &lt; Size&gt;17120&lt; /Size&gt;
+  &lt; FormatIdentification&gt;
+  &lt; FormatLitteral&gt;Plain Text File&lt; /FormatLitteral&gt;
+  &lt; MimeType&gt;text/plain&lt; /MimeType&gt;
+  &lt; FormatId&gt;x-fmt/111&lt; /FormatId&gt;
+  &lt; Encoding&gt;UTF-8&lt; /Encoding&gt;
+  &lt; /FormatIdentification&gt;
+  &lt; FileInfo&gt;
+  &lt; Filename&gt;Vitam-Sensibilisation-API-V1.0.txt&lt; /Filename&gt;
+  &lt; LastModified&gt;2016-06-23T12:50:20&lt; /LastModified&gt;
+  &lt; /FileInfo&gt;
+  &lt; Metadata&gt;
+  &lt; Text&gt;&lt; !--  --&gt;&lt; /Text&gt;
+  &lt; /Metadata&gt;
+  &lt; OtherMetadata&gt;&lt; !--  --&gt;&lt; /OtherMetadata&gt;
+  &lt; /BinaryDataObject&gt;
+  
+  &lt; DescriptiveMetadata&gt;
+  &lt; ArchiveUnit id=&quot;ID015&quot;&gt;
+  &lt; ArchiveUnitProfile&gt;PresentationType&lt; /ArchiveUnitProfile&gt;
+  &lt; Management&gt;
+  &lt; StorageRule&gt;
+  &lt; Rule id=&quot;ID017&quot;&gt;Rule0&lt; /Rule&gt;
+  &lt; FinalAction&gt;RestrictAccess&lt; /FinalAction&gt;
+  &lt; /StorageRule&gt;
+  &lt; AppraisalRule&gt;
+  &lt; Rule id=&quot;ID018&quot;&gt;Rule2&lt; /Rule&gt;
+  &lt; FinalAction&gt;Keep&lt; /FinalAction&gt;
+  &lt; /AppraisalRule&gt;
+  &lt; AccessRule&gt;
+  &lt; Rule id=&quot;ID019&quot;&gt;Rule4&lt; /Rule&gt;
+  &lt; /AccessRule&gt;
+  &lt; DisseminationRule&gt;
+  &lt; Rule id=&quot;ID020&quot;&gt;Rule6&lt; /Rule&gt;
+  &lt; /DisseminationRule&gt;
+  &lt; ReuseRule&gt;
+  &lt; Rule id=&quot;ID022&quot;&gt;Rule8&lt; /Rule&gt;
+  &lt; Rule id=&quot;ID023&quot;&gt;Rule9&lt; /Rule&gt;
+  &lt; /ReuseRule&gt;
+  &lt; ClassificationRule&gt;
+  &lt; Rule id=&quot;ID024&quot;&gt;Rule10&lt; /Rule&gt;
+  &lt; Rule id=&quot;ID025&quot;&gt;Rule11&lt; /Rule&gt;
+  &lt; ClassificationLevel&gt;ClassificationLevel0&lt; /ClassificationLevel&gt;
+  &lt; ClassificationOwner&gt;ClassificationOwner0&lt; /ClassificationOwner&gt;
+  &lt; /ClassificationRule&gt;
+  &lt; NeedAuthorization&gt;false&lt; /NeedAuthorization&gt;
+  &lt; /Management&gt;
+  &lt; Content xml:id=&quot;ID026&quot;&gt;
+  &lt; DescriptionLevel&gt;Item&lt; /DescriptionLevel&gt;
+  &lt; Title&gt;Sensibilisation API&lt; /Title&gt;
+  &lt; FilePlanPosition&gt;FilePlanPosition0&lt; /FilePlanPosition&gt;
+  &lt; OriginatingSystemId&gt;OriginatingSystemId0&lt; /OriginatingSystemId&gt;
+  &lt; ArchivalAgencyArchiveUnitIdentifier&gt;ArchivalAgencyArchiveUnitIdentifier0&lt; /ArchivalAgencyArchiveUnitIdentifier&gt;
+  &lt; OriginatingAgencyArchiveUnitIdentifier&gt;OriginatingAgencyArchiveUnitIdentifier0&lt; /OriginatingAgencyArchiveUnitIdentifier&gt;
+  &lt; TransferringAgencyArchiveUnitIdentifier&gt;TransferringAgencyArchiveUnitIdentifier0&lt; /TransferringAgencyArchiveUnitIdentifier&gt;
+  &lt; Description&gt;Sensibilisation au Technical Design et à l&apos;API Design Java et REST de la solution logicielle Vitam&lt; /Description&gt;
+  &lt; Language&gt;fr-FR&lt; /Language&gt;
+  &lt; OriginatingAgency&gt;
+  &lt; Identifier&gt;Identifier0&lt; /Identifier&gt;
+  &lt; /OriginatingAgency&gt;
+  &lt; SubmissionAgency&gt;
+  &lt; Identifier&gt;Identifier1&lt; /Identifier&gt;
+  &lt; /SubmissionAgency&gt;
+  &lt; Writer&gt;
+  &lt; FirstName&gt;FirstName0&lt; /FirstName&gt;
+  &lt; BirthName&gt;BirthName0&lt; /BirthName&gt;
+  &lt; /Writer&gt;
+  &lt; CreatedDate&gt;2016-05-05T20:45:20&lt; /CreatedDate&gt;
+  &lt; TransactedDate&gt;2016-05-05&lt; /TransactedDate&gt;
+  &lt; /Content&gt;
+  &lt; DataObjectReference&gt;
+  &lt; DataObjectGroupReferenceId&gt;ID006&lt; /DataObjectGroupReferenceId&gt;
+  &lt; /DataObjectReference&gt;
+  &lt; /ArchiveUnit&gt;
+  &lt; /DescriptiveMetadata&gt;
+  &lt; ManagementMetadata xml:id=&quot;ID030&quot;&gt;
+  &lt; ArchivalProfile&gt;ArchivalProfile0&lt; /ArchivalProfile&gt;
+  &lt; ServiceLevel&gt;ServiceLevel0&lt; /ServiceLevel&gt;
+  &lt; /ManagementMetadata&gt;
+  &lt; /DataObjectPackage&gt;
+
+  &lt; ArchivalAgency xml:id=&quot;ID031&quot;&gt;
+  &lt; Identifier&gt;ArchivalAgency1&lt; /Identifier&gt;
+  &lt; /ArchivalAgency&gt;
+  &lt; TransferringAgency xml:id=&quot;ID032&quot;&gt;
+  &lt; Identifier&gt;TransferringAgency1&lt; /Identifier&gt;
+  &lt; /TransferringAgency&gt;
+&lt; /ArchiveTransfer&gt;
+
+</TextContent>
+</Content>

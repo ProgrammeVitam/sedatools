@@ -1,0 +1,942 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Vitam",
+		"_postman_id": "77c18260-2088-672c-fda3-05c33013dd5a",
+		"description": "Demo Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1 - referentiel",
+			"description": "",
+			"item": [
+				{
+					"name": "[Rules] check CSV",
+					"request": {
+						"url": "https://143.126.93.169:8444/admin-external/v1/rules",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/octet-stream",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "[Rules] check CSV"
+					},
+					"response": []
+				},
+				{
+					"name": "[Formats] check XSD",
+					"request": {
+						"url": "https://143.126.93.169:8444/admin-external/v1/formats",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/octet-stream",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "[Formats] check XSD"
+					},
+					"response": []
+				},
+				{
+					"name": "[Rules] upload",
+					"request": {
+						"url": "https://143.126.93.169:8444/admin-external/v1/rules",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/octet-stream",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "[Rules] upload"
+					},
+					"response": []
+				},
+				{
+					"name": "[Formats] upload",
+					"request": {
+						"url": "https://143.126.93.169:8444/admin-external/v1/formats",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/octet-stream",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "[Formats] upload"
+					},
+					"response": []
+				},
+				{
+					"name": "[Formats]  all",
+					"request": {
+						"url": "https://143.126.93.169:8444/admin-external/v1/formats",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [],\n  \"$filter\": {},\n  \"$projection\": {}\n}"
+						},
+						"description": "[Formats]  all"
+					},
+					"response": []
+				},
+				{
+					"name": "[Rules] all",
+					"request": {
+						"url": "https://143.126.93.169:8444/admin-external/v1/rules",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [],\n  \"$filter\": {},\n  \"$projection\": {}\n}"
+						},
+						"description": "[Rules] all"
+					},
+					"response": []
+				},
+				{
+					"name": "[Rules] details",
+					"request": {
+						"url": "https://143.126.93.169:8444/admin-external/v1/rules/APP-00001",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "[Rules] details"
+					},
+					"response": []
+				},
+				{
+					"name": "[Formats] details",
+					"request": {
+						"url": "https://143.126.93.169:8444/admin-external/v1/formats/aeaaaaaaaaaam7mxabst4akynsr2feaaaaaq",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "[Formats] details"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2 - ingest",
+			"description": "",
+			"item": [
+				{
+					"name": "Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 204\"] = responseCode.code === 204;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://143.126.93.169:8443/ingest-external/v1/status",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "This endpoint allows one to instruct the server which status code to respond with.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://143.126.93.169:8443/admin/v1/status",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "This endpoint allows one to instruct the server which status code to respond with.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Upload",
+					"request": {
+						"url": "https://143.126.93.169:8443/ingest-external/v1/ingests",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/xml",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "Upload\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3 - logbook",
+			"description": "",
+			"item": [
+				{
+					"name": "[Operation] ingest",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/operations",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n        \"$eq\": {\n          \"evTypeProc\": \"INGEST\"\n        }\n      }\n    ]\n  },\n  \"$filter\": {\n    \"$orderby\": {\n      \"evDateTime\": -1\n    }\n  },\n  \"$projection\": {}\n}"
+						},
+						"description": "[Operation] ingest"
+					},
+					"response": []
+				},
+				{
+					"name": "[Operation] ingest detail",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/operations/aedqaaaaacaam7mxabruiakymndz7xiaaaaq",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n        \"$eq\": {\n          \"evTypeProc\": \"INGEST\"\n        }\n      },\n      {\n        \"$eq\": {\n          \"events.obIdIn\": \"aedqaaaaacaam7mxabruiakymndz7xiaaaaq\"\n        }\n      }\n    ]\n  },\n  \"$filter\": {\n    \"$orderby\": {\n      \"evDateTime\": -1\n    }\n  },\n  \"$projection\": {}\n}"
+						},
+						"description": "[Operation] ingest detail"
+					},
+					"response": []
+				},
+				{
+					"name": "[Operation] ingest detail",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/operations/aedqaaaaacaam7mxabruiakymndz7xiaaaaq",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": "[Operation] ingest detail"
+					},
+					"response": []
+				},
+				{
+					"name": "[LifeCycle] detail unitlifecycles",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/unitlifecycles/aeaaaaaaaaaam7mxabkaiakymnd35byaaaaq",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n        \"$eq\": {\n          \"evTypeProc\": \"INGEST\"\n        }\n      },\n      {\n        \"$eq\": {\n          \"events.obIdIn\": \"aedqaaaaacaam7mxabruiakymndz7xiaaaaq\"\n        }\n      }\n    ]\n  },\n  \"$filter\": {\n    \"$orderby\": {\n      \"evDateTime\": -1\n    }\n  },\n  \"$projection\": {}\n}"
+						},
+						"description": "[LifeCycle] detail unitlifecycles"
+					},
+					"response": []
+				},
+				{
+					"name": "[LifeCycle] detail objectgrouplifecycles",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/objectgrouplifecycles/aeaaaaaaaaaam7mxab3tyakynssytsqaaaba",
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n        \"$eq\": {\n          \"evTypeProc\": \"INGEST\"\n        }\n      },\n      {\n        \"$eq\": {\n          \"events.obIdIn\": \"aedqaaaaacaam7mxabruiakymndz7xiaaaaq\"\n        }\n      }\n    ]\n  },\n  \"$filter\": {\n    \"$orderby\": {\n      \"evDateTime\": -1\n    }\n  },\n  \"$projection\": {}\n}"
+						},
+						"description": "[LifeCycle] detail objectgrouplifecycles"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4 - access",
+			"description": "",
+			"item": [
+				{
+					"name": "Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 204\"] = responseCode.code === 204;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/status",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "This endpoint allows one to instruct the server which status code to respond with.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "Admin Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "https://143.126.93.169:8444/admin/v1/status",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"description": "This endpoint allows one to instruct the server which status code to respond with.\n"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit ] search by title OR description",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n      \"$or\": [\n        {\n          \"$match\": {\n            \"Title\": \"api\"\n          }\n        },\n        {\n          \"$match\": {\n            \"Description\": \"Vitam\"\n          }\n        }\n      ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+						},
+						"description": "[Unit ] search by title OR description"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit ] search by title",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n      \"$and\": [\n        {\n          \"$match\": {\n            \"Title\": \"api\"\n          }\n        }\n      ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+						},
+						"description": "[Unit ] search by title"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit ] search by description",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n      \"$and\": [\n        {\n          \"$match\": {\n            \"Description\": \"Vitam\"\n          }\n        }\n      ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+						},
+						"description": "[Unit ] search by description"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit ] search by date",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n          \"$or\": [\n            {\n              \"$and\": [\n                {\n                  \"$gte\": {\n                    \"TransactedDate\": \"2016-04-09T23:00:00.000Z\"\n                  }\n                },\n                {\n                  \"$lte\": {\n                    \"TransactedDate\": \"2017-04-16T22:59:59.000Z\"\n                  }\n                }\n              ]\n            },\n            {\n              \"$and\": [\n                {\n                  \"$gte\": {\n                    \"EndDate\": \"2016-04-09T23:00:00.000Z\"\n                  }\n                },\n                {\n                  \"$lte\": {\n                    \"StartDate\": \"2017-04-16T22:59:59.000Z\"\n                  }\n                }\n              ]\n            }\n\n      ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+						},
+						"description": "[Unit ] search by date"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit ] search by title AND description",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n      \"$and\": [\n        {\n          \"$match\": {\n            \"Title\": \"api\"\n          }\n        },\n        {\n          \"$match\": {\n            \"Description\": \"Vitam\"\n          }\n        }\n      ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+						},
+						"description": "[Unit ] search by title AND description"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit ] search by title AND description AND date",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n      \"$and\": [\n        {\n          \"$match\": {\n            \"Title\": \"api\"\n          }\n        },\n        {\n          \"$match\": {\n            \"Description\": \"Vitam\"\n          }\n        },\n        {\n          \"$or\": [\n            {\n              \"$and\": [\n                {\n                  \"$gte\": {\n                    \"TransactedDate\": \"2016-11-09T23:00:00.000Z\"\n                  }\n                },\n                {\n                  \"$lte\": {\n                    \"TransactedDate\": \"2016-11-16T22:59:59.000Z\"\n                  }\n                }\n              ]\n            },\n            {\n              \"$and\": [\n                {\n                  \"$gte\": {\n                    \"EndDate\": \"2016-11-09T23:00:00.000Z\"\n                  }\n                },\n                {\n                  \"$lte\": {\n                    \"StartDate\": \"2016-11-16T22:59:59.000Z\"\n                  }\n                }\n              ]\n            }\n          ]\n        }\n      ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+						},
+						"description": "[Unit ] search by title AND description AND date"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit] search by Id",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n      \"$and\": [\n        {\n          \"$eq\": {\n            \"#id\": \"aeaaaaaaaaaam7mxabkaiakymnd35byaaaaq\"\n          }\n        }\n      ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+						},
+						"description": "[Unit] search by Id"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit] detail",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units/aeaaaaaaaaaam7mxab3tyakynssytziaaaba",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {}\n}"
+						},
+						"description": "[Unit] detail\n"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit] download",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units/aeaaaaaaaaaam7mxab3tyakynssytsqaaaba/object ",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/octet-stream",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							},
+							{
+								"key": "X-Qualifier",
+								"value": "TextContent",
+								"description": ""
+							},
+							{
+								"key": "X-Version",
+								"value": "0",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [],\n  \"$filter\": {},\n  \"$projection\": {}\n}"
+						},
+						"description": "[Unit] download"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit] update",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units/aeaaaaaaaaaam7mxab3tyakynssytziaaaba",
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [\n    \"aeaaaaaaaaaam7mxab3tyakynssytziaaaba\"\n  ],\n  \"$query\": [],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$action\": [\n    {\n      \"$set\": {\n        \"Title\": \"Demo vitam jeudi\"\n      }\n    }\n  ]\n}"
+						},
+						"description": "[Unit] update"
+					},
+					"response": []
+				},
+				{
+					"name": "[Unit ] search by ArchivalAgencyArchiveUnitIdentifier",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/units",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n      \"$and\": [\n        {\n          \"$eq\": {\n            \"ArchivalAgencyArchiveUnitIdentifier\": \"20130456/3\"\n          }\n        }\n      ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+						},
+						"description": "[Unit ] search by ArchivalAgencyArchiveUnitIdentifier"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5 - accession register",
+			"description": "5 accession register",
+			"item": [
+				{
+					"name": "[accession-register] all",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/accession-register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n        \"$exists\": \"OriginatingAgency\"\n      }\n    ]\n  },\n  \"$filter\": {\n    \"$orderby\": {\n      \"OriginatingAgency\": 1\n    }\n  },\n  \"$projection\": {}\n}"
+						},
+						"description": "[accession-register] all"
+					},
+					"response": []
+				},
+				{
+					"name": "[accession-register] summary",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/accession-register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n        \"$eq\": {\n          \"OriginatingAgency\": \"FRAN_NP_005568\"\n        }\n      }\n    ]\n  },\n  \"$filter\": {},\n  \"$projection\": {}\n}"
+						},
+						"description": "[accession-register] summary"
+					},
+					"response": []
+				},
+				{
+					"name": "[accession-register] detail",
+					"request": {
+						"url": "https://143.126.93.169:8444/access-external/v1/accession-register/FRAN_NP_005568/accession-register-detail",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							},
+							{
+								"key": "X-Http-Method-Override",
+								"value": "GET",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\"$query\":{\"$and\":[{\"$eq\":{\"OriginatingAgency\":\"FRAN_NP_005568\"}}]},\"$filter\":{},\"$projection\":{}}"
+						},
+						"description": "[accession-register] detail"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
+

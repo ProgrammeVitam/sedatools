@@ -1,0 +1,40 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=63 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   63
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-10 10:37 CET
+Dernière modification:      2017-01-10 10:37 CET
+====================================================================== 
+Résumé:                     [Besoin Métier légitime] Impossibilité de
+supprimer des objets dans VITAM
+Description: 
+Nous avons tenté de supprimer un object dans VITAM, un archiviste pouvant avoir
+insérer un SIP par erreur et cherchant a supprimer son SIP complet ou un
+fichier.
+
+La réponse obtenue est un code erreur 405 METHOD NOT ALLOWED
+
+La méthode utilisée est DELETE, méthode non implémentée dans VITAM.
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-10 10:37 Jonathan       Nouveau bogue                                
+2017-01-10 10:37 Jonathan       Statut                   nouveau => affecté  
+2017-01-10 10:37 Jonathan       Assigné à                 => Jonathan        
+======================================================================

@@ -1,0 +1,51 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=21 
+====================================================================== 
+Rapporteur:                 Aurelien
+Responsable:                Aurelien
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   21
+Catégorie:                  VITAM
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-16 17:41 CET
+Dernière modification:      2016-12-16 17:41 CET
+====================================================================== 
+Résumé:                     Opérateur "match" inopérant dans certaines
+collections
+Description: 
+L'opérateur "match", en access et pour de la consultation, semble ne pas
+fonctionner dans les collections suivantes :
+- Rule
+- FileFormat
+- AccessionRegisters
+
+Étapes pour le reproduire: 
+- Consultation générale de la collection visée (Rule, FileFormat,
+AccessionRegisters)
+- Pas de "$root"
+- Pas de "$filter"
+- Pas de "$projection"
+
+
+Informations complémentaires: 
+Les requêtes et Les codes Json retours sont en PJ 
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-16 17:41 Aurelien       Nouveau bogue                                
+2016-12-16 17:41 Aurelien       Statut                   nouveau => affecté  
+2016-12-16 17:41 Aurelien       Assigné à                 => Aurelien        
+2016-12-16 17:41 Aurelien       Fichier ajouté: CreatedDate_ AVEC
+MATCH_Formats_all_KO_16-12-2016-05-08_OUT.json                    
+======================================================================

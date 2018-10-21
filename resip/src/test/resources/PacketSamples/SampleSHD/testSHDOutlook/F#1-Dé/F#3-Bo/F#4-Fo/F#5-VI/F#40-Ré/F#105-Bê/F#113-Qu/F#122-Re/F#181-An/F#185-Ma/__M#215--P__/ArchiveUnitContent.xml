@@ -1,0 +1,79 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000042]: [Besoin Metier Légitime] Balises &lt;CodeListVersions&gt; du manifest non vérifiée</Title>
+    <OriginatingSystemId>&lt;0eed40ebd8ef6b8371006245d25c1b1c@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-02T09:15:29Z</SentDate>
+    <ReceivedDate>2017-01-02T09:15:32Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=42 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   42
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-02 10:15 CET
+Dernière modification:      2017-01-02 10:15 CET
+====================================================================== 
+Résumé:                     [Besoin Metier Légitime] Balises
+&lt; CodeListVersions&gt; du manifest non vérifiée
+Description: 
+Nous avons effectué des tests sur les balises contenues dans
+&lt; CodeListVersions&gt;, a savoir : 
+- ReplyCodeListVersion
+- MessageDigestAlgorithmCodeListVersion
+- MimeTypeCodeListVersion
+- EncodingCodeListVersion
+- FileFormatCodeListVersion
+- DataObjectVersionCodeListVersion
+- StorageRuleCodeListVersion
+- AppraisalRuleCodeListVersion
+- AccessRuleCodeListVersion
+- DisseminationRuleCodeListVersion
+- ReuseRuleCodeListVersion
+- ClassificationRuleCodeListVersion
+- AuthorizationReasonCodeListVersion
+- RelationshipCodeListVersion
+- ArchivalAgreement
+
+Nous avons essayé de mettre une valeur aléatoire dans ces balises et tous nos
+INGEST ont été en statut &quot;OK&quot;
+
+Cependant lorsque nous avions laissé les balises vides, les INGEST étaient en
+statut &quot;KO&quot; comme attendue.
+
+ 
+
+Informations complémentaires: 
+PVI-28, PVI-29, PVI-30, PVI-31, PVI-905, PVI-907, PVI-908, PVI-909, PVI-910,
+PVI-911, PVI-912, PVI-913, PVI-914, PVI-915, PVI-916, PVI-917
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-02 10:15 Jonathan       Nouveau bogue                                
+2017-01-02 10:15 Jonathan       Statut                   nouveau =&gt; affecté  
+2017-01-02 10:15 Jonathan       Assigné à                 =&gt; Jonathan        
+======================================================================</TextContent>
+</Content>

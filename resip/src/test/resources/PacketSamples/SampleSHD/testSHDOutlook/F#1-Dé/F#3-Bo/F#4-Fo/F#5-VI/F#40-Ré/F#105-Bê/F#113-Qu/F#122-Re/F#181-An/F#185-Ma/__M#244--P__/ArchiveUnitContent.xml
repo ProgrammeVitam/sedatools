@@ -1,0 +1,63 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000015]: Impossibilité d&apos;importer SIP avec Storage Rule avec final Action (Copier; valeur SEDA)</Title>
+    <OriginatingSystemId>&lt;85973856091c035a915a427470b38fc8@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-13T15:53:12Z</SentDate>
+    <ReceivedDate>2016-12-13T15:53:20Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=15 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   15
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     bloquant
+Priorité:                   normale
+Statut:                     nouveau
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-13 16:53 CET
+Dernière modification:      2016-12-13 16:53 CET
+====================================================================== 
+Résumé:                     Impossibilité d&apos;importer SIP avec Storage Rule
+avec final Action (Copier; valeur SEDA)
+Description: 
+L&apos;imporation d&apos;un SIP contenant une unit soumise à une storage Rule n&apos;est pas
+possible
+
+Nous joignons un SIP ou la balise FinalAction a été renseignée avec la valeur
+&quot;Copier&quot; qui est une valeur indiquée dans le SEDA.
+
+Nous avons fait un autre essaie avec la valeur &quot;Keep&quot; (celle ci passait avec les
+AppraisalRule)
+Nous avons aussi fait un essaie en supprimant la startDate
+
+
+Informations complémentaires: 
+PVI-68
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-13 16:53 Franck         Nouveau bogue                                
+2016-12-13 16:53 Franck         Fichier ajouté: 20161213163700.zip             
+      
+======================================================================</TextContent>
+</Content>

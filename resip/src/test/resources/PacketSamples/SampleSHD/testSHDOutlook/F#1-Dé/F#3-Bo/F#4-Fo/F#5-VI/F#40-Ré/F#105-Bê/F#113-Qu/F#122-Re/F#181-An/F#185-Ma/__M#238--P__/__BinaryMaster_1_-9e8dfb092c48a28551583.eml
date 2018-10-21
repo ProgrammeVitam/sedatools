@@ -1,0 +1,217 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242])        by smtp.gmail.com with
+ ESMTPSA id q65sm13084438wmd.6.2016.12.15.08.05.47        for
+ <thierry.casimirius@intradef.gouv.fr>        (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);        Thu, 15 Dec 2016
+ 08:05:47 -0800 (PST)
+Date: Thu, 15 Dec 2016 17:05:49 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <9e8dfb092c48a2855158333642259dfb@213.32.79.242>
+Subject: [Projet VITAM 0000019]: [API-accession-register-detail-POST] :
+ Rechercher via API d'un service producteur inexistant - HTTP 500 au lieu de
+ 404
+Keywords:  [Projet VITAM] VITAM
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_333_27629395.1517006384988"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted
+         :keywords:mime-version:content-transfer-encoding;
+        bh=ZFdEu9cMYJYsfewpLWyGukv0avOqJZ6ho797J7D/6bk=;
+        b=fFH4mKjoC2gMDJpt6TkxOHnDuVC3Uu9MeP/bMkCTuC2dgfXRvTrm58eGk352OAQtk9
+         hQWdJUvfsboM9kDGHrRNT3LOiDphC9pDyqMPyrS5cKEIZloeNEBvxlGyudm3Vat9/+IH
+         pCRCE2z+3BvUDEOb/AcZioJz1wY+cNaRsSWm0eyUbDVLrDpEplpWOxUFZNcoJklcJ72n
+         7LnceE+CIPbxKbKsBSLmjeu/yFae4fIbHW5SqmXYOVJRvAn6cdnd9QeAHR3l0h+eHAxF
+         kZlXvDfl0Zqp8G3g0/4Z/fF3iGOGOnSf+XRJLcOV6OSsPZkfP3jskHyCbrm+11xHvSRJ
+         yIJw==
+X-Gm-Message-State:  AIkVDXIo8Ua+1K6VkLrD53Se3bS+rkN9u8PuraV8Q9PqrpypDzABtuoT1bagEH9SJ/tGZg==
+X-Received:  by 10.194.93.37 with SMTP id cr5mr2127355wjb.95.1481817948214;
+        Thu, 15 Dec 2016 08:05:48 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 2016.12.15.155417
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report='
+ HTML_00_01 0.05, HTML_00_10 0.05, BODY_SIZE_5000_5999 0, BODY_SIZE_7000_LESS 0, DKIM_SIGNATURE 0, FROM_NAME_PHRASE 0, IP_HTTP_ADDR 0, IP_HTTP_ADDR_WITH_PORT 0, SPF_PASS 0, URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0, WEBMAIL_XMAILER 0, __ANY_URI 0, __CP_URI_IN_BODY 0, __CT 0, __CTE 0, __CT_TEXT_PLAIN 0, __DQ_NEG_HEUR 0, __DQ_NEG_IP 0, __FRAUD_MONEY_CURRENCY 0, __FRAUD_MONEY_CURRENCY_DOLLAR 0, __FRAUD_WEBMAIL 0, __FRAUD_WEBMAIL_FROM 0, __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, __HAS_X_MAILER 0, __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, __HTTPS_URI 0, __MIME_TEXT_ONLY 0, __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 0, __MSGID_32HEX 0, __MULTIPLE_URI_TEXT 0, __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, __RDNS_GMAIL 0, __SANE_MSGID 0, __STOCK_PHRASE_24 0, __TO_MALFORMED_2 0, __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 0, __URI_NO_WWW 0, __URI_WITH_PATH 0,
+ __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:to:from:subject:message-id:auto-submitted:keywords
+         :mime-version:content-transfer-encoding;
+        bh=ZFdEu9cMYJYsfewpLWyGukv0avOqJZ6ho797J7D/6bk=;
+        b=A0TE4MwXR6k0Edt8yjFp3QCGXrFxWUjt4mg11T7xEoYN6QOUKeOheo1BMASHUkIVot
+         3aHiHMbNl5KJ8KawwCf6xmw9UY/mPoqhRbxjb1RtJVIAO4zgm5+VZ6JfemSQHjZNf/y1
+         yOHFKDpNzFQ/4QUPEsg4sXkRoJCeBUrd1znxKrOWWd896YiqBSZ1rHYEGZAdDWLPgYI/
+         hqVi/d5cLjyfOPp8I8ZyC/h3CHkLbp/pZ4ERGp0Eg7TvvFXJ1XWdiHHGv/mgKpwOOLI9
+         Ql3wrtwBgLjlb69Le1ZZyyONnSUm1GuepZrjohD8qwmskq0fpaegBbYtvxoHMgglYuaD
+         KtFg==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]50,0,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:1:41:152:355:379:493:509:541:543:836:882:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1544:1593:1594:1711:1730:1747:1777:1792:1801:2393:2525:2553:2566:2682:2685:2859:2900:2901:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3868:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:4605:5007:6117:6119:6261:6653:6996:6997:7875:7901:7903:8599:8784:8957:8985:8987:9025:9121:9388:9413:10004:10849:11026:11233:11473:11658:11783:12043:12114:12262:12266:12291:12438:12517:12519:12555:12663:12679:12683:12740:13025:13095:13191:13192:13206:13229:13255:13972:14093:14097:14110:14181:14687:14721:21063:21064:21080:21433:21444:21451:30012:30045:30054:30075:30080:30090:30091,0,RBL:209.85.210.196:@gmail.com:thierry.casimirius@intradef.
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1295900;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM07.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_333_27629395.1517006384988
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_334_23237904.1517006384988"
+
+------=_Part_334_23237904.1517006384988
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D19=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Omar
+Responsable:                Omar
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   19
+Cat=C3=A9gorie:                  VITAM
+Reproductibilit=C3=A9:           toujours
+Impact:                     mineur
+Priorit=C3=A9:                   normale
+Statut:                     affect=C3=A9
+Comportement attendu:       =20
+US concern=C3=A9e:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2016-12-15 17:05 CET
+Derni=C3=A8re modification:      2016-12-15 17:05 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     [API-accession-register-detail-POST] =
+: Rechercher
+via API d'un service producteur inexistant - HTTP 500 au lieu de 404
+Description:=20
+En interrogeant pour un  service producteur existant cela fonctionne
+correctement.
+Par contre une erreur 500 non fonctionnel apparait lorsque on interroge ave=
+c un
+service producteur inexistant (on indique bien dans l=E2=80=99url un servic=
+e
+producteur qui est le m=C3=AAme que dans le JSON envoy=C3=A9) cf pj
+En s=E2=80=99attend par exemple =C3=A0 avoir une r=C3=A9ponse indiquant que=
+ =C2=AB service
+producteur =C2=BB est inexistant ou un total 0 ou au pire une HTTP 404 qui =
+est
+indiqu=C3=A9 dans la documentation
+/doc/raml/externe/access.html#accession_register__idu__accession_register_d=
+etail_post
+
+
+=C3=89tapes pour le reproduire:=20
+Envoyer une des requ=C3=AAtes HTTP suivantes:
+
+
+POST
+https://213.32.79.242:8444/access-external/v1/accession-register/AurelienH/=
+accession-register-detail?g_originatingagency=3DAurelienH
+HTTP/1.1
+Accept-Encoding: gzip,deflate
+X-Http-Method-Override: GET
+Accept: application/json
+Content-Type: application/json
+Content-Length: 85
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{"$query":{"$and":[{"$eq":{"OriginatingAgency":"x"}}]},"$filter":{},"$proje=
+ction":{}}
+
+OU
+
+
+POST
+https://213.32.79.242:8444/access-external/v1/accession-register/x/accessio=
+n-register-detail?g_originatingagency=3DAurelienH
+HTTP/1.1
+Accept-Encoding: gzip,deflate
+X-Http-Method-Override: GET
+Accept: application/json
+Content-Type: application/json
+Content-Length: 85
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{"$query":{"$and":[{"$eq":{"OriginatingAgency":"x"}}]},"$filter":{},"$proje=
+ction":{}}
+
+
+OU
+
+
+POST
+https://213.32.79.242:8444/access-external/v1/accession-register/AurelienH/=
+accession-register-detail?g_originatingagency=3DAurelienH
+HTTP/1.1
+Accept-Encoding: gzip,deflate
+X-Http-Method-Override: GET
+Accept: application/json
+Content-Type: application/json
+Content-Length: 85
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{"$query":{"$and":[{"$eq":{"OriginatingAgency":"AurelienH"}}]},"$filter":{}=
+,"$projection":{}}
+
+A noter que AurelienH existe
+
+Informations compl=C3=A9mentaires:=20
+Une r=C3=A9ponse type est
+
+HTTP/1.1 500 Internal Server Error
+Date: Thu, 15 Dec 2016 16:00:29 GMT
+Set-Cookie: rememberMe=3DdeleteMe; Path=3D/; Max-Age=3D0; Expires=3DWed, 14=
+-Dec-2016
+16:00:29 GMT
+Content-Type: application/json
+X-REQUEST-ID: aeeaaaaaacaam7mxabpfmakzam3khayaaaaq
+Content-Length: 180
+Server: Jetty(9.3.13.v20161014)
+
+{"httpCode":500,"code":"INTERNAL_SERVER_ERROR","context":"ACCESS_EXTERNAL",=
+"state":"code_vitam","message":"Internal
+Server Error","description":"Internal Server Error","errors":[]}
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2016-12-15 17:05 Omar           Nouveau bogue                              =
+ =20
+2016-12-15 17:05 Omar           Statut                   nouveau =3D> affec=
+t=C3=A9 =20
+2016-12-15 17:05 Omar           Assign=C3=A9 =C3=A0                 =3D> Om=
+ar           =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_334_23237904.1517006384988--
+
+------=_Part_333_27629395.1517006384988--

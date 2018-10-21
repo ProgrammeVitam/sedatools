@@ -1,0 +1,36 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=30 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   30
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     nouveau
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-22 10:27 CET
+Dernière modification:      2016-12-22 10:27 CET
+====================================================================== 
+Résumé:                     [non implémentée] balise MessageIdentifier non
+lisible dans champs "lot d'archive"
+Description: 
+US 941 indique :"La balise d'un messageIdentifier d'un bordereau est
+actuellement un message lisibile par un humain et qui correspond à l'écran,
+dans le journal des opérations d'entrée, à "lot d'archive"."
+
+Ce n'est pas le cas dans l'ihm
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-22 10:27 Franck         Nouveau bogue                                
+======================================================================

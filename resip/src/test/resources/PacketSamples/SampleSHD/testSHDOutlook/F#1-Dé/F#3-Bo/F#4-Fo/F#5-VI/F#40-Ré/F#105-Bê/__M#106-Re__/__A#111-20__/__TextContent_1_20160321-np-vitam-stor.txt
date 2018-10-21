@@ -1,0 +1,524 @@
+Sommaire
+
+
+
+
+
+
+
+	Storymap de la solution logicielle Vitam
+
+
+
+
+	Plan du document 
+
+	Onglet	Titre
+	1	Entrée
+	2	Accès
+	3	Gestion des archives existantes
+	4	Préservation
+	5	Stockage	 
+	6	Gestion de la donnée
+	7	Administration fonctionnelle
+	8	Administration technique
+	9-12	Vues par version
+	13	Paramètres
+
+
+	Maîtrise du document
+
+	Responsabilité	Nom	Entité	Date
+	Rédaction	JSL, EVR	Équipe Vitam	29/10/15
+	Vérification 
+	Validation 
+
+
+	Suivi des modifications
+
+	Version	Date	Auteur	Modifications
+	v. 1.0	07/12/15	EVR
+	v. 1.1	15/01/16	EVR
+	v. 1.2	05/02/16	EVR
+	v. 1.3	21/03/16	EVR
+
+
+	Destinataires
+
+	Nom	Entité
+	Participants au chantier
+
+
+
+
+
+
+
+
+
+
+
+
+
+&A	
+
+Page &P	
+
+
+S-Entrée old V1.0
+	Domaine fonctionnel	Entrée
+	Activité utilisateur	Préparer et modifier un ensemble d'archives à transférer	Tester un nouveau flux d’entrée applicatif à blanc	Effectuer une entrée par flux applicatif d'un ensemble d'archives	Effectuer une entrée unitaire d'un ensemble d'archives	Gérer les entrées en anomalie	Gérer les contrats d’entrées	Prendre en charge une entrée d'un ensemble d'archives venant d'un autre SAE	Prendre en charge une entrée d'un ensemble de références d'archives externes
+	Description et précision	Organiser et décrire un ensemble d'archives selon le formalisme SEDA	Tester en ayant les résultats des différentes étapes de l’entrée mais sans stocker les archives dans le SAE.
+Il s'agit bien du test en vision métier des flux, l'interconnexion technique sera elle d'abord testée sur une plate-forme de recette.	Réaliser une entrée transférée par une application métier d'un ensemble d'archives selon le formalisme SEDA, depuis l’initialisation jusqu'à la clôture de l’opération	Réaliser une entrée unitaire d'un ensemble d'archives selon le formalisme SEDA, depuis l’initialisation jusqu'à la clôture de l’opération	Gérer les anomalies détectées lors du processus de transfert et d’entrée	Gérer les contrats d’entrées correspondant à des filières d'archives (création, modification, désactivation, suppression)	Importer un ensemble d'archives venant d'un autre SAE avec l'ensemble des données associées (journaux, éléments de valeur probante…)	Effectuer une entrée de références à des archives qui ne sont pas stockées dans le SAE (version papier ou archive stockée dans un autre SAE, comme le classifié)
+	Acteurs concernés	Archiviste, utilisateur service versant	Super-utilisateur archiviste, administrateur technique, archiviste expert, développeur	Archiviste, utilisateur service versant	Archiviste, utilisateur service versant	Archiviste, super-utilisateur archiviste, administrateur technique	Archiviste, Super-utilisateur archiviste, administrateur technique	Archiviste, super-utilisateur archiviste, administrateur technique	Archiviste
+	IHM cible	SIA, outil de préparation des entrées	SIA	SIA, application métier	SIA, outil de préparation des entrées	SIA	SIA	SIA	SIA
+	Version	s.o.	bêta	bêta	bêta	V2	bêta	V2	V2
+	Condition Générale	Construction d’un paquet structuré conformément au SEDA	Entrée par flux applicatif	Entrée effectuée selon une périodicité définie par une application métier, structurée conformément au SEDA, avec schéma complexe permettant un nombre important de contrôles après réception, sans archives classifiées ou à valeur probante, sans traitement de sémantisation après réception. Rejet global en cas d’anomalie.	Entrée effectuée selon une périodicité non prédéfinie par un outil de préparation des entrées, structurée conformément au SEDA, avec schéma simple permettant un faible nombre de contrôles à réception, sans archives classifiées ou à valeur probante, sans traitement de sémantisation après réception	Gestion des anomalies relatives aux moyens de transfert et à la structuration externe du paquet SEDA	Import sans capacité de traitement à réception des journaux ou preuves de valeur probantes prises en charge des comme des archives	Prise en charge de référence correspondant à des archives sur support traditionnel prise en charge par le service d’archives lui-même
+	Conditions particulières	Construction d’un paquet non structuré conformément au SEDA	Préparer une entrée ne respectant pas le formalisme SEDA mais dont le formalisme SEDA est destiné à être reconstitué au moment de la réception dans le SAE	Entrée unitaire (type manuel)	Tester l’entrée dans le SAE d’une entrée unitaire, préparée dans un autre outil, intégré ou non dans le SIA	Archives classifiées	Effectuer une entrée d'archives protégées au titre du secret de la défense nationale dans une instance de Vitam classifiée	Archives classifiées	Effectuer une entrée d'archives protégées au titre du secret de la défense nationale dans une instance de Vitam classifiée	Archives partiellement infectées par des virus	Gérer la découverte dans une entrée d’objets infectés par des virus	Entrée de type manuel	Prendre en charge une entrée unitaire provenant d'un autre SAE, avec transport manuel des données	Cas de l'archivage en Y	Pouvoir prendre en charge des archives en deux exemplaires dans deux espaces d’archivage distincts appartenant à deux entités différentes avec chacune sa propre politique d’archivage en termes de durée de conservation, d’organisation d’espace et de gestion (archivage intermédiaire pour l’une et archivage définitive pour l’autre)
+	Archives à valeur probante	Effectuer une entrée contenant des archives à valeur probante (documents signés électroniquement)	Archives à valeur probante	Effectuer une entrée contenant des archives à valeur probante (documents signés électroniquement)	Archives cryptées	Gérer la découverte dans une entrée d’objets cryptés	SAE Vitam (information de gestion structurée)	Prendre en charge une entrée provenant d'un autre SAE basé sur la solution logicielle Vitam	Cas du classifié (métadonnées d'un niveau moindre)	Prendre en charge dans l’instance non classifiée du SAE une entrée contenant des références à des archives transférées/gérées dans une instance classifiée du SAE
+	Demande de génération de métadonnées descriptives (type sémantisation)	Effectuer une entrée en réalisant à la réception une extraction de métadonnées via des technologies sémantiques	Demande de génération de métadonnées descriptives (type sémantisation)	Effectuer une entrée en réalisant à la réception une extraction de métadonnées via des technologies sémantiques	Structuration et métadonnées non conformes	Gérer la découverte dans une entrée de la malformation du fichier de métadonnées ou de la non conformité des métadonnées	Version numérisée d’archives papier et référence objet papier	Prendre en charge une entrée correspondant à la version numérisée de documents papier ou correspondant à des références à des documents papier
+	API constructive du SEDA	Effectuer une entrée via l'API Vitam sans respecter le formalisme SEDA mais en reconstruisant à réception le formalisme SEDA	A priori a supprimer ?
+API constructive du SEDA	Effectuer une entrée via l'API Vitam sans respecter le formalisme SEDA mais en reconstruisant à réception le formalisme SEDA	Supprimée :
+Entrée de métadonnées d’objets externes au SAE (objets conservés dans un autre SAE type instance CD)
+	A priori a supprimer ? 
+Ensemble non trié, lacunes de plan de classement et/ou de métadonnées (pérennisation garantie mais pas la recherche)	Effectuer une entrée en urgence (cabinet, fonds privés) d'archives dont la structuration n'est pas connue, dont les métadonnées n'ont pas été contrôlées en amont et pour lesquelles certaines opérations ne pourront être effectuées (ex. recherche s’appuyant sur des métadonnées de qualité)	Ensemble non trié, lacunes de plan de classement et/ou de métadonnées (pérennisation garantie mais pas la recherche)	Effectuer une entrée en urgence (cabinet, fonds privés) d'archives dont la structuration n'est pas connue, dont les métadonnées n'ont pas été contrôlées en amont et pour lesquelles certaines opérations ne pourront être effectuées (ex. recherche s’appuyant sur des métadonnées de qualité)
+
+
+
+	Activités Vitam	Application bouchon : créer un paquet SEDA à partir d’un paquet structuré (A définir, objectif de recette des activités 2, 3 et 4). 	Recevoir et tracer mais à blanc un ou plusieurs entrées d'un flux applicatif SEDA	Recevoir, vérifier et stocker un entrée d'un flux applicatif SEDA 	Lister, créer, modifier, désactiver et supprimer les contrats d'entrée	Recevoir, vérifier et stocker une entrée d'un flux applicatif SEDA, avec l'information de gestion	Recevoir, vérifier et stocker un entrée d'un flux applicatif SEDA avec ou sans objets et avec références externes
+	Mode de fractionnement en stories	Activité 1 : Découpage du processus en étapes
+	 Vitam vérifie l'authentification de l'application suite à connexion
+→ Validation ou Rejet
+	Vitam vérifie le contrat de entrée que l'application demande à appliquer au transfert
+→Notification à l'application
+	Vitam vérifie le SIP transféré par l'application par rapport au contrat
+→ Accusé de réception du SIP
+	Vitam lance la séquence de prise en charge :
+- création d'une entrée dans le journal des entrées
+	- antivirus
+	- contrôle externe ou simple SEDA	Démo
+	- empreinte + contrôle de cohérence transport
+	- dédoublonnement 	Ecran d'ajout 
+	- contrôle des formats
+	- contrôle du schéma applicable sur MD (celui du modèle de série)
+	- contrôle des métadonnées
+	- ajout des MD par défaut
+	- calcul des DUC/DUA... (prise en compte des règles de gestion communicabilité, sort final...)
+	- enregistrement dans le stockage prévu au contrat
+	- indexation des métadonnées dans la base Vitam
+	- finalisation du journal des entrées
+→ notification à l'application de la prise en charge
+
+	Type d'IHM de la solution logicielle Vitam	Aucune	Mini	Mini	Mini	Démo	Démo
+	Description de l’IHM envisagée	Écrans de suivi pas à pas d'un entrée à blanc sur une appli donnée	Écran de soumission d'un SIP déjà construit ailleurs dans le cadre d'un contrat d'entrée	Écrans de gestion de référentiel Contrats d'entrée	Écran d'import d'un paquet de transfert et retour des actions induites 	Écran de soumission d'un SIP partiellement sans objets déjà construit ailleurs dans le cadre d'un contrat d'entrée
+
+	Autres développements	Application versante de démonstration
+
+	Multi-tenants	Sans Objet	Oui	Oui	Oui	Oui	Oui
+
+	Premier produit
+	Activités Vitam	Pas de tâche	Pas de tâche	Activité Vitam sans diversification (sauf API constructive) avec étapes de contrôle fortement allégées et sans stockage	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche
+	IHM	IHM de recette de construction d'un SIP	IHM de recette de gestion du référentiel hors destruction
+	 IHM de recette de soumission d'un SIP avec traçage
+
+
+	Produit Minimal Viable
+	Activités Vitam	Pas de tâche	Activité Vitam	Activité Vitam sans diversification (sauf API constructive) avec étapes de contrôle allégées	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche
+	IHM	IHM minimale de suivi pas à pas de flux à blanc	IHM de recette de construction d'un SIP	IHM minimale de gestion du référentiel hors destruction
+	Application versante de recette	IHM minimale de soumission d'un SIP
+
+&A	
+
+Page &P	
+
+
+S-Entrée old
+	Domaine fonctionnel	Entrée
+	Activité utilisateur	Préparer et modifier un ensemble d'archives à transférer	Tester un nouveau flux d’entrée applicatif à blanc	Effectuer une entrée par flux applicatif d'un ensemble d'archives	Effectuer une entrée unitaire d'un ensemble d'archives	Gérer les entrées en anomalie	Gérer les contrats d’entrées	Prendre en charge une entrée d'un ensemble d'archives venant d'un autre SAE	Prendre en charge une entrée d'un ensemble de références d'archives externes
+	Description et précision	Organiser et décrire un ensemble d'archives selon le formalisme SEDA	Tester en ayant les résultats des différentes étapes de l’entrée mais sans stocker les archives dans le SAE.
+Il s'agit bien du test en vision métier des flux, l'interconnexion technique sera elle d'abord testée sur une plate-forme de recette.	Réaliser une entrée transférée par une application métier d'un ensemble d'archives selon le formalisme SEDA, depuis l’initialisation jusqu'à la clôture de l’opération	Réaliser une entrée unitaire d'un ensemble d'archives selon le formalisme SEDA, depuis l’initialisation jusqu'à la clôture de l’opération	Gérer les anomalies détectées lors du processus de transfert et d’entrée	Gérer les contrats d’entrées correspondant à des filières d'archives (création, modification, désactivation, suppression de contrats, des filières et des profils associés)	Importer un ensemble d'archives venant d'un autre SAE avec l'ensemble des données associées (journaux, éléments de valeur probante…)	Effectuer une entrée de références à des archives qui ne sont pas stockées dans le SAE (version papier ou archive stockée dans un autre SAE, comme le classifié)
+	Acteurs concernés	Archiviste, utilisateur service versant	Super-utilisateur archiviste, administrateur technique, archiviste expert, développeur	Archiviste, utilisateur service versant	Archiviste, utilisateur service versant	Archiviste, super-utilisateur archiviste, administrateur technique	Archiviste, Super-utilisateur archiviste, administrateur technique	Archiviste, super-utilisateur archiviste, administrateur technique	Archiviste
+	IHM cible	SIA, outil de préparation des entrées	Admin SAE, si besoin SIA	SIA, application métier	SIA, outil de préparation des entrées	SIA	SIA	SIA	SIA
+	Version	s.o.	bêta	bêta	bêta	V2	bêta	V2	V2
+	Condition Générale	Construction d’un paquet structuré conformément au SEDA	Entrée par flux applicatif	Entrée effectuée selon une périodicité définie par une application métier, structurée conformément au SEDA, avec schéma complexe permettant un nombre important de contrôles après réception, sans archives classifiées ou à valeur probante, sans traitement de sémantisation après réception. Rejet global en cas d’anomalie.	Entrée effectuée selon une périodicité non prédéfinie par un outil de préparation des entrées, structurée conformément au SEDA, avec schéma simple permettant un faible nombre de contrôles à réception, sans archives classifiées ou à valeur probante, sans traitement de sémantisation après réception	Gestion des anomalies relatives aux moyens de transfert et à la structuration externe du paquet SEDA	Import sans capacité de traitement à réception des journaux ou preuves de valeur probantes prises en charge des comme des archives	Prise en charge de référence correspondant à des archives sur support traditionnel prise en charge par le service d’archives lui-même
+	Conditions particulières	Construction d’un paquet non structuré conformément au SEDA	Préparer une entrée ne respectant pas le formalisme SEDA mais dont le formalisme SEDA est destiné à être reconstitué au moment de la réception dans le SAE	Entrée unitaire (type manuel)	Tester l’entrée dans le SAE d’une entrée unitaire, préparée dans un autre outil, intégré ou non dans le SIA	Archives classifiées	Effectuer une entrée d'archives protégées au titre du secret de la défense nationale dans une instance de Vitam classifiée	Archives classifiées	Effectuer une entrée d'archives protégées au titre du secret de la défense nationale dans une instance de Vitam classifiée	Archives partiellement infectées par des virus	Gérer la découverte dans une entrée d’objets infectés par des virus	Entrée de type manuel	Prendre en charge une entrée unitaire provenant d'un autre SAE, avec transport manuel des données	Cas de l'archivage en Y	Pouvoir prendre en charge des archives en deux exemplaires dans deux espaces d’archivage distincts appartenant à deux entités différentes avec chacune sa propre politique d’archivage en termes de durée de conservation, d’organisation d’espace et de gestion (archivage intermédiaire pour l’une et archivage définitive pour l’autre)
+	Archives à valeur probante	Effectuer une entrée contenant des archives à valeur probante (documents signés électroniquement)	Archives à valeur probante	Effectuer une entrée contenant des archives à valeur probante (documents signés électroniquement)	Archives cryptées	Gérer la découverte dans une entrée d’objets cryptés	SAE Vitam (information de gestion structurée)	Prendre en charge une entrée provenant d'un autre SAE basé sur la solution logicielle Vitam	Cas du classifié (métadonnées d'un niveau moindre)	Prendre en charge dans l’instance non classifiée du SAE une entrée contenant des références à des archives transférées/gérées dans une instance classifiée du SAE
+	Demande de génération de métadonnées descriptives (type sémantisation)	Effectuer une entrée en réalisant à la réception une extraction de métadonnées via des technologies sémantiques	Demande de génération de métadonnées descriptives (type sémantisation)	Effectuer une entrée en réalisant à la réception une extraction de métadonnées via des technologies sémantiques	Structuration et métadonnées non conformes	Gérer la découverte dans une entrée de la malformation du fichier de métadonnées ou de la non conformité des métadonnées	Version numérisée d’archives papier et référence objet papier	Prendre en charge une entrée correspondant à la version numérisée de documents papier ou correspondant à des références à des documents papier
+	API constructive du SEDA	Effectuer une entrée via l'API Vitam sans respecter le formalisme SEDA mais en reconstruisant à réception le formalisme SEDA	A priori a supprimer ?
+API constructive du SEDA	Effectuer une entrée via l'API Vitam sans respecter le formalisme SEDA mais en reconstruisant à réception le formalisme SEDA	Supprimée :
+Entrée de métadonnées d’objets externes au SAE (objets conservés dans un autre SAE type instance CD)
+	A priori a supprimer ? 
+Ensemble non trié, lacunes de plan de classement et/ou de métadonnées (pérennisation garantie mais pas la recherche)	Effectuer une entrée en urgence (cabinet, fonds privés) d'archives dont la structuration n'est pas connue, dont les métadonnées n'ont pas été contrôlées en amont et pour lesquelles certaines opérations ne pourront être effectuées (ex. recherche s’appuyant sur des métadonnées de qualité)	Ensemble non trié, lacunes de plan de classement et/ou de métadonnées (pérennisation garantie mais pas la recherche)	Effectuer une entrée en urgence (cabinet, fonds privés) d'archives dont la structuration n'est pas connue, dont les métadonnées n'ont pas été contrôlées en amont et pour lesquelles certaines opérations ne pourront être effectuées (ex. recherche s’appuyant sur des métadonnées de qualité)
+
+
+
+	Activités Vitam	Application bouchon : créer un paquet SEDA à partir d’un paquet structuré (A définir, objectif de recette des activités 2, 3 et 4). 	Recevoir et tracer mais à blanc un ou plusieurs entrées d'un flux applicatif SEDA	Recevoir, vérifier et stocker un entrée d'un flux applicatif SEDA 	Lister, créer, modifier, désactiver et supprimer les contrats d'entrée	Recevoir, vérifier et stocker une entrée d'un flux applicatif SEDA, avec l'information de gestion	Recevoir, vérifier et stocker un entrée d'un flux applicatif SEDA avec ou sans objets et avec références externes
+	Mode de fractionnement en stories	Activité 1 : Découpage du processus en étapes
+	 Vitam vérifie l'authentification de l'application suite à connexion
+→ Validation ou Rejet
+	Vitam vérifie le contrat de entrée que l'application demande à appliquer au transfert
+→Notification à l'application
+	Vitam vérifie le SIP transféré par l'application par rapport au contrat
+→ Accusé de réception du SIP
+	Vitam lance la séquence de prise en charge :
+- création d'une entrée dans le journal des entrées
+	- antivirus
+	- contrôle externe ou simple SEDA	Démo
+	- empreinte + contrôle de cohérence transport
+	- dédoublonnement 	Ecran d'ajout 
+	- contrôle des formats
+	- contrôle du schéma applicable sur MD (celui du modèle de série)
+	- contrôle des métadonnées
+	- ajout des MD par défaut
+	- calcul des DUC/DUA... (prise en compte des règles de gestion communicabilité, sort final...)
+	- enregistrement dans le stockage prévu au contrat
+	- indexation des métadonnées dans la base Vitam
+	- finalisation du journal des entrées
+→ notification à l'application de la prise en charge
+
+	Type d'IHM de la solution logicielle Vitam	Aucune	Mini	Mini	Mini	Démo	Démo
+	Description de l’IHM envisagée	Écrans de suivi pas à pas d'un entrée à blanc sur une appli donnée	Écran de soumission d'un SIP déjà construit ailleurs dans le cadre d'un contrat d'entrée	Écrans de gestion de référentiel Contrats d'entrée	Écran d'import d'un paquet de transfert et retour des actions induites 	Écran de soumission d'un SIP partiellement sans objets déjà construit ailleurs dans le cadre d'un contrat d'entrée
+
+	Autres développements	Application versante de démonstration
+
+	Multi-tenants	Sans Objet	Oui	Oui	Oui	Oui	Oui
+
+	Premier produit
+	Activités Vitam	Pas de tâche	Pas de tâche	Activité Vitam sans diversification (sauf API constructive) avec étapes de contrôle fortement allégées et sans stockage	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche
+	IHM	IHM de recette de construction d'un SIP	IHM de recette de gestion du référentiel hors destruction
+	 IHM de recette de soumission d'un SIP avec traçage
+
+
+	Produit Minimal Viable
+	Activités Vitam	Pas de tâche	Activité Vitam	Activité Vitam sans diversification (sauf API constructive) avec étapes de contrôle allégées	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche
+	IHM	IHM minimale de suivi pas à pas de flux à blanc	IHM de recette de construction d'un SIP	IHM minimale de gestion du référentiel hors destruction
+	Application versante de recette	IHM minimale de soumission d'un SIP
+
+&A	
+
+Page &P	
+
+
+S-Entrée
+	Domaine fonctionnel	Entrée	Afficher les changements
+	Activité utilisateur	Préparer et modifier un ensemble d'archives à transférer	Tester un nouveau flux d’entrée applicatif à blanc	Effectuer une entrée par flux applicatif d'un ensemble d'archives	Effectuer une entrée unitaire d'un ensemble d'archives	Gérer les entrées en anomalie	Gérer les contrats d’entrées	Prendre en charge une entrée d'un ensemble d'archives venant d'un autre SAE	Prendre en charge une entrée d'un ensemble de références d'archives externes
+	Description et précision	Organiser et décrire un ensemble d'archives selon le formalisme SEDA	Tester en ayant les résultats des différentes étapes de l’entrée mais sans stocker les archives dans le SAE.
+Il s'agit bien du test en vision métier des flux, l'interconnexion technique sera elle d'abord testée sur une plate-forme de recette.	Réaliser une entrée transférée par une application métier d'un ensemble d'archives selon le formalisme SEDA, depuis l’initialisation jusqu'à la clôture de l’opération	Réaliser une entrée unitaire d'un ensemble d'archives selon le formalisme SEDA, depuis l’initialisation jusqu'à la clôture de l’opération	Gérer les anomalies détectées lors du processus de transfert et d’entrée	Gérer les contrats d’entrées correspondant à des filières d'archives (création, modification, désactivation, suppression de contrats, des filières et des profils associés)	Importer un ensemble d'archives venant d'un autre SAE avec l'ensemble des données associées (journaux, éléments de valeur probante…)	Effectuer une entrée de références à des archives qui ne sont pas stockées dans le SAE (version papier ou archive stockée dans un autre SAE, comme le classifié)
+	Acteurs concernés	Archiviste, utilisateur service versant	Super-utilisateur archiviste, administrateur technique, archiviste expert, développeur	Archiviste, utilisateur service versant	Archiviste, utilisateur service versant	Archiviste, super-utilisateur archiviste, administrateur technique	Archiviste, Super-utilisateur archiviste, administrateur technique	Archiviste, super-utilisateur archiviste, administrateur technique	Archiviste
+	IHM cible	SIA, outil de préparation des entrées	Admin SAE, si besoin SIA	SIA, application métier	SIA, outil de préparation des entrées	SIA	SIA	SIA	SIA
+	Version	s.o.	bêta	bêta	bêta	V1	bêta	V2	V2
+	Condition Générale	Construction d’un paquet structuré conformément au SEDA	Entrée par flux applicatif	Entrée effectuée selon une périodicité définie par une application métier, structurée conformément au SEDA, avec schéma complexe permettant un nombre important de contrôles après réception, sans archives classifiées ou à valeur probante, sans traitement de sémantisation après réception. Rejet global en cas d’anomalie.	Entrée effectuée selon une périodicité non prédéfinie par un outil de préparation des entrées, structurée conformément au SEDA, avec schéma simple permettant un faible nombre de contrôles à réception, sans archives classifiées ou à valeur probante, sans traitement de sémantisation après réception	Rejet global de l’entrée en cas d’anomalies relatives aux moyens de transfert et/ou à la structuration externe du paquet SEDA ou autres	Import sans capacité de traitement à réception des journaux ou preuves de valeur probantes prises en charge comme des archives	Prise en charge de référence correspondant à des archives sur support traditionnel prise en charge par le service d’archives lui-même
+	Conditions particulières	Construction d’un paquet non structuré conformément au SEDA	Préparer une entrée ne respectant pas le formalisme SEDA mais dont le formalisme SEDA est destiné à être reconstitué au moment de la réception dans le SAE	Entrée unitaire (type manuel)	Tester l’entrée dans le SAE d’une entrée unitaire, préparée dans un autre outil, intégré ou non dans le SIA	Archives classifiées	Effectuer une entrée d'archives protégées au titre du secret de la défense nationale dans une instance de Vitam classifiée	Archives classifiées	Effectuer une entrée d'archives protégées au titre du secret de la défense nationale dans une instance de Vitam classifiée	Archives partiellement infectées par des virus	Gérer la découverte dans une entrée d’objets infectés par des virus	Entrée de type manuel	Prendre en charge une entrée unitaire provenant d'un autre SAE, avec transport manuel des données	Cas de l'archivage en Y	Pouvoir prendre en charge des archives en deux exemplaires dans deux espaces d’archivage distincts appartenant à deux entités différentes avec chacune sa propre politique d’archivage en termes de durée de conservation, d’organisation d’espace et de gestion (archivage intermédiaire pour l’une et archivage définitive pour l’autre)
+	Archives à valeur probante	Effectuer une entrée contenant des archives à valeur probante (documents signés électroniquement)	Archives à valeur probante	Effectuer une entrée contenant des archives à valeur probante (documents signés électroniquement)	Archives cryptées	Gérer la découverte dans une entrée d’objets cryptés	SAE Vitam (information de gestion structurée)	Prendre en charge une entrée provenant d'un autre SAE basé sur la solution logicielle Vitam	Cas du classifié (métadonnées d'un niveau moindre)	Prendre en charge dans l’instance non classifiée du SAE une entrée contenant des références à des archives transférées/gérées dans une instance classifiée du SAE
+	Demande de génération de métadonnées descriptives (type sémantisation)	Effectuer une entrée en réalisant à la réception une extraction de métadonnées via des technologies sémantiques	Demande de génération de métadonnées descriptives (type sémantisation)	Effectuer une entrée en réalisant à la réception une extraction de métadonnées via des technologies sémantiques	Structuration et métadonnées non conformes	Gérer la découverte dans une entrée de la malformation du fichier de métadonnées ou de la non conformité des métadonnées	Version numérisée d’archives papier et référence objet papier	Prendre en charge une entrée correspondant à la version numérisée de documents papier ou correspondant à des références à des documents papier
+	API constructive du SEDA	Effectuer une entrée via l'API Vitam sans respecter le formalisme SEDA mais en reconstruisant à réception le formalisme SEDA	A priori a supprimer ?
+API constructive du SEDA	Effectuer une entrée via l'API Vitam sans respecter le formalisme SEDA mais en reconstruisant à réception le formalisme SEDA	Supprimée :
+Entrée de métadonnées d’objets externes au SAE (objets conservés dans un autre SAE type instance CD)
+	A priori a supprimer ? 
+Ensemble non trié, lacunes de plan de classement et/ou de métadonnées (pérennisation garantie mais pas la recherche)	Effectuer une entrée en urgence (cabinet, fonds privés) d'archives dont la structuration n'est pas connue, dont les métadonnées n'ont pas été contrôlées en amont et pour lesquelles certaines opérations ne pourront être effectuées (ex. recherche s’appuyant sur des métadonnées de qualité)	Ensemble non trié, lacunes de plan de classement et/ou de métadonnées (pérennisation garantie mais pas la recherche)	Effectuer une entrée en urgence (cabinet, fonds privés) d'archives dont la structuration n'est pas connue, dont les métadonnées n'ont pas été contrôlées en amont et pour lesquelles certaines opérations ne pourront être effectuées (ex. recherche s’appuyant sur des métadonnées de qualité)
+
+
+
+	Activités Vitam	Application bouchon : créer un paquet SEDA à partir d’un paquet structuré (A définir, objectif de recette des activités 2, 3 et 4). 	Recevoir et tracer mais à blanc un ou plusieurs entrées d'un flux applicatif SEDA	Recevoir, vérifier et stocker un entrée d'un flux applicatif SEDA 	Lister, créer, modifier, désactiver et supprimer les contrats d'entrée	Recevoir, vérifier et stocker une entrée d'un flux applicatif SEDA, avec l'information de gestion	Recevoir, vérifier et stocker un entrée d'un flux applicatif SEDA avec ou sans objets et avec références externes
+	Mode de fractionnement en stories	Activité 1 : Découpage du processus en étapes
+	 Vitam vérifie l'authentification de l'application suite à connexion
+→ Validation ou Rejet
+	Vitam vérifie le contrat de entrée que l'application demande à appliquer au transfert
+→Notification à l'application
+	Vitam vérifie le SIP transféré par l'application par rapport au contrat
+→ Accusé de réception du SIP
+	Vitam lance la séquence de prise en charge :
+- création d'une entrée dans le journal des entrées
+	- antivirus
+	- contrôle externe ou simple SEDA	Démo
+	- empreinte + contrôle de cohérence transport
+	- dédoublonnement 	Ecran d'ajout 
+	- contrôle des formats
+	- contrôle du schéma applicable sur MD (celui du modèle de série)
+	- contrôle des métadonnées
+	- ajout des MD par défaut
+	- calcul des DUC/DUA... (prise en compte des règles de gestion communicabilité, sort final...)
+	- enregistrement dans le stockage prévu au contrat
+	- indexation des métadonnées dans la base Vitam
+	- finalisation du journal des entrées
+→ notification à l'application de la prise en charge
+
+	Type d'IHM de la solution logicielle Vitam	Aucune	Mini	Mini	Mini	Démo	Démo
+	Description de l’IHM envisagée	Écrans de suivi pas à pas d'un entrée à blanc sur une appli donnée	Écran de soumission d'un SIP déjà construit ailleurs dans le cadre d'un contrat d'entrée	Écrans de gestion de référentiel Contrats d'entrée	Écran d'import d'un paquet de transfert et retour des actions induites 	Écran de soumission d'un SIP partiellement sans objets déjà construit ailleurs dans le cadre d'un contrat d'entrée
+
+	Autres développements	Application versante de démonstration
+
+	Multi-tenants	Sans Objet	Oui	Oui	Oui	Oui	Oui
+
+	Premier produit
+	Activités Vitam	Pas de tâche	Pas de tâche	Activité Vitam sans diversification (sauf API constructive) avec étapes de contrôle fortement allégées et sans stockage	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche
+	IHM	IHM de recette de construction d'un SIP	IHM de recette de gestion du référentiel hors destruction
+	 IHM de recette de soumission d'un SIP avec traçage
+
+
+	Produit Minimal Viable
+	Activités Vitam	Pas de tâche	Activité Vitam	Activité Vitam sans diversification (sauf API constructive) avec étapes de contrôle allégées	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche
+	IHM	IHM minimale de suivi pas à pas de flux à blanc	IHM de recette de construction d'un SIP	IHM minimale de gestion du référentiel hors destruction
+	Application versante de recette	IHM minimale de soumission d'un SIP
+
+&A	
+
+Page &P	
+
+
+S-Accès old V1.0
+	Domaine fonctionnel	Accès (recherche et consultation)
+	Activité utilisateur	Rechercher une unité d'archives bien définie dans une transaction automatique	Rechercher des archives par recherche complexe manuelle sur les archives	Rechercher des archives via le journal des entrées	… pour mémoire d'autres types de recherches peuvent induire des tâches spécifiques	Instruire une demande d’autorisation de consultation	Consulter un ensemble d'archives	Exporter des métadonnées d'un ensemble d'archives	Exporter un relevé de valeur probante pour un ensemble d’archives	Gérer les contrats d'accès	Rendre un ensemble d’archives plus rapidement accessible de manière temporaire
+	Description et précision	Obtenir une unité d'archives correspondant à une requête ciblée faite par une application connectée au SAE	Obtenir la liste des archives correspondant à une requête complexe composée par un humain	Identifier une entrée et obtenir la liste des archives associées avec leurs métadonnées	Instruire les autorisations de consultations pour des ensembles d’archives non librement communicables/réutilisables (archives sous dérogation, archives sous protocole, fonds privés, documents classifiés)	Obtenir le contenu des archives identifiées, pour export, visualisation, transmission...	Obtenir les métadonnées des archives identifiées	Obtenir un relevé établissant la bonne conservation de la valeur probante d'un ensemble d'archives	Gérer les contrats d'accès correspondant à des filières d'archives (création, modification, désactivation, suppression)	Rapatrier un ensemble d'archives le temps d'une opération particulière demandant un accès fréquent (principe du « petit dépôt »). L'ensemble d'archives est mis dans un espace de stockage rapide/facilement accessible.
+	Acteurs concernés	Archiviste, utilisateur service producteur,
+grand public	Archiviste, utilisateur service producteur, grand public	Archiviste	Archiviste, utilisateur service producteur, ayant droit (fonds privés, protocoles)	Archiviste, utilisateur service producteur, grand public	Archiviste, utilisateur service producteur, grand public	Archiviste, utilisateur service producteur, grand public, juge	Super-utilisateur archiviste, administrateur technique	Archiviste
+	IHM cible	SIA, application métier	SIA, application métier	SIA	SIA	SIA, application métier	SIA	SIA, application métier	SIA	SIA
+	Version	bêta	bêta	bêta	s.o.	bêta	V2	V2	bêta	V3
+	Condition Générale	Recherche sur métadonnées connues par l’application versante sur un nombre d’archives limité	Recherche plein texte  sur les métadonnées. Recherche sur des métadonnées de même nature a différents niveaux de l’arbre de description, sans retour de condensés par facettes, sans moyen de filtrer par date	VERFIER MODIF. VERSION Obtenir la liste des entrées par ordre chronologique. Filtrer cette liste par critères de  métadonnées. Pour une entrée, obtenir la liste des identifiants d’archives associées.	Consultation d’un ensemble d’archives défini comme une liste, dans le format de DIP par défaut, sans possibilité de demander de migration de format	Export d’un ensemble d’archives défini comme une liste, dans un format SEDA	Export pour un ensemble d’archives défini comme une liste	Lister, créer, modifier, désactiver et supprimer des contrats d’accès permettant la connexion d’une nouvelle application en « accès » sur un ensemble d’archive (en lien avec l’activité « Gérer les droits archivistiques des applications connectées au SAE »)	A définir par la suite sous forme de conditions particulières les « droits archivistiques » qui peuvent être associés à l’accès (ex : modification de métadonnées, élimination ?,…)
+Référence activité « Gérer les droits archivistiques des applications connectées au SAE »)	Rendre plus accessible un ensemble d’archives défini comme une liste, non classifiées, avec une durée et des priorités de rétention définies par défaut
+	Conditions particulières	Application accédante  différente de l'application versante	Effectuer une recherche depuis une IHM métier des archives transférées dans le SAE par une autre application	Modes de construction de la requête dans l'interface des front office	Effectuer des recherches d’archives dans le SAE au moyen d’une requête construite par l’utilisateur dans le SIA en sélectionnant les critères (champs) nécessaires dans les ressources fournies par le SAE (filières, types, ontologie). 	VERFIER MODIF. VERSION Consulter le bordereau d’entrée	Ensemble d'archives défini comme le résultat d’une requête	Consulter un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Exporter un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Exporter un relevé de valeur probante pour un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Enregistrer sur un espace de stockage temporaire un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête
+	Résultat de grande taille	Obtenir en résultat d'une recherche un grand nombre de réponse (supérieure à la capacité d'affichage de l'IHM)	Recherche mixte sur métadonnées de différentes natures (descriptives, gestion, techniques)	Effectuer une recherche en croisant des métadonnées de différentes nature (descriptive, technique, gestion	Format d'export autre que DIP (par exemple zip des fichiers sans MD)	Récupérer pour consultation uniquement les objets archivés, sans leurs métadonnées, dans une arborescence identique à celle existant dans le SAE	Format d'export différent du SEDA (par exemple CSV)	Exporter les archives et leurs métadonnées dans un formalisme autre que celui proposé par le SEDA	Possibilité de gestion de périodes de rétention	Définir une durée de stockage déterminée pour l'ensemble d'archives dans l'espace de stockage temporaire
+	Remontée de condensés par facettes	Filtrer les résultats obtenus lors d'une recherche en utilisant un système de facettes	Possibilité de migrer de format au moment de l'export	Demander à consulter des archives après migration vers un format non conservé dans le SAE, en utilisant une méthode de conversion existante dans le SAE	Possibilité de gestion de priorités de rétention	Définir une priorité de maintien d'un ensemble d'archives dans l'espace de stockage temporaire pour arbitrage lors de l'atteinte de la limite de capacité
+	Filtre date	Filtrer les résultats obtenus lors d'une recherche en modifiant l'intervalle chronologique des résultats	Choix de la forme parmi celle existantes pour les archives (conservation/diffusion, format type)	Demander à consulter une archive en sélectionnant une version dans un format conservé dans le SAE	Archives classifiées	Permettre à un utilisateur habilité et autorisé de consulter un ensemble d'archives classifiées
+	Schémas de données par types d’archive	Effectuer une recherche en recherchant au préalable le schéma de données correspondant au type d'archives recherché
+
+	Activités Vitam	Traiter une requête de découverte d'archives avec localisation dans l'arbre et MD connues (Domaine Données)	Fournir les informations de structuration des ensembles d'archives et des schémas de données utilisables de manière globale ou locale dans l'arbre en un point défini par certaines informations métiers (contrat de versement, service producteur, application versante...)	Traiter une requête de découverte d'archives liées aux journaux (Domaine Données)	Rien (Réalisé hors de Vitam)	Exporter le contenu d'un ensemble d'archives	Exporter une structure d'organisation et de MD d'un ensemble d'archives listées	Construire et exporter le relevé de valeur probante d'un ensemble d'archives	Lister, créer, modifier, désactiver et supprimer les contrats d'accès	Mettre sur une offre de stockage cache un ensemble d'archives
+	Traiter une requête de découverte d'archives avec localisation dans l'arbre et MD connues (Domaine Données)
+	Mode de fractionnement en stories	Activité 1 : US issues des attentes des projets (développements faits avec une optique tutoriel de dév)
+	Faire une Macro-US sur une interface de recherche de démo
+
+
+
+	Type d'IHM de la solution logicielle Vitam	Démo	Mini	Mini	Aucune	Mini	Mini	Mini	Mini	Démo
+	Description de l’IHM envisagée	Ecran de circulation dans l'arbre d'organisation puis recherche d'une ou plusieurs MD en largeur pour sélection d'un ensemble d'archives (principe de panier)
+Ecran de gestion du « panier »	Ecran de recherche d'un bordereau de versement et ajout des archives concernées au « panier »	Ecran de consultation d'une archive précise choisie dans le « panier »
+Ecran de téléchargement du « panier »	Ecran d'export des MD du « panier »	Ecran d'export des relevés du « panier »	Ecrans de gestion de réferentiel Contrats d'accès	Ecran de mise en cache du « panier »
+
+	Autres développements	Application accédante de démonstration
+
+	Multi-tenants	Oui	Oui	Oui	Sans objet	Oui	Oui	Oui	Oui	Oui
+
+	Premier produit
+	Activités Vitam	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Activité Vitam sans diversification 	Pas de tâche	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche
+	IHM	IHM de recette de téléchargement d'une archive identifiée	IHM de recette de gestion du référentiel hors destruction
+
+
+
+	Produit Minimal Viable
+	Activités Vitam	Activité Vitam sans diversification 	Activité Vitam	Activité Vitam	Pas de tâche	Activité Vitam sans migration	Activité Vitam	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche
+	IHM	Application accédante de recette	IHM demo de recherche Google avec facettes	IHM de recette de recherche par bordereau	IHM minimale de consultation d'une archive précise	IHM minimale de téléchargement des MD du « panier »	IHM minimale de gestion du référentiel hors destruction
+	IHM minimale gestion de « panier »	IHM minimale de téléchargement du « panier »
+
+&A	
+
+Page &P	
+
+
+S-Accès old
+	Domaine fonctionnel	Accès (recherche et consultation)
+	Activité utilisateur	Rechercher une unité d'archives bien définie dans une transaction automatique	Rechercher des archives par recherche complexe manuelle sur les archives	Rechercher des archives via le journal des entrées	… pour mémoire d'autres types de recherches peuvent induire des tâches spécifiques	Instruire une demande d’autorisation de consultation	Consulter un ensemble d'archives	Exporter des métadonnées d'un ensemble d'archives	Exporter un relevé de valeur probante pour un ensemble d’archives	Gérer les contrats d'accès	Rendre un ensemble d’archives plus rapidement accessible de manière temporaire
+	Description et précision	Obtenir une unité d'archives correspondant à une requête ciblée faite par une application connectée au SAE	Obtenir la liste des archives correspondant à une requête complexe composée par un humain	Identifier une entrée et obtenir la liste des archives associées avec leurs métadonnées	Instruire les autorisations de consultations pour des ensembles d’archives non librement communicables/réutilisables (archives sous dérogation, archives sous protocole, fonds privés, documents classifiés)	Obtenir le contenu des archives identifiées, pour export, visualisation, transmission...	Obtenir les métadonnées des archives identifiées	Obtenir un relevé établissant la bonne conservation de la valeur probante d'un ensemble d'archives	Gérer les contrats d'accès correspondant à des filières d'archives (création, modification, désactivation, suppression)	Rapatrier un ensemble d'archives le temps d'une opération particulière demandant un accès fréquent (principe du « petit dépôt »). L'ensemble d'archives est mis dans un espace de stockage rapide/facilement accessible.
+	Acteurs concernés	Archiviste, utilisateur service producteur,
+grand public	Archiviste, utilisateur service producteur, grand public	Archiviste	Archiviste, utilisateur service producteur, ayant droit (fonds privés, protocoles)	Archiviste, utilisateur service producteur, grand public	Archiviste, utilisateur service producteur, grand public	Archiviste, utilisateur service producteur, grand public, juge	Super-utilisateur archiviste, administrateur technique	Archiviste
+	IHM cible	SIA, application métier	SIA, application métier	SIA	SIA	SIA, application métier	SIA	SIA, application métier	SIA	SIA
+	Version	bêta	bêta	bêta	s.o.	bêta	V2	V2	bêta	V3
+	Condition Générale	Recherche sur métadonnées connues par l’application versante sur un nombre d’archives limité	Recherche plein texte  sur les métadonnées. Recherche sur des métadonnées de même nature a différents niveaux de l’arbre de description, sans retour de condensés par facettes, sans moyen de filtrer par date	Obtenir la liste des entrées par ordre chronologique. Filtrer cette liste par critères de  métadonnées. Pour une entrée, obtenir la liste des identifiants d’archives associées.	Consultation d’un ensemble d’archives défini comme une liste, dans le format de DIP par défaut, sans possibilité de demander de migration de format	Export d’un ensemble d’archives défini comme une liste, dans un format SEDA	Export pour un ensemble d’archives défini comme une liste	Lister, créer, modifier, désactiver et supprimer des contrats d’accès permettant la connexion d’une nouvelle application en « accès » sur un ensemble d’archive (en lien avec l’activité « Gérer les droits archivistiques des applications connectées au SAE »)	A définir par la suite sous forme de conditions particulières les « droits archivistiques » qui peuvent être associés à l’accès (ex : modification de métadonnées, élimination ?,…)
+Référence activité « Gérer les droits archivistiques des applications connectées au SAE »)	Rendre plus accessible un ensemble d’archives défini comme une liste, non classifiées, avec une durée et des priorités de rétention définies par défaut
+	Conditions particulières	Application accédante  différente de l'application versante	Effectuer une recherche depuis une IHM métier des archives transférées dans le SAE par une autre application	Modes de construction de la requête dans l'interface des front office	Effectuer des recherches d’archives dans le SAE au moyen d’une requête construite par l’utilisateur dans le SIA en sélectionnant les critères (champs) nécessaires dans les ressources fournies par le SAE (filières, types, ontologie). 	Consulter le bordereau d’entrée	Ensemble d'archives défini comme le résultat d’une requête	Consulter un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Exporter un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Exporter un relevé de valeur probante pour un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Enregistrer sur un espace de stockage temporaire un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête
+	Résultat de grande taille	Obtenir en résultat d'une recherche un grand nombre de réponse (supérieure à la capacité d'affichage de l'IHM)	Recherche mixte sur métadonnées de différentes natures (descriptives, gestion, techniques)	Effectuer une recherche en croisant des métadonnées de différentes nature (descriptive, technique, gestion	Format d'export autre que DIP (par exemple zip des fichiers sans MD)	Récupérer pour consultation uniquement les objets archivés, sans leurs métadonnées, dans une arborescence identique à celle existant dans le SAE	Format d'export différent du SEDA (par exemple CSV)	Exporter les archives et leurs métadonnées dans un formalisme autre que celui proposé par le SEDA	Possibilité de gestion de périodes de rétention	Définir une durée de stockage déterminée pour l'ensemble d'archives dans l'espace de stockage temporaire
+	Remontée de condensés par facettes	Filtrer les résultats obtenus lors d'une recherche en utilisant un système de facettes	Possibilité de migrer de format au moment de l'export	Demander à consulter des archives après migration vers un format non conservé dans le SAE, en utilisant une méthode de conversion existante dans le SAE	Possibilité de gestion de priorités de rétention	Définir une priorité de maintien d'un ensemble d'archives dans l'espace de stockage temporaire pour arbitrage lors de l'atteinte de la limite de capacité
+	Filtre date	Filtrer les résultats obtenus lors d'une recherche en modifiant l'intervalle chronologique des résultats	Choix de la forme parmi celle existantes pour les archives (conservation/diffusion, format type)	Demander à consulter une archive en sélectionnant une version dans un format conservé dans le SAE	Archives classifiées	Permettre à un utilisateur habilité et autorisé de consulter un ensemble d'archives classifiées
+	Schémas de données par filière/document type	Effectuer une recherche en recherchant au préalable le schéma de données correspondant au type d'archives recherché
+
+	Activités Vitam	Traiter une requête de découverte d'archives avec localisation dans l'arbre et MD connues (Domaine Données)	Fournir les informations de structuration des ensembles d'archives et des schémas de données utilisables de manière globale ou locale dans l'arbre en un point défini par certaines informations métiers (contrat de versement, service producteur, application versante...)	Traiter une requête de découverte d'archives liées aux journaux (Domaine Données)	Rien (Réalisé hors de Vitam)	Exporter le contenu d'un ensemble d'archives	Exporter une structure d'organisation et de MD d'un ensemble d'archives listées	Construire et exporter le relevé de valeur probante d'un ensemble d'archives	Lister, créer, modifier, désactiver et supprimer les contrats d'accès	Mettre sur une offre de stockage cache un ensemble d'archives
+	Traiter une requête de découverte d'archives avec localisation dans l'arbre et MD connues (Domaine Données)
+	Mode de fractionnement en stories	Activité 1 : US issues des attentes des projets (développements faits avec une optique tutoriel de dév)
+	Faire une Macro-US sur une interface de recherche de démo
+
+
+
+	Type d'IHM de la solution logicielle Vitam	Démo	Mini	Mini	Aucune	Mini	Mini	Mini	Mini	Démo
+	Description de l’IHM envisagée	Ecran de circulation dans l'arbre d'organisation puis recherche d'une ou plusieurs MD en largeur pour sélection d'un ensemble d'archives (principe de panier)
+Ecran de gestion du « panier »	Ecran de recherche d'un bordereau de versement et ajout des archives concernées au « panier »	Ecran de consultation d'une archive précise choisie dans le « panier »
+Ecran de téléchargement du « panier »	Ecran d'export des MD du « panier »	Ecran d'export des relevés du « panier »	Ecrans de gestion de réferentiel Contrats d'accès	Ecran de mise en cache du « panier »
+
+	Autres développements	Application accédante de démonstration
+
+	Multi-tenants	Oui	Oui	Oui	Sans objet	Oui	Oui	Oui	Oui	Oui
+
+	Premier produit
+	Activités Vitam	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Activité Vitam sans diversification 	Pas de tâche	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche
+	IHM	IHM de recette de téléchargement d'une archive identifiée	IHM de recette de gestion du référentiel hors destruction
+
+
+
+	Produit Minimal Viable
+	Activités Vitam	Activité Vitam sans diversification 	Activité Vitam	Activité Vitam	Pas de tâche	Activité Vitam sans migration	Activité Vitam	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche
+	IHM	Application accédante de recette	IHM demo de recherche Google avec facettes	IHM de recette de recherche par bordereau	IHM minimale de consultation d'une archive précise	IHM minimale de téléchargement des MD du « panier »	IHM minimale de gestion du référentiel hors destruction
+	IHM minimale gestion de « panier »	IHM minimale de téléchargement du « panier »
+
+&A	
+
+Page &P	
+
+
+S-Accès
+	Domaine fonctionnel	Accès (recherche et consultation)	Afficher les changements
+	Activité utilisateur	Rechercher une unité d'archives bien définie dans une transaction automatique	Rechercher des archives par recherche complexe manuelle sur les archives	Rechercher des archives via le journal des entrées	… pour mémoire d'autres types de recherches peuvent induire des tâches spécifiques	Instruire une demande d’autorisation de consultation	Consulter un ensemble d'archives	Exporter des métadonnées d'un ensemble d'archives	Exporter un relevé de valeur probante pour un ensemble d’archives	Gérer les contrats d'accès	Rendre un ensemble d’archives plus rapidement accessible de manière temporaire
+	Description et précision	Obtenir une unité d'archives correspondant à une requête ciblée faite par une application connectée au SAE	Obtenir la liste des archives correspondant à une requête complexe composée par un humain	Identifier une entrée et obtenir la liste des archives associées avec leurs métadonnées	Instruire les autorisations de consultations pour des ensembles d’archives non librement communicables/réutilisables (archives sous dérogation, archives sous protocole, fonds privés, documents classifiés)	Obtenir le contenu des archives identifiées, pour export, visualisation, transmission...	Obtenir les métadonnées des archives identifiées	Obtenir un relevé établissant la bonne conservation de la valeur probante d'un ensemble d'archives	Gérer les contrats d'accès correspondant à des filières d'archives (création, modification, désactivation, suppression)	Rapatrier un ensemble d'archives le temps d'une opération particulière demandant un accès fréquent (principe du « petit dépôt »). L'ensemble d'archives est mis dans un espace de stockage rapide/facilement accessible.
+	Acteurs concernés	Archiviste, utilisateur service producteur,
+grand public	Archiviste, utilisateur service producteur, grand public	Archiviste	Archiviste, utilisateur service producteur, ayant droit (fonds privés, protocoles)	Archiviste, utilisateur service producteur, grand public	Archiviste, utilisateur service producteur, grand public	Archiviste, utilisateur service producteur, grand public, juge	Super-utilisateur archiviste, administrateur technique	Archiviste
+	IHM cible	SIA, application métier	SIA, application métier	SIA	SIA	SIA, application métier	SIA	SIA, application métier	SIA, Admin SAE	SIA
+	Version	bêta	bêta	bêta	s.o.	bêta	V2	V2	bêta	V3
+	Condition Générale	Recherche sur métadonnées connues par l’application versante sur un nombre d’archives limité	Recherche plein texte  sur les métadonnées. Recherche sur des métadonnées de même nature a différents niveaux de l’arbre de description, sans retour de condensés par facettes, sans moyen de filtrer par date	Obtenir la liste des entrées par ordre chronologique. Filtrer cette liste par critères de  métadonnées. Pour une entrée, obtenir la liste des identifiants d’archives associées.	Consultation d’un ensemble d’archives défini comme une liste, dans le format de DIP par défaut, sans possibilité de demander de conversion de format	Export d’un ensemble d’archives défini comme une liste, dans un format SEDA	Export pour un ensemble d’archives défini comme une liste	Lister, créer, modifier, désactiver et supprimer des contrats d’accès permettant la connexion d’une nouvelle application en « accès » sur un ensemble d’archive (en lien avec l’activité « Gérer les droits archivistiques des applications connectées au SAE »)	A définir par la suite sous forme de conditions particulières les « droits archivistiques » qui peuvent être associés à l’accès (ex : modification de métadonnées, élimination ?,…)
+Référence activité « Gérer les droits archivistiques des applications connectées au SAE »)	Rendre plus accessible un ensemble d’archives défini comme une liste, non classifiées, avec une durée et des priorités de rétention définies par défaut
+	Conditions particulières	Application accédante  différente de l'application versante	Effectuer une recherche depuis une IHM métier des archives transférées dans le SAE par une autre application	Modes de construction de la requête dans l'interface des front office	Effectuer des recherches d’archives dans le SAE au moyen d’une requête construite par l’utilisateur dans le SIA en sélectionnant les critères (champs) nécessaires dans les ressources fournies par le SAE (filières, types, ontologie). 	Consulter le bordereau d’entrée	Ensemble d'archives défini comme le résultat d’une requête	Consulter un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Exporter un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Exporter un relevé de valeur probante pour un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Enregistrer sur un espace de stockage temporaire un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête
+	Résultat de grande taille	Obtenir en résultat d'une recherche un grand nombre de réponse (supérieure à la capacité d'affichage de l'IHM)	Recherche mixte sur métadonnées de différentes natures (descriptives, gestion, techniques)	Effectuer une recherche en croisant des métadonnées de différentes nature (descriptive, technique, gestion	Format d'export autre que DIP (par exemple zip des fichiers sans MD)	Récupérer pour consultation uniquement les objets archivés, sans leurs métadonnées, dans une arborescence identique à celle existant dans le SAE	Format d'export différent du SEDA (par exemple CSV, EAD)	Exporter les archives et leurs métadonnées dans un formalisme autre que celui proposé par le SEDA	Possibilité de gestion de périodes de rétention	Définir une durée de stockage déterminée pour l'ensemble d'archives dans l'espace de stockage temporaire
+	Remontée de condensés par facettes	Filtrer les résultats obtenus lors d'une recherche en utilisant un système de facettes	Possibilité de convertir le format au moment de l'export	Demander à consulter des archives après conversion vers un format non conservé dans le SAE, en utilisant une méthode de conversion existante dans le SAE	Possibilité de gestion de priorités de rétention	Définir une priorité de maintien d'un ensemble d'archives dans l'espace de stockage temporaire pour arbitrage lors de l'atteinte de la limite de capacité
+	Filtre date	Filtrer les résultats obtenus lors d'une recherche en modifiant l'intervalle chronologique des résultats	Choix de la forme parmi celle existantes pour les archives (conservation/diffusion, format type)	Demander à consulter une archive en sélectionnant une version dans un format conservé dans le SAE	Archives classifiées	Permettre à un utilisateur habilité et autorisé de consulter un ensemble d'archives classifiées
+	Schémas de données par filière/document type	Effectuer une recherche en recherchant au préalable le schéma de données correspondant au type d'archives recherché
+
+	Activités Vitam	Traiter une requête de découverte d'archives avec localisation dans l'arbre et MD connues (Domaine Données)	Fournir les informations de structuration des ensembles d'archives et des schémas de données utilisables de manière globale ou locale dans l'arbre en un point défini par certaines informations métiers (contrat de versement, service producteur, application versante...)	Traiter une requête de découverte d'archives liées aux journaux (Domaine Données)	Rien (Réalisé hors de Vitam)	Exporter le contenu d'un ensemble d'archives	Exporter une structure d'organisation et de MD d'un ensemble d'archives listées	Construire et exporter le relevé de valeur probante d'un ensemble d'archives	Lister, créer, modifier, désactiver et supprimer les contrats d'accès	Mettre sur une offre de stockage cache un ensemble d'archives
+	Traiter une requête de découverte d'archives avec localisation dans l'arbre et MD connues (Domaine Données)
+	Mode de fractionnement en stories	Activité 1 : US issues des attentes des projets (développements faits avec une optique tutoriel de dév)
+	Faire une Macro-US sur une interface de recherche de démo
+
+
+
+	Type d'IHM de la solution logicielle Vitam	Démo	Mini	Mini	Aucune	Mini	Mini	Mini	Mini	Démo
+	Description de l’IHM envisagée	Ecran de circulation dans l'arbre d'organisation puis recherche d'une ou plusieurs MD en largeur pour sélection d'un ensemble d'archives (principe de panier)
+Ecran de gestion du « panier »	Ecran de recherche d'un bordereau de versement et ajout des archives concernées au « panier »	Ecran de consultation d'une archive précise choisie dans le « panier »
+Ecran de téléchargement du « panier »	Ecran d'export des MD du « panier »	Ecran d'export des relevés du « panier »	Ecrans de gestion de réferentiel Contrats d'accès	Ecran de mise en cache du « panier »
+
+	Autres développements	Application accédante de démonstration
+
+	Multi-tenants	Oui	Oui	Oui	Sans objet	Oui	Oui	Oui	Oui	Oui
+
+	Premier produit
+	Activités Vitam	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Activité Vitam sans diversification 	Pas de tâche	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche
+	IHM	IHM de recette de téléchargement d'une archive identifiée	IHM de recette de gestion du référentiel hors destruction
+
+
+
+	Produit Minimal Viable
+	Activités Vitam	Activité Vitam sans diversification 	Activité Vitam	Activité Vitam	Pas de tâche	Activité Vitam sans migration	Activité Vitam	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche
+	IHM	Application accédante de recette	IHM demo de recherche Google avec facettes	IHM de recette de recherche par bordereau	IHM minimale de consultation d'une archive précise	IHM minimale de téléchargement des MD du « panier »	IHM minimale de gestion du référentiel hors destruction
+	IHM minimale gestion de « panier »	IHM minimale de téléchargement du « panier »
+
+&A	
+
+Page &P	
+
+
+S-Gestion old V1.0
+	Domaine fonctionnel	Gestion des archives existantes
+	Activité utilisateur	Reprendre l'organisation de l'ensemble d'archives d'une entrée effectuée	Modifier des métadonnées d' archives	Modifier l'organisation de classement	Enrichir les métadonnées par analyse automatique des contenus	Rechercher dans les référentiels métiers	Auditer des archives en croisant les informations du SAE	Construire un état de référence d'un ensemble d'archives	Récoler des archives par rapport à un état de référence	Gérer les règles de gestion	Éliminer selon les règles de gestion	Transférer un ensemble d'archives vers un autre SAE	Classifier/déclassifier un ensemble d’archives	Geler un ensemble d’archives	Dégeler un ensemble d’archives	Gérer un instrument de recherche
+	Description et précision	Reprendre le tri, le classement et l'édition des métadonnées de l'ensemble des archives d'une entrée déjà effectué sans reprendre les fichiers de données.	Modifier les métadonnées d'archives	Modifier les structures arborescentes dans lesquelles sont placées les archives	Enrichir les métadonnées d'un ensemble d'archives en lançant une analyse automatique des données et métadonnées existantes	Rechercher dans les référentiels métier SIA et SAE (services producteurs, services par fonction…)	Croiser l'ensemble des informations internes sur un ensemble d'archives (journaux d'entrée, de sortie, base de métadonnées)	Établir un état de référence dans un objectif de récolement	Croiser l'ensemble des informations internes sur un ensemble d'archives avec un état de référence externe au système	Gérer les règles de gestion dans le temps (création, modification, désactivation, suppression) 	Éliminer les archives dont le calcul sur les règles de gestion induit un sort final en élimination	Exporter un ensemble d'archives avec les métadonnées et autres informations associées (journaux, éléments de valeur probante…) vers un autre SAE	Changer le niveau de classification d'un ensemble d'archives	Empêcher l'élimination et la modification d'un ensemble d'archives	Remettre des archives gelées dans le circuit de gestion standard des éliminations et modifications	Créer, modifier, détruire un instrument de recherche
+	Acteurs concernés	Archiviste	Archiviste, utilisateur service producteur	Archiviste	Archiviste	Archiviste	Archiviste	Archiviste	Archiviste	Super-utilisateur archiviste	Archiviste, utilisateur service producteur	Archiviste	Archiviste habilité	Archiviste	Archiviste	Archiviste
+	IHM Cible	SIA	SIA, application métier	SIA, application métier	SIA	SIA	SIA, application métier	SIA, application méiter	SIA	SIA, application méiter	SIA	SIA	SIA	SIA	SIA	SIA	SIA, application métier	SIA	SIA, application métier	SIA
+	Version	V3	V1	bêta	V3	s.o.	V1	Anciennement V2	V1	V1	bêta	V2	V2	V3	V2	V2	V2
+	Condition Générale	Reprendre l’organisation d’une entrée non touchée par un gel, sans enrichissement des métadonnées par extraction au moment de l’export	Modification des métadonnées d’un ensemble limité d’archives défini comme une liste, sauf sur les métadonnées de gestion impliquant des traitements dans le SAE	Modification de l’organisation de classement d’archives non soumises à un gel	Enrichissement d’un ensemble d’archives défini comme une liste, par recherche de métadonnées évidentes (ex. : destinataire d’un message)	Audit d’un ensemble d’archives défini comme une liste établie selon des critères techniques, sur toutes les offres de stockage	Construction d’un état de référence pour un ensemble d’archives défini comme une liste établie selon des critères techniques et composé d’un nombre limité d’informations	Comparer un état de référence construit par la précédente activité (condition générale) avec l'état interne du SAE et en restituer le résultat	Gestion d’un référentiel dont le SAE est maître	Elimination automatique d’un ensemble d’archives défini comme une requête, non soumises à une opération de gel, sans référence externes, sans contrôle humain en coupure	Export d’un ensemble d’archives défini comme une liste, non soumis à une opération de gel, avec intégration des journaux et des éléments de valeur probantes comme des archives	Classification/déclassification d’un ensemble d’archives défini comme une liste, non soumis à une opération de gel	Gel d’un ensemble d’archives défini comme une requête	Dégel de l’ensemble des archives concernées par une opération de gel
+	Conditions particulières	Enrichissement des métadonnées par extraction depuis les archives au moment de l'export	Enrichir les métadonnées d'un ensemble d'archives en utilisant par exemple des technologies sémantiques, au moment de l’export hors du SAE	Modification en masse des métadonnées d'un ensemble d'archives	Modifier une ou plusieurs métadonnées d'un grand nombre d'archives (ex. changement de réglementation sur les durées de communicabilité)	Prise en compte du gel	Modifier l'organisation arborescente des archives dont une partie est soumise à un gel suite à commission rogatoire	Analyse sémantique	Enrichir les métadonnées d'un ensemble d'archives en utilisant des technologies sémantiques	Par offre de stockage	Effectuer un contrôle de la cohérence des informations en base et des objets stockés appartenant à une offre de stockage	Richesse de l'état de référence	Construire un état de référence détaillé avec des listes exhaustives d'objets et/ou de métadonnées y compris de gestion	Richesse de l'état de référence	Vérifier les objets et les métadonnées conservés dans le SAE par rapport à un état de référence détaillé conservé en dehors du SAE	Partage du référentiel avec les applications métiers et/ou le SIA	Mettre à jour un référentiel de règles de gestion dont le SIA est maître	Contrôle humain en coupure	Procéder à une destruction nécessitant une intervention humaine dans le cours du processus (notamment pour le processus de validation)	Transfert manuel d'un ensemble d'archives vers un autre SAE	Exporter un ensemble d'archives (avec leurs métadonnées et leurs journaux) vers un autre SAE avec un transport manuel	Prise en compte du gel	Classifier/déclassifier un ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire	Ensemble d'archives défini comme liste	Geler en application d'une commission rogatoire un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Par action de gel ou sur ensemble quelconque	Procéder au dégel d'une partie d'un ensemble d'archives gelé
+	Prise en compte du gel	Reclasser une ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire	Métadonnées de gestion, avec implication sur les traitements	Modifier une ou plusieurs métadonnées de gestion d'un ensemble d'archives, impliquant la mise en œuvre de traitements type élimination	Ensemble d'archives défini comme le résultat d’une requête	Enrichir les métadonnées d'un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête en utilisant des technologies sémantiques	Par ensemble d'archives défini par une vision métier (service producteur, application versante, série...) 	Effectuer un contrôle de la cohérence des informations sur les archives correspondant à un périmètre défini (un service producteur, une application versant) entre base et objets stockés	Par ensemble d'archives défini par une vision métier (service producteur, application versante, série...) 	Construire un état de référence limité à un périmètre défini (un service producteur, une application versante) 	Contrôles de nature technique sur les archives	Vérifier l’état sanitaire des objets par rapport à la situation consignée dans un état de référence conservé en dehors du SAE	Latence volontaire sur offre froide	Procéder à la destruction décalée dans le temps d'un ensemble d'archives pour lequel des objets sont conservés sur une offre froide, afin d’assurer une sécurité additionnelle	Vers un SAE Vitam (information de gestion structurée)	Exporter un ensemble d'archives (avec leurs métadonnées et leurs journaux) vers un SAE utilisant la solution logicielle Vitam	Ensemble d'archives défini comme le résultat d’une requête	Classifier/déclassifier un ensemble d'archives défini non comme le résultat d’une requête
+	Ensemble d'archives défini comme le résultat d’une requête	Modifier une ou plusieurs métadonnées d'un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Effectuer un contrôle de la présence d'objets correspondant à un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Construire un état de référence correspondant à un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Établissement d’un constat de perte	Existence d'un lien avec une forme physique	Procéder à la destruction de références d'archives correspondant à des archives papier	Ensemble d'archives défini comme le résultat d’une requête	Exporter un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête
+	Prise en compte du gel	Modifier une ou plusieurs métadonnées d'un ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire	Établissement d’un constat de perte	Existence d'un lien à une archive numérique dans un autre SAE	Procéder à la destruction de références d'archives correspondant à des archives gérées dans un autre SAE	Prise en compte du gel	Exporter un ensemble d'archives vers un autre SAE dont une partie est soumise à un gel suite à commission rogatoire
+	Prise en compte du gel	Procéder à la destruction d'un ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire
+	Déclenchement humain sur une partie	Procéder à la destruction d'un ensemble d'archives suite à un ordre donné par un archiviste
+	Ensemble d'archives défini comme liste	Procéder à la destruction d'un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête
+
+	Activités Vitam	Exporter une structure de classement et de MD (SEDA) de l'ensemble d'archives d'une entrée effectuée	Modifier un ensemble de métadonnées sur un ensemble d'archives	Créer, modifier, supprimer la structure arborescente d’organisation des archives	Lancer un greffon d'analyse sur un ensemble d'archives, y ajouter les métadonnées obtenues et retourner le résultat d'exécution	Lister,et chercher dans les référentiels métiers du SAE	Croiser l'ensemble des informations contenues dans le SAE (base de données, stockage, journaux) sur un ensemble d'archives et retourner le résultat d'exécution	Générer un état de référence sur un ensemble d'archives	Croiser l'ensemble des informations contenues dans un état de référence avec le contenu du SAE et retourner le résultat d'exécution	Lister, créer, modifier, désactiver et détruire les règles de gestion	Surveiller l'activation des conditions d'élimination des archives et lancer des éliminations ou remonter des alertes pour prise de décision
+(vision par flux applicatif)	Constituer le paquet d'entrée SEDA d'un ensemble d'archives pour transfert à un autre SAE (avec journaux, valeur probante...), et l'envoyer par flux applicatif	Détruire les objets d'un ensemble d’archives existantes	Marquage identifié ou copie des archives gelées (à analyser)	Suppression de la marque ou de la copie des archives gelées	Remontée de métadonnées sur des nœuds pour pouvoir les éditorialiser dans le SIA (Composition Domaine Accès)
+	Recevoir une structure de classement et de MD (SEDA) de l'ensemble d'archives d'un versement effectué, et appliquer la modification associée y compris les éliminations	Déplacer des archives dans la structure arborescente	Détruire un ensemble d’archives	Recevoir et traiter un paquet de réponse suite à transmission vers un autre SAE	Importer des objets associés à un ensemble d'archives existantes
+	Fournir les informations de structuration des ensembles d'archives et des schémas de données utilisables de manière globale ou locale en un point défini par certaines informations métiers (contrat de versement, service producteur, application versante…) (Domaine Accès)	Pour classification changement des MD, export des contenus des contenus par utilisation de tâches existante (Composition Domaine Accès et Gestion)
+	Mode de fractionnement en stories
+
+
+
+
+	Type d'IHM de la solution logicielle Vitam	Démo	Mini	Mini	Démo	Mini	Mini	Mini	Mini	Mini	Démo	Démo	Démo	Mini	Mini	Aucune
+	Description de l’IHM envisagée	Ecran de recherche d'un versement et export de la structure SEDA associée
+Ecran d'Import d'une structure et retour des actions induites	Ecran de modification des MD d'une archive du « panier »	Ecran de manipulation de la structure arborescente
+Ecran de déplacement du « panier »	Ecran d'analyse du « panier » selon un greffon 	Ecrans de recherche dans les différents référentiels métiers du SAE	Ecran de récolement du « panier »	Ecran de génération de l'état de référence du « panier »	Ecran de chargement d'un état de référence et de récolement associé	Ecrans de gestion de référentiel Règles de gestion	Ecran d'élimination du « panier »	Ecran de jeu d'un transfert du « panier » et de simulation d'acceptation ou de refus par le SAE cible	Ecran de classification du « panier » avec export
+Ecran de déclassification du « panier » avec import	Ecran de gel du « panier »	Ecran de dégel du « panier »
+	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)
+
+	Multi-tenants	Oui	Oui	Oui	Oui	Oui	Oui	Oui	Oui	? (est-ce pertinent ?)	?	Oui	Oui	Oui	Oui	Sans objet
+
+	Premier produit
+	Activités Vitam	Pas de tâche	Activité Vitam	Pas de tâche	Pas de tâche	Activité Vitam	Activité Vitam	Pas de tâche	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche
+	IHM	IHM de recette de modification par chargement/téléchargement de la structure de MD	IHM de recette de recherche	IHM de recette de récolement	IHM de recette de gestion du référentiel hors destruction
+	IHM de recette de suivi des actions longues	IHM de recette de suivi des actions longues
+
+
+	Produit Minimal Viable
+	Activités Vitam	Pas de tâche	Activité Vitam	Activité Vitam 2 sans la suppression et 3
+	Pas de tâche	Activité Vitam	Activité Vitam	Pas de tâche	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche
+	IHM	IHM de minimale de modification par chargement/téléchargement de la structure de MD	IHM minimale par chargement/téléchargement de la structure arborescente	IHM minimale de recherche	IHM minimale de récolement du « panier »	IHM minimale de gestion du référentiel hors destruction
+	IHM minimale de déplacement du « panier »	IHM minimale de suivi des actions longues
+
+&A	
+
+Page &P	
+
+
+S-Gestion old
+	Domaine fonctionnel	Gestion des archives existantes
+	Activité utilisateur	Reprendre l'organisation de l'ensemble d'archives d'une entrée effectuée	Modifier des métadonnées d' archives	Modifier l'organisation de classement	Enrichir les métadonnées par analyse automatique des contenus	Administrer les référentiels métier partagés (producteurs, fonctions)	Auditer des archives en croisant les informations du SAE	Construire un état de référence d'un ensemble d'archives	Récoler des archives par rapport à un état de référence	Administrer les référentiels de règles de gestion	Éliminer selon les règles de gestion	Transférer un ensemble d'archives vers un autre SAE	Classifier/déclassifier un ensemble d’archives	Geler un ensemble d’archives	Dégeler un ensemble d’archives	Gérer un instrument de recherche
+	Description et précision	Reprendre le tri, le classement et l'édition des métadonnées de l'ensemble des archives d'une entrée déjà effectué sans reprendre les fichiers de données.	Modifier les métadonnées d'archives	Modifier les structures arborescentes dans lesquelles sont placées les archives	Enrichir les métadonnées d'un ensemble d'archives en lançant une analyse automatique des données et métadonnées existantes	Rechercher dans les référentiels métier SIA et SAE (services producteurs, services par fonction…)	Croiser l'ensemble des informations internes sur un ensemble d'archives (journaux d'entrée, de sortie, base de métadonnées)	Établir un état de référence dans un objectif de récolement	Croiser l'ensemble des informations internes sur un ensemble d'archives avec un état de référence externe au système	Gérer les règles de gestion dans le temps (création, modification, désactivation, suppression) 	Éliminer les archives dont le calcul sur les règles de gestion induit un sort final en élimination	Exporter un ensemble d'archives avec les métadonnées et autres informations associées (journaux, éléments de valeur probante…) vers un autre SAE	Changer le niveau de classification d'un ensemble d'archives	Empêcher l'élimination et la modification d'un ensemble d'archives	Remettre des archives gelées dans le circuit de gestion standard des éliminations et modifications	Créer, modifier, détruire un instrument de recherche
+	Acteurs concernés	Archiviste	Archiviste, utilisateur service producteur	Archiviste	Archiviste	Archiviste	Archiviste	Archiviste	Archiviste	Super-utilisateur archiviste	Archiviste, utilisateur service producteur	Archiviste	Archiviste habilité	Archiviste	Archiviste	Archiviste
+	IHM Cible	SIA	SIA, application métier	SIA, application métier	SIA	SIA	SIA, application métier	SIA, application méiter	SIA	SIA, application méiter	SIA	SIA, applications métier	SIA	SIA	SIA	SIA	SIA, application métier	SIA	SIA, application métier	SIA
+	Version	V3	bêta	bêta	V3	s.o.	V1	Anciennement V2	V1	V1	bêta	V2	V2	V3	V2	V2	V2
+	Condition Générale	Reprendre l’organisation d’une entrée non touchée par un gel, sans enrichissement des métadonnées par extraction au moment de l’export	modifier les métadonnées d’un ensemble limité d’archives [de 1 à quelques dizaines] d'une filière donnée, défini comme une liste d’identifiants, a l’exclusion des métadonnées de gestion impliquant des traitements dans le SAE	Modification de l’organisation de classement d’archives non soumises à un gel	Enrichissement d’un ensemble d’archives défini comme une liste, par recherche de métadonnées évidentes (ex. : destinataire d’un message)	Audit d’un ensemble d’archives défini comme une liste établie selon des critères techniques, sur toutes les offres de stockage	Construction d’un état de référence pour un ensemble d’archives défini comme une liste établie selon des critères techniques et composé d’un nombre limité d’informations	Comparer un état de référence construit par la précédente activité (condition générale) avec l'état interne du SAE et en restituer le résultat	Gestion d’un référentiel dont le SAE est maître	Elimination automatique d’un ensemble d’archives défini comme une requête, non soumises à une opération de gel, sans référence externes, sans contrôle humain en coupure	Export d’un ensemble d’archives défini comme une liste, non soumis à une opération de gel, avec intégration des journaux et des éléments de valeur probantes comme des archives	Classification/déclassification d’un ensemble d’archives défini comme une liste, non soumis à une opération de gel	Gel d’un ensemble d’archives défini comme une requête	Dégel de l’ensemble des archives concernées par une opération de gel
+	Conditions particulières	Enrichissement des métadonnées par extraction depuis les archives au moment de l'export	Enrichir les métadonnées d'un ensemble d'archives en utilisant par exemple des technologies sémantiques, au moment de l’export hors du SAE	Modification en masse des métadonnées d'un ensemble d'archives	Modifier une ou plusieurs métadonnées d'un grand nombre d'archives (ex. changement de réglementation sur les durées de communicabilité)	Prise en compte du gel	Modifier l'organisation arborescente des archives dont une partie est soumise à un gel suite à commission rogatoire	Analyse sémantique	Enrichir les métadonnées d'un ensemble d'archives en utilisant des technologies sémantiques	Par offre de stockage	Effectuer un contrôle de la cohérence des informations en base et des objets stockés appartenant à une offre de stockage	Richesse de l'état de référence	Construire un état de référence détaillé avec des listes exhaustives d'objets et/ou de métadonnées y compris de gestion	Richesse de l'état de référence	Vérifier les objets et les métadonnées conservés dans le SAE par rapport à un état de référence détaillé conservé en dehors du SAE	Partage du référentiel avec les applications métiers et/ou le SIA	Mettre à jour un référentiel de règles de gestion dont le SIA est maître	Contrôle humain en coupure	Procéder à une destruction nécessitant une intervention humaine dans le cours du processus (notamment pour le processus de validation)	Transfert manuel d'un ensemble d'archives vers un autre SAE	Exporter un ensemble d'archives (avec leurs métadonnées et leurs journaux) vers un autre SAE avec un transport manuel	Prise en compte du gel	Classifier/déclassifier un ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire	Ensemble d'archives défini comme liste	Geler en application d'une commission rogatoire un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Par action de gel ou sur ensemble quelconque	Procéder au dégel d'une partie d'un ensemble d'archives gelé
+	Prise en compte du gel	Reclasser une ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire	Métadonnées de gestion, avec implication sur les traitements	Modifier une ou plusieurs métadonnées de gestion d'un ensemble d'archives, impliquant la mise en œuvre de traitements type élimination	Ensemble d'archives défini comme le résultat d’une requête	Enrichir les métadonnées d'un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête en utilisant des technologies sémantiques	Par ensemble d'archives défini par une vision métier (service producteur, application versante, série...) 	Effectuer un contrôle de la cohérence des informations sur les archives correspondant à un périmètre défini (un service producteur, une application versant) entre base et objets stockés	Par ensemble d'archives défini par une vision métier (service producteur, application versante, série...) 	Construire un état de référence limité à un périmètre défini (un service producteur, une application versante) 	Contrôles de nature technique sur les archives	Vérifier l’état sanitaire des objets par rapport à la situation consignée dans un état de référence conservé en dehors du SAE	Latence volontaire sur offre froide	Procéder à la destruction décalée dans le temps d'un ensemble d'archives pour lequel des objets sont conservés sur une offre froide, afin d’assurer une sécurité additionnelle	Vers un SAE Vitam (information de gestion structurée)	Exporter un ensemble d'archives (avec leurs métadonnées et leurs journaux) vers un SAE utilisant la solution logicielle Vitam	Ensemble d'archives défini comme le résultat d’une requête	Classifier/déclassifier un ensemble d'archives défini non comme le résultat d’une requête
+	Ensemble d'archives défini comme le résultat d’une requête	Modifier une ou plusieurs métadonnées d'un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Effectuer un contrôle de la présence d'objets correspondant à un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Ensemble d'archives défini comme le résultat d’une requête	Construire un état de référence correspondant à un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Établissement d’un constat de perte	Existence d'un lien avec une forme physique	Procéder à la destruction de références d'archives correspondant à des archives papier	Ensemble d'archives défini comme le résultat d’une requête	Exporter un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête
+	Prise en compte du gel	Modifier une ou plusieurs métadonnées d'un ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire	Établissement d’un constat de perte	Existence d'un lien à une archive numérique dans un autre SAE	Procéder à la destruction de références d'archives correspondant à des archives gérées dans un autre SAE	Prise en compte du gel	Exporter un ensemble d'archives vers un autre SAE dont une partie est soumise à un gel suite à commission rogatoire
+	Prise en compte du gel	Procéder à la destruction d'un ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire
+	Déclenchement humain sur une partie	Procéder à la destruction d'un ensemble d'archives suite à un ordre donné par un archiviste
+	Ensemble d'archives défini comme liste	Procéder à la destruction d'un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête
+
+	Activités Vitam	Exporter une structure de classement et de MD (SEDA) de l'ensemble d'archives d'une entrée effectuée	Modifier un ensemble de métadonnées sur un ensemble d'archives	Créer, modifier, supprimer la structure arborescente d’organisation des archives	Lancer un greffon d'analyse sur un ensemble d'archives, y ajouter les métadonnées obtenues et retourner le résultat d'exécution	Lister,et chercher dans les référentiels métiers du SAE	Croiser l'ensemble des informations contenues dans le SAE (base de données, stockage, journaux) sur un ensemble d'archives et retourner le résultat d'exécution	Générer un état de référence sur un ensemble d'archives	Croiser l'ensemble des informations contenues dans un état de référence avec le contenu du SAE et retourner le résultat d'exécution	Lister, créer, modifier, désactiver et détruire les règles de gestion	Surveiller l'activation des conditions d'élimination des archives et lancer des éliminations ou remonter des alertes pour prise de décision
+(vision par flux applicatif)	Constituer le paquet d'entrée SEDA d'un ensemble d'archives pour transfert à un autre SAE (avec journaux, valeur probante...), et l'envoyer par flux applicatif	Détruire les objets d'un ensemble d’archives existantes	Marquage identifié ou copie des archives gelées (à analyser)	Suppression de la marque ou de la copie des archives gelées	Remontée de métadonnées sur des nœuds pour pouvoir les éditorialiser dans le SIA (Composition Domaine Accès)
+	Recevoir une structure de classement et de MD (SEDA) de l'ensemble d'archives d'un versement effectué, et appliquer la modification associée y compris les éliminations	Déplacer des archives dans la structure arborescente	Détruire un ensemble d’archives	Recevoir et traiter un paquet de réponse suite à transmission vers un autre SAE	Importer des objets associés à un ensemble d'archives existantes
+	Fournir les informations de structuration des ensembles d'archives et des schémas de données utilisables de manière globale ou locale en un point défini par certaines informations métiers (contrat de versement, service producteur, application versante…) (Domaine Accès)	Pour classification changement des MD, export des contenus des contenus par utilisation de tâches existante (Composition Domaine Accès et Gestion)
+	Mode de fractionnement en stories
+
+
+
+
+	Type d'IHM de la solution logicielle Vitam	Démo	Mini	Mini	Démo	Mini	Mini	Mini	Mini	Mini	Démo	Démo	Démo	Mini	Mini	Aucune
+	Description de l’IHM envisagée	Ecran de recherche d'un versement et export de la structure SEDA associée
+Ecran d'Import d'une structure et retour des actions induites	Ecran de modification des MD d'une archive du « panier »	Ecran de manipulation de la structure arborescente
+Ecran de déplacement du « panier »	Ecran d'analyse du « panier » selon un greffon 	Ecrans de recherche dans les différents référentiels métiers du SAE	Ecran de récolement du « panier »	Ecran de génération de l'état de référence du « panier »	Ecran de chargement d'un état de référence et de récolement associé	Ecrans de gestion de référentiel Règles de gestion	Ecran d'élimination du « panier »	Ecran de jeu d'un transfert du « panier » et de simulation d'acceptation ou de refus par le SAE cible	Ecran de classification du « panier » avec export
+Ecran de déclassification du « panier » avec import	Ecran de gel du « panier »	Ecran de dégel du « panier »
+	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)	Ecran de suivi des résultats d'actions longues (Domaine AdminFonc)
+
+	Multi-tenants	Oui	Oui	Oui	Oui	Oui	Oui	Oui	Oui	? (est-ce pertinent ?)	?	Oui	Oui	Oui	Oui	Sans objet
+
+	Premier produit
+	Activités Vitam	Pas de tâche	Activité Vitam	Pas de tâche	Pas de tâche	Activité Vitam	Activité Vitam	Pas de tâche	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche
+	IHM	IHM de recette de modification par chargement/téléchargement de la structure de MD	IHM de recette de recherche	IHM de recette de récolement	IHM de recette de gestion du référentiel hors destruction
+	IHM de recette de suivi des actions longues	IHM de recette de suivi des actions longues
+
+
+	Produit Minimal Viable
+	Activités Vitam	Pas de tâche	Activité Vitam	Activité Vitam 2 sans la suppression et 3
+	Pas de tâche	Activité Vitam	Activité Vitam	Pas de tâche	Pas de tâche	Activité Vitam sans la destruction	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche	Pas de tâche
+	IHM	IHM de minimale de modification par chargement/téléchargement de la structure de MD	IHM minimale par chargement/téléchargement de la structure arborescente	IHM minimale de recherche	IHM minimale de récolement du « panier »	IHM minimale de gestion du référentiel hors destruction
+	IHM minimale de déplacement du « panier »	IHM minimale de suivi des actions longues
+
+&A	
+
+Page &P	
+
+
+S-Gestion
+	Domaine fonctionnel	Gestion des archives existantes	Afficher les changements
+	Activité utilisateur	Reprendre l'organisation de l'ensemble d'archives d'une entrée effectuée	Modifier des métadonnées d' archives	Modifier l'organisation de classement	Enrichir les métadonnées par analyse automatique des contenus	Administrer les référentiels métier partagés (producteurs, fonctions)	Auditer des archives en croisant les informations du SAE	Construire un état de référence d'un ensemble d'archives	Récoler des archives par rapport à un état de référence	Administrer les référentiels de règles de gestion	Éliminer selon les règles de gestion	Transférer un ensemble d'archives vers un autre SAE	Classifier/déclassifier un ensemble d’archives	Geler un ensemble d’archives	Dégeler un ensemble d’archives	Gérer un instrument de recherche
+	Description et précision	Reprendre le tri, le classement et l'édition des métadonnées de l'ensemble des archives d'une entrée déjà effectué sans reprendre les fichiers de données.	Modifier les métadonnées d'archives	Modifier les structures arborescentes dans lesquelles sont placées les archives	Enrichir les métadonnées d'un ensemble d'archives en lançant une analyse automatique des données et métadonnées existantes	Rechercher dans les référentiels métier SIA et SAE (services producteurs, services par fonction…)	Croiser l'ensemble des informations internes sur un ensemble d'archives (journaux d'entrée, de sortie, base de métadonnées)	Établir un état de référence dans un objectif de récolement	Croiser l'ensemble des informations internes sur un ensemble d'archives avec un état de référence externe au système	Gérer les règles de gestion dans le temps (création, modification, désactivation, suppression) 	Éliminer les archives dont le calcul sur les règles de gestion induit un sort final en élimination	Exporter un ensemble d'archives avec les métadonnées et autres informations associées (journaux, éléments de valeur probante…) vers un autre SAE	Changer le niveau de classification d'un ensemble d'archives	Empêcher l'élimination et la modification d'un ensemble d'archives	Remettre des archives gelées dans le circuit de gestion standard des éliminations et modifications	Créer, modifier, détruire un instrument de recherche
+	Acteurs concernés	Archiviste	Archiviste, utilisateur service producteur	Archiviste	Archiviste	Archiviste	Archiviste	Archiviste	Archiviste	Super-utilisateur archiviste	Archiviste, utilisateur service producteur	Archiviste	Archiviste habilité	Archiviste	Archiviste	Archiviste
+	IHM Cible	SIA	SIA, application métier	SIA, application métier	SIA	SIA	SIA, application métier	SIA, application méiter	SIA	SIA, application méiter	SIA	SIA, applications métier	SIA	SIA	SIA	SIA	SIA, application métier	SIA	SIA, application métier	SIA
+	Version	V3	bêta	bêta	V3	s.o.	V1	Anciennement V2	V1	V1	bêta	V2	V2	V3	V2	V2	V2
+	Condition Générale	Reprendre l’organisation d’une entrée non touchée par un gel, sans enrichissement des métadonnées par extraction au moment de l’export	modifier les métadonnées d’un ensemble limité d’archives [de 1 à quelques dizaines] d'une filière donnée, défini comme une liste d’identifiants, a l’exclusion des métadonnées de gestion impliquant des traitements dans le SAE	Modification de l’organisation de classement d’archives non soumises à un gel	Enrichissement d’un ensemble d’archives défini comme une liste, par recherche de métadonnées évidentes (ex. : destinataire d’un message)	Audit d’un ensemble d’archives défini comme une liste établie selon des critères techniques, sur toutes les offres de stockage	Construction d’un état de référence pour un ensemble d’archives défini comme une liste établie selon des critères techniques et composé d’un nombre limité d’informations	Comparer un état de référence construit par la précédente activité (condition générale) avec l'état interne du SAE et en restituer le résultat	Gestion d’un référentiel dont le SAE est maître	Elimination automatique d’un ensemble d’archives défini comme une requête, non soumises à une opération de gel, sans référence externes, sans contrôle humain en coupure	Export d’un ensemble d’archives défini comme une liste, non soumis à une opération de gel, avec intégration des journaux et des éléments de valeur probantes comme des archives	Classification/déclassification d’un ensemble d’archives défini comme une liste, non soumis à une opération de gel	Gel d’un ensemble d’archives défini comme une requête	Dégel de l’ensemble des archives concernées par une opération de gel
+	Conditions particulières	Enrichissement des métadonnées par extraction depuis les archives au moment de l'export	Enrichir les métadonnées d'un ensemble d'archives en utilisant par exemple des technologies sémantiques, au moment de l’export hors du SAE	Modification en masse des métadonnées d'un ensemble d'archives	Modifier une ou plusieurs métadonnées d'un grand nombre d'archives (ex. changement de réglementation sur les durées de communicabilité)	Prise en compte du gel	Modifier l'organisation arborescente des archives dont une partie est soumise à un gel suite à commission rogatoire	Analyse sémantique	Enrichir les métadonnées d'un ensemble d'archives en utilisant des technologies sémantiques	Par offre de stockage	Effectuer un contrôle de la cohérence des informations en base et des objets stockés appartenant à une offre de stockage	Richesse de l'état de référence	Construire un état de référence détaillé avec des listes exhaustives d'objets et/ou de métadonnées y compris de gestion	Richesse de l'état de référence	Vérifier les objets et les métadonnées conservés dans le SAE par rapport à un état de référence détaillé conservé en dehors du SAE	Partage du référentiel avec les applications métiers et/ou le SIA	Mettre à jour un référentiel de règles de gestion dont le SIA est maître	Contrôle humain en coupure	Procéder à une destruction nécessitant une intervention humaine dans le cours du processus (notamment pour le processus de validation)	Transfert manuel d'un ensemble d'archives vers un autre SAE	Exporter un ensemble d'archives (avec leurs métadonnées et leurs journaux) vers un autre SAE avec un transport manuel	Prise en compte du gel	Classifier/déclassifier un ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire	Ensemble d'archives défini comme liste	Geler en application d'une commission rogatoire un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête	Par action de gel ou sur ensemble quelconque	Procéder au dégel d'une partie d'un ensemble d'archives gelé
+	Prise en compte du gel	Reclasser une ensemble d'archives dont une partie est soumise à un gel suite à commission rogatoire	Métadonnées de gestion, avec implication sur les traitements	Modifier une ou plusieurs métadonnées de gestion d'un ensemble d'archives, impliquant la mise en œuvre de traitements type élimination	Ensemble d'archives défini comme le résultat d’une requête	Enrichir les métadonnées d'un ensemble d'archives défini non comme une liste mais comme un résultat d'une requête en utilisant des technologies sémantiques	Par ensemble d'archives défini par une vision métier (service producteur, application versante, série...) 	Effectuer un contrôle de la cohérence des informations sur les archives correspondant à un périmètre défini (un service producteur, une application versant) entre base et objets stockés	Par ensemble d'archives défini par une vision métier (service producteur, application versante, série...) 	Construire un état de référence limité à un périmètre défini (un service producteur, une application versante) 	Contrôles de nature technique sur les archives	

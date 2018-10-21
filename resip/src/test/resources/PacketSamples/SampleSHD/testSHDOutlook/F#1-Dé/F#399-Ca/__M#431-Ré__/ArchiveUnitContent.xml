@@ -1,0 +1,65 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Réunion batiment WELVERT</Title>
+    <OriginatingSystemId>&lt;OF4E4BBE70.C6298B11-ONC1257B88.002DC9B3-C1257B88.002E60A9@LocalDomain&gt;</OriginatingSystemId>
+    <Description>Rendez-vous</Description>
+    <Writer>
+        <FirstName>MANGIAPANE Jean-Luc ICETA1</FirstName>
+        <BirthName>MANGIAPANE Jean-Luc ICETA1</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=jean-luc.mangiapane.dga.defense.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>MANGIAPANE Jean-Luc ICETA1</FirstName>
+        <BirthName>MANGIAPANE Jean-Luc ICETA1</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=jean-luc.mangiapane.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>RAFFIN Claude IDEF MINDEF</FirstName>
+        <BirthName>RAFFIN Claude IDEF MINDEF</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=claude.raffin.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>RENAT David OPCTAA</FirstName>
+        <BirthName>RENAT David OPCTAA</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=david.renat.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>PRECETTI Dominique ICETA2</FirstName>
+        <BirthName>PRECETTI Dominique ICETA2</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=dominique.precetti.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>DUCARRE Erwan OCTAA</FirstName>
+        <BirthName>DUCARRE Erwan OCTAA</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=erwann.ducarre.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>VERNIER Jean-Marc ICETA1</FirstName>
+        <BirthName>VERNIER Jean-Marc ICETA1</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=jean-marc.vernier.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>GIROD Patrick ICT III B</FirstName>
+        <BirthName>GIROD Patrick ICT III B</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=patrick.girod.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=thierry.casimiriusf3bf6874</Identifier>
+    </Addressee>
+    <SentDate>2013-06-12T08:26:34Z</SentDate>
+    <ReceivedDate>2013-06-12T08:26:36Z</ReceivedDate>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Début</EventType>
+        <EventDateTime>2013-06-24T12:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Fin</EventType>
+        <EventDateTime>2013-06-24T15:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+</Content>

@@ -1,0 +1,49 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Mis(e) à jour: Visite libération locaux DGA/DI au Welvert (Rdc et 1er) suite à déménagement</Title>
+    <OriginatingSystemId>&lt;7f5957012b2845ab9d9ee59f3e56e3b3@INF11LOGES-WM11.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemId>
+    <Description>Rendez-vous</Description>
+    <Writer>
+        <FirstName>JOUGLA Gilles ICETA2</FirstName>
+        <BirthName>JOUGLA Gilles ICETA2</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=gilles.jougla28f215c0</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>JOUGLA Gilles ICETA2</FirstName>
+        <BirthName>JOUGLA Gilles ICETA2</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=gilles.jougla28f215c0</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>LE BRISHOUAL Gilles ICT III B</FirstName>
+        <BirthName>LE BRISHOUAL Gilles ICT III B</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=gilles.le-brishoual.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=thierry.casimiriusf3bf6874</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>PRECETTI Dominique ICETA2</FirstName>
+        <BirthName>PRECETTI Dominique ICETA2</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=dominique.precetti.dga.defense.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2013-04-17T06:38:50Z</SentDate>
+    <ReceivedDate>2013-04-17T06:38:54Z</ReceivedDate>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Début</EventType>
+        <EventDateTime>2013-04-24T08:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Fin</EventType>
+        <EventDateTime>2013-04-24T09:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <TextContent>Quand : mercredi 24 avril 2013 10:00-11:00 (GMT+01:00) Bruxelles, Copenhague, Madrid, Paris.
+Emplacement : BLD.Welvert
+
+*~*~*~*~*~*~*~*~*~*</TextContent>
+</Content>

@@ -1,0 +1,80 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Visite médicale périodique sur le site de Balard</Title>
+    <OriginatingSystemId>&lt;OFA333BC6E.A5308E9B-ONC1257AF0.00344185-C1257AF0.0034B680@LocalDomain&gt;</OriginatingSystemId>
+    <Description>Rendez-vous</Description>
+    <Writer>
+        <FirstName>ROYER Daniel OUV G VII</FirstName>
+        <BirthName>ROYER Daniel OUV G VII</BirthName>
+        <Identifier>paris.sar-visites-medicales@dga.defense.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>Paris SAR VISITES MEDICALES</FirstName>
+        <BirthName>Paris SAR VISITES MEDICALES</BirthName>
+        <Identifier>paris.sar-visites-medicales@dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=thierry.casimiriusf3bf6874</Identifier>
+    </Addressee>
+    <SentDate>2013-01-11T09:35:45Z</SentDate>
+    <ReceivedDate>2013-01-11T09:35:44Z</ReceivedDate>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Début</EventType>
+        <EventDateTime>2013-01-15T08:20:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Fin</EventType>
+        <EventDateTime>2013-01-15T08:40:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <TextContent>__________________
+
+
+Références: 
+- Arrêté du 2 mai 2005
+- IM 1230 DEF/DCSSA/AST/SST/MP du 26 avril 2007
+- Décret 2012-422 du 29 mars 2012 relatif à la santé et à la sécurité au travail au ministère de la Défense.
+
+
+IMPORTANT:  L&apos;expert RH de la Direction dont vous dépendez est informé du suivi de cette visite médicale et de toute éventuelle absence injustifiée.
+									__________________________________
+
+
+Vous êtes convoqué(e) à la visite médicale périodique au centre de médecine de prévention du site de Balard,
+
+	par 				le docteur Jean-Charles BOULANGER-WEILL, médecin de prévention
+
+	à l&apos;adresse suivante:
+					Service de médecine de prévention du personnel civil
+					Bâtiment 17 - 2ème étage ( entrée principale côté parking ambulance)
+					5 bis avenue de la porte de Sèvres
+					75509 Paris Cédex 15
+
+(muni(e) de votre carnet de vaccination et éventuellement de vos lunettes)
+
+
+Cette visite médicale a un caractère réglementaire et obligatoire (textes en références). Elle n&apos;a lieu actuellement que le mardi matin:
+Dès réception de la présente invitation, merci de confirmer votre présence (acceptation)
+
+Dans la mesure où vous ne pourriez pas vous rendre à cette visite:
+merci de motiver tout refus par messagerie (problème d&apos;horaire, temps partiel, vacances, visite récente effectuée, etc...)  
+et de proposer vos disponibilités au correspondant RH (téléphone 01 45 52 74 72 ou mail).
+
+En cas d&apos;impossibilité de dernière minute (si vous avez accepté le rendez-vous), merci de bien vouloir prendre contact directement avec le secrétariat médical pour obtenir un autre rendez vous (Madame Anne LEDUC, téléphone 01 45 52 40 86 ou mail &quot;anne.leduc@sga.defense.gouv.fr&quot;).
+
+
+Cordialement.
+
+
+
+
+Daniel ROYER
+Gestion prévisionnelle, contrôle et suivi des visites médicales périodiques 
+DRH/CPP/SDPA/GAA
+Tél: 01 45 52 74 72</TextContent>
+</Content>

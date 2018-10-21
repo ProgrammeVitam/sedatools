@@ -1,0 +1,84 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000067]: [API-ingest-external/v1/ingests/rules ou formats en POST] :Réponse avec &quot;httpCode&quot;: 201, non documenté</Title>
+    <OriginatingSystemId>&lt;a55698ef12bd12ee5e5dad5cb79c93a1@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-11T09:24:38Z</SentDate>
+    <ReceivedDate>2017-01-11T09:24:44Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=67 
+====================================================================== 
+Rapporteur:                 Omar
+Responsable:                Omar
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   67
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-11 10:24 CET
+Dernière modification:      2017-01-11 10:24 CET
+====================================================================== 
+Résumé:                     [API-ingest-external/v1/ingests/rules ou formats
+en POST] :Réponse avec &quot;httpCode&quot;: 201, non documenté
+Description: 
+Lors de post de nouveau fichier (valide) de règles ou de formats le code retour
+est 201 mais qui n&apos;est n&apos;est pas documenté.
+
+cd pièces jointes pour les fichiers d&apos;entrée + réponses en retour + requêtes
+envoyées.
+exemple de post sur rules
+
+POST /admin-external/v1/rules HTTP/1.1
+Host: 213.32.79.242:8444
+User-Agent: curl/7.46.0
+Accept: */*
+Transfer-Encoding:chunked
+Content-Type:application/octet-stream
+Expect: 100-continue
+
+HEADER retour de cette requête REST :
+
+HTTP/1.1 201 Created
+Date: Tue, 10 Jan 2017 12:52:09 GMT
+Set-Cookie: rememberMe=deleteMe; Path=/; Max-Age=0; Expires=Mon, 09-Jan-2017
+12:52:09 GMT
+Content-Type: application/json
+X-REQUEST-ID: aeeaaaaaacaam7mxabapkakzrbxy7caaaaaq
+Content-Length: 137
+Server: Jetty(9.3.13.v20161014)
+
+Réponse retour de cette requête REST :
+{&quot;httpCode&quot;:201,&quot;code&quot;:&quot;CREATED&quot;,&quot;context&quot;:&quot;ADMIN_EXTERNAL&quot;,&quot;state&quot;:&quot;code_vitam&quot;,&quot;message&quot;:&quot;Created&quot;,&quot;description&quot;:&quot;Created&quot;,&quot;errors&quot;:[]}
+
+Étapes pour le reproduire: 
+Purger le référentiel (rules ou formats)
+Lancer le script SOAP qui exécute la commande curl d&apos;import 
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-11 10:24 Omar           Nouveau bogue                                
+2017-01-11 10:24 Omar           Statut                   nouveau =&gt; affecté  
+2017-01-11 10:24 Omar           Assigné à                 =&gt; Omar            
+2017-01-11 10:24 Omar           Fichier ajouté:
+response_imports_rules_10012016_18_03.txt                    
+======================================================================</TextContent>
+</Content>

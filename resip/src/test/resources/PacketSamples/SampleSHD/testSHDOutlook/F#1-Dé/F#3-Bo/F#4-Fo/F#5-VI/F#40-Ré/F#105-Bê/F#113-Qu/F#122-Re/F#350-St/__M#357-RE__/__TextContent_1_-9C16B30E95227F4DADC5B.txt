@@ -1,0 +1,226 @@
+Bonjour Thierry,
+
+ 
+
+Voici mes corrections sur le tableur SEDA. J’ai coché 54 champs, en concordance avec les document design SIP.
+
+Je suis disponible demain matin si besoin.
+
+ 
+
+ 
+
+ 
+
+Respectueusement,
+
+ 
+
+Olivier CHEVENIER
+
+Adjoint au responsable fonctionnel du projet ArchipélNG
+
+Secrétariat général pour l’administration (SGA)
+
+Service Historique de la Défense (SHD)
+
+Pôle de pilotage scientifique et technique (PPST)
+
+ 
+
++ 94300 Vincennes – Avenue de Paris – Château de Vincennes – Tour du Bois 
+
+( 01-41-93-21-87 ou 2 21 87
+
+olivier.chevenier@intradef.gouv.fr <mailto:olivier.chevenier@intradef.gouv.fr> 
+
+ 
+
+ 
+
+ 
+
+De : CASIMIRIUS Thierry IDEF MINDEF 
+Envoyé : vendredi 28 octobre 2016 13:39
+À : CHEVENIER Olivier ASC NIV I OA
+Cc : BEL Nicolas ASC NIV I OA
+Objet : RE: Metadonnées : identifications des métadonnées canddats à des tests de "recherche" et "modifications" : remarques et contraintes
+
+ 
+
+Olivier,
+
+ 
+
+D’abord merci.
+
+ 
+
+Comme tu l’as vu dans les échanges de ce jour (vendredi) avec ALTRAN, nous sommes trop gourmands.
+
+ 
+
+Il convient de se limiter à 40 champs max.
+
+ 
+
+Par ailleurs, je constate que tu as travaillé sur  d’autres messages qu’ArchiveTransfer et ArchiveTransferReply. C’est prématuré pour la Bêta. Se limiter sur ces 2 messages est suffisant à ce stade.
+
+ 
+
+Un retour pour jeudi 3/11 est souhaité, avec la nouvelle version du fichier.
+
+ 
+
+Cordialement,
+
+ 
+
+Thierry CASIMIRIUS
+
+Adjoint au chef du bureau des technologies d’information
+
+Service historique de la Défense
+
+SGA/DMPA/SHD/PPST/BTI
+
+Tél : 01 41 93 20 45
+
+ 
+
+De : CHEVENIER Olivier ASC NIV I OA 
+Envoyé : jeudi 27 octobre 2016 18:48
+À : CASIMIRIUS Thierry IDEF MINDEF
+Cc : BEL Nicolas ASC NIV I OA
+Objet : RE: Metadonnées : identifications des métadonnées canddats à des tests de "recherche" et "modifications"
+
+ 
+
+Bonsoir Thierry,
+
+ 
+
+Voici le document demandé. Je n’ai pas beaucoup de valeurs renseignée pour la troisième colonne par contre (Mais selon moi, les éléments sont côté SHD, donc pas besoin de se tourner vers Vitam pour demander des précisions).
+
+Je serai absent vendredi et lundi, mais Nicolas sera présent demain au cas où.
+
+ 
+
+Bon week-end et à mardi.
+
+ 
+
+ 
+
+Respectueusement,
+
+ 
+
+Olivier CHEVENIER
+
+Adjoint au responsable fonctionnel du projet ArchipélNG
+
+Secrétariat général pour l’administration (SGA)
+
+Service Historique de la Défense (SHD)
+
+Pôle de pilotage scientifique et technique (PPST)
+
+ 
+
++ 94300 Vincennes – Avenue de Paris – Château de Vincennes – Tour du Bois 
+
+( 01-41-93-21-87 ou 2 21 87
+
+olivier.chevenier@intradef.gouv.fr
+
+ 
+
+ 
+
+ 
+
+ 
+
+De : CASIMIRIUS Thierry IDEF MINDEF 
+Envoyé : mercredi 26 octobre 2016 16:51
+À : CHEVENIER Olivier ASC NIV I OA
+Cc : BEL Nicolas ASC NIV I OA
+Objet : TR: Metadonnées : identifications des métadonnées canddats à des tests de "recherche" et "modifications"
+
+ 
+
+Olivier,
+
+ 
+
+Dans le cadre de l’atelier de couverture, ALTRAN vient de transmettre le fichier contenant les métadonnées SEDA 2, sur lequel il convient 
+
+ 
+
+De rajouter 3 colonnes dans chaque onglet 
+
+·         Dans la première colonne, « META candidat à recherche », identifier les métadonnées les + utilisées a priori, et donc susceptibles de faire l’objet de « recherche » dans le module accès.
+
+·         Dans la deuxième colonne, « META candidat à modification », identifier les métadonnées , normalement issues du groupe ci-dessus, sur lesquelles il convient de faire des tests de modifications
+
+·         Dans la troisième colonne, « META : liste des valeurs possibles », identifier pour les méta identifiées ci-dessus les valeurs possibles en se basant sur le document SIP VITAM, la doc SEDA ci-dessous, et lorsque cela est obscur, mentionner «  info à demander auprès de VITAM »
+
+ 
+
+Merci de ton retour, d’ici vendredi midi.
+
+En cas de pb, merci de m’avertir. 
+
+ 
+
+ 
+
+Nota : http://www.archivesdefrance.culture.gouv.fr/seda/api_v2/doc.html#seda-2.0-main.xsd
+
+ 
+
+Cordialement,
+
+ 
+
+Thierry CASIMIRIUS
+
+Adjoint au chef du bureau des technologies d’information
+
+Service historique de la Défense
+
+SGA/DMPA/SHD/PPST/BTI
+
+Tél : 01 41 93 20 45
+
+ 
+
+De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+Envoyé : mercredi 26 octobre 2016 16:37
+À : CASIMIRIUS Thierry IDEF MINDEF
+Cc : DANYACH-DESCHAMPS Myriam ASC
+Objet : Metadonnées
+
+ 
+
+Bonjour Thierry,
+
+ 
+
+Suite à l’atelier d’hier voici en pj l’excel contenant les Metadonnées récupérées de la norme SEDA. 
+
+ 
+
+Nous vous avions proposé hier de le regarder et éventuellement de commencer à choisir/cocher celles sur lesquelles vous souhaiteriez faire des tests.
+
+ 
+
+Cordialement,
+
+Franck AJJAZ
+
+Chef de Projet
+
+TRA VITAM
+franck.ajjaz@altran.com

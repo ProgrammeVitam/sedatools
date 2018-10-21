@@ -1,0 +1,35 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Visite d&apos;embarquement de F. Rode et son adjointe</Title>
+    <OriginatingSystemId>&lt;OFD9926B6A.AA16486E-ONC1257B7B.004528AA-C1257B7B.004540DE@LocalDomain&gt;</OriginatingSystemId>
+    <Description>Rendez-vous</Description>
+    <Writer>
+        <FirstName>PRECETTI Dominique ICETA2</FirstName>
+        <BirthName>PRECETTI Dominique ICETA2</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=dominique.precetti.dga.defense.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>PRECETTI Dominique ICETA2</FirstName>
+        <BirthName>PRECETTI Dominique ICETA2</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=dominique.precetti.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=thierry.casimiriusf3bf6874</Identifier>
+    </Addressee>
+    <SentDate>2013-05-30T12:36:34Z</SentDate>
+    <ReceivedDate>2013-05-30T12:36:35Z</ReceivedDate>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Début</EventType>
+        <EventDateTime>2013-06-11T10:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Fin</EventType>
+        <EventDateTime>2013-06-11T11:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+</Content>

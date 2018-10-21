@@ -1,0 +1,59 @@
+Bonsoir Thierry,
+
+Voici le jeu de test que nous utilisons pour tester cette fonctionnalité. Nous l'avons construit à la main avant que le générateur soit disponible. ce qui fait que nous n'avons pas de répertoire d'origine. 
+
+Le générateur peut être utilisé pour générer des jeux de tests utilisant à plein la notion de groupe d'objet. Cette fonctionnalité n'a pas été présentée dans le powerpoint accompagnant le générateur car relevant d'une fonctionnalité "avancée". elle est en revanche décrite dans la documentation du générateur, dans le fichier arborescence.rst (présent dans le répertoire .doc). 
+
+Nous restons à disposition en cas de question.
+
+Bonne soirée
+
+Edouard
+
+ 
+
+Le 2016-12-13 16:50, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Nous aimerions disposer du jeu de données : SIP + répertoire d’archives d’origine dans lequel des archiveunit ont des liens avec des groupes d’objets.
+
+	 
+
+	<DataObjectVersion>BinaryMaster</DataObjectVersion> <BinaryDataObject id="ID011"> <DataObjectGroupId>ID006</DataObjectGroupId>
+
+	 
+
+	Un bordereau exemple est présenté dans le document de spécification/ structuration SIP, page 25. Mais sans plus d’explication, il est difficile de comprendre comment étaient organisés les fichiers sources.
+
+	 
+
+	Est-il possible d’avoir un SIP + jeux de données d’origine où nous pourrions mieux comprendre le fonctionnement de ces notions ?
+
+	 
+
+	Si nécessaire, nous le récupérerions sous jalios.
+
+	 
+
+	D’avance, merci pour votre collaboration,
+
+	 
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45

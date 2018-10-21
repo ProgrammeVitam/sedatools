@@ -1,0 +1,80 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: Problème avec générateur SIP SEDA VITAM</Title>
+    <OriginatingSystemId>&lt;cb9cccace05ff4946e9436dea5e5ffe4@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>edouard VASSEUR</FirstName>
+        <BirthName>edouard VASSEUR</BirthName>
+        <Identifier>edouard.vasseur@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>&apos;emmanuel.laborde@culture.gouv.fr&apos;</FirstName>
+        <BirthName>&apos;emmanuel.laborde@culture.gouv.fr&apos;</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>BEL Nicolas</FirstName>
+        <BirthName>BEL Nicolas</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>GODET Annie</FirstName>
+        <BirthName>GODET Annie</BirthName>
+        <Identifier>annie.godet@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-10-12T16:28:31Z</SentDate>
+    <ReceivedDate>2016-10-12T16:29:44Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C635B8F@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonsoir Thierry,
+
+J&apos;ai vérifié le xml avec Oxygen et en me référant au schéma fourni dans la documentation SEDA. Il est OK pour moi. 
+
+Le fichier ArchiveTransferConfig doit être soit laissé dans le dossier conf, soit enregistré dans le répertoire racine. Le problème vient peut être du fait que tu ai modifié les valeurs des CodeListVersion en mettant des ponctuations (les :). On en reparle demain.
+
+Bonne soirée
+
+Edouard
+
+ 
+
+ 
+
+Le 2016-10-12 18:13, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Je rencontre 2 problèmes avec les SIP générés par l’outil fourni cette semaine :
+
+	 
+
+	1-      Après essai, mon premier fichier manifest.xml est bien formé.(PJ2). Mais mon éditeur qui permet de vérifier la cohérence avec un schéma XML (et ici le seda-main.xsd)  me sort une erreur, que je n’arrive pas à comprendre (voir PJ1). Je ne sais pas à quoi c’est du. J’utilise XML copy Editor.
+
+	2-      J’ai essayé de générer un SIP en mode avancé, en modifiant le json en PJ pour paramétrer l’entête du bordereau. Je l’ai mis dans le répertoire racine comprenant mes données, comme indiqué dans la doc. Mais, le générateur n’en tient pas compte. Ai-je mal compris le mode d’emploi ?
+
+	 
+
+	D’avance, merci, pour votre aide 
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45</TextContent>
+</Content>

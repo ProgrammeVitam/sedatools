@@ -1,0 +1,222 @@
+Return-Path: agora@vitam.jaliosagora.com
+Received:  from jalios03.xsalto.net (localhost [127.0.0.1]) by
+     web23.xsalto.net (Postfix) with ESMTP id 453C2459CA; Fri, 23 Jun 2017
+     16:32:36 +0200 (CEST)
+Date: Fri, 23 Jun 2017 16:32:36 +0200 (CEST)
+From: "Edouard Vasseur (Programme Vitam)" <agora@vitam.jaliosagora.com>
+Reply-To: Edouard Vasseur <edouard.vasseur@culture.gouv.fr>
+To: Baptiste Nichele <baptiste.nichele@culture.gouv.fr>,
+	Valia DELAMARE <valerie.delamare@intradef.gouv.fr>,Sandrine Heiser <sandrine.heiser@culture.gouv.fr>,
+	Mehdi Afnai <mehdi.afnai@culture.gouv.fr>,Bastien Chastagner <bastien.chastagner@developpement-durable.gouv.fr>,
+	=?UTF-8?Q?Isabelle_Perez-Basti=C3=A9_<isabell?= =?UTF-8?Q?e.perez-bastie@culture.gouv.fr>?=,Olivier Chevenier <olivier.chevenier@intradef.gouv.fr>,
+	Bel Nicolas <nicolas.bel@intradef.gouv.fr>,Martine Sin Blima-Barru <martine.sinblima-barru@culture.gouv.fr>,
+	Casimirius Thierry <thierry.casimirius@intradef.gouv.fr>,=?UTF-8?Q?St=C3=A9phanie_Roussel_<stephanie.roussel@culture.gouv.fr>?=,
+	=?UTF-8?Q?M=C3=A9lanie_Rebours_<melanie.rebours@culture.gouv.fr>?=,Nathalie Morin <nathalie.morin@culture.gouv.fr>
+Message-ID: <597933470.15991498228356288.JavaMail.vitam@jalios03.xsalto.net>
+Subject: =?UTF-8?Q?[Programme_Vitam]_Invitation_=C3=A0_l?=
+ =?UTF-8?Q?'=C3=A9v=C3=A9nement_"Point_d'=C3=A9tape_sur_la?=
+ =?UTF-8?Q?_r=C3=A9alisation_de_la_solution_logi?=
+ =?UTF-8?Q?cielle_(it=C3=A9rations_21,_22_et_23)"?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_91_29457283.1517006381644"
+X-PMX-Version:  6.3.3.2656215, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 
+    2017.6.23.142416, AntiVirus-Engine: 5.38.0, AntiVirus-Data: 
+    2017.6.23.5380002
+X-PMX-Spam:  Gauge=IIIIIIIII, Probability=9%, Report=' HTML_50_70 0.1, 
+    MULTIPLE_RCPTS 0.1, REPLYTO_FROM_DIFF_ADDY 0.1, SUPERLONG_LINE 0.05, 
+    BODYTEXTH_SIZE_10000_LESS 0, BODY_SIZE_10000_PLUS 0, FROM_NAME_PHRASE 
+    0, LEGITIMATE_SIGNS 0, MULTIPLE_REAL_RCPTS 0, SPF_NONE 0, 
+    URI_WITH_PATH_ONLY 0, __ANY_URI 0, __ATTACHMENT_SIZE_0_10K 0, 
+    __CP_URI_IN_BODY 0, __CT 0, __CTYPE_HAS_BOUNDARY 0, __CTYPE_MULTIPART 
+    0, __CTYPE_MULTIPART_MIXED 0, __HAS_ATTACHMENT 0, __HAS_ATTACHMENT1 0,
+     __HAS_ATTACHMENT2 0, __HAS_FROM 0, __HAS_HTML 0, __HAS_MSGID 0, 
+    __HAS_REPLYTO 0, __HIGHBITS 0, __HTML_AHREF_TAG 0, __HTTPS_URI 0, 
+    __MIME_HTML 0, __MIME_TEXT_H 0, __MIME_TEXT_H1 0, __MIME_TEXT_H2 0, 
+    __MIME_VERSION 0, __MULTIPLE_RCPTS_TO_X5 0, __MULTIPLE_URI_HTML 0, 
+    __MULTIPLE_URI_TEXT 0, __SANE_MSGID 0, __SUBJ_HIGHBIT 0, 
+    __TO_MALFORMED_2 0, __TO_NAME 0, __TO_NAME_DIFF_FROM_ACC 0, 
+    __TO_REAL_NAMES 0, __URI_IN_BODY 0, __URI_NOT_IMG 0, __URI_NO_MAILTO 
+    0, __URI_NO_WWW 0, __URI_NS , __URI_WITH_PATH 0, __UTF8_SUBJ 0'
+x-msw-jemd-newsletter:  false
+x-msw-jemd-refid:  [1]10,1,0,,d41d8cd98f00b204,agora@vitam.jaliosagora.com,baptiste.nichele@culture.gouv.fr:valerie.delamare@intradef.gouv.fr:sandrine.heiser@culture.gouv.fr:mehdi.afnai@culture.gouv.fr:bastien.chastagner@developpement-durable.gouv.fr:isabelle.perez-bastie@culture.gouv.fr:olivier.chevenier@intradef.gouv.fr:nicolas.bel@intradef.gouv.fr:martine.sinblima-barru@culture.gouv.fr:thierry.casimirius@intradef.gouv.fr:stephanie.roussel@culture.gouv.fr:melanie.rebours@culture.gouv.fr:nathalie.morin@culture.gouv.fr,RULES_HIT:1:41:46:72:150:152:355:379:871:967:973:983:988:989:1000:1208:1260:1261:1313:1314:1345:1381:1431:1437:1516:1517:1540:1561:1575:1594:1699:1711:1714:1730:1747:1764:1777:1792:2069:2070:2393:2525:2565:2682:2685:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3148:3872:3876:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4470:5007:6261:6506:6737:6747:6748:7
+X-TM-AS-GCONF:  00
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXyGDz;1348500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource:  MVLINF10CTNWM08.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_91_29457283.1517006381644
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_92_534247.1517006381644"
+
+------=_Part_92_534247.1517006381644
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Edouard Vasseur vous a invit=C3=A9 =C3=A0 l'=C3=A9v=C3=A9nement 'Point d'=
+=C3=A9tape sur la r=C3=A9alisation de la solution logicielle (it=C3=A9ratio=
+ns 21, 22 et 23)'
+
+Si votre client de messagerie ne poss=C3=A8de pas la fonction calendrier, v=
+ous pouvez accepter <https://vitam.jaliosagora.com/jcms/c_2006968/fr/point-=
+d-etape-sur-la-realisation-de-la-solution-logicielle-iterations-21-22-et-23=
+?participate=3Dtrue&skipEmailNotification=3Dtrue>  ou d=C3=A9cliner <https:=
+//vitam.jaliosagora.com/jcms/c_2006968/fr/point-d-etape-sur-la-realisation-=
+de-la-solution-logicielle-iterations-21-22-et-23?notParticipate=3Dtrue&skip=
+EmailNotification=3Dtrue>  cette invitation.
+Lien pour consulter l'=C3=A9v=C3=A9nement : https://vitam.jaliosagora.com/j=
+cms/c_2006968/fr/point-d-etape-sur-la-realisation-de-la-solution-logicielle=
+-iterations-21-22-et-23
+------=_Part_92_534247.1517006381644
+Content-Type: multipart/related; 
+	boundary="----=_Part_93_15726710.1517006381644"
+
+------=_Part_93_15726710.1517006381644
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">Ed=
+ouard Vasseur vous a invit=C3=A9 =C3=A0 l'=C3=A9v=C3=A9nement 'Point d'=C3=
+=A9tape sur la r=C3=A9alisation de la solution logicielle (it=C3=A9rations =
+21, 22 et 23)'<br>
+<br>
+Si votre client de messagerie ne poss=C3=A8de pas la fonction calendrier, v=
+ous pouvez <a href=3D"https://vitam.jaliosagora.com/jcms/c_2006968/fr/point=
+-d-etape-sur-la-realisation-de-la-solution-logicielle-iterations-21-22-et-2=
+3?participate=3Dtrue&amp;skipEmailNotification=3Dtrue">accepter</a> ou <a h=
+ref=3D"https://vitam.jaliosagora.com/jcms/c_2006968/fr/point-d-etape-sur-la=
+-realisation-de-la-solution-logicielle-iterations-21-22-et-23?notParticipat=
+e=3Dtrue&amp;skipEmailNotification=3Dtrue">d=C3=A9cliner</a> cette invitati=
+on.<br>
+Lien pour consulter l'=C3=A9v=C3=A9nement : <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2006968/fr/point-d-etape-sur-la-realisation-de-la-solution=
+-logicielle-iterations-21-22-et-23">https://vitam.jaliosagora.com/jcms/c_20=
+06968/fr/point-d-etape-sur-la-realisation-de-la-solution-logicielle-iterati=
+ons-21-22-et-23</a>
+------=_Part_93_15726710.1517006381644
+Content-Type: application/ics; name=meeting.ics
+Content-Transfer-Encoding: base64
+Content-ID: <invite7821258630848947698ics>
+Content-Disposition: inline; filename="meeting.ics"
+
+QkVHSU46VkNBTEVOREFSDQpQUk9ESUQ6LS8vRXZlbnRzIENhbGVuZGFyLy9pQ2FsNGogMS4wLy9F
+Tg0KVkVSU0lPTjoyLjANCk1FVEhPRDpSRVFVRVNUDQpCRUdJTjpWVElNRVpPTkUNClRaSUQ6RXVy
+b3BlL1BhcmlzDQpUWlVSTDpodHRwOi8vdHp1cmwub3JnL3pvbmVpbmZvLW91dGxvb2svRXVyb3Bl
+L1BhcmlzDQpYLUxJQy1MT0NBVElPTjpFdXJvcGUvUGFyaXMNCkJFR0lOOkRBWUxJR0hUDQpUWk9G
+RlNFVEZST006KzAxMDANClRaT0ZGU0VUVE86KzAyMDANClRaTkFNRTpDRVNUDQpEVFNUQVJUOjE5
+NzAwMzI5VDAyMDAwMA0KUlJVTEU6RlJFUT1ZRUFSTFk7QllNT05USD0zO0JZREFZPS0xU1UNCkVO
+RDpEQVlMSUdIVA0KQkVHSU46U1RBTkRBUkQNClRaT0ZGU0VURlJPTTorMDIwMA0KVFpPRkZTRVRU
+TzorMDEwMA0KVFpOQU1FOkNFVA0KRFRTVEFSVDoxOTcwMTAyNVQwMzAwMDANClJSVUxFOkZSRVE9
+WUVBUkxZO0JZTU9OVEg9MTA7QllEQVk9LTFTVQ0KRU5EOlNUQU5EQVJEDQpFTkQ6VlRJTUVaT05F
+DQpCRUdJTjpWRVZFTlQNCkRUU1RBTVA6MjAxNzA2MjNUMTQzMjM2Wg0KRFRTVEFSVDtUWklEPUV1
+cm9wZS9QYXJpczoyMDE3MDgzMVQxNDAwMDANCkRURU5EO1RaSUQ9RXVyb3BlL1BhcmlzOjIwMTcw
+ODMxVDE2MDAwMA0KU1VNTUFSWTpQb2ludCBkJ8OpdGFwZSBzdXIgbGEgcsOpYWxpc2F0aW9uIGRl
+IGxhIHNvbHV0aW9uIGxvZ2ljaWVsbGUgKGl0w6lyYXRpb25zIDIxXCwgMjIgZXQgMjMpDQpVSUQ6
+Y18yMDA2OTY4QFByb2dyYW1tZS1WaXRhbQ0KQ0xBU1M6UFVCTElDDQpBVFRFTkRFRTtST0xFPU9Q
+VC1QQVJUSUNJUEFOVDtDTj1CZWwgTmljb2xhcztSU1ZQPVRSVUU6bWFpbHRvOm5pY29sYXMuYmVs
+QGludHJhZGVmLmdvdXYuZnINCkFUVEVOREVFO1JPTEU9T1BULVBBUlRJQ0lQQU5UO0NOPU9saXZp
+ZXIgQ2hldmVuaWVyO1JTVlA9VFJVRTptYWlsdG86b2xpdmllci5jaGV2ZW5pZXJAaW50cmFkZWYu
+Z291di5mcg0KQVRURU5ERUU7Uk9MRT1PUFQtUEFSVElDSVBBTlQ7Q049QmFwdGlzdGUgTmljaGVs
+ZTtSU1ZQPVRSVUU6bWFpbHRvOmJhcHRpc3RlLm5pY2hlbGVAY3VsdHVyZS5nb3V2LmZyDQpBVFRF
+TkRFRTtST0xFPU9QVC1QQVJUSUNJUEFOVDtDTj1WYWxpYSBERUxBTUFSRTtSU1ZQPVRSVUU6bWFp
+bHRvOnZhbGVyaWUuZGVsYW1hcmVAaW50cmFkZWYuZ291di5mcg0KQVRURU5ERUU7Uk9MRT1PUFQt
+UEFSVElDSVBBTlQ7Q049U2FuZHJpbmUgSGVpc2VyO1JTVlA9VFJVRTptYWlsdG86c2FuZHJpbmUu
+aGVpc2VyQGN1bHR1cmUuZ291di5mcg0KQVRURU5ERUU7Uk9MRT1PUFQtUEFSVElDSVBBTlQ7Q049
+TWFydGluZSBTaW4gQmxpbWEtQmFycnU7UlNWUD1UUlVFOm1haWx0bzptYXJ0aW5lLnNpbmJsaW1h
+LWJhcnJ1QGN1bHR1cmUuZ291di5mcg0KQVRURU5ERUU7Uk9MRT1PUFQtUEFSVElDSVBBTlQ7Q049
+TWVoZGkgQWZuYWk7UlNWUD1UUlVFOm1haWx0bzptZWhkaS5hZm5haUBjdWx0dXJlLmdvdXYuZnIN
+CkFUVEVOREVFO1JPTEU9T1BULVBBUlRJQ0lQQU5UO0NOPUNhc2ltaXJpdXMgVGhpZXJyeTtSU1ZQ
+PVRSVUU6bWFpbHRvOnRoaWVycnkuY2FzaW1pcml1c0BpbnRyYWRlZi5nb3V2LmZyDQpBVFRFTkRF
+RTtST0xFPU9QVC1QQVJUSUNJUEFOVDtDTj0iU3TDqXBoYW5pZSBSb3Vzc2VsIjtSU1ZQPVRSVUU6
+bWFpbHRvOnN0ZXBoYW5pZS5yb3Vzc2VsQGN1bHR1cmUuZ291di5mcg0KQVRURU5ERUU7Uk9MRT1P
+UFQtUEFSVElDSVBBTlQ7Q049QmFzdGllbiBDaGFzdGFnbmVyO1JTVlA9VFJVRTptYWlsdG86YmFz
+dGllbi5jaGFzdGFnbmVyQGRldmVsb3BwZW1lbnQtZHVyYWJsZS5nb3V2LmZyDQpBVFRFTkRFRTtS
+T0xFPU9QVC1QQVJUSUNJUEFOVDtDTj0iTcOpbGFuaWUgUmVib3VycyI7UlNWUD1UUlVFOm1haWx0
+bzptZWxhbmllLnJlYm91cnNAY3VsdHVyZS5nb3V2LmZyDQpBVFRFTkRFRTtST0xFPU9QVC1QQVJU
+SUNJUEFOVDtDTj1OYXRoYWxpZSBNb3JpbjtSU1ZQPVRSVUU6bWFpbHRvOm5hdGhhbGllLm1vcmlu
+QGN1bHR1cmUuZ291di5mcg0KQVRURU5ERUU7Uk9MRT1PUFQtUEFSVElDSVBBTlQ7Q049IklzYWJl
+bGxlIFBlcmV6LUJhc3Rpw6kiO1JTVlA9VFJVRTptYWlsdG86aXNhYmVsbGUucGVyZXotYmFzdGll
+QGN1bHR1cmUuZ291di5mcg0KT1JHQU5JWkVSO0NOPUVkb3VhcmQgVmFzc2V1cjptYWlsdG86Y2Fs
+ZW5kYXIrdmJlcWRmeWpAdml0YW0uamFsaW9zYWdvcmEuY29tDQpERVNDUklQVElPTjpodHRwczov
+L3ZpdGFtLmphbGlvc2Fnb3JhLmNvbS9qY21zL2NfMjAwNjk2OC9mci9wb2ludC1kLWV0YXBlLXN1
+ci1sYS1yZWFsaXNhdGlvbi1kZS1sYS1zb2x1dGlvbi1sb2dpY2llbGxlLWl0ZXJhdGlvbnMtMjEt
+MjItZXQtMjMNCkxPQ0FUSU9OOg0KRU5EOlZFVkVOVA0KRU5EOlZDQUxFTkRBUg0K
+------=_Part_93_15726710.1517006381644
+Content-Type: text/calendar; name=invite7821258630848947698.ics; 
+	charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <invite7821258630848947698ics>
+Content-Disposition: inline; filename="invite7821258630848947698.ics"
+
+BEGIN:VCALENDAR
+PRODID:-//Events Calendar//iCal4j 1.0//EN
+VERSION:2.0
+METHOD:REQUEST
+BEGIN:VTIMEZONE
+TZID:Europe/Paris
+TZURL:http://tzurl.org/zoneinfo-outlook/Europe/Paris
+X-LIC-LOCATION:Europe/Paris
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=3DYEARLY;BYMONTH=3D3;BYDAY=3D-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=3DYEARLY;BYMONTH=3D10;BYDAY=3D-1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTAMP:20170623T143236Z
+DTSTART;TZID=3DEurope/Paris:20170831T140000
+DTEND;TZID=3DEurope/Paris:20170831T160000
+SUMMARY:Point d'=C3=A9tape sur la r=C3=A9alisation de la solution logiciell=
+e (it=C3=A9rations 21\, 22 et 23)
+UID:c_2006968@Programme-Vitam
+CLASS:PUBLIC
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DBel Nicolas;RSVP=3DTRUE:mailto:nicolas=
+.bel@intradef.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DOlivier Chevenier;RSVP=3DTRUE:mailto:o=
+livier.chevenier@intradef.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DBaptiste Nichele;RSVP=3DTRUE:mailto:ba=
+ptiste.nichele@culture.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DValia DELAMARE;RSVP=3DTRUE:mailto:vale=
+rie.delamare@intradef.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DSandrine Heiser;RSVP=3DTRUE:mailto:san=
+drine.heiser@culture.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DMartine Sin Blima-Barru;RSVP=3DTRUE:ma=
+ilto:martine.sinblima-barru@culture.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DMehdi Afnai;RSVP=3DTRUE:mailto:mehdi.a=
+fnai@culture.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DCasimirius Thierry;RSVP=3DTRUE:mailto:=
+thierry.casimirius@intradef.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3D"St=C3=A9phanie Roussel";RSVP=3DTRUE:m=
+ailto:stephanie.roussel@culture.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DBastien Chastagner;RSVP=3DTRUE:mailto:=
+bastien.chastagner@developpement-durable.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3D"M=C3=A9lanie Rebours";RSVP=3DTRUE:mai=
+lto:melanie.rebours@culture.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3DNathalie Morin;RSVP=3DTRUE:mailto:nath=
+alie.morin@culture.gouv.fr
+ATTENDEE;ROLE=3DOPT-PARTICIPANT;CN=3D"Isabelle Perez-Basti=C3=A9";RSVP=3DTR=
+UE:mailto:isabelle.perez-bastie@culture.gouv.fr
+ORGANIZER;CN=3DEdouard Vasseur:mailto:calendar+vbeqdfyj@vitam.jaliosagora.c=
+om
+DESCRIPTION:https://vitam.jaliosagora.com/jcms/c_2006968/fr/point-d-etape-s=
+ur-la-realisation-de-la-solution-logicielle-iterations-21-22-et-23
+LOCATION:
+END:VEVENT
+END:VCALENDAR
+
+------=_Part_93_15726710.1517006381644--
+
+------=_Part_92_534247.1517006381644--
+
+------=_Part_91_29457283.1517006381644--

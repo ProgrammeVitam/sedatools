@@ -1,0 +1,42 @@
+Bonjour,
+
+Vous trouverez ci joint le fichier postman utilisé lors de la démonstration sur les API du jeudi 17/11. Il contient l'ensemble des requêtes utilisées.
+
+Rappel : Les requêtes de ce fichier utilisent une version encore instable de l'API puisque la démonstration a eu lieu avant la fin de l'itération.
+Des corrections sont en cours sur quelques éléments mais l'écart est marginal (nom d'argument préfixé par "#" et non "_"...).
+
+Cdt,
+
+Emmanuel Laborde
+
+ 
+
+ 
+
+Le 2016-11-21 12:24, CASIMIRIUS Thierry a écrit :
+
+	Bonjour Emmanuel,
+
+	 
+
+	Comme convenu en réunion,  serait-il possible de disposer, cette semaine, des fichiers et exemples présentés jeudi dernier lors de la démonstration API VITAM, pour nous permettre de préparer les tests d’ici la livraison de la TRA VITAM ?
+
+	 
+
+	D’avance, merci,
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45

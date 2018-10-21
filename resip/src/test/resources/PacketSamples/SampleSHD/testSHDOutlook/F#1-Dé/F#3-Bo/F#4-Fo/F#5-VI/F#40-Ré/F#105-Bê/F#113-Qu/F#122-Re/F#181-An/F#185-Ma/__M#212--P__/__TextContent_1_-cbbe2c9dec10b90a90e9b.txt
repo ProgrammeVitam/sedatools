@@ -1,0 +1,69 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=45 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                Franck
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   45
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-02 16:26 CET
+Dernière modification:      2017-01-02 16:26 CET
+====================================================================== 
+Résumé:                     Code 500 quand nombre d'objets du content > à
+celui dans manifest
+Description: 
+On ne reçoit pas d'ATR si le nombre d'objet contenu dans le content est
+supérieur à ceux répertoriés dans manifest.
+
+Pour faire ce cas, nous avons pris un SIP déjà inséré et avons rajouté un
+objet dans le content.
+
+Après l'inser nous recevons ceci :
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"/>
+<title>Error 500 </title>
+</head>
+<body>
+<h2>HTTP ERROR: 500</h2>
+<p>Problem accessing /ingest/v1/ingests. Reason:
+<pre>    Internal Server Error</pre></p>
+<hr />
+</body>
+</html>
+
+Pour info, quand le nombre d'objet est inférieur à celui du bordereau, nous
+recevons ceci :
+
+	<Event>
+						<EventTypeCode>CHECK_MANIFEST_OBJECTNUMBER</EventTypeCode>
+						<EventType>Vérification du nombre d'objets</EventType>
+						<EventDateTime>2017-01-02T14:05:09.514</EventDateTime>
+						<Outcome>KO</Outcome>
+						<OutcomeDetail>CHECK_MANIFEST_OBJECTNUMBER.KO</OutcomeDetail>
+						<OutcomeDetailMessage>Échec de la vérification du nombre d'objets
+Detail=  OK:3 KO:1</OutcomeDetailMessage>
+					</Event>
+					<Event>
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-02 16:26 Franck         Nouveau bogue                                
+2017-01-02 16:26 Franck         Statut                   nouveau => affecté  
+2017-01-02 16:26 Franck         Assigné à                 => Franck          
+2017-01-02 16:26 Franck         Fichier ajouté: SIP-20170102102614.zip         
+          
+======================================================================

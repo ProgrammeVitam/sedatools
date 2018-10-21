@@ -1,0 +1,58 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000036]: Possibilité de remplir la balise DataObjectVersion avec PhysicalMaster pour un BinaryDataObject</Title>
+    <OriginatingSystemId>&lt;7b6d9139268886e6d5cedff16d02c9b8@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-23T15:45:36Z</SentDate>
+    <ReceivedDate>2016-12-23T15:45:41Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=36 
+====================================================================== 
+Rapporteur:                 Vincent
+Responsable:                Vincent
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   36
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-23 16:45 CET
+Dernière modification:      2016-12-23 16:45 CET
+====================================================================== 
+Résumé:                     Possibilité de remplir la balise
+DataObjectVersion avec PhysicalMaster pour un BinaryDataObject
+Description: 
+Lorsque l&apos;on rempli la balise DataObjectVersion avec PhysicalMaster pour un
+BinaryDataObject dans le manifest du SIP, lors d&apos;un ingest via API, l&apos;ATR
+signale un RepluCode OK au lieu de KO.
+
+Informations complémentaires: 
+PVI-24
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-23 16:45 Vincent        Nouveau bogue                                
+2016-12-23 16:45 Vincent        Statut                   nouveau =&gt; affecté  
+2016-12-23 16:45 Vincent        Assigné à                 =&gt; Vincent         
+2016-12-23 16:45 Vincent        Fichier ajouté:
+ATR_SIP-20161223162409.zip_2016-12-23_16-26-50.xml                    
+======================================================================</TextContent>
+</Content>

@@ -1,0 +1,983 @@
+Return-Path: emmanuel.laborde@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur03.culture.fr (8.15.0.59/8.15.0.59) with ESMTP id uAPEUhpO024719
+	for <thierry.casimirius@intradef.gouv.fr>; Fri, 25 Nov 2016 15:30:43 +0100
+Date: Fri, 25 Nov 2016 15:30:43 +0100 (CET)
+From: emmanuel.laborde <emmanuel.laborde@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <be8225b356844fd9aa4baec8b415be94@culture.gouv.fr>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D1C66AAAA@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D1C66AAAA@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: =?UTF-8?Q?Re:_TR:_TRA_VITAM_Beta_MINDEF_-_Nouveau_lot_de_qu?=
+ =?UTF-8?Q?estions_=3D>_pr=C3=A9cisions_dem?=
+ =?UTF-8?Q?and=C3=A9s_suite_r=C3=A9ponse_VITAM?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_470_5850535.1517006386364"
+X-Sender:  emmanuel.laborde@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8360 signatures=670748
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1286500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM02.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_470_5850535.1517006386364
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_471_17153663.1517006386364"
+
+------=_Part_471_17153663.1517006386364
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour
+
+Mes r=C3=A9ponses en vert
+
+Cordialement,
+
+Emmanuel Laborde
+
+=20
+
+=20
+
+Le 2016-11-23 17:27, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09Bonjour,
+
+=09=20
+
+=09D=E2=80=99abord merci pour ces =C3=A9l=C3=A9ments de r=C3=A9ponses.
+
+=09Mais certains n=C3=A9cessitent des pr=C3=A9cisions qui sont demand=C3=A9=
+es ci-dessous :
+
+=09=20
+
+Questions
+
+R=C3=A9ponses
+
+Demande de pr=C3=A9cisions
+
+t Dans le document pr=C3=A9sent=C3=A9 lors de l=E2=80=99it=C3=A9ration 10, =
+notamment concernant le p=C3=A9rim=C3=A8tre de l=E2=80=99it=C3=A9ration 10,=
+ il a =C3=A9t=C3=A9 pr=C3=A9sent=C3=A9 l=E2=80=99US 494 qui correspond =C3=
+=A0 =C2=AB cr=C3=A9ation d=E2=80=99un r=C3=A9f=C3=A9rentiel unique des =C3=
+=A9tapes, t=C3=A2ches, traitement et des messages associ=C3=A9s dans les jo=
+urnaux =C2=BB qui ne poss=C3=A8de pas d=E2=80=99exigences dans notre matric=
+e. Nous supposons que ce r=C3=A9f=C3=A9rentiel est un r=C3=A9f=C3=A9rentiel=
+ permettant de faire le lien entre des codes erreurs/retours et des message=
+s en fran=C3=A7ais que l=E2=80=99on retrouverait dans l=E2=80=99 ArchiveTra=
+nsfertReply, pouvez vous nous confirmer cela ? Est il possible de disposer =
+de ce r=C3=A9f=C3=A9rentiel ? Ou le trouver ? Et pouvons nous disposer de l=
+a table de correspondance entre les codes erreurs et la traduction francais=
+e ?
+
+OUI et OUI
+
+Quand? comment?
+
+Dans le document Mod=C3=A8le de donn=C3=A9e avec la livraison de la B=C3=AA=
+ta
+
+
+Comment r=C3=A9cup=C3=A9rer unATRdans VITAM? Quelle collection interroger e=
+t comment proc=C3=A9der ?
+
+ATR g=C3=A9n=C3=A9r=C3=A9 en phase de finalisation de l=E2=80=99entr=C3=A9e=
+. Il est stock=C3=A9 sur l=E2=80=99offre de stockage et affich=C3=A9 =C3=A0=
+ l=E2=80=99utilisateur. Mais non r=C3=A9cup=C3=A9rable depuis l=E2=80=99IHM=
+ (US post Beta)
+
+ET avec les APIs? Comment r=C3=A9cup=C3=A9rer un ancien ATR? Quelle collect=
+ion interroger?
+
+Par API, uniquement lors de la r=C3=A9ponse de l'Ingest. Pas de collection =
+sp=C3=A9cifiques. Sinon acc=C3=A8s directe au syst=C3=A8me de fichier de l'=
+offre de stockage (il ne s'agit pas d'une fonctionnalit=C3=A9 du produit VI=
+TAM).
+
+
+Comment r=C3=A9cup=C3=A9rer unbordereaudans VITAM? Quelle collection interr=
+oger et comment proc=C3=A9der ?
+
+Bordereau stock=C3=A9 sur l=E2=80=99offre de stockage mais non r=C3=A9cup=
+=C3=A9rable depuis l=E2=80=99IHM.  (US post Beta)
+
+ET avec les APIs? Comment r=C3=A9cup=C3=A9rer un ancien Bordereau Quelle co=
+llection interroger?
+
+Pas d'acc=C3=A8s via API en B=C3=AAta. Possible via un acc=C3=A8s directe a=
+u syst=C3=A8me de fichier de l'offre de stockage (il ne s'agit pas d'une fo=
+nctionnalit=C3=A9 du produit VITAM).=20
+
+
+=09=20
+
+=09=20
+
+=09=20
+
+=09D=E2=80=99avance, merci pour ces =C3=A9l=C3=A9ments=20
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Adjoint au chef du bureau des technologies d=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+
+=09=20
+
+=09De : AJJAZ Franck [mailto:franck.ajjaz@altran.com]=20
+=09Envoy=C3=A9 : mercredi 23 novembre 2016 17:21
+=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09Cc : DANYACH-DESCHAMPS Myriam ASC
+=09Objet : RE: TRA VITAM Beta MINDEF - Nouveau lot de questions
+
+=09=20
+
+=09Bonjour Thierry,
+
+=09=20
+
+=09Voici quelques demandes de pr=C3=A9cisions sur les r=C3=A9ponses que nou=
+s venons de recevoir.
+
+=09=20
+
+=09Cordialement,
+
+=09Franck AJJAZ
+
+=09Chef de Projet
+
+=09TRA VITAM
+=09franck.ajjaz@altran.com
+
+=09=20
+
+=09=20
+
+=09=20
+
+=09De : emmanuel.laborde [mailto:emmanuel.laborde@culture.gouv.fr]=20
+=09Envoy=C3=A9 : mercredi 23 novembre 2016 17:00
+=09=C3=80 : CASIMIRIUS Thierry
+=09Cc : AJJAZ Franck; DANYACH-DESCHAMPS Myriam; VASSEUR Edouard
+=09Objet : Re: TRA VITAM Beta MINDEF - Nouveau lot de questions
+
+=09=20
+
+=09=20
+
+=09Bonjour,
+
+=09Voici les r=C3=A9ponses aux questions ainsi que l'analyse des correspond=
+ances entre le SEDA et le mod=C3=A8le de donn=C3=A9e VITAM.
+
+=09Cdt,
+
+=09Emmanuel Laborde
+
+=09=20
+
+=09=20
+
+=09Le 2016-11-22 16:19, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09=09Bonjour Emmanuel,
+
+=09=09=20
+
+=09=09Nous ( ALTRAN)  avons un nouveau lot de question =E2=80=93 Voir le fi=
+chier =C2=AB Question VITAM 3.xlsx =C2=BB. Pourriez-vous y apporter vos r=
+=C3=A9ponses ?
+
+=09=09=20
+
+=09=09Par ailleurs, ALTRAN cherche =C3=A0 =C3=A9tablir, sur la base du docu=
+ment mod=C3=A8le de donn=C3=A9es, les correspondances entre les champs SEDA=
+, les balises existants dans le fichier SIP , et le parall=C3=A8le dans le =
+JSON.
+
+=09=09=20
+
+=09=09Vitam pourrait-il valider nos correspondances sur les 4 premiers ongl=
+ets de SEDA-XML-JSON.xlsx ? Et les compl=C3=A9ter quand cela est possible ?
+
+=09=09=20
+
+=09=09Enfin, dans le dernier onglet du document =C2=AB SEDA-XML-JSON.xlsx =
+=C2=BB, serait-il possible de compl=C3=A9ter les champs ???? pour indiquer =
+dans quelle collection les champs ou groupe de champs r=C3=A9f=C3=A9renc=C3=
+=A9s sont g=C3=A9r=C3=A9s ?
+
+=09=09=20
+
+=09=09D=E2=80=99avance, merci,
+
+=09=09=20
+
+=09=09Cordialement,
+
+=09=09=20
+
+=09=09Thierry CASIMIRIUS
+
+=09=09Adjoint au chef du bureau des technologies d=E2=80=99information
+
+=09=09Service historique de la D=C3=A9fense
+
+=09=09SGA/DMPA/SHD/PPST/BTI
+
+=09=09T=C3=A9l : 01 41 93 20 45
+
+=09=09=20
+
+=09=09De : AJJAZ Franck [mailto:franck.ajjaz@altran.com]=20
+=09=09Envoy=C3=A9 : mardi 22 novembre 2016 15:59
+=09=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09=09Cc : DANYACH-DESCHAMPS Myriam ASC; AJJAZ Franck
+=09=09Objet : Questions VITAM
+
+=09=09=20
+
+=09=09Bonjour,
+
+=09=09=20
+
+=09=09Voici un lot de question pour VITAM. Il y a deux documents.
+
+=09=09=20
+
+=09=09Il y a un excel avec des questions (Question VITAM 3.xlsx) et un autr=
+e (SEDA-XML-JSON.xlsx) avec les correspondances entre les champs du SEDA, c=
+eux dans le bordereau et ceux dans VITAM.
+
+=09=09=20
+
+=09=09Vitam pourrait-il valider nos correspondances sur les 4 premiers ongl=
+ets de SEDA-XML-JSON.xlsx ? Et les compl=C3=A9ter quand cela est possible ?=
+ Nous savons qu=E2=80=99ils ne pourront pas le faire pour toutes puisque ce=
+rtaines balises =E2=80=98m=C3=A8res=E2=80=99 n=E2=80=99auront pas d=E2=80=
+=99=C3=A9quivalent dans VITAM et que certaines balises deviennent des valeu=
+rs de champs dans VITAM et vice versa.
+
+=09=09=20
+
+=09=09De plus, nous nous doutons que les champs correspondants =C3=A0 l=E2=
+=80=99ATR et au bordereau dans l=E2=80=99onglet BusinessMessageType ne sont=
+ peut =C3=AAtre pas stock=C3=A9s tels quels dans VITAM.
+
+=09=09=20
+
+=09=09Et serait-il possible de compl=C3=A9ter le 5=C3=A8me onglet l=C3=A0 o=
+=C3=B9 il y a =C3=A9crit =C2=AB ???? =C2=BB ?
+
+=09=09=20
+
+=09=09Cordialement,
+
+=09=09Franck AJJAZ
+
+=09=09Chef de Projet
+
+=09=09TRA VITAM
+=09=09franck.ajjaz@altran.com
+------=_Part_471_17153663.1517006386364
+Content-Type: multipart/related; 
+	boundary="----=_Part_472_987553.1517006386364"
+
+------=_Part_472_987553.1517006386364
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>&nbsp;</p>
+<p>Bonjour</p>
+<p>Mes r=C3=A9ponses en vert</p>
+<p>Cordialement,</p>
+<p>Emmanuel Laborde</p>
+<p>&nbsp;</p>
+<div>&nbsp;</div>
+<p>Le 2016-11-23 17:27, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Bonjour,<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">D=E2=80=99abord merci pour ces =C3=A9l=
+=C3=A9ments de r=C3=A9ponses.<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Mais certains n=C3=A9cessitent des pr=
+=C3=A9cisions qui sont demand=C3=A9es ci-dessous&nbsp;:<!-- o ignored --></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<table class=3D"MsoNormalTable" style=3D"width: 1564px; margin-left: -0.75p=
+t; border-collapse: collapse;" border=3D"1" cellspacing=3D"0" cellpadding=
+=3D"0">
+<tbody>
+<tr style=3D"height: 15.0pt;">
+<td style=3D"width: 424.0pt; border: solid windowtext 1 .0pt; padding: 0cm =
+ 3.5pt  0cm  3.5pt; height: 15.0pt;" valign=3D"bottom" width=3D"565">
+<p class=3D"MsoNormal" style=3D"text-align: center;" align=3D"center"><span=
+ style=3D"font-size: 11.0pt; font-family: 'Calibri','sans-serif'; color: bl=
+ack;">Questions<!-- o ignored --></span></p>
+</td>
+<td style=3D"width: 326.0pt; border: solid windowtext 1 .0pt; border-left: =
+none; padding: 0cm  3.5pt  0cm  3.5pt; height: 15.0pt;" nowrap=3D"nowrap" w=
+idth=3D"435">
+<p class=3D"MsoNormal" style=3D"text-align: center;" align=3D"center"><span=
+ style=3D"font-size: 11.0pt; font-family: 'Calibri','sans-serif'; color: bl=
+ack;">R=C3=A9ponses<!-- o ignored --></span></p>
+</td>
+<td style=3D"width: 423.0pt; border: solid windowtext 1 .0pt; border-left: =
+none; padding: 0cm  3.5pt  0cm  3.5pt; height: 15.0pt;" valign=3D"bottom" n=
+owrap=3D"nowrap" width=3D"564">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Demande de pr=C3=A9cisions<!-- o ignored =
+--></span></p>
+</td>
+</tr>
+<tr style=3D"height: 135.0pt;">
+<td style=3D"width: 424.0pt; border: solid windowtext 1 .0pt; border-top: n=
+one; padding: 0cm  3.5pt  0cm  3.5pt; height: 135.0pt;" valign=3D"bottom" w=
+idth=3D"565">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">t Dans le document pr=C3=A9sent=C3=A9 lor=
+s de l=E2=80=99it=C3=A9ration 10, notamment concernant le p=C3=A9rim=C3=A8t=
+re de l=E2=80=99it=C3=A9ration 10, il a =C3=A9t=C3=A9 pr=C3=A9sent=C3=A9 l=
+=E2=80=99US 494 qui correspond =C3=A0 =C2=AB cr=C3=A9ation d=E2=80=99un r=
+=C3=A9f=C3=A9rentiel unique des =C3=A9tapes, t=C3=A2ches, traitement et des=
+ messages associ=C3=A9s dans les journaux =C2=BB qui ne poss=C3=A8de pas d=
+=E2=80=99exigences dans notre matrice. Nous supposons que ce r=C3=A9f=C3=A9=
+rentiel est un r=C3=A9f=C3=A9rentiel permettant de faire le lien entre des =
+codes erreurs/retours et des messages en fran=C3=A7ais que l=E2=80=99on ret=
+rouverait dans l=E2=80=99 ArchiveTransfertReply, pouvez vous nous confirmer=
+ cela ? <span style=3D"background: yellow; mso-highlight: yellow;">Est il p=
+ossible de disposer de ce r=C3=A9f=C3=A9rentiel ? Ou le trouver ? Et pouvon=
+s nous disposer de la table de correspondance entre les codes erreurs et la=
+ traduction francaise ?</span><!-- o ignored --></span></p>
+</td>
+<td style=3D"width: 326.0pt; border-top: none; border-left: none; border-bo=
+ttom: solid windowtext 1 .0pt; border-right: solid windowtext 1 .0pt; paddi=
+ng: 0cm  3.5pt  0cm  3.5pt; height: 135.0pt;" width=3D"435">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">OUI et OUI<!-- o ignored --></span></p>
+</td>
+<td style=3D"width: 423.0pt; border-top: none; border-left: none; border-bo=
+ttom: solid windowtext 1 .0pt; border-right: solid windowtext 1 .0pt; paddi=
+ng: 0cm  3.5pt  0cm  3.5pt; height: 135.0pt;" valign=3D"bottom" nowrap=3D"n=
+owrap" width=3D"564">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Quand? comment?<!-- o ignored --></span><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;"><span style=3D"color: #339966;">Dans le d=
+ocument Mod=C3=A8le de donn=C3=A9e avec la livraison de la B=C3=AAta</span>=
+<br></span></p>
+</td>
+</tr>
+<tr style=3D"height: 45.0pt;">
+<td style=3D"width: 424.0pt; border: solid windowtext 1 .0pt; border-top: n=
+one; padding: 0cm  3.5pt  0cm  3.5pt; height: 45.0pt;" valign=3D"bottom" wi=
+dth=3D"565">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 11.0pt; font-famil=
+y: 'Calibri','sans-serif'; color: black; background: yellow; mso-highlight:=
+ yellow;">Comment r=C3=A9cup=C3=A9rer un</span></strong><span style=3D"font=
+-size: 11.0pt; font-family: 'Calibri','sans-serif'; color: black; backgroun=
+d: yellow; mso-highlight: yellow;">ATRdans VITAM? Quelle collection interro=
+ger et comment proc=C3=A9der ?<!-- o ignored --></span></p>
+</td>
+<td style=3D"width: 326.0pt; border-top: none; border-left: none; border-bo=
+ttom: solid windowtext 1 .0pt; border-right: solid windowtext 1 .0pt; paddi=
+ng: 0cm  3.5pt  0cm  3.5pt; height: 45.0pt;" valign=3D"bottom" width=3D"435=
+">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">ATR g=C3=A9n=C3=A9r=C3=A9 en phase de fin=
+alisation de l=E2=80=99entr=C3=A9e. Il est stock=C3=A9 sur l=E2=80=99offre =
+de stockage et affich=C3=A9 =C3=A0 l=E2=80=99utilisateur. Mais non r=C3=A9c=
+up=C3=A9rable depuis l=E2=80=99IHM (US post Beta)<!-- o ignored --></span><=
+/p>
+</td>
+<td style=3D"width: 423.0pt; border-top: none; border-left: none; border-bo=
+ttom: solid windowtext 1 .0pt; border-right: solid windowtext 1 .0pt; paddi=
+ng: 0cm  3.5pt  0cm  3.5pt; height: 45.0pt;" valign=3D"bottom" nowrap=3D"no=
+wrap" width=3D"564">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">ET avec les APIs? Comment r=C3=A9cup=C3=
+=A9rer un ancien ATR? Quelle collection interroger?<!-- o ignored --></span=
+></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;"><span style=3D"color: #339966;">Par API, =
+uniquement lors de la r=C3=A9ponse de l'Ingest. Pas de collection sp=C3=A9c=
+ifiques. Sinon acc=C3=A8s directe au syst=C3=A8me de fichier de l'offre de =
+stockage <span style=3D"font-size: 11.0pt; font-family: 'Calibri','sans-ser=
+if'; color: black;"><span style=3D"font-size: 11.0pt; font-family: 'Calibri=
+','sans-serif'; color: black;"><span style=3D"color: #339966;">(il ne s'agi=
+t pas d'une fonctionnalit=C3=A9 du produit VITAM).</span></span></span></sp=
+an><br></span></p>
+</td>
+</tr>
+<tr style=3D"height: 30.0pt;">
+<td style=3D"width: 424.0pt; border: solid windowtext 1 .0pt; border-top: n=
+one; padding: 0cm  3.5pt  0cm  3.5pt; height: 30.0pt;" valign=3D"bottom" wi=
+dth=3D"565">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 11.0pt; font-famil=
+y: 'Calibri','sans-serif'; color: black; background: yellow; mso-highlight:=
+ yellow;">Comment r=C3=A9cup=C3=A9rer un</span></strong><span style=3D"font=
+-size: 11.0pt; font-family: 'Calibri','sans-serif'; color: black; backgroun=
+d: yellow; mso-highlight: yellow;">bordereaudans VITAM? Quelle collection i=
+nterroger et comment proc=C3=A9der ?<!-- o ignored --></span></p>
+</td>
+<td style=3D"width: 326.0pt; border-top: none; border-left: none; border-bo=
+ttom: solid windowtext 1 .0pt; border-right: solid windowtext 1 .0pt; paddi=
+ng: 0cm  3.5pt  0cm  3.5pt; height: 30.0pt;" valign=3D"bottom" width=3D"435=
+">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Bordereau stock=C3=A9 sur l=E2=80=99offre=
+ de stockage mais non r=C3=A9cup=C3=A9rable depuis l=E2=80=99IHM.&nbsp; (US=
+ post Beta)<!-- o ignored --></span></p>
+</td>
+<td style=3D"width: 423.0pt; border-top: none; border-left: none; border-bo=
+ttom: solid windowtext 1 .0pt; border-right: solid windowtext 1 .0pt; paddi=
+ng: 0cm  3.5pt  0cm  3.5pt; height: 30.0pt;" valign=3D"bottom" nowrap=3D"no=
+wrap" width=3D"564">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">ET avec les APIs? Comment r=C3=A9cup=C3=
+=A9rer un ancien Bordereau Quelle collection interroger?<!-- o ignored --><=
+/span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;"><span style=3D"font-size: 11.0pt; font-fa=
+mily: 'Calibri','sans-serif'; color: black;"><span style=3D"color: #339966;=
+">Pas d'acc=C3=A8s via API en B=C3=AAta. Possible via un acc=C3=A8s directe=
+ au syst=C3=A8me de fichier de l'offre de stockage (il ne s'agit pas d'une =
+fonctionnalit=C3=A9 du produit VITAM). <br></span></span></span></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">D=E2=80=99avance, merci pour ces =C3=A9=
+l=C3=A9ments <!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Cordialement,<!-- o ignored --></span></p=
+>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Thierry CASIMIRIUS<!-- o ignored --></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Adjoint au chef du bureau des technologie=
+s d=E2=80=99information<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Service historique de la D=C3=A9fense<!--=
+ o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o igno=
+red --></span></p>
+</div>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<div>
+<div style=3D"border: none; border-top: solid  #B5C4DF  1.0pt; padding: 3.0=
+pt  0cm  0cm  0cm;">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Tahoma','sans-serif';">De&nbsp;:</span></strong><span style=3D"font-siz=
+e: 10.0pt; font-family: 'Tahoma','sans-serif';"> AJJAZ Franck [mailto:franc=
+k.ajjaz@altran.com] <br><strong>Envoy=C3=A9&nbsp;:</strong> mercredi 23 nov=
+embre 2016 17:21<br><strong>=C3=80&nbsp;:</strong> CASIMIRIUS Thierry IDEF =
+MINDEF<br><strong>Cc&nbsp;:</strong> DANYACH-DESCHAMPS Myriam ASC<br><stron=
+g>Objet&nbsp;:</strong> RE: TRA VITAM Beta MINDEF - Nouveau lot de question=
+s<!-- o ignored --></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Bonjour Thierry,<!-- o ignored --></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Voici quelques demandes de pr=C3=A9cisi=
+ons sur les r=C3=A9ponses que nous venons de recevoir.<!-- o ignored --></s=
+pan></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Cordialement,<!-- o ignored --></span><=
+/p>
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Arial','sans-serif'; color: blue;">Franck AJJAZ</span></strong><span st=
+yle=3D"font-size: 11.0pt; font-family: 'Calibri','sans-serif'; color: #1f49=
+7d;"><!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Aria=
+l','sans-serif'; color: #1f497d;">Chef de Projet<!-- o ignored --></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Aria=
+l','sans-serif'; color: #1f497d;">TRA VITAM</span><span style=3D"font-size:=
+ 8.0pt; font-family: 'Arial','sans-serif'; color: gray;"><br></span><span s=
+tyle=3D"font-size: 7.5pt; font-family: 'Arial','sans-serif'; color: gray;">=
+<a href=3D"mailto:franck.ajjaz@altran.com">franck.ajjaz@altran.com</a><!-- =
+o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<div>
+<div style=3D"border: none; border-top: solid  #B5C4DF  1.0pt; padding: 3.0=
+pt  0cm  0cm  0cm;">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Tahoma','sans-serif';">De&nbsp;:</span></strong><span style=3D"font-siz=
+e: 10.0pt; font-family: 'Tahoma','sans-serif';"> emmanuel.laborde [<a href=
+=3D"mailto:emmanuel.laborde@culture.gouv.fr">mailto:emmanuel.laborde@cultur=
+e.gouv.fr</a>] <br><strong>Envoy=C3=A9&nbsp;:</strong> mercredi 23 novembre=
+ 2016 17:00<br><strong>=C3=80&nbsp;:</strong> CASIMIRIUS Thierry<br><strong=
+>Cc&nbsp;:</strong> AJJAZ Franck; DANYACH-DESCHAMPS Myriam; VASSEUR Edouard=
+<br><strong>Objet&nbsp;:</strong> Re: TRA VITAM Beta MINDEF - Nouveau lot d=
+e questions<!-- o ignored --></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">&nbsp;<!-- o ignore=
+d --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Bonjour,<!-- o igno=
+red --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Voici les r=C3=A9po=
+nses aux questions ainsi que l'analyse des correspondances entre le SEDA et=
+ le mod=C3=A8le de donn=C3=A9e VITAM.<!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Cdt,<!-- o ignored =
+--></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Emmanuel Laborde<!-=
+- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">&nbsp;<!-- o ignore=
+d --></span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family: 'Verdana','sans-serif';"=
+>&nbsp;<!-- o ignored --></span></p>
+</div>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Le 2016-11-22 16:19=
+, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:<!-- o ignored --></span></p>
+<blockquote style=3D"border: none; border-left: solid  #1010FF  1.5pt; padd=
+ing: 0cm  0cm  0cm  4.0pt; margin-left: 3.75pt; margin-top: 5.0pt; margin-b=
+ottom: 5.0pt;">
+<div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Bonjour Emmanuel,</span><!-- o=
+ ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Nous ( ALTRAN) &nbsp;avons un =
+nouveau lot de question&nbsp;=E2=80=93 Voir le fichier =C2=AB&nbsp;Question=
+ VITAM 3.xlsx&nbsp;=C2=BB. Pourriez-vous y apporter vos r=C3=A9ponses&nbsp;=
+?</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Par ailleurs, ALTRAN cherche =
+=C3=A0 =C3=A9tablir, sur la base du document mod=C3=A8le de donn=C3=A9es, l=
+es correspondances entre les champs SEDA, les balises existants dans le fic=
+hier SIP , et le parall=C3=A8le dans le JSON.</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Vitam pourrait-il valider nos =
+correspondances&nbsp;sur les 4 premiers onglets de SEDA-XML-JSON.xlsx ? Et =
+les compl=C3=A9ter quand cela est possible&nbsp;?</span><!-- o ignored --><=
+/p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Enfin, dans le dernier onglet =
+du document =C2=AB&nbsp;SEDA-XML-JSON.xlsx&nbsp;=C2=BB, serait-il possible =
+de compl=C3=A9ter les champs&nbsp;???? pour indiquer dans quelle collection=
+ les champs ou groupe de champs r=C3=A9f=C3=A9renc=C3=A9s sont g=C3=A9r=C3=
+=A9s&nbsp;?</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">D=E2=80=99avance, merci,</span=
+><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Cordialement,</span><!-- o ignor=
+ed --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">&nbsp;</span><!-- o ignored --><=
+/p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Thierry CASIMIRIUS</span><!-- o =
+ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Adjoint au chef du bureau des te=
+chnologies d=E2=80=99information</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Service historique de la D=C3=A9=
+fense</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">SGA/DMPA/SHD/PPST/BTI</span><!--=
+ o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">T=C3=A9l&nbsp;: 01 41 93 20 45</=
+span><!-- o ignored --></p>
+</div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<div>
+<div style=3D"border: none; border-top: solid  #B5C4DF  1.0pt; padding: 3.0=
+pt  0cm  0cm  0cm;">
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><strong><span style=3D"font-size: 10.0pt; font-family: 'Tahoma=
+','sans-serif';">De&nbsp;:</span></strong><span style=3D"font-size: 10.0pt;=
+ font-family: 'Tahoma','sans-serif';"> AJJAZ Franck [<a href=3D"mailto:fran=
+ck.ajjaz@altran.com">mailto:franck.ajjaz@altran.com</a>] <br><strong><span =
+style=3D"font-family: 'Tahoma','sans-serif';">Envoy=C3=A9&nbsp;:</span></st=
+rong> mardi 22 novembre 2016 15:59<br><strong><span style=3D"font-family: '=
+Tahoma','sans-serif';">=C3=80&nbsp;:</span></strong> CASIMIRIUS Thierry IDE=
+F MINDEF<br><strong><span style=3D"font-family: 'Tahoma','sans-serif';">Cc&=
+nbsp;:</span></strong> DANYACH-DESCHAMPS Myriam ASC; AJJAZ Franck<br><stron=
+g><span style=3D"font-family: 'Tahoma','sans-serif';">Objet&nbsp;:</span></=
+strong> Questions VITAM</span><!-- o ignored --></p>
+</div>
+</div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Bonjour,<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Voici un lot de question pour VITAM. Il y a deux documents.<!-=
+- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Il y a un excel avec des questions (Question VITAM 3.xlsx) et =
+un autre (SEDA-XML-JSON.xlsx) avec les correspondances entre les champs du =
+SEDA, ceux dans le bordereau et ceux dans VITAM.<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Vitam pourrait-il valider nos correspondances&nbsp;sur les 4 p=
+remiers onglets de SEDA-XML-JSON.xlsx ? Et les compl=C3=A9ter quand cela es=
+t possible&nbsp;? Nous savons qu=E2=80=99ils ne pourront pas le faire pour =
+toutes puisque certaines balises =E2=80=98m=C3=A8res=E2=80=99 n=E2=80=99aur=
+ont pas d=E2=80=99=C3=A9quivalent dans VITAM et que certaines balises devie=
+nnent des valeurs de champs dans VITAM et vice versa.<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">De plus, nous nous doutons que les champs correspondants =C3=
+=A0 l=E2=80=99ATR et au bordereau dans l=E2=80=99onglet BusinessMessageType=
+ ne sont peut =C3=AAtre pas stock=C3=A9s tels quels dans VITAM.<!-- o ignor=
+ed --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Et serait-il possible de compl=C3=A9ter le 5<sup>=C3=A8me</sup=
+> onglet l=C3=A0 o=C3=B9 il y a =C3=A9crit =C2=AB&nbsp;????&nbsp;=C2=BB&nbs=
+p;?<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Cordialement,<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><strong><span style=3D"font-size: 10.0pt; font-family: 'Arial'=
+,'sans-serif'; color: blue;">Franck AJJAZ</span></strong><!-- o ignored -->=
+</p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 10.0pt; font-family: 'Arial','sans-s=
+erif';">Chef de Projet</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 10.0pt; font-family: 'Arial','sans-s=
+erif';">TRA VITAM</span><span style=3D"font-size: 8.0pt; font-family: 'Aria=
+l','sans-serif'; color: gray;"><br></span><span style=3D"font-size: 7.5pt; =
+font-family: 'Arial','sans-serif'; color: gray;"><a href=3D"mailto:franck.a=
+jjaz@altran.com">franck.ajjaz@altran.com</a></span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+</div>
+</blockquote>
+</div>
+</blockquote>
+</body></html>
+------=_Part_472_987553.1517006386364
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; 
+	name*0="=?utf-8?B?UXVlc3Rpb25zIFZJVEFNIDMtcsOpcG9uc2UgcHLDqWNpc2lvbn"; 
+	name*1="MueGxzeA==?="
+Content-Transfer-Encoding: base64
+Content-ID: <527846DB6BEF094BB9E9846DC13734B5@DR-RES.INTRADEF.GOUV.FR>
+Content-Disposition: inline; filename="=?utf-8?B?UXVlc3Rpb25zIFZJVEFNIDMtcsOpcG9uc2UgcHLDqWNpc2lvbnMueGxzeA==?="
+
+UEsDBBQABgAIAAAAIQDgKbdddQEAAB0GAAATAAgCW0NvbnRlbnRfVHlwZXNdLnhtbCCiBAIooAAC
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADM
+lF1rwjAUhu8H+w8lt6ONOhhjWL3Yx+UmzP2ALDm1wXyRE53++6WpyhCnFIXtpqHNOe/7JGne4Xil
+VbYEj9KakvSLHsnAcCukmZXkY/qS35MMAzOCKWugJGtAMh5dXw2naweYxW6DJalDcA+UIq9BMyys
+AxNnKus1C/HVz6hjfM5mQAe93h3l1gQwIQ+NBhkNn6BiCxWy51X83JJ4UEiyx7aw8SoJc05JzkIk
+pUsj9lzyjUMRO1MN1tLhTcQg9KBDM/O7wabvLW6NlwKyCfPhlemIQVeKflk//7R2XhwXOUBpq0py
+EJYvdNyBAp0HJrAGCFoVaSw0k2bLfcQ/FSNNQ//CIM36knBHjsE/4bj9I44Q/3+g6Xn+kSSZEweA
+Ya0AL7zaVvSUc808iPfgY1JcHOCn9jGOeI8m3jqMieKh+y5sI6Ppzl0UAh8k7ELj0OXbOcY06m64
+d/uhyTsBoqs3X2Cw+mz7VuaAOU3hPvoGAAD//wMAUEsDBBQABgAIAAAAIQATXr5lBQEAAN8CAAAL
+AAgCX3JlbHMvLnJlbHMgogQCKKAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAArJLPTsMwDMbvSLxDlPvqbiCE0NJdJqTdECoPYBL3j9rGUZJB
+9/YEJASVRrsDx9ifP//8KdvdOPTijXxo2Sq5znIpyGo2ra2VfCkfV/dShIjWYM+WlDxRkLvi+mr7
+TD3GNBSa1gWRXGxQsonRPQAE3dCAIWNHNnUq9gPG9PQ1ONQd1gSbPL8D/9tDFhNPcTBK+oO5kaI8
+ubR52ZurqtW0Z30cyMYzK4DGSNaQWTmf2Hxs0zWiRF9TVNKwfkrlAOhclrAlnCfaXE7097UwUESD
+EUGzp3meT8Uc0PpyoOWIpoqfdMYe3tl3r8zdHMvtf7LoY4g8LITzpflGgsm3LD4AAAD//wMAUEsD
+BBQABgAIAAAAIQDeCf0oAgEAANQDAAAaAAgBeGwvX3JlbHMvd29ya2Jvb2sueG1sLnJlbHMgogQB
+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
+------=_Part_472_987553.1517006386364--
+
+------=_Part_471_17153663.1517006386364--
+
+------=_Part_470_5850535.1517006386364--

@@ -1,0 +1,64 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000012]: Impossibilité de modifier une description via recherche sur l&apos;ID d&apos;une unit au format EML</Title>
+    <OriginatingSystemId>&lt;6ab1a02889f1917523d896043dec8007@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-12T16:46:20Z</SentDate>
+    <ReceivedDate>2016-12-12T16:46:30Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=12 
+====================================================================== 
+Rapporteur:                 Aurelien
+Responsable:                Aurelien
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   12
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:               80 
+====================================================================== 
+Date de soumission:         2016-12-12 17:46 CET
+Dernière modification:      2016-12-12 17:46 CET
+====================================================================== 
+Résumé:                     Impossibilité de modifier une description via
+recherche sur l&apos;ID d&apos;une unit au format EML
+Description: 
+Suite à une recherche via l&apos;ID d&apos;une unit (directement dans l&apos;URL) pour mettre
+à jour la description de la même unit (un document au format EML), un code
+erreur 401 (Requête non autorisée) est retourné.
+
+Étapes pour le reproduire: 
+1) Injecter un SIP contenant une Unit au format EML
+2) Injecter la requête en PJ
+
+Informations complémentaires: 
+En PJ :
+- La requête injectée
+- Le code retour
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-12 17:46 Aurelien       Nouveau bogue                                
+2016-12-12 17:46 Aurelien       Statut                   nouveau =&gt; affecté  
+2016-12-12 17:46 Aurelien       Assigné à                 =&gt; Aurelien        
+2016-12-12 17:46 Aurelien       Fichier ajouté:
+PVI-394_12-12-2016-05-12_REQUEST.json                    
+======================================================================</TextContent>
+</Content>

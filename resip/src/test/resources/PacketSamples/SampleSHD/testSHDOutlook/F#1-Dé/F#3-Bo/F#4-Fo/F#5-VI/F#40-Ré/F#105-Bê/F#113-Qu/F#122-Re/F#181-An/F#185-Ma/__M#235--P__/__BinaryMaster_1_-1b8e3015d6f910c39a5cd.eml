@@ -1,0 +1,337 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242]) by smtp.gmail.com with ESMTPSA
+     id bj1sm20608397wjc.17.2016.12.19.05.09.54 for
+     <thierry.casimirius@intradef.gouv.fr>     (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Mon,     19 Dec 2016
+ 05:09:54 -0800 (PST)
+Date: Mon, 19 Dec 2016 14:09:57 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <1b8e3015d6f910c39a5cd638602b5505@213.32.79.242>
+Subject: =?UTF-8?Q?[Projet_VITAM_0000022]:_Impossibilit=C3=A9_d'effect?=
+ =?UTF-8?Q?uer_une_query_si_plusieurs_=C3=A9l=C3=A9ments_dans_roots?=
+Keywords:  [Projet VITAM] BugFromTestlink
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_327_25607087.1517006384959"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; 
+    s=20161025; 
+    h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted 
+    :keywords:mime-version:content-transfer-encoding; 
+    bh=3yL3H2A3yJW8JIZLwVQCdqJ9t0lLVx6+b2wtivmCcys=; 
+    b=EdzUos/V5wQdHF6TyPVH7RAbZUzi1x0jPe2kUJ/yKcYPyPJQ4/GsZzy2fvzKAYTanb 
+    RVR6W79+YkZevEmGkC+GaQ058FupVYn4pJInbtoeUH82xBdozl2cArUup5r8/cwQwHlu 
+    QhhUBwu5bAOHEcQw1k95Qj7r+242gHsC6Rm5BwDG1LZAw4oCdaw7e61lPaeY9wWSJinX 
+    bjQyu12K8xakWrZN7EgxWKIgoSZ+uLWLDMTDpU1o+pr/2fi0LmhvyGTVscS4kqvGuEnZ 
+    E92GpoiEteuJSfpZM4WKk3a8XocU3+fUt+7Je3m7NOCDwIRU4/3dCpLS3GR5eAMQdcfj 
+    ibCg==
+X-Gm-Message-State:  AIkVDXKuyYzzZrN4S7TcYreILqR3RFOlY5YhZdNJK2StQ6DTaOJ+nB2o0SsGtPR7qh0Qqw==
+X-Received:  by 10.28.133.144 with SMTP id h138mr14749528wmd.12.1482152995505; 
+    Mon, 19 Dec 2016 05:09:55 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 
+    2016.12.19.130315
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report=' UTF8_SUBJ_OBFU 0.1, 
+    HTML_00_01 0.05, HTML_00_10 0.05, DKIM_SIGNATURE 0, FROM_NAME_PHRASE 
+    0, IP_HTTP_ADDR 0, NO_URI_HTTPS 0, SINGLE_URI_IN_BODY 0, SPF_PASS 0, 
+    URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0, WEBMAIL_XMAILER 0, __ANY_URI 0, 
+    __CP_URI_IN_BODY 0, __CT 0, __CTE 0, __CT_TEXT_PLAIN 0, __DQ_NEG_HEUR 
+    0, __DQ_NEG_IP 0, __FRAUD_MONEY_CURRENCY 0, 
+    __FRAUD_MONEY_CURRENCY_DOLLAR 0, __FRAUD_WEBMAIL 0, 
+    __FRAUD_WEBMAIL_FROM 0, __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, 
+    __HAS_X_MAILER 0, __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, 
+    __MIME_TEXT_ONLY 0, __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 
+    0, __MSGID_32HEX 0, __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, 
+    __RDNS_GMAIL 0, __SANE_MSGID 0, __SINGLE_URI_TEXT 0, 
+    __STOCK_PHRASE_24 0, __SUBJ_ALPHA_END 0, __SUBJ_ALPHA_END2 0, 
+    __SUBJ_HIGHBIT 0, __TO_MALFORMED_2 0, __TO_NO_NAME 0, __URI_IN_BODY 0,
+     __URI_NO_MAILTO 0, __URI_NO_WWW 0, __URI_WITH_PATH 0, __UTF8_SUBJ 0, 
+    __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; 
+    d=gmail.com; s=20161025; 
+    h=date:to:from:subject:message-id:auto-submitted:keywords 
+    :mime-version:content-transfer-encoding; 
+    bh=3yL3H2A3yJW8JIZLwVQCdqJ9t0lLVx6+b2wtivmCcys=; 
+    b=c4+DLCfxcZ8BPYG51exljOmYLMtmgOz0yErbn4NP8lByOmZ6XPl/CoaViiCJT7lF3L 
+    PMceTfmV7918EKqf9+N1oJbD38taouHw/4JTzQGyGoe6ujheesgUnz3tYHOJrzcXGV4Q 
+    pTOZICAUBlfaofl8oavE5V+BUO2G7ncxeGiwQZKB3L1yLpBpB4WewRm74p42RJxDG8nf 
+    pErNQeUl/xomdiQTnnQNpaHPV+PjcdFYVd5L+ciOBQeZ/G/4wAuUUqfKlmnYc37Qs3zR 
+    US2LRet7uIU4zVFaAsDC2r9LXsK9jPH82ONaL/SsNfpHcOy4Q9ooltIsAs7CYCaUimPT 
+    1aZw==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]10,1,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:1:2:41:46:150:152:355:379:493:541:543:836:882:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1593:1594:1606:1730:1747:1777:1792:1801:2198:2199:2393:2525:2560:2563:2682:2685:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3355:3876:3877:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:4605:5007:6114:6119:6238:6261:6642:6653:6996:6997:8599:8603:8634:8957:8987:9025:9121:9388:9413:10004:11026:11233:11473:11658:11984:12043:12114:12291:12438:12517:12519:12555:12663:12679:12683:12740:13019:13025:13191:13192:13206:13229:13255:14110:14687:21063:21080:21433:21444:30054:30075:30080,0,RBL:100.78.17.75:@gmail.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.net-62.16.255.100 64.201.201.201;04yfpur35abyg7epgcarmi7ic5qduy
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1310300;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM01.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_327_25607087.1517006384959
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_328_7987117.1517006384959"
+
+------=_Part_328_7987117.1517006384959
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D22=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Franck
+Responsable:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   22
+Cat=C3=A9gorie:                  BugFromTestlink
+Reproductibilit=C3=A9:           toujours
+Impact:                     majeur
+Priorit=C3=A9:                   normale
+Statut:                     nouveau
+Comportement attendu:       =20
+US concern=C3=A9e:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2016-12-19 14:09 CET
+Derni=C3=A8re modification:      2016-12-19 14:09 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     Impossibilit=C3=A9 d'effectuer une qu=
+ery si plusieurs
+=C3=A9l=C3=A9ments dans roots
+Description:=20
+Lorsque l'on veut effectuer une requ=C3=AAte dans un sous-ensemble d=C3=A9f=
+ini dans le
+roots, celle ci ne fonctionne pas.
+
+Nous effectuons notre test dans la collection Unit
+Notre requ=C3=AAte "$eq" seule fonctionne :
+
+{
+  "$roots": [],
+  "$query": [
+
+      {
+          "$eq": {
+            "Title": "PVI58fic_pour_empreinte_Appraisalerule"
+          }
+       =20
+      ,
+      "$depth": 20
+    }
+  ],
+  "$filter": {
+    "$orderby": {
+      "TransactedDate": 1
+    }
+  },
+  "$projection": {
+    "$fields": {
+      "TransactedDate": 1,
+      "#id": 1,
+      "Title": 1,
+      "#object": 1
+    }
+  }
+}
+
+Cette requ=C3=AAte nous donne bien la unit recherch=C3=A9e:
+
+{
+   "$hits":    {
+      "total": 1,
+      "offset": 0,
+      "limit": 1,
+      "size": 1
+   },
+   "$results": [   {
+      "Title": "PVI58fic_pour_empreinte_Appraisalerule",
+      "TransactedDate": "2016-12-08T17:53:38",
+      "#id": "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+      "#tenant": 0,
+      "#object": "aeaaaaaaaaaam7mxaaa3gaky35ur56yaaaba"
+   }],
+   "$context":    {
+      "$roots": [],
+      "$query": [{"$eq": {"Title": "PVI58fic_pour_empreinte_Appraisalerule"=
+}}],
+      "$filter": {"$orderby": {"TransactedDate": 1}},
+      "$projection": {"$fields":       {
+         "TransactedDate": 1,
+         "_id": 1,
+         "Title": 1,
+         "_og": 1
+      }}
+   }
+}
+
+Nous pouvons aussi mettre deux id dans le roots :
+
+{
+  "$roots":
+["aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq","aeaaaaaaaaaam7mxaadx2aky66alm6qaaa=
+aq"],
+  "$query": [],
+  "$filter": {
+    "$orderby": {
+      "TransactedDate": 1
+    }
+  },
+  "$projection": {
+    "$fields": {
+      "TransactedDate": 1,
+      "#id": 1,
+      "Title": 1,
+      "#object": 1
+    }
+  }
+}
+cela nous donne bien les deux unit dont les id sont dans le roots:
+
+{
+   "$hits":    {
+      "total": 2,
+      "offset": 0,
+      "limit": 1,
+      "size": 2
+   },
+   "$results":    [
+            {
+         "Title": "Arm=C3=A9e de France.pdf",
+         "TransactedDate": "2016-10-07T14:13:00",
+         "#id": "aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq",
+         "#tenant": 0,
+         "#object": "aeaaaaaaaaaam7mxaadx2aky66almyaaaaaq"
+      },
+            {
+         "Title": "PVI58fic_pour_empreinte_Appraisalerule",
+         "TransactedDate": "2016-12-08T17:53:38",
+         "#id": "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+         "#tenant": 0,
+         "#object": "aeaaaaaaaaaam7mxaaa3gaky35ur56yaaaba"
+      }
+   ],
+   "$context":    {
+      "$roots":       [
+         "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+         "aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq"
+      ],
+      "$query": [],
+      "$filter": {"$orderby": {"TransactedDate": 1}},
+      "$projection": {"$fields":       {
+         "TransactedDate": 1,
+         "_id": 1,
+         "Title": 1,
+         "_og": 1
+      }}
+   }
+}
+
+En revanche, nous ne pouvons pas filtrer sur le titre si nous avons r=C3=A9=
+duit
+l'ensemble dans le roots :
+
+{
+  "$roots":
+["aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq","aeaaaaaaaaaam7mxaadx2aky66alm6qaaa=
+aq"],
+  "$query": [
+
+      {
+          "$eq": {
+            "Title": "PVI58fic_pour_empreinte_Appraisalerule"
+          }
+       =20
+      ,
+      "$depth": 20
+    }
+  ],
+  "$filter": {
+    "$orderby": {
+      "TransactedDate": 1
+    }
+  },
+  "$projection": {
+    "$fields": {
+      "TransactedDate": 1,
+      "#id": 1,
+      "Title": 1,
+      "#object": 1
+    }
+  }
+}
+
+Cette requ=C3=AAte nous renvoie 0 r=C3=A9sultat :
+
+{
+   "$hits":    {
+      "total": 0,
+      "offset": 0,
+      "limit": 1,
+      "size": 0
+   },
+   "$results": [],
+   "$context":    {
+      "$roots":       [
+         "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+         "aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq"
+      ],
+      "$query": [{"$eq": {"Title": "PVI58fic_pour_empreinte_Appraisalerule"=
+}}],
+      "$filter": {"$orderby": {"TransactedDate": 1}},
+      "$projection": {"$fields":       {
+         "TransactedDate": 1,
+         "_id": 1,
+         "Title": 1,
+         "_og": 1
+      }}
+   }
+}
+
+=C3=89tapes pour le reproduire:=20
+Nous joignons un SIP mais les id internes VITAM ne seront pas les m=C3=AAme=
+s.
+Il suffit de r=C3=A9cup=C3=A9rer deux id VITAM dans la BDD pour reproduire =
+le test.
+
+
+
+Informations compl=C3=A9mentaires:=20
+PVI-455
+dans le cas de test, la d=C3=A9marche est la m=C3=AAme mais sur deux collec=
+tions;
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2016-12-19 14:09 Franck         Nouveau bogue                              =
+ =20
+2016-12-19 14:09 Franck         Fichier ajout=C3=A9: SIP-20161208175358.zip=
+        =20
+         =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_328_7987117.1517006384959--
+
+------=_Part_327_25607087.1517006384959--

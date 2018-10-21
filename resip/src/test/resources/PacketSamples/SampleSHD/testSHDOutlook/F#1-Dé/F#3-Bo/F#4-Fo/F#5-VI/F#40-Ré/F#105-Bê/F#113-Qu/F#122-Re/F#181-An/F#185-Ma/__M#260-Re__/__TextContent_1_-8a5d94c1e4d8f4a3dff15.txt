@@ -1,0 +1,215 @@
+Bonjour Thierry,
+
+Techniquement, nous considérons qu'une limitation nous est imposée par JAVA : les dates ne peuvent pas dépasser l'an 9999.
+
+Fonctionnellement, nous sommes d'accord qu'un contrôle doit être effectué pour ce genre de cas avec des dates "inacceptables".
+
+Sous toutes réserves, ma compréhension est que la date 9999 était présente et a été utilisée à titre de test dans le référentiel des règles de gestion de Vitam, et a été utilisée à titre de test uniquement à cette fin : dans le cadre d'une utilisation extérieure, elle n'aurait pas du y être. 
+
+Dans une utilisation classique, nous n'utiliserions effectivement pas de telles durées de conservation.
+
+Pour cela, nous pouvons proposer une évolution à créer :
+
+- soit au niveau de l'import du référentiel des formats pour ne pas dépasser 9999 lors du calcul de l'échéance.
+
+- soit comme vous le soulignez mettre l'entrée en warning indiquant que la date de fin d'échéance n'a pas pu être calculée;
+
+Les deux propositions pourront être complétées suite à une réflexion menée prochainement par VITAM.
+
+Cdt
+
+Nathanael
+
+ 
+
+ 
+
+Le 2017-01-10 09:26, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Je suis très surpris de voir ce bug rejeté.
+
+	Nous avons utilisé une règle donnée par VITAM, et dire qu’il faudrait changer la régle n’est pas à mon sens la bonne solution.
+
+	 
+
+	VITAM ne devrait pas planter même si la date n’est pas acceptable.
+
+	La date devrait soit être ignorée, ou on devrait avoir un message d’avertissement lors de l’import du référentiel des règles de gestion.
+
+	 
+
+	On en parle cet après-midi, mais je ne comprends pas votre position.
+
+	https://support.programmevitam.fr/themes/common/images/avatar_default.png
+
+	Nathanael Attar (nattar) <https://support.programmevitam.fr/users/nattar> il y a 17 heures
+
+	Bonjour,
+	
+	Après investigation, le problème se situe au niveau du calcul de date de fin d'une règle de gestion, calcul qui ne peut être supérieur à 9999 ans.
+	
+	En effet, le format date année 11999 est "not acceptable" .
+	La Règle de gestion s'effectue avec la référence : ACC 0004.
+	
+	Lors de calcul de date de fin de règle ACC 0004
+	End Date = startDate + duration ==> 11999= 9999+2000, alors le format de date est non acceptable dans ce cas .
+	
+	Règle de gestion avec référence : ACC 0001 
+	Lors de calcul de date de fin ACC 0001 
+	endDate=startDate + duration ==> 2017=2017 + 0, alors le format de date est acceptable dans ce cas 
+	
+	Solution : Merci de changer la durée de règle ACC 0004 en une durée acceptable
+
+________________________________
+
+	·         Statut modifié de Accepté à Rejeté
+
+	 
+
+	 
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	-----Message d'origine-----
+	De : Mantis Bug Tracker [mailto:admtlvitam@gmail.com] 
+	Envoyé : mercredi 4 janvier 2017 11:13
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : [Projet VITAM 0000048]: Règle de gestion ACC-0004 fait planter Ingest
+
+	 
+
+	 
+
+	Le bogue suivant a été soumis. 
+
+	======================================================================
+
+	http://213.32.79.242/mantisbt/view.php?id=48 <http://213.32.79.242/mantisbt/view.php?id=48> 
+
+	====================================================================== 
+
+	Rapporteur:                 Franck
+
+	Responsable:                Franck
+
+	====================================================================== 
+
+	Projet:                     Projet VITAM
+
+	Bogue ID:                   48
+
+	Catégorie:                  BugFromTestlink
+
+	Reproductibilité:           toujours
+
+	Impact:                     majeur
+
+	Priorité:                   normale
+
+	Statut:                     affecté
+
+	Comportement attendu:        
+
+	US concernée:                
+
+	====================================================================== 
+
+	Date de soumission:         2017-01-04 11:12 CET
+
+	Dernière modification:      2017-01-04 11:12 CET
+
+	====================================================================== 
+
+	Résumé:                     Règle de gestion ACC-0004 fait planter Ingest
+
+	Description: 
+
+	Nous constituons un SIP dont l'un des items (ou tous) est/sont soumis à la règle de gestion ACC0004.
+
+	Lorsque nous faisons l'ingest, celui ci plante.
+
+	 
+
+	Par ihm, nous obtenons une croix indiquant que le transfert n'a pas fonctionné mais pas d'ATR.
+
+	 
+
+	Par API, nous obtenons :
+
+	 
+
+	<html>
+
+	<head>
+
+	<meta http-equiv="Content-Type" content="text/html;charset=ISO-8859-1"/>
+
+	<title>Error 500 </title>
+
+	</head>
+
+	<body>
+
+	<h2>HTTP ERROR: 500</h2>
+
+	<p>Problem accessing /ingest/v1/ingests. Reason:
+
+	<pre>    Internal Server Error</pre></p>
+
+	<hr />
+
+	</body>
+
+	</html>
+
+	 
+
+	Nous fournissons le SIP en pj. Ici la règle est au niveau Management MetaData mais nous avons aussi essayé en la mettant au niveau d'un item. Nous avons essayé le même SIP en remplaçant juste la règle ACC0004 par la ACC0001, ou 2 ou 3 et tout s'est bien passé.
+
+	 
+
+	Il semble que ce soit la règle ACC0004 qui pose problème.
+
+	====================================================================== 
+
+	 
+
+	Historique du bogue 
+
+	Date de modificationNom d’utilisateurChamp                    Changement      
+
+	    
+
+	====================================================================== 
+
+	2017-01-04 11:12 Franck         Nouveau bogue                                
+
+	2017-01-04 11:12 Franck         Statut                   nouveau => affecté  
+
+	2017-01-04 11:12 Franck         Assigné à                 => Franck          
+
+	2017-01-04 11:12 Franck         Fichier ajouté:
+
+	SIP-20170103145212justeMMDTacc4.zip                    
+
+	======================================================================

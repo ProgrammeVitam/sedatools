@@ -1,0 +1,55 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000070]: Suite import ref règle par API, possibilité d&apos;avoir tout type de valeur dans n&apos;importe quel champ</Title>
+    <OriginatingSystemId>&lt;dac3ae9ed3bee86ce20b2028956907c2@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-11T10:03:37Z</SentDate>
+    <ReceivedDate>2017-01-11T10:03:46Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=70 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                Franck
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   70
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-11 11:03 CET
+Dernière modification:      2017-01-11 11:03 CET
+====================================================================== 
+Résumé:                     Suite import ref règle par API, possibilité
+d&apos;avoir tout type de valeur dans n&apos;importe quel champ
+Description: 
+Suite à un import du référentiel des règles de gestion par API( Pas de
+contrôle)
+on peut avoir des valeurs inadéquat.
+des chiffres dans rulemeasurement, de l&apos;alpha dans rule duration... (voir
+fichier ref joint)
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-11 11:03 Franck         Nouveau bogue                                
+2017-01-11 11:03 Franck         Statut                   nouveau =&gt; affecté  
+2017-01-11 11:03 Franck         Assigné à                 =&gt; Franck          
+======================================================================</TextContent>
+</Content>

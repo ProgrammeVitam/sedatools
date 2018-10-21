@@ -1,0 +1,1632 @@
+Return-Path: edouard.vasseur@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur03.culture.fr with ESMTP id v0OB9AbK009597;	Tue, 24 Jan 2017
+ 12:09:10 +0100
+Date: Tue, 24 Jan 2017 12:09:10 +0100 (CET)
+From: edouard VASSEUR <edouard.vasseur@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+CC: =?UTF-8?Q?nathana=C3=ABl_ATTAR_<nathanael.attar.ext@culture.gouv.fr>?=,
+	BEL Nicolas <nicolas.bel@intradef.gouv.fr>
+Message-ID: <0fea63b9b0e8598412f5f57c498948f9@culture.gouv.fr>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D3BC5643B@DRSCZ-MMVLWM06P.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D3BC5643B@DRSCZ-MMVLWM06P.DR-RES.INTRADEF.GOUV.FR>
+Subject: =?UTF-8?Q?RE:_[bugs_#51]_0000055:_Rejet_de?=
+ =?UTF-8?Q?s_SIP_ne_contenant_pas_de_groupe_?=
+ =?UTF-8?Q?d'objet_technique_:_nouv_version_?=
+ =?UTF-8?Q?de_documente_de_sp=C3=A9cification_SIP?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_413_2002598.1517006385677"
+X-Proofpoint-Sentinel:  stfj04/0KwUdNqCNzQA/Gq1a3zu4iQtzeU+abl6H0ugwQpNTYWx0ZWRfX7d2
+ tMfmWvbG4AOYpI+1YXhc8eI96Mz+7WVBmfuBzuDlKJZTA3guxmGPQ/2Eg6/UQjBZp39TQaFpAbNw
+ A2MNpQFDG/PzrUs4LQ==
+X-Sender:  edouard.vasseur@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8417 signatures=670812
+X-TM-AS-GCONF:  00
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1317300;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM02.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_413_2002598.1517006385677
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_414_3036687.1517006385677"
+
+------=_Part_414_3036687.1517006385677
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Merci pour ton retour.
+
+Je vais faire en sorte que la version publi=C3=A9e sur internet soit mise =
+=C3=A0 jour.
+
+Excellente journ=C3=A9e =C3=A0 toi
+
+Edouard
+
+=20
+
+=20
+
+Le 2017-01-24 11:55, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09Bonjour Edouard,
+
+=09=20
+
+=09Cela nous convient.
+
+=09C=E2=80=99est un plus pour la documentation.
+
+=09=20
+
+=09Encore merci
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Chef du bureau des technologies de l=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+
+=09=20
+
+=09De : edouard VASSEUR [mailto:edouard.vasseur@culture.gouv..fr]=20
+=09Envoy=C3=A9 : lundi 23 janvier 2017 18:26
+=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09Cc : nathana=C3=ABl ATTAR
+=09Objet : Fwd: [bugs #51] 0000055: Rejet des SIP ne contenant pas de group=
+e d'objet technique
+
+=09=20
+
+=09Bonsoir Thierry,
+
+=09Tu trouveras ci-joint une nouvelle version du document Design SIP avec d=
+es propositions de modifications sur le sujet que tu soul=C3=A8ves.
+
+=09Est-ce que ces propositions de modifications (p. 15 et 16) te semblent s=
+uffisantes ?
+
+=09Excellente soir=C3=A9e =C3=A0 toi et =C3=A0 bient=C3=B4t
+
+=09Edouard
+
+=09=20
+
+=09-------- Message original --------
+
+Objet:
+
+[bugs #51] 0000055: Rejet des SIP ne contenant pas de groupe d'objet techni=
+que
+
+Date:
+
+2017-01-19 17:07
+
+De:
+
+Tuleap <"forge__artifacts@no-reply"@programmevitam.fr <mailto:%22forge__art=
+ifacts@no-reply%22@programmevitam.fr> >
+
+=C3=80:
+
+Edouard Vasseur <edouard.vasseur@culture.gouv.fr>
+
+=09=20
+
+Tuleap
+
+=20
+
+Support VITAM =C2=BB Bugs =C2=BB Bugs #51
+
+Se d=C3=A9sinscrire <https://support.programmevitam.fr/plugins/tracker/?aid=
+=3D51&func=3Dmanage-subscription>=20
+
+=20
+
+
+0000055: Rejet des SIP ne contenant pas de groupe d'objet technique
+
+
+Derni=C3=A8res modifications
+
+
+Nathanael Attar (nattar) <mailto:nathanael.attar.ext@culture.gouv.fr>=20
+
+19/01/2017 16:07 (GMT)
+
+Bonjour Thierry,
+
+Cela fait sens effectivement, j'ai transmis votre demande aupr=C3=A8s de l'=
+Administration et reviens prochainement vers vous =C3=A0 cet effet.
+
+Cordialement,
+
+Nathanael
+
+=20
+
+R=C3=A9pondre <https://support.programmevitam.fr/plugins/tracker/?aid=3D51>=
+ =20
+
+=20
+
+
+=C3=89tat
+
+
+=20
+
+Identifiant=20
+
+#51 <http://support.programmevitam.fr/plugins/tracker/?aid=3D51>=20
+
+D=C3=A9pos=C3=A9 par=20
+
+Thierry Casimirius (tcasimirius)
+
+Minist=C3=A8re=20
+
+MINDEF
+
+Date de derni=C3=A8re modification=20
+
+19/01/2017 16:07
+
+Date de d=C3=A9p=C3=B4t=20
+
+09/01/2017 18:25
+
+=20
+
+
+D=C3=A9tails
+
+R=C3=A9sum=C3=A9=20
+
+0000055: Rejet des SIP ne contenant pas de groupe d'objet technique
+
+Comportement observ=C3=A9=20
+
+Tous les SIP ne contenant pas les balises ci-apr=C3=A8s sont rejet=C3=A9s l=
+ors de la phase d'importation : DataObjectGroupId, DataObjectVersion, DataO=
+bjectReference" et DataObjectGroupReferenceId.
+D'apr=C3=A8s le SEDA (SEDA_description_standard_v2_0), les balises indiqu=
+=C3=A9s ci-dessus sont optionnelles.
+
+Trois scenarii peuvent =C3=AAtre d=C3=A9roul=C3=A9s pour reproduire l'anoma=
+lie
+----------------------------------------------------------------
+
+1- cas : importez un SIP ne contenant pas les balises "DataObjectGroupId" e=
+t "DataObjectVersion" dans le bloc "BinaryDataObject".
+
+2-cas : importez un SIP ne contenant pas les balises suivantes :
+- "DataObjectReference" et "DataObjectGroupReferenceId" dans le bloc "Archi=
+veUnit".
+- "DataObjectGroupId" et "DataObjectVersion" dans le bloc "BinaryDataObject=
+".
+
+3-cas : importez un SIP ne contenant pas les balises "DataObjectReference" =
+et "DataObjectGroupReferenceId" dans le bloc "ArchiveUnit"
+
+La US 789 indique que VITAM doit cr=C3=A9er ou associer un GOT aux objets o=
+rphelins.
+Comment cr=C3=A9er un objet orphelin si toutes ces balises sont obligatoire=
+s ?
+
+Comportement attendu=20
+
+Les SIP doivent =C3=AAtre import=C3=A9s, car toutes ces balises sont option=
+nelles.
+
+Criticit=C3=A9=20
+
+Majeur
+
+Taux de reproduction=20
+
+Syst=C3=A9matique
+
+US concern=C3=A9e=20
+
+-
+
+=20
+
+
+Pi=C3=A8ces jointes
+
+Pi=C3=A8ces jointes=20
+
+Altran.7z <http://support.programmevitam.fr/plugins/tracker/?aid=3D51&field=
+=3D380&func=3Dshow-attachment&attachment=3D162>  (96 kB)
+
+OK_SIP_MANIFESTE-OBJET-SANS-GOT.zip <http://support.programmevitam.fr/plugi=
+ns/tracker/?aid=3D51&field=3D380&func=3Dshow-attachment&attachment=3D179>  =
+(200 kB)
+
+=20
+
+KO_OBJT_orphelins.zip <http://support.programmevitam.fr/plugins/tracker/?ai=
+d=3D51&field=3D380&func=3Dshow-attachment&attachment=3D180>  (373 kB)
+
+=20
+
+
+Suivi du bug
+
+Statut=20
+
+En attente d=E2=80=99information
+
+R=C3=A9solution=20
+
+-
+
+Assign=C3=A9 =C3=A0=20
+
+-
+
+Type de bug=20
+
+D=C3=A9veloppement
+
+Version de correction=20
+
+-
+
+=20
+
+
+References
+
+Cross references=20
+
+-
+
+=20
+
+
+Commentaires
+
+
+Nathanael Attar (nattar) <mailto:nathanael.attar.ext@culture.gouv.fr>=20
+
+11/01/2017 16:46 (GMT)
+
+Bonjour,
+
+Concernant ce bug, pourriez vous pr=C3=A9ciser davantage le cas 1 en partic=
+ulier ?
+
+S'il y a un DataObjectReferenceId dans une unit qui pointe vers un objet, e=
+t que le SIP est rejet=C3=A9, c'est un bug
+S'il n'y a pas ce DataObjectReferenceId, et que le SIP est rejet=C3=A9, ce =
+n'est pas un bug.
+
+En effet, c'est permis dans Vitam UNIQUEMENT SI une unit poss=C3=A8de un Da=
+taObjectReferenceId qui pointe vers cet objet, c'est la story 789.
+Si ce n'est pas le cas, le SIP doit =C3=AAtre refus=C3=A9.
+
+Cas 2 :
+Vitam doit rejeter le SIP car il s'agit ici d'un objet qui n'est pas rattac=
+h=C3=A9 =C3=A0 une unit.
+C'est valide dans le SEDA mais c'est une restriction volontaire dans VITAM =
+: story 808
+
+Cas 3 : cela est normal car il s'agit d'un objet orphelin, c'est =C3=A0 dir=
+e un objet qui n'est r=C3=A9f=C3=A9renc=C3=A9 par aucune archive unit ou gr=
+oupe d'objet.
+En effet, la US 789 indique que VITAM doit cr=C3=A9er ou associer un GOT au=
+x objets orphelins. Or, comment cr=C3=A9er un objet orphelin si toutes ces =
+balises sont obligatoires ? L'US 789 traite le cas o=C3=B9 l'objet est dire=
+ctement attach=C3=A9 =C3=A0 l'unit sans passer par un groupe d'objet. Ici l=
+e cas est similaire au point 2, story 808 donc.
+
+Cdt
+Nathanael
+
+ =09=20
+
+Edouard Vasseur (evasseur) <mailto:edouard.vasseur@culture.gouv.fr>=20
+
+12/01/2017 09:20 (GMT)
+
+Il n'est pas n=C3=A9cessaire de cr=C3=A9er un groupe d'objet pour qu'un obj=
+et puisse =C3=AAtre inject=C3=A9 dans Vitam.
+
+Dans ce cas, l'ArchiveUnit doit utiliser la balise DataObjectReferenceId et=
+ non la balise DataObjectGroupReferenceId
+
+<DataObjectPackage xml:id=3D"ID2">
+        <BinaryDataObject id=3D"ID5">
+            <Uri>Content/ID5.pdf</Uri>
+            <MessageDigest algorithm=3D"SHA-256">9ba596a562ef0cd121c21d561f=
+53678e39edbe271435052230b83737928359f9</MessageDigest>
+            <Size>102887</Size>
+            <FormatIdentification>
+                <FormatLitteral>Acrobat PDF 1.4 - Portable Document Format<=
+/FormatLitteral>
+                <MimeType>application/pdf</MimeType>
+                <FormatId>fmt/18</FormatId>
+            </FormatIdentification>
+            <FileInfo>
+                <Filename>SHDMC_REP_1A_V2009.pdf</Filename>
+                <LastModified>2015-11-10T12:12:30.000+01:00</LastModified>
+            </FileInfo>
+        </BinaryDataObject>
+        <BinaryDataObject id=3D"ID9">
+            <Uri>Content/ID9.xlsx</Uri>
+            <MessageDigest algorithm=3D"SHA-256">c4cb3d26864c1c89e1b76d613d=
+dc6f2741d91a30fbccffb5ba57d6769ac6c95f</MessageDigest>
+            <Size>8414</Size>
+            <FormatIdentification>
+                <FormatLitteral>Microsoft Excel for Windows</FormatLitteral=
+>
+                <MimeType>application/vnd.openxmlformats-officedocument.spr=
+eadsheetml.sheet</MimeType>
+                <FormatId>fmt/214</FormatId>
+            </FormatIdentification>
+            <FileInfo>
+                <Filename>SHDMC_REP_1A_V2009.xlsx</Filename>
+                <LastModified>2016-12-13T16:04:50.492+01:00</LastModified>
+            </FileInfo>
+        </BinaryDataObject>
+        <DescriptiveMetadata>
+            <ArchiveUnit id=3D"ID6">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>TitrearchiveunitDMD</Title>
+                    <Description>Pseudo Archive Unit du fichier :C:\Users\f=
+ajjaz\Documents\VITAM\zzzPremiers Tests\IHM\Essaies_GOT\2eme essaie\JDD\MC_=
+A_COMMANDEMENT-MARINE-PORTS-MILITAIRES\SHDMC_REP_1A_V2009.pdf</Description>
+                    <TransactedDate>2015-11-10T12:12:30</TransactedDate>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectReferenceId>ID4</DataObjectReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+        </DescriptiveMetadata>
+        <ManagementMetadata>
+            <OriginatingAgencyIdentifier>OAIAJJAZ</OriginatingAgencyIdentif=
+ier>
+            <SubmissionAgencyIdentifier>SAIAJJAZ</SubmissionAgencyIdentifie=
+r>
+        </ManagementMetadata>
+    </DataObjectPackage>
+
+=20
+
+ =09=20
+
+Thierry Casimirius (tcasimirius) <mailto:thierry.casimirius@intradef.gouv.f=
+r>=20
+
+12/01/2017 11:20 (GMT)
+
+Bonjour,
+
+Voici notre retour sur les commentaires de Nathanael :
+
+Pour le cas 1 :
+Il y a bien un DataObjectReferenceId qui pointe vers un objet mais =C3=A9ta=
+nt donn=C3=A9 qu=E2=80=99il n=E2=80=99y a pas la balise DataObjectGroupId c=
+ar supprim=C3=A9e, la R=C3=A9ferenceId ne renvoie vers rien d=E2=80=99exist=
+ant.
+
+Pour les cas 2 et 3 :
+Le SEDA pr=C3=A9cise que les balises DataObjectRefrence et DataObjectGroupR=
+eferenceID sont bien facultatives, il devrait donc =C3=AAtre possible de cr=
+=C3=A9er des objets orphelin.
+
+ =09=20
+
+Nathanael Attar (nattar) <mailto:nathanael.attar.ext@culture.gouv.fr>=20
+
+12/01/2017 13:37 (GMT)
+
+Pour le 1er cas :
+On peut observer que dans le manifeste, ce n'est pas un DataObjectReference=
+Id mais un DataObjectGROUPReferenceId. (or pour rappel, l'ArchiveUnit doit =
+utiliser la balise DataObjectReferenceId et non la balise DataObjectGroupRe=
+ferenceId)
+
+Pour le second cas :=20
+"Le SEDA pr=C3=A9cise que les balises DataObjectRefrence et DataObjectGroup=
+ReferenceID sont bien facultatives, il devrait donc =C3=AAtre possible de c=
+r=C3=A9er des objets orphelin."
+Jusqu'ici dans Vitam nous sommes parfois plus restrictif que le SEDA, ce qu=
+i est le cas pour ce point.
+- OUI, le SEDA autorise de ne pas mettre les balises DataObjectRefrence et =
+DataObjectGroupReferenceID
+- NON, Vitam n'autorise pas les objets "orphelins", c'est =C3=A0 dire les o=
+bjets qui ne sont rattach=C3=A9s =C3=A0 aucune archive unit (et donc qu'on =
+ne sait pas o=C3=B9 ranger en fait)
+
+La r=C3=A8gle est :
+- Soit l'objet est dans un groupe d'objet, et ce groupe d'objet est d=C3=A9=
+clar=C3=A9 dans une unit ( DataObjectGroupReferenceID)
+- Soit l'objet est directement d=C3=A9clar=C3=A9 dans une unit (DataObjectR=
+eferenceID)
+
+Point d'attention : DataObjectRefrence est une balise "chapeau" et DataObje=
+ctRefrenceId est une balise qui contient une valeur.
+
+
+Aussi, nous vous soumettons le rejet de ce bug, si vous y consentez.
+
+ =09=20
+
+Emmanuel Laborde (elaborde) <mailto:emmanuel.laborde@culture.gouv.fr>=20
+
+13/01/2017 15:31 (GMT)
+
+Attention =C3=A0 ne pas m=C3=A9langer deux cas diff=C3=A9rents :
+
+1 - cas des objets orphelins : ils ne sont r=C3=A9f=C3=A9renc=C3=A9s d'aucu=
+nes mani=C3=A8res par un unit dans le manifest, C'est un contr=C3=B4le d'er=
+reur qui implique un retour KO. Nous ajoutons en PJ un SIP pour ce cas
+
+2 - cas de cr=C3=A9ation par VITAM d'un objet groupe "implicite" dans le ma=
+nifest. C'est le cas que vous souhaitez tester. (l'objet est =C3=A9galement=
+ implicitement qualifi=C3=A9 de BinaryMaster). Nous ajoutons en PJ un SIP p=
+our ce cas.
+
+Explication :
+Pour d=C3=A9clarer un tel cas dans le manifest il faut que le Unit r=C3=A9f=
+=C3=A9rence "directement" l'objet par son id de la mani=C3=A8re suivante :
+
+&lt;ArchiveUnit id=3D"ID31"&gt;
+&lt;Content&gt;
+...
+&lt;/Content&gt;
+&lt;DataObjectReference&gt;
+ATTENTION : ici la balise DataObjectReference ne contient pas l'attribut id
+&lt;DataObjectReferenceId&gt;ID33&lt;/DataObjectReferenceId&gt;
+ATTENTION ici la balise DataObjectReferenceId a remplac=C3=A9 la traditionn=
+elle balise DataObjectGroupReferenceId et c'est directement l'id de l'objet=
+ qui est indiqu=C3=A9 (cf. &lt;BinaryDataObject id=3D"ID33"&gt;
+&lt;/DataObjectReference&gt;
+&lt;/ArchiveUnit&gt;
+
+&lt;BinaryDataObject id=3D"ID33"&gt;
+ATTENTION : ici il ne faut pas qu'il y ai les balises &lt;DataObjectGroupId=
+&gt; et &lt;DataObjectVersion&gt;
+...
+&lt;Uri&gt;Content/ID33.ods&lt;/Uri&gt;
+&lt;/BinaryDataObject&gt;
+
+ =09=20
+
+Thierry Casimirius (tcasimirius) <mailto:thierry.casimirius@intradef.gouv.f=
+r>=20
+
+19/01/2017 15:58 (GMT)
+
+Merci pour ces pr=C3=A9cisions.
+
+Serait-il possible que ces explications soient reprises dans le document de=
+ sp=C3=A9cification SIP vitam ?
+Je pense que ce serait utile =C3=A0 d'autres personnes.
+
+ =09=20
+
+Nathanael Attar (nattar) <mailto:nathanael.attar.ext@culture.gouv.fr>=20
+
+19/01/2017 16:07 (GMT)
+
+Bonjour Thierry,
+
+Cela fait sens effectivement, j'ai transmis votre demande aupr=C3=A8s de l'=
+Administration et reviens prochainement vers vous =C3=A0 cet effet.
+
+Cordialement,
+
+Nathanael
+
+ =09=20
+
+=3DPROJECT=3Dvitam-support
+=3DTRACKER=3Dbugs
+
+ Mettre =C3=A0 jour vos pr=C3=A9f=C3=A9rences <https://support.programmevit=
+am.fr/account/preferences.php>
+------=_Part_414_3036687.1517006385677
+Content-Type: multipart/related; 
+	boundary="----=_Part_415_7095527.1517006385677"
+
+------=_Part_415_7095527.1517006385677
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>Merci pour ton retour.</p>
+<p>Je vais faire en sorte que la version publi=C3=A9e sur internet soit mis=
+e =C3=A0 jour.</p>
+<p>Excellente journ=C3=A9e =C3=A0 toi</p>
+<p>Edouard</p>
+<p>&nbsp;</p>
+<div>&nbsp;</div>
+<p>Le 2017-01-24 11:55, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->=
+<!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Bonjour Edouard,<!-- o ignored --></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Cela nous convient.<!-- o ignored --></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">C=E2=80=99est un plus pour la documenta=
+tion.<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Encore merci<!-- o ignored --></span></=
+p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Cordialement,<!-- o ignored --></span></p=
+>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Thierry CASIMIRIUS<!-- o ignored --></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Chef du bureau des technologies de l=E2=
+=80=99information<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Service historique de la D=C3=A9fense<!--=
+ o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o igno=
+red --></span></p>
+</div>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<div>
+<div style=3D"border: none; border-top: solid  #B5C4DF  1.0pt; padding: 3.0=
+pt  0cm  0cm  0cm;">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Tahoma','sans-serif';">De&nbsp;:</span></strong><span style=3D"font-siz=
+e: 10.0pt; font-family: 'Tahoma','sans-serif';"> edouard VASSEUR [mailto:ed=
+ouard.vasseur@culture.gouv..fr] <br><strong>Envoy=C3=A9&nbsp;:</strong> lun=
+di 23 janvier 2017 18:26<br><strong>=C3=80&nbsp;:</strong> CASIMIRIUS Thier=
+ry IDEF MINDEF<br><strong>Cc&nbsp;:</strong> nathana=C3=ABl ATTAR<br><stron=
+g>Objet&nbsp;:</strong> Fwd: [bugs #51] 0000055: Rejet des SIP ne contenant=
+ pas de groupe d'objet technique<!-- o ignored --></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Bonsoir Thierry,<!-=
+- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Tu trouveras ci-joi=
+nt une nouvelle version du document Design SIP avec des propositions de mod=
+ifications sur le sujet que tu soul=C3=A8ves.<!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Est-ce que ces prop=
+ositions de modifications (p. 15 et 16) te semblent suffisantes ?<!-- o ign=
+ored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Excellente soir=C3=
+=A9e =C3=A0 toi et =C3=A0 bient=C3=B4t<!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Edouard<!-- o ignor=
+ed --></span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family: 'Verdana','sans-serif';"=
+>&nbsp;<!-- o ignored --></span></p>
+</div>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">-------- Message or=
+iginal --------<!-- o ignored --></span></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellspacing=3D"0" cellpadding=
+=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;" valign=3D"top" nowrap=3D"nowrap"=
+>
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><strong=
+>Objet:<!-- o ignored --></strong></p>
+</td>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;">
+<p class=3D"MsoNormal">[bugs #51] 0000055: Rejet des SIP ne contenant pas d=
+e groupe d'objet technique<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;" valign=3D"top" nowrap=3D"nowrap"=
+>
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><strong=
+>Date:<!-- o ignored --></strong></p>
+</td>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;">
+<p class=3D"MsoNormal">2017-01-19 17:07<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;" valign=3D"top" nowrap=3D"nowrap"=
+>
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><strong=
+>De:<!-- o ignored --></strong></p>
+</td>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;">
+<p class=3D"MsoNormal"><span>Tuleap &lt;</span><a href=3D"mailto:%22forge__=
+artifacts@no-reply%22@programmevitam.fr"><span>&quot;forge__artifacts@no-re=
+ply&quot;@programmevitam.fr</span></a><span>&gt;<!-- o ignored --></span></=
+p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;" valign=3D"top" nowrap=3D"nowrap"=
+>
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><strong=
+>=C3=80:<!-- o ignored --></strong></p>
+</td>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;">
+<p class=3D"MsoNormal">Edouard Vasseur &lt;<a href=3D"mailto:edouard.vasseu=
+r@culture.gouv.fr">edouard.vasseur@culture.gouv.fr</a>&gt;<!-- o ignored --=
+></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">&nbsp;<!-- o ignore=
+d --></span></p>
+<div align=3D"center">
+<table id=3D"backgroundTable" class=3D"MsoNormalTable" style=3D"width: 100.=
+0%;" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;" valign=3D"top">
+<div align=3D"center">
+<table id=3D"templatePreheader" class=3D"MsoNormalTable" style=3D"width: 75=
+0px;" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: 7.5pt  7.5pt  7.5pt  7.5pt;" valign=3D"top">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%;" border=3D"0" cells=
+pacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;" valign=3D"bottom">
+<div>
+<p class=3D"MsoNormal"><img id=3D"_x0000_i1025" src=3D"cid:f7f979f9eb71a7b3=
+21731407037be5ea@culture.gouv.fr" alt=3D"Tuleap" width=3D"100" height=3D"50=
+" border=3D"0"><!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class=3D"MsoNormal" style=3D"text-align: center;" align=3D"center"><!-- =
+o ignored -->&nbsp;</p>
+<div align=3D"center">
+<table id=3D"templateContainer" class=3D"MsoNormalTable" style=3D"width: 75=
+0px;" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;" valign=3D"top">
+<div align=3D"center">
+<table id=3D"templateBody" class=3D"MsoNormalTable" style=3D"width: 750px;"=
+ border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;" valign=3D"top">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%;" border=3D"0" cells=
+pacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: 15.0pt  15.0pt  15.0pt  15.0pt;" valign=3D"top">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%;" border=3D"0" cells=
+pacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;">
+<div>
+<p class=3D"MsoNormal">Support VITAM =C2=BB Bugs =C2=BB Bugs #51<!-- o igno=
+red --></p>
+</div>
+</td>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;">
+<div>
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><a href=
+=3D"https://support.programmevitam.fr/plugins/tracker/?aid=3D51&amp;func=3D=
+manage-subscription">Se d=C3=A9sinscrire</a><!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span style=3D"display: none;"><!-- o ignored -->&nb=
+sp;</span></p>
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%;" border=3D"0" cellp=
+adding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<h1>0000055: Rejet des SIP ne contenant pas de groupe d'objet technique<!--=
+ o ignored --></h1>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<h2>Derni=C3=A8res modifications<!-- o ignored --></h2>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div>
+<p class=3D"MsoNormal"><!-- o ignored --></p>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div style=3D"border: solid  #F6F6F6  1.0pt; border-top: none; padding: 0cm=
+  11.0pt  11.0pt  11.0pt; margin-left: 7.5pt; margin-bottom: 15.0pt; min-he=
+ight: 50px; -webkit-border-radius: 20px; border-radius: 20px; -moz-border-r=
+adius: 20px;">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%; background: #F6F6F6=
+;" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a href=3D"mailto:nathanael.attar.ext@culture.gouv.f=
+r">Nathanael Attar (nattar) </a><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><span s=
+tyle=3D"font-size: 11.5pt; color: #666666;">19/01/2017 16:07 (GMT)<!-- o ig=
+nored --></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<div style=3D"margin-top: 12.0pt; margin-bottom: 12.0pt;">
+<p class=3D"MsoNormal">Bonjour Thierry,<br><br> Cela fait sens effectivemen=
+t, j'ai transmis votre demande aupr=C3=A8s de l'Administration et reviens p=
+rochainement vers vous =C3=A0 cet effet.<br><br> Cordialement,<br><br> Nath=
+anael<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">&nbsp;<!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><span c=
+lass=3D"cta"><a href=3D"https://support.programmevitam.fr/plugins/tracker/?=
+aid=3D51">R=C3=A9pondre</a> </span><!-- o ignored --></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span style=3D"display: none;"><!-- o ignored -->&nb=
+sp;</span></p>
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%;" border=3D"0" cellp=
+adding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<h2>=C3=89tat<!-- o ignored --></h2>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span style=3D"display: none;"><!-- o ignored -->&nb=
+sp;</span></p>
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%;" border=3D"0" cellp=
+adding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Identifiant </strong><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a href=3D"http://support.programmevitam.fr/plugins/=
+tracker/?aid=3D51">#51</a><!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>D=C3=A9pos=C3=A9 par </strong><!-- o ignored=
+ --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">Thierry Casimirius (tcasimirius)<!-- o ignored --></=
+p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Minist=C3=A8re </strong><!-- o ignored --></=
+p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">MINDEF<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Date de derni=C3=A8re modification </strong>=
+<!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">19/01/2017 16:07<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Date de d=C3=A9p=C3=B4t </strong><!-- o igno=
+red --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">09/01/2017 18:25<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<p class=3D"MsoNormal">&nbsp;<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"background: #F6F6F6; padding: .75pt  .75pt  .75pt  .75pt;" col=
+span=3D"2">
+<h3><span style=3D"color: #444444;">D=C3=A9tails<!-- o ignored --></span></=
+h3>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>R=C3=A9sum=C3=A9 </strong><!-- o ignored -->=
+</p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">0000055: Rejet des SIP ne contenant pas de groupe d'=
+objet technique<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Comportement observ=C3=A9 </strong><!-- o ig=
+nored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<div>
+<p class=3D"MsoNormal">Tous les SIP ne contenant pas les balises ci-apr=C3=
+=A8s sont rejet=C3=A9s lors de la phase d'importation : DataObjectGroupId, =
+DataObjectVersion, DataObjectReference&quot; et DataObjectGroupReferenceId.=
+<br> D'apr=C3=A8s le SEDA (SEDA_description_standard_v2_0), les balises ind=
+iqu=C3=A9s ci-dessus sont optionnelles.<br><br> Trois scenarii peuvent =C3=
+=AAtre d=C3=A9roul=C3=A9s pour reproduire l'anomalie<br> ------------------=
+----------------------------------------------<br><br> 1- cas : importez un=
+ SIP ne contenant pas les balises &quot;DataObjectGroupId&quot; et &quot;Da=
+taObjectVersion&quot; dans le bloc &quot;BinaryDataObject&quot;.<br><br> 2-=
+cas : importez un SIP ne contenant pas les balises suivantes :<br> - &quot;=
+DataObjectReference&quot; et &quot;DataObjectGroupReferenceId&quot; dans le=
+ bloc &quot;ArchiveUnit&quot;.<br> - &quot;DataObjectGroupId&quot; et &quot=
+;DataObjectVersion&quot; dans le bloc &quot;BinaryDataObject&quot;.<br><br>=
+ 3-cas : importez un SIP ne contenant pas les balises &quot;DataObjectRefer=
+ence&quot; et &quot;DataObjectGroupReferenceId&quot; dans le bloc &quot;Arc=
+hiveUnit&quot;<br><br> La US 789 indique que VITAM doit cr=C3=A9er ou assoc=
+ier un GOT aux objets orphelins.<br> Comment cr=C3=A9er un objet orphelin s=
+i toutes ces balises sont obligatoires ?<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Comportement attendu </strong><!-- o ignored=
+ --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<div>
+<p class=3D"MsoNormal">Les SIP doivent =C3=AAtre import=C3=A9s, car toutes =
+ces balises sont optionnelles.<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Criticit=C3=A9 </strong><!-- o ignored --></=
+p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">Majeur<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Taux de reproduction </strong><!-- o ignored=
+ --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">Syst=C3=A9matique<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>US concern=C3=A9e </strong><!-- o ignored --=
+></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">-<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<p class=3D"MsoNormal">&nbsp;<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"background: #F6F6F6; padding: .75pt  .75pt  .75pt  .75pt;" col=
+span=3D"2">
+<h3><span style=3D"color: #444444;">Pi=C3=A8ces jointes<!-- o ignored --></=
+span></h3>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Pi=C3=A8ces jointes </strong><!-- o ignored =
+--></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<div>
+<table class=3D"MsoNormalTable" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a title=3D"" href=3D"http://support.programmevitam.=
+fr/plugins/tracker/?aid=3D51&amp;field=3D380&amp;func=3Dshow-attachment&amp=
+;attachment=3D162">Altran.7z</a> (96 kB)<!-- o ignored --></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<table class=3D"MsoNormalTable" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a title=3D"" href=3D"http://support.programmevitam.=
+fr/plugins/tracker/?aid=3D51&amp;field=3D380&amp;func=3Dshow-attachment&amp=
+;attachment=3D179">OK_SIP_MANIFESTE-OBJET-SANS-GOT.zip</a> (200 kB)<!-- o i=
+gnored --></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div>
+<p class=3D"MsoNormal"><span style=3D"display: none;"><!-- o ignored -->&nb=
+sp;</span></p>
+<table class=3D"MsoNormalTable" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a title=3D"" href=3D"http://support.programmevitam.=
+fr/plugins/tracker/?aid=3D51&amp;field=3D380&amp;func=3Dshow-attachment&amp=
+;attachment=3D180">KO_OBJT_orphelins.zip</a> (373 kB)<!-- o ignored --></p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<p class=3D"MsoNormal">&nbsp;<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"background: #F6F6F6; padding: .75pt  .75pt  .75pt  .75pt;" col=
+span=3D"2">
+<h3><span style=3D"color: #444444;">Suivi du bug<!-- o ignored --></span></=
+h3>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Statut </strong><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">En attente d=E2=80=99information<!-- o ignored --></=
+p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>R=C3=A9solution </strong><!-- o ignored --><=
+/p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">-<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Assign=C3=A9 =C3=A0 </strong><!-- o ignored =
+--></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">-<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Type de bug </strong><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">D=C3=A9veloppement<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Version de correction </strong><!-- o ignore=
+d --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">-<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<p class=3D"MsoNormal">&nbsp;<!-- o ignored --></p>
+</td>
+</tr>
+<tr>
+<td style=3D"background: #F6F6F6; padding: .75pt  .75pt  .75pt  .75pt;" col=
+span=3D"2">
+<h3><span style=3D"color: #444444;">References<!-- o ignored --></span></h3=
+>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal"><strong>Cross references </strong><!-- o ignored -->=
+</p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal">-<!-- o ignored --></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class=3D"MsoNormal"><span style=3D"display: none;"><!-- o ignored -->&nb=
+sp;</span></p>
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%;" border=3D"0" cellp=
+adding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"3">
+<h2>Commentaires<!-- o ignored --></h2>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div>
+<p class=3D"MsoNormal"><!-- o ignored --></p>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div style=3D"border: solid  #F6F6F6  1.0pt; border-top: none; padding: 0cm=
+  11.0pt  11.0pt  11.0pt; margin-left: 7.5pt; margin-bottom: 15.0pt; min-he=
+ight: 50px; -webkit-border-radius: 20px; border-radius: 20px; -moz-border-r=
+adius: 20px;">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%; background: #F6F6F6=
+;" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a href=3D"mailto:nathanael.attar.ext@culture.gouv.f=
+r">Nathanael Attar (nattar) </a><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><span s=
+tyle=3D"font-size: 11.5pt; color: #666666;">11/01/2017 16:46 (GMT)<!-- o ig=
+nored --></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<div style=3D"margin-top: 12.0pt; margin-bottom: 12.0pt;">
+<p class=3D"MsoNormal">Bonjour,<br><br> Concernant ce bug, pourriez vous pr=
+=C3=A9ciser davantage le cas 1 en particulier ?<br><br> S'il y a un DataObj=
+ectReferenceId dans une unit qui pointe vers un objet, et que le SIP est re=
+jet=C3=A9, c'est un bug<br> S'il n'y a pas ce DataObjectReferenceId, et que=
+ le SIP est rejet=C3=A9, ce n'est pas un bug.<br><br> En effet, c'est permi=
+s dans Vitam UNIQUEMENT SI une unit poss=C3=A8de un DataObjectReferenceId q=
+ui pointe vers cet objet, c'est la story 789.<br> Si ce n'est pas le cas, l=
+e SIP doit =C3=AAtre refus=C3=A9.<br><br> Cas 2 :<br> Vitam doit rejeter le=
+ SIP car il s'agit ici d'un objet qui n'est pas rattach=C3=A9 =C3=A0 une un=
+it.<br> C'est valide dans le SEDA mais c'est une restriction volontaire dan=
+s VITAM : story 808<br><br> Cas 3 : cela est normal car il s'agit d'un obje=
+t orphelin, c'est =C3=A0 dire un objet qui n'est r=C3=A9f=C3=A9renc=C3=A9 p=
+ar aucune archive unit ou groupe d'objet.<br> En effet, la US 789 indique q=
+ue VITAM doit cr=C3=A9er ou associer un GOT aux objets orphelins. Or, comme=
+nt cr=C3=A9er un objet orphelin si toutes ces balises sont obligatoires ? L=
+'US 789 traite le cas o=C3=B9 l'objet est directement attach=C3=A9 =C3=A0 l=
+'unit sans passer par un groupe d'objet. Ici le cas est similaire au point =
+2, story 808 donc.<br><br> Cdt<br> Nathanael<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">&nbsp;</t=
+d>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div>
+<p class=3D"MsoNormal"><!-- o ignored --></p>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div style=3D"border: solid  #F6F6F6  1.0pt; border-top: none; padding: 0cm=
+  11.0pt  11.0pt  11.0pt; margin-left: 7.5pt; margin-bottom: 15.0pt;">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%; background: #F6F6F6=
+;" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a href=3D"mailto:edouard.vasseur@culture.gouv.fr">E=
+douard Vasseur (evasseur) </a><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><span s=
+tyle=3D"font-size: 11.5pt; color: #666666;">12/01/2017 09:20 (GMT)<!-- o ig=
+nored --></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<div style=3D"margin-top: 12.0pt; margin-bottom: 12.0pt;">
+<p>Il n'est pas n=C3=A9cessaire de cr=C3=A9er un groupe d'objet pour qu'un =
+objet puisse =C3=AAtre inject=C3=A9 dans Vitam.<!-- o ignored --></p>
+<p>Dans ce cas, l'ArchiveUnit doit utiliser la balise DataObjectReferenceId=
+ et non la balise DataObjectGroupReferenceId<!-- o ignored --></p>
+<p>&lt;DataObjectPackage xml:id=3D&quot;ID2&quot;&gt;<br> &nbsp;&nbsp; &nbs=
+p;&nbsp;&nbsp; &nbsp;&lt;BinaryDataObject id=3D&quot;ID5&quot;&gt;<br> &nbs=
+p;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;Uri&gt;Content/ID5=
+.pdf&lt;/Uri&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nb=
+sp;&lt;MessageDigest algorithm=3D&quot;SHA-256&quot;&gt;9ba596a562ef0cd121c=
+21d561f53678e39edbe271435052230b83737928359f9&lt;/MessageDigest&gt;<br> &nb=
+sp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;Size&gt;102887&lt=
+;/Size&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt=
+;FormatIdentification&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&=
+nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;FormatLitteral&gt;Acrobat PDF 1.4 - Port=
+able Document Format&lt;/FormatLitteral&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&n=
+bsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;MimeType&gt;applicatio=
+n/pdf&lt;/MimeType&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbs=
+p; &nbsp;&nbsp;&nbsp; &nbsp;&lt;FormatId&gt;fmt/18&lt;/FormatId&gt;<br> &nb=
+sp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/FormatIdentifica=
+tion&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;F=
+ileInfo&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&n=
+bsp;&nbsp; &nbsp;&lt;Filename&gt;SHDMC_REP_1A_V2009.pdf&lt;/Filename&gt;<br=
+> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nb=
+sp;&lt;LastModified&gt;2015-11-10T12:12:30.000&#43;01:00&lt;/LastModified&g=
+t;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/FileIn=
+fo&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/BinaryDataObject&gt;<=
+br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;BinaryDataObject id=3D&quot;I=
+D9&quot;&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&=
+lt;Uri&gt;Content/ID9.xlsx&lt;/Uri&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =
+&nbsp;&nbsp;&nbsp; &nbsp;&lt;MessageDigest algorithm=3D&quot;SHA-256&quot;&=
+gt;c4cb3d26864c1c89e1b76d613ddc6f2741d91a30fbccffb5ba57d6769ac6c95f&lt;/Mes=
+sageDigest&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp=
+;&lt;Size&gt;8414&lt;/Size&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&n=
+bsp;&nbsp; &nbsp;&lt;FormatIdentification&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;=
+&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;FormatLitteral&gt;Mi=
+crosoft Excel for Windows&lt;/FormatLitteral&gt;<br> &nbsp;&nbsp; &nbsp;&nb=
+sp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;MimeType&gt;appli=
+cation/vnd.openxmlformats-officedocument.spreadsheetml.sheet&lt;/MimeType&g=
+t;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp=
+; &nbsp;&lt;FormatId&gt;fmt/214&lt;/FormatId&gt;<br> &nbsp;&nbsp; &nbsp;&nb=
+sp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/FormatIdentification&gt;<br> &nbsp;=
+&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;FileInfo&gt;<br> &nb=
+sp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&l=
+t;Filename&gt;SHDMC_REP_1A_V2009.xlsx&lt;/Filename&gt;<br> &nbsp;&nbsp; &nb=
+sp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;LastModifie=
+d&gt;2016-12-13T16:04:50.492&#43;01:00&lt;/LastModified&gt;<br> &nbsp;&nbsp=
+; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/FileInfo&gt;<br> &nbsp;&=
+nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/BinaryDataObject&gt;<br> &nbsp;&nbsp; &=
+nbsp;&nbsp;&nbsp; &nbsp;&lt;DescriptiveMetadata&gt;<br> &nbsp;&nbsp; &nbsp;=
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;ArchiveUnit id=3D&quot;ID6&quot;&=
+gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbs=
+p; &nbsp;&lt;Content&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&n=
+bsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;DescriptionLevel&gt;It=
+em&lt;/DescriptionLevel&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp=
+;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;Title&gt;Titrearchi=
+veunitDMD&lt;/Title&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nb=
+sp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;Description&gt;Pseudo A=
+rchive Unit du fichier :C:\Users\fajjaz\Documents\VITAM\zzzPremiers Tests\I=
+HM\Essaies_GOT\2eme essaie\JDD\MC_A_COMMANDEMENT-MARINE-PORTS-MILITAIRES\SH=
+DMC_REP_1A_V2009.pdf&lt;/Description&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp=
+; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;Transa=
+ctedDate&gt;2015-11-10T12:12:30&lt;/TransactedDate&gt;<br> &nbsp;&nbsp; &nb=
+sp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/Content&gt=
+;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;=
+ &nbsp;&lt;DataObjectReference&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbs=
+p;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <strong>&nbsp;&lt;Data=
+ObjectReferenceId&gt;ID4&lt;/DataObjectReferenceId&gt;</strong><br> &nbsp;&=
+nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/D=
+ataObjectReference&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbs=
+p; &nbsp;&lt;/ArchiveUnit&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt=
+;/DescriptiveMetadata&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;Man=
+agementMetadata&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; =
+&nbsp;&lt;OriginatingAgencyIdentifier&gt;OAIAJJAZ&lt;/OriginatingAgencyIden=
+tifier&gt;<br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt=
+;SubmissionAgencyIdentifier&gt;SAIAJJAZ&lt;/SubmissionAgencyIdentifier&gt;<=
+br> &nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&lt;/ManagementMetadata&gt;<br> &=
+nbsp;&nbsp; &nbsp;&lt;/DataObjectPackage&gt;<!-- o ignored --></p>
+<p>&nbsp;<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">&nbsp;</t=
+d>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div>
+<p class=3D"MsoNormal"><!-- o ignored --></p>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div style=3D"border: solid  #F6F6F6  1.0pt; border-top: none; padding: 0cm=
+  11.0pt  11.0pt  11.0pt; margin-left: 7.5pt; margin-bottom: 15.0pt; min-he=
+ight: 50px; -webkit-border-radius: 20px; border-radius: 20px; -moz-border-r=
+adius: 20px;">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%; background: #F6F6F6=
+;" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a href=3D"mailto:thierry.casimirius@intradef.gouv.f=
+r">Thierry Casimirius (tcasimirius) </a><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><span s=
+tyle=3D"font-size: 11.5pt; color: #666666;">12/01/2017 11:20 (GMT)<!-- o ig=
+nored --></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<div style=3D"margin-top: 12.0pt; margin-bottom: 12.0pt;">
+<p class=3D"MsoNormal">Bonjour,<br><br> Voici notre retour sur les commenta=
+ires de Nathanael :<br><br> Pour le cas 1 :<br> Il y a bien un DataObjectRe=
+ferenceId qui pointe vers un objet mais =C3=A9tant donn=C3=A9 qu=E2=80=99il=
+ n=E2=80=99y a pas la balise DataObjectGroupId car supprim=C3=A9e, la R=C3=
+=A9ferenceId ne renvoie vers rien d=E2=80=99existant.<br><br> Pour les cas =
+2 et 3 :<br> Le SEDA pr=C3=A9cise que les balises DataObjectRefrence et Dat=
+aObjectGroupReferenceID sont bien facultatives, il devrait donc =C3=AAtre p=
+ossible de cr=C3=A9er des objets orphelin.<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">&nbsp;</t=
+d>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div>
+<p class=3D"MsoNormal"><!-- o ignored --></p>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div style=3D"border: solid  #F6F6F6  1.0pt; border-top: none; padding: 0cm=
+  11.0pt  11.0pt  11.0pt; margin-left: 7.5pt; margin-bottom: 15.0pt; min-he=
+ight: 50px; -webkit-border-radius: 20px; border-radius: 20px; -moz-border-r=
+adius: 20px;">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%; background: #F6F6F6=
+;" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a href=3D"mailto:nathanael.attar.ext@culture.gouv.f=
+r">Nathanael Attar (nattar) </a><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><span s=
+tyle=3D"font-size: 11.5pt; color: #666666;">12/01/2017 13:37 (GMT)<!-- o ig=
+nored --></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<div style=3D"margin-top: 12.0pt; margin-bottom: 12.0pt;">
+<p class=3D"MsoNormal">Pour le 1er cas :<br> On peut observer que dans le m=
+anifeste, ce n'est pas un DataObjectReferenceId mais un DataObjectGROUPRefe=
+renceId. (or pour rappel, l'ArchiveUnit doit utiliser la balise DataObjectR=
+eferenceId et non la balise DataObjectGroupReferenceId)<br><br> Pour le sec=
+ond cas : <br> &quot;Le SEDA pr=C3=A9cise que les balises DataObjectRefrenc=
+e et DataObjectGroupReferenceID sont bien facultatives, il devrait donc =C3=
+=AAtre possible de cr=C3=A9er des objets orphelin.&quot;<br> Jusqu'ici dans=
+ Vitam nous sommes parfois plus restrictif que le SEDA, ce qui est le cas p=
+our ce point.<br> - OUI, le SEDA autorise de ne pas mettre les balises Data=
+ObjectRefrence et DataObjectGroupReferenceID<br> - NON, Vitam n'autorise pa=
+s les objets &quot;orphelins&quot;, c'est =C3=A0 dire les objets qui ne son=
+t rattach=C3=A9s =C3=A0 aucune archive unit (et donc qu'on ne sait pas o=C3=
+=B9 ranger en fait)<br><br> La r=C3=A8gle est :<br> - Soit l'objet est dans=
+ un groupe d'objet, et ce groupe d'objet est d=C3=A9clar=C3=A9 dans une uni=
+t ( DataObjectGroupReferenceID)<br> - Soit l'objet est directement d=C3=A9c=
+lar=C3=A9 dans une unit (DataObjectReferenceID)<br><br> Point d'attention :=
+ DataObjectRefrence est une balise &quot;chapeau&quot; et DataObjectRefrenc=
+eId est une balise qui contient une valeur.<br><br><br> Aussi, nous vous so=
+umettons le rejet de ce bug, si vous y consentez.<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">&nbsp;</t=
+d>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div>
+<p class=3D"MsoNormal"><!-- o ignored --></p>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div style=3D"border: solid  #F6F6F6  1.0pt; border-top: none; padding: 0cm=
+  11.0pt  11.0pt  11.0pt; margin-left: 7.5pt; margin-bottom: 15.0pt; min-he=
+ight: 50px; -webkit-border-radius: 20px; border-radius: 20px; -moz-border-r=
+adius: 20px;">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%; background: #F6F6F6=
+;" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a href=3D"mailto:emmanuel.laborde@culture.gouv.fr">=
+Emmanuel Laborde (elaborde) </a><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><span s=
+tyle=3D"font-size: 11.5pt; color: #666666;">13/01/2017 15:31 (GMT)<!-- o ig=
+nored --></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<div style=3D"margin-top: 12.0pt; margin-bottom: 12.0pt;">
+<p class=3D"MsoNormal">Attention =C3=A0 ne pas m=C3=A9langer deux cas diff=
+=C3=A9rents :<br><br> 1 - cas des objets orphelins : ils ne sont r=C3=A9f=
+=C3=A9renc=C3=A9s d'aucunes mani=C3=A8res par un unit dans le manifest, C'e=
+st un contr=C3=B4le d'erreur qui implique un retour KO. Nous ajoutons en PJ=
+ un SIP pour ce cas<br><br> 2 - cas de cr=C3=A9ation par VITAM d'un objet g=
+roupe &quot;implicite&quot; dans le manifest. C'est le cas que vous souhait=
+ez tester. (l'objet est =C3=A9galement implicitement qualifi=C3=A9 de Binar=
+yMaster). Nous ajoutons en PJ un SIP pour ce cas.<br><br> Explication :<br>=
+ Pour d=C3=A9clarer un tel cas dans le manifest il faut que le Unit r=C3=A9=
+f=C3=A9rence &quot;directement&quot; l'objet par son id de la mani=C3=A8re =
+suivante :<br><br> &amp;lt;ArchiveUnit id=3D&quot;ID31&quot;&amp;gt;<br> &a=
+mp;lt;Content&amp;gt;<br> ...<br> &amp;lt;/Content&amp;gt;<br> &amp;lt;Data=
+ObjectReference&amp;gt;<br> ATTENTION : ici la balise DataObjectReference n=
+e contient pas l'attribut id<br> &amp;lt;DataObjectReferenceId&amp;gt;ID33&=
+amp;lt;/DataObjectReferenceId&amp;gt;<br> ATTENTION ici la balise DataObjec=
+tReferenceId a remplac=C3=A9 la traditionnelle balise DataObjectGroupRefere=
+nceId et c'est directement l'id de l'objet qui est indiqu=C3=A9 (cf. &amp;l=
+t;BinaryDataObject id=3D&quot;ID33&quot;&amp;gt;<br> &amp;lt;/DataObjectRef=
+erence&amp;gt;<br> &amp;lt;/ArchiveUnit&amp;gt;<br><br> &amp;lt;BinaryDataO=
+bject id=3D&quot;ID33&quot;&amp;gt;<br> ATTENTION : ici il ne faut pas qu'i=
+l y ai les balises &amp;lt;DataObjectGroupId&amp;gt; et &amp;lt;DataObjectV=
+ersion&amp;gt;<br> ...<br> &amp;lt;Uri&amp;gt;Content/ID33.ods&amp;lt;/Uri&=
+amp;gt;<br> &amp;lt;/BinaryDataObject&amp;gt;<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">&nbsp;</t=
+d>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div>
+<p class=3D"MsoNormal"><!-- o ignored --></p>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div style=3D"border: solid  #F6F6F6  1.0pt; border-top: none; padding: 0cm=
+  11.0pt  11.0pt  11.0pt; margin-left: 7.5pt; margin-bottom: 15.0pt; min-he=
+ight: 50px; -webkit-border-radius: 20px; border-radius: 20px; -moz-border-r=
+adius: 20px;">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%; background: #F6F6F6=
+;" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a href=3D"mailto:thierry.casimirius@intradef.gouv.f=
+r">Thierry Casimirius (tcasimirius) </a><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><span s=
+tyle=3D"font-size: 11.5pt; color: #666666;">19/01/2017 15:58 (GMT)<!-- o ig=
+nored --></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<div style=3D"margin-top: 12.0pt; margin-bottom: 12.0pt;">
+<p class=3D"MsoNormal">Merci pour ces pr=C3=A9cisions.<br><br> Serait-il po=
+ssible que ces explications soient reprises dans le document de sp=C3=A9cif=
+ication SIP vitam ?<br> Je pense que ce serait utile =C3=A0 d'autres person=
+nes.<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">&nbsp;</t=
+d>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div>
+<p class=3D"MsoNormal"><!-- o ignored --></p>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<div style=3D"border: solid  #F6F6F6  1.0pt; border-top: none; padding: 0cm=
+  11.0pt  11.0pt  11.0pt; margin-left: 7.5pt; margin-bottom: 15.0pt; min-he=
+ight: 50px; -webkit-border-radius: 20px; border-radius: 20px; -moz-border-r=
+adius: 20px;">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%; background: #F6F6F6=
+;" border=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;">
+<p class=3D"MsoNormal"><a href=3D"mailto:nathanael.attar.ext@culture.gouv.f=
+r">Nathanael Attar (nattar) </a><!-- o ignored --></p>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">
+<p class=3D"MsoNormal" style=3D"text-align: right;" align=3D"right"><span s=
+tyle=3D"font-size: 11.5pt; color: #666666;">19/01/2017 16:07 (GMT)<!-- o ig=
+nored --></span></p>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" colspan=3D"2">
+<div style=3D"margin-top: 12.0pt; margin-bottom: 12.0pt;">
+<p class=3D"MsoNormal">Bonjour Thierry,<br><br> Cela fait sens effectivemen=
+t, j'ai transmis votre demande aupr=C3=A8s de l'Administration et reviens p=
+rochainement vers vous =C3=A0 cet effet.<br><br> Cordialement,<br><br> Nath=
+anael<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+<td style=3D"padding: .75pt  .75pt  .75pt  .75pt;" valign=3D"top">&nbsp;</t=
+d>
+</tr>
+</tbody>
+</table>
+<div>
+<p class=3D"MsoNormal">=3DPROJECT=3Dvitam-support<br> =3DTRACKER=3Dbugs<!--=
+ o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+<tr>
+<td style=3D"padding: 0cm  0cm  0cm  0cm;" valign=3D"top">
+<div align=3D"center">
+<table id=3D"templateFooter" class=3D"MsoNormalTable" style=3D"width: 750px=
+;" border=3D"0" cellspacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td style=3D"padding: 7.5pt  7.5pt  7.5pt  7.5pt;" valign=3D"top">
+<table class=3D"MsoNormalTable" style=3D"width: 100.0%;" border=3D"0" cells=
+pacing=3D"0" cellpadding=3D"0">
+<tbody>
+<tr>
+<td id=3D"social" style=3D"padding: 7.5pt  7.5pt  7.5pt  7.5pt;">
+<div>
+<p class=3D"MsoNormal">&nbsp;<a href=3D"https://support.programmevitam.fr/a=
+ccount/preferences.php">Mettre =C3=A0 jour vos pr=C3=A9f=C3=A9rences</a>&nb=
+sp;<!-- o ignored --></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+</div>
+</blockquote>
+</body></html>
+------=_Part_415_7095527.1517006385677
+Content-Type: image/gif; name=image001.gif
+Content-Transfer-Encoding: base64
+Content-ID: <f7f979f9eb71a7b321731407037be5ea@culture.gouv.fr>
+Content-Disposition: inline; filename="image001.gif"
+
+R0lGODlhZAAyAIAAAPrOzgAAACH5BAAAAAAALAAAAABkADIAAAJNhI+py+0Po5y02ouz3rz7D4bi
+SJbmiabqyrbuC8fyTNf2jef6zvf+DwwKh8Si8YhMKpfMpvMJjUqn1Kr1is1qt9yu9wsOi8fksvls
+KwAAOw==
+------=_Part_415_7095527.1517006385677--
+
+------=_Part_414_3036687.1517006385677--
+
+------=_Part_413_2002598.1517006385677--

@@ -1,0 +1,40 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Rejet SISMEL] RE: [VITAM] Livraison Bêta : pb de diffusion : nouvel essai - 3 fichiers - bis</Title>
+    <OriginatingSystemId>&lt;7a7695cf-b0db-44b6-93ac-70f00d6af499@MVLINF10CTNWM02.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>mimesweeper</FirstName>
+        <BirthName>mimesweeper</BirthName>
+        <Identifier>mimesweeper@federateur.defense.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-11-30T09:20:29Z</SentDate>
+    <ReceivedDate>2016-11-30T09:20:49Z</ReceivedDate>
+    <TextContent>Votre message a été bloqué par la passerelle Sismel. 
+
+Ce message a été généré automatiquement. Merci de ne pas y répondre.
+
+Veuillez contacter en priorité votre chaîne de soutien de proximité (CIRISI, SAI, CAI/DGA, etc.). Veuillez solliciter votre SDK par Ticket APSI ou Appel au 13
+
+
+Informations sur le rejet :
+Vous avez essayé d&apos;envoyer le message dont les caractéristiques suivent :
+Expéditeur : thierry.casimirius@intradef.gouv.fr
+Destinataire(s) : franck.ajjaz@altran.com
+Sujet : RE: [VITAM] Livraison Bêta : pb de diffusion : nouvel essai - 3 fichiers - bis
+Date et heure : Wed, 30 Nov 2016 09:18:47 +0000
+
+Quarantaine : Taille Max
+
+
+Ce message a été bloqué par la passerelle Sismel car sa taille dépasse le maximum autorisé qui est de 9 Mo.
+
+Il est possible de compresser les fichiers (avec winzip ou filzip par exemple) afin d&apos;économiser des ressources réseaux.
+
+Informations à remonter au support en cas de problème :
+CR-Clean: The operation completed successfully. CR-TailleMax-Out: ItemLength.GE.$I9437184. CR_Comptage_PJ: ItemLength.GE.$I0. CR_Comptage_PJ: ItemLength.GE.$I0. CR_Comptage_PJ: ItemLength.GE.$I0. CR_Comptage_PJ: ItemLength.GE.$I0.</TextContent>
+</Content>

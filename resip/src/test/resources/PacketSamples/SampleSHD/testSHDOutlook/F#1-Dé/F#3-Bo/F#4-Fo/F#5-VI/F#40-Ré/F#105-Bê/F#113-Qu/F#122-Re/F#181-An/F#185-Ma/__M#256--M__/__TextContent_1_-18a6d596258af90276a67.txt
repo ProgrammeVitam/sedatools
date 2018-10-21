@@ -1,0 +1,10 @@
+The user administrator has created an account for you with username "Thierry".
+In order to complete your registration, visit the following URL (make sure it is
+entered as the single line) and set your own access password:
+
+http://213.32.79.242/mantisbt/verify.php?id=7&confirm_hash=GUPOpkvATkFnYs0Yuj5Di3veUcXbZHR8KcFQxLneTDKccIfPHL4iT50qGD1YwuczrQYy78_pS6_3oFqNGqqL
+
+If you did not request any registration, ignore this message and nothing will
+happen.
+
+Do not reply to this message

@@ -1,0 +1,84 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000037]: Aucun ATR fournit lors d&apos;une erreur FATAL</Title>
+    <OriginatingSystemId>&lt;00ed07cbd4dbb4ca9e5dfbc198dcf4ed@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-23T15:51:54Z</SentDate>
+    <ReceivedDate>2016-12-23T15:52:00Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=37 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   37
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-23 16:51 CET
+Dernière modification:      2016-12-23 16:51 CET
+====================================================================== 
+Résumé:                     Aucun ATR fournit lors d&apos;une erreur FATAL
+Description: 
+Lors de nos essais d&apos;INGEST de SIP ne contenant que des PhysicalDataObject nous
+nous sommes aperçu que nos ne recevons aucun ATR lors que notre INGEST était
+en statut FATAL, que ce soit via l&apos;IHM ou via l&apos;API
+
+Lors que nous effectuons un INGEST via l&apos;API, nous obtenons un fichier .xml qui
+est bien nommé ATR mais où sont contenu ne présente qu&apos;une erreur 500 :
+
+- &lt; html&gt;
+- &lt; head&gt;
+  &lt; meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=ISO-8859-1&quot; /&gt; 
+  &lt; title&gt;Error 500&lt; /title&gt; 
+  &lt; /head&gt;
+- &lt; body&gt;
+  &lt; h2&gt;HTTP ERROR: 500&lt; /h2&gt; 
+- &lt; p&gt;
+  Problem accessing /ingest/v1/ingests. Reason: 
+  &lt; pre&gt;Internal Server Error&lt; /pre&gt; 
+  &lt; /p&gt;
+  &lt; hr /&gt; 
+  &lt; /body&gt;
+  &lt; /html&gt;
+
+De plus, lorsque nous tentons d&apos;injecter le même SIP mais via l&apos;IHM nous
+n&apos;obtenons aucun retour de vitam, juste la croix qui signifie qu&apos;il y a eu un
+erreur lors de notre INGEST.
+
+Il nous est possible de consulter l&apos;état de notre transfert aussi bien via le
+Suivi des opérations d&apos;entrée que le journal des opérations avec un statut
+&quot;FATAL&quot; au niveau du contrôle de la cohérence du bordereau.
+
+Nous sommes parvenu a récupérer un ATR complet dans l&apos;offre de stockage, donc
+il a bien été crée.
+ 
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-23 16:51 Jonathan       Nouveau bogue                                
+2016-12-23 16:51 Jonathan       Statut                   nouveau =&gt; affecté  
+2016-12-23 16:51 Jonathan       Assigné à                 =&gt; Jonathan        
+2016-12-23 16:51 Jonathan       Fichier ajouté: Anomalie FATAL.zip             
+      
+======================================================================</TextContent>
+</Content>

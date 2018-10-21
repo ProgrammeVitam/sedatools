@@ -1,0 +1,282 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: TR: TRA Vitam Bêta : paramétrage du référentiel des règles de gestion - questions SHD  sur retour VITAM</Title>
+    <OriginatingSystemId>&lt;44a3dedeb7c9febd27d6c16a0fa84c00@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>edouard VASSEUR</FirstName>
+        <BirthName>edouard VASSEUR</BirthName>
+        <Identifier>edouard.vasseur@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>DANYACH-DESCHAMPS Myriam</FirstName>
+        <BirthName>DANYACH-DESCHAMPS Myriam</BirthName>
+        <Identifier>myriam.danyach-deschamps@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>CHEVENIER Olivier</FirstName>
+        <BirthName>CHEVENIER Olivier</BirthName>
+        <Identifier>olivier.chevenier@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>BEL Nicolas</FirstName>
+        <BirthName>BEL Nicolas</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>&apos;emmanuel.laborde@culture.gouv.fr&apos;</FirstName>
+        <BirthName>&apos;emmanuel.laborde@culture.gouv.fr&apos;</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>jean-séverin LAIR</FirstName>
+        <BirthName>jean-séverin LAIR</BirthName>
+        <Identifier>jean-severin.lair@culture.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-10-18T13:23:38Z</SentDate>
+    <ReceivedDate>2016-10-18T13:25:32Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C636511@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour Thierry,
+
+Mes réponses dans le texte (surlignées en bleu)
+
+Bonne journée
+
+Édouard
+
+ 
+
+ 
+
+Le 2016-10-18 14:58, CASIMIRIUS Thierry a écrit :
+
+	Bonjour Edouard,
+
+	 
+
+	Merci pour tes précisions.
+
+	 
+
+	Il y a certains points qui méritent quelques éclaircissements 
+
+	 
+
+	Voir points soulignés en violets  ci-dessous
+
+	 
+
+	D’avance, merci pour ton retour
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : edouard VASSEUR [mailto:edouard.vasseur@culture.gouv.fr] 
+	Envoyé : vendredi 14 octobre 2016 13:44
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Cc : emmanuel.laborde; BEL Nicolas ASC NIV I OA; CHEVENIER Olivier ASC NIV I OA; DANYACH-DESCHAMPS Myriam ASC; jean-séverin LAIR
+	Objet : Re: TRA Vitam Bêta : paramétrage du référentiel des règles de gestion - questions SHD
+
+	 
+
+	Bonjour Thierry,
+
+	Mes réponses dans le corps du texte.
+
+	N&apos;hésite pas à m&apos;appeler pour toute précision ou question (01.86.69.60.03)
+
+	Bonne fin de semaine
+
+	Edouard
+
+	 
+
+	 
+
+	Le 2016-10-14 12:55, CASIMIRIUS Thierry a écrit :
+
+		Bonjour,
+
+		 
+
+		Comme suite à nos échanges hier sur le « paramétrage VITAM », je vous adresse ce mail pour préciser quelques-unes de nos interrogations sur le référentiel de gestion :
+
+		 
+
+		Dans le document en PJ, nous trouvons en ligne 57, le texte suivant. En jaune, ci-dessous quelques questions et commentaires du SHD  :
+
+		 
+
+		 
+
+		 
+
+		Le référentiel de règles de gestion est un outil qui décrit les règles de gestion permettant de calculer les échéances auxquelles sont soumises les archives prises en charge par la solution Vitam et qui vont entraîner le déclenchement d’opérations les concernant dans Vitam.
+
+		A terme il sera  impossible d&apos;utiliser Vitam sans ce référentiel.
+
+		Pour avoir un ordre idée, le nombre de règles de gestion peut aller de la centaine à plusieurs dizaines de milliers. 
+
+		Sur un exemple concret, un des ministères possède environs 7000 règles, qui correspondront à l&apos;import initial lors d&apos;un déploiement de Vitam chez eux.
+
+		ð  peut-on savoir lequel ?
+
+		EV : Nous nous sommes basés pour faire cette évaluation sur le &quot;plan de classement&quot; utilisé par le ministère de l&apos;Environnement dans son SIA. Cet objet Spark Archives mélange à la fois la notion de plan de classement de celle de tableau de gestion. l&apos;export fourni par le MEEM comprend 7971 lignes. si on enlève les parties arborescentes du plan de classement, je crois que nous arrivons à 7000 règles. Il s&apos;agit de règles associées à des typologies de dossiers
+
+		 OK
+
+		Pour information, à propos de la responsabilité du référentiel de gestion :
+
+		-          Vitam étant un projet devant être autonome, il est obligatoire de posséder l&apos;ensemble des règles nécessaires et suffisantes pour gérer ses archives y compris sans SIA
+
+		 
+
+		ð  y-a-t-il déjà un référentiel complet chez Vitam ?.
+
+		EV : cela dépend de ce que tu entends par référentiel complet. il vaut mieux que tu m’appelles pour expliciter de vive voix.   OK : précisions apportées par VITAM en dernier point.
+
+		 
+
+		-          Les SIA possèdent aujourd&apos;hui leurs propres référentiels de gestion. Il conviendra de voir quels informations seront issues de Vitam et lesquelles de leurs propres systèmes. A l&apos;écriture de cette story, il s&apos;agit encore d&apos;un chantier très éloigné.
+
+		-          Les SIA étant très hétérogènes, il est préférable de partir sur un socle commun et relativement complet dans Vitam. 
+
+		 
+
+		ð  Nous comprenons que l’on part donc  des règles de gestion fournies par VITAM. Et qu’il faut les adapter aux réalités du SHD pour faire le paramétrage ? Ou bien on fournit des règles de gestion à Vitam via notre paramétrage ?)
+
+		 EV : vous allez disposer du cadre pour alimenter le référentiel interne de votre Vitam. Vitam ne peut fournir en standard que les règles communes à toutes les implémentations, c&apos;est à dire quasiment aucune. Seules les règles liées à la communicabilité (AccessRule) sont complètes dans le fichier joint car communes à tous les projets. Les autres ne sont que des exemples.
+
+		Par ailleurs, vous pouvez utiliser le référentiel comme proposé dans le fichier joint, mais vous pouvez aussi choisir une autre implémentation (exemple indicatif) :
+
+		APP-001 / Appraisal Rule / Un an / Unités archivistiques dont la DUA doit être traitée au bout d&apos;un an / 01 / Année
+
+		 
+
+		Comme écrit juste au-dessus, Vitam fournit le socle commun et les règles d’accès. Nous comprenons qu’il nous revient de fournir les règles de gestion en vigueur au SHD et de les adapter ou non au socle Vitam :
+
+		-          Cas 1 : Adapter nos règles de gestion au modèle d’implémentation Vitam requiert un travail de mise en forme. La question est donc : peut-on se contenter de fournir à Altran un corpus de tableaux de gestion pour qu’ils les mettent en forme et implémentent le fichier final ? Sans oublier un contrôle qualité du SHD bien entendu.
+
+		-          Cas 2 : Si nous choisissons une autre implémentation : est-ce possible ? VITAM n’attend-il pas une structure de fichier particulière ??? 
+
+		EVR : Vitam fournit le modèle de fichier d&apos;import (le .csv que je t&apos;ai envoyé) et des suggestions d&apos;utilisation. c&apos;est au mindef de définir comment il veut utiliser ce référentiel. Je suppose que pour l&apos;instant vous allez l&apos;utiliser comme nous. Il va donc falloir que vous alimentiez le fichier d&apos;import à partir des données des tableaux de gestion que vous allez vouloir utiliser pour vos tests en bêta. A terme, si vous voulez que ce soit votre intégrateur qui vous génère les fichiers d&apos;import à partir de vos tableaux de gestion, il faudra le spécifier dans votre cahier des charges
+
+		 
+
+		La structure du référentiel est le suivant :
+
+		-          identifiants de la règle 
+
+		 
+
+		ð  est-ce un identifiant spécifique à Vitam ? Faut-il partager la même famille d’identifiants ?)
+
+		EVR : il y a une clé primaire dans la base et un identifiant dans une forme que nous proposons : 3 premières lettres du type de règle en anglais + numéro 
+
+		 
+
+		Ok pour la réponse
+
+		 
+
+		-          type de règle (DUA, DCOMM, DUC, DDIFF, DREUT, DCLASS)
+
+		-          intitulé de la règle
+
+		-          durée associée à la règle
+
+		-          unité de valeur associée (jours, mois, années)
+
+		-          références légales
+
+		-          date d’activation de la règle (?) 
+
+		-          date de désactivation de la règle (?)
+
+		 
+
+		ð          pourquoi y-a-t-il un point d’interrogation ici ?)
+
+		EV : le champ est utilisé pour discussion entre archivistes et architectes. il s&apos;agissait d&apos;une interrogation sur l&apos;utilité de la création de ces champs lors de l&apos;initialisation du référentiel. Vérification impossible dans la base pour le moment pour cause de déploiement 
+
+		 Là ce n’est pas clair : devons-nous considérer que ces champs sont sans objet à ce stade ? Et qu’il faille les ignorer ?
+
+		EVR : les champs date de création et date de dernière modification de la règle sont d&apos;ores et déjà disponibles dans le référentiel
+
+		Détails des types des règles :
+
+		-          Durée d&apos;utilité Administrative (DUA) / Appraisal Rule
+
+		-          Délai de Communicabilité (DCOMM) / AccessRule
+
+		-          Durée d&apos;utilité courante (DUC) / StorageRule
+
+		-          Délai de diffusion (DDIFF) / DisseminationRule
+
+		-          Durée de réutilisation (DREUT) / ReuseRule
+
+		-          Durée de classification (DCLASS) / ClassificationRule
+
+		 
+
+		Un fichier contenant un référentiel valide respecte toutes les conditions suivante :
+
+		-          Présente un format CSV dont la structure est bien formée
+
+		-          Possède des valeurs dont le format est correct (pas de texte) 
+
+		 
+
+		ð  quel est le format correct du fichier CSV à respecter ?
+
+		EVR : le modèle d&apos;import utilisé actuellement est fourni en pièce jointe 
+
+		ð  quel est le format des valeurs à respecter ?)
+
+		EVR : ces informations seront fournies dans le modèle de données
+
+		 Ok pour la réponse
+
+		 
+
+		 
+
+		 
+
+		En vous remerciant d’avance, pour vos éléments de réponse,
+
+		 
+
+		Cordialement,
+
+		 
+
+		Thierry CASIMIRIUS
+
+		Adjoint au chef du bureau des technologies d’information
+
+		Service historique de la Défense
+
+		SGA/DMPA/SHD/PPST/BTI
+
+		Tél : 01 41 93 20 45</TextContent>
+</Content>

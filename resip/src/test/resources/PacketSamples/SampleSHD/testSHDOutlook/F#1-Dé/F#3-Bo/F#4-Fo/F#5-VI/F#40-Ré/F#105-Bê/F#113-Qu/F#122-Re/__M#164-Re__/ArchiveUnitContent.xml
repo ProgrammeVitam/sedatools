@@ -1,0 +1,71 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: TRA VITAM : Demande d&apos;assistance sur Postman/SoapUI</Title>
+    <OriginatingSystemId>&lt;dfcea1702b093f877f396b49f6089613@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>emmanuel.laborde</FirstName>
+        <BirthName>emmanuel.laborde</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-07T08:38:54Z</SentDate>
+    <ReceivedDate>2016-12-07T08:39:07Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C66D456@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour,
+
+Je regarde ce qu&apos;il est possible de faire.
+
+En attendant, pouvez vous décrire plus précisément les problèmes que vous rencontrez ?
+
+Merci
+
+Emmanuel Laborde
+
+ 
+
+Le 2016-12-06 17:42, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Dans le cadre de l’assistance prévue au profit des ministères, est-il possible de bénéficier d’une nouvelle demi-journée pour mieux comprendre le fonctionnement de Postman et son paramétrage, afin de le calquer dans notre paramétrage  de SoapUI ?
+
+	 
+
+	Nous rencontrons en effet des difficultés pour dérouler un INGEST via l’API.
+
+	Par contre, pas de problème pour l’ACCESS
+
+	 
+
+	Le certificat est OK, l’API aussi, mais il semble que cela soit notre compréhension du paramétrage du postman utilisé pour VITAM et à reproduire dans SoapUi qui pose problème pour l’INGEST, notamment.
+
+	 
+
+	Est-il possible de disposer d’une telle assistance ? Et dans l’affirmative, quelles seraient vos disponibilités ?
+
+	 
+
+	En vous remerciant d’avance pour retour,
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45</TextContent>
+</Content>

@@ -1,0 +1,85 @@
+Bonjour Thierry
+
+j'ai publié le document sous deux formats sur jalios. Les deux sont ils ko pour toi? Si oui je corrige cet après midi, quitte à t'envoyer un pdf. 
+
+ 
+
+Vous verrez que nous n'avons pour l'instant pas modifié l'annexe 1 malgré vos commentaires. Mais c'est parce que nous sommes en discussion avec  le siaf sur ce sujet. 
+
+S'agissant de la taille des sip pour la bêta, réponse cet après midi lors de la présentation
+
+à tout à l'heure
+
+Édouard
+
+ 
+
+Le 2016-10-13 10:30, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Merci pour cette mise à jour.
+
+	 
+
+	Mes 2 premières remarques :
+
+	·         Une de forme : le document word n’est pas exploitable en mode portrait de la page 9 à 17 (tableaux trop grands)
+
+	·         Une de fond : Quelle est la taille du SIP acceptable par VITAM Bêta ?? Ce point est à éclaircir. Car il n’y a pas de limite indiquée pour les imports manuels dans VITAM dans ce document. Or la limite de  80 Mo est évoquée par mail (voir mail E. VASSEUR du 11/10 ) 
+
+	 
+
+	A cet après-midi.
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : Edouard Vasseur (Programme Vitam) [mailto:agora@vitam.jaliosagora.com] 
+	Envoyé : mercredi 12 octobre 2016 19:29
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : [Programme Vitam] [Action] Recommandation sur "20161011 Design SIP v1.1"
+	Importance : Haute
+
+	 
+
+
+Programme Vitam - Action
+
+Casimirius, 
+
+Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur>  vous recommande de consulter 20161011 Design SIP v1.1 <https://vitam.jaliosagora.com/jcms/c_2005238/fr/20161011-design-sip-v1-1> 
+
+Ce message a été envoyé au groupe suivant : Chantier Storymap - Participants
+
+Image supprimée par l'expéditeur. Edouard Vasseur
+
+ 
+
+Bonsoir à tous, Vous trouverez sur la plate-forme Jalios une nouvelle version du document de spécification des SIP. Ce document a été mis à jour suite aux retours formulés par les projets ministériels et les partenaires. Il est a priori dans sa version finale pour la bêta Vitam. L'équipe Vitam reste néanmoins ouverte à toute question ou demande d'éclaircissement susceptible de donner lieu à une nouvelle version après la publication de la bêta. Bien cordialement L'équipe Vitam 
+
+12/10/2016 19:17 · Chantier Solution logicielle Vitam <https://vitam.jaliosagora.com/jcms/c_2001230/fr/chantier-solution-logicielle-vitam>  
+
+ 	 
+Mon profil <https://vitam.jaliosagora.com/jcms/c_2003159/fr/casimirius-thierry>  · Accueil <https://vitam.jaliosagora.com/>  
+
+Ce mail vous a été envoyé par Programme Vitam
+
+	Image supprimée par l'expéditeur.

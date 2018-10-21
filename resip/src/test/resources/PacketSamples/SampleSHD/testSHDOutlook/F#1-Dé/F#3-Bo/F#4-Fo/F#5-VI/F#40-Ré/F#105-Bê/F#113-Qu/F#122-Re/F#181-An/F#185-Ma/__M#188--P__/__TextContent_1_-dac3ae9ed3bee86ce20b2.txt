@@ -1,0 +1,38 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=70 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                Franck
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   70
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-11 11:03 CET
+Dernière modification:      2017-01-11 11:03 CET
+====================================================================== 
+Résumé:                     Suite import ref règle par API, possibilité
+d'avoir tout type de valeur dans n'importe quel champ
+Description: 
+Suite à un import du référentiel des règles de gestion par API( Pas de
+contrôle)
+on peut avoir des valeurs inadéquat.
+des chiffres dans rulemeasurement, de l'alpha dans rule duration... (voir
+fichier ref joint)
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-11 11:03 Franck         Nouveau bogue                                
+2017-01-11 11:03 Franck         Statut                   nouveau => affecté  
+2017-01-11 11:03 Franck         Assigné à                 => Franck          
+======================================================================

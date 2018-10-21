@@ -1,0 +1,303 @@
+Received:  from DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR ([169.254.1.80]) by
+ INF11LOGES-WM10.DR-RES.INTRADEF.GOUV.FR ([221.10.42.209]) with mapi id
+ 14.03.0195.001; Tue, 11 Oct 2016 15:14:59 +0200
+Date: Tue, 11 Oct 2016 15:14:58 +0200 (CEST)
+From: BEL Nicolas ASC NIV I OA <nicolas.bel@intradef.gouv.fr>
+To: CASIMIRIUS Thierry IDEF MINDEF <thierry.casimirius@intradef.gouv.fr>
+CC: CHEVENIER Olivier ASC NIV I OA <olivier.chevenier@intradef.gouv.fr>,
+	GODET Annie CHAR ETU DOC PPL 2 <annie.godet@intradef.gouv.fr>
+Message-ID: <0CEBDBC4E24A8C46BD4E1D2201D75741E1A1BD@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D1C63569C@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D1C63569C@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: RE: Cas de SIP SEDA NOK
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_520_16679802.1517006388324"
+Thread-Topic:  Cas de SIP SEDA NOK
+Thread-Index:  AdIjrDtNQwqHV9o0TMiQjXVzO+s9rQAFL7Iw
+Accept-Language:  fr-FR, en-US
+Content-Language:  fr-FR
+X-MS-Has-Attach: 
+X-MS-Exchange-Organization-SCL:  0
+X-MS-TNEF-Correlator:  <0CEBDBC4E24A8C46BD4E1D2201D75741E1A1BD@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+X-MS-Exchange-Organization-AuthSource: 
+ INF11LOGES-WM10.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Internal
+X-MS-Exchange-Organization-AuthMechanism:  04
+X-Originating-IP:  [52.10.204.169]
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1282700;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+
+------=_Part_520_16679802.1517006388324
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_521_6471710.1517006388324"
+
+------=_Part_521_6471710.1517006388324
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour Thierry,=20
+
+=20
+
+En effet, si l=E2=80=99on exclut les cas de non-respect xml/xsd SEDA cela m=
+e semble bon.
+
+=20
+
+Je pensais =C3=A0 ajouter non-correspondance des m=C3=A9tadonn=C3=A9es fich=
+iers/bordereau (nom de fichier diff=C3=A9rent par exemple) mais cela me sem=
+ble couvert par tes cas.
+
+=20
+
+Nicolas
+
+=20
+
+De : CASIMIRIUS Thierry IDEF MINDEF=20
+Envoy=C3=A9 : mardi 11 octobre 2016 12:43
+=C3=80 : BEL Nicolas ASC NIV I OA
+Cc : CHEVENIER Olivier ASC NIV I OA; GODET Annie CHAR ETU DOC PPL 2
+Objet : Cas de SIP SEDA NOK
+
+=20
+
+Nicolas,
+
+=20
+
+J=E2=80=99ai identifi=C3=A9 6 crit=C3=A8res de non acceptation d=E2=80=99un=
+ SIP SEDA (SIP NOK). J=E2=80=99ai exclu les cas de non-respect de la norme =
+XML, et XSD SEDA
+
+=20
+
+=20
+
+Qu=E2=80=99en dis-tu ?=20
+
+Vois-tu d=E2=80=99autres cas ?
+
+=20
+
+Cas d'erreur SIP NOK
+
+Description
+
+A
+
+nombre d'objets dans bordereau et dans SIP diff=C3=A9rent
+
+B
+
+au moins un format de fichier "archive"dans SIP diff=C3=A9rent de celui ide=
+ntifi=C3=A9 dans bordereau
+
+C
+
+au moins une taille d'un fichier "archive" dans SIP diff=C3=A9rente de celu=
+i identifi=C3=A9 dans bordereau
+
+D
+
+au moins une empreinte d'un fichier "archive" dans SIP incorrect dans borde=
+reau
+
+E
+
+au moins une date de derni=C3=A8ere modification d'un fichier "archive" dif=
+f=C3=A9rente de celle indiqu=C3=A9e dans bordereau
+
+F
+
+au moins une r=C3=A8gle de sort final non respect=C3=A9e : le moment d'appl=
+ication d'un sort final d'un groupe d'objets est ant=C3=A9rieur =C3=A0 celu=
+i d'un objet de niveau inf=C3=A9rieur.
+
+=20
+
+D=E2=80=99avance, merci,
+
+=20
+
+Cordialement,
+
+=20
+
+Thierry CASIMIRIUS
+
+Adjoint au chef du bureau des technologies d=E2=80=99information
+
+Service historique de la D=C3=A9fense
+
+SGA/DMPA/SHD/PPST/BTI
+
+T=C3=A9l : 01 41 93 20 45
+------=_Part_521_6471710.1517006388324
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; charset=3Diso-8859-=
+1">
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40"><head><meta name=3DGenerator content=3D"Microso=
+ft Word 14 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+=09{font-family:Calibri;
+=09panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+=09{font-family:Tahoma;
+=09panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+=09{margin:0cm;
+=09margin-bottom:.0001pt;
+=09font-size:11.0pt;
+=09font-family:"Calibri","sans-serif";
+=09mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+=09{mso-style-priority:99;
+=09color:blue;
+=09text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+=09{mso-style-priority:99;
+=09color:purple;
+=09text-decoration:underline;}
+span.EmailStyle17
+=09{mso-style-type:personal;
+=09font-family:"Calibri","sans-serif";
+=09color:windowtext;}
+span.EmailStyle18
+=09{mso-style-type:personal-reply;
+=09font-family:"Calibri","sans-serif";
+=09color:#1F497D;}
+.MsoChpDefault
+=09{mso-style-type:export-only;
+=09font-size:10.0pt;}
+@page WordSection1
+=09{size:612.0pt 792.0pt;
+=09margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+div.WordSection1
+=09{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DFR link=3Dblue vlink=
+=3Dpurple><div class=3DWordSection1><p class=3DMsoNormal><span style=3D'col=
+or:#1F497D'>Bonjour Thierry, <o:p></o:p></span></p><p class=3DMsoNormal><sp=
+an style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal=
+><span style=3D'color:#1F497D'>En effet, si l&#8217;on exclut les cas de no=
+n-respect xml/xsd SEDA cela me semble bon.<o:p></o:p></span></p><p class=3D=
+MsoNormal><span style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p clas=
+s=3DMsoNormal><span style=3D'color:#1F497D'>Je pensais =C3=A0 ajouter non-c=
+orrespondance des m=C3=A9tadonn=C3=A9es fichiers/bordereau (nom de fichier =
+diff=C3=A9rent par exemple) mais cela me semble couvert par tes cas.<o:p></=
+o:p></span></p><p class=3DMsoNormal><span style=3D'color:#1F497D'><o:p>&nbs=
+p;</o:p></span></p><p class=3DMsoNormal><span style=3D'color:#1F497D'>Nicol=
+as<o:p></o:p></span></p><p class=3DMsoNormal><span style=3D'color:#1F497D'>=
+<o:p>&nbsp;</o:p></span></p><div><div style=3D'border:none;border-top:solid=
+ #B5C4DF 1.0pt;padding:3.0pt 0cm 0cm 0cm'><p class=3DMsoNormal><b><span sty=
+le=3D'font-size:10.0pt;font-family:"Tahoma","sans-serif";mso-fareast-langua=
+ge:FR'>De&nbsp;:</span></b><span style=3D'font-size:10.0pt;font-family:"Tah=
+oma","sans-serif";mso-fareast-language:FR'> CASIMIRIUS Thierry IDEF MINDEF =
+<br><b>Envoy=C3=A9&nbsp;:</b> mardi 11 octobre 2016 12:43<br><b>=C3=80&nbsp=
+;:</b> BEL Nicolas ASC NIV I OA<br><b>Cc&nbsp;:</b> CHEVENIER Olivier ASC N=
+IV I OA; GODET Annie CHAR ETU DOC PPL 2<br><b>Objet&nbsp;:</b> Cas de SIP S=
+EDA NOK<o:p></o:p></span></p></div></div><p class=3DMsoNormal><o:p>&nbsp;</=
+o:p></p><p class=3DMsoNormal>Nicolas,<o:p></o:p></p><p class=3DMsoNormal><o=
+:p>&nbsp;</o:p></p><p class=3DMsoNormal>J&#8217;ai identifi=C3=A9 6 crit=C3=
+=A8res de non acceptation d&#8217;un SIP SEDA (SIP NOK). J&#8217;ai exclu l=
+es cas de non-respect de la norme XML, et XSD SEDA<o:p></o:p></p><p class=
+=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p=
+><p class=3DMsoNormal>Qu&#8217;en dis-tu&nbsp;? <o:p></o:p></p><p class=3DM=
+soNormal>Vois-tu d&#8217;autres cas&nbsp;?<o:p></o:p></p><p class=3DMsoNorm=
+al><o:p>&nbsp;</o:p></p><table class=3DMsoNormalTable border=3D0 cellspacin=
+g=3D0 cellpadding=3D0 width=3D1097 style=3D'width:823.0pt;margin-left:-1.15=
+pt;border-collapse:collapse'><tr style=3D'height:15.0pt'><td width=3D80 now=
+rap valign=3Dbottom style=3D'width:60.0pt;border:solid windowtext 1.0pt;pad=
+ding:0cm 3.5pt 0cm 3.5pt;height:15.0pt'><p class=3DMsoNormal><span style=3D=
+'color:black;mso-fareast-language:FR'>Cas d'erreur SIP NOK<o:p></o:p></span=
+></p></td><td width=3D1017 nowrap valign=3Dbottom style=3D'width:763.0pt;bo=
+rder:solid windowtext 1.0pt;border-left:none;padding:0cm 3.5pt 0cm 3.5pt;he=
+ight:15.0pt'><p class=3DMsoNormal><span style=3D'color:black;mso-fareast-la=
+nguage:FR'>Description<o:p></o:p></span></p></td></tr><tr style=3D'height:1=
+5.0pt'><td width=3D80 nowrap valign=3Dbottom style=3D'width:60.0pt;border:s=
+olid windowtext 1.0pt;border-top:none;padding:0cm 3.5pt 0cm 3.5pt;height:15=
+.0pt'><p class=3DMsoNormal><span style=3D'color:black;mso-fareast-language:=
+FR'>A<o:p></o:p></span></p></td><td width=3D1017 nowrap valign=3Dbottom sty=
+le=3D'width:763.0pt;border-top:none;border-left:none;border-bottom:solid wi=
+ndowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 3.5pt 0cm 3.=
+5pt;height:15.0pt'><p class=3DMsoNormal><span style=3D'color:black;mso-fare=
+ast-language:FR'>nombre d'objets dans bordereau et dans SIP diff=C3=A9rent<=
+o:p></o:p></span></p></td></tr><tr style=3D'height:15.0pt'><td width=3D80 n=
+owrap valign=3Dbottom style=3D'width:60.0pt;border:solid windowtext 1.0pt;b=
+order-top:none;padding:0cm 3.5pt 0cm 3.5pt;height:15.0pt'><p class=3DMsoNor=
+mal><span style=3D'color:black;mso-fareast-language:FR'>B<o:p></o:p></span>=
+</p></td><td width=3D1017 nowrap valign=3Dbottom style=3D'width:763.0pt;bor=
+der-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-r=
+ight:solid windowtext 1.0pt;padding:0cm 3.5pt 0cm 3.5pt;height:15.0pt'><p c=
+lass=3DMsoNormal><span style=3D'color:black;mso-fareast-language:FR'>au moi=
+ns un format de fichier &quot;archive&quot;dans SIP diff=C3=A9rent de celui=
+ identifi=C3=A9 dans bordereau<o:p></o:p></span></p></td></tr><tr style=3D'=
+height:15.0pt'><td width=3D80 nowrap valign=3Dbottom style=3D'width:60.0pt;=
+border:solid windowtext 1.0pt;border-top:none;padding:0cm 3.5pt 0cm 3.5pt;h=
+eight:15.0pt'><p class=3DMsoNormal><span style=3D'color:black;mso-fareast-l=
+anguage:FR'>C<o:p></o:p></span></p></td><td width=3D1017 nowrap valign=3Dbo=
+ttom style=3D'width:763.0pt;border-top:none;border-left:none;border-bottom:=
+solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;padding:0cm 3.5p=
+t 0cm 3.5pt;height:15.0pt'><p class=3DMsoNormal><span style=3D'color:black;=
+mso-fareast-language:FR'>au moins une taille d'un fichier &quot;archive&quo=
+t; dans SIP diff=C3=A9rente de celui identifi=C3=A9 dans bordereau<o:p></o:=
+p></span></p></td></tr><tr style=3D'height:15.0pt'><td width=3D80 nowrap va=
+lign=3Dbottom style=3D'width:60.0pt;border:solid windowtext 1.0pt;border-to=
+p:none;padding:0cm 3.5pt 0cm 3.5pt;height:15.0pt'><p class=3DMsoNormal><spa=
+n style=3D'color:black;mso-fareast-language:FR'>D<o:p></o:p></span></p></td=
+><td width=3D1017 nowrap valign=3Dbottom style=3D'width:763.0pt;border-top:=
+none;border-left:none;border-bottom:solid windowtext 1.0pt;border-right:sol=
+id windowtext 1.0pt;padding:0cm 3.5pt 0cm 3.5pt;height:15.0pt'><p class=3DM=
+soNormal><span style=3D'color:black;mso-fareast-language:FR'>au moins une e=
+mpreinte d'un fichier &quot;archive&quot; dans SIP incorrect dans bordereau=
+<o:p></o:p></span></p></td></tr><tr style=3D'height:15.0pt'><td width=3D80 =
+nowrap valign=3Dbottom style=3D'width:60.0pt;border:solid windowtext 1.0pt;=
+border-top:none;padding:0cm 3.5pt 0cm 3.5pt;height:15.0pt'><p class=3DMsoNo=
+rmal><span style=3D'color:black;mso-fareast-language:FR'>E<o:p></o:p></span=
+></p></td><td width=3D1017 nowrap valign=3Dbottom style=3D'width:763.0pt;bo=
+rder-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;border-=
+right:solid windowtext 1.0pt;padding:0cm 3.5pt 0cm 3.5pt;height:15.0pt'><p =
+class=3DMsoNormal><span style=3D'color:black;mso-fareast-language:FR'>au mo=
+ins une date de derni=C3=A8ere modification d'un fichier &quot;archive&quot=
+; diff=C3=A9rente de celle indiqu=C3=A9e dans bordereau<o:p></o:p></span></=
+p></td></tr><tr style=3D'height:15.0pt'><td width=3D80 nowrap valign=3Dbott=
+om style=3D'width:60.0pt;border:solid windowtext 1.0pt;border-top:none;padd=
+ing:0cm 3.5pt 0cm 3.5pt;height:15.0pt'><p class=3DMsoNormal><span style=3D'=
+color:black;mso-fareast-language:FR'>F<o:p></o:p></span></p></td><td width=
+=3D1017 nowrap valign=3Dbottom style=3D'width:763.0pt;border-top:none;borde=
+r-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowt=
+ext 1.0pt;padding:0cm 3.5pt 0cm 3.5pt;height:15.0pt'><p class=3DMsoNormal><=
+span style=3D'color:black;mso-fareast-language:FR'>au moins une r=C3=A8gle =
+de sort final non respect=C3=A9e : le moment d'application d'un sort final =
+d'un groupe d'objets est ant=C3=A9rieur =C3=A0 celui d'un objet de niveau i=
+nf=C3=A9rieur.<o:p></o:p></span></p></td></tr></table><p class=3DMsoNormal>=
+<o:p>&nbsp;</o:p></p><p class=3DMsoNormal>D&#8217;avance, merci,<o:p></o:p>=
+</p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span st=
+yle=3D'color:black;mso-fareast-language:FR'>Cordialement,<o:p></o:p></span>=
+</p><p class=3DMsoNormal><span style=3D'color:black;mso-fareast-language:FR=
+'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span style=3D'color:bla=
+ck;mso-fareast-language:FR'>Thierry CASIMIRIUS<o:p></o:p></span></p><p clas=
+s=3DMsoNormal><span style=3D'color:black;mso-fareast-language:FR'>Adjoint a=
+u chef du bureau des technologies d&#8217;information<o:p></o:p></span></p>=
+<p class=3DMsoNormal><span style=3D'color:black;mso-fareast-language:FR'>Se=
+rvice historique de la D=C3=A9fense<o:p></o:p></span></p><p class=3DMsoNorm=
+al><span style=3D'color:black;mso-fareast-language:FR'>SGA/DMPA/SHD/PPST/BT=
+I<o:p></o:p></span></p><p class=3DMsoNormal><span style=3D'color:black;mso-=
+fareast-language:FR'>T=C3=A9l&nbsp;: 01 41 93 20 45<o:p></o:p></span></p><p=
+ class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+------=_Part_521_6471710.1517006388324--
+
+------=_Part_520_16679802.1517006388324--

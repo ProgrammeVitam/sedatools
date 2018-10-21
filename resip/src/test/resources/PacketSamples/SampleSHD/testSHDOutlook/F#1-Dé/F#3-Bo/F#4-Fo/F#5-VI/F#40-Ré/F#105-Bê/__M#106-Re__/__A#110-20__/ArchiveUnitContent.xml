@@ -1,0 +1,387 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>20160115_NP_VITAM_storymap_0.5.odt</Title>
+    <Description>Document &quot;20160115_NP_VITAM_storymap_0.5.odt&quot; joint au message &lt;57C6D488.2020102@culture.gouv.fr&gt;</Description>
+    <CreatedDate>2016-08-31T13:01:21Z</CreatedDate>
+    <TextContent>
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+Projet solution logicielle Vitam
+Storymap
+Document d&apos;accompagnement
+
+	Date
+	Version
+
+	15 janvier 2016
+	0.5
+
+
+
+État du document
+
+Maîtrise du document
+	Responsabilité
+	Nom
+	Entité
+	Date
+
+	Rédaction
+	EVR
+	Équipe noyau Vitam
+	14/11/2015
+
+	Vérification 
+	JSL
+	Équipe noyau Vitam
+	07/12/2015
+
+	Validation 
+	
+	
+	
+
+
+Suivi des modifications
+	Version
+	Date
+	Auteur
+	Modifications
+
+	0.1
+	29/10/2015
+	EVR
+	Initialisation
+
+	0.2
+	12/11/2015
+	EVR
+	Prise en compte des modifications demandées par les membres de l’équipe Vitam
+
+	0.3
+	13/11/2015
+	EVR, GSB, JSL
+	Revue collégiale
+
+	0.4
+	07/12/2015
+	EVR
+	Prise en compte des modifications demandées par les équipes projets ministérielles et les partenaires
+
+	0.5
+	15/01/2016
+	EVR
+	Prise en compte des modifications demandées par les équipes projets ministérielles et les partenaires
+
+
+Documents de référence
+	Document
+	Version
+	Date
+	Remarques
+
+	Modèle de spécifications générales du SAE Vitam
+	V 1.2
+	02/12/2014
+	Document publié sur l&apos;espace de travail Sémaphore du programme (diffusion restreinte)
+
+	Storymap établie dans le cadre de la prestation effectuée par la société OCTO
+	
+	04/2015
+	Document affiché dans la salle de réunion de l’équipe Vitam
+
+	Répartition des tâches entre SIA et SAE
+	V 0.3
+	18/06/2015
+	Document diffusé aux projets ministériels le 18/06/2015
+
+	Chantier préparation des versements – point d&apos;étape
+	V 0.1
+	27/07/2015
+	Document diffusé aux projets ministériels le 27/07/2015
+
+	CCTP du marché de réalisation de la solution logicielle Vitam, annexe fonctionnelle et annexe technique au CCTP
+	V 1.0
+	29/07/2015
+	Documents intégrés dans le DCE publié sur la PLACE le 12/08/2015
+
+
+
+Table des matières
+
+Table des matières	3
+1. Contexte d&apos;élaboration du document	4
+2. Présentation de la storymap de la solution logicielle Vitam	4
+2.1. Objectifs de la storymap ?	4
+2.2. Architecture générale de la solution logicielle Vitam	5
+2.3. Acteurs d’une plate-forme utilisant la solution logicielle Vitam	7
+3. Contexte d’élaboration de la storymap	7
+3.1. Mode d’élaboration du projet de storymap	7
+3.2. Grands principes retenus	8
+3.3. Points à signaler	9
+4. Structuration de la storymap	10
+4.1. Répartition des différents onglets	10
+4.2. Structuration de chaque onglet	10
+
+
+
+1. Contexte d&apos;élaboration du document
+
+Le programme Vitam, lancé le 9 mars 2015, a publié le 12 août 2015 un dossier de consultation des entreprises portant sur le développement et l’intégration d’une solution logicielle d’archivage électronique appelée Vitam.
+
+Les travaux de réalisation de la solution logicielle, avec les titulaires du marché, doivent être lancés en janvier 2016, une fois la notification effectuée.
+
+Le cahier des clauses techniques particulières de ce marché prévoit dans sa section 4.4.1., conformément à la méthodologie Agile retenue pour la réalisation de la solution logicielle, une phase de démarrage qui comprend :
+	la préparation de users stories fonctionnelles et techniques, permettant le début des développements, en prévoyant au moins deux itérations d&apos;avance ;
+
+	la réalisation du développement agile de user stories, notamment pour éprouver l&apos;organisation sur deux itérations par équipe [de développement].
+
+
+Ce travail en profondeur n’est cependant pas possible avant de disposer d’une vue globale et transversale de la solution logicielle Vitam attendue. 
+Prenant acte de ce constat, l’équipe programme Vitam a décidé en octobre 2015 de :
+	formaliser la storymap de la solution logicielle Vitam, initiée dans le cadre d’une prestation réalisée par la société OCTO en avril 2015 ;
+
+	préciser la roadmap du produit, notamment la vision de ce que sera le premier produit (version du produit au terme de la première release, soit 15 semaines à compter du lancement de la réalisation) et bêta (version du produit 9 mois à compter de la notification), en actualisant et en précisant la vision donnée dans la section 4.4. du CCTP.
+
+
+
+Ces travaux permettront aux acteurs du programme Vitam de disposer, au moment du démarrage de la réalisation, d’une vision globale et partagée de la solution logicielle Vitam.
+
+Le présent document constitue un document d’accompagnement du projet de storymap élaboré par l’équipe interministérielle. Il vise à favoriser la compréhension par les équipes projets ministérielles et par les partenaires du programme Vitam de la storymap, afin de préparer au mieux la réunion d’échange programmée le 19 novembre 2015. 
+
+2. Présentation de la storymap de la solution logicielle Vitam
+
+2.1. Objectifs de la storymap ?
+
+La storymap du projet solution logicielle Vitam répond à quatre objectifs :
+	permettre à tous les acteurs du programme Vitam (équipe interministérielle, équipes projets ministérielles, partenaires) de :
+	s’accorder sur tous les domaines fonctionnels devant être traités dans le cadre du projet solution logicielle, en se fondant sur la liste des activités réalisées par les utilisateurs ;
+
+	naviguer entre les activités vues depuis les applications et Interfaces Homme-Machine (IHM) frontales utilisées par les acteurs (services producteurs et versants, archivistes, grand public, archiviste super utilisateur, administrateur technique de la plate-forme) et les activités vues depuis le cœur de la solution logicielle Vitam dans une vision back-office. Seules les activités vues depuis la solution logicielle Vitam ont vocation à être déclinées en user stories ;
+
+	prioriser les travaux de réalisation de la solution logicielle Vitam, en se focalisant sur la valeur métier des activités pour les utilisateurs ;
+
+
+
+	offrir aux équipes de réalisation et aux nouveaux acteurs du programme Vitam une vue globale du produit attendu, au-delà du fractionnement induit par la méthodologie Agile.
+
+
+
+Le projet de document soumis à la relecture des équipes projets ministérielles et des partenaires pourra évoluer au fur et à mesure de la réalisation de la solution logicielle, pour prendre en compte des activités et besoins non identifiés par les acteurs du programme à ce stade du projet. 
+
+2.2. Architecture générale de la solution logicielle Vitam
+
+Une plate-forme d’archivage utilisant la solution logicielle Vitam comprend : 
+	des applications de front office, permettant à des utilisateurs d’accéder aux objets archivés à des fins de recherche, consultation, gestion du cycle de vie ou préservation :
+
+
+		le système d’information archivistique (SIA) ;
+
+	des applications tierces, notamment les applications métier des services producteurs ;
+
+
+
+	le back-office Vitam, appuyé sur des offres de stockage assurant la conservation binaire des objets archivés, incluant cœur Vitam et IHM Vitam ;
+
+	des applications tierces versant des objets dans la plate-forme.
+
+
+
+
+Le schéma ci-dessous illustre cette vision d’architecture. 
+
+
+
+2.3. Acteurs d’une plate-forme utilisant la solution logicielle Vitam
+
+En préalable à l’élaboration de la storymap de la solution logicielle Vitam ont été définis, dans le cadre d’un travail commun entre équipe interministérielle et équipes projets ministérielles, neuf acteurs types (des personas au sens de la méthodologie agile), bénéficiaires des activités réalisées par les utilisateurs de la plate-forme d’archivage à partir de ses front-office ou des interfaces homme-machine (IHM) du back-office Vitam. Certains de ces acteurs peuvent être des utilisateurs directs de la plate-forme.
+
+Les neuf acteurs types retenus sont les suivants :
+	administrateur [technique] de la plate-forme ;
+
+	archiviste expert, sollicité sur projet, chargé de la définition des stratégies d’archivage des applications et, par conséquent, de l’expression de besoin en transfert et en accès des applications tierces ;
+
+	archiviste, chargé de la gestion du cycle de vie des archives transférées dans la plate-forme et de l’instruction des demandes de consultation ;
+
+	développeur, chargé de l’interfaçage entre le back-office Vitam et les applications tierces ;
+
+	juge, habilité à faire des demandes d&apos;accès ou de gel dans le cadre d&apos;une procédure judiciaire ;
+
+	super-utilisateur archiviste, chargé de l’administration fonctionnelle de la plate-forme, de la planification et de la réalisation des actions de préservation et, tant que le back office Vitam n’est pas interconnecté avec le SIA, du suivi des entrées et des accès, ainsi que de la gestion du cycle de vie des archives transférées dans la plate-forme ;
+
+	utilisateur du service versant, chargé de préparer les archives à transférer ;
+
+	utilisateur du service producteur/service héritier/ayant droit, habilité à faire des recherches et des demandes d’accès ainsi qu’à instruire les activités associées à la gestion du cycle de vie des archives et à l’instruction des demandes de consultation, sur son périmètre de droits ;
+
+	utilisateur grand public, habilité à faire des recherches et des demandes d’accès, sur son périmètre de droits.
+
+
+
+3. Contexte d’élaboration de la storymap
+
+3.1. Mode d’élaboration du projet de storymap
+
+La version de la storymap de la solution logicielle Vitam soumise au commentaire des équipes projets ministérielles et des partenaires a été élaboré en deux phases.
+
+Dans une première phase (avril 2015), dans le cadre d’une prestation de montée en compétences sur la méthodologie Agile réalisée par la société OCTO, les membres de l’équipe Vitam et les directeurs des projets ministériels ont réalisé une première ébauche. 
+Ce premier document, sous forme de post it organisés sur papier kraft affiché dans la salle de réunion de l’équipe interministérielle, a toujours été considéré comme un brouillon perfectible et n’avait en conséquence pas fait l’objet d’une large diffusion auprès des membres des équipes projets ministériels ou des partenaires. L’équipe interministérielle a rapidement ressenti la nécessité de disposer d’une version plus précise, une fois la méthodologie Agile un peu mieux appropriée. 
+
+Aussi, dans une seconde phase commencée en octobre 2015, l’équipe interministérielle a repris le travail d’élaboration de la storymap, dans le cadre de séances collectives de discussions, sur la base de deux réunions par semaine. 
+
+Le projet de storymap prend en compte :
+	l’expression de besoin formulée par l’équipe de préfiguration du programme Vitam entre l’automne 2013 et l’automne 2014, qui avait pris la forme d’un modèle de spécifications ;
+
+	les besoins identifiés lors des échanges survenus depuis avril 2015 avec les équipes projets ministérielles et les partenaires (notamment le MEDDE et l’équipe projet DiaDEM) ;
+
+	le résultat des échanges avec les équipes projets ministériels sur l’interfaçage entre les SIA et la solution logicielle Vitam ainsi que sur la répartition des fonctions entre les deux applicatifs ;
+
+	les travaux fonctionnels organisés par l’équipe interministérielle dans le cadre de deux chantiers :
+	chantier « préparation des versements », pour lequel un premier document d’étape a été transmis aux projets ministériels le 27 juillet 2015. Un deuxième document d’étape est en cours d’élaboration suite à la réunion de convergence organisée le 12 octobre 2015 ;
+
+	chantier « accès » lancé en juillet 2015.
+
+
+
+
+
+3.2. Grands principes retenus
+
+Lors de l’élaboration du projet de storymap soumis à l’examen des équipes projets ministérielles, l’équipe interministérielle a retenu les principes suivants :
+	positionner l’utilisateur au centre de la réflexion et, en conséquence, structurer la storymap autour des activités réalisées par celui-ci à son point de connexion sur la plate-forme d’archivage ; 
+
+	réunir dans une vision commune des conditions particulières ou des variantes dans l’exécution de l’activité réalisée par l’utilisateur, pour éviter la multiplication de ces mêmes activités ; 
+
+	déduire de chaque activité utilisateur les activités qui sont destinées à être réalisées par la solution logicielle Vitam.
+
+
+
+Le projet de storymap ne traite pas de l’ensemble des activités réalisées par les utilisateurs au moyen de la plate-forme d’archivage. Seules les activités impliquant la solution logicielle Vitam ou les activités où il est utile de préciser la limitation du rôle de cette solution (ex. : préparation des entrées) ont été recensées dans le projet. En conséquence, les activités n’impliquant sans aucun doute possible aucune activité dans la solution logicielle Vitam  (ex. : organisation des salles de lecture des services d’archives, description des magasins de stockage physique des archives, inscription des lecteurs dans les salles de lecture des services d’archives, etc.) sont exclues du présent document. 
+
+Les domaines fonctionnels « Gestion de la donnée » et « Stockage », de nature beaucoup plus technique, intègrent également des tâches importantes strictement internes à la solution logicielle Vitam. Celles-ci ont été intégrées dans la storymap, en indiquant qu’elles n’avaient pas d’activité utilisateur correspondante.
+
+3.3. Points à signaler
+
+Lors du travail d’élaboration du projet de storymap, l’équipe interministérielle a affiné sa vision d’un certain nombre de points, notamment en termes de découpage fonctionnel et de définition des IHM. 
+
+Découpage fonctionnel
+
+Dans ses précédents travaux, l’équipe interministérielle s’était efforcée de respecter le modèle OAIS et avait donc découpé fonctionnellement la solution en six domaines :
+	entrées ;
+
+	administration ;
+
+	gestion de la donnée ;
+
+	préservation ;
+
+	stockage qui correspond au pilotage du stockage et pas au stockage lui-même qui peut faire l’objet du recours à une utilisation externe ;
+
+	accès.
+
+
+Le modèle OAIS présente cependant un certain nombre de manques, faute notamment de prise en compte des activités liées à la gestion du cycle de vie des archives et à la mise en œuvre de leur sort final : élimination, modification des métadonnées (y compris de gestion), reclassement/retraitement, déclassification, préparation d’un transfert vers un autre service d’archives ou sortie définitive, etc. 
+L’équipe interministérielle a décidé de regrouper dans un domaine fonctionnel spécifique, intitulé « gestion des archives existantes », toutes les activités de gestion du cycle de vie des archives. 
+
+Par ailleurs, le domaine fonctionnel administration qui rassemble toutes les fonctions transverses de pilotage de la solution logicielle Vitam a été éclaté entre l’administration fonctionnelle et l’administration technique.
+
+IHM
+
+L’équipe interministérielle a affiné sa vision des IHM de la solution logicielle Vitam en distinguant quatre catégories d’interfaces, hors interfaces des front-offices :
+	une IHM d&apos;administration fonctionnelle et technique, qui doit être obligatoirement fournie aux équipes projet ministérielles lors de la réalisation de la solution logicielle, et qui doit être pérenne et ergonomique ;
+
+	une IHM dite « minimale », qui devrait permettre aux équipes projets ministérielles et aux partenaires, en attendant que leur SIA soit connecté à leur back-office Vitam, de réaliser a minima les activités utilisateurs associés aux domaines fonctionnels entrées, accès et gestion des objets archivés. Cette interface sera dotée d’une ergonomie limitée et ne permettra pas de mettre en place des workflow ou d’une gestion des droits fines en fonction de différents profils. Elle n’est destinée à être pérenne que dans les implémentations non dotées de SIA et ne pourra être utilisée que par un faible nombre d&apos;utilisateurs ;
+
+	une ou plusieurs IHM adaptées aux tâches de recette utilisées par l&apos;équipe interministérielle, les équipes projets ministérielles ou les partenaires. Faiblement ergonomiques, elles devraient permettre aux testeurs de vérifier que les tâches réalisées par la solution logicielle Vitam s’exécutent bien, par exemple au travers de l’analyse des logs ou de la vérification de paramétrages ;
+
+	des IHM de démonstration qui pourraient permettre aux équipes projets ministérielles et aux partenaires d’expérimenter des modalités de réalisation innovantes des activités utilisateurs. Les interfaces correspondantes seront développées pour être utilisables dans les environnements de recette et de démonstration (usine logicielle de l’intégrateur et ordinateurs portables de démonstration). Elles n’auront pas vocation à être exploitables dans les environnements de production, sauf s’ils sont identiques aux environnements de recette et de démonstration et n’auront pas vocation à être pérennes.
+
+
+
+4. Structuration de la storymap
+
+4.1. Répartition des différents onglets
+
+La storymap de la solution logicielle Vitam prend la forme d’un document au format tableur organisé en différents onglets. 
+
+Les huit premiers onglets détaillent chacun un domaine fonctionnel particulier, correspondant à une catégorisation intellectuelle. Le dernier onglet liste les objets et concepts métiers sur lesquels équipe interministérielle Vitam, équipes projets ministérielles et partenaires doivent s&apos;accorder pour garantir une compréhension et utilisation cohérentes de la solution logicielle Vitam.
+
+4.2. Structuration de chaque onglet
+
+Chaque onglet correspondant à un domaine fonctionnel est structuré comme suit : 
+
+	Thème
+	Description du thème
+
+	Activité utilisateur
+	Action élémentaire lancée volontairement par un acteur qui veut la voir réalisée comme un tout ayant un sens métier. Quand cela est pertinent elle sera découpée en tâches dans le processus de rédaction des users stories. 
+Cette action est destinée à être réalisée depuis les front office ou les IHM du back office Vitam (cf. schéma ci-dessus)
+
+	Description et présentation
+	Présentation détaillée de l’activité utilisateur
+
+	Acteurs concernés
+	Énumération des acteurs susceptibles d’intervenir dans la réalisation de l’activité, parmi les neuf acteurs types identifiés
+
+	IHM cible
+	IHM permettant à terme à un utilisateur de réaliser l’activité concernée
+
+	Version
+	Version de la solution logicielle Vitam à partir de laquelle des activités Vitam commencent à être disponibles pour mettre en œuvre l’activité utilisateur correspondante.
+
+	Condition générale
+	Cas principal général de l’activité, correspondant au périmètre du premier développement
+
+	Conditions particulières/variantes
+	Élément pouvant induire un changement de séquencement ou de contenu d&apos;une tâche utilisateur, par rapport au cas principal général. 
+Par exemple caractéristique spéciale d&apos;un objet manipulé (classifié…), mode de déclenchement spécifique (manuel vs. automatique) ou contexte externe. 
+En termes de développement cela peut induire une diversification des user stories.
+Une description détaillée des conditions particulières est fournie dans une colonne séparée, située à droite de la précédente.
+
+	Activité Vitam
+	Ensemble de fonctionnalités du SAE qui peut être mobilisé et déclenché pour réaliser l’activité utilisateur associée, sans entrer dans une vision séquencée.
+Dans la storymap quand cette activité existe déjà, elle est mise sur fond blanc (cf. gestion et accès)
+
+	Mode de fractionnement en stories
+	Étapes du processus permettant de réaliser une activité Vitam, qui se rapprochent de la granularité des user stories ou autre mode de décomposition de l&apos;activité pour se rapprocher de cette granularité .
+
+	Type d&apos;IHM de la solution logicielle Vitam
+	Interface permettant à un utilisateur de réaliser ou de démontrer la réalisation d’une tâche utilisateur. 
+
+	Description de l’IHM envisagée
+	Écrans à concevoir et à réaliser lors du développement des IHM de la solution logicielle Vitam
+
+	Multi-tenant
+	Cette activité est-elle utilisable par différentes entités de manière indépendante ?
+
+	Premier produit
+	Activités à développer dans la solution logicielle Vitam au terme de la phase de démarrage de la réalisation de la solution logicielle (fin de la 1e release, T1 + 15 semaines).
+Cette release constitue une phase de rodage de l’usine de développement et de réalisation
+
+	Produit minimum viable
+	Activités à développer dans la solution logicielle au terme de la phase bêta (T1 + 9 mois).
+NB : les besoins exprimés par les projets à la date de rédaction du document sont :
+- Saphir (MAEDI) : faire une entrée correspondant à la reprise des données des télégrammes (1982-2014) sous la forme d’un SIP conforme au SEDA 2.0. 
+- GV2A (Mindef) : faire une entrée transférée depuis l’application Alpha sous la forme d’un SIP conforme au SEDA 2.0. 
+
+
+
+Il convient de noter que le choix des couleurs est arbitraire et n’a aucune signification précise.
+
+À ce stade il est important que l&apos;équipe interministérielle, les équipes projets ministérielles et les partenaires s&apos;accordent sur les activités utilisateur, les descriptions, les acteurs concernés et les conditions particulières. 
+
+Les autres thèmes sont communiqués à ce stade pour illustrer la manière dont les travaux vont se poursuivre afin d’aboutir aux user stories à développer. Seuls quelques cas de « modes de fractionnement en stories » ont été développés pour l&apos;exemple.
+</TextContent>
+</Content>

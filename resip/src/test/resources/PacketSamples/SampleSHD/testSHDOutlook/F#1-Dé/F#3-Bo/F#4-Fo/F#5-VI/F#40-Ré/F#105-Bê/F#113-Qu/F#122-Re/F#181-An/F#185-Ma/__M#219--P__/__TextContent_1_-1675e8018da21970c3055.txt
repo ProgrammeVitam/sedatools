@@ -1,0 +1,38 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=38 
+====================================================================== 
+Rapporteur:                 Vincent
+Responsable:                Vincent
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   38
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-23 17:25 CET
+Dernière modification:      2016-12-23 17:25 CET
+====================================================================== 
+Résumé:                     [Besoin Métier Légitime] - Taille de l'objet ne
+correspond pas au manifest
+Description: 
+Lorsque l'on rempli le champ Size de BinaryDataObject avec une mauvaise valeur
+(taille du fichier), l'ingest renvoi un ReplyCode OK et non KO.
+
+Informations complémentaires: 
+PVI-25
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-23 17:25 Vincent        Nouveau bogue                                
+2016-12-23 17:25 Vincent        Statut                   nouveau => affecté  
+2016-12-23 17:25 Vincent        Assigné à                 => Vincent         
+======================================================================

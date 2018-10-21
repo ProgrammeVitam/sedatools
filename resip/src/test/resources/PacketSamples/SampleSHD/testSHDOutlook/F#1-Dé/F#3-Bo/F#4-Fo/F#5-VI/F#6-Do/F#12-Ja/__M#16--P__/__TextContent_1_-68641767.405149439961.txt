@@ -1,0 +1,73 @@
+Programme Vitam - Changements récents
+
+Casimirius,
+
+Voici 16 nouvelles contributions / mises à jour sur Programme Vitam. 
+
+Chantier livraison Release <https://vitam.jaliosagora.com/jcms/c_2005481/fr/chantier-livraison-release>  	
+20170424 NP Organisation-de-information V1.1 <https://vitam.jaliosagora.com/jcms/c_2006374/fr/20170424-np-organisation-de-information-v1-1> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:42 
+Catégories : Documentation générale <https://vitam.jaliosagora.com/jcms/c_2006262/fr/documentation-generale> 
+ 
+20170420 NP Valeur probante V1.2 <https://vitam.jaliosagora.com/jcms/c_2006375/fr/20170420-np-valeur-probante-v1-2> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:42 
+Catégories : Documentation générale <https://vitam.jaliosagora.com/jcms/c_2006262/fr/documentation-generale> 
+ 
+20170424 NP Vitam regles gestion V0.3 <https://vitam.jaliosagora.com/jcms/c_2006376/fr/20170424-np-vitam-regles-gestion-v0-3> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:42 
+Catégories : Documentation fonctionnelle <https://vitam.jaliosagora.com/jcms/c_2006261/fr/documentation-fonctionnelle> 
+ 
+20170424 NP Vitam Design SIP V1.8 <https://vitam.jaliosagora.com/jcms/c_2006377/fr/20170424-np-vitam-design-sip-v1-8> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:42 
+Catégories : Documentation fonctionnelle <https://vitam.jaliosagora.com/jcms/c_2006261/fr/documentation-fonctionnelle> 
+ 
+vitam-modele-workflow.0.15.1 <https://vitam.jaliosagora.com/jcms/c_2006383/fr/vitam-modele-workflow-0-15-1> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:50 
+Catégories : Documentation fonctionnelle <https://vitam.jaliosagora.com/jcms/c_2006261/fr/documentation-fonctionnelle> 
+ 
+vitam-maj-au.0.15.1 <https://vitam.jaliosagora.com/jcms/c_2006384/fr/vitam-maj-au-0-15-1> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:50 
+Catégories : Documentation fonctionnelle <https://vitam.jaliosagora.com/jcms/c_2006261/fr/documentation-fonctionnelle> 
+ 
+vitam-ihm-recette.0.15.1 <https://vitam.jaliosagora.com/jcms/c_2006385/fr/vitam-ihm-recette-0-15-1> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:50 
+Catégories : Documentation fonctionnelle <https://vitam.jaliosagora.com/jcms/c_2006261/fr/documentation-fonctionnelle> 
+ 
+vitam-manuel-utilisateur.0.15.1 <https://vitam.jaliosagora.com/jcms/c_2006386/fr/vitam-manuel-utilisateur-0-15-1> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:50 
+Catégories : Documentation fonctionnelle <https://vitam.jaliosagora.com/jcms/c_2006261/fr/documentation-fonctionnelle> 
+ 
+vitam-architecture.0.15.1-2 <https://vitam.jaliosagora.com/jcms/c_2006389/fr/vitam-architecture-0-15-1-2> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:51 
+Catégories : Documentation technique <https://vitam.jaliosagora.com/jcms/c_2006263/fr/documentation-technique> 
+ 
+vitam-documentation-installation.0.15.1 <https://vitam.jaliosagora.com/jcms/c_2006390/fr/vitam-documentation-installation-0-15-1> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:51 
+Catégories : Documentation technique <https://vitam.jaliosagora.com/jcms/c_2006263/fr/documentation-technique> 
+ 
+vitam-documentation-exploitation.0.15.1 <https://vitam.jaliosagora.com/jcms/c_2006391/fr/vitam-documentation-exploitation-0-15-1> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:51 
+Catégories : Documentation technique <https://vitam.jaliosagora.com/jcms/c_2006263/fr/documentation-technique> 
+ 
+Manuel integration applicative <https://vitam.jaliosagora.com/jcms/c_2006395/fr/manuel-integration-applicative> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:52 
+Catégories : Documentation Développeur <https://vitam.jaliosagora.com/jcms/c_2006359/fr/documentation-developpeur> 
+ 
+vitam-datamodel.0.15.1 <https://vitam.jaliosagora.com/jcms/c_2006396/fr/vitam-datamodel-0-15-1> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:52 
+Catégories : Documentation Développeur <https://vitam.jaliosagora.com/jcms/c_2006359/fr/documentation-developpeur> 
+ 
+vitam-manuel-developpement.0.15.1 <https://vitam.jaliosagora.com/jcms/c_2006397/fr/vitam-manuel-developpement-0-15-1> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:52 
+Catégories : Documentation Développeur <https://vitam.jaliosagora.com/jcms/c_2006359/fr/documentation-developpeur> 
+ 
+backlog Release3 <https://vitam.jaliosagora.com/jcms/c_2006398/fr/backlog-release3> 
+ <https://vitam.jaliosagora.com/jcms/c_2006398/fr/backlog-release3> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:53 
+Catégories : Documentation générale <https://vitam.jaliosagora.com/jcms/c_2006262/fr/documentation-generale> 
+ 
+Jeux de tests RELEASE3 <https://vitam.jaliosagora.com/jcms/c_2006399/fr/jeux-de-tests-release3> 
+Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  	Publié par Mélanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melanie-rebours>  · 09/05/2017 · 18:54 
+Catégories : Documentation générale <https://vitam.jaliosagora.com/jcms/c_2006262/fr/documentation-generale> 
+Mon profil <https://vitam.jaliosagora.com/jcms/c_2003159/fr/casimirius-thierry>  · Accueil <https://vitam.jaliosagora.com/>  
+Ce mail vous a été envoyé par Programme Vitam

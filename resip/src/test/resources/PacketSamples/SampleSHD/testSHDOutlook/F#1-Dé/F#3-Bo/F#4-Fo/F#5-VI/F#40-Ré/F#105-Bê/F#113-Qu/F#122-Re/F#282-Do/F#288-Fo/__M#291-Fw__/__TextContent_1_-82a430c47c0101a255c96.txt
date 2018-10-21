@@ -1,0 +1,250 @@
+Bonsoir Thierry,
+
+Tu trouveras ci-joint une nouvelle version du document Design SIP avec des propositions de modifications sur le sujet que tu soulèves.
+
+Est-ce que ces propositions de modifications (p. 15 et 16) te semblent suffisantes ?
+
+Excellente soirée à toi et à bientôt
+
+Edouard
+
+ 
+
+-------- Message original --------
+
+Objet:	 [bugs #51] 0000055: Rejet des SIP ne contenant pas de groupe d'objet technique	 
+Date:	 2017-01-19 17:07	 
+De:	 Tuleap <"forge__artifacts@no-reply"@programmevitam.fr>	 
+À:	 Edouard Vasseur <edouard.vasseur@culture.gouv.fr>	 
+
+ 
+
+Tuleap
+Support VITAM » Bugs » Bugs #51
+Se désinscrire <https://support.programmevitam.fr/plugins/tracker/?aid=51&func=manage-subscription> 
+
+0000055: Rejet des SIP ne contenant pas de groupe d'objet technique
+
+
+Dernières modifications
+
+
+Nathanael Attar (nattar) <mailto:nathanael.attar.ext@culture.gouv.fr> 	19/01/2017 16:07 (GMT)
+Bonjour Thierry,
+
+Cela fait sens effectivement, j'ai transmis votre demande auprès de l'Administration et reviens prochainement vers vous à cet effet.
+
+Cordialement,
+
+Nathanael
+ 	 Répondre <https://support.programmevitam.fr/plugins/tracker/?aid=51>  	
+
+État
+
+Identifiant 	 #51 <http://support.programmevitam.fr/plugins/tracker/?aid=51> 	 
+Déposé par 	 Thierry Casimirius (tcasimirius)	 
+Ministère 	 MINDEF	 
+Date de dernière modification 	 19/01/2017 16:07	 
+Date de dépôt 	 09/01/2017 18:25	 
+ 	 
+
+Détails
+
+Résumé 	 0000055: Rejet des SIP ne contenant pas de groupe d'objet technique	 
+Comportement observé 	 Tous les SIP ne contenant pas les balises ci-après sont rejetés lors de la phase d'importation : DataObjectGroupId, DataObjectVersion, DataObjectReference" et DataObjectGroupReferenceId.
+D'après le SEDA (SEDA_description_standard_v2_0), les balises indiqués ci-dessus sont optionnelles.
+
+Trois scenarii peuvent être déroulés pour reproduire l'anomalie
+----------------------------------------------------------------
+
+1- cas : importez un SIP ne contenant pas les balises "DataObjectGroupId" et "DataObjectVersion" dans le bloc "BinaryDataObject".
+
+2-cas : importez un SIP ne contenant pas les balises suivantes :
+- "DataObjectReference" et "DataObjectGroupReferenceId" dans le bloc "ArchiveUnit".
+- "DataObjectGroupId" et "DataObjectVersion" dans le bloc "BinaryDataObject".
+
+3-cas : importez un SIP ne contenant pas les balises "DataObjectReference" et "DataObjectGroupReferenceId" dans le bloc "ArchiveUnit"
+
+La US 789 indique que VITAM doit créer ou associer un GOT aux objets orphelins.
+Comment créer un objet orphelin si toutes ces balises sont obligatoires ?
+Comportement attendu 	 Les SIP doivent être importés, car toutes ces balises sont optionnelles.
+Criticité 	 Majeur	 
+Taux de reproduction 	 Systématique	 
+US concernée 	 -	 
+ 	 
+
+Pièces jointes
+
+Pièces jointes 	 Altran.7z <http://support.programmevitam.fr/plugins/tracker/?aid=51&field=380&func=show-attachment&attachment=162>  (96 kB)	 
+OK_SIP_MANIFESTE-OBJET-SANS-GOT.zip <http://support.programmevitam.fr/plugins/tracker/?aid=51&field=380&func=show-attachment&attachment=179>  (200 kB)	 
+KO_OBJT_orphelins.zip <http://support.programmevitam.fr/plugins/tracker/?aid=51&field=380&func=show-attachment&attachment=180>  (373 kB)	 
+ 	 
+
+Suivi du bug
+
+Statut 	 En attente d’information	 
+Résolution 	 -	 
+Assigné à 	 -	 
+Type de bug 	 Développement	 
+Version de correction 	 -	 
+ 	 
+
+References
+
+Cross references 	 -	 
+
+Commentaires
+
+
+Nathanael Attar (nattar) <mailto:nathanael.attar.ext@culture.gouv.fr> 	11/01/2017 16:46 (GMT)
+Bonjour,
+
+Concernant ce bug, pourriez vous préciser davantage le cas 1 en particulier ?
+
+S'il y a un DataObjectReferenceId dans une unit qui pointe vers un objet, et que le SIP est rejeté, c'est un bug
+S'il n'y a pas ce DataObjectReferenceId, et que le SIP est rejeté, ce n'est pas un bug.
+
+En effet, c'est permis dans Vitam UNIQUEMENT SI une unit possède un DataObjectReferenceId qui pointe vers cet objet, c'est la story 789.
+Si ce n'est pas le cas, le SIP doit être refusé.
+
+Cas 2 :
+Vitam doit rejeter le SIP car il s'agit ici d'un objet qui n'est pas rattaché à une unit.
+C'est valide dans le SEDA mais c'est une restriction volontaire dans VITAM : story 808
+
+Cas 3 : cela est normal car il s'agit d'un objet orphelin, c'est à dire un objet qui n'est référencé par aucune archive unit ou groupe d'objet.
+En effet, la US 789 indique que VITAM doit créer ou associer un GOT aux objets orphelins. Or, comment créer un objet orphelin si toutes ces balises sont obligatoires ? L'US 789 traite le cas où l'objet est directement attaché à l'unit sans passer par un groupe d'objet. Ici le cas est similaire au point 2, story 808 donc.
+
+Cdt
+Nathanael
+
+Edouard Vasseur (evasseur) <mailto:edouard.vasseur@culture.gouv.fr> 	12/01/2017 09:20 (GMT)
+
+Il n'est pas nécessaire de créer un groupe d'objet pour qu'un objet puisse être injecté dans Vitam.
+
+Dans ce cas, l'ArchiveUnit doit utiliser la balise DataObjectReferenceId et non la balise DataObjectGroupReferenceId
+
+<DataObjectPackage xml:id="ID2">
+        <BinaryDataObject id="ID5">
+            <Uri>Content/ID5.pdf</Uri>
+            <MessageDigest algorithm="SHA-256">9ba596a562ef0cd121c21d561f53678e39edbe271435052230b83737928359f9</MessageDigest>
+            <Size>102887</Size>
+            <FormatIdentification>
+                <FormatLitteral>Acrobat PDF 1.4 - Portable Document Format</FormatLitteral>
+                <MimeType>application/pdf</MimeType>
+                <FormatId>fmt/18</FormatId>
+            </FormatIdentification>
+            <FileInfo>
+                <Filename>SHDMC_REP_1A_V2009.pdf</Filename>
+                <LastModified>2015-11-10T12:12:30.000+01:00</LastModified>
+            </FileInfo>
+        </BinaryDataObject>
+        <BinaryDataObject id="ID9">
+            <Uri>Content/ID9.xlsx</Uri>
+            <MessageDigest algorithm="SHA-256">c4cb3d26864c1c89e1b76d613ddc6f2741d91a30fbccffb5ba57d6769ac6c95f</MessageDigest>
+            <Size>8414</Size>
+            <FormatIdentification>
+                <FormatLitteral>Microsoft Excel for Windows</FormatLitteral>
+                <MimeType>application/vnd.openxmlformats-officedocument.spreadsheetml.sheet</MimeType>
+                <FormatId>fmt/214</FormatId>
+            </FormatIdentification>
+            <FileInfo>
+                <Filename>SHDMC_REP_1A_V2009.xlsx</Filename>
+                <LastModified>2016-12-13T16:04:50.492+01:00</LastModified>
+            </FileInfo>
+        </BinaryDataObject>
+        <DescriptiveMetadata>
+            <ArchiveUnit id="ID6">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>TitrearchiveunitDMD</Title>
+                    <Description>Pseudo Archive Unit du fichier :C:\Users\fajjaz\Documents\VITAM\zzzPremiers Tests\IHM\Essaies_GOT\2eme essaie\JDD\MC_A_COMMANDEMENT-MARINE-PORTS-MILITAIRES\SHDMC_REP_1A_V2009.pdf</Description>
+                    <TransactedDate>2015-11-10T12:12:30</TransactedDate>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectReferenceId>ID4</DataObjectReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+        </DescriptiveMetadata>
+        <ManagementMetadata>
+            <OriginatingAgencyIdentifier>OAIAJJAZ</OriginatingAgencyIdentifier>
+            <SubmissionAgencyIdentifier>SAIAJJAZ</SubmissionAgencyIdentifier>
+        </ManagementMetadata>
+    </DataObjectPackage>
+
+ 
+
+
+Thierry Casimirius (tcasimirius) <mailto:thierry.casimirius@intradef.gouv.fr> 	12/01/2017 11:20 (GMT)
+Bonjour,
+
+Voici notre retour sur les commentaires de Nathanael :
+
+Pour le cas 1 :
+Il y a bien un DataObjectReferenceId qui pointe vers un objet mais étant donné qu’il n’y a pas la balise DataObjectGroupId car supprimée, la RéferenceId ne renvoie vers rien d’existant.
+
+Pour les cas 2 et 3 :
+Le SEDA précise que les balises DataObjectRefrence et DataObjectGroupReferenceID sont bien facultatives, il devrait donc être possible de créer des objets orphelin.
+
+Nathanael Attar (nattar) <mailto:nathanael.attar.ext@culture.gouv.fr> 	12/01/2017 13:37 (GMT)
+Pour le 1er cas :
+On peut observer que dans le manifeste, ce n'est pas un DataObjectReferenceId mais un DataObjectGROUPReferenceId. (or pour rappel, l'ArchiveUnit doit utiliser la balise DataObjectReferenceId et non la balise DataObjectGroupReferenceId)
+
+Pour le second cas : 
+"Le SEDA précise que les balises DataObjectRefrence et DataObjectGroupReferenceID sont bien facultatives, il devrait donc être possible de créer des objets orphelin."
+Jusqu'ici dans Vitam nous sommes parfois plus restrictif que le SEDA, ce qui est le cas pour ce point.
+- OUI, le SEDA autorise de ne pas mettre les balises DataObjectRefrence et DataObjectGroupReferenceID
+- NON, Vitam n'autorise pas les objets "orphelins", c'est à dire les objets qui ne sont rattachés à aucune archive unit (et donc qu'on ne sait pas où ranger en fait)
+
+La règle est :
+- Soit l'objet est dans un groupe d'objet, et ce groupe d'objet est déclaré dans une unit ( DataObjectGroupReferenceID)
+- Soit l'objet est directement déclaré dans une unit (DataObjectReferenceID)
+
+Point d'attention : DataObjectRefrence est une balise "chapeau" et DataObjectRefrenceId est une balise qui contient une valeur.
+
+
+Aussi, nous vous soumettons le rejet de ce bug, si vous y consentez.
+
+Emmanuel Laborde (elaborde) <mailto:emmanuel.laborde@culture.gouv.fr> 	13/01/2017 15:31 (GMT)
+Attention à ne pas mélanger deux cas différents :
+
+1 - cas des objets orphelins : ils ne sont référencés d'aucunes manières par un unit dans le manifest, C'est un contrôle d'erreur qui implique un retour KO. Nous ajoutons en PJ un SIP pour ce cas
+
+2 - cas de création par VITAM d'un objet groupe "implicite" dans le manifest. C'est le cas que vous souhaitez tester. (l'objet est également implicitement qualifié de BinaryMaster). Nous ajoutons en PJ un SIP pour ce cas.
+
+Explication :
+Pour déclarer un tel cas dans le manifest il faut que le Unit référence "directement" l'objet par son id de la manière suivante :
+
+<ArchiveUnit id="ID31">
+<Content>
+...
+</Content>
+<DataObjectReference>
+ATTENTION : ici la balise DataObjectReference ne contient pas l'attribut id
+<DataObjectReferenceId>ID33</DataObjectReferenceId>
+ATTENTION ici la balise DataObjectReferenceId a remplacé la traditionnelle balise DataObjectGroupReferenceId et c'est directement l'id de l'objet qui est indiqué (cf. <BinaryDataObject id="ID33">
+</DataObjectReference>
+</ArchiveUnit>
+
+<BinaryDataObject id="ID33">
+ATTENTION : ici il ne faut pas qu'il y ai les balises <DataObjectGroupId> et <DataObjectVersion>
+...
+<Uri>Content/ID33.ods</Uri>
+</BinaryDataObject>
+
+Thierry Casimirius (tcasimirius) <mailto:thierry.casimirius@intradef.gouv.fr> 	19/01/2017 15:58 (GMT)
+Merci pour ces précisions.
+
+Serait-il possible que ces explications soient reprises dans le document de spécification SIP vitam ?
+Je pense que ce serait utile à d'autres personnes.
+
+Nathanael Attar (nattar) <mailto:nathanael.attar.ext@culture.gouv.fr> 	19/01/2017 16:07 (GMT)
+Bonjour Thierry,
+
+Cela fait sens effectivement, j'ai transmis votre demande auprès de l'Administration et reviens prochainement vers vous à cet effet.
+
+Cordialement,
+
+Nathanael
+=PROJECT=vitam-support
+=TRACKER=bugs
+ Mettre à jour vos préférences <https://support.programmevitam.fr/account/preferences.php>

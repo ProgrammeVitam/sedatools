@@ -1,0 +1,305 @@
+Return-Path: emmanuel.laborde@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur02.culture.fr (8.15.0.59/8.15.0.59) with ESMTP id u9AFmkqZ009318;
+	Mon, 10 Oct 2016 17:48:46 +0200
+Date: Mon, 10 Oct 2016 17:47:53 +0200 (CEST)
+From: emmanuel.laborde <emmanuel.laborde@culture.gouv.fr>
+To: AJJAZ Franck <franck.ajjaz@altran.com>
+CC: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>,
+	DANYACH-DESCHAMPS Myriam <myriam.danyach-deschamps@intradef.gouv.fr>,VERIN Arnaud <arnaud.verin@altran.com>,<mario.moreno@intradef.gouv.fr>
+Message-ID: <f98b5e3cf3e7a2032698cfed998ba692@culture.gouv.fr>
+In-Reply-To: <B6C4A274A0FE7B4CA7C63E7873FF39EA802A9C8A@XMB-DCFR-35.europe.corp.altran.com>
+References:  <B6C4A274A0FE7B4CA7C63E7873FF39EA802A9C8A@XMB-DCFR-35.europe.corp.altran.com>
+Subject: Re: Documentation VITAM
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_452_24259273.1517006386173"
+X-Sender:  emmanuel.laborde@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8313 signatures=670726
+X-TM-AS-MML:  disable
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1282500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM07.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_452_24259273.1517006386173
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_453_32548043.1517006386173"
+
+------=_Part_453_32548043.1517006386173
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour,
+
+Concernant la documentation :
+
+*=09De l=E2=80=99int=C3=A9gralit=C3=A9 des user stories =C3=A0 jour =3D> pr=
+=C3=A9vu au 14/10
+*=09Du sch=C3=A9ma de donn=C3=A9es VITAM             =3D> Le SEDA est une r=
+=C3=A9f=C3=A9rence importante car c'est le mod=C3=A8le d'interface utilis=
+=C3=A9. Le mod=C3=A8le de donn=C3=A9 VITAM est tr=C3=A8s proche. Je regarde=
+ quand une version document=C3=A9 peut =C3=AAtre diffus=C3=A9e mais ca ne d=
+evrait pas =C3=AAtre bloquant.
+
+Concernant les besoins d=E2=80=99informations sur les APIs :=20
+
+*=09Concernant L'API ingest, elle est simple puisque cela consiste =C3=A0 u=
+ploader un fichier zip contenant un fichier xmlSEDA accompagn=C3=A9 des obj=
+ets num=C3=A9riques =C3=A0 int=C3=A9grer. La complexit=C3=A9 de cette inter=
+face r=C3=A9side dans l'=C3=A9laboration des fichiers xmlSEDA repr=C3=A9sen=
+tatifs des cas test=C3=A9s. Il vous faut donc monter en comp=C3=A9tence sur=
+ le sujet SEDA en priorit=C3=A9.
+
+=09*=09Nous avons mis ce jour =C3=A0 disposition des projets un g=C3=A9n=C3=
+=A9rateur de SEDA, il est peut donc vous =C3=AAtre communiqu=C3=A9.
+
+*=09Concernant L'API d'acc=C3=A8s elle est simple d'un point de vu des coll=
+ections mais sa richesse r=C3=A9side dans le DSL (Domaine Specific Language=
+) dont les op=C3=A9rateurs et la s=C3=A9mantique sont d=C3=A9crits. La comp=
+lexit=C3=A9 consiste =C3=A0 traduire des cas d'acc=C3=A8s m=C3=A9tiers en s=
+=C3=A9quences de requ=C3=AAtes du DSL.
+
+=09*=09Je regarde si nous pouvons fournir des exemples suppl=C3=A9mentaires=
+.
+
+J'entends que le sujet API doit =C3=AAtre approfondi mais pour l'ingest et =
+l'acc=C3=A8s, qui sont les principaux points =C3=A0 =C3=A9tudier pour =C3=
+=A9tablir des cas de tests m=C3=A9tier, la documentation existante devrait =
+permettre de ne pas =C3=AAtre bloqu=C3=A9 (concernant le SEDA il existe =C3=
+=A9galement des ressources du SIAF qui peuvent =C3=AAtre utilis=C3=A9es).
+
+Cordialement,
+
+Emmanuel Laborde
+
+=20
+
+Le 2016-10-10 16:29, AJJAZ Franck a =C3=A9crit :
+
+=09Bonjour Emmanuel,
+
+=09=20
+
+=09Nous devions formaliser par mail nos besoins en terme de documentation.
+
+=09=20
+
+=09Nous avons donc besoin :
+
+=09=20
+
+=09-          De l=E2=80=99int=C3=A9gralit=C3=A9 des user stories =C3=A0 jo=
+ur
+
+=09-          Du sch=C3=A9ma de donn=C3=A9es VITAM=20
+
+=09=20
+
+=09Nous aurions aussi besoin de plus d=E2=80=99informations sur les APIs.
+
+=09=20
+
+=09Nous sommes all=C3=A9s sur api.programmevitam.fr/ ou il y a en effet de =
+la documentation sur les APIs de versement et de recherche et acc=C3=A8s au=
+x archives.=20
+
+=09=20
+
+=09Cependant, les informations sont un peu succinctes. Pour l=E2=80=99Inges=
+t par exemple (http://api.programmevitam.fr/files/ingest.html), on trouve u=
+n bref descriptif              suivi de la structuration d=E2=80=99un statu=
+t apr=C3=A8s la soumission d=E2=80=99une entr=C3=A9e. Le reste de la page e=
+st constitu=C3=A9 d=E2=80=99informations sur le Mod=C3=A8le REST en g=C3=A9=
+n=C3=A9ral.
+
+=09=20
+
+=09Mais il n=E2=80=99est pas pr=C3=A9cis=C3=A9 comment soumettre une entr=
+=C3=A9e. A moins que quelque chose ne m=E2=80=99ait =C3=A9chapp=C3=A9 sur l=
+e site.
+
+=09=20
+
+=09Au-del=C3=A0 de ces =C3=A9l=C3=A9ments, comment faire le lien entre les =
+APIs et les user stories ?=20
+
+=09=20
+
+=09Exemple :
+
+=09Comment fait on concr=C3=A8tement pour d=C3=A9poser un SIP dans VITAM ?
+
+=09=20
+
+=09Ou encore comment r=C3=A9alise t-on le cas suivant ? :
+
+=09=20
+
+=09En tant qu'archiviste, je veux contr=C3=B4ler que les m=C3=A9tadonn=C3=
+=A9es d'un unit que je corrige sont conformes =C3=A0 un profil afin d'=C3=
+=A9viter les erreurs
+
+=09=20
+
+=09Avez-vous de la documentation qui d=C3=A9crive ceci ou des modes op=C3=
+=A9ratoires ?
+
+=09=20
+
+=09Merci pour ton aide.
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Franck AJJAZ
+
+=09Chef de Projet
+
+=09TRA VITAM
+------=_Part_453_32548043.1517006386173
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>&nbsp;</p>
+<p>Bonjour,</p>
+<p>Concernant la documentation :</p>
+<ul>
+<li>De l=E2=80=99int=C3=A9gralit=C3=A9 des user stories =C3=A0 jour =3D&gt;=
+ pr=C3=A9vu au 14/10</li>
+<li>Du sch=C3=A9ma de donn=C3=A9es VITAM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =3D&gt; Le SEDA est une r=C3=A9f=C3=
+=A9rence importante car c'est le mod=C3=A8le d'interface utilis=C3=A9. Le m=
+od=C3=A8le de donn=C3=A9 VITAM est tr=C3=A8s proche. Je regarde quand une v=
+ersion document=C3=A9 peut =C3=AAtre diffus=C3=A9e mais ca ne devrait pas =
+=C3=AAtre bloquant.</li>
+</ul>
+<p>Concernant les besoins d=E2=80=99informations sur les APIs : </p>
+<ul>
+<li>Concernant L'API ingest, elle est simple puisque cela consiste =C3=A0 u=
+ploader un fichier zip contenant un fichier xmlSEDA accompagn=C3=A9 des obj=
+ets num=C3=A9riques =C3=A0 int=C3=A9grer. La complexit=C3=A9 de cette inter=
+face r=C3=A9side dans l'=C3=A9laboration des fichiers xmlSEDA repr=C3=A9sen=
+tatifs des cas test=C3=A9s. Il vous faut donc monter en comp=C3=A9tence sur=
+ le sujet SEDA en priorit=C3=A9.</li>
+<ul>
+<li>Nous avons mis ce jour =C3=A0 disposition des projets un g=C3=A9n=C3=A9=
+rateur de SEDA, il est peut donc vous =C3=AAtre communiqu=C3=A9.</li>
+</ul>
+<li>Concernant L'API d'acc=C3=A8s elle est simple d'un point de vu des coll=
+ections mais sa richesse r=C3=A9side dans le DSL (Domaine Specific Language=
+) dont les op=C3=A9rateurs et la s=C3=A9mantique sont d=C3=A9crits. La comp=
+lexit=C3=A9 consiste =C3=A0 traduire des cas d'acc=C3=A8s m=C3=A9tiers en s=
+=C3=A9quences de requ=C3=AAtes du DSL.</li>
+<ul>
+<li>Je regarde si nous pouvons fournir des exemples suppl=C3=A9mentaires.</=
+li>
+</ul>
+</ul>
+<p>J'entends que le sujet API doit =C3=AAtre approfondi mais pour l'ingest =
+et l'acc=C3=A8s, qui sont les principaux points =C3=A0 =C3=A9tudier pour =
+=C3=A9tablir des cas de tests m=C3=A9tier, la documentation existante devra=
+it permettre de ne pas =C3=AAtre bloqu=C3=A9 (concernant le SEDA il existe =
+=C3=A9galement des ressources du SIAF qui peuvent =C3=AAtre utilis=C3=A9es)=
+.</p>
+<p>Cordialement,</p>
+<p>Emmanuel Laborde</p>
+<div>&nbsp;</div>
+<p>Le 2016-10-10 16:29, AJJAZ Franck a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Bonjour Emmanuel,<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Nous devions formaliser par mail nos besoins en term=
+e de documentation.<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Nous avons donc besoin&nbsp;:<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoListParagraph" style=3D"text-indent: -18.0pt; mso-list: l0 l=
+evel1 lfo2;"><span style=3D"mso-list: Ignore;">-<span style=3D"font: 7.0pt =
+ 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ </span></span>De l=E2=80=99int=C3=A9gralit=C3=A9 des user stories =C3=A0 j=
+our<!-- o ignored --></p>
+<p class=3D"MsoListParagraph" style=3D"text-indent: -18.0pt; mso-list: l0 l=
+evel1 lfo2;"><span style=3D"mso-list: Ignore;">-<span style=3D"font: 7.0pt =
+ 'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ </span></span>Du sch=C3=A9ma de donn=C3=A9es VITAM&nbsp;<!-- o ignored -->=
+</p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Nous aurions aussi besoin de plus d=E2=80=99informat=
+ions sur les APIs.<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Nous sommes all=C3=A9s sur <span style=3D"color: #59=
+5959; mso-style-textfill-fill-color: #595959; mso-style-textfill-fill-alpha=
+: 100.0%;"> api.programmevitam.fr/ </span>ou il y a en effet de la document=
+ation sur les APIs de versement et de recherche et acc=C3=A8s aux archives.=
+ <!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Cependant, les informations sont un peu succinctes. =
+Pour l=E2=80=99Ingest par exemple (<span style=3D"color: #595959; mso-style=
+-textfill-fill-color: #595959; mso-style-textfill-fill-alpha: 100.0%;">http=
+://api.programmevitam.fr/files/ingest.html</span>), on trouve un bref descr=
+iptif&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; suivi de la structuration d=E2=80=99un statut apr=C3=A8s la soumis=
+sion d=E2=80=99une entr=C3=A9e. Le reste de la page est constitu=C3=A9 d=E2=
+=80=99informations sur le Mod=C3=A8le REST en g=C3=A9n=C3=A9ral.<!-- o igno=
+red --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Mais il n=E2=80=99est pas pr=C3=A9cis=C3=A9 comment =
+soumettre une entr=C3=A9e. A moins que quelque chose ne m=E2=80=99ait =C3=
+=A9chapp=C3=A9 sur le site.<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Au-del=C3=A0 de ces =C3=A9l=C3=A9ments, comment fair=
+e le lien entre les APIs et les user stories&nbsp;? <!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><span style=3D"text-decoration: underline;">Exemple&=
+nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoNormal">Comment fait on concr=C3=A8tement pour&nbsp;<em><spa=
+n style=3D"color: #595959; mso-style-textfill-fill-color: #595959; mso-styl=
+e-textfill-fill-alpha: 100.0%;">d=C3=A9poser un SIP dans VITAM</span></em><=
+span style=3D"color: #595959; mso-style-textfill-fill-color: #595959; mso-s=
+tyle-textfill-fill-alpha: 100.0%;">&nbsp;</span>?<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Ou encore&nbsp;comment r=C3=A9alise t-on le cas suiv=
+ant&nbsp;? :<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><em><span style=3D"color: #595959; mso-style-textfil=
+l-fill-color: #595959; mso-style-textfill-fill-alpha: 100.0%;">En tant qu'a=
+rchiviste, je veux contr=C3=B4ler que les m=C3=A9tadonn=C3=A9es d'un unit q=
+ue je corrige sont conformes =C3=A0 un profil afin d'=C3=A9viter les erreur=
+s<!-- o ignored --></span></em></p>
+<p class=3D"MsoNormal"><em><span style=3D"color: #595959; mso-style-textfil=
+l-fill-color: #595959; mso-style-textfill-fill-alpha: 100.0%;"><!-- o ignor=
+ed -->&nbsp;</span></em></p>
+<p class=3D"MsoNormal">Avez-vous de la documentation qui d=C3=A9crive ceci =
+ou des modes op=C3=A9ratoires&nbsp;?<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Merci pour ton aide.<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Cordialement,<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Franck AJJAZ<!-- o ignored --></p>
+<p class=3D"MsoNormal">Chef de Projet<!-- o ignored --></p>
+<p class=3D"MsoNormal">TRA VITAM<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+</div>
+</blockquote>
+</body></html>
+------=_Part_453_32548043.1517006386173--
+
+------=_Part_452_24259273.1517006386173--

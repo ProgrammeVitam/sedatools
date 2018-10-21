@@ -1,0 +1,225 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=22 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   22
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     nouveau
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-19 14:09 CET
+Dernière modification:      2016-12-19 14:09 CET
+====================================================================== 
+Résumé:                     Impossibilité d'effectuer une query si plusieurs
+éléments dans roots
+Description: 
+Lorsque l'on veut effectuer une requête dans un sous-ensemble défini dans le
+roots, celle ci ne fonctionne pas.
+
+Nous effectuons notre test dans la collection Unit
+Notre requête "$eq" seule fonctionne :
+
+{
+  "$roots": [],
+  "$query": [
+
+      {
+          "$eq": {
+            "Title": "PVI58fic_pour_empreinte_Appraisalerule"
+          }
+        
+      ,
+      "$depth": 20
+    }
+  ],
+  "$filter": {
+    "$orderby": {
+      "TransactedDate": 1
+    }
+  },
+  "$projection": {
+    "$fields": {
+      "TransactedDate": 1,
+      "#id": 1,
+      "Title": 1,
+      "#object": 1
+    }
+  }
+}
+
+Cette requête nous donne bien la unit recherchée:
+
+{
+   "$hits":    {
+      "total": 1,
+      "offset": 0,
+      "limit": 1,
+      "size": 1
+   },
+   "$results": [   {
+      "Title": "PVI58fic_pour_empreinte_Appraisalerule",
+      "TransactedDate": "2016-12-08T17:53:38",
+      "#id": "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+      "#tenant": 0,
+      "#object": "aeaaaaaaaaaam7mxaaa3gaky35ur56yaaaba"
+   }],
+   "$context":    {
+      "$roots": [],
+      "$query": [{"$eq": {"Title": "PVI58fic_pour_empreinte_Appraisalerule"}}],
+      "$filter": {"$orderby": {"TransactedDate": 1}},
+      "$projection": {"$fields":       {
+         "TransactedDate": 1,
+         "_id": 1,
+         "Title": 1,
+         "_og": 1
+      }}
+   }
+}
+
+Nous pouvons aussi mettre deux id dans le roots :
+
+{
+  "$roots":
+["aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq","aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq"],
+  "$query": [],
+  "$filter": {
+    "$orderby": {
+      "TransactedDate": 1
+    }
+  },
+  "$projection": {
+    "$fields": {
+      "TransactedDate": 1,
+      "#id": 1,
+      "Title": 1,
+      "#object": 1
+    }
+  }
+}
+cela nous donne bien les deux unit dont les id sont dans le roots:
+
+{
+   "$hits":    {
+      "total": 2,
+      "offset": 0,
+      "limit": 1,
+      "size": 2
+   },
+   "$results":    [
+            {
+         "Title": "Armée de France.pdf",
+         "TransactedDate": "2016-10-07T14:13:00",
+         "#id": "aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq",
+         "#tenant": 0,
+         "#object": "aeaaaaaaaaaam7mxaadx2aky66almyaaaaaq"
+      },
+            {
+         "Title": "PVI58fic_pour_empreinte_Appraisalerule",
+         "TransactedDate": "2016-12-08T17:53:38",
+         "#id": "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+         "#tenant": 0,
+         "#object": "aeaaaaaaaaaam7mxaaa3gaky35ur56yaaaba"
+      }
+   ],
+   "$context":    {
+      "$roots":       [
+         "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+         "aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq"
+      ],
+      "$query": [],
+      "$filter": {"$orderby": {"TransactedDate": 1}},
+      "$projection": {"$fields":       {
+         "TransactedDate": 1,
+         "_id": 1,
+         "Title": 1,
+         "_og": 1
+      }}
+   }
+}
+
+En revanche, nous ne pouvons pas filtrer sur le titre si nous avons réduit
+l'ensemble dans le roots :
+
+{
+  "$roots":
+["aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq","aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq"],
+  "$query": [
+
+      {
+          "$eq": {
+            "Title": "PVI58fic_pour_empreinte_Appraisalerule"
+          }
+        
+      ,
+      "$depth": 20
+    }
+  ],
+  "$filter": {
+    "$orderby": {
+      "TransactedDate": 1
+    }
+  },
+  "$projection": {
+    "$fields": {
+      "TransactedDate": 1,
+      "#id": 1,
+      "Title": 1,
+      "#object": 1
+    }
+  }
+}
+
+Cette requête nous renvoie 0 résultat :
+
+{
+   "$hits":    {
+      "total": 0,
+      "offset": 0,
+      "limit": 1,
+      "size": 0
+   },
+   "$results": [],
+   "$context":    {
+      "$roots":       [
+         "aeaaaaaaaaaam7mxaaa3gaky35ur6miaaaaq",
+         "aeaaaaaaaaaam7mxaadx2aky66alm6qaaaaq"
+      ],
+      "$query": [{"$eq": {"Title": "PVI58fic_pour_empreinte_Appraisalerule"}}],
+      "$filter": {"$orderby": {"TransactedDate": 1}},
+      "$projection": {"$fields":       {
+         "TransactedDate": 1,
+         "_id": 1,
+         "Title": 1,
+         "_og": 1
+      }}
+   }
+}
+
+Étapes pour le reproduire: 
+Nous joignons un SIP mais les id internes VITAM ne seront pas les mêmes.
+Il suffit de récupérer deux id VITAM dans la BDD pour reproduire le test.
+
+
+
+Informations complémentaires: 
+PVI-455
+dans le cas de test, la démarche est la même mais sur deux collections;
+
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-19 14:09 Franck         Nouveau bogue                                
+2016-12-19 14:09 Franck         Fichier ajouté: SIP-20161208175358.zip         
+          
+======================================================================

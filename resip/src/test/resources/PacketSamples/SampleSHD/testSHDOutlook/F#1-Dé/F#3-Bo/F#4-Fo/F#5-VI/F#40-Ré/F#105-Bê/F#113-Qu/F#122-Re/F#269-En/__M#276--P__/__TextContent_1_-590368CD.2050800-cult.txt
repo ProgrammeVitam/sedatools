@@ -1,0 +1,51 @@
+Bonjour à tous,
+
+Suite à la finalisation de l'installation de la release 3 (version 0.15.1), l'environnement de recette (rec.env) est réouvert.  Nous restons à disposition pour toute question.
+
+Bien cordialement
+
+
+-- 
+
+
+
+ 
+
+Mélanie REBOURS
+Directrice de la diffusion et des partenariats / Dissemination and partnerships head
+Programme Vitam – DINSIC
+47 rue de la Chapelle, 75018 Paris 
+01 86 69 60 05
+melanie.rebours@culture.gouv.fr <mailto:melanie.rebours@culture.gouv.fr> 
+Suivez-nous sur Twitter @ProgVitam <https://twitter.com/progvitam> 
+Le programme est hébergé par les moyens informatiques du MCC
+
+
+-------- Message original --------
+Sujet: [Programme Vitam] Interruption de service le 27 mars prochain
+De : mélanie REBOURS-Telem@c <melanie.rebours@culture.gouv.fr> <mailto:melanie.rebours@culture.gouv.fr> 
+Pour : nicolas.bel@culture.gouv.fr, thierry.casimirius@intradef.gouv.fr, valerie.delamare@intradef.gouv.fr, jean-philippe.drouault@diplomatie.gouv.fr, gerard.laboue@diplomatie.gouv.fr, isabelle.josse@diplomatie.gouv.fr, sandrine.heiser@culture.gouv.fr, olivier.croulard@culture.gouv.fr, julien.georges@culture.gouv.fr, stephanie.roussel@culture.gouv.fr, baptiste.nichele@culture.gouv.fr, patrice.guerin@culture.gouv.fr
+Copie à : francoise.watel@diplomatie.gouv.fr, thomas.van-de-walle@culture.gouv.fr, étienne CARRIERE <etienne.carriere@culture.gouv.fr> <mailto:etienne.carriere@culture.gouv.fr> , Frederic deguilhen <frederic.deguilhen@culture.gouv.fr> <mailto:frederic.deguilhen@culture.gouv.fr> , jean-séverin LAIR <jean-severin.lair@culture.gouv.fr> <mailto:jean-severin.lair@culture.gouv.fr> , edouard VASSEUR <edouard.vasseur@culture.gouv.fr> <mailto:edouard.vasseur@culture.gouv.fr> , kristopher WALTZER <kristopher.waltzer.ext@culture.gouv.fr> <mailto:kristopher.waltzer.ext@culture.gouv.fr> , olivier MARSOL <olivier.marsol.ext@culture.gouv.fr> <mailto:olivier.marsol.ext@culture.gouv.fr> 
+Date : Vendredi 24 Mars 2017 19:03:49
+
+
+	Bonjour, 
+
+	Nous travaillons actuellement sur la préparation de l'installation de la release 4 (version 0.15.1), qui sera publiée très prochainement sur la PIC. Nous vous informons donc qu'une interruption de service est à prévoir, à partir de ce lundi sur vos environnements Vitam (rec.env). Nous vous informerons de la remise en service de plate-forme dès que possible et nous restons à disposition pour toute question.
+
+	Bien cordialement 
+
+	-- 
+	
+	
+
+ 
+
+Mélanie REBOURS
+Directrice de la diffusion et des partenariats / Dissemination and partnerships head
+Programme Vitam – DINSIC
+47 rue de la Chapelle, 75018 Paris 
+01 86 69 60 05
+melanie.rebours@culture.gouv.fr <mailto:melanie.rebours@culture.gouv.fr> 
+Suivez-nous sur Twitter @ProgVitam <https://twitter.com/progvitam> 
+Le programme est hébergé par les moyens informatiques du MCC

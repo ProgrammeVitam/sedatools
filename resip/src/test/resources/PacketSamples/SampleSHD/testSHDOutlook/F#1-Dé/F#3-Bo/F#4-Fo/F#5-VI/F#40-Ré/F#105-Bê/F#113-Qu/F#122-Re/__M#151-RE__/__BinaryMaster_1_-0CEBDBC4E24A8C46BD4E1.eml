@@ -1,0 +1,645 @@
+Received:  from DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR ([169.254.1.82]) by
+ INF11LOGES-WM11.DR-RES.INTRADEF.GOUV.FR ([221.10.42.211]) with mapi id
+ 14.03.0195.001; Thu, 8 Dec 2016 15:12:32 +0100
+Date: Thu, 8 Dec 2016 15:12:31 +0100 (CET)
+From: BEL Nicolas ASC NIV I OA <nicolas.bel@intradef.gouv.fr>
+To: CASIMIRIUS Thierry IDEF MINDEF <thierry.casimirius@intradef.gouv.fr>
+CC: CHEVENIER Olivier ASC NIV I OA <olivier.chevenier@intradef.gouv.fr>
+Message-ID: <0CEBDBC4E24A8C46BD4E1D2201D75741E54C43@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D1C66DC30@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D1C66DC30@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: RE: CR COPIL TRA VITAM du 5/12/2016
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_177_14555244.1517006383427"
+Thread-Topic:  CR COPIL TRA VITAM du 5/12/2016
+Thread-Index:  AdJRWiQDWwA6bdT4Rt2M+vmGmyyvIwAAkk8g
+Accept-Language:  fr-FR, en-US
+Content-Language:  fr-FR
+X-MS-Has-Attach: 
+X-MS-Exchange-Organization-SCL:  0
+X-MS-TNEF-Correlator:  <0CEBDBC4E24A8C46BD4E1D2201D75741E54C43@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+X-MS-Exchange-Organization-AuthSource: 
+ INF11LOGES-WM11.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Internal
+X-MS-Exchange-Organization-AuthMechanism:  04
+X-Originating-IP:  [52.10.204.169]
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1294500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+
+------=_Part_177_14555244.1517006383427
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_178_22527149.1517006383427"
+
+------=_Part_178_22527149.1517006383427
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Merci Thierry,=20
+
+=20
+
+Je comprends qu=E2=80=99il te manquerait :
+
+=20
+
+=E2=80=A2       Les champs non-obligatoires impl=C3=A9ment=C3=A9s en base d=
+e donn=C3=A9es (surtout sur MD BMT)
+
+=E2=80=A2       Une documentation plus pr=C3=A9cise
+
+=E2=80=A2       Un Exemple de requ=C3=AAte DSL=20
+
+=20
+
+Je peux inscrire ces points =C3=A0 la pr=C3=A9sentation du SHD lors du COPI=
+L VITAM de la semaine prochaine si tu le juge n=C3=A9cessaire.
+
+=20
+
+Nicolas
+
+=20
+
+De : CASIMIRIUS Thierry IDEF MINDEF=20
+Envoy=C3=A9 : jeudi 8 d=C3=A9cembre 2016 14:54
+=C3=80 : BEL Nicolas ASC NIV I OA
+Cc : CHEVENIER Olivier ASC NIV I OA
+Objet : TR: CR COPIL TRA VITAM du 5/12/2016
+
+=20
+
+Nicolas,
+
+=20
+
+En PJ, le projet de CR
+
+Il manque encore quelques entrants VITAM pour Altran.
+
+=20
+
+Cordialement,
+
+=20
+
+Thierry CASIMIRIUS
+
+Chef du bureau des technologies de l=E2=80=99information
+
+Service historique de la D=C3=A9fense
+
+SGA/DMPA/SHD/PPST/BTI
+
+T=C3=A9l : 01 41 93 20 45
+
+=20
+
+De : AJJAZ Franck [mailto:franck.ajjaz@altran.com]=20
+Envoy=C3=A9 : jeudi 8 d=C3=A9cembre 2016 14:37
+=C3=80 : DANYACH-DESCHAMPS Myriam ASC
+Cc : CASIMIRIUS Thierry IDEF MINDEF; MORENO Mario ASC
+Objet : CR COPIL
+
+=20
+
+Bonjour,
+
+=20
+
+Voici le CR du Copil de lundi.
+
+=20
+
+Cordialement,
+
+Franck AJJAZ
+
+Chef de Projet
+
+TRA VITAM
+franck.ajjaz@altran.com
+------=_Part_178_22527149.1517006383427
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; charset=3Diso-8859-=
+1">
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40"><head><meta name=3DGenerator content=3D"Microso=
+ft Word 14 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+=09{font-family:Wingdings;
+=09panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+=09{font-family:Wingdings;
+=09panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+=09{font-family:Calibri;
+=09panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+=09{font-family:Tahoma;
+=09panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+=09{margin:0cm;
+=09margin-bottom:.0001pt;
+=09font-size:11.0pt;
+=09font-family:"Calibri","sans-serif";
+=09mso-fareast-language:EN-US;}
+a:link, span.MsoHyperlink
+=09{mso-style-priority:99;
+=09color:blue;
+=09text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+=09{mso-style-priority:99;
+=09color:purple;
+=09text-decoration:underline;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+=09{mso-style-priority:99;
+=09mso-style-link:"Texte de bulles Car";
+=09margin:0cm;
+=09margin-bottom:.0001pt;
+=09font-size:8.0pt;
+=09font-family:"Tahoma","sans-serif";
+=09mso-fareast-language:EN-US;}
+p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph
+=09{mso-style-priority:34;
+=09margin-top:0cm;
+=09margin-right:0cm;
+=09margin-bottom:10.0pt;
+=09margin-left:36.0pt;
+=09mso-add-space:auto;
+=09line-height:115%;
+=09font-size:11.0pt;
+=09font-family:"Calibri","sans-serif";
+=09mso-fareast-language:EN-US;}
+p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParag=
+raphCxSpFirst
+=09{mso-style-priority:34;
+=09mso-style-type:export-only;
+=09margin-top:0cm;
+=09margin-right:0cm;
+=09margin-bottom:0cm;
+=09margin-left:36.0pt;
+=09margin-bottom:.0001pt;
+=09mso-add-space:auto;
+=09line-height:115%;
+=09font-size:11.0pt;
+=09font-family:"Calibri","sans-serif";
+=09mso-fareast-language:EN-US;}
+p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListPar=
+agraphCxSpMiddle
+=09{mso-style-priority:34;
+=09mso-style-type:export-only;
+=09margin-top:0cm;
+=09margin-right:0cm;
+=09margin-bottom:0cm;
+=09margin-left:36.0pt;
+=09margin-bottom:.0001pt;
+=09mso-add-space:auto;
+=09line-height:115%;
+=09font-size:11.0pt;
+=09font-family:"Calibri","sans-serif";
+=09mso-fareast-language:EN-US;}
+p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagra=
+phCxSpLast
+=09{mso-style-priority:34;
+=09mso-style-type:export-only;
+=09margin-top:0cm;
+=09margin-right:0cm;
+=09margin-bottom:10.0pt;
+=09margin-left:36.0pt;
+=09mso-add-space:auto;
+=09line-height:115%;
+=09font-size:11.0pt;
+=09font-family:"Calibri","sans-serif";
+=09mso-fareast-language:EN-US;}
+span.EmailStyle17
+=09{mso-style-type:personal;
+=09font-family:"Calibri","sans-serif";
+=09color:windowtext;}
+span.EmailStyle18
+=09{mso-style-type:personal;
+=09font-family:"Calibri","sans-serif";
+=09color:#1F497D;}
+span.EmailStyle19
+=09{mso-style-type:personal-reply;
+=09font-family:"Calibri","sans-serif";
+=09color:#1F497D;}
+span.TextedebullesCar
+=09{mso-style-name:"Texte de bulles Car";
+=09mso-style-priority:99;
+=09mso-style-link:"Texte de bulles";
+=09font-family:"Tahoma","sans-serif";
+=09mso-fareast-language:EN-US;}
+.MsoChpDefault
+=09{mso-style-type:export-only;
+=09font-size:10.0pt;}
+@page WordSection1
+=09{size:612.0pt 792.0pt;
+=09margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+div.WordSection1
+=09{page:WordSection1;}
+/* List Definitions */
+@list l0
+=09{mso-list-id:155458400;
+=09mso-list-type:hybrid;
+=09mso-list-template-ids:-1619124048 -197910618 67895299 67895301 67895297 =
+67895299 67895301 67895297 67895299 67895301;}
+@list l0:level1
+=09{mso-level-number-format:bullet;
+=09mso-level-text:-;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Calibri","sans-serif";
+=09mso-fareast-font-family:Calibri;
+=09mso-bidi-font-family:"Times New Roman";}
+@list l0:level2
+=09{mso-level-number-format:bullet;
+=09mso-level-text:o;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Courier New";}
+@list l0:level3
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0A7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Wingdings;}
+@list l0:level4
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0B7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Symbol;}
+@list l0:level5
+=09{mso-level-number-format:bullet;
+=09mso-level-text:o;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Courier New";}
+@list l0:level6
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0A7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Wingdings;}
+@list l0:level7
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0B7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Symbol;}
+@list l0:level8
+=09{mso-level-number-format:bullet;
+=09mso-level-text:o;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Courier New";}
+@list l0:level9
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0A7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Wingdings;}
+@list l1
+=09{mso-list-id:652027109;
+=09mso-list-type:hybrid;
+=09mso-list-template-ids:451455166 629289680 -788112400 1483894668 -9418180=
+28 -535254206 2127829152 -131014700 1562152458 2106235850;}
+@list l1:level1
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:36.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l1:level2
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:72.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l1:level3
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:108.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l1:level4
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:144.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l1:level5
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:180.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l1:level6
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:216.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l1:level7
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:252.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l1:level8
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:288.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l1:level9
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:324.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l2
+=09{mso-list-id:1719089659;
+=09mso-list-type:hybrid;
+=09mso-list-template-ids:43038560 1826104000 -1744930796 130071760 11287836=
+2 869974824 1837271660 -381380280 -241391366 511109416;}
+@list l2:level1
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:36.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l2:level2
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:72.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l2:level3
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:108.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l2:level4
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:144.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l2:level5
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:180.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l2:level6
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:216.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l2:level7
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:252.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l2:level8
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:288.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l2:level9
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\2022;
+=09mso-level-tab-stop:324.0pt;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Arial","sans-serif";
+=09mso-bidi-font-family:"Times New Roman";}
+@list l3
+=09{mso-list-id:2042051408;
+=09mso-list-type:hybrid;
+=09mso-list-template-ids:858164188 67895299 67895299 67895301 67895297 6789=
+5299 67895301 67895297 67895299 67895301;}
+@list l3:level1
+=09{mso-level-number-format:bullet;
+=09mso-level-text:o;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Courier New";}
+@list l3:level2
+=09{mso-level-number-format:bullet;
+=09mso-level-text:o;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Courier New";}
+@list l3:level3
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0A7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Wingdings;}
+@list l3:level4
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0B7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Symbol;}
+@list l3:level5
+=09{mso-level-number-format:bullet;
+=09mso-level-text:o;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Courier New";}
+@list l3:level6
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0A7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Wingdings;}
+@list l3:level7
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0B7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Symbol;}
+@list l3:level8
+=09{mso-level-number-format:bullet;
+=09mso-level-text:o;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:"Courier New";}
+@list l3:level9
+=09{mso-level-number-format:bullet;
+=09mso-level-text:\F0A7;
+=09mso-level-tab-stop:none;
+=09mso-level-number-position:left;
+=09text-indent:-18.0pt;
+=09font-family:Wingdings;}
+ol
+=09{margin-bottom:0cm;}
+ul
+=09{margin-bottom:0cm;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DFR link=3Dblue vlink=
+=3Dpurple><div class=3DWordSection1><p class=3DMsoNormal><span style=3D'col=
+or:#1F497D'>Merci Thierry, <o:p></o:p></span></p><p class=3DMsoNormal><span=
+ style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><=
+span style=3D'color:#1F497D'>Je comprends qu&#8217;il te manquerait&nbsp;:<=
+o:p></o:p></span></p><p class=3DMsoNormal style=3D'text-align:justify'><spa=
+n style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal =
+style=3D'margin-left:36.0pt;text-align:justify;text-indent:-18.0pt;line-hei=
+ght:115%;mso-list:l1 level1 lfo2'><![if !supportLists]><span style=3D'font-=
+family:"Arial","sans-serif";color:#1F497D'><span style=3D'mso-list:Ignore'>=
+&#8226;<span style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; </span></span></span><![endif]><span style=3D'color:#1F497D'>=
+Les champs non-obligatoires impl=C3=A9ment=C3=A9s en base de donn=C3=A9es (=
+surtout sur MD BMT)<o:p></o:p></span></p><p class=3DMsoNormal style=3D'marg=
+in-left:36.0pt;text-align:justify;text-indent:-18.0pt;line-height:115%;mso-=
+list:l1 level1 lfo2'><![if !supportLists]><span style=3D'font-family:"Arial=
+","sans-serif";color:#1F497D'><span style=3D'mso-list:Ignore'>&#8226;<span =
+style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+ </span></span></span><![endif]><span style=3D'color:#1F497D'>Une documenta=
+tion plus pr=C3=A9cise<o:p></o:p></span></p><p class=3DMsoNormal style=3D'm=
+argin-left:36.0pt;text-align:justify;text-indent:-18.0pt;line-height:115%;m=
+so-list:l1 level1 lfo2'><![if !supportLists]><span style=3D'font-family:"Ar=
+ial","sans-serif";color:#1F497D'><span style=3D'mso-list:Ignore'>&#8226;<sp=
+an style=3D'font:7.0pt "Times New Roman"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; </span></span></span><![endif]><span style=3D'color:#1F497D'>Un Exemple=
+ de requ=C3=AAte DSL&nbsp;<o:p></o:p></span></p><p class=3DMsoListParagraph=
+CxSpFirst style=3D'margin-bottom:0cm;margin-bottom:.0001pt;mso-add-space:au=
+to;line-height:normal'><span style=3D'color:#1F497D'><o:p>&nbsp;</o:p></spa=
+n></p><p class=3DMsoListParagraphCxSpMiddle style=3D'margin-bottom:0cm;marg=
+in-bottom:.0001pt;mso-add-space:auto;line-height:normal'><span style=3D'col=
+or:#1F497D'>Je peux inscrire ces points =C3=A0 la pr=C3=A9sentation du SHD =
+lors du COPIL VITAM de la semaine prochaine si tu le juge n=C3=A9cessaire.<=
+o:p></o:p></span></p><p class=3DMsoListParagraphCxSpMiddle style=3D'margin-=
+bottom:0cm;margin-bottom:.0001pt;mso-add-space:auto;line-height:normal'><sp=
+an style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoListPa=
+ragraphCxSpMiddle style=3D'margin-bottom:0cm;margin-bottom:.0001pt;mso-add-=
+space:auto;line-height:normal'><span style=3D'color:#1F497D'>Nicolas<o:p></=
+o:p></span></p><p class=3DMsoListParagraphCxSpMiddle style=3D'margin-bottom=
+:0cm;margin-bottom:.0001pt;mso-add-space:auto;line-height:normal'><span sty=
+le=3D'color:#1F497D'> <o:p></o:p></span></p><p class=3DMsoListParagraphCxSp=
+Last style=3D'margin-bottom:0cm;margin-bottom:.0001pt;mso-add-space:auto;li=
+ne-height:normal'><span style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p=
+><div><div style=3D'border:none;border-top:solid #B5C4DF 1.0pt;padding:3.0p=
+t 0cm 0cm 0cm'><p class=3DMsoNormal><b><span style=3D'font-size:10.0pt;font=
+-family:"Tahoma","sans-serif";mso-fareast-language:FR'>De&nbsp;:</span></b>=
+<span style=3D'font-size:10.0pt;font-family:"Tahoma","sans-serif";mso-farea=
+st-language:FR'> CASIMIRIUS Thierry IDEF MINDEF <br><b>Envoy=C3=A9&nbsp;:</=
+b> jeudi 8 d=C3=A9cembre 2016 14:54<br><b>=C3=80&nbsp;:</b> BEL Nicolas ASC=
+ NIV I OA<br><b>Cc&nbsp;:</b> CHEVENIER Olivier ASC NIV I OA<br><b>Objet&nb=
+sp;:</b> TR: CR COPIL TRA VITAM du 5/12/2016<o:p></o:p></span></p></div></d=
+iv><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal><span sty=
+le=3D'color:#1F497D'>Nicolas,<o:p></o:p></span></p><p class=3DMsoNormal><sp=
+an style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal=
+><span style=3D'color:#1F497D'>En PJ, le projet de CR<o:p></o:p></span></p>=
+<p class=3DMsoNormal><span style=3D'color:#1F497D'>Il manque encore quelque=
+s entrants VITAM pour Altran.<o:p></o:p></span></p><p class=3DMsoNormal><sp=
+an style=3D'color:#1F497D'><o:p>&nbsp;</o:p></span></p><div><p class=3DMsoN=
+ormal><span style=3D'color:black;mso-fareast-language:FR'>Cordialement,<o:p=
+></o:p></span></p><p class=3DMsoNormal><span style=3D'color:black;mso-farea=
+st-language:FR'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span styl=
+e=3D'color:black;mso-fareast-language:FR'>Thierry CASIMIRIUS<o:p></o:p></sp=
+an></p><p class=3DMsoNormal><span style=3D'color:black;mso-fareast-language=
+:FR'>Chef du bureau des technologies de l&#8217;information<o:p></o:p></spa=
+n></p><p class=3DMsoNormal><span style=3D'color:black;mso-fareast-language:=
+FR'>Service historique de la D=C3=A9fense<o:p></o:p></span></p><p class=3DM=
+soNormal><span style=3D'color:black;mso-fareast-language:FR'>SGA/DMPA/SHD/P=
+PST/BTI<o:p></o:p></span></p><p class=3DMsoNormal><span style=3D'color:blac=
+k;mso-fareast-language:FR'>T=C3=A9l&nbsp;: 01 41 93 20 45<o:p></o:p></span>=
+</p></div><p class=3DMsoNormal><span style=3D'color:#1F497D'><o:p>&nbsp;</o=
+:p></span></p><div><div style=3D'border:none;border-top:solid #B5C4DF 1.0pt=
+;padding:3.0pt 0cm 0cm 0cm'><p class=3DMsoNormal><b><span style=3D'font-siz=
+e:10.0pt;font-family:"Tahoma","sans-serif";mso-fareast-language:FR'>De&nbsp=
+;:</span></b><span style=3D'font-size:10.0pt;font-family:"Tahoma","sans-ser=
+if";mso-fareast-language:FR'> AJJAZ Franck [<a href=3D"mailto:franck.ajjaz@=
+altran.com">mailto:franck.ajjaz@altran.com</a>] <br><b>Envoy=C3=A9&nbsp;:</=
+b> jeudi 8 d=C3=A9cembre 2016 14:37<br><b>=C3=80&nbsp;:</b> DANYACH-DESCHAM=
+PS Myriam ASC<br><b>Cc&nbsp;:</b> CASIMIRIUS Thierry IDEF MINDEF; MORENO Ma=
+rio ASC<br><b>Objet&nbsp;:</b> CR COPIL<o:p></o:p></span></p></div></div><p=
+ class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>Bonjour,<o:p><=
+/o:p></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal>Voi=
+ci le CR du Copil de lundi.<o:p></o:p></p><p class=3DMsoNormal><o:p>&nbsp;<=
+/o:p></p><p class=3DMsoNormal>Cordialement,<o:p></o:p></p><p class=3DMsoNor=
+mal><b><span style=3D'font-size:10.0pt;font-family:"Arial","sans-serif";col=
+or:blue;mso-fareast-language:FR'>Franck AJJAZ</span></b><span style=3D'mso-=
+fareast-language:FR'><o:p></o:p></span></p><p class=3DMsoNormal><span style=
+=3D'font-size:10.0pt;font-family:"Arial","sans-serif";mso-fareast-language:=
+FR'>Chef de Projet<o:p></o:p></span></p><p class=3DMsoNormal><span style=3D=
+'font-size:10.0pt;font-family:"Arial","sans-serif";mso-fareast-language:FR'=
+>TRA VITAM</span><span style=3D'font-size:8.0pt;font-family:"Arial","sans-s=
+erif";color:gray;mso-fareast-language:FR'><br></span><span style=3D'font-si=
+ze:7.5pt;font-family:"Arial","sans-serif";color:gray;mso-fareast-language:F=
+R'><a href=3D"mailto:franck.ajjaz@altran.com">franck.ajjaz@altran.com</a><o=
+:p></o:p></span></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body>=
+</html>
+------=_Part_178_22527149.1517006383427--
+
+------=_Part_177_14555244.1517006383427--

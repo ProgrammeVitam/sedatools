@@ -1,0 +1,58 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000026]: Difficulté avec recherche &quot;google like&quot;</Title>
+    <OriginatingSystemId>&lt;498b8edf427d989336255ee92b8b721a@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-21T09:46:14Z</SentDate>
+    <ReceivedDate>2016-12-21T09:46:21Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=26 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   26
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     nouveau
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-21 10:46 CET
+Dernière modification:      2016-12-21 10:46 CET
+====================================================================== 
+Résumé:                     Difficulté avec recherche &quot;google like&quot;
+Description: 
+Nous avons eu des difficultés avec la recherche &quot;google like&quot; en IHM, que ce
+soit dans le champs &quot;Recherche&quot;, &quot;Titre&quot; ou &quot;Description&quot; de la recherche
+avancée.
+Par exemple, effectuer une recherche sans espace. Nous avons une archive ayant
+pour titre &quot;Triel sur seine&quot;, nous effectuons une recherche avec &quot;Trielsurseine&quot;
+et nous n&apos;obtenons aucun résultat.
+
+Informations complémentaires: 
+PVI-126
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-21 10:46 Jonathan       Nouveau bogue                                
+2016-12-21 10:46 Jonathan       Fichier ajouté: SIP-20161221104529.zip         
+          
+======================================================================</TextContent>
+</Content>

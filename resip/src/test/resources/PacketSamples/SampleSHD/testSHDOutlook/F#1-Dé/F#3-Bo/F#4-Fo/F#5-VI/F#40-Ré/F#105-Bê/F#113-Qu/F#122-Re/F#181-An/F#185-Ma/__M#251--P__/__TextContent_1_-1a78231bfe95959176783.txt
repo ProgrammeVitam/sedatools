@@ -1,0 +1,71 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=7 
+====================================================================== 
+Rapporteur:                 Omar
+Responsable:                Omar
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   7
+Catégorie:                  VITAM
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-09 11:35 CET
+Dernière modification:      2016-12-09 11:35 CET
+====================================================================== 
+Résumé:                     [API-access-external/v1/units-PUT] : La balise
+réponse "#diff" ne contient pas systématiquement la balise modifiée
+Description: 
+lors de mise à jour d'un titre via la reqquête suivante :
+
+PUT
+https://213.32.79.242:8444/access-external/v1/units/aeaaaaaaaaaam7mxaaekoaky2uk7n7iaaaaq
+HTTP/1.1
+Accept-Encoding: gzip,deflate
+Content-Type: application/json
+X-Http-Method-Override: GET
+charset: UTF-8
+Accept: application/json
+
+
+{
+	"$roots":[],
+	"$query":
+			[],
+	"$filter":
+	{
+		"$orderby":
+		{
+			"TransactedDate":1}},
+	"$action":
+					[
+			{
+				"$set":
+				{
+					"Title":"g_Title_DEFAUT"}}]}
+
+..
+Le JSON de la réponse ne contient pas systématiquement dans la balise "#diff":
+" l'item modifié (ie ici  "#diff": "-  Title : g_Title_DEFAUT.....).
+
+A noter que cela peut être un comportement "normal" de la part de VITAM si on
+lance cette même requête deux fois de suite, il serait donc logique de ne pas
+re re modifier car l'ancienne valeur et la nouvelle sont les mêmes.
+Or si on lance cette même requête via un autre "canal" (ex via soap-ui sur un
+autre niveau avec exactement la même requête JSON) la balise est renvoyée
+même si l'ancien titre et le nouveau sont les mêmes ! 
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-09 11:35 Omar           Nouveau bogue                                
+2016-12-09 11:35 Omar           Statut                   nouveau => affecté  
+2016-12-09 11:35 Omar           Assigné à                 => Omar            
+======================================================================

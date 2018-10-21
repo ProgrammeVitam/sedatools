@@ -1,0 +1,27 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[MantisBT] Account registration</Title>
+    <OriginatingSystemId>&lt;18a6d596258af90276a67e47f5b41d10@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>noreply@example.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-05T14:59:38Z</SentDate>
+    <ReceivedDate>2016-12-05T15:51:59Z</ReceivedDate>
+    <TextContent>The user administrator has created an account for you with username &quot;Thierry&quot;.
+In order to complete your registration, visit the following URL (make sure it is
+entered as the single line) and set your own access password:
+
+http://213.32.79.242/mantisbt/verify.php?id=7&amp;confirm_hash=GUPOpkvATkFnYs0Yuj5Di3veUcXbZHR8KcFQxLneTDKccIfPHL4iT50qGD1YwuczrQYy78_pS6_3oFqNGqqL
+
+If you did not request any registration, ignore this message and nothing will
+happen.
+
+Do not reply to this message</TextContent>
+</Content>

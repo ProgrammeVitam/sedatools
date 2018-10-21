@@ -1,0 +1,50 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=35 
+====================================================================== 
+Rapporteur:                 Aurelien
+Responsable:                Aurelien
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   35
+Catégorie:                  VITAM
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:               80 
+====================================================================== 
+Date de soumission:         2016-12-23 15:52 CET
+Dernière modification:      2016-12-23 15:52 CET
+====================================================================== 
+Résumé:                     [Besoin Métier Légitime] - Impossibilité de
+rechercher une Unit via Metadata puis de modifier d'autres Metadata sur cette
+Unit
+Description: 
+Via API, il n'est pas possible de rechercher une Unit via métadonnées puis de
+modifier d'autres métadonnées (que celles recherchées) de cette même Unit.
+
+Balises concernées pour la recherche :
+- DescriptionLevel
+- StartDate
+
+Balises concernées pour la modification :
+- Title
+- Description
+
+Étapes pour le reproduire: 
+1) Injecter un SIP dans Vitam
+2) Exécuter la requête via Soap Ui (requête en PJ)
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-23 15:52 Aurelien       Nouveau bogue                                
+2016-12-23 15:52 Aurelien       Statut                   nouveau => affecté  
+2016-12-23 15:52 Aurelien       Assigné à                 => Aurelien        
+2016-12-23 15:52 Aurelien       Fichier ajouté:
+PVI-878_23-12-2016-02-48_REQUEST.json                    
+======================================================================

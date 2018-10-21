@@ -1,0 +1,41 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=66 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   66
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     nouveau
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-10 17:14 CET
+Dernière modification:      2017-01-10 17:14 CET
+====================================================================== 
+Résumé:                     Aucune vérification lors de l'import d'un ref de
+Règles de Gestion par API
+Description: 
+Nous pouvons importer via API des référentiels de règles de gestion
+comportant diverses erreurs.
+Il semble n'y avoir aucun contrôle:
+
+Nous avons pu charger un référentiel alors qu'un autre était déjà présent.
+(normalement interdit US490)
+
+Le deuxième référentiel est intégré même si il est identique au premier.
+
+Et on peut mettre les valeurs que l'on veut dans tous les champs.
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-10 17:14 Franck         Nouveau bogue                                
+======================================================================

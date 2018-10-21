@@ -1,0 +1,62 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000020]: Disparition du champs ID du service producteur apres modification via IHM</Title>
+    <OriginatingSystemId>&lt;46583100b3eadedc34d4d284ef86bdee@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-16T15:59:19Z</SentDate>
+    <ReceivedDate>2016-12-16T16:01:18Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=20 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   20
+Catégorie:                  VITAM
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-16 16:59 CET
+Dernière modification:      2016-12-16 16:59 CET
+====================================================================== 
+Résumé:                     Disparition du champs ID du service producteur
+apres modification via IHM
+Description: 
+Dans le détail d&apos;une Unit qui possède aucune valeurs dans les balises &quot;Id
+Service producteur&quot; et &quot;Nom du service producteur&quot; (Screen &quot;Etape 1&quot;), nous
+avons remarqué que lorsque nous mettons une valeur dans le champs &quot;Nom du
+service producteur&quot;, le champs &quot;Id du service producteur&quot; disparait, est
+remplacé par &quot;Nom du service producteur&quot; qui apparait deux fois (Screen &quot;Etape
+2&quot;.
+
+Cependant, si nous valorisons le champs &quot;Id du service producteur&quot;,validons,
+puis &quot;Nom du service producteur&quot;, les modifications se font sans probleme
+(Screen &quot;Etape 3&quot;)
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-16 16:59 Jonathan       Nouveau bogue                                
+2016-12-16 16:59 Jonathan       Statut                   nouveau =&gt; affecté  
+2016-12-16 16:59 Jonathan       Assigné à                 =&gt; Jonathan        
+2016-12-16 16:59 Jonathan       Fichier ajouté: Anomalie 5.zip                 
+  
+======================================================================</TextContent>
+</Content>

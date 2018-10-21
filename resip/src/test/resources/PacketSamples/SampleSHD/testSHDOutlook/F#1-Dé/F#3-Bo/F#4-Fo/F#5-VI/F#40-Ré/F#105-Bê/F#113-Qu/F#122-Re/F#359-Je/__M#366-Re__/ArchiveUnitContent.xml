@@ -1,0 +1,80 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: TR: Projet Postman Démo API - VITAM</Title>
+    <OriginatingSystemId>&lt;f9312c7855ea575b8333bbdabb79221b@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>emmanuel.laborde</FirstName>
+        <BirthName>emmanuel.laborde</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>AJJAZ Franck (franck.ajjaz@altran.com)</FirstName>
+        <BirthName>AJJAZ Franck (franck.ajjaz@altran.com)</BirthName>
+        <Identifier>franck.ajjaz@altran.com</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>DANYACH-DESCHAMPS Myriam</FirstName>
+        <BirthName>DANYACH-DESCHAMPS Myriam</BirthName>
+        <Identifier>myriam.danyach-deschamps@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>MORENO Mario</FirstName>
+        <BirthName>MORENO Mario</BirthName>
+        <Identifier>mario.moreno@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>VASSEUR Edouard</FirstName>
+        <BirthName>VASSEUR Edouard</BirthName>
+        <Identifier>edouard.vasseur@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-11-21T15:51:55Z</SentDate>
+    <ReceivedDate>2016-11-21T15:52:08Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C66A53F@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour,
+
+Vous trouverez ci joint le fichier postman utilisé lors de la démonstration sur les API du jeudi 17/11. Il contient l&apos;ensemble des requêtes utilisées.
+
+Rappel : Les requêtes de ce fichier utilisent une version encore instable de l&apos;API puisque la démonstration a eu lieu avant la fin de l&apos;itération.
+Des corrections sont en cours sur quelques éléments mais l&apos;écart est marginal (nom d&apos;argument préfixé par &quot;#&quot; et non &quot;_&quot;...).
+
+Cdt,
+
+Emmanuel Laborde
+
+ 
+
+ 
+
+Le 2016-11-21 12:24, CASIMIRIUS Thierry a écrit :
+
+	Bonjour Emmanuel,
+
+	 
+
+	Comme convenu en réunion,  serait-il possible de disposer, cette semaine, des fichiers et exemples présentés jeudi dernier lors de la démonstration API VITAM, pour nous permettre de préparer les tests d’ici la livraison de la TRA VITAM ?
+
+	 
+
+	D’avance, merci,
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45</TextContent>
+</Content>

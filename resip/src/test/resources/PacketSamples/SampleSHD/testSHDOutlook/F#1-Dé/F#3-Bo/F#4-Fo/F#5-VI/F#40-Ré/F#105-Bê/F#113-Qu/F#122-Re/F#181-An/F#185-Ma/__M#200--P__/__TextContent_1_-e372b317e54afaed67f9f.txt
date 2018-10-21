@@ -1,0 +1,41 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=57 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                Franck
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   57
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-09 14:00 CET
+Dernière modification:      2017-01-09 14:00 CET
+====================================================================== 
+Résumé:                     mauvaise association de catégorie de règle dans
+l'ihm
+Description: 
+Nous insérons un SIP dont un GOT est soumis à une Reuse Rule.
+
+La règle est bien associée; le calcul de la date d'échéance est ok.
+
+Mais il est indiqué que c'est une règle de communicabilité alors qu'il s'agit
+d'une règle de réutilisation.
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-09 14:00 Franck         Nouveau bogue                                
+2017-01-09 14:00 Franck         Statut                   nouveau => affecté  
+2017-01-09 14:00 Franck         Assigné à                 => Franck          
+2017-01-09 14:00 Franck         Fichier ajouté: SIP-20161222092729.zip         
+          
+======================================================================

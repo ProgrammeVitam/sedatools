@@ -1,0 +1,566 @@
+Return-Path: nathanael.attar.ext@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur03.culture.fr with ESMTP id v06F41bl030701;	Fri, 06 Jan 2017
+ 16:04:01 +0100
+Date: Fri, 6 Jan 2017 16:04:01 +0100 (CET)
+From: <nathanael.attar.ext@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+CC: 
+	'emmanuel.laborde@culture.gouv.fr' <emmanuel.laborde@culture.gouv.fr>, "AJJAZ Franc <franck.ajjaz@altran.com>,BEL Nicolas <nicolas.bel@intradef.gouv.fr>
+Message-ID: <f9120ca89e4be9859105f1474f68516d@culture.gouv.fr>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D3007D44E@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D3007D44E@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: =?UTF-8?Q?Re:_Ano_Tuleap_45_-_Mantis__[Projet_VITAM_0?=
+ =?UTF-8?Q?000047]:_Ingest_r=C3=A9ussi_d'un_format_de_fichie?=
+ =?UTF-8?Q?r_inconnu_dans_PRONOM_=3D>Rejet=C3=A9_-_demande_d'a?=
+ =?UTF-8?Q?cc=C3=A8s_=C3=A0_l'adresse_sp=C3=A9ci?=
+ =?UTF-8?Q?fi=C3=A9e_pour_v=C3=A9rification?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_379_23553202.1517006385249"
+X-Proofpoint-Sentinel:  stfsU2FsdGVkX1+JalMmUp5tDWWQABYPXVctch1c8M3g4Aujv+yWvZAEEEVB
+ aXc/BQq//bSZNqXMDEm0ukazjxejpNk5sKfoOWq8vi15jpzjdGv1LR3CgXp5/dj5gnucoOPM
+X-Sender:  nathanael.attar.ext@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8400 signatures=670795
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1313700;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM07.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_379_23553202.1517006385249
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_380_19941952.1517006385249"
+
+------=_Part_380_19941952.1517006385249
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour Thierry,
+
+Je vous confirme que Vitam utilise bien le r=C3=A9f=C3=A9rentiel PRONOM : p=
+our les besoins de la d=C3=A9monstration, j'ai cependant utilis=C3=A9 Siegf=
+ried qui se base lui-m=C3=AAme sur PRONOM (http://www.itforarchivists.com/s=
+iegfried).
+
+L'explication est la suivante : on ne se base pas uniquement sur l'extensio=
+n. En effet, vous vous =C3=AAtes bas=C3=A9s =C3=A0 juste titre sur l'extens=
+ion qui est la m=C3=A9thode utilis=C3=A9e nativement par la nomenclature PR=
+ONOM.=20
+
+Or VITAM, qui se base sur PRONOM, va plus loin que l'extension elle m=C3=AA=
+me et v=C3=A9rifie surtout le contenu du fichier.
+
+Le malentendu vient du fait que pour PRONOM, ".GRM" ne ressort pas, alors m=
+=C3=AAme que le r=C3=A9f=C3=A9rentiel Siegfried, qui se base sur PRONOM, id=
+entifie l'int=C3=A9grit=C3=A9 du fichier lui m=C3=AAme, comme le fait exact=
+ement VITAM.
+
+C'est en l'=C3=A9tat un exercice int=C3=A9ressant dans la mesure o=C3=B9 no=
+us pourrions par exemple uploader un fichier dont on changerait l'extension=
+ : VITAM s'attachera quand m=C3=AAme =C3=A0 en identifier le format natif.
+
+Dernier =C3=A9l=C3=A9ment qui confirme notre d=C3=A9monstration : si l'on o=
+uvre le manifeste relatif au SIP utilis=C3=A9 (depuis "AnomalieGRM"), on ob=
+serve bien =C3=A0 l'emplacement suivant les deux lignes suivantes :=20
+
+<MimeType>application/octet-stream</MimeType>
+
+<FormatId>fmt/899</FormatId>
+
+... Ce qui nous confirme que l'int=C3=A9grit=C3=A9 du format est coh=C3=A9r=
+ente avec le r=C3=A9f=C3=A9rentiel, c'est =C3=A0 dire que format fmt/899 es=
+t bien reconnu comme valide et qu'en cons=C3=A9quence, qu'il ne s'agit pas =
+d'un bug.
+
+En esp=C3=A9rant vous avoir apport=C3=A9 les =C3=A9claircissements n=C3=A9c=
+essaires, je reste bien entendu =C3=A0 votre disposition pour toute informa=
+tion compl=C3=A9mentaire,
+
+Cordialement,
+
+Nathanael Attar
+
+=20
+
+=20
+
+Le 2017-01-06 15:28, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09Bonjour Nathan, Emmanuel
+
+=09=20
+
+=09Le bug Tuleap 45 vient d=E2=80=99=C3=AAtre rejet=C3=A9 pour la raison su=
+ivante.
+
+=09=20
+
+=09Nathanael Attar (nattar)il y a 3 heures
+
+=09Derni=C3=A8re =C3=A9dition par: Nathanael Attar (nattar) il y a 3 heures
+
+=09Bonjour,
+
+=09=20
+
+=09Sauf erreur, il ne s'agit pas d'un bug car le format .GRM est bien pris =
+en compte dans le r=C3=A9f=C3=A9rentiel des formats de Vitam :
+
+=09=20
+
+=09V=C3=A9rification via l'adresse suivante : via : https://int2.env.progra=
+mmevitam.fr/ihm-demo/#!/admin/formats
+
+=09=20
+
+=09PUID : fmt/899
+
+=09Nom de format : Windows Portable Executable
+
+=09Version: 32 bit
+
+=09MIME : application/octet-stream
+
+=09Extensions : dll,exe,sys
+
+=09=20
+
+=09ID du format v=C3=A9rifiable =C3=A0 cette adresse : ID fmt/899 v=C3=A9ri=
+fiable sur ce site par exemple : http://www.itforarchivists.com/siegfried
+
+=09=20
+
+=09Mais l=E2=80=99extension .GRM n=E2=80=99est pas sp=C3=A9cifi=C3=A9 dans =
+les extensions indiqu=C3=A9es ci-dessous.
+
+=09Et le r=C3=A9f=C3=A9rentiel de format de VITAM indiqu=C3=A9 (https://int=
+2.env.programmevitam.fr/ihm-demo/#!/admin/formats) n=E2=80=99est pas access=
+ible.
+
+=09Quel login et mdp utiliser pour acc=C3=A9der =C3=A0 ce r=C3=A9f=C3=A9ren=
+tiel ?=20
+
+=09=20
+
+=09Et nous avions compris que la base =C3=A0 utiliser pour le r=C3=A9f=C3=
+=A9rentiel de format =C3=A9tait PRONOM (http://www.nationalarchives.gov.uk/=
+PRONOM/BasicSearch/proBasicSearch.aspx?status=3Dnew)
+
+=09VITAM utilise-t-il un autre r=C3=A9f=C3=A9rentiel ??
+
+=09=20
+
+=09=20
+
+=09D=E2=80=99avance, merci pour votre retour,
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Chef du bureau des technologies de l=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+
+=09=20
+
+=09-----Message d'origine-----
+=09De : Mantis Bug Tracker [mailto:admtlvitam@gmail.com]=20
+=09Envoy=C3=A9 : mercredi 4 janvier 2017 10:13
+=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09Objet : [Projet VITAM 0000047]: Ingest r=C3=A9ussi d'un format de fichie=
+r inconnu dans PRONOM
+
+=09=20
+
+=09=20
+
+=09Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+=09http://213.32.79.242/mantisbt/view.php?id=3D47 <http://213.32.79.242/man=
+tisbt/view.php?id=3D47>=20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09Rapporteur:                 Jonathan
+
+=09Responsable:                Jonathan
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09Projet:                     Projet VITAM
+
+=09Bogue ID:                   47
+
+=09Cat=C3=A9gorie:                  BugFromTestlink
+
+=09Reproductibilit=C3=A9:           toujours
+
+=09Impact:                     majeur
+
+=09Priorit=C3=A9:                   normale
+
+=09Statut:                     affect=C3=A9
+
+=09Comportement attendu:       =20
+
+=09US concern=C3=A9e:               =20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09Date de soumission:         2017-01-04 10:13 CET
+
+=09Derni=C3=A8re modification:      2017-01-04 10:13 CET
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09R=C3=A9sum=C3=A9:                     Ingest r=C3=A9ussi d'un format de =
+fichier inconnu dans
+
+=09PRONOM
+
+=09Description:=20
+
+=09Nous avons effectu=C3=A9 un INGEST d'un fichier .GRM tout seul dans VITA=
+M et nous avons obtenu un ATR avec un ReplyCode OK.
+
+=09Le fichier est bien accessible dans VITAM avec un PUID correspondant a u=
+n fichier .exe L'INGEST a =C3=A9t=C3=A9 effectu=C3=A9 avec les APIs mais au=
+ssi avec l'IHM avec toujours le m=C3=AAme r=C3=A9sultat=20
+
+=09=20
+
+=09Informations compl=C3=A9mentaires:=20
+
+=09PVI-215
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=09=20
+
+=09Historique du bogue=20
+
+=09Date de modificationNom d=E2=80=99utilisateurChamp                    Ch=
+angement     =20
+
+=09   =20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+=092017-01-04 10:13 Jonathan       Nouveau bogue                           =
+    =20
+
+=092017-01-04 10:13 Jonathan       Statut                   nouveau =3D> af=
+fect=C3=A9 =20
+
+=092017-01-04 10:13 Jonathan       Assign=C3=A9 =C3=A0                 =3D>=
+ Jonathan       =20
+
+=092017-01-04 10:13 Jonathan       Fichier ajout=C3=A9: Anomalie GRM.zip   =
+           =20
+
+=09   =20
+
+=09=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_380_19941952.1517006385249
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>Bonjour Thierry,</p>
+<p>Je vous confirme que Vitam utilise bien le r=C3=A9f=C3=A9rentiel PRONOM =
+: pour les besoins de la d=C3=A9monstration, j'ai cependant utilis=C3=A9 Si=
+egfried qui se base lui-m=C3=AAme sur PRONOM (http://www.itforarchivists.co=
+m/siegfried).</p>
+<p>L'explication est la suivante : <strong>on ne se base pas uniquement sur=
+ l'extension.</strong> En effet, vous vous =C3=AAtes bas=C3=A9s =C3=A0 just=
+e titre sur l'extension qui est la m=C3=A9thode utilis=C3=A9e nativement pa=
+r la nomenclature PRONOM.&nbsp;</p>
+<p>Or VITAM, qui se base sur PRONOM, va plus loin que l'extension elle m=C3=
+=AAme et <strong>v=C3=A9rifie surtout le contenu du fichier</strong>.</p>
+<p>Le malentendu vient du fait que pour PRONOM, <em>&quot;.GRM&quot;</em> n=
+e ressort pas, alors m=C3=AAme que le r=C3=A9f=C3=A9rentiel Siegfried, qui =
+se base sur PRONOM, identifie l'int=C3=A9grit=C3=A9 du fichier lui m=C3=AAm=
+e, comme le fait exactement VITAM.</p>
+<p>C'est en l'=C3=A9tat un exercice int=C3=A9ressant dans la mesure o=C3=B9=
+ nous pourrions par exemple uploader un fichier dont on changerait l'extens=
+ion : <strong>VITAM s'attachera quand m=C3=AAme =C3=A0 en identifier le for=
+mat natif.</strong></p>
+<p>Dernier =C3=A9l=C3=A9ment qui confirme notre d=C3=A9monstration : si l'o=
+n ouvre le manifeste relatif au SIP utilis=C3=A9 (depuis &quot;AnomalieGRM&=
+quot;), on observe bien =C3=A0 l'emplacement suivant les deux lignes suivan=
+tes :&nbsp;</p>
+<p class=3D"p1"><span style=3D"color: #0000ff;"><em><span class=3D"s1">&lt;=
+MimeType&gt;</span>application/octet-stream<span class=3D"s1">&lt;/MimeType=
+&gt;</span></em></span></p>
+<p class=3D"p2"><span style=3D"color: #0000ff;"><em><span class=3D"s2"><spa=
+n class=3D"Apple-tab-span"> </span><span class=3D"Apple-tab-span"> </span><=
+span class=3D"Apple-tab-span"> </span><span class=3D"Apple-tab-span"> </spa=
+n></span>&lt;FormatId&gt;<span class=3D"s2">fmt/899</span>&lt;/FormatId&gt;=
+</em></span></p>
+<p class=3D"p2">... Ce qui nous confirme que l'int=C3=A9grit=C3=A9 du forma=
+t est coh=C3=A9rente avec le r=C3=A9f=C3=A9rentiel, c'est =C3=A0 dire que f=
+ormat <em>fmt/899</em> est bien reconnu comme valide et qu'en cons=C3=A9que=
+nce, qu'il ne s'agit pas d'un bug.</p>
+<p class=3D"p2">En esp=C3=A9rant vous avoir apport=C3=A9 les =C3=A9claircis=
+sements n=C3=A9cessaires, je reste bien entendu =C3=A0 votre disposition po=
+ur toute information compl=C3=A9mentaire,</p>
+<p class=3D"p2">Cordialement,</p>
+<p class=3D"p2">Nathanael Attar</p>
+<p class=3D"p2">&nbsp;</p>
+<div>&nbsp;</div>
+<p>Le 2017-01-06 15:28, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoPlainText">Bonjour Nathan, Emmanuel<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Le bug Tuleap 45 vient d=E2=80=99=C3=AAtre rejet=
+=C3=A9 pour la raison suivante.<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">Nathanael Attar (nattar)il y a 3 h=
+eures<!-- o ignored --></span></p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">Derni=C3=A8re =C3=A9dition par: Na=
+thanael Attar (nattar) il y a 3 heures<!-- o ignored --></span></p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">Bonjour,<!-- o ignored --></span><=
+/p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;"><!-- o ignored -->&nbsp;</span></p=
+>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">Sauf erreur, il ne s'agit pas d'un=
+ bug car le format .GRM est bien pris en compte dans le r=C3=A9f=C3=A9renti=
+el des formats de Vitam :<!-- o ignored --></span></p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;"><!-- o ignored -->&nbsp;</span></p=
+>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">V=C3=A9rification via l'adresse su=
+ivante : via : https://int2.env.programmevitam.fr/ihm-demo/#!/admin/formats=
+<!-- o ignored --></span></p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;"><!-- o ignored -->&nbsp;</span></p=
+>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">PUID : fmt/899<!-- o ignored --></=
+span></p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">Nom de format : Windows Portable E=
+xecutable<!-- o ignored --></span></p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">Version: 32 bit<!-- o ignored --><=
+/span></p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">MIME : application/octet-stream<!-=
+- o ignored --></span></p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: fuchsia; mso-highlight: fuchsia;">Extensions : dll,exe,sys<!-- o i=
+gnored --></span></p>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;"><!-- o ignored -->&nbsp;</span></p=
+>
+<p class=3D"MsoPlainText" style=3D"margin-left: 35.4pt;"><span style=3D"bac=
+kground: yellow; mso-highlight: yellow;">ID du format v=C3=A9rifiable =C3=
+=A0 cette adresse : ID fmt/899 v=C3=A9rifiable sur ce site par exemple : <a=
+ href=3D"http://www.itforarchivists.com/siegfried">http://www.itforarchivis=
+ts.com/siegfried</a></span><!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Mais l=E2=80=99extension .GRM n=E2=80=99est pas s=
+p=C3=A9cifi=C3=A9 dans les extensions indiqu=C3=A9es ci-dessous.<!-- o igno=
+red --></p>
+<p class=3D"MsoPlainText">Et le r=C3=A9f=C3=A9rentiel de format de VITAM in=
+diqu=C3=A9 (<span style=3D"background: yellow; mso-highlight: yellow;"><a h=
+ref=3D"https://int2.env.programmevitam.fr/ihm-demo/#!/admin/formats">https:=
+//int2.env.programmevitam.fr/ihm-demo/#!/admin/formats</a></span>) n=E2=80=
+=99est pas accessible.<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Quel login et mdp utiliser&nbsp;pour acc=C3=A9der=
+ =C3=A0 ce r=C3=A9f=C3=A9rentiel ? <!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Et nous avions compris que la base =C3=A0 utilise=
+r pour le r=C3=A9f=C3=A9rentiel de format =C3=A9tait PRONOM (<a href=3D"htt=
+p://www.nationalarchives.gov.uk/PRONOM/BasicSearch/proBasicSearch.aspx?stat=
+us=3Dnew">http://www.nationalarchives.gov.uk/PRONOM/BasicSearch/proBasicSea=
+rch.aspx?status=3Dnew</a>)<!-- o ignored --></p>
+<p class=3D"MsoPlainText">VITAM utilise-t-il un autre r=C3=A9f=C3=A9rentiel=
+&nbsp;??<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">D=E2=80=99avance, merci pour votre retour,<!-- o =
+ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Cordialement,<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Thierry CASIMIRIUS<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Chef du bureau des technologies de l=E2=80=99info=
+rmation<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Service historique de la D=C3=A9fense<!-- o ignor=
+ed --></p>
+<p class=3D"MsoPlainText">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></p>
+<p class=3D"MsoPlainText">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o ignored --><=
+/p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText"><span style=3D"mso-fareast-language: FR;">-----Me=
+ssage d'origine-----<br> De&nbsp;: Mantis Bug Tracker [mailto:admtlvitam@gm=
+ail.com] <br> Envoy=C3=A9&nbsp;: mercredi 4 janvier 2017 10:13<br> =C3=80&n=
+bsp;: CASIMIRIUS Thierry IDEF MINDEF<br> Objet&nbsp;: [Projet VITAM 0000047=
+]: Ingest r=C3=A9ussi d'un format de fichier inconnu dans PRONOM</span></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Le bogue suivant a =C3=A9t=C3=A9 soumis. <!-- o i=
+gnored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><a href=3D"http://213.32.79.242/mantisbt/view.php=
+?id=3D47"><span style=3D"color: windowtext; text-decoration: none;">http://=
+213.32.79.242/mantisbt/view.php?id=3D47</span></a><!-- o ignored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Rapporteur:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jonathan<!-- o i=
+gnored --></p>
+<p class=3D"MsoPlainText">Responsable:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Jonathan<!-- o ignore=
+d --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Projet:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; Projet VITAM<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Bogue ID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 47<!--=
+ o ignored --></p>
+<p class=3D"MsoPlainText">Cat=C3=A9gorie:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BugFro=
+mTestlink<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Reproductibilit=C3=A9:&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; toujours<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Impact:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; majeur<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Priorit=C3=A9:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n=
+ormale<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Statut:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; affect=C3=A9<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Comportement attendu:&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp; <!-- o ignored --></p>
+<p class=3D"MsoPlainText">US concern=C3=A9e:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- o ignored =
+--></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Date de soumission:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp; 2017-01-04 10:13 CET<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Derni=C3=A8re modification:&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp; 2017-01-04 10:13 CET<!-- o ignored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">R=C3=A9sum=C3=A9:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp; Ingest r=C3=A9ussi d'un format de fichier inconnu dans<!-- o =
+ignored --></p>
+<p class=3D"MsoPlainText">PRONOM<!-- o ignored --></p>
+<p class=3D"MsoPlainText">Description: <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Nous avons effectu=C3=A9 un INGEST d'un fichier .=
+GRM tout seul dans VITAM et nous avons obtenu un ATR avec un ReplyCode OK.<=
+!-- o ignored --></p>
+<p class=3D"MsoPlainText">Le fichier est bien accessible dans VITAM avec un=
+ PUID correspondant a un fichier .exe L'INGEST a =C3=A9t=C3=A9 effectu=C3=
+=A9 avec les APIs mais aussi avec l'IHM avec toujours le m=C3=AAme r=C3=A9s=
+ultat <!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Informations compl=C3=A9mentaires: <!-- o ignored=
+ --></p>
+<p class=3D"MsoPlainText">PVI-215<!-- o ignored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoPlainText">Historique du bogue <!-- o ignored --></p>
+<p class=3D"MsoPlainText">Date de modificationNom d=E2=80=99utilisateurCham=
+p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Changement&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp; <!-- o ignored --></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D <!-- o ignored --></p>
+<p class=3D"MsoPlainText">2017-01-04 10:13 Jonathan&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; Nouveau bogue&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- o ignor=
+ed --></p>
+<p class=3D"MsoPlainText">2017-01-04 10:13 Jonathan&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; Statut&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nouveau =3D&gt; affect=
+=C3=A9&nbsp; <!-- o ignored --></p>
+<p class=3D"MsoPlainText">2017-01-04 10:13 Jonathan&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; Assign=C3=A9 =C3=A0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; =3D&gt; Jonathan&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- o ignored --></p>
+<p class=3D"MsoPlainText">2017-01-04 10:13 Jonathan&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; Fichier ajout=C3=A9: Anomalie GRM.zip&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <!-- o ignored =
+--></p>
+<p class=3D"MsoPlainText">&nbsp;&nbsp;&nbsp;&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoPlainText">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D<!-- o ignored --></p>
+<p class=3D"MsoPlainText"><!-- o ignored -->&nbsp;</p>
+</div>
+</blockquote>
+</body></html>
+------=_Part_380_19941952.1517006385249--
+
+------=_Part_379_23553202.1517006385249--

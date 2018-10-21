@@ -1,0 +1,96 @@
+Bonjour,
+
+Concernant la documentation :
+
+*	De l’intégralité des user stories à jour => prévu au 14/10
+*	Du schéma de données VITAM             => Le SEDA est une référence importante car c'est le modèle d'interface utilisé. Le modèle de donné VITAM est très proche. Je regarde quand une version documenté peut être diffusée mais ca ne devrait pas être bloquant.
+
+Concernant les besoins d’informations sur les APIs : 
+
+*	Concernant L'API ingest, elle est simple puisque cela consiste à uploader un fichier zip contenant un fichier xmlSEDA accompagné des objets numériques à intégrer. La complexité de cette interface réside dans l'élaboration des fichiers xmlSEDA représentatifs des cas testés. Il vous faut donc monter en compétence sur le sujet SEDA en priorité.
+
+	*	Nous avons mis ce jour à disposition des projets un générateur de SEDA, il est peut donc vous être communiqué.
+
+*	Concernant L'API d'accès elle est simple d'un point de vu des collections mais sa richesse réside dans le DSL (Domaine Specific Language) dont les opérateurs et la sémantique sont décrits. La complexité consiste à traduire des cas d'accès métiers en séquences de requêtes du DSL.
+
+	*	Je regarde si nous pouvons fournir des exemples supplémentaires.
+
+J'entends que le sujet API doit être approfondi mais pour l'ingest et l'accès, qui sont les principaux points à étudier pour établir des cas de tests métier, la documentation existante devrait permettre de ne pas être bloqué (concernant le SEDA il existe également des ressources du SIAF qui peuvent être utilisées).
+
+Cordialement,
+
+Emmanuel Laborde
+
+ 
+
+Le 2016-10-10 16:29, AJJAZ Franck a écrit :
+
+	Bonjour Emmanuel,
+
+	 
+
+	Nous devions formaliser par mail nos besoins en terme de documentation.
+
+	 
+
+	Nous avons donc besoin :
+
+	 
+
+	-          De l’intégralité des user stories à jour
+
+	-          Du schéma de données VITAM 
+
+	 
+
+	Nous aurions aussi besoin de plus d’informations sur les APIs.
+
+	 
+
+	Nous sommes allés sur api.programmevitam.fr/ ou il y a en effet de la documentation sur les APIs de versement et de recherche et accès aux archives. 
+
+	 
+
+	Cependant, les informations sont un peu succinctes. Pour l’Ingest par exemple (http://api.programmevitam.fr/files/ingest.html), on trouve un bref descriptif              suivi de la structuration d’un statut après la soumission d’une entrée. Le reste de la page est constitué d’informations sur le Modèle REST en général.
+
+	 
+
+	Mais il n’est pas précisé comment soumettre une entrée. A moins que quelque chose ne m’ait échappé sur le site.
+
+	 
+
+	Au-delà de ces éléments, comment faire le lien entre les APIs et les user stories ? 
+
+	 
+
+	Exemple :
+
+	Comment fait on concrètement pour déposer un SIP dans VITAM ?
+
+	 
+
+	Ou encore comment réalise t-on le cas suivant ? :
+
+	 
+
+	En tant qu'archiviste, je veux contrôler que les métadonnées d'un unit que je corrige sont conformes à un profil afin d'éviter les erreurs
+
+	 
+
+	Avez-vous de la documentation qui décrive ceci ou des modes opératoires ?
+
+	 
+
+	Merci pour ton aide.
+
+	 
+
+	Cordialement,
+
+	 
+
+	Franck AJJAZ
+
+	Chef de Projet
+
+	TRA VITAM

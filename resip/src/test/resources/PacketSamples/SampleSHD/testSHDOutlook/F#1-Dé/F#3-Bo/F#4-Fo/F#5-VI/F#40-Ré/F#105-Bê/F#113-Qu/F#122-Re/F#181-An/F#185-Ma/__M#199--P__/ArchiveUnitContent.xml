@@ -1,0 +1,93 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000058]: Résultat aléatoire avec l&apos;opérateur Match dans la collection Units</Title>
+    <OriginatingSystemId>&lt;851b7e107674a9af6f57cbc6c6bfff96@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-09T14:48:24Z</SentDate>
+    <ReceivedDate>2017-01-09T14:50:40Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=58 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   58
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     nouveau
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-09 15:48 CET
+Dernière modification:      2017-01-09 15:48 CET
+====================================================================== 
+Résumé:                     Résultat aléatoire avec l&apos;opérateur Match dans
+la collection Units
+Description: 
+Nous avons tester l&apos;opérateur Match sur quelques champs disponible dans la
+collection Unit.
+Comme attendu, l&apos;opérateur fonctionne avec les champs Nom et Description.
+Cependant nous avons obtenus des résultats aléatoire avec d&apos;autres champs.
+
+Par exemple : Nous avons effectué une recherche d&apos;Units qui possèdent une
+valeur &quot;ITEM LEVEL&quot; dans le champs DescriptionLevel.
+Nous avons utilisé la requête suivante :
+ {
+  &quot;$roots&quot;: [],
+  &quot;$query&quot;: [
+    {
+      &quot;$match&quot;: {
+        &quot;DescriptionLevel&quot;: &quot;Level&quot;
+      },
+      &quot;$depth&quot;: 20
+    }
+  ],
+  &quot;$filter&quot;: {
+    &quot;$orderby&quot;: {
+      &quot;TransactedDate&quot;: 1
+    }
+  },
+  &quot;$projection&quot;: {
+    &quot;$fields&quot;: {
+      &quot;TransactedDate&quot;: 1,
+      &quot;#id&quot;: 1,
+      &quot;Title&quot;: 1,
+      &quot;#object&quot;: 1
+    }
+  }
+}
+
+Nous n&apos;obtenons 0 résultat mais un code HTTP 200.
+
+Nous obtenons le même résultat avec les balises OriginatingAgency.Identifier
+et OriginatingAgency.OrganizationDescriptiveMetadata
+
+Lorsque nous effectuons une recherche sur TransactedDate, StartDate et Enddate
+nous obtenons une erreur 405 METHOD NOT ALLOWED.
+
+L&apos;opérateur Match ne doit fonctionner que sur les balises Title et Description,
+mais nous obtenons des résultats aléatoire pour les autres balises.
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-09 15:48 Jonathan       Nouveau bogue                                
+2017-01-09 15:48 Jonathan       Fichier ajouté: SIP-20161026171755.zip         
+          
+======================================================================</TextContent>
+</Content>

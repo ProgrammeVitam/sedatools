@@ -1,0 +1,87 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: Modalités de suivi des anomailes VITAM Beta - MINDEF</Title>
+    <OriginatingSystemId>&lt;fd1ebb4491f4de96ba767dface18a342@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>emmanuel.laborde</FirstName>
+        <BirthName>emmanuel.laborde</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>AJJAZ Franck (franck.ajjaz@altran.com)</FirstName>
+        <BirthName>AJJAZ Franck (franck.ajjaz@altran.com)</BirthName>
+        <Identifier>franck.ajjaz@altran.com</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>DANYACH-DESCHAMPS Myriam</FirstName>
+        <BirthName>DANYACH-DESCHAMPS Myriam</BirthName>
+        <Identifier>myriam.danyach-deschamps@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>BEL Nicolas</FirstName>
+        <BirthName>BEL Nicolas</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>edouard VASSEUR</FirstName>
+        <BirthName>edouard VASSEUR</BirthName>
+        <Identifier>edouard.vasseur@culture.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-12-12T10:29:31Z</SentDate>
+    <ReceivedDate>2016-12-12T10:29:44Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C66E2C7@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour,
+
+Je pense que pour commencer nous pouvons traiter ces points en cosuis. Je me renseigne pour savoir si un autre processus est prévu.
+
+Dans tous les cas, le cosui ne devra pas se transformer en instance de traitement des bugs sur le fond mais rester sur du reporting sur l&apos;avancement et éventuellement sur gestion des priorités.
+
+Cdt,
+
+Emmanuel Laborde
+
+ 
+
+Le 2016-12-09 15:43, CASIMIRIUS Thierry a écrit :
+
+	Bonjour Emmanuel,
+
+	 
+
+	Peux-tu me dire quelle organisation est prévue pour le suivi des anomalies saisies dans tuleap pour VITAM ?
+
+	Ces anomalies sont-elles traitées dans une instance de type comité de suivi des anomalies  géré par VITAM, ou sont-elles discutées directement avec le ministère qui les a saisi dans le bugtracker ?
+
+	 
+
+	Dans ce cas, nous devrions alors en parler lors du prochain COSUI TRA VITAM du 13 décembre prochain.
+
+	A ce jour, nous avons saisi 4 anomalies dans Tuleap, dont 2 majeurs.
+
+	 
+
+	D’avance, merci pour ton retour,
+
+	 
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45</TextContent>
+</Content>

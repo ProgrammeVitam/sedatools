@@ -1,0 +1,53 @@
+Bonjour,
+
+Je regarde ce qu'il est possible de faire.
+
+En attendant, pouvez vous décrire plus précisément les problèmes que vous rencontrez ?
+
+Merci
+
+Emmanuel Laborde
+
+ 
+
+Le 2016-12-06 17:42, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Dans le cadre de l’assistance prévue au profit des ministères, est-il possible de bénéficier d’une nouvelle demi-journée pour mieux comprendre le fonctionnement de Postman et son paramétrage, afin de le calquer dans notre paramétrage  de SoapUI ?
+
+	 
+
+	Nous rencontrons en effet des difficultés pour dérouler un INGEST via l’API.
+
+	Par contre, pas de problème pour l’ACCESS
+
+	 
+
+	Le certificat est OK, l’API aussi, mais il semble que cela soit notre compréhension du paramétrage du postman utilisé pour VITAM et à reproduire dans SoapUi qui pose problème pour l’INGEST, notamment.
+
+	 
+
+	Est-il possible de disposer d’une telle assistance ? Et dans l’affirmative, quelles seraient vos disponibilités ?
+
+	 
+
+	En vous remerciant d’avance pour retour,
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45

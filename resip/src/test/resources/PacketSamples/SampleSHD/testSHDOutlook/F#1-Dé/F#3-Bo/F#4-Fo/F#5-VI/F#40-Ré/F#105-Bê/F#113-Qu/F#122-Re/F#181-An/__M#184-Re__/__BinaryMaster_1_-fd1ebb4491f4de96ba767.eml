@@ -1,0 +1,159 @@
+Return-Path: emmanuel.laborde@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur02.culture.fr with ESMTP id uBCATVgQ030757;	Mon, 12 Dec 2016
+ 11:29:31 +0100
+Date: Mon, 12 Dec 2016 11:29:31 +0100 (CET)
+From: emmanuel.laborde <emmanuel.laborde@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+CC: AJJAZ Franck (franck.ajjaz@altran.com) <franck.ajjaz@altran.com>,
+	DANYACH-DESCHAMPS Myriam <myriam.danyach-deschamps@intradef.gouv.fr>,BEL Nicolas <nicolas.bel@intradef.gouv.fr>,
+	edouard VASSEUR <edouard.vasseur@culture.gouv.fr>
+Message-ID: <fd1ebb4491f4de96ba767dface18a342@culture.gouv.fr>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D1C66E2C7@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D1C66E2C7@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: =?UTF-8?Q?Re:_Modalit=C3=A9s_de_suivi_des_anomailes_VITAM_Beta_-_MINDEF?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_227_7378966.1517006384058"
+X-Proofpoint-Sentinel:  stfsU2FsdGVkX180MYSKY0IXY5FhiI9chFi+UCjAcL9dwdtkixiieqlsYoVo
+ zopV4axLBSgZXHOxXL2RZDZ6OIY07bsQk9LHEe7SjE4r0EXlxMp+ELibwj+vKy2Dn/X1kANf
+X-Sender:  emmanuel.laborde@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8376 signatures=670775
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1295300;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM01.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_227_7378966.1517006384058
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_228_3683216.1517006384058"
+
+------=_Part_228_3683216.1517006384058
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour,
+
+Je pense que pour commencer nous pouvons traiter ces points en cosuis. Je m=
+e renseigne pour savoir si un autre processus est pr=C3=A9vu.
+
+Dans tous les cas, le cosui ne devra pas se transformer en instance de trai=
+tement des bugs sur le fond mais rester sur du reporting sur l'avancement e=
+t =C3=A9ventuellement sur gestion des priorit=C3=A9s.
+
+Cdt,
+
+Emmanuel Laborde
+
+=20
+
+Le 2016-12-09 15:43, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09Bonjour Emmanuel,
+
+=09=20
+
+=09Peux-tu me dire quelle organisation est pr=C3=A9vue pour le suivi des an=
+omalies saisies dans tuleap pour VITAM ?
+
+=09Ces anomalies sont-elles trait=C3=A9es dans une instance de type comit=
+=C3=A9 de suivi des anomalies  g=C3=A9r=C3=A9 par VITAM, ou sont-elles disc=
+ut=C3=A9es directement avec le minist=C3=A8re qui les a saisi dans le bugtr=
+acker ?
+
+=09=20
+
+=09Dans ce cas, nous devrions alors en parler lors du prochain COSUI TRA VI=
+TAM du 13 d=C3=A9cembre prochain.
+
+=09A ce jour, nous avons saisi 4 anomalies dans Tuleap, dont 2 majeurs.
+
+=09=20
+
+=09D=E2=80=99avance, merci pour ton retour,
+
+=09=20
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Chef du bureau des technologies de l=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+------=_Part_228_3683216.1517006384058
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>&nbsp;</p>
+<p>Bonjour,</p>
+<p>Je pense que pour commencer nous pouvons traiter ces points en cosuis. J=
+e me renseigne pour savoir si un autre processus est pr=C3=A9vu.</p>
+<p>Dans tous les cas, le cosui ne devra pas se transformer en instance de t=
+raitement des bugs sur le fond mais rester sur du reporting sur l'avancemen=
+t et =C3=A9ventuellement sur gestion des priorit=C3=A9s.</p>
+<p>Cdt,</p>
+<p>Emmanuel Laborde</p>
+<div>&nbsp;</div>
+<p>Le 2016-12-09 15:43, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">Bonjour Emmanuel,<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Peux-tu me dire quelle organisation est pr=C3=A9vue =
+pour le suivi des anomalies saisies dans tuleap pour VITAM&nbsp;?<!-- o ign=
+ored --></p>
+<p class=3D"MsoNormal">Ces anomalies sont-elles trait=C3=A9es dans une inst=
+ance de type comit=C3=A9 de suivi des anomalies&nbsp; g=C3=A9r=C3=A9 par VI=
+TAM, ou sont-elles discut=C3=A9es directement avec le minist=C3=A8re qui le=
+s a saisi dans le bugtracker&nbsp;?<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Dans ce cas, nous devrions alors en parler lors du p=
+rochain COSUI TRA VITAM du 13 d=C3=A9cembre prochain.<!-- o ignored --></p>
+<p class=3D"MsoNormal">A ce jour, nous avons saisi 4 anomalies dans Tuleap,=
+ dont 2 majeurs.<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">D=E2=80=99avance, merci pour ton retour,<!-- o ignor=
+ed --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Cordialement,<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Thierry CASIMIRIUS<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Chef du bureau des technologies de l=E2=80=99information<!-- o ignored =
+--></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Service historique de la D=C3=A9fense<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+</div>
+</blockquote>
+</body></html>
+------=_Part_228_3683216.1517006384058--
+
+------=_Part_227_7378966.1517006384058--

@@ -1,0 +1,431 @@
+Received:  from DRINF-MLLGWM14V.DR-RES.INTRADEF.GOUV.FR ([169.254.6.36]) by
+ INF11LOGES-WM12.DR-RES.INTRADEF.GOUV.FR ([221.10.42.213]) with mapi id
+ 14.03.0195.001; Tue, 18 Oct 2016 14:42:28 +0200
+Date: Tue, 18 Oct 2016 14:42:27 +0200 (CEST)
+From: CHEVENIER Olivier ASC NIV I OA <olivier.chevenier@intradef.gouv.fr>
+To: CASIMIRIUS Thierry IDEF MINDEF <thierry.casimirius@intradef.gouv.fr>
+CC: BEL Nicolas ASC NIV I OA <nicolas.bel@intradef.gouv.fr>
+Message-ID: <9C16B30E95227F4DADC5B291E38C39C02A48DCE7@DRINF-MLLGWM14V.DR-RES.INTRADEF.GOUV.FR>
+In-Reply-To: <1186171586.28921476792220241.JavaMail.vitam@jalios03.xsalto.net>
+References:  <1186171586.28921476792220241.JavaMail.vitam@jalios03.xsalto.net>
+Subject: TR: [Programme Vitam] [Information] Recommandation sur "generateur
+ seda 20161018-RC"
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_429_13480084.1517006385836"
+Thread-Topic:  [Programme Vitam] [Information] Recommandation sur "generateur
+ seda 20161018-RC"
+Thread-Index:  AQHSKTetNuDRywHvdEO7kFZIraliFaCuJpSw
+Accept-Language:  fr-FR, en-US
+Content-Language:  fr-FR
+X-MS-Has-Attach: 
+X-MS-Exchange-Organization-SCL:  0
+X-MS-TNEF-Correlator:  <9C16B30E95227F4DADC5B291E38C39C02A48DCE7@DRINF-MLLGWM14V.DR-RES.INTRADEF.GOUV.FR>
+X-MS-Exchange-Organization-AuthSource: 
+ INF11LOGES-WM12.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Internal
+X-MS-Exchange-Organization-AuthMechanism:  04
+X-Originating-IP:  [52.10.204.119]
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXutTf;1211700;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+
+------=_Part_429_13480084.1517006385836
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_430_21746720.1517006385836"
+
+------=_Part_430_21746720.1517006385836
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Pour info une nouvelle version du g=C3=A9n=C3=A9rateur SIP de Vitam est sor=
+tie, je ne sais pas si tu es associ=C3=A9 =C3=A0 ce groupe sur Jalios.
+
+Le fichier est trop lourd, je n=E2=80=99arrive pas =C3=A0 le joindre par co=
+ntre.
+
+=20
+
+Olivier
+
+=20
+
+=20
+
+=20
+
+De : Edouard Vasseur (Programme Vitam) [mailto:agora@vitam.jaliosagora.com]=
+=20
+Envoy=C3=A9 : mardi 18 octobre 2016 14:04
+=C3=80 : CHEVENIER Olivier ASC NIV I OA
+Objet : [Programme Vitam] [Information] Recommandation sur "generateur seda=
+ 20161018-RC"
+
+=20
+
+
+Programme Vitam - Information
+
+Olivier,=20
+
+Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-va=
+sseur>  vous recommande de consulter generateur seda 20161018-RC <https://v=
+itam.jaliosagora.com/jcms/c_2005275/fr/generateur-seda-20161018-rc>=20
+
+Ce message a =C3=A9t=C3=A9 envoy=C3=A9 au groupe suivant : Chantier Storyma=
+p - Participants
+
+ Edouard Vasseur<https://vitam.jaliosagora.com/upload/photos/2015-11/mbr_c_=
+2000063.jpg.associated/th-40x40-mbr_c_2000063.jpg.jpg?authKey=3DY18yMDAzMTQ=
+2OjE1MDgzMjgyMjAyMzg6JDJhJDA0JDdZdXFFZ0lkS0U5SkRxWnpYUlVjdC4zVFBQb2d2dmdFST=
+JvR2lJclpId0IvNE5CTUFzMmtX>=20
+
+=20
+
+Bonjour, Vous trouverez sur Jalios une nouvelle version du g=C3=A9n=C3=A9ra=
+teur de SIP conformes au SEDA 2.0.=20
+
+Les 3 modifications apport=C3=A9es sont les suivantes : - correction d'un b=
+ug sur la reconnaissance de l'usage auquel correspond un fichier (DataObjec=
+tVersion) - mise =C3=A0 jour de l'outil d'identification des formats Siegfr=
+ied (version 1.6.5. =C3=A0 32 bits au lieu de la version 1.5.0. =C3=A0 64 b=
+its) - mise =C3=A0 jour du r=C3=A9f=C3=A9rentiel PRONOM utilis=C3=A9 par Si=
+egfried (version utilis=C3=A9e : v88)=20
+
+Dans le cas o=C3=B9 vous auriez t=C3=A9l=C3=A9charg=C3=A9 la pr=C3=A9c=C3=
+=A9dente version diffus=C3=A9e, voici la proc=C3=A9dure =C3=A0 suivre : * S=
+auvegarde du fichier conf/ArchiveTransferConfig.json si une configuration p=
+articuli=C3=A8re avait =C3=A9t=C3=A9 faite (et des fichiers g=C3=A9n=C3=A9r=
+=C3=A9s si voulu) * Suppression du r=C3=A9pertoire "G=C3=A9n=C3=A9rateur SE=
+DA" * Remplacement par le nouveau r=C3=A9pertoire * R=C3=A9cup=C3=A9ration =
+du fichier ArchiveTransferConfig.json pour le remettre dans conf/ArchiveTra=
+nsferConfig.json=20
+
+L'=C3=A9quipe Vitam reste =C3=A0 votre disposition pour toute demande d'inf=
+ormation ou de pr=C3=A9cision=20
+
+L'=C3=A9quipe Vitam=20
+
+18/10/2016 13:58 =C2=B7 Chantier Solution logicielle Vitam <https://vitam.j=
+aliosagora.com/jcms/c_2001230/fr/chantier-solution-logicielle-vitam> =20
+
+=09
+Mon profil <https://vitam.jaliosagora.com/jcms/c_2003146/fr/olivier-cheveni=
+er>  =C2=B7 Accueil <https://vitam.jaliosagora.com/> =20
+
+Ce mail vous a =C3=A9t=C3=A9 envoy=C3=A9 par Programme Vitam
+
+ <https://vitam.jaliosagora.com/jcore/alert/mail/markAsRead.jsp?img=3Dtrue&=
+id=3D91989_Alert&authKey=3DdjI7Y18yMDAzMTQ2OzE1MDgzMjgyMjAyMzU7R0VUOzs7JDJh=
+JDA0JDJaWEpKVVVEWE4xeVBTcmpvZzYzMk9EMzU5ZmFFMjBCNHlvZkViUG9RLmI5LkdPMHVkMm5=
+L>
+------=_Part_430_21746720.1517006385836
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40"><head><meta http-equiv=3DContent-Type content=
+=3D"text/html; charset=3Dutf-8"><meta name=3DGenerator content=3D"Microsoft=
+ Word 14 (filtered medium)"><!--[if !mso]><style>v\:* {behavior:url(#defaul=
+t#VML);}
+o\:* {behavior:url(#default#VML);}
+w\:* {behavior:url(#default#VML);}
+.shape {behavior:url(#default#VML);}
+</style><![endif]--><title>Recommandation sur &quot;generateur seda 2016101=
+8-RC&quot;</title><style><!--
+/* Font Definitions */
+@font-face
+=09{font-family:Calibri;
+=09panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+=09{font-family:Tahoma;
+=09panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+=09{margin:0cm;
+=09margin-bottom:.0001pt;
+=09font-size:12.0pt;
+=09font-family:"Times New Roman","serif";}
+h1
+=09{mso-style-priority:9;
+=09mso-style-link:"Titre 1 Car";
+=09mso-margin-top-alt:auto;
+=09margin-right:0cm;
+=09mso-margin-bottom-alt:auto;
+=09margin-left:0cm;
+=09font-size:24.0pt;
+=09font-family:"Times New Roman","serif";
+=09font-weight:bold;}
+h2
+=09{mso-style-priority:9;
+=09mso-style-link:"Titre 2 Car";
+=09mso-margin-top-alt:auto;
+=09margin-right:0cm;
+=09mso-margin-bottom-alt:auto;
+=09margin-left:0cm;
+=09font-size:18.0pt;
+=09font-family:"Times New Roman","serif";
+=09font-weight:bold;}
+h3
+=09{mso-style-priority:9;
+=09mso-style-link:"Titre 3 Car";
+=09mso-margin-top-alt:auto;
+=09margin-right:0cm;
+=09mso-margin-bottom-alt:auto;
+=09margin-left:0cm;
+=09font-size:13.5pt;
+=09font-family:"Times New Roman","serif";
+=09font-weight:bold;}
+h4
+=09{mso-style-priority:9;
+=09mso-style-link:"Titre 4 Car";
+=09mso-margin-top-alt:auto;
+=09margin-right:0cm;
+=09mso-margin-bottom-alt:auto;
+=09margin-left:0cm;
+=09font-size:12.0pt;
+=09font-family:"Times New Roman","serif";
+=09font-weight:bold;}
+h5
+=09{mso-style-priority:9;
+=09mso-style-link:"Titre 5 Car";
+=09mso-margin-top-alt:auto;
+=09margin-right:0cm;
+=09mso-margin-bottom-alt:auto;
+=09margin-left:0cm;
+=09font-size:10.0pt;
+=09font-family:"Times New Roman","serif";
+=09font-weight:bold;}
+h6
+=09{mso-style-priority:9;
+=09mso-style-link:"Titre 6 Car";
+=09mso-margin-top-alt:auto;
+=09margin-right:0cm;
+=09mso-margin-bottom-alt:auto;
+=09margin-left:0cm;
+=09font-size:7.5pt;
+=09font-family:"Times New Roman","serif";
+=09font-weight:bold;}
+a:link, span.MsoHyperlink
+=09{mso-style-priority:99;
+=09color:#1155CC;
+=09text-decoration:none none;}
+a:visited, span.MsoHyperlinkFollowed
+=09{mso-style-priority:99;
+=09color:#1155CC;
+=09text-decoration:none none;}
+p
+=09{mso-style-priority:99;
+=09margin-top:12.0pt;
+=09margin-right:0cm;
+=09margin-bottom:12.0pt;
+=09margin-left:0cm;
+=09font-size:12.0pt;
+=09font-family:"Times New Roman","serif";}
+span.Titre1Car
+=09{mso-style-name:"Titre 1 Car";
+=09mso-style-priority:9;
+=09mso-style-link:"Titre 1";
+=09font-family:"Cambria","serif";
+=09color:#365F91;
+=09font-weight:bold;}
+span.Titre2Car
+=09{mso-style-name:"Titre 2 Car";
+=09mso-style-priority:9;
+=09mso-style-link:"Titre 2";
+=09font-family:"Cambria","serif";
+=09color:#4F81BD;
+=09font-weight:bold;}
+span.Titre3Car
+=09{mso-style-name:"Titre 3 Car";
+=09mso-style-priority:9;
+=09mso-style-link:"Titre 3";
+=09font-family:"Cambria","serif";
+=09color:#4F81BD;
+=09font-weight:bold;}
+span.Titre4Car
+=09{mso-style-name:"Titre 4 Car";
+=09mso-style-priority:9;
+=09mso-style-link:"Titre 4";
+=09font-family:"Cambria","serif";
+=09color:#4F81BD;
+=09font-weight:bold;
+=09font-style:italic;}
+span.Titre5Car
+=09{mso-style-name:"Titre 5 Car";
+=09mso-style-priority:9;
+=09mso-style-link:"Titre 5";
+=09font-family:"Cambria","serif";
+=09color:#243F60;}
+span.Titre6Car
+=09{mso-style-name:"Titre 6 Car";
+=09mso-style-priority:9;
+=09mso-style-link:"Titre 6";
+=09font-family:"Cambria","serif";
+=09color:#243F60;
+=09font-style:italic;}
+p.externalclass, li.externalclass, div.externalclass
+=09{mso-style-name:externalclass;
+=09margin-top:12.0pt;
+=09margin-right:0cm;
+=09margin-bottom:12.0pt;
+=09margin-left:0cm;
+=09font-size:12.0pt;
+=09font-family:"Times New Roman","serif";}
+p.imagefix, li.imagefix, div.imagefix
+=09{mso-style-name:image_fix;
+=09margin-top:12.0pt;
+=09margin-right:0cm;
+=09margin-bottom:12.0pt;
+=09margin-left:0cm;
+=09font-size:12.0pt;
+=09font-family:"Times New Roman","serif";}
+p.photo-anchor, li.photo-anchor, div.photo-anchor
+=09{mso-style-name:photo-anchor;
+=09margin-top:12.0pt;
+=09margin-right:0cm;
+=09margin-bottom:12.0pt;
+=09margin-left:0cm;
+=09font-size:12.0pt;
+=09font-family:"Times New Roman","serif";
+=09display:none;}
+p.first, li.first, div.first
+=09{mso-style-name:first;
+=09margin-top:12.0pt;
+=09margin-right:0cm;
+=09margin-bottom:12.0pt;
+=09margin-left:0cm;
+=09font-size:12.0pt;
+=09font-family:"Times New Roman","serif";}
+span.EmailStyle28
+=09{mso-style-type:personal-reply;
+=09font-family:"Calibri","sans-serif";
+=09color:#1F497D;}
+.MsoChpDefault
+=09{mso-style-type:export-only;
+=09font-size:10.0pt;}
+@page WordSection1
+=09{size:612.0pt 792.0pt;
+=09margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+div.WordSection1
+=09{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DFR link=3D"#1155CC" v=
+link=3D"#1155CC"><div class=3DWordSection1><p class=3DMsoNormal><span style=
+=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497D'><o:p=
+>&nbsp;</o:p></span></p><p class=3DMsoNormal><span style=3D'font-size:11.0p=
+t;font-family:"Calibri","sans-serif";color:#1F497D'>Pour info une nouvelle =
+version du g=C3=A9n=C3=A9rateur SIP de Vitam est sortie, je ne sais pas si =
+tu es associ=C3=A9 =C3=A0 ce groupe sur Jalios.<o:p></o:p></span></p><p cla=
+ss=3DMsoNormal><span style=3D'font-size:11.0pt;font-family:"Calibri","sans-=
+serif";color:#1F497D'>Le fichier est trop lourd, je n=E2=80=99arrive pas =
+=C3=A0 le joindre par contre.<o:p></o:p></span></p><p class=3DMsoNormal><sp=
+an style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F49=
+7D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span style=3D'font-si=
+ze:11.0pt;font-family:"Calibri","sans-serif";color:#1F497D'>Olivier<o:p></o=
+:p></span></p><p class=3DMsoNormal><span style=3D'font-size:11.0pt;font-fam=
+ily:"Calibri","sans-serif";color:#1F497D'><o:p>&nbsp;</o:p></span></p><p cl=
+ass=3DMsoNormal><span style=3D'font-size:11.0pt;font-family:"Calibri","sans=
+-serif";color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><sp=
+an style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F49=
+7D'><o:p>&nbsp;</o:p></span></p><div><div style=3D'border:none;border-top:s=
+olid #B5C4DF 1.0pt;padding:3.0pt 0cm 0cm 0cm'><p class=3DMsoNormal><b><span=
+ style=3D'font-size:10.0pt;font-family:"Tahoma","sans-serif"'>De&nbsp;:</sp=
+an></b><span style=3D'font-size:10.0pt;font-family:"Tahoma","sans-serif"'> =
+Edouard Vasseur (Programme Vitam) [mailto:agora@vitam.jaliosagora.com] <br>=
+<b>Envoy=C3=A9&nbsp;:</b> mardi 18 octobre 2016 14:04<br><b>=C3=80&nbsp;:</=
+b> CHEVENIER Olivier ASC NIV I OA<br><b>Objet&nbsp;:</b> [Programme Vitam] =
+[Information] Recommandation sur &quot;generateur seda 20161018-RC&quot;<o:=
+p></o:p></span></p></div></div><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><t=
+able class=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 widt=
+h=3D"100%" style=3D'width:100.0%;background:#F8F8F8;border-collapse:collaps=
+e'><tr><td style=3D'padding:0cm 0cm 0cm 0cm'><div align=3Dcenter><table cla=
+ss=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 width=3D600 =
+style=3D'width:450.0pt;border-collapse:collapse'><tr><td style=3D'backgroun=
+d:#5092BD;padding:3.75pt 3.75pt 3.75pt 3.75pt'><div align=3Dcenter><table c=
+lass=3DMsoNormalTable border=3D0 cellspacing=3D0 cellpadding=3D0 style=3D'm=
+argin-left:7.5pt;border-collapse:collapse'><tr><td style=3D'padding:.75pt .=
+75pt .75pt .75pt'><h3 style=3D'mso-margin-top-alt:7.5pt;margin-right:0cm;ma=
+rgin-bottom:7.5pt;margin-left:0cm'><span style=3D'font-family:"Arial","sans=
+-serif";color:white'>Programme Vitam - Information<o:p></o:p></span></h3></=
+td></tr></table></div></td></tr><tr><td style=3D'border-top:none;border-lef=
+t:solid #DBDBDB 1.0pt;border-bottom:none;border-right:solid #DBDBDB 1.0pt;b=
+ackground:white;padding:0cm 0cm 0cm 0cm'><table class=3DMsoNormalTable bord=
+er=3D0 cellspacing=3D0 cellpadding=3D0 width=3D"100%" style=3D'width:100.0%=
+;border-collapse:collapse'><tr><td style=3D'padding:7.5pt 7.5pt 7.5pt 7.5pt=
+'><p class=3DMsoNormal><span style=3D'font-size:10.5pt;font-family:"Arial",=
+"sans-serif"'>Olivier, <o:p></o:p></span></p><p><span style=3D'font-size:10=
+.5pt;font-family:"Arial","sans-serif"'><a href=3D"https://vitam.jaliosagora=
+.com/jcms/c_2000063/fr/edouard-vasseur">Edouard Vasseur</a> vous recommande=
+ de consulter <a href=3D"https://vitam.jaliosagora.com/jcms/c_2005275/fr/ge=
+nerateur-seda-20161018-rc">generateur seda 20161018-RC</a><o:p></o:p></span=
+></p><p><span style=3D'font-size:10.5pt;font-family:"Arial","sans-serif"'>C=
+e message a =C3=A9t=C3=A9 envoy=C3=A9 au groupe suivant : Chantier Storymap=
+ - Participants<o:p></o:p></span></p><table class=3DMsoNormalTable border=
+=3D0 cellspacing=3D0 cellpadding=3D0 style=3D'border-collapse:collapse'><tr=
+><td style=3D'padding:3.75pt 3.75pt 3.75pt 3.75pt'><div><p class=3DMsoNorma=
+l><span style=3D'font-size:10.5pt;font-family:"Arial","sans-serif"'><img bo=
+rder=3D0 id=3D"_x0000_i1025" src=3D"https://vitam.jaliosagora.com/upload/ph=
+otos/2015-11/mbr_c_2000063.jpg.associated/th-40x40-mbr_c_2000063.jpg.jpg?au=
+thKey=3DY18yMDAzMTQ2OjE1MDgzMjgyMjAyMzg6JDJhJDA0JDdZdXFFZ0lkS0U5SkRxWnpYUlV=
+jdC4zVFBQb2d2dmdFSTJvR2lJclpId0IvNE5CTUFzMmtX" alt=3D"Edouard Vasseur"><o:p=
+></o:p></span></p></div></td><td style=3D'padding:3.75pt 3.75pt 3.75pt 3.75=
+pt'><p class=3DMsoNormal><span style=3D'font-size:10.5pt;font-family:"Arial=
+","sans-serif"'>&nbsp;<o:p></o:p></span></p></td><td width=3D480 style=3D'w=
+idth:360.0pt;background:#F6F6F6;padding:3.75pt 7.5pt 3.75pt 7.5pt'><div><di=
+v><p class=3Dfirst style=3D'line-height:160%'><span style=3D'font-size:9.0p=
+t;line-height:160%;font-family:"Arial","sans-serif";color:#535353'>Bonjour,=
+ Vous trouverez sur Jalios une nouvelle version du g=C3=A9n=C3=A9rateur de =
+SIP conformes au SEDA 2.0. <o:p></o:p></span></p><p style=3D'line-height:16=
+0%'><span style=3D'font-size:9.0pt;line-height:160%;font-family:"Arial","sa=
+ns-serif";color:#535353'>Les 3 modifications apport=C3=A9es sont les suivan=
+tes : - correction d'un bug sur la reconnaissance de l'usage auquel corresp=
+ond un fichier (DataObjectVersion) - mise =C3=A0 jour de l'outil d'identifi=
+cation des formats Siegfried (version 1.6.5. =C3=A0 32 bits au lieu de la v=
+ersion 1.5.0. =C3=A0 64 bits) - mise =C3=A0 jour du r=C3=A9f=C3=A9rentiel P=
+RONOM utilis=C3=A9 par Siegfried (version utilis=C3=A9e : v88) <o:p></o:p><=
+/span></p><p style=3D'line-height:160%'><span style=3D'font-size:9.0pt;line=
+-height:160%;font-family:"Arial","sans-serif";color:#535353'>Dans le cas o=
+=C3=B9 vous auriez t=C3=A9l=C3=A9charg=C3=A9 la pr=C3=A9c=C3=A9dente versio=
+n diffus=C3=A9e, voici la proc=C3=A9dure =C3=A0 suivre : * Sauvegarde du fi=
+chier conf/ArchiveTransferConfig.json si une configuration particuli=C3=A8r=
+e avait =C3=A9t=C3=A9 faite (et des fichiers g=C3=A9n=C3=A9r=C3=A9s si voul=
+u) * Suppression du r=C3=A9pertoire &quot;G=C3=A9n=C3=A9rateur SEDA&quot; *=
+ Remplacement par le nouveau r=C3=A9pertoire * R=C3=A9cup=C3=A9ration du fi=
+chier ArchiveTransferConfig.json pour le remettre dans conf/ArchiveTransfer=
+Config.json <o:p></o:p></span></p><p style=3D'line-height:160%'><span style=
+=3D'font-size:9.0pt;line-height:160%;font-family:"Arial","sans-serif";color=
+:#535353'>L'=C3=A9quipe Vitam reste =C3=A0 votre disposition pour toute dem=
+ande d'information ou de pr=C3=A9cision <o:p></o:p></span></p><p style=3D'l=
+ine-height:160%'><span style=3D'font-size:9.0pt;line-height:160%;font-famil=
+y:"Arial","sans-serif";color:#535353'>L'=C3=A9quipe Vitam <o:p></o:p></span=
+></p></div></div><div><p class=3DMsoNormal style=3D'line-height:160%'><span=
+ style=3D'font-size:9.0pt;line-height:160%;font-family:"Arial","sans-serif"=
+;color:#535353'>18/10/2016 13:58 =C2=B7 <a href=3D"https://vitam.jaliosagor=
+a.com/jcms/c_2001230/fr/chantier-solution-logicielle-vitam">Chantier Soluti=
+on logicielle Vitam</a> <o:p></o:p></span></p></div></td></tr></table></td>=
+</tr><tr><td style=3D'padding:0cm 0cm 0cm 0cm'></td></tr></table></td></tr>=
+<tr><td style=3D'border:solid #DBDBDB 1.0pt;background:#F0F0F0;padding:0cm =
+0cm 0cm 0cm'><p class=3DMsoNormal align=3Dcenter style=3D'text-align:center=
+;line-height:150%'><span style=3D'font-size:10.5pt;line-height:150%;font-fa=
+mily:"Arial","sans-serif";color:#535353'><a href=3D"https://vitam.jaliosago=
+ra.com/jcms/c_2003146/fr/olivier-chevenier">Mon profil</a> =C2=B7 <a href=
+=3D"https://vitam.jaliosagora.com/">Accueil</a> <o:p></o:p></span></p></td>=
+</tr><tr><td style=3D'padding:0cm 0cm 0cm 0cm'><p class=3DMsoNormal align=
+=3Dcenter style=3D'text-align:center;line-height:150%'><span style=3D'font-=
+size:8.5pt;line-height:150%;font-family:"Arial","sans-serif";color:#999999'=
+>Ce mail vous a =C3=A9t=C3=A9 envoy=C3=A9 par Programme Vitam<o:p></o:p></s=
+pan></p></td></tr></table></div></td></tr></table><p class=3DMsoNormal><spa=
+n style=3D'font-family:"Arial","sans-serif"'><img border=3D0 id=3D"_x0000_i=
+1026" src=3D"https://vitam.jaliosagora.com/jcore/alert/mail/markAsRead.jsp?=
+img=3Dtrue&amp;id=3D91989_Alert&amp;authKey=3DdjI7Y18yMDAzMTQ2OzE1MDgzMjgyM=
+jAyMzU7R0VUOzs7JDJhJDA0JDJaWEpKVVVEWE4xeVBTcmpvZzYzMk9EMzU5ZmFFMjBCNHlvZkVi=
+UG9RLmI5LkdPMHVkMm5L"><o:p></o:p></span></p></div></body></html>
+------=_Part_430_21746720.1517006385836--
+
+------=_Part_429_13480084.1517006385836--

@@ -1,0 +1,562 @@
+Return-Path: edouard.vasseur@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur03.culture.fr with ESMTP id u9KLJerb014490;	Thu, 20 Oct 2016
+ 23:19:40 +0200
+Date: Thu, 20 Oct 2016 23:19:40 +0200 (CEST)
+From: edouard VASSEUR <edouard.vasseur@culture.gouv.fr>
+To: AJJAZ Franck <franck.ajjaz@altran.com>
+CC: DANYACH-DESCHAMPS Myriam <myriam.danyach-deschamps@intradef.gouv.fr>,
+	VERIN Arnaud <arnaud.verin@altran.com>,=?UTF-8?Q?HAUTIN_St=C3=A9phane_<stephane.hautin@altran.com>?=,
+	'emmanuel.laborde@culture.gouv.fr' <emmanuel.laborde@culture.gouv.fr>,CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>,
+	BEL Nicolas <nicolas.bel@intradef.gouv.fr>,MORENO Mario <mario.moreno@intradef.gouv.fr>,
+	RAMOS Francisco <francisco.ramos@intradef.gouv.fr>,CHEVENIER Olivier <olivier.chevenier@intradef.gouv.fr>,
+	=?UTF-8?Q?jean-s=C3=A9verin_LAIR_<jean-severin.lair@culture.gouv.fr>?=
+Message-ID: <99d49e4b7a6b7b137c6c566cebbb056c@culture.gouv.fr>
+In-Reply-To: <B6C4A274A0FE7B4CA7C63E7873FF39EA802AA84F@XMB-DCFR-35.europe.corp.altran.com>
+References:  <B6C4A274A0FE7B4CA7C63E7873FF39EA802AA84F@XMB-DCFR-35.europe.corp.altran.com>
+Subject: =?UTF-8?Q?Re:_2=C3=A8me_atelier_strat=C3=A9gie_P?=
+ =?UTF-8?Q?r=C3=A9sentation_et_ordre_du_jour?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_495_12383169.1517006387671"
+X-Proofpoint-Sentinel:  stfsU2FsdGVkX19xpfZJlxgW2UHRpqmDCeUr1Po+T8zKc/uksRWkZHBbn+1c
+ bEHmqON0y/DDOdMZRzEXXS1TNH5fqO4j5SFKSCrWBPqqr2eeCa04go76u+M9XPKSpe+unmoM
+X-Sender:  edouard.vasseur@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8324 signatures=670679
+X-TM-AS-MML:  disable
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXutTf;1211700;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM02.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_495_12383169.1517006387671
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_496_3970787.1517006387671"
+
+------=_Part_496_3970787.1517006387671
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonsoir,
+
+Je reviens vers vous comme convenu ce jour s'agissant du p=C3=A9rim=C3=A8tr=
+e.=20
+
+ENT-02 : la version b=C3=AAta permet de faire une entr=C3=A9e, qu'elle soit=
+ unitaire ou par flux. On ne peut pas encore parler de test =C3=A0 blanc.=
+=20
+
+GAE-09 : je vous renvoie =C3=A0 notre =C3=A9change de ce matin
+
+Un dernier point sera confirm=C3=A9 demain matin en marge du COPIL Vitam =
+=C3=A0 l'=C3=A9quipe ArchiP=C3=A9l.
+
+Bien cordialement
+
+Edouard Vasseur
+
+=20
+
+=20
+
+Le 2016-10-19 10:53, AJJAZ Franck a =C3=A9crit :
+
+=09Bonjour =C3=A0 tous,
+
+=09=20
+
+=09Voici l=E2=80=99ordre du jour pour l=E2=80=99atelier de strat=C3=A9gie d=
+e demain ainsi que le support qui sera pr=C3=A9sent=C3=A9.
+
+=09=20
+
+=09=C2=B7         Strat=C3=A9gie de test de VITAM :
+
+=09o   Validation du p=C3=A9rim=C3=A8tre
+
+=09Pr=C3=A9ciser d=C3=A9cisions du premier atelier sur le point suivant :
+
+=09o    Types de document test=C3=A9s et profondeur de test pour chacun
+
+=09-       Pr=C3=A9ciser les formats office (juste les derniers, 2 derniers=
+, =C3=A0 voir pour chaque format)
+
+=09-       Comment int=C3=A9grer au ref des formats
+
+=09=20
+
+=09=C2=B7         Jeux de donn=C3=A9es :
+
+=09o    D=C3=A9finition, r=C3=A9cup=C3=A9ration
+
+=09=20
+
+=09=C2=B7         Param=C3=A9trage :
+
+=09Pour les 3 th=C3=A8mes suivants :
+
+=09-       r=C3=A8gles d=E2=80=99organisation du classement
+
+=09-       r=C3=A9f=C3=A9rentiel de r=C3=A8gles de gestion=20
+
+=09-       r=C3=A9f=C3=A9rentiel de format
+
+=09=20
+
+=09=C2=B7         Pr=C3=A9cisions Tests IHMs :
+
+=09o    IHMs =C3=A0 tester ?
+
+=09=20
+
+=09=C2=B7         Entrants de la prestation : documents et disponibilit=C3=
+=A9 des acteurs n=C3=A9cessaires pour
+
+=09o    Point sur entrants re=C3=A7us
+
+=09=20
+
+=09=C2=B7         Gestion des anomalies :
+
+=09o    revoir workflow des anomalies
+
+=09o    Mod=C3=A8le de communication entre les gestionnaires d=E2=80=99anom=
+alies VITAM et ALTRAN
+
+=09o    Statuer sur correction ou non des anomalies
+
+=09o    Si correction, process de livraison
+
+=09=20
+
+=09=C2=B7         Ateliers de param=C3=A9trage=20
+
+=09o    Entrants et mode de fonctionnement de l=E2=80=99atelier
+
+=09o    Planification des ateliers
+
+=09=20
+
+=09=C2=B7         Ateliers de couverture de test :
+
+=09o    Entrants et mode de fonctionnement de l=E2=80=99atelier
+
+=09o    Planification des ateliers
+
+=09=20
+
+=09=C2=B7         Ateliers de d=C3=A9finition de l=E2=80=99infrastructure e=
+t de l=E2=80=99installation :
+
+=09o    Entrants et mode de fonctionnement de l=E2=80=99atelier
+
+=09o    Planification des ateliers
+
+=09=20
+
+=09=C2=B7         Ateliers de transfert de comp=C3=A9tences au SHD :
+
+=09o    Mode de fonctionnement de l=E2=80=99atelier
+
+=09o    Planification des ateliers
+
+=09=20
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Franck AJJAZ
+
+=09Chef de Projet
+
+=09TRA VITAM
+=09franck.ajjaz@altran.com
+------=_Part_496_3970787.1517006387671
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>Bonsoir,</p>
+<p>Je reviens vers vous comme convenu ce jour s'agissant du p=C3=A9rim=C3=
+=A8tre. </p>
+<p>ENT-02 : la version b=C3=AAta permet de faire une entr=C3=A9e, qu'elle s=
+oit unitaire ou par flux. On ne peut pas encore parler de test =C3=A0 blanc=
+. </p>
+<p>GAE-09 : je vous renvoie =C3=A0 notre =C3=A9change de ce matin</p>
+<p>Un dernier point sera confirm=C3=A9 demain matin en marge du COPIL Vitam=
+ =C3=A0 l'=C3=A9quipe ArchiP=C3=A9l.</p>
+<p>Bien cordialement</p>
+<p>Edouard Vasseur</p>
+<p>&nbsp;</p>
+<div>&nbsp;</div>
+<p>Le 2016-10-19 10:53, AJJAZ Franck a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Taho=
+ma','sans-serif'; mso-fareast-language: FR;">Bonjour =C3=A0 tous,<!-- o ign=
+ored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language: FR;"><!-- o ign=
+ored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"mso-fareast-language: FR;">Voici l=E2=
+=80=99ordre du jour pour l=E2=80=99atelier de strat=C3=A9gie de demain ains=
+i que le support qui sera pr=C3=A9sent=C3=A9.<!-- o ignored --></span></p>
+<p class=3D"MsoNormal" style=3D"margin-left: 18.0pt;"><span style=3D"font-s=
+ize: 10.0pt; font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-=
+language: FR;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraphCxSpFirst" style=3D"margin-bottom: .0001pt; mso=
+-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 l=
+evel1 lfo2;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color: =
+black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=B7<=
+span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt;=
+ font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR=
+;">Strat=C3=A9gie de test de VITAM&nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo=
+2;"><span style=3D"font-family: 'Courier New'; mso-fareast-language: FR;"><=
+span style=3D"mso-list: Ignore;">o<span style=3D"font: 7.0pt  'Times New Ro=
+man';">&nbsp;&nbsp; </span></span></span><span style=3D"mso-fareast-languag=
+e: FR;">Validation du p=C3=A9rim=C3=A8tre<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"margin-bottom: .0001pt; ms=
+o-add-space: auto; line-height: normal;"><span style=3D"font-size: 10.0pt; =
+font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR;=
+">Pr=C3=A9ciser d=C3=A9cisions du premier atelier sur le point suivant&nbsp=
+;:<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo=
+2;"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; mso-farea=
+st-language: FR;"><span style=3D"mso-list: Ignore;">o<span style=3D"font: 7=
+.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></span><span sty=
+le=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; mso-fareast-la=
+nguage: FR;">Types de document test=C3=A9s et profondeur de test pour chacu=
+n<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 108.0pt; mso-add-spa=
+ce: auto; text-indent: -18.0pt; line-height: normal; mso-list: l1 level1 lf=
+o4;"><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">-<span style=
+=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <=
+/span></span></span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma'=
+,'sans-serif'; mso-fareast-language: FR;">Pr=C3=A9ciser les formats office =
+(juste les derniers, 2 derniers, =C3=A0 voir pour chaque format)<!-- o igno=
+red --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 108.0pt; mso-add-spa=
+ce: auto; text-indent: -18.0pt; line-height: normal; mso-list: l1 level1 lf=
+o4;"><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">-<span style=
+=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <=
+/span></span></span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma'=
+,'sans-serif'; mso-fareast-language: FR;">Comment int=C3=A9grer au ref des =
+formats<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"margin-bottom: .0001pt; ms=
+o-add-space: auto; line-height: normal;"><span style=3D"font-size: 10.0pt; =
+font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR;=
+"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"margin-bottom: .0001pt; ms=
+o-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 =
+level1 lfo2;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color:=
+ black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=B7=
+<span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt=
+; font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: F=
+R;">Jeux de donn=C3=A9es&nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"margin-left: 72.0pt; mso-a=
+dd-space: auto; text-indent: -18.0pt; mso-list: l2 level2 lfo2;"><span styl=
+e=3D"font-size: 10.0pt; line-height: 115%; font-family: 'Courier New'; colo=
+r: black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<sp=
+an style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></sp=
+an></span><span style=3D"font-size: 10.0pt; line-height: 115%; font-family:=
+ 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR;">D=C3=A9fin=
+ition, r=C3=A9cup=C3=A9ration<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"margin-left: 72.0pt; mso-a=
+dd-space: auto;"><span style=3D"font-size: 10.0pt; line-height: 115%; font-=
+family: 'Tahoma','sans-serif'; color: #1f497d; mso-fareast-language: FR;"><=
+!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"margin-bottom: .0001pt; ms=
+o-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 =
+level1 lfo9;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color:=
+ black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=B7=
+<span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt=
+; font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: F=
+R;">Param=C3=A9trage&nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"margin-bottom: .0001pt; ms=
+o-add-space: auto; line-height: normal;"><span style=3D"font-size: 10.0pt; =
+font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR;=
+">Pour les 3 th=C3=A8mes suivants&nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l3 level2 lfo=
+11;"><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: #7f7f7f; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;=
+">-<span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt; font-fa=
+mily: 'Tahoma','sans-serif'; color: #7f7f7f; mso-fareast-language: FR;">r=
+=C3=A8gles d=E2=80=99organisation du classement<!-- o ignored --></span></p=
+>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l3 level2 lfo=
+11;"><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: #7f7f7f; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;=
+">-<span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt; font-fa=
+mily: 'Tahoma','sans-serif'; color: #7f7f7f; mso-fareast-language: FR;">r=
+=C3=A9f=C3=A9rentiel de r=C3=A8gles de gestion <!-- o ignored --></span></p=
+>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l3 level2 lfo=
+11;"><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: #7f7f7f; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;=
+">-<span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt; font-fa=
+mily: 'Tahoma','sans-serif'; color: #7f7f7f; mso-fareast-language: FR;">r=
+=C3=A9f=C3=A9rentiel de format<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"margin-left: 0cm; mso-add-=
+space: auto;"><span style=3D"color: #1f497d; mso-fareast-language: FR;"><!-=
+- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"margin-bottom: .0001pt; ms=
+o-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 =
+level1 lfo2;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color:=
+ black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=B7=
+<span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt=
+; font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: F=
+R;">Pr=C3=A9cisions Tests IHMs&nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpLast" style=3D"mso-margin-top-alt: 0cm; mar=
+gin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-space:=
+ auto; text-indent: -18.0pt; line-height: normal; mso-list: l4 level1 lfo8;=
+"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: blac=
+k; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span styl=
+e=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></sp=
+an><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; co=
+lor: black; mso-fareast-language: FR;">IHMs =C3=A0 tester&nbsp;?<!-- o igno=
+red --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Taho=
+ma','sans-serif'; color: #1f497d; mso-fareast-language: FR;"><!-- o ignored=
+ -->&nbsp;</span></p>
+<p class=3D"MsoListParagraphCxSpFirst" style=3D"margin-bottom: .0001pt; mso=
+-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 l=
+evel1 lfo9;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color: =
+black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=B7<=
+span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt;=
+ font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR=
+;">Entrants de la prestation&nbsp;: documents et disponibilit=C3=A9 des act=
+eurs n=C3=A9cessaires pour<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpLast" style=3D"mso-margin-top-alt: 0cm; mar=
+gin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-space:=
+ auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo9;=
+"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: blac=
+k; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span styl=
+e=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></sp=
+an><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; co=
+lor: black; mso-fareast-language: FR;">Point sur entrants re=C3=A7us<!-- o =
+ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d; mso-fareast-language:=
+ FR;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoListParagraphCxSpFirst" style=3D"margin-bottom: .0001pt; mso=
+-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 l=
+evel1 lfo9;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color: =
+black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=B7<=
+span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt;=
+ font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR=
+;">Gestion des anomalies&nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo=
+9;"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: bl=
+ack; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span st=
+yle=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></=
+span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: black; mso-fareast-language: FR;">revoir workflow des anomalies<!-- =
+o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo=
+9;"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: bl=
+ack; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span st=
+yle=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></=
+span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: black; mso-fareast-language: FR;">Mod=C3=A8le de communication entre=
+ les gestionnaires d=E2=80=99anomalies VITAM et ALTRAN<!-- o ignored --></s=
+pan></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo=
+9;"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: bl=
+ack; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span st=
+yle=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></=
+span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: black; mso-fareast-language: FR;">Statuer sur correction ou non des =
+anomalies<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpLast" style=3D"mso-margin-top-alt: 0cm; mar=
+gin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-space:=
+ auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo9;=
+"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: #1f4=
+97d; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span st=
+yle=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></=
+span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: black; mso-fareast-language: FR;">Si correction, process de livraiso=
+n</span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif=
+'; color: #1f497d; mso-fareast-language: FR;"><!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Taho=
+ma','sans-serif'; color: black; mso-fareast-language: FR;"><!-- o ignored -=
+->&nbsp;</span></p>
+<p class=3D"MsoListParagraphCxSpFirst" style=3D"margin-bottom: .0001pt; mso=
+-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 l=
+evel1 lfo9;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color: =
+#1f497d; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=
+=B7<span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;=
+&nbsp;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.=
+0pt; font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language=
+: FR;">Ateliers de param=C3=A9trage&nbsp;</span><span style=3D"font-size: 1=
+0.0pt; font-family: 'Tahoma','sans-serif'; color: #1f497d; mso-fareast-lang=
+uage: FR;"><!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo=
+9;"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: bl=
+ack; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span st=
+yle=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></=
+span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: black; mso-fareast-language: FR;">Entrants et mode de fonctionnement=
+ de l=E2=80=99atelier<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpLast" style=3D"mso-margin-top-alt: 0cm; mar=
+gin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-space:=
+ auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo9;=
+"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: blac=
+k; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span styl=
+e=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></sp=
+an><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; co=
+lor: black; mso-fareast-language: FR;">Planification des ateliers<!-- o ign=
+ored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Taho=
+ma','sans-serif'; color: black; mso-fareast-language: FR;"><!-- o ignored -=
+->&nbsp;</span></p>
+<p class=3D"MsoListParagraphCxSpFirst" style=3D"margin-bottom: .0001pt; mso=
+-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 l=
+evel1 lfo9;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color: =
+black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=B7<=
+span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt;=
+ font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR=
+;">Ateliers de couverture de test&nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo=
+9;"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: bl=
+ack; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span st=
+yle=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></=
+span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: black; mso-fareast-language: FR;">Entrants et mode de fonctionnement=
+ de l=E2=80=99atelier<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpLast" style=3D"mso-margin-top-alt: 0cm; mar=
+gin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-space:=
+ auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo9;=
+"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: blac=
+k; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span styl=
+e=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></sp=
+an><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; co=
+lor: black; mso-fareast-language: FR;">Planification des ateliers<!-- o ign=
+ored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Taho=
+ma','sans-serif'; color: black; mso-fareast-language: FR;"><!-- o ignored -=
+->&nbsp;</span></p>
+<p class=3D"MsoListParagraphCxSpFirst" style=3D"margin-bottom: .0001pt; mso=
+-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 l=
+evel1 lfo9;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color: =
+black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=B7<=
+span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt;=
+ font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR=
+;">Ateliers de d=C3=A9finition de l=E2=80=99infrastructure et de l=E2=80=99=
+installation&nbsp;:<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo=
+9;"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: bl=
+ack; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span st=
+yle=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></=
+span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: black; mso-fareast-language: FR;">Entrants et mode de fonctionnement=
+ de l=E2=80=99atelier<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpLast" style=3D"mso-margin-top-alt: 0cm; mar=
+gin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-space:=
+ auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo9;=
+"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: blac=
+k; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span styl=
+e=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></sp=
+an><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; co=
+lor: black; mso-fareast-language: FR;">Planification des ateliers<!-- o ign=
+ored --></span></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoListParagraphCxSpFirst" style=3D"margin-bottom: .0001pt; mso=
+-add-space: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 l=
+evel1 lfo9;"><span style=3D"font-size: 10.0pt; font-family: Symbol; color: =
+black; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">=C2=B7<=
+span style=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; </span></span></span><span style=3D"font-size: 10.0pt;=
+ font-family: 'Tahoma','sans-serif'; color: black; mso-fareast-language: FR=
+;">Ateliers de transfert de comp=C3=A9tences au SHD :<!-- o ignored --></sp=
+an></p>
+<p class=3D"MsoListParagraphCxSpMiddle" style=3D"mso-margin-top-alt: 0cm; m=
+argin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-spac=
+e: auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo=
+9;"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: bl=
+ack; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span st=
+yle=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></=
+span><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; =
+color: black; mso-fareast-language: FR;">Mode de fonctionnement de l=E2=80=
+=99atelier<!-- o ignored --></span></p>
+<p class=3D"MsoListParagraphCxSpLast" style=3D"mso-margin-top-alt: 0cm; mar=
+gin-right: 0cm; margin-bottom: .0001pt; margin-left: 72.0pt; mso-add-space:=
+ auto; text-indent: -18.0pt; line-height: normal; mso-list: l2 level2 lfo9;=
+"><span style=3D"font-size: 10.0pt; font-family: 'Courier New'; color: blac=
+k; mso-fareast-language: FR;"><span style=3D"mso-list: Ignore;">o<span styl=
+e=3D"font: 7.0pt  'Times New Roman';">&nbsp;&nbsp;&nbsp; </span></span></sp=
+an><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-serif'; co=
+lor: black; mso-fareast-language: FR;">Planification des ateliers<!-- o ign=
+ored --></span></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal">Cordialement,<!-- o ignored --></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Arial','sans-serif'; color: blue; mso-fareast-language: FR;">Franck AJJ=
+AZ</span></strong><span style=3D"mso-fareast-language: FR;"><!-- o ignored =
+--></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Aria=
+l','sans-serif'; mso-fareast-language: FR;">Chef de Projet<!-- o ignored --=
+></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 10.0pt; font-family: 'Aria=
+l','sans-serif'; mso-fareast-language: FR;">TRA VITAM</span><span style=3D"=
+font-size: 8.0pt; font-family: 'Arial','sans-serif'; color: gray; mso-farea=
+st-language: FR;"><br></span><span style=3D"font-size: 7.5pt; font-family: =
+'Arial','sans-serif'; color: gray; mso-fareast-language: FR;"><a href=3D"ma=
+ilto:franck.ajjaz@altran.com">franck.ajjaz@altran.com</a><!-- o ignored -->=
+</span></p>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+</div>
+</blockquote>
+</body></html>
+------=_Part_496_3970787.1517006387671--
+
+------=_Part_495_12383169.1517006387671--

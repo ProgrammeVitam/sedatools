@@ -1,0 +1,197 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242])        by smtp.gmail.com with
+ ESMTPSA id pd2sm37160015wjb.31.2016.12.08.06.12.43        for
+ <thierry.casimirius@intradef.gouv.fr>        (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);        Thu, 08 Dec 2016
+ 06:12:43 -0800 (PST)
+Date: Thu, 8 Dec 2016 15:12:43 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <577840b15d353d5f842c0cfb5824527f@213.32.79.242>
+Subject: =?UTF-8?Q?[Projet_VITAM_0000006]:_[DOC/RAML/acc?=
+ =?UTF-8?Q?ession-register]_:_R=C3=A9ponse_du_HTTP_200?=
+Keywords:  [Projet VITAM] VITAM
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_361_1222871.1517006385136"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20130820;
+        h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted
+         :keywords:mime-version:content-transfer-encoding;
+        bh=rWtcdwB6W7SNPMKq2lHpujeZkKKNB1JfvFtLcPBWiw0=;
+        b=dizUVhHwF8KYcO3JXJgUpWckM0v48V9rc37jzbw5wldg0aLuy1Fcm3xU+TWIPxetSo
+         OdDSfdjX1YTJs/CFuwLAjPG3xsOZHsDSpjOyPphLaqX4LFl3KrL4eH/WSdS5nW7oWd+F
+         cRlygWElp3k2y9E69xQC8GQgHy0gM2RXMJ16UQCXdqTu3OPWPVlPD3o0UzdIIxlgxmzX
+         +KkDIcNpGW+H9VftHKm9AN426EVu4EjFaOdmVcoxfLCV33G9HJnr+Qgogm8CwLe3E5vz
+         mwhVBidJTLQCi+nJl0QMrYmFvQ6/Ew20fTECeBn54FGT01EHsLwQGjgEcF2hJ6pYReSY
+         q4Vw==
+X-Gm-Message-State:  AKaTC03CXEfMWsMcIWbPYEK/cbrETbbyNX2GGvauXsGOx8j24S0k9tqQousdK0ERxTvlQw==
+X-Received:  by 10.28.91.141 with SMTP id p135mr2350094wmb.128.1481206364480;
+        Thu, 08 Dec 2016 06:12:44 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 2016.12.8.140316
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report='
+ HTML_00_01 0.05, HTML_00_10 0.05, BODY_SIZE_4000_4999 0, BODY_SIZE_5000_LESS 0, BODY_SIZE_7000_LESS 0, DKIM_SIGNATURE 0, FROM_NAME_PHRASE 0, IP_HTTP_ADDR 0, NO_URI_HTTPS 0, SINGLE_URI_IN_BODY 0, SPF_PASS 0, URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0, WEBMAIL_XMAILER 0, __ANY_URI 0, __CP_URI_IN_BODY 0, __CT 0, __CTE 0, __CT_TEXT_PLAIN 0, __DQ_NEG_HEUR 0, __DQ_NEG_IP 0, __FRAUD_MONEY 0, __FRAUD_MONEY_CURRENCY 0, __FRAUD_MONEY_CURRENCY_DOLLAR 0, __FRAUD_MONEY_DENOMINATION 0, __FRAUD_MONEY_VALUE 0, __FRAUD_WEBMAIL 0, __FRAUD_WEBMAIL_FROM 0, __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, __HAS_X_MAILER 0, __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, __MIME_TEXT_ONLY 0, __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 0, __MSGID_32HEX 0, __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, __PHISH_SPEAR_STRUCTURE_2 0, __RDNS_GMAIL 0, __SANE_MSGID 0, __SINGLE_URI_TEXT 0, __STOCK_PHRASE_24 0,
+ __STOCK_PHRASE_6 0, __SUBJ_HIGHBIT 0, __TO_MALFORMED_2 0, __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 0, __URI_NO_WWW 0, __URI_WITH_PATH 0, __UTF8_SUBJ 0, __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20120113;
+        h=date:to:from:subject:message-id:auto-submitted:keywords
+         :mime-version:content-transfer-encoding;
+        bh=rWtcdwB6W7SNPMKq2lHpujeZkKKNB1JfvFtLcPBWiw0=;
+        b=AwMwAnJhIzd9dkiyMcSTojR9+1U0tK0r6C2sd/ZM8UorpudnfyEocDZNhZgtXk9AsU
+         nogCsXbmPAL7/iaAYFpEeMeYP8fKnF33yvkDS4Uf8wnmYZykYcoUQ8nywkmE5ViVyHxk
+         eLltqmamiewQMikLsMOLKgM7Fg2hE30Pk0WnF6DQnGBWKGJSzR7Y6T+d58bTYQU4r6m5
+         2mdsqtJnRZAwbzBpnNf1rKtbT2+oJKS9+nU4OqaTYx8HnMT7IflNTf9uSbh45TNiqP8U
+         QSZx+A21YtwHmjfxvDUsutziMJFSZ2lKmHz5pNIc2x8VfZ1/jO/uRFxq2LErR9YU4E/g
+         KWFw==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]34,2.2,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:41:46:150:152:355:379:472:493:541:543:836:882:960:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1535:1543:1593:1594:1711:1730:1747:1777:1792:1801:2393:2525:2560:2563:2682:2685:2859:2901:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3353:3865:3866:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4120:4250:4321:4605:5007:6117:6261:6653:6996:6997:8599:8957:8987:9010:9025:9075:9121:9388:9413:10008:10400:10471:10849:11026:11233:11473:11658:11783:12043:12114:12291:12438:12517:12519:12555:12663:12679:12683:12740:13025:13206:13229:13255:13870:13972:14093:14097:14110:14181:14687:14721:21063:21080:21433:21444:30046:30054:30080,0,RBL:74.125.82.67:@gmail.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.net-62.50.0.100 64.100.201
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1294300;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM01.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_361_1222871.1517006385136
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_362_1717368.1517006385136"
+
+------=_Part_362_1717368.1517006385136
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D6=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Omar
+Responsable:                Omar
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   6
+Cat=C3=A9gorie:                  VITAM
+Reproductibilit=C3=A9:           toujours
+Impact:                     texte
+Priorit=C3=A9:                   normale
+Statut:                     affect=C3=A9
+Comportement attendu:       =20
+US concern=C3=A9e:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2016-12-08 15:12 CET
+Derni=C3=A8re modification:      2016-12-08 15:12 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     [DOC/RAML/accession-register] : R=C3=
+=A9ponse du HTTP
+200
+Description:=20
+La documentation acc=C3=A9ssible via=20
+(<serveur>/doc/raml/externe/access.html#accession_register_get ou post) ne
+mentionne pas le d=C3=A9tail des champs retourn=C3=A9s, on indique simpleme=
+nt ceci
+:"Returns the list of matching AccessionRegister".
+
+Si on se r=C3=A9f=C3=A8re =C3=A0 la documentation
+"vitam_-_modele_de_donnees_2016-11-29_17-39-49_285.pdf", paragraphe "1.10.2
+Exemple de JSON stock=C3=A9 en base" on dispose des valeurs stock=C3=A9s ma=
+is pas celles
+qui doivent =C3=AAtre retourn=C3=A9es !
+
+
+Par ailleurs la requ=C3=AAte HTTP suivante
+
+
+{
+  "$query":[],
+  "$filter": { "$limit": 100, "$per_page": 10 },
+  "$projection": { "$fields": {  } }
+}
+
+
+Nous renvoie par blocs ceci :
+  "$results":    [
+            {
+         "_id": "aefaaaaaaaaam7mxabwh6akyybx4awiaaaaq",
+         "_tenant": 0,
+         "OriginatingAgency": "FRAN_NP_005568",
+         "TotalObjects":          {
+            "Total": 10,
+            "Deleted": 0,
+            "Remained": 10
+         },
+         "TotalObjectGroups":          {
+            "Total": 4,
+            "Deleted": 0,
+            "Remained": 4
+         },
+         "TotalUnits":          {
+            "Total": 6,
+            "Deleted": 0,
+            "Remained": 6
+         },
+         "ObjectSize":          {
+            "Total": 1606215,
+            "Deleted": 0,
+            "Remained": 1606215
+         },
+         "creationDate": "2016-12-02T16:48:19.033"
+      },
+
+
+On note que ces champs ne sont pas dans la r=C3=A9ponse (ie retour JSON) :
+
+"SubmissionAgency": "xxxx",
+"EndDate": "xxxx",
+"StartDate": "xxxxx",
+"Status": "xxxx",
+
+=C3=89tapes pour le reproduire:=20
+Poster via la requ=C3=AAte suivante
+{
+  "$query":[],
+  "$filter": { "$limit": 100, "$per_page": 10 },
+  "$projection": { "$fields": {  } }
+}
+
+avec le Header X-Http-Method-Override=3DGET, compare la r=C3=A9ponse retour=
+n=C3=A9 avec la
+doicumentaion RAML et "vitam_-_modele_de_donnees_2016-11-29_17-39-49_285.pd=
+f",
+paragraphe "1.10.2 Exemple de JSON stock=C3=A9 en base"
+
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2016-12-08 15:12 Omar           Nouveau bogue                              =
+ =20
+2016-12-08 15:12 Omar           Statut                   nouveau =3D> affec=
+t=C3=A9 =20
+2016-12-08 15:12 Omar           Assign=C3=A9 =C3=A0                 =3D> Om=
+ar           =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_362_1717368.1517006385136--
+
+------=_Part_361_1222871.1517006385136--

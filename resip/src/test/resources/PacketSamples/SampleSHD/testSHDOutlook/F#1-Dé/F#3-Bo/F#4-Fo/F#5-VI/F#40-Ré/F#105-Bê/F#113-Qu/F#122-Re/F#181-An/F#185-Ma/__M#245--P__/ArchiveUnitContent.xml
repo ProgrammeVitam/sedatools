@@ -1,0 +1,71 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000014]: Instabilité de la recherche d&apos;archives en IHM</Title>
+    <OriginatingSystemId>&lt;ee37fa1f2efc6822db22201ac1c1a19f@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-13T11:09:28Z</SentDate>
+    <ReceivedDate>2016-12-13T11:09:35Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=14 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   14
+Catégorie:                  BugFromTestlink
+Reproductibilité:           n&apos;a pas essayé
+Impact:                     mineur
+Priorité:                   basse
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-13 12:09 CET
+Dernière modification:      2016-12-13 12:09 CET
+====================================================================== 
+Résumé:                     Instabilité de la recherche d&apos;archives en IHM
+Description: 
+Nous avons injecté un PDF avec le nom &quot;Armée de France&quot; comme titre. Dans le
+module de recherche d&apos;archive via l&apos;IHM nous effectuons une recherche sur
+&quot;Armée&quot; et nous obtenons bien un résultat. Nous procédons de même avec le
+mot &quot;France&quot; et sans résultat.
+
+Nous avons injecté une autre SIP avecc un JPEG qui porte le nom &quot;Ceci est un
+test de recherche IHM&quot; et effectué plusieurs recherche sur certain mots clés
+comme &quot;Test&quot;, &quot;Recherche&quot;, &quot;IHM&quot; et nous obtenons bien notre archive, cependant
+&quot;Ceci&quot; n&apos;a rien donné.
+
+La recherche via des mots clés se trouvant en début, en milieu ou en fin de
+phrase semble assez selective.
+
+Étapes pour le reproduire: 
+Injecter un fichier avec le nom &quot;Armée de France&quot; et effectué une recherche
+sur &quot;France&quot;, aussi bien dans le champs &quot;Rechercher&quot; que dans le champs &quot;Titre&quot;
+de la recherche avancée
+
+Informations complémentaires: 
+PVI-149, PVI-151, PVI-152
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-13 12:09 Jonathan       Nouveau bogue                                
+2016-12-13 12:09 Jonathan       Statut                   nouveau =&gt; affecté  
+2016-12-13 12:09 Jonathan       Assigné à                 =&gt; Jonathan        
+2016-12-13 12:09 Jonathan       Fichier ajouté: Pas de résultats.PNG          
+         
+======================================================================</TextContent>
+</Content>

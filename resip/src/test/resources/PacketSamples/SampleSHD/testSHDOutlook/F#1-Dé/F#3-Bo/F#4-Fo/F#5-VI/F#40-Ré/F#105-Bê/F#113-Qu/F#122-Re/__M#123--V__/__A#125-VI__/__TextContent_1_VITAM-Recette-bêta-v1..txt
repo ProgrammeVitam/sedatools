@@ -1,0 +1,454 @@
+
+
+Page  sur 
+
+
+
+
+
+
+
+
+
+
+
+
+Programme Vitam
+
+Questionnaire relatif à la recette de la bêta à destination des parties-prenantes du programme
+
+
+
+
+
+
+
+
+
+
+
+
+Décembre 2016
+
+
+
+
+
+
+
+
+
+Sommaire du questionnaire
+Préambule	3
+1. Volet MOE SI	5
+2. Volet MOE Projets	7
+3. Volet MOA Archiviste	8
+
+
+
+ 
+
+Préambule
+La diffusion de la bêta aux parties-prenantes du programme Vitam. Le 29 novembre 2016 doit notamment permettre : 
+	aux équipes techniques des ministères porteurs et partenaires de découvrir de manière concrète l’ensemble technologique que constitue la solution logicielle Vitam et d’en expérimenter l’intégration dans leur contexte ; 
+
+	d’initier des campagnes techniques de tests dans des contextes spécifiques à chaque acteur pour préparer la meilleure adéquation possible de la V1 ;
+
+	aux équipes fonctionnelles d’utiliser la solution afin d’en découvrir de manière opérationnelle et précise les comportements, et de mieux élaborer leurs besoins pour les releases à venir. Celles-ci pourront à cette occasion faire des tests manuels propres à leur contexte.
+
+
+Suite à l’installation de la bêta, il est attendu le renseignement de ce questionnaire afin de consolider les retours des différentes équipes de tests. Il comporte trois volets : 
+	un volet relatif aux caractéristiques techniques de l’installation à renseigner par la MOE SI ;
+
+	un volet relatif à l’utilisation des API à renseigner par la MOE Projet ;
+
+	un volet afférent aux usages métiers testés à renseigner par la MOA Archivistes. 
+
+
+
+Les retours sont attendus aux échéances suivantes :
+	Vendredi 6 janvier 2017 : retour informel sur la recette de la bêta 
+
+	Jeudi 19 janvier 2017 : retour formel sur la recette de la bêta avec l’envoi du questionnaire ci-joint complété.
+
+
+
+
+Pour toute question, vos contacts au sein de l’équipe Vitam sont les suivants :
+
+	Démarche globale
+	Frédéric DEGUILHEN, directeur de la planification 
+frederic.deguilhen@culture.gouv.fr 
+
+	Volet MOE SI
+
+	Kristopher WALTZER, support Vitam kristopher.waltzer.ext@culture.gouv.fr 
+
+Etienne CARRIERE, architecte  etienne.carriere@culture.gouv.fr
+
+
+Bug tracker : https://support.programmevitam.fr 
+
+	Volet MOE Projet
+
+	Emmanuel LABORDE, architecte emmanuel.laborde@culture.gouv.fr 
+
+
+	Volet MOA Archivistes
+
+	Edouard VASSEUR, responsable fonctionnel
+edouard.vasseur@culture.gouv.fr 
+
+
+
+	Veuillez mettre en copie de vos correspondances le directeur de programme Jean-Séverin LAIR : jean-severin.lair@culture.gouv.fr 
+
+
+Suivi du renseignement du questionnaire (à compléter)
+
+	Rédacteur du document
+	Nom, entité
+
+	Date d’installation de la bêta
+	
+
+	Identité des exploitants (ayant notamment réalisé l’installation) 
+	Nom, entité ou société
+
+	Identité des testeurs
+	Nom, entité ou société
+
+	Type de tests réalisés
+	Fonctionnels ?
+Techniques ?
+Fonctionnels et techniques ?
+
+
+
+
+1. Volet MOE SI
+	Décrivez l’architecture physique et logique de la plate-forme de test
+
+
+	Schéma d’architecture 
+Utilisation serveurs physiques / VM / Openstack
+Nb de VM utilisés
+Dimensionnement (CPU / RAM / disque / réseau)
+
+xxx
+
+
+
+
+
+	De manière générale, considérez-vous que l’installation de Vitam soit facile ?
+
+
+	Oui / Non
+Merci de détailler.
+
+xxx
+
+
+
+
+
+
+	Quelles tâches ont été réalisées sans difficultés ? 
+
+
+	Oui / Non
+Merci de détailler.
+
+xxx
+
+
+
+
+
+	A l’inverse, quelles tâches ont posé des difficultés ? Les avez-vous remontées dans le bug tracker ?Avez-vous eu besoin du support Vitam pour les réaliser ? 
+
+
+	Oui / Non
+Merci de détailler.
+
+xxx
+
+
+
+
+
+
+
+	Avez-vous des propositions d’amélioration de la documentation associée ?
+
+
+	Oui / Non
+Merci de détailler.
+
+xxx
+
+
+
+
+
+
+	Avez-vous intégré le processus d’exploitation de la bêta dans les outils de pilotage de la production (supervision…) ?
+
+
+	Oui / Non
+Merci de détailler.
+
+xxx
+
+
+
+
+
+
+	Avez-vous évalué la charge serveurs lors des campagnes de tests ?
+
+
+	Oui / Non
+Merci de détailler.
+
+xxx
+
+
+
+
+
+
+2. Volet MOE Projets
+	Avez-vous utilisé directement les API dans les tests ?
+
+
+	Oui / Non
+Merci de détailler.
+
+xxx
+
+
+
+
+
+	Quelle appréciation portez-vous sur la documentation associée aux API ?
+
+
+	xxx
+
+
+
+
+
+
+
+
+	Avez-vous rencontré des complexités particulières d’usage ? 
+
+
+	Oui / Non
+Merci de détailler. 
+Indiquez également si vous avez remontées ces problèmes dans le bug tracker.
+
+xxx
+
+
+
+
+
+	 	Avez-vous identifié des pistes d’enrichissement des API ? Les avez-vous remontées dans le bug tracker ?
+
+
+	Oui / Non
+Merci de détailler.
+
+xxx
+
+
+
+
+
+
+3. Volet MOA Archiviste
+	Quelles activités avez vous testées ? Pour chacune, indiquez les fonctionnalités qu’il faudrait ajouter en priorité.
+
+
+	Activités
+	Avez-vous testés ?
+	Quels sont les évolutions prioritaires selon vous ?
+
+	ENT-03 : Effectuer une entrée par flux applicatif d’un ensemble d’archives (API)
+	Oui/Non.
+	
+
+	ENT-04 : Effectuer une entrée unitaire d’un ensemble d’archives (IHM)
+	Oui/Non.
+	
+
+	ACC-01 : Rechercher une unités d’archives bien définies
+	Oui/Non.
+	
+
+	ACC-02 : Rechercher des archives par recherche complexe
+	Oui/Non.
+	
+
+	ACC-03 : Rechercher des archives via le journal des entrées
+	Oui/Non.
+	
+
+	ACC-05 : Consulter un ensemble d’archives
+
+	Oui/Non.
+	
+
+	GAE-02 : Modifier les métadonnées d’archives
+	Oui/Non.
+	
+
+	GAE-09 : Administrer les référentiels de règles de gestion
+	Oui/Non.
+	
+
+	PRE-04 : Administrer le référentiel des formats
+	Oui/Non.
+	
+
+	AFC-02 : Consulter les journaux
+
+	Oui/Non.
+	
+
+
+
+	Décrivez votre stratégie de tests
+
+
+	xxxx
+
+
+
+
+
+
+
+
+
+	Décrivez les jeux de tests que vous avez utilisés
+
+
+	Description du jeu de tests
+	taille 
+(ko, Mo ou Go)
+	nombre de fichiers
+	nombre d’unités de description
+	autres caractéristiques
+
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+
+
+
+ Merci de remplir le tableau situé page suivante.
+
+
+	Avez-vous utilisé le générateur SIP pour produire des SIP de test ? 
+
+
+	Oui / Non
+Si oui, merci de décrire l’utilisation de ce générateur.
+Avez-vous rencontré des difficultés à générer les SIP ou des erreurs dans les SIP ?
+
+xxx
+
+
+
+
+
+
+
+	Appréciations d’ordre général sur le fonctionnement de la bêta
+
+
+	
+xxxx
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Tableau « Volet 3 – MOA Archiviste » - Description des jeux de tests
+
+
+	Description du jeu de tests
+	Taille 
+(Mo ou Go)
+	Nombre de fichiers
+	Nombre d’unités de description
+	autres caractéristiques
+
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+
+
+

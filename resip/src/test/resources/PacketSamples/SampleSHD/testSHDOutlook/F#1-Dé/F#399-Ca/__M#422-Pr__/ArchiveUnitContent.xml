@@ -1,0 +1,41 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Projet Balard - Point hautes autorités</Title>
+    <OriginatingSystemId>&lt;OF723AABD0.6502865A-ONC1257B50.0048E9DA-C1257B50.004A60FB@LocalDomain&gt;</OriginatingSystemId>
+    <Description>Rendez-vous</Description>
+    <Writer>
+        <FirstName>PRECETTI Dominique ICETA2</FirstName>
+        <BirthName>PRECETTI Dominique ICETA2</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=dominique.precetti.dga.defense.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>PRECETTI Dominique ICETA2</FirstName>
+        <BirthName>PRECETTI Dominique ICETA2</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=dominique.precetti.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>DAVID Stephane IPETA</FirstName>
+        <BirthName>DAVID Stephane IPETA</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=stephane.david.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=thierry.casimiriusf3bf6874</Identifier>
+    </Addressee>
+    <SentDate>2013-04-17T13:32:41Z</SentDate>
+    <ReceivedDate>2013-04-17T13:32:44Z</ReceivedDate>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Début</EventType>
+        <EventDateTime>2013-04-23T12:30:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Fin</EventType>
+        <EventDateTime>2013-04-23T13:30:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <TextContent>Prévoir de m&apos;autoriser l&apos;accès au site. STP</TextContent>
+</Content>

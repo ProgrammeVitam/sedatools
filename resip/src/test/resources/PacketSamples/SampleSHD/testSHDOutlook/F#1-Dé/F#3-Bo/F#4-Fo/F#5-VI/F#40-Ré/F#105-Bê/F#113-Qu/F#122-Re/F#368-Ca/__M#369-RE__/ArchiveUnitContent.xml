@@ -1,0 +1,115 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>RE: Cas de SIP SEDA NOK</Title>
+    <OriginatingSystemId>&lt;0CEBDBC4E24A8C46BD4E1D2201D75741E1A1BD@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>BEL Nicolas ASC NIV I OA</FirstName>
+        <BirthName>BEL Nicolas ASC NIV I OA</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>CHEVENIER Olivier ASC NIV I OA</FirstName>
+        <BirthName>CHEVENIER Olivier ASC NIV I OA</BirthName>
+        <Identifier>olivier.chevenier@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>GODET Annie CHAR ETU DOC PPL 2</FirstName>
+        <BirthName>GODET Annie CHAR ETU DOC PPL 2</BirthName>
+        <Identifier>annie.godet@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-10-11T13:14:58Z</SentDate>
+    <ReceivedDate>2016-10-11T13:14:59Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C63569C@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour Thierry, 
+
+ 
+
+En effet, si l’on exclut les cas de non-respect xml/xsd SEDA cela me semble bon.
+
+ 
+
+Je pensais à ajouter non-correspondance des métadonnées fichiers/bordereau (nom de fichier différent par exemple) mais cela me semble couvert par tes cas.
+
+ 
+
+Nicolas
+
+ 
+
+De : CASIMIRIUS Thierry IDEF MINDEF 
+Envoyé : mardi 11 octobre 2016 12:43
+À : BEL Nicolas ASC NIV I OA
+Cc : CHEVENIER Olivier ASC NIV I OA; GODET Annie CHAR ETU DOC PPL 2
+Objet : Cas de SIP SEDA NOK
+
+ 
+
+Nicolas,
+
+ 
+
+J’ai identifié 6 critères de non acceptation d’un SIP SEDA (SIP NOK). J’ai exclu les cas de non-respect de la norme XML, et XSD SEDA
+
+ 
+
+ 
+
+Qu’en dis-tu ? 
+
+Vois-tu d’autres cas ?
+
+ 
+
+Cas d&apos;erreur SIP NOK
+
+Description
+
+A
+
+nombre d&apos;objets dans bordereau et dans SIP différent
+
+B
+
+au moins un format de fichier &quot;archive&quot;dans SIP différent de celui identifié dans bordereau
+
+C
+
+au moins une taille d&apos;un fichier &quot;archive&quot; dans SIP différente de celui identifié dans bordereau
+
+D
+
+au moins une empreinte d&apos;un fichier &quot;archive&quot; dans SIP incorrect dans bordereau
+
+E
+
+au moins une date de dernièere modification d&apos;un fichier &quot;archive&quot; différente de celle indiquée dans bordereau
+
+F
+
+au moins une règle de sort final non respectée : le moment d&apos;application d&apos;un sort final d&apos;un groupe d&apos;objets est antérieur à celui d&apos;un objet de niveau inférieur.
+
+ 
+
+D’avance, merci,
+
+ 
+
+Cordialement,
+
+ 
+
+Thierry CASIMIRIUS
+
+Adjoint au chef du bureau des technologies d’information
+
+Service historique de la Défense
+
+SGA/DMPA/SHD/PPST/BTI
+
+Tél : 01 41 93 20 45</TextContent>
+</Content>

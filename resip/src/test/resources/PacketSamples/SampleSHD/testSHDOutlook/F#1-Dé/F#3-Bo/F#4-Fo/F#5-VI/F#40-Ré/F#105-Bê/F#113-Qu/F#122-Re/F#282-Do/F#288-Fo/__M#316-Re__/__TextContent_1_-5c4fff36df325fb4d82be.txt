@@ -1,0 +1,79 @@
+Rebonjour Thierry,
+
+C'est corrigé avec la bonne version mise à jour sur Jalios.
+
+Edouard
+
+ 
+
+Le 2016-10-11 10:46, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Une remarque sur la documentation associée au générateur SIP SEDA VITAM :
+
+	Page 18 : il est indiqué qu’ «  il est possible de paramétrer l’entête du bordereau en utilisant le fichier ArchiveUnitMetada.json »
+
+	N’y a-t-il pas une erreur, vu que l’on est au niveau du répertoire ???
+
+	 
+
+	D’avance, merci pour vos précisions
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : Programme Vitam [mailto:agora@vitam.jaliosagora.com] 
+	Envoyé : mardi 11 octobre 2016 09:00
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : [Programme Vitam] [Information] Changements récents
+
+	 
+
+
+Programme Vitam - Changements récents
+
+Casimirius,
+
+Voici 2 nouvelles contributions / mises à jour sur Programme Vitam. 
+
+Chantier Solution logicielle Vitam <https://vitam.jaliosagora.com/jcms/c_2001230/fr/chantier-solution-logicielle-vitam>  
+
+generateur SEDA <https://vitam.jaliosagora.com/jcms/c_2005156/fr/generateur-seda> 
+
+Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur> 
+
+Publié par Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur>  · 10/10/2016 · 12:28 
+
+Catégories : Générateur SEDA <https://vitam.jaliosagora.com/jcms/c_2005155/fr/generateur-seda> 
+
+ 
+
+20161010 NP Vitam Vitamtools-generateurSEDA-presentation-v0.1 <https://vitam.jaliosagora.com/jcms/c_2005157/fr/20161010-np-vitam-vitamtools-generateurseda-presentation-v0-1> 
+
+Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur> 
+
+Publié par Edouard Vasseur <https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur>  · 10/10/2016 · 12:28 
+
+Catégories : Générateur SEDA <https://vitam.jaliosagora.com/jcms/c_2005155/fr/generateur-seda> 
+
+Mon profil <https://vitam.jaliosagora.com/jcms/c_2003159/fr/casimirius-thierry>  · Accueil <https://vitam.jaliosagora.com/>  
+
+Ce mail vous a été envoyé par Programme Vitam

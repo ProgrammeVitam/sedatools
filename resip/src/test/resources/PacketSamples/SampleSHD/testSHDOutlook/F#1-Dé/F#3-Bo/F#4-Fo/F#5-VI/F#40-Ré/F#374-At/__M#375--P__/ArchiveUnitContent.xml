@@ -1,0 +1,301 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Programme Vitam] Atelier technique n°3</Title>
+    <OriginatingSystemId>&lt;56AB35C2.5070706@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>&quot;mélanie REBOURS-Telem@c&quot;</FirstName>
+        <BirthName>&quot;mélanie REBOURS-Telem@c&quot;</BirthName>
+        <Identifier>melanie.rebours@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Frederic.Loffredo</FirstName>
+        <BirthName>Frederic.Loffredo</BirthName>
+        <Identifier>Frederic.Loffredo@justice.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Samuel.Michel</FirstName>
+        <BirthName>Samuel.Michel</BirthName>
+        <Identifier>Samuel.Michel@justice.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>&quot;GAUTROT Laurent (Chargé de mission Réseaux) - SG/SPSSI/PSI2&quot;</FirstName>
+        <BirthName>&quot;GAUTROT Laurent (Chargé de mission Réseaux) - SG/SPSSI/PSI2&quot;</BirthName>
+        <Identifier>Laurent.Gautrot@developpement-durable.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>p.romain</FirstName>
+        <BirthName>p.romain</BirthName>
+        <Identifier>p.romain@cg33.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Cuvillier Cyril LCL (BAP SDSI STSISI)</FirstName>
+        <BirthName>Cuvillier Cyril LCL (BAP SDSI STSISI)</BirthName>
+        <Identifier>cyril.cuvillier@gendarmerie.interieur.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>thomas.ledoux</FirstName>
+        <BirthName>thomas.ledoux</BirthName>
+        <Identifier>thomas.ledoux@bnf.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>patrick.turgy</FirstName>
+        <BirthName>patrick.turgy</BirthName>
+        <Identifier>patrick.turgy@carsat-nordpicardie.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>watine</FirstName>
+        <BirthName>watine</BirthName>
+        <Identifier>watine@cines.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>gilles.candau</FirstName>
+        <BirthName>gilles.candau</BirthName>
+        <Identifier>gilles.candau@interieur.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>jean-christophe.erb</FirstName>
+        <BirthName>jean-christophe.erb</BirthName>
+        <Identifier>jean-christophe.erb@interieur.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>florent.barth</FirstName>
+        <BirthName>florent.barth</BirthName>
+        <Identifier>florent.barth@ac-dijon.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>julien.alexandre</FirstName>
+        <BirthName>julien.alexandre</BirthName>
+        <Identifier>julien.alexandre@ac-rennes.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>christelle.mercier</FirstName>
+        <BirthName>christelle.mercier</BirthName>
+        <Identifier>christelle.mercier@education.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>pierre.le-clainche</FirstName>
+        <BirthName>pierre.le-clainche</BirthName>
+        <Identifier>pierre.le-clainche@culture.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>gerard.laboue</FirstName>
+        <BirthName>gerard.laboue</BirthName>
+        <Identifier>gerard.laboue@diplomatie.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Karim.BENAHMED</FirstName>
+        <BirthName>Karim.BENAHMED</BirthName>
+        <Identifier>Karim.BENAHMED@sg.social.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>yann-fanch.madaule</FirstName>
+        <BirthName>yann-fanch.madaule</BirthName>
+        <Identifier>yann-fanch.madaule@sg.social.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>laurence.davi</FirstName>
+        <BirthName>laurence.davi</BirthName>
+        <Identifier>laurence.davi@finances.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>frederic.putter</FirstName>
+        <BirthName>frederic.putter</BirthName>
+        <Identifier>frederic.putter@interieur.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>pascal.delebarre</FirstName>
+        <BirthName>pascal.delebarre</BirthName>
+        <Identifier>pascal.delebarre@rte-france.com</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>bernard.ouillon</FirstName>
+        <BirthName>bernard.ouillon</BirthName>
+        <Identifier>bernard.ouillon@rte-france.com</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>c.delorme</FirstName>
+        <BirthName>c.delorme</BirthName>
+        <Identifier>c.delorme@senat.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>s.dubourg</FirstName>
+        <BirthName>s.dubourg</BirthName>
+        <Identifier>s.dubourg@senat.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Martial.Couty</FirstName>
+        <BirthName>Martial.Couty</BirthName>
+        <Identifier>Martial.Couty@asp-public.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>cyril.demarez</FirstName>
+        <BirthName>cyril.demarez</BirthName>
+        <Identifier>cyril.demarez@dila.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>mohamed.laghsal</FirstName>
+        <BirthName>mohamed.laghsal</BirthName>
+        <Identifier>mohamed.laghsal@dila.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>fabienne.ricciarini</FirstName>
+        <BirthName>fabienne.ricciarini</BirthName>
+        <Identifier>fabienne.ricciarini@culture.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>gael.deral</FirstName>
+        <BirthName>gael.deral</BirthName>
+        <Identifier>gael.deral@agriculture.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Remy.Delmotte</FirstName>
+        <BirthName>Remy.Delmotte</BirthName>
+        <Identifier>Remy.Delmotte@developpement-durable.gouv.f</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>olivier.croulard</FirstName>
+        <BirthName>olivier.croulard</BirthName>
+        <Identifier>olivier.croulard@culture.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Boubaker.Bouchareb</FirstName>
+        <BirthName>Boubaker.Bouchareb</BirthName>
+        <Identifier>Boubaker.Bouchareb@justice.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>sylvain.gorawski</FirstName>
+        <BirthName>sylvain.gorawski</BirthName>
+        <Identifier>sylvain.gorawski@diplomatie.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>mederic.munier</FirstName>
+        <BirthName>mederic.munier</BirthName>
+        <Identifier>mederic.munier@diplomatie.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>renaud.rigody</FirstName>
+        <BirthName>renaud.rigody</BirthName>
+        <Identifier>renaud.rigody@interieur.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>sebastien.perez</FirstName>
+        <BirthName>sebastien.perez</BirthName>
+        <Identifier>sebastien.perez@asp-public.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>rbouatou</FirstName>
+        <BirthName>rbouatou</BirthName>
+        <Identifier>rbouatou@cg93.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>ahassouna</FirstName>
+        <BirthName>ahassouna</BirthName>
+        <Identifier>ahassouna@cg93.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>jean-luc.fiquet</FirstName>
+        <BirthName>jean-luc.fiquet</BirthName>
+        <Identifier>jean-luc.fiquet@dila.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>caroline.tomas</FirstName>
+        <BirthName>caroline.tomas</BirthName>
+        <Identifier>caroline.tomas@interieur.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>joseph-marie.marsili</FirstName>
+        <BirthName>joseph-marie.marsili</BirthName>
+        <Identifier>joseph-marie.marsili@agriculture.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Philippe.Bricout</FirstName>
+        <BirthName>Philippe.Bricout</BirthName>
+        <Identifier>Philippe.Bricout@developpement-durable.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>nicole.bleas</FirstName>
+        <BirthName>nicole.bleas</BirthName>
+        <Identifier>nicole.bleas@ac-rennes.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>romain.vacquier</FirstName>
+        <BirthName>romain.vacquier</BirthName>
+        <Identifier>romain.vacquier@neoxia.com</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Dominique.Catala</FirstName>
+        <BirthName>Dominique.Catala</BirthName>
+        <Identifier>Dominique.Catala@justice.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Anne.Limoges</FirstName>
+        <BirthName>Anne.Limoges</BirthName>
+        <Identifier>Anne.Limoges@justice.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>vithya.by</FirstName>
+        <BirthName>vithya.by</BirthName>
+        <Identifier>vithya.by@diplomatie.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>antoine.monin</FirstName>
+        <BirthName>antoine.monin</BirthName>
+        <Identifier>antoine.monin@diplomatie.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>frederic.demissy</FirstName>
+        <BirthName>frederic.demissy</BirthName>
+        <Identifier>frederic.demissy@sg.social.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>julien.leprevost</FirstName>
+        <BirthName>julien.leprevost</BirthName>
+        <Identifier>julien.leprevost@finances.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>Gilles.Monti</FirstName>
+        <BirthName>Gilles.Monti</BirthName>
+        <Identifier>Gilles.Monti@asp-public.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-01-29T09:49:54Z</SentDate>
+    <ReceivedDate>2016-01-29T09:50:47Z</ReceivedDate>
+    <TextContent>Bonjour à tous,
+
+Je vous rappelle la tenue du second atelier technique du Programme Vitam le 4 février prochain à 9h30 à la DINSIC (Tour Mirabeau, 39-43 quai André Citroën, salle 4c058).
+
+Cette séance sera consacrée à l&apos;étude des contextes et contraintes de sécurité de production, l&apos;objectif sera de faire le point sur l&apos;existant et d&apos;en discuter avec les participants. Les profils des participants attendus à cette séance sont des profils architectes de production, RSSI.
+
+Vous trouverez ci-joint les documents qui seront étudiés en séance. Nous remercions les participants, comme pour le premier atelier, de bien vouloir remplir le questionnaire ci-joint en amont de la séance.
+Les documents sont également à votre disposition dans l&apos;espace collaboratif Jalios : https://vitam.jaliosagora.com/jcms/c_2000420/fr/chantier-technique-espace-collaboratif?histstate=2&amp;portlet=c_2000474
+
+La salle comportant un nombre de places limité, je vous remercie de bien vouloir me confirmer votre présence par mail ou via Jalios, pour ceux d&apos;entre-vous qui ne l&apos;auraient pas déjà fait (ou celle d&apos;un membre de votre équipe ayant le profil requis).
+
+Pour mémoire, voici les thématiques qui seront abordées lors des ateliers suivants :
+Pour les deux derniers ateliers, il s&apos;agira de proposer des modèles tant sur les interfaces que sur l&apos;insertion de la solution logicielle VITAM dans les SI de production :
+- Séance 4 : Proposition de modèle applicatif API VITAM (profils concepteur d&apos;application), prévue le 17/02,
+- Séance 5 : Proposition de modèle d&apos;organisation de production VITAM (profils exploitation, architecture technique), prévue le 15/03
+
+Je reste à votre disposition pour toute question.
+
+Cordialement 
+
+
+-- 
+
+
+
+ 
+
+Mélanie REBOURS
+Directrice de la diffusion et des partenariats / Dissemination and partnerships head
+Programme Vitam – DINSIC
+87 rue vieille du Temple, 75003 Paris
+melanie.rebours@culture.gouv.fr &lt; mailto:melanie.rebours@culture.gouv.fr&gt; 
+Suivez-nous sur Twitter @ProgVitam &lt; https://twitter.com/progvitam&gt; 
+Le programme est hébergé par les moyens informatiques du MCC</TextContent>
+</Content>

@@ -1,0 +1,30 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[MantisBT] Password Reset</Title>
+    <OriginatingSystemId>&lt;8c3dc28e27c97be32b4f9472a7876777@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>noreply@example.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-06T11:25:16Z</SentDate>
+    <ReceivedDate>2016-12-06T11:31:19Z</ReceivedDate>
+    <TextContent>Someone (presumably you) requested a password change through e-mail
+verification. If this was not you, ignore this message and nothing will happen.
+
+If you requested this verification, visit the following URL to change your
+password: 
+
+http://213.32.79.242/mantisbt/verify.php?id=7&amp;confirm_hash=XnBh7czSjoekDICzfUDE1dXJj3rpLcGmSIsaGTewxZ-UipWj-h-DG5JweoeLAiEouKvlEeSPvHlsAYbeagr2
+
+
+Username: Thierry 
+Remote IP address: 84.14.209.116 
+
+Do not reply to this message</TextContent>
+</Content>

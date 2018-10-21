@@ -1,0 +1,46 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=51 
+====================================================================== 
+Rapporteur:                 Vincent
+Responsable:                Vincent
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   51
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:               576 
+====================================================================== 
+Date de soumission:         2017-01-06 11:57 CET
+Dernière modification:      2017-01-06 11:57 CET
+====================================================================== 
+Résumé:                     [Fonctionnalité non-implémenté] Modification
+d'une règle de gestion
+Description: 
+Lors de l'affichage d'une règle de gestion, il n'y a pas de bouton de
+modification (stylo) : impossible de modifier la règle.
+
+Étapes pour le reproduire: 
+ - Se connecter sur la plate-forme VITAM
+ - Dans la liste "Type", clique sur un type de règle, puis cliquer sur le
+bouton "Rechercher"
+ - Cliquer sur l'ID d'une règle.
+
+Informations complémentaires: 
+PVI-599
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-06 11:57 Vincent        Nouveau bogue                                
+2017-01-06 11:57 Vincent        Statut                   nouveau => affecté  
+2017-01-06 11:57 Vincent        Assigné à                 => Vincent         
+2017-01-06 11:57 Vincent        Fichier ajouté: PVI-599_Step-4.JPG             
+      
+======================================================================

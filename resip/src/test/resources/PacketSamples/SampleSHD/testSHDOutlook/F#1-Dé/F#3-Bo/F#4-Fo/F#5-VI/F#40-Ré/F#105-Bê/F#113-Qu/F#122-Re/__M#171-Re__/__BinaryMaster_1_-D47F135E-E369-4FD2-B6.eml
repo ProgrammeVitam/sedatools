@@ -1,0 +1,498 @@
+Return-Path: kristopher.waltzer.ext@culture.gouv.fr
+Received:  from [192.168.1.21] (unknown [80.12.39.108])	(using TLSv1 with
+ cipher DHE-RSA-AES256-SHA (256/256 bits))	(Client did not present a
+ certificate)	by rubicon.culture.fr (Postfix) with ESMTP id 994489E44;	Wed, 30
+ Nov 2016 10:05:57 +0100 (CET)
+Date: Wed, 30 Nov 2016 10:05:59 +0100 (CET)
+From: Kristopher Waltzer <kristopher.waltzer.ext@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+CC: emmanuel.laborde <emmanuel.laborde@culture.gouv.fr>,
+	AJJAZ Franck (franck.ajjaz@altran.com) <franck.ajjaz@altran.com>,etienne.carriere <etienne.carriere@culture.gouv.fr>
+Message-ID: <D47F135E-E369-4FD2-B6D7-2F7072B31216@culture.gouv.fr>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D1C66B36C@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D1C66B36C@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: =?UTF-8?Q?Re:_TRA_VITAM_Beta_:_Journ=C3=A9e_assistance_ins?=
+ =?UTF-8?Q?tallation_pour_le_MINDEF_:_pr=C3=A9cisions_ALTRAN?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_210_15231166.1517006383797"
+X-Mailer:  Apple Mail (2.3251)
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8364 signatures=670755
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1292700;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM07.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_210_15231166.1517006383797
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_211_13181587.1517006383797"
+
+------=_Part_211_13181587.1517006383797
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour,
+
+Pour information, nous venons de cr=C3=A9er les comptes des deux personnes =
+suivantes pour acc=C3=A8s aux binaires de release et au bugtracker :
+- Franck AJJAZ
+- Vincent HERNIN
+
+Cordialement,
+
+Kristopher Waltzer
+Release manager & Integration team leader VITAM
+
+
+=09Le 28 nov. 2016 =C3=A0 14:03, CASIMIRIUS Thierry <thierry.casimirius@int=
+radef.gouv.fr> a =C3=A9crit :
+
+=09=20
+=09De : AJJAZ Franck [mailto:franck.ajjaz@altran.com]=20
+=09Envoy=C3=A9 : lundi 28 novembre 2016 12:52
+=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09Objet : RE: TRA VITAM Beta : Journ=C3=A9e assistance installation pour l=
+e MINDEF
+=09=20
+=09Bonjour Thierry,
+=09=20
+=09Nos retours en bleu dans le mail.
+=09=20
+=09Cordialement,
+=09Franck AJJAZ
+=09Chef de Projet
+=09TRA VITAM
+=09franck.ajjaz@altran.com
+=09=20
+=09=20
+=09=20
+=09De : Kristopher Waltzer [mailto:kristopher.waltzer.ext@culture.gouv.fr]=
+=20
+=09Envoy=C3=A9 : lundi 28 novembre 2016 10:16
+=09=C3=80 : CASIMIRIUS Thierry
+=09Cc : emmanuel.laborde; AJJAZ Franck; DANYACH-DESCHAMPS Myriam
+=09Objet : Re: TRA VITAM Beta : Journ=C3=A9e assistance installation pour l=
+e MINDEF
+=09=20
+=09Bonjour,
+=09=20
+=09C=E2=80=99est not=C3=A9 ; l=E2=80=99intervenant de notre part sera Nicol=
+as M=C3=A9n=C3=A9trier.
+=09=20
+=09Sur les questions compl=C3=A9mentaires :
+=09- de quelles informations compl=C3=A9mentaires avez-vous besoin ?
+=09Pour l=E2=80=99instant aucune
+=09=20
+=09- concernant le lieu : je comprends que ce sera dans les locaux d=E2=80=
+=99Altran =C3=A0 la D=C3=A9fense ; pourriez-vous pr=C3=A9ciser l=E2=80=99ad=
+resse exacte ?
+=09ALTRAN 14 bis terrasse Bellini 92807 Puteaux Cedex
+=09=20
+=09- quel sera notre contact sur place ?
+=09Franck AJJAZ
+=09=20
+=09- concernant les horaires : jeudi 1er d=C3=A9cembre ; pourriez-vous pr=
+=C3=A9ciser les horaires ?
+=0910h-18h
+=09=20
+=09- avez-vous des attentes particuli=C3=A8res pour cette journ=C3=A9e ?
+=09Pour l=E2=80=99instant non ; apr=C3=A8s avoir re=C3=A7u le package, nous=
+ pourrons peut =C3=AAtre donner des pr=C3=A9cisions.
+=09=20
+=09Cordialement,
+=09=20
+=09Kristopher Waltzer
+=09=20
+=09=20
+
+=09=09Le 25 nov. 2016 =C3=A0 11:09, CASIMIRIUS Thierry <thierry.casimirius@=
+intradef.gouv.fr> a =C3=A9crit :
+=09=09=20
+=09=09Bonjour,
+=09=09=20
+=09=09Nous souhaitons r=C3=A9server la journ=C3=A9e du 1er d=C3=A9cembre po=
+ur le premier cr=C3=A9neau d=E2=80=99assistance =C3=A0 l=E2=80=99installati=
+on de VITAM pour le MINDEF, en vue des tests par notre prestataire.
+=09=09=20
+=09=09Les modalit=C3=A9s pratiques ( lieu et heure) sont =C3=A0 caler avec =
+Franck AJJAZ, en copie.
+=09=09=20
+=09=09D=E2=80=99avance, merci pour votre retour,
+=09=09=20
+=09=09Cordialement,
+=09=09=20
+=09=09Thierry CASIMIRIUS
+=09=09Adjoint au chef du bureau des technologies d=E2=80=99information
+=09=09Service historique de la D=C3=A9fense
+=09=09SGA/DMPA/SHD/PPST/BTI
+=09=09T=C3=A9l : 01 41 93 20 45
+=09=09=20
+=09=09De : AJJAZ Franck [mailto:franck.ajjaz@altran.com <mailto:franck.ajja=
+z@altran.com> ]=20
+=09=09Envoy=C3=A9 : vendredi 25 novembre 2016 09:56
+=09=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09=09Cc : DANYACH-DESCHAMPS Myriam ASC
+=09=09Objet : Journ=C3=A9e assistance installation
+=09=09=20
+=09=09Bonjour Thierry,
+=09=09=20
+=09=09Je fais suite =C3=A0 notre discussion d=E2=80=99hier sur les journ=C3=
+=A9es d=E2=80=99assistance.
+=09=09Nous souhaitons donc r=C3=A9server le jeudi 01 d=C3=A9cembre.
+=09=09=20
+=09=09Cordialement,
+=09=09Franck AJJAZ
+=09=09Chef de Projet
+=09=09TRA VITAM
+=09=09franck.ajjaz@altran.com <mailto:franck.ajjaz@altran.com>=20
+
+=09=20
+________________________________
+
+=09Merci de nous aider =C3=A0 pr=C3=A9server l'environnement en n'imprimant=
+ ce courriel et les documents joints que si n=C3=A9cessaire.
+------=_Part_211_13181587.1517006383797
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head><body style=3D"word-wrap: break-word; -webkit-nbsp-mode: space; -webki=
+t-line-break: after-white-space;" class=3D"">Bonjour,<div class=3D""><br cl=
+ass=3D""></div><div class=3D"">Pour information, nous venons de cr=C3=A9er =
+les comptes des deux personnes suivantes pour acc=C3=A8s aux binaires de re=
+lease et au bugtracker :</div><div class=3D"">- Franck AJJAZ</div><div clas=
+s=3D"">- Vincent HERNIN</div><div class=3D""><br class=3D""></div><div clas=
+s=3D"">Cordialement,</div><div class=3D""><br class=3D""></div><div class=
+=3D"">Kristopher Waltzer</div><div class=3D"">Release manager &amp; Integra=
+tion team leader VITAM</div><div class=3D""><br class=3D""></div><div class=
+=3D""><div><blockquote type=3D"cite" class=3D""><div class=3D"">Le 28 nov. =
+2016 =C3=A0 14:03, CASIMIRIUS Thierry &lt;<a href=3D"mailto:thierry.casimir=
+ius@intradef.gouv.fr" class=3D"">thierry.casimirius@intradef.gouv.fr</a>&gt=
+; a =C3=A9crit :</div><br class=3D"Apple-interchange-newline"><div class=3D=
+""><div class=3D"WordSection1" style=3D"page: WordSection1; font-family: He=
+lvetica; font-size: 12px; font-style: normal; font-variant-caps: normal; fo=
+nt-weight: normal; letter-spacing: normal; orphans: auto; text-align: start=
+; text-indent: 0px; text-transform: none; white-space: normal; widows: auto=
+; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><div style=3D"margin:=
+ 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"=
+ class=3D""><span style=3D"font-size: 11pt; font-family: Calibri, sans-seri=
+f; color: rgb(31, 73, 125);" class=3D""><o:p class=3D"">&nbsp;</o:p></span>=
+</div><div class=3D""><div style=3D"border-style: solid none none; border-t=
+op-color: rgb(181, 196, 223); border-top-width: 1pt; padding: 3pt 0cm 0cm;"=
+ class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-f=
+amily: 'Times New Roman', serif;" class=3D""><b class=3D""><span style=3D"f=
+ont-size: 10pt; font-family: Tahoma, sans-serif;" class=3D"">De&nbsp;:</spa=
+n></b><span style=3D"font-size: 10pt; font-family: Tahoma, sans-serif;" cla=
+ss=3D""><span class=3D"Apple-converted-space">&nbsp;</span>AJJAZ Franck [<a=
+ href=3D"mailto:franck.ajjaz@altran.com" style=3D"color: purple; text-decor=
+ation: underline;" class=3D"">mailto:franck.ajjaz@altran.com</a>]<span clas=
+s=3D"Apple-converted-space">&nbsp;</span><br class=3D""><b class=3D"">Envoy=
+=C3=A9&nbsp;:</b><span class=3D"Apple-converted-space">&nbsp;</span>lundi 2=
+8 novembre 2016 12:52<br class=3D""><b class=3D"">=C3=80&nbsp;:</b><span cl=
+ass=3D"Apple-converted-space">&nbsp;</span>CASIMIRIUS Thierry IDEF MINDEF<b=
+r class=3D""><b class=3D"">Objet&nbsp;:</b><span class=3D"Apple-converted-s=
+pace">&nbsp;</span>RE: TRA VITAM Beta : Journ=C3=A9e assistance installatio=
+n pour le MINDEF<o:p class=3D""></o:p></span></div></div></div><div style=
+=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roma=
+n', serif;" class=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"marg=
+in: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', seri=
+f;" class=3D""><span style=3D"font-size: 11pt; font-family: Calibri, sans-s=
+erif; color: rgb(31, 73, 125);" class=3D"">Bonjour Thierry,<o:p class=3D"">=
+</o:p></span></div><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt;=
+ font-family: 'Times New Roman', serif;" class=3D""><span style=3D"font-siz=
+e: 11pt; font-family: Calibri, sans-serif; color: rgb(31, 73, 125);" class=
+=3D""><o:p class=3D"">&nbsp;</o:p></span></div><div style=3D"margin: 0cm 0c=
+m 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" class=
+=3D""><span style=3D"font-size: 11pt; font-family: Calibri, sans-serif; col=
+or: rgb(31, 73, 125);" class=3D"">Nos retours en bleu dans le mail.<o:p cla=
+ss=3D""></o:p></span></div><div style=3D"margin: 0cm 0cm 0.0001pt; font-siz=
+e: 12pt; font-family: 'Times New Roman', serif;" class=3D""><span style=3D"=
+font-size: 11pt; font-family: Calibri, sans-serif; color: rgb(31, 73, 125);=
+" class=3D""><o:p class=3D"">&nbsp;</o:p></span></div><div style=3D"margin:=
+ 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;"=
+ class=3D""><span style=3D"font-size: 11pt; font-family: Calibri, sans-seri=
+f; color: rgb(31, 73, 125);" class=3D"">Cordialement,<o:p class=3D""></o:p>=
+</span></div><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-=
+family: 'Times New Roman', serif;" class=3D""><b class=3D""><span style=3D"=
+font-size: 10pt; font-family: Arial, sans-serif; color: blue;" class=3D"">F=
+ranck AJJAZ</span></b><span style=3D"font-size: 11pt; font-family: Calibri,=
+ sans-serif; color: rgb(31, 73, 125);" class=3D""><o:p class=3D""></o:p></s=
+pan></div><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-fam=
+ily: 'Times New Roman', serif;" class=3D""><span style=3D"font-size: 10pt; =
+font-family: Arial, sans-serif; color: rgb(31, 73, 125);" class=3D"">Chef d=
+e Projet<o:p class=3D""></o:p></span></div><div style=3D"margin: 0cm 0cm 0.=
+0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""=
+><span style=3D"font-size: 10pt; font-family: Arial, sans-serif; color: rgb=
+(31, 73, 125);" class=3D"">TRA VITAM</span><span style=3D"font-size: 8pt; f=
+ont-family: Arial, sans-serif; color: gray;" class=3D""><br class=3D""></sp=
+an><span style=3D"font-size: 7.5pt; font-family: Arial, sans-serif; color: =
+gray;" class=3D""><a href=3D"mailto:franck.ajjaz@altran.com" style=3D"color=
+: purple; text-decoration: underline;" class=3D"">franck.ajjaz@altran.com</=
+a><o:p class=3D""></o:p></span></div><div style=3D"margin: 0cm 0cm 0.0001pt=
+; font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""><span=
+ style=3D"font-size: 11pt; font-family: Calibri, sans-serif; color: rgb(31,=
+ 73, 125);" class=3D""><o:p class=3D"">&nbsp;</o:p></span></div><div style=
+=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roma=
+n', serif;" class=3D""><span style=3D"font-size: 11pt; font-family: Calibri=
+, sans-serif; color: rgb(31, 73, 125);" class=3D""><o:p class=3D"">&nbsp;</=
+o:p></span></div><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; f=
+ont-family: 'Times New Roman', serif;" class=3D""><span style=3D"font-size:=
+ 11pt; font-family: Calibri, sans-serif; color: rgb(31, 73, 125);" class=3D=
+""><o:p class=3D"">&nbsp;</o:p></span></div><div class=3D""><div style=3D"b=
+order-style: solid none none; border-top-color: rgb(181, 196, 223); border-=
+top-width: 1pt; padding: 3pt 0cm 0cm;" class=3D""><div style=3D"margin: 0cm=
+ 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" cla=
+ss=3D""><b class=3D""><span style=3D"font-size: 10pt; font-family: Tahoma, =
+sans-serif;" class=3D"">De&nbsp;:</span></b><span style=3D"font-size: 10pt;=
+ font-family: Tahoma, sans-serif;" class=3D""><span class=3D"Apple-converte=
+d-space">&nbsp;</span>Kristopher Waltzer [<a href=3D"mailto:kristopher.walt=
+zer.ext@culture.gouv.fr" style=3D"color: purple; text-decoration: underline=
+;" class=3D"">mailto:kristopher.waltzer.ext@culture.gouv.fr</a>]<span class=
+=3D"Apple-converted-space">&nbsp;</span><br class=3D""><b class=3D"">Envoy=
+=C3=A9&nbsp;:</b><span class=3D"Apple-converted-space">&nbsp;</span>lundi 2=
+8 novembre 2016 10:16<br class=3D""><b class=3D"">=C3=80&nbsp;:</b><span cl=
+ass=3D"Apple-converted-space">&nbsp;</span>CASIMIRIUS Thierry<br class=3D""=
+><b class=3D"">Cc&nbsp;:</b><span class=3D"Apple-converted-space">&nbsp;</s=
+pan>emmanuel.laborde; AJJAZ Franck; DANYACH-DESCHAMPS Myriam<br class=3D"">=
+<b class=3D"">Objet&nbsp;:</b><span class=3D"Apple-converted-space">&nbsp;<=
+/span>Re: TRA VITAM Beta : Journ=C3=A9e assistance installation pour le MIN=
+DEF<o:p class=3D""></o:p></span></div></div></div><div style=3D"margin: 0cm=
+ 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" cla=
+ss=3D""><o:p class=3D"">&nbsp;</o:p></div><div style=3D"margin: 0cm 0cm 0.0=
+001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D"">=
+Bonjour,<o:p class=3D""></o:p></div><div class=3D""><div style=3D"margin: 0=
+cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" c=
+lass=3D""><o:p class=3D"">&nbsp;</o:p></div></div><div class=3D""><div styl=
+e=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Rom=
+an', serif;" class=3D"">C=E2=80=99est not=C3=A9 ; l=E2=80=99intervenant de =
+notre part sera Nicolas M=C3=A9n=C3=A9trier.<o:p class=3D""></o:p></div></d=
+iv><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt;=
+ font-family: 'Times New Roman', serif;" class=3D""><o:p class=3D"">&nbsp;<=
+/o:p></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; fo=
+nt-size: 12pt; font-family: 'Times New Roman', serif;" class=3D"">Sur les q=
+uestions compl=C3=A9mentaires :<o:p class=3D""></o:p></div></div><div class=
+=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family:=
+ 'Times New Roman', serif;" class=3D"">- de quelles informations compl=C3=
+=A9mentaires avez-vous besoin ?<o:p class=3D""></o:p></div><div style=3D"ma=
+rgin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', se=
+rif;" class=3D""><span style=3D"font-size: 11pt; font-family: Calibri, sans=
+-serif; color: rgb(31, 73, 125);" class=3D"">Pour l=E2=80=99instant aucune<=
+o:p class=3D""></o:p></span></div><div style=3D"margin: 0cm 0cm 0.0001pt; f=
+ont-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""><span st=
+yle=3D"font-size: 11pt; font-family: Calibri, sans-serif; color: rgb(31, 73=
+, 125);" class=3D""><o:p class=3D"">&nbsp;</o:p></span></div></div><div cla=
+ss=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-famil=
+y: 'Times New Roman', serif;" class=3D"">- concernant le lieu : je comprend=
+s que ce sera dans les locaux d=E2=80=99Altran =C3=A0 la D=C3=A9fense ; pou=
+rriez-vous pr=C3=A9ciser l=E2=80=99adresse exacte ?<o:p class=3D""></o:p></=
+div><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: '=
+Times New Roman', serif;" class=3D""><span style=3D"font-size: 11pt; font-f=
+amily: Calibri, sans-serif; color: rgb(31, 73, 125);" class=3D"">ALTRAN 14 =
+bis terrasse Bellini 92807 Puteaux Cedex<o:p class=3D""></o:p></span></div>=
+<div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Time=
+s New Roman', serif;" class=3D""><span style=3D"font-size: 11pt; font-famil=
+y: Calibri, sans-serif; color: rgb(31, 73, 125);" class=3D""><o:p class=3D"=
+">&nbsp;</o:p></span></div></div><div class=3D""><div style=3D"margin: 0cm =
+0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" clas=
+s=3D"">- quel sera notre contact sur place ?<span style=3D"color: rgb(31, 7=
+3, 125);" class=3D""><o:p class=3D""></o:p></span></div><div style=3D"margi=
+n: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif=
+;" class=3D""><span style=3D"font-size: 11pt; font-family: Calibri, sans-se=
+rif; color: rgb(31, 73, 125);" class=3D"">Franck AJJAZ<o:p class=3D""></o:p=
+></span></div><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font=
+-family: 'Times New Roman', serif;" class=3D""><o:p class=3D"">&nbsp;</o:p>=
+</div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-si=
+ze: 12pt; font-family: 'Times New Roman', serif;" class=3D"">- concernant l=
+es horaires : jeudi 1er d=C3=A9cembre ; pourriez-vous pr=C3=A9ciser les hor=
+aires ?<o:p class=3D""></o:p></div><div style=3D"margin: 0cm 0cm 0.0001pt; =
+font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""><span s=
+tyle=3D"font-size: 11pt; font-family: Calibri, sans-serif; color: rgb(31, 7=
+3, 125);" class=3D"">10h-18h<o:p class=3D""></o:p></span></div><div style=
+=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roma=
+n', serif;" class=3D""><span style=3D"font-size: 11pt; font-family: Calibri=
+, sans-serif; color: rgb(31, 73, 125);" class=3D""><o:p class=3D"">&nbsp;</=
+o:p></span></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001=
+pt; font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D"">- a=
+vez-vous des attentes particuli=C3=A8res pour cette journ=C3=A9e ?<o:p clas=
+s=3D""></o:p></div><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt;=
+ font-family: 'Times New Roman', serif;" class=3D""><span style=3D"font-siz=
+e: 11pt; font-family: Calibri, sans-serif; color: rgb(31, 73, 125);" class=
+=3D"">Pour l=E2=80=99instant non&nbsp;; apr=C3=A8s avoir re=C3=A7u le packa=
+ge, nous pourrons peut =C3=AAtre donner des pr=C3=A9cisions.<o:p class=3D""=
+></o:p></span></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0=
+001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D"">=
+<o:p class=3D"">&nbsp;</o:p></div></div><div class=3D""><div style=3D"margi=
+n: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif=
+;" class=3D"">Cordialement,<o:p class=3D""></o:p></div></div><div class=3D"=
+"><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Ti=
+mes New Roman', serif;" class=3D""><o:p class=3D"">&nbsp;</o:p></div></div>=
+<div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; fo=
+nt-family: 'Times New Roman', serif;" class=3D"">Kristopher Waltzer<o:p cla=
+ss=3D""></o:p></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0=
+001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D"">=
+<o:p class=3D"">&nbsp;</o:p></div></div><div class=3D""><div style=3D"margi=
+n: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif=
+;" class=3D""><o:p class=3D"">&nbsp;</o:p></div><div class=3D""><blockquote=
+ style=3D"margin-top: 5pt; margin-bottom: 5pt;" class=3D""><div class=3D"">=
+<div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Time=
+s New Roman', serif;" class=3D"">Le 25 nov. 2016 =C3=A0 11:09, CASIMIRIUS T=
+hierry &lt;<a href=3D"mailto:thierry.casimirius@intradef.gouv.fr" style=3D"=
+color: purple; text-decoration: underline;" class=3D"">thierry.casimirius@i=
+ntradef.gouv.fr</a>&gt; a =C3=A9crit :<o:p class=3D""></o:p></div></div><di=
+v style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times N=
+ew Roman', serif;" class=3D""><o:p class=3D"">&nbsp;</o:p></div><div class=
+=3D""><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12=
+pt; font-family: 'Times New Roman', serif;" class=3D""><span style=3D"font-=
+size: 11pt; font-family: Calibri, sans-serif; color: rgb(31, 73, 125);" cla=
+ss=3D"">Bonjour,</span><span style=3D"font-size: 11pt; font-family: Calibri=
+, sans-serif;" class=3D""><o:p class=3D""></o:p></span></div></div><div cla=
+ss=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-famil=
+y: 'Times New Roman', serif;" class=3D""><span style=3D"font-size: 11pt; fo=
+nt-family: Calibri, sans-serif; color: rgb(31, 73, 125);" class=3D"">&nbsp;=
+</span><span style=3D"font-size: 11pt; font-family: Calibri, sans-serif;" c=
+lass=3D""><o:p class=3D""></o:p></span></div></div><div class=3D""><div sty=
+le=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Ro=
+man', serif;" class=3D""><span style=3D"font-size: 11pt; font-family: Calib=
+ri, sans-serif; color: rgb(31, 73, 125);" class=3D"">Nous souhaitons r=C3=
+=A9server la journ=C3=A9e du 1<sup class=3D"">er</sup><span class=3D"apple-=
+converted-space">&nbsp;</span>d=C3=A9cembre pour le premier cr=C3=A9neau d=
+=E2=80=99assistance =C3=A0 l=E2=80=99installation de VITAM pour le MINDEF, =
+en vue des tests par notre prestataire.</span><span style=3D"font-size: 11p=
+t; font-family: Calibri, sans-serif;" class=3D""><o:p class=3D""></o:p></sp=
+an></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font=
+-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""><span style=
+=3D"font-size: 11pt; font-family: Calibri, sans-serif; color: rgb(31, 73, 1=
+25);" class=3D"">&nbsp;</span><span style=3D"font-size: 11pt; font-family: =
+Calibri, sans-serif;" class=3D""><o:p class=3D""></o:p></span></div></div><=
+div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; fon=
+t-family: 'Times New Roman', serif;" class=3D""><span style=3D"font-size: 1=
+1pt; font-family: Calibri, sans-serif; color: rgb(31, 73, 125);" class=3D""=
+>Les modalit=C3=A9s pratiques ( lieu et heure) sont =C3=A0 caler avec Franc=
+k AJJAZ, en copie.</span><span style=3D"font-size: 11pt; font-family: Calib=
+ri, sans-serif;" class=3D""><o:p class=3D""></o:p></span></div></div><div c=
+lass=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-fam=
+ily: 'Times New Roman', serif;" class=3D""><span style=3D"font-size: 11pt; =
+font-family: Calibri, sans-serif; color: rgb(31, 73, 125);" class=3D"">&nbs=
+p;</span><span style=3D"font-size: 11pt; font-family: Calibri, sans-serif;"=
+ class=3D""><o:p class=3D""></o:p></span></div></div><div class=3D""><div s=
+tyle=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New =
+Roman', serif;" class=3D""><span style=3D"font-size: 11pt; font-family: Cal=
+ibri, sans-serif; color: rgb(31, 73, 125);" class=3D"">D=E2=80=99avance, me=
+rci pour votre retour,</span><span style=3D"font-size: 11pt; font-family: C=
+alibri, sans-serif;" class=3D""><o:p class=3D""></o:p></span></div></div><d=
+iv class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font=
+-family: 'Times New Roman', serif;" class=3D""><span style=3D"font-size: 11=
+pt; font-family: Calibri, sans-serif; color: rgb(31, 73, 125);" class=3D"">=
+&nbsp;</span><span style=3D"font-size: 11pt; font-family: Calibri, sans-ser=
+if;" class=3D""><o:p class=3D""></o:p></span></div></div><div class=3D""><d=
+iv class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font=
+-family: 'Times New Roman', serif;" class=3D""><span style=3D"font-size: 11=
+pt; font-family: Calibri, sans-serif;" class=3D"">Cordialement,<o:p class=
+=3D""></o:p></span></div></div><div class=3D""><div style=3D"margin: 0cm 0c=
+m 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" class=
+=3D""><span style=3D"font-size: 11pt; font-family: Calibri, sans-serif;" cl=
+ass=3D"">&nbsp;<o:p class=3D""></o:p></span></div></div><div class=3D""><di=
+v style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times N=
+ew Roman', serif;" class=3D""><span style=3D"font-size: 11pt; font-family: =
+Calibri, sans-serif;" class=3D"">Thierry CASIMIRIUS<o:p class=3D""></o:p></=
+span></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; fo=
+nt-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""><span sty=
+le=3D"font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"">Adjoin=
+t au chef du bureau des technologies d=E2=80=99information<o:p class=3D""><=
+/o:p></span></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.000=
+1pt; font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""><s=
+pan style=3D"font-size: 11pt; font-family: Calibri, sans-serif;" class=3D""=
+>Service historique de la D=C3=A9fense<o:p class=3D""></o:p></span></div></=
+div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt=
+; font-family: 'Times New Roman', serif;" class=3D""><span style=3D"font-si=
+ze: 11pt; font-family: Calibri, sans-serif;" class=3D"">SGA/DMPA/SHD/PPST/B=
+TI<o:p class=3D""></o:p></span></div></div><div class=3D""><div style=3D"ma=
+rgin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', se=
+rif;" class=3D""><span style=3D"font-size: 11pt; font-family: Calibri, sans=
+-serif;" class=3D"">T=C3=A9l&nbsp;: 01 41 93 20 45<o:p class=3D""></o:p></s=
+pan></div></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001p=
+t; font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""><spa=
+n style=3D"font-size: 11pt; font-family: Calibri, sans-serif; color: rgb(31=
+, 73, 125);" class=3D"">&nbsp;</span><span style=3D"font-size: 11pt; font-f=
+amily: Calibri, sans-serif;" class=3D""><o:p class=3D""></o:p></span></div>=
+</div><div class=3D""><div style=3D"border-style: solid none none; border-t=
+op-color: rgb(181, 196, 223); border-top-width: 1pt; padding: 3pt 0cm 0cm;"=
+ class=3D""><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-si=
+ze: 12pt; font-family: 'Times New Roman', serif;" class=3D""><b class=3D"">=
+<span style=3D"font-size: 10pt; font-family: Tahoma, sans-serif;" class=3D"=
+">De&nbsp;:</span></b><span class=3D"apple-converted-space"><span style=3D"=
+font-size: 10pt; font-family: Tahoma, sans-serif;" class=3D"">&nbsp;</span>=
+</span><span style=3D"font-size: 10pt; font-family: Tahoma, sans-serif;" cl=
+ass=3D"">AJJAZ Franck [<a href=3D"mailto:franck.ajjaz@altran.com" style=3D"=
+color: purple; text-decoration: underline;" class=3D""><span style=3D"color=
+: purple;" class=3D"">mailto:franck.ajjaz@altran.com</span></a>]<span class=
+=3D"apple-converted-space">&nbsp;</span><br class=3D""><b class=3D"">Envoy=
+=C3=A9&nbsp;:</b><span class=3D"apple-converted-space">&nbsp;</span>vendred=
+i 25 novembre 2016 09:56<br class=3D""><b class=3D"">=C3=80&nbsp;:</b><span=
+ class=3D"apple-converted-space">&nbsp;</span>CASIMIRIUS Thierry IDEF MINDE=
+F<br class=3D""><b class=3D"">Cc&nbsp;:</b><span class=3D"apple-converted-s=
+pace">&nbsp;</span>DANYACH-DESCHAMPS Myriam ASC<br class=3D""><b class=3D""=
+>Objet&nbsp;:</b><span class=3D"apple-converted-space">&nbsp;</span>Journ=
+=C3=A9e assistance installation</span><span style=3D"font-size: 11pt; font-=
+family: Calibri, sans-serif;" class=3D""><o:p class=3D""></o:p></span></div=
+></div></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; =
+font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""><span s=
+tyle=3D"font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"">&nbs=
+p;<o:p class=3D""></o:p></span></div></div><div class=3D""><div style=3D"ma=
+rgin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', se=
+rif;" class=3D""><span style=3D"font-size: 11pt; font-family: Calibri, sans=
+-serif;" class=3D"">Bonjour Thierry,<o:p class=3D""></o:p></span></div></di=
+v><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; =
+font-family: 'Times New Roman', serif;" class=3D""><span style=3D"font-size=
+: 11pt; font-family: Calibri, sans-serif;" class=3D"">&nbsp;<o:p class=3D""=
+></o:p></span></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0=
+001pt; font-size: 12pt; font-family: 'Times New Roman', serif;" class=3D"">=
+<span style=3D"font-size: 11pt; font-family: Calibri, sans-serif;" class=3D=
+"">Je fais suite =C3=A0 notre discussion d=E2=80=99hier sur les journ=C3=A9=
+es d=E2=80=99assistance.<o:p class=3D""></o:p></span></div></div><div class=
+=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family:=
+ 'Times New Roman', serif;" class=3D""><span style=3D"font-size: 11pt; font=
+-family: Calibri, sans-serif;" class=3D"">Nous souhaitons donc r=C3=A9serve=
+r le jeudi 01 d=C3=A9cembre.<o:p class=3D""></o:p></span></div></div><div c=
+lass=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-fam=
+ily: 'Times New Roman', serif;" class=3D""><span style=3D"font-size: 11pt; =
+font-family: Calibri, sans-serif;" class=3D"">&nbsp;<o:p class=3D""></o:p><=
+/span></div></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; f=
+ont-size: 12pt; font-family: 'Times New Roman', serif;" class=3D""><span st=
+yle=3D"font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"">Cordi=
+alement,<o:p class=3D""></o:p></span></div></div><div class=3D""><div style=
+=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roma=
+n', serif;" class=3D""><b class=3D""><span style=3D"font-size: 10pt; font-f=
+amily: Arial, sans-serif; color: blue;" class=3D"">Franck AJJAZ</span></b><=
+span style=3D"font-size: 11pt; font-family: Calibri, sans-serif;" class=3D"=
+"><o:p class=3D""></o:p></span></div></div><div class=3D""><div style=3D"ma=
+rgin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times New Roman', se=
+rif;" class=3D""><span style=3D"font-size: 10pt; font-family: Arial, sans-s=
+erif;" class=3D"">Chef de Projet</span><span style=3D"font-size: 11pt; font=
+-family: Calibri, sans-serif;" class=3D""><o:p class=3D""></o:p></span></di=
+v></div><div class=3D""><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: =
+12pt; font-family: 'Times New Roman', serif;" class=3D""><span style=3D"fon=
+t-size: 10pt; font-family: Arial, sans-serif;" class=3D"">TRA VITAM</span><=
+span style=3D"font-size: 8pt; font-family: Arial, sans-serif; color: gray;"=
+ class=3D""><br class=3D""></span><span style=3D"font-size: 7.5pt; font-fam=
+ily: Arial, sans-serif; color: gray;" class=3D""><a href=3D"mailto:franck.a=
+jjaz@altran.com" style=3D"color: purple; text-decoration: underline;" class=
+=3D""><span style=3D"color: purple;" class=3D"">franck.ajjaz@altran.com</sp=
+an></a></span><span style=3D"font-size: 11pt; font-family: Calibri, sans-se=
+rif;" class=3D""><o:p class=3D""></o:p></span></div></div></div></blockquot=
+e></div><div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-famil=
+y: 'Times New Roman', serif;" class=3D""><o:p class=3D"">&nbsp;</o:p></div>=
+</div><div class=3D"MsoNormal" align=3D"center" style=3D"margin: 0cm 0cm 0.=
+0001pt; font-size: 12pt; font-family: 'Times New Roman', serif; text-align:=
+ center;"><hr size=3D"2" width=3D"100%" align=3D"center" class=3D""></div><=
+div style=3D"margin: 0cm 0cm 0.0001pt; font-size: 12pt; font-family: 'Times=
+ New Roman', serif;" class=3D"">Merci de nous aider =C3=A0 pr=C3=A9server l=
+'environnement en n'imprimant ce courriel et les documents joints que si n=
+=C3=A9cessaire.</div></div></div></blockquote></div><br class=3D""></div></=
+body></html>
+------=_Part_211_13181587.1517006383797--
+
+------=_Part_210_15231166.1517006383797--

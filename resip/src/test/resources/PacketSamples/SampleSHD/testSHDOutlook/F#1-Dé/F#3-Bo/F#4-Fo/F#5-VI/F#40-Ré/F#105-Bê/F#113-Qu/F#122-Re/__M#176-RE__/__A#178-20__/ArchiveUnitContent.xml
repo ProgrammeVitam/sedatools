@@ -1,0 +1,49 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>20161103_Questions_VITAM_2_Réponse.xlsx</Title>
+    <Description>Document &quot;20161103_Questions_VITAM_2_Réponse.xlsx&quot; joint au message &lt;5688d11ec2d7ccbdfa9b5fdd5e63d303@culture.gouv.fr&gt;</Description>
+    <CreatedDate>2016-11-10T10:25:06Z</CreatedDate>
+    <TextContent>Feuil1
+	ID	Description métier	Questions	Réponses	présente 1ere série
+	468	En tant qu&apos;archiviste, je veux contrôler le bordereau reçu par rapport au profil attendu afin de vérifier que le SIP est bien structuré et décrit comme je l&apos;attendais	Fait on reference au profil seda quand on fait ref au profil d’archivage ? VITAM gere t-il ces profils ? si oui, de quelle manière ? VITAM serait-il initialisé dès le départ ?	x
+	789	En tant qu&apos;Archiviste, je veux accepter l&apos;entrée de SIP possédant des objets sans groupe d&apos;objet technique en leurs créant des groupes d&apos;objets techniques	Que représentent lesGroupe d&apos;Objets Technique( Ensemble des formes numériques ou physiques d&apos;une même unité intellectuelle. Ex. : un courrier qui a des formes papier et numériques, et pour la forme numérique, une version de conservation et une version de diffusion, etc. Dans le SEDA 2.0 correspond au DataObjectGroup.) ? Quelle est sa fonction?	Correspond au DataObjectGroup du SEDA. Permet de lier entre eux via un identifiant unique les différentes formes que prend la représentation d’une unité archivistique dans le temps et pour tous ces usages.
+Ex. : un document a été produit au format A, mais dispose d’une autre forme pour diffusion sous internet avec un fichier au format B. le groupe d’objet technique permet de lier ensemble A et B qui représentent 2 formes d’un même document
+	70	En tant que SIA Je veux indexer les métadonnées contenues dans le SIP Afin d&apos;accéder aux métadonnées, pouvoir les rechercher, et consulter les objets	De quelle facon les métadonnées sont indexées et dans quel but ?	x
+	73	En tant que SIA Je veux stocker les MD contenus dans le SIP Afin de les conserver dans le temps et y accéder ultérieurement	De quelle facon les métadonnées sont stockées et dans quel but ? De plus quelle est la différence entre stocker les MD et les indexer ?	voir liste 1
+	485	En tant qu&apos;archiviste, je veux indexer les MD techniques d&apos;un groupe d&apos;objets techniques afin de pouvoir les récupérer ultérieurement	De quelle façon les métadonnées techniques sont indexées et dans quel but ?	comme les métadonnées descriptives. cf. liste 1
+	1044	En tant qu&apos;archiviste, je veux que le registre des fonds soit alimenté à la fin du processus d&apos;entrée pour mettre à jour la liste des archives sous la responsabilité du SAE	Existe-t-il des documents sur le registre de fond expliquant son utilisation ainsi que les données comprises ?	x
+	665	En tant qu&apos;archiviste, je veux contrôler que les métadonnées d&apos;un unit que je corrige sont conformes à un profil afin d&apos;éviter les erreurs	Les métadonnées d&apos;une Unit doivent être conformes à un profil, mais a quel profil cela renvoit ? Au profil SEDA ?	US non développée à ce jour
+	71	En tant qu&apos;administrateur fonctionnel, je veux créer le référentiel de format Vitam afin d&apos;importer le référentiel PRONOM	Avant d&apos;importer le référentiel PRONOM dans VITAM il faut créer le référentiel dans VITAM, cette création doit être faite manuellement a l&apos;installation ? Cette création signifie qu&apos;une base de données doit être créée puis ensuite importée PRONOM ?	c’est l’import du fichier xml de signature PRONOM qui crée le référentiel dans Vitam
+	867	En tant qu&apos;archiviste, je veux consulter le journal du cycle de vie d&apos;un GOT afin de connaître toutes les actions effectuées sur ce GOT depuis sa prise en charge par le SAE	Que représente les Groupe d&apos;Objets Technique ( Ensemble des formes numériques ou physiques d&apos;une même unité intellectuelle. Ex. : un courrier qui a des formes papier et numériques, et pour la forme numérique, une version de conservation et une version de diffusion, etc. Dans le SEDA 2.0 correspond au DataObjectGroup.) ? Quelle est sa fonction ?	x
+	874	En tant que RSSI, je veux que les applications clientes du SAE soient authentifiées afin de garantir l&apos;intégrité et la confidentialité des informations	US purement technique?	oui pour répondre à un besoin fonctionnel
+	875	En tant qu&apos;intégrateur de vitam, je veux avoir un client supportant l&apos;authentification offerte sur les API du SAE	US purement technique?	oui
+	Ajouter une arborescence complexe avec des dossiers à double paternité dans VITAM.	Il a été vu que les fichiers raccourci (.lnk) sont pris en compte par pronom, mais VITAM pourra t-il s&apos;en servir pour naviguer dans une arborescence ? Notamment pour le cas d&apos;une double paternité ? De plus est ce que le générateur SEDA fourni permet de rendre cela possible ?	Les raccourcis sont actuellement traités comme des fichiers par le générateur SEDA. Une demande d’évolution a été enregistrée dans le backlog du générateur qui fera l’objet d’une priorisation de réalisation post bêta
+
+
+
+Feuil2
+	ID	Description métier	Questions	Réponses
+	374	En tant que Module de Vitam, je veux Journaliser un événement, afin de tracer l&apos;événement EN MOCK	Cette exigence est elle purement technique?
+Peut on avoir des explications?	Ceci était une story d&apos;attente de la fonctionnalité réelle (journaux)
+	699	A RECYCLER (contradiction avec la #808)	Confirmez vous que ces exigences ne sont pas encore spécifiées?	US vide réutilisable pour la spécification de nouvelles US
+	868	En tant qu&apos;administrateur, je veux simplifier le journal du cycle de vie des units, afin de ne conserver que les informations indispensables	US développée en itération 09
+	869	En tant qu&apos;administrateur, je veux simplifier le journal des opérations, afin de ne conserver que les informations indispensables	US développée en itération 09
+	870	En tant qu&apos;administrateur, je veux simplifier le journal du cycle de vie des GOT, afin de ne conserver que les informations indispensables	US développée en itération 09
+	1228	En tant qu&apos;architecte je veux étudier l&apos;implémentation de l&apos;algo de Merkle pour la sécurisation des journaux	Cette exigence est elle purement technique?
+Peut on avoir des explications?	Pour l&apos;algorithme de Merkle, se référer à Wikipedia.
+Pour son usage, il s&apos;agit de sécuriser le chaînage des journaux comme le demande la NF Z42013.
+
+
+
+
+
+
+
+
+
+
+
+
+
+</TextContent>
+</Content>

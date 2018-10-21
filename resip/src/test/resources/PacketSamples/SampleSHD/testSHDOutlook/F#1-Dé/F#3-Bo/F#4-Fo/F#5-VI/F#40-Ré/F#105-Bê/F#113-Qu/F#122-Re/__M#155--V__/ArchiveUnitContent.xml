@@ -1,0 +1,171 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[VITAM] Livraison Bêta</Title>
+    <OriginatingSystemId>&lt;3b569bac-be63-a330-a7c6-602053693d2e@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>&quot;=?UTF-8?Q?=22jean-s=c3=a9verin_LAIR-Telem=22@c?=&quot;</FirstName>
+        <BirthName>&quot;=?UTF-8?Q?=22jean-s=c3=a9verin_LAIR-Telem=22@c?=&quot;</BirthName>
+        <Identifier>jean-severin.lair@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thomas.van-de-walle@culture.gouv.fr</FirstName>
+        <BirthName>thomas.van-de-walle@culture.gouv.fr</BirthName>
+        <Identifier>thomas.van-de-walle@culture.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CROULARD Olivier</FirstName>
+        <BirthName>CROULARD Olivier</BirthName>
+        <Identifier>olivier.croulard@culture.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>DANYACH-DESCHAMPS Myriam</FirstName>
+        <BirthName>DANYACH-DESCHAMPS Myriam</BirthName>
+        <Identifier>myriam.danyach-deschamps@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>WATEL Francoise</FirstName>
+        <BirthName>WATEL Francoise</BirthName>
+        <Identifier>francoise.watel@diplomatie.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>JOSSE Isabelle</FirstName>
+        <BirthName>JOSSE Isabelle</BirthName>
+        <Identifier>isabelle.josse@diplomatie.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>LABOUE Gerard</FirstName>
+        <BirthName>LABOUE Gerard</BirthName>
+        <Identifier>gerard.laboue@diplomatie.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CHASTAGNER Bastien (Adjoint à la cheffe de la mission) - SG/SPSSI/MAP</FirstName>
+        <BirthName>CHASTAGNER Bastien (Adjoint à la cheffe de la mission) - SG/SPSSI/MAP</BirthName>
+        <Identifier>bastien.chastagner@developpement-durable.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>catherine.bettochi</FirstName>
+        <BirthName>catherine.bettochi</BirthName>
+        <Identifier>catherine.bettochi@developpement-durable.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>frédéric BREGIER</FirstName>
+        <BirthName>frédéric BREGIER</BirthName>
+        <Identifier>frederic.bregier@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>Edouard vasseur</FirstName>
+        <BirthName>Edouard vasseur</BirthName>
+        <Identifier>edouard.vasseur@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>mélanie REBOURS</FirstName>
+        <BirthName>mélanie REBOURS</BirthName>
+        <Identifier>melanie.rebours@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>DEGUILHEN Frederic</FirstName>
+        <BirthName>DEGUILHEN Frederic</BirthName>
+        <Identifier>frederic.deguilhen@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>étienne CARRIERE</FirstName>
+        <BirthName>étienne CARRIERE</BirthName>
+        <Identifier>etienne.carriere@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>Emmanuel Laborde</FirstName>
+        <BirthName>Emmanuel Laborde</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>mehdi.afnai@culture.gouv.fr</FirstName>
+        <BirthName>mehdi.afnai@culture.gouv.fr</BirthName>
+        <Identifier>mehdi.afnai@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>charles POUPLIN</FirstName>
+        <BirthName>charles POUPLIN</BirthName>
+        <Identifier>charles.pouplin@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>pierre.ane</FirstName>
+        <BirthName>pierre.ane</BirthName>
+        <Identifier>pierre.ane@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>mathilde.remy.ext</FirstName>
+        <BirthName>mathilde.remy.ext</BirthName>
+        <Identifier>mathilde.remy.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>stéphanie BONNET</FirstName>
+        <BirthName>stéphanie BONNET</BirthName>
+        <Identifier>stephanie.bonnet.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>thomas.morsellino.ext</FirstName>
+        <BirthName>thomas.morsellino.ext</BirthName>
+        <Identifier>thomas.morsellino.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>olivier ELBHAR</FirstName>
+        <BirthName>olivier ELBHAR</BirthName>
+        <Identifier>olivier.elbhar.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>kristopher WALTZER</FirstName>
+        <BirthName>kristopher WALTZER</BirthName>
+        <Identifier>kristopher.waltzer.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>frédéric NGUYEN HUYNH</FirstName>
+        <BirthName>frédéric NGUYEN HUYNH</BirthName>
+        <Identifier>frederic.nguyen-huynh.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-11-29T16:57:30Z</SentDate>
+    <ReceivedDate>2016-11-29T17:00:18Z</ReceivedDate>
+    <TextContent>Bonjour,
+
+Comme convenu la Bêta vous est mise à disposition ce mardi 29 novembre. 
+Voici quelques éléments supplémentaires.
+
+Éléments mis à disposition
+* Documentation de la version bêta : https://vitam.jaliosagora.com/jcms/c_2005491/fr/chantier-livraison-de-la-version-beta
+* Livrables &quot;binaires&quot;: https://support.programmevitam.fr/releases/0.1.0/ (pour obtenir l&apos;accès voir à la fin)
+Jours de support
+* Vous disposez de 4.5 J de support sur site pour un accompagnement à l&apos;installation de la bêta Vitam (0.5 J a été utilisé pour la réunion de présentation 17/10)
+* Ces jours sont par ministères donc pouvant être utilisé aussi bien côté ministère que côté production informatique/exploitation
+* Pour des raisons logistiques, pouvez-vous nous indiquer la localisation des sites sur lequel la prestation de support devra être effectuée
+* Pour se coordonner entre les 3 ministères, nous allons mettre en place un tableau qui synthétisera les interventions chez chacun des prestataires (adresse communiquée une fois le tableau construit)
+Ressources de support
+* Un bugtracker est mis à disposition des ministères porteurs et partenaires . Celui-ci est disponible à l&apos;adresse https://support.programmevitam.fr
+* Il s&apos;agit d&apos;un bugtracker commun à tous les ministères (avec visibilité des bugs/évolutions de tous les ministères)
+* Chaque ministère peut avoir de l&apos;ordre de 3 contacts pour accès à ces ressources de support . Pour chacun de ces contacts, merci de fournir en réponse à ce mail les nom, prénom , adresse mail et numéro de téléphone
+* Une fois le compte crée, le mot de passe vous sera fourni par téléphone (soit par appel de notre part au numéro fourni, soit par appel de votre appel au numéro de téléphone du support vitam : 01 86 69 60 27)
+
+Bien cordialement
+
+-- 
+
+
+ 
+
+Jean-Séverin LAIR
+Directeur de programme/Program head manager
+Programme Vitam
+Services du Premier Ministre, SGMAP - DINSIC
+47 rue de la chapelle, 75018 Paris
+jean-severin.lair@culture.gouv.fr &lt; mailto:jean-severin.lair@culture.gouv.fr&gt; 
+Le programme est hébergé par les moyens informatiques du MCC
+Suivez-nous sur Twitter @ProgVitam &lt; https://twitter.com/progvitam&gt; 
+
+
+
+--
+Message envoyé grâce à OBM &lt; http://obm.org&gt; , la Communication Libre par Linagora &lt; http://www.linagora.com/&gt;</TextContent>
+</Content>

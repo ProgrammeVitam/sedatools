@@ -1,0 +1,81 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000069]: [Besoin Métier légitime] : balise TransferringAgency non enregistrée</Title>
+    <OriginatingSystemId>&lt;e907a5b3c3e0b1a83af3204b66b2b441@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-11T09:58:01Z</SentDate>
+    <ReceivedDate>2017-01-11T09:58:08Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=69 
+====================================================================== 
+Rapporteur:                 Omar
+Responsable:                Omar
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   69
+Catégorie:                  BugFromTestlink
+Reproductibilité:           n&apos;a pas essayé
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-11 10:57 CET
+Dernière modification:      2017-01-11 10:57 CET
+====================================================================== 
+Résumé:                     [Besoin Métier légitime] : balise
+TransferringAgency non enregistrée
+Description: 
+Ce champ est actuellement non enregistré mais renvoyé dans l’ATR tel que. 
+A noter que ce champ hors ArchiveUnit, relevant de l&apos;entête et a donc vocation
+à être présent sous une forme dédiée dans les Journaux, ce qui a été
+vérifié
+
+
+Étapes pour le reproduire: 
+Import d&apos;un SIP ayant la balise TransferringAgency (cf fichier
+SIP-20170110162901.zip joint)
+Vérifier que l&apos;ATR contient la balise (cf pj
+ATR_aedqaaaaacaam7mxaba7uakzrtye3tyaaaaq.xml).
+Interroger via API sur l&apos;id unit de l&apos;ATR exemple
+aeaaaaaaaaaam7mxaayieakzrtygwpyaaaaq
+La balise n&apos;est pas renvoyée, seules ces informations sont retournées
+     &quot;DescriptionLevel&quot;: &quot;Item&quot;,
+      &quot;Title&quot;: &quot;Test_PVI_TransferringAgency.txt&quot;,
+      &quot;Description&quot;: &quot;Pseudo Archive Unit du fichier
+:C:\\Users\\oabdulmalak\\Documents\\Blaise\\Test_PVI_TransferringAgency.txt&quot;,
+      &quot;TransactedDate&quot;: &quot;2017-01-10T16:24:52&quot;,
+      &quot;_uds&quot;: [{&quot;aeaaaaaaaaaam7mxaayieakzrtygwnqaaaaq&quot;: 1}],
+      &quot;#id&quot;: &quot;aeaaaaaaaaaam7mxaayieakzrtygwpyaaaaq&quot;,
+      &quot;#nbunits&quot;: 0,
+      &quot;#tenant&quot;: 0,
+      &quot;#object&quot;: &quot;aeaaaaaaaaaam7mxaayieakzrtygwfqaaaaq&quot;,
+      &quot;#unitups&quot;: [&quot;aeaaaaaaaaaam7mxaayieakzrtygwnqaaaaq&quot;],
+      &quot;#min&quot;: 1,
+      &quot;#max&quot;: 2,
+      &quot;#allunitups&quot;: [&quot;aeaaaaaaaaaam7mxaayieakzrtygwnqaaaaq&quot;],
+      &quot;#operations&quot;: [&quot;aedqaaaaacaam7mxaba7uakzrtye3tyaaaaq&quot;]
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-11 10:57 Omar           Nouveau bogue                                
+2017-01-11 10:57 Omar           Statut                   nouveau =&gt; affecté  
+2017-01-11 10:57 Omar           Assigné à                 =&gt; Omar            
+2017-01-11 10:57 Omar           Fichier ajouté: SIP-20170110162901.zip         
+          
+======================================================================</TextContent>
+</Content>

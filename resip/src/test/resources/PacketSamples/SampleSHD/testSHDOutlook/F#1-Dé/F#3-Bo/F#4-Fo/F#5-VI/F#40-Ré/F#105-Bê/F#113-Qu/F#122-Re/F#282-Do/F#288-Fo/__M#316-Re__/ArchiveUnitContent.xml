@@ -1,0 +1,107 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: TR: [Programme Vitam] [Information]  : remarques sur documentation associée au générateur SIP SEDA</Title>
+    <OriginatingSystemId>&lt;5c4fff36df325fb4d82bed8a95522310@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>edouard VASSEUR</FirstName>
+        <BirthName>edouard VASSEUR</BirthName>
+        <Identifier>edouard.vasseur@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>&apos;emmanuel.laborde@culture.gouv.fr&apos;</FirstName>
+        <BirthName>&apos;emmanuel.laborde@culture.gouv.fr&apos;</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>BEL Nicolas</FirstName>
+        <BirthName>BEL Nicolas</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-10-11T08:50:49Z</SentDate>
+    <ReceivedDate>2016-10-11T08:52:41Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C6355B7@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Rebonjour Thierry,
+
+C&apos;est corrigé avec la bonne version mise à jour sur Jalios.
+
+Edouard
+
+ 
+
+Le 2016-10-11 10:46, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Une remarque sur la documentation associée au générateur SIP SEDA VITAM :
+
+	Page 18 : il est indiqué qu’ «  il est possible de paramétrer l’entête du bordereau en utilisant le fichier ArchiveUnitMetada.json »
+
+	N’y a-t-il pas une erreur, vu que l’on est au niveau du répertoire ???
+
+	 
+
+	D’avance, merci pour vos précisions
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : Programme Vitam [mailto:agora@vitam.jaliosagora.com] 
+	Envoyé : mardi 11 octobre 2016 09:00
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : [Programme Vitam] [Information] Changements récents
+
+	 
+
+
+Programme Vitam - Changements récents
+
+Casimirius,
+
+Voici 2 nouvelles contributions / mises à jour sur Programme Vitam. 
+
+Chantier Solution logicielle Vitam &lt; https://vitam.jaliosagora.com/jcms/c_2001230/fr/chantier-solution-logicielle-vitam&gt;  
+
+generateur SEDA &lt; https://vitam.jaliosagora.com/jcms/c_2005156/fr/generateur-seda&gt; 
+
+Edouard Vasseur &lt; https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur&gt; 
+
+Publié par Edouard Vasseur &lt; https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur&gt;  · 10/10/2016 · 12:28 
+
+Catégories : Générateur SEDA &lt; https://vitam.jaliosagora.com/jcms/c_2005155/fr/generateur-seda&gt; 
+
+ 
+
+20161010 NP Vitam Vitamtools-generateurSEDA-presentation-v0.1 &lt; https://vitam.jaliosagora.com/jcms/c_2005157/fr/20161010-np-vitam-vitamtools-generateurseda-presentation-v0-1&gt; 
+
+Edouard Vasseur &lt; https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur&gt; 
+
+Publié par Edouard Vasseur &lt; https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur&gt;  · 10/10/2016 · 12:28 
+
+Catégories : Générateur SEDA &lt; https://vitam.jaliosagora.com/jcms/c_2005155/fr/generateur-seda&gt; 
+
+Mon profil &lt; https://vitam.jaliosagora.com/jcms/c_2003159/fr/casimirius-thierry&gt;  · Accueil &lt; https://vitam.jaliosagora.com/&gt;  
+
+Ce mail vous a été envoyé par Programme Vitam</TextContent>
+</Content>

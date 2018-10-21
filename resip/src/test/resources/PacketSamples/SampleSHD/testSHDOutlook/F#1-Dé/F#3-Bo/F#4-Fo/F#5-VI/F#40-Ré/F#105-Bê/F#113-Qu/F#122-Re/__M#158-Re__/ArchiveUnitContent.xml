@@ -1,0 +1,310 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: TR: TRA VITAM Beta MINDEF - Tableau de correspondance des codes erreurs et messages dans ATR</Title>
+    <OriginatingSystemId>&lt;9b54409dc24d9079ef6be6706b6e8f9b@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>emmanuel.laborde</FirstName>
+        <BirthName>emmanuel.laborde</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>AJJAZ Franck (franck.ajjaz@altran.com)</FirstName>
+        <BirthName>AJJAZ Franck (franck.ajjaz@altran.com)</BirthName>
+        <Identifier>franck.ajjaz@altran.com</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>BEL Nicolas</FirstName>
+        <BirthName>BEL Nicolas</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>CHEVENIER Olivier</FirstName>
+        <BirthName>CHEVENIER Olivier</BirthName>
+        <Identifier>olivier.chevenier@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>DANYACH-DESCHAMPS Myriam</FirstName>
+        <BirthName>DANYACH-DESCHAMPS Myriam</BirthName>
+        <Identifier>myriam.danyach-deschamps@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>jean-séverin LAIR (jean-severin.lair@culture.gouv.fr)</FirstName>
+        <BirthName>jean-séverin LAIR (jean-severin.lair@culture.gouv.fr)</BirthName>
+        <Identifier>jean-severin.lair@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>edouard VASSEUR</FirstName>
+        <BirthName>edouard VASSEUR</BirthName>
+        <Identifier>edouard.vasseur@culture.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-12-12T16:45:01Z</SentDate>
+    <ReceivedDate>2016-12-12T16:45:15Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C66E4B3@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour,
+
+ 
+
+Les codes de retour dans l&apos;ATR sont (normalement) les mêmes que ceux décrits dans le document VITAM - Modèle de workflow
+
+Exemple page 2 : pour l&apos;étape STP_SANITY_CHECK_SIP, en gras, le code=le libellé
+
+KO : un ou plusieurs virus ont été detectés dans le SIP (SANITY_CHECK_SIP.KO=Échec du contrôle
+sanitaire du SIP : fichier détecté comme infecté)
+ 
+
+Cdt,
+
+Emmanuel
+
+ 
+ 
+
+Le 2016-12-12 10:57, CASIMIRIUS Thierry a écrit :
+
+	Bonjour Emmanuel,
+
+	 
+
+	Nous cherchons dans la documentation VITAM le référentiel ou le tableau permettant de faire le lien entre des codes erreurs/retours et des messages en français que l’on retrouverait dans l’ ArchiveTransfertReply ?
+
+	Dans les documents modèles de données ou workflow, il y a les messages et leurs descriptions mais pas de code.
+
+	 
+
+	Où pouvons-nous trouver cette information ?
+
+	 
+
+	D’avance, merci pour ton retour,
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	 
+
+	 
+
+	De : CASIMIRIUS Thierry [mailto:thierry.casimirius@intradef.gouv.fr] 
+	Envoyé : mercredi 23 novembre 2016 17:27
+	À : emmanuel.laborde; edouard VASSEUR (edouard.vasseur@culture.gouv.fr)
+	Cc : AJJAZ Franck; BEL Nicolas; CHEVENIER Olivier
+	Objet : TR: TRA VITAM Beta MINDEF - Nouveau lot de questions =&gt; précisions demandés suite réponse VITAM
+
+	 
+
+	Bonjour,
+
+	 
+
+	D’abord merci pour ces éléments de réponses.
+
+	Mais certains nécessitent des précisions qui sont demandées ci-dessous :
+
+	 
+
+Questions
+
+Réponses
+
+Demande de précisions
+
+t Dans le document présenté lors de l’itération 10, notamment concernant le périmètre de l’itération 10, il a été présenté l’US 494 qui correspond à « création d’un référentiel unique des étapes, tâches, traitement et des messages associés dans les journaux » qui ne possède pas d’exigences dans notre matrice. Nous supposons que ce référentiel est un référentiel permettant de faire le lien entre des codes erreurs/retours et des messages en français que l’on retrouverait dans l’ ArchiveTransfertReply, pouvez vous nous confirmer cela ? Est il possible de disposer de ce référentiel ? Ou le trouver ? Et pouvons nous disposer de la table de correspondance entre les codes erreurs et la traduction francaise ?
+
+OUI et OUI
+
+Quand? comment?
+
+Comment récupérer unATRdans VITAM? Quelle collection interroger et comment procéder ?
+
+ATR généré en phase de finalisation de l’entrée. Il est stocké sur l’offre de stockage et affiché à l’utilisateur. Mais non récupérable depuis l’IHM (US post Beta)
+
+ET avec les APIs? Comment récupérer un ancien ATR? Quelle collection interroger?
+
+Comment récupérer unbordereaudans VITAM? Quelle collection interroger et comment procéder ?
+
+Bordereau stocké sur l’offre de stockage mais non récupérable depuis l’IHM.  (US post Beta)
+
+ET avec les APIs? Comment récupérer un ancien Bordereau Quelle collection interroger?
+
+	 
+
+	 
+
+	 
+
+	D’avance, merci pour ces éléments 
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+	Envoyé : mercredi 23 novembre 2016 17:21
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Cc : DANYACH-DESCHAMPS Myriam ASC
+	Objet : RE: TRA VITAM Beta MINDEF - Nouveau lot de questions
+
+	 
+
+	Bonjour Thierry,
+
+	 
+
+	Voici quelques demandes de précisions sur les réponses que nous venons de recevoir.
+
+	 
+
+	Cordialement,
+
+	Franck AJJAZ
+
+	Chef de Projet
+
+	TRA VITAM
+	franck.ajjaz@altran.com
+
+	 
+
+	 
+
+	 
+
+	De : emmanuel.laborde [mailto:emmanuel.laborde@culture.gouv.fr] 
+	Envoyé : mercredi 23 novembre 2016 17:00
+	À : CASIMIRIUS Thierry
+	Cc : AJJAZ Franck; DANYACH-DESCHAMPS Myriam; VASSEUR Edouard
+	Objet : Re: TRA VITAM Beta MINDEF - Nouveau lot de questions
+
+	 
+
+	 
+
+	Bonjour,
+
+	Voici les réponses aux questions ainsi que l&apos;analyse des correspondances entre le SEDA et le modèle de donnée VITAM.
+
+	Cdt,
+
+	Emmanuel Laborde
+
+	 
+
+	 
+
+	Le 2016-11-22 16:19, CASIMIRIUS Thierry a écrit :
+
+		Bonjour Emmanuel,
+
+		 
+
+		Nous ( ALTRAN)  avons un nouveau lot de question – Voir le fichier « Question VITAM 3.xlsx ». Pourriez-vous y apporter vos réponses ?
+
+		 
+
+		Par ailleurs, ALTRAN cherche à établir, sur la base du document modèle de données, les correspondances entre les champs SEDA, les balises existants dans le fichier SIP , et le parallèle dans le JSON.
+
+		 
+
+		Vitam pourrait-il valider nos correspondances sur les 4 premiers onglets de SEDA-XML-JSON.xlsx ? Et les compléter quand cela est possible ?
+
+		 
+
+		Enfin, dans le dernier onglet du document « SEDA-XML-JSON.xlsx », serait-il possible de compléter les champs ???? pour indiquer dans quelle collection les champs ou groupe de champs référencés sont gérés ?
+
+		 
+
+		D’avance, merci,
+
+		 
+
+		Cordialement,
+
+		 
+
+		Thierry CASIMIRIUS
+
+		Adjoint au chef du bureau des technologies d’information
+
+		Service historique de la Défense
+
+		SGA/DMPA/SHD/PPST/BTI
+
+		Tél : 01 41 93 20 45
+
+		 
+
+		De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+		Envoyé : mardi 22 novembre 2016 15:59
+		À : CASIMIRIUS Thierry IDEF MINDEF
+		Cc : DANYACH-DESCHAMPS Myriam ASC; AJJAZ Franck
+		Objet : Questions VITAM
+
+		 
+
+		Bonjour,
+
+		 
+
+		Voici un lot de question pour VITAM. Il y a deux documents.
+
+		 
+
+		Il y a un excel avec des questions (Question VITAM 3.xlsx) et un autre (SEDA-XML-JSON.xlsx) avec les correspondances entre les champs du SEDA, ceux dans le bordereau et ceux dans VITAM.
+
+		 
+
+		Vitam pourrait-il valider nos correspondances sur les 4 premiers onglets de SEDA-XML-JSON.xlsx ? Et les compléter quand cela est possible ? Nous savons qu’ils ne pourront pas le faire pour toutes puisque certaines balises ‘mères’ n’auront pas d’équivalent dans VITAM et que certaines balises deviennent des valeurs de champs dans VITAM et vice versa.
+
+		 
+
+		De plus, nous nous doutons que les champs correspondants à l’ATR et au bordereau dans l’onglet BusinessMessageType ne sont peut être pas stockés tels quels dans VITAM.
+
+		 
+
+		Et serait-il possible de compléter le 5ème onglet là où il y a écrit « ???? » ?
+
+		 
+
+		Cordialement,
+
+		Franck AJJAZ
+
+		Chef de Projet
+
+		TRA VITAM
+		franck.ajjaz@altran.com</TextContent>
+</Content>

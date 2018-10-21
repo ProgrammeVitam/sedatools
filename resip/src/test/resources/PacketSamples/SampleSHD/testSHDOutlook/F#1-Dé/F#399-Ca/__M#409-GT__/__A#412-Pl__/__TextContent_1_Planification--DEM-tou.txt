@@ -1,0 +1,2272 @@
+
+24-janv-13
+
+Présent document annule et rempace planification V1 du 16 janvier 2013 (cf. CTS2)
+
+1. PLANIFICATION DE PRINCIPE V3
+
+Des priorités de libération infra fixées par la DRESD :
+P1 = libération au plus tôt bât 16
+P2 = libération M40
+P3 = libération M45
+
+Période des mouvements du 25 mars à fin mai 2013 (au lieu de fin juin 2013)
+
+Une contrainte de service pour la DGA/DI = salon du Bourget en juin 2013
+
+Un cadencement jusqu'à 30 pax par jour.
+Les mouvements liés aux priorités de libération infra, ainsi qu'à la contrainte de service de la DGA/DI sont positionnés avant les vacances de printemps.
+
+Aucun mouvement planifié en S13 (mesure conservatoire) et durant les vacances de printemps.
+
+Code couleur déménagement
+souplesse
+
+Tableau - Projet V3 - Plan A
+
+ORGANISME EFF DEPART ARRIVEE
+PRIORITE
+
+CALENDAIRE
+DEM NB JOUR(S) OBS
+
+L 
+25
+
+ M
+A
+
+R
+
+M
+ 2
+
+6 
+M
+
+A
+R
+
+M
+e 
+
+27
+ M
+
+A
+R
+
+J 
+28
+
+ M
+A
+
+R
+
+V
+ 2
+
+9 
+M
+
+A
+R
+
+S
+ 3
+
+0 
+M
+
+A
+R
+
+D
+ 3
+
+1 
+M
+
+A
+R
+
+L 
+01
+
+ A
+V
+
+R
+
+M
+ 0
+
+2 
+A
+
+V
+R
+
+M
+e 
+
+03
+ A
+
+V
+R
+
+J 
+04
+
+ A
+V
+
+R
+
+V
+ 0
+
+5 
+A
+
+V
+R
+
+S
+ 0
+
+6 
+A
+
+V
+R
+
+D
+ 0
+
+7 
+A
+
+V
+R
+
+L 
+08
+
+ A
+V
+
+R
+
+M
+ 0
+
+9 
+A
+
+V
+R
+
+M
+e 
+
+10
+ A
+
+V
+R
+
+J 
+11
+
+ A
+V
+
+R
+
+V
+ 1
+
+2 
+A
+
+V
+R
+
+S
+ 1
+
+3 
+A
+
+V
+R
+
+D
+ 1
+
+4 
+A
+
+V
+R
+
+L 
+15
+
+ A
+V
+
+R
+
+M
+ 1
+
+6 
+A
+
+V
+R
+
+M
+e 
+
+17
+ A
+
+V
+R
+
+J 
+18
+
+ A
+V
+
+R
+
+V
+ 1
+
+9 
+A
+
+V
+R
+
+S
+ 2
+
+0A
+V
+
+R
+
+D
+ 2
+
+1 
+A
+
+V
+R
+
+L 
+22
+
+ A
+V
+
+R
+
+M
+ 2
+
+3 
+A
+
+V
+R
+
+M
+e 
+
+24
+ A
+
+V
+R
+
+J 
+25
+
+ A
+V
+
+R
+
+V
+ 2
+
+6 
+A
+
+V
+R
+
+L 
+13
+
+ M
+A
+
+I
+
+M
+ 1
+
+4 
+M
+
+A
+I
+
+M
+e 
+
+15
+ M
+
+A
+I
+
+J 
+16
+
+ M
+A
+
+I
+
+V
+ 1
+
+7 
+M
+
+A
+I
+
+S
+ 1
+
+8 
+M
+
+A
+I
+
+D
+ 1
+
+9 
+M
+
+A
+I
+
+L 
+20
+
+ M
+A
+
+I
+
+M
+ 1
+
+4 
+M
+
+A
+I
+
+M
+e 
+
+15
+ M
+
+A
+I
+
+J 
+16
+
+ M
+A
+
+I
+
+V
+ 1
+
+7 
+M
+
+A
+I
+
+S
+ 1
+
+8 
+M
+
+A
+I
+
+D
+ 1
+
+9 
+M
+
+A
+I
+
+L 
+27
+
+ M
+A
+
+I
+
+M
+ 2
+
+8 
+M
+
+A
+I
+
+M
+e 
+
+29
+ M
+
+A
+I
+
+J 
+30
+
+ M
+A
+
+I
+
+V
+ 3
+
+1 
+M
+
+A
+I
+
+S
+ 0
+
+1 
+JU
+
+N
+
+D
+ 0
+
+2 
+JU
+
+N
+
+L 
+03
+
+ J
+U
+
+N
+
+M
+ 0
+
+4 
+JU
+
+N
+
+M
+e 
+
+05
+ J
+
+U
+N
+
+J 
+06
+
+ J
+U
+
+N
+
+V
+ 0
+
+7 
+JU
+
+N
+
+S
+ 0
+
+8 
+JU
+
+N
+
+D
+ 0
+
+9 
+JU
+
+N
+
+L 
+10
+
+ J
+U
+
+N
+
+M
+ 1
+
+1 
+JU
+
+N
+
+M
+e 
+
+12
+ J
+
+U
+N
+
+J 
+13
+
+ J
+U
+
+N
+
+V
+ 1
+
+4 
+JU
+
+N
+
+S
+ 1
+
+5 
+JU
+
+N
+
+D
+ 1
+
+6 
+JU
+
+N
+
+DGA/DI 120 Bât 37-38 Tour A S15 5 DEM < juin (salon du Bourget)
+DGA/INSP ARM 37 Bât 37-38 Tour A S22 1+1
+DGA/DRH 150 Bât 37-38 Tour A S20-21 6+1
+DGA/DT/MIP 10 Bât 37-38 Tour A S16 1
+DGA/SMQ 37 Bât 37-38 Tour A S20 1+1 incluant SSDI (2 pax)
+
+EMA/CIE 29 M45 Tour A P3 S16 1
+EMA/AIR/DRHAA 38 M40 Tour A P2 S16 2
+EMA/SCA/SSLT/SDTE 16 M40 Tour A P2 S17 1
+EMA/C2A 58 M45 Tour A P3 S17 2+1
+EMA/EMM/DC SSF 60 Bât 27 Tour A S22 2+1
+
+SGA/DAJ/CX 80 Bât 16 Tour A P1 S14 3 + 1 
+SGA/DRH-MD/ARD 8 M40 Tour A P2 S16 1
+SGA/DRH-MD/ESP 7 M40 Tour A P2 S16 1
+SGA/MISSION MIGRATION SGA 1 X Tour  A S17 1 bureau de passage
+SGA/SPAC/DIRSITE BA/REGULATION AUTO 4 Bât C Tour A S17 DEM possible en sept 2013.
+
+CGA/IS/ITA 3 M45 Tour A P3 S17 Insp. du travail
+
+EMA/DIRISI/EQ PROJET BALARD 6 Bât C Tour A S17
+EMA/DIRISI/CIRISI BALARD/SEGA 4 Bât C Tour A Selon installation NOC/SOC bât 18 à/c juillet 2013
+EMA/DIRISI/AMOE DEM SIC 2 Bât C Tour A S17
+
+BSPP 4 Tour F Tour A
+
+S
+G
+
+A
+/D
+
+A
+J/
+
+C
+X
+
+S
+G
+
+A
+/D
+
+A
+J/
+
+C
+X
+
+S
+G
+
+A
+/D
+
+A
+J/
+
+C
+X
+
+[S
+G
+
+A
+/D
+
+A
+J/
+
+C
+X
+
+]
+
+D
+G
+
+A
+/D
+
+I
+
+D
+G
+
+A
+/D
+
+I
+
+D
+G
+
+A
+/D
+
+I
+
+D
+G
+
+A
+/D
+
+I
+
+D
+G
+
+A
+/D
+
+I
+
+E
+M
+
+A
+/C
+
+IE
+
+D
+G
+
+A
+/D
+
+T
+/M
+
+IP
+ &
+
+ S
+G
+
+A
+/D
+
+R
+M
+
+-M
+D
+
+/A
+R
+
+D
+ &
+
+ E
+S
+
+P
+
+E
+M
+
+A
+/A
+
+IR
+/D
+
+R
+H
+
+A
+A
+
+E
+M
+
+A
+/A
+
+IR
+/D
+
+R
+H
+
+A
+A
+
+E
+M
+
+A
+/C
+
+2A
+
+E
+M
+
+A
+/C
+
+2A
+
+[E
+M
+
+A
+/C
+
+2A
+]
+
+E
+M
+
+A
+/S
+
+C
+A
+
+/S
+S
+
+LT
+/S
+
+D
+T
+
+E
+
+S
+G
+
+A
+/M
+
+IS
+S
+
+IO
+N
+
+ M
+IG
+
+R
+A
+
+T
+IO
+
+N
+ S
+
+G
+A
+
+  
+&
+
+ &
+ C
+
+G
+A
+
+/I
+T
+
+A
+ 
+
+S
+G
+
+A
+/S
+
+P
+A
+
+C
+/D
+
+IR
+S
+
+IT
+E
+
+ B
+A
+
+/R
+E
+
+G
+U
+
+L 
+A
+
+U
+T
+
+O
+  
+
+&
+ D
+
+IR
+IS
+
+I
+
+D
+G
+
+A
+/S
+
+M
+Q
+
+[D
+G
+
+A
+/S
+
+M
+Q
+
+]
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+[D
+G
+
+A
+/D
+
+R
+H
+
+]
+
+D
+G
+
+A
+/I
+
+N
+S
+
+P
+ A
+
+R
+M
+
+[D
+G
+
+A
+/I
+
+N
+S
+
+P
+ A
+
+R
+M
+
+]
+
+E
+M
+
+A
+/E
+
+M
+M
+
+/D
+C
+
+ S
+S
+
+F
+
+E
+M
+
+A
+/E
+
+M
+M
+
+/D
+C
+
+ S
+S
+
+F
+
+[E
+M
+
+A
+/E
+
+M
+M
+
+/D
+C
+
+ S
+S
+
+F
+]
+
+Plan A LIGNE CALENDAIRE :
+
+S24S16 S17 S20 S21S13 S14 S15
+
+PLANIFICATION  DEMENAGEMENT TOUR A BALARD - AVRIL/MAI 2013
+
+DEM à/c S14
+
+S13 S14 S15 S16 S17 S20 S21 S22
+
+V
+A
+
+C
+A
+
+N
+C
+
+E
+S
+
+ D
+E
+
+ P
+R
+
+IN
+T
+
+E
+M
+
+P
+S
+
+S23 S24
+
+S22 S23
+
+2. GESTION DU RISQUE INFRA CALENDAIRE
+
+2.1 Mise à disposition infra de la tour A retardée d'une semaine (DEM  à/c S14) => Plan A inchangé
+
+2.2 Mise à disposition infra de la tour A retardée de deux semaines (DEM  à/c S15) => Plan B
+
+ORGANISME EFF DEPART ARRIVEE
+PRIORITE
+
+CALENDAIRE
+DEM NB JOUR(S) OBS
+
+L 
+25
+
+ M
+A
+
+R
+
+M
+ 2
+
+6 
+M
+
+A
+R
+
+M
+e 
+
+27
+ M
+
+A
+R
+
+J 
+28
+
+ M
+A
+
+R
+
+V
+ 2
+
+9 
+M
+
+A
+R
+
+S
+ 3
+
+0 
+M
+
+A
+R
+
+D
+ 3
+
+1 
+M
+
+A
+R
+
+L 
+01
+
+ A
+V
+
+R
+
+M
+ 0
+
+2 
+A
+
+V
+R
+
+M
+e 
+
+03
+ A
+
+V
+R
+
+J 
+04
+
+ A
+V
+
+R
+
+V
+ 0
+
+5 
+A
+
+V
+R
+
+S
+ 0
+
+6 
+A
+
+V
+R
+
+D
+ 0
+
+7 
+A
+
+V
+R
+
+L 
+08
+
+ A
+V
+
+R
+
+M
+ 0
+
+9 
+A
+
+V
+R
+
+M
+e 
+
+10
+ A
+
+V
+R
+
+J 
+11
+
+ A
+V
+
+R
+
+V
+ 1
+
+2 
+A
+
+V
+R
+
+S
+ 1
+
+3 
+A
+
+V
+R
+
+D
+ 1
+
+4 
+A
+
+V
+R
+
+L 
+15
+
+ A
+V
+
+R
+
+M
+ 1
+
+6 
+A
+
+V
+R
+
+M
+e 
+
+17
+ A
+
+V
+R
+
+J 
+18
+
+ A
+V
+
+R
+
+V
+ 1
+
+9 
+A
+
+V
+R
+
+S
+ 2
+
+0A
+V
+
+R
+
+D
+ 2
+
+1 
+A
+
+V
+R
+
+L 
+22
+
+ A
+V
+
+R
+
+M
+ 2
+
+3 
+A
+
+V
+R
+
+M
+e 
+
+24
+ A
+
+V
+R
+
+J 
+25
+
+ A
+V
+
+R
+
+V
+ 2
+
+6 
+A
+
+V
+R
+
+L 
+13
+
+ M
+A
+
+I
+
+M
+ 1
+
+4 
+M
+
+A
+I
+
+M
+e 
+
+15
+ M
+
+A
+I
+
+J 
+16
+
+ M
+A
+
+I
+
+V
+ 1
+
+7 
+M
+
+A
+I
+
+S
+ 1
+
+8 
+M
+
+A
+I
+
+D
+ 1
+
+9 
+M
+
+A
+I
+
+L 
+20
+
+ M
+A
+
+I
+
+M
+ 1
+
+4 
+M
+
+A
+I
+
+M
+e 
+
+15
+ M
+
+A
+I
+
+J 
+16
+
+ M
+A
+
+I
+
+V
+ 1
+
+7 
+M
+
+A
+I
+
+S
+ 1
+
+8 
+M
+
+A
+I
+
+D
+ 1
+
+9 
+M
+
+A
+I
+
+L 
+27
+
+ M
+A
+
+I
+
+M
+ 2
+
+8 
+M
+
+A
+I
+
+M
+e 
+
+29
+ M
+
+A
+I
+
+J 
+30
+
+ M
+A
+
+I
+
+V
+ 3
+
+1 
+M
+
+A
+I
+
+S
+ 0
+
+1 
+JU
+
+N
+
+D
+ 0
+
+2 
+JU
+
+N
+
+L 
+03
+
+ J
+U
+
+N
+
+M
+ 0
+
+4 
+JU
+
+N
+
+M
+e 
+
+05
+ J
+
+U
+N
+
+J 
+06
+
+ J
+U
+
+N
+
+V
+ 0
+
+7 
+JU
+
+N
+
+S
+ 0
+
+8 
+JU
+
+N
+
+D
+ 0
+
+9 
+JU
+
+N
+
+L 
+10
+
+ J
+U
+
+N
+
+M
+ 1
+
+1 
+JU
+
+N
+
+M
+e 
+
+12
+ J
+
+U
+N
+
+J 
+13
+
+ J
+U
+
+N
+
+V
+ 1
+
+4 
+JU
+
+N
+
+S
+ 1
+
+5 
+JU
+
+N
+
+D
+ 1
+
+6 
+JU
+
+N
+
+DGA/DI 120 Bât 37-38 Tour A S15 5
+DGA/INSP ARM 37 Bât 37-38 Tour A S22 1+1
+DGA/DRH 150 Bât 37-38 Tour A S20-21 6+1
+DGA/DT/MIP 10 Bât 37-38 Tour A S23 1 au lieu de S16.
+DGA/SMQ 37 Bât 37-38 Tour A S23 1+1 au lieu de S20.
+
+EMA/CIE 29 M45 Tour A P3 S16 1
+EMA/AIR/DRHAA 38 M40 Tour A P2 S20 2 au lieu de S16.
+EMA/SCA/SSLT/SDTE 16 M40 Tour A P2 S17 1
+EMA/C2A 58 M45 Tour A P3 S17 2+1
+EMA/EMM/DC SSF 60 Bât 27 Tour A S22 2+1
+
+SGA/DAJ/CX 80 Bât 16 Tour A P1 S16 3 + 1 au lieu de S14.
+SGA/DRH-MD/ARD 8 M40 Tour A P2 S17 1 au lieu de S16.
+SGA/DRH-MD/ESP 7 M40 Tour A P2 S17 1 au lieu de S16.
+SGA/MISSION MIGRATION SGA 1 X Tour  A S17
+SGA/SPAC/DIRSITE BA/REGULATION AUTO 4 Bât C Tour A S17
+
+CGA/IS/ITA 3 M45 Tour A P3 S17
+
+EMA/DIRISI/EQ PROJET BALARD 6 Bât C Tour A S17
+EMA/DIRISI/CIRISI BALARD/SEGA 4 Bât C Tour A
+EMA/DIRISI/AMOE DEM SIC 2 Bât C Tour A S17
+
+BSPP 4 Tour F Tour A
+
+D
+G
+
+A
+/D
+
+I
+
+D
+G
+
+A
+/D
+
+I
+
+D
+G
+
+A
+/D
+
+I
+
+D
+G
+
+A
+/D
+
+I
+
+D
+G
+
+A
+/D
+
+I
+
+E
+M
+
+A
+/C
+
+IE
+
+S
+G
+
+A
+/D
+
+A
+J/
+
+C
+X
+
+S
+G
+
+A
+/D
+
+A
+J/
+
+C
+X
+
+S
+G
+
+A
+/D
+
+A
+J/
+
+C
+X
+
+[S
+G
+
+A
+/D
+
+A
+J/
+
+C
+X
+
+]
+
+E
+M
+
+A
+/C
+
+2A
+
+E
+M
+
+A
+/C
+
+2A
+
+[E
+M
+
+A
+/C
+
+2A
+]
+
+E
+M
+
+A
+/S
+
+C
+A
+
+/S
+S
+
+LT
+/S
+
+D
+T
+
+E
+
+S
+G
+
+A
+/M
+
+IS
+S
+
+IO
+N
+
+ M
+IG
+
+R
+A
+
+T
+IO
+
+N
+ S
+
+G
+A
+
+  
+&
+
+ &
+ C
+
+G
+A
+
+/I
+T
+
+A
+ 
+
+S
+G
+
+A
+/D
+
+R
+M
+
+-M
+D
+
+/A
+R
+
+D
+ &
+
+ E
+S
+
+P
+
+S
+G
+
+A
+/S
+
+P
+A
+
+C
+/D
+
+IR
+S
+
+IT
+E
+
+ B
+A
+
+/R
+E
+
+G
+U
+
+L 
+A
+
+U
+T
+
+O
+  
+
+&
+ D
+
+IR
+IS
+
+I
+
+E
+M
+
+A
+/A
+
+IR
+/D
+
+R
+H
+
+A
+A
+
+E
+M
+
+A
+/A
+
+IR
+/D
+
+R
+H
+
+A
+A
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+D
+G
+
+A
+/D
+
+R
+H
+
+[D
+G
+
+A
+/D
+
+R
+H
+
+]
+
+D
+G
+
+A
+/I
+
+N
+S
+
+P
+ A
+
+R
+M
+
+[D
+G
+
+A
+/I
+
+N
+S
+
+P
+ A
+
+R
+M
+
+]
+
+E
+M
+
+A
+/E
+
+M
+M
+
+/D
+C
+
+ S
+S
+
+F
+
+E
+M
+
+A
+/E
+
+M
+M
+
+/D
+C
+
+ S
+S
+
+F
+
+[E
+M
+
+A
+/E
+
+M
+M
+
+/D
+C
+
+ S
+S
+
+F
+]
+
+D
+G
+
+A
+/S
+
+M
+Q
+
+[D
+G
+
+A
+/S
+
+M
+Q
+
+]
+
+D
+G
+
+A
+/D
+
+T
+/M
+
+IP
+
+Plan B LIGNE CALENDAIRE :
+
+S16 S24S17 S20 S21 S22S13 S14 S15
+
+S13 S14 S15 S16 S17 S20 S21 S22
+
+DEM à/c S15
+
+S13 S14 S15 S16 S17 S20 S21 S22 S23 S24
+
+V
+A
+
+C
+A
+
+N
+C
+
+E
+S
+
+ D
+E
+
+ P
+R
+
+IN
+T
+
+E
+M
+
+P
+S
+
+S23 S24
+
+S23
+
+2.3 Mise à disposition infra de la tour A retardée de 3 semaines (DEM à/c S16) => Plan C
+
+Plan C LIGNE CALENDAIRE : Priorité SGA/DAJ/CX & DGA/DI à caler en S16 & S17DEM à/c S16
+
+S13 S14 S15 S16 S17 S20 S21 S22 S23 S24
+
+

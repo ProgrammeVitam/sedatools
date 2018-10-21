@@ -1,0 +1,38 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Rejet SISMEL] RE: [VITAM] Livraison Bêta : Documentation sous Jalios - Lot 003 / 3</Title>
+    <OriginatingSystemId>&lt;6669409c-0a8b-4e98-8e42-a390f0024b64@MVLINF10CTNWM08.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>mimesweeper</FirstName>
+        <BirthName>mimesweeper</BirthName>
+        <Identifier>mimesweeper@federateur.defense.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-11-29T17:53:06Z</SentDate>
+    <ReceivedDate>2016-11-29T17:53:14Z</ReceivedDate>
+    <TextContent>Votre message a été bloqué par la passerelle Sismel. 
+
+Ce message a été généré automatiquement. Merci de ne pas y répondre.
+
+Veuillez contacter en priorité votre chaîne de soutien de proximité (CIRISI, SAI, CAI/DGA, etc.). Veuillez solliciter votre SDK par ticket APSI ou appel au 13.
+
+
+Informations sur le rejet :
+Vous avez essayé d&apos;envoyer le message dont les caractéristiques suivent :
+Expéditeur : thierry.casimirius@intradef.gouv.fr
+Destinataire(s) : franck.ajjaz@altran.com
+Sujet : RE: [VITAM] Livraison Bêta : Documentation sous Jalios - Lot 003 / 3
+Date et heure : Tue, 29 Nov 2016 17:52:53 +0000
+
+Quarantaine : Dirty Out
+
+
+Ce message a été bloqué par la passerelle Sismel car il contenait un fichier dont le format n&apos;a pas été reconnu ou qui contenait du code inconnu.
+
+Informations à remonter au support en cas de problème :
+CR-Clean: The operation completed successfully. CR_Comptage_PJ: ItemLength.GE.$I0. CR-FiltreAcid-Out-MD-NOK-Binary: ItemLength.GE.$I0. CR_Comptage_PJ: ItemLength.GE.$I0.</TextContent>
+</Content>

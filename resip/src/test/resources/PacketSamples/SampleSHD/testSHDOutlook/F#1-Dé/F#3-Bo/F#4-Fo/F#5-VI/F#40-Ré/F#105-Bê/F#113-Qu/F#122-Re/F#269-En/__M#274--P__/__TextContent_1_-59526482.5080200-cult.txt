@@ -1,0 +1,17 @@
+Bonjour,
+
+Nous travaillons actuellement sur la préparation de l'installation de la release 4, qui sera publiée très prochainement sur la plate-forme d'intégration continue du Programme Vitam. Nous vous informons donc qu'une interruption de service est à prévoir, à partir de ce vendredi soir sur vos environnements de démonstration Vitam (rec.env). Nous vous informerons de la remise en service de plate-forme dès que possible et nous restons à disposition pour toute question.
+
+Bien cordialement
+--
+
+
+
+	 Mélanie REBOURS
+Directrice de la diffusion et des partenariats / Dissemination and partnerships head
+Programme Vitam – DINSIC
+47 rue de la Chapelle, 75018 Paris 
+01 86 69 60 05
+melanie.rebours@culture.gouv.fr <mailto:melanie.rebours@culture.gouv.fr> 
+Suivez-nous sur Twitter @ProgVitam <https://twitter.com/progvitam> 
+Le programme est hébergé par les moyens informatiques du MCC

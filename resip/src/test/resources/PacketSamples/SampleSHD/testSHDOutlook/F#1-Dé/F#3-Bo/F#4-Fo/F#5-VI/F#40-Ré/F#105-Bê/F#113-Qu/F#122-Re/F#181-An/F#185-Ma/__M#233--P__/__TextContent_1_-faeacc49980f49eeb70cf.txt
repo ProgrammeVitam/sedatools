@@ -1,0 +1,44 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=24 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   24
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     nouveau
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-21 10:14 CET
+Dernière modification:      2016-12-21 10:14 CET
+====================================================================== 
+Résumé:                     Pas de champs "lot d'archive" dans le journal sur
+ihm ni dans collection
+Description: 
+On veut retrouver le contenu de la balise MessageIdentifier de notre bordereau
+dans le journal des opérations
+
+Nous ne retrouvons nulle part le contenu de notre balise.
+
+La US 941 dit :
+La balise d'un messageIdentifier d'un bordereau est actuellement un message
+lisibile par un humain et qui correspond à l'écran, dans le journal des
+opérations d'entrée, à "lot d'archive".
+
+
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-21 10:14 Franck         Nouveau bogue                                
+2016-12-21 10:14 Franck         Fichier ajouté: SIP-20161220103134.zip         
+          
+======================================================================

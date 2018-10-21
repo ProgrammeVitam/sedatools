@@ -1,0 +1,155 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242]) by smtp.gmail.com with ESMTPSA
+     id l67sm12442478wmf.20.2016.12.15.05.26.07 for
+     <thierry.casimirius@intradef.gouv.fr>     (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Thu,     15 Dec 2016
+ 05:26:07 -0800 (PST)
+Date: Thu, 15 Dec 2016 14:26:09 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <e7ae163b99451593138327ac26c974eb@213.32.79.242>
+Subject: =?UTF-8?Q?[Projet_VITAM_0000018]:_Nombre_de_d'archives_par?=
+ =?UTF-8?Q?_page_incorrect_dans_la_recherche_avanc=C3=A9e_en_IHM?=
+Keywords:  [Projet VITAM] BugFromTestlink
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_337_31044127.1517006385010"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; 
+    s=20161025; 
+    h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted 
+    :keywords:mime-version:content-transfer-encoding; 
+    bh=Z/EVKPdF1oVzbm2Kr9ZZ+qf05+D7ji5e4dGuh6C9ONU=; 
+    b=fbpF+Yu8Mqlz5hJQy+Aa47646N5YiT/ByWQwCp2pVJDFbIEvI844aw4FnBrG/w2h1R 
+    6ROJVgeeIOKEMVZvqlZDPzThR0E/ITWgiru3R24ud7nncY5FY+stvaOoGQofc9shJ4hz 
+    D8DSEVCD6t8wrMFRTZbgpEAv75mi/Iu5t2mjIJ0/wj88jyooM1hV7/uhEuR82OURQoHc 
+    0ZYdHE0aO7diAcW70gF/rpusBUMOvSYtKdMt8znouqTMitqezcpKjymDf0vsk6ym/KU7 
+    +k/9EnlkJi48j3h/zPIp1zaQrOuvzT6jDf3qYHoFGvvEk6EoeKqh+bnwxZS5EOCjGCfI 
+    a0cg==
+X-Gm-Message-State:  AKaTC01Z7UqzB+6IUzcDD4N8MgR3sRf8yTS3O9tx5sH5O9ev/UjrhrV62E96MSebaHLWZg==
+X-Received:  by 10.194.137.15 with SMTP id qe15mr1582377wjb.16.1481808368085; 
+    Thu, 15 Dec 2016 05:26:08 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 
+    2016.12.15.132117
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report=' UTF8_SUBJ_OBFU 0.1, 
+    HTML_00_01 0.05, HTML_00_10 0.05, BODY_SIZE_3000_3999 0, 
+    BODY_SIZE_5000_LESS 0, BODY_SIZE_7000_LESS 0, DKIM_SIGNATURE 0, 
+    FROM_NAME_PHRASE 0, IP_HTTP_ADDR 0, NO_URI_HTTPS 0, 
+    SINGLE_URI_IN_BODY 0, SPF_PASS 0, URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0,
+     WEBMAIL_XMAILER 0, __ANY_URI 0, __CP_URI_IN_BODY 0, __CT 0, __CTE 0, 
+    __CT_TEXT_PLAIN 0, __DQ_NEG_HEUR 0, __DQ_NEG_IP 0, __FRAUD_WEBMAIL 0, 
+    __FRAUD_WEBMAIL_FROM 0, __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, 
+    __HAS_X_MAILER 0, __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, 
+    __MIME_TEXT_ONLY 0, __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 
+    0, __MSGID_32HEX 0, __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, 
+    __PHISH_SPEAR_STRUCTURE_2 0, __RDNS_GMAIL 0, __SANE_MSGID 0, 
+    __SINGLE_URI_TEXT 0, __STOCK_PHRASE_24 0, __SUBJ_ALPHA_END 0, 
+    __SUBJ_ALPHA_END2 0, __SUBJ_HIGHBIT 0, __TO_MALFORMED_2 0, 
+    __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 0, __URI_NO_WWW 0, 
+    __URI_WITH_PATH 0, __UTF8_SUBJ 0, __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; 
+    d=gmail.com; s=20161025; 
+    h=date:to:from:subject:message-id:auto-submitted:keywords 
+    :mime-version:content-transfer-encoding; 
+    bh=Z/EVKPdF1oVzbm2Kr9ZZ+qf05+D7ji5e4dGuh6C9ONU=; 
+    b=GdgHnHOK7EoODyc/nYM3y4+b/UJVC1j+Jm/z79RdqwWoGP8wt3PVTFAzTIGwOUlOKi 
+    j0AUsXVQ7rBOT02T4/N1LbuE0s5A6+MESRQzbyQVpMBKFKHPj6FlqJTvtVChcMRiVGBX 
+    BwHQjxWker0TgMKuqHLLivctgDNHJ4qQtvdXvK+3U8KYNh1w5NwYlQ7w2Tv32mOf2FSo 
+    qS2Nbx049Kho/dV6lknxyEpq3Akoe96pEnL0dbS6orGtYRwTe1Fj6h+flwDNalujaNjy 
+    m42yBYAjQffJy6M8TlJFP+Bro0onHSuvp4O/Y3pB0gDDxT5WdrChBvROHalQ4qIcN8wr 
+    hJGA==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]10,1,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:41:46:150:152:355:379:493:541:543:836:882:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1535:1542:1593:1594:1711:1730:1747:1777:1792:1801:2393:2525:2560:2563:2682:2685:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3876:3877:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4119:4321:4605:5007:6114:6119:6261:6642:6653:6996:6997:7904:8599:8957:8987:9025:9121:9388:9413:10004:10400:10471:11233:11473:11658:11783:11984:12043:12114:12291:12517:12519:12663:12679:12683:12740:13025:13191:13192:13206:13229:13255:14110:14181:14687:14721:21063:21080:21444:30054:30062:30075:30080,0,RBL:100.78.17.67:@gmail.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.net-62.16.255.100 64.201.201.201;04yrgy13nfh3xq8qot1y5ko3ii56qycszhc1xo
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1295900;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM01.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_337_31044127.1517006385010
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_338_8548193.1517006385010"
+
+------=_Part_338_8548193.1517006385010
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D18=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Vincent
+Responsable:                Vincent
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   18
+Cat=C3=A9gorie:                  BugFromTestlink
+Reproductibilit=C3=A9:           toujours
+Impact:                     mineur
+Priorit=C3=A9:                   normale
+Statut:                     affect=C3=A9
+Comportement attendu:       =20
+US concern=C3=A9e:               488=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2016-12-15 14:26 CET
+Derni=C3=A8re modification:      2016-12-15 14:26 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     Nombre de d'archives par page incorre=
+ct dans la
+recherche avanc=C3=A9e en IHM
+Description:=20
+Comme indiqu=C3=A9 dans l'US 488, les pr=C3=A9-requis du cas de test PVI-28=
+6,
+demandaient un nombre d'archives sup=C3=A9rieur =C3=A0 50, sachant qu'il de=
+vrait y avoir
+25 archives par page au plus, pour avoir au moins 3 pages.
+
+Hors il n'y a que 10 archives par pages au plus.
+
+=C3=89tapes pour le reproduire:=20
+Dans l'=C3=A9cran de recherche avanc=C3=A9e, mettre un titre d'archive appa=
+raissant
+souvent (plus de 50 fois) et lancer la recherche.
+
+Informations compl=C3=A9mentaires:=20
+PVI-286
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2016-12-15 14:26 Vincent        Nouveau bogue                              =
+ =20
+2016-12-15 14:26 Vincent        Statut                   nouveau =3D> affec=
+t=C3=A9 =20
+2016-12-15 14:26 Vincent        Assign=C3=A9 =C3=A0                 =3D> Vi=
+ncent        =20
+2016-12-15 14:26 Vincent        Fichier ajout=C3=A9: PVI-286_Step-6.JPG    =
+        =20
+     =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_338_8548193.1517006385010--
+
+------=_Part_337_31044127.1517006385010--

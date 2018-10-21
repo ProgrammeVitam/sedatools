@@ -1,0 +1,47 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=12 
+====================================================================== 
+Rapporteur:                 Aurelien
+Responsable:                Aurelien
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   12
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:               80 
+====================================================================== 
+Date de soumission:         2016-12-12 17:46 CET
+Dernière modification:      2016-12-12 17:46 CET
+====================================================================== 
+Résumé:                     Impossibilité de modifier une description via
+recherche sur l'ID d'une unit au format EML
+Description: 
+Suite à une recherche via l'ID d'une unit (directement dans l'URL) pour mettre
+à jour la description de la même unit (un document au format EML), un code
+erreur 401 (Requête non autorisée) est retourné.
+
+Étapes pour le reproduire: 
+1) Injecter un SIP contenant une Unit au format EML
+2) Injecter la requête en PJ
+
+Informations complémentaires: 
+En PJ :
+- La requête injectée
+- Le code retour
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-12 17:46 Aurelien       Nouveau bogue                                
+2016-12-12 17:46 Aurelien       Statut                   nouveau => affecté  
+2016-12-12 17:46 Aurelien       Assigné à                 => Aurelien        
+2016-12-12 17:46 Aurelien       Fichier ajouté:
+PVI-394_12-12-2016-05-12_REQUEST.json                    
+======================================================================

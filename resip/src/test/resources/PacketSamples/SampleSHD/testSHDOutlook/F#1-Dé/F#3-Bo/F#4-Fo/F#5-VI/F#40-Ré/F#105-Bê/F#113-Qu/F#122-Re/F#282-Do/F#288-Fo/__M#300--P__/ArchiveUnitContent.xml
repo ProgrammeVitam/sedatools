@@ -1,0 +1,41 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Programme Vitam] [Information] Recommandation sur &quot;generateur seda 20161018-RC&quot;</Title>
+    <OriginatingSystemId>&lt;1493839909.28451476792207578.JavaMail.vitam@jalios03.xsalto.net&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>&quot;Edouard Vasseur (Programme Vitam)&quot;</FirstName>
+        <BirthName>&quot;Edouard Vasseur (Programme Vitam)&quot;</BirthName>
+        <Identifier>agora@vitam.jaliosagora.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>Casimirius Thierry</FirstName>
+        <BirthName>Casimirius Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-10-18T12:03:27Z</SentDate>
+    <ReceivedDate>2016-10-18T12:03:34Z</ReceivedDate>
+    <TextContent>Programme Vitam - Information
+
+Casimirius, 
+
+Edouard Vasseur &lt; https://vitam.jaliosagora.com/jcms/c_2000063/fr/edouard-vasseur&gt;  vous recommande de consulter generateur seda 20161018-RC &lt; https://vitam.jaliosagora.com/jcms/c_2005275/fr/generateur-seda-20161018-rc&gt; 
+
+Ce message a été envoyé au groupe suivant : Chantier Storymap - Participants
+
+ Edouard Vasseur&lt; https://vitam.jaliosagora.com/upload/photos/2015-11/mbr_c_2000063.jpg.associated/th-40x40-mbr_c_2000063.jpg.jpg?authKey=Y18yMDAzMTU5OjE1MDgzMjgyMDc1NzQ6JDJhJDA0JEtOd084cU1UNnJBNUJNWE1pTlI0ak9qQWthL3dqVHdReWZjdjAzSDZMNDdVbmN6dVFGZjZT&gt; 
+ 	 
+Bonjour, Vous trouverez sur Jalios une nouvelle version du générateur de SIP conformes au SEDA 2.0. 
+
+Les 3 modifications apportées sont les suivantes : - correction d&apos;un bug sur la reconnaissance de l&apos;usage auquel correspond un fichier (DataObjectVersion) - mise à jour de l&apos;outil d&apos;identification des formats Siegfried (version 1.6.5. à 32 bits au lieu de la version 1.5.0. à 64 bits) - mise à jour du référentiel PRONOM utilisé par Siegfried (version utilisée : v88) 
+
+Dans le cas où vous auriez téléchargé la précédente version diffusée, voici la procédure à suivre : * Sauvegarde du fichier conf/ArchiveTransferConfig.json si une configuration particulière avait été faite (et des fichiers générés si voulu) * Suppression du répertoire &quot;Générateur SEDA&quot; * Remplacement par le nouveau répertoire * Récupération du fichier ArchiveTransferConfig.json pour le remettre dans conf/ArchiveTransferConfig.json 
+
+L&apos;équipe Vitam reste à votre disposition pour toute demande d&apos;information ou de précision 
+
+L&apos;équipe Vitam 
+
+18/10/2016 13:58 · Chantier Solution logicielle Vitam &lt; https://vitam.jaliosagora.com/jcms/c_2001230/fr/chantier-solution-logicielle-vitam&gt;  
+Mon profil &lt; https://vitam.jaliosagora.com/jcms/c_2003159/fr/casimirius-thierry&gt;  · Accueil &lt; https://vitam.jaliosagora.com/&gt;  
+Ce mail vous a été envoyé par Programme Vitam
+ &lt; https://vitam.jaliosagora.com/jcore/alert/mail/markAsRead.jsp?img=true&amp;id=91942_Alert&amp;authKey=djI7Y18yMDAzMTU5OzE1MDgzMjgyMDM2NDE7R0VUOzs7JDJhJDA0JDkuWlcxUXNaV3JIVVE3ajFJMTQ4c3VyZzZvV1F1N3k4bmRDVDQuYVNPd2diOWxTR2xhcTJX&gt;</TextContent>
+</Content>

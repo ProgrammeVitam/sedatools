@@ -1,0 +1,208 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=60 
+====================================================================== 
+Rapporteur:                 Omar
+Responsable:                Omar
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   60
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   élevée
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-09 16:07 CET
+Dernière modification:      2017-01-09 16:07 CET
+====================================================================== 
+Résumé:                     [API-/access-access-external/v1/objects/{ido}]
+:Retour avec "httpCode": 406, "message": "HTTP 406 Not Acceptable" au lieu de
+200
+Description: 
+Lorsque l'on soumet une requête pour obtenir un fichier appartenant à un GOT
+via la collection access/obects/{ido}, l'API retourne un httpCode 406 quelque
+soit le qualifier Dissemination, Thumbnail ou TextContent (ie fichier du GOT).
+On joint le SIP avec ATR OK pour qui le téléchargement ainsi l'affichage des
+objets est ok via IHM. 
+
+A noter que le POST avec dans le Header  Accept=application/json, fonctionne, cf
+ci dessous la requête envoyé et la réponse obtenue
+Requête envoyée
+
+POST
+https://213.32.79.242:8444/access-external/v1/objects/aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq
+HTTP/1.1
+X-Http-Method-Override: GET
+Accept: application/json
+Content-Type: application/json
+Content-Length: 72
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+Réponse obtenue avec Accept=Application/json
+{
+   "$hits":    {
+      "total": 1,
+      "offset": 0,
+      "limit": 1,
+      "size": 1
+   },
+   "$results": [   {
+      "FileInfo":       {
+         "Filename": "vitam_-_modele_de_workflow.pdf",
+         "LastModified": "2017-01-02T10:44:04.893+01:00"
+      },
+      "#id": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+      "#nbobjects": 0,
+      "#qualifiers":       {
+         "BinaryMaster":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxaayieakzqoenapyaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+               "DataObjectVersion": "BinaryMaster_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Acrobat PDF 1.5 - Portable Document
+Format",
+                  "MimeType": "application/pdf",
+                  "FormatId": "fmt/19"
+               },
+               "FileInfo":                {
+                  "Filename": "vitam_-_modele_de_workflow.pdf",
+                  "LastModified": "2017-01-02T10:44:04.893+01:00"
+               },
+               "Size": 1066218,
+               "Uri": "Content/ID5.pdf",
+               "MessageDigest":
+"0207ce2192c32d771abf8662afce53b0bee7381a033346409637fa41a918cec99a4a9f4558aa7c2805600203d8e701fd8eed71be4846f194b79800b4770e2287",
+               "Algorithm": "SHA-512"
+            }]
+         },
+         "Dissemination":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxaayieakzqoenbwaaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+               "DataObjectVersion": "Dissemination_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Acrobat PDF 1.5 - Portable Document
+Format",
+                  "MimeType": "application/pdf",
+                  "FormatId": "fmt/19"
+               },
+               "FileInfo":                {
+                  "Filename": "vitam_-_scenarios_de_test.pdf",
+                  "LastModified": "2017-01-02T10:44:05.610+01:00"
+               },
+               "Size": 212295,
+               "Uri": "Content/ID13.pdf",
+               "MessageDigest":
+"74bc122c6924e16ccf9232c51a6752f0964897253dbb50bb011ddafc103db5b2602c7fc0faadac76e71f460fd4b5f86b44b44430dc57d7e059b09536ea2b0a7d",
+               "Algorithm": "SHA-512"
+            }]
+         },
+         "TextContent":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxaayieakzqoenbvaaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+               "DataObjectVersion": "TextContent_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Acrobat PDF/A - Portable Document Format",
+                  "MimeType": "application/pdf",
+                  "FormatId": "fmt/95"
+               },
+               "FileInfo":                {
+                  "Filename":
+"vitam_-_organisation_de_linformation_2016-11-29_17-39-38_110.pdf",
+                  "LastModified": "2017-01-02T10:44:05.767+01:00"
+               },
+               "Size": 1149256,
+               "Uri": "Content/ID9.pdf",
+               "MessageDigest":
+"234e8564a44fc3729e88618f010d6addcf1e97fbaafd82d440655f6b020ec7a4f98e59c636a64d205ee7f6f6e8c388b49fcb1d474e1a458e0d9ec996a5cef991",
+               "Algorithm": "SHA-512"
+            }]
+         },
+         "Thumbnail":          {
+            "_nbc": 1,
+            "versions": [            {
+               "_id": "aeaaaaaaaaaam7mxaayieakzqoenbwyaaaaq",
+               "DataObjectGroupId": "aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq",
+               "DataObjectVersion": "Thumbnail_1",
+               "FormatIdentification":                {
+                  "FormatLitteral": "Acrobat PDF/A - Portable Document Format",
+                  "MimeType": "application/pdf",
+                  "FormatId": "fmt/95"
+               },
+               "FileInfo":                {
+                  "Filename":
+"vitam_-_structuration_des_submission_information_package_sip.pdf",
+                  "LastModified": "2017-01-02T10:44:04.969+01:00"
+               },
+               "Size": 799691,
+               "Uri": "Content/ID17.pdf",
+               "MessageDigest":
+"638fed05381e9c17213d9ff3ae8362b9fb5db6270cf696fefe474297a03622e735122f6aa5ed341ea4deab499b419cb3b1149211d7d44c666923fb1a0234baf8",
+               "Algorithm": "SHA-512"
+            }]
+         }
+      },
+      "#type": "",
+      "#tenant": 0,
+      "#unitups": ["aeaaaaaaaaaam7mxaayieakzqoenbxqaaaaq"],
+      "#operations": ["aedqaaaaacaam7mxaba7uakzqoekqhyaaaaq"]
+   }],
+   "$context":    {
+      "$roots": [],
+      "$query": [],
+      "$filter": {},
+      "$projection": {}
+   }
+}
+
+Étapes pour le reproduire: 
+Intégrer le SIP JOINT SIP-20170109145552.zip
+Aller sur l'IHM et récupérer les id des objets
+aller sur SOAP UI et solliciter les API avec les ID correspondants sur les
+requêtes suivantes
+PVI-721:Télécharger un fichier 1 appartenant à un GOT via API
+PVI-722:Télécharger un fichier 2 appartenant à un GOT via API
+PVI-723:Télécharger un fichier 3 appartenant à un GOT via API
+
+exemple 
+POST
+https://213.32.79.242:8444/access-external/v1/objects/aeaaaaaaaaaam7mxaayieakzqoenaqiaaaaq
+HTTP/1.1
+X-Http-Method-Override: GET
+Content-Type: application/json
+Accept: application/zip
+Content-Length: 72
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{
+  "$roots": [],
+  "$query": [],
+  "$filter": {},
+  "$projection": {}
+}
+
+
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-09 16:07 Omar           Nouveau bogue                                
+2017-01-09 16:07 Omar           Statut                   nouveau => affecté  
+2017-01-09 16:07 Omar           Assigné à                 => Omar            
+2017-01-09 16:07 Omar           Fichier ajouté:
+ATR_aedqaaaaacaam7mxaba7uakzqoekqhyaaaaq.xml                    
+======================================================================

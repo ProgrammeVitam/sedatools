@@ -1,0 +1,147 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242]) by smtp.gmail.com with ESMTPSA
+     id r7sm2210128wjp.43.2017.01.10.01.37.13 for
+     <thierry.casimirius@intradef.gouv.fr>     (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Tue,     10 Jan 2017
+ 01:37:14 -0800 (PST)
+Date: Tue, 10 Jan 2017 10:37:14 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <154a0068287d8d24328246b7331162e5@213.32.79.242>
+Subject: =?UTF-8?Q?[Projet_VITAM_0000063]:_[Besoin_M=C3=A9tier_l=C3=A9gitime]?=
+ =?UTF-8?Q?_Impossibilit=C3=A9_de_supprimer_des_objets_dans_VITAM?=
+Keywords:  [Projet VITAM] BugFromTestlink
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_247_29159990.1517006384479"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; 
+    s=20161025; 
+    h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted 
+    :keywords:mime-version:content-transfer-encoding; 
+    bh=NZrP/NDo3ehQgS6wjsz38dbSCfWu2c1hU7wLdXIgNB8=; 
+    b=njg75R3G+C4GfCh4zsPoLs9YDOzd5tL7KTDXpU/L8310S/Vr6I1SFf89IXNgfeCbjX 
+    4KvZgEy9mqj6s5GgtdRrvaYhcuBiS8Q5RT7ct1Q3iVp/GXFrRCBZazu5s7Q7zWRKFsP0 
+    4dkQdE5mzLlfztB3AOPLKMYVDlqKTw5M2csr0h66Wj+Huo7r0kFrn3/aSdAFZBTL+lej 
+    mtNvpT0WVG8Kzvudp/0BcQvu2dBvhjwR4h5mnwibGO8rWJPLh2PrIUAJN3fZd4Xft/sc 
+    5HCtwf2pitEjAgQGO2V8a7I+sdC4hQPT/IvlJIMloDhnerld1pvNn1SlOGFx1gy8gym8 
+    SSLw==
+X-Gm-Message-State:  AIkVDXJGkL1I9PQzIAl6fTDW7QCNH1N0PzuOXUx0UYszPFJss2YrK+iGJdqF3k/vfYPi6g==
+X-Received:  by 10.223.167.3 with SMTP id c3mr1473295wrd.103.1484041034567; 
+    Tue, 10 Jan 2017 01:37:14 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 
+    2017.1.10.93016
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report=' UTF8_SUBJ_OBFU 0.1, 
+    HTML_00_01 0.05, HTML_00_10 0.05, BODY_SIZE_3000_3999 0, 
+    BODY_SIZE_5000_LESS 0, BODY_SIZE_7000_LESS 0, DKIM_SIGNATURE 0, 
+    FROM_NAME_PHRASE 0, IP_HTTP_ADDR 0, NO_URI_HTTPS 0, 
+    SINGLE_URI_IN_BODY 0, SPF_PASS 0, URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0,
+     WEBMAIL_XMAILER 0, __ANY_URI 0, __CP_URI_IN_BODY 0, __CT 0, __CTE 0, 
+    __CT_TEXT_PLAIN 0, __DQ_NEG_HEUR 0, __DQ_NEG_IP 0, __FRAUD_WEBMAIL 0, 
+    __FRAUD_WEBMAIL_FROM 0, __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, 
+    __HAS_X_MAILER 0, __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, 
+    __MIME_TEXT_ONLY 0, __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 
+    0, __MSGID_32HEX 0, __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, 
+    __PHISH_SPEAR_STRUCTURE_2 0, __RDNS_GMAIL 0, __SANE_MSGID 0, 
+    __SINGLE_URI_TEXT 0, __STOCK_PHRASE_24 0, __SUBJ_ALPHA_END 0, 
+    __SUBJ_ALPHA_END2 0, __SUBJ_HIGHBIT 0, __TO_MALFORMED_2 0, 
+    __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 0, __URI_NO_WWW 0, 
+    __URI_WITH_PATH 0, __UTF8_SUBJ 0, __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; 
+    d=gmail.com; s=20161025; 
+    h=date:to:from:subject:message-id:auto-submitted:keywords 
+    :mime-version:content-transfer-encoding; 
+    bh=NZrP/NDo3ehQgS6wjsz38dbSCfWu2c1hU7wLdXIgNB8=; 
+    b=cbJSyOIyUBBHOOLqMcLL6JAS5I4L+JAMyyTbzOA+xcGOiVh0B2l8iPyzID+uN/Sb06 
+    tJyqMve0vCaMX7VEehN2oGkeB3VezqI9tXm3h+/cFhAtZKM0gZxOhDSHMy/liVqNv2DM 
+    +DeX59M0ie4pzXMfMiSwEbN30t4KK3ea8pGPk0XEhvHk7z6mPrKBfHiKzeFkh5D5vzJ8 
+    YGk1m4Rf+dl8QtwrFKvxNno3uplCuQyYJoYhG0UgNzMzC640yYONuG29MVUfiAVlrz3Q 
+    LIDsr5JBJetJ3qH/FvRDdeCtLnPCqIYAJf9UG1ujw8dj6IL+dlkPojLeIQaPn39KSZgG 
+    GlOQ==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]10,1,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:41:46:150:152:355:379:493:541:543:836:882:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1535:1541:1593:1594:1711:1730:1747:1777:1792:1801:2393:2525:2560:2563:2682:2685:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3876:3877:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4118:4250:4321:4605:5007:6114:6261:6642:6653:6996:6997:7809:8599:8784:8957:8987:9025:9121:9388:9413:10004:10400:10471:10849:11233:11473:11658:11783:11984:12043:12114:12291:12517:12519:12663:12679:12683:12740:13025:13069:13206:13229:13255:13311:13357:14110:14181:14581:14687:14721:21063:21080:21444:30012:30054:30080,0,RBL:74.125.82.41:@gmail.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.net-62.50.0.100 64.100.201.100;04ygwrahkpqki7jj914cche
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1314700;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM02.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_247_29159990.1517006384479
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_248_20894448.1517006384479"
+
+------=_Part_248_20894448.1517006384479
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D63=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   63
+Cat=C3=A9gorie:                  BugFromTestlink
+Reproductibilit=C3=A9:           toujours
+Impact:                     mineur
+Priorit=C3=A9:                   normale
+Statut:                     affect=C3=A9
+Comportement attendu:       =20
+US concern=C3=A9e:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2017-01-10 10:37 CET
+Derni=C3=A8re modification:      2017-01-10 10:37 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     [Besoin M=C3=A9tier l=C3=A9gitime] Im=
+possibilit=C3=A9 de
+supprimer des objets dans VITAM
+Description:=20
+Nous avons tent=C3=A9 de supprimer un object dans VITAM, un archiviste pouv=
+ant avoir
+ins=C3=A9rer un SIP par erreur et cherchant a supprimer son SIP complet ou =
+un
+fichier.
+
+La r=C3=A9ponse obtenue est un code erreur 405 METHOD NOT ALLOWED
+
+La m=C3=A9thode utilis=C3=A9e est DELETE, m=C3=A9thode non impl=C3=A9ment=
+=C3=A9e dans VITAM.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2017-01-10 10:37 Jonathan       Nouveau bogue                              =
+ =20
+2017-01-10 10:37 Jonathan       Statut                   nouveau =3D> affec=
+t=C3=A9 =20
+2017-01-10 10:37 Jonathan       Assign=C3=A9 =C3=A0                 =3D> Jo=
+nathan       =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_248_20894448.1517006384479--
+
+------=_Part_247_29159990.1517006384479--

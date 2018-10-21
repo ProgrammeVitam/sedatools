@@ -1,0 +1,248 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: Anomalie TULEAP 34 - MANTIS 0000024: Impossibilité de retrouver le contenu de balise MessageIdentifier du bordereau d&apos;entrée (manifest) : A fermer</Title>
+    <OriginatingSystemId>&lt;97a2e3efc60b35429e177b5a6e34ce17@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>emmanuel.laborde</FirstName>
+        <BirthName>emmanuel.laborde</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-03T16:21:35Z</SentDate>
+    <ReceivedDate>2017-01-03T16:21:48Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D3007AA3C@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour Thierry,
+
+Bonne année également.
+
+Merci
+
+Emmanuel Laborde
+
+ 
+
+ 
+
+Le 2017-01-03 15:25, CASIMIRIUS Thierry a écrit :
+
+	Bonjour Emmanuel,
+
+	 
+
+	L’anomalie 34 de tuleap peut être fermée.
+
+	 
+
+	Merci pour le mode opératoire.
+
+	 
+
+	Et bonne année.
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+	Envoyé : mardi 3 janvier 2017 15:18
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : RE: 0000024: Impossibilité de retrouver le contenu de balise MessageIdentifier du bordereau d&apos;entrée (manifest) : besoin de JSON pour reproduire le bug
+
+	 
+
+	Bonjour,
+
+	 
+
+	Nous retrouvons bien le messageidentifier en suivant cette consigne.
+
+	 
+
+	Le bug peut être fermé.
+
+	 
+
+	Cordialement,
+
+	Franck AJJAZ
+
+	Chef de Projet
+
+	TRA VITAM
+	franck.ajjaz@altran.com
+
+	 
+
+	 
+
+	 
+
+	De : CASIMIRIUS Thierry [mailto:thierry.casimirius@intradef.gouv.fr] 
+	Envoyé : mardi 3 janvier 2017 12:15
+	À : AJJAZ Franck
+	Objet : 0000024: Impossibilité de retrouver le contenu de balise MessageIdentifier du bordereau d&apos;entrée (manifest) : besoin de JSON pour reproduire le bug
+
+	 
+
+	Franck, 
+
+	 
+
+	Voici le retour de VITAM sur bug de 000024 ( 34 pour Tuleap)
+
+	 
+
+	 
+
+	Nous ne reproduisons pas. Nous retrouvons bien la valeur de messageIdentifier dans pour le bloc tel que evType=STP_INGEST_CONTROL_SIP, champ obIdIn=&lt; valeur du message identifier du Manifest&gt;.
+
+	 
+
+	Merci de nous joindre le Json de réponse à la requête la requête de recherche logbookopération avec comme identifiant l&apos;id retrouvé dans le nom de l&apos;ATR.
+
+	La valeur de la balise MessageIdentifier doit se trouver à l&apos;endroit suivant : pour le bloc tel que evType=STP_INGEST_CONTROL_SIP et &quot;outcome&quot;: &quot;OK&quot;, le champ obIdIn=&lt; la valeur du message identifier du Manifest&gt;.
+
+	 
+
+	Dans l&apos;ATR la balise &lt; MessageIdentifier&gt; contient le messageIdentifier de celui qui répond, c&apos;est a dire VITAM. Il est normal qu&apos;il soit différent du &lt; MessageIdentifier&gt; de l&apos;apellant, la valeur de la balise &lt; MessageIdentifier&gt; du manifest se retrouve dans la balise &lt; MessageRequestIdentifier&gt; de l&apos;ATR.
+
+	 
+
+	Nous proposons de rejeter ce bug sauf si vous pouvez joindre le Json demandé, montrant que le champ obIdIn vaut &quot;null&quot; pour le bloc tel que evType=STP_INGEST_CONTROL_SIP et &quot;outcome&quot;: &quot;OK&quot;,
+
+	 
+
+	 
+
+	Merci de me renvoyer le JSON pour dépôt sur tuleap, pour que ce bug ne soit pas rejeté.
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Chef du bureau des technologies de l’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	 
+
+	-----Message d&apos;origine-----
+	De : Mantis Bug Tracker [mailto:admtlvitam@gmail.com] 
+	Envoyé : mercredi 21 décembre 2016 10:14
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : [Projet VITAM 0000024]: Pas de champs &quot;lot d&apos;archive&quot; dans le journal sur ihm ni dans collection
+
+	 
+
+	 
+
+	Le bogue suivant a été soumis. 
+
+	======================================================================
+
+	http://213.32.79.242/mantisbt/view.php?id=24 &lt; https://urldefense.proofpoint.com/v2/url?u=http-3A__213.32.79.242_mantisbt_view.php-3Fid-3D24&amp;d=DgMGaQ&amp;c=cxWN2QSDopt5SklNfbjIjg&amp;r=QoR2lifbZEFIS4BgOn-DRYzMLEvEx_HUym5g_q0Xqr0&amp;m=VeXpBKXFeeIh2ba0RwjJzcJXv3TUTUHkFEw1JUS8XWo&amp;s=AI9XkGDbVM7ap7MuL0zxO5ak-7xvpKnO9UUcavlSZDI&amp;e=&gt; 
+
+	====================================================================== 
+
+	Rapporteur:                 Franck
+
+	Responsable:                
+
+	====================================================================== 
+
+	Projet:                     Projet VITAM
+
+	Bogue ID:                   24
+
+	Catégorie:                  BugFromTestlink
+
+	Reproductibilité:           toujours
+
+	Impact:                     mineur
+
+	Priorité:                   normale
+
+	Statut:                     nouveau
+
+	Comportement attendu:        
+
+	US concernée:                
+
+	====================================================================== 
+
+	Date de soumission:         2016-12-21 10:14 CET
+
+	Dernière modification:      2016-12-21 10:14 CET
+
+	====================================================================== 
+
+	Résumé:                     Pas de champs &quot;lot d&apos;archive&quot; dans le journal sur
+
+	ihm ni dans collection
+
+	Description: 
+
+	On veut retrouver le contenu de la balise MessageIdentifier de notre bordereau dans le journal des opérations
+
+	 
+
+	Nous ne retrouvons nulle part le contenu de notre balise.
+
+	 
+
+	La US 941 dit :
+
+	La balise d&apos;un messageIdentifier d&apos;un bordereau est actuellement un message lisibile par un humain et qui correspond à l&apos;écran, dans le journal des opérations d&apos;entrée, à &quot;lot d&apos;archive&quot;.
+
+	 
+
+	 
+
+	====================================================================== 
+
+	 
+
+	Historique du bogue 
+
+	Date de modificationNom d’utilisateurChamp                    Changement      
+
+	    
+
+	====================================================================== 
+
+	2016-12-21 10:14 Franck         Nouveau bogue                                
+
+	2016-12-21 10:14 Franck         Fichier ajouté: SIP-20161220103134.zip         
+
+	          
+
+	======================================================================</TextContent>
+</Content>

@@ -6,7 +6,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
 import org.junit.jupiter.api.Test;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonOrEntityType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -36,10 +36,10 @@ class ContentTest {
         TextType d = new TextType("Description", "TestDescription EN", "en");
         c.addMetadata(d);
 
-        // Test PersonType metadata
+        // Test PersonOrEntityType metadata
         c.addNewMetadata("Recipient", "TestFirstName1", "TestBirthName1");
         c.addNewMetadata("Recipient", "TestFirstName2", "TestBirthName2", "TestIdentifier2");
-        PersonType writer = new PersonType("Writer");
+        PersonOrEntityType writer = new PersonOrEntityType("Writer");
         writer.addNewMetadata("FirstName", "TestPrenom");
         writer.addNewMetadata("BirthName", "TestNom");
         writer.addNewMetadata("Identifier", "ID1");
@@ -153,15 +153,11 @@ class ContentTest {
         assertThatThrownBy(() -> c.addNewMetadata("Description", "Test1","Test2","Test3"))
                 .hasMessageContaining("Impossible de construire"); // for TextType
         assertThatThrownBy(() -> c.addNewMetadata("Recipient", "Test"))
-                .hasMessageContaining("Impossible de construire"); // for PersonType
+                .hasMessageContaining("Impossible de construire"); // for PersonOrEntityType
         assertThatThrownBy(() -> c.addNewMetadata("XMLTest", new Date(0)))
                 .hasMessageContaining("Impossible de construire"); // for GenericXMLBlock
         Event event=new Event();
         assertThatThrownBy(() -> event.addNewMetadata("EventDateTime", "Date"))
                 .hasMessageContaining("Impossible de construire"); // for DateTimeType
-        assertThatThrownBy(() -> event.addNewMetadata("NewElement", "<NewElement></NewElement>"))
-                .hasMessageContaining("Impossible d'étendre"); // for DateTimeType
-        assertThatThrownBy(() -> event.addSedaXmlFragments("<NewElement>Test</NewElement>"))
-                .hasMessageContaining("Impossible d'étendre"); // for DateTimeType
-    }
+     }
 }

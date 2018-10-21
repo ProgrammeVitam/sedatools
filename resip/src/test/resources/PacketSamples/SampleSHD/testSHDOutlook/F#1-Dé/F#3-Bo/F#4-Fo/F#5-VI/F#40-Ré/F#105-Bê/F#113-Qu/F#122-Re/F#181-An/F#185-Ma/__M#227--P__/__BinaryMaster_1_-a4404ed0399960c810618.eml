@@ -1,0 +1,138 @@
+Return-Path: admtlvitam@gmail.com
+Received:  from 213.32.79.242 ([213.32.79.242]) by smtp.gmail.com with ESMTPSA
+     id ef10sm34623408wjd.22.2016.12.22.01.27.36 for
+     <thierry.casimirius@intradef.gouv.fr>     (version=TLS1_2
+ cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128); Thu,     22 Dec 2016
+ 01:27:36 -0800 (PST)
+Date: Thu, 22 Dec 2016 10:27:39 +0100 (CET)
+From: Mantis Bug Tracker <admtlvitam@gmail.com>
+To: <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <a4404ed0399960c81061812106cef540@213.32.79.242>
+Subject: =?UTF-8?Q?[Projet_VITAM_0000030]:_[non_impl=C3=A9ment=C3=A9e]_balise_Mess?=
+ =?UTF-8?Q?ageIdentifier_non_lisible_dans_champs_"lot_d'archive"?=
+Keywords:  [Projet VITAM] BugFromTestlink
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_311_15572406.1517006384875"
+X-Google-DKIM-Signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; d=1e100.net; 
+    s=20161025; 
+    h=x-gm-message-state:date:to:from:subject:message-id:auto-submitted 
+    :keywords:mime-version:content-transfer-encoding; 
+    bh=a6Sp5KoiQHeazwudNQac+JzCIhP7/CedvaxXa72DG4I=; 
+    b=J7bEdNpH4qwmGZ5DFftFJfC+jHf39dh4kTPEVWbZIk9xD2K3m2bKaGQoqlZ7RngAZ9 
+    eg/7iiwW6dVDApL2br9Y3UIc1X85J5mZ6dh0R1Vppb1sdEMc68JuasTFeP1EzLfHEzMf 
+    bvTID4abYOvzS7+Yt4hfh7PDsS8LP6Mk65XapnpUSbWH/QM7TQ1JIbqM7Q7yti4oOLXK 
+    CHSb+lP2SpyuwttjQ5+U9nLKuEscuGzgW0Uy3+NmMe1DpEaX14FwW2X8fOre54OooKTM 
+    6CqjY8NvMkTEei9x8qYBit44VVEyq1yOq5yh72iziT0TfPDmtOpvuorx95UsDCHZJnLg 
+    6FoA==
+X-Gm-Message-State:  AIkVDXIhTXA8ztCQQnxXE04lSO1sxCW9O63IX3MXumx66K+vgAOG+BwWo5/tGDzVeOKLbA==
+X-Received:  by 10.194.77.129 with SMTP id s1mr1884599wjw.82.1482398856651; 
+    Thu, 22 Dec 2016 01:27:36 -0800 (PST)
+X-Priority:  3
+X-Mailer:  PHPMailer 5.2.15 (https://github.com/PHPMailer/PHPMailer)
+Auto-Submitted:  auto-generated
+X-Auto-Response-Suppress:  All
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 
+    2016.12.22.91816
+X-PMX-Spam:  Gauge=IIIIIIII, Probability=8%, Report=' HTML_00_01 0.05, 
+    HTML_00_10 0.05, BODY_SIZE_3000_3999 0, BODY_SIZE_5000_LESS 0, 
+    BODY_SIZE_7000_LESS 0, DKIM_SIGNATURE 0, FROM_NAME_PHRASE 0, 
+    IP_HTTP_ADDR 0, NO_URI_HTTPS 0, SINGLE_URI_IN_BODY 0, SPF_PASS 0, 
+    URI_ENDS_IN_PHP 0, WEBMAIL_SOURCE 0, WEBMAIL_XMAILER 0, __ANY_URI 0, 
+    __CP_URI_IN_BODY 0, __CT 0, __CTE 0, __CT_TEXT_PLAIN 0, __DQ_NEG_HEUR 
+    0, __DQ_NEG_IP 0, __FRAUD_WEBMAIL 0, __FRAUD_WEBMAIL_FROM 0, 
+    __FROM_GMAIL 0, __HAS_FROM 0, __HAS_MSGID 0, __HAS_X_MAILER 0, 
+    __HAS_X_PRIORITY 0, __HELO_GMAIL 0, __HIGHBITS 0, __MIME_TEXT_ONLY 0, 
+    __MIME_TEXT_P 0, __MIME_TEXT_P1 0, __MIME_VERSION 0, __MSGID_32HEX 0, 
+    __NO_HTML_TAG_RAW 0, __PHISH_SPEAR_STRUCTURE_1 0, 
+    __PHISH_SPEAR_STRUCTURE_2 0, __RDNS_GMAIL 0, __SANE_MSGID 0, 
+    __SINGLE_URI_TEXT 0, __STOCK_PHRASE_24 0, __SUBJ_HIGHBIT 0, 
+    __TO_MALFORMED_2 0, __TO_NO_NAME 0, __URI_IN_BODY 0, __URI_NO_MAILTO 
+    0, __URI_NO_WWW 0, __URI_WITH_PATH 0, __UTF8_SUBJ 0, __YOUTUBE_RCVD 0'
+x-msw-original-dkim-signature:  v=1; a=rsa-sha256; c=relaxed/relaxed; 
+    d=gmail.com; s=20161025; 
+    h=date:to:from:subject:message-id:auto-submitted:keywords 
+    :mime-version:content-transfer-encoding; 
+    bh=a6Sp5KoiQHeazwudNQac+JzCIhP7/CedvaxXa72DG4I=; 
+    b=PDxNeapuMnKZI2fBTzbNNQ7HpxArHvbalZXulLU8Nvk2ED/2TT+8Kk+wU8GfNfrZ48 
+    M4RWg81U11S4lIVbQinAjxZAkzr7ddvqaMS/v6SRwXxngDviqskmswE8iL7mW/XbkX7Z 
+    VLeLQtasQ8tWgMOM8GroNZgOQQkl9PU8zICyLxZSBmIU9E6o7DeJtr1+udV6QJFFvTzO 
+    H+fVz2o0KT8mbAGYT+0dwWj+W9bIhiNgho4E6qGmtVQQ9gxwLM+FLEJ5Foy47l60OyCq 
+    7MKW6JnIN/OiWq49+d/I0vGqNszlXdtcWEeLhtklDc0QuWpo0dyo9znDxoWJZsR1andW 
+    D4zg==
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]50,3,0,,d41d8cd98f00b204,admtlvitam@gmail.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:41:46:150:152:355:379:493:541:543:836:882:967:973:982:988:989:1260:1261:1263:1277:1311:1313:1314:1345:1381:1437:1513:1515:1516:1518:1521:1535:1541:1593:1594:1711:1714:1730:1747:1777:1792:1801:2198:2199:2393:2525:2560:2563:2682:2685:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3350:3876:3877:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4118:4321:4605:5007:6114:6261:6642:6653:6996:6997:8599:8957:8987:9025:9121:9388:9413:10004:10400:10471:10849:11233:11473:11658:11984:12043:12114:12291:12517:12519:12663:12679:12683:12740:13025:13069:13095:13206:13229:13255:13311:13357:14110:14181:14581:14687:14721:21063:21080:21191:21433:21444:30054:30062:30080,0,RBL:209.85.210.179:@gmail.com:thierry.casimirius@intradef.gouv.fr.lbl8.mailshell.net-62.18.0.100 66.100.201.100;04y8jgoni
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1310900;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM02.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_311_15572406.1517006384875
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_312_32781695.1517006384875"
+
+------=_Part_312_32781695.1517006384875
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Le bogue suivant a =C3=A9t=C3=A9 soumis.=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+http://213.32.79.242/mantisbt/view.php?id=3D30=20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Rapporteur:                 Franck
+Responsable:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Projet:                     Projet VITAM
+Bogue ID:                   30
+Cat=C3=A9gorie:                  BugFromTestlink
+Reproductibilit=C3=A9:           toujours
+Impact:                     mineur
+Priorit=C3=A9:                   normale
+Statut:                     nouveau
+Comportement attendu:       =20
+US concern=C3=A9e:               =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+Date de soumission:         2016-12-22 10:27 CET
+Derni=C3=A8re modification:      2016-12-22 10:27 CET
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+R=C3=A9sum=C3=A9:                     [non impl=C3=A9ment=C3=A9e] balise Me=
+ssageIdentifier non
+lisible dans champs "lot d'archive"
+Description:=20
+US 941 indique :"La balise d'un messageIdentifier d'un bordereau est
+actuellement un message lisibile par un humain et qui correspond =C3=A0 l'=
+=C3=A9cran,
+dans le journal des op=C3=A9rations d'entr=C3=A9e, =C3=A0 "lot d'archive"."
+
+Ce n'est pas le cas dans l'ihm
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+
+Historique du bogue=20
+Date de modificationNom d=E2=80=99utilisateurChamp                    Chang=
+ement     =20
+   =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=20
+2016-12-22 10:27 Franck         Nouveau bogue                              =
+ =20
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+------=_Part_312_32781695.1517006384875--
+
+------=_Part_311_15572406.1517006384875--

@@ -1,0 +1,49 @@
+Bonjour,
+
+Il manque effectivement un point de documentation sur le sujet ; j’ai ajouté un paragraphe sur le sujet dans la page wiki « Errata » présente dans le wiki du Tuleap de support VITAM (lien direct : https://support.programmevitam.fr/wiki/index.php?pagename=Errata&group_id=101).
+
+Cordialement,
+
+Kristopher Waltzer
+
+
+
+	Le 5 déc. 2016 à 16:54, CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr> a écrit :
+
+	Bonjour,
+	 
+	Nous avons un problème avec  le certificat  permettant  d’accéder aux API.
+	 
+	Comment se le procurer ?
+	 
+	D’avance, merci pour vos éléments de réponse.
+	 
+	Cordialement,
+	 
+	Thierry CASIMIRIUS
+	Adjoint au chef du bureau des technologies d’information
+	Service historique de la Défense
+	SGA/DMPA/SHD/PPST/BTI
+	Tél : 01 41 93 20 45
+	 
+	De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+	Envoyé : vendredi 2 décembre 2016 18:13
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Cc : DANYACH-DESCHAMPS Myriam ASC; MORENO Mario ASC
+	Objet : Certificat
+	 
+	Bonjour Thierry,
+	 
+	Pourriez-vous demander à VITAM comment se procurer le certificat permettant d’utiliser les APIs ?
+	 
+	Est-il dans le package d’installation ?
+	 
+	Nous n’arrivons pas à avoir accès aux APIs et le message d’erreur que nous obtenons nous indique que c’est un problème de certificat.
+	 
+	Merci pour votre aide.
+	 
+	Cordialement,
+	Franck AJJAZ
+	Chef de Projet
+	TRA VITAM
+	franck.ajjaz@altran.com

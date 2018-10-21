@@ -1,0 +1,56 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000039]: [Besoin Metier Légitime] Balise MessageDigestAlgorithmCodeListVersion n&apos;est pas contrôlée</Title>
+    <OriginatingSystemId>&lt;9b7e181bea5203cb074ec4257725bc3a@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-26T10:59:30Z</SentDate>
+    <ReceivedDate>2016-12-26T10:59:33Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=39 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   39
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-26 11:59 CET
+Dernière modification:      2016-12-26 11:59 CET
+====================================================================== 
+Résumé:                     [Besoin Metier Légitime] Balise
+MessageDigestAlgorithmCodeListVersion n&apos;est pas contrôlée
+Description: 
+La balise &lt; MessageDigestAlgorithmCodeListVersion&gt; du manifest n&apos;est pas
+contrôlée lors de l&apos;ingest, une valeur aléatoire fait quand meme passé le
+SIP en OK 
+
+Informations complémentaires: 
+PVI-29
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-26 11:59 Jonathan       Nouveau bogue                                
+2016-12-26 11:59 Jonathan       Statut                   nouveau =&gt; affecté  
+2016-12-26 11:59 Jonathan       Assigné à                 =&gt; Jonathan        
+======================================================================</TextContent>
+</Content>

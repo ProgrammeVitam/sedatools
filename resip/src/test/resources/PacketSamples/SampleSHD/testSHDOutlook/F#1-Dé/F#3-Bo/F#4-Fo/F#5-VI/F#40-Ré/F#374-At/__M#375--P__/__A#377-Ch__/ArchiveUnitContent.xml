@@ -1,0 +1,1305 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Chantier 3.zip</Title>
+    <Description>Document &quot;Chantier 3.zip&quot; joint au message &lt;56AB35C2.5070706@culture.gouv.fr&gt;</Description>
+    <CreatedDate>2016-01-29T09:50:47Z</CreatedDate>
+    <TextContent>
+04022016_VITAM_Questionnaire_Troisi�me_Chantier_Technique_V1.0.ods
+???
+
+Programme Vitam
+
+Page  / 
+
+??? (???)
+
+00/00/0000, 00:00:00
+
+Page  / 
+
+		Questionnaire Atelier Technique Vitam
+
+
+
+				A renvoyer à : consultation-vitam@culture.gouv.fr
+
+		
+
+				Institution :
+
+				
+
+				Service :
+
+				
+
+								
+
+				Réunion :
+
+		Jeudi 04/02/2016 9H30-12H00, salle 4c058
+
+		
+
+						DINSIC, Tour Mirabeau, 39-43 quai André Citroën, Paris 15ème
+
+		
+
+		
+
+		Zoning et Sécurité
+
+		
+
+		Avez vous des règles ou recommandations pour vos SI ?
+
+										
+
+				Distinction partie frontale vs Application :
+
+		
+
+						
+
+				Distinction Application vs Données :
+
+		
+
+						
+
+				Cas des réplications applicatives inter-sites :
+
+		
+
+						
+
+				Cas du déploiement applicatif :
+
+		
+
+						
+
+				Cas de l&apos;administration applicative :
+
+		
+
+						
+
+				Cas de l&apos;administration système :
+
+		
+
+						
+
+		
+
+				Séparation Multi-tenants : (vision logique ou physique)
+
+		
+
+						
+
+		
+
+		Authentifications REST et Web
+
+
+
+		Pour l&apos;authentification d&apos;un utilisateur à un service WEB (IHM d&apos;administration VITAM)
+
+										
+
+				Quels méthodes et outils côté application ?
+
+				
+
+						
+
+		
+
+				Quels méthodes et outils pour stocker les authentifications (annuaire, SSO, autres) ?
+
+				
+
+						
+
+						
+
+		Pour l&apos;authentification d&apos;une application Front-Office à un service REST
+
+										
+
+				Rappel : pas de connaissance dans le Back-office de l&apos;utilisateur connecté au Front-Office
+
+								
+
+				Quels méthodes et outils (Challenge, Scellement, Certificat client, Fournisseur d&apos;identité) ?
+
+				
+
+						
+
+				Quels méthodes et outils pour limiter la charge de ré-authentification pour plusieurs
+
+appels REST d&apos;une même application cliente ?
+
+				
+
+						
+
+						
+
+		Sécurité sur site
+
+		
+
+		
+
+		Quels besoins pour une installation de Vitam dans votre SI
+
+										
+
+				Filtrage Pare-feux, mots de passe, …
+
+								
+
+						
+
+		
+
+		Quelles contraintes ou règles concernant vos OS Linux ?
+
+										
+
+				SELinux, AppArmor, Vaultproject, droits Unix, Sudo, …
+
+								
+
+						
+
+		
+
+		Quels usages concernant les logs et les traces (confidentialité de données éventuelle) ?
+
+										
+
+						
+
+		
+
+		Quels contraintes pour le transport de la valeur probante ?
+
+										
+
+				Empreinte, certificat serveur de l&apos;objet transporté (à différencier d&apos;une signature humaine)
+
+								
+
+						
+
+		Avez vous des commentaires sur le maintient de la valeur probante en preuve systémique selon
+
+Le modèle NF Z42-013 ?
+
+		
+
+						
+
+		
+
+		Sécurisation des supports / médias
+
+		
+
+		Avez vous des commentaires sur les propositions Vitam ?
+
+										
+
+						
+
+		
+
+		
+
+		Quelles autres points d&apos;attention ou recommandations avez vous ?
+
+										
+
+						
+
+		
+
+		
+
+		
+
+
+
+
+
+04022016_VITAM_support_troisi�me_chantier_technique_V1.0.pdf
+
+
+VITAM
+
+
+Chantier Technique 3 du 04/02/2016
+Contraintes de sécurité : profils architecture de production, RSSI
+
+
+Valeurs Immatérielles Transférées aux Archives pour Mémoire
+
+
+
+
+
+
+
+2Programme VITAM
+
+
+Aperçus des chantiers techniques 1/2
+Vision non limitative
+
+
+• Quelle infrastructure pour Vitam ?
+– Quels matériels, OS, socles logiciels ?
+– Quels stockages ?
+– Quelles implantations ?
+– Quel PRA / PCA ?
+
+
+• Quelle intégration de Vitam dans mon SI ?
+– Intégration fonctionnelle
+
+
+• hors scope (voir chantiers fonctionnels)
+– Intégration de l&apos;exploitation
+
+
+• Comment superviser ?
+• Comment sauvegarder / restaurer ?
+
+
+– Intégration applicative : API
+• Application frontale (Front-Office) via les API Vitam
+
+
+Objectif transverse : Quelles clauses dans un marché public pour la 
+réalisation de l&apos;intégration (2016 : API, 2018 : Stockage, IaaS) ?
+
+
+
+
+
+
+
+3Programme VITAM
+
+
+Aperçus des chantiers techniques 2/2
+Premiers chantiers envisagés
+
+
+• 09/12/2015 : Chantier 1) Infrastructures actuelles : profils exploitation, architecture technique
+– Infrastructure : Outils de déploiement (Virtualisation, OS), Stockage
+– Exploitation : Supervision, Sauvegarde/Restauration, PRA/PCA
+– Outils de transfert de fichiers
+
+
+• 12/01/2015 : Chantier 2) RETEX et préconisations existantes : profils concepteur d&apos;application, 
+architecture applicative
+– Outils de transfert de fichiers
+– API REST et Authentification d&apos;application à application
+– Langage de programmation pour l&apos;usage de bibliothèques Vitam
+
+
+• XX/02/2015 Chantier 3) Contraintes de sécurité : profils architecture de production, RSSI
+– Zoning, Multi-sites, PCA/PRA, Déploiement, Multi-tenants
+– Protocoles, Authentification
+– Outils (Antivirus, Pare-feu, sondes, …)
+– Logs et traces, anonymisation dans le cadre du support
+
+
+• XX/02/2015 Chantier 4) Modèles approfondis d&apos;implémentation : profils concepteur d&apos;application
+– Modèles d&apos;API par usage (versement, accès, administration)
+– Modèle de Déploiement de Vitam
+
+
+• XX/03/2015 Chantier 5) Modèles approfondis d&apos;implémentation : profils exploitation, architecture 
+technique
+– Prise en compte de l&apos;adhérence avec les contextes d&apos;exploitation et de sécurité
+– Modèles de sauvegarde, Modèle de stockage
+– Modèle de déploiement, PaaS
+
+
+Avez vous d&apos;autres suggestions de sujets techniques ?
+
+
+11 - 2015 12 01 - 2016 02 03 04
+1 2 3 4 5
+
+
+
+
+
+
+
+4Programme VITAM
+
+
+Agenda
+
+
+• Contraintes de sécurité
+– Zoning, Multi-sites, PCA/PRA
+– Déploiement
+– Multi-tenants
+– Protocoles, Authentification
+– Outils (Antivirus, Pare-feu, sondes, …)
+– Logs et traces, anonymisation dans le cadre du support
+
+
+
+
+
+
+
+5Programme VITAM
+
+
+L’architecture générale de la solution logicielle 
+Vitam
+
+
+Interfaçage, Indépendance, Réutilisation, Sécurité
+
+
+Accès
+AccèsVersement
+
+
+Versement
+Administration
+
+
+Administration
+
+
+Gestion de la donnée
+Gestion de la donnée
+
+
+Pérennisation &amp; Intégrité
+Pérennisation &amp; Intégrité
+
+
+Stockage
+Stockage
+
+
+Archival Storage
+
+
+Preservation Planning
+
+
+Data Management
+
+
+Administration
+Ingest Access
+
+
+Service de
+Stockage (Z 42-020)
+
+
+Connecteur d&apos;accès
+Lecture / Écriture
+
+
+aux archives
+
+
+VITAM
+(OAIS + Z 42-013)
+
+
+Connecteurs pour 
+les dépôts de SIP
+(SEDA → Z 44-022)
+
+
+Application métier
+
+
+SIRH, SI Achat, ...
+
+
+Application métier
+ 
+
+
+SIRH, SI Achat, SIA
+
+
+Service de
+Stockage (Z 42-020)
+
+
+Plusieurs offres
+de stockage
+
+
+concurremment
+(au moins 1 sera
+
+
+proposée par VITAM)
+
+
+Connecteurs pour 
+les requêtes
+depuis des
+
+
+Applications métiers
+
+
+
+
+
+
+
+6Programme VITAM
+
+
+L’architecture fonctionnelle de la solution logicielle 
+Vitam
+
+
+
+
+
+
+
+7Programme VITAM
+
+
+Zoning
+
+
+• Niveaux de sécurité d&apos;implantation de Vitam dans un SI
+– Du fait de la sensibilité de certaines informations conservées et accessibles, 
+
+
+Vitam doit être dans une zone protégée
+• Pas d&apos;accessibilité depuis Internet directement
+
+
+– Voire pour certains aucun accès
+• Contrôle des flux par outils de sécurité
+
+
+– DMZ pour un site Vitam (diapo à suivre sur les outils)
+• Niveaux de sécurité internes dans Vitam : Zoning au sein de 
+
+
+l&apos;implantation de Vitam? (cf. schéma suivant)
+– En entrée de la DMZ Vitam
+
+
+• API de versement, accès et gestion
+• IHM d&apos;administration Vitam
+
+
+– Distinction des rôles
+• Administrateurs systèmes via outils spécialisés : par site a priori obligatoire
+• Administrateurs techniques et fonctionnels via IHM : unifié ?
+
+
+– Les services sensibles principaux sont Données et Stockage
+• Ils ne doivent pas être accessibles depuis l&apos;extérieur (Données) et uniquement par 
+
+
+Vitam quant à l&apos;extérieur (Stockage sur autre site)
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+8Programme VITAM
+
+
+Zoning
+
+
+
+
+
+
+
+9Programme VITAM
+
+
+L’architecture générale de la solution logicielle 
+Vitam – sécurisée sur 3 sites
+
+
+
+
+
+
+
+10Programme VITAM
+
+
+Zoning
+
+
+• Multi-sites
+– 2 à 3 sites sont nécessaires (fonction de la volumétrie)
+
+
+• 1 site de secours
+• 1 site de sauvegarde (si la volumétrie l&apos;impose : cible de Vitam)
+
+
+– Proposition d&apos;utiliser une liaison VPN entre les sites
+• Pour supporter les flux de réplication applicatifs (stockage et 
+
+
+données)
+• Le stockage est dupliqué applicativement sur 3 sites
+• La donnée peut être dupliquée applicativement pour le PCA
+
+
+• PCA/PRA
+– Prise en compte de la sécurité des données et des services dans Vitam
+
+
+• La réplication répond à la problématique de PCA/PRA
+• La réplication peut aussi permettre d&apos;assurer la disponibilité du 
+
+
+service
+– Services prêts à être utilisés en mode secours
+– Répartition de charge pour les services en lecture seule
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+11Programme VITAM
+
+
+Architecture générale de la solution logicielle 
+Vitam - Modèle de support d&apos;exécution
+
+
+
+
+
+
+
+12Programme VITAM
+
+
+Déploiement
+
+
+• Le déploiement de Vitam est assuré avec les outils Vitam
+– Mais a priori limité à un seul site à la fois
+
+
+• Eviter les accès privilégié à distance
+• Permettre une gestion par site des mises à jour
+
+
+– Cependant une synchronisation des évolutions sera sans doute 
+nécessaire parfois
+• Notamment lorsqu&apos;elle concernera les interfaces pour la réplication
+• Notamment lorsqu&apos;elle concernera des composants ou des modèles 
+
+
+de données sensibles
+• La logique sera le déploiement du plus sécurisé vers le moins 
+
+
+sécurisé (mode ascendant) pour respecter les contraintes de sécurité
+– Ce qui suppose donc de ne pas pouvoir faire de l&apos;inter-site en termes de 
+
+
+déploiement
+– Mais peut éventuellement autoriser d&apos;avoir un état (API) ?
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+13Programme VITAM
+
+
+L’architecture générale de la solution logicielle 
+Vitam – capacité Multi-tenant
+
+
+
+
+
+
+
+14Programme VITAM
+
+
+Multi-tenants
+
+
+• La mutualisation d&apos;une infrastructure peut aussi être multi-tenants
+• L&apos;objectif est le partage d&apos;une infrastructure mais pas des données
+• Seraient partagés
+– L&apos;infrastructure
+– L&apos;exploitation
+– La version Vitam et ses outils, dont l&apos;IHM d&apos;administration
+
+
+• Seraient disjoints
+– Les métadonnées et les archives
+• Quels niveaux de séparation attendriez vous ?
+
+
+– Les règles de gestion
+– Les contrats (de versement, d&apos;accès et de services)
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+15Programme VITAM
+
+
+Protocoles, Authentifications
+
+
+• Protocoles d&apos;échanges entre le SI et Vitam
+– Protocoles envisagés
+
+
+• HTTPS
+• Autres protocoles pour des flux de fort dimensionnement (FTPS, SFTP, WAARP, …)
+
+
+– Selon les protocoles, différents mécanismes d&apos;authentifications peuvent être 
+mis en œuvre
+• Clef (côté serveur Vitam, côté client Vitam)
+• User/Password
+• Mécanisme SI pour la partie HTTPS ?
+
+
+– Un connecteur devra permettre l&apos;utilisation d&apos;authentifications liées au SI (cf 
+Digest Scheme, JSON Web Token, …)
+
+
+– A noter RGI : Recommandation OAUTH2 mais très orienté utilisateur transmis 
+entre 2 applications, ce qui n&apos;est pas notre cas
+
+
+• Authentification dans les IHM Vitam
+– User/Password
+– Mécanisme SI ?
+
+
+• Un connecteur devra permettre l&apos;utilisation d&apos;authentifications liées au SI (cf 
+OAUTH2 : Authorization server)
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+16Programme VITAM
+
+
+Protocoles, Authentifications
+
+
+• Protocoles d&apos;échanges dans Vitam (entre les modules)
+– Parmi les risques envisagés
+
+
+• Man in the middle : en DMZ (risque limité a priori) mais aussi entre site 
+(communication inter-sites)
+
+
+• Actions engagées par Vitam et non par un tiers non autorisé
+– Protocoles envisagés
+
+
+• HTTPS ou HTTP
+– Faut il chiffrer les échanges à l&apos;intérieur de la DMZ ?
+– Entre les sites (communication inter-sites), les échanges seront chiffrés, même 
+
+
+si mise en place d&apos;un VPN
+– Faut il un mécanisme d&apos;authentification interne à Vitam (entre les modules) ?
+
+
+• Echange de Clef SSL : a minima pour les échanges inter-sites
+• Clef applicative (identifiant la plate-forme et non un serveur)
+• Mécanisme combinant une clef applicative privée et un champ chiffré
+
+
+– La sécurité sur les échanges dans la DMZ
+• L&apos;identification de la plate-forme : ok ?
+• La sécurité via chiffrement : surcoût ?
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+17Programme VITAM
+
+
+Protocoles, Authentifications
+Challenge et Scellement = Authorization: Oauth realm, Digest Scheme 
+
+
+Source :
+http://fr.slideshare.net/stormpath/rest-api-security
+
+
+Challenge sous la forme de Digest
+Côté Client
+request.headers[&apos;Client-Id&apos;] = getMyId()
+String digest = hmacSha256(request, password)
+String val = &apos;Foo &apos; + digest
+Request.headers[&apos;Authorization&apos;] = val
+send(request)
+
+
+Côté Serveur
+String clientId = request.headers[&apos;Client-Id&apos;]
+Byte[] password = lookupPasswordClient(clientId)
+String serverComputeDigest = hmacSha256(request, password)
+String val = request.headers[&apos;Authorization&apos;]
+String clientSpecifiedDigest = val.remove(&apos;Foo &apos;)
+If (clientSpecifiedDigest!= serverComputeDigest) (
+
+
+sendError(401, response)
+return
+
+
+)
+// Sinon requête authentifiée
+
+
+Exemple : Oauth 1.0a
+Authorization: OAuth realm=&apos;http://app.example.com&apos;,
+oauth_consumer_key=&apos;xxxxxxxxx&apos;,
+oauth_token=&apos;xxxxxxxxxxx&apos;,
+oauth_signature_method=&apos;HMAC-SHA1&apos;,
+oauth_signature=&apos;xxxxxxxxxxxxxxxxxxxxxxxx&apos;,
+oauth_timestamp=&apos;123456789&apos;,
+oauth_nonce=&apos;xxxxxxxxxxxxxxxxxxxxxxxxxxxxx&apos;
+
+
+Avantages :
+• Probablement le plus sécurisé
+• Password jamais transmis
+• Garantie de l&apos;authenticité du message (ce que ne fait pas 
+HTTPS)
+• Non susceptible d&apos;attaque « Man In The Middle »
+
+
+Inconvénients :
+• Difficile à implémenter de manière sûre
+• Difficile à comprendre et utiliser
+• Difficile d&apos;implémenter des bibliothèques
+• Le client doit avoir un password stable
+
+
+
+http://app.example.com/
+
+
+
+
+
+18Programme VITAM
+
+
+Protocoles, Authentifications
+Fournisseur d&apos;identité : Authorization: OAUTH2
+
+
+Voir norme : 
+http://tools.ietf.org/html/rfc6749
+
+
+Avantages :
+• Plus facile à utiliser qu&apos;un Digest
+• Un standard de fait pour le format du token (JWT)
+• Peut contenir un état – pas de session serveur
+• Ne nécessite pas l&apos;accès constant au password 
+utilisateur
+
+
+Inconvénients :
+• HTTPS requis
+• Ne garantie pas l&apos;authenticité du message (comme 
+Digest le peut)
+• Sujet à attaques « Man In The Middle »
+• La création de Token et le renouvellement peut être 
+compliqué et confus
+• Le contenu des Token n&apos;est pas standardisé
+
+
+
+
+
+
+
+19Programme VITAM
+
+
+Protocoles, Authentifications
+Fournisseur d&apos;identité : Token Authorization: Bearer, Json Web Token
+
+
+JWT est une chaîne encodée en Base64 Une fois décodée, le contenu est :
+
+
+JWT : la partie « claims » est la plus intéressante Avantages :
+• Authenticité valide en raison de la signature
+• Structuré, inter-opérable
+• Peut contenir un état – pas de session serveur
+• Ne nécessite pas l&apos;accès constant au password 
+utilisateur
+
+
+Inconvénients :
+• HTTPS requis
+• L&apos;authenticité est limitée dans le temps par la durée 
+de validité du Token
+• La création de Token et le renouvellement peut être 
+compliqué et confus
+• Attention au stockage des JWT (chiffrés) côté 
+serveur
+
+
+Source :
+http://fr.slideshare.net/stormpath/rest-api-security
+
+
+Xxxxxxxxxxxxxxxx,    ← Header
+
+
+Yyyyyyyyyyyyyyy,     ← Body (Claims)
+Zzzzzzzzzzzzzzzzz      ← Cryptographic Signature
+
+
+{ &apos;typ&apos; : &apos;JWT&apos; ; &apos;alg&apos; : &apos;HS256&apos; },    ← Header
+{ &apos;iss&apos; : &apos;http://trustyapp.com/&apos;, 
+  &apos;exp&apos; : 1234567890,
+  &apos;sub&apos; : &apos;users/123456789&apos;, 
+  &apos;scope&apos; : &apos;self api/buy&apos;},    ← Body (Claims)
+{ &apos;tls&apos; : &apos;xxxxxxxxxxxxx&apos; }       ← Cryptographic Signature
+
+
+{
+  &apos;iss&apos; : &apos;http://trustyapp.com/&apos;,  ← Qui a fournit le token
+  &apos;exp&apos; : 1234567890,                   ← Quand il expire
+  &apos;sub&apos; : &apos;users/123456789&apos;,        ← Qui il représente
+  &apos;scope&apos; : &apos;self api/buy&apos;               ← Ce qu&apos;il peut faire
+}
+
+
+GET /admin HTTP/1.1
+Authorization: Bearer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+
+http://trustyapp.com/
+
+http://trustyapp.com/
+
+
+
+
+
+20Programme VITAM
+
+
+Protocoles, Authentification
+Grandes familles, complémentaires ?
+
+
+Avantages Inconvénients
+Challenge (ex : Digest) Pas de tiers de confiance nécessaire
+
+
+Pas de risque de rejeu
+Nécessite 2 requêtes pour faire 
+l’authentification
+Nécessite de stocker le mot de passe/secret 
+sur le serveur
+Dans le cas de Vitam : Nombre de secrets à 
+gérer
+Risque de Man-In-The-Middle si le client peut 
+gérer des méthodes d’authentification 
+dégradées (ex : Basic) / Complexe à mettre en 
+œuvre proprement
+
+
+Scellement (ex : HMAC) Authentification et requête dans la même 
+requête HTTP (stateless)
+Pas de tiers de confiance nécessaire
+
+
+Nécessite de stocker le mot de passe/secret 
+sur le serveur
+Sensible au rejeu (nécessite de définir une 
+date d’expiration du sceau)
+Nombre de secrets à gérer
+
+
+Certificat client TLS Une révocation de la chaîne de confiance 
+est prise en compte immédiatement par le 
+système
+Apporte une authentification « plus forte » 
+(clé privée + passphrase de la clé privée)
+Pas de risque de rejeu
+
+
+Complexe à mettre en œuvre (chaîne de 
+confiance, vérification des CRL) et à maintenir 
+Une révocation d’une AC intermédiaire peut 
+provoquer un incident de production
+
+
+Systèmes basés sur un 
+fournisseur d’identitié (Oauth2, 
+SAML, Keystone pour 
+Openstack)
+
+
+Gestion centralisée de l’identité de la 
+plateforme
+
+
+Complexité de mise en oeuvre
+Le fournisseur d’identité est un composant 
+central critique/SPOF dans les échanges
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+21Programme VITAM
+
+
+Outils (Antivirus, Pare-feu, sondes, …)
+
+
+• Besoin de filtrage à l&apos;entrée de la DMZ
+– Vitam devra fournir les ports et protocoles d&apos;entrées / de 
+
+
+sorties
+
+
+– Autres attentes ?
+• Dans le cadre d&apos;une DMZ
+– Quels outils ? (pare-feu, sondes, antivirus, ...)
+
+
+• Dans le cadre d&apos;une production standard voire sécurisée
+– Quels outils ? (pare-feu, sondes, antivirus, ...)
+
+
+• Solutions logicielles libres ou boîtes noires ?
+– Sur quels outils / composants ?
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+22Programme VITAM
+
+
+Impact de la sécurisation OS sur l’applicatif
+
+
+• Utilisation de Linux Security Modules 
+– Ex : SELinux, AppArmor
+– Besoin de fournir des régles pour ces LSM ?
+
+
+• Utilisation de gestionnaires de secrets 
+– Ex : Keywhiz, Vaultproject
+
+
+• Droits Unix
+– Découpage des droits entre les administrateurs systèmes 
+
+
+(root) et les administrateurs applicatifs
+– Authentification en 2 temps ? (nominative puis élévation de 
+
+
+privilèges) su ? Sudo ?
+– Dans le cas d’outils de déploiements, force-t-on un utilisateur 
+
+
+nominatif à insérer son mot de passe Unix
+
+
+• Quelles pratiques dans vos SI ?
+
+
+
+
+
+
+
+23Programme VITAM
+
+
+Logs et traces, anonymisation dans le cadre du 
+support
+
+
+• Logs et traces
+– A des fins d&apos;exploitation et de support, les logs et les traces seront 
+
+
+générés
+– Plusieurs niveaux seront possibles (WARN, INFO, DEBUG)
+– Afin de permettre un export de ces logs et traces, ceux-ci pourraient 
+
+
+être anonymisés pour les informations structurées
+• Afin de masquer les informations sensibles mais de laisser les informations 
+
+
+utiles pour le support
+– Format de fichier, taille, identifiant de traitement, date et heure, 
+
+
+opération effectuée
+– Mais pas : nom du fichier, les métadonnées de description
+– Questionnement sur les métadonnées de gestion (qui peuvent avoir un 
+
+
+impact sur les traitements)
+• Faut il que les traces soient systématiquement « nettoyées » lors de leur 
+
+
+création ou faut-il un outil pour le faire avant transmission ?
+• Pour des informations non structurées, le filtrage sera manuel
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+24Programme VITAM
+
+
+Traçabilité des échanges
+
+
+• Lors d&apos;une requête, une traçabilité peut être active
+– Tracer l&apos;activité, les données ou objets numériques accédées
+
+
+• Les journaux du SAE Vitam doivent répondre
+• Lors d&apos;une réponse, la réponse peut être à valeur probante
+
+
+– Les objets ne sont pas signés dans le SAE car ne résiste pas au temps
+• Durée de validité d&apos;un certificat, fragilité de la chaîne de confiance, fragilité des 
+
+
+algorithmes, ...
+• La preuve est donc systémique (droit public) et non par item
+
+
+– L&apos;activité (cycle de vie, événements) à l&apos;intérieur du SAE doit permettre de 
+conserver la valeur probante
+• La preuve selon la NF Z 42-013 est systémique
+
+
+– Horodatage et empreinte (hash et/ou chaînage)
+– Journalisation séquentielle et horodatée des événements (cycle de vie, 
+
+
+événements)
+» Les journaux sont eux-mêmes archivés avec une preuve de non modification 
+
+
+(chaînage ou Arbre de Merkle)
+– Une réponse peut intégrer une signature par le SAE
+
+
+• Elle a une valeur ponctuelle de garantie de la validité des informations transmises 
+par le SAE
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+25Programme VITAM
+
+
+Sécurisation des supports
+
+
+• Résistance au vol d&apos;informations
+– Le chiffrement est un danger pour la pérennité de l&apos;information
+
+
+• Perte du secret, corruption de l&apos;algorithme
+– Mais ce risque est lié à la durée d&apos;utilisation
+
+
+• Si le chiffrement est applicatif
+– La durée est liée à l&apos;application (ici &gt; 20 ans)
+
+
+• Si le chiffrement est sur les supports
+– La durée est liée à la viabilité des supports (&lt;  10 ans)
+
+
+– Le chiffrement est possible sur des supports à durée de vie limitée
+• Les supports rapides comme les disques sont de bons candidats
+
+
+– Rapidité des calculs
+– Durée de vie inférieure à 10 ans (voire 5 ans)
+– Chiffrement porté par le stockage (le changement de stockage change le chiffrement)
+
+
+• Les supports lents comme les bandes ne sont pas de bons candidats
+– Lenteur d&apos;accès, durée de vie potentiellement &gt; 10 ans, chiffrement par le lecteur 
+
+
+(rendant difficile la garantie)
+– Une sécurité périmètrique est préférable (bunker)
+
+
+• Note : NF Z42-020 n&apos;impose aucun chiffrement ni signature mais une garantie systémique via 
+les journaux
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+		Diapo 1
+
+		Diapo 2
+
+		Diapo 3
+
+		Diapo 4
+
+		Diapo 5
+
+		Diapo 6
+
+		Diapo 7
+
+		Diapo 8
+
+		Diapo 9
+
+		Diapo 10
+
+		Diapo 11
+
+		Diapo 12
+
+		Diapo 13
+
+		Diapo 14
+
+		Diapo 15
+
+		Diapo 16
+
+		Diapo 17
+
+		Diapo 18
+
+		Diapo 19
+
+		Diapo 20
+
+		Diapo 21
+
+		Diapo 22
+
+		Diapo 23
+
+		Diapo 24
+
+		Diapo 25
+
+
+
+
+</TextContent>
+</Content>

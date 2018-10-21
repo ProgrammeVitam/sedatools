@@ -1,0 +1,45 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=72 
+====================================================================== 
+Rapporteur:                 Blaise
+Responsable:                Blaise
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   72
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-12 14:42 CET
+Dernière modification:      2017-01-12 14:42 CET
+====================================================================== 
+Résumé:                     Rejet du SIP quand la balise
+<AuthorizationReasonCodeListVersion> est vide
+Description: 
+VITAM rejette un SIP dont le manifest contient une balise
+<AuthorizationReasonCodeListVersion> vide.
+Dans le SEDA, il est indiqué que cette balise est optionnelle.
+
+Étapes pour le reproduire: 
+1- Générer un SIP
+2- Modifier la manifest en laissant la balise
+<AuthorizationReasonCodeListVersion> vide.
+3- Importer le SIP dans VITAM
+4- Vérifier la valeur de la balise <ReplyCode>
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-12 14:42 Blaise         Nouveau bogue                                
+2017-01-12 14:42 Blaise         Statut                   nouveau => affecté  
+2017-01-12 14:42 Blaise         Assigné à                 => Blaise          
+2017-01-12 14:42 Blaise         Fichier ajouté: SIP-20170112100101.zip         
+          
+======================================================================

@@ -1,0 +1,49 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=31 
+====================================================================== 
+Rapporteur:                 Blaise
+Responsable:                Blaise
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   31
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:               911 
+====================================================================== 
+Date de soumission:         2016-12-22 15:17 CET
+Dernière modification:      2016-12-22 15:17 CET
+====================================================================== 
+Résumé:                     [Fonctionnalité non implémentée] : navigation
+descendante impossible dans l'arborescence  des archive units depuis l'IHM VITAM
+Description: 
+D'après la US911, un archiviste doit pouvoir naviguer (monter et descendre)
+dans l'arborescence des archive units.
+
+Étapes pour le reproduire: 
+Ci-après les étapes à suivre afin de reproduire l'anomalie : 
+
+1- Ouvrez l’application VITAL.
+2- Chargez ensuite fichier SIP ayant 4 niveaux d’arborescence
+3- Recherchez le document 
+4- Remontez au niveau 3 de l’arborescence
+5- Descendez au niveau 2 de l’arborescence
+
+L’étape 5 est en échec.
+
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-22 15:17 Blaise         Nouveau bogue                                
+2016-12-22 15:17 Blaise         Statut                   nouveau => affecté  
+2016-12-22 15:17 Blaise         Assigné à                 => Blaise          
+2016-12-22 15:17 Blaise         Fichier ajouté: SIP-20161222151416.zip         
+          
+======================================================================

@@ -1,0 +1,117 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Programme Vitam] Création de comptes d&apos;accès à la plateforme de recette</Title>
+    <OriginatingSystemId>&lt;58CACFAE.2040800@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>&quot;mélanie REBOURS-Telem@c&quot;</FirstName>
+        <BirthName>&quot;mélanie REBOURS-Telem@c&quot;</BirthName>
+        <Identifier>melanie.rebours@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>nicolas.bel@intradef.gouv.fr</FirstName>
+        <BirthName>nicolas.bel@intradef.gouv.fr</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>olivier.chevenier</FirstName>
+        <BirthName>olivier.chevenier</BirthName>
+        <Identifier>olivier.chevenier@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>annie.godet</FirstName>
+        <BirthName>annie.godet</BirthName>
+        <Identifier>annie.godet@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>anne-elyse.lebourgeois</FirstName>
+        <BirthName>anne-elyse.lebourgeois</BirthName>
+        <Identifier>anne-elyse.lebourgeois@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>pierre.chancerel</FirstName>
+        <BirthName>pierre.chancerel</BirthName>
+        <Identifier>pierre.chancerel@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>leonore.pinoteau</FirstName>
+        <BirthName>leonore.pinoteau</BirthName>
+        <Identifier>leonore.pinoteau@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>edouard VASSEUR</FirstName>
+        <BirthName>edouard VASSEUR</BirthName>
+        <Identifier>edouard.vasseur@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>kristopher WALTZER</FirstName>
+        <BirthName>kristopher WALTZER</BirthName>
+        <Identifier>kristopher.waltzer.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>charles POUPLIN</FirstName>
+        <BirthName>charles POUPLIN</BirthName>
+        <Identifier>charles.pouplin@culture.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>olivier MARSOL</FirstName>
+        <BirthName>olivier MARSOL</BirthName>
+        <Identifier>olivier.marsol.ext@culture.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2017-03-16T17:47:26Z</SentDate>
+    <ReceivedDate>2017-03-17T09:52:04Z</ReceivedDate>
+    <TextContent>Bonjour à tous,
+
+Suite à la demande de Nicolas, les comptes individuels suivants ont été créés : 
+
+-           Olivier Chevenier, olivier.chevenier@intradef.gouv.fr
+-          Annie Godet, annie.godet@intradef.gouv.fr
+-          Anne-Elyse Lebourgeois, anne-elyse.lebourgeois@intradef.gouv.fr
+-          Pierre Chancerel, pierre.chancerel@intradef.gouv.fr
+-          Léonore Pinoteau, leonore.pinoteau@intradef.gouv.fr
+
+Je vous propose de contacter le support VITAM au 01 86 69 60 27 pour obtenir vos identifiants.
+
+Je précise que les comptes de Nicolas et Thierry Casimirius étaient déjà créés et que vous pouvez accéder à l&apos;environnement de recette avec les identifiants qui vous avaient été donnés.
+
+
+Ces comptes vous permettront d’accéder :
+
+*	aux livrables &quot;binaires&quot; à l’adresse suivante : https://support.programmevitam.fr/releases/0.1.0/
+
+*	à l&apos;environnement de recette du programme Vitam en suivant ce lien : https://rec.env.programmevitam.fr &lt; https://rec.env.programmevitam.fr/&gt; . Pour vous connecter à l&apos;environnement de recette, vous devez utiliser vos identifiants, puis pour accéder à la plate-forme de démo utiliser l&apos;identifiant &quot;uuser&quot; et le mot de passe &quot;uuser1234&quot;.
+
+*	au bug tracker commun à tous les ministères (avec visibilité des bugs/évolutions de tous les ministères) afin de créer des tickets d&apos;incident : https://support.programmevitam.fr/plugins/tracker/?tracker=10
+
+En ce qui concerne le déroulement des tests, je vous précise que l&apos;espace rec.env.programmevitam.fr est un environnement de recette mutualisé. Il est utilisé à la fois par les équipes Vitam, le SIAF, le MAEDI et d&apos;autres partenaires. Vous pouvez faire tous vos tests sur les IHM de recette, mais vous verrez apparaître dans les journaux les actions de l&apos;ensemble des testeurs. Ces multiples connexions pourraient également poser des problèmes de concurrence des accès.
+
+Il est également possible de faire des tests de purges des données ou des référentiels, mais ces tests sont déconseillés (vis-à-vis des autres utilisateurs) et demandent un minimum de coordination avec l&apos;ensemble des acteurs. En cas de besoin de purge, il est donc préférable d&apos;envoyer préalablement un message à Édouard Vasseur et à Frédéric Deguilhen, afin de pouvoir planifier cette opération en amont.
+
+Pour mémoire, la Documentation de la version bêta est également accessible via Jalios : https://vitam.jaliosagora.com/jcms/c_2005491/fr/chantier-livraison-de-la-version-beta 
+
+Je vous rappelle que vous pouvez contacter le support Vitam au 01.86.69.60.27 et reste à votre disposition pour toute question.
+
+Bien cordialement
+
+Mélanie Rebours
+
+
+-- 
+
+
+
+ 
+
+Mélanie REBOURS
+Directrice de la diffusion et des partenariats / Dissemination and partnerships head
+Programme Vitam – DINSIC
+47 rue de la Chapelle, 75018 Paris 
+01 86 69 60 05
+melanie.rebours@culture.gouv.fr &lt; mailto:melanie.rebours@culture.gouv.fr&gt; 
+Suivez-nous sur Twitter @ProgVitam &lt; https://twitter.com/progvitam&gt; 
+Le programme est hébergé par les moyens informatiques du MCC</TextContent>
+</Content>

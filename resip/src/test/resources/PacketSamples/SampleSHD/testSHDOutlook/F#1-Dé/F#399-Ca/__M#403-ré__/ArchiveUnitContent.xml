@@ -1,0 +1,55 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>réunion SDSE/AI</Title>
+    <OriginatingSystemId>&lt;OF344B767A.7F3D7143-ONC1257AFB.00392EBE-C1257B0B.00300F42@LocalDomain&gt;</OriginatingSystemId>
+    <Description>Rendez-vous</Description>
+    <Writer>
+        <FirstName>SERVAIS Ghislaine ADJ ADM PPAL 1CL</FirstName>
+        <BirthName>SERVAIS Ghislaine ADJ ADM PPAL 1CL</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=ghislaine.servais.dga.defense.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>SERVAIS Ghislaine ADJ ADM PPAL 1CL</FirstName>
+        <BirthName>SERVAIS Ghislaine ADJ ADM PPAL 1CL</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=ghislaine.servais.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>PATOUX CHRISTIAN LCL</FirstName>
+        <BirthName>PATOUX CHRISTIAN LCL</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=christian.patoux.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>VON STEINAU-STEINRUCK Isabelle ASC 1C</FirstName>
+        <BirthName>VON STEINAU-STEINRUCK Isabelle ASC 1C</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=isabelle.von-steinruck.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>HUBERLAND Jean-Paul ICA</FirstName>
+        <BirthName>HUBERLAND Jean-Paul ICA</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=jean-paul.huberland.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=thierry.casimiriusf3bf6874</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>Bât Welvert - Salle 258</FirstName>
+        <BirthName>Bât Welvert - Salle 258</BirthName>
+        <Identifier>Bt_Welvert_-_Salle_258@dga.defense.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2013-02-07T08:44:56Z</SentDate>
+    <ReceivedDate>2013-02-07T08:45:00Z</ReceivedDate>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Début</EventType>
+        <EventDateTime>2013-02-07T10:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Fin</EventType>
+        <EventDateTime>2013-02-07T11:30:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+</Content>

@@ -1,0 +1,2016 @@
+Return-Path: agora@vitam.jaliosagora.com
+Received:  from jalios03.xsalto.net (localhost [127.0.0.1]) by
+     web23.xsalto.net (Postfix) with ESMTP id 1069A459C7 for
+     <thierry.casimirius@intradef.gouv.fr>; Wed, 30 Nov 2016 09:00:33
+     +0100 (CET)
+Date: Wed, 30 Nov 2016 09:00:33 +0100 (CET)
+From: Programme Vitam <agora@vitam.jaliosagora.com>
+To: Casimirius Thierry <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <1701914197.12401480492833068.JavaMail.vitam@jalios03.xsalto.net>
+Subject: =?UTF-8?Q?[Programme_Vitam]_[Information]_Changements_r=C3=A9cents?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_42_29912877.1517006380963"
+X-PMX-Version:  6.3.1.2588712, Antispam-Engine: 2.7.2.2107409, Antispam-Data: 
+    2016.11.30.75717
+X-PMX-Spam:  Gauge=XIII, Probability=13%, Report=' MIME_HTML_ONLY_MULTI 1, 
+    HTML_70_90 0.1, UTF8_SUBJ_OBFU 0.1, SUPERLONG_LINE 0.05, 
+    BODYTEXTH_SIZE_3000_MORE 0, BODY_SIZE_10000_PLUS 0, SPF_NONE 0, 
+    __ANY_URI 0, __CP_MEDIA_BODY 0, __CP_URI_IN_BODY 0, __CT 0, 
+    __CTYPE_HAS_BOUNDARY 0, __CTYPE_MULTIPART 0, __CTYPE_MULTIPART_ALT 0, 
+    __FRAUD_CONTACT_NUM 0, __HAS_FROM 0, __HAS_HTML 0, __HAS_MSGID 0, 
+    __HTML_AHREF_TAG 0, __HTML_BOLD 0, __HTML_FONT_BLUE 0, 
+    __HTML_FONT_RED 0, __HTML_TAG_CENTER 0, __HTML_TAG_DIV 0, 
+    __HTML_TAG_TABLE 0, __HTTPS_URI 0, __MIME_HTML 0, __MIME_HTML_ONLY 0, 
+    __MIME_TEXT_H 0, __MIME_TEXT_H1 0, __MIME_TEXT_H2 0, __MIME_VERSION 0,
+     __MULTIPLE_URI_HTML 0, __MULTIPLE_URI_TEXT 0, __SANE_MSGID 0, 
+    __STOCK_PHRASE_7 0, __STYLE_RATWARE_NEG 0, __SUBJ_ALPHA_END 0, 
+    __SUBJ_ALPHA_END2 0, __SUBJ_HIGHBIT 0, __TAG_EXISTS_HTML 0, 
+    __TO_MALFORMED_2 0, __TO_NAME 0, __TO_NAME_DIFF_FROM_ACC 0, 
+    __TO_REAL_NAMES 0, __URI_IN_BODY 0, __URI_NO_MAILTO 0, __URI_NS , 
+    __URI_WITH_PATH 0, __UTF8_SUBJ 0'
+x-msw-jemd-spam:  unknown
+x-msw-jemd-refid:  [1]30,2,0,,d41d8cd98f00b204,agora@vitam.jaliosagora.com,thierry.casimirius@intradef.gouv.fr,RULES_HIT:46:72:150:152:355:379:960:962:967:968:973:983:988:989:1021:1189:1208:1221:1260:1261:1263:1313:1314:1345:1381:1430:1431:1432:1433:1434:1436:1437:1516:1517:1575:1588:1589:1592:1594:1605:1710:1730:1747:1777:1792:1801:2198:2199:2393:2525:2527:2528:2543:2568:2682:2685:2693:2859:2892:2902:2912:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3148:3586:3769:3865:3866:3867:3868:3870:3871:3872:3873:3874:3889:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:4384:4605:5007:6261:6650:6669:6674:6678:6688:7591:7875:7903:7904:8550:8599:8603:8777:8957:9025:9028:9072:9080:9121:9149:9388:9392:9416:9868:9908:10004:10049:10346:10919:11026:11218:11233:11656:12043:12114:12438:12555:12679:12683:12740:12973:13139:13142:13230:13374:14196:14659:21080:21325:21433:30026:30054:30075:3009
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1292900;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM08.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_42_29912877.1517006380963
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_43_26728049.1517006380963"
+
+------=_Part_43_26728049.1517006380963
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Programme Vitam - Changements r=C3=A9cents
+
+Casimirius,
+
+Voici 18 nouvelles contributions / mises =C3=A0 jour sur Programme Vitam.=
+=20
+
+Chantier livraison de la version B=C3=AAta <https://vitam.jaliosagora.com/j=
+cms/c_2005481/fr/chantier-livraison-de-la-version-beta>  =09
+VITAM - Structuration des Submission Information Package (SIP) <https://vit=
+am.jaliosagora.com/jcms/c_2005544/fr/vitam-structuration-des-submission-inf=
+ormation-package-sip>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:21=
+=20
+Cat=C3=A9gories : documentation fonctionnelle <https://vitam.jaliosagora.co=
+m/jcms/c_2005533/fr/documentation-fonctionnelle>=20
+=20
+VITAM - Sc=C3=A9narios de test <https://vitam.jaliosagora.com/jcms/c_200554=
+5/fr/vitam-scenarios-de-test>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:21=
+=20
+Cat=C3=A9gories : documentation fonctionnelle <https://vitam.jaliosagora.co=
+m/jcms/c_2005533/fr/documentation-fonctionnelle>=20
+=20
+VITAM - Mod=C3=A8le de workflow <https://vitam.jaliosagora.com/jcms/c_20055=
+46/fr/vitam-modele-de-workflow>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:21=
+=20
+Cat=C3=A9gories : documentation fonctionnelle <https://vitam.jaliosagora.co=
+m/jcms/c_2005533/fr/documentation-fonctionnelle>=20
+=20
+VITAM - Manuel utilisateur <https://vitam.jaliosagora.com/jcms/c_2005547/fr=
+/vitam-manuel-utilisateur>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:21=
+=20
+Cat=C3=A9gories : documentation fonctionnelle <https://vitam.jaliosagora.co=
+m/jcms/c_2005533/fr/documentation-fonctionnelle>=20
+=20
+VITAM - Architecture (exploitation, fonctionnelle, technique, s=C3=A9curit=
+=C3=A9) <https://vitam.jaliosagora.com/jcms/c_2005548/fr/vitam-architecture=
+-exploitation-fonctionnelle-technique-securite>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:22=
+=20
+Cat=C3=A9gories : Documentation technique <https://vitam.jaliosagora.com/jc=
+ms/c_2005532/fr/documentation-technique>=20
+=20
+VITAM - Documentation d=E2=80=99exploitation <https://vitam.jaliosagora.com=
+/jcms/c_2005549/fr/vitam-documentation-d-exploitation>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:22=
+=20
+Cat=C3=A9gories : Documentation technique <https://vitam.jaliosagora.com/jc=
+ms/c_2005532/fr/documentation-technique>=20
+=20
+VITAM - Documentation d=E2=80=99installation <https://vitam.jaliosagora.com=
+/jcms/c_2005550/fr/vitam-documentation-d-installation>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:22=
+=20
+Cat=C3=A9gories : Documentation technique <https://vitam.jaliosagora.com/jc=
+ms/c_2005532/fr/documentation-technique>=20
+=20
+VITAM - Manuel de d=C3=A9veloppement <https://vitam.jaliosagora.com/jcms/c_=
+2005551/fr/vitam-manuel-de-developpement>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:22=
+=20
+Cat=C3=A9gories : Documentation technique <https://vitam.jaliosagora.com/jc=
+ms/c_2005532/fr/documentation-technique>=20
+=20
+VITAM - Conservation de la valeur probante <https://vitam.jaliosagora.com/j=
+cms/c_2005552/fr/vitam-conservation-de-la-valeur-probante>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:22=
+=20
+Cat=C3=A9gories : Documentation g=C3=A9n=C3=A9rale <https://vitam.jaliosago=
+ra.com/jcms/c_2005531/fr/documentation-generale>=20
+=20
+VITAM - Mod=C3=A8le de donn=C3=A9es <https://vitam.jaliosagora.com/jcms/c_2=
+005553/fr/vitam-modele-de-donnees>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:22=
+=20
+Cat=C3=A9gories : Documentation g=C3=A9n=C3=A9rale <https://vitam.jaliosago=
+ra.com/jcms/c_2005531/fr/documentation-generale>=20
+=20
+VITAM - Organisation de l=E2=80=99information <https://vitam.jaliosagora.co=
+m/jcms/c_2005554/fr/vitam-organisation-de-l-information>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:22=
+=20
+Cat=C3=A9gories : Documentation g=C3=A9n=C3=A9rale <https://vitam.jaliosago=
+ra.com/jcms/c_2005531/fr/documentation-generale>=20
+=20
+20161129 np vitam storymap-v1.4 <https://vitam.jaliosagora.com/jcms/c_20055=
+56/fr/20161129-np-vitam-storymap-v1-4>=20
+ <https://vitam.jaliosagora.com/jcms/c_2005556/fr/20161129-np-vitam-storyma=
+p-v1-4>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:26=
+=20
+Cat=C3=A9gories : Documentation g=C3=A9n=C3=A9rale <https://vitam.jaliosago=
+ra.com/jcms/c_2005531/fr/documentation-generale>=20
+=20
+20161129 np vitam storymap-v1.4 <https://vitam.jaliosagora.com/jcms/c_20055=
+57/fr/20161129-np-vitam-storymap-v1-4>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:26=
+=20
+Cat=C3=A9gories : Documentation g=C3=A9n=C3=A9rale <https://vitam.jaliosago=
+ra.com/jcms/c_2005531/fr/documentation-generale>=20
+=20
+BacklogComplet IT11 <https://vitam.jaliosagora.com/jcms/c_2005615/fr/backlo=
+gcomplet-it11>=20
+ <https://vitam.jaliosagora.com/jcms/c_2005615/fr/backlogcomplet-it11>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:38=
+=20
+Cat=C3=A9gories : Documentation g=C3=A9n=C3=A9rale <https://vitam.jaliosago=
+ra.com/jcms/c_2005531/fr/documentation-generale>=20
+=20
+BacklogComplet IT11 <https://vitam.jaliosagora.com/jcms/c_2005616/fr/backlo=
+gcomplet-it11>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:38=
+=20
+Cat=C3=A9gories : Documentation g=C3=A9n=C3=A9rale <https://vitam.jaliosago=
+ra.com/jcms/c_2005531/fr/documentation-generale>=20
+=20
+VITAM - Organisation de l=E2=80=99information <https://vitam.jaliosagora.co=
+m/jcms/c_2005617/fr/vitam-organisation-de-l-information>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:39=
+=20
+Cat=C3=A9gories : documentation fonctionnelle <https://vitam.jaliosagora.co=
+m/jcms/c_2005533/fr/documentation-fonctionnelle>=20
+=20
+VITAM - Mod=C3=A8le de donn=C3=A9es <https://vitam.jaliosagora.com/jcms/c_2=
+005618/fr/vitam-modele-de-donnees>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:39=
+=20
+Cat=C3=A9gories : Documentation technique <https://vitam.jaliosagora.com/jc=
+ms/c_2005532/fr/documentation-technique>=20
+=20
+release-notes.0.1.0 <https://vitam.jaliosagora.com/jcms/c_2005619/fr/releas=
+e-notes-0-1-0>=20
+M=C3=A9lanie Rebours <https://vitam.jaliosagora.com/jcms/c_2000018/fr/melan=
+ie-rebours>  =09Publi=C3=A9 par M=C3=A9lanie Rebours <https://vitam.jaliosa=
+gora.com/jcms/c_2000018/fr/melanie-rebours>  =C2=B7 29/11/2016 =C2=B7 17:43=
+=20
+Cat=C3=A9gories : Documents <https://vitam.jaliosagora.com/jcms/c_2005483/f=
+r/documents>=20
+Mon profil <https://vitam.jaliosagora.com/jcms/c_2003159/fr/casimirius-thie=
+rry>  =C2=B7 Accueil <https://vitam.jaliosagora.com/> =20
+Ce mail vous a =C3=A9t=C3=A9 envoy=C3=A9 par Programme Vitam
+------=_Part_43_26728049.1517006380963
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org=
+/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns=3D"http://www.w3.org/1999/xht=
+ml"><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, initial-scale=
+=3D1.0">
+    <title>[Programme Vitam] [Information] Changements r=C3=A9cents</title>
+    <style type=3D"text/css">
+        /* Based on The MailChimp Reset INLINE: Yes. */ =20
+        /* Client-specific Styles */
+        #outlook a {padding:0;} /* Force Outlook to provide a "view in brow=
+ser" menu link. */
+        body{font-family:Arial, Verdana, Geneva, sans-serif;width:100% !imp=
+ortant; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; margin:0;=
+ padding:0;}=20
+        /* Prevent Webkit and Windows Mobile platforms from changing defaul=
+t font sizes.*/=20
+        .ExternalClass {width:100%;} /* Force Hotmail to display emails at =
+full width */ =20
+        .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalCla=
+ss font, .ExternalClass td, .ExternalClass div {line-height: 100%;}
+        /* Forces Hotmail to display normal line spacing.  More on that: ht=
+tp://www.emailonacid.com/forum/viewthread/43/ */=20
+        #backgroundTable {margin:0; padding:0; width:100% !important; line-=
+height: 100% !important;}
+        /* End reset */
+
+        /* Some sensible defaults for images
+        Bring inline: Yes. */
+        img {outline:none; text-decoration:none; -ms-interpolation-mode: bi=
+cubic;}=20
+        a img {border:none;}=20
+        .image_fix {display:block;}
+
+        /* Hide Member Photo anchor */
+        .photo-anchor{display: none;}
+
+        /* Yahoo paragraph fix
+        Bring inline: Yes. */
+        p {margin: 1em 0;}
+        .abstract p {
+            margin:0;
+        }
+        /* Hotmail header color reset
+        Bring inline: Yes. */
+        .container h1,.container h2,.container h3,.container h4,.container =
+h5,.container h6 {color: black !important;}
+
+        .container h1 a, .container h2 a, .container h3 a, .container h4 a,=
+ .container h5 a, .container h6 a {color: blue !important;}
+
+        .container h1 a:active, .container h2 a:active,  .container h3 a:ac=
+tive, .container h4 a:active, .container h5 a:active, .container h6 a:activ=
+e {
+        color: red !important; /* Preferably not the same color as the norm=
+al header link color.  There is limited support for psuedo classes in email=
+ clients, this was added just for good measure. */
+        }
+
+        .container h1 a:visited, .container h2 a:visited,  .container h3 a:=
+visited, .container h4 a:visited, .container h5 a:visited, .container h6 a:=
+visited {
+        color: purple !important; /* Preferably not the same color as the n=
+ormal header link color. There is limited support for psuedo classes in ema=
+il clients, this was added just for good measure. */
+        }
+
+        /* Outlook 07, 10 Padding issue fix
+        Bring inline: No.*/
+        table td {border-collapse: collapse;}
+
+    /* Remove spacing around Outlook 07, 10 tables
+    Bring inline: Yes */
+    table { border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspac=
+e:0pt; }
+
+        /* Styling your links has become much simpler with the new Yahoo.  =
+In fact, it falls in line with the main credo of styling in email and make =
+sure to bring your styles inline.  Your link colors will be uniform across =
+clients when brought inline.
+        Bring inline: Yes. */
+        a {color: #1155CC;text-decoration:none;}
+
+
+        /***************************************************
+        ****************************************************
+        MOBILE TARGETING
+        ****************************************************
+        ***************************************************/
+       =20
+        @media only screen and (max-width: 639px) {
+            TABLE.content {width:240px !important;}
+            .title {text-align:center;font-size:1.1em;}
+            P, DIV, LI, UL {font-size:14px;}
+            .thumbnail IMG {
+                display:block;
+            }
+            /*DIV {display:none !important;}*/
+           =20
+        }
+       =20
+        @media only screen and (max-device-width: 480px) {
+            /* Part one of controlling phone number linking for mobile. */
+            a[href^=3D"tel"], a[href^=3D"sms"] {
+                        text-decoration: none;
+                        color: blue; /* or whatever your want */
+                        pointer-events: none;
+                        cursor: default;
+                    }
+
+            .mobile_link a[href^=3D"tel"], .mobile_link a[href^=3D"sms"] {
+                        text-decoration: default;
+                        color: orange !important;
+                        pointer-events: auto;
+                        cursor: default;
+                    }
+
+        }
+
+        /* More Specific Targeting */
+
+        @media only screen and (min-device-width: 768px) and (max-device-wi=
+dth: 1024px) {
+        /* You guessed it, ipad (tablets, smaller screens, etc) */
+            /* repeating for the ipad */
+            a[href^=3D"tel"], a[href^=3D"sms"] {
+                        text-decoration: none;
+                        color: blue; /* or whatever your want */
+                        pointer-events: none;
+                        cursor: default;
+                    }
+
+            .mobile_link a[href^=3D"tel"], .mobile_link a[href^=3D"sms"] {
+                        text-decoration: default;
+                        color: orange !important;
+                        pointer-events: auto;
+                        cursor: default;
+                    }
+        }
+
+        @media only screen and (-webkit-min-device-pixel-ratio: 2) {
+        /* Put your iPhone 4g styles in here */=20
+        }
+
+        /* Android targeting */
+        @media only screen and (-webkit-device-pixel-ratio:.75){
+        /* Put CSS for low density (ldpi) Android layouts in here */
+        }
+        @media only screen and (-webkit-device-pixel-ratio:1){
+        /* Put CSS for medium density (mdpi) Android layouts in here */
+        }
+        @media only screen and (-webkit-device-pixel-ratio:1.5){
+        /* Put CSS for high density (hdpi) Android layouts in here */
+        }
+        /* end Android targeting */
+
+    </style>
+
+    <!-- Targeting Windows Mobile -->
+    <!--[if IEMobile 7]>
+    <style type=3D"text/css">
+   =20
+    </style>
+    <![endif]-->  =20
+
+    <!-- ***********************************************
+    ****************************************************
+    END MOBILE TARGETING
+    ****************************************************
+    ************************************************ -->
+
+    <!--[if gte mso 9]>
+        <style>
+        /* Target Outlook 2007 and 2010 */
+        </style>
+    <![endif]-->
+</head><body>
+<style media=3D"all" type=3D"text/css">
+td {
+     font-family:Arial, Verdana, Geneva, sans-serif;
+     font-size:14px;
+}
+</style>
+
+<table width=3D"100%" cellpadding=3D"10" cellspacing=3D"0" border=3D"0" id=
+=3D"backgroundTable" style=3D"font-size:12px;background-color:#FFF;margin:0=
+ auto;">
+    <tr>
+        <td class=3D"vTop">
+=09=09=09=09
+=09=09=09=09
+=09=09=09=09=09=09<table width=3D"600" class=3D"content" cellpadding=3D"0" =
+style=3D"line-height:150%;width:600px;max-width:600px;min-width:320px;font-=
+family:Arial, Verdana, Geneva, sans-serif;color:#535353;margin:0 auto;" cel=
+lspacing=3D"0" border=3D"0" align=3D"center">
+=09=09=09=09=09=09=09<tr>
+=09=09           <th style=3D"background-color:#5092BD">
+=09=09                <table style=3D"margin:0 10px;color:white;">
+=09=09                    <tr>
+=09=09                        <td>               =20
+=09=09                            <h3 class=3D"title" style=3D"color:white;=
+margin:10 0; padding:0;">Programme Vitam - Changements r=C3=A9cents</h3>
+=09=09                        </td>
+=09=09                    </tr>
+=09=09                </table>
+=09=09            </th>=09=09=09=09=09=09=09=09   =20
+=09=09=09=09=09=09=09=09   =20
+=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09<td>
+=09=09=09=09=09=09=09<table style=3D"background-color:#F8F8F8;line-height:1=
+50%;width:100%;font-family:Arial, Verdana, Geneva, sans-serif;color:#535353=
+;" cellpadding=3D"5">
+=09=09=09=09=09=09=09<tr>
+=09=09=09=09=09=09=09=09<td>
+=09=09=09=09=09=09=09=09  <table cellpadding=3D"10">
+=09=09=09=09=09=09=09=09=09  <tr>
+=09=09=09=09=09=09=09=09=09=09  <td>
+=09=09=09=09=09=09=09=09=09=09    <p>Casimirius,</p>
+=09=09=09=09=09=09=09=09=09=09    <p>
+=09=09=09=09=09=09=09=09=09=09    Voici 18 nouvelles contributions / mises =
+=C3=A0 jour sur Programme Vitam.
+=09=09=09=09=09=09=09=09=09=09    </p>
+=09=09=09=09=09=09=09=09=09=09   =20
+=09=09=09=09=09=09=09=09=09    </td>
+=09=09=09=09=09=09=09=09    </tr>
+=09=09=09=09=09=09=09    </table>
+=09=09=09=09=09=09    </td>
+=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09=20
+=09=09=09=09=20
+=09=09=09=09                =20
+=09=09=09=09
+=09=09=09=09<tr>
+=09=09=09=09    <td style=3D"text-decoration: none;font-size: 20px;color: #=
+666;font-weight: bold;">
+=09=09=09=09       =20
+=09=09=09=09        <b><a href=3D"https://vitam.jaliosagora.com/jcms/c_2005=
+481/fr/chantier-livraison-de-la-version-beta" class=3D"ID_c_2005481" style=
+=3D"text-decoration:none;color:#666;" name=3D"workspacec_2005481">Chantier =
+livraison de la version B=C3=AAta</a></b>
+=09=09=09=09    </td>
+=09=09=09=09</tr>
+=09=09=09=09<tr>
+=09=09=09=09    <td class=3D"vTop">
+=09=09=09=09        <table width=3D"100%" cellpadding=3D"10">
+=09=09=09=09            <tr>
+=09=09=09=09                <td>
+                        <table width=3D"100%" style=3D"background:#fff;bord=
+er:1px solid #dbdbdb;color:#535353;" cellpadding=3D"10">
+                        <tr><td>
+=09=09=09=09                <div>
+=09=09=09=09                   =20
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005544/fr/vitam-structuration-des-submission-information-=
+package-sip" class=3D"ID_c_2005544 ctxTooltipCard">
+=09=09=09=09                                     VITAM - Structuration des =
+Submission Information Package (SIP)
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5MTQ6JDJhJDA0JHIzMFF=
+zY1NlTXB5bG45MG1WZ0ZoMWV0L0xEcmZ0b3RyTklnTndOcWhrU2Nrc1d4c0dXajBh" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:21
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005533/fr/documentation-fonctionnelle" class=3D"I=
+D_c_2005533" style=3D"color:#666;text-decoration:none;">
+                                                        documentation fonct=
+ionnelle
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005545/fr/vitam-scenarios-de-test" class=3D"ID_c_2005545 =
+ctxTooltipCard">
+=09=09=09=09                                     VITAM - Sc=C3=A9narios de =
+test
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5Mjg6JDJhJDA0JEsuR0R=
+leWZmajh0Q203ZEJCL2tza2VrM1RqMU12UkZNNXlyZzNYdi4xWm5XZjljYi4uak1h" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:21
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005533/fr/documentation-fonctionnelle" class=3D"I=
+D_c_2005533" style=3D"color:#666;text-decoration:none;">
+                                                        documentation fonct=
+ionnelle
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005546/fr/vitam-modele-de-workflow" class=3D"ID_c_2005546=
+ ctxTooltipCard">
+=09=09=09=09                                     VITAM - Mod=C3=A8le de wor=
+kflow
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5MzA6JDJhJDA0JGVTZzV=
+EZXJEeWlOUDVHQlh5azRlN3VDTmxrajJrOUx4Z1dMSzVHclBlU01TNWFMcFFXWUxh" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:21
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005533/fr/documentation-fonctionnelle" class=3D"I=
+D_c_2005533" style=3D"color:#666;text-decoration:none;">
+                                                        documentation fonct=
+ionnelle
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005547/fr/vitam-manuel-utilisateur" class=3D"ID_c_2005547=
+ ctxTooltipCard">
+=09=09=09=09                                     VITAM - Manuel utilisateur
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5NDQ6JDJhJDA0JE5DWWJ=
+pTjVZUm1qektET0ZwRkVtcy40bmgxSDRuSFBkOWJ3SjVUbVJXVWNxY2Y5MUxnaXd5" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:21
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005533/fr/documentation-fonctionnelle" class=3D"I=
+D_c_2005533" style=3D"color:#666;text-decoration:none;">
+                                                        documentation fonct=
+ionnelle
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005548/fr/vitam-architecture-exploitation-fonctionnelle-t=
+echnique-securite" class=3D"ID_c_2005548 ctxTooltipCard">
+=09=09=09=09                                     VITAM - Architecture (expl=
+oitation, fonctionnelle, technique, s=C3=A9curit=C3=A9)
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5NTM6JDJhJDA0JHZNS0h=
+reHl5QzhJNktaQ1Zsd01PMU9yWjVtQW5aMi51T09GR1htc1hnVm9TeGlOWUxYNzFh" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:22
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005532/fr/documentation-technique" class=3D"ID_c_=
+2005532" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation techn=
+ique
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005549/fr/vitam-documentation-d-exploitation" class=3D"ID=
+_c_2005549 ctxTooltipCard">
+=09=09=09=09                                     VITAM - Documentation d=E2=
+=80=99exploitation
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5NjM6JDJhJDA0JHRFWWd=
+zOElFNXBsdVV3NHZPczlvRS5FMlUyQTl6VDhIVDdRTE4wTEoyNy9GSEVSWDU1NXRP" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:22
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005532/fr/documentation-technique" class=3D"ID_c_=
+2005532" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation techn=
+ique
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005550/fr/vitam-documentation-d-installation" class=3D"ID=
+_c_2005550 ctxTooltipCard">
+=09=09=09=09                                     VITAM - Documentation d=E2=
+=80=99installation
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5NzQ6JDJhJDA0JG1KaGp=
+FSEV2OGVONWFaU29vdVJhbk91R3ZxbHhrVk9aRkQuc0hPSGtFcm1xVS51enRndy5p" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:22
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005532/fr/documentation-technique" class=3D"ID_c_=
+2005532" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation techn=
+ique
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005551/fr/vitam-manuel-de-developpement" class=3D"ID_c_20=
+05551 ctxTooltipCard">
+=09=09=09=09                                     VITAM - Manuel de d=C3=A9v=
+eloppement
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5NzY6JDJhJDA0JEswbnR=
+TOEFUcmxQNGJpdFlLRTNSNnVqRWd5OW9abWhkdTV3S0VHN3IvQ1cyQ1VjeldSWktP" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:22
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005532/fr/documentation-technique" class=3D"ID_c_=
+2005532" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation techn=
+ique
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005552/fr/vitam-conservation-de-la-valeur-probante" class=
+=3D"ID_c_2005552 ctxTooltipCard">
+=09=09=09=09                                     VITAM - Conservation de la=
+ valeur probante
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5Nzg6JDJhJDA0JEZ6OG9=
+hckVSQzlCWFVOamN5RGlOVmVteHk5emhjMFNNSG9odGF1RGJNZDlOc0c3NzhoTWo2" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:22
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005531/fr/documentation-generale" class=3D"ID_c_2=
+005531" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation g=C3=
+=A9n=C3=A9rale
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005553/fr/vitam-modele-de-donnees" class=3D"ID_c_2005553 =
+ctxTooltipCard">
+=09=09=09=09                                     VITAM - Mod=C3=A8le de don=
+n=C3=A9es
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5OTI6JDJhJDA0JE9qbm1=
+mSHMyRFVJRUd3WkpQNHpkYk9mSDltaU1wRGExNkhkYlV4OEduZ0k2aldhdlBOMXou" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:22
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005531/fr/documentation-generale" class=3D"ID_c_2=
+005531" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation g=C3=
+=A9n=C3=A9rale
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005554/fr/vitam-organisation-de-l-information" class=3D"I=
+D_c_2005554 ctxTooltipCard">
+=09=09=09=09                                     VITAM - Organisation de l=
+=E2=80=99information
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzI5OTQ6JDJhJDA0JEZNL3p=
+HZ1RwakFVU1BMUmc4bDNnSi4ydUExZE1HdVFpM05tMGE2dEtMZzlUL05lWmEzdmE2" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:22
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005531/fr/documentation-generale" class=3D"ID_c_2=
+005531" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation g=C3=
+=A9n=C3=A9rale
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005556/fr/20161129-np-vitam-storymap-v1-4" class=3D"ID_c_=
+2005556 ctxTooltipCard">
+=09=09=09=09                                     20161129 np vitam storymap=
+-v1.4
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09=09                            <tr>
+=09=09=09=09=09=09                            <td>
+=09=09=09=09=09=09                            <div>
+                                           =20
+                                            <a class=3D"thumbnail" href=3D"=
+https://vitam.jaliosagora.com/jcms/c_2005556/fr/20161129-np-vitam-storymap-=
+v1-4" title=3D"20161129 np vitam storymap-v1.4">
+                                               =20
+                                               =20
+                                                <img src=3D"https://vitam.j=
+aliosagora.com/upload/docs/application/vnd.oasis.opendocument.spreadsheet/2=
+016-11/20161129_np_vitam_storymap-v1.4.ods.associated/th-120x90-20161129_np=
+_vitam_storymap-v1.4.ods.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzMwMDg6JDJh=
+JDA0JFh3cy9QOFVaVlVnUWhkU3RrOWpKZy5TT3JPYnlkN0kubUJPVUNXWUdINUIwL042dFhQWHI=
+u" alt=3D"" class=3D"thumbnail" align=3D"left" hspace=3D"10" style=3D"borde=
+r: 1px solid #CCC;padding:3px;">
+                                               =20
+                                            </a>
+                                           =20
+                                           =20
+                                           =20
+                                            </div>
+=09=09=09=09=09=09                            </td>
+=09=09=09=09=09                            </tr>
+=09=09=09=09=09                           =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzMwMDk6JDJhJDA0JExsTlV=
+HQjFNd1lobzRPWk9manhWeXU3ODh3aGJaMjFZYlQzV3kwYmdtb21tb3FielRWMGw2" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:26
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005531/fr/documentation-generale" class=3D"ID_c_2=
+005531" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation g=C3=
+=A9n=C3=A9rale
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005557/fr/20161129-np-vitam-storymap-v1-4" class=3D"ID_c_=
+2005557 ctxTooltipCard">
+=09=09=09=09                                     20161129 np vitam storymap=
+-v1.4
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzMwMjM6JDJhJDA0JDdWeUp=
+PNjMwRHRyWjNjeUM5UDByeWVSd2dQR0hPdXJnOEVReGhtY0RkWEc0Ni42Um9VTVNP" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:26
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005531/fr/documentation-generale" class=3D"ID_c_2=
+005531" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation g=C3=
+=A9n=C3=A9rale
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005615/fr/backlogcomplet-it11" class=3D"ID_c_2005615 ctxT=
+ooltipCard">
+=09=09=09=09                                     BacklogComplet IT11
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09=09                            <tr>
+=09=09=09=09=09=09                            <td>
+=09=09=09=09=09=09                            <div>
+                                           =20
+                                            <a class=3D"thumbnail" href=3D"=
+https://vitam.jaliosagora.com/jcms/c_2005615/fr/backlogcomplet-it11" title=
+=3D"BacklogComplet IT11">
+                                               =20
+                                               =20
+                                                <img src=3D"https://vitam.j=
+aliosagora.com/upload/docs/application/vnd.oasis.opendocument.spreadsheet/2=
+016-11/backlogcomplet_it11.ods.associated/th-120x90-backlogcomplet_it11.ods=
+.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzMwMjU6JDJhJDA0JEdWSGRaS0lld05mckdm=
+N2lBZjF3NmVaLmdJR0ZHZ2dqUExXNmZaMnZQUk9DT08zeGE5c0E2" alt=3D"" class=3D"thu=
+mbnail" align=3D"left" hspace=3D"10" style=3D"border: 1px solid #CCC;paddin=
+g:3px;">
+                                               =20
+                                            </a>
+                                           =20
+                                           =20
+                                           =20
+                                            </div>
+=09=09=09=09=09=09                            </td>
+=09=09=09=09=09                            </tr>
+=09=09=09=09=09                           =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzMwMjc6JDJhJDA0JFdsZkd=
+wQVV6Y1ZZZTU4UVo2NlY1Zy5BTDRhSDdZR1J3T1RSSUE5Nk1UTGRoTnFtYTN3QkdH" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:38
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005531/fr/documentation-generale" class=3D"ID_c_2=
+005531" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation g=C3=
+=A9n=C3=A9rale
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005616/fr/backlogcomplet-it11" class=3D"ID_c_2005616 ctxT=
+ooltipCard">
+=09=09=09=09                                     BacklogComplet IT11
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzMwMjk6JDJhJDA0JC5Xekd=
+KZ1JmWktmZ2xFeWNEcmJLTC52b1pJVC9KV01IN0dGR1QydEhkSjJ0QnhpYVVFMzhT" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:38
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005531/fr/documentation-generale" class=3D"ID_c_2=
+005531" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation g=C3=
+=A9n=C3=A9rale
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005617/fr/vitam-organisation-de-l-information" class=3D"I=
+D_c_2005617 ctxTooltipCard">
+=09=09=09=09                                     VITAM - Organisation de l=
+=E2=80=99information
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzMwMzE6JDJhJDA0JFpzWTR=
+wSXc2SGw5RFAwSHhTM2NXaS5qeWpyTWVBZk9KYTNjRnNBV2JHb0xDdzRhTGc0bnht" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:39
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005533/fr/documentation-fonctionnelle" class=3D"I=
+D_c_2005533" style=3D"color:#666;text-decoration:none;">
+                                                        documentation fonct=
+ionnelle
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div style=3D"border-bottom:1px solid #=
+EEE;">
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005618/fr/vitam-modele-de-donnees" class=3D"ID_c_2005618 =
+ctxTooltipCard">
+=09=09=09=09                                     VITAM - Mod=C3=A8le de don=
+n=C3=A9es
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzMwNDc6JDJhJDA0JE5IRS4=
+uV3NVbC5yeGJNM3ovOEpOR3VKd0VsbFpjcG15UVJSd01CM2FibUc0U0o2d08wSFRl" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:39
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005532/fr/documentation-technique" class=3D"ID_c_=
+2005532" style=3D"color:#666;text-decoration:none;">
+                                                        Documentation techn=
+ique
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                       =20
+=09=09=09=09                       =20
+=09=09=09=09                        <div>
+=09=09=09=09                           =20
+=09=09=09=09                            <div>&nbsp;</div>
+=09=09=09=09                           =20
+=09=09=09=09                            <b>
+=09=09=09=09                                <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2005619/fr/release-notes-0-1-0" class=3D"ID_c_2005619 ctxT=
+ooltipCard">
+=09=09=09=09                                     release-notes.0.1.0
+=09=09=09=09                                </a>
+=09=09=09=09                            </b>
+=09=09=09=09                            <table width=3D"100%" cellpadding=
+=3D"">
+=09=09=09=09                            <tr><td class=3D"vTop">
+=09=09=09=09                            <table cellpadding=3D"10">
+=09                                   =20
+=09=09=09=09                              <tr>
+                                        <td>
+                                        <table width=3D"100%">
+                                            <tr>
+                                       =20
+                                            <td width=3D"26">
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard">
+                                            <img src=3D"https://vitam.jalio=
+sagora.com/upload/photos/2015-11/mbr_c_2000018.jpg.associated/th-16x16-mbr_=
+c_2000018.jpg.jpg?authKey=3DY18yMDAzMTU5OjE1MTIwMjg4MzMwNDk6JDJhJDA0JExDc2E=
+5TlY3SHdkM2wzUzhxNnhhd3VGbEpJWGhqVFhaWjFqUnRHUVFCVTFYZ01DTDFGQTR1" alt=3D"M=
+=C3=A9lanie Rebours" class=3D"photo" style=3D"padding:2px;border: 1px solid=
+ #CCCCCC;"></a>
+                                        </td>
+                                       =20
+                                        <td>
+                                        <div class=3D"meta" style=3D"color:=
+#535353;font-size:0.8em">
+                                           =20
+                                            Publi=C3=A9 par
+                                            <a href=3D"https://vitam.jalios=
+agora.com/jcms/c_2000018/fr/melanie-rebours" class=3D"ID_c_2000018 ctxToolt=
+ipCard" style=3D"color:#666;text-decoration:none;">M=C3=A9lanie Rebours</a>=
+ =C2=B7
+                                            29/11/2016 =C2=B7 17:43
+                                        </div>
+                                       =20
+                                       =20
+                                       =20
+                                            <div class=3D"cat" style=3D"col=
+or:#535353;font-size:0.8em">
+                                                <strong>Cat=C3=A9gories :</=
+strong>
+                                               =20
+                                                   =20
+                                                    <a href=3D"https://vita=
+m.jaliosagora.com/jcms/c_2005483/fr/documents" class=3D"ID_c_2005483" style=
+=3D"color:#666;text-decoration:none;">
+                                                        Documents
+                                                    </a>
+                                               =20
+                                            </div>
+                                                                           =
+            =20
+                                        </td>
+                                    </tr>
+                                </table>
+                                       =20
+                                        </td>=09=09=09=09                  =
+           =20
+=09=09=09=09                              </tr>=20
+=09=09=09=09                            </table>
+=09=09=09=09                            </td>
+=09=09=09=09                            </tr>
+=09=09=09=09                            </table>
+=09=09=09=09                        </div>
+=09=09=09=09                   =20
+=09=09=09=09                   =20
+=09=09=09=09                </div>
+=09                    </td></tr>
+                    </table>=09=09=09=09           =20
+                    </td>
+=09=09=09=09        </tr>
+=09=09=09=09        </table>
+=09=09=09=09    </td>
+=09=09=09=09</tr>
+=09=09=09=09
+=09=09=09=09
+=09=09=09=09=09=09=09</table>
+=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09=09=09<tr><td>
+=09            <table style=3D"line-height:150%;width:100%;font-family:Aria=
+l, Verdana, Geneva, sans-serif;color:#535353;" cellpadding=3D"5" cellspacin=
+g=3D"0" border=3D"0" align=3D"center">
+                <tr>
+                <td style=3D"border:1px solid #dbdbdb;background:#f0f0f0; f=
+ont-size:14px;">
+                    <div style=3D"text-align:center;">
+                       =20
+                        <a href=3D"https://vitam.jaliosagora.com/jcms/c_200=
+3159/fr/casimirius-thierry" class=3D"ID_c_2003159 ctxTooltipCard">Mon profi=
+l</a> =C2=B7 <a href=3D"https://vitam.jaliosagora.com/">Accueil</a>
+                    </div>
+                </td>
+            </tr>           =20
+           =20
+            <tr>
+            <td style=3D"background-color:white;font-size:11px;color:#999;w=
+idth: 100%;text-align: center;">
+                     Ce mail vous a =C3=A9t=C3=A9 envoy=C3=A9 par Programme=
+ Vitam
+                </td>
+            </tr>
+                       =20
+            </table>
+=09=09=09=09=09=09=09</td>
+=09=09=09=09=09=09=09</tr>
+=09=09=09=09=09=09</table>
+=09=09=09=09=09</td>
+=09=09=09=09</tr>
+=09=09=09</table>
+=09=09</body>
+</html>
+------=_Part_43_26728049.1517006380963--
+
+------=_Part_42_29912877.1517006380963--

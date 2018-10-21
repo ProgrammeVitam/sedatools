@@ -1,0 +1,79 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000048]: Règle de gestion ACC-0004 fait planter Ingest</Title>
+    <OriginatingSystemId>&lt;42547297f17efc63103262d6e89ab158@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2017-01-04T10:12:55Z</SentDate>
+    <ReceivedDate>2017-01-04T10:13:04Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=48 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                Franck
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   48
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-04 11:12 CET
+Dernière modification:      2017-01-04 11:12 CET
+====================================================================== 
+Résumé:                     Règle de gestion ACC-0004 fait planter Ingest
+Description: 
+Nous constituons un SIP dont l&apos;un des items (ou tous) est/sont soumis à la
+règle de gestion ACC0004.
+Lorsque nous faisons l&apos;ingest, celui ci plante.
+
+Par ihm, nous obtenons une croix indiquant que le transfert n&apos;a pas fonctionné
+mais pas d&apos;ATR.
+
+Par API, nous obtenons :
+
+&lt; html&gt;
+&lt; head&gt;
+&lt; meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=ISO-8859-1&quot;/&gt;
+&lt; title&gt;Error 500 &lt; /title&gt;
+&lt; /head&gt;
+&lt; body&gt;
+&lt; h2&gt;HTTP ERROR: 500&lt; /h2&gt;
+&lt; p&gt;Problem accessing /ingest/v1/ingests. Reason:
+&lt; pre&gt;    Internal Server Error&lt; /pre&gt;&lt; /p&gt;
+&lt; hr /&gt;
+&lt; /body&gt;
+&lt; /html&gt;
+
+Nous fournissons le SIP en pj. Ici la règle est au niveau Management MetaData
+mais nous avons aussi essayé en la mettant au niveau d&apos;un item. Nous avons
+essayé le même SIP en remplaçant juste la règle ACC0004 par la ACC0001, ou 2
+ou 3 et tout s&apos;est bien passé.
+
+Il semble que ce soit la règle ACC0004 qui pose problème.
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-04 11:12 Franck         Nouveau bogue                                
+2017-01-04 11:12 Franck         Statut                   nouveau =&gt; affecté  
+2017-01-04 11:12 Franck         Assigné à                 =&gt; Franck          
+2017-01-04 11:12 Franck         Fichier ajouté:
+SIP-20170103145212justeMMDTacc4.zip                    
+======================================================================</TextContent>
+</Content>

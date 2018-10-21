@@ -1,0 +1,35 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>EIA</Title>
+    <OriginatingSystemId>&lt;OF6A881C3D.6609FB93-ONC1257B3A.005F102F-C1257B3A.005F2DD4@LocalDomain&gt;</OriginatingSystemId>
+    <Description>Rendez-vous</Description>
+    <Writer>
+        <FirstName>HUBERLAND Jean-Paul ICA</FirstName>
+        <BirthName>HUBERLAND Jean-Paul ICA</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=jean-paul.huberland.dga.defense.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>HUBERLAND Jean-Paul ICA</FirstName>
+        <BirthName>HUBERLAND Jean-Paul ICA</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=jean-paul.huberland.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=thierry.casimiriusf3bf6874</Identifier>
+    </Addressee>
+    <SentDate>2013-03-26T17:19:36Z</SentDate>
+    <ReceivedDate>2013-03-26T17:27:05Z</ReceivedDate>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Début</EventType>
+        <EventDateTime>2013-03-28T13:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Fin</EventType>
+        <EventDateTime>2013-03-28T14:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+</Content>

@@ -1,0 +1,1254 @@
+Return-Path: emmanuel.laborde@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur03.culture.fr (8.15.0.59/8.15.0.59) with ESMTP id uALFptct032547;
+	Mon, 21 Nov 2016 16:51:55 +0100
+Date: Mon, 21 Nov 2016 16:51:55 +0100 (CET)
+From: emmanuel.laborde <emmanuel.laborde@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+CC: AJJAZ Franck (franck.ajjaz@altran.com) <franck.ajjaz@altran.com>,
+	DANYACH-DESCHAMPS Myriam <myriam.danyach-deschamps@intradef.gouv.fr>,MORENO Mario <mario.moreno@intradef.gouv.fr>,
+	VASSEUR Edouard <edouard.vasseur@intradef.gouv.fr>
+Message-ID: <f9312c7855ea575b8333bbdabb79221b@culture.gouv.fr>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D1C66A53F@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D1C66A53F@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: =?UTF-8?Q?Re:_TR:_Projet_Postman_D=C3=A9mo_API_-_VITAM?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_517_9183044.1517006388310"
+X-Sender:  emmanuel.laborde@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8356 signatures=670735
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1286500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM07.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_517_9183044.1517006388310
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_518_17478893.1517006388310"
+
+------=_Part_518_17478893.1517006388310
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour,
+
+Vous trouverez ci joint le fichier postman utilis=C3=A9 lors de la d=C3=A9m=
+onstration sur les API du jeudi 17/11. Il contient l'ensemble des requ=C3=
+=AAtes utilis=C3=A9es.
+
+Rappel : Les requ=C3=AAtes de ce fichier utilisent une version encore insta=
+ble de l'API puisque la d=C3=A9monstration a eu lieu avant la fin de l'it=
+=C3=A9ration.
+Des corrections sont en cours sur quelques =C3=A9l=C3=A9ments mais l'=C3=A9=
+cart est marginal (nom d'argument pr=C3=A9fix=C3=A9 par "#" et non "_"...).
+
+Cdt,
+
+Emmanuel Laborde
+
+=20
+
+=20
+
+Le 2016-11-21 12:24, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09Bonjour Emmanuel,
+
+=09=20
+
+=09Comme convenu en r=C3=A9union,  serait-il possible de disposer, cette se=
+maine, des fichiers et exemples pr=C3=A9sent=C3=A9s jeudi dernier lors de l=
+a d=C3=A9monstration API VITAM, pour nous permettre de pr=C3=A9parer les te=
+sts d=E2=80=99ici la livraison de la TRA VITAM ?
+
+=09=20
+
+=09D=E2=80=99avance, merci,
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Adjoint au chef du bureau des technologies d=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+------=_Part_518_17478893.1517006388310
+Content-Type: multipart/related; 
+	boundary="----=_Part_519_4411683.1517006388310"
+
+------=_Part_519_4411683.1517006388310
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>&nbsp;</p>
+<p>Bonjour,</p>
+<p>Vous trouverez ci joint le fichier postman utilis=C3=A9 lors de la d=C3=
+=A9monstration sur les API du jeudi 17/11. Il contient l'ensemble des requ=
+=C3=AAtes utilis=C3=A9es.</p>
+<p>Rappel : Les requ=C3=AAtes de ce fichier utilisent une version encore in=
+stable de l'API puisque la d=C3=A9monstration a eu lieu avant la fin de l'i=
+t=C3=A9ration.<br>Des corrections sont en cours sur quelques =C3=A9l=C3=A9m=
+ents mais l'=C3=A9cart est marginal (nom d'argument pr=C3=A9fix=C3=A9 par &=
+quot;#&quot; et non &quot;_&quot;...).</p>
+<p>Cdt,</p>
+<p>Emmanuel Laborde</p>
+<p>&nbsp;</p>
+<div>&nbsp;</div>
+<p>Le 2016-11-21 12:24, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Bonjour Emmanuel,<!-=
+- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">Comme convenu en r=
+=C3=A9union, &nbsp;serait-il possible de disposer, cette semaine, des fichi=
+ers et exemples pr=C3=A9sent=C3=A9s jeudi dernier lors de la d=C3=A9monstra=
+tion API VITAM, pour nous permettre de pr=C3=A9parer les tests d=E2=80=99ic=
+i la livraison de la TRA VITAM&nbsp;?<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;">D=E2=80=99avance, me=
+rci,<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: #1f497d;"><!-- o ignored -->&n=
+bsp;</span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Cordialement,<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Thierry CASIMIRIUS<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Adjoint au chef du bureau des technologies d=E2=80=99information<!-- o =
+ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">Service historique de la D=C3=A9fense<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"color: black; mso-fareast-language: F=
+R;">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o ignored --></span></p>
+</div>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+</div>
+</blockquote>
+</body></html>
+------=_Part_519_4411683.1517006388310
+Content-Type: text/plain; name=Vitam.postman_collection17-11-2016.json; 
+	charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Content-ID: <8DFD1D3D4497B945B7435C13922C4F86@DR-RES.INTRADEF.GOUV.FR>
+Content-Disposition: inline; filename="Vitam.postman_collection17-11-2016.json"
+
+{
+=09"variables": [],
+=09"info": {
+=09=09"name": "Vitam",
+=09=09"_postman_id": "77c18260-2088-672c-fda3-05c33013dd5a",
+=09=09"description": "Demo Collection",
+=09=09"schema": "https://schema.getpostman.com/json/collection/v2.0.0/colle=
+ction.json"
+=09},
+=09"item": [
+=09=09{
+=09=09=09"name": "1 - referentiel",
+=09=09=09"description": "",
+=09=09=09"item": [
+=09=09=09=09{
+=09=09=09=09=09"name": "[Rules] check CSV",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/admin-external/v1/rul=
+es",
+=09=09=09=09=09=09"method": "PUT",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/octet-stream",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": ""
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Rules] check CSV"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Formats] check XSD",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/admin-external/v1/for=
+mats",
+=09=09=09=09=09=09"method": "PUT",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/octet-stream",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": ""
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Formats] check XSD"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Rules] upload",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/admin-external/v1/rul=
+es",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/octet-stream",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": ""
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Rules] upload"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Formats] upload",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/admin-external/v1/for=
+mats",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/octet-stream",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": ""
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Formats] upload"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Formats]  all",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/admin-external/v1/for=
+mats",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [],\n  \"$=
+filter\": {},\n  \"$projection\": {}\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Formats]  all"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Rules] all",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/admin-external/v1/rul=
+es",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [],\n  \"$=
+filter\": {},\n  \"$projection\": {}\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Rules] all"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Rules] details",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/admin-external/v1/rul=
+es/APP-00001",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": ""
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Rules] details"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Formats] details",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/admin-external/v1/for=
+mats/aeaaaaaaaaaam7mxabst4akynsr2feaaaaaq",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": ""
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Formats] details"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09}
+=09=09=09]
+=09=09},
+=09=09{
+=09=09=09"name": "2 - ingest",
+=09=09=09"description": "",
+=09=09=09"item": [
+=09=09=09=09{
+=09=09=09=09=09"name": "Status",
+=09=09=09=09=09"event": [
+=09=09=09=09=09=09{
+=09=09=09=09=09=09=09"listen": "test",
+=09=09=09=09=09=09=09"script": {
+=09=09=09=09=09=09=09=09"type": "text/javascript",
+=09=09=09=09=09=09=09=09"exec": [
+=09=09=09=09=09=09=09=09=09"tests[\"Status code is 204\"] =3D responseCode.=
+code =3D=3D=3D 204;"
+=09=09=09=09=09=09=09=09]
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09}
+=09=09=09=09=09],
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8443/ingest-external/v1/st=
+atus",
+=09=09=09=09=09=09"method": "GET",
+=09=09=09=09=09=09"header": [],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "formdata",
+=09=09=09=09=09=09=09"formdata": []
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "This endpoint allows one to instruct the =
+server which status code to respond with.\n"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "Admin Status",
+=09=09=09=09=09"event": [
+=09=09=09=09=09=09{
+=09=09=09=09=09=09=09"listen": "test",
+=09=09=09=09=09=09=09"script": {
+=09=09=09=09=09=09=09=09"type": "text/javascript",
+=09=09=09=09=09=09=09=09"exec": [
+=09=09=09=09=09=09=09=09=09"tests[\"Status code is 200\"] =3D responseCode.=
+code =3D=3D=3D 200;"
+=09=09=09=09=09=09=09=09]
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09}
+=09=09=09=09=09],
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8443/admin/v1/status",
+=09=09=09=09=09=09"method": "GET",
+=09=09=09=09=09=09"header": [],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "formdata",
+=09=09=09=09=09=09=09"formdata": []
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "This endpoint allows one to instruct the =
+server which status code to respond with.\n"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "Upload",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8443/ingest-external/v1/in=
+gests",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/xml",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": ""
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "Upload\n"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09}
+=09=09=09]
+=09=09},
+=09=09{
+=09=09=09"name": "3 - logbook",
+=09=09=09"description": "",
+=09=09=09"item": [
+=09=09=09=09{
+=09=09=09=09=09"name": "[Operation] ingest",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/op=
+erations",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n=
+        \"$eq\": {\n          \"evTypeProc\": \"INGEST\"\n        }\n      =
+}\n    ]\n  },\n  \"$filter\": {\n    \"$orderby\": {\n      \"evDateTime\"=
+: -1\n    }\n  },\n  \"$projection\": {}\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Operation] ingest"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Operation] ingest detail",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/op=
+erations/aedqaaaaacaam7mxabruiakymndz7xiaaaaq",
+=09=09=09=09=09=09"method": "GET",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n=
+        \"$eq\": {\n          \"evTypeProc\": \"INGEST\"\n        }\n      =
+},\n      {\n        \"$eq\": {\n          \"events.obIdIn\": \"aedqaaaaaca=
+am7mxabruiakymndz7xiaaaaq\"\n        }\n      }\n    ]\n  },\n  \"$filter\"=
+: {\n    \"$orderby\": {\n      \"evDateTime\": -1\n    }\n  },\n  \"$proje=
+ction\": {}\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Operation] ingest detail"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Operation] ingest detail",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/op=
+erations/aedqaaaaacaam7mxabruiakymndz7xiaaaaq",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": ""
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Operation] ingest detail"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[LifeCycle] detail unitlifecycles",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+itlifecycles/aeaaaaaaaaaam7mxabkaiakymnd35byaaaaq",
+=09=09=09=09=09=09"method": "GET",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n=
+        \"$eq\": {\n          \"evTypeProc\": \"INGEST\"\n        }\n      =
+},\n      {\n        \"$eq\": {\n          \"events.obIdIn\": \"aedqaaaaaca=
+am7mxabruiakymndz7xiaaaaq\"\n        }\n      }\n    ]\n  },\n  \"$filter\"=
+: {\n    \"$orderby\": {\n      \"evDateTime\": -1\n    }\n  },\n  \"$proje=
+ction\": {}\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[LifeCycle] detail unitlifecycles"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[LifeCycle] detail objectgrouplifecycles",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/ob=
+jectgrouplifecycles/aeaaaaaaaaaam7mxab3tyakynssytsqaaaba",
+=09=09=09=09=09=09"method": "GET",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n=
+        \"$eq\": {\n          \"evTypeProc\": \"INGEST\"\n        }\n      =
+},\n      {\n        \"$eq\": {\n          \"events.obIdIn\": \"aedqaaaaaca=
+am7mxabruiakymndz7xiaaaaq\"\n        }\n      }\n    ]\n  },\n  \"$filter\"=
+: {\n    \"$orderby\": {\n      \"evDateTime\": -1\n    }\n  },\n  \"$proje=
+ction\": {}\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[LifeCycle] detail objectgrouplifecycles"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09}
+=09=09=09]
+=09=09},
+=09=09{
+=09=09=09"name": "4 - access",
+=09=09=09"description": "",
+=09=09=09"item": [
+=09=09=09=09{
+=09=09=09=09=09"name": "Status",
+=09=09=09=09=09"event": [
+=09=09=09=09=09=09{
+=09=09=09=09=09=09=09"listen": "test",
+=09=09=09=09=09=09=09"script": {
+=09=09=09=09=09=09=09=09"type": "text/javascript",
+=09=09=09=09=09=09=09=09"exec": [
+=09=09=09=09=09=09=09=09=09"tests[\"Status code is 204\"] =3D responseCode.=
+code =3D=3D=3D 204;"
+=09=09=09=09=09=09=09=09]
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09}
+=09=09=09=09=09],
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/st=
+atus",
+=09=09=09=09=09=09"method": "GET",
+=09=09=09=09=09=09"header": [],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "formdata",
+=09=09=09=09=09=09=09"formdata": []
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "This endpoint allows one to instruct the =
+server which status code to respond with.\n"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "Admin Status",
+=09=09=09=09=09"event": [
+=09=09=09=09=09=09{
+=09=09=09=09=09=09=09"listen": "test",
+=09=09=09=09=09=09=09"script": {
+=09=09=09=09=09=09=09=09"type": "text/javascript",
+=09=09=09=09=09=09=09=09"exec": [
+=09=09=09=09=09=09=09=09=09"tests[\"Status code is 200\"] =3D responseCode.=
+code =3D=3D=3D 200;"
+=09=09=09=09=09=09=09=09]
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09}
+=09=09=09=09=09],
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/admin/v1/status",
+=09=09=09=09=09=09"method": "GET",
+=09=09=09=09=09=09"header": [],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "formdata",
+=09=09=09=09=09=09=09"formdata": []
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "This endpoint allows one to instruct the =
+server which status code to respond with.\n"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit ] search by title OR description",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n=
+      \"$or\": [\n        {\n          \"$match\": {\n            \"Title\"=
+: \"api\"\n          }\n        },\n        {\n          \"$match\": {\n   =
+         \"Description\": \"Vitam\"\n          }\n        }\n      ],\n    =
+  \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n     =
+ \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\":=
+ {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n =
+     \"#object\": 1\n    }\n  }\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit ] search by title OR description"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit ] search by title",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n=
+      \"$and\": [\n        {\n          \"$match\": {\n            \"Title\=
+": \"api\"\n          }\n        }\n      ],\n      \"$depth\": 20\n    }\n=
+  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n =
+   }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"TransactedDat=
+e\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\": 1\n    =
+}\n  }\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit ] search by title"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit ] search by description",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n=
+      \"$and\": [\n        {\n          \"$match\": {\n            \"Descri=
+ption\": \"Vitam\"\n          }\n        }\n      ],\n      \"$depth\": 20\=
+n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate=
+\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n      \"Trans=
+actedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#object\":=
+ 1\n    }\n  }\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit ] search by description"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit ] search by date",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n=
+          \"$or\": [\n            {\n              \"$and\": [\n           =
+     {\n                  \"$gte\": {\n                    \"TransactedDate=
+\": \"2016-04-09T23:00:00.000Z\"\n                  }\n                },\n=
+                {\n                  \"$lte\": {\n                    \"Tra=
+nsactedDate\": \"2017-04-16T22:59:59.000Z\"\n                  }\n         =
+       }\n              ]\n            },\n            {\n              \"$=
+and\": [\n                {\n                  \"$gte\": {\n               =
+     \"EndDate\": \"2016-04-09T23:00:00.000Z\"\n                  }\n      =
+          },\n                {\n                  \"$lte\": {\n           =
+         \"StartDate\": \"2017-04-16T22:59:59.000Z\"\n                  }\n=
+                }\n              ]\n            }\n\n      ],\n      \"$dep=
+th\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n      \"Trans=
+actedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\": {\n    =
+  \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n      \"#=
+object\": 1\n    }\n  }\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit ] search by date"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit ] search by title AND description",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n=
+      \"$and\": [\n        {\n          \"$match\": {\n            \"Title\=
+": \"api\"\n          }\n        },\n        {\n          \"$match\": {\n  =
+          \"Description\": \"Vitam\"\n          }\n        }\n      ],\n   =
+   \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n    =
+  \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields\"=
+: {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,\n=
+      \"#object\": 1\n    }\n  }\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit ] search by title AND description"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit ] search by title AND description AND date",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n=
+      \"$and\": [\n        {\n          \"$match\": {\n            \"Title\=
+": \"api\"\n          }\n        },\n        {\n          \"$match\": {\n  =
+          \"Description\": \"Vitam\"\n          }\n        },\n        {\n =
+         \"$or\": [\n            {\n              \"$and\": [\n            =
+    {\n                  \"$gte\": {\n                    \"TransactedDate\=
+": \"2016-11-09T23:00:00.000Z\"\n                  }\n                },\n =
+               {\n                  \"$lte\": {\n                    \"Tran=
+sactedDate\": \"2016-11-16T22:59:59.000Z\"\n                  }\n          =
+      }\n              ]\n            },\n            {\n              \"$a=
+nd\": [\n                {\n                  \"$gte\": {\n                =
+    \"EndDate\": \"2016-11-09T23:00:00.000Z\"\n                  }\n       =
+         },\n                {\n                  \"$lte\": {\n            =
+        \"StartDate\": \"2016-11-16T22:59:59.000Z\"\n                  }\n =
+               }\n              ]\n            }\n          ]\n        }\n =
+     ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderb=
+y\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n   =
+ \"$fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"T=
+itle\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit ] search by title AND description A=
+ND date"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit] search by Id",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n=
+      \"$and\": [\n        {\n          \"$eq\": {\n            \"#id\": \"=
+aeaaaaaaaaaam7mxabkaiakymnd35byaaaaq\"\n          }\n        }\n      ],\n =
+     \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\": {\n  =
+    \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$fields=
+\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title\": 1,=
+\n      \"#object\": 1\n    }\n  }\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit] search by Id"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit] detail",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its/aeaaaaaaaaaam7mxab3tyakynssytziaaaba",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n  ],\n =
+ \"$filter\": {\n    \"$orderby\": {\n      \"TransactedDate\": 1\n    }\n =
+ },\n  \"$projection\": {}\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit] detail\n"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit] download",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its/aeaaaaaaaaaam7mxab3tyakynssytsqaaaba/object ",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/octet-stream",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Qualifier",
+=09=09=09=09=09=09=09=09"value": "TextContent",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Version",
+=09=09=09=09=09=09=09=09"value": "0",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [],\n  \"$=
+filter\": {},\n  \"$projection\": {}\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit] download"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit] update",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its/aeaaaaaaaaaam7mxab3tyakynssytziaaaba",
+=09=09=09=09=09=09"method": "PUT",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [\n    \"aeaaaaaaaaaam7mxab3t=
+yakynssytziaaaba\"\n  ],\n  \"$query\": [],\n  \"$filter\": {\n    \"$order=
+by\": {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$action\": [\n    {\=
+n      \"$set\": {\n        \"Title\": \"Demo vitam jeudi\"\n      }\n    }=
+\n  ]\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit] update"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[Unit ] search by ArchivalAgencyArchiveUnitIdentifi=
+er",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/un=
+its",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$roots\": [],\n  \"$query\": [\n    {\n=
+      \"$and\": [\n        {\n          \"$eq\": {\n            \"ArchivalA=
+gencyArchiveUnitIdentifier\": \"20130456/3\"\n          }\n        }\n     =
+ ],\n      \"$depth\": 20\n    }\n  ],\n  \"$filter\": {\n    \"$orderby\":=
+ {\n      \"TransactedDate\": 1\n    }\n  },\n  \"$projection\": {\n    \"$=
+fields\": {\n      \"TransactedDate\": 1,\n      \"#id\": 1,\n      \"Title=
+\": 1,\n      \"#object\": 1\n    }\n  }\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[Unit ] search by ArchivalAgencyArchiveUn=
+itIdentifier"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09}
+=09=09=09]
+=09=09},
+=09=09{
+=09=09=09"name": "5 - accession register",
+=09=09=09"description": "5 accession register",
+=09=09=09"item": [
+=09=09=09=09{
+=09=09=09=09=09"name": "[accession-register] all",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/ac=
+cession-register",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n=
+        \"$exists\": \"OriginatingAgency\"\n      }\n    ]\n  },\n  \"$filt=
+er\": {\n    \"$orderby\": {\n      \"OriginatingAgency\": 1\n    }\n  },\n=
+  \"$projection\": {}\n}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[accession-register] all"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[accession-register] summary",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/ac=
+cession-register",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "{\n  \"$query\": {\n    \"$and\": [\n      {\n=
+        \"$eq\": {\n          \"OriginatingAgency\": \"FRAN_NP_005568\"\n  =
+      }\n      }\n    ]\n  },\n  \"$filter\": {},\n  \"$projection\": {}\n}=
+"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[accession-register] summary"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09},
+=09=09=09=09{
+=09=09=09=09=09"name": "[accession-register] detail",
+=09=09=09=09=09"request": {
+=09=09=09=09=09=09"url": "https://143.126.93.169:8444/access-external/v1/ac=
+cession-register/FRAN_NP_005568/accession-register-detail",
+=09=09=09=09=09=09"method": "POST",
+=09=09=09=09=09=09"header": [
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Accept",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "Content-Type",
+=09=09=09=09=09=09=09=09"value": "application/json",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09},
+=09=09=09=09=09=09=09{
+=09=09=09=09=09=09=09=09"key": "X-Http-Method-Override",
+=09=09=09=09=09=09=09=09"value": "GET",
+=09=09=09=09=09=09=09=09"description": ""
+=09=09=09=09=09=09=09}
+=09=09=09=09=09=09],
+=09=09=09=09=09=09"body": {
+=09=09=09=09=09=09=09"mode": "raw",
+=09=09=09=09=09=09=09"raw": "\n{\"$query\":{\"$and\":[{\"$eq\":{\"Originati=
+ngAgency\":\"FRAN_NP_005568\"}}]},\"$filter\":{},\"$projection\":{}}"
+=09=09=09=09=09=09},
+=09=09=09=09=09=09"description": "[accession-register] detail"
+=09=09=09=09=09},
+=09=09=09=09=09"response": []
+=09=09=09=09}
+=09=09=09]
+=09=09}
+=09]
+}
+
+------=_Part_519_4411683.1517006388310--
+
+------=_Part_518_17478893.1517006388310--
+
+------=_Part_517_9183044.1517006388310--

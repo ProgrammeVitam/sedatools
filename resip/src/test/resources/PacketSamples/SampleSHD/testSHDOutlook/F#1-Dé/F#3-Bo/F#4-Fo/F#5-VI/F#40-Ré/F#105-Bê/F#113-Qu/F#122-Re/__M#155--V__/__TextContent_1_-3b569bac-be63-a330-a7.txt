@@ -1,0 +1,39 @@
+Bonjour,
+
+Comme convenu la Bêta vous est mise à disposition ce mardi 29 novembre. 
+Voici quelques éléments supplémentaires.
+
+Éléments mis à disposition
+* Documentation de la version bêta : https://vitam.jaliosagora.com/jcms/c_2005491/fr/chantier-livraison-de-la-version-beta
+* Livrables "binaires": https://support.programmevitam.fr/releases/0.1.0/ (pour obtenir l'accès voir à la fin)
+Jours de support
+* Vous disposez de 4.5 J de support sur site pour un accompagnement à l'installation de la bêta Vitam (0.5 J a été utilisé pour la réunion de présentation 17/10)
+* Ces jours sont par ministères donc pouvant être utilisé aussi bien côté ministère que côté production informatique/exploitation
+* Pour des raisons logistiques, pouvez-vous nous indiquer la localisation des sites sur lequel la prestation de support devra être effectuée
+* Pour se coordonner entre les 3 ministères, nous allons mettre en place un tableau qui synthétisera les interventions chez chacun des prestataires (adresse communiquée une fois le tableau construit)
+Ressources de support
+* Un bugtracker est mis à disposition des ministères porteurs et partenaires . Celui-ci est disponible à l'adresse https://support.programmevitam.fr
+* Il s'agit d'un bugtracker commun à tous les ministères (avec visibilité des bugs/évolutions de tous les ministères)
+* Chaque ministère peut avoir de l'ordre de 3 contacts pour accès à ces ressources de support . Pour chacun de ces contacts, merci de fournir en réponse à ce mail les nom, prénom , adresse mail et numéro de téléphone
+* Une fois le compte crée, le mot de passe vous sera fourni par téléphone (soit par appel de notre part au numéro fourni, soit par appel de votre appel au numéro de téléphone du support vitam : 01 86 69 60 27)
+
+Bien cordialement
+
+-- 
+
+
+ 
+
+Jean-Séverin LAIR
+Directeur de programme/Program head manager
+Programme Vitam
+Services du Premier Ministre, SGMAP - DINSIC
+47 rue de la chapelle, 75018 Paris
+jean-severin.lair@culture.gouv.fr <mailto:jean-severin.lair@culture.gouv.fr> 
+Le programme est hébergé par les moyens informatiques du MCC
+Suivez-nous sur Twitter @ProgVitam <https://twitter.com/progvitam> 
+
+
+
+--
+Message envoyé grâce à OBM <http://obm.org> , la Communication Libre par Linagora <http://www.linagora.com/>

@@ -1,0 +1,35 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>pt bureaux DGACOMM</Title>
+    <OriginatingSystemId>&lt;OFCD7D56CB.A6693FDE-ONC1257B7A.004EEA14-C1257B7A.004EFC9F@LocalDomain&gt;</OriginatingSystemId>
+    <Description>Rendez-vous</Description>
+    <Writer>
+        <FirstName>CHANGRENIER Diana ICT III A</FirstName>
+        <BirthName>CHANGRENIER Diana ICT III A</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=diana.changrenier.dga.defense.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CHANGRENIER Diana ICT III A</FirstName>
+        <BirthName>CHANGRENIER Diana ICT III A</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=diana.changrenier.dga.defense.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry IDEF MINDEF</FirstName>
+        <BirthName>CASIMIRIUS Thierry IDEF MINDEF</BirthName>
+        <Identifier>/o=INTRADEF/ou=Exchange Administrative Group (FYDIBOHF23SPDLT)/cn=Recipients/cn=thierry.casimiriusf3bf6874</Identifier>
+    </Addressee>
+    <SentDate>2013-05-29T14:22:44Z</SentDate>
+    <ReceivedDate>2013-05-29T14:22:48Z</ReceivedDate>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Début</EventType>
+        <EventDateTime>2013-05-31T12:30:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+    <Event>
+        <EventIdentifier>[IDVide]</EventIdentifier>
+        <EventType>RDV Fin</EventType>
+        <EventDateTime>2013-05-31T13:00:00Z</EventDateTime>
+        <EventDetail>Localisation : [LocalisationVide]</EventDetail>
+    </Event>
+</Content>

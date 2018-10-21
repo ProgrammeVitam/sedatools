@@ -1,0 +1,752 @@
+Return-Path: emmanuel.laborde@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur03.culture.fr with ESMTP id uBGAxpTf015553;	Fri, 16 Dec 2016
+ 11:59:51 +0100
+Date: Fri, 16 Dec 2016 11:59:51 +0100 (CET)
+From: emmanuel.laborde <emmanuel.laborde@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+CC: WALTZER Kristopher <kristopher.waltzer@thalesgroup.com>,
+	DANYACH-DESCHAMPS Myriam <myriam.danyach-deschamps@intradef.gouv.fr>,AJJAZ Franck (franck.ajjaz@altran.com) <franck.ajjaz@altran.com>,
+	BEL Nicolas <nicolas.bel@intradef.gouv.fr>,MORENO Mario <mario.moreno@intradef.gouv.fr>,
+	=?UTF-8?Q?jean-s=C3=A9verin_LAIR_(jean-severin.lair@culture?= =?UTF-8?Q?.gouv.fr)_<jean-severin.lair@culture.gouv.fr>?=
+Message-ID: <d06a069e5d4c2bce08597d59ffcf6155@culture.gouv.fr>
+In-Reply-To: <BD292097C8AEFE49AF7A7C373C29524D3007253E@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+References:  <BD292097C8AEFE49AF7A7C373C29524D3007253E@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+Subject: =?UTF-8?Q?RE:_TR:_VITAM_B=C3=AAta_:_Pb_de_certifi?=
+ =?UTF-8?Q?cat_=3F_Atelier_d'=C3=A9change_demand=C3=A9.-_?=
+ =?UTF-8?Q?Ok_pour_le_point_du_16_-_Assitance?=
+ =?UTF-8?Q?_de_l'=C3=A9quipe_d'int=C3=A9gration_demand=C3=A9e?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_199_23687558.1517006383569"
+X-Proofpoint-Sentinel:  stfsU2FsdGVkX18zJ09uOHvC3B8/aII3Z7dwf7skiaFyUl0xBzyK21hWL+PI
+ oiBFDRZyHGrY3j7SizdHky9eiAzgLeV71pyz4IIYz9mzxJZfRrHqnmh1rJqgXqdC/FU+1ybE
+X-Sender:  emmanuel.laborde@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8380 signatures=670783
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1296100;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource:  MVLINF10CTNWM08.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_199_23687558.1517006383569
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_200_25392158.1517006383569"
+
+------=_Part_200_25392158.1517006383569
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour Thierry,
+
+Ok pour le point t=C3=A9l=C3=A9phonique =C3=A0 14h30. L'objet sera d'=C3=A9=
+changer sur vos bug prioritaires (pb d'acc=C3=A8s =C3=A0 l'API d'ingest en =
+particulier) et sur les processus de qualification des bug et de suivi car,=
+ visiblement, ils ne sont pas utilis=C3=A9s de mani=C3=A8re optimal (nous a=
+urons quelques propositions d'am=C3=A9lioration).
+
+Concernant les points suivants "Sinon non, nous n=E2=80=99avions pas contac=
+t=C3=A9 l=E2=80=99=C3=A9quipe d=E2=80=99int=C3=A9gration. Mais n=E2=80=99es=
+-tu pas notre interlocuteur POC VITAM pour la recette ?  Comment faire pour=
+ b=C3=A9n=C3=A9ficier de quelques heures d=E2=80=99assistance de la part de=
+ l=E2=80=99=C3=A9quipe d=E2=80=99int=C3=A9gration ?"
+
+Oui je suis votre POC vitam mais cela ne doit pas vous emp=C3=AAcher d'util=
+iser le service de support de niveau 1. La logique veux que j'intervienne s=
+ur les sujets "en souffrance" (critique et/ou qui n'avance pas de mani=C3=
+=A8re satisfaisante). Je m=E2=80=99appuie =C3=A9galement sur les =C3=A9quip=
+es support et cela pose un probl=C3=A8me si elles n'ont pas une bonne conna=
+issance des probl=C3=A8mes que vous rencontrez ou de leur urgence.
+
+Si vous avez besoin d'un support renforc=C3=A9 sur site, vous pouvez utilis=
+er les jours de support pr=C3=A9vus =C3=A0 cet effet. Dans le cadre du trai=
+tement d'un bug, cela peut s'envisager =C3=A9galement, mais cela doit =C3=
+=AAtre qualifi=C3=A9. Nous ferons le point avec vous =C3=A0 14h30 pour voir=
+ si cela est n=C3=A9cessaire sur les bugs actuellement d=C3=A9clar=C3=A9s.
+
+Concernant la question sur les requ=C3=AAtes j'ai d=C3=A9j=C3=A0 r=C3=A9pon=
+du, donc nous =C3=A9claircirons votre question =C3=A0 14h30.
+
+Cdt,
+
+Emmanuel Laborde
+
+=20
+
+Le 2016-12-15 19:09, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09Bonsoir Emmanuel,
+
+=09=20
+
+=09Tout d=E2=80=99abord, merci. Le point t=C3=A9l=C3=A9phonique est possibl=
+e demain apr=C3=A8s-midi =C3=A0 14h30, =C3=A0 moins que vous puissiez vous =
+d=C3=A9placer chez Altran pour le diagnostic ?
+
+=09Si c=E2=80=99est un point t=C3=A9l=C3=A9phonique, nous t=E2=80=99appelle=
+rons sur ton mobile ou autre ligne =C3=A0 pr=C3=A9ciser.
+
+=09=20
+
+=09Je viens de d=C3=A9poser une anomalie sur Tuleap pour le probl=C3=A8me d=
+u certificat serveur qui pourrait poser probl=C3=A8me.
+
+=09Un ticket a d=C3=A9j=C3=A0 =C3=A9t=C3=A9 d=C3=A9pos=C3=A9 cette semaine =
+sur tuleap (id 19 Tuleap =E2=80=93 et 10 pour altran) pour souligner la dif=
+f=C3=A9rence de comportement entre les r=C3=A9sultats d=E2=80=99appel =C3=
+=A0 l=E2=80=99API Ingest et par l=E2=80=99IHM.
+
+=09Cela avait fait l=E2=80=99objet d=E2=80=99un mail transmis la semaine de=
+rni=C3=A8re (=C2=AB ArchiveTransferReply =C2=BB avec ReplyCode=3DKO, via SO=
+AP UI, alors qu'il est OK via IHM !)
+
+=09Je confirme que l=E2=80=99IHM ne pose pas de probl=C3=A8me, mais seuleme=
+nt l=E2=80=99appel de l=E2=80=99API ingest.
+
+=09=20
+
+=09Sinon non, nous n=E2=80=99avions pas contact=C3=A9 l=E2=80=99=C3=A9quipe=
+ d=E2=80=99int=C3=A9gration. Mais n=E2=80=99es-tu pas notre interlocuteur P=
+OC VITAM pour la recette ?=20
+
+=09Comment faire pour b=C3=A9n=C3=A9ficier de quelques heures d=E2=80=99ass=
+istance de la part de l=E2=80=99=C3=A9quipe d=E2=80=99int=C3=A9gration ?
+
+=09=20
+
+=09Enfin, pour les exemples de requ=C3=AAtes, pour tester =C2=AB manuelleme=
+nt =C2=BB, comment faites-vous si vous n=E2=80=99utilisez pas des requ=C3=
+=AAtes =C3=A9prouv=C3=A9es ?
+
+=09=20
+
+=09A demain.=20
+
+=09=20
+
+=09Cordialement,
+
+=09=20
+
+=09Thierry CASIMIRIUS
+
+=09Chef du bureau des technologies de l=E2=80=99information
+
+=09Service historique de la D=C3=A9fense
+
+=09SGA/DMPA/SHD/PPST/BTI
+
+=09T=C3=A9l : 01 41 93 20 45
+
+=09=20
+
+=09De : emmanuel.laborde [mailto:emmanuel.laborde@culture.gouv.fr]=20
+=09Envoy=C3=A9 : jeudi 15 d=C3=A9cembre 2016 18:20
+=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09Cc : DANYACH-DESCHAMPS Myriam ASC; AJJAZ Franck (franck.ajjaz@altran.com=
+); BEL Nicolas ASC NIV I OA; MORENO Mario ASC; jean-s=C3=A9verin LAIR (jean=
+-severin.lair@culture.gouv.fr); WALTZER Kristopher
+=09Objet : Re: TR: VITAM B=C3=AAta : Demande de documentation compl=C3=A9me=
+ntaire DSL et API - Atelier d'=C3=A9change demand=C3=A9.
+
+=09=20
+
+=09=20
+
+=09Bonjour Thierry,
+
+=091- Est-il possible de  r=C3=A9cup=C3=A9rer plus d=E2=80=99 exemples de r=
+equ=C3=AAtes ?
+
+=09Non, nous n'avons pas cr=C3=A9=C3=A9 de nouvelles requ=C3=AAtes "acc=C3=
+=A8s" car celles que nous vous avons communiqu=C3=A9es sont repr=C3=A9senta=
+tives de l'ensemble du p=C3=A9rim=C3=A8tre et pour le reste nous testons ma=
+nuellement ou via les IHM.=20
+
+=092- D=E2=80=99autre part, nous sommes toujours bloqu=C3=A9s sur le param=
+=C3=A9trage de  l=E2=80=99Ingest par API.=20
+
+=09Pour ma part j'ai sollicit=C3=A9 l'=C3=A9quipe de d=C3=A9veloppement qui=
+ =C3=A0 fait la d=C3=A9monstration sur POSTMAN pensant que c'=C3=A9tait la =
+votre probl=C3=A8me. Il semble s'agir d'un probl=C3=A8me de certificat.
+
+=09Vous confirmez bien que vous n=E2=80=99arrivez pas =C3=A0 acc=C3=A9der =
+=C3=A0 l'ingest (ni depuis l'IHM VITAM ni par votre SOAP UI, ni par POSTMAN=
+) ?
+
+=09Si c'est le cas, cela peut =C3=AAtre li=C3=A9 =C3=A0 un probl=C3=A8me d'=
+installation du certificat serveur. Avez vous ouvert un ticket (Bug) sur le=
+ Tuleap =C3=A0 ce sujet ? Vu le probl=C3=A8me vous pouvez le qualifier de c=
+ritique. Notre premier niveau est l'=C3=A9quipe d'int=C3=A9gration. Avez vo=
+us pris contacte avec eux =C3=A0 ce sujet ?
+
+=09Si vous arrivez =C3=A0 faire des ingest depuis l'IHM VITAM, il faut quan=
+d m=C3=AAme v=C3=A9rifier les aspects certificat serveur (avec l'=C3=A9quip=
+e d=E2=80=99int=C3=A9gration).
+
+=093) Enfin serait-il possible d=E2=80=99organiser tous les deux jours un =
+=C3=A9change (1/2 environ) entre VITAM, SHD et Altran ?
+
+=09Oui c'est possible pour traiter les probl=C3=A8mes Critiques / bloquants=
+. Cela ne doit pas devenir un contournement des processus qui ont =C3=A9t=
+=C3=A9 valid=C3=A9s pour la gestion courante (ouverture et =C3=A9changes d'=
+informations pour la qualification des bugs "courant"...).
+
+=09Je vous propose un premier point vendredi 16, =C3=A0 11h ou 14h30.
+
+=09Cdt,
+
+=09Emmanuel Laborde
+
+=09=20
+
+=09=20
+
+=09Le 2016-12-15 17:06, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09=09Bonjour Emmanuel,
+
+=09=09=20
+
+=09=09Je me permets de revenir vers toi car nous (Altran & SHD) avons vraim=
+ent besoin d=E2=80=99=C3=A9changer avec vous autour des API :
+
+=09=09=20
+
+=09=091- Est-il possible de  r=C3=A9cup=C3=A9rer plus d=E2=80=99 exemples d=
+e requ=C3=AAtes ?
+
+=09=09Vous avez d=C3=BB en faire pendant  vos tests. A d=C3=A9faut d=E2=80=
+=99explication en pr=C3=A9sentiel dans un premier temps, disposer d=E2=80=
+=99exemples serait d=C3=A9j=C3=A0 un plus.
+
+=09=09Cela pourrait nous faire gagner du temps lors d=E2=80=99analyse en ca=
+s de probl=C3=A8me car nous ( Altran) serions s=C3=BBrs des syntaxes =C3=A0=
+ utiliser.
+
+=09=09=20
+
+=09=092- D=E2=80=99autre part, nous sommes toujours bloqu=C3=A9s sur le par=
+am=C3=A9trage de  l=E2=80=99Ingest par API.=20
+
+=09=09Ne pouvons-nous pas utiliser les jours d=E2=80=99assistance ?=20
+
+=09=09Le  probl=C3=A8me n=E2=80=99est pas SOAPUI puisque nous (Altran)  arr=
+ivons =C3=A0 joindre l=E2=80=99API access et =C3=A0 faire des recherches et=
+ des modifications sur certaines balises.
+
+=09=09Le probl=C3=A8me est que l=E2=80=99appel =C3=A0 l=E2=80=99ingest ne f=
+onctionne pas avec le param=C3=A9trage qui est document=C3=A9 ou qui a =C3=
+=A9t=C3=A9 communiqu=C3=A9 lors de la derni=C3=A8re r=C3=A9union API ni ave=
+c beaucoup d=E2=80=99autres qui ont =C3=A9t=C3=A9 essay=C3=A9.
+
+=09=09=20
+
+=09=093) Enfin serait-il possible d=E2=80=99organiser tous les deux jours u=
+n =C3=A9change (1/2 environ) entre VITAM, SHD et Altran ?
+
+=09=09Il faudrait que nous puissions =C3=A9changer r=C3=A9guli=C3=A8rement =
+directement entre nous .=20
+
+=09=09=20
+
+=09=09=20
+
+=09=09D=E2=80=99avance, merci pour ton intervention, mais sache que nous av=
+ons vraiment besoin d=E2=80=99=C3=A9changer avec vous, pour avancer sur les=
+ API dans le cadre cette TRA.
+
+=09=09L=E2=80=99id=C3=A9al serait que cet atelier ait lieu en d=C3=A9but de=
+ semaine prochaine.
+
+=09=09=20
+
+=09=09Cordialement,
+
+=09=09=20
+
+=09=09Thierry CASIMIRIUS
+
+=09=09Chef du bureau des technologies de l=E2=80=99information
+
+=09=09Service historique de la D=C3=A9fense
+
+=09=09SGA/DMPA/SHD/PPST/BTI
+
+=09=09T=C3=A9l : 01 41 93 20 45
+
+=09=09=20
+
+=09=09=20
+
+=09=09De : CASIMIRIUS Thierry [mailto:thierry.casimirius@intradef.gouv.fr]=
+=20
+=09=09Envoy=C3=A9 : jeudi 8 d=C3=A9cembre 2016 15:05
+=09=09=C3=80 : emmanuel.laborde
+=09=09Cc : DANYACH-DESCHAMPS Myriam; AJJAZ Franck; BEL Nicolas; MORENO Mari=
+o
+=09=09Objet : VITAM B=C3=AAta : Demande de documentation compl=C3=A9mentair=
+e DSL et API
+
+=09=09=20
+
+=09=09Bonjour Emmanuel,
+
+=09=09=20
+
+=09=09Est-il possible de r=C3=A9cup=C3=A9rer plus d=E2=80=99exemples de req=
+u=C3=AAtes utilisant le DSL ?  Seules les requ=C3=AAtes de la d=C3=A9mo pos=
+tman sont disponibles, et nous ne savons pas si nous disposons de la derni=
+=C3=A8re version. Nous souhaiterions  avoir d=E2=80=99autres exemples de re=
+qu=C3=AAtes, dont des complexes (avec bien s=C3=BBr leur utilit=C3=A9 expli=
+qu=C3=A9e).
+
+=09=09Disposez- vous par ailleurs de plus de sp=C3=A9cifications =C2=AB d=
+=C3=A9veloppeurs =C2=BB qui permettent  d=E2=80=99avoir une id=C3=A9e plus =
+ pr=C3=A9cise de comment fonctionne la solution ? Et de documentation d=C3=
+=A9taillant plus les API, avec notamment des modes op=C3=A9ratoires, des ex=
+emples et des d=C3=A9mos ?
+
+=09=09=20
+
+=09=09Enfin, avez-vous pu =C3=A9tudier le mail transmis hier pr=C3=A9cisant=
+ nos difficult=C3=A9s d=E2=80=99utilisation de l=E2=80=99API Ingest ?=20
+
+=09=09Est-il possible de convenir d=E2=80=99un nouvel atelier sur la questi=
+on avec les =C3=A9quipes VITAM et Altran ?
+
+=09=09=20
+
+=09=09=20
+
+=09=09D=E2=80=99avance, merci pour ton intervention,
+
+=09=09=20
+
+=09=09Cordialement,
+
+=09=09=20
+
+=09=09Thierry CASIMIRIUS
+
+=09=09Chef du bureau des technologies de l=E2=80=99information
+
+=09=09Service historique de la D=C3=A9fense
+
+=09=09SGA/DMPA/SHD/PPST/BTI
+
+=09=09T=C3=A9l : 01 41 93 20 45
+------=_Part_200_25392158.1517006383569
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>&nbsp;</p>
+<p>Bonjour Thierry,</p>
+<p>Ok pour le point t=C3=A9l=C3=A9phonique =C3=A0 14h30. L'objet sera d'=C3=
+=A9changer sur vos bug prioritaires (pb d'acc=C3=A8s =C3=A0 l'API d'ingest =
+en particulier) et sur les processus de qualification des bug et de suivi c=
+ar, visiblement, ils ne sont pas utilis=C3=A9s de mani=C3=A8re optimal (nou=
+s aurons quelques propositions d'am=C3=A9lioration).</p>
+<p>Concernant les points suivants &quot;<span style=3D"font-size: 11.0pt; f=
+ont-family: 'Calibri','sans-serif'; color: #1f497d;">Sinon non, nous n=E2=
+=80=99avions pas contact=C3=A9 l=E2=80=99=C3=A9quipe d=E2=80=99int=C3=A9gra=
+tion. Mais n=E2=80=99es-tu pas notre interlocuteur POC VITAM pour la recett=
+e&nbsp;?&nbsp; <span style=3D"font-size: 11.0pt; font-family: 'Calibri','sa=
+ns-serif'; color: #1f497d;">Comment faire pour b=C3=A9n=C3=A9ficier de quel=
+ques heures d=E2=80=99assistance de la part de l=E2=80=99=C3=A9quipe d=E2=
+=80=99int=C3=A9gration&nbsp;?</span></span>&quot;</p>
+<p>Oui je suis votre POC vitam mais cela ne doit pas vous emp=C3=AAcher d'u=
+tiliser le service de support de niveau 1. La logique veux que j'intervienn=
+e sur les sujets &quot;en souffrance&quot; (critique et/ou qui n'avance pas=
+ de mani=C3=A8re satisfaisante). Je m=E2=80=99appuie =C3=A9galement sur les=
+ =C3=A9quipes support et cela pose un probl=C3=A8me si elles n'ont pas une =
+bonne connaissance des probl=C3=A8mes que vous rencontrez ou de leur urgenc=
+e.</p>
+<p>Si vous avez besoin d'un support renforc=C3=A9 sur site, vous pouvez uti=
+liser les jours de support pr=C3=A9vus =C3=A0 cet effet. Dans le cadre du t=
+raitement d'un bug, cela peut s'envisager =C3=A9galement, mais cela doit =
+=C3=AAtre qualifi=C3=A9. Nous ferons le point avec vous =C3=A0 14h30 pour v=
+oir si cela est n=C3=A9cessaire sur les bugs actuellement d=C3=A9clar=C3=A9=
+s.</p>
+<p>Concernant la question sur les requ=C3=AAtes j'ai d=C3=A9j=C3=A0 r=C3=A9=
+pondu, donc nous =C3=A9claircirons votre question =C3=A0 14h30.</p>
+<p>Cdt,</p>
+<p>Emmanuel Laborde</p>
+<div>&nbsp;</div>
+<p>Le 2016-12-15 19:09, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored --><!-- meta ignored --><!-- node type 8 --><!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Bonsoir Emmanuel,<!-- o ignored --></sp=
+an></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Tout d=E2=80=99abord, merci. Le point t=
+=C3=A9l=C3=A9phonique est possible demain apr=C3=A8s-midi =C3=A0 14h30, =C3=
+=A0 moins que vous puissiez vous d=C3=A9placer chez Altran pour le diagnost=
+ic&nbsp;?<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Si c=E2=80=99est un point t=C3=A9l=C3=
+=A9phonique, nous t=E2=80=99appellerons sur ton mobile ou autre ligne =C3=
+=A0 pr=C3=A9ciser.<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Je viens de d=C3=A9poser une anomalie s=
+ur Tuleap pour le probl=C3=A8me du certificat serveur qui pourrait poser pr=
+obl=C3=A8me.<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Un ticket a d=C3=A9j=C3=A0 =C3=A9t=C3=
+=A9 d=C3=A9pos=C3=A9 cette semaine sur tuleap (id 19 Tuleap =E2=80=93 et 10=
+ pour altran) pour souligner la diff=C3=A9rence de comportement entre les r=
+=C3=A9sultats d=E2=80=99appel =C3=A0 l=E2=80=99API Ingest et par l=E2=80=99=
+IHM.<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Cela avait fait l=E2=80=99objet d=E2=80=
+=99un mail transmis la semaine derni=C3=A8re (</span><span style=3D"font-si=
+ze: 10.0pt; font-family: 'Tahoma','sans-serif';">=C2=AB ArchiveTransferRepl=
+y =C2=BB avec ReplyCode=3DKO, via SOAP UI, alors qu'il est OK via IHM&nbsp;=
+!</span><span style=3D"font-size: 11.0pt; font-family: 'Calibri','sans-seri=
+f'; color: #1f497d;">)</span><span style=3D"font-size: 10.0pt; font-family:=
+ 'Tahoma','sans-serif';"><!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Je confirme que l=E2=80=99IHM ne pose p=
+as de probl=C3=A8me, mais seulement l=E2=80=99appel de l=E2=80=99API ingest=
+.<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Sinon non, nous n=E2=80=99avions pas co=
+ntact=C3=A9 l=E2=80=99=C3=A9quipe d=E2=80=99int=C3=A9gration. Mais n=E2=80=
+=99es-tu pas notre interlocuteur POC VITAM pour la recette&nbsp;? <!-- o ig=
+nored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Comment faire pour b=C3=A9n=C3=A9ficier=
+ de quelques heures d=E2=80=99assistance de la part de l=E2=80=99=C3=A9quip=
+e d=E2=80=99int=C3=A9gration&nbsp;?<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">Enfin, pour les exemples de requ=C3=AAt=
+es, pour tester =C2=AB&nbsp;manuellement&nbsp;=C2=BB, comment faites-vous s=
+i vous n=E2=80=99utilisez pas des requ=C3=AAtes =C3=A9prouv=C3=A9es&nbsp;?<=
+!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;">A demain. <!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Cordialement,<!-- o ignored --></span></p=
+>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;"><!-- o ignored -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Thierry CASIMIRIUS<!-- o ignored --></spa=
+n></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Chef du bureau des technologies de l=E2=
+=80=99information<!-- o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">Service historique de la D=C3=A9fense<!--=
+ o ignored --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">SGA/DMPA/SHD/PPST/BTI<!-- o ignored --></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: black;">T=C3=A9l&nbsp;: 01 41 93 20 45<!-- o igno=
+red --></span></p>
+</div>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; font-family: 'Cali=
+bri','sans-serif'; color: #1f497d;"><!-- o ignored -->&nbsp;</span></p>
+<div>
+<div style=3D"border: none; border-top: solid  #B5C4DF  1.0pt; padding: 3.0=
+pt  0cm  0cm  0cm;">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt; font-famil=
+y: 'Tahoma','sans-serif';">De&nbsp;:</span></strong><span style=3D"font-siz=
+e: 10.0pt; font-family: 'Tahoma','sans-serif';"> emmanuel.laborde [mailto:e=
+mmanuel.laborde@culture.gouv.fr] <br><strong>Envoy=C3=A9&nbsp;:</strong> je=
+udi 15 d=C3=A9cembre 2016 18:20<br><strong>=C3=80&nbsp;:</strong> CASIMIRIU=
+S Thierry IDEF MINDEF<br><strong>Cc&nbsp;:</strong> DANYACH-DESCHAMPS Myria=
+m ASC; AJJAZ Franck (franck.ajjaz@altran.com); BEL Nicolas ASC NIV I OA; MO=
+RENO Mario ASC; jean-s=C3=A9verin LAIR (jean-severin.lair@culture.gouv.fr);=
+ WALTZER Kristopher<br><strong>Objet&nbsp;:</strong> Re: TR: VITAM B=C3=AAt=
+a : Demande de documentation compl=C3=A9mentaire DSL et API - Atelier d'=C3=
+=A9change demand=C3=A9.<!-- o ignored --></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><!-- o ignored -->&nbsp;</p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">&nbsp;<!-- o ignore=
+d --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Bonjour Thierry,<!-=
+- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif'; color: #1f497d;">1- =
+Est-il possible de &nbsp;r=C3=A9cup=C3=A9rer plus d=E2=80=99 exemples de re=
+qu=C3=AAtes&nbsp;?</span><span style=3D"font-family: 'Verdana','sans-serif'=
+;"><!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Non, nous n'avons p=
+as cr=C3=A9=C3=A9 de nouvelles requ=C3=AAtes &quot;acc=C3=A8s&quot; car cel=
+les que nous vous avons communiqu=C3=A9es sont repr=C3=A9sentatives de l'en=
+semble du p=C3=A9rim=C3=A8tre et pour le reste nous testons manuellement ou=
+ via les IHM. <!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif'; color: #1f497d;">2- =
+D=E2=80=99autre part, nous sommes toujours bloqu=C3=A9s sur le param=C3=A9t=
+rage de &nbsp;l=E2=80=99Ingest par API. </span><span style=3D"font-family: =
+'Verdana','sans-serif';"><!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Pour ma part j'ai s=
+ollicit=C3=A9 l'=C3=A9quipe de d=C3=A9veloppement qui =C3=A0 fait la d=C3=
+=A9monstration sur POSTMAN pensant que c'=C3=A9tait la votre probl=C3=A8me.=
+ Il semble s'agir d'un probl=C3=A8me de certificat.<!-- o ignored --></span=
+></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Vous confirmez bien=
+ que vous n=E2=80=99arrivez pas =C3=A0 acc=C3=A9der =C3=A0 l'ingest (ni dep=
+uis l'IHM VITAM ni par votre SOAP UI, ni par POSTMAN) ?<!-- o ignored --></=
+span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Si c'est le cas, ce=
+la peut =C3=AAtre li=C3=A9 =C3=A0 un probl=C3=A8me d'installation du certif=
+icat serveur. Avez vous ouvert un ticket (Bug) sur le Tuleap =C3=A0 ce suje=
+t ? Vu le probl=C3=A8me vous pouvez le qualifier de critique. Notre premier=
+ niveau est l'=C3=A9quipe d'int=C3=A9gration. Avez vous pris contacte avec =
+eux =C3=A0 ce sujet ?<!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Si vous arrivez =C3=
+=A0 faire des ingest depuis l'IHM VITAM, il faut quand m=C3=AAme v=C3=A9rif=
+ier les aspects certificat serveur (avec l'=C3=A9quipe d=E2=80=99int=C3=A9g=
+ration).<!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif'; color: #1f497d;">3) =
+Enfin serait-il possible d=E2=80=99organiser tous les deux jours un =C3=A9c=
+hange (1/2 environ) entre VITAM, SHD et Altran ?</span><span style=3D"font-=
+family: 'Verdana','sans-serif';"><!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Oui c'est possible =
+pour traiter les probl=C3=A8mes Critiques / bloquants. Cela ne doit pas dev=
+enir un contournement des processus qui ont =C3=A9t=C3=A9 valid=C3=A9s pour=
+ la gestion courante (ouverture et =C3=A9changes d'informations pour la qua=
+lification des bugs &quot;courant&quot;...).<!-- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Je vous propose un =
+premier point vendredi 16, =C3=A0 11h ou 14h30.<!-- o ignored --></span></p=
+>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Cdt,<!-- o ignored =
+--></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Emmanuel Laborde<!-=
+- o ignored --></span></p>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">&nbsp;<!-- o ignore=
+d --></span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-family: 'Verdana','sans-serif';"=
+>&nbsp;<!-- o ignored --></span></p>
+</div>
+<p><span style=3D"font-family: 'Verdana','sans-serif';">Le 2016-12-15 17:06=
+, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:<!-- o ignored --></span></p>
+<blockquote style=3D"border: none; border-left: solid  #1010FF  1.5pt; padd=
+ing: 0cm  0cm  0cm  4.0pt; margin-left: 3.75pt; margin-top: 5.0pt; margin-b=
+ottom: 5.0pt;">
+<div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Bonjour Emmanuel,</span><!-- o=
+ ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Je me permets de revenir vers =
+toi car nous (Altran &amp; SHD) avons vraiment besoin d=E2=80=99=C3=A9chang=
+er avec vous autour des API&nbsp;:</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">1- Est-il=
+ possible de &nbsp;r=C3=A9cup=C3=A9rer plus d=E2=80=99 exemples de requ=C3=
+=AAtes&nbsp;?</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">Vous avez=
+ d=C3=BB en faire pendant &nbsp;vos tests. A d=C3=A9faut d=E2=80=99explicat=
+ion en pr=C3=A9sentiel dans un premier temps, disposer d=E2=80=99exemples s=
+erait d=C3=A9j=C3=A0 un plus.</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">Cela pour=
+rait nous faire gagner du temps lors d=E2=80=99analyse en cas de probl=C3=
+=A8me car nous ( Altran) serions s=C3=BBrs des syntaxes =C3=A0 utiliser.</s=
+pan><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">&nbsp;</s=
+pan><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">2- D=E2=
+=80=99autre part, nous sommes toujours bloqu=C3=A9s sur le param=C3=A9trage=
+ de &nbsp;l=E2=80=99Ingest par API. </span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">Ne pouvon=
+s-nous pas utiliser les jours d=E2=80=99assistance&nbsp;? </span><!-- o ign=
+ored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">Le &nbsp;=
+probl=C3=A8me n=E2=80=99est pas SOAPUI puisque nous (Altran) &nbsp;arrivons=
+ =C3=A0 joindre l=E2=80=99API access et =C3=A0 faire des recherches et des =
+modifications sur certaines balises.</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">Le probl=
+=C3=A8me est que l=E2=80=99appel =C3=A0 l=E2=80=99ingest ne fonctionne pas =
+avec le param=C3=A9trage qui est document=C3=A9 ou qui a =C3=A9t=C3=A9 comm=
+uniqu=C3=A9 lors de la derni=C3=A8re r=C3=A9union API ni avec beaucoup d=E2=
+=80=99autres qui ont =C3=A9t=C3=A9 essay=C3=A9.</span><!-- o ignored --></p=
+>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">&nbsp;</s=
+pan><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">3) Enfin =
+serait-il possible d=E2=80=99organiser tous les deux jours un =C3=A9change =
+(1/2 environ) entre VITAM, SHD et Altran ?</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto; margin-left: 35.4pt;"><span style=3D"color: #1f497d;">Il faudra=
+it que nous puissions =C3=A9changer r=C3=A9guli=C3=A8rement directement ent=
+re nous . </span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">D=E2=80=99avance, merci pour t=
+on intervention, mais sache que nous avons vraiment besoin d=E2=80=99=C3=A9=
+changer avec vous, pour avancer sur les API dans le cadre cette TRA.</span>=
+<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">L=E2=80=99id=C3=A9al serait qu=
+e cet atelier ait lieu en d=C3=A9but de semaine prochaine.</span><!-- o ign=
+ored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Cordialement,</span><!-- o ignor=
+ed --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">&nbsp;</span><!-- o ignored --><=
+/p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Thierry CASIMIRIUS</span><!-- o =
+ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Chef du bureau des technologies =
+de l=E2=80=99information</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Service historique de la D=C3=A9=
+fense</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">SGA/DMPA/SHD/PPST/BTI</span><!--=
+ o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">T=C3=A9l&nbsp;: 01 41 93 20 45</=
+span><!-- o ignored --></p>
+</div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- o ignored --=
+></p>
+<div>
+<div style=3D"border: none; border-top: solid  #B5C4DF  1.0pt; padding: 3.0=
+pt  0cm  0cm  0cm;">
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><strong><span style=3D"font-size: 10.0pt; font-family: 'Tahoma=
+','sans-serif';">De&nbsp;:</span></strong><span style=3D"font-size: 10.0pt;=
+ font-family: 'Tahoma','sans-serif';"> CASIMIRIUS Thierry [<a href=3D"mailt=
+o:thierry.casimirius@intradef.gouv.fr">mailto:thierry.casimirius@intradef.g=
+ouv.fr</a>] <br><strong><span style=3D"font-family: 'Tahoma','sans-serif';"=
+>Envoy=C3=A9&nbsp;:</span></strong> jeudi 8 d=C3=A9cembre 2016 15:05<br><st=
+rong><span style=3D"font-family: 'Tahoma','sans-serif';">=C3=80&nbsp;:</spa=
+n></strong> emmanuel.laborde<br><strong><span style=3D"font-family: 'Tahoma=
+','sans-serif';">Cc&nbsp;:</span></strong> DANYACH-DESCHAMPS Myriam; AJJAZ =
+Franck; BEL Nicolas; MORENO Mario<br><strong><span style=3D"font-family: 'T=
+ahoma','sans-serif';">Objet&nbsp;:</span></strong> VITAM B=C3=AAta : Demand=
+e de documentation compl=C3=A9mentaire DSL et API</span><!-- o ignored --><=
+/p>
+</div>
+</div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Bonjour Emmanuel,<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Est-il possible de r=C3=A9cup=C3=A9rer plus d=E2=80=99exemples=
+ de requ=C3=AAtes utilisant le DSL&nbsp;? &nbsp;Seules les requ=C3=AAtes de=
+ la d=C3=A9mo postman sont disponibles, et nous ne savons pas si nous dispo=
+sons de la derni=C3=A8re version. Nous souhaiterions &nbsp;avoir d=E2=80=99=
+autres exemples de requ=C3=AAtes, dont des complexes (avec bien s=C3=BBr le=
+ur utilit=C3=A9 expliqu=C3=A9e).<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Disposez- vous par ailleurs de plus de sp=C3=A9cifications =C2=
+=AB&nbsp;d=C3=A9veloppeurs&nbsp;=C2=BB qui permettent &nbsp;d=E2=80=99avoir=
+ une id=C3=A9e plus &nbsp;pr=C3=A9cise de comment fonctionne la solution&nb=
+sp;? Et de documentation d=C3=A9taillant plus les API, avec notamment des m=
+odes op=C3=A9ratoires, des exemples et des d=C3=A9mos&nbsp;?<!-- o ignored =
+--></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Enfin, avez-vous pu =C3=A9tudier le mail transmis hier pr=C3=
+=A9cisant nos difficult=C3=A9s d=E2=80=99utilisation de l=E2=80=99API Inges=
+t&nbsp;? <!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Est-il possible de convenir d=E2=80=99un nouvel atelier sur la=
+ question avec les =C3=A9quipes VITAM et Altran&nbsp;?<!-- o ignored --></p=
+>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-=
+serif'; color: black;">&nbsp;</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 10.0pt; font-family: 'Tahoma','sans-=
+serif'; color: black;">&nbsp;</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">D=E2=80=99avance, merci pour ton intervention,<!-- o ignored -=
+-></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Cordialement,</span><!-- o ignor=
+ed --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">&nbsp;</span><!-- o ignored --><=
+/p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Thierry CASIMIRIUS</span><!-- o =
+ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Chef du bureau des technologies =
+de l=E2=80=99information</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Service historique de la D=C3=A9=
+fense</span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">SGA/DMPA/SHD/PPST/BTI</span><!--=
+ o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">T=C3=A9l&nbsp;: 01 41 93 20 45</=
+span><!-- o ignored --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- o ignored --></p>
+</div>
+</blockquote>
+</div>
+</blockquote>
+</body></html>
+------=_Part_200_25392158.1517006383569--
+
+------=_Part_199_23687558.1517006383569--

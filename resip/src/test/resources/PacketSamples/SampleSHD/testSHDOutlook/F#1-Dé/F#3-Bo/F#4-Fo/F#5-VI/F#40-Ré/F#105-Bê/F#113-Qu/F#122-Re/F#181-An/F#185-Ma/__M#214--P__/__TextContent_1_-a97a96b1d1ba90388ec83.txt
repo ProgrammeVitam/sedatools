@@ -1,0 +1,37 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=43 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                Franck
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   43
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:               US 468 
+====================================================================== 
+Date de soumission:         2017-01-02 11:36 CET
+Dernière modification:      2017-01-02 11:36 CET
+====================================================================== 
+Résumé:                     [fonctionnalité non implémentée] balise
+ArchivageProfile non controlée (et/car profiles non développés)
+Description: 
+Le SIP est accepté quelque soit la valeur que l'on met dans la balise
+ArchivageProfile.
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-02 11:36 Franck         Nouveau bogue                                
+2017-01-02 11:36 Franck         Statut                   nouveau => affecté  
+2017-01-02 11:36 Franck         Assigné à                 => Franck          
+2017-01-02 11:36 Franck         Fichier ajouté: SIP-20170102102614.zip         
+          
+======================================================================

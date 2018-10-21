@@ -1,0 +1,99 @@
+Bonjour,
+
+Merci de ce retour instructif et globalement positif sur le test.
+Si je devais faire un résumé rapide je retiendrais un manque d'informations ou de clarté dans la documentation, mais globalement un code fonctionnel et plutôt de qualité, une installation et une exploitation assez simples et un support en rodage qui s'est amélioré dans le temps et a permis de résoudre les problèmes.
+
+Il y a toutefois deux points qui méritent d'être discutés avant la version définitive :
+
+- la liste des activités et évolutions prioritaires
+Il y a dedans pas mal de demandes qui ne concernent pas Vitam qui est la partie Back-Office mais la partie Front-Office d'Archipel. La mise en place du DSL apporte une bonne part des options de recherche attendues du Back-Office. Par exemple la circulation dans l'arborescence est déjà possible avec le DSL, même si des écrans ne le démontrent pas. D'autres demandes sont déjà couvertes par certains, éléments par exemple le registre des fonds, qu'il faut peut-être compléter mais à savoir comment?
+Pourriez-vous filtrer et formuler les évolutions prioritaires par rapport au périmètre de la bêta Vitam, et quand quelque chose existe déjà en différentiel de l'existant? Nous pouvons bien sûr échanger à ce sujet notamment pour reparler de la répartition des fonctions BO/FO.
+
+- la couverture des fonctionnalités attendues de la Bêta
+Elle a en effet été réduite et les points remarquables fonctionnellement à notre point de vue, selon la storymap de début 2016, sont l'absence des profils, des contrats et de la modification des arborescences. Par contre les mécanismes essentiels et notamment le DSL ont été mis en place. Comment faites vous l'évaluation du manque de couverture à 50% ? Pour le développement de la V1 il est indispensable que nous soyons plus en phase sur ce qui est fait avec une priorisation permettant l'adaptabilité propre au développement Agile. Le travail de type MoSCoW (Must, Should, Could, Won't) du 20 janvier sera dans ce sens essentiel.
+
+Votre travail de test nous est très utile, merci encore notamment à Thierry qui a dirigé la manoeuvre.
+
+Cordialement
+
+
+
+ 
+
+Jean-Séverin LAIR
+Directeur de programme/Program head manager
+Programme Vitam
+Services du Premier Ministre, SGMAP - DISIC
+47 rue de la chapelle, 75018 Paris
+jean-severin.lair@culture.gouv.fr <mailto:jean-severin.lair@culture.gouv.fr> 
+Le programme est hébergé par les moyens informatiques du MCC
+Suivez-nous sur Twitter @ProgVitam <https://twitter.com/progvitam> 
+
+
+
+Le 06/01/2017 à 13:50, DANYACH-DESCHAMPS Myriam a écrit :
+
+
+	Bonjour
+	
+	Mes meilleurs 2017 à toute l’équipe VITAM !!!
+	
+	Vous trouverez ci-joint un premier retour des tests effectués par le Mindef sur la Bêta VITAM.
+	Ce document sera accompagné dans un second temps de la stratégie de tests définie par le ministère de la Défense, d’un rapport d’anomalies.
+	
+	
+	Bien cordialement,
+	
+	[cid:image001.jpg@01D164BC.F7EC1AD0]
+	
+	Myriam DANYACH-DESCHAMPS
+	Responsable du projet Archipel NG
+	Secrétariat général pour l’administration (SGA)
+	Délégation des systèmes d’information
+	d’administration et de gestion (SGA/DéSIAG)
+	
+	
+	[Balard_vignette_v2]
+	
+	OUEST/B – porte 6 – R + 6 – pièce 6B106
+	• 60 boulevard du Général Martial Valin – PC005 – 75015 Paris cedex
+	• 09 88 68 01 03
+	
+	
+	
+	
+	
+	De : frederic.deguilhen@culture.gouv.fr [mailto:frederic.deguilhen@culture.gouv.fr]
+	Envoyé : mercredi 14 décembre 2016 09:08
+	À : thomas.van-de-walle@culture.gouv.fr; CROULARD Olivier; DANYACH-DESCHAMPS Myriam ASC; CASIMIRIUS Thierry IDEF MINDEF; WATEL Francoise; JOSSE Isabelle; LABOUE Gerard; TEXIER Jean-Yves
+	Cc : jean-severin.lair@culture.gouv.fr; frédéric BREGIER; Edouard vasseur; mélanie REBOURS; étienne CARRIERE; Emmanuel Laborde; mehdi.afnai@culture.gouv.fr; charles POUPLIN; pierre.ane@culture.gouv.fr; mathilde.remy.ext; stéphanie BONNET; thomas.morsellino.ext; olivier ELBHAR; kristopher WALTZER; frédéric NGUYEN HUYNH; Botella, Claire
+	Objet : [VITAM Bêta] Questionnaire relatif à la recette de la bêta
+	
+	Bonjour à tous,
+	
+	
+	Suite à l'installation de la bêta par vos différents ministères, il est attendu le renseignement du questionnaire ci-joint afin de consolider les retours des différentes équipes de tests. Ce document comporte 3 volets :
+	
+	  *   un volet relatif aux caractéristiques techniques de l’installation à renseigner par la MOE SI ;
+	  *   un volet relatif à l’utilisation des API à renseigner par la MOE Projet ;
+	  *   un volet afférent aux usages métiers testés à renseigner par la MOA Archivistes.
+	
+	Conformément aux derniers COPIL et CODIR, les retours sont attendus aux échéances suivantes :
+	
+	  *   Vendredi 6 janvier 2017 : retour informel sur la recette de la bêta
+	  *   Jeudi 19 janvier 2017 : retour formel sur la recette de la bêta avec l’envoi du questionnaire ci-joint complété.
+	
+	Restant à votre disposition pour toute demande de renseignement complémentaire.
+	
+	Bien cordialement,
+	
+	[Programme                  Vitam]
+	
+	Frédéric Deguilhen
+	Directeur de la planification / Project management officer
+	Programme Vitam
+	Services du Premier ministre, SGMAP - DINSIC
+	47 rue de la Chapelle - 75018 Paris
+	frederic.deguilhen@culture.gouv.fr<mailto:frederic.deguilhen@culture.gouv.fr> <mailto:frederic.deguilhen@culture.gouv.fr>  - 01.86.69.60.04
+	Le programme est hébergé par les moyens informatiques du MCC
+	Suivez-nous sur Twitter @ProgVitam<https://twitter.com/progvitam> <https://twitter.com/progvitam>

@@ -1,0 +1,118 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Re: TRA VITAM Beta :  Nouveau lot de question MINDEF pour VITAM</Title>
+    <OriginatingSystemId>&lt;c1c7392fd723dd22bb13197802fc540f@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>emmanuel.laborde</FirstName>
+        <BirthName>emmanuel.laborde</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>DANYACH-DESCHAMPS Myriam</FirstName>
+        <BirthName>DANYACH-DESCHAMPS Myriam</BirthName>
+        <Identifier>myriam.danyach-deschamps@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>BEL Nicolas</FirstName>
+        <BirthName>BEL Nicolas</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>CHEVENIER Olivier</FirstName>
+        <BirthName>CHEVENIER Olivier</BirthName>
+        <Identifier>olivier.chevenier@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>edouard VASSEUR</FirstName>
+        <BirthName>edouard VASSEUR</BirthName>
+        <Identifier>edouard.vasseur@culture.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-11-30T16:21:03Z</SentDate>
+    <ReceivedDate>2016-11-30T16:21:18Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C66B5F0@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour,
+
+Vous trouverez ci joint les réponses aux questions posées accompagné d&apos;un document complémentaire sur les Règles de gestion et du dernier fichier de réponse aux questions sur le modèle de donnée Vitam. 
+
+En effet, un grand nombre de questions portent sur les sujets suivants :
+
+*	Les règles de gestion
+*	La relation entre SEDA et modèle de donnée vitam
+
+Sur ce dernier point il faut rappeler les principes suivants :
+
+Dans le cas de champs du SEDA issus de BusinessMessageType, ils ont a priori vocation à être persisté dans les journaux. Il faut considérer que si ils ne sont pas décrits dans le MDD c&apos;est qu&apos;ils ne sont pas stockés (en version bêta) dans vitam (autrement que dans l&apos;AT ou l&apos;ATR archivé, du moins). Ceci pourra évoluer dans le futur, en fonction des besoins.
+
+
+A l&apos;inverse, dans le cas de champs du SEDA issus de DescriptiveMetadaType et ManagementMetadataType qui ont vocation à être persisté dans la collection Unit, et BinaryDataObjectType, qui ont vocation à être persisté dans la collection ObjectGroup, sauf précision ou mention contraire dans le MDD, les balises du SEDA (et leur valeur) sont reprises telle quelle. C&apos;est la raison pour laquelle ces champs ne sont pas rappelés un par un dans le MDD (comme indiqué dans le MDD, les champs de &quot;content&quot; sont remontés à la &quot;racine&quot; du Json de la unit, les champs de ManagementMetadata sont intégrés dans le champ &quot;_mgt&quot;).
+
+Le document joint SEDA-XML-JSON-analyse_reponse_v1.0_précisions_28112016.xlsx a été complété dans ce sens (réponse &quot;oui&quot; ou &quot;non&quot; dans la colonne &quot;Est Différent SEDA&quot; + commentaires éventuels). 
+
+Cdt,
+
+Emmanuel Laborde
+
+ 
+
+ 
+
+Le 2016-11-28 17:25, CASIMIRIUS Thierry a écrit :
+
+	Bonjour,
+
+	 
+
+	Vous trouverez en PJ un nouveau lot de questions sur la VITAM Bêta.
+
+	 
+
+	D’avance, merci pour votre retour,
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+	Envoyé : lundi 28 novembre 2016 17:20
+	À : CASIMIRIUS Thierry IDEF MINDEF
+	Cc : DANYACH-DESCHAMPS Myriam ASC
+	Objet : Question VITAM
+
+	 
+
+	Thierry,
+
+	 
+
+	Voici un nouveau lot de questions pour VITAM.
+
+	 
+
+	Cordialement,
+
+	Franck AJJAZ
+
+	Chef de Projet
+
+	TRA VITAM
+	franck.ajjaz@altran.com</TextContent>
+</Content>

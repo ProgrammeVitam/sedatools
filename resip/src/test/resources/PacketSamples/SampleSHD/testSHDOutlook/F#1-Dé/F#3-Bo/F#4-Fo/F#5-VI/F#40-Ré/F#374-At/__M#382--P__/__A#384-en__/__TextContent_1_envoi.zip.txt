@@ -1,0 +1,1533 @@
+
+envoi/15032016_vitam_questionnaire_cinquieme_chantier_technique_v1.0.ods
+???
+
+Programme Vitam
+
+Page  / 
+
+??? (???)
+
+00/00/0000, 00:00:00
+
+Page  / 
+
+		Questionnaire Atelier Technique Vitam
+
+
+
+				A renvoyer à : consultation-vitam@culture.gouv.fr
+
+		
+
+				Institution :
+
+				
+
+				Service :
+
+				
+
+								
+
+				Réunion :
+
+		Mardi 15/03/2016 9H30-12H00, salle 4c058
+
+		
+
+						DINSIC, Tour Mirabeau, 39-43 quai André Citroën, Paris 15ème
+
+		
+
+		
+
+		Retour libre
+
+		
+
+				N° Slide
+
+				Commentaires
+
+				
+
+												
+
+										
+
+		
+
+		
+
+
+
+
+
+envoi/15032016_vitam_support_cinquieme_chantier_technique_v1.0.pdf
+
+
+VITAM
+
+
+Chantier Technique 5 du 15/03/2016
+Modèles approfondis d'implémentation
+
+
+Profils exploitation, architecture technique
+
+
+Valeurs Immatérielles Transférées aux Archives pour Mémoire
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Agenda
+
+
+• Introduction du contexte
+
+
+• Retour du chantier 3
+
+
+• Instanciation et scalabilité de VITAM
+
+
+• Packaging/Déploiement/Gestion de configuration
+
+
+• Moteur de stockage
+
+
+• Modèle de sauvegarde
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Aperçus des chantiers techniques 1/2
+Vision non limitative
+
+
+• Quelle infrastructure pour Vitam ?
+– Quels matériels, OS, socles logiciels ?
+– Quels stockages ?
+– Quelles implantations ?
+– Quel PRA / PCA ?
+
+
+• Quelle intégration de Vitam dans mon SI ?
+– Intégration fonctionnelle
+
+
+• hors scope (voir chantiers fonctionnels)
+– Intégration de l'exploitation
+
+
+• Comment superviser ?
+• Comment sauvegarder / restaurer ?
+
+
+– Intégration applicative : API
+• Application frontale (Front-Office) via les API Vitam
+
+
+Objectif transverse : Quelles clauses dans un marché public pour la 
+réalisation de l'intégration (2016 : API, 2018 : Stockage, IaaS) ?
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Aperçus des chantiers techniques 2/2
+Premiers chantiers envisagés
+
+
+• 09/12/2015 : Chantier 1) Infrastructures actuelles : profils exploitation, architecture technique
+– Infrastructure : Outils de déploiement (Virtualisation, OS), Stockage
+– Exploitation : Supervision, Sauvegarde/Restauration, PRA/PCA
+– Outils de transfert de fichiers
+
+
+• 12/01/2015 : Chantier 2) RETEX et préconisations existantes : profils concepteur d'application, 
+architecture applicative
+– Outils de transfert de fichiers
+– API REST et Authentification d'application à application
+– Langage de programmation pour l'usage de bibliothèques Vitam
+
+
+• XX/02/2015 Chantier 3) Contraintes de sécurité : profils architecture de production, RSSI
+– Zoning, Multi-sites, PCA/PRA, Déploiement, Multi-tenants
+– Protocoles, Authentification
+– Outils (Antivirus, Pare-feu, sondes, …)
+– Logs et traces, anonymisation dans le cadre du support
+
+
+• XX/02/2015 Chantier 4) Modèles approfondis d'implémentation : profils concepteur d'application
+– Modèles d'API par usage (versement, accès, administration)
+– Modèle de Déploiement de Vitam
+
+
+• XX/03/2015 Chantier 5) Modèles approfondis d'implémentation : profils exploitation, architecture 
+technique
+– Prise en compte de l'adhérence avec les contextes d'exploitation et de sécurité
+– Modèles de sauvegarde, Modèle de stockage
+– Modèle de déploiement, PaaS
+
+
+Avez vous d'autres suggestions de sujets techniques ?
+
+
+11 - 2015 12 01 - 2016 02 03 04
+1 2 3 4 5
+
+
+
+
+
+
+
+Programme VITAM
+
+
+L’architecture générale de la solution logicielle 
+Vitam
+
+
+Interfaçage, Indépendance, Réutilisation, Sécurité
+
+
+Accès
+AccèsVersement
+
+
+Versement
+Administration
+
+
+Administration
+
+
+Gestion de la donnée
+Gestion de la donnée
+
+
+Pérennisation & Intégrité
+Pérennisation & Intégrité
+
+
+Stockage
+Stockage
+
+
+Archival Storage
+
+
+Preservation Planning
+
+
+Data Management
+
+
+Administration
+Ingest Access
+
+
+Service de
+Stockage (Z 42-020)
+
+
+Connecteur d'accès
+Lecture / Écriture
+
+
+aux archives
+
+
+VITAM
+(OAIS + Z 42-013)
+
+
+Connecteurs pour 
+les dépôts de SIP
+(SEDA → Z 44-022)
+
+
+Application métier
+
+
+SIRH, SI Achat, ...
+
+
+Application métier
+ 
+
+
+SIRH, SI Achat, SIA
+
+
+Service de
+Stockage (Z 42-020)
+
+
+Plusieurs offres
+de stockage
+
+
+concurremment
+(au moins 1 sera
+
+
+proposée par VITAM)
+
+
+Connecteurs pour 
+les requêtes
+depuis des
+
+
+Applications métiers
+
+
+
+
+
+
+
+Programme VITAM
+
+
+L’architecture fonctionnelle de la solution logicielle 
+Vitam
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Agenda
+
+
+• Introduction du contexte
+
+
+• Retour du chantier 3
+
+
+• Instanciation et scalabilité de VITAM
+
+
+• Packaging/Déploiement/Gestion de configuration
+
+
+• Moteur de stockage
+
+
+• Modèle de sauvegarde
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Support « Retour du chantier 3 »
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Agenda
+
+
+• Introduction du contexte
+
+
+• Retour du chantier 3
+
+
+• Instanciation et scalabilité de VITAM
+
+
+• Packaging/Déploiement/Gestion de configuration
+
+
+• Moteur de stockage
+
+
+• Modèle de sauvegarde
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Instanciation et scalabilité de VITAM
+
+
+• On peut définir 2 axes de scalabilité liées aux activités : 
+– Activité de versement et de transformation
+
+
+• Cette activité est liée 
+• Exemple de variation : anticipation de versements massifs, campagne de 
+
+
+transformation de formats 
+– Activité d’accès aux données 
+
+
+• Cette activité est liée au cycle d’utilisation des utilisateurs. 
+• Exemple de variation : jour/nuit, variation saisonnière pouvant être 
+
+
+anticipée
+• On peut également identifier un axe de scalabilité lié à la 
+
+
+volumétrie globale stockée sur le système
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Exemple d’instanciation mini-VITAM
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Exemple d’instanciation VITAM test 
+(hors production) sans haute disponibilité
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Exemple d’instanciation VITAM
+en mode embarqué avec haute disponibilité
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Exemple d’instanciation nominale VITAM
+avec haute disponibilité et évolutive : site 1
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Exemple d’instanciation nominale VITAM
+avec haute disponibilité et évolutive : site 2
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Exemple d’instanciation nominale VITAM
+avec haute disponibilité et évolutive : site 3
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Projection d’instanciation VITAM
+sur de grands volumes (très théorique)
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Instanciation et scalabilité de VITAM
+
+
+• 3 scénarios à mi-mars 2016 : 
+– Mini-Vitam : 
+
+
+• Objectif : Installation sur 1 serveur
+– Sera sans doute plus proche de 4 VM
+
+
+• Rôle : développeur, démonstration/POC voire petites installations
+– Scénario « test » sans haute disponibilité : 20 VM
+
+
+• Chaque composant est sur un serveur donné 
+• Pas de haute disponibilité (sauf pour MongoDB et Elasticsearch)
+• Rôle : recette sans haute disponibilité ni multi-sites
+
+
+– Scénario « dédié » avec haute disponibilité : 25 VM 
+• L’instance Vitam est dédiée à un domaine et donc totalement en zone 
+
+
+profonde et non partagée
+– Équivalent à un mode « embarqué »
+
+
+• Haute disponibilité sur les composants 
+• Rôle : « embarqué » en production ou recette avec haute disponibilité
+
+
+– Scénario « standard » avec haute disponibilité : 43 VM 
+• Chaque composant est sur un serveur donné 
+• Haute disponibilité sur les composants 
+• Rôle : production évolutive standard
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Agenda
+
+
+• Introduction du contexte
+
+
+• Retour du chantier 3
+
+
+• Instanciation et scalabilité de VITAM
+
+
+• Packaging/Déploiement/Gestion de configuration
+
+
+• Moteur de stockage
+
+
+• Modèle de sauvegarde
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Modèle de déploiement
+
+
+• Les besoins associés aux activités de déploiement et configuration sont les 
+suivants :
+– Assurer un déploiement cohérent des éléments binaires VITAM sur un 
+
+
+environnement donné (pas de multi-environnement à ce niveau là)
+– Instancier la configuration des éléments binaires VITAM pour chaque cible de 
+
+
+déploiement 
+• Les besoins sous-jacents sont :
+
+
+– Connaître la topologie de l'environnement VITAM (à déployer et déployé)
+– Connaître l'inventaire des éléments VITAM installés
+– Tirer partie des fonctionnalités d'élasticité fournies par la plateforme sous-
+
+
+jacente si elles sont supportées
+• Objectifs : 
+
+
+– Être capable de répondre à l’installation de « petits » VITAM (jusqu’à 1 VM) 
+comme les VITAM plus conséquents (> 30 – 50 VM)
+
+
+– Pour les petits VITAM, on peut faire le parallèle avec devstack ou packstat 
+(distributions facilitant le déploiement d’Openstack y compris sur une VM)
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Objets manipulés
+
+
+• Modèle de données du déploiement
+– Composants : atome pour l’intégrateur (et pour toute personne 
+
+
+désirant construire des services)
+– Services : 
+
+
+• Atome de déploiement pour une vision « production »
+• Sur un serveur donné, une seule version d’un service peut être déployé
+
+
+– Templates : 
+• Constitue une unité de distribution sur un serveur
+• Est un ensemble de services
+
+
+– Plate-forme : Bornes et  seuils d'usage de la plate-forme IaaS
+– Servers : 
+
+
+• Contient les éléments de paramétrages du serveur (nom, IP)
+• Est lié à un template (et un seul)
+
+
+– Infrastructure : nom, version, description, propriétés
+• Contient les éléments de paramétrages de l’infrastructure (Firewall, 
+
+
+load-balancer)
+
+
+
+
+
+
+
+22Programme VITAM
+
+
+Déploiement
+Principe de configuration
+
+
+- n Composants => 1 
+Service
+
+
+- n Services => 1 
+Template
+
+
+- 1 Template => n 
+Hosts
+
+
+En V3 : élasticité
+- 1 Template => 1 
+Plate-forme (décrira 
+les bornes des Hosts 
+autorisés)
+
+
+- 1 Plate-forme => n 
+Hosts (dynamiques)
+
+
+(ou extension de 
+Template à Plate-
+forme)
+
+
+
+
+
+
+
+23Programme VITAM
+
+
+Déploiement
+
+
+• Lors d'un déploiement initial
+– Configuration des Composants et Services fournis par Vitam
+– Ajout possible de Composants
+– Modèle de Templates fournis par Vitam
+– Création de « vos » Templates sur la base d'un ou plusieurs templates de base
+– Création de vos Hosts (quasi automatique en V3)
+– Installation des Hosts (OS, bootstrap Vitam)
+– Lancement du déploiement (binaires et configurations)
+
+
+• Lors d'une mise à jour
+– Mise à jour des Composants et Services fournis par Vitam
+– Mise à jour de vos Templates (versionning)
+– Déploiement contrôlé par Vitam
+
+
+• Pré-actions globales, par Service, par Composants
+• Post-actions globales, par Service, par Composants
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Méthode de déploiement
+
+
+• Déploiement « in place » vs « out of place » des binaires 
+– In place : On remplace les binaires précédents 
+– Out of place : On installe les binaires sur un emplacement différent 
+
+
+(quitte à avoir un chemin invariant via un système d’alternatives)
+• Exemple : OpenJDK, OpenSSL
+
+
+• Fichiers de configuration
+– Les fichiers de configuration sont instanciés via un modèle de 
+
+
+templating
+– Toute modification doit être faite par le moteur de templating sous 
+
+
+peine de ne pas être prise en compte au prochain upgrade 
+• A noter qu’il peut y avoir une historisation du fichier de configuration 
+
+
+« divergeant » du standard (comme les rpmsave/rpmnew)
+– Ces problématiques sont vraies aussi bien en installation « in place » 
+
+
+que « out of place »
+
+
+Des règles ou recommandations existantes dans vos SI ?
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Retour arrière
+
+
+• Composants stateless
+– « In place » : on réinstalle la version précédente (via l’outil de 
+
+
+déploiement)
+– « Out of place » : on change le système d’aliasing pour pointer sur la 
+
+
+version précédente
+• Composants stateful (SGBD)
+
+
+– Même problématique dans les 2 stratégies de déploiement
+– Pour les mises à jours sans impacts sur les données, même cas que les 
+
+
+composants stateless
+– Pour les mises à jours ayant un impact sur les données
+
+
+• Sauvegarde des données associées au composant (étape longue)
+• Upgrade des binaires 
+• Phase de mise à jour des données 
+• En cas de rollback, restauration des données puis retour arrière des binaires (cf 
+
+
+stateless)
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Implémentation du déploiement
+
+
+• Système de packaging
+Avantages Inconvénients
+
+
+Système de 
+packaging de la 
+distribution 
+(RPM/DEB)
+
+
+Nativement : 
+• Signature des packages (clé gpg)
+• Inventaire et de l’intégrité des fichiers 
+installés (rpm -V / dpkg -V)
+
+
+• Dépendances
+• Gestion unifiée des packages sur un 
+OS
+
+
+• Installation à faire par root
+• Le chemin d’installation est  fixé au 
+moment du packaging
+
+
+• L’utilisateur propriétaire des fichiers 
+est fixé au moment du packaging
+
+
+• Une seule version d’un package 
+installée à un moment donné
+
+
+• Pour le projet Vitam : Maintenir 2 
+souches de packages (DEB+ RPM)
+
+
+Développement 
+spécifique
+
+
+• Possibilité de faire l’installation avec 
+l’utilisateur applicatif
+
+
+• Choix du chemin d’installation à 
+l’installation
+
+
+• Possibilité d’installer plusieurs 
+versions d’un packages à un moment 
+donné
+
+
+• Pas de gestion unifiée de packages 
+avec l’OS
+
+
+• Pour le projet Vitam : Système de 
+packaging à développer
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Arborescence d’installation
+
+
+• Si on part sur un système de packaging OS, les chemins d’installation seront 
+fixés 
+
+
+• Pour des questions de points de montage, il nous semble utile de différencier
+– « Configuration et binaires »
+– « Log »
+– « Données »
+
+
+• 2 approches possibles 
+– Respect strict de la FHS
+
+
+• « Configuration et binaires » : /opt/vitam/<composant>
+• « Log » : /var/opt/vitam/<composant>/log
+• « Données » : /var/opt/vitam/<composant>/lib
+
+
+– Normes hors FHS mais plus « intuitive »
+• « Configuration et binaires » : 2 possibilités
+
+
+– /vitam/<composant>  (avec en dessous bin, etc)
+– /vitam/produit/<composant> (avec en dessous bin, etc)
+
+
+• « Log » : /vitam/log/<composant>
+
+
+• « Données » : /vitam/data/<composant>
+
+
+• Votre préférence ?
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Utilisateurs d'exécution
+
+
+• Si on part sur un packaging OS, les utilisateurs Linux 
+d'exécution sont fixés lors du packaging
+
+
+• 2 stratégies sont envisageables : 
+– 1 utilisateur « global » (ex : vitam) pour tous les services 
+
+
+• Cas général : peu de services déployés sur un serveur donné 
+
+
+– 1 utilisateur par service 
+• Permet une segmentation en cas de regroupement de service
+
+
+– Plus sécurisé mais est-ce justifié ?
+
+
+• Est plus complexe à administrer
+
+
+• Votre préférence ?
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Agenda
+
+
+• Introduction du contexte
+
+
+• Retour du chantier 3
+
+
+• Instanciation et scalabilité de VITAM
+
+
+• Packaging/Déploiement/Gestion de configuration
+
+
+• Moteur de stockage
+
+
+• Modèle de sauvegarde
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Moteur de stockage
+
+
+• L'objet du moteur de stockage est de gérer les différentes offres de stockage et 
+de les utiliser au mieux pour réaliser les opérations demandées (lecture, 
+écriture, effacement, mise à jour, check, lister, compter, …)
+– Première fonction de ce moteur : l'abstraction du stockage via son API
+– Deuxième fonction : la gestion de ces offres
+
+
+• Écriture : décision des opérations à mener, gestion de l'asynchronisme
+• Lecture : décision de la « meilleure » offre pour répondre rapidement
+• Fournitures d'informations transverses : journaux, multi-tenant, 
+
+
+statistiques, …
+– Troisième fonction : assurer la liaison avec les offres via le principe d'un SPI 
+
+
+(Service Provider Interface)
+• Chaque Offre de stockage propose un driver (pilote) qui est conforme 
+
+
+aux API spécifiées par Vitam pour une offre de stockage. Ce driver est 
+ajouté à la configuration de Vitam
+
+
+– « Stratégie » de stockage
+• Permet la gestion de l'ajout ou du retrait d'une offre de stockage, en 
+
+
+prenant en compte également la migration des données, y compris sur 
+un temps long
+
+
+
+
+
+
+
+Programme VITAM
+
+
+ Moteur de stockage - Modèle
+
+
+• Plugin CCFN 
+– Pilote (driver) permettant de discuter avec une implémentation d'une offre de stockage
+
+
+• Permettre la discussion entre Vitam et un CAS Manager
+– Assimilable à un driver JDBC intégré dans une application mais pour le stockage
+
+
+• Driver avec son protocole propre avec le stockage pour lequel il a été développé
+• CAS Manager
+
+
+– Gestion du référentiel des objets (métadonnées en nombre restreint) et journal du stockage
+– Assure si nécessaire la vision « Objet » du stockage
+– Assure si nécessaire la vision « multi-tenant »
+– Assure les fonctions avancées (empreinte, journalisation, métadonnées, audit, …)
+– Agrège les différents CAS Container sous-jacents
+
+
+• CAS Container
+– Accès aux espaces de stockages portés par les CAS Storage de manière cohérente et sécurisé
+
+
+• Peut porter les fonctions de sécurité comme les notions de RAID
+• Peut agréger différents volumes fournis par les CAS Storage en un volume unifié
+• Permet l'évolution de l'espace de stockage sans impacter les couches supérieures
+• Assure si nécessaire la vision « Objet » et certaines fonctions avancées
+
+
+• CAS Storage
+– Gestion du stockage physique
+
+
+• Selon les cas, certaines couches peuvent ne pas être nécessaires
+– Stockage Cloud (SWIFT, CEPH), le CAS Storage disparaît mais le CAS Container demeure, voire le 
+
+
+CAS Manager pourrait être la seule couche à implémenter
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Moteur de stockage - Architecture logique
+
+
+• 5 couches logiques
+1) Moteur de stockage
+
+
+1) API REST, reçoit les 
+demandes d'actions 
+CRUD/évoluées
+
+
+2) Gère les offres de 
+stockage via SPI
+
+
+3) Utilise les stratégies de 
+stockage définies
+
+
+2) Driver SPI
+1) API Java normalisée 
+
+
+d'une offre de stockage
+2) Protocole Driver/Offre 
+
+
+libre : nous => REST
+3) CAS Manager : API Offre
+
+
+1) Gère les opérations 
+lourdes, les métadonnées
+
+
+2) Gère la distribution
+4) CAS Container
+
+
+1) Gère la distribution
+2) Le cas échéant la 
+
+
+sécurité distribuée
+5) CAS Storage
+
+
+1) Gère le stockage effectif
+2) Selon les cas chiffrement
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Moteur de stockage - Contextualisation
+
+
+• Services
+– Stockage orienté objet (Content Addressable Storage : CAS)
+
+
+• Écritures, accès et contrôles unitaires
+– Milliards d'objets
+
+
+• Évolutif en capacité (extensible), Performant
+– Respect de NF Z 42-020 : Composant coffre-fort numérique pour la NF Z 42-013
+
+
+• Aucune indication de chiffrement ou de signature des objets numériques
+• Sécurisation du journal
+
+
+– « Le journal peut être composé de plusieurs fichiers « journaux » élémentaires. Dans ce 
+cas, le dossier technique devra préciser les méthodes mises en oeuvre permettant de 
+garantir l'intégrité et l'exhaustivité des événements conservés au travers de ces fichiers 
+journaux élémentaires (chaînage, empreinte, signature, etc.). »
+
+
+– Fonctionnalités supportées
+• CRD (WORM), mais UPDATE aux cas admis (métadonnées)
+
+
+– Éventuellement avec des notions de versions
+• LIST/COUNT : avec des filtres
+• CHECK : unitaire (empreinte fournie/non fournie)
+• AUDIT : avec filtres, auto vérification
+• Journalisation interne accessible (requêtes avec critères simples)
+
+
+– Fonctionnalités hors contexte
+• Signatures (incompatibles avec les durées et le nombre)
+• Duplications (gérées par Vitam)
+• Requêtes riches (uniquement les métadonnées de stockage + type d'objet)
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Support Froid : Propositions d'implémentations
+
+
+• Différences 6A/6B
+– 6A : Vitam gère l'écriture sur la bande (sélection, montage, 
+
+
+remplissage, obsolescence, …)
+• Uniquement ce qui est nouveau
+• Les bandes virtuelles sont effacées une fois sauvegardées
+• Plus adapté à de gros volumes, gestion du remplissage
+
+
+– 6B : C'est un outil externe qui gère
+• Sauvegarde « tout » (Full Backup)
+• Plus adapté à des petits volumes
+• Difficulté de gestion des rôles des bandes
+• Difficulté de gestion du remplissage
+
+
+• Usage de la base
+– Accès rapide
+– Planification
+– Métadonnées requêtables
+– Effacement rapide
+– Gestion des versions
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Support Froid : Propositions d'implémentations
+
+
+• Différences 3A/3B
+– 3A : Vitam gère la lecture depuis la bande (sélection, 
+
+
+montage, …)
+• Uniquement ce qui est utile
+• N'impose pas de tout garder en bandes virtuelles
+
+
+– 3B : C'est un outil externe qui gère
+• Toute la bande est restaurée
+• Tend à conserver les bandes virtuelles sur disque
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Moteur de stockage – API Java
+Version 0
+
+
+• Gestion des Containers
+– UUID createContainer (UUID clientId, MediaType mediaType);
+– UUID createContainer (UUID clientId, UUID parentId, MediaType mediaType);
+– boolean deleteContainer (UUID clientId, UUID containerId);
+
+
+• Écriture d’un contenu numérique
+– UUID writeInit (UUID clientId, UUID containerId, UUID objectId, String name, long offset, long 
+
+
+length, DigestType digestType);
+– void writeChunk (UUID clientId, UUID storeObjectId, byte[] block, int offset, int length);
+– void writeChunk (UUID clientId, fr.gouv.vitam.utils.UUID storeObjectId, InputStream inputStream);
+– CasEntry writeEnd (UUID clientId, UUID storeObjectId, CasDigest casDigest);
+
+
+• Lecture d’un contenu numérique
+– UUID readInit (UUID clientId, UUID containerId, UUID objectId, long offset, long length, DigestType 
+
+
+digestType);
+– int readChunk (UUID clientId, UUID readObjectId, byte[] buffer, int offset, int length);
+– InputStream readChunk (UUID clientId, UUID readObjectId);
+– CasEntry readEnd (UUID clientId, UUID readObjectId);
+
+
+• Compter les contenus
+– UUID countInit (UUID clientId, List<UUID> containerIdList, Set<MediaType> mediaTypeFilter, 
+
+
+DateFilter creationDateFilter, DateFilter updateDateFilter, DateFilter lastAccessDateFilter, DateFilter 
+lastCheckDateFilter, LongFilter lengthFilter);
+
+
+– long count (UUID clientId, UUID countId);
+– long countEnd (UUID clientId, UUID countId);
+
+
+• Lister les contenus
+– UUID listInit (UUID clientId, List<UUID> containerIdList, Set<MediaType> mediaTypeFilter, DateFilter 
+
+
+creationDateFilter, DateFilter updateDateFilter, DateFilter lastAccessDateFilter, DateFilter 
+lastCheckDateFilter, LongFilter lengthFilter);
+
+
+– CloseableIterator<CasEntry> list (UUID clientId, UUID listId);
+– long listEnd (UUID clientId, UUID listId);
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Moteur de stockage – API Java
+Version 0
+
+
+• Effacer un contenu
+– CasEntry delete (UUID clientId, UUID containerId, UUID objectId, CasDigest digest);
+
+
+• Lire les métadonnées techniques d’un contenu
+– CasEntry readMd (UUID clientId, UUID containerId, UUID objectId);
+
+
+• Vérifier l’empreinte d’un contenu
+– UUID check (UUID clientId, UUID containerId, CasDigest digest);
+– boolean check (UUID clientId, UUID containerId, UUID objectId);
+– boolean check (UUID clientId, UUID containerId, UUID objectId, CasDigest digest);
+
+
+• Vérifier les empreintes d’un ensemble de contenus
+– UUID checkInit (UUID clientId, UUID containerId);
+– CloseableIterator<CasEntry> checkList (UUID clientId, UUID checkListId);
+– long checkListEnd (UUID clientId, UUID checkListId);
+
+
+• Lire le journal
+– UUID logbookInit (UUID clientId, List<UUID> containerIdList, Set<MediaType> mediaTypeFilter);
+– UUID logbookInit (UUID clientId, UUID containerId, List<UUID> objectIdList);
+– CloseableIterator<CasLogbookEntry> logbook (UUID clientId, UUID journalId);
+– long logbookEnd (UUID clientId, UUID journalId);
+
+
+• Gérer les tâches asynchrones
+– CasTaskEntry task (UUID clientId, UUID operationId);
+– CloseableIterator<CasTaskEntry> tasks (UUID clientId);
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Agenda
+
+
+• Introduction du contexte
+
+
+• Retour du chantier 3
+
+
+• Instanciation et scalabilité de VITAM
+
+
+• Packaging/Déploiement/Gestion de configuration
+
+
+• Moteur de stockage
+
+
+• Modèle de sauvegarde
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Modèle de sauvegarde
+
+
+• Les éléments à sauvegarder sont : 
+– Les données (présentes dans les offres de stockage) pour les petites 
+
+
+volumétries (< 10-20 To) et ne prévoyant pas de 3ème site
+• Objets numériques, Meta-données et journaux fournissant la preuve systémique
+
+
+– Les différents référentiels et nomenclatures 
+• Contrats de versement, de gestion et d’accès 
+• Référentiels associés aux documents (ex : types de documents)
+• Habilitation sur les IHM d’administrations 
+
+
+– Par contre, les données contenues dans le moteur de données pourraient 
+être sauvegardée
+• Toute donnée présente dans le moteur de données l’est également dans le 
+
+
+moteur de stockage
+• La restauration serait plus rapide si la base était sauvegardée
+• A noter : complexité liée à MongoDb
+
+
+• La solution de sauvegarde 
+– Des scripts d’exports/import seront mis à disposition pour fournir sous 
+
+
+forme « fichiers » le contenu des stocks « critiques » à sauvegarder
+– Le système de sauvegarde SI peut ensuite sauvegarder ces fichier
+
+
+
+
+
+		Diapo 1
+
+		Diapo 2
+
+		Diapo 3
+
+		Diapo 4
+
+		Diapo 5
+
+		Diapo 6
+
+		Diapo 7
+
+		Diapo 8
+
+		Diapo 9
+
+		Diapo 10
+
+		Diapo 11
+
+		Diapo 12
+
+		Diapo 13
+
+		Diapo 14
+
+		Diapo 15
+
+		Diapo 16
+
+		Diapo 17
+
+		Diapo 18
+
+		Diapo 19
+
+		Diapo 20
+
+		Diapo 21
+
+		Diapo 22
+
+		Diapo 23
+
+		Diapo 24
+
+		Diapo 25
+
+		Diapo 26
+
+		Diapo 27
+
+		Diapo 28
+
+		Diapo 29
+
+		Diapo 30
+
+		Diapo 31
+
+		Diapo 32
+
+		Diapo 33
+
+		Diapo 34
+
+		Diapo 35
+
+		Diapo 36
+
+		Diapo 37
+
+		Diapo 38
+
+		Diapo 39
+
+
+
+

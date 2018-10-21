@@ -1,0 +1,64 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=69 
+====================================================================== 
+Rapporteur:                 Omar
+Responsable:                Omar
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   69
+Catégorie:                  BugFromTestlink
+Reproductibilité:           n'a pas essayé
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-11 10:57 CET
+Dernière modification:      2017-01-11 10:57 CET
+====================================================================== 
+Résumé:                     [Besoin Métier légitime] : balise
+TransferringAgency non enregistrée
+Description: 
+Ce champ est actuellement non enregistré mais renvoyé dans l’ATR tel que. 
+A noter que ce champ hors ArchiveUnit, relevant de l'entête et a donc vocation
+à être présent sous une forme dédiée dans les Journaux, ce qui a été
+vérifié
+
+
+Étapes pour le reproduire: 
+Import d'un SIP ayant la balise TransferringAgency (cf fichier
+SIP-20170110162901.zip joint)
+Vérifier que l'ATR contient la balise (cf pj
+ATR_aedqaaaaacaam7mxaba7uakzrtye3tyaaaaq.xml).
+Interroger via API sur l'id unit de l'ATR exemple
+aeaaaaaaaaaam7mxaayieakzrtygwpyaaaaq
+La balise n'est pas renvoyée, seules ces informations sont retournées
+     "DescriptionLevel": "Item",
+      "Title": "Test_PVI_TransferringAgency.txt",
+      "Description": "Pseudo Archive Unit du fichier
+:C:\\Users\\oabdulmalak\\Documents\\Blaise\\Test_PVI_TransferringAgency.txt",
+      "TransactedDate": "2017-01-10T16:24:52",
+      "_uds": [{"aeaaaaaaaaaam7mxaayieakzrtygwnqaaaaq": 1}],
+      "#id": "aeaaaaaaaaaam7mxaayieakzrtygwpyaaaaq",
+      "#nbunits": 0,
+      "#tenant": 0,
+      "#object": "aeaaaaaaaaaam7mxaayieakzrtygwfqaaaaq",
+      "#unitups": ["aeaaaaaaaaaam7mxaayieakzrtygwnqaaaaq"],
+      "#min": 1,
+      "#max": 2,
+      "#allunitups": ["aeaaaaaaaaaam7mxaayieakzrtygwnqaaaaq"],
+      "#operations": ["aedqaaaaacaam7mxaba7uakzrtye3tyaaaaq"]
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-11 10:57 Omar           Nouveau bogue                                
+2017-01-11 10:57 Omar           Statut                   nouveau => affecté  
+2017-01-11 10:57 Omar           Assigné à                 => Omar            
+2017-01-11 10:57 Omar           Fichier ajouté: SIP-20170110162901.zip         
+          
+======================================================================

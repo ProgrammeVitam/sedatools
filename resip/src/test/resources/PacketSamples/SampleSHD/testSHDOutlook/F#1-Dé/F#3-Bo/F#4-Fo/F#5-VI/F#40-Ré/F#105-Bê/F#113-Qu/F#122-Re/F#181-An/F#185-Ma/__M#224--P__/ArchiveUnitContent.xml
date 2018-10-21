@@ -1,0 +1,59 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000033]: [Besoin Métier Légitime] - Impossibilité de modifier les MD de type Management MetadataType</Title>
+    <OriginatingSystemId>&lt;fbf54273baa6d88cd5a9200b3263e96e@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-23T10:23:37Z</SentDate>
+    <ReceivedDate>2016-12-23T10:23:45Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=33 
+====================================================================== 
+Rapporteur:                 Vincent
+Responsable:                Vincent
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   33
+Catégorie:                  VITAM
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-23 11:23 CET
+Dernière modification:      2016-12-23 11:23 CET
+====================================================================== 
+Résumé:                     [Besoin Métier Légitime] - Impossibilité de
+modifier les MD de type Management MetadataType
+Description: 
+Ni via l&apos;IHM; ni via l&apos;API, il n&apos;est possible de modifier ces métadonnées.
+
+Les métadonnées contenus dans le manifest, dans le bloc Management
+MetadataType se retrouvent dans VITAM soit dans la collection Unit (Rules), soit
+dans la collection AccessionRgister
+
+Or il n&apos;est pas possible de modifier le MD concernant les Rules dans la
+collection Unit et il n&apos;est pas possible de faire de modification sur la
+collection AccessionRegister.
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-23 11:23 Vincent        Nouveau bogue                                
+2016-12-23 11:23 Vincent        Statut                   nouveau =&gt; affecté  
+2016-12-23 11:23 Vincent        Assigné à                 =&gt; Vincent         
+======================================================================</TextContent>
+</Content>

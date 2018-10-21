@@ -1,0 +1,52 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=52 
+====================================================================== 
+Rapporteur:                 Blaise
+Responsable:                Blaise
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   52
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2017-01-06 12:06 CET
+Dernière modification:      2017-01-06 12:06 CET
+====================================================================== 
+Résumé:                     Total = 0 lorsqu'on consulte la liste d'archives
+sans filtre
+Description: 
+Lors de la consultation de la liste d'archives sans filtre, le réponse
+renvoyée n'indique pas le nombre d'archives. la valeur de "Total" est égale à
+"0". 
+
+Étapes pour le reproduire: 
+Pré-requis
+-----------
+Ressource : /access-external/v1/Units
+
+Les étapes
+----------
+Depuis SoapUI, exécutez la requête ci-dessous :
+ {
+"$roots": [],
+"$query": [],
+  "$filter": {},
+  "$action": [],
+  "$projection": {}
+}
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2017-01-06 12:06 Blaise         Nouveau bogue                                
+2017-01-06 12:06 Blaise         Statut                   nouveau => affecté  
+2017-01-06 12:06 Blaise         Assigné à                 => Blaise          
+======================================================================

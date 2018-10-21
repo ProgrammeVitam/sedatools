@@ -1,0 +1,46 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=15 
+====================================================================== 
+Rapporteur:                 Franck
+Responsable:                
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   15
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     bloquant
+Priorité:                   normale
+Statut:                     nouveau
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-13 16:53 CET
+Dernière modification:      2016-12-13 16:53 CET
+====================================================================== 
+Résumé:                     Impossibilité d'importer SIP avec Storage Rule
+avec final Action (Copier; valeur SEDA)
+Description: 
+L'imporation d'un SIP contenant une unit soumise à une storage Rule n'est pas
+possible
+
+Nous joignons un SIP ou la balise FinalAction a été renseignée avec la valeur
+"Copier" qui est une valeur indiquée dans le SEDA.
+
+Nous avons fait un autre essaie avec la valeur "Keep" (celle ci passait avec les
+AppraisalRule)
+Nous avons aussi fait un essaie en supprimant la startDate
+
+
+Informations complémentaires: 
+PVI-68
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-13 16:53 Franck         Nouveau bogue                                
+2016-12-13 16:53 Franck         Fichier ajouté: 20161213163700.zip             
+      
+======================================================================

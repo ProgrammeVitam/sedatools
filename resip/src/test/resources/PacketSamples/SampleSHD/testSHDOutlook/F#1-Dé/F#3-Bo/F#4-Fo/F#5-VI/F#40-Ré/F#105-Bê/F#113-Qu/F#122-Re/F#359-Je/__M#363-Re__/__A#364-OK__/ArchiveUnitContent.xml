@@ -1,0 +1,3901 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>OKSip.zip</Title>
+    <Description>Document &quot;OKSip.zip&quot; joint au message &lt;2bd345def9b80d8031dadb91ec309c7a@culture.gouv.fr&gt;</Description>
+    <CreatedDate>2016-12-13T17:43:21Z</CreatedDate>
+    <TextContent>
+content/abead17e841c937187270cb95b0656bf3f7a9e71c8ca95e7fc8efa38cfffcab9889f353a95136fa3073a422d825175bf1bef24dc355bfa081f7e48b106070fd5.pdf
+
+
+VITAM
+
+
+Sensibilisation API
+
+
+Valeurs Immatérielles Transférées aux Archives pour Mémoire
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Planning
+
+
+• API en général
+
+
+• API REST
+
+
+• API Java
+
+
+
+
+
+
+
+3Programme VITAM
+
+
+Présentation
+
+
+• Une API est pour les humains, pas pour les machines
+– Elle doit être compréhensible sans lire le code sous-jacent
+
+
+• Une bonne API n&apos;impose pas de savoir ce qui se passe dessous
+– Elle doit être consistante
+
+
+• Ordre des arguments toujours le même
+• Ne retourner jamais « null »
+• ...
+
+
+• Une API est un contrat : une fois publiée, elle est engageante
+– Elle doit être sans ambiguïté
+
+
+• Le nom méthode/classe/package, collection/service doit permettre de 
+savoir ce qui est induit, et l&apos;ordre des appels
+
+
+• N&apos;afficher que ce qui est utile
+– L&apos;ajout est possible, le retrait ne l&apos;est pas
+
+
+• Ajouter une méthode/collection : ok
+• Ajouter un argument : ko sauf si celui-ci est masqué (package/Json)
+• Retrait : ko
+
+
+
+
+
+
+
+4Programme VITAM
+
+
+Présentation
+
+
+• Une API est un contrat : une fois publiée, elle est engageante
+– Il faut prévoir les évolutions des API : la compatibilité ascendante est bien 
+
+
+mais l&apos;évolutivité va au delà
+• Par exemple : les arguments ou les réponses peuvent être « packagés » 
+
+
+pour permettre une évolution via le package et non la signature pure
+– Exemple : Contexte ou Json objet
+
+
+• Vie d&apos;une API
+– Private =&gt; Friend =&gt; Stable =&gt; Official =&gt; Deprecated / Under 
+
+
+development =&gt; Stable =&gt; Official =&gt; Deprecated
+– Les API publiques sont évidemment un enjeu majeur (REST et SPI Stockage)
+– Mais les API internes le sont aussi, dans une moindre mesure
+
+
+• Plusieurs équipes internes partageant les API internes
+• Greffons utilisant « nos » API en provenance de développeurs externes
+
+
+• Less is more
+– Design caché, ne pas supposer plus que ce qui est écrit
+
+
+
+
+
+
+
+5Programme VITAM
+
+
+Présentation
+
+
+• Dès la 1ère version
+– Se poser les questions car le changement à un coût
+
+
+• Pour soi : maintenance de l&apos;ancienne version
+• Pour les autres : incompatibilité et donc évolution non maîtrisée
+
+
+– Tout est API
+• REST, Java
+• Répertoire, Fichier
+• Variables d&apos;environnement, Options de ligne de commande
+• Message (log) (exemple : parsing de log)
+• Comportement (exemple : return null ou liste vide)
+
+
+– Pour autant : Osez ! Et Partagez !
+• L&apos;évolution doit être préparée
+
+
+• API Review et API Design
+– Le design d&apos;API est comme la sécurité : tant qu&apos;on a aucun incident, c&apos;est que 
+
+
+c&apos;est bien fait ; le jour où on a un incident : il est trop tard
+• Le coût est malheureusement invisible sauf si on compte les API Review 
+
+
+dans nos Points de complexité
+– L&apos;API Review est l&apos;assurance de l&apos;autonomie
+
+
+• Team Design
+
+
+
+
+
+
+
+6Programme VITAM
+
+
+Présentation
+
+
+• Affirmations excessives
+– Une API doit être belle
+
+
+• La beauté n&apos;a rien à voir, l&apos;objectif est que ce soit compréhensible
+• Il ne s&apos;agit pas de philosophie mais de concret : de maintenance, de compatibilité, 
+
+
+de coût, d&apos;évolutivité
+– Une API doit être correcte
+
+
+• La facilité d&apos;usage prime sur la « correction »
+– Une API doit être simple
+
+
+• Si la simplicité empêche de faire des choses compliquées, alors l&apos;API est inutile
+• La facilité ne veut pas dire « trop » simpliste
+
+
+– Une API doit être 100 % compatible
+• C&apos;est bien sûr l&apos;objectif principal, mais il faut parfois admettre de réduire cet 
+
+
+objectif à 99 % quand ce &apos;1 %&apos; est bloquant
+• Dans certains cas (incompatibilité) =&gt; deprecated et encouragement à utiliser la 
+
+
+nouvelle API en raison de nouvelles fonctionnalités/performances
+– Une API doit être symétrique
+
+
+• Cela se rapproche de l&apos;affirmation « belle »
+• Un Coder (Json &gt;) et un Decoder (Json &lt; ) n&apos;ont pas besoin d&apos;être parfaitement symétrique
+
+
+– Json &gt; : read(File) ; toObject(Class) ; readStreamSax(File) ;
+– Json &lt;  : fromObject(Object) ; write(File) ; mais pas de writeStreamSax
+
+
+
+
+
+
+
+7Programme VITAM
+
+
+Présentation
+
+
+• Possibilité d&apos;apprendre collectivement
+– API Design Fest
+
+
+• Le principe du jeu : pour chaque équipe
+1)Une API est créée sur la base d&apos;un scénario de tests (API + implémentation)
+2)Une première relecture par un « conseil » neutre
+3)Une évolution de l&apos;API est demandée (scénario 2 de tests) (API + implémentation)
+• Phase de conquête
+1)Toutes les équipes ont accès aux 2 étapes de la vie de l&apos;API des autres équipes
+2)Toutes les équipes essayent de proposer des Junit qui démontrent que le 
+
+
+comportement de la première API n&apos;est plus respectée dans la seconde
+3)Pour chaque Junit démontrant une faille unique : +1 point pour l&apos;équipe qui a écrit 
+
+
+le Junit
+4)Pour chaque API sans faille : +5 points pour l&apos;équipe qui l&apos;a écrite 
+
+
+– Etudes de cas
+• Exemple : Extensible visitor pattern
+
+
+• Maître mot : une API doit permettre d&apos;être « Cluelessness »
+– Il ne doit pas être nécessaire d&apos;en savoir plus que ce qu&apos;elle indique pour 
+
+
+pouvoir l&apos;utiliser, la comprendre
+
+
+http://wiki.apidesign.org/wiki/Main_Page Jaroslav Tulach (NetBeans)
+
+
+
+http://wiki.apidesign.org/wiki/Main_Page
+
+
+
+
+
+8Programme VITAM
+
+
+Organisation d&apos;un API Review
+
+
+• Voir différentes pages
+– Exemple chez Netbean
+
+
+• http://wiki.netbeans.org/APIReviews
+• http://wiki.netbeans.org/APIReviewSteps
+
+
+• http://wiki.apidesign.org/wiki/APIDesignPatterns
+
+
+• http://wiki.netbeans.org/APIDevelopment
+
+
+• Exemple de questions
+– https://openide.netbeans.org/tutorial/questions.html 
+
+
+http://wiki.apidesign.org/wiki/Main_Page Jaroslav Tulach (NetBeans)
+
+
+
+http://wiki.netbeans.org/APIReviews
+
+http://wiki.netbeans.org/APIReviewSteps
+
+http://wiki.apidesign.org/wiki/APIDesignPatterns
+
+http://wiki.netbeans.org/APIDevelopment
+
+https://openide.netbeans.org/tutorial/questions.html
+
+http://wiki.apidesign.org/wiki/Main_Page
+
+
+
+
+
+Programme VITAM
+
+
+Planning
+
+
+• API en général
+
+
+• API REST
+
+
+• API Java
+
+
+
+
+
+
+
+10Programme VITAM
+
+
+Modèle général : End-Points
+
+
+• Versionning des API
+– Domaine = nom DNS du service
+– Application = domaine de l&apos;application (ingest, access, management, ...)
+– Version = v1, v2, … versions majeures uniquement (version fine dans le header)
+
+
+https://domaine/application/version/
+• Accès à une ressource/collection
+
+
+https://domaine/application/version/ressources
+• Accès à un élément de cette ressource
+
+
+https://domaine/application/version/ressources/identifiant_ressource
+• Accès à une deuxième ressource issue d&apos;un élément
+
+
+https://domaine/application/version/ressources/identifiant_ressource/ressources2
+• Idem interne : https://interne/application/version/ressources
+• Commandes : 
+
+
+– GET : Lecture
+– POST : Création
+– PUT : Mise à jour complète
+– PATCH : Mise à jour partielle, modification d&apos;un état (nécessité mais PUT possible)
+– DELETE : Effacement, Annulation
+– HEAD : Informations succinctes (a priori non nécessaire)
+– OPTIONS : Opérations permises (a priori non nécessaire)
+
+
+
+
+
+
+
+11Programme VITAM
+
+
+Modèle général : End-Points
+
+
+• Services transverses offerts par chaque « application »
+– Pour les API externes
+
+
+• API de vérification du statut du module
+• API permettant de consulter la version du service et la version de 
+
+
+l’application déployée
+– Pour les API internes (non visibles), en plus
+
+
+• API de vérification de l’état des dépendances directes du module
+• API d&apos;activation/désactivation d&apos;un service
+• API de récupération des métriques du module
+
+
+– Métriques système et JVM
+– Métriques d’utilisation des API (par version)
+
+
+» Cette fonctionnalité pourrait remonter pour chaque « endpoint » : 
+» le nombre d’appels, 
+» les temps d’exécution  maximum/minimum/moyen/etc.
+» le nombre d’erreurs rencontrées
+» etc.
+» Le tout sur différentes fenêtres temporelles. 
+
+
+• API de sauvegarde (export) et de restauration (import) (interne)
+
+
+
+
+
+
+
+12Programme VITAM
+
+
+Conseils généraux
+
+
+• Prévoir les cas où les retours sont nombreux
+– Next : pour les cas n&apos;utilisant pas le DSL Vitam
+– Offset, Limit : pour les cas utilisant le DSL Vitam
+
+
+• Prévoir les résultats asynchrones
+– Async_List : pour les réponses internes par lot itératif
+– Async_tasks ou Callback : pour des réponses externes/internes asynchrones
+
+
+• L&apos;API REST ne traduit pas l&apos;implémentation mais le métier
+– Une collection n&apos;est pas forcément une table
+
+
+• Exemple : ingests =&gt; sous-ensemble des opérations
+– Une table n&apos;est pas forcément une collection
+
+
+• Exemple : objects (si implémentés) =&gt; dans ObjectGroup
+
+
+
+
+
+
+
+Programme VITAM
+
+
+Planning
+
+
+• API en général
+
+
+• API REST
+
+
+• API Java
+
+
+
+
+
+
+
+14Programme VITAM
+
+
+Définition d&apos;une API de qualité
+
+
+• Compréhensible
+– Une bonne API n&apos;impose pas de savoir ce qui se passe dessous
+
+
+• Une série d&apos;éléments : List
+• Un ensemble d&apos;éléments : Set
+• Un flux d&apos;éléments : Stream
+
+
+• Consistante
+– Toujours le même Ordre des arguments
+
+
+• read(byte[]) ; read(byte[], int, int) ;
+– Ne retourner jamais « null »
+– Modèle de threads
+
+
+• Découvrable (Discoverability)
+– Facile de trouver les exceptions, les factory, les helpers, les services, les 
+
+
+modèles de données, …
+– Découpage en modules/sous-modules/packaging cohérent et clair
+
+
+• Tâches simples doivent être faciles
+– Pour les tâches simples, les moyens de le faire doivent être simple
+
+
+• Helpers, méthodes avec des valeurs par défaut pour les 80 % des cas
+– La complexité est possible mais avec d&apos;autres méthodes/classes
+
+
+• Les options sont des arguments additionnels (autres méthodes)
+• L&apos;accès à des constructeurs plus fins sont hors Helper
+
+
+
+
+
+
+
+15Programme VITAM
+
+
+Définition d&apos;une API de qualité
+
+
+• Préserver l&apos;investissement
+– Une fois l&apos;API créée, veiller à ne pas « perdre » ses clients
+
+
+• Junit qui assurent que la montée de version ne crée pas de régression
+• Style de programmation homogène pour faciliter la reprise
+
+
+• Compatibilité ascendante
+– Au niveau du code
+
+
+• Ne pas casser des signatures (méthodes, classes, packages)
+– Au niveau binaire
+
+
+• Ne pas retirer des classes si elles ont été un jour « publiques »
+– Au niveau fonctionnel
+
+
+• Le comportement fonctionnel doit être stable (modèle AMOEBA)
+– Exemple : return null ; vs return empty ;
+
+
+– L&apos;ajout est possible, le retrait ne l&apos;est pas
+• Ajouter une méthode : ok
+• Ajouter un argument : ko sauf si celui-ci est masqué (dans un package)
+• Retrait : ko
+
+
+– Attention : SPI
+• L&apos;ajout est un problème, le retrait l&apos;est moins
+
+
+
+
+
+
+
+16Programme VITAM
+
+
+Maîtriser l&apos;évolution
+
+
+• Modèle AMOEBA
+
+
+• L&apos;entropie d&apos;un logiciel
+
+
+– L&apos;entropie augmente au fur et à mesure et rend impossible la maintenance
+– On réécrit tout (refactoring) mais hélas à l&apos;itération suivante l&apos;entropie 
+
+
+reprend
+• Anticipation mais pas trop
+• Découpage propre (contrats) pour éviter l&apos;entropie
+
+
+– Contrats matérialisés par des Junits/Tests de non régression
+
+
+La vision 
+fonctionnelle de
+
+
+L&apos;API qu&apos;on
+voulait
+
+
+La réalité du support
+fonctionnelle de
+
+
+L&apos;API qu&apos;on
+a développée
+
+
+
+
+
+
+
+17Programme VITAM
+
+
+Conseils
+
+
+1) Commencer par analyser le besoin métier (Use Case Oriented)
+1) Proposer une logique applicative (algorithmie)
+
+
+2) Définir l&apos;interface (API publique)
+1) La confronter à différents avis (API Review)
+
+
+3) Documenter l&apos;API publique
+1) A quoi ça sert ?
+2) Quelle est la logique d&apos;ensemble ?
+3) FAQ (mode d&apos;usage, cas d&apos;usage)
+4) Documentation de l&apos;API (JavaDoc) : cas particuliers, erreurs et arguments
+
+
+4) Ecrire les Tests d&apos;acceptance et les Junit principaux
+5) Implémenter l&apos;API publique puis ses implémentations spécifiques
+
+
+1) Mettre à jour la documentation en fonction
+2) Ajouter les Junits nécessaires
+
+
+6) Internationalisation dès le début
+1) Commentaires et codes : EN
+2) Log : EN (tout texte en static final String XXX)
+3) Journaux : FR / EN
+
+
+
+
+
+
+
+18Programme VITAM
+
+
+Eléments de API Review
+
+
+• Il faut prévoir les évolutions des API : la compatibilité ascendante est bien mais 
+l&apos;évolutivité va au delà
+– Par exemple : les arguments ou les réponses peuvent être « packagées » pour 
+
+
+permettre une évolution via le package et non l&apos;API pure
+• Exemple : Contexte (contenant beaucoup d&apos;info) et non chaque info
+
+
+– Vie d&apos;une API
+• Private =&gt; Friend =&gt; Stable =&gt; Official =&gt; Deprecated / Under 
+
+
+development =&gt; Stable =&gt; Official =&gt; Deprecated
+– Préférer coder depuis une interface et non depuis l&apos;implémentation
+– Les API publiques sont évidemment un enjeu majeur (REST et Stockage)
+– Mais les API internes le sont aussi, dans une moindre mesure
+
+
+• Plusieurs équipes
+• Greffons utilisant « nos » API
+
+
+• Less is more
+– Design caché, ne pas supposer plus que ce qui est écrit
+– Pas « tout » public : savoir utiliser les private/protected/package protected
+
+
+• Séparer client et provider dans les interfaces et les packages
+• Le packaging doit indiquer les usages et ne pas mélanger implémentation et 
+
+
+définition
+
+
+
+
+
+
+
+19Programme VITAM
+
+
+Eléments de API Review
+
+
+• Une méthode est meilleure qu&apos;un champ
+• Un Factory est meilleur qu&apos;un constructeur
+• Autant que possible tout doit être « final »
+
+
+– Classes, méthodes, attributs
+– Les exceptions sont : on sait que l&apos;on va l&apos;étendre (abstract) ou la surcharger 
+
+
+(extends)
+• Uniquement pour les codes « amis »
+
+
+• Garder le code là où il doit être
+– Un Setter doit appartenir à la classe qui déclare l&apos;attribut
+
+
+• Laisser au créateur d&apos;un Object plus de droits
+– Exemple : un argument Class Configuration permet d&apos;avoir plusieurs 
+
+
+implémentations de celui-ci et donc de laisser son comportement libre au 
+fournisseur
+
+
+• Ne pas exposer des hiérarchies trop profondes
+– Contre exemple : JButton &lt;  AbstractButton &lt;  JComponent &lt;  Container
+
+
+• On pourrait croire qu&apos;il est possible d&apos;ajouter des composants à un bouton, 
+ce qui n&apos;était pas le sens premier de cette hiérarchie
+
+
+
+
+
+
+
+20Programme VITAM
+
+
+Eléments de API Review
+
+
+• Être prêt pour l&apos;ajout de paramètres (en argument et en résultat)
+public interface Compute {
+
+
+public void computeData(Request request, Response response) ;
+public final class Request{}
+public final class Response{}
+
+
+}
+• Eviter le « spaghetti » design
+
+
+– Les méthodes liées dans la même classe
+– Les méthodes non liées dans des classes différentes
+– Les classes liées dans un même package
+– Les classes non liées ou pour des cas particuliers dans des packages différents
+– Idem pour les modules
+– Aucune référence à un SPI dans l&apos;implémentation d&apos;une API et packages 
+
+
+différents
+• Core API : concentre les opérations essentielles
+• Support API : utility methods, helpers
+• Core SPI : les opérations pour réaliser un plug-in
+• Support SPI : utility methods, helpers
+
+
+• Prévenir les mauvais usages de l&apos;API
+– Exemple : Connection.rollback(Savepoint) // Laisse croire que l&apos;on peut créer un Savepoint
+
+
+=&gt; SavePoint Connection.setSavePoint() // Oblige le Savepoint à être généré par Connection
+
+
+
+
+
+
+
+21Programme VITAM
+
+
+Eléments de Code Review
+
+
+• Points d&apos;attention sur les synchronisation et Deadlock
+– Documenter le modèle de Threads
+– Deadlock à prévenir
+
+
+• Mutual exclusion condition
+– Le plus connu : une seule thread peut détenir un lock, une ressource
+
+
+• Non pre-emptive scheduling condition
+– Une ressource est acquise et ne peut être libérée que par le propriétaire
+
+
+• Hold &amp; Wait condition
+– Une ressource est acquise par une thread indéfiniment
+
+
+• Ressources acquises de manière incrémentale
+– Une ressource est acquise alors qu&apos;une autre est déjà acquise (et non libérée)
+
+
+• Des éléments similaires extra-JVM : parallélisme inter-process
+– Des conditions similaires peuvent intervenir (deadlock)
+
+
+• Exemple : une demande à un tiers mais la demande n&apos;aboutit jamais =&gt; deadlock 
+ou timeout ?
+
+
+• Gestion de la mémoire : est-ce que la logique algorithmique utilisée maintient le 
+prigramme dans des conditions d&apos;usage de la mémoire contrôlables et contrôlées
+
+
+• Exemple : Listing d&apos;un répertoire : combien de résultats ? Tous les résultats vont ils tenir en 
+mémoire ? (valable partout : Shell, Java, HTML, …)
+
+
+– Utiliser des « singletons vides » pour retourner une absence de résultat (pas NULL)
+– Vider tous les « Objets » inutiles (ne pas faire confiance au Garbage Collector)
+
+
+
+
+
+
+
+22Programme VITAM
+
+
+Eléments de Test Review
+
+
+• Test compatibility Kit
+– Utilitaires pour faciliter l&apos;implémentation de tests transverses entre plusieurs 
+
+
+implémentations d&apos;une même interface
+• Exemple : permet de s&apos;assurer de la cohérence fonctionnelle entre une 
+
+
+implémentation filesystem / database / cloud d&apos;un système de fichiers 
+abstrait
+
+
+• Tests de non régression
+– A chaque évolution, ajouter des « gardes » qui testent la non régression des 
+
+
+fonctionnalités qui viennent d&apos;être rajoutées
+– Les précédents gardes assurent que le modèle AMOBIA est maîtrisé et que 
+
+
+l&apos;évolution va bien toujours en ajout de fonctionnalités
+• Tests pour le modèle de thread et de parallélisme
+
+
+– Les 4 cas de deadlock
+– Les cas de « race condition » dus au parallélisme externe (autres programmes)
+
+
+• Chaque bug rencontré doit voir un Junit vérifiant la non régression
+
+
+
+
+
+
+
+23Programme VITAM
+
+
+API : cas particulier du Multi-tenants
+
+
+• Les aspects multi-tenants pris en compte selon 2 modalités
+1) Implicitement : API REST externes
+– L&apos;application Front-office n&apos;est utilisée que pour un seul tenant
+– Vitam ajoute systématiquement les informations à chaque requête du tenant 
+
+
+concerné
+2) Explicitement
+– API REST Externes
+
+
+• L&apos;application Front-office utilise plusieurs tenants (fonction de l&apos;utilisateur 
+connecté)
+
+
+• L&apos;application doit intégrer un code dans le Header pour indiquer le code du tenant 
+concerné
+– X-TenantId : valeur
+
+
+– API REST Internes (et Java)
+• X-TenantId doit être présent d&apos;une manière ou d&apos;une autre
+
+
+• La séparation est logique
+– Données : séparation par filtre
+– Stockage : séparation par container
+
+
+
+
+
+		Diapo 1
+
+		Diapo 2
+
+		Diapo 3
+
+		Diapo 4
+
+		Diapo 5
+
+		Diapo 6
+
+		Diapo 7
+
+		Diapo 8
+
+		Diapo 9
+
+		Diapo 10
+
+		Diapo 11
+
+		Diapo 12
+
+		Diapo 13
+
+		Diapo 14
+
+		Diapo 15
+
+		Diapo 16
+
+		Diapo 17
+
+		Diapo 18
+
+		Diapo 19
+
+		Diapo 20
+
+		Diapo 21
+
+		Diapo 22
+
+		Diapo 23
+
+
+
+
+
+content/d156f4a4cc725cc6eaaafdcb7936c9441d25bdf033e4e2f1852cf540d39713446cfcd42f2ba087eb66f3f9dbfeca338180ca64bdde645706ec14499311d557f4.txt
+Sensibilisation API 
+
+Valeurs Immatérielles Transférées aux Archives pour Mémoire 
+
+VITAM 
+
+Planning 
+
+• API en général 
+• API REST 
+• API Java 
+
+Présentation 
+
+• Une API est pour les humains, pas pour les machines 
+	– Elle doit être compréhensible sans lire le code sous-jacent 
+• Une bonne API n&apos;impose pas de savoir ce qui se passe dessous 
+	– Elle doit être consistante 
+• Ordre des arguments toujours le même 
+• Ne retourner jamais « null » 
+• ... 
+• Une API est un contrat : une fois publiée, elle est engageante 
+	– Elle doit être sans ambiguïté 
+• Le nom méthode/classe/package, collection/service doit permettre de savoir ce qui est induit, et l&apos;ordre des appels 
+• N&apos;afficher que ce qui est utile 
+	– L&apos;ajout est possible, le retrait ne l&apos;est pas 
+• Ajouter une méthode/collection : ok 
+• Ajouter un argument : ko sauf si celui-ci est masqué (package/Json) 
+• Retrait : ko 
+
+Présentation 
+
+• Une API est un contrat : une fois publiée, elle est engageante 
+	– Il faut prévoir les évolutions des API : la compatibilité ascendante est bien mais l&apos;évolutivité va au delà 
+• Par exemple : les arguments ou les réponses peuvent être « packagés » pour permettre une évolution via le package et non la signature pure 
+	– Exemple : Contexte ou Json objet 
+• Vie d&apos;une API 
+	– Private =&gt; Friend =&gt; Stable =&gt; Official =&gt; Deprecated / Under development =&gt; Stable =&gt; Official =&gt; Deprecated 
+	– Les API publiques sont évidemment un enjeu majeur (REST et SPI Stockage) 
+	– Mais les API internes le sont aussi, dans une moindre mesure 
+• Plusieurs équipes internes partageant les API internes 
+• Greffons utilisant « nos » API en provenance de développeurs externes 
+• Less is more 
+	– Design caché, ne pas supposer plus que ce qui est écrit
+
+Présentation 
+
+• Dès la 1ère version 
+	– Se poser les questions car le changement à un coût 
+• Pour soi : maintenance de l&apos;ancienne version 
+• Pour les autres : incompatibilité et donc évolution non maîtrisée 
+	– Tout est API 
+• REST, Java 
+• Répertoire, Fichier 
+• Variables d&apos;environnement, Options de ligne de commande 
+• Message (log) (exemple : parsing de log) 
+• Comportement (exemple : return null ou liste vide) 
+	– Pour autant : Osez ! Et Partagez ! 
+• L&apos;évolution doit être préparée 
+• API Review et API Design 
+	– Le design d&apos;API est comme la sécurité : tant qu&apos;on a aucun incident, c&apos;est que c&apos;est bien fait ; le jour où on a un incident : il est trop tard 
+• Le coût est malheureusement invisible sauf si on compte les API Review dans nos Points de complexité 
+	– L&apos;API Review est l&apos;assurance de l&apos;autonomie 
+• Team Design 
+
+Présentation 
+
+• Affirmations excessives 
+	– Une API doit être belle 
+• La beauté n&apos;a rien à voir, l&apos;objectif est que ce soit compréhensible 
+• Il ne s&apos;agit pas de philosophie mais de concret : de maintenance, de compatibilité, de coût, d&apos;évolutivité 
+	– Une API doit être correcte 
+• La facilité d&apos;usage prime sur la « correction » 
+	– Une API doit être simple 
+• Si la simplicité empêche de faire des choses compliquées, alors l&apos;API est inutile 
+• La facilité ne veut pas dire « trop » simpliste 
+	– Une API doit être 100 % compatible 
+• C&apos;est bien sûr l&apos;objectif principal, mais il faut parfois admettre de réduire cet objectif à 99 % quand ce &apos;1 %&apos; est bloquant 
+• Dans certains cas (incompatibilité) =&gt; deprecated et encouragement à utiliser la nouvelle API en raison de nouvelles fonctionnalités/performances 
+	– Une API doit être symétrique 
+• Cela se rapproche de l&apos;affirmation « belle » 
+• Un Coder (Json &gt;) et un Decoder (Json &lt; ) n&apos;ont pas besoin d&apos;être parfaitement symétrique 
+	– Json &gt; : read(File) ; toObject(Class) ; readStreamSax(File) ; 
+	– Json &lt;  : fromObject(Object) ; write(File) ; mais pas de writeStreamSax 
+
+Présentation 
+
+• Possibilité d&apos;apprendre collectivement 
+	– API Design Fest 
+• Le principe du jeu : pour chaque équipe 
+	1)Une API est créée sur la base d&apos;un scénario de tests (API + implémentation) 
+	2)Une première relecture par un « conseil » neutre 
+	3)Une évolution de l&apos;API est demandée (scénario 2 de tests) (API + implémentation) 
+• Phase de conquête 
+	1)Toutes les équipes ont accès aux 2 étapes de la vie de l&apos;API des autres équipes 
+	2)Toutes les équipes essayent de proposer des Junit qui démontrent que le comportement de la première API n&apos;est plus respectée dans la seconde 
+	3)Pour chaque Junit démontrant une faille unique : +1 point pour l&apos;équipe qui a écrit le Junit 
+	4)Pour chaque API sans faille : +5 points pour l&apos;équipe qui l&apos;a écrite 
+
+	– Etudes de cas 
+• Exemple : Extensible visitor pattern 
+• Maître mot : une API doit permettre d&apos;être « Cluelessness » 
+	– Il ne doit pas être nécessaire d&apos;en savoir plus que ce qu&apos;elle indique pour pouvoir l&apos;utiliser, la comprendre 
+	http://wiki.apidesign.org/wiki/Main_Page Jaroslav Tulach (NetBeans) 
+
+Organisation d&apos;un API Review 
+
+• Voir différentes pages 
+	– Exemple chez Netbean 
+• http://wiki.netbeans.org/APIReviews 
+• http://wiki.netbeans.org/APIReviewSteps 
+• http://wiki.apidesign.org/wiki/APIDesignPatterns 
+• http://wiki.netbeans.org/APIDevelopment 
+• Exemple de questions 
+	– https://openide.netbeans.org/tutorial/questions.html 
+	http://wiki.apidesign.org/wiki/Main_Page Jaroslav Tulach (NetBeans) 
+
+Planning 
+
+• API en général 
+• API REST 
+• API Java 
+
+Modèle général : End-Points 
+
+• Versionning des API 
+	– Domaine = nom DNS du service 
+	– Application = domaine de l&apos;application (ingest, access, management, ...) 
+	– Version = v1, v2, … versions majeures uniquement (version fine dans le header) 
+
+		https://domaine/application/version/ 
+
+• Accès à une ressource/collection 
+	https://domaine/application/version/ressources 
+
+• Accès à un élément de cette ressource 
+	https://domaine/application/version/ressources/identifiant_ressource 
+
+• Accès à une deuxième ressource issue d&apos;un élément 
+	https://domaine/application/version/ressources/identifiant_ressource/ressources2 
+
+• Idem interne : https://interne/application/version/ressources 
+• Commandes : 
+	– GET : Lecture 
+	– POST : Création 
+	– PUT : Mise à jour complète 
+	– PATCH : Mise à jour partielle, modification d&apos;un état (nécessité mais PUT possible) 
+	– DELETE : Effacement, Annulation 
+	– HEAD : Informations succinctes (a priori non nécessaire) 
+	– OPTIONS : Opérations permises (a priori non nécessaire) 
+
+Modèle général : End-Points 
+
+• Services transverses offerts par chaque « application » 
+	– Pour les API externes 
+• API de vérification du statut du module 
+• API permettant de consulter la version du service et la version de l’application déployée 
+	– Pour les API internes (non visibles), en plus 
+• API de vérification de l’état des dépendances directes du module 
+• API d&apos;activation/désactivation d&apos;un service 
+• API de récupération des métriques du module 
+	– Métriques système et JVM 
+	– Métriques d’utilisation des API (par version) 
+		- Cette fonctionnalité pourrait remonter pour chaque « endpoint » : 
+		- le nombre d’appels, 
+		- les temps d’exécution maximum/minimum/moyen/etc. 
+		- le nombre d’erreurs rencontrées 
+		- etc. 
+		- Le tout sur différentes fenêtres temporelles. 
+• API de sauvegarde (export) et de restauration (import) (interne) 
+
+Conseils généraux 
+
+• Prévoir les cas où les retours sont nombreux 
+	– Next : pour les cas n&apos;utilisant pas le DSL Vitam 
+	– Offset, Limit : pour les cas utilisant le DSL Vitam 
+• Prévoir les résultats asynchrones 
+	– Async_List : pour les réponses internes par lot itératif 
+	– Async_tasks ou Callback : pour des réponses externes/internes asynchrones 
+• L&apos;API REST ne traduit pas l&apos;implémentation mais le métier 
+	– Une collection n&apos;est pas forcément une table 
+• Exemple : ingests =&gt; sous-ensemble des opérations 
+	– Une table n&apos;est pas forcément une collection 
+• Exemple : objects (si implémentés) =&gt; dans ObjectGroup 
+
+Planning 
+
+• API en général 
+• API REST 
+• API Java 
+
+Définition d&apos;une API de qualité 
+
+• Compréhensible 
+	– Une bonne API n&apos;impose pas de savoir ce qui se passe dessous 
+• Une série d&apos;éléments : List 
+• Un ensemble d&apos;éléments : Set 
+• Un flux d&apos;éléments : Stream 
+• Consistante 
+	– Toujours le même Ordre des arguments 
+• read(byte[]) ; read(byte[], int, int) ; 
+	– Ne retourner jamais « null » 
+	– Modèle de threads 
+• Découvrable (Discoverability) 
+	– Facile de trouver les exceptions, les factory, les helpers, les services, les modèles de données, … 
+	– Découpage en modules/sous-modules/packaging cohérent et clair 
+• Tâches simples doivent être faciles 
+	– Pour les tâches simples, les moyens de le faire doivent être simple 
+• Helpers, méthodes avec des valeurs par défaut pour les 80 % des cas 
+	– La complexité est possible mais avec d&apos;autres méthodes/classes 
+• Les options sont des arguments additionnels (autres méthodes) 
+• L&apos;accès à des constructeurs plus fins sont hors Helper 
+
+Définition d&apos;une API de qualité 
+
+• Préserver l&apos;investissement 
+	– Une fois l&apos;API créée, veiller à ne pas « perdre » ses clients 
+• Junit qui assurent que la montée de version ne crée pas de régression 
+• Style de programmation homogène pour faciliter la reprise 
+• Compatibilité ascendante 
+	– Au niveau du code 
+• Ne pas casser des signatures (méthodes, classes, packages) 
+	– Au niveau binaire 
+• Ne pas retirer des classes si elles ont été un jour « publiques » 
+	– Au niveau fonctionnel 
+• Le comportement fonctionnel doit être stable (modèle AMOEBA) 
+	– Exemple : return null ; vs return empty ; 
+	– L&apos;ajout est possible, le retrait ne l&apos;est pas 
+• Ajouter une méthode : ok 
+• Ajouter un argument : ko sauf si celui-ci est masqué (dans un package) 
+• Retrait : ko 
+	– Attention : SPI 
+• L&apos;ajout est un problème, le retrait l&apos;est moins 
+
+Maîtriser l&apos;évolution 
+
+• Modèle AMOEBA 
+	- La vision fonctionnelle de L&apos;API qu&apos;on voulait 
+	- La réalité du support fonctionnelle de L&apos;API qu&apos;on a développée 
+• L&apos;entropie d&apos;un logiciel 
+	– L&apos;entropie augmente au fur et à mesure et rend impossible la maintenance 
+	– On réécrit tout (refactoring) mais hélas à l&apos;itération suivante l&apos;entropie reprend 
+• Anticipation mais pas trop 
+• Découpage propre (contrats) pour éviter l&apos;entropie 
+	– Contrats matérialisés par des Junits/Tests de non régression 
+
+Conseils 
+
+1) Commencer par analyser le besoin métier (Use Case Oriented) 
+	1) Proposer une logique applicative (algorithmie) 
+	2) Définir l&apos;interface (API publique) 
+		1) La confronter à différents avis (API Review) 
+	3) Documenter l&apos;API publique 
+		1)Aquoi ça sert ? 
+		2) Quelle est la logique d&apos;ensemble ? 
+		3) FAQ (mode d&apos;usage, cas d&apos;usage) 
+		4) Documentation de l&apos;API (JavaDoc) : cas particuliers, erreurs et arguments 
+	4) Ecrire les Tests d&apos;acceptance et les Junit principaux 
+	5) Implémenter l&apos;API publique puis ses implémentations spécifiques 
+		1) Mettre à jour la documentation en fonction 
+		2) Ajouter les Junits nécessaires 
+	6) Internationalisation dès le début 
+		1) Commentaires et codes : EN 
+		2) Log : EN (tout texte en static final String XXX) 
+		3) Journaux : FR / EN 
+
+Eléments de API Review 
+
+• Il faut prévoir les évolutions des API : la compatibilité ascendante est bien mais l&apos;évolutivité va au delà 
+	– Par exemple : les arguments ou les réponses peuvent être « packagées » pour permettre une évolution via le package et non l&apos;API pure 
+• Exemple : Contexte (contenant beaucoup d&apos;info) et non chaque info 
+	– Vie d&apos;une API 
+• Private =&gt; Friend =&gt; Stable =&gt; Official =&gt; Deprecated / Under development =&gt; Stable =&gt; Official =&gt; Deprecated 
+	– Préférer coder depuis une interface et non depuis l&apos;implémentation 
+	– Les API publiques sont évidemment un enjeu majeur (REST et Stockage) 
+	– Mais les API internes le sont aussi, dans une moindre mesure 
+• Plusieurs équipes 
+• Greffons utilisant « nos » API 
+• Less is more 
+	– Design caché, ne pas supposer plus que ce qui est écrit 
+	– Pas « tout » public : savoir utiliser les private/protected/package protected 
+• Séparer client et provider dans les interfaces et les packages 
+• Le packaging doit indiquer les usages et ne pas mélanger implémentation et définition 
+
+Eléments de API Review 
+
+• Une méthode est meilleure qu&apos;un champ 
+• Un Factory est meilleur qu&apos;un constructeur 
+• Autant que possible tout doit être « final » 
+	– Classes, méthodes, attributs 
+	– Les exceptions sont : on sait que l&apos;on va l&apos;étendre (abstract) ou la surcharger (extends) 
+• Uniquement pour les codes « amis » 
+• Garder le code là où il doit être 
+	– Un Setter doit appartenir à la classe qui déclare l&apos;attribut 
+• Laisser au créateur d&apos;un Object plus de droits 
+	– Exemple : un argument Class Configuration permet d&apos;avoir plusieurs implémentations de celui-ci et donc de laisser son comportement libre au fournisseur 
+• Ne pas exposer des hiérarchies trop profondes 
+	– Contre exemple : JButton &lt;  AbstractButton &lt;  JComponent &lt;  Container 
+• On pourrait croire qu&apos;il est possible d&apos;ajouter des composants à un bouton, ce qui n&apos;était pas le sens premier de cette hiérarchie 
+
+Eléments de API Review 
+
+• Être prêt pour l&apos;ajout de paramètres (en argument et en résultat) 
+
+	public interface Compute { 
+
+		public void computeData(Request request, Response response) ; 
+		public final class Request{} 
+		public final class Response{} 
+	} 
+
+• Eviter le « spaghetti » design 
+	– Les méthodes liées dans la même classe 
+	– Les méthodes non liées dans des classes différentes 
+	– Les classes liées dans un même package 
+	– Les classes non liées ou pour des cas particuliers dans des packages différents 
+	– Idem pour les modules 
+	– Aucune référence à un SPI dans l&apos;implémentation d&apos;une API et packages différents 
+• Core API : concentre les opérations essentielles 
+• Support API : utility methods, helpers 
+• Core SPI : les opérations pour réaliser un plug-in 
+• Support SPI : utility methods, helpers 
+• Prévenir les mauvais usages de l&apos;API 
+	– Exemple : Connection.rollback(Savepoint) // Laisse croire que l&apos;on peut créer un Savepoint =&gt; SavePoint Connection.setSavePoint() // Oblige le Savepoint à être généré par Connection 
+
+Eléments de Code Review 
+
+• Points d&apos;attention sur les synchronisation et Deadlock 
+	– Documenter le modèle de Threads 
+	– Deadlock à prévenir 
+• Mutual exclusion condition 
+	– Le plus connu : une seule thread peut détenir un lock, une ressource 
+• Non pre-emptive scheduling condition 
+	– Une ressource est acquise et ne peut être libérée que par le propriétaire 
+• Hold &amp; Wait condition 
+	– Une ressource est acquise par une thread indéfiniment 
+• Ressources acquises de manière incrémentale 
+	– Une ressource est acquise alors qu&apos;une autre est déjà acquise (et non libérée) 
+• Des éléments similaires extra-JVM : parallélisme inter-process 
+	– Des conditions similaires peuvent intervenir (deadlock) 
+• Exemple : une demande à un tiers mais la demande n&apos;aboutit jamais =&gt; deadlock 
+ou timeout ? 
+• Gestion de la mémoire : est-ce que la logique algorithmique utilisée maintient le 
+prigramme dans des conditions d&apos;usage de la mémoire contrôlables et contrôlées 
+• Exemple : Listing d&apos;un répertoire : combien de résultats ? Tous les résultats vont ils tenir en mémoire ? (valable partout : Shell, Java, HTML, …) 
+	– Utiliser des « singletons vides » pour retourner une absence de résultat (pas NULL) 
+	– Vider tous les « Objets » inutiles (ne pas faire confiance au Garbage Collector) 
+
+Eléments de Test Review 
+
+• Test compatibility Kit 
+	– Utilitaires pour faciliter l&apos;implémentation de tests transverses entre plusieurs implémentations d&apos;une même interface 
+• Exemple : permet de s&apos;assurer de la cohérence fonctionnelle entre une implémentation filesystem / database / cloud d&apos;un système de fichiers abstrait 
+• Tests de non régression 
+	– A chaque évolution, ajouter des « gardes » qui testent la non régression des fonctionnalités qui viennent d&apos;être rajoutées 
+	– Les précédents gardes assurent que le modèle AMOBIA est maîtrisé et que l&apos;évolution va bien toujours en ajout de fonctionnalités 
+• Tests pour le modèle de thread et de parallélisme 
+	– Les 4 cas de deadlock 
+	– Les cas de « race condition » dus au parallélisme externe (autres programmes) 
+• Chaque bug rencontré doit voir un Junit vérifiant la non régression 
+
+API : cas particulier du Multi-tenants 
+
+• Les aspects multi-tenants pris en compte selon 2 modalités 
+1) Implicitement : API REST externes 
+	– L&apos;application Front-office n&apos;est utilisée que pour un seul tenant 
+	– Vitam ajoute systématiquement les informations à chaque requête du tenant concerné 
+2) Explicitement 
+	– API REST Externes 
+• L&apos;application Front-office utilise plusieurs tenants (fonction de l&apos;utilisateur connecté) 
+• L&apos;application doit intégrer un code dans le Header pour indiquer le code du tenant concerné 
+	– X-TenantId : valeur 
+	– API REST Internes (et Java) 
+• X-TenantId doit être présent d&apos;une manière ou d&apos;une autre 
+• La séparation est logique 
+	– Données : séparation par filtre 
+	– Stockage : séparation par container 
+
+
+
+
+content/e726e114f302c871b64569a00acb3a19badb7ee8ce4aef72cc2a043ace4905b8e8fca6f4771f8d6f67e221a53a4bbe170501af318c8f2c026cc8ea60f66fa804.odp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Programme VITAM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VITAM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VITAM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VITAM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Projet ADAMANT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+VITAM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Projet ADAMANT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Projet ADAMANT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Projet ADAMANT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Projet ADAMANT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sensibilisation API
+
+
+
+Valeurs Immatérielles Transférées aux Archives pour Mémoire
+
+
+
+
+
+
+
+
+
+
+
+Planning
+
+
+
+		API en général
+
+
+
+		API REST
+
+
+
+		API Java
+
+
+
+
+
+
+
+
+
+Présentation
+
+
+
+		Une API est pour les humains, pas pour les machines
+
+		Elle doit être compréhensible sans lire le code sous-jacent
+
+		Une bonne API n&apos;impose pas de savoir ce qui se passe dessous
+
+
+
+
+
+
+
+		Elle doit être consistante
+
+		Ordre des arguments toujours le même
+
+
+
+		Ne retourner jamais « null »
+
+
+
+		...
+
+
+
+
+
+
+
+
+
+
+
+		Une API est un contrat : une fois publiée, elle est engageante
+
+		Elle doit être sans ambiguïté
+
+		Le nom méthode/classe/package, collection/service doit permettre de savoir ce qui est induit, et l&apos;ordre des appels
+
+
+
+		N&apos;afficher que ce qui est utile
+
+
+
+
+
+
+
+		L&apos;ajout est possible, le retrait ne l&apos;est pas
+
+		Ajouter une méthode/collection : ok
+
+
+
+		Ajouter un argument : ko sauf si celui-ci est masqué (package/Json)
+
+
+
+		Retrait : ko
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Présentation
+
+
+
+		Une API est un contrat : une fois publiée, elle est engageante
+
+		Il faut prévoir les évolutions des API : la compatibilité ascendante est bien mais l&apos;évolutivité va au delà
+
+		Par exemple : les arguments ou les réponses peuvent être « packagés » pour permettre une évolution via le package et non la signature pure
+
+		Exemple : Contexte ou Json objet
+
+
+
+
+
+
+
+		Vie d&apos;une API
+
+		Private =&gt; Friend =&gt; Stable =&gt; Official =&gt; Deprecated / Under development =&gt; Stable =&gt; Official =&gt; Deprecated
+
+
+
+
+
+
+
+
+
+
+
+		Les API publiques sont évidemment un enjeu majeur (REST et SPI Stockage)
+
+
+
+		Mais les API internes le sont aussi, dans une moindre mesure
+
+		Plusieurs équipes internes partageant les API internes
+
+
+
+		Greffons utilisant « nos » API en provenance de développeurs externes
+
+
+
+
+
+
+
+
+
+
+
+		Less is more
+
+		Design caché, ne pas supposer plus que ce qui est écrit
+
+
+
+
+
+
+
+
+
+
+
+
+
+Présentation
+
+
+
+		Dès la 1ère version
+
+		Se poser les questions car le changement à un coût
+
+		Pour soi : maintenance de l&apos;ancienne version
+
+
+
+		Pour les autres : incompatibilité et donc évolution non maîtrisée
+
+
+
+
+
+
+
+		Tout est API
+
+		REST, Java
+
+
+
+		Répertoire, Fichier
+
+
+
+		Variables d&apos;environnement, Options de ligne de commande
+
+
+
+		Message (log) (exemple : parsing de log)
+
+
+
+		Comportement (exemple : return null ou liste vide)
+
+
+
+
+
+
+
+		Pour autant : Osez ! Et Partagez !
+
+		L&apos;évolution doit être préparée
+
+
+
+
+
+
+
+
+
+
+
+		API Review et API Design
+
+		Le design d&apos;API est comme la sécurité : tant qu&apos;on a aucun incident, c&apos;est que c&apos;est bien fait ; le jour où on a un incident : il est trop tard
+
+		Le coût est malheureusement invisible sauf si on compte les API Review dans nos Points de complexité
+
+
+
+
+
+
+
+		L&apos;API Review est l&apos;assurance de l&apos;autonomie
+
+		Team Design
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Présentation
+
+
+
+		Affirmations excessives
+
+		Une API doit être belle
+
+		La beauté n&apos;a rien à voir, l&apos;objectif est que ce soit compréhensible
+
+
+
+		Il ne s&apos;agit pas de philosophie mais de concret : de maintenance, de compatibilité, de coût, d&apos;évolutivité
+
+
+
+
+
+
+
+		Une API doit être correcte
+
+		La facilité d&apos;usage prime sur la « correction »
+
+
+
+
+
+
+
+		Une API doit être simple
+
+		Si la simplicité empêche de faire des choses compliquées, alors l&apos;API est inutile
+
+
+
+		La facilité ne veut pas dire « trop » simpliste
+
+
+
+
+
+
+
+		Une API doit être 100 % compatible
+
+		C&apos;est bien sûr l&apos;objectif principal, mais il faut parfois admettre de réduire cet objectif à 99 % quand ce &apos;1 %&apos; est bloquant
+
+
+
+		Dans certains cas (incompatibilité) =&gt; deprecated et encouragement à utiliser la nouvelle API en raison de nouvelles fonctionnalités/performances
+
+
+
+
+
+
+
+		Une API doit être symétrique
+
+		Cela se rapproche de l&apos;affirmation « belle »
+
+
+
+		Un Coder (Json &gt;→) et un Decoder (Json &lt; ) n&apos;ont pas besoin d&apos;être parfaitement symétrique
+
+		Json &gt; : read(File) ; toObject(Class) ; readStreamSax(File) ;
+
+
+
+		Json &lt;  : fromObject(Object) ; write(File) ; mais pas de writeStreamSax
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Présentation
+
+
+
+		Possibilité d&apos;apprendre collectivement
+
+		API Design Fest
+
+		Le principe du jeu : pour chaque équipe
+
+
+
+
+
+
+
+
+
+
+
+
+
+						Une API est créée sur la base d&apos;un scénario de tests (API + implémentation)
+
+
+
+		Une première relecture par un « conseil » neutre
+
+
+
+		Une évolution de l&apos;API est demandée (scénario 2 de tests) (API + implémentation)
+
+
+
+
+
+
+
+
+
+
+
+
+
+						Phase de conquête
+
+
+
+
+
+
+
+
+
+
+
+
+
+						Toutes les équipes ont accès aux 2 étapes de la vie de l&apos;API des autres équipes
+
+
+
+		Toutes les équipes essayent de proposer des Junit qui démontrent que le comportement de la première API n&apos;est plus respectée dans la seconde
+
+
+
+		Pour chaque Junit démontrant une faille unique : +1 point pour l&apos;équipe qui a écrit le Junit
+
+
+
+		Pour chaque API sans faille : +5 points pour l&apos;équipe qui l&apos;a écrite 
+
+
+
+
+
+
+
+
+
+
+
+
+
+				Etudes de cas
+
+		Exemple : Extensible visitor pattern
+
+
+
+
+
+
+
+
+
+
+
+		Maître mot : une API doit permettre d&apos;être « Cluelessness »
+
+		Il ne doit pas être nécessaire d&apos;en savoir plus que ce qu&apos;elle indique pour pouvoir l&apos;utiliser, la comprendre
+
+http://wiki.apidesign.org/wiki/Main_Page Jaroslav Tulach (NetBeans)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Organisation d&apos;un API Review
+
+
+
+		Voir différentes pages
+
+		Exemple chez Netbean
+
+		http://wiki.netbeans.org/APIReviews
+
+
+
+		http://wiki.netbeans.org/APIReviewSteps
+
+
+
+
+
+		http://wiki.apidesign.org/wiki/APIDesignPatterns
+
+
+
+
+
+		http://wiki.netbeans.org/APIDevelopment
+
+
+
+
+
+		Exemple de questions
+
+		https://openide.netbeans.org/tutorial/questions.html 
+
+
+
+
+
+
+
+
+
+
+
+http://wiki.apidesign.org/wiki/Main_Page Jaroslav Tulach (NetBeans)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Planning
+
+
+
+		API en général
+
+
+
+		API REST
+
+
+
+		API Java
+
+
+
+
+
+
+
+
+
+Modèle général : End-Points
+
+
+
+		Versionning des API
+
+		Domaine = nom DNS du service
+
+
+
+		Application = domaine de l&apos;application (ingest, access, management, ...)
+
+
+
+		Version = v1, v2, … versions majeures uniquement (version fine dans le header)
+
+
+
+
+
+https://domaine/application/version/
+
+
+
+		Accès à une ressource/collection
+
+https://domaine/application/version/ressources
+
+
+
+		Accès à un élément de cette ressource
+
+https://domaine/application/version/ressources/identifiant_ressource
+
+
+
+		Accès à une deuxième ressource issue d&apos;un élément
+
+https://domaine/application/version/ressources/identifiant_ressource/ressources2
+
+
+
+		Idem interne : https://interne/application/version/ressources
+
+
+
+		Commandes : 
+
+		GET : Lecture
+
+
+
+		POST : Création
+
+
+
+		PUT : Mise à jour complète
+
+
+
+		PATCH : Mise à jour partielle, modification d&apos;un état (nécessité mais PUT possible)
+
+
+
+		DELETE : Effacement, Annulation
+
+
+
+		HEAD : Informations succinctes (a priori non nécessaire)
+
+
+
+		OPTIONS : Opérations permises (a priori non nécessaire)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Modèle général : End-Points
+
+
+
+		Services transverses offerts par chaque « application »
+
+		Pour les API externes
+
+		API de vérification du statut du module
+
+
+
+		API permettant de consulter la version du service et la version de l’application déployée
+
+
+
+
+
+
+
+		Pour les API internes (non visibles), en plus
+
+		API de vérification de l’état des dépendances directes du module
+
+
+
+		API d&apos;activation/désactivation d&apos;un service
+
+
+
+		API de récupération des métriques du module
+
+		Métriques système et JVM
+
+
+
+		Métriques d’utilisation des API (par version)
+
+		Cette fonctionnalité pourrait remonter pour chaque « endpoint » : 
+
+		le nombre d’appels, 
+
+
+
+		les temps d’exécution  maximum/minimum/moyen/etc.
+
+
+
+		le nombre d’erreurs rencontrées
+
+
+
+		etc.
+
+
+
+
+
+
+
+		Le tout sur différentes fenêtres temporelles. 
+
+
+
+
+
+
+
+
+
+
+
+		API de sauvegarde (export) et de restauration (import) (interne)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Conseils généraux
+
+
+
+		Prévoir les cas où les retours sont nombreux
+
+		Next : pour les cas n&apos;utilisant pas le DSL Vitam
+
+
+
+		Offset, Limit : pour les cas utilisant le DSL Vitam
+
+
+
+
+
+
+
+		Prévoir les résultats asynchrones
+
+		Async_List : pour les réponses internes par lot itératif
+
+
+
+		Async_tasks ou Callback : pour des réponses externes/internes asynchrones
+
+
+
+
+
+
+
+		L&apos;API REST ne traduit pas l&apos;implémentation mais le métier
+
+		Une collection n&apos;est pas forcément une table
+
+		Exemple : ingests =&gt; sous-ensemble des opérations
+
+
+
+
+
+
+
+		Une table n&apos;est pas forcément une collection
+
+		Exemple : objects (si implémentés) =&gt; dans ObjectGroup
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Planning
+
+
+
+		API en général
+
+
+
+		API REST
+
+
+
+		API Java
+
+
+
+
+
+
+
+
+
+Définition d&apos;une API de qualité
+
+
+
+		Compréhensible
+
+		Une bonne API n&apos;impose pas de savoir ce qui se passe dessous
+
+		Une série d&apos;éléments : List
+
+
+
+		Un ensemble d&apos;éléments : Set
+
+
+
+		Un flux d&apos;éléments : Stream
+
+
+
+
+
+
+
+
+
+
+
+		Consistante
+
+		Toujours le même Ordre des arguments
+
+		read(byte[]) ; read(byte[], int, int) ;
+
+
+
+
+
+
+
+		Ne retourner jamais « null »
+
+
+
+		Modèle de threads
+
+
+
+
+
+
+
+		Découvrable (Discoverability)
+
+		Facile de trouver les exceptions, les factory, les helpers, les services, les modèles de données, …
+
+
+
+		Découpage en modules/sous-modules/packaging cohérent et clair
+
+
+
+
+
+
+
+		Tâches simples doivent être faciles
+
+		Pour les tâches simples, les moyens de le faire doivent être simple
+
+		Helpers, méthodes avec des valeurs par défaut pour les 80 % des cas
+
+
+
+
+
+
+
+		La complexité est possible mais avec d&apos;autres méthodes/classes
+
+		Les options sont des arguments additionnels (autres méthodes)
+
+
+
+		L&apos;accès à des constructeurs plus fins sont hors Helper
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Définition d&apos;une API de qualité
+
+
+
+		Préserver l&apos;investissement
+
+		Une fois l&apos;API créée, veiller à ne pas « perdre » ses clients
+
+		Junit qui assurent que la montée de version ne crée pas de régression
+
+
+
+		Style de programmation homogène pour faciliter la reprise
+
+
+
+
+
+
+
+
+
+
+
+		Compatibilité ascendante
+
+		Au niveau du code
+
+		Ne pas casser des signatures (méthodes, classes, packages)
+
+
+
+
+
+
+
+		Au niveau binaire
+
+		Ne pas retirer des classes si elles ont été un jour « publiques »
+
+
+
+
+
+
+
+		Au niveau fonctionnel
+
+		Le comportement fonctionnel doit être stable (modèle AMOEBA)
+
+		Exemple : return null ; vs return empty ;
+
+
+
+
+
+
+
+
+
+
+
+		L&apos;ajout est possible, le retrait ne l&apos;est pas
+
+		Ajouter une méthode : ok
+
+
+
+		Ajouter un argument : ko sauf si celui-ci est masqué (dans un package)
+
+
+
+		Retrait : ko
+
+
+
+
+
+
+
+		Attention : SPI
+
+		L&apos;ajout est un problème, le retrait l&apos;est moins
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Maîtriser l&apos;évolution
+
+
+
+		Modèle AMOEBA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		L&apos;entropie d&apos;un logiciel
+
+
+
+
+
+
+
+
+
+
+
+		L&apos;entropie augmente au fur et à mesure et rend impossible la maintenance
+
+
+
+		On réécrit tout (refactoring) mais hélas à l&apos;itération suivante l&apos;entropie reprend
+
+		Anticipation mais pas trop
+
+
+
+		Découpage propre (contrats) pour éviter l&apos;entropie
+
+		Contrats matérialisés par des Junits/Tests de non régression
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+La vision 
+
+fonctionnelle de
+
+L&apos;API qu&apos;on
+
+voulait
+
+La réalité du support
+
+fonctionnelle de
+
+L&apos;API qu&apos;on
+
+a développée
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Conseils
+
+
+
+		Commencer par analyser le besoin métier (Use Case Oriented)
+
+		Proposer une logique applicative (algorithmie)
+
+
+
+
+
+
+
+		Définir l&apos;interface (API publique)
+
+		La confronter à différents avis (API Review)
+
+
+
+
+
+
+
+		Documenter l&apos;API publique
+
+		A quoi ça sert ?
+
+
+
+		Quelle est la logique d&apos;ensemble ?
+
+
+
+		FAQ (mode d&apos;usage, cas d&apos;usage)
+
+
+
+		Documentation de l&apos;API (JavaDoc) : cas particuliers, erreurs et arguments
+
+
+
+
+
+
+
+		Ecrire les Tests d&apos;acceptance et les Junit principaux
+
+
+
+		Implémenter l&apos;API publique puis ses implémentations spécifiques
+
+		Mettre à jour la documentation en fonction
+
+
+
+		Ajouter les Junits nécessaires
+
+
+
+
+
+
+
+		Internationalisation dès le début
+
+		Commentaires et codes : EN
+
+
+
+		Log : EN (tout texte en static final String XXX)
+
+
+
+		Journaux : FR / EN
+
+
+
+
+
+
+
+
+
+
+
+
+
+Eléments de API Review
+
+
+
+		Il faut prévoir les évolutions des API : la compatibilité ascendante est bien mais l&apos;évolutivité va au delà
+
+		Par exemple : les arguments ou les réponses peuvent être « packagées » pour permettre une évolution via le package et non l&apos;API pure
+
+		Exemple : Contexte (contenant beaucoup d&apos;info) et non chaque info
+
+
+
+
+
+
+
+		Vie d&apos;une API
+
+		Private =&gt; Friend =&gt; Stable =&gt; Official =&gt; Deprecated / Under development =&gt; Stable =&gt; Official =&gt; Deprecated
+
+
+
+
+
+
+
+		Préférer coder depuis une interface et non depuis l&apos;implémentation
+
+
+
+		Les API publiques sont évidemment un enjeu majeur (REST et Stockage)
+
+
+
+		Mais les API internes le sont aussi, dans une moindre mesure
+
+		Plusieurs équipes
+
+
+
+		Greffons utilisant « nos » API
+
+
+
+
+
+
+
+
+
+
+
+		Less is more
+
+		Design caché, ne pas supposer plus que ce qui est écrit
+
+
+
+		Pas « tout » public : savoir utiliser les private/protected/package protected
+
+
+
+
+
+
+
+		Séparer client et provider dans les interfaces et les packages
+
+
+
+		Le packaging doit indiquer les usages et ne pas mélanger implémentation et définition
+
+
+
+
+
+
+
+
+
+Eléments de API Review
+
+
+
+		Une méthode est meilleure qu&apos;un champ
+
+
+
+		Un Factory est meilleur qu&apos;un constructeur
+
+
+
+		Autant que possible tout doit être « final »
+
+		Classes, méthodes, attributs
+
+
+
+		Les exceptions sont : on sait que l&apos;on va l&apos;étendre (abstract) ou la surcharger (extends)
+
+		Uniquement pour les codes « amis »
+
+
+
+
+
+
+
+
+
+
+
+		Garder le code là où il doit être
+
+		Un Setter doit appartenir à la classe qui déclare l&apos;attribut
+
+
+
+
+
+
+
+		Laisser au créateur d&apos;un Object plus de droits
+
+		Exemple : un argument Class Configuration permet d&apos;avoir plusieurs implémentations de celui-ci et donc de laisser son comportement libre au fournisseur
+
+
+
+
+
+
+
+		Ne pas exposer des hiérarchies trop profondes
+
+		Contre exemple : JButton &lt;  AbstractButton &lt;  JComponent &lt;  Container
+
+		On pourrait croire qu&apos;il est possible d&apos;ajouter des composants à un bouton, ce qui n&apos;était pas le sens premier de cette hiérarchie
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Eléments de API Review
+
+
+
+		Être prêt pour l&apos;ajout de paramètres (en argument et en résultat)
+
+public interface Compute {
+
+public void computeData(Request request, Response response) ;
+
+public final class Request{}
+
+public final class Response{}
+
+
+
+}
+
+
+
+
+
+		Eviter le « spaghetti » design
+
+		Les méthodes liées dans la même classe
+
+
+
+		Les méthodes non liées dans des classes différentes
+
+
+
+		Les classes liées dans un même package
+
+
+
+		Les classes non liées ou pour des cas particuliers dans des packages différents
+
+
+
+		Idem pour les modules
+
+
+
+		Aucune référence à un SPI dans l&apos;implémentation d&apos;une API et packages différents
+
+		Core API : concentre les opérations essentielles
+
+
+
+		Support API : utility methods, helpers
+
+
+
+		Core SPI : les opérations pour réaliser un plug-in
+
+
+
+		Support SPI : utility methods, helpers
+
+
+
+
+
+
+
+
+
+
+
+		Prévenir les mauvais usages de l&apos;API
+
+		Exemple : Connection.rollback(Savepoint) // Laisse croire que l&apos;on peut créer un Savepoint
+
+=&gt; SavePoint Connection.setSavePoint() // Oblige le Savepoint à être généré par Connection
+
+
+
+
+
+
+
+
+
+
+
+
+
+Eléments de Code Review
+
+
+
+		Points d&apos;attention sur les synchronisation et Deadlock
+
+		Documenter le modèle de Threads
+
+
+
+		Deadlock à prévenir
+
+		Mutual exclusion condition
+
+		Le plus connu : une seule thread peut détenir un lock, une ressource
+
+
+
+
+
+
+
+		Non pre-emptive scheduling condition
+
+		Une ressource est acquise et ne peut être libérée que par le propriétaire
+
+
+
+
+
+
+
+		Hold &amp; Wait condition
+
+		Une ressource est acquise par une thread indéfiniment
+
+
+
+
+
+
+
+		Ressources acquises de manière incrémentale
+
+		Une ressource est acquise alors qu&apos;une autre est déjà acquise (et non libérée)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		Des éléments similaires extra-JVM : parallélisme inter-process
+
+		Des conditions similaires peuvent intervenir (deadlock)
+
+		Exemple : une demande à un tiers mais la demande n&apos;aboutit jamais =&gt; deadlock ou timeout ?
+
+
+
+
+
+
+
+
+
+
+
+		Gestion de la mémoire : est-ce que la logique algorithmique utilisée maintient le prigramme dans des conditions d&apos;usage de la mémoire contrôlables et contrôlées
+
+				Exemple : Listing d&apos;un répertoire : combien de résultats ? Tous les résultats vont ils tenir en mémoire ? (valable partout : Shell, Java, HTML, …)
+
+
+
+
+
+
+
+		Utiliser des « singletons vides » pour retourner une absence de résultat (pas NULL)
+
+
+
+		Vider tous les « Objets » inutiles (ne pas faire confiance au Garbage Collector)
+
+
+
+
+
+
+
+
+
+
+
+
+
+Eléments de Test Review
+
+
+
+		Test compatibility Kit
+
+		Utilitaires pour faciliter l&apos;implémentation de tests transverses entre plusieurs implémentations d&apos;une même interface
+
+		Exemple : permet de s&apos;assurer de la cohérence fonctionnelle entre une implémentation filesystem / database / cloud d&apos;un système de fichiers abstrait
+
+
+
+
+
+
+
+
+
+
+
+		Tests de non régression
+
+		A chaque évolution, ajouter des « gardes » qui testent la non régression des fonctionnalités qui viennent d&apos;être rajoutées
+
+
+
+		Les précédents gardes assurent que le modèle AMOBIA est maîtrisé et que l&apos;évolution va bien toujours en ajout de fonctionnalités
+
+
+
+
+
+
+
+		Tests pour le modèle de thread et de parallélisme
+
+		Les 4 cas de deadlock
+
+
+
+		Les cas de « race condition » dus au parallélisme externe (autres programmes)
+
+
+
+
+
+
+
+		Chaque bug rencontré doit voir un Junit vérifiant la non régression
+
+
+
+
+
+
+
+
+
+API : cas particulier du Multi-tenants
+
+
+
+		Les aspects multi-tenants pris en compte selon 2 modalités
+
+1) Implicitement : API REST externes
+
+		L&apos;application Front-office n&apos;est utilisée que pour un seul tenant
+
+
+
+		Vitam ajoute systématiquement les informations à chaque requête du tenant concerné
+
+
+
+
+
+2) Explicitement
+
+		API REST Externes
+
+		L&apos;application Front-office utilise plusieurs tenants (fonction de l&apos;utilisateur connecté)
+
+
+
+		L&apos;application doit intégrer un code dans le Header pour indiquer le code du tenant concerné
+
+		X-TenantId : valeur
+
+
+
+
+
+
+
+
+
+
+
+		API REST Internes (et Java)
+
+		X-TenantId doit être présent d&apos;une manière ou d&apos;une autre
+
+
+
+
+
+
+
+
+
+
+
+		La séparation est logique
+
+		Données : séparation par filtre
+
+
+
+		Stockage : séparation par container
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+content/fe2b0664fc66afd85f839be6ee4b6433b60a06b9a4481e0743c9965394fa0b8aa51b30df11f3281fef3d7f6c86a35cd2925351076da7abc064ad89369edf44f0.png
+
+
+manifest.xml
+ 
+     2016-06-23T09:45:51.0
+     OKSip
+     ArchivalAgreement0
+     
+         ReplyCodeListVersion0
+         MessageDigestAlgorithmCodeListVersion0
+         MimeTypeCodeListVersion0
+         EncodingCodeListVersion0
+         FileFormatCodeListVersion0
+         CompressionAlgorithmCodeListVersion0
+         DataObjectVersionCodeListVersion0
+         StorageRuleCodeListVersion0
+         AppraisalRuleCodeListVersion0
+         AccessRuleCodeListVersion0
+         DisseminationRuleCodeListVersion0
+         ReuseRuleCodeListVersion0
+         ClassificationRuleCodeListVersion0
+         AuthorizationReasonCodeListVersion0
+         RelationshipCodeListVersion0
+    
+    
+     
+         
+             ID006
+             PhysicalMaster
+             1500W03
+             
+				 23
+            
+        
+        
+         
+             ID006
+             BinaryMaster
+             content/e726e114f302c871b64569a00acb3a19badb7ee8ce4aef72cc2a043ace4905b8e8fca6f4771f8d6f67e221a53a4bbe170501af318c8f2c026cc8ea60f66fa804.odp
+             e726e114f302c871b64569a00acb3a19badb7ee8ce4aef72cc2a043ace4905b8e8fca6f4771f8d6f67e221a53a4bbe170501af318c8f2c026cc8ea60f66fa804
+             100646
+             
+                 OpenDocument Presentation
+                 application/vnd.oasis.opendocument.presentation
+                 fmt/293
+            
+             
+                 Vitam-Sensibilisation-API-V1.0.odp
+                 LibreOffice/Impress
+                 5.0.5.2
+                 Windows_X86_64
+                 10
+                 2016-05-05T20:45:20
+            
+             
+                 
+            
+             
+        
+         
+             ID006
+             Dissemination
+             content/abead17e841c937187270cb95b0656bf3f7a9e71c8ca95e7fc8efa38cfffcab9889f353a95136fa3073a422d825175bf1bef24dc355bfa081f7e48b106070fd5.pdf
+             abead17e841c937187270cb95b0656bf3f7a9e71c8ca95e7fc8efa38cfffcab9889f353a95136fa3073a422d825175bf1bef24dc355bfa081f7e48b106070fd5
+             186536
+             
+                 Acrobat PDF 1.4 - Portable Document Format
+                 application/pdf
+                 fmt/18
+            
+             
+                 Vitam-Sensibilisation-API-V1.0.pdf
+                 LibreOffice 5.0/Impress
+                 5.0.5.2
+                 Windows_X86_64
+                 10
+                 2016-05-05T20:45:32
+            
+             
+                 
+            
+             
+        
+         
+             ID006
+             Thumbnail
+             content/fe2b0664fc66afd85f839be6ee4b6433b60a06b9a4481e0743c9965394fa0b8aa51b30df11f3281fef3d7f6c86a35cd2925351076da7abc064ad89369edf44f0.png
+             fe2b0664fc66afd85f839be6ee4b6433b60a06b9a4481e0743c9965394fa0b8aa51b30df11f3281fef3d7f6c86a35cd2925351076da7abc064ad89369edf44f0
+             40740
+             
+                 Portable Network Graphics
+                 image/png
+                 fmt/11
+            
+             
+                 Vitam-Sensibilisation-API-V1.0.png
+                 LibreOffice/Impress
+                 5.0.5.2
+                 Windows_X86_64
+                 10
+                 2016-06-23T12:45:20
+            
+             
+                 
+            
+             
+        
+         
+             ID006
+             TextContent
+             content/d156f4a4cc725cc6eaaafdcb7936c9441d25bdf033e4e2f1852cf540d39713446cfcd42f2ba087eb66f3f9dbfeca338180ca64bdde645706ec14499311d557f4.txt
+             d156f4a4cc725cc6eaaafdcb7936c9441d25bdf033e4e2f1852cf540d39713446cfcd42f2ba087eb66f3f9dbfeca338180ca64bdde645706ec14499311d557f4
+             17120
+             
+                 Plain Text File
+                 text/plain
+                 x-fmt/111
+                 UTF-8
+            
+             
+                 Vitam-Sensibilisation-API-V1.0.txt
+                 2016-06-23T12:50:20
+            
+             
+                 
+            
+             
+        
+        
+         
+             
+                 PresentationType
+                 
+                     
+                         Rule0
+                         RestrictAccess
+                    
+                     
+                         Rule2
+                         Keep
+                    
+                     
+                         Rule4
+                    
+                     
+                         Rule6
+                    
+                     
+                         Rule8
+                         Rule9
+                    
+                     
+                         Rule10
+                         Rule11
+                         ClassificationLevel0
+                         ClassificationOwner0
+                    
+                     false
+                
+                 
+                     Item
+                     SIP OK
+                     FilePlanPosition0
+                     OriginatingSystemId0
+                     ArchivalAgencyArchiveUnitIdentifier0
+                     OriginatingAgencyArchiveUnitIdentifier0
+                     TransferringAgencyArchiveUnitIdentifier0
+                     Sensibilisation au Technical Design et à l&apos;API Design Java et REST de la solution logicielle Vitam
+                     fr-FR
+                     
+                         Identifier0
+                    
+                     
+                         Identifier1
+                    
+                     
+                         FirstName0
+                         BirthName0
+                    
+                     2016-05-05T20:45:20
+                     2016-05-05
+                
+                 
+                     ID006
+                
+            
+        
+         
+             ArchivalProfile0
+             ServiceLevel0
+             FRAN_NP_050392
+        
+    
+
+     
+         ArchivalAgency1
+    
+     
+         TransferringAgency1
+    
+
+
+
+</TextContent>
+</Content>

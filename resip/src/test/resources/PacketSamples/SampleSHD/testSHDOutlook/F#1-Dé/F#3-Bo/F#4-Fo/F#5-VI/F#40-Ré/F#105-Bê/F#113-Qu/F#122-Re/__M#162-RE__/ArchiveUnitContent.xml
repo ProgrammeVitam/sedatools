@@ -1,0 +1,283 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>RE: TR: VITAM Bêta : Pb de certificat ? Atelier d&apos;échange demandé.- Ok pour le point du 16 - Assitance de l&apos;équipe d&apos;intégration demandée</Title>
+    <OriginatingSystemId>&lt;58ed5857aadc3babd718b23e5776b7b2@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>emmanuel.laborde</FirstName>
+        <BirthName>emmanuel.laborde</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Addressee>
+        <FirstName>AJJAZ Franck (franck.ajjaz@altran.com)</FirstName>
+        <BirthName>AJJAZ Franck (franck.ajjaz@altran.com)</BirthName>
+        <Identifier>franck.ajjaz@altran.com</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>WALTZER Kristopher</FirstName>
+        <BirthName>WALTZER Kristopher</BirthName>
+        <Identifier>kristopher.waltzer@thalesgroup.com</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>DANYACH-DESCHAMPS Myriam</FirstName>
+        <BirthName>DANYACH-DESCHAMPS Myriam</BirthName>
+        <Identifier>myriam.danyach-deschamps@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>BEL Nicolas</FirstName>
+        <BirthName>BEL Nicolas</BirthName>
+        <Identifier>nicolas.bel@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>MORENO Mario</FirstName>
+        <BirthName>MORENO Mario</BirthName>
+        <Identifier>mario.moreno@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>jean-séverin LAIR (jean-severin.lair@culture.gouv.fr)</FirstName>
+        <BirthName>jean-séverin LAIR (jean-severin.lair@culture.gouv.fr)</BirthName>
+        <Identifier>jean-severin.lair@culture.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-12-16T13:41:44Z</SentDate>
+    <ReceivedDate>2016-12-16T13:42:38Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;d06a069e5d4c2bce08597d59ffcf6155@culture.gouv.fr&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour,
+
+Il est 14h30 passé. Je vous rappel mon numéro de téléphone au cas ou.
+
+06 62 63 94 45
+
+A 14h45, je considérerais que la réunion est annulée.
+
+Cdt,
+
+Emmanuel Laborde
+
+ 
+
+ 
+
+ 
+
+Le 2016-12-16 11:59, emmanuel.laborde a écrit :
+
+	 
+
+	Bonjour Thierry,
+
+	Ok pour le point téléphonique à 14h30. L&apos;objet sera d&apos;échanger sur vos bug prioritaires (pb d&apos;accès à l&apos;API d&apos;ingest en particulier) et sur les processus de qualification des bug et de suivi car, visiblement, ils ne sont pas utilisés de manière optimal (nous aurons quelques propositions d&apos;amélioration).
+
+	Concernant les points suivants &quot;Sinon non, nous n’avions pas contacté l’équipe d’intégration. Mais n’es-tu pas notre interlocuteur POC VITAM pour la recette ?  Comment faire pour bénéficier de quelques heures d’assistance de la part de l’équipe d’intégration ?&quot;
+
+	Oui je suis votre POC vitam mais cela ne doit pas vous empêcher d&apos;utiliser le service de support de niveau 1. La logique veux que j&apos;intervienne sur les sujets &quot;en souffrance&quot; (critique et/ou qui n&apos;avance pas de manière satisfaisante). Je m’appuie également sur les équipes support et cela pose un problème si elles n&apos;ont pas une bonne connaissance des problèmes que vous rencontrez ou de leur urgence.
+
+	Si vous avez besoin d&apos;un support renforcé sur site, vous pouvez utiliser les jours de support prévus à cet effet. Dans le cadre du traitement d&apos;un bug, cela peut s&apos;envisager également, mais cela doit être qualifié. Nous ferons le point avec vous à 14h30 pour voir si cela est nécessaire sur les bugs actuellement déclarés.
+
+	Concernant la question sur les requêtes j&apos;ai déjà répondu, donc nous éclaircirons votre question à 14h30.
+
+	Cdt,
+
+	Emmanuel Laborde
+
+	 
+
+	Le 2016-12-15 19:09, CASIMIRIUS Thierry a écrit :
+
+		Bonsoir Emmanuel,
+
+		 
+
+		Tout d’abord, merci. Le point téléphonique est possible demain après-midi à 14h30, à moins que vous puissiez vous déplacer chez Altran pour le diagnostic ?
+
+		Si c’est un point téléphonique, nous t’appellerons sur ton mobile ou autre ligne à préciser.
+
+		 
+
+		Je viens de déposer une anomalie sur Tuleap pour le problème du certificat serveur qui pourrait poser problème.
+
+		Un ticket a déjà été déposé cette semaine sur tuleap (id 19 Tuleap – et 10 pour altran) pour souligner la différence de comportement entre les résultats d’appel à l’API Ingest et par l’IHM.
+
+		Cela avait fait l’objet d’un mail transmis la semaine dernière (« ArchiveTransferReply » avec ReplyCode=KO, via SOAP UI, alors qu&apos;il est OK via IHM !)
+
+		Je confirme que l’IHM ne pose pas de problème, mais seulement l’appel de l’API ingest.
+
+		 
+
+		Sinon non, nous n’avions pas contacté l’équipe d’intégration. Mais n’es-tu pas notre interlocuteur POC VITAM pour la recette ? 
+
+		Comment faire pour bénéficier de quelques heures d’assistance de la part de l’équipe d’intégration ?
+
+		 
+
+		Enfin, pour les exemples de requêtes, pour tester « manuellement », comment faites-vous si vous n’utilisez pas des requêtes éprouvées ?
+
+		 
+
+		A demain. 
+
+		 
+
+		Cordialement,
+
+		 
+
+		Thierry CASIMIRIUS
+
+		Chef du bureau des technologies de l’information
+
+		Service historique de la Défense
+
+		SGA/DMPA/SHD/PPST/BTI
+
+		Tél : 01 41 93 20 45
+
+		 
+
+		De : emmanuel.laborde [mailto:emmanuel.laborde@culture.gouv.fr] 
+		Envoyé : jeudi 15 décembre 2016 18:20
+		À : CASIMIRIUS Thierry IDEF MINDEF
+		Cc : DANYACH-DESCHAMPS Myriam ASC; AJJAZ Franck (franck.ajjaz@altran.com); BEL Nicolas ASC NIV I OA; MORENO Mario ASC; jean-séverin LAIR (jean-severin.lair@culture.gouv.fr); WALTZER Kristopher
+		Objet : Re: TR: VITAM Bêta : Demande de documentation complémentaire DSL et API - Atelier d&apos;échange demandé.
+
+		 
+
+		 
+
+		Bonjour Thierry,
+
+		1- Est-il possible de  récupérer plus d’ exemples de requêtes ?
+
+		Non, nous n&apos;avons pas créé de nouvelles requêtes &quot;accès&quot; car celles que nous vous avons communiquées sont représentatives de l&apos;ensemble du périmètre et pour le reste nous testons manuellement ou via les IHM. 
+
+		2- D’autre part, nous sommes toujours bloqués sur le paramétrage de  l’Ingest par API. 
+
+		Pour ma part j&apos;ai sollicité l&apos;équipe de développement qui à fait la démonstration sur POSTMAN pensant que c&apos;était la votre problème. Il semble s&apos;agir d&apos;un problème de certificat.
+
+		Vous confirmez bien que vous n’arrivez pas à accéder à l&apos;ingest (ni depuis l&apos;IHM VITAM ni par votre SOAP UI, ni par POSTMAN) ?
+
+		Si c&apos;est le cas, cela peut être lié à un problème d&apos;installation du certificat serveur. Avez vous ouvert un ticket (Bug) sur le Tuleap à ce sujet ? Vu le problème vous pouvez le qualifier de critique. Notre premier niveau est l&apos;équipe d&apos;intégration. Avez vous pris contacte avec eux à ce sujet ?
+
+		Si vous arrivez à faire des ingest depuis l&apos;IHM VITAM, il faut quand même vérifier les aspects certificat serveur (avec l&apos;équipe d’intégration).
+
+		3) Enfin serait-il possible d’organiser tous les deux jours un échange (1/2 environ) entre VITAM, SHD et Altran ?
+
+		Oui c&apos;est possible pour traiter les problèmes Critiques / bloquants. Cela ne doit pas devenir un contournement des processus qui ont été validés pour la gestion courante (ouverture et échanges d&apos;informations pour la qualification des bugs &quot;courant&quot;...).
+
+		Je vous propose un premier point vendredi 16, à 11h ou 14h30.
+
+		Cdt,
+
+		Emmanuel Laborde
+
+		 
+
+		 
+
+		Le 2016-12-15 17:06, CASIMIRIUS Thierry a écrit :
+
+			Bonjour Emmanuel,
+
+			 
+
+			Je me permets de revenir vers toi car nous (Altran &amp; SHD) avons vraiment besoin d’échanger avec vous autour des API :
+
+			 
+
+			1- Est-il possible de  récupérer plus d’ exemples de requêtes ?
+
+			Vous avez dû en faire pendant  vos tests. A défaut d’explication en présentiel dans un premier temps, disposer d’exemples serait déjà un plus.
+
+			Cela pourrait nous faire gagner du temps lors d’analyse en cas de problème car nous ( Altran) serions sûrs des syntaxes à utiliser.
+
+			 
+
+			2- D’autre part, nous sommes toujours bloqués sur le paramétrage de  l’Ingest par API. 
+
+			Ne pouvons-nous pas utiliser les jours d’assistance ? 
+
+			Le  problème n’est pas SOAPUI puisque nous (Altran)  arrivons à joindre l’API access et à faire des recherches et des modifications sur certaines balises.
+
+			Le problème est que l’appel à l’ingest ne fonctionne pas avec le paramétrage qui est documenté ou qui a été communiqué lors de la dernière réunion API ni avec beaucoup d’autres qui ont été essayé.
+
+			 
+
+			3) Enfin serait-il possible d’organiser tous les deux jours un échange (1/2 environ) entre VITAM, SHD et Altran ?
+
+			Il faudrait que nous puissions échanger régulièrement directement entre nous . 
+
+			 
+
+			 
+
+			D’avance, merci pour ton intervention, mais sache que nous avons vraiment besoin d’échanger avec vous, pour avancer sur les API dans le cadre cette TRA.
+
+			L’idéal serait que cet atelier ait lieu en début de semaine prochaine.
+
+			 
+
+			Cordialement,
+
+			 
+
+			Thierry CASIMIRIUS
+
+			Chef du bureau des technologies de l’information
+
+			Service historique de la Défense
+
+			SGA/DMPA/SHD/PPST/BTI
+
+			Tél : 01 41 93 20 45
+
+			 
+
+			 
+
+			De : CASIMIRIUS Thierry [mailto:thierry.casimirius@intradef.gouv.fr] 
+			Envoyé : jeudi 8 décembre 2016 15:05
+			À : emmanuel.laborde
+			Cc : DANYACH-DESCHAMPS Myriam; AJJAZ Franck; BEL Nicolas; MORENO Mario
+			Objet : VITAM Bêta : Demande de documentation complémentaire DSL et API
+
+			 
+
+			Bonjour Emmanuel,
+
+			 
+
+			Est-il possible de récupérer plus d’exemples de requêtes utilisant le DSL ?  Seules les requêtes de la démo postman sont disponibles, et nous ne savons pas si nous disposons de la dernière version. Nous souhaiterions  avoir d’autres exemples de requêtes, dont des complexes (avec bien sûr leur utilité expliquée).
+
+			Disposez- vous par ailleurs de plus de spécifications « développeurs » qui permettent  d’avoir une idée plus  précise de comment fonctionne la solution ? Et de documentation détaillant plus les API, avec notamment des modes opératoires, des exemples et des démos ?
+
+			 
+
+			Enfin, avez-vous pu étudier le mail transmis hier précisant nos difficultés d’utilisation de l’API Ingest ? 
+
+			Est-il possible de convenir d’un nouvel atelier sur la question avec les équipes VITAM et Altran ?
+
+			 
+
+			 
+
+			D’avance, merci pour ton intervention,
+
+			 
+
+			Cordialement,
+
+			 
+
+			Thierry CASIMIRIUS
+
+			Chef du bureau des technologies de l’information
+
+			Service historique de la Défense
+
+			SGA/DMPA/SHD/PPST/BTI
+
+			Tél : 01 41 93 20 45</TextContent>
+</Content>

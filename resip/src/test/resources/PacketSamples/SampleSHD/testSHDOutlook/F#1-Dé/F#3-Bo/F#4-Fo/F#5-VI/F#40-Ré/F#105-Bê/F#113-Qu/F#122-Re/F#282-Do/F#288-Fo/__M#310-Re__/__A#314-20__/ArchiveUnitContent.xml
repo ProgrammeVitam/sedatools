@@ -1,0 +1,1914 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>20160905_artifact_story_projetvitam_reporting_V1.0.ods</Title>
+    <Description>Document &quot;20160905_artifact_story_projetvitam_reporting_V1.0.ods&quot; joint au message &lt;29ad268d3ae3efbca86670381e71fa48@culture.gouv.fr&gt;</Description>
+    <CreatedDate>2016-10-28T15:03:33Z</CreatedDate>
+    <TextContent>???
+Page 
+??? (???)
+00/00/0000, 00:00:00
+Page  / 
+	ID
+	Code Storymap
+	Intitulé
+	Description Métier
+	Critères d’acceptance
+	Prérequis
+	Entrée
+	Sortie
+	Taches, User Stories associées
+	Type
+	Statut
+	Valeur Métier
+	Complexité Contractuelle
+
+	33
+	AFC-02-000
+	En tant qu&apos;Administrateur fonctionnel, je veux pouvoir afficher et rechercher dans le journal des opérations les opérations d&apos;entrée afin de visualiser une entrée
+	Pour cette US, on filtre le journal des opérations en prenant pour critère par défaut &quot;Type de processus = Ingest (evTypeProc ou evIdProc)&quot;
+Critère de recherche du formulaire : Nom de l&apos;entrée (obIdIn)
+Le tableau affiche toutes les op d&apos;entrées
+Trie par défaut &quot;Last In First Out&quot; (création de l&apos;opération d&apos;entrée = réception SIP)
+Lorsqu&apos;une recherche est lancée, la liste des résultats est maj,
+Les résultats sont cliquables ce qui permet par la suite d&apos;afficher le détail d&apos;une entrée
+Informations à afficher dans la liste des resultats : 
+Id opération, Nom de l&apos;entrée, Date, Statut
+	Par défaut, la liste complète des opérations d&apos;entrées est affichée en mode LIFO
+Lorsqu&apos;une recherche est effectuée, la liste des opérations d&apos;entrées est maj en fonction des resultats
+Les résultats de recheche sont afichés en mode LIFO
+Chaque ligne des opérations d&apos;entrées est cliquable (#90)
+	des entrées dans VItam
+Un journal des opérations entrées non vide
+Nom de l&apos;entrée connue
+	IHM &quot;Suivi des opération d&apos;entrée&quot;
+	Liste de résultat mise à jour selon la recherche
+	task #495, task #496, task #497, task #498, task #499
+	Fonctionnelle
+	A recette (release)
+	60
+	17
+
+	68
+	ENT-03-000
+	En tant que SIA Je veux vérifier la présence d’un bordereau Afin de s’assurer que le SIP est bien constitué
+	Le SIP est bien constitué d’un bordereau de versement et d’un lot d’archive.
+Le SIP, formaté en fichier zip, se compose comme suit :
+un ou plusieurs bordereau SEDA placé à la racine au format xml pouvant être nommé : manifest.xml
+un ou plusieurs dossier Content qui contient un ou plusieurs objets numériques (pouvant être eux-mêmes des fichiers xml)
+Premier contrôle effectué à la réception du SIP (contrôle sur l’aspect général).
+	Étant donné un SIP bien constitué d&apos;un bordereau SEDA valide
+Action Contrôler
+Vérification recevoir un statut de confirmation « ok »
+*****
+Étant donné un SIP constitué d’un bordereau SEDA non valide (erreur xml)
+Action Contrôler
+Vérification recevoir un statut « ko »
+****
+Étant donnéun SIP constitué d’un bordereau SEDA non valide (erreur par rapport au xsd)
+Action Contrôler
+Vérification recevoir un statut « ko »
+*****
+Étant donné un SIP vide
+Action Contrôler
+Vérification recevoir un statut « ko » avec l’élément manquant (SIP vide)
+	– jeu de test de SIP (avec/sans bordereau, avec/sans archives)
+	SIP (lot d’archives + bordereau nommé manifest.xml cf. description métier)
+	Remontée d&apos;un statut pour suivi sur IHM de suivi des entrées (US : En tant qu&apos;administrateur fonctionnel, je veux suivre les étapes du processus d&apos;entrée, afin de superviser l&apos;entrée en cours)
+	task #383, task #384, task #385, task #386, task #387, task #388, task #389, task #390
+	Fonctionnelle
+	A recette (release)
+	13
+	15
+
+	69
+	ENT-03-000
+	En tant que SIA Je veux vérifier que le nombre d’objets contenu dans le SIP correspond au nombre d’objets déclaré dans le bordereau Afin de s’assurer de l’intégralité du SIP
+	Le bordereau de versement contient l’information indiquant le nombre d’objets contenu dans le SIP.
+	Étant donné un SIP complet
+Action Contrôler
+Vérification recevoir un statut « ok »
+****
+Étant donné un SIP constitué d’un nombre d’objets &lt;  au nombre d’objets déclaré
+Action Contrôler
+Vérification recevoir un statut « ko » (objet(s) manquant)
+****
+Étant donné un SIP constitué d’un nombre d’objets &gt; au nombre d’objets déclaré
+Action Contrôler
+Vérification recevoir un statut « ko » (objet(s) en trop)
+****
+Etant donné un SIP complet mais où les liens URI entre le bordereau et les objetssont invalides
+Action Contrôler
+Vérification recevoir un statut &quot;ko&quot;
+	– jeu de SIP (nb obj bordereau / nb obj : =, &lt; , &gt;)
+	SIP (lot d’archives + bordereau)
+	Remontée d&apos;un statut pour suivi sur IHM de suivi des entrées (US : En tant qu&apos;administrateur fonctionnel, je veux suivre les étapes du processus d&apos;entrée, afin de superviser l&apos;entrée en cours)
+	task #422, task #423, task #424, task #425, task #426, task #427
+	Fonctionnelle
+	A recette (release)
+	13
+	16
+
+	70
+	ENT-03-000
+	En tant que SIA Je veux indexer les métadonnées contenues dans le SIP Afin d&apos;accéder aux métadonnées, pouvoir les rechercher, et consulter les objets
+	Le fait d’indexer les méta-données permet aux archivistes/+ de faire des recherches, de constituer des instruments de recherche, afin de pouvoir consulter à terme les documents associés aux MD.
+Permet également d’appliquer les règles de gestion correspondantes aux objets.
+	Étant donné un SIP contenant des MD
+Action Indexer les MD contenu dans le SIP
+Vérification– statut de confirmation « ok »
+****
+Étant donné un SIP ne contenant pas de MD
+Action
+Indexer les MD contenu dans le SIP
+Vérification– statut « ko »
+****
+Étant donné une base de données inaccessible
+Action Indexer les MD contenu dans le SIP
+Vérification– statut « ko »
+	– jeu de SIP (avec MD, sans MD)
+	SIP (lot d’archives et bordereau)
+	– indexer les métadonnées (titre, date (transactedDate))
+- Remontée d&apos;un statut pour suivi sur IHM de suivi des entrées (US : En tant qu&apos;administrateur fonctionnel, je veux suivre les étapes du processus d&apos;entrée, afin de superviser l&apos;entrée en cours)
+	task #391, task #392, task #393, task #394, task #395
+	Fonctionnelle
+	A recette (release)
+	40
+	13
+
+	71
+	PRE-04-000
+	En tant qu&apos;administrateur fonctionnel, je veux créer le référentiel de format Vitam afin d&apos;importer le référentiel PRONOM
+	Je veux créer les champs souhaités dans Vitam via les signatures du référentiel Pronom sous forme de tableau indiquant les informations suivantes :
+- PUID (PUID)
+- Nom du format (Name)
+- Version du format (Version)
+- Identifiant(s) du format (MIMEType)
+- Extension(s) (Extensions)
+- Version(s) précédente(s) (HasPriorityOverFileFormatID)
+- Date de création de l&apos;enregistrement (à la racine du XML &lt; FFSignatureFile DateCreated)
+- Version de l&apos;enregistrement (à la racine du XML &lt; FFSignatureFile Version) =&gt; VersionPronom
+- Champ Commentaire (Comment) (chaîne de caractères) (créé vide)
+- Champ Alert (booléen) (créé à Faux)
+- Champ Group (chaîne de caractères) (créé vide pour le moment)
+
+Référence du schéma Pronom dans le PDF : http://www.nationalarchives.gov.uk/aboutapps/fileformat/pdf/automatic_format_identification.pdf (Appendices Chapitre 1.1 Pages 22 à 25)
+
+Faire attention a l&apos;encodage (UTF-8)
+
+Cardinalité : chaque enregistrement
+1 format a 1 PUID (clef primaire)
+1 format a 1 Name
+1 format a 1 Version
+1 format a n MIMEType
+1 format a n Extension
+1 format a n HasPriorityOverFileFormatID
+1 format a 1 Comment
+1 format a 1 Alert
+1 format a 1 Group
+1 format a 1 date de création (répétée) =&gt; CreatedDate
+1 format a 1 version Pronom (répétée) =&gt; VersionPronom
+
+- Name : nom littéral du format de fichier (alimenté par défaut à partir de la balise FileFormat et de son attribut Name du fichier de signature PRONOM) - type string 
+- Version : version du format (alimenté par défaut à partir de la balise FileFormat et de son attribut Version du fichier de signature PRONOM) - type string 
+- MIMEType : type MIME du format (alimenté par défaut à partir de la balise MIMEType du fichier de signature PRONOM) - type string
+- Extensions : extensions du format (alimenté par défaut à partir des
+balises Extension du fichier de signature PRONOM)- type Liste de String, chacune limitée à longueur &lt; = 5
+- HasPriorityOverFileFormatID : versions précédentes du format (alimenté par défaut à partir des balises HasPriorityOverFileFormatID du fichier de signature PRONOM)- type Liste de Type equivalent à PUID dans la base mais originellement = xml id dans le fichier pronom
+- CreatedDate : date de création de l&apos;enregistrement du fichier de signature pronom utilisé pour l&apos;alimentation du format (alimenté à partir de la balise FFSignatureFile et de son attribut DateCreated du fichier de signature PRONOM) - type date 
+- VersionPronom : version du fichier de signature PRONOM utilisé pour l&apos;alimentation de l&apos;enregistrement correspondant au format (alimenté à partir de la balise FFSignatureFile et de son attribut Version du fichier de signature PRONOM) - type nombre
+- Comment : commentaire - type string 
+- Alert : obsolescence du format - type booléen. valeur par défaut = false 
+- Group : famille du format de fichier - type string //créé vide pour le moment 
+	Etant donné la création du référentiel de format VITAM 
+Lorsque la base du référentiel est créée,
+Alors je peux constater qu&apos;un referentiel avec des champs prédéfinis (voir description métier) et vide existe sous forme de base de données
+
+Etant donné la création de la base du référentiel de format VITAM 
+Lorsque les champs sont crées,
+Alors je peux constater que les champs PUID, Name sont obligatoires et toujours renseignés
+
+Etant donné la création de la base du référentiel de format VITAM 
+Lorsque les champs sont crées,
+Alors je peux constater que tous les champs sauf PUID, Name ne pas sont obligatoires et peuvent être null
+	La solution VITAM
+	Des champs de referentiel de formats
+	Une page dediee au referentiel de formats sous forme de tableau
+		Fonctionnelle
+	En cours d&apos;intégration
+	60
+	22
+
+	72
+	ENT-03-000
+	En tant qu&apos;archiviste, je veux que les objets numériques reçus lors d&apos;une entrée soient stockés afin de les conserver
+	On veut stocker nos objets pour des besoins de conservation/pérennisation, mais aussi en fonction des besoins de consultations.
+Etapes à prendre en compte :
+- vérification de la disponibilité et de la capacité de l&apos;offre de stockage
+- écriture de tous les objets sur l&apos;offre de stockage
+- vérification que tous les objets envoyés pour écriture ont bien été écrits (check nombre et intégrité)
+- enregistrement de l&apos;écriture pour chaque objet dans journal des écritures
+- journalisation de l&apos;opération au niveau du journal des opérations
+- journalisation de l&apos;cériture des objets au niveau du journal du cycle de vie de chaque groupe d&apos;objet technique
+	Étant donné offre de stockage non disponible
+Action stocker les objets
+Vérification : une entrée est créée dans le journal des opérations avec le statut &quot;KO&quot;, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : Offre de stockage non disponible
+object Identifier Income : ‘MessageIdentifier’ du manifest
+******
+Étant donné un SIP de taille supérieure à la capacité disponible de l&apos;offre de stockage
+Action stocker les objets
+Vérification :une entrée est créée dans le journal des opérations avec le statut &quot;KO&quot;, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : Disponibilité de l&apos;offre de stockage insuffisante
+object Identifier Income : ‘MessageIdentifier’ du manifest
+Si KO, fin du processus d&apos;entrée et suppression du SIP
+*****
+Étant donné un SIP de taille inférieure à la capacité disponible de l&apos;offre de stockage
+Action stocker les objets
+Vérification :une entrée est créée dans le journal des opérations avec le statut &quot;Ok&quot;, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : Offre de stockage disponible
+object Identifier Income : ‘MessageIdentifier’ du manifest
+*****
+Étant donné un SIP contenant des objets
+Action stocker les objets
+Vérification : une entrée est créée dans le journal des opérations avec le statut &quot;Ok&quot;, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : Stockage des objets réalisé avec succès
+object Identifier Income : ‘MessageIdentifier’ du manifest
+*****
+Etant donné une écriture sur une offre de stockage
+Action journalisation
+Vérification : création d&apos;une entrée dans le journal des écritures
+*********
+Si l&apos;opération d&apos;écriture de l&apos;objet numérique échoue, une politique de &quot;retry&quot; est déclenchée. Suivant l&apos;erreur remontée :
+En cas d&apos;indisponibilité de l&apos;offre (offre inaccessible), de nouvelles tentatives d&apos;écritures sont exécutées un nombre paramétrable de fois et après un délais paramétrable. Par défaut 3 fois avec un délais d&apos;1 seconde entre chaque tentatives. les tentatives ne sont pas journalisées. A l&apos;issue des tentatives, soit l&apos;opération a réussie, soit l&apos;opération échoue définitivement.
+Pour les autres types d’erreurs, l’échec est définitif.
+* Si l’opération d’écriture échoue définitivement, les champs suivants sont renseignés dans le journal du cycle de vie du GOT :
+... @TO DO
+Critère d’acceptance de la tache : par observation du journal du cycle de vie du GOT via les IHM pour les 3 cas décrits, nombre et format des messages et des différents champs du journal OK.
+	– jeu de test SIP
+	SIP (lot d’archives + bordereau)
+	– stocker les objets
+- écriture dans le journal des opérations
+- Remontée d&apos;un statut pour suivi sur IHM de suivi des opérations d&apos;entrées (US : En tant qu&apos;administrateur fonctionnel, je veux suivre les étapes du processus d&apos;entrée, afin de superviser l&apos;entrée en cours)
+	task #547, task #548, task #617, task #618, task #738, task #739
+	Fonctionnelle
+	A Recetter (itération)
+	20
+	63
+
+	73
+	ENT-03-000
+	En tant que SIA Je veux stocker les MD contenus dans le SIP Afin de les conserver dans le temps et y accéder ultérieurement
+	On veut stocker nos méta-données pour des besoins de conservation/pérennisation, mais aussi en fonction des besoins d’accès.
+Ces besoins seront définis au niveau du contrat d’entrée + offre de service (le besoin de disponibilité peut évoluer dans le temps).
+	Étant donné un SIP contenant des MD
+Action stocker les MD
+Vérification statut de confirmation « ok »
+***
+Étant donné un SIP ne contenant pas de MD
+Action stocker les MD
+Vérification statut de confirmation « ko »
+***
+Étant donné offre de stockage non disponible
+Action stocker les MD
+Vérification statut de confirmation « ko »
+	– jeu de test SIP (avec/sans MD)
+	SIP (lot d’archives + bordereau)
+	– stocker les méta-données
+- Remontée d&apos;un statut pour suivi sur IHM de suivi des entrées (US : En tant qu&apos;administrateur fonctionnel, je veux suivre les étapes du processus d&apos;entrée, afin de superviser l&apos;entrée en cours)
+		Fonctionnelle
+	A Spécifier
+	20
+	
+
+	74
+	ENT-03-000
+	En tant que SIA Je veux que mon entrée soit inscrite dans mon journal des entrées Afin d&apos;assurer le suivi des entrées réalisées dans le SAE
+	Le journal des entrées assure la traçabilité de toutes les archives intégrées au SAE.
+(presque une valeur réglementaire)
+Il permet également d’effectuer des recherches.
+Format de l’écriture dans le journal des entrées :
+Id Système, Id métier, Date, Service versant, Contrat, Filière, Service producteur, Nom de l&apos;entrée, Nombre d&apos;objet, Volume, Origine technique, ID bordereau SEDA
+Si ID métier n&apos;est pas renseigné prendre la valeur ID système
+	Étant donné indexation des MD, stockage des MD, stockage des objets
+Action écriture dans le journal
+Vérification– l’entrée dans le journal des entrées a bien été effectuée selon le bon format
+****
+Étant donné Pas d’écriture
+Action vérification
+Vérification– statut « ko »
+*****
+Étant donné écriture incomplète
+Action vérification
+Vérification– statut « warning »
+	– journal des entrées existant
+	– indexation des MD
+– stockage des MD
+– stockage des objets
+	– écriture dans le journal des entrées
+- Remontée d&apos;un statut pour suivi sur IHM de suivi des entrées (US : En tant qu&apos;administrateur fonctionnel, je veux suivre les étapes du processus d&apos;entrée, afin de superviser l&apos;entrée en cours)
+	task #438, task #439, task #440, task #442, task #450, task #451, task #452
+	Fonctionnelle
+	A recette (release)
+	40
+	13
+
+	75
+	ENT-03-000
+	En tant que SIA Je veux recevoir la notification de prise en charge de l’entrée Afin de s’assurer que la responsabilité a été transféré au SAE – supprimer l’exemplaire du SIP que j’ai conservé&quot;
+	La notification de fin de transfert est un message émis de Vitam vers l&apos;application versante, lors de l&apos;arrêt d&apos;une opération d&apos;entrée, que celle ci soit un succès (SIP pris en charge) ou soit en échec (SIP rejeté ou mis en attente). Le message ne contient pas les détails de l&apos;erreur le cas échéant. L&apos;action de demande d&apos;informations devra être initiée par l&apos;application versante et n&apos;est pas spécifiée ici.
+Dans le SEDA 2.0, la réponse, peut comprendre les métadonnées des informations transférées, afin que le Service versant et/ou l’Opérateur de versement puissent garder une trace de ce qu’il a envoyé.
+Cette notification correspond dans le SEDA 2.0 au type ArchiveTransferReply et comporte un certain nombre d&apos;information.
+Voici un exemple de bordereau minimal selon le SEDA :
+&lt; Date&gt;2006-05-04T18:13:51.0&lt; /Date&gt;
+&lt; MessageIdentifier&gt;MessageIdentifier0&lt; /MessageIdentifier&gt;
+&lt; CodeListVersions&gt;
+  &lt; ReplyCodeListVersion&gt;ReplyCodeListVersion0&lt; /ReplyCodeListVersion&gt;
+  &lt; MessageDigestAlgorithmCodeListVersion&gt;MessageDigestAlgorithmCodeListVersion0&lt; /MessageDigestAlgorithmCodeListVersion&gt;
+  &lt; FileFormatCodeListVersion&gt;FileFormatCodeListVersion0&lt; /FileFormatCodeListVersion&gt;
+&lt; /CodeListVersions&gt;
+&lt; MessageRequestIdentifier&gt;MessageRequestIdentifier0&lt; /MessageRequestIdentifier&gt;
+&lt; ArchivalAgency&gt;
+  &lt; Identifier&gt;Identifier0&lt; /Identifier&gt;
+&lt; /ArchivalAgency&gt;
+&lt; TransferringAgency&gt;
+  &lt; Identifier&gt;Identifier1&lt; /Identifier&gt;
+&lt; /TransferringAgency&gt; 
+Description des champs :
+* Date : date de la réponse
+* MessageIdentifier : identifiant de l&apos;opération fournie par Vitam (type id unique)
+* ReplyCodeListVersion : &quot;ReplyCodeListVersion_Vitam&quot; (champ sans valeur réelle aujourd&apos;hui)
+* MessageDigestAlgorithmCodeListVersion : &quot;MessageDigestAlgorithmCodeListVersion_Vitam&quot; 
+* FileFormatCodeListVersion : &quot;FileFormatCodeListVersion_Vitam&quot;
+* MessageRequestIdentifier : le messageIdentifier d&apos;origine, c&apos;est à dire celui de l&apos;ArchiveTransfer qui est à l&apos;origine de cet ArchiveTransferReply
+* ArchivalAgency / &lt; Identifier&gt; : reprise du même champ de l&apos;ArchiveTransfer
+* TransferringAgency / &lt; Identifier&gt; : reprise du même champ de l&apos;ArchiveTransfer
+Pour Vitam, on ajoute plusieurs informations :
+- ReplyCode : les codes d&apos;erreurs sont déterminés dans la #590, si celle ci n&apos;est pas réalisée, on pourrait mettre un valeur par défault
+- GrantDate : la date de prise en charge du SIP, soit la date de fin du processus d&apos;entrée dans Vitam
+- ReplyOutcome  :
+* Est une extension dans bloc ManagementMedata, au même que StorageRule, AppraisalRule, etc. Il y a un et un seul ReplyOutcome, dans ce bloc, et il est obligatoire.
+* Possède deux blocs : ArchiveUnitList et DataObjectList, qui contiendront eux même des informations
+* Dans le cas où le contenu du bordereau d&apos;origine a été transformé (par exemple si la #789 est appelée), Vitam doit renvoyer les informations complémentaires dont le service versant n&apos;a pas encore connaissance
+* De plus, Vitam doit indiquer au service versant quelles sont les ID Vitam attribués pour chacun des units, objets, goupes d&apos;objets.
+Pour une Unit : l&apos;idendifiant Vitam doit être la valeur de la balise &lt; SystemId&gt;. Toutes les units sont regroupés dans le bloc ArchiveUnitList
+Exemple :
+&lt; ReplyOutcome&gt;
+  &lt; ArchiveUnitList&gt;
+    &lt; ArchiveUnit id=&quot;ID028&quot;&gt;
+        &lt; SystemId&gt;aeaaaaaaaaaam7mxaae2eakwunt2f4iaaaaq&lt; /SystemID&gt;
+    &lt; /ArchiveUnit&gt;
+    &lt; ArchiveUnit id=&quot;ID014&quot;&gt;
+        &lt; SystemId&gt;aeaaaaaaaaaam3bxaae2eakwunt2f4iaaaaq&lt; /SystemID&gt;
+    &lt; /ArchiveUnit&gt;
+  &lt; /ArchiveUnitList&gt;
+&lt; /ReplyOutcome&gt; 
+Où &quot;ID028&quot; est issue du bordereau de l&apos;ArchiveTransfer, et &quot;aeaaaa...&quot; est l&apos;ID attribué par Vitam pour cette unit.
+Note : la balise SystemID existe déjà dans le schéma SEDA des units et a été repris au plus près de sa fonction d&apos;origine.
+Pour un groupe d&apos;objet : on procède de manière similaire avec une balise DataObjectGroupSystemId en indiquant également le DataObjectVersion
+&lt; ReplyOutcome&gt;
+  &lt; DataObjectList&gt;
+    &lt; BinaryDataObject id=&quot;ID009&quot;&gt;
+      &lt; DataObjectGroupId OU DataObjectGroupRefId&gt;ID019&lt; /DataObjectGroupId|RefId&gt;
+      &lt; DataObjectVersion&gt;BinaryMaster_1&lt; /DataObjectVersion&gt;
+      &lt; DataObjectGroupSystemId&gt;aeaaaaaaaaaam7mxaae2eakwunt3j7iaaaaq&lt; /SystemID&gt;
+    &lt; /BinaryDataObject&gt;
+  &lt; /DataObjectList&gt;
+&lt; ReplyOutcome&gt; 
+Où &quot;ID009&quot; est issue du bordereau de l&apos;ArchiveTransfer, et &quot;aeaaaa...&quot; est l&apos;ID attribué par Vitam pour ce groupe d&apos;objet.
+Note : on ne retourne pas l&apos;id de l&apos;objet Vitam. La structure de la réponse s&apos;approche au plus près de la structure de la déclaration dans l&apos;ArchiveTransfer.
+Enrichissement du DataObjectVersion :
+Le DataObjectVersion retourné est composé d&apos;une chaine de caractère récupérant deux codes : dataObjectVersionInitial+&quot;_&quot;+version
+1/ Le DataObjectVersion de l&apos;objet dans ce groupe d&apos;objet. Soit celui ci provient du bordereau initial (Thumbnail, Dissemination...), soit il n&apos;y en avait pas et Vitam lui attribue alors l&apos;usage BinaryMaster
+2/ Une version de l&apos;objet. Lors des futurs conversions, cet objet verra sa version modifiée. Actuellement, la version est toujours &quot;1&quot;
+Exemple : BinaryMaster_1, Dissemination_1...
+Sécurisation de l&apos;ArchiveTransferReply
+Le stockage de l&apos;archiveTransferReply n&apos;est pas dans le périmètre de cette story. En revanche, c&apos;est quelque chose qui sera effectué dans le futur : on voudra donc sauvegarder la structure de l&apos;ArchiveTransferReply. Pas de CA relatif à ce besoin, qui est mentionné pour information.
+Résumé des cardinalités :
+- ManagementMetada contient [1,1] ReplyOutcome
+- ReplyOutcome contient [1,1] ArchiveUnitList
+- ReplyOutcome contient [0,1] DataObjectList
+- ArchiveUnitList contient [1,n] ArchiveUnit
+- DataObjectList contient [1,n]  BinaryDataObjectGroup
+- ArchiveUnit a un attribut &quot;id&quot; et contient [1,1]  SystemId non vide
+- BinaryDataObject a un attribut &quot;id&quot; et contient [1,1] (DataObjectGroupId OU DataObjectGroupRefId) ET [1,1] DataObjectVersion ET [1,1] DataObjectGroupSystemId non vide
+ 
+REMARQUE :
+* Ici il n&apos;y a que le cas OK, le KO du KO est à faire
+**********************
+Pour historique
+Retour d&apos;information sur l&apos;Id des GOT créés lors du processus d&apos;entrée
+------------------------------------------------------------------------
+Historique - NE PAS PRENDRE EN COMPTE
+Le message contient (SEDA: Acknowledgement) :
+– un statut de confirmation
+– la référence de l’entrée (SAE)
+– ID du bordereau de versement
+– date de notification
+– destination / expéditeur
+Ces informations devront être écrites au niveau de la dernière étape du suivi de l&apos;entrée en cours
+	CA1 : SIP arrivant au bout du processus d&apos;entrée sans erreur : envoi de la notification
+Etant donné le versement d&apos;un SIP
+Lorsque le SIP passe toutes les étapes du workflow d&apos;entrée avec succès
+Alors le contrôle d&apos;entrée procède à une nouvelle et dernière étape qui est &quot;Finalisation de l&apos;entrée&quot; 
+Et cette étape possède une tâche de &quot;Notification au service versant&quot;, qui envoie une notification au service versant (la description de cette tâche et le contenu du message sont précisés dans la description métier)
+Et pour le journal des opérations d&apos;entrée, l&apos;étape inscrit :
+* eventType : &quot;Notification to the transferring agency&quot; -&gt; &quot;Notification au service versant&quot;
+* objectIdentifierIncome : MessageIdentifier de l&apos;archiveTransfer initial 
+Et le début de cette tâche inscrit, en plus des valeurs fixes, dans le journal des opérations :
+* outcome avec statut Started
+* outcomeDetailMessage : &quot;Envoi de la notification&quot;.
+CA2 : notification envoyé avec succès
+Lorsque que l&apos;ArchiveTransferReply a été envoyée avec succès,
+Alors  cette tâche inscrit, en plus des valeurs fixes, dans le journal des opérations d&apos;entrée :
+* outcome avec statut OK
+* outcomeDetailMessage : &quot;Notification envoyée&quot;.
+Et le workflow continue
+CA3 : ajout de l&apos;extension du modèle au SEDA
+Le modèle SEDA étant étendu dans l&apos;ArchiveTransferReply, il est nécessaire de répercuter le nouveau modèle dans la définition du scéma (XSD).
+Notes :
+1/ Dans cette étape de finalisation pourrait comprendre les éléments suivant, qui ne sont pas dans cette story, sauf mention contraire :
+- Les journaux des cycles de vie sont sécurisés
+- Le registre des fonds est alimenté et sécurisé
+- Le workspace est purgé
+- Les nettoyage des workers ont déjà été fait
+- L&apos;ArchiveTransferReply est envoyé (cette story)
+- Le journal des opérations d&apos;entrées et le journal des opérations sont sécurisés
+ 
+	
+	
+	
+		Fonctionnelle
+	En Cours de Spécification
+	2
+	12
+
+	76
+	ACC-01-000
+	En tant qu&apos;archiviste, je veux saisir un mot-clé dans le champ Titre, afin d&apos;obtenir la liste des résultats correspondants à ma recherche
+	Le critère de recherche présent dans le formulaire permet de cibler la recherche pour obtenir un ou plusieurs résultats. Je veux pouvoir renseigner un  champ.
+ Champ Titre uniquement
+La recherche retourne le/les résultats comprenant strictement la chaîne de caractère.
+La liste des résultats comprend pour chaque résultat retourné :
+- identifiant (cliquable)
+- Titre (cliquable)
+- date (TransactedDate)
+Le détail du résultat est accessible via le titre.
+
+Il est possible de faire un classement croissant/décroissant par date, par Titres et par ID
+L’IHM doit indiquer le nombre de résultats.
+ 
+On se place au niveau item
+	Étant donné : un mot clé connu saisi dans le champ titre
+Lorsque l&apos;archiviste effectue une recherche 
+Alors je peux constater que : l&apos;affichage de la liste des résultats et les résultats sont cohérents, logiques par rapports au critères de recherche renseignés
+Étant donné : une chaîne de caractère ne correspondant à aucun titre indexé en base saisie
+Lorsque l&apos;archiviste effectue une recherche 
+Alors je peux constater que : Affichage d’un message « aucun résultat ». la liste des résultats est vide
+Étant donné : l&apos;affichage d&apos;une liste de résultats
+Lorsque l&apos;archiviste consulte ses résultats
+Alors je peux constater que : l&apos;affichage des résultats se présente sous forme de tableau indiquant les champs &apos;ID&quot;, &quot;Titre&quot;,et &quot;Dates&quot; (dans cet ordre)
+Étant donné : l&apos;affichage d&apos;une liste de résultats
+Lorsque l&apos;archiviste trie la liste de ses résultats (Colonnes &quot;ID, &quot;Titre&quot; et &quot;Dates&quot;)
+Alors je peux constater que : les résultats s&apos;affichent triés en fonction de la colonne sélectionnée.
+	– &quot;Formulaire de recherche + bouton de lancement de la recherche
+– MD en base (Titre, date, ID), MD titre connue&quot;
+	IHM d&apos;accès &quot;Formulaire recherche avancée&quot; avec formulaire de recherche avancée (champ titre)
+	Une liste de résultat s&apos;affiche (sans pagination)
+	task #500, task #501, task #502, task #503, task #515, task #516, task #517, task #518
+	Fonctionnelle
+	A recette (release)
+	40
+	27
+
+	78
+	ACC-01-000
+	En tant qu&apos;archiviste, je veux afficher le détail d’un résultat, afin de pouvoir accéder à toutes ses MD descriptives.
+	Depuis la liste des résultats de la recherche, on veut pouvoir sélectionner un résultat pour en afficher la fiche descriptive qui contient toutes les MD (descriptives pour cette US et par la suite de gestion et techniques) sans filtre.
+Toutes les MD affichées sont affichées :
+Niveau de description (Description Level), Titre (Title), Position dans l&apos;arborescence (FilePlanPosition), Identifiant VITAM (SystemID), ID Système d&apos;origine (OriginatingSystemID), ID métier (ArchivalAgencyArchiveUnitIdentifier), ID métier Service Producteur (OriginatingAgencyArchiveUnitIdentifier), ID métier Opérateur de Versement (TransferringAgencyArchiveUnitIdentifier),  Description (Description), Type (Type), Date de transaction (Transaction Date).
+Cette liste n&apos;est pas exhaustive, elle devra pouvoir être agrémentée de nouveaux champs en fonction de la description plus ou moins complète provenant du manifest.
+Un résultat = un archive unit
+	Étant donné : un résultat sélectionné
+Lorsque l&apos;archiviste clique sur une ligne dans la liste des résultats
+Alors je peux constater que : un nouvel onglet s&apos;affiche et présente toutes les MD descriptives associées au résultat
+ 
+Étant donné : un résultat sélectionné
+Lorsque l&apos;archiviste clique sur une ligne dans la liste des résultats,
+Alors je peux constater que : la liste des résultats n&apos;est pas écrasée dans l&apos;onglet d&apos;origine
+	liste de résultats non vide, MD en base
+	liste des résultats
+Sélection d’un résultat (clic), tâche 502
+	notice/ fiche descriptive d’un résultat (IHM Fiche détaillé) qui s&apos;affiche dans un nouvel onglet
+	task #504, task #505, task #610, task #611
+	Fonctionnelle
+	A recette (release)
+	20
+	12
+
+	80
+	GAE-02-000
+	En tant qu&apos;Archiviste Je veux modifier une ou plusieurs valeurs des champs du bloc d’informations descriptives Afin de &quot;– enrichir la description – corriger les erreurs&quot;
+	Pour cette US :
+L’enrichissement de la description permet de :
+– modifier le contenu d’une métadonnée pour apporter des précisions,
+– rendre un contenu plus explicite.
+La correction d’erreur permet de :
+– modifier le contenu,
+Validation des modifications :
+– enregistrement en base (les anciennes valeurs sont écrasées par les nouvelles valeurs). Pour les notifcations (erreur ou succès ==&gt; voir tâche #514)
+IHM :
+Chaque champ du formulaire est éditable via un clic (crayon d&apos;édition comme sur Tuleap)
+les champs non modifiables apparaissent mais sans la possibilité d&apos;être modifiés (ID)
+Un bouton &quot;valider&quot; qui reste en bas de la page comme dans Tuleap
+	Étant donné une fiche détaillée
+Lorsque l&apos;archiviste visualise la fiche
+Alors je peux constater que les champs modifiables du bloc d&apos;informations descriptives sont éditables
+*****
+Étant donné des nouvelles valeurs saisies dans un ou plusieurs champs
+Lorsque l&apos;archviste sauvegarde ses modifications
+Alors je peux constater que les modifications sont enregistrées en base et visibles sur la fiche détaillée
+*****
+Étant donné des nouvelles valeurs saisies dans un ou plusieurs champs
+Lorsque l&apos;archviste sauvegarde ses modifications
+Alors je peux constater que le journal de cycle de vie a tracé les modifications apportées
+	– MD descriptives en base
+	Fiche détaillée
+	une ou plusieurs valeurs modifiées en base
++ journalisation des modifications dans le journal de cycle de vie + journal des opérations (opération de modification)
+	task #513, task #514, task #519, task #520, task #521
+	Fonctionnelle
+	A Recetter (itération)
+	8
+	18
+
+	82
+	XXX-00-000
+	En tant que Archiviste , je veux ajouter les MD dans Mongo afin de pouvoir les rechercher à posteriori
+	
+	
+	&lt; p&gt;&lt; p&gt;- MongoDB&lt; /p&gt;&lt; /p&gt;
+	&lt; p&gt;&lt; p&gt;- JSON correctement formé. &lt; /p&gt;&lt; /p&gt;
+	&lt; p&gt;&lt; p&gt;- une information ajoutée dans le log (via le module de journalisation)&lt; /p&gt;&lt; /p&gt;
+		Technique (Dette)
+	Fini
+		
+
+	83
+	PRE-04-000
+	En tant qu&apos;administrateur fonctionnel je veux pouvoir afficher et rechercher le référentiel de formats afin de pouvoir le consulter.
+	Le référentiel de formats est un ouitil permettant de connaitre les formats de fichiers existants afin de mieux gérer les fichiers archivés.
+La recherche permet egalement de pouvoir consulter un format afin d&apos;en comprendre mieux les contraintes.
+Le format de fichier est la manière dont un fichier est agencé afin d’être directement exploité par un logiciel spécifique.
+Dans l’intitulé des fichiers Windows, ce format est précisé par l’extension du fichier (généralement 3 caractères précédés d’un point : .doc .xls .exe .htm .pdf .txt .wav ….)
+Le référentiel a des unique ID appelés PUID sous forme fmt/xx pour les formats connus et x-fmt/xx pour les formats ajoutes manuellement au référentiel.
+	Étant donné : un référentiel de formats
+Lorsque le SAE réalise : l&apos;affiche du référentiel de formats
+Alors je peux constater que : j&apos;obtiens la liste complète du référentiel de formats par ordre alphabetique ascendant des noms de formats
+Étant donné : un référentiel de formats
+Lorsque le SAE réalise : l&apos;affiche du référentiel de formats
+Alors je peux constater que : l&apos;affichage se présente sous forme de tableau indiquant les champs &apos;PUID&quot;, &quot;Nom de format&quot;, &quot;Version&quot;, &quot;MIME&quot;, &quot;Extensions&quot; (dans cet ordre)
+Lorsqu&apos;une recherche est effectuée, la liste des formats est maj en fonction des resultats
+Les résultats de recheche sont affichés en mode alphabétique ascendant des noms de format
+La recherche est exacte et ouverte (ex: Word remonte &quot;MS Word&quot; mais &quot;rich format&quot; ne remonte pas &quot;rich text format&quot;)
+Étant donné : un formulaire de recherche
+Lorsque l&apos;archiviste effectue l&apos;affichage
+Alors je peux constater que deux champs de saisies &quot;input text&quot; et un bouton de validation sont présents
+Étant donné : un formulaire de recherche par champ prédéfini
+Lorsque le SAE réalise : l&apos;affichage du formulaire
+Alors je peux constater que : que le champs &quot;Nom de format&quot; et &quot;PUID&quot; sont affichés
+
+Étant donné : un formulaire de recherche par champ prédéfini
+Lorsque le SAE réalise : l&apos;affichage du formulaire
+Alors je peux constater que : qu&apos;il existe des champs de saisies alphanumériques précédés d&apos;un label
+Étant donné : un nom de format saisi dans le champ de recherche
+Lorsque l&apos;archiviste effectue une recherche
+Alors je peux constater que la recherche n&apos;est pas sensible a la casse
+Étant donné : un nom de format connu saisi dans le champ de recherche
+Lorsque l&apos;archiviste effectue une recherche
+Alors je peux constater l&apos;affichage de la liste des résultats cohérents, logiques par rapports au critères de recherche renseignés
+Étant donné : un nom de format connu saisi dans le champ de recherche
+Lorsque l&apos;archiviste effectue une recherche
+Alors je peux constater l&apos;affichage de la liste des résultats par ordre alphabetique ascendant des noms de formats
+Étant donné : une nom de format ne correspondant à aucun format indexé en base 
+Lorsque l&apos;archiviste effectue une recherche
+Alors je peux constater que Affichage d’un message « Il n&apos;y a aucun résultat pour votre recherche ». La liste des résultats est vide
+	Référentiel de formats dans Vitam
+ 
+	Demande de consultation ou recherche dans le référentiel
+	Affichage du référentiel de formats par defaut ou selon la recherche effectuée
+	task #570, task #571, task #631, task #632, task #633
+	Fonctionnelle
+	En cours d&apos;intégration
+	20
+	8
+
+	84
+	ENT-03-000
+	En tant que SIA , je veux déposer mon SIP dans Vitam, afin de débuter mon entrée
+		Étant donné : Un SIP au bon format (.zip) envoyé à Vitam
+Lorsque le SAE récupère le SIP 
+Alors je peux constater que : le SIP est bien arrivé, un statut OK est affiché sur l&apos;IHM de suivi
+****
+Etant donné : Un SIP au mauvais format envoyé à Vitam
+Lorque le SAE récupère le SIP
+Alors je peux constater que : que le processus est rejeté dû à un mauvais format
+	Jeu de SIP (avec/sans bordereau, avec/sans archives)
+	SIP (Lot d&apos;archives + bordereau)
+Au moins un Objet numérique référencé dans le bordereau SEDA
+Le bordereau comprend un ArchiveUnit dont le Content contient un Titre et une TransactedDate
+Possibilité de donner un nom à l&apos;entrée (non obligatoire, si ce n&apos;est pas fait, l&apos;entrée reprendra le nom du ZIP)
+	SIP dans Vitam
+Remontée d&apos;un statut pour suivi sur l&apos;IHM de suivi des entrées (US : En tant qu&apos;admin fonct., je veux suivre les étapes du processus d&apos;entrée, afin de superviser l&apos;entrée en cours&quot;)
+	task #414, task #415, task #416, task #417, task #418, task #419, task #420, task #421
+	Fonctionnelle
+	A recette (release)
+	13
+	10
+
+	86
+	ENT-03-000
+	En tant qu&apos;archiviste, je veux contrôler la conformité des objets reçus par rapport aux objets envoyés afin de m&apos;assurer qu&apos;ils sont identiques
+		Étant donné : un SIP constitué d&apos;objets identiques à ceux déclarés dans le bordereau
+Lorsque le SAE réalise : le contrôle de conformité
+Alors je peux constater que : statut &quot;ok&quot; remonté dans l&apos;IHM de suivi de l&apos;entrée ==&gt; occurence dans le journal des opérations d&apos;entrées, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : &quot;contrôle de conformité des objets réalisé avec succès&quot;
+object Identifier Income : ‘MessageIdentifier’ du manifest
+***
+Étant donné : un SIP constitué d&apos;objets différents à ceux déclarés dans le bordereau
+Lorsque le SAE réalise : le contrôle de conformité
+Alors je peux constater que : statut &quot;ko&quot; remonté dans l&apos;IHM de suivi de l&apos;entrée==&gt; occurence dans le journal des opérations d&apos;entrées, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : &quot;erreur de contrôle de conformité des objets &quot;
+object Identifier Income : ‘MessageIdentifier’ du manifest
+	jeu de test de SIP (avec bordereau, et objets identiques aux objets déclarés dans bordereau / avec bordereau et objets différents (format différent ?) )
+	SIP (lot d&apos;archives + bordereau)
+	Remontée d&apos;un statut pour suivi sur IHM de suivi des entrées (US : En tant qu&apos;administrateur fonctionnel, je veux suivre les étapes du processus d&apos;entrée, afin de superviser l&apos;entrée en cours)
+	task #428, task #429, task #430, task #431, task #432, task #433
+	Fonctionnelle
+	Revue en cours (itération)
+	13
+	14
+
+	87
+	ACC-05-000
+	En tant qu&apos;archiviste, je veux savoir si l&apos;archive contient des objets lors d&apos;une consultation rapide depuis l&apos;écran de recherche
+	Contrairement à la consultation d&apos;un ArchivUnit qui se fait directement via la liste des résultats relative à la recherche effectuée, par contre, la consultation des objet eux-mêmes se fait depuis le détail d&apos;un unit.
+ 
+	CA1
+Étant donné : une recherche d&apos;archive donnant une liste de résultat non nul
+Lorsque le SAE affiche la liste des résultats
+Alors je peux constater que : un champ &quot;Objet(s) disponible(s)&quot; existe sur la dernière colonne du tableau de résultats
+
+CA2
+Étant donné : une archive qui référence un GOT
+Lorsque le SAE affiche la liste de résultats
+Alors je peux constater que : le champ correspondant dans la colonne &quot;Objet(s) disponible(s)&quot; a un pictogramme de coche
+
+CA3
+Étant donné : une archive qui ne possède aucun objet
+Lorsque le SAE affiche la liste de résultats
+Alors je peux constater que : le champ correspondant dans la colonne &quot;Objet(s) disponible(s)&quot; a un pictogramme de croix
+Et le pictogramme est grisé
+	- MD en base / stockage avec le lien vers l&apos;objet stocké
+
+L&apos;objet possède au moins 2 versions différentes
+OU
+L&apos;objet possède 1 seule version 
+	-une liste d&apos;archive non vide (&gt;0)
+	Un pictogramme actif ou inactif dans la colonne &quot;objet(s) disponible(s)&quot;
+		Fonctionnelle
+	En Cours De Réalisation
+	60
+	12
+
+	88
+	ENT-03-000
+	SCENARIO ACTIVITE : En tant que SIA, je veux effectuer une entrée d&apos;un ensemble d&apos;archives dans Vitam, afin de conserver mes informations
+		Pour chaque étape, le statut de succès ou d’échec doit être remonté dans l’IHM de transfert (Suivi des étapes de l’entrée).
+1. Début du processus d&apos;entrée (US #84) Transfert du SIP vers Vitam ⇒ Si OK, Etape n°2
+2. Contrôle du SIP (US #68) : Présence du bordereau et d’objets dans le SIP ⇒ Si OK, Etape n°3
+Si le SIP ne contient pas d’objets, KO =&gt; Fin du processus d’entrée, supprimer le SIP
+Si le SIP ne contient pas de bordereau, KO ⇒ Fin du processus d’entrée, supprimer le SIP
+Si le SIP est vide, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+3. Contrôle du SIP (US #69) : Nombre d’objets contenus dans le SIP égal au nombre d’objets déclaré dans le bordereau SEDA ⇒ SI OK, Etape n°4
+Si le nombre d’objets contenus dans le SIP est inférieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+Si le nombre d’objets contenus dans le SIP est supérieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+4. Contrôle du SIP (US #86) :  contrôle de l&apos;intégrité (empreinte) des objets reçus par rapport aux objets envoyés ⇒ Si OK, Etape n°5
+Si les empreintes des objets reçus ne correspondent pas aux empreintes des objets déclarés, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+5. Indexation des métadonnées (US #70) : étape d&apos;extraction des MD ⇒ Si OK, Etape n°6
+Si erreur pendant l&apos;extraction des MD, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+6. Stockage des objets contenus dans le SIP (US #72) ⇒ SI OK, Etape n°7
+L’offre de stockage n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, et supprimer les métadonnées et/ou les objets qui auraient pu être stockés
+7. Indexation des métadonnées contenues dans le SIP (US #70) : étape d&apos;intégration en base ⇒ Si OK, Etape n°8
+Base de données n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, supprimer les métadonnées et les objets qui ont été stockés pendant l’étape n°4, supprimer les métadonnées qui auraient pu être indexées
+8. Stockage des MD contenues dans le SIP (US #73) ⇒ SI OK, Etape n°9
+L’offre de stockage n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, et supprimer les métadonnées et/ou les objets qui auraient pu être stockés
+9. Ecriture dans le journal des entrées (US #74) ⇒ Si OK, Etape n°10
+L’écriture dans le journal des entrées n’est pas réalisée totalement, KO ⇒ Fin du processus d’entrée, supprimer le SIP, supprimer les métadonnées et les objets qui ont été stockés pendant l’étape n°4, supprimer les métadonnées indexées pendant l’étape n°5
+10. Notification au SIA du succès du processus d’entrée (US #75) ⇒ Fin du processus
+	SIP
+sans objet avec bordereau
+sans bordereau avec objets
+vide
+constitué d&apos;un nombre d&apos;objets inférieur à celui indiqué dans le bordereau
+constitué d&apos;un nombre d&apos;objets supérieur à celui indiqué dans le bordereau
+	Un SIP contenant un bordereau SEDA (a minima un content avec TransactedDate et un Title) et un ensemble d&apos;archives (au moins un objet sans notion d&apos;arborescence entre les objets)
+	- Remontée d&apos;un statut de fin de processus pour suivi sur IHM de suivi des entrées
+MD et Objets stockés
+MD indexées
+Ecriture de l&apos;entrée dans le journal des entrées
+	story #68, story #69, story #70, story #72, story #73, story #74, story #75, story #84, story #86
+	Recette Fonctionnelle
+	Fini
+	100
+	
+
+	90
+	AFC-02-000
+	En tant qu&apos;administrateur fonctionnel , je veux visualiser le détail d&apos;une opération d&apos;entrée, afin de vérifier que tout s&apos;est bien passé
+	Les statuts :
+Echec (code couleur rouge)
+Succès (code couleur vert)
+En cours (un sablier , voir avec Gwen)
+Le nom de l&apos;entrée est à récuperer dans le bordereau SEDA (balise &lt; MessageIdentifier&gt;)
+Les étapes : 
+Début de l&apos;entrée : DATE (Debut de l&apos;US 84)
+Reception SIP (Fin de l&apos;US 84)
+Contrôles SIP  
+Contrôles SIP : Présence bordereau SEDA et objets (US 68)
+Contrôles SIP  : Conformité du nombre d&apos;objets (US 69)
+Contrôles SIP : Conformité de l&apos;intégrité des objets (US 86)
+Indexation (US 70)
+Enregistrement dans le journal des entrées (US 74)
+Fin de l&apos;entrée : DATE
+Pour chaque étape, le statut et le code couleur correspondant doivent être indiqués
+	#84
+Étant donné : un SIP transféré dans Vitam
+Lorsque le SAE : débute la réception du SIP
+Alors je peux constater que : la date de début du processus d&apos;entrée correspond bien à la date à laquelle j&apos;ai débuté mon entrée (Au moment où le SIP commence à être chargé)
+*****
+#84 (statut OK)
+Étant donné : un SIP transféré dans Vitam
+Lorsque le SAE : receptionne le SIP avec succès
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape de reception du SIP : Réception SIP | Statut Succès et code de couleur vert sur la ligne
+******
+#84 (statut KO)
+Étant donné : un SIP transféré dans Vitam
+Lorsque le SAE : ne receptionne pas ou partiellement le SIP
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape de reception du SIP : Réception SIP | Statut Echec et code de couleur rouge sur la ligne
+*****
+#68 (statut OK)
+Étant donné : un SIP constitué d&apos;un bordereau SEDA et objets, receptionné dans Vitam
+Lorsque le SAE : contrôle la présence bordereau SEDA et objets
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape de contrôles du SIP : Contrôle SIP Présence bordereau SEDA et objets | Statut Succès et code de couleur vert sur la ligne
+*******
+#68 (statut KO)
+Étant donné : un SIP non conforme (absence bordereau et/ou objets) receptionné dans Vitam
+Lorsque le SAE : contrôle la présence bordereau SEDA et objets
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape de contrôles du SIP : Contrôle SIP Présence bordereau SEDA et objets | Statut Echec et code de couleur rouge sur la ligne
+*****
+#69 (statut OK)
+Étant donné : un SIP constitué d&apos;un nombre d&apos;objet égal au nombre déclaré dans le bordereau SEDA réceptionné dans Vitam
+Lorsque le SAE : contrôle le nombre d&apos;objets
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape de contrôles du SIP : Contrôle SIP Conformité du nombre d&apos;objets | Statut Succès et code de couleur vert sur la ligne
+*****
+#69 (statut KO)
+Étant donné : un SIP constitué d&apos;un nombre d&apos;objet différent au nombre déclaré dans le bordereau SEDA réceptionné dans Vitam
+Lorsque le SAE : contrôle le nombre d&apos;objets
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape de contrôles du SIP : Contrôle SIP Conformité du nombre d&apos;objets | Statut Echec et code de couleur rouge sur la ligne
+*****
+#86 (statut OK)
+Étant donné : un SIP intègre réceptionné dans Vitam
+Lorsque le SAE : contrôle les empreintes des objets
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape de contrôles du SIP : Contrôle SIP Conformité de l&apos;intégrité des objets | Statut Succès et code de couleur vert sur la ligne
+*****
+#86 (statut KO)
+Étant donné : un SIP non intègre réceptionné dans Vitam
+Lorsque le SAE : contrôle les empreintes des objets
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape de contrôles du SIP : Contrôle SIP Conformité de l&apos;intégrité des objets | Statut Echec et code de couleur rouge sur la ligne
+*****
+#70 (statut OK)
+Étant donné : un SIP constitué de MD
+Lorsque le SAE réalise : l&apos;indexation des MD avec succès
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape d&apos;indexation : Indexation des MD | Statut succès et code de couleur vert sur la ligne
+*****
+#70 (statut KO)
+Étant donné : un SIP constitué de MD
+Lorsque le SAE rencontre une ereur lors de l&apos;indexation des MD
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape d&apos;indexation : Indexation des MD | Statut Echec et code de couleur rouge sur la ligne
+*****
+#74 (statut OK)
+Étant donné : L&apos;indexation des MD
+Lorsque le SAE réalise : l&apos;enregistrement de l&apos;entrée dans le journal des entrées
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape d&apos;enregistrement : Enregistrement dans le journal des entrées | Statut succès et code de couleur vert sur la ligne
+*****
+#74 (statut KO)
+Étant donné : L&apos;&apos;indexation des MD
+Lorsque le SAE rencontre une erreur d&apos;enregistrement de l&apos;entrée dans le journal des entrées
+Alors je peux constater que : l&apos;écran de suivi du processus d&apos;entrée affiche l&apos;étape d&apos;enregistrement : Enregistrement dans le journal des entrées | Statut Echec et code de couleur rouge sur la ligne
+*****
+Etant donné : le processus d&apos;entrée d&apos;un SIP terminé
+Action : vérification
+Alors je peux constater que : les étapes du processus d&apos;entrée sont affichées (étapes + statut à récupérer depuis le journal des opérations).
+*****
+Etant donné : un processus d&apos;entrée en cours ou terminé
+Action : vérification du nom de l&apos;entrée
+Alors je peux constater que : le nom de l&apos;entrée est identique au nom donné dans la balise MessageIdentifier du bordereau SEDA utilisé lors de l&apos;entrée.
+ 
+	- Une entrée est en cours de traitement, 
+- Une entrée réalisée
+	Statut des US 68, 69, 84, 86, 70, 74
+	Affichage des statuts des différentes étapes du processus d&apos;entrée
+	story #68, story #69, story #70, story #74, story #84, story #86, task #551, task #552
+	Fonctionnelle
+	A recette (release)
+	40
+	9
+
+	91
+	ACC-01-000
+	SCENARIO ACTIVITE RECHERCHE : En tant qu&apos;archiviste je veux effectuer une recherche avancée sur une MD connue afin de consulter les informations présentes dans la fiche descriptive
+		1. Début du processus de recherche, Affichage du formulaire de recherche avancée avec la possibilité de rechercher sur la MD Titre (US #76)
+Je renseigne une MD Titre connue et je clique sur le bouton rechercher, Allez à l&apos;étape n°2
+Je renseigne une MD Titre non connue et je clique sur le bouton Recherche, Allez à l&apos;étape n°4
+2. Affichage de la liste des résultats correspondant au critère de recherche renseigné. Seuls les résultats comprenant le critère de recherche saisie précédemment sont affichés. L&apos;utilisateur a la possibilité de trier les résultats par colonnes (&quot;ID&quot;, &quot;Titre&quot; et &quot;Dates&quot;). L&apos;utilisateur a la possibilité de sélectionner un résultat pour afficher sa fiche descriptive en cliquant sur la ligne souhaité. Allez à l&apos;étape n°3
+3. Affichage du détail du résultat (US #78). Le détail du résultat s&apos;affiche dans une nouvelle page (la liste des résultats n&apos;est pas écrasée). Les MD Titre, ID et Date correspondent au résultat sélectionné à l&apos;étape précédente. FIN DU SCENARIO INITIAL
+4. Affichage d&apos;une liste de résultat vide + message &quot;Aucun résultat&quot;. L&apos;utilisateur a la possibilité d&apos;effectuer une nouvelle recherche (retour à l&apos;étape n°1)
+ 
+	MD en base
+MD connue (Title, ID, TransactedDate)
+	Formulaire de recherche
+	détail du résultat (Ou message d&apos;erreur indiquant qu&apos;aucun résultat n&apos;a été trouvé)
+	story #76, story #78
+	Recette Fonctionnelle
+	A recette (release)
+	60
+	8
+
+	105
+	ENT-03-000
+	SCENARIO ACTIVITE (Itération n°2) : En tant que SIA, je veux effectuer une entrée d&apos;un ensemble d&apos;archives dans Vitam, afin de conserver mes informations (et valider les développements de l&apos;itération 2)
+		Scénario de test pour l&apos;itération n°2. 
+Les US ci-dessous permettent d&apos;avoir une vision métier plus détaillée des différentes étapes du processus d&apos;entrée.  
+Pour chaque étape du processus, si possible avec avoir un log OK/KO. 
+1. Début du processus d&apos;entrée (US #84) Transfert du SIP vers Vitam ⇒ Si OK, Etape n°2
+2. Contrôle du SIP (US #68) : Présence du bordereau et d’objets dans le SIP ⇒ Si OK, Etape n°3
+Si le SIP ne contient pas d’objets, KO =&gt; Fin du processus d’entrée, supprimer le SIP
+Si le SIP ne contient pas de bordereau, KO ⇒ Fin du processus d’entrée, supprimer le SIP
+Si le SIP est vide, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+3. Contrôle du SIP (US #69) : Nombre d’objets contenus dans le SIP égal au nombre d’objets déclaré dans le bordereau SEDA ⇒ SI OK, Etape n°4
+Si le nombre d’objets contenus dans le SIP est inférieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+Si le nombre d’objets contenus dans le SIP est supérieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+4. Indexation des métadonnées (US #70) : étape d&apos;extraction des MD ⇒ Si OK, Etape n°5
+Si erreur pendant l&apos;extraction des MD, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+5. Stockage des objets contenus dans le SIP (US #72) ⇒ SI OK, Etape n°6
+L’offre de stockage n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, ( et supprimer les métadonnées et/ou les objets qui auraient pu être stockés ?)
+6. Indexation des métadonnées contenues dans le SIP (US #70) : étape d&apos;intégration en base ⇒ Si OK, Etape n°7
+Base de données n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, (supprimer les métadonnées et les objets qui ont été stockés pendant l’étape n°5, supprimer les métadonnées qui auraient pu être indexées?)
+7. Stockage des MD contenues dans le SIP (US #73) ⇒ SI OK, Etape n°8
+L’offre de stockage n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, (et supprimer les métadonnées et/ou les objets qui auraient pu être stockés?)
+8. Notification au SIA du succès du processus d’entrée, simple log OK/KO (US #75) ⇒ Fin du processus. 
+	SIP
+sans objet avec bordereau
+sans bordereau avec objets
+vide
+constitué d&apos;un nombre d&apos;objets inférieur à celui indiqué dans le bordereau
+constitué d&apos;un nombre d&apos;objets supérieur à celui indiqué dans le bordereau
+	Un SIP contenant un bordereau SEDA (a minima un content avec TransactedDate et un Title) et un ensemble d&apos;archives (au moins un objet sans notion d&apos;arborescence entre les objets)
+	 Remontée d&apos;un statut de fin de processus (log OK/KO)
+MD et Objets stockés
+MD indexées
+		Recette Fonctionnelle
+	Fini
+	100
+	
+
+	106
+	XXX-00-000
+	[Technique] Metadata
+		Item technique correspondant à l&apos;itération #2
+		- Code fourni par Frédérique Brégier.
+		task #107, task #108, task #109, task #110, task #111, task #112, task #113, task #114, task #115, task #116, task #117, task #118
+	Technique (Dette)
+	Fini
+		31
+
+	119
+	XXX-00-000
+	[Technique] Stockage et Workspace
+		Item fonctionnelle correspondant à la partie stockage et workspace nécessaire à la réalisation d&apos;une entrée simple demandée par l&apos;itération #2.
+	
+	
+	
+	task #120, task #121, task #122, task #123, task #124, task #125, task #126, task #127, task #210
+	Technique (Dette)
+	Fini
+		21
+
+	128
+	XXX-00-000
+	[Technique] Postes de dév. et Démo
+		Mise en place des postes de dév. et mise en place de la revue.
+	
+	
+	
+	task #129, task #130, task #131, task #132, task #133, task #134, task #135, task #136
+	Technique (Dette)
+	Fini
+		8
+
+	137
+	ENT-03-000
+	SCENARIO ACTIVITE (Itération n°2) : En tant que SIA, je veux effectuer une entrée d&apos;un ensemble d&apos;archives dans Vitam, afin de conserver mes informations (et valider les développements de l&apos;itération 2). VOIR US 105
+		Scénario de test pour l&apos;itération n°2. 
+Les US ci-dessous permettent d&apos;avoir une vision métier plus détaillée des différentes étapes du processus d&apos;entrée.  
+Pour chaque étape du processus, si possible avec avoir un log OK/KO. 
+1. Début du processus d&apos;entrée (US #84) Transfert du SIP vers Vitam ⇒ Si OK, Etape n°2
+2. Contrôle du SIP (US #68) : Présence du bordereau et d’objets dans le SIP ⇒ Si OK, Etape n°3
+Si le SIP ne contient pas d’objets, KO =&gt; Fin du processus d’entrée, supprimer le SIP
+Si le SIP ne contient pas de bordereau, KO ⇒ Fin du processus d’entrée, supprimer le SIP
+Si le SIP est vide, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+3. Contrôle du SIP (US #69) : Nombre d’objets contenus dans le SIP égal au nombre d’objets déclaré dans le bordereau SEDA ⇒ SI OK, Etape n°4
+Si le nombre d’objets contenus dans le SIP est inférieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+Si le nombre d’objets contenus dans le SIP est supérieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+4. Indexation des métadonnées (US #70) : étape d&apos;extraction des MD ⇒ Si OK, Etape n°5
+Si erreur pendant l&apos;extraction des MD, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+5. Stockage des objets contenus dans le SIP (US #72) ⇒ SI OK, Etape n°6
+L’offre de stockage n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, ( et supprimer les métadonnées et/ou les objets qui auraient pu être stockés ?)
+6. Indexation des métadonnées contenues dans le SIP (US #70) : étape d&apos;intégration en base ⇒ Si OK, Etape n°7
+Base de données n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, (supprimer les métadonnées et les objets qui ont été stockés pendant l’étape n°5, supprimer les métadonnées qui auraient pu être indexées?)
+7. Stockage des MD contenues dans le SIP (US #73) ⇒ SI OK, Etape n°8
+L’offre de stockage n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, (et supprimer les métadonnées et/ou les objets qui auraient pu être stockés?)
+8. Notification au SIA du succès du processus d’entrée, simple log OK/KO (US #75) ⇒ Fin du processus. 
+	SIP
+sans objet avec bordereau
+sans bordereau avec objets
+vide
+constitué d&apos;un nombre d&apos;objets inférieur à celui indiqué dans le bordereau
+constitué d&apos;un nombre d&apos;objets supérieur à celui indiqué dans le bordereau
+	Un SIP contenant un bordereau SEDA (a minima un content avec TransactedDate et un Title) et un ensemble d&apos;archives (au moins un objet sans notion d&apos;arborescence entre les objets)
+	 Remontée d&apos;un statut de fin de processus (log OK/KO)
+MD et Objets stockés
+MD indexées
+		Recette Fonctionnelle
+	Fini
+	100
+	0
+
+	174
+	XXX-00-000
+	[Technique] Vérifier la conformité d&apos;un SIP
+		Étant donné : Lorsque le SAE réalise : Alors je peux constater que :
+	
+	
+	
+	task #175, task #176, task #177, task #179, task #181, task #182, task #189, task #190, task #191, task #192, task #193, task #194, task #195, task #196
+	Technique (Dette)
+	Fini
+		36
+
+	197
+	XXX-00-000
+	[Technique] Vérification du nombre d&apos;objet numérique dans le bordereau
+	
+	
+	
+	
+	
+	task #198, task #199, task #200
+	Technique (Dette)
+	Fini
+		5
+
+	201
+	XXX-00-000
+	[Technique] Moteur d&apos;execution
+	
+	
+	
+	
+	
+	task #180, task #202, task #203, task #204, task #205
+	Technique (Dette)
+	Fini
+		17
+
+	206
+	XXX-00-000
+	[Technique] Preparation demo
+	
+	
+	
+	
+	
+	task #207
+	Technique (Dette)
+	Fini
+		4
+
+	345
+	ENT-03-000
+	En tant que SIA, je veux contrôler l&apos;état sanitaire de mon SIP, afin de m&apos;assurer que mon lot ne soit pas infecté
+	Le contrôle de l&apos;état sanitaire permet de s&apos;assurer que les documents ne sont pas infectés.
+Dans le papier, cette étape permet de contrôler si des moisissures n&apos;ont pas attaquées les documents.
+ 
+L&apos;étape de contrôle sanitaire s&apos;effectue tout de suite après après avoir envoyé le SIP dans VITAM pour éviter la propagation de l&apos;infection. Il porte sur l&apos;ensemble des objets contenus dans le SIP (bordereau, documents, dossier ..)
+	Étant donné : un SIP valide sain
+Lorsque le SAE réalise : le contrôle sanitaire.
+Vérification :une entrée est créée dans le journal des opérations avec le statut &quot;Ok&quot;, en plus des champs obligatoires on voudra afficher :
+
+eventType : &quot;Sanity Check SIP&quot; // :Contrôle sanitaire SIP
+outcome Detail Message :Contrôle sanitaire réalisé avec succès : aucun virus détecté
+object Identifier Income : ‘MessageIdentifier’ du manifest
+
+
+***
+
+Étant donné : un SIP valide infecté
+Lorsque le SAE réalise : le contrôle sanitaire
+Vérification : une entrée est créée dans le journal des opérations avec statut &quot;KO&quot;, en plus des champs obligatoires on voudra afficher :
+eventType : &quot;Sanity Check SIP&quot; // :Contrôle sanitaire SIP
+outcome Detail Message : Echec Contrôle sanitaire : virus détecté SIP infecté
+object Identifier Income : &lt; nomDuFichier.extension&gt;
+	jeu de test de SIP (SIP valide sain, SIP infecté)
+Choix d&apos;un anti-virus libre
+	SIP (lot d&apos;archives + bordereau)
+	Remontée d&apos;un statut pour suivi sur IHM de suivi des entrées (US : En tant qu&apos;administrateur fonctionnel, je veux suivre les étapes du processus d&apos;entrée, afin de superviser l&apos;entrée en cours)
+		Fonctionnelle
+	En cours d&apos;intégration
+	40
+	20
+
+	374
+	ENT-03-000
+	En tant que Module de Vitam, je veux Journaliser un événement, afin de tracer l&apos;évéenement EN MOCK
+		Étant donné des informations à journaliser pour un événement
+Lorsque le SAE réalise une journalisation
+Alors je peux constater que l&apos;information est journalisé dans un LOG (MOCK)
+		Arguments (à finaliser avec le modèle de données d&apos;un Journal)
+	Un log au format compréhensible
+	story #74, task #443, task #444, task #445, task #446
+	Technique (Dette)
+	Fini
+	20
+	6
+
+	375
+	XXX-00-000
+	En tant que Module Vitam, je veux Utiliser des Commons, afin de Améliorer la qualité (1)
+		Ajout d’un ServerIdentity : contiendrait les informations suivantes 
+ServerName: GUID et/ou Name ?
+ServerType: identifiant de fonction
+Platform Server Id : équivalent à la MAC ADDRESS mais dans le virtuel
+Platform Id : identifiant de la plateforme globale
+UUID : renommer en GUID et placer dans un sous package avec un Factory clean 
+S’appuyer sur ServerIdentity pour faciliter son usage
+Clairement identifier le “tenant”
+Digest 
+checkParameter
+	
+	
+	
+	task #379, task #380, task #381, task #382
+	Technique (Dette)
+	Fini
+	20
+	9
+
+	376
+	XXX-00-000
+	En tant que Module Vitam , je veux utiliser les COMMON, afin d&apos;améliorer la qualité (2)
+		Logging : déterminer l’usage Vitam et mettre par défaut la valeur souhaité dans le default Factory (y compris Level ?) 
+Voir si il le faut public ou privé.
+Ajouter sans doute des méthodes “adaptées” au contexte Vitam 
+Identifiant Opération
+Identifiant item concerné
+Code erreur Vitam
+Identifiant Tenant
+Message
+autres ?
+Json : il faudrait tenter de le rendre central
+Confirmer ou infirmer les autres Commons
+	
+	
+	
+	task #434, task #436, task #437
+	Technique (Dette)
+	Fini
+	13
+	6
+
+	377
+	XXX-00-000
+	En tant que Architecte/LT , je veux Commencer la documentation des API , afin de préparer les API Publiques pour Alpha Juin/Juillet
+		Documentation des API publiques :
+Ingest
+Access (recherche / consultation)
+Journaux (recherche / consultation)
+	
+	
+	
+	task #447, task #448, task #449
+	Technique (Dette)
+	Fini
+	40
+	6
+
+	396
+	XXX-00-000
+	[Technique] Packaging Docker
+	
+	
+	
+	
+	
+	task #399
+	Technique (Dette)
+	Fini
+		1
+
+	402
+	XXX-00-000
+	[Technique] Packaging Docker
+	
+	
+	
+	
+	
+	task #403
+	Technique (Dette)
+	Fini
+		1
+
+	404
+	XXX-00-000
+	[Analyse] Préparation Tech Design
+	
+	
+	
+	
+	
+	task #405, task #406, task #407, task #408
+	Technique (Dette)
+	Fini
+		4
+
+	409
+	XXX-00-000
+	[Analyse] Préparation Tech Design
+	
+	
+	
+	
+	
+	task #410, task #411, task #412, task #413
+	Technique (Dette)
+	Fini
+		4
+
+	435
+	ENT-03-000
+	SCENARIO ACTIVITE (Itération n°3) : En tant que SIA, je veux effectuer une entrée d&apos;un ensemble d&apos;archives dans Vitam, afin de conserver mes informations (et valider les développements des itérations 1, 2 et 3)
+		Scénario de test pour l&apos;itération. 
+Les US ci-dessous permettent d&apos;avoir une vision métier plus détaillée des différentes étapes du processus d&apos;entrée.  
+Pour chaque étape du processus, si possible avec avoir un log OK/KO. 
+1. Début du processus d&apos;entrée (US #84) Transfert du SIP vers Vitam ⇒ Si OK, Journalisation (US #74) puis Etape n°2
+2. Contrôle du SIP (US #68) : Présence et check du bordereau dans le SIP ⇒ Si OK, Journalisation (US #74) puis Etape n°3
+Si le SIP ne contient pas de bordereau, KO ⇒ Fin du processus d’entrée, supprimer le SIP
+Si le SIP est vide, KO ⇒ Fin du processus d’entrée, supprimer le SIP
+Si le Bordereau est non valide (xml et/ou xsd), KO ⇒ Fin du processus d’entrée, supprimer le SIP
+3. Contrôle du SIP (US #69) : Nombre d’objets contenus dans le SIP égal au nombre d’objets déclaré dans le bordereau SEDA ⇒ SI OK, Journalisation (US #74) puis Etape n°4
+Si le nombre d’objets contenus dans le SIP est inférieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+Si le nombre d’objets contenus dans le SIP est supérieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+4. Contrôle du SIP (US #86) : Contrôle de conformité des objets reçus par rapport aux objets envoyés ⇒ Si OK, Journalisation (US #74) puis Etape n°5
+Si objets différents à ceux déclarés dans le bordereau (empreinte KO), KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+5. Indexation des métadonnées (US #70) : étape d&apos;extraction des MD ⇒ Si OK, Journalisation (US #74) puis Etape n°6
+Si erreur pendant l&apos;extraction des MD, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+7. Indexation des métadonnées contenues dans le SIP (US #70) : étape d&apos;intégration en base ⇒ Si OK, Journalisation (US #74)
+Base de données n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, (supprimer les métadonnées et les objets qui ont été stockés pendant l’étape n°5, supprimer les métadonnées qui auraient pu être indexées?) 
+	SIP
+sans objet avec bordereau
+sans bordereau avec objets
+vide
+constitué d&apos;un nombre d&apos;objets inférieur à celui indiqué dans le bordereau
+constitué d&apos;un nombre d&apos;objets supérieur à celui indiqué dans le bordereau
+SIP liens URI non valides
+SIP mauvais format
+SIP empreintes KO
+SIP bordereau invalide (xml)
+SIP bordereau invalide (xsd)
+SIP bordereau nom vide
+SIP bordereau sans MD
+	Un SIP contenant un bordereau SEDA (a minima un content avec TransactedDate et un Title) et un ensemble d&apos;archives (au moins un objet sans notion d&apos;arborescence entre les objets)
+	 Remontée d&apos;un statut de fin de processus (OK/KO) + journalisation pour chaque étape
+MD indexées
+	story #68, story #69, story #70, story #74, story #84, story #86, task #454, task #455, task #456
+	Fonctionnelle
+	Fini
+	100
+	2
+
+	457
+	ENT-03-000
+	SCENARIO ACTIVITE (Itération n°3) : En tant que SIA, je veux effectuer une entrée d&apos;un ensemble d&apos;archives dans Vitam, afin de conserver mes informations (et valider les développements des itérations 1, 2 et 3)
+		Scénario de test pour l&apos;itération. 
+Les US ci-dessous permettent d&apos;avoir une vision métier plus détaillée des différentes étapes du processus d&apos;entrée.  
+Pour chaque étape du processus, si possible avec avoir un log OK/KO. 
+1. Début du processus d&apos;entrée (US #84) Transfert du SIP vers Vitam ⇒ Si OK, Journalisation (US #74) puis Etape n°2
+2. Contrôle du SIP (US #68) : Présence et check du bordereau dans le SIP ⇒ Si OK, Journalisation (US #74) puis Etape n°3
+Si le SIP ne contient pas de bordereau, KO ⇒ Fin du processus d’entrée, supprimer le SIP
+Si le SIP est vide, KO ⇒ Fin du processus d’entrée, supprimer le SIP
+Si le Bordereau est non valide (xml et/ou xsd), KO ⇒ Fin du processus d’entrée, supprimer le SIP
+3. Contrôle du SIP (US #69) : Nombre d’objets contenus dans le SIP égal au nombre d’objets déclaré dans le bordereau SEDA ⇒ SI OK, Journalisation (US #74) puis Etape n°4
+Si le nombre d’objets contenus dans le SIP est inférieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+Si le nombre d’objets contenus dans le SIP est supérieur au nombre d’objets déclaré dans le bordereau SEDA, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+4. Contrôle du SIP (US #86) : Contrôle de conformité des objets reçus par rapport aux objets envoyés ⇒ Si OK, Journalisation (US #74) puis Etape n°5
+Si objets différents à ceux déclarés dans le bordereau (empreinte KO), KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+5. Indexation des métadonnées (US #70) : étape d&apos;extraction des MD ⇒ Si OK, Journalisation (US #74) puis Etape n°6
+Si erreur pendant l&apos;extraction des MD, KO ⇒ Fin du processus d’entrée, supprimer le SIP.
+7. Indexation des métadonnées contenues dans le SIP (US #70) : étape d&apos;intégration en base ⇒ Si OK, Journalisation (US #74)
+Base de données n’est pas ou n’est plus disponible, KO ⇒ Fin du processus d’entrée, supprimer le SIP, (supprimer les métadonnées et les objets qui ont été stockés pendant l’étape n°5, supprimer les métadonnées qui auraient pu être indexées?) 
+	SIP
+sans objet avec bordereau
+sans bordereau avec objets
+vide
+constitué d&apos;un nombre d&apos;objets inférieur à celui indiqué dans le bordereau
+constitué d&apos;un nombre d&apos;objets supérieur à celui indiqué dans le bordereau
+SIP liens URI non valides
+SIP mauvais format
+SIP empreintes KO
+SIP bordereau invalide (xml)
+SIP bordereau invalide (xsd)
+SIP bordereau nom vide
+SIP bordereau sans MD
+	Un SIP contenant un bordereau SEDA (a minima un content avec TransactedDate et un Title) et un ensemble d&apos;archives (au moins un objet sans notion d&apos;arborescence entre les objets)
+	 Remontée d&apos;un statut de fin de processus (OK/KO) + journalisation pour chaque étape
+MD indexées
+		Recette Fonctionnelle
+	Fini
+	100
+	2
+
+	468
+	ENT-03-000
+	En tant qu&apos;archiviste, je veux contrôler le bordereau reçu par rapport au profil attendu afin de vérifier que le SIP est bien structuré et décrit comme je l&apos;attendais
+	Chaque profil précise :
+- la nature des données à verser et à conserver par le service d’archives à l’issue de leur durée d’utilité administrative et la structure du message de transfert correspondant (description des dossiers à verser) ;
+- la nature des données à détruire à l’issue de leur durée d’utilité administrative et la structure du message de demande d&apos;élimination correspondant (description des données à détruire) ;
+- les fonctions d’export souhaitées (mode de déclenchement, paramètres...) de la part des progiciels du domaine social.
+	CA 1 : Descriptif de l’étape : Vérification de la conformité du profil 
+
+- Dans le processus d’entrée, l’étape de vérification de la conformité du profil doit être appelée en position 325
+- Lorsque l&apos;étape débute, elle inscrit une ligne dans le journal des opérations d&apos;entrées :
+* eventType EN – FR : « Check Profile», « Vérification du profil »
+* outcome : &quot;Started&quot;
+* outcomeDetailMessage FR : « Début de la vérification de conformité du profil. »
+* objectIdentifierIncome : MessageIdentifier du manifest
+*********
+
+CA 2 : Champ Archival Profile vide 
+Si le champ profil d&apos;archivage est vide.
+Alors le workflow d&apos;entrée continue,
+Et dans le journal des opérations le système inscrit :
+* eventType EN - FR: « Check Profile», « Vérification du profil »
+* outcome : &quot;OK&quot;
+* outcomeDetailMessage : « Profil non declaré. »
+* objectIdentifierIncome : MessageIdentifier du manifest
+
+********
+CA 3 : Champ Archival Profile comprenant un ID non référencé dans Vitam
+Si le champ profil d&apos;archivage comprends un ID non référencé dans Vitam.
+Alors le workflow d&apos;entrée s’arrête,
+Et dans le journal des opérations le système inscrit :
+* eventType EN - FR: « Check Profile», « Vérification du profil »
+* outcome : &quot;KO&quot;
+* outcomeDetailMessage : « Échec de la vérification de conformité du profil : Profil d&apos;archivage non référencé dans Vitam »
+* objectIdentifierIncome : MessageIdentifier du manifest
+
+*******
+CA 4 : Profil conforme
+Si le profil du SIP est conforme
+Alors le workflow d&apos;entrée continue,
+Et dans le journal des opérations le système inscrit :
+* eventType EN - FR: « Check Profile», « Vérification du profil »
+* outcome : &quot;OK&quot;
+* outcomeDetailMessage : « Succès de la vérification de conformité du profil : le SIP est conforme au profil défini »
+* objectIdentifierIncome : MessageIdentifier du manifest
+***********
+CA 5.1 : Structure non conforme au Profil 
+Si le SIP a une structure qui ne correspond pas a celle du profil
+Alors le workflow s’arrête,
+Et dans le journal des opérations le système inscrit :
+* eventType EN - FR: « Check Profile», « Vérification du profil »
+* outcome : &quot;KO&quot;
+* outcomeDetailMessage FR : « Bordereau non conforme au profil »
+* objectIdentifierIncome : MessageIdentifier du manifest
+
+CA 5.2 : Profil non conforme : absence de champs obligatoires
+Si le SIP ne contient pas tous les champs obligatoires définis par le profil
+Alors le workflow s’arrête,
+Et dans le journal des opérations le système inscrit :
+* eventType EN - FR: « Check Profile», « Vérification du profil »
+* outcome : &quot;KO&quot;
+* outcomeDetailMessage FR : &quot;Bordereau non conforme au profil&quot;
+* objectIdentifierIncome : MessageIdentifier du manifest
+
+CA 5.3 : Profil non conforme: champs vides
+Si le SIP contient des champs vides définis par le profil
+Alors le workflow s’arrête,
+Et dans le journal des opérations le système inscrit :
+* eventType EN - FR: « Check Profile», « Vérification du profil »
+* outcome : &quot;KO&quot;
+* outcomeDetailMessage FR : &quot;Bordereau non conforme au profil&quot;
+* objectIdentifierIncome : MessageIdentifier du manifest
+
+CA 5.4 : valeur non conforme
+Si les champs du SIP contiennent une valeur non définies par le profil
+Alors le workflow s’arrête,
+Et dans le journal des opérations le système inscrit :
+* eventType EN - FR: « Check Profile», « Vérification du profil »
+* outcome : &quot;KO&quot;
+* outcomeDetailMessage FR : &quot;Bordereau non conforme au profil&quot;
+* objectIdentifierIncome : MessageIdentifier du manifest
+	Profil existant et déjà présent dans Vitam
+Jeu de test SIP avec bordereau SEDA valide/invalide par rapport au profil
+	Transfert SIP dans Vitam
+	remontée d&apos;un statut OK/KO dans le journal des opérations
+		Fonctionnelle
+	En Cours de Spécification
+		
+
+	472
+	XXX-00-000
+	Lire un journal des opérations
+		Étant donné : 
+Lorsque le SAE réalise : 
+Alors je peux constater que : 
+	
+	
+	
+	task #441, task #453
+	Technique (Dette)
+	Fini
+	20
+	5
+
+	474
+	XXX-00-000
+	Etude RAML vs Mock Server vs Mock Client
+		Etudier la faisabilité depuis RAML 1.0 de générer :
+
+- la documentation HTML
+- la documentation PDF (vis Sphinx)
+- le code de base Mock Server JAX-RS
+- le code de base Mock Client JAX-RS
+		Outils RAML
+		Technique (Dette)
+	Fini
+		8
+
+	475
+	XXX-00-000
+	Mock API Units / ObjectGroups
+		Définir les API Access externes pour :
+- Units
+- ObjectGroups
+
+Prendre en compte la logique d&apos;accès à définir :
+- Depuis Units vers ObjectGroups
+- Depuis ObjectGroups vers &quot;objects&quot; via sans doute un &quot;qualifier&quot;/&quot;usages&quot;
+- Modélisation du listing pour chaque Units de l&apos;OG associé (s&apos;il existe) et des &quot;usages&quot; disponibles
+- Modélisation de ObjectGroups / Objects (schéma)
+		SEDA
+FITS / autres
+		story #479, story #481
+	Technique (Dette)
+	Fini
+		6
+
+	476
+	XXX-00-000
+	Mock API Ingests
+		API Ingests externe :
+- Asynchronisme : définition et implémentation
+- Définition du mock
+	
+	
+	
+		Technique (Dette)
+	Fini
+		18
+
+	477
+	XXX-00-000
+	Mock API Logbook
+		Définition API externe journaux (Logbook) :
+- Opérations
+- Lifecycles
+- DSL hérité de Units/ObjectGroup mais restreinte
+	
+	
+	
+		Technique (Dette)
+	Fini
+		12
+
+	478
+	XXX-00-000
+	Etude RAML API asynchrone
+		API Asynchrone à définir
+	
+	
+	
+		Technique (Dette)
+	Fini
+		12
+
+	479
+	XXX-00-000
+	Etude RAML Unit / ObjectGroup
+		Relation Units / ObjectGroups / Objects :
+- un object est un usage / version d&apos;un objectgroup = &quot;qualifier&quot; 
+- il n&apos;y a pas de collections spécifiques, hormis pour l&apos;accès à un Object ? ou via ObjectGroups + Qualifier ?
+=&gt; Permet de masquer l&apos;ID de Object qui n&apos;est pas pérenne
+	
+	
+	
+		Technique (Dette)
+	Fini
+		14
+
+	480
+	XXX-00-000
+	Etude RAML Pagination d&apos;une liste de résultat
+		Sujet de la pagination côté backoffice dans le cadre d&apos;une API REST stateless
+	
+	
+	
+		Technique (Dette)
+	Fini
+		8
+
+	481
+	XXX-00-000
+	Etude RAML Modèle de données ObjectGroup
+		Il s&apos;agit de définir le modèle de données ObjectGroup/Object :
+- Usage/version
+- format, AUDIO/VIDEO/TEXT/DOC/IMAGE/...
+- référentiel format ?
+	
+	
+	
+		Technique (Dette)
+	Fini
+		8
+
+	485
+	ENT-03-000
+	En tant qu&apos;archiviste, je veux indexer les MD techniques d&apos;un groupe d&apos;objets techniques afin de pouvoir les récupérer ultérieurement
+	Rappel : Un groupe d&apos;objet technique : Ensemble des formes numériques ou physiques d&apos;une même unité intellectuelle. Ex. : un courrier qui a des formes papier et numériques, et pour la forme numérique, une version de conservation et une version de diffusion, etc. Dans le SEDA 2.0 correspond au DataObjectGroup.
+Dans un SIP :
+Au sein du DataObjectPackage du manifest un et un seul objet déclare le groupe (DataObjectGroup) auquel il appartient, ses autres versions/usage font référence à ce groupe.
+Le BinaryDataObject porte les MD techniques, dont les champs obligatoires sont :
+Uri
+MessageDigest
+Size
+FormatIdentification dont les éléments sont facultatifs
+Voici les différentes compositions possibles d&apos;un SIP :
+Un SIP contenant un seul objet (=BinaryDataObject ou PhysicalDataObject) alors : 
+l&apos;objet porte éventuellement la déclaration du DataObjectGroup
+Un SIP contenant plusieurs versions/usages d&apos;un même objet intellectuel : 
+une de ses versions porte la déclaration du DataObjectGroup (DataObjectGroupId)
+les autres y font référence (DataObjectGroupReferenceId)
+Un SIP contenant plusieurs DataObjectGroup contenant chacun un ou plusieurs objets le processus du deuxième point se répète pour chaque DataObjectGroup
+	Étant donné un SIP un ou plusieurs BInaryDataObject
+Action Indexer les MD techniques
+Vérification :une entrée est créée dans le journal des opérations avec le statut &quot;Ok&quot;, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : Indexation des MD techniques réalisée avec succès
+object Identifier Income : ‘MessageIdentifier’ du manifest
+****
+Étant donné une base de données inaccessible
+Action Indexer les MD Techniques contenues dans le SIP
+Vérification– statut :
+Vérification : une entrée est créée dans le journal des opérations avec statut &quot;KO&quot;, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : Echec de l&apos;indexation des MD techniques
+object Identifier Income : ‘MessageIdentifier’ du manifest
+****
+Etant donné un SIP ayant des objets déclarant un DataObjectGroup
+Action indexer le groupe d&apos;objet technique dont l&apos;ID (DataObjectId) est porté par un des objets (dans le DataObjectGroupId) correspondant (dans Vitam)
+Vérification les objets appartiennent au même groupe d&apos;objet technique + ajout d&apos;une entrée dans le journal de cycle de vie (#486) correspondant à l&apos;ID du groupe d&apos;objet technique créé
+*****
+Etant donné un SIP ayant des objets référençant un DataObjectGroup
+Action référencer le groupe d&apos;objet technique dont l&apos;ID (DataObjectId) est référencé par les autres objets (dans le DataObjectGroupReferenceId) correspondant (dans Vitam)
+Vérification les objets appartiennent au même groupe d&apos;objet technique + ajout d&apos;une entrée dans le journal de cycle de vie (#486) correspondant à l&apos;ID du groupe d&apos;objet technique référencé
+*****
+Etant donné un SIP ayant un &lt; DataObjectVersion&gt; erroné
+Lorsque le manifest est parsé
+Vérification : une entrée est créée dans le journal des opérations avec statut &quot;KO&quot;, en plus des champs obligatoires on voudra afficher
+outcome Detail Message : DataObjectVersion non reconnu
+object Identifier Income : ‘MessageIdentifier’ du manifest
+	jeu de SIP (avec/sans MD ; référence OK / réfrence KO)
+	un SIP :
+lot d&apos;archive
+manifest : 2 versions d&apos;un même BinaryDataObject  appartenant à un DataObjectPackage
+	Indexation des MD techniques du Groupe d&apos;objets techniques
+	task #579, task #580, task #581, task #584
+	Fonctionnelle
+	Revue en cours (itération)
+	60
+	45
+
+	486
+	ENT-03-000
+	En tant qu&apos;archiviste Je veux qu&apos;à chaque nouvelle entrée valide, un journal de cycle de vie soit créé et sauvegardé afin d&apos;avoir une trace
+	Au moment de l&apos;entrée, une fois le processus d&apos;entrée complet et OK d&apos;une nouvelle unité archivistique (ArchiveUnit + GOT), il faut créer le journal de cycle de vie correspondant.
+Si l&apos;ArchiveUnit est déjà connue du système, pas de création du journal.
+Le journal de cycle de vie trace toutes les événements qui impactent l&apos;archive dès sa prise en charge dans le système et doit être conservé autant que l&apos;archive.
+- dès la réception de l&apos;entrée, on trace les opérations effectuées sur les ArchiveUnit et les ObjectGroup qui sont dans le SIP
+- les journaux du cycle de vie sont &quot;committés&quot; une fois le stockage des objets OK et l&apos;indexation des MD OK, avant notification au service versant
+- si l&apos;entrée est KO en raison de l&apos;échec de quelque étape que ce soit, on détruit les units, les objets et les journaux correspondant. Faire attention à ce point lors de l&apos;écriture du scénario global de l&apos;itération suivante.
+Contenu du journal :
+- Id VITAM (object identifier) -&gt; obligatoire, interne et unique
+- Id de l&apos;opération concernée (event identifier) -&gt; obligatoire, interne et unique
+- identifiant du processus (event identifier process) -&gt; obligatoire, interne, unique
+- type de processus (event type process) -&gt; obligatoire, interne
+- Type de l&apos;opération (création...) (event type) -&gt; obligatoire, interne
+- Date de création de l&apos;enregistrement dans le journal (event date time) -&gt; obligatoire et calculée par le journal
+- Résultat de l&apos;opération (outcome) -&gt; obligatoire, interne, {STARTED, OK, FATAL, WARNING}
+- Code d&apos;erreur correspondant (outcome detail) -&gt; obligatoire en cas d&apos;erreur
+- Si code d&apos;erreur, Information détaillée du résultat (outcome detail message) -&gt; obligatoire,
+ 
+	Étant donné un Archive Unit repéré dans le manifeste 
+Action : créer son journal du cycle de vie 
+Vérification– une occurence est créée dans le journal du cycle de vie avec le bon format.(voir description métier)
+****
+Étant donné le journal du cycle de vie de l&apos;unit créé 
+Action : enregistrer la tâche dans le journal des opérations 
+Vérification- une entrée est créée dans le journal des opérations, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : Création du journal de cycle de vie Unit
+object Identifier Income : ‘MessageIdentifier’ du manifest
+****
+Étant donné un Groupe d&apos;objet technique réceptionné
+Action : créer son journal du cycle de vie 
+Vérification– une occurence est créée dans le journal du cycle de vie avec le bon format.(voir description métier).
+****
+Étant donné le journal du cycle de vie du groupe d&apos;objet technique créé 
+Action : enregistrer la tâche dans le journal des opérations 
+Vérification- une entrée est créée dans le journal des opérations, en plus des champs obligatoires on voudra afficher :
+outcome Detail Message : Création du journal de cycle de vie Groupe d&apos;objet
+object Identifier Income : ‘MessageIdentifier’ du manifest
+	processus d&apos;entrée OK et complet
+	Nouvelle entrée d&apos;un SIP
+	Journal créé avec un premier enregistrement dont la première ligne est une opération liée à la création de l&apos;unité archivistique (Archive Unit + GOT)
+	task #543, task #545, task #646, task #647
+	Fonctionnelle
+	A recette (release)
+	60
+	20
+
+	487
+	ENT-03-000
+	En tant qu&apos;archiviste, je veux calculer à l’entrée de mes archives les échéances de mes archives, afin de les enregistrer en base
+	Lorsqu&apos;un objet est versé, le bordereau peut indiquer deux éléments :
+- Un identifiant de règle de gestion
+- La date de début à partir de laquelle la règle concernant
+A partir de là, Vitam doit associer l&apos;identifiant de la règle avec la durée qu&apos;il possède en base, puis, appliquer cette durée à la date de début pour déterminer une date d&apos;application action de la règle.
+	Pré-requis : on considère ici que le manifeste fournit toujours :
+- Des identifiants connu du référentiel Vitam
+- Des dates de départ correctes, des règles cohérentes 
+Les cas d&apos;erreurs seront traités dans d&apos;autres stories.
+	
+	
+	
+		Fonctionnelle
+	A Spécifier
+		
+
+	488
+	ACC-02-000
+	En tant qu&apos;archiviste, je veux que les pages de résultats (recherche avancée) soient paginées, afin de pouvoir limiter le nombre de résultats par page
+		Étant donné : les résultats d&apos;une recherche
+Lorsque le SAE réalise : l&apos;affichage des résultats 
+Alors je peux constater que : un nombre défini de résultats (25) est affiche sur la page
+
+Étant donné : les résultats d&apos;une recherche
+Lorsque le SAE réalise : l&apos;affichage des résultats 
+Alors je peux constater que : une pagination est affichée en haut et en bas des résultats de recherche
+
+********************************
+Étant donné : les résultats d&apos;une recherche &lt; 25 lignes
+Lorsque le SAE réalise : l&apos;affichage de la pagination
+Alors je peux constater que : la pagination est inactive et grisée
+
+***********************
+Étant donné : les résultats d&apos;une recherche &gt;25 lignes
+Lorsque le SAE réalise : l&apos;affichage de la pagination
+Alors je peux constater que : la pagination est active
+
+Étant donné : les résultats d&apos;une recherche &gt;25 lignes
+Lorsque le SAE réalise : l&apos;affichage de la pagination
+Alors je peux constater que : la pagination est constituée de 2 flèches (voir IHM)
+et la pagination affiche 5 chiffres dans l&apos;ordre chronologique entre les flèches (voir IHM) 
+
+Étant donné : les résultats d&apos;une recherche &gt;25 lignes 
+Lorsque le SAE réalise : l&apos;affichage de la pagination
+Alors je peux constater que : les chiffres de la pagination prennent en compte le nombre total de résultats 
+et les chiffre ne sont pas supérieurs a 5 chiffres affichés
+
+Étant donné : les résultats d&apos;une recherche &gt;25 lignes 
+Lorsque le SAE réalise : l&apos;affichage de la pagination sur la première page
+Alors je peux constater que : la flèche de gauche est inactive
+
+Étant donné : les résultats d&apos;une recherche &gt;25 lignes 
+Lorsque le SAE réalise : l&apos;affichage de la pagination sur la dernière page
+Alors je peux constater que : la flèche de droite est inactive
+
+**********************
+Étant donné : les résultats d&apos;une recherche &gt;25 lignes 
+Lorsque le SAE réalise : un clic sur le bouton suivant si actif
+Alors je peux constater que : la page recharge les résultats 
+Et incrémente les résultats de 25
+Et incrémente le chiffre de pagination sélectionné de +1
+
+Étant donné : les résultats d&apos;une recherche &gt;25 lignes 
+Lorsque le SAE réalise : un clic sur le bouton précédent si actif
+Alors je peux constater que : la page recharge les résultats 
+Et décrémente les résultats de 25
+Et décrémente le chiffre de pagination sélectionné de -1
+	Une page de résultats de recherche
+Plus de 25 résultats de recherche
+	Une recherche
+	L&apos;affichage d&apos;un système de pagination fonctionnel
+		Fonctionnelle
+	Raffinement/Tech Design
+		
+
+	489
+	GAE-09-000
+	SCENARIO : En tant qu&apos;administrateur fonctionnel, je veux créer le référentiel des règles de gestion afin de pouvoir l&apos;alimenter et de pouvoir calculer les échéances des unités archivistiques reçues
+	- Import du référentiel : #490
+- Affichage : #751
+- Rechercher dans le référentiel : #575
+	Étant donné : Lorsque le SAE réalise : Alors je peux constater que :
+	
+	
+	
+	story #490, story #492, story #575, story #576, story #577
+	Fonctionnelle
+	En Cours De Réalisation
+		
+
+	490
+	GAE-09-000
+	En tant qu&apos;administrateur fonctionnel, je veux importer un référentiel de règles de gestion afin d&apos;initialiser les règles de gestion
+	Le référentiel de règles de gestion est un outil qui décrit les règles de gestion permettant de calculer les échéances auxquelles sont soumises les archives prises en charge par la solution Vitam et qui vont entraîner le déclenchement d’opérations les concernant dans Vitam.
+A terme il sera  impossible d&apos;utiliser Vitam sans ce référentiel.
+Pour avoir un ordre idée, le nombre de règles de gestion peut aller de la centaine à plusieurs dizaines de milliers. 
+Sur un exemple concret, un des ministères possède environs 7000 règles, qui correspondront à l&apos;import initial lors d&apos;un déploiement de Vitam chez eux.
+La structure métier du référentiel est le suivant :
+Identifiants de la règle externe ou métier/FO. Obligatoire
+Equivalent SEDA : Attribut  &lt; Rule id=&quot;xxxx&quot;&gt;
+Contrainte : le ruleID est unique dans le référentiel
+Note : il est de la responsabilité de l&apos;administrateur fonctionnel et du SIP d&apos;avoir des ID qui correspondent entre son front office et le manifest
+Type de règle (énumération :AppraisalRule, AccessRule, StorageRule, DisseminationRule, ReuseRule, ClassificationRule). Obligatoire
+Equivalent administratif / SEDA : voir liste plus bas
+Intitulé de la règle (texte). Obligatoire
+Equivalent SEDA: &lt; Rule&gt;Valeur&lt; /Rule&gt;
+Durée associée à la règle (entier positif ou nul, max à définir). Obligatoire
+Unité de valeur associée (énumération : jours, mois, années). Obligatoire
+Description (texte). Optionnel
+Note : l&apos;archiviste pourra y mettre plusieurs informations en plus, comme les références légales ou la date de départ de la règle
+De plus, l&apos;administrateur fonctionnel voudra retrouver les informations suivantes :
+Date de création de la règle dans le SAE (date)
+Date de dernière mise à jour de la règle dans le SAE (date)
+ 
+Détail des types de règles et correspondance SEDA :
+Durée d&apos;utilité Administrative (DUA) : AppraisalRule
+Délai de Communicabilité (DCOMM) : AccessRule
+Durée d&apos;utilité courante (DUC) : StorageRule
+Délai de diffusion (DDIFF) : DisseminationRule
+Durée de réutilisation (DREUT) : ReuseRule
+Durée de classification (DCLASS) : ClassificationRule
+De plus un référentiel de gestion est relatif à un tenant, chaque tenant ayant son propre référentiel. Par soucis de simplification, l&apos;import initial devra permettre de faire la liaison avec un tenant, même si l&apos;interface ne le permet pas, comme pour les SIP ou logbook actuellement. (Utilisation du tenantID ?)
+Validté d&apos;un fichier : un fichier contenant un référentiel valide respecte toutes les conditions suivante :
+* Présente un format CSV dont la structure est bien formée
+* Possède des valeurs dont le format est correct (pas de texte dans un champ numérique, la valeur soumise pour une énumération doit être égal à une des valeurs de cette énumération)
+* Possède des valeurs dans ses champs obligatoires
+* Possède des valeurs cohérentes avec le métier (ex : le ruleID est unique)
+Pour information, à propos de la responsabilité du référentiel de gestion :
+- Vitam étant un projet devant être autonome, il est obligatoire de posséder l&apos;ensemble des règles nécéssaires et suffisantes pour gérer ses achives y compris sans SIA
+- Les SIA possèdent aujourd&apos;hui leurs propres référentiels de gestion. Il conviendra de voir quels informations seront issues de Vitam et lesquelles de leurs propres systèmes. A l&apos;écriture de cette story, il s&apos;agit encore d&apos;un chantier très éloigné.
+- Les SIA étant très hétérogènes, il est préférable de partir sur un socle commun et relativement complet dans Vitam
+Cette story s&apos;accompagne de la #740 qui décrit fonctionnalités de test.
+Jeu de données valide en PJ
+-----------------------------
+POUR HISTORIQUE :
+La structure du référentiel est le suivant :
+identifiants de la règle
+type de règle (DUA, DCOMM, DUC, DDIFF, DREUT, DCLASS)
+intitulé de la règle
+durée associée à la règle
+unité de valeur associée (jours, mois, années)
+références légales
+date d’activation de la règle (?)
+date de désactivation de la règle (?)
+Types des règles :
+Durée d&apos;utilité Administrative (DUA)
+Délai de Communicabilité (DCOMM)
+Durée d&apos;utilité courante (DUC)
+Délai de diffusion (DDIFF)
+Durée de réutilisation (DREUT)
+Durée de classification (DCLASS)
+	Cas nominal
+#CA1
+Étant donné le l&apos;interface d&apos;import du référenciel de gestion de Vitam
+Lorsque l&apos;administrateur fonctionnel soumet un fichier de règle de gestion depuis son client au SAE
+Alors le système vérifie la validité du fichier en mode &quot;dry run&quot; (comme pour le référentiel Pronom cf #636)
+Et le système inscrit une entrée dans le journal des opérations :
+outcome Detail Message : « Import initial des règles de gestion : soumission du fichier &lt; nom_du_fichier&gt; pour vérification puis importation »
+#CA2
+Étant donné la vérification du fichier des règles de gestion par le système
+Lorsque le fichier est valide (voir description métier)
+Alors l&apos;administrateur peut valider ou annuler cet import
+
+#CA3
+Étant donné un fichier valide
+Et le choix pour l&apos;administrateur de valider ou annuler cet import
+Et qu&apos;il n&apos;existe pas déjà un référentiel de gestion dans le SAE
+Lorsque l&apos;administrateur valide
+Alors le fichier est importé dans le référentiel des règles de gestion
+Et le système inscrit une entrée dans le journal des opérations : outcome Detail Message : « Import initial des règles de gestion : fichier &lt; nom_du_fichier&gt; valide et importé avec succès »
+Et le système indique dans l&apos;IHM que l&apos;import a réussi
+ 
+Cas d&apos;erreurs
+#CA4 Annulation de l&apos;import du fichier
+Étant donné un administrateur fonctionnel qui soumet un fichier de règles de gestion valide depuis son client au SAE
+Et le système qui lui demande de valider ou annuler l&apos;import
+Lorsque l&apos;administrateur fonctionnel annule l&apos;import
+Alors le système d&apos;importation des règles de gestion revient à son état initial, comme si l&apos;utilisateur n&apos;avait pas démarré l&apos;opération
+#CA5 CSV mal formé
+Étant donné un administrateur fonctionnel qui confirme la soumission d&apos;un fichier de règles de gestion depuis son client au SAE
+Lorsque le fichier est mal formé : pas d&apos;intitulés de colonnes ou mauvais type de séparateurs ou mauvais nombre de champs
+Alors la vérification de l&apos;import s&apos;arrête
+Et le système considère ce fichier comme invalide
+Et le système inscrit une entrée dans le journal des opérations : outcome Detail Message : « Import initial des règles de gestion : fichier &lt; nom_du_fichier&gt; mal formé, importation annulé »
+Et le système remonte l&apos;erreur à l&apos;utilisateur
+#CA6 Format des valeurs non conforme
+Étant donné un administrateur fonctionnel qui valide l&apos;import d&apos;un fichier de règles de gestion depuis son client au SAE
+Lorsque le fichier possède des valeurs qui ne sont pas conforme avec le type attendu (Se référer à la description métier. Ex : du texte dans un champ qui attend un entier, ou une valeur qui n&apos;appartient pas à une énumération)
+Alors le système considère ce fichier comme invalide
+Et le système inscrit une entrée dans le journal des opérations : outcome Detail Message : « Import initial des règles de gestion : le fichier &lt; nom_du_fichier&gt; comporte des valeurs invalides, importation annulé »
+Et le système remonte l&apos;erreur à l&apos;utilisateur
+Et la vérification de l&apos;import continue
+#CA7 Valeurs non conformes à la logique métier
+Étant donné un administrateur fonctionnel qui valide l&apos;import d&apos;un fichier de règles de gestion depuis son client au SAE
+Lorsque le fichier possède des valeurs qui ne sont pas conforme avec la logique métier (voir ci dessous)
+Alors le système considère ce fichier comme invalide
+Et le système inscrit une entrée dans le journal des opérations : outcome Detail Message : « Import initial des règles de gestion : le fichier &lt; nom_du_fichier&gt; comporte des valeurs invalides, importation annulé »
+Et le système remonte l&apos;erreur à l&apos;utilisateur
+Et la vérification de l&apos;import continue
+Logique métier :
+- Le ruleID doit être unique dans le référentiel
+#CA8 Erreur technique
+Étant donné la vérification du fichier des règles de gestion par le système
+Lorsque le fichier est valide
+Et qu&apos;une erreur technique survient concernant l&apos;importation ou la persistance (SGBD indisponible, réseau inatteignable, problème d&apos;écriture…) 
+Alors le système revient à l&apos;état d&apos;avant l&apos;importation 
+Et le système inscrit une entrée dans le journal des opérations : outcome Detail Message : « Échec de l&apos;import initial des règles de gestions suite à un problème technique.»
+Et le système remonte l&apos;erreur à l&apos;utilisateur avec le code d&apos;erreur renvoyé par l&apos;instance en dysfonctionnement (erreur 40x, 50x…)
+Et la vérification de l&apos;import s&apos;arrête
+#CA9 Référentiel déjà existant
+Étant donné un fichier valide
+Et le choix pour l&apos;administrateur de valider ou annuler cet import
+Et qu&apos;il existe déjà un référentiel de gestion dans le SAE qui a été importé précédemment
+Lorsque l&apos;administrateur valide
+Alors le système n&apos;importe pas le fichier
+Et le système inscrit une entrée dans le journal des opérations : outcome Detail Message : « Erreur sur l&apos;import initial des règles de gestion : un référentiel de gestion existe déjà, importation annulé »
+Et le système remonte l&apos;erreur à l&apos;utilisateur
+ 
+------------------------------------------------
+Pour historique
+Etant donné un référentiel valide
+Lorsque le SAE réalise : l&apos;import du référentiel de gestion dans Vitam
+Alors je peux constater que : toutes les règles de gestion sont sauvegardées dans Vitam, un message &quot;Import réussit&quot; est affiché.
+********
+Etant donné un référentiel invalide (structure de données incohérente)
+Lorsque le SAE réalise : l&apos;import du référentiel de gestion dans Vitam
+Alors je peux constater que : l&apos;import est rejeté par Vitam, un message d&apos;erreur &quot;Echéc de l&apos;import : structure de données incohérantes&quot; est affiché.
+********
+Etant donné un référentiel invalide (formats de fichier)
+Lorsque le SAE réalise : l&apos;import du référentiel de gestion dans Vitam
+Alors je peux constater que :  l&apos;import est rejeté par Vitam, un message d&apos;erreur &quot;Echéc de l&apos;import : format fichier rejetté&quot; est affiché.
+	Référentiel de règles de gestion respectant la structure de données, les règles métiers et le format de fichier &quot;csv&quot;.
+	Un référentiel de règles de gestion
+	Référentiel de règles de gestion importé dans Vitam.
+	task #573, story #704, story #705, task #734, task #735, task #736, story #740
+	Fonctionnelle
+	A Développer
+	60
+	17
+
+	491
+	PRE-04-000
+	SCENARIO GLOBAL - En tant qu&apos;administrateur fonctionnel je veux administrer le référentiel de format de Vitam afin de gérer les formats
+	Le référentiel des formats permettra de gérer les formats de fichiers de la solution logicielle Vitam.
+Par exemple, il permettra :
+De définir les formats autorisés en entrée via le contrat d’entrée
+D’identifier les formats
+De faire les transformations de formats
+De définir les formats obsolètes
+Il sera crée à partir du référentiel des formats PRONOM qui est livré sous la forme d&apos;un fichier XML.Le référentiel est périodiquement augmenté et mis à jour par des contributions ou le département Digital Preservation des Archives Nationales du Royaume-Uni. Il est librement téléchargeable sur le site officiel et peut ainsi être mis à jour dans l&apos;application.
+	 
+1 - Créer le référentiel de format dans Vitam afin d&apos;importer le référentiel PRONOM (#71)
+2 - Initialiser l&apos;import du référentiel PRONOM dans VITAM afin de pouvoir l&apos;importer (#636)
+importer le fichier du référentiel formats PRONOM en XML (#637)
+vérifier le fichier XML du référentiel de formats PRONOM (#638)etre notifié du retour de la lecture du fichier XML (#639)
+déclencher l&apos;import du référentiel de format de PRONOM (#640)
+vider la base de données pendant les phases de tests (#642)
+Si KO fin du processus
+Si OK etape 2
+3 - Importer le fichier du référentiel PRONOM dans VITAM afin de pouvoir le consulter (#641)
+faire un script pour récupérer et formater tous les formats du référentiel &quot;Pronom&quot; afin de pouvoir les visualiser dans VITAM (#561)
+importer les données pertinantes du référentiel &quot;pronom&quot; dans le referentiel de formats de Vitam (#562)
+Si KO fin du processus - retour etape 1
+Si OK etape 3
+ 4 - Afficher et rechercher le référentiel de formats afin de pouvoir le consulter. (#83)
+Saisir un nom de formats dans le référentiel pour lancer ma recherche (#570)
+afficher le nombre total des resultats de recherche afin de connaitre le nombre de formats existants (#571)
+afficher la liste des formats sous forme de tableau (#631)
+mettre à jour la liste des résultats en fonction des résultats de recherche (#632)
+lancer la recherche de mon formulaire (#633)
+SI recherche KO nouvelle recherche
+Si OK posssible etape 5
+ 5 - Afficher les détails d&apos;un format sélectionné afin de les consulter (#566)
+cliquer sur chaque ligne de la liste des formats (#572)
+afficher le détail d&apos;un résultat (#634)
+un lien HTML pointe vers la fiche descriptive du referentiel PRONOM
+	L&apos;import d&apos;un référentiel de format dans Vitam
+	La liste complète des formats du référentiel
+	Le détail d&apos;un format
+	story #71, story #83, story #566, story #636, story #641
+	Fonctionnelle
+	A recette (release)
+	40
+	
+
+	492
+	PRE-04-000
+	En tant qu&apos;archiviste, je veux pouvoir afficher les détails d&apos;une règle de gestion sélectionnée afin de les consulter.
+	La structure du référentiel est le suivant :
+identifiants de la règle
+type de règle (DUA, DCOMM, DUC, DDIFF, DREUT, DCLASS)
+intitulé de la règle
+durée associée à la règle
+unité de valeur associée (jours, mois, années)
+références légales
+date d’activation de la règle (?)
+date de désactivation de la règle (?)
+Types des règles :
+Durée d&apos;utilité Administrative (DUA)
+Délai de Communicabilité (DCOMM)
+Durée d&apos;utilité courante (DUC)
+Délai de diffusion (DDIFF)
+Durée de réutilisation (DREUT)
+Durée de classification (DCLASS)
+	Étant donné l&apos;affichage des informations détaillées d&apos;une regle de gestion
+Lorsque le SAE réalise une consultation de la fiche
+Alors je peux constater que toutes les informations de la regle sont affichées
+	Une règle de gestion existante
+	Une demande de consultation d&apos;une règle de gestion
+	Les informations complètes d&apos;une règle de gestion existante
+	task #616
+	Fonctionnelle
+	A Développer
+	60
+	6
+
+	493
+	ENT-03-000
+	En tant qu&apos;archiviste, je veux pouvoir uploader un sip enregistré sous la forme d&apos;un container tar, tar.gz ou tar.gz2 afin de le mettre dans le workflow d&apos;entrée
+		CA1 : mise en place de la nouvelle action de contrôle du format du SIP
+Etant donné le versement d&apos;un SIP
+Lorsque le SIP passe par le contrôle d&apos;entrée globale
+Alors le contrôle d&apos;entrée procède à une nouvelle tâche qui est la &quot;Vérification du format du SIP&quot;. Cette tâche vérifie que le SIP est dans la liste des formats autorisés :
+.zip
+.tar.gz
+.tar.gz2
+.tar
+Et cette tâche est en enrichissement de la tâche créé à l&apos;occasion de la #656
+Et le début de cette tâche, le SAE inscrit dans le journal des opérations :
+* eventType : &quot;Upload SIP - SIP Format&quot; -&gt; &quot;Contrôle du format du SIP&quot;
+* outcome avec statut Started
+* outcomeDetailMessage : &quot;Début du contrôle de format du SIP&quot;
+* objectIdentifierIncome : nom du SIP
+CA2 : OK : SIP dans un format autorisé
+Etant donné un SIP dans un format autorisé
+Lorsque le SAE passe dans la tâche de vérification du format de ce SIP
+Alors le workflow d’entrée continue
+Et dans le journal des opérations un enregistrement est créé avec les valeurs et les traductions françaises suivantes :
+* eventType : &quot;Upload SIP - SIP Format&quot; -&gt; &quot;Contrôle du format du SIP&quot;
+* outcome avec statut OK
+* outcomeDetailMessage : &quot;Format du SIP OK&quot;
+* objectIdentifierIncome : nom du SIP
+CA3 : KO : SIP dans un format non autorisé
+Etant d</TextContent>
+</Content>

@@ -1,0 +1,87 @@
+Bonjour Thierry, 
+
+ 
+
+En effet, si l’on exclut les cas de non-respect xml/xsd SEDA cela me semble bon.
+
+ 
+
+Je pensais à ajouter non-correspondance des métadonnées fichiers/bordereau (nom de fichier différent par exemple) mais cela me semble couvert par tes cas.
+
+ 
+
+Nicolas
+
+ 
+
+De : CASIMIRIUS Thierry IDEF MINDEF 
+Envoyé : mardi 11 octobre 2016 12:43
+À : BEL Nicolas ASC NIV I OA
+Cc : CHEVENIER Olivier ASC NIV I OA; GODET Annie CHAR ETU DOC PPL 2
+Objet : Cas de SIP SEDA NOK
+
+ 
+
+Nicolas,
+
+ 
+
+J’ai identifié 6 critères de non acceptation d’un SIP SEDA (SIP NOK). J’ai exclu les cas de non-respect de la norme XML, et XSD SEDA
+
+ 
+
+ 
+
+Qu’en dis-tu ? 
+
+Vois-tu d’autres cas ?
+
+ 
+
+Cas d'erreur SIP NOK
+
+Description
+
+A
+
+nombre d'objets dans bordereau et dans SIP différent
+
+B
+
+au moins un format de fichier "archive"dans SIP différent de celui identifié dans bordereau
+
+C
+
+au moins une taille d'un fichier "archive" dans SIP différente de celui identifié dans bordereau
+
+D
+
+au moins une empreinte d'un fichier "archive" dans SIP incorrect dans bordereau
+
+E
+
+au moins une date de dernièere modification d'un fichier "archive" différente de celle indiquée dans bordereau
+
+F
+
+au moins une règle de sort final non respectée : le moment d'application d'un sort final d'un groupe d'objets est antérieur à celui d'un objet de niveau inférieur.
+
+ 
+
+D’avance, merci,
+
+ 
+
+Cordialement,
+
+ 
+
+Thierry CASIMIRIUS
+
+Adjoint au chef du bureau des technologies d’information
+
+Service historique de la Défense
+
+SGA/DMPA/SHD/PPST/BTI
+
+Tél : 01 41 93 20 45

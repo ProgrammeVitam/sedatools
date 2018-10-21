@@ -1,0 +1,67 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000035]: [Besoin Métier Légitime] - Impossibilité de rechercher une Unit via Metadata puis de modifier d&apos;autres Metadata sur cette Unit</Title>
+    <OriginatingSystemId>&lt;6afd5f015bfb00fe335e6e0a9398a9df@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-23T14:52:17Z</SentDate>
+    <ReceivedDate>2016-12-23T14:52:19Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=35 
+====================================================================== 
+Rapporteur:                 Aurelien
+Responsable:                Aurelien
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   35
+Catégorie:                  VITAM
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:               80 
+====================================================================== 
+Date de soumission:         2016-12-23 15:52 CET
+Dernière modification:      2016-12-23 15:52 CET
+====================================================================== 
+Résumé:                     [Besoin Métier Légitime] - Impossibilité de
+rechercher une Unit via Metadata puis de modifier d&apos;autres Metadata sur cette
+Unit
+Description: 
+Via API, il n&apos;est pas possible de rechercher une Unit via métadonnées puis de
+modifier d&apos;autres métadonnées (que celles recherchées) de cette même Unit.
+
+Balises concernées pour la recherche :
+- DescriptionLevel
+- StartDate
+
+Balises concernées pour la modification :
+- Title
+- Description
+
+Étapes pour le reproduire: 
+1) Injecter un SIP dans Vitam
+2) Exécuter la requête via Soap Ui (requête en PJ)
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-23 15:52 Aurelien       Nouveau bogue                                
+2016-12-23 15:52 Aurelien       Statut                   nouveau =&gt; affecté  
+2016-12-23 15:52 Aurelien       Assigné à                 =&gt; Aurelien        
+2016-12-23 15:52 Aurelien       Fichier ajouté:
+PVI-878_23-12-2016-02-48_REQUEST.json                    
+======================================================================</TextContent>
+</Content>

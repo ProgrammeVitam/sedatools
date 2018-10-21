@@ -1,0 +1,39 @@
+Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=39 
+====================================================================== 
+Rapporteur:                 Jonathan
+Responsable:                Jonathan
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   39
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     mineur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:                
+====================================================================== 
+Date de soumission:         2016-12-26 11:59 CET
+Dernière modification:      2016-12-26 11:59 CET
+====================================================================== 
+Résumé:                     [Besoin Metier Légitime] Balise
+MessageDigestAlgorithmCodeListVersion n'est pas contrôlée
+Description: 
+La balise <MessageDigestAlgorithmCodeListVersion> du manifest n'est pas
+contrôlée lors de l'ingest, une valeur aléatoire fait quand meme passé le
+SIP en OK 
+
+Informations complémentaires: 
+PVI-29
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-26 11:59 Jonathan       Nouveau bogue                                
+2016-12-26 11:59 Jonathan       Statut                   nouveau => affecté  
+2016-12-26 11:59 Jonathan       Assigné à                 => Jonathan        
+======================================================================

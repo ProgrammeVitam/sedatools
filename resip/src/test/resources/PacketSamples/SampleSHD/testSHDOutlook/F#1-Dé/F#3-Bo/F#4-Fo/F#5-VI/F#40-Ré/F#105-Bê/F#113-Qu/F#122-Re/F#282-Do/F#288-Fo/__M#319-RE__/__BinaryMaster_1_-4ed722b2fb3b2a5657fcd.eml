@@ -1,0 +1,1179 @@
+Return-Path: emmanuel.laborde@culture.gouv.fr
+Received:  from messagerie.int.culture.fr (heckel.culture.fr [143.126.201.38])
+	by Pasteur03.culture.fr with ESMTP id uASEJehg036026;	Mon, 28 Nov 2016
+ 15:19:40 +0100
+Date: Mon, 28 Nov 2016 15:19:40 +0100 (CET)
+From: emmanuel.laborde <emmanuel.laborde@culture.gouv.fr>
+To: CASIMIRIUS Thierry <thierry.casimirius@intradef.gouv.fr>
+CC: AJJAZ Franck (franck.ajjaz@altran.com) <franck.ajjaz@altran.com>,
+	BEL Nicolas <nicolas.bel@intradef.gouv.fr>,CHEVENIER Olivier <olivier.chevenier@intradef.gouv.fr>,
+	Jean-Severin LAIR <jean-severin.lair@culture.gouv.fr>,edouard VASSEUR <edouard.vasseur@culture.gouv.fr>
+Message-ID: <4ed722b2fb3b2a5657fcda06fc1f225a@culture.gouv.fr>
+In-Reply-To: <4c56385f4e0d924cc69341bf28474bd0@culture.gouv.fr>
+References:  <BD292097C8AEFE49AF7A7C373C29524D1C66AB33@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+ <74eb384411e087d6b0a8af7da3f557d6@culture.gouv.fr>
+ <BD292097C8AEFE49AF7A7C373C29524D1C66AF96@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+ <4c56385f4e0d924cc69341bf28474bd0@culture.gouv.fr>
+Subject: =?UTF-8?Q?RE:_TR:_TRA_VITAM_Beta_MINDEF_-_Nouveau_lot_de_ques?=
+ =?UTF-8?Q?tions_=3D>_demande_de_pr=C3=A9cis?=
+ =?UTF-8?Q?ions_sur_la_partie_donn=C3=A9es?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_460_22400802.1517006386256"
+X-Proofpoint-Sentinel:  stfsU2FsdGVkX1/sLpXS9ZfQUkQHOlW0IsGU9/AABRU8b39B4RWpat6kl4qj
+ MnyaoJonfHv0nnWiF6LVujuXvmzCzJ8vTwoTgegq4w1QnJYDO+G684AB9nNfS0pm8wKLJiGt
+X-Sender:  emmanuel.laborde@culture.gouv.fr
+User-Agent:  Roundcube Webmail/0.9.5
+X-Proofpoint-Virus-Version:  vendor=nai engine=5800 definitions=8363 signatures=670751
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1286500;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+X-MS-Exchange-Organization-SCL:  0
+X-MS-Exchange-Organization-AuthSource: 
+ MVLINF10CTNWM07.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Anonymous
+
+------=_Part_460_22400802.1517006386256
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_461_28495883.1517006386256"
+
+------=_Part_461_28495883.1517006386256
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour,
+
+Ci joint le fichier de r=C3=A9ponse aux questions sur les m=C3=A9tadonn=C3=
+=A9es avec les pr=C3=A9cisions compl=C3=A9mentaires demand=C3=A9es.
+
+Cdt,
+
+Emmanuel Laborde
+
+=20
+
+=20
+
+Le 2016-11-25 19:03, emmanuel.laborde a =C3=A9crit :
+
+=09=20
+
+=09Bonjour Thierry,
+
+=09Comme indiqu=C3=A9 pr=C3=A9c=C3=A9demment, nous centralisons nos r=C3=A9=
+ponses aux diff=C3=A9rents mails sur le mod=C3=A8le de donn=C3=A9e dans le =
+fichier "SEDA-XML-JSON-r=C3=A9ponse pr=C3=A9cisions" qui sera renvoy=C3=A9 =
+courant de la semaine prochaine.
+
+=09Cdt,
+
+=09Emmanuel
+
+=09=20
+
+=09Le 2016-11-25 16:55, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09=09Edouard,
+
+=09=09=20
+
+=09=09Merci pour ces fichiers.
+
+=09=09Mais serait-il possible d=E2=80=99avoir les r=C3=A9ponses pos=C3=A9es=
+ dans mon mail du 24/11 ?
+
+=09=09=20
+
+=09=091-      Je comprends que l'ArchiveTransfer et l'ArchiveTransferReply =
+se retrouvent dans le LogbookOperation mais quelle est la forme d=C3=A9di=
+=C3=A9e dont il est question pour chacun des champs SEDA =C3=A9voqu=C3=A9? =
+=E2=80=93voir onglet 1 du fichier transmis le 24/11
+
+=09=092-      Cela signifie-t-il que ces balises ( <OriginatingAgencyArchiv=
+eUnitIdentifier>, <OriginatingSystemId> , <OrganizationDescriptiveMetadata>=
+ ) sont bien v=C3=A9rifiables / r=C3=A9cup=C3=A9rables dans VITAM ? Si oui =
+comment je peux retrouver ces balises pour effectuer mes v=C3=A9rifications=
+ si elles ne sont pas recens=C3=A9es dans le model de donn=C3=A9es ? =E2=80=
+=93 voir onglet 5
+
+=09=09=20
+
+=09=09D=E2=80=99avance, merci pour ton retour,
+
+=09=09=20
+
+=09=09Cordialement,
+
+=09=09=20
+
+=09=09Thierry CASIMIRIUS
+
+=09=09Adjoint au chef du bureau des technologies d=E2=80=99information
+
+=09=09Service historique de la D=C3=A9fense
+
+=09=09SGA/DMPA/SHD/PPST/BTI
+
+=09=09T=C3=A9l : 01 41 93 20 45
+
+=09=09=20
+
+=09=09De : edouard VASSEUR [mailto:edouard.vasseur@culture.gouv.fr]=20
+=09=09Envoy=C3=A9 : jeudi 24 novembre 2016 15:24
+=09=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09=09Cc : emmanuel.laborde; AJJAZ Franck (franck.ajjaz@altran.com); BEL Ni=
+colas ASC NIV I OA; CHEVENIER Olivier ASC NIV I OA
+=09=09Objet : Re: TR: TRA VITAM Beta MINDEF - Nouveau lot de questions =3D>=
+ demande de pr=C3=A9cisions sur la partie donn=C3=A9es
+
+=09=09=20
+
+=09=09Rebonjour,
+
+=09=09Vous trouverez en pi=C3=A8ces jointes les 2 accus=C3=A9s de r=C3=A9ce=
+ption g=C3=A9n=C3=A9r=C3=A9s pendant la d=C3=A9monstration : un accus=C3=A9=
+ de r=C3=A9ception pour une entr=C3=A9e OK et un accus=C3=A9 de r=C3=A9cept=
+ion pour une entr=C3=A9e KO.
+
+=09=09Edouard
+
+=09=09=20
+
+=09=09=20
+
+=09=09Le 2016-11-24 09:34, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09=09=09Bonjour Emmanuel,
+
+=09=09=09=20
+
+=09=09=09Des pr=C3=A9cisions nous sont encore n=C3=A9cessaires pour la part=
+ie donn=C3=A9es (correspondance SEDA et VITAM, voir onglet 1 et 5 du doc en=
+ PJ) :
+
+=09=09=09=20
+
+=09=09=091-      Je comprends que l'ArchiveTransfer et l'ArchiveTransferRep=
+ly se retrouvent dans le LogbookOperation mais quelle est la forme d=C3=A9d=
+i=C3=A9e dont il est question pour chacun des champs SEDA =C3=A9voqu=C3=A9?=
+ =E2=80=93voir onglet 1
+
+=09=09=092-      Cela signifie-t-il que ces balises ( <OriginatingAgencyArc=
+hiveUnitIdentifier>, <OriginatingSystemId> , <OrganizationDescriptiveMetada=
+ta> ) sont bien v=C3=A9rifiables / r=C3=A9cup=C3=A9rables dans VITAM ? Si o=
+ui comment je peux retrouver ces balises pour effectuer mes v=C3=A9rificati=
+ons si elles ne sont pas recens=C3=A9es dans le model de donn=C3=A9es ? =E2=
+=80=93 voir onglet 5
+
+=09=09=09=20
+
+=09=09=09D=E2=80=99avance, merci pour ton retour,
+
+=09=09=09=20
+
+=09=09=09Au besoin, nous aurons l=E2=80=99occasion d=E2=80=99=C3=A9changer =
+sur ces points cet apr=C3=A8s-midi
+
+=09=09=09=20
+
+=09=09=09Cordialement,
+
+=09=09=09=20
+
+=09=09=09Thierry CASIMIRIUS
+
+=09=09=09Adjoint au chef du bureau des technologies d=E2=80=99information
+
+=09=09=09Service historique de la D=C3=A9fense
+
+=09=09=09SGA/DMPA/SHD/PPST/BTI
+
+=09=09=09T=C3=A9l : 01 41 93 20 45
+
+=09=09=09=20
+
+=09=09=09De : AJJAZ Franck [mailto:franck.ajjaz@altran.com]=20
+=09=09=09Envoy=C3=A9 : mercredi 23 novembre 2016 17:58
+=09=09=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09=09=09Cc : DANYACH-DESCHAMPS Myriam ASC
+=09=09=09Objet : RE: TRA VITAM Beta MINDEF - Nouveau lot de questions
+
+=09=09=09=20
+
+=09=09=09Re bonjour Thierry,
+
+=09=09=09=20
+
+=09=09=09Voici nos demandes de pr=C3=A9cisions sur la partie donn=C3=A9es. =
+(voir onglet 1 et 5)
+
+=09=09=09=20
+
+=09=09=09Cordialement,
+
+=09=09=09Franck AJJAZ
+
+=09=09=09Chef de Projet
+
+=09=09=09TRA VITAM
+=09=09=09franck.ajjaz@altran.com
+
+=09=09=09=20
+
+=09=09=09=20
+
+=09=09=09=20
+
+=09=09=09=20
+
+=09=09=09De : emmanuel.laborde [mailto:emmanuel.laborde@culture.gouv.fr]=20
+=09=09=09Envoy=C3=A9 : mercredi 23 novembre 2016 17:00
+=09=09=09=C3=80 : CASIMIRIUS Thierry
+=09=09=09Cc : AJJAZ Franck; DANYACH-DESCHAMPS Myriam; VASSEUR Edouard
+=09=09=09Objet : Re: TRA VITAM Beta MINDEF - Nouveau lot de questions
+
+=09=09=09=20
+
+=09=09=09=20
+
+=09=09=09Bonjour,
+
+=09=09=09Voici les r=C3=A9ponses aux questions ainsi que l'analyse des corr=
+espondances entre le SEDA et le mod=C3=A8le de donn=C3=A9e VITAM.
+
+=09=09=09Cdt,
+
+=09=09=09Emmanuel Laborde
+
+=09=09=09=20
+
+=09=09=09=20
+
+=09=09=09Le 2016-11-22 16:19, CASIMIRIUS Thierry a =C3=A9crit :
+
+=09=09=09=09Bonjour Emmanuel,
+
+=09=09=09=09=20
+
+=09=09=09=09Nous ( ALTRAN)  avons un nouveau lot de question =E2=80=93 Voir=
+ le fichier =C2=AB Question VITAM 3.xlsx =C2=BB. Pourriez-vous y apporter v=
+os r=C3=A9ponses ?
+
+=09=09=09=09=20
+
+=09=09=09=09Par ailleurs, ALTRAN cherche =C3=A0 =C3=A9tablir, sur la base d=
+u document mod=C3=A8le de donn=C3=A9es, les correspondances entre les champ=
+s SEDA, les balises existants dans le fichier SIP , et le parall=C3=A8le da=
+ns le JSON.
+
+=09=09=09=09=20
+
+=09=09=09=09Vitam pourrait-il valider nos correspondances sur les 4 premier=
+s onglets de SEDA-XML-JSON.xlsx ? Et les compl=C3=A9ter quand cela est poss=
+ible ?
+
+=09=09=09=09=20
+
+=09=09=09=09Enfin, dans le dernier onglet du document =C2=AB SEDA-XML-JSON.=
+xlsx =C2=BB, serait-il possible de compl=C3=A9ter les champs ???? pour indi=
+quer dans quelle collection les champs ou groupe de champs r=C3=A9f=C3=A9re=
+nc=C3=A9s sont g=C3=A9r=C3=A9s ?
+
+=09=09=09=09=20
+
+=09=09=09=09D=E2=80=99avance, merci,
+
+=09=09=09=09=20
+
+=09=09=09=09Cordialement,
+
+=09=09=09=09=20
+
+=09=09=09=09Thierry CASIMIRIUS
+
+=09=09=09=09Adjoint au chef du bureau des technologies d=E2=80=99informatio=
+n
+
+=09=09=09=09Service historique de la D=C3=A9fense
+
+=09=09=09=09SGA/DMPA/SHD/PPST/BTI
+
+=09=09=09=09T=C3=A9l : 01 41 93 20 45
+
+=09=09=09=09=20
+
+=09=09=09=09De : AJJAZ Franck [mailto:franck.ajjaz@altran.com]=20
+=09=09=09=09Envoy=C3=A9 : mardi 22 novembre 2016 15:59
+=09=09=09=09=C3=80 : CASIMIRIUS Thierry IDEF MINDEF
+=09=09=09=09Cc : DANYACH-DESCHAMPS Myriam ASC; AJJAZ Franck
+=09=09=09=09Objet : Questions VITAM
+
+=09=09=09=09=20
+
+=09=09=09=09Bonjour,
+
+=09=09=09=09=20
+
+=09=09=09=09Voici un lot de question pour VITAM. Il y a deux documents.
+
+=09=09=09=09=20
+
+=09=09=09=09Il y a un excel avec des questions (Question VITAM 3.xlsx) et u=
+n autre (SEDA-XML-JSON.xlsx) avec les correspondances entre les champs du S=
+EDA, ceux dans le bordereau et ceux dans VITAM.
+
+=09=09=09=09=20
+
+=09=09=09=09Vitam pourrait-il valider nos correspondances sur les 4 premier=
+s onglets de SEDA-XML-JSON.xlsx ? Et les compl=C3=A9ter quand cela est poss=
+ible ? Nous savons qu=E2=80=99ils ne pourront pas le faire pour toutes puis=
+que certaines balises =E2=80=98m=C3=A8res=E2=80=99 n=E2=80=99auront pas d=
+=E2=80=99=C3=A9quivalent dans VITAM et que certaines balises deviennent des=
+ valeurs de champs dans VITAM et vice versa.
+
+=09=09=09=09=20
+
+=09=09=09=09De plus, nous nous doutons que les champs correspondants =C3=A0=
+ l=E2=80=99ATR et au bordereau dans l=E2=80=99onglet BusinessMessageType ne=
+ sont peut =C3=AAtre pas stock=C3=A9s tels quels dans VITAM.
+
+=09=09=09=09=20
+
+=09=09=09=09Et serait-il possible de compl=C3=A9ter le 5=C3=A8me onglet l=
+=C3=A0 o=C3=B9 il y a =C3=A9crit =C2=AB ???? =C2=BB ?
+
+=09=09=09=09=20
+
+=09=09=09=09Cordialement,
+
+=09=09=09=09Franck AJJAZ
+
+=09=09=09=09Chef de Projet
+
+=09=09=09=09TRA VITAM
+=09=09=09=09franck.ajjaz@altran.com
+------=_Part_461_28495883.1517006386256
+Content-Type: multipart/related; 
+	boundary="----=_Part_462_10223068.1517006386256"
+
+------=_Part_462_10223068.1517006386256
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"><html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"></=
+head>
+<body style=3D"font-family: Verdana,Geneva,sans-serif">
+<p>&nbsp;</p>
+<p>Bonjour,</p>
+<p>Ci joint le fichier de r=C3=A9ponse aux questions sur les m=C3=A9tadonn=
+=C3=A9es avec les pr=C3=A9cisions compl=C3=A9mentaires demand=C3=A9es.</p>
+<p>Cdt,</p>
+<p>Emmanuel Laborde</p>
+<p>&nbsp;</p>
+<div>&nbsp;</div>
+<p>Le 2016-11-25 19:03, emmanuel.laborde a =C3=A9crit&nbsp;:</p>
+<blockquote type=3D"cite" style=3D"padding-left:5px; border-left:#1010ff 2p=
+x solid; margin-left:5px"><!-- html ignored --><!-- head ignored --><!-- me=
+ta ignored -->
+<p>&nbsp;</p>
+<p>Bonjour Thierry,</p>
+<p>Comme indiqu=C3=A9 pr=C3=A9c=C3=A9demment, nous centralisons nos r=C3=A9=
+ponses aux diff=C3=A9rents mails sur le mod=C3=A8le de donn=C3=A9e dans le =
+fichier &quot;SEDA-XML-JSON-r=C3=A9ponse pr=C3=A9cisions&quot; qui sera ren=
+voy=C3=A9 courant de la semaine prochaine.</p>
+<p>Cdt,</p>
+<p>Emmanuel</p>
+<div>&nbsp;</div>
+<p>Le 2016-11-25 16:55, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:</p>
+<blockquote style=3D"padding-left: 5px; border-left: #1010ff  2px  solid; m=
+argin-left: 5px;"><!-- node type 8 --><!-- node type 8 --><!-- node type 8 =
+--><!-- node type 8 --><!-- node type 8 --><!-- node type 8 -->
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: #1f497d;">E=
+douard,<!-- node type 8 --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: #1f497d;"><=
+!-- node type 8 -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: #1f497d;">M=
+erci pour ces fichiers.<!-- node type 8 --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: #1f497d;">M=
+ais serait-il possible d=E2=80=99avoir les r=C3=A9ponses pos=C3=A9es dans m=
+on mail du 24/11&nbsp;?<!-- node type 8 --></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><!-- node type 8 -->&nbsp;</p>
+<p class=3D"MsoListParagraph" style=3D"text-indent: -18.0pt;"><span style=
+=3D"font-size: 11.0pt; color: #1f497d;">1-</span><span style=3D"font-size: =
+7.0pt; color: #1f497d;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style=
+=3D"font-size: 11.0pt; color: #1f497d;">Je comprends que l'ArchiveTransfer =
+et l'ArchiveTransferReply se retrouvent dans le LogbookOperation mais quell=
+e est la forme d=C3=A9di=C3=A9e dont il est question pour chacun des champs=
+ SEDA =C3=A9voqu=C3=A9? =E2=80=93voir onglet 1 du fichier transmis le 24/11=
+</span><span><!-- node type 8 --></span></p>
+<p class=3D"MsoListParagraph" style=3D"text-indent: -18.0pt;"><span style=
+=3D"font-size: 11.0pt; color: #1f497d;">2-</span><span style=3D"font-size: =
+7.0pt; color: #1f497d;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style=
+=3D"font-size: 11.0pt; color: #1f497d;">Cela signifie-t-il que ces balises =
+( &lt;OriginatingAgencyArchiveUnitIdentifier&gt;, &lt;OriginatingSystemId&g=
+t; , &lt;OrganizationDescriptiveMetadata&gt; ) sont bien v=C3=A9rifiables /=
+ r=C3=A9cup=C3=A9rables dans VITAM ? Si oui comment je peux retrouver ces b=
+alises pour effectuer mes v=C3=A9rifications si elles ne sont pas recens=C3=
+=A9es dans le model de donn=C3=A9es ? =E2=80=93 voir onglet 5</span><span><=
+!-- node type 8 --></span></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">&nbsp;</span>=
+<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">D=E2=80=99ava=
+nce, merci pour ton retour,</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: #1f497d;"><=
+!-- node type 8 -->&nbsp;</span></p>
+<div>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: black;">Cor=
+dialement,<!-- node type 8 --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: black;"><!-=
+- node type 8 -->&nbsp;</span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: black;">Thi=
+erry CASIMIRIUS<!-- node type 8 --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: black;">Adj=
+oint au chef du bureau des technologies d=E2=80=99information<!-- node type=
+ 8 --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: black;">Ser=
+vice historique de la D=C3=A9fense<!-- node type 8 --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: black;">SGA=
+/DMPA/SHD/PPST/BTI<!-- node type 8 --></span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: black;">T=
+=C3=A9l&nbsp;: 01 41 93 20 45<!-- node type 8 --></span></p>
+</div>
+<p class=3D"MsoNormal"><span style=3D"font-size: 11.0pt; color: #1f497d;"><=
+!-- node type 8 -->&nbsp;</span></p>
+<div>
+<div style=3D"border: none; border-top: solid   #B5C4DF   1.0pt; padding: 3=
+.0pt   0cm   0cm   0cm;">
+<p class=3D"MsoNormal"><strong><span style=3D"font-size: 10.0pt;">De&nbsp;:=
+</span></strong><span style=3D"font-size: 10.0pt;"> edouard VASSEUR [mailto=
+:edouard.vasseur@culture.gouv.fr] <br><strong>Envoy=C3=A9&nbsp;:</strong> j=
+eudi 24 novembre 2016 15:24<br><strong>=C3=80&nbsp;:</strong> CASIMIRIUS Th=
+ierry IDEF MINDEF<br><strong>Cc&nbsp;:</strong> emmanuel.laborde; AJJAZ Fra=
+nck (franck.ajjaz@altran.com); BEL Nicolas ASC NIV I OA; CHEVENIER Olivier =
+ASC NIV I OA<br><strong>Objet&nbsp;:</strong> Re: TR: TRA VITAM Beta MINDEF=
+ - Nouveau lot de questions =3D&gt; demande de pr=C3=A9cisions sur la parti=
+e donn=C3=A9es<!-- node type 8 --></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><!-- node type 8 -->&nbsp;</p>
+<p><span>Rebonjour,<!-- node type 8 --></span></p>
+<p><span>Vous trouverez en pi=C3=A8ces jointes les 2 accus=C3=A9s de r=C3=
+=A9ception g=C3=A9n=C3=A9r=C3=A9s pendant la d=C3=A9monstration : un accus=
+=C3=A9 de r=C3=A9ception pour une entr=C3=A9e OK et un accus=C3=A9 de r=C3=
+=A9ception pour une entr=C3=A9e KO.<!-- node type 8 --></span></p>
+<p><span>Edouard<!-- node type 8 --></span></p>
+<p><span>&nbsp;<!-- node type 8 --></span></p>
+<div>
+<p class=3D"MsoNormal"><span>&nbsp;<!-- node type 8 --></span></p>
+</div>
+<p><span>Le 2016-11-24 09:34, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:<!-- no=
+de type 8 --></span></p>
+<blockquote style=3D"border: none; border-left: solid   #1010FF   1.5pt; pa=
+dding: 0cm   0cm   0cm   4.0pt; margin-left: 3.75pt; margin-top: 5.0pt; mar=
+gin-bottom: 5.0pt;">
+<div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">Bonjour Emm=
+anuel,</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">&nbsp;</spa=
+n><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">Des pr=C3=
+=A9cisions nous sont encore n=C3=A9cessaires pour la partie donn=C3=A9es (c=
+orrespondance SEDA et VITAM, voir onglet 1 et 5 du doc en PJ)&nbsp;:</span>=
+<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">&nbsp;</spa=
+n><!-- node type 8 --></p>
+<p class=3D"MsoListParagraph" style=3D"text-indent: -18.0pt;"><span style=
+=3D"font-size: 11.0pt; color: #1f497d;">1-</span><span style=3D"font-size: =
+7.0pt; color: #1f497d;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style=
+=3D"font-size: 11.0pt; color: #1f497d;">Je comprends que l'ArchiveTransfer =
+et l'ArchiveTransferReply se retrouvent dans le LogbookOperation mais quell=
+e est la forme d=C3=A9di=C3=A9e dont il est question pour chacun des champs=
+ SEDA =C3=A9voqu=C3=A9? =E2=80=93voir onglet 1</span><span><!-- node type 8=
+ --></span></p>
+<p class=3D"MsoListParagraph" style=3D"text-indent: -18.0pt;"><span style=
+=3D"font-size: 11.0pt; color: #1f497d;">2-</span><span style=3D"font-size: =
+7.0pt; color: #1f497d;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style=
+=3D"font-size: 11.0pt; color: #1f497d;">Cela signifie-t-il que ces balises =
+( &lt;OriginatingAgencyArchiveUnitIdentifier&gt;, &lt;OriginatingSystemId&g=
+t; , &lt;OrganizationDescriptiveMetadata&gt; ) sont bien v=C3=A9rifiables /=
+ r=C3=A9cup=C3=A9rables dans VITAM ? Si oui comment je peux retrouver ces b=
+alises pour effectuer mes v=C3=A9rifications si elles ne sont pas recens=C3=
+=A9es dans le model de donn=C3=A9es ? =E2=80=93 voir onglet 5</span><span><=
+!-- node type 8 --></span></p>
+<div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">&nbsp;</span>=
+<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">D=E2=80=99ava=
+nce, merci pour ton retour,</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">&nbsp;</span>=
+<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">Au besoin, no=
+us aurons l=E2=80=99occasion d=E2=80=99=C3=A9changer sur ces points cet apr=
+=C3=A8s-midi</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">&nbsp;</span>=
+<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">Cordialement,=
+</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">&nbsp;</span>=
+<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">Thierry CASIM=
+IRIUS</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">Adjoint au ch=
+ef du bureau des technologies d=E2=80=99information</span><!-- node type 8 =
+--></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">Service histo=
+rique de la D=C3=A9fense</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">SGA/DMPA/SHD/=
+PPST/BTI</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: black;">T=C3=A9l&nbsp=
+;: 01 41 93 20 45</span><!-- node type 8 --></p>
+</div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">&nbsp;</spa=
+n><!-- node type 8 --></p>
+<div>
+<div style=3D"border: none; border-top: solid   #B5C4DF   1.0pt; padding: 3=
+.0pt   0cm   0cm   0cm;">
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><strong><span style=3D"font-size: 10.0pt;">De&nbsp;:</span></s=
+trong><span style=3D"font-size: 10.0pt;"> AJJAZ Franck [<a href=3D"mailto:f=
+ranck.ajjaz@altran.com">mailto:franck.ajjaz@altran.com</a>] <br><strong><sp=
+an>Envoy=C3=A9&nbsp;:</span></strong> mercredi 23 novembre 2016 17:58<br><s=
+trong><span>=C3=80&nbsp;:</span></strong> CASIMIRIUS Thierry IDEF MINDEF<br=
+><strong><span>Cc&nbsp;:</span></strong> DANYACH-DESCHAMPS Myriam ASC<br><s=
+trong><span>Objet&nbsp;:</span></strong> RE: TRA VITAM Beta MINDEF - Nouvea=
+u lot de questions</span><!-- node type 8 --></p>
+</div>
+</div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">Re bonjour =
+Thierry,</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">&nbsp;</spa=
+n><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">Voici nos d=
+emandes de pr=C3=A9cisions sur la partie donn=C3=A9es. (voir onglet 1 et 5)=
+</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">&nbsp;</spa=
+n><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">Cordialemen=
+t,</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><strong><span style=3D"font-size: 10.0pt; color: blue;">Franck=
+ AJJAZ</span></strong><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 10.0pt; color: #1f497d;">Chef de Pro=
+jet</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 10.0pt; color: #1f497d;">TRA VITAM</=
+span><span style=3D"font-size: 8.0pt; color: gray;"><br></span><span style=
+=3D"font-size: 7.5pt; color: gray;"><a href=3D"mailto:franck.ajjaz@altran.c=
+om">franck.ajjaz@altran.com</a></span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">&nbsp;</spa=
+n><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">&nbsp;</spa=
+n><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">&nbsp;</spa=
+n><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 11.0pt; color: #1f497d;">&nbsp;</spa=
+n><!-- node type 8 --></p>
+<div>
+<div style=3D"border: none; border-top: solid   #B5C4DF   1.0pt; padding: 3=
+.0pt   0cm   0cm   0cm;">
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><strong><span style=3D"font-size: 10.0pt;">De&nbsp;:</span></s=
+trong><span style=3D"font-size: 10.0pt;"> emmanuel.laborde [<a href=3D"mail=
+to:emmanuel.laborde@culture.gouv.fr">mailto:emmanuel.laborde@culture.gouv.f=
+r</a>] <br><strong><span>Envoy=C3=A9&nbsp;:</span></strong> mercredi 23 nov=
+embre 2016 17:00<br><strong><span>=C3=80&nbsp;:</span></strong> CASIMIRIUS =
+Thierry<br><strong><span>Cc&nbsp;:</span></strong> AJJAZ Franck; DANYACH-DE=
+SCHAMPS Myriam; VASSEUR Edouard<br><strong><span>Objet&nbsp;:</span></stron=
+g> Re: TRA VITAM Beta MINDEF - Nouveau lot de questions</span><!-- node typ=
+e 8 --></p>
+</div>
+</div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+<p><span>&nbsp;<!-- node type 8 --></span></p>
+<p><span>Bonjour,<!-- node type 8 --></span></p>
+<p><span>Voici les r=C3=A9ponses aux questions ainsi que l'analyse des corr=
+espondances entre le SEDA et le mod=C3=A8le de donn=C3=A9e VITAM.<!-- node =
+type 8 --></span></p>
+<p><span>Cdt,<!-- node type 8 --></span></p>
+<p><span>Emmanuel Laborde<!-- node type 8 --></span></p>
+<p><span>&nbsp;<!-- node type 8 --></span></p>
+<div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span>&nbsp;</span><!-- node type 8 --></p>
+</div>
+<p><span>Le 2016-11-22 16:19, CASIMIRIUS Thierry a =C3=A9crit&nbsp;:<!-- no=
+de type 8 --></span></p>
+<blockquote style=3D"border: none; border-left: solid   #1010FF   1.5pt; pa=
+dding: 0cm   0cm   0cm   4.0pt; margin-left: 3.75pt; margin-top: 5.0pt; mar=
+gin-bottom: 5.0pt;">
+<div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Bonjour Emmanuel,</span><!-- n=
+ode type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- node type 8 =
+--></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Nous ( ALTRAN) &nbsp;avons un =
+nouveau lot de question&nbsp;=E2=80=93 Voir le fichier =C2=AB&nbsp;Question=
+ VITAM 3.xlsx&nbsp;=C2=BB. Pourriez-vous y apporter vos r=C3=A9ponses&nbsp;=
+?</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- node type 8 =
+--></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Par ailleurs, ALTRAN cherche =
+=C3=A0 =C3=A9tablir, sur la base du document mod=C3=A8le de donn=C3=A9es, l=
+es correspondances entre les champs SEDA, les balises existants dans le fic=
+hier SIP , et le parall=C3=A8le dans le JSON.</span><!-- node type 8 --></p=
+>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- node type 8 =
+--></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Vitam pourrait-il valider nos =
+correspondances&nbsp;sur les 4 premiers onglets de SEDA-XML-JSON.xlsx ? Et =
+les compl=C3=A9ter quand cela est possible&nbsp;?</span><!-- node type 8 --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- node type 8 =
+--></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">Enfin, dans le dernier onglet =
+du document =C2=AB&nbsp;SEDA-XML-JSON.xlsx&nbsp;=C2=BB, serait-il possible =
+de compl=C3=A9ter les champs&nbsp;???? pour indiquer dans quelle collection=
+ les champs ou groupe de champs r=C3=A9f=C3=A9renc=C3=A9s sont g=C3=A9r=C3=
+=A9s&nbsp;?</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- node type 8 =
+--></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">D=E2=80=99avance, merci,</span=
+><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- node type 8 =
+--></p>
+<div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Cordialement,</span><!-- node ty=
+pe 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">&nbsp;</span><!-- node type 8 --=
+></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Thierry CASIMIRIUS</span><!-- no=
+de type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Adjoint au chef du bureau des te=
+chnologies d=E2=80=99information</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">Service historique de la D=C3=A9=
+fense</span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">SGA/DMPA/SHD/PPST/BTI</span><!--=
+ node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: black;">T=C3=A9l&nbsp;: 01 41 93 20 45</=
+span><!-- node type 8 --></p>
+</div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"color: #1f497d;">&nbsp;</span><!-- node type 8 =
+--></p>
+<div>
+<div style=3D"border: none; border-top: solid   #B5C4DF   1.0pt; padding: 3=
+.0pt   0cm   0cm   0cm;">
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><strong><span style=3D"font-size: 10.0pt;">De&nbsp;:</span></s=
+trong><span style=3D"font-size: 10.0pt;"> AJJAZ Franck [<a href=3D"mailto:f=
+ranck.ajjaz@altran.com">mailto:franck.ajjaz@altran.com</a>] <br><strong><sp=
+an>Envoy=C3=A9&nbsp;:</span></strong> mardi 22 novembre 2016 15:59<br><stro=
+ng><span>=C3=80&nbsp;:</span></strong> CASIMIRIUS Thierry IDEF MINDEF<br><s=
+trong><span>Cc&nbsp;:</span></strong> DANYACH-DESCHAMPS Myriam ASC; AJJAZ F=
+ranck<br><strong><span>Objet&nbsp;:</span></strong> Questions VITAM</span><=
+!-- node type 8 --></p>
+</div>
+</div>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Bonjour,<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Voici un lot de question pour VITAM. Il y a deux documents.<!-=
+- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Il y a un excel avec des questions (Question VITAM 3.xlsx) et =
+un autre (SEDA-XML-JSON.xlsx) avec les correspondances entre les champs du =
+SEDA, ceux dans le bordereau et ceux dans VITAM.<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Vitam pourrait-il valider nos correspondances&nbsp;sur les 4 p=
+remiers onglets de SEDA-XML-JSON.xlsx ? Et les compl=C3=A9ter quand cela es=
+t possible&nbsp;? Nous savons qu=E2=80=99ils ne pourront pas le faire pour =
+toutes puisque certaines balises =E2=80=98m=C3=A8res=E2=80=99 n=E2=80=99aur=
+ont pas d=E2=80=99=C3=A9quivalent dans VITAM et que certaines balises devie=
+nnent des valeurs de champs dans VITAM et vice versa.<!-- node type 8 --></=
+p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">De plus, nous nous doutons que les champs correspondants =C3=
+=A0 l=E2=80=99ATR et au bordereau dans l=E2=80=99onglet BusinessMessageType=
+ ne sont peut =C3=AAtre pas stock=C3=A9s tels quels dans VITAM.<!-- node ty=
+pe 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Et serait-il possible de compl=C3=A9ter le 5<sup>=C3=A8me</sup=
+> onglet l=C3=A0 o=C3=B9 il y a =C3=A9crit =C2=AB&nbsp;????&nbsp;=C2=BB&nbs=
+p;?<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">Cordialement,<!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><strong><span style=3D"font-size: 10.0pt; color: blue;">Franck=
+ AJJAZ</span></strong><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 10.0pt;">Chef de Projet</span><!-- n=
+ode type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;"><span style=3D"font-size: 10.0pt;">TRA VITAM</span><span style=
+=3D"font-size: 8.0pt; color: gray;"><br></span><span style=3D"font-size: 7.=
+5pt; color: gray;"><a href=3D"mailto:franck.ajjaz@altran.com">franck.ajjaz@=
+altran.com</a></span><!-- node type 8 --></p>
+<p class=3D"MsoNormal" style=3D"mso-margin-top-alt: auto; mso-margin-bottom=
+-alt: auto;">&nbsp;<!-- node type 8 --></p>
+</div>
+</blockquote>
+</div>
+</blockquote>
+</div>
+</blockquote>
+</blockquote>
+</body></html>
+------=_Part_462_10223068.1517006386256
+Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; 
+	name*0="=?utf-8?B?MjAxNjExMjUgLSBTRURBLVhNTC1KU09OLXI=?=
+ =?utf-8?B?w"; 
+	name*1="6lwb25zZSBwcsOpY2lzaW9uc192MS4wLnhsc3g=?="
+Content-Transfer-Encoding: base64
+Content-ID: <302DE748E799C349BA1948946AC1AB8D@DR-RES.INTRADEF.GOUV.FR>
+Content-Disposition: inline; filename="=?utf-8?B?MjAxNjExMjUgLSBTRURBLVhNTC1KU09OLXI=?= =?utf-8?B?w6lwb25zZSBwcsOpY2lzaW9uc192MS4wLnhsc3g=?="
+
+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
+AQIUABQACAgIAMJxfEnHzU6rqAAAACsBAAAYAAAAAAAAAAAAAAAAAOIIAAB4bC9kcmF3aW5ncy9k
+cmF3aW5nMS54bWxQSwECFAAUAAgICADCcXxJKNZWMEwLAAD5KgAAFAAAAAAAAAAAAAAAAADQCQAA
+eGwvc2hhcmVkU3RyaW5ncy54bWxQSwECFAAUAAgICADCcXxJOZ+MbKgAAAAaAQAAIwAAAAAAAAAA
+AAAAAABeFQAAeGwvd29ya3NoZWV0cy9fcmVscy9zaGVldDUueG1sLnJlbHNQSwECFAAUAAgICADC
+cXxJNw8HyagAAAAaAQAAIwAAAAAAAAAAAAAAAABXFgAAeGwvd29ya3NoZWV0cy9fcmVscy9zaGVl
+dDQueG1sLnJlbHNQSwECFAAUAAgICADCcXxJn/NXB6gAAAAaAQAAIwAAAAAAAAAAAAAAAABQFwAA
+eGwvd29ya3NoZWV0cy9fcmVscy9zaGVldDMueG1sLnJlbHNQSwECFAAUAAgICADCcXxJkWPcoqgA
+AAAaAQAAIwAAAAAAAAAAAAAAAABJGAAAeGwvd29ya3NoZWV0cy9fcmVscy9zaGVldDIueG1sLnJl
+bHNQSwECFAAUAAgICADCcXxJwtUxl6gAAAAaAQAAIwAAAAAAAAAAAAAAAABCGQAAeGwvd29ya3No
+ZWV0cy9fcmVscy9zaGVldDEueG1sLnJlbHNQSwECFAAUAAgICADCcXxJnF+GMqUGAABfHAAAGAAA
+AAAAAAAAAAAAAAA7GgAAeGwvd29ya3NoZWV0cy9zaGVldDUueG1sUEsBAhQAFAAICAgAwnF8Sank
+5eiyBwAA1CoAABgAAAAAAAAAAAAAAAAAJiEAAHhsL3dvcmtzaGVldHMvc2hlZXQ0LnhtbFBLAQIU
+ABQACAgIAMJxfEm/bxx0AwkAAOw5AAAYAAAAAAAAAAAAAAAAAB4pAAB4bC93b3Jrc2hlZXRzL3No
+ZWV0My54bWxQSwECFAAUAAgICADCcXxJ4O1V3rEGAAC7IAAAGAAAAAAAAAAAAAAAAABnMgAAeGwv
+d29ya3NoZWV0cy9zaGVldDIueG1sUEsBAhQAFAAICAgAwnF8SceDJWrRBgAAMiAAABgAAAAAAAAA
+AAAAAAAAXjkAAHhsL3dvcmtzaGVldHMvc2hlZXQxLnhtbFBLAQIUABQACAgIAMJxfEnRgC1XvgYA
+AESBAAANAAAAAAAAAAAAAAAAAHVAAAB4bC9zdHlsZXMueG1sUEsBAhQAFAAICAgAwnF8SZjotqLd
+AgAAIRMAAA8AAAAAAAAAAAAAAAAAbkcAAHhsL3dvcmtib29rLnhtbFBLAQIUABQACAgIAMJxfElN
+NbkifwEAAFkLAAATAAAAAAAAAAAAAAAAAIhKAABbQ29udGVudF9UeXBlc10ueG1sUEsFBgAAAAAX
+ABcASgYAAEhMAAAAAA==
+------=_Part_462_10223068.1517006386256--
+
+------=_Part_461_28495883.1517006386256--
+
+------=_Part_460_22400802.1517006386256--

@@ -1,0 +1,772 @@
+
+  
+
+
+
+
+
+
+
+
+Règles de gestion
+
+
+	Date
+	Version
+
+	29/11/2016
+	0.1
+
+
+
+État du document
+
+Maîtrise du document
+	Responsabilité
+	Nom
+	Entité
+	Date
+
+	Rédaction
+	EVR
+	Équipe Vitam
+	29/11/2016
+
+	Vérification 
+	
+	
+	
+
+	Validation 
+	
+	
+	
+
+
+Suivi des modifications
+	Version
+	Date
+	Auteur
+	Modifications
+
+	0.1
+	29/11/2016
+	EVR
+	Initialisation
+
+	1.0
+	
+	
+	
+
+	
+	
+	
+	
+
+	
+	
+	
+	
+
+
+Documents de référence
+	Document
+	Date de la version
+	Remarques
+
+	
+	
+	
+
+	
+	
+	
+
+	
+	
+	
+
+
+
+
+Table des matières
+
+1. Introduction	4
+2. Les règles de gestion	4
+3. Les règles de gestion dans le SEDA	4
+4. Les règles de gestion dans Vitam (version bêta)	11
+5. Prochaines évolutions	18
+
+
+
+1. Introduction
+
+Les règles de gestion constituent l’outil permettant aux archivistes de gérer le cycle de vie des archives qu’ils prennent en charge.
+
+Le présent document décrit la manière dont les règles de gestion des archives sont prises en compte et gérées dans la version bêta de la solution logicielle Vitam.
+
+2. Les règles de gestion
+
+On compte six catégories de règles de gestion : 
+	Règle de communicabilité (Access Rule) : informations nécessaires à la mise en place des règles de communicabilité des archives et permettant d'exprimer en particulier s'il y a lieu de mettre en place une restriction d’accès ;
+
+	Règle de sort final (Appraisal Rule) : informations nécessaires à la gestion du cycle de vie des archives permettant d'indiquer une durée, au-delà de laquelle une archive sera éliminée ou conservée sans plus de limite de temps ;
+
+	Règle de diffusion (Dissemination Rule) : informations nécessaires à la mise en place des modalités de diffusion, principalement sur internet, des archives, en fonction des contraintes associées à la loi Informatique et libertés et au code de la propriété intellectuelle. La règle de diffusion permet d'exprimer en particulier s'il y a lieu de mettre en place une restriction de diffusion ;
+
+	Règle d’accès courant (Storage Rule) : informations nécessaires à la mise en place des contraintes liées à la mise en œuvre de la loi Informatique et libertés (selon ce qui est parfois appelé durée d’utilité courante) ;
+
+	Règle de réutilisation (Reuse Rule) : informations nécessaires à la mise en place des restrictions de réutilisation, en fonction des contraintes imposées par le code des relations entre le public et l’administration ;
+
+	Règle de classification (Classification Rule) : informations nécessaires à la mise en place des règles de confidentialité, notamment en lien avec la protection du secret de la défense nationale. »
+
+
+
+3. Les règles de gestion dans le SEDA
+
+La gestion des règles de gestion dans la version bêta de la solution logicielle Vitam s’appuie sur les principes définis dans la norme NF Z 44-022 et dans le Standard d’échanges de données pour l’archivage (SEDA) version 2.0.
+
+Principes généraux
+
+Dans le SEDA, les règles de gestion peuvent être :
+	communes à l’ensemble des archives contenues dans un transfert ;
+
+	spécifique à chaque archive contenue dans le même transfert. 
+
+
+
+Les six règles de gestion peuvent s’appliquer concomitamment. Globalement, elles s’expriment toutes de manière similaire :
+	l’association d’une règle qui permet de référencer une durée, et d’une date de démarrage pour l’application de cette règle ;
+
+	le moyen de gérer l’héritage de règles précédemment positionnées dans l’arbre dans des niveaux parents ;
+
+	l’action déclenchée en fin de validité de l’ensemble des règles si une telle action existe ; la balise facultative NeedAuthorization permet d’indiquer si le déclenchement de l'action en fin de validité necessite une autorisation particulière par une personne physique ou morale.
+
+
+
+Le bloc ManagementMetadata
+
+Il définit les règles applicables à l’ensemble des archives contenues dans un transfert (message ArchiveTransfer). 
+
+
+Les blocs Management de chaque ArchiveUnit
+
+Chaque ArchiveUnit peut disposer de règles propres qui se substituent aux règles définies par défaut au niveau du transfert. C’est pourquoi chaque ArchiveUnit dispose d’un bloc Management qui permet de définir ces règles propres à cette ArchiveUnit. 
+
+
+Description des règles dans le SEDA
+
+Le SEDA définit l’alimentation des règles de la manière suivante (extrait du fichier seda-2.0-management.xsd).
+
+<!-- Global inheritance control →
+ <xsd:group name="PreventInheritanceGroup">
+ <xsd:choice>
+ <xsd:element name="PreventInheritance" type="xsd:boolean" default="false" minOccurs="0">
+ <xsd:annotation>
+ <xsd:documentation>Indique si les règles de gestion héritées des ArchiveUnit parents doivent être ignorées pour l’ArchiveUnit concerné.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ </xsd:choice>
+ </xsd:group>
+ 
+ <xsd:complexType name="AccessRuleType">
+ <xsd:annotation>
+ <xsd:documentation>Gestion de la communicabilité.</xsd:documentation>
+ <xsd:documentation>Chaque règle a une startDate et un Identifiant de règle de référence pour la durée.
+ Si aucune règle n'est spécifiée et que la date actuelle est dans la StarDate, la réponse de restriction est "Aucune restriction".
+ Si la date est vide, la réponse de restriction est "Restreint" car il n'y a aucun moyen de calculer la date de fin.
+ Si une règle et une date sont précisées, alors la date de fin d'application de la règle peut être calculée et comparée avec la date courante..</xsd:documentation>
+ <xsd:documentation>La liste d'identifiants de règles à appliquer et à ignorer qui doit être appliquée à partir de cet ArchiveUnit.</xsd:documentation>
+ </xsd:annotation>
+ <xsd:sequence>
+ <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+ <xsd:element name="Rule" type="RuleIdType">
+ <xsd:annotation>
+ <xsd:documentation>Référence à la règle de communicabilité.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ <xsd:element name="StartDate" type="xsd:date" nillable="true" minOccurs="0">
+ <xsd:annotation>
+ <xsd:documentation>Date de départ de calcul de la règle de communicabilité.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:sequence>
+ <xsd:choice minOccurs="0">
+ <xsd:group ref="PreventInheritanceGroup"/>
+ <xsd:element name="RefNonRuleId" type="RuleIdType" maxOccurs="unbounded">
+ <xsd:annotation>
+ <xsd:documentation>Identifiant de la règle à désactiver à partir de cette ArchiveUnit.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ </xsd:choice>
+ </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="DisseminationRuleType">
+ <xsd:annotation>
+ <xsd:documentation>Gestion de la diffusion.</xsd:documentation>
+ <xsd:documentation>Chaque règle a une startDate et un Identifiant de règle de référence pour la durée.
+ Si aucune règle n'est spécifiée et que la date actuelle est dans la StarDate, la réponse de restriction est "Aucune restriction".
+ Si la date est vide, la réponse de restriction est "Restreint" car il n'y a aucun moyen de calculer la date de fin.
+ Si une règle et une date sont précisées, alors la règle est valable (restriction appliquée).</xsd:documentation>
+  <xsd:documentation>La liste d'identifiants de règles à appliquer et à ignorer qui doit être appliquée à partir de cet ArchiveUnit.</xsd:documentation>
+ </xsd:annotation>
+ <xsd:sequence>
+ <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+ <xsd:element name="Rule" type="RuleIdType">
+ <xsd:annotation>
+ <xsd:documentation>Référence à la règle de diffusion.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ <xsd:element name="StartDate" type="xsd:date" nillable="true" minOccurs="0">
+ <xsd:annotation>
+ <xsd:documentation>Date de départ de calcul de la règle de diffusion.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ </xsd:sequence>
+ <xsd:choice minOccurs="0">
+ <xsd:group ref="PreventInheritanceGroup"/>
+ <xsd:element name="RefNonRuleId" type="RuleIdType" maxOccurs="unbounded">
+ <xsd:annotation>
+ <xsd:documentation>L'identifiant de la règle spécifiée pourra être retirée de l'héritage dans ce noeud.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:choice>
+ </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="ReuseRuleType">
+ <xsd:annotation>
+ <xsd:documentation>Gestion de la réutilisation.</xsd:documentation>
+ <xsd:documentation>Chaque règle a une startDate et un Identifiant de règle de référence pour la durée.
+ Si aucune règle n'est spécifiée et que la date actuelle est dans la StarDate, la réponse de restriction est "Aucune restriction".
+ Si la date est vide, la réponse de restriction est "Restreint" car il n'y a aucun moyen de calculer la date de fin.
+ Si une règle et une date sont précisées, alors la règle est valable (restriction appliquée).</xsd:documentation>
+  <xsd:documentation>La liste d'identifiants de règles à appliquer et à ignorer qui doit être appliquée à partir de cet ArchiveUnit.</xsd:documentation>
+ </xsd:annotation>
+ <xsd:sequence>
+ <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+ <xsd:element name="Rule" type="RuleIdType">
+ <xsd:annotation>
+ <xsd:documentation>Référence à la règle de réutilisation.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ <xsd:element name="StartDate" type="xsd:date" nillable="true" minOccurs="0">
+ <xsd:annotation>
+ <xsd:documentation>Date de départ de calcul de la règle de réutilisation.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ </xsd:sequence>
+ <xsd:choice minOccurs="0">
+ <xsd:group ref="PreventInheritanceGroup"/>
+ <xsd:element name="RefNonRuleId" type="RuleIdType" maxOccurs="unbounded">
+ <xsd:annotation>
+ <xsd:documentation>L'identifiant de la règle spécifiée pourra être retirée de l'héritage dans ce noeud.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:choice>
+ </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:complexType name="ClassificationRuleType">
+ <xsd:annotation>
+ <xsd:documentation>Gestion de la classification.</xsd:documentation>
+ <xsd:documentation>Chaque règle a une startDate et un Identifiant de règle de référence pour la durée.
+ Si aucune règle n'est spécifiée et que la date actuelle est dans la StarDate, la réponse de restriction est "Aucune restriction".
+ Si la date est vide, la réponse de restriction est "Restreint" car il n'y a aucun moyen de calculer la date de fin.
+ Si une règle et une date sont précisées, alors la règle est valable (restriction appliquée).</xsd:documentation>
+  <xsd:documentation>La liste d'identifiants de règles à appliquer et à ignorer qui doit être appliquée à partir de cet ArchiveUnit.</xsd:documentation>
+ </xsd:annotation>
+ <xsd:sequence>
+ <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+ <xsd:element name="Rule" type="RuleIdType">
+ <xsd:annotation>
+ <xsd:documentation>Référence à la règle de classification.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ <xsd:element name="StartDate" type="xsd:date" nillable="true" minOccurs="0">
+ <xsd:annotation>
+ <xsd:documentation>Date de départ de calcul de la règle de classification.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ </xsd:sequence>
+ <xsd:choice minOccurs="0">
+ <xsd:group ref="PreventInheritanceGroup"/>
+ <xsd:element name="RefNonRuleId" type="RuleIdType" maxOccurs="unbounded">
+ <xsd:annotation>
+ <xsd:documentation>L'identifiant de la règle spécifiée pourra être retirée de l'héritage dans ce noeud.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:choice>
+ <xsd:element name="ClassificationLevel" type="NonEmptyTokenType">
+ <xsd:annotation>
+ <xsd:documentation>Référence au niveau de classification.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ <xsd:element name="ClassificationOwner" type="NonEmptyTokenType">
+ <xsd:annotation>
+ <xsd:documentation>Propriétaire de la classification. Service émetteur au sens de l’IGI 1300.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ <xsd:element name="ClassificationReassessingDate" type="xsd:date" minOccurs="0">
+ <xsd:annotation>
+ <xsd:documentation>Date de réévaluation de la classification.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ <xsd:element name="NeedReassessingAuthorization" type="xsd:boolean" minOccurs="0">
+ <xsd:annotation>
+ <xsd:documentation>Indique si une autorisation humaine est nécessaire pour réévaluer la classification.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:simpleType name="FinalActionStorageCodeType">
+ <xsd:annotation>
+ <xsd:documentation>Code correspondant à l’action à entreprendre au terme de la durée d’utilité courante.</xsd:documentation>
+  </xsd:annotation>
+ <xsd:restriction base="NonEmptyTokenType">
+ <xsd:enumeration value="RestrictAccess"/>
+ <xsd:enumeration value="Transfer"/>
+ <xsd:enumeration value="Copy"/>
+ </xsd:restriction>
+ </xsd:simpleType>
+
+  <xsd:complexType name="StorageRuleType">
+ <xsd:annotation>
+ <xsd:documentation>Gestion de la durée d'utilité courante.</xsd:documentation>
+ <xsd:documentation>Chaque règle a une startDate et un Identifiant de règle de référence pour la durée.
+ Si aucune règle n'est spécifiée et que la date actuelle est dans la StarDate, la réponse de restriction est "Aucune restriction".
+ Si la date est vide, la réponse de restriction est "Restreint" car il n'y a aucun moyen de calculer la date de fin.
+ Si une règle et une date sont précisées, alors la règle est valable (restriction appliquée).</xsd:documentation>
+  <xsd:documentation>La liste d'identifiants de règles à appliquer et à ignorer qui doit être appliquée à partir de cet ArchiveUnit.</xsd:documentation>
+ </xsd:annotation>
+ <xsd:sequence>
+ <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+ <xsd:element name="Rule" type="RuleIdType">
+ <xsd:annotation>
+ <xsd:documentation>Référence à la règle de durée d'utilité courante.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ <xsd:element name="StartDate" type="xsd:date" nillable="true" minOccurs="0">
+ <xsd:annotation>
+ <xsd:documentation>Date de départ de calcul de la règle d'utilité courante.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ </xsd:sequence>
+ <xsd:choice minOccurs="0">
+ <xsd:group ref="PreventInheritanceGroup"/>
+ <xsd:element name="RefNonRuleId" type="RuleIdType" maxOccurs="unbounded">
+ <xsd:annotation>
+ <xsd:documentation>L'identifiant de la règle spécifiée pourra être retirée de l'héritage dans ce noeud.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:choice>
+ <xsd:element name="FinalAction" type="FinalActionStorageCodeType">
+ <xsd:annotation>
+ <xsd:documentation>Action à mettre en œuvre au terme de la durée de gestion.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:sequence>
+ </xsd:complexType>
+ 
+ <xsd:simpleType name="FinalActionAppraisalCodeType">
+ <xsd:annotation>
+ <xsd:documentation>Code correspondant à l’action à entreprendre au terme de la durée d’utilité administrative.</xsd:documentation>
+  </xsd:annotation>
+ <xsd:restriction base="NonEmptyTokenType">
+ <xsd:enumeration value="Keep"/>
+ <xsd:enumeration value="Destroy"/>
+ </xsd:restriction>
+ </xsd:simpleType>
+
+  <xsd:complexType name="AppraisalRuleType">
+ <xsd:annotation>
+ <xsd:documentation>Gestion de la durée d'utilité administrative.</xsd:documentation>
+ <xsd:documentation>Chaque règle a une startDate et un Identifiant de règle de référence pour la durée.
+ Si aucune règle n'est spécifiée et que la date actuelle est dans la StarDate, la réponse de restriction est "Aucune restriction".
+ Si la date est vide, la réponse de restriction est "Restreint" car il n'y a aucun moyen de calculer la date de fin.
+ Si une règle et une date sont précisées, alors la règle est valable (restriction appliquée).</xsd:documentation>
+  <xsd:documentation>La liste d'identifiants de règles à appliquer et à ignorer qui doit être appliquée à partir de cet ArchiveUnit.</xsd:documentation>
+ </xsd:annotation>
+ <xsd:sequence>
+ <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+ <xsd:element name="Rule" type="RuleIdType">
+ <xsd:annotation>
+ <xsd:documentation>Référence à la règle de durée d'utilité administrative.</xsd:documentation>
+ </xsd:annotation>
+ </xsd:element>
+ <xsd:element name="StartDate" type="xsd:date" nillable="true" minOccurs="0">
+ <xsd:annotation>
+ <xsd:documentation>Date de départ de calcul de durée d'utilité administrative.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:sequence>
+ <xsd:choice minOccurs="0">
+ <xsd:group ref="PreventInheritanceGroup"/>
+ <xsd:element name="RefNonRuleId" type="RuleIdType" maxOccurs="unbounded">
+ <xsd:annotation>
+ <xsd:documentation>L'identifiant de la règle spécifiée pourra être retirée de l'héritage dans ce noeud.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:choice>
+ <xsd:element name="FinalAction" type="FinalActionAppraisalCodeType">
+ <xsd:annotation>
+ <xsd:documentation>Action à mettre en œuvre au terme de la durée de gestion.</xsd:documentation>
+  </xsd:annotation>
+ </xsd:element>
+ </xsd:sequence>
+ </xsd:complexType>
+</xsd:schema>
+
+4. Les règles de gestion dans Vitam (version bêta)
+
+La version bêta de la solution logicielle Vitam intègre des fonctionnalités minimales de prise en compte des règles de gestion :
+	initialisation du référentiel des règles de gestion interne ;
+
+	identification des règles déclarées dans le bordereau d’entrée (manifeste SEDA), calcul des échéances associées et indexation en base de données ;
+
+	affichage des règles de gestion associées à une ArchiveUnit lors de la consultation du détail de celle-ci.
+
+
+
+Gestion du référentiel
+
+Afin de calculer les échéances associées aux ArchiveUnits, la solution logicielle Vitam a besoin d’un référentiel interne lui fournissant, pour chaque règle déclarée par une ArchiveUnit, la durée associée par celle-ci ainsi que la mesure associée. 
+
+La version bêta de la solution logicielle Vitam (menu Administration de l’IHM minimale et API  Ou Functional Administration ? d’accès) permet de :
+	importer au moyen d’un fichier .csv les règles à utiliser au sein de la solution ;
+
+	afficher le référentiel des règles de gestion ;
+
+	rechercher et consulter une règle de gestion.
+
+
+
+La structuration du fichier d’import des règles de gestion est précisée dans le document sur le modèle de données.
+
+Processus d’entrée
+
+Le traitement des règles de gestion a été seulement initialisé dans la version bêta de la solution logicielle. 
+
+Ce traitement part de l’idée qu’à terme, les implémentations de la solution logicielle Vitam pourront être confrontées à la gestion d’ArchiveUnits soumises à un héritage voire à un multi-héritage. Le schéma ci-dessous illustre cette problématique pour une règle donnée, en utilisant les principes de représentation suivants :
+	le rond désigne le positionnement initial d’une règle de gestion dans le bordereau ;
+
+	l’étoile indique l’héritage d’une règle de gestion issu d’une ArchiveUnit parent. 
+
+	les couleurs indiquent les différentes valeurs pour cette même règle. 
+
+
+
+
+Traitement des ArchiveUnits positionnées à la racine du bloc DescriptiveMetadata du bordereau (manifeste SEDA)
+
+Les ArchiveUnits positionnées à la racine du bloc DescriptiveMetadata du bordereau (manifeste SEDA) font l’objet du traitement systématique suivant :
+	vérification de l’existence des règles déclarées par le bloc ManagementMetadata et par l’ArchiveUnit dans le référentiel des règles de gestion ;
+
+	report des règles déclarées dans le bloc ManagementMetadata et de la date de départ du calcul de ces règles dans le bloc Management de l’ArchiveUnit. À noter : si une même règle est présente à la fois dans le bloc ManagementMetadata et dans le bloc Management de l’ArchiveUnit positionnée à la racine, c’est celle positionnée dans le bloc Management de l’ArchiveUnit positionnée à la racine qui l’emporte ;
+
+	à partir de la durée et de l’unité de mesure définie dans la règle, calcul de l’échéance associée ;
+
+	indexation de cette ArchiveUnit avec ces informations dans la collection Unit de la base de données MongoDB.
+
+
+
+Traitement des autres ArchiveUnits
+
+Seules les ArchiveUnits déclarant des règles font l’objet d’un traitement dans le cadre du processus d’entrée. 
+
+Les actions effectuées par la solution logicielle Vitam dans sa version bêta sont les suivantes :
+	vérification de l’existence des règles déclarées par l’ArchiveUnit dans le référentiel des règles de gestion ;
+
+	à partir de la durée et de l’unité de mesure définie dans la règle, calcul de l’échéance associée ;
+
+	indexation de cette ArchiveUnit avec ces informations dans la collection Unit de la base de données MongoDB.
+
+
+
+Exemple
+
+Soit le bordereau suivant :
+
+<?xml version="1.0" ?>
+<ArchiveTransfer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="fr:gouv:culture:archivesdefrance:seda:v2.0 file:/Z:/espacePOBA/SEDA/Version_definitive_publiee/seda-2.0-main.xsd"
+ xmlns="fr:gouv:culture:archivesdefrance:seda:v2.0" xmlns:xlink="http://www.w3.org/1999/xlink"
+ xmlns:pr="info:lc/xmlns/premis-v2" xml:id="ID1">
+ <Comment>SIP pour scénario 1</Comment>
+ <Date>2016-10-18T15:23:00</Date>
+ <MessageIdentifier>OK_SIP_RG</MessageIdentifier>
+ <ArchivalAgreement>ArchivalAgreement0</ArchivalAgreement>
+ <CodeListVersions>
+ <ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion>
+ <MessageDigestAlgorithmCodeListVersion>MessageDigestAlgorithmCodeListVersion0</MessageDigestAlgorithmCodeListVersion>
+ <MimeTypeCodeListVersion>MimeTypeCodeListVersion0</MimeTypeCodeListVersion>
+ <EncodingCodeListVersion>EncodingCodeListVersion0</EncodingCodeListVersion>
+ <FileFormatCodeListVersion>FileFormatCodeListVersion0</FileFormatCodeListVersion>
+ <CompressionAlgorithmCodeListVersion>CompressionAlgorithmCodeListVersion0</CompressionAlgorithmCodeListVersion>
+ <DataObjectVersionCodeListVersion>DataObjectVersionCodeListVersion0</DataObjectVersionCodeListVersion>
+ <StorageRuleCodeListVersion>StorageRuleCodeListVersion0</StorageRuleCodeListVersion>
+ <AppraisalRuleCodeListVersion>AppraisalRuleCodeListVersion0</AppraisalRuleCodeListVersion>
+ <AccessRuleCodeListVersion>AccessRuleCodeListVersion0</AccessRuleCodeListVersion>
+ <DisseminationRuleCodeListVersion>DisseminationRuleCodeListVersion0</DisseminationRuleCodeListVersion>
+ <ReuseRuleCodeListVersion>ReuseRuleCodeListVersion0</ReuseRuleCodeListVersion>
+ <ClassificationRuleCodeListVersion>ClassificationRuleCodeListVersion0</ClassificationRuleCodeListVersion>
+ <AuthorizationReasonCodeListVersion>AuthorizationReasonCodeListVersion0</AuthorizationReasonCodeListVersion>
+ <RelationshipCodeListVersion>RelationshipCodeListVersion0</RelationshipCodeListVersion>
+ </CodeListVersions>
+ <DataObjectPackage xml:id="ID2">
+ <BinaryDataObject id="ID7">
+ <DataObjectGroupId>ID6</DataObjectGroupId>
+ <DataObjectVersion>BinaryMaster</DataObjectVersion>
+ <Uri>Content/ID7.pdf</Uri>
+ <MessageDigest algorithm="SHA-512"
+ >f5d6880f323e5aa73a95cece09a66fed2ca462c60690acdbf438216981d5c7f0c6f16e879c07199bb2a45a64f73fa6466d43296e18bb3e68123a7df9a6ad97b0</MessageDigest>
+ <Size>524372</Size>
+ <FormatIdentification>
+ <FormatLitteral>Acrobat PDF 1.4 - Portable Document Format</FormatLitteral>
+ <MimeType>application/pdf</MimeType>
+ <FormatId>fmt/18</FormatId>
+ </FormatIdentification>
+ <FileInfo>
+ <Filename>Histoire de la station de sa cération à 1946.pdf</Filename>
+ <LastModified>2015-12-04T09:02:25.713+01:00</LastModified>
+ </FileInfo>
+ </BinaryDataObject>
+ <BinaryDataObject id="ID13">
+ <DataObjectGroupId>ID12</DataObjectGroupId>
+ <DataObjectVersion>BinaryMaster</DataObjectVersion>
+ <Uri>Content/ID13.odp</Uri>
+ <MessageDigest algorithm="SHA-512"
+ >422d96b979ebe53082b951048890cf09daebf1caf487d90a1e288978bdb57afb4c9f109159b40c8fc1319fa22bb96ded8b9e05b6529abc3a04e11f06707f0871</MessageDigest>
+ <Size>2201507</Size>
+ <FormatIdentification>
+ <FormatLitteral>OpenDocument Presentation</FormatLitteral>
+ <MimeType>application/vnd.oasis.opendocument.presentation</MimeType>
+ <FormatId>fmt/293</FormatId>
+ </FormatIdentification>
+ <FileInfo>
+ <Filename>Histoire de la station de sa création à 1946.odp</Filename>
+ <LastModified>2016-06-02T15:32:29.146+02:00</LastModified>
+ </FileInfo>
+ </BinaryDataObject>
+ <DescriptiveMetadata>
+ <ArchiveUnit id="ID3">
+ <Management>
+ <AppraisalRule>
+						<Rule>APP-00001</Rule>
+						<StartDate>1982-09-01</StartDate>
+						<FinalAction>Keep</FinalAction>
+					</AppraisalRule>
+					<AccessRule>
+ <Rule>ACC-00002</Rule>
+ </AccessRule>
+ </Management>
+ <Content>
+ <DescriptionLevel>RecordGrp</DescriptionLevel>
+ <Title>Covent Garden et Oxford Circus</Title>
+ <Description>Une liste sur la grande aventure souterraine du plus célèbre transport parisien : découvrez les matériels, les hommes et les coulisses du métro tels que vous ne les avez jamais vus. Bientôt 110 ans au coeur de la cité ! Le métro de Paris « transporte » chaque jour 9 à 10 millions de passagers à la fois sous terre et au-dessus</Description>
+ 
+ <StartDate>2015-12-04T09:02:25</StartDate>
+ <EndDate>2016-06-02T15:32:29</EndDate>
+ </Content>
+ <ArchiveUnit id="ID5">
+ <ArchiveUnitRefId>ID4</ArchiveUnitRefId>
+ </ArchiveUnit>
+ <ArchiveUnit id="ID11">
+ <ArchiveUnitRefId>ID10</ArchiveUnitRefId>
+ </ArchiveUnit>
+ </ArchiveUnit>
+ <ArchiveUnit id="ID4">
+ <Content>
+ <DescriptionLevel>RecordGrp</DescriptionLevel>
+ <Title>Covent Garden</Title>
+ <Description>Elle se trouve dans le quartier de Clignancourt à proximité de Montmartre, entre la mairie du 18e arrondissement et l'église Notre-Dame-de-Clignancourt.La station est ouverte en 1912. Ce prolongement avait été décidé par le conseil municipal du 3 juillet 1905 sur proposition d'Édouard Ballière1,2, et déclaré d'utilité publique par la loi du 10 avril 1908 votée sur proposition de Louis Barthou3. Elle porte le nom de Jules Joffrin (1846-1890) qui fut conseiller municipal et député du 18e arrondissement parisien.</Description>
+ <StartDate>2015-12-04T09:02:25</StartDate>
+ <EndDate>2015-12-04T09:02:25</EndDate>
+ </Content>
+ <ArchiveUnit id="ID9">
+ <ArchiveUnitRefId>ID8</ArchiveUnitRefId>
+ </ArchiveUnit>
+ </ArchiveUnit>
+ <ArchiveUnit id="ID8">
+ <Content>
+ <DescriptionLevel>Item</DescriptionLevel>
+ <Title>Histoire de la station de sa cération à 1946.pdf</Title>
+ <TransactedDate>2015-12-04T09:02:25</TransactedDate>
+ </Content>
+ <DataObjectReference>
+ <DataObjectGroupReferenceId>ID6</DataObjectGroupReferenceId>
+ </DataObjectReference>
+ </ArchiveUnit>
+ <ArchiveUnit id="ID10">
+ <Management>
+ <DisseminationRule>
+ <Rule>DIS-00001</Rule>
+ <StartDate>2008-07-14</StartDate>
+ </DisseminationRule>
+ </Management>
+ <Content>
+ <DescriptionLevel>RecordGrp</DescriptionLevel>
+ <Title>Oxford Circus</Title>
+ <StartDate>2016-06-02T15:32:29</StartDate>
+ <EndDate>2016-06-02T15:32:29</EndDate>
+ </Content>
+ <ArchiveUnit id="ID15">
+ <ArchiveUnitRefId>ID14</ArchiveUnitRefId>
+ </ArchiveUnit>
+ </ArchiveUnit>
+ <ArchiveUnit id="ID14">
+ <Content>
+ <DescriptionLevel>Item</DescriptionLevel>
+ <Title>Histoire de la station de sa création à 1946.odp</Title>
+ <TransactedDate>2016-06-02T15:32:29</TransactedDate>
+ </Content>
+ <DataObjectReference>
+ <DataObjectGroupReferenceId>ID12</DataObjectGroupReferenceId>
+ </DataObjectReference>
+ </ArchiveUnit>
+ </DescriptiveMetadata>
+ <ManagementMetadata>
+ <AccessRule>
+ <Rule>ACC-00002</Rule>
+ <StartDate>2010-12-31</StartDate>
+ </AccessRule>
+			<ReuseRule>
+ <Rule>REU-00001</Rule>
+ <StartDate>2016-02-29</StartDate>
+ </ReuseRule>
+ <OriginatingAgencyIdentifier>FRAN_NP_013094</OriginatingAgencyIdentifier>
+ <SubmissionAgencyIdentifier>FRAN_NP_005055</SubmissionAgencyIdentifier>
+ </ManagementMetadata>
+ </DataObjectPackage>
+ <ArchivalAgency>
+ <Identifier>Identifier4</Identifier>
+ </ArchivalAgency>
+ <TransferringAgency>
+ <Identifier>Identifier5</Identifier>
+ </TransferringAgency>
+</ArchiveTransfer>
+
+Indexation de l’ArchiveUnit positionnée au niveau de la racine du bloc DescriptiveMetadata dans le bordereau dans la base de données MongoDB :
+
+{
+ "_id": "aeaaaaaaaaaam7mxaakdoakyvkkk7zaaaaaq",
+ "_mgt": {
+ "AppraisalRule": {
+ "Rule": "APP-00001",
+ "StartDate": "1982-09-01",
+ "EndDate": "2062-09-01",
+ "FinalAction": "Keep"
+ },
+ "AccessRule": {
+ "Rule": "ACC-00002"
+ },
+ "ReuseRule": {
+ "Rule": "REU-00001",
+ "StartDate": "2016-02-29",
+ "EndDate": "2026-02-28"
+ }
+ },
+ "DescriptionLevel": "RecordGrp",
+ "Title": "Covent Garden et Oxford Circus",
+ "Description": "Une liste sur la grande aventure souterraine du plus célèbre transport parisien : découvrez les matériels, les hommes et les coulisses du métro tels que vous ne les avez jamais vus. Bientôt 110 ans au coeur de la cité ! Le métro de Paris « transporte » chaque jour 9 à 10 millions de passagers à la fois sous terre et au-dessus",
+ "StartDate": "2015-12-04T09:02:25",
+ "EndDate": "2016-06-02T15:32:29",
+ "_og": "",
+ "_ops": [
+ "aedqaaaaacaam7mxabe56akyvkkjfkaaaaaq"
+ ],
+ "_tenant": 0,
+ "_max": 1,
+ "_min": 1,
+ "_up": [],
+ "_nbc": 2,
+ "_us": []
+}
+
+Indexation de l’autre ArchiveUnit déclarant des règles de gestion dans la base MongoDB : 
+
+{
+ "_id": "aeaaaaaaaaaam7mxaakdoakyvkklaciaaaaq",
+ "_mgt": {
+ "DisseminationRule": {
+ "Rule": "DIS-00001",
+ "StartDate": "2008-07-14",
+ "EndDate": "2033-07-14"
+ }
+ },
+ "DescriptionLevel": "RecordGrp",
+ "Title": "Oxford Circus",
+ "StartDate": "2016-06-02T15:32:29",
+ "EndDate": "2016-06-02T15:32:29",
+ "_og": "",
+ "_ops": [
+ "aedqaaaaacaam7mxabe56akyvkkjfkaaaaaq"
+ ],
+ "_tenant": 0,
+ "_max": 2,
+ "_min": 1,
+ "_up": [
+ "aeaaaaaaaaaam7mxaakdoakyvkkk7zaaaaaq"
+ ],
+ "_nbc": 1,
+ "_us": [
+ "aeaaaaaaaaaam7mxaakdoakyvkkk7zaaaaaq"
+ ],
+ "_uds": [
+ {
+ "aeaaaaaaaaaam7mxaakdoakyvkkk7zaaaaaq": 1
+ }
+ ]
+}
+
+Processus d’accès
+
+Dans sa version bêta, la solution logicielle Vitam affiche sur son IHM de démonstration les métadonnées indexées pour chaque ArchiveUnit dans la collection Unit de la base de données MongoDB. 
+
+Affichage du détail de l’ArchiveUnit positionnée au niveau de la racine du bloc DescriptiveMetadata :
+
+
+Affichage du détail de l’autre ArchiveUnit déclarant des règles de gestion :
+
+
+
+5. Prochaines évolutions
+
+Les prochaines évolutions identifiées pour les règles de gestion dans Vitam sont les suivantes :
+	implémentation :
+	possibilité de définir des règles de gestion par défaut au niveau du tenant ;
+
+
+
+	administration du référentiel :
+	correction de la manière dont est formalisée la mesure dans le référentiel (remplacement de la chaîne de caractères par un code) ;
+
+	mise à jour d’une règle ;
+
+	ajout d’une règle ;
+
+	mise à jour du référentiel ;
+
+
+
+	processus d’entrée :
+	prise en compte des règles définies au niveau du tenant dans le calcul des règles pour l’ArchiveUnit racine ;
+
+	déclaration de plusieurs règles pour une même catégorie de règles (ex. une ArchiveUnit déclarant plusieurs AccessRule, ce qui serait conforme au SEDA puisque la cardinalité des règles est de 0-n) ;
+
+	utilisation des exceptions et des préventions d’héritage ;
+
+
+
+	processus d’accès :
+	affichage d’une information sur l’écran d’affichage des résultats quant au degré de sensibilité des ArchiveUnits concernées (cf. demande du SHD lors de la réunion classification tenue au mois de juin 2016 d’avoir une information minimale sous forme de « feu de signalisation » quant à la confidentialité/communicabilité d’une d’ArchiveUnit) ; 
+
+	affichage des règles de gestion applicables aux ArchiveUnit qui n’ont pas de règle de gestion enregistrée dans leur indexation, avec gestion des multi-héritages.
+
+
+
+
+

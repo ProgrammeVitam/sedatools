@@ -1,0 +1,266 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>RE: TRA VITAM Beta MINDEF : Déploiement VITAM ( 3 ou 4 serveurs ?)</Title>
+    <OriginatingSystemId>&lt;bd5a1797ecc95ab4b0f451e824f35b40@culture.gouv.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>emmanuel.laborde</FirstName>
+        <BirthName>emmanuel.laborde</BirthName>
+        <Identifier>emmanuel.laborde@culture.gouv.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>CASIMIRIUS Thierry</FirstName>
+        <BirthName>CASIMIRIUS Thierry</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <Recipient>
+        <FirstName>AJJAZ Franck</FirstName>
+        <BirthName>AJJAZ Franck</BirthName>
+        <Identifier>franck.ajjaz@altran.com</Identifier>
+    </Recipient>
+    <Recipient>
+        <FirstName>DANYACH-DESCHAMPS Myriam</FirstName>
+        <BirthName>DANYACH-DESCHAMPS Myriam</BirthName>
+        <Identifier>myriam.danyach-deschamps@intradef.gouv.fr</Identifier>
+    </Recipient>
+    <SentDate>2016-11-15T16:37:58Z</SentDate>
+    <ReceivedDate>2016-11-15T16:45:27Z</ReceivedDate>
+    <OriginatingSystemIdReplyTo>&lt;BD292097C8AEFE49AF7A7C373C29524D1C662AD7@DRINF-MLLGWM13V.DR-RES.INTRADEF.GOUV.FR&gt;</OriginatingSystemIdReplyTo>
+    <TextContent>Bonjour,
+
+Voici la réponse :
+
+Le serveur de déploiement (ansible) peut aussi servir à un autre rôle (notamment dans les déploiements contraints).
+
+Cependant, comme c&apos;est une VM qui peut être petite (1vCPU,2Go de RAM est largement suffisant), la bonne pratique est de l&apos;avoir sur une machine séparée.
+
+Cdt,
+
+Emmanuel
+
+ 
+
+ 
+
+Le 2016-11-15 10:09, CASIMIRIUS Thierry a écrit :
+
+	Bonjour Emmanuel,
+
+	 
+
+	ALTRAN souhaiterait avoir la réponse à la question ci-dessous rapidement pour préparer son environnement d’installation :
+
+	 
+
+	Cela veut il dire qu&apos;il nous faut 1 poste/serveur pour orchestrer le déploiement et 3 serveurs sur lesquels déployer ?
+
+	 
+
+	Peux-tu confirmer ce point ?
+
+	 
+
+	D’avance, merci pour ton retour rapide,
+
+	 
+
+	Cordialement,
+
+	 
+
+	Thierry CASIMIRIUS
+
+	Adjoint au chef du bureau des technologies d’information
+
+	Service historique de la Défense
+
+	SGA/DMPA/SHD/PPST/BTI
+
+	Tél : 01 41 93 20 45
+
+	 
+
+	De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+	Envoyé : jeudi 10 novembre 2016 12:16
+	À : emmanuel.laborde; DANYACH-DESCHAMPS Myriam ASC
+	Cc : CASIMIRIUS Thierry IDEF MINDEF
+	Objet : RE: TRA VITAM Beta MINDEF : Nouveau lot de questions pour VITAM
+
+	 
+
+	Bonjour,
+
+	 
+
+	Nous aurons sans doute d’autres questions mais il y a une de vos réponses qui nécessite une précision rapidement pour que nous puissions nous organiser le cas échéant :
+
+	 
+
+	ALTRAN : Le serveur/poste d’administration qui orchestre le déploiement de VITAM peut-il également être cible ?
+
+	VITAM : Si la question est: peut on déployer ce serveur avec le mécanisme de déploiement, la réponse est non (poule et œuf)
+
+	 
+
+	ð  Cela veut il dire qu&apos;il nous faut 1 poste/serveur pour orchestrer le déploiement et 3 serveurs sur lesquels déployer ?
+
+	 
+
+	Merci d’avance pour votre retour.
+
+	 
+
+	Cordialement,
+
+	Franck AJJAZ
+
+	Chef de Projet
+
+	TRA VITAM
+	franck.ajjaz@altran.com
+
+	 
+
+	 
+
+	 
+
+	De : emmanuel.laborde [mailto:emmanuel.laborde@culture.gouv.fr] 
+	Envoyé : jeudi 10 novembre 2016 11:25
+	À : DANYACH-DESCHAMPS Myriam
+	Cc : AJJAZ Franck; CASIMIRIUS Thierry
+	Objet : RE: TRA VITAM Beta MINDEF : Nouveau lot de questions pour VITAM
+
+	 
+
+	 
+
+	Bonjour,
+
+	Ci joint les deux fichiers de réponse.
+
+	Cdt,
+
+	Emmanuel
+
+	 
+
+	 
+
+	Le 2016-11-10 11:02, DANYACH-DESCHAMPS Myriam a écrit :
+
+		Bonjour Emmanuel
+
+		 
+
+		Peux-tu apporter une réponse aux questions d’Altran ?
+
+		 
+
+		Bien cordialement
+
+		Myriam
+
+		 
+
+		De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+		Envoyé : jeudi 10 novembre 2016 10:40
+		À : CASIMIRIUS Thierry IDEF MINDEF; DANYACH-DESCHAMPS Myriam ASC
+		Cc : AJJAZ Franck
+		Objet : TR: TRA VITAM Beta MINDEF : Nouveau lot de questions pour VITAM
+
+		 
+
+		Bonjour,
+
+		 
+
+		Avez-vous eu un retour à nos questions ?
+
+		 
+
+		Bonne journée.
+
+		 
+
+		Cordialement,
+
+		Franck AJJAZ
+
+		Chef de Projet
+
+		TRA VITAM
+		franck.ajjaz@altran.com
+
+		 
+
+		 
+
+		 
+
+		De : CASIMIRIUS Thierry [mailto:thierry.casimirius@intradef.gouv.fr] 
+		Envoyé : mercredi 2 novembre 2016 14:15
+		À : edouard VASSEUR (edouard.vasseur@culture.gouv.fr); emmanuel.laborde
+		Cc : AJJAZ Franck; DANYACH-DESCHAMPS Myriam
+		Objet : TRA VITAM Beta MINDEF : Nouveau lot de questions pour VITAM
+
+		 
+
+		Bonjour,
+
+		 
+
+		Dans la cadre de la TRA VITAM Beta du MINDEF, vous trouverez en PJ un nouveau lot de question
+
+		Il y a trois onglets dans le fichier, un pour les questions d’ordre général, un pour les questions liées à l’automatisation et un pour celles liées à l’infra.
+
+		 
+
+		Je vous remercie d’avance pour votre retour,
+
+		 
+
+		Cordialement,
+
+		 
+
+		Thierry CASIMIRIUS
+
+		Adjoint au chef du bureau des technologies d’information
+
+		Service historique de la Défense
+
+		SGA/DMPA/SHD/PPST/BTI
+
+		Tél : 01 41 93 20 45
+
+		 
+
+		De : AJJAZ Franck [mailto:franck.ajjaz@altran.com] 
+		Envoyé : vendredi 28 octobre 2016 18:33
+		À : CASIMIRIUS Thierry IDEF MINDEF
+		Cc : DANYACH-DESCHAMPS Myriam ASC; AJJAZ Franck
+		Objet : Liste questions VITAM
+
+		 
+
+		Bonjour,
+
+		 
+
+		Voici en pj une liste de questions.
+
+		 
+
+		Il y a trois onglets dans le fichier, un pour les questions d’ordre général, un pour les questions liées à l’automatisation et un pour celles liées à l’infra.
+
+		 
+
+		Cordialement,
+
+		Franck AJJAZ
+
+		Chef de Projet
+
+		TRA VITAM
+		franck.ajjaz@altran.com</TextContent>
+</Content>

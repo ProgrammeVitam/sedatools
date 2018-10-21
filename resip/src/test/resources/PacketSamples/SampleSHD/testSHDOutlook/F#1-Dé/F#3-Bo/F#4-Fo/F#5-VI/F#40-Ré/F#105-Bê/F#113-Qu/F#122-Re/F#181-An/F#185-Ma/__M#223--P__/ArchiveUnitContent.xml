@@ -1,0 +1,94 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>[Projet VITAM 0000034]: Impossibilité de modifier 2 métadonnées d&apos;une même Unit via une requête API</Title>
+    <OriginatingSystemId>&lt;f13ee8191957f9c8d87cfc9e2474fec4@213.32.79.242&gt;</OriginatingSystemId>
+    <Writer>
+        <FirstName>Mantis Bug Tracker</FirstName>
+        <BirthName>Mantis Bug Tracker</BirthName>
+        <Identifier>admtlvitam@gmail.com</Identifier>
+    </Writer>
+    <Addressee>
+        <FirstName>thierry.casimirius</FirstName>
+        <BirthName>thierry.casimirius</BirthName>
+        <Identifier>thierry.casimirius@intradef.gouv.fr</Identifier>
+    </Addressee>
+    <SentDate>2016-12-23T14:36:02Z</SentDate>
+    <ReceivedDate>2016-12-23T14:36:09Z</ReceivedDate>
+    <TextContent>Le bogue suivant a été soumis. 
+====================================================================== 
+http://213.32.79.242/mantisbt/view.php?id=34 
+====================================================================== 
+Rapporteur:                 Aurelien
+Responsable:                Aurelien
+====================================================================== 
+Projet:                     Projet VITAM
+Bogue ID:                   34
+Catégorie:                  BugFromTestlink
+Reproductibilité:           toujours
+Impact:                     majeur
+Priorité:                   normale
+Statut:                     affecté
+Comportement attendu:        
+US concernée:               80 
+====================================================================== 
+Date de soumission:         2016-12-23 15:35 CET
+Dernière modification:      2016-12-23 15:35 CET
+====================================================================== 
+Résumé:                     Impossibilité de modifier 2 métadonnées d&apos;une
+même Unit via une requête API
+Description: 
+Via l&apos;API, il est impossible de modifier 2 métadonnées simultanément dans la
+collection Unit.
+
+Test effectué sur les balises suivantes :
+- Description
+- Title
+
+Cas de test concerné : PVI-878
+Code erreur retourné : 412
+
+
+Étapes pour le reproduire: 
+1) Injection d&apos;un SIP dans Vitam
+2) Exécution de la requête (ci-dessous) dans Soap Ui
+
+Informations complémentaires: 
+Requête effectuée :
+
+PUT
+https://213.32.79.242:8444/access-external/v1/units/aeaaaaaaaaaam7mxabmk4akzfnae2saaaaaq
+HTTP/1.1
+Accept-Encoding: gzip,deflate
+Content-Type: application/json
+charset: UTF-8
+Accept: application/json
+Content-Length: 255
+Host: 213.32.79.242:8444
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
+
+{
+&quot;$query&quot;: [],
+&quot;$filter&quot;: {},
+&quot;$action&quot;: [ 
+          { 
+            &quot;$and&quot;: [ 
+                   { &quot;$set&quot;: {&quot;Title&quot;: &quot;Metadonnee titre modifiee&quot; }}, 
+	           { &quot;$set&quot;: {&quot;Description&quot; : &quot;Description de test&quot; }} 
+	            ] 
+           } 
+	]
+}
+====================================================================== 
+
+Historique du bogue 
+Date de modificationNom d’utilisateurChamp                    Changement      
+    
+====================================================================== 
+2016-12-23 15:35 Aurelien       Nouveau bogue                                
+2016-12-23 15:35 Aurelien       Statut                   nouveau =&gt; affecté  
+2016-12-23 15:35 Aurelien       Assigné à                 =&gt; Aurelien        
+2016-12-23 15:35 Aurelien       Fichier ajouté:
+ATR_aedqaaaaacaam7mxabpvoakzfnadnmaaaaaq.xml                    
+======================================================================</TextContent>
+</Content>

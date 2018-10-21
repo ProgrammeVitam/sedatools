@@ -1,0 +1,454 @@
+Received:  from DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR ([169.254.1.34]) by
+ INF11LOGES-WM10.DR-RES.INTRADEF.GOUV.FR ([221.10.42.209]) with mapi id
+ 14.03.0195.001; Mon, 12 Sep 2016 19:50:18 +0200
+Date: Mon, 12 Sep 2016 19:50:18 +0200 (CEST)
+From: BEL Nicolas ASC <nicolas.bel@intradef.gouv.fr>
+To: Thierry CASIMIRIUS <tcasimirius@gmail.com>,
+	CASIMIRIUS Thierry IDEF MINDEF <thierry.casimirius@intradef.gouv.fr>
+Message-ID: <0CEBDBC4E24A8C46BD4E1D2201D75741DF12CE@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+In-Reply-To: <CACSOprX3zG1CTQZ9i8+=w5LTY1Dp=69J=_C3kBgsC_MVc-dR+A@mail.gmail.com>
+References:  <CACSOprX3zG1CTQZ9i8+=w5LTY1Dp=69J=_C3kBgsC_MVc-dR+A@mail.gmail.com>
+Subject: =?UTF-8?Q?RE:_CR_R=C3=A9union_de_calage_TRA_VITAM_Beta_-_12/09/2016?=
+MIME-Version: 1.0
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_179_9139779.1517006383437"
+Thread-Topic:  =?utf-8?B?Q1IgUsOpdW5pb24gZGUgY2FsYWdlIFRSQSBWSVRBTSBCZXRhIC0gMTIvMDkv?=
+ =?utf-8?Q?2016?=
+Thread-Index:  AQHSDOrs9czZEfWoMk+6LCGzfAu6IKB2Hriw
+Accept-Language:  fr-FR, en-US
+Content-Language:  fr-FR
+X-MS-Has-Attach: 
+X-MS-Exchange-Organization-SCL:  0
+X-MS-TNEF-Correlator:  <0CEBDBC4E24A8C46BD4E1D2201D75741DF12CE@DRSCZ-MLLGWM18V.DR-RES.INTRADEF.GOUV.FR>
+X-MS-Exchange-Organization-AuthSource: 
+ INF11LOGES-WM10.DR-RES.INTRADEF.GOUV.FR
+X-MS-Exchange-Organization-AuthAs:  Internal
+X-MS-Exchange-Organization-AuthMechanism:  04
+X-Originating-IP:  [52.10.204.169]
+X-MS-Exchange-Organization-AVStamp-Mailbox:  SMEXw]nP;1276900;0;This mail has
+ been scanned by Trend Micro ScanMail for Microsoft Exchange;
+
+------=_Part_179_9139779.1517006383437
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_180_22320272.1517006383437"
+
+------=_Part_180_22320272.1517006383437
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Bonsoir Thierry,=20
+
+=20
+
+D=C3=A9sol=C3=A9, une r=C3=A9union s=E2=80=99est un peu prolong=C3=A9e ;..
+
+=20
+
+Mes ajouts en rouge. J=E2=80=99ai not=C3=A9 un point sur les r=C3=A9ponses =
+(pas de call back mais du pooling) et sur la non garantie des logs techniqu=
+es. Mais je ne suis pas s=C3=BBr que ce soit pertinent ici.=20
+
+=20
+
+Bonne soir=C3=A9e,=20
+
+=20
+
+Nicolas
+
+=20
+
+De : Thierry CASIMIRIUS [mailto:tcasimirius@gmail.com]=20
+Envoy=C3=A9 : lundi 12 septembre 2016 13:44
+=C3=80 : BEL Nicolas ASC; CASIMIRIUS Thierry IDEF MINDEF
+Objet : CR R=C3=A9union de calage TRA VITAM Beta - 12/09/2016
+
+=20
+
+Une r=C3=A9union s'est tenue le 12 septembre 2016 =C3=A0 Balard.
+
+Son objectif =C3=A9tait d'apporter des compl=C3=A9ments d'information =C3=
+=A0 ALTRAN, titulaire du march=C3=A9 UO DIRISI, pour lui permettre de final=
+iser son offre technique pour la prestation de recette de la version Beta d=
+e la brique VITAM.
+
+=20
+
+Participants :
+
+DESIAG ; SHD ; DIRISI ; ALTRAN ; VITAM
+
+=20
+
+NOTA : le CAT actuel d'Archipel NG sort du projet a/c du 1er octobre. Il se=
+ra remplac=C3=A9 par M Ramos.
+
+=20
+
+3 points majeurs ont =C3=A9t=C3=A9 d=C3=A9battus en s=C3=A9ance=20
+
+1 - L' infrastructure =C3=A0 mettre en place pour la recette, avec tous les=
+ aspects techniques inh=C3=A9rents =C3=A0 ce dossier
+
+2 - La pr=C3=A9paration et la conduite des tests
+
+3 - Organisation transverse pour le suivi de la prestation
+
+=20
+
+1 - L'infrastructure de recette :
+
+Cette infrastructure sera mise en place par ALTRAN hors de l'environnement =
+MINDEF. Les tests se feront donc sur des donn=C3=A9es non prot=C3=A9g=C3=A9=
+es.
+
+Les points techniques abord=C3=A9s :=20
+
+nombre de serveurs (10) et configuration des serveurs,=20
+
+architecture physique de la plateforme ( pr=C3=A9sent=C3=A9e par VITAM),=20
+
+virtualisation des instances, r=C3=A8gles d'installation des instances par =
+serveurs ( 14 services m=C3=A9tiers identifi=C3=A9s, certaines zones sont c=
+olocalisables)
+
+compatibilit=C3=A9 avec le cadre de coh=C3=A9rence technique du MINDEF ( v=
+=C3=A9rification notamment pour l'OS CentOS7, La question de Debian a =C3=
+=A9t=C3=A9 soulev=C3=A9e, cet OS ne sera pas dans la version Beta : la DIRI=
+SI devra d=C3=A9finir s=E2=80=99il s=E2=80=99agit d=E2=80=99un imp=C3=A9rat=
+if)
+
+n=C3=A9cessit=C3=A9 d'effectuer des tests de performance : r=C3=A9ponse n=
+=C3=A9gative de VITAM, un seul service est en disponiblit=C3=A9 forte
+
+nature des tests de r=C3=A9silience =C3=A0 r=C3=A9aliser
+
+sp=C3=A9cification de la capacit=C3=A9 m=C3=A9moire des serveurs ( mini : 4=
+ Go RAM par instance  )
+
+Puissance des processeurs =C3=A0 consacrer par machine (CPU)
+
+Stockage (SSD non retenu) en datacenter
+
+Disponibilit=C3=A9 des donn=C3=A9es  - Rappel de VITAM sur le dispositif de=
+ r=C3=A9plication trait=C3=A9 par l'applicatif.
+
+Demande DIRISI de marquer les flux de donn=C3=A9es TCP /IP, par niveau de p=
+riorit=C3=A9, pour d=C3=A9finir la qualit=C3=A9 de service attendu. La DIRI=
+SI demande que cela soit trait=C3=A9 par l'applicatif. La DIRISI ou la DESI=
+AG transmette =C3=A0 VITAM la directive DIRISI niveau DR)Edouard Vasseur a =
+soulign=C3=A9 que ce point =C3=A9tait  potentiellement =C3=A0 l=E2=80=99=C3=
+=A9tude.
+
+N=C3=A9cessit=C3=A9 de pr=C3=A9voir pour la DIRISI la s=C3=A9paration des r=
+=C3=A9seaux utilis=C3=A9s pour l'administration et la production : =C3=A0 i=
+nt=C3=A9grer d=C3=A8s que possible (VITAM n=E2=80=99a pas fait de test pour=
+ v=C3=A9rifier s=E2=80=99il =C3=A9tait pr=C3=A9judiciable d=E2=80=99avoir p=
+lus d=E2=80=99une IP par serveur).
+
+La Dirisi a souhait=C3=A9 obtenir de VITAM un livrable sur les test de s=C3=
+=A9curit=C3=A9. Ce Livrable est pr=C3=A9vu au DAT
+
+Info : le dossier d'architecture technique (-DAT) ne sera pas disponible av=
+ant le 26 septembre
+
+=20
+
+2 - Sp=C3=A9cifications des tests
+
+Les jeux VITAM seront fournis
+
+Sur les conditions =C3=A0 tester, 12, sur 42, ont =C3=A9t=C3=A9 test=C3=A9e=
+, Altran table sur le test de 24 conditions pour dimensionner son offre.
+
+Besoin fort de param=C3=A9trage de la solution VITAM pour ARCHIPEL
+
+ALTRAN doit d=C3=A9finir avec le SHD les r=C3=A8gles d'organisation, du cla=
+ssement, de gestion, le r=C3=A9f=C3=A9rentiel  =C3=A0 utiliser
+
+ALTRAN devra effectuer le param=C3=A9trage de la solution VITAM dans le con=
+texte ARCHIPEL, sur la base du param=C3=A9trage fourni par l'=C3=A9quipe VI=
+TAM
+
+ALTRAN a pr=C3=A9sent=C3=A9 le p=C3=A9rim=C3=A8tre des fonctionnalit=C3=A9s=
+ de la Beta sur l'outil Xmind : vu les d=C3=A9lais, la couverture des tests=
+ ne pourra pas =C3=AAtre de 100 %
+
+La strat=C3=A9gie minimale =C3=A0 adopter pour les tests a =C3=A9t=C3=A9 d=
+=C3=A9battue : pr=C3=A8s de 1000 tests ont =C3=A9t=C3=A9 =C3=A9voqu=C3=A9s =
+( =C3=A0 raison de 10 test par fonctions d'entr=C3=A9e, 5 pour les autres, =
+et sachant qu'ALTRAN ne dispose =C3=A0 ce jour que partiellement des condit=
+ions de tests  =C3=A0 respecter (12/42 user stories ??)
+
+=20
+
+NOTA : le SHD a demand=C3=A9 en s=C3=A9ance de pouvoir aussi disposer des d=
+ocuments transmis =C3=A0 ALTRAN, dont les user stories ....
+
+=20
+
+Le p=C3=A9rim=C3=A8tre des tests =C3=A0 exclure de la prestation a aussi =
+=C3=A9t=C3=A9 pr=C3=A9sent=C3=A9, mais reste =C3=A0 consolider. exemple : v=
+=C3=A9rification de tous les journaux, de toutes les erreurs techniques, de=
+s droits d'acc=C3=A8s, des commandes Query, ...
+
+=3D> La DIRISI souhaitant utiliser son propre antivirus, la base virale de =
+VITAM ne sera pas test=C3=A9e. par contre, les mesures de s=C3=A9curit=C3=
+=A9 pr=C3=A9vues par VITAM devront =C3=AAtre communiqu=C3=A9es.
+
+=20
+
+3 - Organisation
+
+Planning=20
+
+-Mont=C3=A9e en comp=C3=A9tence du SHD sur le m=C3=A9tier de testeur a/c de=
+ d=C3=A9but novembre
+
+-R=C3=A9flexion =C3=A0 mener pour le param=C3=A9trage en octobre : organisa=
+tion du classement, r=C3=A9f=C3=A9rentiels
+
+-Conception des jeux de donn=C3=A9es sur un mois et demi
+
+-Ex=C3=A9cution des tests a/c du 22 novembre
+
+=3D> Disponibilit=C3=A9 forte du SHD =C3=A0 pr=C3=A9voir sur le mois d=E2=
+=80=99octobre !!!! Un r=C3=A9f=C3=A9rentiel des regles de gestion sera nota=
+mment =C3=A0 fournir.
+
+=20
+
+Modes d'=C3=A9change
+
+La DIRISI demande que les =C3=A9changes soit s=C3=A9curis=C3=A9s, notamment=
+ pour les communications de documents "diffusion restreinte"
+
+=20
+
+Comitologie :
+
+Un COPIL par mois,=20
+
+Un comit=C3=A9 de suivi par semaine, en pr=C3=A9sence de VITAM, a priori le=
+ jeudi=20
+
+=20
+
+=20
+
+=20
+
+TC
+------=_Part_180_22320272.1517006383437
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40"><head><meta http-equiv=3DContent-Type content=
+=3D"text/html; charset=3Dutf-8"><meta name=3DGenerator content=3D"Microsoft=
+ Word 14 (filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+=09{font-family:Calibri;
+=09panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+=09{font-family:Tahoma;
+=09panose-1:2 11 6 4 3 5 4 4 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+=09{margin:0cm;
+=09margin-bottom:.0001pt;
+=09font-size:12.0pt;
+=09font-family:"Times New Roman","serif";}
+a:link, span.MsoHyperlink
+=09{mso-style-priority:99;
+=09color:blue;
+=09text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+=09{mso-style-priority:99;
+=09color:purple;
+=09text-decoration:underline;}
+span.EmailStyle17
+=09{mso-style-type:personal-reply;
+=09font-family:"Calibri","sans-serif";
+=09color:#1F497D;}
+.MsoChpDefault
+=09{mso-style-type:export-only;
+=09font-family:"Calibri","sans-serif";
+=09mso-fareast-language:EN-US;}
+@page WordSection1
+=09{size:612.0pt 792.0pt;
+=09margin:70.85pt 70.85pt 70.85pt 70.85pt;}
+div.WordSection1
+=09{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DFR link=3Dblue vlink=
+=3Dpurple><div class=3DWordSection1><p class=3DMsoNormal><span style=3D'fon=
+t-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497D'>Bonsoir Thi=
+erry, <o:p></o:p></span></p><p class=3DMsoNormal><span style=3D'font-size:1=
+1.0pt;font-family:"Calibri","sans-serif";color:#1F497D'><o:p>&nbsp;</o:p></=
+span></p><p class=3DMsoNormal><span style=3D'font-size:11.0pt;font-family:"=
+Calibri","sans-serif";color:#1F497D'>D=C3=A9sol=C3=A9, une r=C3=A9union s=
+=E2=80=99est un peu prolong=C3=A9e&nbsp;;..<o:p></o:p></span></p><p class=
+=3DMsoNormal><span style=3D'font-size:11.0pt;font-family:"Calibri","sans-se=
+rif";color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span =
+style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497D'=
+>Mes ajouts en rouge. J=E2=80=99ai not=C3=A9 un point sur les r=C3=A9ponses=
+ (pas de call back mais du pooling) et sur la non garantie des logs techniq=
+ues. Mais je ne suis pas s=C3=BBr que ce soit pertinent ici. <o:p></o:p></s=
+pan></p><p class=3DMsoNormal><span style=3D'font-size:11.0pt;font-family:"C=
+alibri","sans-serif";color:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3D=
+MsoNormal><span style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif=
+";color:#1F497D'>Bonne soir=C3=A9e, <o:p></o:p></span></p><p class=3DMsoNor=
+mal><span style=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";colo=
+r:#1F497D'><o:p>&nbsp;</o:p></span></p><p class=3DMsoNormal><span style=3D'=
+font-size:11.0pt;font-family:"Calibri","sans-serif";color:#1F497D'>Nicolas<=
+o:p></o:p></span></p><p class=3DMsoNormal><span style=3D'font-size:11.0pt;f=
+ont-family:"Calibri","sans-serif";color:#1F497D'><o:p>&nbsp;</o:p></span></=
+p><p class=3DMsoNormal><b><span style=3D'font-size:10.0pt;font-family:"Taho=
+ma","sans-serif"'>De&nbsp;:</span></b><span style=3D'font-size:10.0pt;font-=
+family:"Tahoma","sans-serif"'> Thierry CASIMIRIUS [mailto:tcasimirius@gmail=
+.com] <br><b>Envoy=C3=A9&nbsp;:</b> lundi 12 septembre 2016 13:44<br><b>=C3=
+=80&nbsp;:</b> BEL Nicolas ASC; CASIMIRIUS Thierry IDEF MINDEF<br><b>Objet&=
+nbsp;:</b> CR R=C3=A9union de calage TRA VITAM Beta - 12/09/2016<o:p></o:p>=
+</span></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p><div><p class=3DMsoNor=
+mal>Une r=C3=A9union s'est tenue le 12 septembre 2016 =C3=A0 Balard.<o:p></=
+o:p></p><div><p class=3DMsoNormal>Son objectif =C3=A9tait d'apporter des co=
+mpl=C3=A9ments d'information =C3=A0 ALTRAN, titulaire du march=C3=A9 UO DIR=
+ISI, pour lui permettre de finaliser son offre technique pour la prestation=
+ de recette de la version Beta de la brique VITAM.<o:p></o:p></p></div><div=
+><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p class=3DMsoNormal>=
+Participants :<o:p></o:p></p></div><div><p class=3DMsoNormal>DESIAG ;&nbsp;=
+SHD ;&nbsp;DIRISI ; ALTRAN ; VITAM<o:p></o:p></p></div><div><p class=3DMsoN=
+ormal><o:p>&nbsp;</o:p></p></div><div><p class=3DMsoNormal>NOTA : le CAT ac=
+tuel d'Archipel NG sort du projet a/c du 1er octobre.&nbsp;<span style=3D'c=
+olor:red'>Il sera remplac=C3=A9 par M Ramos.<o:p></o:p></span></p></div><di=
+v><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p class=3DMsoNormal=
+>3 points majeurs ont =C3=A9t=C3=A9 d=C3=A9battus en s=C3=A9ance&nbsp;<o:p>=
+</o:p></p></div><div><p class=3DMsoNormal>1 - L' infrastructure =C3=A0 mett=
+re en place pour la recette, avec tous les aspects techniques inh=C3=A9rent=
+s =C3=A0 ce dossier<o:p></o:p></p></div><div><p class=3DMsoNormal>2 - La pr=
+=C3=A9paration et la conduite des tests<o:p></o:p></p></div><div><p class=
+=3DMsoNormal>3 - Organisation transverse pour le suivi de la prestation<o:p=
+></o:p></p></div><div><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div>=
+<p class=3DMsoNormal>1 - L'infrastructure de recette :<o:p></o:p></p></div>=
+<div><p class=3DMsoNormal>Cette infrastructure sera mise en place par ALTRA=
+N hors de l'environnement MINDEF.&nbsp;<span style=3D'color:red'>Les tests =
+se feront donc sur des donn=C3=A9es non prot=C3=A9g=C3=A9es.<o:p></o:p></sp=
+an></p></div><div><p class=3DMsoNormal>Les points techniques abord=C3=A9s :=
+&nbsp;<o:p></o:p></p></div><div><p class=3DMsoNormal>nombre de serveurs (10=
+) et configuration des serveurs,<span style=3D'color:#1F497D'> </span><o:p>=
+</o:p></p></div><div><p class=3DMsoNormal>architecture physique de la plate=
+forme ( pr=C3=A9sent=C3=A9e par VITAM),&nbsp;<o:p></o:p></p></div><div><p c=
+lass=3DMsoNormal>virtualisation des instances, r=C3=A8gles d'installation d=
+es instances par serveurs ( 14 services m=C3=A9tiers identifi=C3=A9s<span s=
+tyle=3D'color:#1F497D'>, </span><span style=3D'color:red'>certaines zones s=
+ont colocalisables</span>)<o:p></o:p></p></div><div><p class=3DMsoNormal>co=
+mpatibilit=C3=A9 avec le cadre de coh=C3=A9rence technique du MINDEF ( v=C3=
+=A9rification notamment pour l'OS CentOS7<span style=3D'color:#1F497D'>, </=
+span><span style=3D'color:red'>La question de Debian a =C3=A9t=C3=A9 soulev=
+=C3=A9e, cet OS ne sera pas dans la version Beta&nbsp;: la DIRISI devra d=
+=C3=A9finir s=E2=80=99il s=E2=80=99agit d=E2=80=99un imp=C3=A9ratif</span>)=
+<o:p></o:p></p></div><div><p class=3DMsoNormal>n=C3=A9cessit=C3=A9 d'effect=
+uer des tests de performance : r=C3=A9ponse n=C3=A9gative de VITAM<span sty=
+le=3D'color:#1F497D'>, </span><span style=3D'color:red'>un seul service est=
+ en disponiblit=C3=A9 forte<o:p></o:p></span></p></div><div><p class=3DMsoN=
+ormal>nature des tests de r=C3=A9silience =C3=A0 r=C3=A9aliser<o:p></o:p></=
+p></div><div><p class=3DMsoNormal>sp=C3=A9cification de la capacit=C3=A9 m=
+=C3=A9moire des serveurs ( mini : 4 Go RAM par instance &nbsp;)<o:p></o:p><=
+/p></div><div><p class=3DMsoNormal>Puissance des processeurs =C3=A0 consacr=
+er par machine (CPU)<o:p></o:p></p></div><div><p class=3DMsoNormal>Stockage=
+ (SSD non retenu) en datacenter<o:p></o:p></p></div><div><p class=3DMsoNorm=
+al>Disponibilit=C3=A9 des donn=C3=A9es &nbsp;- Rappel de VITAM sur le dispo=
+sitif de r=C3=A9plication trait=C3=A9 par l'applicatif.<o:p></o:p></p></div=
+><div><p class=3DMsoNormal>Demande DIRISI de marquer les flux de donn=C3=A9=
+es TCP /IP, par niveau de priorit=C3=A9, pour d=C3=A9finir la qualit=C3=A9 =
+de service attendu. La DIRISI demande que cela soit trait=C3=A9 par l'appli=
+catif. La DIRISI ou la DESIAG transmette =C3=A0 VITAM la directive DIRISI n=
+iveau DR)<span style=3D'color:red'>Edouard Vasseur a soulign=C3=A9 que ce p=
+oint =C3=A9tait=C2=A0 potentiellement =C3=A0 l=E2=80=99=C3=A9tude.<o:p></o:=
+p></span></p></div><div><p class=3DMsoNormal>N=C3=A9cessit=C3=A9 de pr=C3=
+=A9voir pour la DIRISI la s=C3=A9paration des r=C3=A9seaux utilis=C3=A9s po=
+ur l'administration et la production : =C3=A0 int=C3=A9grer d=C3=A8s que po=
+ssible<span style=3D'color:#1F497D'> </span><span style=3D'color:red'>(VITA=
+M n=E2=80=99a pas fait de test pour v=C3=A9rifier s=E2=80=99il =C3=A9tait p=
+r=C3=A9judiciable d=E2=80=99avoir plus d=E2=80=99une IP par serveur).</span=
+><o:p></o:p></p></div><div><p class=3DMsoNormal><span style=3D'color:red'>L=
+a Dirisi a souhait=C3=A9 obtenir de VITAM un livrable sur les test de s=C3=
+=A9curit=C3=A9. Ce Livrable est pr=C3=A9vu au DAT<o:p></o:p></span></p></di=
+v><div><p class=3DMsoNormal>Info : le dossier d'architecture technique<span=
+ style=3D'color:#1F497D'> (-</span><span style=3D'color:red'>DAT)</span> ne=
+ sera pas disponible avant le 26 septembre<o:p></o:p></p></div><div><p clas=
+s=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p class=3DMsoNormal>2 - Sp=
+=C3=A9cifications des tests<o:p></o:p></p></div><div><p class=3DMsoNormal>L=
+es jeux VITAM seront fournis<o:p></o:p></p><p class=3DMsoNormal><span style=
+=3D'font-size:11.0pt;font-family:"Calibri","sans-serif";color:red'>Sur les =
+conditions =C3=A0 tester, 12, sur 42, ont =C3=A9t=C3=A9 test=C3=A9e, Altran=
+ table sur le test de 24 conditions pour dimensionner son offre.<o:p></o:p>=
+</span></p></div><div><p class=3DMsoNormal>Besoin fort de param=C3=A9trage =
+de la solution VITAM pour ARCHIPEL<o:p></o:p></p></div><div><p class=3DMsoN=
+ormal>ALTRAN doit d=C3=A9finir avec le SHD les r=C3=A8gles d'organisation, =
+du classement, de gestion, le r=C3=A9f=C3=A9rentiel &nbsp;=C3=A0 utiliser<o=
+:p></o:p></p></div><div><p class=3DMsoNormal>ALTRAN devra effectuer le para=
+m=C3=A9trage de la solution VITAM dans le contexte ARCHIPEL, sur la base du=
+ param=C3=A9trage fourni par l'=C3=A9quipe VITAM<o:p></o:p></p></div><div><=
+p class=3DMsoNormal>ALTRAN a pr=C3=A9sent=C3=A9 le p=C3=A9rim=C3=A8tre des =
+fonctionnalit=C3=A9s de la Beta sur l'outil Xmind : vu les d=C3=A9lais, la =
+couverture des tests ne pourra pas =C3=AAtre de 100 %<o:p></o:p></p></div><=
+div><p class=3DMsoNormal>La strat=C3=A9gie minimale =C3=A0 adopter pour les=
+ tests a =C3=A9t=C3=A9 d=C3=A9battue : pr=C3=A8s de 1000 tests ont =C3=A9t=
+=C3=A9 =C3=A9voqu=C3=A9s ( =C3=A0 raison de 10 test par fonctions d'entr=C3=
+=A9e, 5 pour les autres, et sachant qu'ALTRAN ne dispose =C3=A0 ce jour que=
+ partiellement des conditions de tests &nbsp;=C3=A0 respecter (12/42 user s=
+tories ??)<o:p></o:p></p></div><div><p class=3DMsoNormal><o:p>&nbsp;</o:p><=
+/p></div><div><p class=3DMsoNormal>NOTA : le SHD a demand=C3=A9 en s=C3=A9a=
+nce de pouvoir aussi disposer des documents transmis =C3=A0 ALTRAN, dont le=
+s user stories ....<o:p></o:p></p></div><div><p class=3DMsoNormal><o:p>&nbs=
+p;</o:p></p></div><div><p class=3DMsoNormal>Le p=C3=A9rim=C3=A8tre des test=
+s =C3=A0 exclure de la prestation a aussi =C3=A9t=C3=A9 pr=C3=A9sent=C3=A9,=
+ mais reste =C3=A0 consolider. exemple : v=C3=A9rification de tous les jour=
+naux, de toutes les erreurs techniques, des droits d'acc=C3=A8s, des comman=
+des Query, ...<o:p></o:p></p></div><div><p class=3DMsoNormal>=3D&gt; La DIR=
+ISI souhaitant utiliser son propre antivirus, la base virale de VITAM ne se=
+ra pas test=C3=A9e. par contre, les mesures de s=C3=A9curit=C3=A9 pr=C3=A9v=
+ues par VITAM devront =C3=AAtre communiqu=C3=A9es.<o:p></o:p></p></div><div=
+><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p class=3DMsoNormal>=
+3 - Organisation<o:p></o:p></p></div><div><p class=3DMsoNormal>Planning&nbs=
+p;<o:p></o:p></p></div><div><p class=3DMsoNormal>-Mont=C3=A9e en comp=C3=A9=
+tence du SHD sur le m=C3=A9tier de testeur a/c de d=C3=A9but novembre<o:p><=
+/o:p></p></div><div><p class=3DMsoNormal>-R=C3=A9flexion =C3=A0 mener pour =
+le param=C3=A9trage en octobre : organisation du classement, r=C3=A9f=C3=A9=
+rentiels<o:p></o:p></p></div><div><p class=3DMsoNormal>-Conception des jeux=
+ de donn=C3=A9es sur un mois et demi<o:p></o:p></p></div><div><p class=3DMs=
+oNormal>-Ex=C3=A9cution des tests a/c du 22 novembre<o:p></o:p></p></div><d=
+iv><p class=3DMsoNormal>=3D&gt; Disponibilit=C3=A9 forte du SHD =C3=A0 pr=
+=C3=A9voir<span style=3D'color:#1F497D'> </span><span style=3D'color:red'>s=
+ur le mois d=E2=80=99octobre </span>!!!!<span style=3D'color:#1F497D'> </sp=
+an><span style=3D'color:red'>Un r=C3=A9f=C3=A9rentiel des regles de gestion=
+ sera notamment =C3=A0 fournir.<o:p></o:p></span></p></div><div><p class=3D=
+MsoNormal><o:p>&nbsp;</o:p></p></div><div><p class=3DMsoNormal>Modes d'=C3=
+=A9change<o:p></o:p></p></div><div><p class=3DMsoNormal>La DIRISI demande q=
+ue les =C3=A9changes soit s=C3=A9curis=C3=A9s, notamment pour les communica=
+tions de documents &quot;diffusion restreinte&quot;<o:p></o:p></p></div><di=
+v><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><p class=3DMsoNormal=
+>Comitologie :<o:p></o:p></p></div><div><p class=3DMsoNormal>Un COPIL par m=
+ois,&nbsp;<o:p></o:p></p></div><div><p class=3DMsoNormal>Un comit=C3=A9 de =
+suivi par semaine, en pr=C3=A9sence de VITAM, a priori le jeudi&nbsp;<o:p><=
+/o:p></p></div><div><p class=3DMsoNormal><span style=3D'color:#1F497D'><o:p=
+>&nbsp;</o:p></span></p><p class=3DMsoNormal><i><span style=3D'font-size:11=
+.0pt;font-family:"Calibri","sans-serif";color:red'><o:p>&nbsp;</o:p></span>=
+</i></p><p class=3DMsoNormal><span style=3D'font-size:11.0pt;font-family:"C=
+alibri","sans-serif";color:#1F497D'><o:p>&nbsp;</o:p></span></p></div><div>=
+<p class=3DMsoNormal>TC<o:p></o:p></p></div><div><p class=3DMsoNormal><o:p>=
+&nbsp;</o:p></p></div><div><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div>=
+<div><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></div></div></body></h=
+tml>
+------=_Part_180_22320272.1517006383437--
+
+------=_Part_179_9139779.1517006383437--
