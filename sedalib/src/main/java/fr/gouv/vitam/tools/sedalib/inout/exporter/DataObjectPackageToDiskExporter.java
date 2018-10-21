@@ -39,7 +39,6 @@ import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
@@ -49,9 +48,8 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectRefList;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import mslinks.ShellLink;
 
 /**
@@ -117,7 +115,7 @@ public class DataObjectPackageToDiskExporter {
 	private boolean isWindows;
 
 	/** The progress logger. */
-	private ProgressLogger progressLogger;
+	private SEDALibProgressLogger sedaLibProgressLogger;
 
 	/**
 	 * The ArchiveUnit path string map, used to manage symbolic links.
@@ -135,11 +133,11 @@ public class DataObjectPackageToDiskExporter {
 	/**
 	 * Instantiates a new DataObjectPackage to disk exporter.
 	 *
-	 * @param progressLogger the progress logger or null if no progress log expected
+	 * @param sedaLibProgressLogger the progress logger or null if no progress log expected
 	 */
-	private DataObjectPackageToDiskExporter(ProgressLogger progressLogger) {
+	private DataObjectPackageToDiskExporter(SEDALibProgressLogger sedaLibProgressLogger) {
 		this.dataObjectPackage = null;
-		this.progressLogger = progressLogger;
+		this.sedaLibProgressLogger = sedaLibProgressLogger;
 		this.auPathStringMap = new HashMap<ArchiveUnit, Path>();
 		this.dogPathStringMap = new HashMap<DataObjectGroup, Path>();
 		this.filesPathSet = new HashSet<Path>();
@@ -150,10 +148,10 @@ public class DataObjectPackageToDiskExporter {
 	 * Instantiates a new DataObjectPackage to disk exporter.
 	 *
 	 * @param dataObjectPackage the archive transfer
-	 * @param progressLogger    the progress logger
+	 * @param sedaLibProgressLogger    the progress logger
 	 */
-	public DataObjectPackageToDiskExporter(DataObjectPackage dataObjectPackage, ProgressLogger progressLogger) {
-		this(progressLogger);
+	public DataObjectPackageToDiskExporter(DataObjectPackage dataObjectPackage, SEDALibProgressLogger sedaLibProgressLogger) {
+		this(sedaLibProgressLogger);
 		this.dataObjectPackage = dataObjectPackage;
 	}
 
@@ -405,8 +403,8 @@ public class DataObjectPackageToDiskExporter {
 			Files.createSymbolicLink(linkOnDiskPath, linkOnDiskPath.toAbsolutePath().getParent().relativize(target.toAbsolutePath()));
 		} catch (Exception e) {
 			if (isWindows) {
-				if (progressLogger!=null)
-					progressLogger.log(ProgressLogger.OBJECTS_WARNINGS,
+				if (sedaLibProgressLogger !=null)
+					sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS,
 						"La création de lien n'a pas pu avoir lieu, essai de création de raccourci sous Windows");
 				ShellLink sl = new ShellLink();
 				sl.setTarget(target.toString());
@@ -491,8 +489,8 @@ public class DataObjectPackageToDiskExporter {
 				exportArchiveUnit(childAu, auPath);
 
 			int counter = dataObjectPackage.getNextInOutCounter();
-			if (progressLogger!=null)
-				progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
+			if (sedaLibProgressLogger !=null)
+				sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
 						Integer.toString(counter) + " ArchiveUnit/DataObject analysés");
 		}
 	}
@@ -529,8 +527,8 @@ public class DataObjectPackageToDiskExporter {
 		for (ArchiveUnit au : dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList())
 			exportArchiveUnit(au, exportPath);
 
-		if (progressLogger!=null)
-			progressLogger.progressLog(ProgressLogger.OBJECTS_GROUP,
+		if (sedaLibProgressLogger !=null)
+			sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP,
 				Integer.toString(dataObjectPackage.getInOutCounter()) + " ArchiveUnit/DataObject exportées\n"
 						+ dataObjectPackage.getDescription());
 	}

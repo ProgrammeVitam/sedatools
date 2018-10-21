@@ -30,8 +30,6 @@ package fr.gouv.vitam.tools.sedalib.inout;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
@@ -44,7 +42,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.ManagementMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 /**
  * The Class SIPBuilder.
@@ -58,7 +56,7 @@ public class SIPBuilder implements AutoCloseable  {
     /**
      * The progress logger..
      */
-    private ProgressLogger progressLogger;
+    private SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
      * The archive transfer.
@@ -79,9 +77,9 @@ public class SIPBuilder implements AutoCloseable  {
      * Instantiates a new SIP builder.
      *
      * @param sipPathString  the sip path string
-     * @param progressLogger the progress logger
+     * @param sedaLibProgressLogger the progress logger
      */
-    public SIPBuilder(String sipPathString, ProgressLogger progressLogger)
+    public SIPBuilder(String sipPathString, SEDALibProgressLogger sedaLibProgressLogger)
     {
         GlobalMetadata gm = new GlobalMetadata();
         ManagementMetadata mm = new ManagementMetadata();
@@ -115,7 +113,7 @@ public class SIPBuilder implements AutoCloseable  {
                 + "    <RelationshipCodeListVersion>RelationshipCodeListVersion</RelationshipCodeListVersion>\n"
                 + "  </CodeListVersions>";
         this.archiveTransfer.setGlobalMetadata(gm);
-        this.progressLogger=progressLogger;
+        this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.managementMetadata = mm;
   }
 
@@ -180,8 +178,8 @@ public class SIPBuilder implements AutoCloseable  {
         au.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
         archiveTransfer.getDataObjectPackage().addArchiveUnit(au);
         archiveTransfer.getDataObjectPackage().addRootAu(au);
-        if (progressLogger!=null)
-            progressLogger.log(ProgressLogger.OBJECTS,"Creation d'une ArchiveUnit racine [" + archiveUnitID + "]");
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,"Creation d'une ArchiveUnit racine [" + archiveUnitID + "]");
         return au;
     }
 
@@ -308,8 +306,8 @@ public class SIPBuilder implements AutoCloseable  {
         c.addNewMetadata("Description", description);
         au.setContent(c);
         parentAU.addChildArchiveUnit(au);
-        if (progressLogger!=null)
-            progressLogger.log(ProgressLogger.OBJECTS,
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,
                     "Creation d'une sous ArchiveUnit [" + childArchiveUnitID + "] de [" + archiveUnitID + "]");
         return au;
     }
@@ -331,8 +329,8 @@ public class SIPBuilder implements AutoCloseable  {
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         for (ArchiveUnit au : fromAU.getChildrenAuList().getArchiveUnitList())
             parentAU.addChildArchiveUnit(au);
-        if (progressLogger!=null)
-            progressLogger.log(ProgressLogger.OBJECTS,"Ajout d'un sous-arbre à [" + archiveUnitID + "]");
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,"Ajout d'un sous-arbre à [" + archiveUnitID + "]");
     }
 
     /**
@@ -367,10 +365,10 @@ public class SIPBuilder implements AutoCloseable  {
         Path path = Paths.get(onDiskPath);
         bdo = new BinaryDataObject(archiveTransfer.getDataObjectPackage(), path, path.getFileName().toString(),
                 "BinaryMaster_1");
-        bdo.extractTechnicalElements(progressLogger);
+        bdo.extractTechnicalElements(sedaLibProgressLogger);
         au.addDataObjectById(bdo.getInDataObjectPackageId());
-        if (progressLogger!=null)
-            progressLogger.log(ProgressLogger.OBJECTS,
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,
                     "Creation d'une sous ArchiveUnit [" + childArchiveUnitID + "] de [" + archiveUnitID + "]");
         return au;
     }
@@ -388,7 +386,7 @@ public class SIPBuilder implements AutoCloseable  {
         ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
         if (parentAU == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
-        DiskToDataObjectPackageImporter di = new DiskToDataObjectPackageImporter(onDiskPathString, progressLogger);
+        DiskToDataObjectPackageImporter di = new DiskToDataObjectPackageImporter(onDiskPathString, sedaLibProgressLogger);
 
         for (String ip : ignorePatterString)
             di.addIgnorePattern(ip);
@@ -398,8 +396,8 @@ public class SIPBuilder implements AutoCloseable  {
         }
 
         parentAU.getDataObjectPackage().moveContentFromDataObjectPackage(di.getDataObjectPackage(), parentAU);
-        if (progressLogger!=null)
-            progressLogger.log(ProgressLogger.OBJECTS,"Ajout d'un sous-arbre à [" + archiveUnitID + "]");
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,"Ajout d'un sous-arbre à [" + archiveUnitID + "]");
     }
 
     /**
@@ -418,7 +416,7 @@ public class SIPBuilder implements AutoCloseable  {
         Path path = Paths.get(onDiskPathString);
         String filename = path.getFileName().toString();
         BinaryDataObject bdo = new BinaryDataObject(archiveTransfer.getDataObjectPackage(), path, filename, usageVersion);
-        bdo.extractTechnicalElements(progressLogger);
+        bdo.extractTechnicalElements(sedaLibProgressLogger);
         au.addDataObjectById(bdo.dataObjectSystemId);
     }
 
@@ -618,8 +616,8 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException the SEDA lib exception
      */
     public void generateSIP(boolean hierarchicalArchiveUnitsFlag, boolean indentedFlag) throws SEDALibException {
-        if (progressLogger!=null)
-            progressLogger.log(ProgressLogger.GLOBAL,"Lancement de la génération du SIP");
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,"Lancement de la génération du SIP");
         try {
             archiveTransfer.getDataObjectPackage().vitamNormalize();
             verifyContext();
@@ -627,14 +625,14 @@ public class SIPBuilder implements AutoCloseable  {
         } catch (SEDALibException e) {
             throw new SEDALibException("Le paquet SIP n'est pas constructible\n->" + e.getMessage());
         }
-        ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, progressLogger);
+        ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, sedaLibProgressLogger);
         try {
             sm.doExportToSEDASIP(sipPathString, hierarchicalArchiveUnitsFlag, indentedFlag);
         } catch (InterruptedException e) {
             // impossible
         }
-        if (progressLogger!=null)
-            progressLogger.log(ProgressLogger.GLOBAL,"Fichier sauvegardé (" + ProgressLogger.readableFileSize(new File(sipPathString).length())
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,"Fichier sauvegardé (" + SEDALibProgressLogger.readableFileSize(new File(sipPathString).length())
                 + ")");
     }
 

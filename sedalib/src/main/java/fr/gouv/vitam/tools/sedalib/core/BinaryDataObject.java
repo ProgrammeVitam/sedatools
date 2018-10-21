@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.FormatIdentification;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -48,7 +48,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * The Class BinaryDataObject.
@@ -275,11 +274,11 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * Extract technical elements (lastmodified date, size, format, digest...) from
      * file and complete the BinaryDataObject metadata.
      *
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if unable to get size or lastmodified date (probably
      *                          can't access file)
      */
-    public void extractTechnicalElements(ProgressLogger progressLogger) throws SEDALibException {
+    public void extractTechnicalElements(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
         IdentificationResult ir = null;
         String lfilename = null;
         long lsize;
@@ -304,8 +303,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         try {
             ir = DroidIdentifier.getInstance().getIdentificationResult(onDiskPath);
         } catch (SEDALibException e) {
-            if (progressLogger!=null)
-                 progressLogger.log(ProgressLogger.OBJECTS_WARNINGS, "Impossible de faire l'identification Droid pour le fichier ["
+            if (sedaLibProgressLogger !=null)
+                 sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "Impossible de faire l'identification Droid pour le fichier ["
                     + onDiskPath.toString() + "]\n->" + e.getMessage());
         }
         if (ir != null)
@@ -380,7 +379,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * fr.gouv.vitam.tools.sedalib.core.DataObject#toSedaXml(fr.gouv.vitam.tools.
      * sedalib.xml.SEDAXMLStreamWriter)
      */
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, ProgressLogger progressLogger)
+    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
             throws InterruptedException, SEDALibException {
         try {
             xmlWriter.writeStartElement("BinaryDataObject");
@@ -417,8 +416,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         }
 
         int counter = getDataObjectPackage().getNextInOutCounter();
-        if (progressLogger != null)
-            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) exportés");
     }
 
@@ -506,14 +505,14 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * @param dataObjectPackage the DataObjectPackage to be completed
      * @param rootDir           the directory where the BinaryDataObject files are
      *                          exported
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read BinaryDataObject, or null if not a BinaryDataObject
      * @throws SEDALibException     if the XML can't be read or the SEDA scheme is
      *                              not respected
      * @throws InterruptedException if export process is interrupted
      */
     public static BinaryDataObject fromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
-                                               String rootDir, ProgressLogger progressLogger) throws SEDALibException, InterruptedException {
+                                               String rootDir, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         BinaryDataObject bdo = null;
         DataObjectGroup dog;
         String tmp;
@@ -544,8 +543,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             dog.setInDataObjectPackageId(bdo.dataObjectGroupId);
             dataObjectPackage.addDataObjectGroup(dog);
             dog.addDataObject(bdo);
-            if (progressLogger != null)
-                progressLogger.log(ProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
+            if (sedaLibProgressLogger != null)
+                sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
                     + "] créé depuis BinaryDataObject [" + bdo.inDataPackageObjectId + "]");
         } else if (bdo.dataObjectGroupReferenceId != null) {
             dog = dataObjectPackage.getDataObjectGroupById(bdo.dataObjectGroupReferenceId);
@@ -556,8 +555,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         bdo.dataObjectGroupReferenceId = null;
         bdo.dataObjectGroupId = null;
         int counter = dataObjectPackage.getNextInOutCounter();
-        if (progressLogger != null)
-            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) importés");
         return bdo;
     }

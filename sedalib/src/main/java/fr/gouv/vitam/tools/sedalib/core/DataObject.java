@@ -27,7 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.core;
 
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
@@ -46,11 +46,11 @@ public interface DataObject {
      * Export in XML expected form for the SEDA Manifest.
      *
      * @param xmlWriter the SEDAXMLStreamWriter generating the SEDA manifest
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws InterruptedException if export process is interrupted
      * @throws SEDALibException     if the XML can't be written
      */
-    void toSedaXml(SEDAXMLStreamWriter xmlWriter, ProgressLogger progressLogger)
+    void toSedaXml(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
             throws InterruptedException, SEDALibException;
 
     /**

@@ -28,13 +28,12 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
-import java.util.logging.Level;
 
 /**
  * The Class ArchiveDeliveryRequestReply
@@ -88,11 +87,11 @@ public class ArchiveDeliveryRequestReply {
      * Import start document of SEDA ArchiveDeliveryRequestReply XML.
      *
      * @param xmlReader      the SEDAXMLEventReader reading the SEDA manifest
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
 
-    private static void importStartDocument(SEDAXMLEventReader xmlReader, ProgressLogger progressLogger)
+    private static void importStartDocument(SEDAXMLEventReader xmlReader, SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException {
         XMLEvent event;
         try {
@@ -102,8 +101,8 @@ public class ArchiveDeliveryRequestReply {
             if (!xmlReader.nextBlockIfNamed("ArchiveDeliveryRequestReply")) {
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
             }
-            if (progressLogger!=null)
-                progressLogger.log(ProgressLogger.STEP, "Début de l'import du document ArchiveTransferRequestReply");
+            if (sedaLibProgressLogger !=null)
+                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Début de l'import du document ArchiveTransferRequestReply");
 
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML\n->" + e.getMessage());
@@ -117,14 +116,14 @@ public class ArchiveDeliveryRequestReply {
      *                                    manifest
      * @param archiveDeliveryRequestReply the ArchiveDeliveryRequestReply to be
      *                                    completed
-     * @param progressLogger              the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger              the progress logger or null if no progress log expected
      */
 
     private static void importHeader(SEDAXMLEventReader xmlReader,
-                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply, ProgressLogger progressLogger) {
+                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply, SEDALibProgressLogger sedaLibProgressLogger) {
         try {
-            if (progressLogger!=null)
-                progressLogger.log(ProgressLogger.STEP, "Début de l'import de l'entête");
+            if (sedaLibProgressLogger !=null)
+                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Début de l'import de l'entête");
             archiveDeliveryRequestReply.globalMetadata.comment = xmlReader.nextValueIfNamed("Comment");
             archiveDeliveryRequestReply.globalMetadata.date = xmlReader.nextMandatoryValue("Date");
             archiveDeliveryRequestReply.globalMetadata
@@ -135,12 +134,12 @@ public class ArchiveDeliveryRequestReply {
                     .archivalAgreement = xmlReader.nextValueIfNamed("ArchivalAgreement");
             archiveDeliveryRequestReply.globalMetadata
                     .codeListVersionsXmlData = xmlReader.nextMandatoryBlockAsString("CodeListVersions");
-            if (progressLogger!=null)
-                progressLogger.log(ProgressLogger.STEP, "Entête importé");
+            if (sedaLibProgressLogger !=null)
+                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Entête importé");
         } catch (XMLStreamException | SEDALibException e) {
             // TODO to correct when VITAM DIP will use more elements
-            if (progressLogger!=null)
-                progressLogger.log(ProgressLogger.STEP,
+            if (sedaLibProgressLogger !=null)
+                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP,
                     "L'entête n'est pas conforme à un ArchiveDeliveryRequestReply, mais la tentative d'analyse continue");
             archiveDeliveryRequestReply.globalMetadata = null;
             // throw new SEDALibException("Erreur de lecture XML d'entête du manifest\n->" +
@@ -213,20 +212,20 @@ public class ArchiveDeliveryRequestReply {
      * @param xmlReader      the SEDAXMLEventReader reading the SEDA manifest
      * @param rootDir        the directory where the BinaryDataObject files are
      *                       exported
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read ArchiveDeliveryRequestReply
      * @throws SEDALibException     if the XML can't be read or is not in expected form
      * @throws InterruptedException if export process is interrupted
      */
     public static ArchiveDeliveryRequestReply fromSedaXml(SEDAXMLEventReader xmlReader, String rootDir,
-                                                          ProgressLogger progressLogger) throws SEDALibException, InterruptedException {
+                                                          SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         ArchiveDeliveryRequestReply archiveDeliveryRequestReply;
-        importStartDocument(xmlReader, progressLogger);
+        importStartDocument(xmlReader, sedaLibProgressLogger);
         archiveDeliveryRequestReply = new ArchiveDeliveryRequestReply();
         archiveDeliveryRequestReply.setGlobalMetadata(new GlobalMetadata());
-        importHeader(xmlReader, archiveDeliveryRequestReply, progressLogger);
+        importHeader(xmlReader, archiveDeliveryRequestReply, sedaLibProgressLogger);
         archiveDeliveryRequestReply
-                .setDataObjectPackage(DataObjectPackage.fromSedaXml(xmlReader, rootDir, progressLogger));
+                .setDataObjectPackage(DataObjectPackage.fromSedaXml(xmlReader, rootDir, sedaLibProgressLogger));
         importFooter(xmlReader, archiveDeliveryRequestReply);
         importEndDocument(xmlReader, archiveDeliveryRequestReply);
 

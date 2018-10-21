@@ -28,7 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -40,7 +40,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * The Class PhysicalDataObject.
@@ -155,7 +154,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      * fr.gouv.vitam.tools.sedalib.core.DataObject#toSedaXml(fr.gouv.vitam.tools.
      * sedalib.xml.SEDAXMLStreamWriter)
      */
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, ProgressLogger progressLogger)
+    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
             throws InterruptedException, SEDALibException {
         try {
             xmlWriter.writeStartElement("PhysicalDataObject");
@@ -176,8 +175,8 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
         }
 
         int counter = getDataObjectPackage().getNextInOutCounter();
-        if (progressLogger != null)
-            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) exportés");
     }
 
@@ -249,14 +248,14 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      *
      * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
      * @param dataObjectPackage the DataObjectPackage to be completed
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read PhysicalDataObject, or null if not a PhysicalDataObject
      * @throws SEDALibException     if the XML can't be read or the SEDA scheme is
      *                              not respected
      * @throws InterruptedException if export process is interrupted
      */
     public static PhysicalDataObject fromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
-                                                 ProgressLogger progressLogger) throws SEDALibException, InterruptedException {
+                                                 SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         PhysicalDataObject pdo = null;
         DataObjectGroup dog;
         String tmp;
@@ -287,8 +286,8 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             dog.setInDataObjectPackageId(pdo.dataObjectGroupId);
             dataObjectPackage.addDataObjectGroup(dog);
             dog.addDataObject(pdo);
-            if (progressLogger!=null)
-                progressLogger.log(ProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
+            if (sedaLibProgressLogger !=null)
+                sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
                     + "] créé depuis PhysicalDataObject [" + pdo.inDataPackageObjectId + "]");
         } else if (pdo.dataObjectGroupReferenceId != null) {
             dog = dataObjectPackage.getDataObjectGroupById(pdo.dataObjectGroupReferenceId);
@@ -298,8 +297,8 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
         }
 
         int counter = dataObjectPackage.getNextInOutCounter();
-        if (progressLogger != null)
-            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
                     Integer.toString(counter) + " DataObject (métadonnées) importés");
         return pdo;
     }

@@ -31,7 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.Management;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -40,7 +40,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.logging.Level;
 
 /**
  * The Class ArchiveUnit.
@@ -171,13 +170,15 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      * @throws SEDALibException if raw xml data is not convenient
      */
     public ArchiveUnitProfile getArchiveUnitProfile() throws SEDALibException {
-        if (archiveUnitProfile != null)
+        if (archiveUnitProfile != null) {
+            archiveUnitProfileXmlData = null;
             return archiveUnitProfile;
+        }
         if (archiveUnitProfileXmlData == null)
             return null;
         archiveUnitProfile = (ArchiveUnitProfile) ArchiveUnitProfile.fromString(archiveUnitProfileXmlData,
                 ArchiveUnitProfile.class);
-        archiveUnitProfileXmlData=null;
+        archiveUnitProfileXmlData = null;
         return archiveUnitProfile;
     }
 
@@ -222,13 +223,15 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      * @throws SEDALibException if raw xml data is not convenient
      */
     public Management getManagement() throws SEDALibException {
-        if (management != null)
+        if (management != null) {
+            managementXmlData = null;
             return management;
+        }
         if (managementXmlData == null)
             return null;
         management = (Management) Management.fromString(managementXmlData,
                 Management.class);
-        managementXmlData=null;
+        managementXmlData = null;
         return management;
     }
 
@@ -273,13 +276,15 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      * @throws SEDALibException if raw xml data is not convenient
      */
     public Content getContent() throws SEDALibException {
-        if (content != null)
+        if (content != null) {
+            contentXmlData = null;
             return content;
+        }
         if (contentXmlData == null)
             return null;
         content = (Content) Content.fromString(contentXmlData,
                 Content.class);
-        contentXmlData=null;
+        contentXmlData = null;
         return content;
     }
 
@@ -372,11 +377,11 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      *
      * @param xmlWriter      the SEDAXMLStreamWriter generating the SEDA manifest
      * @param imbricateFlag  indicates if the manifest ArchiveUnits are to be                       exported in imbricate mode (true) or in flat mode                       (false)
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
      */
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, boolean imbricateFlag, ProgressLogger progressLogger)
+    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, boolean imbricateFlag, SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException, InterruptedException {
         try {
             if (imbricateFlag) {
@@ -402,7 +407,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
                     xmlWriter.writeElementValue("ArchiveUnitRefId", au.inDataPackageObjectId);
                     xmlWriter.writeEndElement();
                 } else {
-                    au.toSedaXml(xmlWriter, true, progressLogger);
+                    au.toSedaXml(xmlWriter, true, sedaLibProgressLogger);
                 }
             }
             for (DataObject dataObject : dataObjectRefList.getDataObjectList()) {
@@ -416,8 +421,8 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             xmlWriter.writeEndElement();
 
             int counter = getDataObjectPackage().getNextInOutCounter();
-            if (progressLogger != null)
-                progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter,
+            if (sedaLibProgressLogger != null)
+                sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
                         Integer.toString(counter) + " ArchiveUnit exportés");
         } catch (XMLStreamException e) {
             throw new SEDALibException(
@@ -435,14 +440,14 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
     public String toSedaXmlFragments() {
         StringBuilder sb = new StringBuilder();
 
-        String tmp=getArchiveUnitProfileXmlData();
-        if (tmp!=null)
+        String tmp = getArchiveUnitProfileXmlData();
+        if (tmp != null)
             sb.append(tmp).append("\n");
-        tmp=getManagementXmlData();
-        if (tmp!=null)
+        tmp = getManagementXmlData();
+        if (tmp != null)
             sb.append(tmp).append("\n");
-        tmp=getContentXmlData();
-        if (tmp!=null)
+        tmp = getContentXmlData();
+        if (tmp != null)
             sb.append(tmp).append("\n");
         return sb.toString().trim();
     }
@@ -455,13 +460,13 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      *
      * @param xmlReader         the SEDAXMLEventReader reading the SEDA manifest
      * @param dataObjectPackage the DataObjectPackage to be completed
-     * @param progressLogger    the progress logger
+     * @param sedaLibProgressLogger    the progress logger
      * @return the inDataPackageObjectId of the read ArchiveUnit, or null if not an ArchiveUnit
      * @throws SEDALibException     if the XML can't be read
      * @throws InterruptedException if export process is interrupted
      */
     public static String idFromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
-                                       ProgressLogger progressLogger) throws SEDALibException, InterruptedException {
+                                       SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         ArchiveUnit au = null;
         DataObject dataObject;
         String tmp;
@@ -487,7 +492,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
                             break;
                         switch (tmp) {
                             case "ArchiveUnit":
-                                String subAuId = idFromSedaXml(xmlReader, dataObjectPackage, progressLogger);
+                                String subAuId = idFromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
                                 au.addChildArchiveUnitById(subAuId);
                                 break;
                             case "DataObjectReference":
@@ -536,8 +541,8 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
 
         int counter = dataObjectPackage.getNextInOutCounter();
-        if (progressLogger != null)
-            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " ArchiveUnit analysés");
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " ArchiveUnit analysés");
         return au.inDataPackageObjectId;
     }
 
@@ -568,9 +573,9 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
 
         if (au.getContentXmlData() == null)
             throw new SEDALibException("La partie <Content> de l'ArchiveUnit est obligatoire");
-       setArchiveUnitProfileXmlData(au.getArchiveUnitProfileXmlData());
-       setManagementXmlData(au.getManagementXmlData());
-       setContentXmlData(au.getContentXmlData());
+        setArchiveUnitProfileXmlData(au.getArchiveUnitProfileXmlData());
+        setManagementXmlData(au.getManagementXmlData());
+        setContentXmlData(au.getContentXmlData());
     }
 
     // Getters and setters

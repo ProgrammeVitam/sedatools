@@ -34,11 +34,11 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 /**
- * The Class ProgressLogger.
+ * The Class SEDALibProgressLogger.
  * <p>
  * Class for logging in standard logger but also send events used to follow a long process advancement.
  * To do that it calls a lambda function when asked for on an event (method progressLog) or when a counter is a
- * multiple of the "step" value defined at the ProgressLogger creation (method progressLogIfStep).This can be used for example to actualise a
+ * multiple of the "step" value defined at the SEDALibProgressLogger creation (method progressLogIfStep).This can be used for example to actualise a
  * progress dialog.
  * <p>
  * The progress levels are defined with java.util.logging level:
@@ -52,7 +52,7 @@ import org.slf4j.MarkerFactory;
  * </li>
  * </ul>
  */
-public class ProgressLogger {
+public class SEDALibProgressLogger {
 
     //** ProgressLog level. */
     public static final int GLOBAL = 10;
@@ -107,7 +107,7 @@ public class ProgressLogger {
      * @param logger           the logger
      * @param progressLogLevel the progress log level
      */
-    public ProgressLogger(Logger logger, int progressLogLevel) {
+    public SEDALibProgressLogger(Logger logger, int progressLogLevel) {
         this.progressLogFunc = null;
         this.logger = logger;
         this.step = Integer.MAX_VALUE;
@@ -122,7 +122,7 @@ public class ProgressLogger {
      * @param progressConsumer the lambda function called to follow the progress
      * @param step             the step value
      */
-    public ProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer, int step) {
+    public SEDALibProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer, int step) {
         this.progressLogFunc = progressConsumer;
         this.logger = logger;
         this.step = step;

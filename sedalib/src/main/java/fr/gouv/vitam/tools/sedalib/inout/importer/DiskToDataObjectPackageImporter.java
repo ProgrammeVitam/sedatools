@@ -52,7 +52,7 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 /**
@@ -203,14 +203,14 @@ public class DiskToDataObjectPackageImporter {
     /**
      * The progress logger.
      */
-    private ProgressLogger progressLogger;
+    private SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
      * Instantiates a new DataObjectPackage importer.
      *
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
-    private DiskToDataObjectPackageImporter(ProgressLogger progressLogger) {
+    private DiskToDataObjectPackageImporter(SEDALibProgressLogger sedaLibProgressLogger) {
         this.currentDiskImportDirectory = null;
         this.onDiskRootPaths = new ArrayList<Path>();
         this.dataObjectPackage = null;
@@ -221,7 +221,7 @@ public class DiskToDataObjectPackageImporter {
         this.modelVersion = 0;
 
         this.inCounter = 0;
-        this.progressLogger = progressLogger;
+        this.sedaLibProgressLogger = sedaLibProgressLogger;
     }
 
     /**
@@ -231,12 +231,12 @@ public class DiskToDataObjectPackageImporter {
      * ArchiveUnit or the management metadata file
      *
      * @param directory      the directory
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if not a directory
      */
-    public DiskToDataObjectPackageImporter(String directory, ProgressLogger progressLogger)
+    public DiskToDataObjectPackageImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException {
-        this(progressLogger);
+        this(sedaLibProgressLogger);
         Path path;
         Iterator<Path> pi;
 
@@ -261,10 +261,10 @@ public class DiskToDataObjectPackageImporter {
      * ArchiveUnit or the management metadata file
      *
      * @param paths          the paths
-     * @param progressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
-    public DiskToDataObjectPackageImporter(List<Path> paths, ProgressLogger progressLogger) {
-        this(progressLogger);
+    public DiskToDataObjectPackageImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
+        this(sedaLibProgressLogger);
         this.onDiskRootPaths = paths;
         dataObjectPackage = new DataObjectPackage();
     }
@@ -539,8 +539,8 @@ public class DiskToDataObjectPackageImporter {
                     + "] devrait décrire un ArchiveUnit, mais décrit un DataObjectGroup");
 
         inCounter++;
-        if (progressLogger!=null)
-            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
                 " ArchiveUnits importées");
 
         String dirName = path.getFileName().toString();
@@ -682,8 +682,8 @@ public class DiskToDataObjectPackageImporter {
             throw new SEDALibException("Le chemin [" + path.toString() + "] a la racine de l'import n'a pas de sens");
 
         inCounter++;
-        if (progressLogger!=null)
-            progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
                 " ArchiveUnits importées");
 
         dog = new DataObjectGroup(dataObjectPackage, path);
@@ -785,8 +785,8 @@ public class DiskToDataObjectPackageImporter {
                 au = processPath(currentDiskImportDirectory);
                 dataObjectPackage.addRootAu(au);
             }
-            if (progressLogger!=null)
-                progressLogger.progressLog(ProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " ArchiveUnits importées");
+            if (sedaLibProgressLogger !=null)
+                sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " ArchiveUnits importées");
         } catch (SEDALibException e) {
             throw new SEDALibException("Impossible d'importer les ressources du répertoire ["
                     + currentDiskImportDirectory.toString() + "]\n->" + e.getMessage());
@@ -795,14 +795,14 @@ public class DiskToDataObjectPackageImporter {
         inCounter = 0;
         for (Map.Entry<String, BinaryDataObject> pair : dataObjectPackage.getBdoInDataObjectPackageIdMap().entrySet()) {
             if (pair.getValue().fileInfo.lastModified == null)
-                pair.getValue().extractTechnicalElements(progressLogger);
+                pair.getValue().extractTechnicalElements(sedaLibProgressLogger);
             inCounter++;
-            if (progressLogger!=null)
-                progressLogger.progressLogIfStep(ProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
+            if (sedaLibProgressLogger !=null)
+                sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
                     " BinaryDataObject analysés");
         }
-        if (progressLogger!=null)
-            progressLogger.progressLog(ProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " BinaryDataObject analysés");
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " BinaryDataObject analysés");
         end = Instant.now();
     }
 

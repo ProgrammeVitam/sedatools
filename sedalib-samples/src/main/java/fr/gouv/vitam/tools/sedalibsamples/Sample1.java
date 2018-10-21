@@ -1,17 +1,13 @@
 package fr.gouv.vitam.tools.sedalibsamples;
 
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.slf4j.LoggerFactory;
 
 public class Sample1 {
 
     static void run() throws Exception {
-        ProgressLogger pl = new ProgressLogger(LoggerFactory.getLogger("sedalibsamples"), ProgressLogger.OBJECTS_GROUP);
+        SEDALibProgressLogger pl = new SEDALibProgressLogger(LoggerFactory.getLogger("sedalibsamples"), SEDALibProgressLogger.OBJECTS_GROUP);
         try (SIPBuilder sb = new SIPBuilder("samples/Sample1.zip", pl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("IC-000001");

@@ -37,12 +37,11 @@ import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-import java.util.logging.Level;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 /**
  * The Class ArchiveTransferToDiskExporter.
@@ -76,19 +75,19 @@ public class ArchiveTransferToDiskExporter {
     private Instant start, end;
 
     /** The progress logger. */
-    private final ProgressLogger progressLogger;
+    private final SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
      * Instantiates a new ArchiveTransfer to disk exporter
      *
      * @param archiveTransfer the archive transfer
-     * @param progressLogger  the progress logger
+     * @param sedaLibProgressLogger  the progress logger
      */
-    public ArchiveTransferToDiskExporter(ArchiveTransfer archiveTransfer, ProgressLogger progressLogger) {
-        this.progressLogger = progressLogger;
+    public ArchiveTransferToDiskExporter(ArchiveTransfer archiveTransfer, SEDALibProgressLogger sedaLibProgressLogger) {
+        this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.archiveTransfer = archiveTransfer;
         dataObjectPackageToDiskExporter = new DataObjectPackageToDiskExporter(archiveTransfer.getDataObjectPackage(),
-                progressLogger);
+                sedaLibProgressLogger);
     }
 
     /**
@@ -134,8 +133,8 @@ public class ArchiveTransferToDiskExporter {
         String log = "Début de l'export d'un ArchiveTransfer dans une hiérarchie sur disque\n";
         log += "en [" + directoryName + "]";
         log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        if (progressLogger!=null)
-            progressLogger.log(ProgressLogger.GLOBAL,log);
+        if (sedaLibProgressLogger !=null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,log);
 
         exportPath = Paths.get(directoryName);
         try {

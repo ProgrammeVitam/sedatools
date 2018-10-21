@@ -38,13 +38,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.stream.Stream;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 /**
  * The Class DiskToArchiveTransferImporter.
@@ -79,7 +78,7 @@ public class DiskToArchiveTransferImporter {
 	private Instant start, end;
 
 	/** The progress logger. */
-	private ProgressLogger progressLogger;
+	private SEDALibProgressLogger sedaLibProgressLogger;
 
 	/**
 	 * Instantiates a new ArchiveTransfer importer from a single directory name.
@@ -88,17 +87,17 @@ public class DiskToArchiveTransferImporter {
 	 * ArchiveUnit or a special metadata file
 	 *
 	 * @param directory      the directory name
-	 * @param progressLogger the progress logger or null if no progress log expected
+	 * @param sedaLibProgressLogger the progress logger or null if no progress log expected
 	 * @throws SEDALibException if not a directory
 	 */
-	public DiskToArchiveTransferImporter(String directory, ProgressLogger progressLogger)
+	public DiskToArchiveTransferImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
 			throws SEDALibException {
 		Path path;
 		Iterator<Path> pi;
 
 		this.onDiskGlobalMetadataPath = null;
 		this.archiveTransfer = new ArchiveTransfer();
-		this.progressLogger = progressLogger;
+		this.sedaLibProgressLogger = sedaLibProgressLogger;
 		this.onDiskRootPaths = new ArrayList<Path>();
 
 		path = Paths.get(directory);
@@ -119,7 +118,7 @@ public class DiskToArchiveTransferImporter {
 		}
 
 		this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths,
-				progressLogger);
+                sedaLibProgressLogger);
 	}
 
 	/**
@@ -129,12 +128,12 @@ public class DiskToArchiveTransferImporter {
 	 * ArchiveUnit or a special metadata file
 	 *
 	 * @param paths          the paths
-	 * @param progressLogger the progress logger or null if no progress log expected
+	 * @param sedaLibProgressLogger the progress logger or null if no progress log expected
 	 */
-	public DiskToArchiveTransferImporter(List<Path> paths, ProgressLogger progressLogger) {
+	public DiskToArchiveTransferImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
 		this.onDiskGlobalMetadataPath = null;
 		this.archiveTransfer = new ArchiveTransfer();
-		this.progressLogger = progressLogger;
+		this.sedaLibProgressLogger = sedaLibProgressLogger;
 		this.onDiskRootPaths = new ArrayList<Path>();
 
 		for (Path path : paths) {
@@ -145,7 +144,7 @@ public class DiskToArchiveTransferImporter {
 		}
 
 		this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths,
-				progressLogger);
+                sedaLibProgressLogger);
 	}
 
 	/**
@@ -205,16 +204,16 @@ public class DiskToArchiveTransferImporter {
 		}
 		log += "]";
 		log += " date=" + DateFormat.getDateTimeInstance().format(d);
-		if (progressLogger!=null)
-			progressLogger.log(ProgressLogger.GLOBAL,log);
+		if (sedaLibProgressLogger !=null)
+			sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,log);
 
 		if (onDiskGlobalMetadataPath != null)
 			archiveTransfer.setGlobalMetadata(processGlobalMetadata(onDiskGlobalMetadataPath));
 		diskToDataObjectPackageImporter.doImport();
 		archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
 		end = Instant.now();
-		if (progressLogger!=null)
-			progressLogger.log(ProgressLogger.GLOBAL,getSummary());
+		if (sedaLibProgressLogger !=null)
+			sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,getSummary());
 }
 
 	/**

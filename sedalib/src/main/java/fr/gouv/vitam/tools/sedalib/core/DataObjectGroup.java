@@ -28,7 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.utils.ProgressLogger;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -199,16 +199,16 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
      * fr.gouv.vitam.tools.sedalib.core.DataObject#toSedaXml(fr.gouv.vitam.tools.
      * sedalib.xml.SEDAXMLStreamWriter)
      */
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, ProgressLogger progressLogger)
+    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException, InterruptedException {
         try {
             xmlWriter.writeStartElement("DataObjectGroup");
             xmlWriter.writeAttribute("id", inDataPackageObjectId);
             for (BinaryDataObject bo : binaryDataObjectList) {
-                bo.toSedaXml(xmlWriter, progressLogger);
+                bo.toSedaXml(xmlWriter, sedaLibProgressLogger);
             }
             for (PhysicalDataObject bo : physicalDataObjectList) {
-                bo.toSedaXml(xmlWriter, progressLogger);
+                bo.toSedaXml(xmlWriter, sedaLibProgressLogger);
             }
             xmlWriter.writeRawXMLBlockIfNotEmpty(logBookXmlData);
             xmlWriter.writeEndElement();
@@ -238,14 +238,14 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
      * @param dataObjectPackage the DataObjectPackage to be completed
      * @param rootDir           the directory where the BinaryDataObject files are
      *                          exported
-     * @param progressLogger    the progress logger
+     * @param sedaLibProgressLogger    the progress logger
      * @return the inDataPackageObjectId of the read DataObjectGroup, or null if not a DataObjectGroup
      * @throws SEDALibException     if the XML can't be read or the SEDA scheme is
      *                              not respected
      * @throws InterruptedException if export process is interrupted
      */
     public static String idFromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
-                                       String rootDir, ProgressLogger progressLogger) throws SEDALibException, InterruptedException {
+                                       String rootDir, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         DataObjectGroup dog = null;
         BinaryDataObject bdo;
         PhysicalDataObject pdo;
@@ -265,7 +265,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                         break;
                     switch (tmp) {
                         case "BinaryDataObject":
-                            bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, rootDir, progressLogger);
+                            bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, rootDir, sedaLibProgressLogger);
                             //noinspection ConstantConditions
                             if ((bdo.getDataObjectGroupId() != null) || (bdo.getDataObjectGroupReferenceId() != null))
                                 throw new SEDALibException("Le BinaryObjectGroup [" + bdo.inDataPackageObjectId
@@ -275,7 +275,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                             dog.addDataObject(bdo);
                             break;
                         case "PhysicalDataObject":
-                            pdo = PhysicalDataObject.fromSedaXml(xmlReader, dataObjectPackage, progressLogger);
+                            pdo = PhysicalDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
                             dog.addDataObject(pdo);
                             break;
                         default:
