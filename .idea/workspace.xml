@@ -7,16 +7,9 @@
     <bookmark url="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/AddMetadataItem.java" line="309" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Fix Resip launching problem">
+    <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/resip/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/.gitignore" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/sedalib/target/" />
@@ -61,11 +54,11 @@
           <entry key="config" value="4" />
           <entry key="dummy" value="26" />
           <entry key="gitattributes" value="14" />
-          <entry key="gitignore" value="88" />
+          <entry key="gitignore" value="89" />
           <entry key="java" value="17346" />
           <entry key="md" value="1471" />
           <entry key="rst" value="408" />
-          <entry key="txt" value="1362" />
+          <entry key="txt" value="1440" />
           <entry key="xml" value="155" />
         </counts>
       </usages-collector>
@@ -73,7 +66,7 @@
         <counts>
           <entry key="JAVA" value="17346" />
           <entry key="Markdown" value="1441" />
-          <entry key="PLAIN_TEXT" value="1932" />
+          <entry key="PLAIN_TEXT" value="2011" />
           <entry key="XML" value="155" />
         </counts>
       </usages-collector>
@@ -83,7 +76,7 @@
           <entry key="config" value="4" />
           <entry key="form" value="4" />
           <entry key="gitattributes" value="1" />
-          <entry key="gitignore" value="8" />
+          <entry key="gitignore" value="9" />
           <entry key="html" value="1" />
           <entry key="java" value="478" />
           <entry key="jfd" value="1" />
@@ -103,7 +96,7 @@
           <entry key="JAVA" value="478" />
           <entry key="JFormDesigner_form" value="1" />
           <entry key="Markdown" value="5" />
-          <entry key="PLAIN_TEXT" value="18" />
+          <entry key="PLAIN_TEXT" value="19" />
           <entry key="Properties" value="2" />
           <entry key="XML" value="27" />
         </counts>
@@ -265,11 +258,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/pom.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/ArchiveUnit.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="4573">
@@ -278,11 +266,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resip/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="204">
-              <caret line="12" column="94" selection-start-line="12" selection-start-column="94" selection-end-line="12" selection-end-column="94" />
+              <caret line="12" column="94" lean-forward="true" selection-start-line="7" selection-end-line="12" selection-end-column="94" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/sedalib/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="119">
+              <caret line="7" column="94" selection-start-line="7" selection-start-column="94" selection-end-line="7" selection-end-column="94" />
             </state>
           </provider>
         </entry>
@@ -387,7 +384,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Content.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Validator.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Signer.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Signature.java" />
@@ -438,6 +434,7 @@
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java" />
         <option value="$PROJECT_DIR$/resip/.gitignore" />
+        <option value="$PROJECT_DIR$/sedalib/.gitignore" />
       </list>
     </option>
   </component>
@@ -1066,7 +1063,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540155436571</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Fix Resip bug when adding to ArchiveUnit without Management">
+      <created>1540156312639</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1540156312639</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1222,7 +1226,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="Major cleaning&#10;&#10;- Refactor ProgressLogger to distinct from debug logger (and ensure that if ProgressLogger null simply no log is performed without nullPointerException)&#10;- Clean and improve some tests&#10;- General code style cleaning" />
     <MESSAGE value="Fix dual xmlData / SEDAMetadata format in ArchiveUnit" />
     <MESSAGE value="Try to fix git line-ending on samples" />
     <MESSAGE value="Fix build script" />
@@ -1247,7 +1250,8 @@
     <MESSAGE value="Clean resipt to resip and add windows icon" />
     <MESSAGE value="Fix README" />
     <MESSAGE value="Fix Resip launching problem" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix Resip launching problem" />
+    <MESSAGE value="Fix Resip bug when adding to ArchiveUnit without Management" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Resip bug when adding to ArchiveUnit without Management" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1360,13 +1364,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/javax/swing/SwingWorker.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="536" column="22" selection-start-line="536" selection-start-column="22" selection-end-line="536" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackage.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -1744,7 +1741,14 @@
     <entry file="file://$PROJECT_DIR$/resip/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
-          <caret line="12" column="94" selection-start-line="12" selection-start-column="94" selection-end-line="12" selection-end-column="94" />
+          <caret line="12" column="94" lean-forward="true" selection-start-line="7" selection-end-line="12" selection-end-column="94" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="94" selection-start-line="7" selection-start-column="94" selection-end-line="7" selection-end-column="94" />
         </state>
       </provider>
     </entry>
