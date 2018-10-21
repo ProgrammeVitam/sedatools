@@ -665,6 +665,10 @@ public class MainWindow extends JFrame {
                         break;
                     case "[M]":
                         Management m=dataObjectPackageTreeItemDisplayed.getArchiveUnit().getManagement();
+                        if (m==null){
+                            m=new Management();
+                            dataObjectPackageTreeItemDisplayed.getArchiveUnit().setManagement(m);
+                        }
                         m.addMetadata(ami.skeleton);
                         break;
                 }
