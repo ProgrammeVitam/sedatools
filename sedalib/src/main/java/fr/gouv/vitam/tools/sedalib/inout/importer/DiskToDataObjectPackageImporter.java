@@ -385,21 +385,34 @@ public class DiskToDataObjectPackageImporter {
     }
 
     /**
+     * Extract data object version string either usage or usage_version from file name.
+     *
+     * @param filename the filename
+     * @return the data object version string
+     */
+    public static String extractDataObjectVersion(String filename){
+        String result;
+        filename = filename.substring(2);
+        result = filename.substring(0, filename.indexOf('_'));
+        filename = filename.substring(filename.indexOf('_') + 1);
+        if (filename.matches("[0-9]+_.*"))
+            result += "_"+filename.substring(0, filename.indexOf('_'));
+        return result;
+    }
+
+    /**
      * Adds the PhysicalDataObject which is only metadata.
      *
      * @param path     the path
-     * @param fileName the file name
+     * @param filename the file name
      * @param au       the au
      * @param dog      the DataObjectGroup containing this DataObject, if null has to be created
      * @return the data object group containing this DataObject
      * @throws SEDALibException if there's a usage_version problem (coherence between file content and file name), or access problem to metadata file
      */
-    private DataObjectGroup addPhysicalDataObjectMetadata(Path path, String fileName, ArchiveUnit au,
+    private DataObjectGroup addPhysicalDataObjectMetadata(Path path, String filename, ArchiveUnit au,
                                                           DataObjectGroup dog) throws SEDALibException {
-        fileName = fileName.substring(2);
-        String usage = fileName.substring(0, fileName.indexOf('_'));
-        fileName = fileName.substring(fileName.indexOf('_') + 1);
-        String version = fileName.substring(0, fileName.indexOf('_'));
+        String dataObjectVersion= extractDataObjectVersion(filename);
         if (dog == null) {
             dog = new DataObjectGroup(dataObjectPackage, null);
             au.addDataObjectById(dog.getInDataObjectPackageId());
@@ -408,8 +421,8 @@ public class DiskToDataObjectPackageImporter {
             PhysicalDataObject pdo = new PhysicalDataObject(dataObjectPackage,
                     new String(Files.readAllBytes(path), "UTF-8"));
             if (pdo.dataObjectVersion == null)
-                pdo.dataObjectVersion = usage + "_" + version;
-            else if (!pdo.dataObjectVersion.equals(usage + "_" + version))
+                pdo.dataObjectVersion = dataObjectVersion;
+            else if (!pdo.dataObjectVersion.equals(dataObjectVersion))
                 throw new SEDALibException(
                         "usage_version incomptabible entre le contenu du fichier [" + path.toString() + "] et son nom");
             dog.addDataObject(pdo);
@@ -426,30 +439,27 @@ public class DiskToDataObjectPackageImporter {
      * Adds the BinaryDataObject metadata part.
      *
      * @param path     the path
-     * @param fileName the file name
+     * @param filename the file name
      * @param au       the au
      * @param dog      the DataObjectGroup containing this DataObject, if null has to be created
      * @return the data object group containing this DataObject
      * @throws SEDALibException if there's a usage_version problem (coherence between file content and file name), or access problem to metadata file
      */
-    private DataObjectGroup addBinaryDataObjectMetadata(Path path, String fileName, ArchiveUnit au,
+    private DataObjectGroup addBinaryDataObjectMetadata(Path path, String filename, ArchiveUnit au,
                                                         DataObjectGroup dog) throws SEDALibException {
         BinaryDataObject bdo;
-        fileName = fileName.substring(2);
-        String usage = fileName.substring(0, fileName.indexOf('_'));
-        fileName = fileName.substring(fileName.indexOf('_') + 1);
-        String version = fileName.substring(0, fileName.indexOf('_'));
+        String dataObjectVersion= extractDataObjectVersion(filename);
         if (dog == null) {
             dog = new DataObjectGroup(dataObjectPackage, null);
             au.addDataObjectById(dog.getInDataObjectPackageId());
         }
-        DataObject zdo = dog.findDataObjectByDataObjectVersion(usage + "_" + version);
+        DataObject zdo = dog.findDataObjectByDataObjectVersion(dataObjectVersion);
         if (zdo == null) {
             try {
                 bdo = new BinaryDataObject(dataObjectPackage, new String(Files.readAllBytes(path), "UTF-8"));
                 if (bdo.dataObjectVersion == null)
-                    bdo.dataObjectVersion = usage + "_" + version;
-                else if (!bdo.dataObjectVersion.equals(usage + "_" + version))
+                    bdo.dataObjectVersion = dataObjectVersion;
+                else if (!bdo.dataObjectVersion.equals(dataObjectVersion))
                     throw new SEDALibException("usage_version incomptabible entre le contenu du fichier ["
                             + path.toString() + "] et son nom");
                 dog.addDataObject(bdo);
@@ -479,27 +489,24 @@ public class DiskToDataObjectPackageImporter {
      * Adds the BinaryDataObject.
      *
      * @param path     the path
-     * @param fileName the file name
+     * @param filename the file name
      * @param au       the au
      * @param dog      the DataObjectGroup containing this DataObject, if null has to be created
      * @return the data object group containing this DataObject
      * @throws SEDALibException if there's an access problem to binary file
      */
-    private DataObjectGroup addBinaryDataObject(Path path, String fileName, ArchiveUnit au, DataObjectGroup dog)
+    private DataObjectGroup addBinaryDataObject(Path path, String filename, ArchiveUnit au, DataObjectGroup dog)
             throws SEDALibException {
         BinaryDataObject bdo;
-        fileName = fileName.substring(2);
-        String usage = fileName.substring(0, fileName.indexOf('_'));
-        fileName = fileName.substring(fileName.indexOf('_') + 1);
-        String version = fileName.substring(0, fileName.indexOf('_'));
-        fileName = fileName.substring(fileName.indexOf('_') + 1);
+        String dataObjectVersion= extractDataObjectVersion(filename);
+        filename = filename.substring(dataObjectVersion.length()+3);
         if (dog == null) {
             dog = new DataObjectGroup(dataObjectPackage, null);
             au.addDataObjectById(dog.getInDataObjectPackageId());
         }
-        DataObject zdo = dog.findDataObjectByDataObjectVersion(usage + "_" + version);
+        DataObject zdo = dog.findDataObjectByDataObjectVersion(dataObjectVersion);
         if (zdo == null) {
-            bdo = new BinaryDataObject(dataObjectPackage, path, fileName, usage + "_" + version);
+            bdo = new BinaryDataObject(dataObjectPackage, path, filename, dataObjectVersion);
             dog.addDataObject(bdo);
         } else if (zdo instanceof BinaryDataObject) {
             bdo = (BinaryDataObject) zdo;
@@ -613,15 +620,15 @@ public class DiskToDataObjectPackageImporter {
                                             + curPath.toString() + "]");
                         }
                         // Model V2 (SEDALib) PhysicalDataObject metadataXmlData file
-                    } else if (fileName.matches("__.+_[0-9]+_PhysicalDataObjectMetadata.xml")) {
+                    } else if (fileName.matches("__\\w+(_[0-9]+)?_PhysicalDataObjectMetadata.xml")) {
                         modelVersion |= 2;
                         implicitDog = addPhysicalDataObjectMetadata(curPath, fileName, au, implicitDog);
                         // Model V2 (SEDALib) BinaryDataObject metadataXmlData file
-                    } else if (fileName.matches("__.+_[0-9]+_BinaryDataObjectMetadata.xml")) {
+                    } else if (fileName.matches("__\\w+(_[0-9]+)?_BinaryDataObjectMetadata.xml")) {
                         modelVersion |= 2;
                         implicitDog = addBinaryDataObjectMetadata(curPath, fileName, au, implicitDog);
                         // Model V1&V2 BinaryDataObject file
-                    } else if (fileName.matches("__.+_[0-9]+_.+")) {
+                    } else if (fileName.matches("__\\w+_.+")) {
                         implicitDog = addBinaryDataObject(curPath, fileName, au, implicitDog);
                     }
                     // archive file except if conform to ignore patterns
@@ -678,7 +685,7 @@ public class DiskToDataObjectPackageImporter {
         // verify that the file is not one with special meaning
         filename = path.getFileName().toString();
         if (filename.equals("ArchiveUnitContent.xml") || filename.equals("ArchiveUnitManagement.xml")
-                || filename.equals("__ArchiveUnitMetadata.xml") || filename.matches("__.+_[0-9]+_.+"))
+                || filename.equals("__ArchiveUnitMetadata.xml") || filename.matches("__\\w+_.+"))
             throw new SEDALibException("Le chemin [" + path.toString() + "] a la racine de l'import n'a pas de sens");
 
         inCounter++;
@@ -732,15 +739,15 @@ public class DiskToDataObjectPackageImporter {
                 else {
                     String fileName = curPath.getFileName().toString();
                     // Model V2 (SEDALib) PhysicalDataObject metadataXmlData file
-                    if (fileName.matches("__.+_[0-9]+_PhysicalDataObjectMetadata.xml")) {
+                    if (fileName.matches("__\\w+(_[0-9]+)?_PhysicalDataObjectMetadata.xml")) {
                         modelVersion |= 2;
                         addPhysicalDataObjectMetadata(curPath, fileName, null, dog);
                         // Model V2 (SEDALib) BinaryDataObject metadataXmlData file
-                    } else if (fileName.matches("__.+_[0-9]+_BinaryDataObjectMetadata.xml")) {
+                    } else if (fileName.matches("__\\w+(_[0-9]+)?_BinaryDataObjectMetadata.xml")) {
                         modelVersion |= 2;
                         addBinaryDataObjectMetadata(curPath, fileName, null, dog);
                         // Model V1&V2 BinaryDataObject file
-                    } else if (fileName.matches("__.+_[0-9]+_.+")) {
+                    } else if (fileName.matches("__\\w+_.+")) {
                         addBinaryDataObject(curPath, fileName, null, dog);
                     } else
                         throw new SEDALibException("Le chemin [" + path.toString() + "] ne décrit pas un DataObject");

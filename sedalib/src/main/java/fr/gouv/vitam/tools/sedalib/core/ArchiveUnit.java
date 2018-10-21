@@ -307,10 +307,13 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      * @param descriptionLevel the ArchiveUnit description level
      * @throws SEDALibException if the description level is not valid in SEDA                          standard
      */
-    public void setDefaultContent(String title, String descriptionLevel) throws SEDALibException {
+    public void setDefaultContent(String title, String descriptionLevel) {
         Content c = new Content();
-        c.addNewMetadata("DescriptionLevel", descriptionLevel);
-        c.addNewMetadata("Title", title);
+        try {
+            c.addNewMetadata("DescriptionLevel", descriptionLevel);
+            c.addNewMetadata("Title", title);
+        } catch (SEDALibException ignored) {
+        }
         setContent(c);
     }
 
