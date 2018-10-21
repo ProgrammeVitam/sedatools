@@ -1,6 +1,7 @@
 target/
 config/
 bin/
+windows/Resip.exe
 .settings/
 .classpath
 .project

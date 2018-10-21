@@ -94,7 +94,7 @@ public class MailImporter {
 	/**
 	 * Do extract.
 	 *
-	 * @throws SEDALibException the resipt exception
+	 * @throws SEDALibException the resip exception
 	 */
 	public void doExtract() throws SEDALibException {
 		try {

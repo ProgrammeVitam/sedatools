@@ -847,7 +847,7 @@ public class PrefsDialog extends JDialog {
      * @return the string
      */
     private String chooseDirectory() {
-        JFileChooser fileChooser = new JFileChooser("/home/js/javaworkspace-resipt/resipt/tmpJunit/");
+        JFileChooser fileChooser = new JFileChooser("/home/js/javaworkspace-resip/resip/tmpJunit/");
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
             try {

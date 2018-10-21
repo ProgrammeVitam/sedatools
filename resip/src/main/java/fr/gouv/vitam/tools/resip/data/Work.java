@@ -135,7 +135,7 @@ public class Work {
 	 *
 	 * @param file the file
 	 * @return the work
-	 * @throws SEDALibException the resipt exception
+	 * @throws SEDALibException the resip exception
 	 */
 	public static Work createFromFile(String file) throws SEDALibException {
 		Work ow;

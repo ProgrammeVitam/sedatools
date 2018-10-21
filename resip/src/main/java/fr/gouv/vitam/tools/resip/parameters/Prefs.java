@@ -67,7 +67,7 @@ public class Prefs {
 	/**
 	 * Creates the default prefs.
 	 *
-	 * @throws SEDALibException the resipt exception
+	 * @throws SEDALibException the resip exception
 	 */
 	void createDefaultPrefs() throws SEDALibException {
 //		File f = new File(DEFAULTCONTEXT_FILENAME);
