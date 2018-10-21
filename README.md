@@ -16,14 +16,16 @@ Il s'agit d'un projet Maven avec trois modules qui contiennent:
 Build
 -----
 
+Avec un JDK 1.8, git et maven installés, la séquence de build est la suivante:
+
     mkdir test-sedatools
     cd test-sedatools
-    git clone https://gitlab.dev.programmevitam.fr/jslair/mailextract.git
-    cd mailextract/
-    mvn install
-    cd ..
     git clone https://github.com/rjohnsondev/java-libpst.git
     cd java-libpst/
+    mvn install
+    cd ..
+    git clone https://gitlab.dev.programmevitam.fr/vitam/mailextract.git
+    cd mailextract/
     mvn install
     cd ..
     git clone https://github.com/digital-preservation/droid.git

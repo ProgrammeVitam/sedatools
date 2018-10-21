@@ -16,6 +16,8 @@ It's a maven project with three trois modules:
 Build
 -----
 
+With JDK 1.8, git and maven installed, the build sequence is:
+
     mkdir test-sedatools
     cd test-sedatools
     git clone https://gitlab.dev.programmevitam.fr/jslair/mailextract.git
