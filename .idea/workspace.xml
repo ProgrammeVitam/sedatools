@@ -7,16 +7,10 @@
     <bookmark url="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/AddMetadataItem.java" line="309" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Clean .gitignore">
+    <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Fix Resip dependencies on slf4j">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resip/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resip/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/sedalib/target/" />
@@ -42,18 +36,19 @@
     <session id="487714043">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="17" />
+          <entry key="project.closed" value="18" />
           <entry key="project.open.time.0" value="7" />
           <entry key="project.open.time.1" value="2" />
           <entry key="project.open.time.10" value="1" />
           <entry key="project.open.time.11" value="1" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.16" value="1" />
+          <entry key="project.open.time.21" value="1" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.5" value="1" />
           <entry key="project.open.time.6" value="3" />
           <entry key="project.open.time.9" value="1" />
-          <entry key="project.opened" value="19" />
+          <entry key="project.opened" value="20" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -62,19 +57,19 @@
           <entry key="dummy" value="26" />
           <entry key="gitattributes" value="14" />
           <entry key="gitignore" value="89" />
-          <entry key="java" value="17373" />
+          <entry key="java" value="17402" />
           <entry key="md" value="1471" />
           <entry key="rst" value="408" />
-          <entry key="txt" value="1457" />
-          <entry key="xml" value="155" />
+          <entry key="txt" value="1535" />
+          <entry key="xml" value="293" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="17373" />
+          <entry key="JAVA" value="17402" />
           <entry key="Markdown" value="1441" />
-          <entry key="PLAIN_TEXT" value="2028" />
-          <entry key="XML" value="155" />
+          <entry key="PLAIN_TEXT" value="2106" />
+          <entry key="XML" value="293" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -85,13 +80,13 @@
           <entry key="gitattributes" value="1" />
           <entry key="gitignore" value="11" />
           <entry key="html" value="1" />
-          <entry key="java" value="484" />
+          <entry key="java" value="488" />
           <entry key="jfd" value="1" />
           <entry key="md" value="8" />
           <entry key="png" value="1" />
           <entry key="properties" value="2" />
           <entry key="rst" value="2" />
-          <entry key="xml" value="28" />
+          <entry key="xml" value="33" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
@@ -100,12 +95,12 @@
           <entry key="GUI_DESIGNER_FORM" value="4" />
           <entry key="HTML" value="1" />
           <entry key="Image" value="1" />
-          <entry key="JAVA" value="484" />
+          <entry key="JAVA" value="488" />
           <entry key="JFormDesigner_form" value="1" />
           <entry key="Markdown" value="5" />
           <entry key="PLAIN_TEXT" value="21" />
           <entry key="Properties" value="2" />
-          <entry key="XML" value="28" />
+          <entry key="XML" value="33" />
         </counts>
       </usages-collector>
     </session>
@@ -169,111 +164,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="558">
-              <caret line="146" selection-start-line="146" selection-end-line="146" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/lang/Throwable.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1513">
-              <caret line="113" column="13" selection-start-line="113" selection-start-column="13" selection-end-line="113" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/inout/MailImporter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="94" column="18" selection-start-line="94" selection-start-column="18" selection-end-line="94" selection-end-column="18" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/fr/gouv/vitam/tools/mailextract/0.91/mailextract-0.91.jar!/fr/gouv/vitam/tools/mailextract/lib/core/StoreExtractor.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="294" selection-start-line="294" selection-end-line="294" />
-              <folding>
-                <element signature="e#7482#7483#0" expanded="true" />
-                <element signature="e#7516#7517#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/fr/gouv/vitam/tools/mailextract/0.91/mailextract-0.91.jar!/fr/gouv/vitam/tools/mailextract/lib/core/StoreFolder.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="194">
-              <caret line="138" selection-start-line="138" selection-end-line="138" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="jar://$MAVEN_REPOSITORY$/fr/gouv/vitam/tools/mailextract/0.91/mailextract-0.91.jar!/fr/gouv/vitam/tools/mailextract/lib/store/microsoft/pst/PstStoreFolder.class">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="83" selection-start-line="83" selection-end-line="83" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/CreationContext.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2006">
-              <caret line="156" selection-start-line="156" selection-end-line="156" />
-              <folding>
-                <element signature="e#5346#5347#0" expanded="true" />
-                <element signature="e#5598#5599#0" expanded="true" />
-                <element signature="e#5623#5624#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/sedalib/.gitignore">
+        <entry file="file://$PROJECT_DIR$/resip/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/MailImportContext.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3366">
-              <caret line="205" selection-start-line="205" selection-end-line="205" />
-              <folding>
-                <element signature="e#3753#3754#0" expanded="true" />
-                <element signature="e#3789#3790#0" expanded="true" />
-                <element signature="e#4210#4211#0" expanded="true" />
-                <element signature="e#4250#4251#0" expanded="true" />
-                <element signature="e#4696#4697#0" expanded="true" />
-                <element signature="e#4735#4736#0" expanded="true" />
-                <element signature="e#5186#5187#0" expanded="true" />
-                <element signature="e#5229#5230#0" expanded="true" />
-                <element signature="e#5630#5631#0" expanded="true" />
-                <element signature="e#5652#5653#0" expanded="true" />
-                <element signature="e#5928#5929#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="359">
+              <caret line="104" column="61" selection-start-line="104" selection-start-column="61" selection-end-line="104" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -291,7 +186,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>signingTime</find>
       <find>schemeType</find>
       <find>SchemeType</find>
       <find>ProgressLoggerFactory.getAppLogger().severe(</find>
@@ -321,6 +215,7 @@
       <find>resipt</find>
       <find>combo</find>
       <find>CustomProperties</find>
+      <find>\</find>
     </findStrings>
     <replaceStrings>
       <replace>LineEndNormalize(</replace>
@@ -378,8 +273,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Validator.java" />
-        <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Signer.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Signature.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/utils/ProgressLoggerFactoryV2.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/utils/ProgressLogger.java" />
@@ -425,10 +318,12 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/README.en.md" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java" />
-        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java" />
         <option value="$PROJECT_DIR$/resip/.gitignore" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java" />
         <option value="$PROJECT_DIR$/sedalib/.gitignore" />
+        <option value="$PROJECT_DIR$/sedalib/pom.xml" />
+        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java" />
+        <option value="$PROJECT_DIR$/resip/pom.xml" />
       </list>
     </option>
   </component>
@@ -458,34 +353,22 @@
         </path>
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="sedalib-samples" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="sedalib-samples" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="sedalib-samples" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="resip" type="9519ce18:MavenProjectsStructure$ProjectNode" />
           <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
+          <item name="fr.gouv.vitam.tools:mailextract:0.9.2" type="c0821a7e:MavenProjectsStructure$DependencyNode" />
         </path>
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="sedatools" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="sedatools" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+          <item name="resip" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
+          <item name="uk.gov.nationalarchives:droid-container:6.5-SNAPSHOT" type="c0821a7e:MavenProjectsStructure$DependencyNode" />
         </path>
       </expand>
       <select />
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="235" />
-    <option name="y" value="-12" />
+    <option name="x" value="-60" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -515,12 +398,19 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
               <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="resip" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
@@ -537,8 +427,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -546,7 +434,7 @@
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/sedalib-samples/src/main/java" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../mailextract" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -981,7 +869,21 @@
       <option name="project" value="LOCAL" />
       <updated>1540156372153</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Clean .gitignore in sedalib and fix bug in Resip ImporThread">
+      <created>1540163080040</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1540163080040</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Fix Resip dependencies on slf4j">
+      <created>1540163993811</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1540163993811</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1029,7 +931,7 @@
     <frame x="-8" y="-8" width="1874" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28610805" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28941566" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -1048,7 +950,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3281412" />
       <window_info anchor="bottom" id="Messages" order="9" weight="0.3271028" />
       <window_info anchor="bottom" id="Inspection Results" order="10" weight="0.3281412" />
-      <window_info anchor="bottom" id="Run" order="11" visible="true" weight="0.3271028" />
+      <window_info active="true" anchor="bottom" id="Run" order="11" visible="true" weight="0.3271028" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24972437" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1137,8 +1039,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="Try to fix git line-ending on samples" />
-    <MESSAGE value="Fix build script" />
     <MESSAGE value="Improve README" />
     <MESSAGE value="Change Date management to LocalDate and LocalDateTime" />
     <MESSAGE value="Fix DateTimeString to import ISO DateTime and Date" />
@@ -1162,7 +1062,9 @@
     <MESSAGE value="Fix Resip launching problem" />
     <MESSAGE value="Fix Resip bug when adding to ArchiveUnit without Management" />
     <MESSAGE value="Clean .gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clean .gitignore" />
+    <MESSAGE value="Clean .gitignore in sedalib and fix bug in Resip ImporThread" />
+    <MESSAGE value="Fix Resip dependencies on slf4j" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Resip dependencies on slf4j" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1205,7 +1107,7 @@
         </line-breakpoint>
         <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java</url>
-          <line>627</line>
+          <line>631</line>
           <properties />
           <option name="timeStamp" value="61" />
         </line-breakpoint>
@@ -1247,7 +1149,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java</url>
-          <line>152</line>
+          <line>151</line>
           <properties />
           <option name="timeStamp" value="106" />
         </line-breakpoint>
@@ -1310,9 +1212,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1751">
           <caret line="146" column="42" lean-forward="true" selection-start-line="146" selection-start-column="42" selection-end-line="146" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1392,17 +1291,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/utils/ResipLogger.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1751">
-          <caret line="129" column="39" selection-start-line="129" selection-start-column="39" selection-end-line="129" selection-end-column="39" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#5261#5303#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectListCellRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
@@ -1459,16 +1347,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeViewer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4811">
-          <caret line="315" column="63" selection-start-line="315" selection-start-column="50" selection-end-line="315" selection-end-column="70" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/package-info.java">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -1515,9 +1393,6 @@
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/pom.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/resip/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -1561,17 +1436,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11373">
-          <caret line="671" column="52" selection-start-line="671" selection-start-column="52" selection-end-line="671" selection-end-column="52" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/XmlEditDialog.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3417">
@@ -1603,13 +1467,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resip/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="42" lean-forward="true" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/lang/Throwable.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1513">
@@ -1621,49 +1478,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2006">
           <caret line="156" selection-start-line="156" selection-end-line="156" />
-          <folding>
-            <element signature="e#5346#5347#0" expanded="true" />
-            <element signature="e#5598#5599#0" expanded="true" />
-            <element signature="e#5623#5624#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/MailImportContext.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3366">
-          <caret line="205" selection-start-line="205" selection-end-line="205" />
-          <folding>
-            <element signature="e#3753#3754#0" expanded="true" />
-            <element signature="e#3789#3790#0" expanded="true" />
-            <element signature="e#4210#4211#0" expanded="true" />
-            <element signature="e#4250#4251#0" expanded="true" />
-            <element signature="e#4696#4697#0" expanded="true" />
-            <element signature="e#4735#4736#0" expanded="true" />
-            <element signature="e#5186#5187#0" expanded="true" />
-            <element signature="e#5229#5230#0" expanded="true" />
-            <element signature="e#5630#5631#0" expanded="true" />
-            <element signature="e#5652#5653#0" expanded="true" />
-            <element signature="e#5928#5929#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/fr/gouv/vitam/tools/mailextract/0.91/mailextract-0.91.jar!/fr/gouv/vitam/tools/mailextract/lib/core/StoreExtractor.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="294" selection-start-line="294" selection-end-line="294" />
-          <folding>
-            <element signature="e#7482#7483#0" expanded="true" />
-            <element signature="e#7516#7517#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/fr/gouv/vitam/tools/mailextract/0.91/mailextract-0.91.jar!/fr/gouv/vitam/tools/mailextract/lib/core/StoreFolder.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="194">
-          <caret line="138" selection-start-line="138" selection-end-line="138" />
         </state>
       </provider>
     </entry>
@@ -1690,21 +1504,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="558">
-          <caret line="146" selection-start-line="146" selection-end-line="146" />
+        <state relative-caret-position="1734">
+          <caret line="145" selection-start-line="145" selection-end-line="145" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/inout/MailImporter.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/fr/gouv/vitam/tools/mailextract/0.91/mailextract-0.91.jar!/fr/gouv/vitam/tools/mailextract/lib/core/StoreExtractor.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="94" column="18" selection-start-line="94" selection-start-column="18" selection-end-line="94" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="4097">
+          <caret line="294" selection-start-line="294" selection-end-line="294" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/fr/gouv/vitam/tools/mailextract/0.91/mailextract-0.91.jar!/fr/gouv/vitam/tools/mailextract/lib/core/StoreFolder.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1904">
+          <caret line="138" selection-start-line="138" selection-end-line="138" />
         </state>
       </provider>
     </entry>
@@ -1712,6 +1530,78 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="43" selection-start-line="7" selection-start-column="43" selection-end-line="7" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeViewer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1122">
+          <caret line="124" column="75" selection-start-line="124" selection-start-column="75" selection-end-line="124" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/utils/ResipLogger.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1530">
+          <caret line="126" column="44" selection-start-line="126" selection-start-column="44" selection-end-line="126" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/MailImportContext.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3196">
+          <caret line="205" selection-start-line="205" selection-end-line="205" />
+          <folding>
+            <element signature="e#3753#3754#0" expanded="true" />
+            <element signature="e#3789#3790#0" expanded="true" />
+            <element signature="e#4210#4211#0" expanded="true" />
+            <element signature="e#4250#4251#0" expanded="true" />
+            <element signature="e#4696#4697#0" expanded="true" />
+            <element signature="e#4735#4736#0" expanded="true" />
+            <element signature="e#5186#5187#0" expanded="true" />
+            <element signature="e#5229#5230#0" expanded="true" />
+            <element signature="e#5630#5631#0" expanded="true" />
+            <element signature="e#5652#5653#0" expanded="true" />
+            <element signature="e#5928#5929#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="441" column="24" selection-start-line="441" selection-start-column="24" selection-end-line="441" selection-end-column="24" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/inout/MailImporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="16" column="47" selection-start-line="16" selection-start-column="47" selection-end-line="16" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="35" column="8" selection-start-line="35" selection-start-column="8" selection-end-line="35" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="359">
+          <caret line="104" column="61" selection-start-line="104" selection-start-column="61" selection-end-line="104" selection-end-column="61" />
         </state>
       </provider>
     </entry>
