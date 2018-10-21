@@ -92,7 +92,6 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
  * Long options can be reduced to short ones (for example -h is equivalent to
  * --help)
  *
- * @author JSL
  **/
 public class ResipApp {
 

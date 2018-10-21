@@ -3,25 +3,29 @@ For a quick presentation in english, please follow [this link](README.en.md).
 
 ![logo](logo_vitam.png)
 
-La bibliothèque Seda
-====================
+Projet sedatools
+================
 
-Cette bibliothèque permet de manipuler les structures et métadonnées du
-standard SEDA (Standard d’échange de données pour l’archivage – SEDA – v. 2.1).
-
-Sructure du projet
-==================
-
-Les modules contiennent:
+Le projet contient les outils utiles aux développeurs et testeurs pour la construction et manipulation des SIP conforme au SEDA.
+Il s'agit d'un projet Maven avec trois modules qui contiennent:
 
 * ``sedalib``: le code de la bibliothèque SEDA
 * ``sedalib-samples``: le code d'exemples d'usage pour construire des SIP complexes en peu de lignes
+* ``resip``: le code de l'application de création et manipulation des SIP s'appuyant sur la bibliothèque SEDA
 
 Build
-=====
+-----
 
     mkdir test-sedatools
     cd test-sedatools
+    git clone https://gitlab.dev.programmevitam.fr/jslair/mailextract.git
+    cd mailextract/
+    mvn install
+    cd ..
+    git clone https://github.com/rjohnsondev/java-libpst.git
+    cd java-libpst/
+    mvn install
+    cd ..
     git clone https://github.com/digital-preservation/droid.git
     cd droid/
     mvn install
@@ -29,11 +33,17 @@ Build
     git clone https://gitlab.dev.programmevitam.fr/jslair/sedatools.git
     cd sedatools/
     mvn install
-    cd sedalib-samples/
+
+La bibliothèque sedalib et ses exemples
+=======================================
+
+Cette bibliothèque permet de manipuler les structures et métadonnées du
+standard SEDA (Standard d’échange de données pour l’archivage – SEDA – v. 2.1).
 
 Execution de l'application d'exemple
-======================================
+------------------------------------
 
+    cd sedalib-samples/
     java -jar target/sedalib-samples-0.9-SNAPSHOT-shaded.jar
 
 A noter les paquets générés, peuvent être entrés dans une plateforme VITAM
@@ -41,7 +51,7 @@ sur le tenant de test 0. Les valeurs de référentiels sont prises parmi celles
 des Tests de Non-Regression exécuté sur ce même tenant.
 
 Première approche
-=================
+-----------------
 
 La bibliothèque permet de manipuler d'une part les structures d'archives
 (dans le SEDA DataObjectPackage, ArchiveUnit, DataObjectGroup...) et les
@@ -83,3 +93,18 @@ métadonnées dans des fichiers
 les métadonnées dans un csv et en les injectant dans les archives des dossiers
 * Sample3plus: la construction d'un SIP ajoutant des dossiers à un archivage
 précédent fait avec Sample3
+
+L'application Resip
+====================
+
+Cette application permet toutes sortes de manipulations de structures d'archives que cela soit sous forme
+SIP, DIP ou hiérarchie sur disque. Elle a été créée pour "Réaliser et Editer des SIP" pour les recettes d'où RESIP.
+
+Execution
+---------
+
+    cd ../resip
+    java -jar target/resip-0.9-SNAPSHOT-shaded.jar
+
+Sous Windows, il est aussi possible de lancer l'exécutable: windows/Resip.exe
+
