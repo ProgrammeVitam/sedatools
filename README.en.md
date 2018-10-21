@@ -20,21 +20,23 @@ With JDK 1.8, git and maven installed, the build sequence is:
 
     mkdir test-sedatools
     cd test-sedatools
-    git clone https://gitlab.dev.programmevitam.fr/jslair/mailextract.git
-    cd mailextract/
-    mvn install
-    cd ..
     git clone https://github.com/rjohnsondev/java-libpst.git
     cd java-libpst/
-    mvn install
+    # mvn parameters to skip javadoc errors in 1.8
+    mvn clean install -Dadditionalparam=-Xdoclint:none
+    cd ..
+    git clone https://gitlab.dev.programmevitam.fr/vitam/mailextract.git
+    cd mailextract/
+    mvn clean install
     cd ..
     git clone https://github.com/digital-preservation/droid.git
-    cd droid/
-    mvn install
+    cd droid
+    # mvn parameters to skip a test failure in non english environement
+    mvn clean install -DskipTests
     cd ..
     git clone https://gitlab.dev.programmevitam.fr/jslair/sedatools.git
     cd sedatools/
-    mvn install
+    mvn clean install
 
 The sedalib library
 ===================
