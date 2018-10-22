@@ -145,11 +145,6 @@ public class MainWindow extends JFrame {
     private DataObjectPackageTreeViewer dataObjectPackageTreePaneViewer;
 
     /**
-     * The archiveTransfer item meta data label.
-     */
-    private JLabel sipItemMetaDataLabel;
-
-    /**
      * The edit archive unit button.
      */
     private JButton editArchiveUnitButton;
@@ -158,12 +153,6 @@ public class MainWindow extends JFrame {
      * The edit object button.
      */
     private JButton editObjectButton;
-
-    /**
-     * The og information pane label.
-     */
-    // item
-    private JTextArea ogInformationPaneLabel;
 
     /**
      * The open object button.
@@ -178,6 +167,7 @@ public class MainWindow extends JFrame {
     private JComboBox<String> metadataComboBox;
 
     private JButton addMetadataButton;
+    private JScrollPane dataObjectDetailScrollPane;
 
     /**
      * Gets the app.
@@ -214,7 +204,7 @@ public class MainWindow extends JFrame {
         }
         this.setTitle(ResipGraphicApp.getAppName());
 
-        getContentPane().setPreferredSize(new Dimension(900, 600));
+        getContentPane().setPreferredSize(new Dimension(1000, 700));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
@@ -232,7 +222,9 @@ public class MainWindow extends JFrame {
         generalSplitPaneHoriz.setLeftComponent(getDataObjectPackageTreePane());
 
         dataObjectPackageTreePaneLabel = new JLabel("Arbre du SIP");
-        dataObjectPackageTreePaneLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+        Font boldLabelFont = dataObjectPackageTreePaneLabel.getFont();
+        boldLabelFont=boldLabelFont.deriveFont(boldLabelFont.getStyle() | Font.BOLD);
+        dataObjectPackageTreePaneLabel.setFont(boldLabelFont);
         dataObjectPackageTreePaneLabel.setMinimumSize(new Dimension(300, 15));
         GridBagConstraints gbc_dataObjectPackageTreePaneLabel = new GridBagConstraints();
         gbc_dataObjectPackageTreePaneLabel.anchor = GridBagConstraints.WEST;
@@ -244,10 +236,11 @@ public class MainWindow extends JFrame {
 
         dataObjectPackageTreePaneModel = new DataObjectPackageTreeModel(null);
         dataObjectPackageTreePaneViewer = new DataObjectPackageTreeViewer(this, dataObjectPackageTreePaneModel);
+        dataObjectPackageTreePaneViewer.setFont(UIManager.getFont("TextArea.font"));
         JScrollPane dataObjectPackageTreePaneViewerScrollPane = new JScrollPane(getDataObjectPackageTreePaneViewer());
         GridBagConstraints gbc_dataObjectPackageTreePaneViewerScrollPane = new GridBagConstraints();
         gbc_dataObjectPackageTreePaneViewerScrollPane.fill = GridBagConstraints.BOTH;
-        gbc_dataObjectPackageTreePaneViewerScrollPane.insets = new Insets(5, 5, 5, 5);
+        gbc_dataObjectPackageTreePaneViewerScrollPane.insets = new Insets(0, 5, 5, 5);
         gbc_dataObjectPackageTreePaneViewerScrollPane.gridwidth = 2;
         gbc_dataObjectPackageTreePaneViewerScrollPane.gridx = 0;
         gbc_dataObjectPackageTreePaneViewerScrollPane.gridy = 1;
@@ -267,6 +260,7 @@ public class MainWindow extends JFrame {
                 gbc_longDataObjectPackageTreeItemNameCheckBox);
 
         openSipItemButton = new JButton("Ouvrir dossier AU/OG");
+        openSipItemButton.setFont(UIManager.getFont("Button.font"));
         openSipItemButton.setEnabled(false);
         openSipItemButton.addActionListener(e -> buttonOpenDataObjectPackageItemDirectory());
         GridBagConstraints gbc_OpenSipItemButton = new GridBagConstraints();
@@ -305,7 +299,7 @@ public class MainWindow extends JFrame {
         auMetadataPaneScrollPane.setViewportView(getArchiveUnitMetadataText());
 
         auMetadataPaneLabel = new JLabel("AU Metadata");
-        auMetadataPaneLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+        auMetadataPaneLabel.setFont(boldLabelFont);
         GridBagConstraints gbc_auMetadataPaneLabel = new GridBagConstraints();
         gbc_auMetadataPaneLabel.gridwidth = 2;
         gbc_auMetadataPaneLabel.insets = new Insets(5, 5, 5, 0);
@@ -316,6 +310,7 @@ public class MainWindow extends JFrame {
         auMetadataPane.add(auMetadataPaneLabel, gbc_auMetadataPaneLabel);
 
         editArchiveUnitButton = new JButton("Editer l'ArchiveUnit");
+        editArchiveUnitButton.setFont(UIManager.getFont("Button.font"));
         editArchiveUnitButton.setEnabled(false);
         editArchiveUnitButton.addActionListener(e -> buttonEditArchiveUnit());
         GridBagConstraints gbc_editArchiveUnitButton = new GridBagConstraints();
@@ -332,6 +327,7 @@ public class MainWindow extends JFrame {
 
 
         metadataComboBox = new JComboBox<String>(AddMetadataItem.getAddContentMetadataArray());
+        metadataComboBox.setFont(UIManager.getFont("Button.font"));
         metadataComboBox.setEnabled(false);
         GridBagConstraints gbc_metadataComboBox = new GridBagConstraints();
         gbc_metadataComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -342,6 +338,7 @@ public class MainWindow extends JFrame {
         auMetadataPane.add(metadataComboBox, gbc_metadataComboBox);
 
         addMetadataButton = new JButton("Ajouter...");
+        addMetadataButton.setFont(UIManager.getFont("Button.font"));
         addMetadataButton.setEnabled(false);
         GridBagConstraints gbc_addMetadataButton = new GridBagConstraints();
         gbc_addMetadataButton.anchor = GridBagConstraints.EAST;
@@ -352,13 +349,13 @@ public class MainWindow extends JFrame {
         addMetadataButton.addActionListener(e -> buttonAddMetadata());
 
         JSplitPane ogInformationSplitPane = new JSplitPane();
-        ogInformationSplitPane.setResizeWeight(0.1);
+        ogInformationSplitPane.setResizeWeight(0.2);
         GridBagConstraints gbc_ogInformationSplitPane = new GridBagConstraints();
         gbc_ogInformationSplitPane.insets = new Insets(5, 5, 0, 0);
         gbc_ogInformationSplitPane.anchor = GridBagConstraints.NORTHWEST;
         gbc_ogInformationSplitPane.gridx = 0;
         gbc_ogInformationSplitPane.gridwidth = 2;
-        gbc_ogInformationSplitPane.gridy = 1;
+        gbc_ogInformationSplitPane.gridy = 0;
         gbc_ogInformationSplitPane.weightx = 1.0;
         gbc_ogInformationSplitPane.weighty = 1.0;
         gbc_ogInformationSplitPane.fill = GridBagConstraints.BOTH;
@@ -369,9 +366,11 @@ public class MainWindow extends JFrame {
         binaryObjectsPane.setLayout(gbl_binaryObjectsPane);
 
         JLabel binaryObjectsPaneLabel = new JLabel("Objets");
+        binaryObjectsPaneLabel.setFont(boldLabelFont);
         GridBagConstraints gbc_binaryObjectsPaneLabel = new GridBagConstraints();
+        gbc_binaryObjectsPaneLabel.insets = new Insets(5, 5, 5, 0);
         gbc_binaryObjectsPaneLabel.anchor = GridBagConstraints.NORTHWEST;
-        gbc_binaryObjectsPaneLabel.weightx = 0;
+        gbc_binaryObjectsPaneLabel.weightx = 0.5;
         gbc_binaryObjectsPaneLabel.weighty = 0.0;
         gbc_binaryObjectsPaneLabel.gridy = 0;
         gbc_binaryObjectsPaneLabel.gridx = 0;
@@ -379,12 +378,14 @@ public class MainWindow extends JFrame {
 
         DefaultListModel<DataObject> dataObjectsListModel = new DefaultListModel<DataObject>();
         dataObjectsListViewer = new DataObjectListViewer(this, dataObjectsListModel);
+        dataObjectsListViewer.setFont(UIManager.getFont("TextArea.font"));
         dataObjectsListViewer.setLayoutOrientation(JList.VERTICAL);
         dataObjectsListViewer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DataObjectListCellRenderer dataObjectListCellRenderer = new DataObjectListCellRenderer();
         dataObjectsListViewer.setCellRenderer(dataObjectListCellRenderer);
 
         openObjectButton = new JButton("Ouvrir l'objet");
+        openObjectButton.setFont(UIManager.getFont("Button.font"));
         openObjectButton.setMinimumSize(new Dimension(20, 25));
         openObjectButton.setEnabled(false);
         openObjectButton.addActionListener(e -> buttonOpenObject());
@@ -400,6 +401,7 @@ public class MainWindow extends JFrame {
         binaryObjectsPane.add(openObjectButton, gbc_openObjectButton);
 
         changeObjectButton = new JButton("Changer l'objet");
+        changeObjectButton.setFont(UIManager.getFont("Button.font"));
         changeObjectButton.setMinimumSize(new Dimension(20, 25));
         changeObjectButton.setEnabled(false);
         changeObjectButton.addActionListener(e -> buttonChangeObject());
@@ -429,34 +431,26 @@ public class MainWindow extends JFrame {
 
         JPanel ogBinaryObjectDetailPane = new JPanel();
         GridBagLayout gbl_ogInformationSplitPane = new GridBagLayout();
+        gbl_ogInformationSplitPane.rowWeights = new double[]{0.0, 0.0, 0.0};
+        gbl_ogInformationSplitPane.columnWeights = new double[]{1.0};
         ogBinaryObjectDetailPane.setLayout(gbl_ogInformationSplitPane);
 
         JLabel ogBinaryObjectDetailPaneLabel = new JLabel("Détails");
+        ogBinaryObjectDetailPaneLabel.setFont(boldLabelFont);
         GridBagConstraints gbc_ogBinaryObjectDetailPaneLabel = new GridBagConstraints();
+        gbc_ogBinaryObjectDetailPaneLabel.insets = new Insets(5, 5, 5, 0);
         gbc_ogBinaryObjectDetailPaneLabel.anchor = GridBagConstraints.NORTHWEST;
         gbc_ogBinaryObjectDetailPaneLabel.fill = GridBagConstraints.HORIZONTAL;
         gbc_ogBinaryObjectDetailPaneLabel.gridy = 0;
         gbc_ogBinaryObjectDetailPaneLabel.gridx = 0;
         ogBinaryObjectDetailPane.add(ogBinaryObjectDetailPaneLabel, gbc_ogBinaryObjectDetailPaneLabel);
 
-        dataObjectDetailText = new JTextPane();
-        dataObjectDetailText.setBorder(UIManager.getBorder("ScrollPane.border"));
-        dataObjectDetailText.setEditable(false);
-        GridBagConstraints gbc_ogBinaryObjectDetailText = new GridBagConstraints();
-        gbc_ogBinaryObjectDetailText.insets = new Insets(0, 5, 0, 0);
-        gbc_ogBinaryObjectDetailText.fill = GridBagConstraints.BOTH;
-        gbc_ogBinaryObjectDetailText.weightx = 0.7;
-        gbc_ogBinaryObjectDetailText.weighty = 1.0;
-        gbc_ogBinaryObjectDetailText.anchor = GridBagConstraints.NORTHWEST;
-        gbc_ogBinaryObjectDetailText.gridy = 1;
-        gbc_ogBinaryObjectDetailText.gridx = 0;
-        ogBinaryObjectDetailPane.add(dataObjectDetailText, gbc_ogBinaryObjectDetailText);
-
         editObjectButton = new JButton("Editer le DataObject");
+        editObjectButton.setFont(UIManager.getFont("Button.font"));
         editObjectButton.setEnabled(false);
         editObjectButton.addActionListener(e -> buttonEditDataObject());
         GridBagConstraints gbc_editObjectButton = new GridBagConstraints();
-        gbc_editObjectButton.insets = new Insets(5, 5, 5, 5);
+        gbc_editObjectButton.insets = new Insets(5, 5, 5, 0);
         gbc_editObjectButton.gridwidth = 1;
         gbc_editObjectButton.gridx = 0;
         gbc_editObjectButton.gridy = 2;
@@ -464,7 +458,22 @@ public class MainWindow extends JFrame {
 
         ogInformationSplitPane.setRightComponent(ogBinaryObjectDetailPane);
 
-        pack();
+        dataObjectDetailScrollPane = new JScrollPane();
+        GridBagConstraints gbc_dataObjectDetailScrollPane = new GridBagConstraints();
+        gbc_dataObjectDetailScrollPane.insets = new Insets(0, 5, 5, 0);
+        gbc_dataObjectDetailScrollPane.fill = GridBagConstraints.BOTH;
+        gbc_dataObjectDetailScrollPane.weightx = 0.7;
+        gbc_dataObjectDetailScrollPane.weighty = 1.0;
+        gbc_dataObjectDetailScrollPane.anchor = GridBagConstraints.NORTHWEST;
+        gbc_dataObjectDetailScrollPane.gridy = 1;
+        gbc_dataObjectDetailScrollPane.gridx = 0;
+        ogBinaryObjectDetailPane.add(dataObjectDetailScrollPane, gbc_dataObjectDetailScrollPane);
+
+        dataObjectDetailText = new JTextPane();
+        dataObjectDetailText.setFont(UIManager.getFont("TextArea.font"));
+        dataObjectDetailScrollPane.setViewportView(dataObjectDetailText);
+
+       pack();
     }
 
     // long name checkbox
@@ -776,6 +785,7 @@ public class MainWindow extends JFrame {
         } else if (dataObject instanceof BinaryDataObject) {
             BinaryDataObject bo = (BinaryDataObject) dataObject;
             dataObjectDetailText.setText(bo.toString());
+            dataObjectDetailText.setCaretPosition(0);
             openObjectButton.setEnabled(true);
             changeObjectButton.setEnabled(true);
             editObjectButton.setEnabled(true);
@@ -791,6 +801,7 @@ public class MainWindow extends JFrame {
                         + pdo.getInDataObjectPackageId() + "]");
             }
             dataObjectDetailText.setText(tmp);
+            dataObjectDetailText.setCaretPosition(0);
             openObjectButton.setEnabled(false);
             changeObjectButton.setEnabled(false);
             editObjectButton.setEnabled(true);
@@ -934,6 +945,7 @@ public class MainWindow extends JFrame {
      */
     public void setAuMetadataText(JTextPane auMetadataText) {
         this.auMetadataText = auMetadataText;
+        auMetadataText.setFont(UIManager.getFont("TextArea.font"));
     }
 
     /**

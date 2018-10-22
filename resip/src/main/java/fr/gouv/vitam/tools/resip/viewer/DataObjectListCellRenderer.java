@@ -30,9 +30,7 @@ package fr.gouv.vitam.tools.resip.viewer;
 import java.awt.Component;
 import java.awt.Font;
 
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.ListCellRenderer;
+import javax.swing.*;
 
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
@@ -71,7 +69,7 @@ public class DataObjectListCellRenderer extends JLabel implements ListCellRender
 			setForeground(list.getForeground());
 		}
 
-		Font f = getFont();
+		Font f = UIManager.getFont("TextArea.font");
 		setFont(f.deriveFont(f.getStyle() & ~Font.BOLD));
 		if (value instanceof BinaryDataObject) {
 			BinaryDataObject bdo=(BinaryDataObject)value;
