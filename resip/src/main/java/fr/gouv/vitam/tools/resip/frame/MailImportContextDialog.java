@@ -79,6 +79,8 @@ public class MailImportContextDialog extends JDialog {
 	/** The mbox radio button. */
 	private JRadioButton mboxRadioButton;
 
+	/** The eml radio button. */
+	private JRadioButton emlRadioButton;
 	/**
 	 * Create the dialog.
 	 *
@@ -148,22 +150,32 @@ public class MailImportContextDialog extends JDialog {
 		gbc_mboxRadioButton.gridy =2;
 		parametersPanel.add(mboxRadioButton, gbc_mboxRadioButton);
 
+		emlRadioButton = new JRadioButton("Eml");
+		GridBagConstraints gbc_emlRadioButton = new GridBagConstraints();
+		gbc_emlRadioButton.anchor = GridBagConstraints.WEST;
+		gbc_emlRadioButton.insets = new Insets(0, 0, 0, 5);
+		gbc_emlRadioButton.gridx = 1;
+		gbc_emlRadioButton.gridy =3;
+		parametersPanel.add(emlRadioButton, gbc_emlRadioButton);
+
 		ButtonGroup protocolButtonGroup = new ButtonGroup();
 		protocolButtonGroup.add(pstRadioButton);
 		protocolButtonGroup.add(msgRadioButton);
 		protocolButtonGroup.add(tdbRadioButton);
 		protocolButtonGroup.add(mboxRadioButton);
+		protocolButtonGroup.add(emlRadioButton);
 		pstRadioButton.setSelected("pst".equals(mailImportContext.getProtocol()));
 		msgRadioButton.setSelected("msg".equals(mailImportContext.getProtocol()));
 		tdbRadioButton.setSelected("thunderbird".equals(mailImportContext.getProtocol()));
 		mboxRadioButton.setSelected("mbox".equals(mailImportContext.getProtocol()));
+		emlRadioButton.setSelected("eml".equals(mailImportContext.getProtocol()));
 
 		JLabel mailFileTextExtractAULabel = new JLabel("Extraction des fichiers textes des courriels:");
 		GridBagConstraints gbc_mailFileTextExtractAULabel = new GridBagConstraints();
 		gbc_mailFileTextExtractAULabel.anchor = GridBagConstraints.EAST;
 		gbc_mailFileTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
 		gbc_mailFileTextExtractAULabel.gridx = 0;
-		gbc_mailFileTextExtractAULabel.gridy = 3;
+		gbc_mailFileTextExtractAULabel.gridy = 4;
 		parametersPanel.add(mailFileTextExtractAULabel, gbc_mailFileTextExtractAULabel);
 
 		messageFileCheckBox = new JCheckBox("des messages");
@@ -171,7 +183,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_messageFileCheckBox.anchor = GridBagConstraints.WEST;
 		gbc_messageFileCheckBox.insets = new Insets(0, 0, 5, 5);
 		gbc_messageFileCheckBox.gridx = 1;
-		gbc_messageFileCheckBox.gridy = 3;
+		gbc_messageFileCheckBox.gridy = 4;
 		parametersPanel.add(messageFileCheckBox, gbc_messageFileCheckBox);
 		messageFileCheckBox.setSelected(mailImportContext.isExtractMessageTextFile());
 
@@ -180,7 +192,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_attachementFileCheckBox.anchor = GridBagConstraints.WEST;
 		gbc_attachementFileCheckBox.insets = new Insets(0, 0, 5, 5);
 		gbc_attachementFileCheckBox.gridx = 2;
-		gbc_attachementFileCheckBox.gridy = 3;
+		gbc_attachementFileCheckBox.gridy = 4;
 		parametersPanel.add(attachementFileCheckBox, gbc_attachementFileCheckBox);
 		attachementFileCheckBox.setSelected(mailImportContext.isExtractAttachmentTextFile());
 
@@ -189,7 +201,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_mailMetadataTextExtractAULabel.anchor = GridBagConstraints.EAST;
 		gbc_mailMetadataTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
 		gbc_mailMetadataTextExtractAULabel.gridx = 0;
-		gbc_mailMetadataTextExtractAULabel.gridy = 4;
+		gbc_mailMetadataTextExtractAULabel.gridy = 5;
 		parametersPanel.add(mailMetadataTextExtractAULabel, gbc_mailMetadataTextExtractAULabel);
 
 		messageMetadataCheckBox = new JCheckBox("des messages");
@@ -197,7 +209,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_messageMetadataCheckBox.anchor = GridBagConstraints.WEST;
 		gbc_messageMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
 		gbc_messageMetadataCheckBox.gridx = 1;
-		gbc_messageMetadataCheckBox.gridy = 4;
+		gbc_messageMetadataCheckBox.gridy = 5;
 		parametersPanel.add(messageMetadataCheckBox, gbc_messageMetadataCheckBox);
 		messageMetadataCheckBox.setSelected(mailImportContext.isExtractMessageTextMetadata());
 
@@ -206,7 +218,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_attachementMetadataCheckBox.anchor = GridBagConstraints.WEST;
 		gbc_attachementMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
 		gbc_attachementMetadataCheckBox.gridx = 2;
-		gbc_attachementMetadataCheckBox.gridy = 4;
+		gbc_attachementMetadataCheckBox.gridy = 5;
 		parametersPanel.add(attachementMetadataCheckBox, gbc_attachementMetadataCheckBox);
 		attachementMetadataCheckBox.setSelected(mailImportContext.isExtractAttachmentTextMetadata());
 
@@ -266,5 +278,7 @@ public class MailImportContextDialog extends JDialog {
 			mailImportContext.setProtocol("thunderbird");
 		else if (mboxRadioButton.isSelected())
 			mailImportContext.setProtocol("mbox");
+		else if (emlRadioButton.isSelected())
+			mailImportContext.setProtocol("eml");
 	}
 }
