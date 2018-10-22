@@ -126,11 +126,11 @@ public class DateTimeType extends NamedTypeMetadata {
     }
 
     /**
-     * Import an element of type TextType in XML expected form for the SEDA
+     * Import an element of type DateTimeType in XML expected form for the SEDA
      * Manifest.
      *
      * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read TextType
+     * @return the read DateTimeType
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
      *                          respected
      */
@@ -155,7 +155,7 @@ public class DateTimeType extends NamedTypeMetadata {
             if ((!event.isEndElement()) || (!st.elementName.equals(event.asEndElement().getName().getLocalPart())))
                 throw new SEDALibException("Elément " + st.elementName + " mal terminé");
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type DateTimeType\n->" + e.getMessage());
         }
         return st;
     }

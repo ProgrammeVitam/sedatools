@@ -27,7 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.SchemeType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
@@ -42,7 +42,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
  * un ArchiveUnit en particulier. Permet par exemple de faire référence à une
  * typologie documentaire dans un profil d'archivage."
  */
-public class ArchiveUnitProfile extends SchemeType {
+public class ArchiveUnitProfile extends StringType {
 
     /**
      * Instantiates a new ArchiveUnitProfile.
@@ -58,24 +58,6 @@ public class ArchiveUnitProfile extends SchemeType {
      */
     public ArchiveUnitProfile(String value) {
         super("ArchiveUnitProfile", value);
-    }
-
-    /**
-     * Instantiates a new ArchiveUnitProfile.
-     *
-     * @param value            the value
-     * @param schemeAgencyID   the scheme agency ID
-     * @param schemeAgencyName the scheme agency name
-     * @param schemeDataURI    the scheme data URI
-     * @param schemeID         the scheme ID
-     * @param schemeName       the scheme name
-     * @param schemeURI        the scheme URI
-     * @param schemeVersionID  the scheme version ID
-     */
-    public ArchiveUnitProfile(String value, String schemeAgencyID, String schemeAgencyName,
-                              String schemeDataURI, String schemeID, String schemeName, String schemeURI, String schemeVersionID) {
-        super("ArchiveUnitProfile", value, schemeAgencyID, schemeAgencyName,
-                schemeDataURI, schemeID, schemeName, schemeURI, schemeVersionID);
     }
 
     /**

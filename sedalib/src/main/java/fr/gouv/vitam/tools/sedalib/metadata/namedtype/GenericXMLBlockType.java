@@ -98,16 +98,16 @@ public class GenericXMLBlockType extends NamedTypeMetadata {
 		try {
 			xmlWriter.writeRawXMLBlockIfNotEmpty(rawXml);
 		} catch (XMLStreamException e) {
-			throw new SEDALibException("Erreur d'écriture XML dans un élément de type TextType\n->" + e.getMessage());
+			throw new SEDALibException("Erreur d'écriture XML dans un élément de type GenericXMLBlockType\n->" + e.getMessage());
 		}
 	}
 
 	/**
-	 * Import an element of type TextType in XML expected form for the SEDA
+	 * Import an element of type GenericXMLBlockType in XML expected form for the SEDA
 	 * Manifest.
 	 *
 	 * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-	 * @return the read TextType
+	 * @return the read GenericXMLBlockType
 	 * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
 	 *                          respected
 	 */

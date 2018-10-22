@@ -19,8 +19,7 @@ class ManagementMetadataTest {
         // When loaded with all different kind of metadata
 
         // Test SchemeType metadata
-        mm.addNewMetadata("ArchivalProfile", "TestArchivalProfile", "TestSchemeAgencyID", "TestSchemeAgencyName",
-                "TestSchemeDataURI", "TestSchemeID", "TestSchemeName", "TestSchemeURI", "TestSchemeVersionID");
+        mm.addNewMetadata("ArchivalProfile", "TestArchivalProfile");
 
         // Test StringType metadata
         mm.addNewMetadata("OriginatingAgencyIdentifier", "TestOriginatingAgencyIdentifier");
@@ -47,7 +46,7 @@ class ManagementMetadataTest {
 
         // Then
         String testOut = "<ManagementMetadata>\n" +
-                "  <ArchivalProfile schemeAgencyID=\"TestSchemeAgencyID\" schemeAgencyName=\"TestSchemeAgencyName\" schemeDataURI=\"TestSchemeDataURI\" schemeID=\"TestSchemeID\" schemeName=\"TestSchemeName\" schemeURI=\"TestSchemeURI\" schemeVersionID=\"TestSchemeVersionID\">TestArchivalProfile</ArchivalProfile>\n" +
+                "  <ArchivalProfile>TestArchivalProfile</ArchivalProfile>\n" +
                 "  <OriginatingAgencyIdentifier>TestOriginatingAgencyIdentifier</OriginatingAgencyIdentifier>\n" +
                 "  <SubmissionAgencyIdentifier>TestSubmissionAgencyIdentifier</SubmissionAgencyIdentifier>\n" +
                 "  <AppraisalRule>\n" +

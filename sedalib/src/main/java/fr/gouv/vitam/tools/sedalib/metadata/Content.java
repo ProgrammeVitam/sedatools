@@ -151,8 +151,8 @@ public class Content extends ComplexListType {
         metadataMap.put("Description", new ComplexListType.MetadataKind(TextType.class, true));
         metadataMap.put("CustodialHistory",
                 new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
-        metadataMap.put("Type", new ComplexListType.MetadataKind(TextType.class, false));
-        metadataMap.put("DocumentType", new ComplexListType.MetadataKind(TextType.class, false));
+        metadataMap.put("Type", new ComplexListType.MetadataKind(StringType.class, false));
+        metadataMap.put("DocumentType", new ComplexListType.MetadataKind(StringType.class, false));
         metadataMap.put("Language", new ComplexListType.MetadataKind(StringType.class, true));
         metadataMap.put("DescriptionLanguage", new ComplexListType.MetadataKind(StringType.class, true));
         metadataMap.put("Status", new ComplexListType.MetadataKind(StringType.class, false));

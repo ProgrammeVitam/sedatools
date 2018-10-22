@@ -58,14 +58,8 @@ public class AddMetadataItem {
         typeCreatorMap.put("GenericXMLBlockType", AddMetadataItem::genericXMLBlockTypeSample);
         typeExtraInformationMap.put("GenericXMLBlockType", "Bloc XML libre");
 
-        typeCreatorMap.put("CodeType", AddMetadataItem::codeTypeSample);
-        typeExtraInformationMap.put("CodeType", "Metadonnée de type code");
-
         typeCreatorMap.put("PersonOrEntityType", AddMetadataItem::personOrEntityTypeSample);
         typeExtraInformationMap.put("PersonOrEntityType", "Metadonnée de type personne ou entité");
-
-        typeCreatorMap.put("SchemeType", AddMetadataItem::schemeTypeSample);
-        typeExtraInformationMap.put("SchemeType", "Metadonnée de type scheme");
 
         typeCreatorMap.put("StringType", AddMetadataItem::stringTypeSample);
         typeExtraInformationMap.put("StringType", "Metadonnée de type chaîne de caractères");
@@ -126,11 +120,6 @@ public class AddMetadataItem {
         return new GenericXMLBlockType(elementName, "<Tag><SubTag1>Text1</SubTag1><SubTag2 attr=\"any\">Text2</SubTag2></Tag>");
     }
 
-    static CodeType codeTypeSample(String elementName) {
-        return new CodeType(elementName, "Text", "listID", "listAgencyID", "listAgencyName",
-                "listName", "listVersionID", "name", "languageID", "listURI", "listSchemeURI");
-    }
-
    static void constructComplexListType(ComplexListType clt){
         for (String metadataName : clt.getMetadataOrderedList()) {
             ComplexListType.MetadataKind metadataKind = clt.getMetadataMap().get(metadataName);
@@ -179,12 +168,6 @@ public class AddMetadataItem {
         return result;
     }
 
-    static SchemeType schemeTypeSample(String elementName) {
-        return new SchemeType(elementName, "Text", "AgencyID",
-                "AgencyName", "DataURI", "ID",
-                "Name", "URI", "VersionID");
-    }
-
     static StringType stringTypeSample(String elementName) {
         return new StringType(elementName, "Text");
     }
@@ -194,9 +177,7 @@ public class AddMetadataItem {
     }
 
     static ArchiveUnitProfile archiveUnitProfileSample(String elementName) {
-        return new ArchiveUnitProfile("Text", "AgencyID",
-                "AgencyName", "DataURI", "ID",
-                "Name", "URI", "VersionID");
+        return new ArchiveUnitProfile("Text");
     }
 
     static void ruleTypeCompleteSample(RuleType ruleTypeSample) {

@@ -103,11 +103,11 @@ public class StringType extends NamedTypeMetadata {
 	}
 
 	/**
-	 * Import an element of type TextType in XML expected form for the SEDA
+	 * Import an element of type StringType in XML expected form for the SEDA
 	 * Manifest.
 	 *
 	 * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-	 * @return the read TextType
+	 * @return the read StringType
 	 * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
 	 *                          respected
 	 */
@@ -115,20 +115,64 @@ public class StringType extends NamedTypeMetadata {
 		StringType st;
 		try {
 			st = new StringType();
-			XMLEvent event = xmlReader.nextUsefullEvent();
+			XMLEvent event = xmlReader.peekUsefullEvent();
 			st.elementName = event.asStartElement().getName().getLocalPart();
-			event = xmlReader.nextUsefullEvent();
-			if (event.isCharacters()) {
-				st.value = event.asCharacters().getData();
-				event = xmlReader.nextUsefullEvent();
+			fromSedaXmlInObject(xmlReader, st);
+		} catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
+			throw new SEDALibException("Erreur de lecture XML dans un élément StringType\n->" + e.getMessage());
+		}
+		return st;
+	}
+//	public static StringType fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
+//		StringType st;
+//		try {
+//			st = new StringType();
+//			XMLEvent event = xmlReader.nextUsefullEvent();
+//			st.elementName = event.asStartElement().getName().getLocalPart();
+//			event = xmlReader.nextUsefullEvent();
+//			if (event.isCharacters()) {
+//				st.value = event.asCharacters().getData();
+//				event = xmlReader.nextUsefullEvent();
+//			} else
+//				st.value = "";
+//			if ((!event.isEndElement()) || (!st.elementName.equals(event.asEndElement().getName().getLocalPart())))
+//				throw new SEDALibException("Elément " + st.elementName + " mal terminé");
+//		} catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
+//			throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType\n->" + e.getMessage());
+//		}
+//		return st;
+//	}
+
+	/**
+	 * Import an element of type StringType in XML expected form for the SEDA
+	 * Manifest.
+	 *
+	 * @param xmlReader  the SEDAXMLEventReader reading the SEDA manifest
+	 * @param stringType the StringType to complete
+	 * @return the read StringType
+	 * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
+	 *                          respected
+	 */
+	public static StringType fromSedaXmlInObject(SEDAXMLEventReader xmlReader, StringType stringType)
+			throws SEDALibException {
+		try {
+			if (xmlReader.peekBlockIfNamed(stringType.elementName)) {
+				xmlReader.nextUsefullEvent();
+				XMLEvent event = xmlReader.nextUsefullEvent();
+				if (event.isCharacters()) {
+					stringType.value = event.asCharacters().getData();
+					event = xmlReader.nextUsefullEvent();
+				} else
+					stringType.value = "";
+				if ((!event.isEndElement())
+						|| (!stringType.elementName.equals(event.asEndElement().getName().getLocalPart())))
+					throw new SEDALibException("Elément " + stringType.elementName + " mal terminé");
 			} else
-				st.value = "";
-			if ((!event.isEndElement()) || (!st.elementName.equals(event.asEndElement().getName().getLocalPart())))
-				throw new SEDALibException("Elément " + st.elementName + " mal terminé");
+				return null;
 		} catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
 			throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType\n->" + e.getMessage());
 		}
-		return st;
+		return stringType;
 	}
 
 	// Getters and setters

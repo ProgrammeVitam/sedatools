@@ -33,7 +33,6 @@ import java.util.List;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.GenericXMLBlockType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.SchemeType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -112,8 +111,8 @@ public class ManagementMetadata extends ComplexListType {
     protected void initMetadataMap() {
 			metadataMap = new HashMap<String, ComplexListType.MetadataKind>();
 			metadataMap.put("ArchivalProfile",
-					new ComplexListType.MetadataKind(SchemeType.class, false));
-			metadataMap.put("ServiceLevel", new ComplexListType.MetadataKind(SchemeType.class, false));
+					new ComplexListType.MetadataKind(StringType.class, false));
+			metadataMap.put("ServiceLevel", new ComplexListType.MetadataKind(StringType.class, false));
 			metadataMap.put("AcquisitionInformation",
 					new ComplexListType.MetadataKind(StringType.class, false));
 			metadataMap.put("LegalStatus", new ComplexListType.MetadataKind(StringType.class, false));

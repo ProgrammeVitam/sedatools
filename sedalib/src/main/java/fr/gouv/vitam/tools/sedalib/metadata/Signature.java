@@ -102,7 +102,7 @@ public class Signature extends ComplexListType {
         metadataMap = new HashMap<String, MetadataKind>();
         metadataMap.put("Signer", new MetadataKind(Signer.class, true));
         metadataMap.put("Validator", new MetadataKind(Validator.class, false));
-        metadataMap.put("Masterdata", new MetadataKind(CodeType.class, false));
+        metadataMap.put("Masterdata", new MetadataKind(StringType.class, false));
     }
 
     // Getters and setters

@@ -30,7 +30,6 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateTimeType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
@@ -169,11 +168,11 @@ public class Validator extends ComplexListType {
         metadataMap.put("Corpname", new MetadataKind(StringType.class, false));
         metadataMap.put("Identifier", new MetadataKind(StringType.class, true));
         metadataMap.put("ValidationTime", new MetadataKind(DateTimeType.class, false));
-        metadataMap.put("Function", new MetadataKind(TextType.class, true));
-        metadataMap.put("Activity", new MetadataKind(TextType.class, true));
-        metadataMap.put("Position", new MetadataKind(TextType.class, true));
-        metadataMap.put("Role", new MetadataKind(TextType.class, true));
-        metadataMap.put("Mandate", new MetadataKind(TextType.class, true));
+        metadataMap.put("Function", new MetadataKind(StringType.class, true));
+        metadataMap.put("Activity", new MetadataKind(StringType.class, true));
+        metadataMap.put("Position", new MetadataKind(StringType.class, true));
+        metadataMap.put("Role", new MetadataKind(StringType.class, true));
+        metadataMap.put("Mandate", new MetadataKind(StringType.class, true));
     }
 
     // Getters and setters
