@@ -182,12 +182,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         menuBar.add(contextMenu);
         contextMenu.setEnabled(false);
 
-        menuItem = new JMenuItem("Voir le contexte d'import...");
+        menuItem = new JMenuItem("Voir les informations d'import...");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "SeeImportContext");
         contextMenu.add(menuItem);
 
-        menuItem = new JMenuItem("Editer le contexte d'export...");
+        menuItem = new JMenuItem("Editer les paramètres d'export...");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "EditSIPExportContext");
         contextMenu.add(menuItem);

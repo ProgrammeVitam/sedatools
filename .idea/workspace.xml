@@ -9,7 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Fix metadata types according to Vitam SEDA restrictions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeViewer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" afterDir="false" />
@@ -62,18 +62,18 @@
           <entry key="dummy" value="26" />
           <entry key="gitattributes" value="14" />
           <entry key="gitignore" value="89" />
-          <entry key="java" value="17734" />
+          <entry key="java" value="17826" />
           <entry key="md" value="1471" />
           <entry key="rst" value="408" />
-          <entry key="txt" value="1777" />
+          <entry key="txt" value="1850" />
           <entry key="xml" value="293" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="17734" />
+          <entry key="JAVA" value="17826" />
           <entry key="Markdown" value="1441" />
-          <entry key="PLAIN_TEXT" value="2348" />
+          <entry key="PLAIN_TEXT" value="2421" />
           <entry key="XML" value="293" />
         </counts>
       </usages-collector>
@@ -85,7 +85,7 @@
           <entry key="gitattributes" value="1" />
           <entry key="gitignore" value="11" />
           <entry key="html" value="1" />
-          <entry key="java" value="518" />
+          <entry key="java" value="529" />
           <entry key="jfd" value="1" />
           <entry key="md" value="8" />
           <entry key="png" value="1" />
@@ -100,7 +100,7 @@
           <entry key="GUI_DESIGNER_FORM" value="4" />
           <entry key="HTML" value="1" />
           <entry key="Image" value="1" />
-          <entry key="JAVA" value="518" />
+          <entry key="JAVA" value="529" />
           <entry key="JFormDesigner_form" value="1" />
           <entry key="Markdown" value="5" />
           <entry key="PLAIN_TEXT" value="21" />
@@ -173,7 +173,7 @@
         <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="430">
-              <caret line="116" column="38" selection-start-line="116" selection-start-column="38" selection-end-line="116" selection-end-column="38" />
+              <caret line="151" selection-start-line="151" selection-end-line="151" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -182,58 +182,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/inout/MailImporter.java">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1015">
-              <caret line="65" column="17" selection-start-line="65" selection-start-column="11" selection-end-line="65" selection-end-column="23" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MailImportContextDialog.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1011">
-              <caret line="89" column="27" selection-start-line="89" selection-start-column="27" selection-end-line="89" selection-end-column="27" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="676" column="28" selection-start-line="676" selection-start-column="28" selection-end-line="676" selection-end-column="28" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/CreationContext.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="382">
-              <caret line="185" selection-start-line="182" selection-end-line="185" />
-              <folding>
-                <element signature="e#5325#5326#0" expanded="true" />
-                <element signature="e#5346#5347#0" expanded="true" />
-                <element signature="e#5761#5762#0" expanded="true" />
-                <element signature="e#5798#5799#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-391">
+              <caret line="116" column="8" selection-start-line="116" selection-start-column="8" selection-end-line="116" selection-end-column="8" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeViewer.java">
+        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="130" column="21" lean-forward="true" selection-start-line="130" selection-start-column="21" selection-end-line="130" selection-end-column="21" />
+            <state relative-caret-position="322">
+              <caret line="184" column="70" lean-forward="true" selection-start-line="184" selection-start-column="70" selection-end-line="184" selection-end-column="70" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -242,10 +203,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java">
+        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/AddMetadataItem.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="199" column="83" selection-start-line="199" selection-start-column="83" selection-end-line="199" selection-end-column="83" />
+            <state relative-caret-position="460">
+              <caret line="97" column="140" selection-start-line="97" selection-start-column="140" selection-end-line="97" selection-end-column="140" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -255,42 +216,62 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/MailImportContext.java">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/DisseminationRule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="247" column="1" selection-start-line="247" selection-start-column="1" selection-end-line="247" selection-end-column="1" />
-              <folding>
-                <element signature="e#3753#3754#0" expanded="true" />
-                <element signature="e#3789#3790#0" expanded="true" />
-                <element signature="e#4210#4211#0" expanded="true" />
-                <element signature="e#4250#4251#0" expanded="true" />
-                <element signature="e#4696#4697#0" expanded="true" />
-                <element signature="e#4735#4736#0" expanded="true" />
-                <element signature="e#5186#5187#0" expanded="true" />
-                <element signature="e#5229#5230#0" expanded="true" />
-                <element signature="e#5630#5631#0" expanded="true" />
-                <element signature="e#5652#5653#0" expanded="true" />
-                <element signature="e#5904#5905#0" expanded="true" />
-                <element signature="e#5928#5929#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/FormatIdentification.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
+            <state relative-caret-position="-241">
               <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/PrefsDialog.java">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/StorageRule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="233" column="67" selection-start-line="233" selection-start-column="67" selection-end-line="233" selection-end-column="67" />
+            <state relative-caret-position="261">
+              <caret line="55" column="34" selection-start-line="53" selection-start-column="28" selection-end-line="55" selection-end-column="34" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/RuleType.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="337">
+              <caret line="183" selection-start-line="183" selection-end-line="183" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AppraisalRule.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1295">
+              <caret line="118" selection-start-line="118" selection-end-line="118" />
+              <folding>
+                <element signature="e#4622#4623#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="343">
+              <caret line="215" selection-start-line="215" selection-end-line="215" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToArchiveTransferImporter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="340">
+              <caret line="62" column="13" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -413,7 +394,6 @@
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/inout/package-info.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/package-info.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/utils/package-info.java" />
-        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeTransferHandler.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/package-info.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/DustbinItem.java" />
@@ -435,7 +415,6 @@
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Signature.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/ArchiveUnitProfile.java" />
         <option value="$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/metadata/ManagementMetadataTest.java" />
-        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/AddMetadataItem.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Content.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Event.java" />
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/GenericXMLBlockType.java" />
@@ -446,6 +425,8 @@
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MailImportContextDialog.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/MailImportContext.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeViewer.java" />
+        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/AddMetadataItem.java" />
+        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" />
       </list>
     </option>
   </component>
@@ -585,6 +566,16 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="resip" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="resip" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="resip" type="462c0819:PsiDirectoryNode" />
               <item name="frame" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -675,6 +666,27 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="sedalib" type="462c0819:PsiDirectoryNode" />
               <item name="core" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="inout" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+              <item name="inout" type="462c0819:PsiDirectoryNode" />
+              <item name="importer" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
@@ -1216,7 +1228,21 @@
       <option name="project" value="LOCAL" />
       <updated>1540249777872</updated>
     </task>
-    <option name="localTasksCounter" value="43" />
+    <task id="LOCAL-00043" summary="Fix right click in DataObjectPackage tree viewer">
+      <created>1540494628694</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1540494628694</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Fix ReSip metadata samples generation">
+      <created>1540508096533</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1540508096533</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1264,7 +1290,7 @@
     <frame x="-8" y="-8" width="1874" height="1096" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28941566" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.28941566" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -1283,7 +1309,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.3281412" />
       <window_info anchor="bottom" id="Messages" order="9" weight="0.3271028" />
       <window_info anchor="bottom" id="Inspection Results" order="10" weight="0.3281412" />
-      <window_info active="true" anchor="bottom" id="Run" order="11" visible="true" weight="0.3271028" />
+      <window_info anchor="bottom" id="Run" order="11" visible="true" weight="0.3271028" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24972437" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -1372,8 +1398,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="Change ArchiveUnit elements management to prevent useless conversions" />
-    <MESSAGE value="Harmonize getters and setters and structure visibility" />
     <MESSAGE value="Change Content element management to prevent useless conversions" />
     <MESSAGE value="Fix metadata PersonType, Event and Content" />
     <MESSAGE value="Add Signature metadata" />
@@ -1397,7 +1421,9 @@
     <MESSAGE value="Fix metadata types according to Vitam SEDA restrictions" />
     <MESSAGE value="Add dialog choice of eml protocol extraction" />
     <MESSAGE value="Add guess mail extraction protocol from filename" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add guess mail extraction protocol from filename" />
+    <MESSAGE value="Fix right click in DataObjectPackage tree viewer" />
+    <MESSAGE value="Fix ReSip metadata samples generation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix ReSip metadata samples generation" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1482,18 +1508,6 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java</url>
-          <line>151</line>
-          <properties />
-          <option name="timeStamp" value="106" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java</url>
-          <line>136</line>
-          <properties />
-          <option name="timeStamp" value="108" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java</url>
           <line>115</line>
           <properties />
           <option name="timeStamp" value="109" />
@@ -1511,10 +1525,10 @@
           <option name="timeStamp" value="111" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java</url>
-          <line>215</line>
+          <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/AddMetadataItem.java</url>
+          <line>188</line>
           <properties />
-          <option name="timeStamp" value="113" />
+          <option name="timeStamp" value="115" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeViewer.java</url>
@@ -1540,55 +1554,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeNodesTransferable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="833">
-          <caret line="59" selection-start-line="59" selection-end-line="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeTransferHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2380">
-          <caret line="158" column="28" selection-start-line="158" selection-start-column="28" selection-end-line="158" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/package-info.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AUTHORS.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor>
-            <markdownNavigatorState />
-          </second_editor>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="663">
-            <caret line="39" selection-start-line="20" selection-end-line="39" />
-          </first_editor>
-          <second_editor>
-            <markdownNavigatorState />
-          </second_editor>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/resip/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
@@ -1788,19 +1753,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/AddMetadataItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="63" selection-start-line="63" selection-end-line="63" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-            <element signature="e#8778#8779#0" expanded="true" />
-            <element signature="e#8831#8832#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/Content.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="172">
@@ -1857,27 +1809,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
-          <caret line="199" column="83" selection-start-line="199" selection-start-column="83" selection-end-line="199" selection-end-column="83" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="676" column="28" selection-start-line="676" selection-start-column="28" selection-end-line="676" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/CreationContext.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="382">
@@ -1887,16 +1818,6 @@
             <element signature="e#5346#5347#0" expanded="true" />
             <element signature="e#5761#5762#0" expanded="true" />
             <element signature="e#5798#5799#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="116" column="38" selection-start-line="116" selection-start-column="38" selection-end-line="116" selection-end-column="38" />
-          <folding>
-            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1956,7 +1877,101 @@
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeViewer.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="280">
-          <caret line="130" column="21" lean-forward="true" selection-start-line="130" selection-start-column="21" selection-end-line="130" selection-end-column="21" />
+          <caret line="130" column="21" selection-start-line="130" selection-start-column="21" selection-end-line="130" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/core/DataObjectPackage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-391">
+          <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToArchiveTransferImporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="62" column="13" selection-start-line="62" selection-start-column="13" selection-end-line="62" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/frame/MainWindow.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="343">
+          <caret line="215" selection-start-line="215" selection-end-line="215" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ImportThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="430">
+          <caret line="151" selection-start-line="151" selection-end-line="151" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/namedtype/RuleType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="337">
+          <caret line="183" selection-start-line="183" selection-end-line="183" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/AppraisalRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1295">
+          <caret line="118" selection-start-line="118" selection-end-line="118" />
+          <folding>
+            <element signature="e#4622#4623#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/DisseminationRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-241">
+          <caret line="46" column="13" selection-start-line="46" selection-start-column="13" selection-end-line="46" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/StorageRule.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="55" column="34" selection-start-line="53" selection-start-column="28" selection-end-line="55" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/AddMetadataItem.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="460">
+          <caret line="97" column="140" selection-start-line="97" selection-start-column="140" selection-end-line="97" selection-end-column="140" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-391">
+          <caret line="116" column="8" selection-start-line="116" selection-start-column="8" selection-end-line="116" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="322">
+          <caret line="184" column="70" lean-forward="true" selection-start-line="184" selection-start-column="70" selection-end-line="184" selection-end-column="70" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
