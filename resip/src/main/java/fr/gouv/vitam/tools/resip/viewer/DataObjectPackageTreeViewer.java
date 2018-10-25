@@ -129,7 +129,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
 
                         popup.show((Component) e.getSource(), e.getX(), e.getY());
                     }
-                } else {
+                } else if (SwingUtilities.isRightMouseButton(e)){
                     JPopupMenu popup = new JPopupMenu();
                     JMenuItem mi;
                     mi = new JMenuItem("Ajouter une ArchiveUnit racine");
