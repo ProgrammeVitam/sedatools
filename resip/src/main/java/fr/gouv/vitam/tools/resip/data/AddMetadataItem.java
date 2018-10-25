@@ -83,7 +83,7 @@ public class AddMetadataItem {
         typeExtraInformationMap.put("AccessRule", "Règle de communicabilité");
 
         typeCreatorMap.put("AppraisalRule", AddMetadataItem::appraisalRuleSample);
-        typeExtraInformationMap.put("AppraisalRule", "Règle de durée d’utilité administrative");
+        typeExtraInformationMap.put("AppraisalRule", "Règle de durée d’utilité administrative (FinalAction possible Keep ou Destroy)");
 
         typeCreatorMap.put("ClassificationRule", AddMetadataItem::classificationRuleSample);
         typeExtraInformationMap.put("ClassificationRule", "Règle de classification\n    ClassificationLevel et ClassificationOwner obligatoires");
@@ -95,7 +95,7 @@ public class AddMetadataItem {
         typeExtraInformationMap.put("ReuseRule", "Règle de réutilisation");
 
         typeCreatorMap.put("StorageRule", AddMetadataItem::storageRuleSample);
-        typeExtraInformationMap.put("StorageRule", "Règle de durée d’utilité courante");
+        typeExtraInformationMap.put("StorageRule", "Règle de durée d’utilité courante (FinalAction possible RestrictAccess,Transfer ou Copy)");
 
         typeCreatorMap.put("Event", AddMetadataItem::eventSample);
         typeExtraInformationMap.put("Event", "Evènement (EventDateTime obligatoire)");
@@ -188,7 +188,7 @@ public class AddMetadataItem {
         ruleTypeSample.addRefNonRuleId("Rule4");
         if (ruleTypeSample.getFinalActionList() != null) {
             try {
-                ruleTypeSample.setFinalAction(String.join("|", ruleTypeSample.getFinalActionList()));
+                ruleTypeSample.setFinalAction(ruleTypeSample.getFinalActionList().get(0));
             } catch (SEDALibException ignored) {
             }
         }
