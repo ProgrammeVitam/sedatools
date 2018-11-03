@@ -31,6 +31,8 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
@@ -82,7 +84,8 @@ public class SIPToArchiveTransferImporter {
     public String unZipSip(String zipFile, String outputFolder) throws SEDALibException, InterruptedException {
         String manifest = null;
         int counter = 0;
-        try (ZipFile zf = new ZipFile(zipFile)) {
+        try (FileInputStream fis=new FileInputStream(zipFile);
+             ZipArchiveInputStream zais = new ZipArchiveInputStream(fis)) {
             // create output directory is not exists
             File folder = new File(outputFolder);
             if (!folder.exists()) {
@@ -90,11 +93,11 @@ public class SIPToArchiveTransferImporter {
                 folder.mkdir();
             }
             // get the zipped file list entry
-            Enumeration<ZipEntry> entries = zf.getEntries();
-            while (entries.hasMoreElements()) {
-                ZipEntry ze = entries.nextElement();
+            ArchiveEntry ze;
+            while ((ze=zais.getNextEntry())!=null) {
                 String fileName = ze.getName().trim();
-                // change any case ConTenT to lowercase content on import as in fromSEDA in BinaryDataObject
+                // change any case ConTenT to lowercase content on import as in fromSEDA in
+                // BinaryDataObject
                 if (fileName.toLowerCase().startsWith("content"))
                     fileName = "content" + fileName.substring(7);
 
@@ -119,22 +122,21 @@ public class SIPToArchiveTransferImporter {
                         Files.createDirectories(newPath.getParent());
 
                     FileOutputStream fos = new FileOutputStream(newPath.toFile());
-                    InputStream is = zf.getInputStream(ze);
-                    IOUtils.copy(is, fos);
+                    IOUtils.copy(zais, fos);
                     counter++;
                     if (sedaLibProgressLogger !=null)
                         sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
                                 "extraits");
-                    is.close();
                     fos.close();
                 }
             }
         } catch (IOException ex) {
-            throw new SEDALibException("Impossible de décompresser le fichier [" + zipFile
-                    + "] dans le répertoire [" + outputFolder + "]\n->" + ex.getMessage());
+            throw new SEDALibException("Impossible de décompresser le fichier [" + zipFile + "] dans le répertoire ["
+                    + outputFolder + "]\n->" + ex.getMessage());
         }
         if (sedaLibProgressLogger !=null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers extraits");
+            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
+                    "extraits");
         if (manifest == null)
             throw new SEDALibException("SIP mal formé, pas de manifest");
         return manifest;

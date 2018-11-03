@@ -56,14 +56,13 @@
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>1.4</version>
+            <artifactId>commons-compress</artifactId>
+            <version>1.18</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
-            <artifactId>commons-parent</artifactId>
-            <version>47</version>
-            <type>pom</type>
+            <artifactId>commons-text</artifactId>
+            <version>1.4</version>
         </dependency>
         <dependency>
             <groupId>uk.gov.nationalarchives</groupId>
@@ -113,11 +112,6 @@
             <artifactId>junit-platform-runner</artifactId>
             <version>1.1.0</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-compress</artifactId>
-            <version>1.18</version>
         </dependency>
     </dependencies>
 
