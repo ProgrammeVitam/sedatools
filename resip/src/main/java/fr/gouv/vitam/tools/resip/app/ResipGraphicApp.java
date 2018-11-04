@@ -39,13 +39,7 @@ import javax.swing.*;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.*;
 import fr.gouv.vitam.tools.mailextract.lib.core.StoreExtractor;
-import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
-import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
-import fr.gouv.vitam.tools.resip.parameters.CreationContext;
-import fr.gouv.vitam.tools.resip.parameters.DIPImportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
-import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
+import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
@@ -110,10 +104,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             if (launchWork.getCreationContext() != null) {
                 if (launchWork.getCreationContext() instanceof DiskImportContext) {
                     currentWork = launchWork;
-                    importFromDisk(launchWork);
+                    importWork(launchWork);
                 } else if (launchWork.getCreationContext() instanceof SIPImportContext) {
                     currentWork = launchWork;
-                    importFromSIP(launchWork);
+                    importWork(launchWork);
                 } else {
                     currentWork = new Work(new DataObjectPackage(), launchWork.getCreationContext(),
                             launchWork.getExportContext());
@@ -215,6 +209,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "ImportFromDIP");
         importMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Importer depuis un csv d'arbre de classement...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "ImportFromCSVTree");
+        importMenu.add(menuItem);
+
         menuItem = new JMenuItem("Importer depuis un conteneur courriels...");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "ImportFromMail");
@@ -287,18 +286,21 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "ImportFromDisk":
                         importFromDisk();
                         break;
+                    case "ImportFromCSVTree":
+                        importFromCSVTree();
+                        break;
                     case "ImportFromMail":
                         importFromMail();
                         break;
                     // Export Menu
                     case "ExportToSEDASIP":
-                        exportToSEDASIP();
+                        exportWork(ExportThread.SIP_EXPORT);
                         break;
                     case "ExportToSEDAXMLManifest":
-                        exportToSEDAXMLManifest();
+                        exportWork(ExportThread.MANIFEST_EXPORT);
                         break;
                     case "ExportToDisk":
-                        exportToDisk();
+                        exportWork(ExportThread.DISK_EXPORT);
                         break;
                 }
         }
@@ -483,7 +485,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     void editExportContext() {
         if (currentWork != null) {
-             if (currentWork.getExportContext() == null) {
+            if (currentWork.getExportContext() == null) {
                 currentWork.setExportContext(new ExportContext(Prefs.getInstance().getPrefsContextNode()));
             }
             ExportContextDialog exportContextDialog = new ExportContextDialog(mainWindow, currentWork.getExportContext());
@@ -505,32 +507,29 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // Import Menu
 
-    // MenuItem Import SIP
+    private boolean isImportActionWrong() {
+        if (importThreadRunning) {
+            JOptionPane.showMessageDialog(mainWindow,
+                    "Un import est en cours vous devez l'annuler ou attendre la fin avant de faire un autre import.",
+                    "Alerte", JOptionPane.WARNING_MESSAGE);
+            return true;
+        }
 
-    void importFromSIP() {
+        if ((currentWork != null) && modifiedWork
+                && (JOptionPane.showConfirmDialog(mainWindow,
+                "Vous avez un contexte en cours non sauvegardé, un import l'écrasera.\n"
+                        + "Voulez-vous continuer?",
+                "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
+            return true;
+        return false;
+    }
+
+    private void importWork(Work work) {
         try {
-            if (importThreadRunning) {
-                JOptionPane.showMessageDialog(mainWindow,
-                        "Un import est en cours vous devez l'annuler ou attendre la fin avant de faire un autre import.",
-                        "Alerte", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            if ((currentWork != null) && modifiedWork
-                    && (JOptionPane.showConfirmDialog(mainWindow,
-                    "Vous avez un contexte en cours non sauvegardé, un import l'écrasera.\n"
-                            + "Voulez-vous continuer?",
-                    "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
-                return;
-
-            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
-            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                CreationContext oic = new SIPImportContext(Prefs.getInstance().getPrefsContextNode());
-                oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
-                Work work = new Work(null, oic, null);
-                importFromSIP(work);
-            }
+            InOutDialog inOutDialog = new InOutDialog(mainWindow, "Import");
+            ImportThread importThread = new ImportThread(work, inOutDialog);
+            importThread.execute();
+            inOutDialog.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
@@ -539,13 +538,21 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         }
     }
 
-    void importFromSIP(Work work) {
+    // MenuItem Import SIP
+
+    void importFromSIP() {
         try {
-            InOutDialog inOutDialog = new InOutDialog(mainWindow, "Import",
-                    "Import depuis un fichier SIP en " + work.getCreationContext().getOnDiskInput() + "\n");
-            ImportThread importThread = new ImportThread(work, inOutDialog);
-            importThread.execute();
-            inOutDialog.setVisible(true);
+            if (isImportActionWrong())
+                return;
+
+            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+                CreationContext oic = new SIPImportContext(Prefs.getInstance().getPrefsContextNode());
+                oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
+                Work work = new Work(null, oic, null);
+                importWork(work);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
@@ -558,18 +565,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     void importFromDIP() {
         try {
-            if (importThreadRunning) {
-                JOptionPane.showMessageDialog(mainWindow,
-                        "Un import est en cours vous devez l'annuler ou attendre la fin avant de faire un autre import.",
-                        "Alerte", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            if ((currentWork != null) && modifiedWork
-                    && (JOptionPane.showConfirmDialog(mainWindow,
-                    "Vous avez un contexte en cours non sauvegardé, un import l'écrasera.\n"
-                            + "Voulez-vous continuer?",
-                    "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
+            if (isImportActionWrong())
                 return;
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
@@ -578,23 +574,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 CreationContext oic = new DIPImportContext(Prefs.getInstance().getPrefsContextNode());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 Work work = new Work(null, oic, null);
-                importFromDIP(work);
+                importWork(work);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
-        }
-    }
-
-    void importFromDIP(Work work) {
-        try {
-            InOutDialog inOutDialog = new InOutDialog(mainWindow, "Import",
-                    "Import depuis un fichier DIP en " + work.getCreationContext().getOnDiskInput() + "\n");
-            ImportThread importThread = new ImportThread(work, inOutDialog);
-            importThread.execute();
-            inOutDialog.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
@@ -607,18 +588,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     void importFromDisk() {
         try {
-            if (importThreadRunning) {
-                JOptionPane.showMessageDialog(mainWindow,
-                        "Un import est en cours vous devez l'annuler ou attendre la fin avant de faire un autre import.",
-                        "Alerte", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            if ((currentWork != null) && modifiedWork
-                    && (JOptionPane.showConfirmDialog(mainWindow,
-                    "Vous avez un contexte en cours non sauvegardé, un chargement l'écrasera.\n"
-                            + "Voulez-vous continuer?",
-                    "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
+            if (isImportActionWrong())
                 return;
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
@@ -627,7 +597,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 CreationContext oic = new DiskImportContext(Prefs.getInstance().getPrefsContextNode());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 Work work = new Work(null, oic, null);
-                importFromDisk(work);
+                importWork(work);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
@@ -637,37 +607,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         }
     }
 
-    void importFromDisk(Work work) {
-        try {
-            InOutDialog inOutDialog = new InOutDialog(mainWindow, "Import",
-                    "Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n");
-            ImportThread importThread = new ImportThread(work, inOutDialog);
-            importThread.execute();
-            inOutDialog.setVisible(true);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
-        }
-    }
-
-    // MenuItem Import from disk
+    // MenuItem Import from mail container
 
     void importFromMail() {
         try {
-            if (importThreadRunning) {
-                JOptionPane.showMessageDialog(mainWindow,
-                        "Un import est en cours vous devez l'annuler ou attendre la fin avant de faire un autre import.",
-                        "Alerte", JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-
-            if ((currentWork != null) && modifiedWork
-                    && (JOptionPane.showConfirmDialog(mainWindow,
-                    "Vous avez un contexte en cours non sauvegardé, un chargement l'écrasera.\n"
-                            + "Voulez-vous continuer?",
-                    "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
+            if (isImportActionWrong())
                 return;
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
@@ -681,7 +625,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     return;
                 micd.setMailImportContextFromDialog(mic);
                 Work work = new Work(null, mic, null);
-                importFromMail(work);
+                importWork(work);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
@@ -691,13 +635,22 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         }
     }
 
-    void importFromMail(Work work) {
+    // MenuItem Import from csv tree
+
+    void importFromCSVTree() {
         try {
-            InOutDialog inOutDialog = new InOutDialog(mainWindow, "Import",
-                    "Import depuis un conteneur de courriels en " + work.getCreationContext().getOnDiskInput() + "\n");
-            ImportThread importThread = new ImportThread(work, inOutDialog);
-            importThread.execute();
-            inOutDialog.setVisible(true);
+            if (isImportActionWrong())
+                return;
+
+            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+                CSVTreeImportContext ctic = new CSVTreeImportContext(Prefs.getInstance().getPrefsContextNode());
+                ctic.setOnDiskInput(fileChooser.getSelectedFile().toString());
+                Work work = new Work(null, ctic, null);
+                importWork(work);
+                //        ,"Import depuis un csv d'arbre de classement en " + work.getCreationContext().getOnDiskInput());
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
@@ -723,9 +676,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         return false;
     }
 
-    // MenuItem Export SIP
+    // MenuItem Export Manifest, SIP or disk
 
-    private void exportToSEDASIP() {
+    private void exportWork(int exportType) {
         try {
             if (completeResipWork())
                 return;
@@ -736,10 +689,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 fileChooser = new JFileChooser(Prefs.getInstance().getPrefsExportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showSaveDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Export",
-                        "Export du manifest SEDA vers " + fileChooser.getSelectedFile().getAbsolutePath() + "\n");
+                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Export");
                 currentWork.getExportContext().setOnDiskOutput(fileChooser.getSelectedFile().getAbsolutePath());
-                ExportThread exportThread = new ExportThread(currentWork, ExportThread.SIP_EXPORT,inOutDialog);
+                ExportThread exportThread = new ExportThread(currentWork, exportType, inOutDialog);
                 exportThread.execute();
                 inOutDialog.setVisible(true);
             }
@@ -749,59 +701,4 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Impossible de faire l'export \n->" + e.getMessage());
         }
     }
-
-    // MenuItem Export Manifest
-
-    private void exportToSEDAXMLManifest() {
-        try {
-            if (completeResipWork())
-                return;
-            JFileChooser fileChooser;
-            if (currentWork.getExportContext().getOnDiskOutput() != null)
-                fileChooser = new JFileChooser(currentWork.getExportContext().getOnDiskOutput());
-            else
-                fileChooser = new JFileChooser(Prefs.getInstance().getPrefsExportDir());
-            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            if (fileChooser.showSaveDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Export",
-                        "Export du manifest SEDA vers " + fileChooser.getSelectedFile().getAbsolutePath() + "\n");
-                currentWork.getExportContext().setOnDiskOutput(fileChooser.getSelectedFile().getAbsolutePath());
-                ExportThread exportThread = new ExportThread(currentWork, ExportThread.MANIFEST_EXPORT, inOutDialog);
-                exportThread.execute();
-                inOutDialog.setVisible(true);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow, "Impossible de faire l'export \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Impossible de faire l'export \n->" + e.getMessage());
-        }
-    }
-
-    // MenuItem Export Manifest
-
-    private void exportToDisk() {
-        try {
-            if (completeResipWork())
-                return;
-            JFileChooser fileChooser;
-            if (currentWork.getExportContext().getOnDiskOutput() != null)
-                fileChooser = new JFileChooser(currentWork.getExportContext().getOnDiskOutput());
-            else
-                fileChooser = new JFileChooser(Prefs.getInstance().getPrefsExportDir());
-            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            if (fileChooser.showSaveDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Export",
-                        "Export sur disque vers " + fileChooser.getSelectedFile().getAbsolutePath() + "\n");
-                currentWork.getExportContext().setOnDiskOutput(fileChooser.getSelectedFile().getAbsolutePath());
-                ExportThread exportThread = new ExportThread(currentWork, ExportThread.DISK_EXPORT,inOutDialog);
-                exportThread.execute();
-                inOutDialog.setVisible(true);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow, "Impossible de faire l'export \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Impossible de faire l'export \n->" + e.getMessage());
-        }
-    }
-
 }

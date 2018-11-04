@@ -41,6 +41,8 @@ import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
+import fr.gouv.vitam.tools.sedalib.inout.importer.CSVTreeToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DIPToArchiveDeliveryRequestReplyImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
@@ -92,6 +94,7 @@ public class ImportThread extends SwingWorker<Work, String> {
             }, 1000);
 
             if (work.getCreationContext() instanceof DiskImportContext) {
+                inOutDialog.extProgressTextArea.setText("Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput()+"\n");
                 DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(),
                         spl);
                 for (String ip : ((DiskImportContext) work.getCreationContext()).getIgnorePatternList())
@@ -101,18 +104,29 @@ public class ImportThread extends SwingWorker<Work, String> {
                 setWorkFromArchiveTransfer(di.getArchiveTransfer());
                 summary = di.getSummary();
             } else if (work.getCreationContext() instanceof SIPImportContext) {
+                inOutDialog.extProgressTextArea.setText("Import depuis un fichier SIP en " + work.getCreationContext().getOnDiskInput()+"\n");
                 SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(),
                         work.getCreationContext().getWorkDir(), spl);
                 si.doImport();
                 setWorkFromArchiveTransfer(si.getArchiveTransfer());
                 summary = si.getSummary();
             } else if (work.getCreationContext() instanceof DIPImportContext) {
+                inOutDialog.extProgressTextArea.setText("Import depuis un fichier DIP en " + work.getCreationContext().getOnDiskInput()+"\n");
                 DIPToArchiveDeliveryRequestReplyImporter si = new DIPToArchiveDeliveryRequestReplyImporter(
                         work.getCreationContext().getOnDiskInput(), work.getCreationContext().getWorkDir(), spl);
                 si.doImport();
                 setWorkFromArchiveDeliveryRequestReply(si.getArchiveDeliveryRequestReply());
                 summary = si.getSummary();
+            } else if (work.getCreationContext() instanceof CSVTreeImportContext) {
+                inOutDialog.extProgressTextArea.setText("Import depuis un csv d'arbre de classement en " + work.getCreationContext().getOnDiskInput()+"\n");
+                CSVTreeToDataObjectPackageImporter cti = new CSVTreeToDataObjectPackageImporter(
+                        work.getCreationContext().getOnDiskInput(), "Cp1252",';', spl);
+                cti.doImport();
+                work.setDataObjectPackage(cti.getDataObjectPackage());
+                work.setExportContext(new ExportContext(Prefs.getInstance().getPrefsContextNode()));
+                summary = cti.getSummary();
             } else if (work.getCreationContext() instanceof MailImportContext) {
+                inOutDialog.extProgressTextArea.setText("Import depuis un conteneur courriel en " + work.getCreationContext().getOnDiskInput()+"\n");
                 MailImportContext mic = (MailImportContext) work.getCreationContext();
                 MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),
                         mic.isExtractAttachmentTextFile(), mic.isExtractAttachmentTextMetadata(), mic.getProtocol(),

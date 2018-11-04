@@ -104,6 +104,7 @@ public class ExportThread extends SwingWorker<String, String> {
 			archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
 			archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
 			if (exportType == MANIFEST_EXPORT) {
+				inOutDialog.extProgressTextArea.setText("Export du manifest SEDA en " + work.getExportContext().getOnDiskOutput() + "\n");
 				ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
 				sm.doExportToSEDAXMLManifest(work.getExportContext().getOnDiskOutput(), work.getExportContext().isHierarchicalArchiveUnits(),
 						work.getExportContext().isIndented());
@@ -111,6 +112,7 @@ public class ExportThread extends SwingWorker<String, String> {
 						"Fichier sauvegardé (" + readableFileSize(new File(work.getExportContext().getOnDiskOutput()).length()) + ")");
 				summary=sm.getSummary();
 			} else if (exportType == SIP_EXPORT) {
+				inOutDialog.extProgressTextArea.setText("Export du SIP SEDA en " + work.getExportContext().getOnDiskOutput() + "\n");
 				ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
 				sm.doExportToSEDASIP(work.getExportContext().getOnDiskOutput(), work.getExportContext().isHierarchicalArchiveUnits(),
 						work.getExportContext().isIndented());
@@ -118,6 +120,7 @@ public class ExportThread extends SwingWorker<String, String> {
 						"Fichier sauvegardé (" + readableFileSize(new File(work.getExportContext().getOnDiskOutput()).length()) + ")");
 				summary=sm.getSummary();
 			} else if (exportType == DISK_EXPORT) {
+				inOutDialog.extProgressTextArea.setText("Export en hiérarchie disque en " + work.getExportContext().getOnDiskOutput() + "\n");
 				ArchiveTransferToDiskExporter de = new ArchiveTransferToDiskExporter(archiveTransfer, spl);
 				de.doExport(work.getExportContext().getOnDiskOutput());
 				summary=de.getSummary();

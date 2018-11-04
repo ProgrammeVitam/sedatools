@@ -69,9 +69,8 @@ public class InOutDialog extends JDialog {
 	 *
 	 * @param owner the owner
 	 * @param title the title
-	 * @param message the message
 	 */
-	public InOutDialog(JFrame owner, String title, String message) {
+	public InOutDialog(JFrame owner, String title) {
 		super(owner, title, false);
 		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
@@ -101,7 +100,7 @@ public class InOutDialog extends JDialog {
 			gbc_scrollPane.gridy = 1;
 			getContentPane().add(scrollPane, gbc_scrollPane);
 			{
-				extProgressTextArea = new JTextArea(message);
+				extProgressTextArea = new JTextArea();
 				extProgressTextArea.setWrapStyleWord(true);
 				extProgressTextArea.setLineWrap(true);
 				scrollPane.setViewportView(extProgressTextArea);

@@ -399,8 +399,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         AddThread addThread;
 
         try {
-            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.getTheApp().mainWindow, "Import",
-                    "Import par glisser/déposer de fichiers\n");
+            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.getTheApp().mainWindow, "Import");
             addThread = new AddThread(ResipGraphicApp.getTheApp().currentWork,
                     (DataObjectPackageTreeNode) targetPath.getLastPathComponent(), files, inOutDialog);
             addThread.execute();

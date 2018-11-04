@@ -81,6 +81,7 @@ public class AddThread extends SwingWorker<String, String> {
 			}
 		}
 
+		inOutDialog.extProgressTextArea.setText("Import par glisser/déposer de fichiers\n");
 		ResipGraphicApp.getTheApp().addThreadRunning=true;
 		SEDALibProgressLogger spl = null;
 		try {
