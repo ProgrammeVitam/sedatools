@@ -87,15 +87,58 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
  * <td>--help</td>
  * <td>help</td>
  * </tr>
+ * <tr>
+ * <td>--diskimport</td>
+ * <td>import an ArchiveUnit hierarchy from a disk directories and files hierarchy, argument is root directory name</td>
+ * </tr>
+ * <tr>
+ * <td>--exclude</td>
+ * <td>exclude from the disk hierarchy files with names compliant with one of the regexp in a file, argument is file name</td>
+ * </tr>
+ * <tr>
+ * <td>--sipimport</td>
+ * <td>import importe an ArchiveUnit hierarchy from a SEDA SIP, argument is SIP file name</td>
+ * </tr>
+ * <tr>
+ * <td>--context</td>
+ * <td>define the export context options and global metadatas for SIP generation(MessageIdentifier...), argument is context file name</td>
+ * </tr>
+ * <tr>
+ * <td>--generatesip</td>
+ * <td>generate a SEDA SIP, argument is SIP file name</td>
+ * </tr>
+ * <tr>
+ * <td>--manifest</td>
+ * <td>generate a SEDA manifest, argument is manifest file name</td>
+ * </tr>
+ * <tr>
+ * <td>--workdir</td>
+ * <td>define the working directory for logs and temporary extractions</td>
+ * </tr>
+ * <tr>
+ * <td>--xcommand</td>
+ * <td>prevent graphic interface to be opened</td>
+ * </tr>
+ * <tr>
+ * <td>--hierarchical</td>
+ * <td>ArchiveUnits are generated in the hierchical model</td>
+ * </tr>
+ * <tr>
+ * <td>--indented</td>
+ * <td>the manifest is generated with indented XML</td>
+ * </tr>
+ * <tr>
+ * <td>--verbatim</td>
+ * <td>log level (OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)</td>
+ * </tr>
  * </table>
  * <p>
  * Long options can be reduced to short ones (for example -h is equivalent to
  * --help)
- *
  **/
 public class ResipApp {
 
-    private static Options createOptions(){
+    private static Options createOptions() {
         Options options = new Options();
 
         Option help = new Option("h", "help", false, "help");
@@ -107,7 +150,7 @@ public class ResipApp {
         options.addOption(diskimport);
 
         Option exclude = new Option("e", "exclude", true, "exclu de l'import d'une " +
-                "hiérarchie les fichiers dont le nom sont conformes aux expressions régulières dans le fichier");
+                "hiérarchie les fichiers dont le nom sont conformes aux expressions régulières contenue sur chaque ligne du fichier");
         options.addOption(exclude);
 
         Option sipimport = new Option("s", "sipimport", true,
@@ -120,7 +163,7 @@ public class ResipApp {
 
         Option generatesip = new Option("g", "generatesip", true,
                 "génère un paquet SEDA SIP de la structure importée avec en argument le nom du fichier à " +
-                        "générer dans le répertoire de travail");
+                        "générer");
         options.addOption(generatesip);
 
         Option manifest = new Option("m", "manifest", true,
@@ -137,10 +180,10 @@ public class ResipApp {
         options.addOption(command);
 
         Option hierarchical = new Option("h", "hierarchical", false,
-                "AU sont en mode hiérarchique dans le manifest SEDA");
+                "génère les ArchiveUnits en mode hiérarchique dans le manifest SEDA");
         options.addOption(hierarchical);
 
-        Option indented = new Option("i", "indented", false, "le manifest est indenté");
+        Option indented = new Option("i", "indented", false, "génère le manifest SEDA en XML indenté");
         options.addOption(indented);
 
         Option verbatim = new Option("v", "verbatim", true,
@@ -234,7 +277,7 @@ public class ResipApp {
             try {
                 workdirString = workdirPath.toAbsolutePath().normalize().toString();
             } catch (Exception e) {
-                System.err.println("Resip: L'argument de --workdir n'est pas correct\n->"+e.getMessage());
+                System.err.println("Resip: L'argument de --workdir n'est pas correct\n->" + e.getMessage());
                 System.exit(1);
             }
         } else {
@@ -243,7 +286,7 @@ public class ResipApp {
         try {
             Files.createDirectories(Paths.get(workdirString));
         } catch (Exception e) {
-            System.err.println("Resip: La création de l'arborescence en --workdir n'est pas possible\n->"+e.getMessage());
+            System.err.println("Resip: La création de l'arborescence en --workdir n'est pas possible\n->" + e.getMessage());
             System.exit(1);
         }
 
@@ -258,7 +301,7 @@ public class ResipApp {
             } catch (Exception e) {
                 System.err.println(
                         "Resip: L'argument de niveau de log est non conforme, il doit être dans la liste " +
-                                "(OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)\n->"+e.getMessage());
+                                "(OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)\n->" + e.getMessage());
                 System.exit(1);
             }
         }
@@ -272,7 +315,7 @@ public class ResipApp {
                 } catch (Exception e) {
                     System.err.println(
                             "Resip: Impossible de charger le fichier de configuration des exclusions d'import" +
-                                    " [" + cmd.getOptionValue("context") + "]\n->"+e.getMessage());
+                                    " [" + cmd.getOptionValue("context") + "]\n->" + e.getMessage());
                     System.exit(1);
                 }
             }
@@ -289,7 +332,7 @@ public class ResipApp {
             } catch (Exception e) {
                 System.err.println(
                         "Resip: Impossible de charger le fichier de configuration informations globales utiles à la " +
-                                "génération du SIP [" + cmd.getOptionValue("context") + "]\n->"+e.getMessage());
+                                "génération du SIP [" + cmd.getOptionValue("context") + "]\n->" + e.getMessage());
                 System.exit(1);
                 return;
             }
@@ -334,13 +377,13 @@ public class ResipApp {
                     packet = di.getArchiveTransfer();
                 } else //noinspection ConstantConditions
                     if (creationContext instanceof SIPImportContext) {
-                    SIPImportContext sipImportContext = (SIPImportContext) creationContext;
-                    SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sipImportContext.getOnDiskInput(), sipImportContext.getWorkDir(), spl);
-                    si.doImport();
-                    packet = si.getArchiveTransfer();
-                }
+                        SIPImportContext sipImportContext = (SIPImportContext) creationContext;
+                        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sipImportContext.getOnDiskInput(), sipImportContext.getWorkDir(), spl);
+                        si.doImport();
+                        packet = si.getArchiveTransfer();
+                    }
 
-                if (((cmd.hasOption("generatesip")) || (cmd.hasOption("manifest"))) && (packet!=null)) {
+                if (((cmd.hasOption("generatesip")) || (cmd.hasOption("manifest"))) && (packet != null)) {
                     if (packet.getGlobalMetadata() == null)
                         packet.setGlobalMetadata(exportContext.getArchiveTransferGlobalMetadata());
                     if (packet.getDataObjectPackage().getManagementMetadataXmlData() == null)
@@ -359,7 +402,7 @@ public class ResipApp {
                 ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, " Toutes les opérations finies en =" + Duration.between(start, end).toString());
             } catch (Exception e) {
                 System.err.println(
-                        "Resip: Erreur fatale \n->"+e.getMessage());
+                        "Resip: Erreur fatale \n->" + e.getMessage());
                 System.exit(1);
             }
         }

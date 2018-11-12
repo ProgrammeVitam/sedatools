@@ -1,0 +1,52 @@
+﻿Id;nom;observ;cote;serie;rang;niveau                        
+1;Archives antérieures à 1789;;AR.;;1;0
+2;Archives postérieures à 1789;;REP.;;2;0
+3;Assemblées parlementaires;;1.;REP.;1;1
+4;Souverains, chefs de l'état et de gouvernement, pouvoir exécutif;;2.;REP.;2;1
+5;Révolution et Premier Empire;;1.;REP.2.;1;2
+6;Restauration et Monarchie de Juillet;;2.;REP.2.;2;2
+7;Seconde République;;3.;REP.2.;3;2
+8;Ministère de la maison de l'empereur (Second Empire);;4.;REP.2.;4;2
+9;Ministère d'état (Second Empire);;5.;REP.2.;5;2
+10;Troisième République;;6.;REP.2.;6;2
+11;état français;;7.;REP.2.;7;2
+12;France libre et gouvernement provisoire de la France;;8.;REP.2.;8;2
+13;Quatrième République;;9.;REP.2.;9;2
+14;Cinquième République;;10.;REP.2.;10;2
+15;Charles de Gaulle;;1.;REP.2.10.;1;3
+16;Georges Pompidou;;2.;REP.2.10.;2;3
+17;Valéry Giscard d’Estaing;;3.;REP.2.10.;3;3
+18;François Mitterrand;;4.;REP.2.10.;4;3
+19;Jacques Chirac;;5.;REP.2.10.;5;3
+20;Nicolas Sarkozy;;6.;REP.2.10.;6;3
+21;François Hollande;;7.;REP.2.10.;7;3
+22;Coordination gouvernementale et interministérielle;;3.;REP.;3;1
+23;Fonctionnement de l'Etat;;4.;REP.;4;1
+24;Administrations et organismes liés aux périodes de guerre;;5.;REP.;5;1
+25;Intérieur;;6.;REP.;6;1
+26;Justice;;7.;REP.;7;1
+27;Cabinet du ministre;;1.;REP.7.;1;2
+28;Lois, décrets, ordonnances et arrêtés (originaux ou authentiques) provenant du ministère de la Justice;;2.;REP.7.;2;2
+29;Instances de contrôle et de conseil;;3.;REP.7.;3;2
+30;Organismes et services rattachés;;4.;REP.7.;4;2
+31;Ministères et secrétariats d'Etat délégués;;5.;REP.7.;5;2
+32;Administration générale;;6.;REP.7.;6;2
+33;Relations internationales;;7.;REP.7.;7;2
+34;Services judiciaires;;8.;REP.7.;8;2
+35;Affaires civiles et sceau;;9.;REP.7.;9;2
+36;Affaires criminelles et grâces;;10.;REP.7.;10;2
+37;Administration pénitentiaire depuis le XXe s.;;11.;REP.7.;11;2
+38;Direction de la protection judiciaire de la jeunesse;;12.;REP.7.;12;2
+39;Service de l'accès au droit et à la justice et de la politique de la ville;;13.;REP.7.;13;2
+40;Droit des victimes, aide aux victimes;;14.;REP.7.;14;2
+41;Colonies, Outre-mer, Coopération;;8.;REP.;8;1
+42;Beaux-Arts, Culture et Communication;;9.;REP.;9;1
+43;Education, enseignement supérieur et recherche;;10.;REP.;10;1
+44;Jeunesse et sports;;11.;REP.;11;1
+45;Travail, Santé, Affaires sociales;;12.;REP.;12;1
+46;Migrations;;13.;REP.;13;1
+47;économie et finances;;14.;REP.;14;1
+48;Travaux publics, équipement, urbanisme, transports, aménagement du territoire, écologie, environnement;;15.;REP.;15;1
+49;Agriculture;;16.;REP.;16;1
+50;Postes, Télégraphes, Télécommunications;;17.;REP.;17;1
+51;Archives privées;;AP.;;3;0
