@@ -59,56 +59,88 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
 
     // SEDA elements
 
-    /** The data object system id. */
+    /**
+     * The data object system id.
+     */
     public String dataObjectSystemId;
 
-    /** The data object group system id. */
+    /**
+     * The data object group system id.
+     */
     public String dataObjectGroupSystemId;
 
-    /** The relationships xml element in String form. */
+    /**
+     * The relationships xml element in String form.
+     */
     public List<String> relationshipsXmlData;
 
-    /** The data object group reference id. */
+    /**
+     * The data object group reference id.
+     */
     String dataObjectGroupReferenceId;
 
-    /** The data object group id. */
+    /**
+     * The data object group id.
+     */
     String dataObjectGroupId;
 
-    /** The data object version. */
+    /**
+     * The data object version.
+     */
     public String dataObjectVersion;
 
     // Attachment
     // - binary content in xml not supported by SEDALib
 
-    /** The uri. */
+    /**
+     * The uri.
+     */
     public String uri;
 
-    /** The message digest. */
+    /**
+     * The message digest.
+     */
     public String messageDigest;
 
-    /** The message digest algorithm. */
+    /**
+     * The message digest algorithm.
+     */
     public String messageDigestAlgorithm;
 
-    /** The size. */
+    /**
+     * The size.
+     */
     public long size;
 
-    /** The compressed. */
+    /**
+     * The compressed.
+     */
     public String compressed;
 
-    /** The format identification. */
+    /**
+     * The format identification.
+     */
     public FormatIdentification formatIdentification;
 
-    /** The file info. */
+    /**
+     * The file info.
+     */
     public FileInfo fileInfo;
 
-    /** The metadata xml element in String form. */
+    /**
+     * The metadata xml element in String form.
+     */
     public String metadataXmlData;
 
-    /** The other metadata xml element in String form. */
+    /**
+     * The other metadata xml element in String form.
+     */
     public String otherMetadataXmlData;
 
     // Inner element
-    /** The DataObjectGroup in which is the BinaryDataObject, or null. */
+    /**
+     * The DataObjectGroup in which is the BinaryDataObject, or null.
+     */
     @JsonIgnore
     private DataObjectGroup dataObjectGroup;
 
@@ -194,17 +226,17 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * &lt;DataObjectVersion&gt;BinaryMaster_1_DataObjectVersion&gt;
      * &lt;Uri&gt;content/ID37.zip&lt;/Uri&gt;
      * &lt;MessageDigest algorithm="SHA-512"&gt;
-     *   4723e0f6f8d54cda8989ffa5809318b2369b4b0c7957deda8399c311c397c026cc1511a0494d6f8e7b474e20171c40a5d40435c95841820a08a92e844b960947
+     * 4723e0f6f8d54cda8989ffa5809318b2369b4b0c7957deda8399c311c397c026cc1511a0494d6f8e7b474e20171c40a5d40435c95841820a08a92e844b960947
      * &lt;/MessageDigest&gt;
      * &lt;Size&gt;1466&lt;/Size&gt;
      * &lt;FormatIdentification&gt;
-     *   &lt;FormatLitteral&gt;ZIP Format&lt;/FormatLitteral&gt;
-     *   &lt;MimeType&gt;application/zip&lt;/MimeType&gt;
-     *   &lt;FormatId&gt;x-fmt/263&lt;/FormatId&gt;
+     * &lt;FormatLitteral&gt;ZIP Format&lt;/FormatLitteral&gt;
+     * &lt;MimeType&gt;application/zip&lt;/MimeType&gt;
+     * &lt;FormatId&gt;x-fmt/263&lt;/FormatId&gt;
      * &lt;/FormatIdentification&gt;
      * &lt;FileInfo&gt;
-     *   &lt;Filename&gt;OK-RULES-MDRULES.zip&lt;/Filename&gt;
-     *   &lt;LastModified&gt;2018-08-28T19:22:19Z&lt;/LastModified&gt;
+     * &lt;Filename&gt;OK-RULES-MDRULES.zip&lt;/Filename&gt;
+     * &lt;LastModified&gt;2018-08-28T19:22:19Z&lt;/LastModified&gt;
      * &lt;/FileInfo&gt;
      * </code>
      *
@@ -303,9 +335,9 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         try {
             ir = DroidIdentifier.getInstance().getIdentificationResult(onDiskPath);
         } catch (SEDALibException e) {
-            if (sedaLibProgressLogger !=null)
-                 sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "Impossible de faire l'identification Droid pour le fichier ["
-                    + onDiskPath.toString() + "]\n->" + e.getMessage());
+            if (sedaLibProgressLogger != null)
+                sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "Impossible de faire l'identification Droid pour le fichier ["
+                        + onDiskPath.toString() + "]\n->" + e.getMessage());
         }
         if (ir != null)
             formatIdentification = new FormatIdentification(ir.getName(), ir.getMimeType(), ir.getPuid(), null);
@@ -344,8 +376,11 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             result = "DataObjectVersion: " + undefined(dataObjectVersion);
             if (fileInfo == null)
                 result += "\nPas d'éléments FileInfo";
-            else
-                result += "\nNom: " + fileInfo.filename + "\nModifié le:" + fileInfo.lastModified.toString();
+            else {
+                result += "\nNom: " + undefined(fileInfo.filename);
+                if (fileInfo.lastModified != null)
+                    result += "\nModifié le:" + fileInfo.lastModified.toString();
+            }
             if (size == -1)
                 result += "\nTaille inconnue";
             else
@@ -354,16 +389,20 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             result += "\nURI: " + undefined(uri);
             if (formatIdentification == null)
                 result += "\nPas d'éléments FormatIdentification";
-            else
+            else {
                 result += "\nMimeType: " + undefined(formatIdentification.mimeType) + "\nPUID: "
                         + undefined(formatIdentification.formatId) + "\nFormat: "
                         + undefined(formatIdentification.formatLitteral);
-
+            }
             result += "\nDigest: " + undefined(messageDigestAlgorithm) + " - " + undefined(messageDigest);
             if (onDiskPath == null)
                 result += "\nPath: null";
             else
                 result += "\nPath: " + undefined(onDiskPath.toString());
+            if (metadataXmlData!=null)
+                result += "\nMetadata:\n" + metadataXmlData;
+            if (otherMetadataXmlData!=null)
+                result += "\nOtherMetadata:\n" + otherMetadataXmlData;
         } catch (Exception e) {
             return "Can't give elements-" + super.toString();
         }
@@ -456,7 +495,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * Manifest in the ArchiveTransfer. Utility methods for fromSedaXml and
      * fromSedaXmlFragments
      *
-     * @param xmlReader        the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
      *                          respected
      */
@@ -501,10 +540,10 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * Import the BinaryDataObject in XML expected form from the SEDA Manifest in
      * the DataObjectPackage.
      *
-     * @param xmlReader         the SEDAXMLEventReader reading the SEDA manifest
-     * @param dataObjectPackage the DataObjectPackage to be completed
-     * @param rootDir           the directory where the BinaryDataObject files are
-     *                          exported
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param dataObjectPackage     the DataObjectPackage to be completed
+     * @param rootDir               the directory where the BinaryDataObject files are
+     *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read BinaryDataObject, or null if not a BinaryDataObject
      * @throws SEDALibException     if the XML can't be read or the SEDA scheme is
@@ -545,7 +584,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             dog.addDataObject(bdo);
             if (sedaLibProgressLogger != null)
                 sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
-                    + "] créé depuis BinaryDataObject [" + bdo.inDataPackageObjectId + "]");
+                        + "] créé depuis BinaryDataObject [" + bdo.inDataPackageObjectId + "]");
         } else if (bdo.dataObjectGroupReferenceId != null) {
             dog = dataObjectPackage.getDataObjectGroupById(bdo.dataObjectGroupReferenceId);
             if (dog == null)
