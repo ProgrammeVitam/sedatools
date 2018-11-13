@@ -37,10 +37,8 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
+import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.prefs.BackingStoreException;
 import java.util.zip.ZipEntry;
@@ -725,78 +723,24 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // Info Menu
 
-    public synchronized String getVersion() {
-        String version = null;
-
-        // try to load from maven properties first
-        try {
-            Properties p = new Properties();
-            InputStream is = getClass().getResourceAsStream("/META-INF/maven/fr.gouv.vitam.tools/resip/pom.properties");
-            if (is != null) {
-                p.load(is);
-                version = p.getProperty("version", "");
-            }
-        } catch (Exception e) {
-            // ignore
-        }
-
-        // fallback to using Java API
-        if (version == null) {
-            Package aPackage = getClass().getPackage();
-            if (aPackage != null) {
-                version = aPackage.getImplementationVersion();
-                if (version == null) {
-                    version = aPackage.getSpecificationVersion();
-                }
-            }
-        }
-
-        if (version == null) {
-            // we could not compute the version so use a blank
-            version = "";
-        }
-
-        return version;
-    }
-
-    /**
-     * Handles files, jar entries, and deployed jar entries in a zip file (EAR).
-     * @return The date if it can be determined, or null if not.
-     */
-    private static Date getClassBuildTime() {
-        Date d = null;
-        Class<?> currentClass = new Object() {}.getClass().getEnclosingClass();
-        URL resource = currentClass.getResource(currentClass.getSimpleName() + ".class");
-        if (resource != null) {
-            if (resource.getProtocol().equals("file")) {
-                try {
-                    d = new Date(new File(resource.toURI()).lastModified());
-                } catch (URISyntaxException ignored) { }
-            } else if (resource.getProtocol().equals("jar")) {
-                String path = resource.getPath();
-                d = new Date( new File(path.substring(5, path.indexOf("!"))).lastModified() );
-            } else if (resource.getProtocol().equals("zip")) {
-                String path = resource.getPath();
-                File jarFileOnDisk = new File(path.substring(0, path.indexOf("!")));
-                //long jfodLastModifiedLong = jarFileOnDisk.lastModified ();
-                //Date jfodLasModifiedDate = new Date(jfodLastModifiedLong);
-                try(JarFile jf = new JarFile (jarFileOnDisk)) {
-                    ZipEntry ze = jf.getEntry (path.substring(path.indexOf("!") + 2));//Skip the ! and the /
-                    long zeTimeLong = ze.getTime ();
-                    Date zeTimeDate = new Date(zeTimeLong);
-                    d = zeTimeDate;
-                } catch (IOException |RuntimeException ignored) { }
-            }
-        }
-        return d;
-    }
-
     private void aPropos(){
         try {
-            Date buildDate = getClassBuildTime();
+            String version="non définie";
+            String builddate="non définie";
+            try {
+                Properties p = new Properties();
+                InputStream is = getClass().getResourceAsStream("/buildinfo.txt");
+                if (is != null) {
+                    p.load(is);
+                    version = p.getProperty("version", "");
+                    builddate = p.getProperty("builddate", "");
+                }
+            } catch (Exception e) {
+                // ignore
+            }
             JOptionPane.showMessageDialog(mainWindow,
-                    "Application Resip\nVersion : " + getVersion() + "\nDate : " + DateFormat.getDateTimeInstance().format(buildDate), "A propos de Resip",
-                    JOptionPane.INFORMATION_MESSAGE);
+                    "Application Resip (Version : " + version + " Date : " + builddate+")", "A propos de Resip...",
+                    JOptionPane.PLAIN_MESSAGE);
         } catch (Exception ignored) {
         }
     }
