@@ -8,18 +8,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Fix metadata types according to Vitam SEDA restrictions">
-      <change afterPath="$PROJECT_DIR$/resip/src/main/resources/buildinfo.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/TestKO1.csv" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/TestOK.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resip/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/src/main/ressources/DROID_SignatureFile_V88.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/resources/DROID_SignatureFile_V88.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/src/main/ressources/VitamIcon96.png" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/resources/VitamIcon96.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/src/main/ressources/container-signature-20171130.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/resources/container-signature-20171130.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/src/main/ressources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/resources/logback.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" afterDir="false" />
@@ -195,15 +186,15 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="30" />
-          <entry key="java" value="6680" />
-          <entry key="txt" value="148" />
+          <entry key="java" value="6692" />
+          <entry key="txt" value="242" />
           <entry key="xml" value="51" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="6680" />
-          <entry key="PLAIN_TEXT" value="178" />
+          <entry key="JAVA" value="6692" />
+          <entry key="PLAIN_TEXT" value="272" />
           <entry key="XML" value="51" />
         </counts>
       </usages-collector>
@@ -241,7 +232,7 @@
         <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="252">
-              <caret line="359" selection-start-line="359" selection-end-line="359" />
+              <caret line="358" selection-start-line="358" selection-end-line="358" />
             </state>
           </provider>
         </entry>
@@ -267,8 +258,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="741" column="90" selection-start-line="741" selection-start-column="90" selection-end-line="741" selection-end-column="90" />
+            <state relative-caret-position="318">
+              <caret line="735" column="52" selection-start-line="735" selection-start-column="52" selection-end-line="735" selection-end-column="52" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -571,12 +562,6 @@
             <path>
               <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
               <item name="sedatools" type="462c0819:PsiDirectoryNode" />
-              <item name="resip" type="462c0819:PsiDirectoryNode" />
-              <item name="windows" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
               <item name="sedalib" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -586,7 +571,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542109698463" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542109824100" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/sedalib-samples/src/main/java" />
@@ -771,13 +756,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1539200711740</updated>
-    </task>
-    <task id="LOCAL-00001" summary="Initial commit">
-      <created>1539217757809</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1539217757809</updated>
     </task>
     <task id="LOCAL-00002" summary="Initial commit">
       <created>1539220192610</created>
@@ -1108,7 +1086,21 @@
       <option name="project" value="LOCAL" />
       <updated>1542065867892</updated>
     </task>
-    <option name="localTasksCounter" value="49" />
+    <task id="LOCAL-00049" summary="Fix resources directory name">
+      <created>1542109696396</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1542109696396</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Fix Version/BuildDate in &quot;A Propos&quot; via maven resource file">
+      <created>1542109782181</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1542109782181</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1154,7 +1146,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1488" height="878" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27941176" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1166,7 +1157,7 @@
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32573727" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32573727" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3136033" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -1184,7 +1175,7 @@
       <window_info anchor="right" id="Coverage" order="5" side_tool="true" weight="0.38146067" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info anchor="right" id="Maven Projects" order="8" weight="0.28921568" />
+      <window_info active="true" anchor="right" id="Maven Projects" order="8" visible="true" weight="0.28921568" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2546858" />
@@ -1264,8 +1255,6 @@
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_NEW_TODO" value="false" />
     <option name="SHOW_UNVERSIONED_FILES_WHILE_COMMIT" value="false" />
-    <MESSAGE value="Fix Signature metadata" />
-    <MESSAGE value="Change ProgressLogger to SEDALibProgressLogger &#10;&#10;to be more explicit in codes using the sedalib" />
     <MESSAGE value="Change ComplexListType management" />
     <MESSAGE value="Change ProgressLogger to SEDALibProgressLogger&#10;&#10;to be more explicit in codes using the sedalib" />
     <MESSAGE value="Fix disk import of only __usage_xxxx files" />
@@ -1289,7 +1278,9 @@
     <MESSAGE value="Fix csv test files" />
     <MESSAGE value="Add A propos menu with version information" />
     <MESSAGE value="Improve help informations and manual" />
-    <option name="LAST_COMMIT_MESSAGE" value="Improve help informations and manual" />
+    <MESSAGE value="Fix resources directory name" />
+    <MESSAGE value="Fix Version/BuildDate in &quot;A Propos&quot; via maven resource file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix Version/BuildDate in &quot;A Propos&quot; via maven resource file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1772,14 +1763,14 @@
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="252">
-          <caret line="359" selection-start-line="359" selection-end-line="359" />
+          <caret line="358" selection-start-line="358" selection-end-line="358" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="741" column="90" selection-start-line="741" selection-start-column="90" selection-end-line="741" selection-end-column="90" />
+        <state relative-caret-position="318">
+          <caret line="735" column="52" selection-start-line="735" selection-start-column="52" selection-end-line="735" selection-end-column="52" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
