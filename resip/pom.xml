@@ -128,8 +128,6 @@
                     <archive>
                         <manifest>
                             <mainClass>fr.gouv.vitam.tools.validroid.app.ResipApp</mainClass>
-                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
-                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -208,12 +206,12 @@
                                 <mainClass>fr.gouv.vitam.tools.resip.app.ResipApp</mainClass>
                             </classPath>
                             <jre>
-                                <path>..\jre</path>
+                                <path>.\jre</path>
                                 <bundledJre64Bit>true</bundledJre64Bit>
                                 <bundledJreAsFallback>false</bundledJreAsFallback>
                                 <minVersion>1.8.0</minVersion>
                                 <maxVersion></maxVersion>
-                                <jdkPreference>preferJdk</jdkPreference>
+                                <jdkPreference>preferJre</jdkPreference>
                                 <runtimeBits>64</runtimeBits>
                                 <opts>
                                     <!-- 									<opt>-Dsun.jnu.encoding="Cp850"</opt> -->
@@ -221,12 +219,6 @@
                                     <opt>-Xms1024m</opt>
                                 </opts>
                             </jre>
-                            <!-- 							<splash> -->
-                            <!-- 								<file>windows/Resip.jpg</file> -->
-                            <!-- 								<waitForWindow>true</waitForWindow> -->
-                            <!-- 								<timeout>120</timeout> -->
-                            <!-- 								<timeoutErr>true</timeoutErr> -->
-                            <!-- 							</splash> -->
                             <versionInfo>
                                 <fileVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.0.0
                                 </fileVersion>
