@@ -8,15 +8,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e5de0394-80fa-4587-83e8-54c7baf2bbdd" name="Default Changelist" comment="Fix metadata types according to Vitam SEDA restrictions">
+      <change afterPath="$PROJECT_DIR$/resip/src/main/resources/buildinfo.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/TestKO1.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/TestOK.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resip/doc/Manuel Application ReSIP V0.9-SNAPSHOT-181112.pdf" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/resip/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resip/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resip/src/main/ressources/DROID_SignatureFile_V88.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/resources/DROID_SignatureFile_V88.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resip/src/main/ressources/VitamIcon96.png" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/resources/VitamIcon96.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resip/src/main/ressources/container-signature-20171130.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/resources/container-signature-20171130.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resip/src/main/ressources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/resip/src/main/resources/logback.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link Node 1.2.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Link SmallContract.text.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.4 - OG Link/Link ##Test ObjectGroup##.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/ShortCut OK-RULES-MDRULES.zip.lnk" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/testKO1.csv" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/testKO1.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/testOK.csv" beforeDir="false" afterPath="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/testOK.csv" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/sedalib/target/" />
@@ -29,11 +40,11 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/sedatools$All_in_sedalib__1_.ic" NAME="All in sedalib (1) Coverage Results" MODIFIED="1539214442701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/sedatools$All_in_sedalib.ic" NAME="All in sedalib Coverage Results" MODIFIED="1539368031337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/sedatools$fr_gouv_vitam_tools_sedalib_metadata_in_sedalib.ic" NAME="fr.gouv.vitam.tools.sedalib.metadata in sedalib Coverage Results" MODIFIED="1539368012884" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>fr.gouv.vitam.tools.sedalib.metadata.*</FILTER>
     </SUITE>
-    <SUITE FILE_PATH="coverage/sedatools$All_in_sedalib__1_.ic" NAME="All in sedalib (1) Coverage Results" MODIFIED="1539214442701" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/sedatools$All_in_sedalib.ic" NAME="All in sedalib Coverage Results" MODIFIED="1539368031337" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="CoverageViewManager">
     <option name="myElementSize" value="372" />
@@ -176,38 +187,40 @@
           <entry key="project.closed" value="2" />
           <entry key="project.open.time.12" value="1" />
           <entry key="project.open.time.15" value="1" />
+          <entry key="project.open.time.2" value="1" />
           <entry key="project.open.time.20" value="1" />
-          <entry key="project.opened" value="3" />
+          <entry key="project.opened" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="dummy" value="30" />
-          <entry key="java" value="6503" />
+          <entry key="java" value="6680" />
           <entry key="txt" value="148" />
-          <entry key="xml" value="32" />
+          <entry key="xml" value="51" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="6503" />
+          <entry key="JAVA" value="6680" />
           <entry key="PLAIN_TEXT" value="178" />
-          <entry key="XML" value="32" />
+          <entry key="XML" value="51" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="class" value="3" />
           <entry key="csv" value="1" />
-          <entry key="java" value="35" />
+          <entry key="java" value="37" />
+          <entry key="txt" value="1" />
           <entry key="xml" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CLASS" value="3" />
-          <entry key="JAVA" value="35" />
-          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="JAVA" value="37" />
+          <entry key="PLAIN_TEXT" value="2" />
           <entry key="XML" value="2" />
         </counts>
       </usages-collector>
@@ -216,21 +229,9 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/CSVTreeToDataObjectPackageImporter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="391">
-              <caret line="66" selection-start-line="54" selection-end-line="66" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/CSVTreeToDataObjectPackageImporterTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="612">
+            <state relative-caret-position="720">
               <caret line="53" column="20" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
             </state>
           </provider>
@@ -239,17 +240,48 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1122">
-              <caret line="129" column="7" selection-start-line="129" selection-start-column="7" selection-end-line="129" selection-end-column="7" />
+            <state relative-caret-position="252">
+              <caret line="359" selection-start-line="359" selection-end-line="359" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resip/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="384">
+              <caret line="142" column="3" selection-start-line="142" selection-start-column="3" selection-end-line="142" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resip/src/main/resources/buildinfo.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="20">
+              <caret line="1" column="22" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/resip/pom.xml">
+        <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="213" column="56" selection-start-line="213" selection-start-column="56" selection-end-line="213" selection-end-column="56" />
+            <state relative-caret-position="378">
+              <caret line="741" column="90" selection-start-line="741" selection-start-column="90" selection-end-line="741" selection-end-column="90" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/droid/DroidIdentifier.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="19">
+              <caret line="157" selection-start-line="157" selection-end-line="157" />
             </state>
           </provider>
         </entry>
@@ -257,7 +289,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/ArchiveTransferToDiskExporter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1598">
+            <state relative-caret-position="1880">
               <caret line="134" column="66" selection-start-line="134" selection-start-column="26" selection-end-line="134" selection-end-column="66" />
             </state>
           </provider>
@@ -266,7 +298,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/Prefs.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
+            <state relative-caret-position="180">
               <caret line="44" column="13" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
             </state>
           </provider>
@@ -275,7 +307,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/CreationContext.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="260">
               <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
             </state>
           </provider>
@@ -284,7 +316,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/ExportContext.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="136">
+            <state relative-caret-position="160">
               <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
             </state>
           </provider>
@@ -303,7 +335,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>ResipLogger.INFO</find>
       <find>isWindows</find>
       <find>creationContext</find>
       <find>exportContext</find>
@@ -333,6 +364,7 @@
       <find>OriginatingAgencyArchiveUnitIdentifier</find>
       <find>DateFormat</find>
       <find>diskImportContext</find>
+      <find>20170330</find>
     </findStrings>
     <replaceStrings>
       <replace>progressLogIfStep(</replace>
@@ -390,8 +422,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/inout/package-info.java" />
-        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/package-info.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/utils/package-info.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeTransferHandler.java" />
         <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/package-info.java" />
@@ -438,9 +468,11 @@
         <option value="$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/CSVTreeToDataObjectPackageImporter.java" />
         <option value="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/testOK.csv" />
         <option value="$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/testKO.csv" />
-        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" />
-        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java" />
+        <option value="$PROJECT_DIR$/resip/src/main/ressources/buildinfo.txt" />
         <option value="$PROJECT_DIR$/resip/pom.xml" />
+        <option value="$PROJECT_DIR$/resip/src/main/resources/buildinfo.txt" />
+        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java" />
+        <option value="$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java" />
       </list>
     </option>
   </component>
@@ -465,26 +497,6 @@
         </path>
         <path>
           <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="sedalib" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="sedalib" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="sedalib" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="sedalib" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Dependencies" type="f4be9f2a:MavenProjectsStructure$DependenciesNode" />
-          <item name="com.github.vatbub:mslinks:1.0.4" type="c0821a7e:MavenProjectsStructure$DependencyNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
           <item name="sedatools" type="9519ce18:MavenProjectsStructure$ProjectNode" />
         </path>
         <path>
@@ -497,7 +509,7 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="577" />
+    <option name="x" value="576" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -530,6 +542,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -560,21 +574,24 @@
               <item name="resip" type="462c0819:PsiDirectoryNode" />
               <item name="windows" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="sedatools" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sedatools" type="462c0819:PsiDirectoryNode" />
+              <item name="sedalib" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1541328941221" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1542109634298" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit5" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/sedalib-samples/src/main/java" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
@@ -582,6 +599,20 @@
   </component>
   <component name="RecentsManager">
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="fr.gouv.vitam.tools.sedalib.metadata" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip\doc" />
+      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip\src\test\resources\PacketSamples" />
+      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip" />
+      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip\src\test\resources" />
+      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib-samples\src\main\resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="fr.gouv.vitam.tools.sedalib.inout" />
+      <recent name="fr.gouv.vitam.tools.sedalib.inout.importer" />
+      <recent name="fr.gouv.vitam.tools.resip.parameters" />
+      <recent name="fr.gouv.vitam.tools.resip.utils" />
       <recent name="fr.gouv.vitam.tools.sedalib.metadata" />
     </key>
     <key name="CreateTestDialog.Recents.Supers">
@@ -593,20 +624,6 @@
       <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip\src\main\java\fr\gouv\vitam\tools\resip\viewer" />
       <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip\src\main\java\fr\gouv\vitam\tools\resip\utils" />
       <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip\src\main\java\fr\gouv\vitam\tools\resip\parameters" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="fr.gouv.vitam.tools.sedalib.inout" />
-      <recent name="fr.gouv.vitam.tools.sedalib.inout.importer" />
-      <recent name="fr.gouv.vitam.tools.resip.parameters" />
-      <recent name="fr.gouv.vitam.tools.resip.utils" />
-      <recent name="fr.gouv.vitam.tools.sedalib.metadata" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip\doc" />
-      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip\src\test\resources\PacketSamples" />
-      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip" />
-      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\resip\src\test\resources" />
-      <recent name="F:\DocumentsPerso\JS\IdeaProjects\sedatools\sedalib-samples\src\main\resources" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -1136,10 +1153,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1874" height="1096" extended-state="7" />
+    <frame x="-7" y="-7" width="1488" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27508268" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.27941176" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Learn" order="3" />
@@ -1149,14 +1166,14 @@
       <window_info id="Capture Tool" order="7" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32606438" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32573727" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3136033" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32917964" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32917964" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.3281412" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.32707775" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.3271028" />
       <window_info anchor="bottom" id="Inspection Results" order="11" weight="0.3281412" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -1167,7 +1184,7 @@
       <window_info anchor="right" id="Coverage" order="5" side_tool="true" weight="0.38146067" />
       <window_info anchor="right" id="Capture Analysis" order="6" />
       <window_info anchor="right" id="Theme Preview" order="7" />
-      <window_info anchor="right" id="Maven Projects" order="8" weight="0.4448732" />
+      <window_info anchor="right" id="Maven Projects" order="8" weight="0.28921568" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2546858" />
@@ -1385,12 +1402,6 @@
           <properties />
           <option name="timeStamp" value="117" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java</url>
-          <line>733</line>
-          <properties />
-          <option name="timeStamp" value="118" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/viewer/DataObjectPackageTreeViewer.java</url>
           <line>299</line>
@@ -1415,24 +1426,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/DiskToDataObjectPackageImporter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="116" column="8" selection-start-line="116" selection-start-column="8" selection-end-line="116" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/data/AddMetadataItem.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="97" column="140" selection-start-line="97" selection-start-column="140" selection-end-line="97" selection-end-column="140" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/metadata/DisseminationRule.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -1695,14 +1688,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/testKO1.csv">
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/TestKO1.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="41" selection-start-line="3" selection-start-column="41" selection-end-line="3" selection-end-column="41" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/testOK.csv">
+    <entry file="file://$PROJECT_DIR$/sedalib/src/test/resources/PacketSamples/TestOK.csv">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="7" column="35" selection-start-line="7" selection-start-column="35" selection-end-line="7" selection-end-column="35" />
@@ -1710,20 +1703,9 @@
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_181/src.zip!/java/text/DateFormat.java" />
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="199">
-          <caret line="553" selection-start-line="553" selection-end-line="553" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/importer/CSVTreeToDataObjectPackageImporter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
+        <state relative-caret-position="800">
           <caret line="66" selection-start-line="54" selection-end-line="66" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1733,50 +1715,75 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/test/java/fr/gouv/vitam/tools/sedalib/inout/CSVTreeToDataObjectPackageImporterTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
+        <state relative-caret-position="720">
           <caret line="53" column="20" selection-start-line="53" selection-start-column="20" selection-end-line="53" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1122">
-          <caret line="129" column="7" selection-start-line="129" selection-start-column="7" selection-end-line="129" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/inout/exporter/ArchiveTransferToDiskExporter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1598">
+        <state relative-caret-position="1880">
           <caret line="134" column="66" selection-start-line="134" selection-start-column="26" selection-end-line="134" selection-end-column="66" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/Prefs.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
+        <state relative-caret-position="180">
           <caret line="44" column="13" selection-start-line="44" selection-start-column="13" selection-end-line="44" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/CreationContext.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
+        <state relative-caret-position="260">
           <caret line="49" column="13" selection-start-line="49" selection-start-column="13" selection-end-line="49" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/parameters/ExportContext.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
+        <state relative-caret-position="160">
           <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resip/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="213" column="56" selection-start-line="213" selection-start-column="56" selection-end-line="213" selection-end-column="56" />
+        <state relative-caret-position="384">
+          <caret line="142" column="3" selection-start-line="142" selection-start-column="3" selection-end-line="142" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sedalib/src/main/java/fr/gouv/vitam/tools/sedalib/droid/DroidIdentifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="157" selection-start-line="157" selection-end-line="157" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/resources/buildinfo.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="20">
+          <caret line="1" column="22" selection-start-line="1" selection-start-column="22" selection-end-line="1" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipApp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="359" selection-start-line="359" selection-end-line="359" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resip/src/main/java/fr/gouv/vitam/tools/resip/app/ResipGraphicApp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="741" column="90" selection-start-line="741" selection-start-column="90" selection-end-line="741" selection-end-column="90" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1820,7 +1827,7 @@
       </state>
       <state key="JdkListConfigurable.UI">
         <settings>
-          <last-edited>1.8 (2)</last-edited>
+          <last-edited>1.8 32bits</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
@@ -1832,7 +1839,7 @@
       </state>
       <state key="ModuleStructureConfigurable.UI">
         <settings>
-          <last-edited>sedatools</last-edited>
+          <last-edited>sedalib</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>

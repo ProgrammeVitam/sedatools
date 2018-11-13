@@ -15,6 +15,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>dd/MM/yyyy HH:mm</maven.build.timestamp.format>
     </properties>
 
     <dependencies>
@@ -90,7 +92,7 @@
                     <groupId>org.apache.poi</groupId>
                     <artifactId>poi</artifactId>
                 </exclusion>
-             </exclusions>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.woodstox</groupId>
@@ -212,7 +214,7 @@
                                 <minVersion>1.8.0</minVersion>
                                 <maxVersion></maxVersion>
                                 <jdkPreference>preferJre</jdkPreference>
-                                <runtimeBits>64</runtimeBits>
+                                <runtimeBits>32</runtimeBits>
                                 <opts>
                                     <!-- 									<opt>-Dsun.jnu.encoding="Cp850"</opt> -->
                                     <opt>-Dfile.encoding="UTF8"</opt>
@@ -237,6 +239,12 @@
                 </executions>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
     <description>This code has been developed for the &quot;Programme Vitam&quot;, French government Digital Archives
         Management System project (http://www.programmevitam.fr et https://github.com/ProgrammeVitam).
