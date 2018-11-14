@@ -67,8 +67,10 @@ public class ImportThread extends SwingWorker<Work, String> {
     private void setWorkFromArchiveTransfer(ArchiveTransfer archiveTransfer) {
         work.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
         ExportContext newExportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
-        newExportContext.setArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata());
-        newExportContext.setManagementMetadataXmlData(
+        if (archiveTransfer.getGlobalMetadata()!=null)
+            newExportContext.setArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata());
+        if (archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData()!=null)
+            newExportContext.setManagementMetadataXmlData(
                 archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData());
         work.setExportContext(newExportContext);
     }
@@ -76,8 +78,10 @@ public class ImportThread extends SwingWorker<Work, String> {
     private void setWorkFromArchiveDeliveryRequestReply(ArchiveDeliveryRequestReply archiveDeliveryRequestReply) {
         work.setDataObjectPackage(archiveDeliveryRequestReply.getDataObjectPackage());
         ExportContext newExportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
-        newExportContext.setArchiveTransferGlobalMetadata(archiveDeliveryRequestReply.getGlobalMetadata());
-        newExportContext.setManagementMetadataXmlData(
+        if (archiveDeliveryRequestReply.getGlobalMetadata()!=null)
+            newExportContext.setArchiveTransferGlobalMetadata(archiveDeliveryRequestReply.getGlobalMetadata());
+        if (archiveDeliveryRequestReply.getDataObjectPackage().getManagementMetadataXmlData()!=null)
+            newExportContext.setManagementMetadataXmlData(
                 archiveDeliveryRequestReply.getDataObjectPackage().getManagementMetadataXmlData());
         work.setExportContext(newExportContext);
     }
