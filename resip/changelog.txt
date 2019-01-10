@@ -1,0 +1,8 @@
+Evolutions/Corrections en 0.9
+
+- Bug (corrigé): si l'extraction de métadonnées textuelles des courriels contient des caractères non standards dans le XML la constitution des paquets échoue...
+- Bug (corrigé): le glissé/déposé sur Resip.bat d'un dossier ayant dans le chemin des caractères accentués ne fonctionne pas
+
+ATTENTION: cette évolution invalide les extractions de messagerie déjà faites ou les SIP exportés sur disque
+- Evolution: l'encodage de l'usage_version dans les noms de fichier sur disque a été modifié il est maintenant __usage(_version)__nomdefichier pour éviter les problèmes avec certains fichiers commencant par "nombre_". Cas rencontré sur le jeu de test Mercier.
+[Evolution de mailextract correspondante en 0.9.2-SNAPSHOT]

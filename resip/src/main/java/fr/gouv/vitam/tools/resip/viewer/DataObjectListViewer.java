@@ -192,9 +192,9 @@ public class DataObjectListViewer extends JList<DataObject> {
             }
         } else {
             String dataObjectVersion;
-            if (filename.matches("__\\w+_.+")) {
+            if (filename.matches("__\\w+__.+")) {
                 dataObjectVersion = DiskToDataObjectPackageImporter.extractDataObjectVersion(filename);
-                filename= filename.substring(dataObjectVersion.length()+3);
+                filename= filename.substring(dataObjectVersion.length()+4);
             } else {
                 if (targetAU.getDataObjectRefList().getCount() == 0) {
                     dataObjectVersion = "BinaryMaster_1";

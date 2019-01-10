@@ -395,8 +395,8 @@ public class DiskToDataObjectPackageImporter {
         filename = filename.substring(2);
         result = filename.substring(0, filename.indexOf('_'));
         filename = filename.substring(filename.indexOf('_') + 1);
-        if (filename.matches("[0-9]+_.*"))
-            result += "_"+filename.substring(0, filename.indexOf('_'));
+        if (filename.matches("[0-9]+__.*"))
+            result += "_"+filename.substring(0, filename.indexOf("__"));
         return result;
     }
 
@@ -499,7 +499,7 @@ public class DiskToDataObjectPackageImporter {
             throws SEDALibException {
         BinaryDataObject bdo;
         String dataObjectVersion= extractDataObjectVersion(filename);
-        filename = filename.substring(dataObjectVersion.length()+3);
+        filename = filename.substring(dataObjectVersion.length()+4);
         if (dog == null) {
             dog = new DataObjectGroup(dataObjectPackage, null);
             au.addDataObjectById(dog.getInDataObjectPackageId());

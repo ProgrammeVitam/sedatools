@@ -162,7 +162,7 @@ public class DataObjectPackageToDiskExporter {
 	 * @return the file name String
 	 */
 	private String constructFileName(BinaryDataObject binaryDataObject) {
-		String result = "__" + binaryDataObject.dataObjectVersion + "_";
+		String result = "__" + binaryDataObject.dataObjectVersion + "__";
 		if ((binaryDataObject.fileInfo != null) && (binaryDataObject.fileInfo.filename != null)) {
 			result += binaryDataObject.fileInfo.filename;
 		} else
@@ -177,7 +177,7 @@ public class DataObjectPackageToDiskExporter {
 	 * @return the file name
 	 */
 	private String constructMetadataFileName(BinaryDataObject binaryDataObject) {
-		String result = "__" + binaryDataObject.dataObjectVersion + "_BinaryDataObjectMetadata.xml";
+		String result = "__" + binaryDataObject.dataObjectVersion + "__BinaryDataObjectMetadata.xml";
 		return stripFileName(result);
 	}
 
@@ -188,7 +188,7 @@ public class DataObjectPackageToDiskExporter {
 	 * @return the file name
 	 */
 	private String constructMetadataFileName(PhysicalDataObject physicalDataObject) {
-		String result = "__" + physicalDataObject.dataObjectVersion + "_PhysicalDataObjectMetadata.xml";
+		String result = "__" + physicalDataObject.dataObjectVersion + "__PhysicalDataObjectMetadata.xml";
 		return stripFileName(result);
 	}
 
