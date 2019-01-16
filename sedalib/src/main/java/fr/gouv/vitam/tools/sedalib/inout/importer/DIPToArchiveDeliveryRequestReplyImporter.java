@@ -107,7 +107,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                     if (!Files.exists(newPath))
                         Files.createDirectories(newPath);
                 } else {
-                    if (fileName.toLowerCase().startsWith("manifest")) {
+                    if (fileName.toLowerCase().matches("[^/\\\\]*manifest.*\\.xml")) {
                         if (manifest != null)
                             throw new SEDALibException("DIP mal formé, plusieurs fichiers manifest potentiels");
                         manifest = fileName;
