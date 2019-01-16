@@ -178,7 +178,7 @@ public class DataObjectListViewer extends JList<DataObject> {
             return;
 
         String filename = path.getFileName().toString();
-        if (filename.matches("__\\w+(_[0-9]+)?_PhysicalDataObjectMetadata.xml")) {
+        if (filename.matches("__\\w+(_[0-9]+)?__PhysicalDataObjectMetadata.xml")) {
             try {
                 PhysicalDataObject pdo = new PhysicalDataObject(targetAU.getDataObjectPackage(), new String(Files.readAllBytes(path), "UTF-8"));
                 addToArchiveUnitDataObjectGroup(targetAU, pdo);

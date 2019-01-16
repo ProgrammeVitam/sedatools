@@ -620,15 +620,15 @@ public class DiskToDataObjectPackageImporter {
                                             + curPath.toString() + "]");
                         }
                         // Model V2 (SEDALib) PhysicalDataObject metadataXmlData file
-                    } else if (fileName.matches("__\\w+(_[0-9]+)?_PhysicalDataObjectMetadata.xml")) {
+                    } else if (fileName.matches("__\\w+(_[0-9]+)?__PhysicalDataObjectMetadata.xml")) {
                         modelVersion |= 2;
                         implicitDog = addPhysicalDataObjectMetadata(curPath, fileName, au, implicitDog);
                         // Model V2 (SEDALib) BinaryDataObject metadataXmlData file
-                    } else if (fileName.matches("__\\w+(_[0-9]+)?_BinaryDataObjectMetadata.xml")) {
+                    } else if (fileName.matches("__\\w+(_[0-9]+)?__BinaryDataObjectMetadata.xml")) {
                         modelVersion |= 2;
                         implicitDog = addBinaryDataObjectMetadata(curPath, fileName, au, implicitDog);
                         // Model V1&V2 BinaryDataObject file
-                    } else if (fileName.matches("__\\w+_.+")) {
+                    } else if (fileName.matches("__\\w+__.+")) {
                         implicitDog = addBinaryDataObject(curPath, fileName, au, implicitDog);
                     }
                     // archive file except if conform to ignore patterns
@@ -685,7 +685,7 @@ public class DiskToDataObjectPackageImporter {
         // verify that the file is not one with special meaning
         filename = path.getFileName().toString();
         if (filename.equals("ArchiveUnitContent.xml") || filename.equals("ArchiveUnitManagement.xml")
-                || filename.equals("__ArchiveUnitMetadata.xml") || filename.matches("__\\w+_.+"))
+                || filename.equals("__ArchiveUnitMetadata.xml") || filename.matches("__\\w+__.+"))
             throw new SEDALibException("Le chemin [" + path.toString() + "] a la racine de l'import n'a pas de sens");
 
         inCounter++;
@@ -739,15 +739,15 @@ public class DiskToDataObjectPackageImporter {
                 else {
                     String fileName = curPath.getFileName().toString();
                     // Model V2 (SEDALib) PhysicalDataObject metadataXmlData file
-                    if (fileName.matches("__\\w+(_[0-9]+)?_PhysicalDataObjectMetadata.xml")) {
+                    if (fileName.matches("__\\w+(_[0-9]+)?__PhysicalDataObjectMetadata.xml")) {
                         modelVersion |= 2;
                         addPhysicalDataObjectMetadata(curPath, fileName, null, dog);
                         // Model V2 (SEDALib) BinaryDataObject metadataXmlData file
-                    } else if (fileName.matches("__\\w+(_[0-9]+)?_BinaryDataObjectMetadata.xml")) {
+                    } else if (fileName.matches("__\\w+(_[0-9]+)?__BinaryDataObjectMetadata.xml")) {
                         modelVersion |= 2;
                         addBinaryDataObjectMetadata(curPath, fileName, null, dog);
                         // Model V1&V2 BinaryDataObject file
-                    } else if (fileName.matches("__\\w+_.+")) {
+                    } else if (fileName.matches("__\\w+__.+")) {
                         addBinaryDataObject(curPath, fileName, null, dog);
                     } else
                         throw new SEDALibException("Le chemin [" + path.toString() + "] ne décrit pas un DataObject");
