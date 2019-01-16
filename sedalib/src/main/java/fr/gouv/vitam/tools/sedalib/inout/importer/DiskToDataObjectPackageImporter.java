@@ -118,20 +118,20 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
  * <p>
  * Model V2-Extended model
  * <ul>
- * <li>in a directory when there is a ArchiveUnitMetadata.xml file, it's used to
+ * <li>in a directory when there is a __ArchiveUnitMetadata.xml file, it's used to
  * define the generated ArchiveUnit metadata. At root level you can have one or
  * more XML elements that define metadata but not structure that is to say
  * &gt;ArchiveUnitProfile&lt;, &gt;Management&lt; or &gt;Content&lt;</li>
  * <li>in a directory when a file is named like
- * __USAGE_VERSION_PhysicalDataObjectMetadata.xml, USAGE being any String and
+ * __USAGE_VERSION__PhysicalDataObjectMetadata.xml, USAGE being any String and
  * VERSION any integer, this file is directly considered to be a
  * PhysicalDataObject metadata with USAGE_VERSION as DataObjectVersion and then
  * is not used for generating an ArchiveUnit</li>
  * <li>in a directory when a file is named like
- * __USAGE_VERSION_BinaryDataObjectMetadata.xml, USAGE being any String and
+ * __USAGE_VERSION__BinaryDataObjectMetadata.xml, USAGE being any String and
  * VERSION any integer, this file is directly considered to define the
  * BinaryDataObject with USAGE_VERSION as DataObjectVersion metadata. It needs
- * to also have a content file named __USAGE_VERSION_XXXX. The filename in
+ * to also have a content file named __USAGE_VERSION__XXXX. The filename in
  * metadata file is overriding the derivation from file name to define FileName
  * in BinaryDataObject</li>
  * <li>a directory named like "##xxxxx##" is used to explicitly define a
@@ -397,6 +397,8 @@ public class DiskToDataObjectPackageImporter {
         filename = filename.substring(filename.indexOf('_') + 1);
         if (filename.matches("[0-9]+__.*"))
             result += "_"+filename.substring(0, filename.indexOf("__"));
+        else if (filename.matches("[0-9]+_.*"))
+            result += "_"+filename.substring(0, filename.indexOf("_"));
         return result;
     }
 
@@ -499,7 +501,11 @@ public class DiskToDataObjectPackageImporter {
             throws SEDALibException {
         BinaryDataObject bdo;
         String dataObjectVersion= extractDataObjectVersion(filename);
-        filename = filename.substring(dataObjectVersion.length()+4);
+        filename = filename.substring(dataObjectVersion.length()+2);
+        if (filename.startsWith("__"))
+            filename = filename.substring(2);
+        else
+           filename = filename.substring(1);
         if (dog == null) {
             dog = new DataObjectGroup(dataObjectPackage, null);
             au.addDataObjectById(dog.getInDataObjectPackageId());
@@ -629,6 +635,9 @@ public class DiskToDataObjectPackageImporter {
                         implicitDog = addBinaryDataObjectMetadata(curPath, fileName, au, implicitDog);
                         // Model V1&V2 BinaryDataObject file
                     } else if (fileName.matches("__\\w+__.+")) {
+                        modelVersion |= 2;
+                        implicitDog = addBinaryDataObject(curPath, fileName, au, implicitDog);
+                    } else if (fileName.matches("__\\w+_.+")) {
                         implicitDog = addBinaryDataObject(curPath, fileName, au, implicitDog);
                     }
                     // archive file except if conform to ignore patterns

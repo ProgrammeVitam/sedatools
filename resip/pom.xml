@@ -209,7 +209,7 @@
                             </classPath>
                             <jre>
                                 <path>.\jre</path>
-                                <bundledJre64Bit>true</bundledJre64Bit>
+                                <bundledJre64Bit>false</bundledJre64Bit>
                                 <bundledJreAsFallback>false</bundledJreAsFallback>
                                 <minVersion>1.8.0</minVersion>
                                 <maxVersion></maxVersion>
