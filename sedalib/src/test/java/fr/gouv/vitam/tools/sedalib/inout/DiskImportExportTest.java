@@ -88,6 +88,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "      \"filename\" : \"201609-TdB-suivi-des-a.ods\",\n" +
                 "      \"creatingApplicationName\" : null,\n" +
                 "      \"creatingApplicationVersion\" : null,\n" +
+                "      \"dateCreatedByApplication\" : null,\n" +
                 "      \"creatingOs\" : null,\n" +
                 "      \"creatingOsVersion\" : null,\n" +
                 "      \n" +
@@ -118,6 +119,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "      \"filename\" : \"201609-TdB-suivi-des-a.txt\",\n" +
                 "      \"creatingApplicationName\" : null,\n" +
                 "      \"creatingApplicationVersion\" : null,\n" +
+                "      \"dateCreatedByApplication\" : null,\n" +
                 "      \"creatingOs\" : null,\n" +
                 "      \"creatingOsVersion\" : null,\n" +
                 "      \n" +
@@ -217,7 +219,9 @@ public class DiskImportExportTest implements UseTestFiles {
                 + "      \"mimeType\" : \"image/jpeg\",\n" + "      \"formatId\" : \"fmt/645\",\n"
                 + "      \"encoding\" : null\n" + "    },\n" + "    \"fileInfo\" : {\n"
                 + "      \"filename\" : \"image001.jpg\",\n" + "      \"creatingApplicationName\" : null,\n"
-                + "      \"creatingApplicationVersion\" : null,\n" + "      \"creatingOs\" : null,\n"
+                + "      \"creatingApplicationVersion\" : null,\n"
+                + "      \"dateCreatedByApplication\" : null,\n"
+                + "      \"creatingOs\" : null,\n"
                 + "      \"creatingOsVersion\" : null,\n" + "      \"lastModified\" : 1535484139000\n" + "    },\n"
                 + "    \"metadataXmlData\" : null,\n" + "    \"otherMetadataXmlData\" : null,\n"
                 + "    \"inDataObjectPackageId\" : \"ID13\",\n"
