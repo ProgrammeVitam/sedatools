@@ -324,14 +324,13 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 						s.close();
 						if (sb.length() > 1)
 							sb.setLength(sb.length() - 1);
-						identXml = sb.toString();
+						identXml = "\n"+sb.toString();
 					} catch (Exception e) {
-						identXml = rawXml;
+						identXml = "\n"+rawXml;
 					}
 				} else
 					identXml = rawXml;
 
-				rawWriter.write("\n");
 				rawWriter.write(identXml);
 				rawWriter.flush();
 			} catch (IOException e) {

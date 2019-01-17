@@ -15,7 +15,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.Management;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonOrEntityType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import org.slf4j.LoggerFactory;
@@ -39,8 +39,8 @@ public class Sample3plus {
                     "RecordGrp", "Dossiers");
 
             // iterate through csv
-            Path procDir = Paths.get("src/main/resources/AutresDossiers");
-            Scanner scanner = new Scanner(new File("src/main/resources/AutresDossiers.csv"));
+            Path procDir = Paths.get("sedalib-samples/src/main/resources/AutresDossiers");
+            Scanner scanner = new Scanner(new File("sedalib-samples/src/main/resources/AutresDossiers.csv"));
             String procId = null;
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -65,7 +65,7 @@ public class Sample3plus {
                 event.addNewMetadata("EventDateTime", resultDate);
                 event.addNewMetadata("Outcome", result);
                 content.addMetadata(event);
-                PersonOrEntityType requirer = new PersonOrEntityType("Requirer");
+                AgentType requirer = new AgentType("Requirer");
                 requirer.addNewMetadata("Identifier", requirerId);
                 requirer.addNewMetadata("FirstName", firstname);
                 requirer.addNewMetadata("BirthName", birthname);

@@ -56,10 +56,10 @@ public class AddMetadataItem {
         typeExtraInformationMap.put("DateTimeType", "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z] ou YYYY-MM-DD'T'HH:MM:SS[Timezone ou Z]");
 
         typeCreatorMap.put("GenericXMLBlockType", AddMetadataItem::genericXMLBlockTypeSample);
-        typeExtraInformationMap.put("GenericXMLBlockType", "Bloc XML libre");
+        typeExtraInformationMap.put("GenericXMLBlockType", "Bloc XML de structure non connue par ReSIP");
 
-        typeCreatorMap.put("PersonOrEntityType", AddMetadataItem::personOrEntityTypeSample);
-        typeExtraInformationMap.put("PersonOrEntityType", "Metadonnée de type personne ou entité");
+        typeCreatorMap.put("AgentType", AddMetadataItem::agentTypeSample);
+        typeExtraInformationMap.put("AgentType", "Metadonnée de type agent");
 
         typeCreatorMap.put("StringType", AddMetadataItem::stringTypeSample);
         typeExtraInformationMap.put("StringType", "Metadonnée de type chaîne de caractères");
@@ -117,7 +117,7 @@ public class AddMetadataItem {
     }
 
     static GenericXMLBlockType genericXMLBlockTypeSample(String elementName) {
-        return new GenericXMLBlockType(elementName, "<Tag><SubTag1>Text1</SubTag1><SubTag2 attr=\"any\">Text2</SubTag2></Tag>");
+        return new GenericXMLBlockType(elementName, "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2 attr=\"any\">Text2</BlockTag2></"+elementName+">");
     }
 
    static void constructComplexListType(ComplexListType clt){
@@ -144,8 +144,8 @@ public class AddMetadataItem {
             }
     }
 
-    static PersonOrEntityType personOrEntityTypeSample(String elementName) {
-        PersonOrEntityType result = new PersonOrEntityType(elementName);
+    static AgentType agentTypeSample(String elementName) {
+        AgentType result = new AgentType(elementName);
         constructComplexListType(result);
         return result;
     }

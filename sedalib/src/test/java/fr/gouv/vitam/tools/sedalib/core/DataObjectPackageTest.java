@@ -138,6 +138,7 @@ class DataObjectPackageTest {
                 "      \"filename\" : \"201609-TdB-suivi-des-a.ods\",\r\n" +
                 "      \"creatingApplicationName\" : null,\r\n" +
                 "      \"creatingApplicationVersion\" : null,\r\n" +
+                "      \"dateCreatedByApplication\" : null,\n" +
                 "      \"creatingOs\" : null,\r\n" +
                 "      \"creatingOsVersion\" : null,\r\n" +
                 "      \"lastModified\" : 1535484139000\r\n" +
@@ -168,6 +169,7 @@ class DataObjectPackageTest {
                 "      \"filename\" : \"201609-TdB-suivi-des-a.txt\",\r\n" +
                 "      \"creatingApplicationName\" : null,\r\n" +
                 "      \"creatingApplicationVersion\" : null,\r\n" +
+                "      \"dateCreatedByApplication\" : null,\n" +
                 "      \"creatingOs\" : null,\r\n" +
                 "      \"creatingOsVersion\" : null,\r\n" +
                 "      \"lastModified\" : 1535484139000\r\n" +
@@ -198,6 +200,7 @@ class DataObjectPackageTest {
                 "      \"filename\" : \"20160429-tuleap.pdf\",\r\n" +
                 "      \"creatingApplicationName\" : null,\r\n" +
                 "      \"creatingApplicationVersion\" : null,\r\n" +
+                "      \"dateCreatedByApplication\" : null,\n" +
                 "      \"creatingOs\" : null,\r\n" +
                 "      \"creatingOsVersion\" : null,\r\n" +
                 "      \"lastModified\" : 1535484139000\r\n" +
@@ -228,6 +231,7 @@ class DataObjectPackageTest {
                 "      \"filename\" : \"20160429-tuleap.pdf.txt\",\r\n" +
                 "      \"creatingApplicationName\" : null,\r\n" +
                 "      \"creatingApplicationVersion\" : null,\r\n" +
+                "      \"dateCreatedByApplication\" : null,\n" +
                 "      \"creatingOs\" : null,\r\n" +
                 "      \"creatingOsVersion\" : null,\r\n" +
                 "      \"lastModified\" : 1535484139000\r\n" +
@@ -258,6 +262,7 @@ class DataObjectPackageTest {
                 "      \"filename\" : \"SmallContract2.json\",\r\n" +
                 "      \"creatingApplicationName\" : null,\r\n" +
                 "      \"creatingApplicationVersion\" : null,\r\n" +
+                "      \"dateCreatedByApplication\" : null,\n" +
                 "      \"creatingOs\" : null,\r\n" +
                 "      \"creatingOsVersion\" : null,\r\n" +
                 "      \"lastModified\" : 1535484139000\r\n" +
@@ -288,6 +293,7 @@ class DataObjectPackageTest {
                 "      \"filename\" : \"SmallContract3.json\",\r\n" +
                 "      \"creatingApplicationName\" : null,\r\n" +
                 "      \"creatingApplicationVersion\" : null,\r\n" +
+                "      \"dateCreatedByApplication\" : null,\n" +
                 "      \"creatingOs\" : null,\r\n" +
                 "      \"creatingOsVersion\" : null,\r\n" +
                 "      \"lastModified\" : 1535484139000\r\n" +

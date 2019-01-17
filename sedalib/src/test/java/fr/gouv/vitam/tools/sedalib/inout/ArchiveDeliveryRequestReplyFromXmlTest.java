@@ -55,8 +55,9 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 				"    \"fileInfo\" : {\n" + 
 				"      \"filename\" : \"009734_20130456_0001_20120117_DI_AN_CMP_lecture_retraite_magistrats.pdf.pdf\",\n" + 
 				"      \"creatingApplicationName\" : null,\n" + 
-				"      \"creatingApplicationVersion\" : null,\n" + 
-				"      \"creatingOs\" : null,\n" + 
+				"      \"creatingApplicationVersion\" : null,\n" +
+				"      \"dateCreatedByApplication\" : null,\n" +
+				"      \"creatingOs\" : null,\n" +
 				"      \"creatingOsVersion\" : null,\n" + 
 				"      \"lastModified\" : 1350905234000\n" + 
 				"    },\n" + 

@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import java.nio.file.attribute.FileTime;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 
 import javax.xml.bind.DatatypeConverter;
@@ -64,6 +65,9 @@ public class FileInfo extends SEDAMetadata{
 	/** The creating application version. */
 	public String creatingApplicationVersion;
 
+	/** The creation date by application. */
+	public LocalDateTime dateCreatedByApplication;
+
 	/** The creating os. */
 	public String creatingOs;
 
@@ -79,7 +83,7 @@ public class FileInfo extends SEDAMetadata{
 	 * Instantiates a new file info.
 	 */
 	public FileInfo() {
-		this(null, null, null, null, null, null);
+		this(null, null, null,null, null, null, null);
 	}
 
 	/**
@@ -88,15 +92,17 @@ public class FileInfo extends SEDAMetadata{
 	 * @param filename                   the filename
 	 * @param creatingApplicationName    the creating application name
 	 * @param creatingApplicationVersion the creating application version
+	 * @param dateCreatedByApplication   the creation date by application
 	 * @param creatingOs                 the creating os
 	 * @param creatingOsVersion          the creating os version
 	 * @param lastModified               the last modified
 	 */
 	public FileInfo(String filename, String creatingApplicationName, String creatingApplicationVersion,
-			String creatingOs, String creatingOsVersion, FileTime lastModified) {
+			LocalDateTime dateCreatedByApplication,String creatingOs, String creatingOsVersion, FileTime lastModified) {
 		this.filename = filename;
 		this.creatingApplicationName = creatingApplicationName;
 		this.creatingApplicationVersion = creatingApplicationVersion;
+		this.dateCreatedByApplication=dateCreatedByApplication;
 		this.creatingOs = creatingOs;
 		this.creatingOsVersion = creatingOsVersion;
 		this.lastModified = lastModified;
@@ -117,6 +123,8 @@ public class FileInfo extends SEDAMetadata{
 			xmlWriter.writeElementValueIfNotEmpty("Filename", filename);
 			xmlWriter.writeElementValueIfNotEmpty("CreatingApplicationName", creatingApplicationName);
 			xmlWriter.writeElementValueIfNotEmpty("CreatingApplicationVersion", creatingApplicationVersion);
+			if (dateCreatedByApplication!=null)
+				xmlWriter.writeElementValue("DateCreatedByApplication", xmlWriter.getStringFromDateTime(dateCreatedByApplication));
 			xmlWriter.writeElementValueIfNotEmpty("CreatingOs", creatingOs);
 			xmlWriter.writeElementValueIfNotEmpty("CreatingOsVersion", creatingOsVersion);
 			if (lastModified != null)
@@ -144,6 +152,9 @@ public class FileInfo extends SEDAMetadata{
 				fi.filename = xmlReader.nextMandatoryValue("Filename");
 				fi.creatingApplicationName = xmlReader.nextValueIfNamed("CreatingApplicationName");
 				fi.creatingApplicationVersion = xmlReader.nextValueIfNamed("CreatingApplicationVersion");
+				tmp = xmlReader.nextValueIfNamed("DateCreatedByApplication");
+				if (tmp != null)
+					fi.dateCreatedByApplication = xmlReader.getDateTimeFromString(tmp);
 				fi.creatingOs = xmlReader.nextValueIfNamed("CreatingOs");
 				fi.creatingOsVersion = xmlReader.nextValueIfNamed("CreatingOsVersion");
 				tmp = xmlReader.nextValueIfNamed("LastModified");
@@ -181,6 +192,9 @@ public class FileInfo extends SEDAMetadata{
 	 */
 	@JsonSetter("lastModified")
 	public void setLastModifiedFromLong(long fileLastModifiedTimeLong) {
-		this.lastModified = FileTime.fromMillis(fileLastModifiedTimeLong);
+		if (fileLastModifiedTimeLong==0)
+			this.lastModified=null;
+		else
+			this.lastModified = FileTime.fromMillis(fileLastModifiedTimeLong);
 	}
 }

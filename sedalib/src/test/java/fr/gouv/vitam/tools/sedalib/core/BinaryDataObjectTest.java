@@ -62,6 +62,7 @@ class BinaryDataObjectTest {
                 "    \"filename\" : \"image001.jpg\",\n" +
                 "    \"creatingApplicationName\" : null,\n" +
                 "    \"creatingApplicationVersion\" : null,\n" +
+                "    \"dateCreatedByApplication\" : null,\n" +
                 "    \"creatingOs\" : null,\n" +
                 "    \"creatingOsVersion\" : null,\n" +
                 "    \"lastModified\" : 1535484139000\n" +

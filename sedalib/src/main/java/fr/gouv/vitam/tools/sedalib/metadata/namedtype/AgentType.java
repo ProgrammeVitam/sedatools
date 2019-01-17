@@ -25,29 +25,23 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata;
+package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * The Class Signer.
+ * The Class AgentType.
  * <p>
- * Class for Signer metadata.
- * <p>
- * Part of Signature ArchiveUnit metadata.
- * <p>
- * Standard quote: "Signataire(s) de la transaction ou de l'objet"
+ * For abstract agent type SEDA metadata
  */
-public class Signer extends ComplexListType {
+public class AgentType extends ComplexListType {
 
     /** Init the metadata possibilities. */ {
         initMetadataOrderedList();
@@ -65,89 +59,84 @@ public class Signer extends ComplexListType {
     protected static HashMap<String, MetadataKind> metadataMap;
 
     /**
-     * Instantiates a new signer type.
+     * Instantiates a new agent type.
+     *
+     * @param elementName the element name
      */
-    public Signer() {
-        super("Signer");
+    public AgentType(String elementName) {
+        super(elementName);
     }
 
     /**
-     * Instantiates a new signer type with firstname, birthname and signing time.
+     * Instantiates a new agent type with firstname and birthname.
      *
      * @param elementName the element name
      * @param firstName   the first name
      * @param birthName   the birth name
-     * @param signingTime the signing time
      */
-    public Signer(String elementName, String firstName, String birthName, LocalDateTime signingTime) {
+    public AgentType(String elementName, String firstName, String birthName) {
         super(elementName);
         try {
             addNewMetadata("FirstName", firstName);
             addNewMetadata("BirthName", birthName);
-            addNewMetadata("SigningTime", signingTime);
         } catch (SEDALibException ignored) {
         }
     }
 
     /**
-     * Instantiates a new signer type with firstname, birthname, identifier and signing time.
+     * Instantiates a new agent type with firstname, birthname and identifier.
      *
      * @param elementName the element name
      * @param firstName   the first name
      * @param birthName   the birth name
      * @param identifier  the identifier
      */
-    public Signer(String elementName, String firstName, String birthName, String identifier, LocalDateTime signingTime) {
+    public AgentType(String elementName, String firstName, String birthName, String identifier) {
         super(elementName);
         try {
             addNewMetadata("FirstName", firstName);
             addNewMetadata("BirthName", birthName);
             addNewMetadata("Identifier", identifier);
-            addNewMetadata("SigningTime", signingTime);
         } catch (SEDALibException ignored) {
         }
     }
 
     /**
-     * Instantiates a new signer type from args.
+     * Instantiates a new agent type from args.
      *
      * @param elementName the XML element name
      * @param args        the generic args for NameTypeMetadata construction
      * @throws SEDALibException if args are not suitable for constructor
      */
-    public Signer(String elementName, Object[] args) throws SEDALibException {
+    public AgentType(String elementName, Object[] args) throws SEDALibException {
         super(elementName);
-        if ((args.length == 3) && (args[0] instanceof String) && (args[1] instanceof String)
-                && (args[2] instanceof LocalDateTime)) {
+        if ((args.length == 2) && (args[0] instanceof String) && (args[1] instanceof String)) {
             addNewMetadata("FirstName", (String) args[0]);
             addNewMetadata("BirthName", (String) args[1]);
-            addNewMetadata("SigningTime", (String) args[2]);
-        } else if ((args.length == 4) && (args[0] instanceof String) && (args[1] instanceof String)
-                && (args[2] instanceof String) && (args[3] instanceof LocalDateTime)) {
+        } else if ((args.length == 3) && (args[0] instanceof String) && (args[1] instanceof String) && (args[2] instanceof String)) {
             addNewMetadata("FirstName", (String) args[0]);
             addNewMetadata("BirthName", (String) args[1]);
             addNewMetadata("Identifier", (String) args[2]);
-            addNewMetadata("SigningTime", (String) args[3]);
         } else
             throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
     }
 
     /**
-     * Import the Signer in XML expected form for the SEDA Manifest.
+     * Import the AgentType in XML expected form for the SEDA Manifest.
      *
      * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read Signer
+     * @return the read AgentType
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not                          respected
      */
-    public static Signer fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
+    public static AgentType fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         XMLEvent event;
         try {
             event = xmlReader.peekUsefullEvent();
-            Signer signer = new Signer();
-            fromSedaXmlInObject(xmlReader, signer);
-            return signer;
+            AgentType personType = new AgentType(event.asStartElement().getName().getLocalPart());
+            fromSedaXmlInObject(xmlReader, personType);
+            return personType;
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type Signer\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type AgentType\n->" + e.getMessage());
         }
     }
 
@@ -170,7 +159,6 @@ public class Signer extends ComplexListType {
         metadataOrderedList.add("Nationality");
         metadataOrderedList.add("Corpname");
         metadataOrderedList.add("Identifier");
-        metadataOrderedList.add("SigningTime");
         metadataOrderedList.add("Function");
         metadataOrderedList.add("Activity");
         metadataOrderedList.add("Position");
@@ -195,7 +183,6 @@ public class Signer extends ComplexListType {
         metadataMap.put("Nationality", new MetadataKind(StringType.class, true));
         metadataMap.put("Corpname", new MetadataKind(StringType.class, false));
         metadataMap.put("Identifier", new MetadataKind(StringType.class, true));
-        metadataMap.put("SigningTime", new MetadataKind(DateTimeType.class, false));
         metadataMap.put("Function", new MetadataKind(TextType.class, true));
         metadataMap.put("Activity", new MetadataKind(TextType.class, true));
         metadataMap.put("Position", new MetadataKind(TextType.class, true));

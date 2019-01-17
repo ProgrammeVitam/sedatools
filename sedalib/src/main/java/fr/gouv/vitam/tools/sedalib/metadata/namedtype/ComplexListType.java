@@ -250,7 +250,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 			}
 			xmlWriter.writeEndElement();
 		} catch (XMLStreamException e) {
-			throw new SEDALibException("Erreur d'écriture XML dans un élément Content\n->" + e.getMessage());
+			throw new SEDALibException("Erreur d'écriture XML dans un élément d'un ComplexListType\n->" + e.getMessage());
 		}
 	}
 
