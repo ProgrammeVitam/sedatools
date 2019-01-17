@@ -27,9 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateTimeType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
@@ -149,7 +147,7 @@ public class Signer extends ComplexListType {
             fromSedaXmlInObject(xmlReader, signer);
             return signer;
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type PersonOrEntityType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type Signer\n->" + e.getMessage());
         }
     }
 
@@ -191,18 +189,18 @@ public class Signer extends ComplexListType {
         metadataMap.put("GivenName", new MetadataKind(StringType.class, false));
         metadataMap.put("Gender", new MetadataKind(StringType.class, false));
         metadataMap.put("BirthDate", new MetadataKind(StringType.class, false));
-        metadataMap.put("BirthPlace", new MetadataKind(StringType.class, false));
+        metadataMap.put("BirthPlace", new MetadataKind(GenericXMLBlockType.class, false));
         metadataMap.put("DeathDate", new MetadataKind(StringType.class, false));
-        metadataMap.put("DeathPlace", new MetadataKind(StringType.class, false));
+        metadataMap.put("DeathPlace", new MetadataKind(GenericXMLBlockType.class, false));
         metadataMap.put("Nationality", new MetadataKind(StringType.class, true));
         metadataMap.put("Corpname", new MetadataKind(StringType.class, false));
         metadataMap.put("Identifier", new MetadataKind(StringType.class, true));
         metadataMap.put("SigningTime", new MetadataKind(DateTimeType.class, false));
-        metadataMap.put("Function", new MetadataKind(StringType.class, true));
-        metadataMap.put("Activity", new MetadataKind(StringType.class, true));
-        metadataMap.put("Position", new MetadataKind(StringType.class, true));
-        metadataMap.put("Role", new MetadataKind(StringType.class, true));
-        metadataMap.put("Mandate", new MetadataKind(StringType.class, true));
+        metadataMap.put("Function", new MetadataKind(TextType.class, true));
+        metadataMap.put("Activity", new MetadataKind(TextType.class, true));
+        metadataMap.put("Position", new MetadataKind(TextType.class, true));
+        metadataMap.put("Role", new MetadataKind(TextType.class, true));
+        metadataMap.put("Mandate", new MetadataKind(TextType.class, true));
     }
 
     // Getters and setters

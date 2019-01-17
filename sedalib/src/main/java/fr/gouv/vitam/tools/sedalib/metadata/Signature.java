@@ -92,7 +92,7 @@ public class Signature extends ComplexListType {
         metadataOrderedList.add("Signer");
         metadataOrderedList.add("Validator");
         metadataOrderedList.add("Masterdata");
-        // TODO Referenced Object
+        metadataOrderedList.add("ReferencedObject");
      }
 
     /**
@@ -102,7 +102,8 @@ public class Signature extends ComplexListType {
         metadataMap = new HashMap<String, MetadataKind>();
         metadataMap.put("Signer", new MetadataKind(Signer.class, true));
         metadataMap.put("Validator", new MetadataKind(Validator.class, false));
-        metadataMap.put("Masterdata", new MetadataKind(StringType.class, false));
+        metadataMap.put("Masterdata", new MetadataKind(GenericXMLBlockType.class, false));
+        metadataMap.put("ReferencedObject", new MetadataKind(GenericXMLBlockType.class, false));
     }
 
     // Getters and setters

@@ -63,14 +63,17 @@ public abstract class SEDAMetadata {
 	 * @return the indented XML form String
 	 */
 	public String toString() {
-		String result;
+		String result=null;
 		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
 			toSedaXml(xmlWriter);
-			xmlWriter.close();
+			xmlWriter.flush();
 			result = baos.toString("UTF-8");
+			if (result.startsWith("\n"))
+			    result=result.substring(1);
 		} catch (XMLStreamException | IOException | SEDALibException e) {
-			result = super.toString();
+				if (result==null)
+					result = super.toString();
 		}
 		return result;
 	}

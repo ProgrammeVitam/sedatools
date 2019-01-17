@@ -3,3 +3,6 @@ Evolutions/Corrections en 0.9
 - Evolution: l'encodage de l'usage_version dans les noms de fichier sur disque a été modifié il est maintenant __usage(_version)__nomdefichier pour éviter les problèmes avec certains fichiers commencant par "nombre_". Cas rencontré sur le jeu de test Mercier.
 - Evolution: reconnait des fichiers manifest SEDA dans les SIP et DIP nommés de manière étendue (.*manifest.*.xml)
 - Bug (corrigé): le champ DateCreatedByApplication a été mis comme il se doit dans FileInfo
+- Bug (corrigé): remplacement des PersonOrEntityType par AgentType
+- Bug (corrigé): correction de l'interprétation de différents champs SEDA
+- Bug (corrigé): la fonction toString du GenericXMLBlockType donne le contenu XML et non le toString par défaut d'un Object

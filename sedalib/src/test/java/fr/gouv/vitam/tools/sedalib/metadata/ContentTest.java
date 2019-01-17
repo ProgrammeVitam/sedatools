@@ -6,7 +6,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
 import org.junit.jupiter.api.Test;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.PersonOrEntityType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -36,14 +36,15 @@ class ContentTest {
         TextType d = new TextType("Description", "TestDescription EN", "en");
         c.addMetadata(d);
 
-        // Test PersonOrEntityType metadata
+        // Test AgentType metadata
         c.addNewMetadata("Recipient", "TestFirstName1", "TestBirthName1");
         c.addNewMetadata("Recipient", "TestFirstName2", "TestBirthName2", "TestIdentifier2");
-        PersonOrEntityType writer = new PersonOrEntityType("Writer");
+        AgentType writer = new AgentType("Writer");
         writer.addNewMetadata("FirstName", "TestPrenom");
         writer.addNewMetadata("BirthName", "TestNom");
         writer.addNewMetadata("Identifier", "ID1");
         writer.addNewMetadata("Identifier", "ID2");
+        writer.addNewMetadata("Function", "F1");
         c.addMetadata(writer);
 
         // Test GenericXMLBlock metadata
@@ -99,6 +100,7 @@ class ContentTest {
                 "    <BirthName>TestNom</BirthName>\n" +
                 "    <Identifier>ID1</Identifier>\n" +
                 "    <Identifier>ID2</Identifier>\n" +
+                "    <Function>F1</Function>\n" +
                 "  </Writer>\n" +
                 "  <Recipient>\n" +
                 "    <FirstName>TestFirstName1</FirstName>\n" +
@@ -153,7 +155,7 @@ class ContentTest {
         assertThatThrownBy(() -> c.addNewMetadata("Description", "Test1","Test2","Test3"))
                 .hasMessageContaining("Impossible de construire"); // for TextType
         assertThatThrownBy(() -> c.addNewMetadata("Recipient", "Test"))
-                .hasMessageContaining("Impossible de construire"); // for PersonOrEntityType
+                .hasMessageContaining("Impossible de construire"); // for AgentType
         assertThatThrownBy(() -> c.addNewMetadata("XMLTest", new Date(0)))
                 .hasMessageContaining("Impossible de construire"); // for GenericXMLBlock
         Event event=new Event();
