@@ -1,3 +1,6 @@
 config/
 droid.git/
 mailextract.git/
+**/.project
+**/.settings/
+**/.classpath
