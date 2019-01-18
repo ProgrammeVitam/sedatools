@@ -39,16 +39,11 @@
 	</build>
 
 	<dependencies>
-
 		<!-- VITAM dependencies -->
-
 		<dependency>
 			<groupId>fr.gouv.vitam.tools</groupId>
 			<artifactId>resip</artifactId>
 			<version>${project.version}</version>
-			<classifier>shaded</classifier>
 		</dependency>
-		
-
 	</dependencies>
 </project>
