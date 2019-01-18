@@ -66,6 +66,9 @@ pipeline {
         }
 
         stage("Build mailextract dependency") {
+            environment {
+                DEPLOY_GOAL = readFile("deploy_goal.txt")
+            }
             steps {
                 dir('libpst.git') {
                      deleteDir()
@@ -96,9 +99,10 @@ pipeline {
                 dir('mailextract.git') {
                     //sh '$MVN_COMMAND -f pom.xml clean deploy -DskipTests -Dmaven.skip.tests=true'
 
-                    withEnv(["JAVA_TOOL_OPTIONS=-Dhttp.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttp.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttps.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttps.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttp.nonProxyHosts=pic-prod-nexus.vitam-env"]) {
-                        sh '$MVN_BASE --settings ../.ci/settings_internet.xml clean install -DskipTests -Dmaven.skip.tests=true'
-                    }
+                    // withEnv(["JAVA_TOOL_OPTIONS=-Dhttp.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttp.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttps.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttps.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttp.nonProxyHosts=pic-prod-nexus.vitam-env"]) {
+                    //     sh '$MVN_BASE --settings ../.ci/settings_internet.xml clean install -DskipTests -Dmaven.skip.tests=true'
+                    // }
+                    sh '$MVN_COMMAND -f pom.xml clean install -DskipTests -Dmaven.skip.tests=true $DEPLOY_GOAL'
                     // skipTests as windres is not installed
                 }
             }
