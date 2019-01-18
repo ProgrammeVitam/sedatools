@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.gouv.vitam.tools</groupId>
+		<artifactId>sedatools</artifactId>
+		<version>0.9-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<artifactId>sedatools-package</artifactId>
+	<packaging>pom</packaging>
+	<name>SEDATOOLS Package</name>
+	<description>Packaging complet SEDA tools</description>
+
+	<build>
+		<plugins>
+			
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>assembly</id>
+						<phase>package</phase>
+						<configuration>
+							<appendAssemblyId>true</appendAssemblyId>
+							<descriptors>
+								<descriptor>${basedir}/assembly.xml</descriptor>
+							</descriptors>
+						</configuration>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<!-- VITAM dependencies -->
+
+		<dependency>
+			<groupId>fr.gouv.vitam.tools</groupId>
+			<artifactId>resip</artifactId>
+			<version>${project.version}</version>
+			<type>*</type>
+		</dependency>
+		
+
+	</dependencies>
+</project>
