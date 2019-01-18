@@ -28,10 +28,10 @@
     <dependencySets>
         <!-- Add documentation files -->
         <dependencySet>
-            <outputDirectory>.</outputDirectory>
+            <outputDirectory>/</outputDirectory>
             <unpack>false</unpack>
             <includes>
-                <include>fr.gouv.vitam.tools:resip:shaded</include>
+                <include>fr.gouv.vitam.tools:resip:*</include>
             </includes>
         </dependencySet>
     </dependencySets>
