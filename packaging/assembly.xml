@@ -7,22 +7,22 @@
     <fileSets>
         <!-- Add all vitam-external rpm -->
         <fileSet>
-            <directory>../../resip/windows</directory>
+            <directory>../resip/windows</directory>
             <outputDirectory></outputDirectory>
-            <excludes>
+            <!-- <excludes>
                 <exclude>VitamIcon.ico</exclude>
-            </excludes>
+            </excludes> -->
         </fileSet>
         <!-- Add "native" vitam-product rpm -->
         <fileSet>
-            <directory>../rpm/vitam-product/target</directory>
-            <outputDirectory>rpm/vitam-product</outputDirectory>
+            <directory>../resip/src/test/resources/PacketSamples/</directory>
+            <outputDirectory>config/</outputDirectory>
             <includes>
-                <include>**/*.rpm</include>
+                <include>**/ExportContext.config</include>
             </includes>
-            <excludes>
+            <!-- <excludes>
                 <exclude>**/vitam-gatling-*.rpm</exclude>
-            </excludes>
+            </excludes> -->
         </fileSet> 
     </fileSets>
     <dependencySets>
@@ -31,7 +31,7 @@
             <outputDirectory>.</outputDirectory>
             <unpack>false</unpack>
             <includes>
-                <include>fr.gouv.vitam.tools:resip:*</include>
+                <include>fr.gouv.vitam.tools:resip:shaded</include>
             </includes>
         </dependencySet>
     </dependencySets>
