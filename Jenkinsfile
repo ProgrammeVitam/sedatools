@@ -50,20 +50,20 @@ pipeline {
                 echo "We are on master branch (${env.GIT_BRANCH}) ; deploy goal is \"${env.DEPLOY_GOAL}\""
             }
         }
-
-        stage("Build pre-release droid module") {
-            steps {
-                dir('droid.git') {
-                     deleteDir()
-                }
-                dir('droid.git') {
-                    git([url: 'https://github.com/digital-preservation/droid.git', branch: 'master'])
-                    withEnv(["JAVA_TOOL_OPTIONS=-Dhttp.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttp.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttps.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttps.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttp.nonProxyHosts=pic-prod-nexus.vitam-env"]) {
-                        sh '$MVN_BASE --settings ../.ci/settings_internet.xml clean install -DskipTests'
-                    }
-                }
-            }
-        }
+        // OMA: will have to be commented when released on maven repository
+        // stage("Build pre-release droid module") {
+        //     steps {
+        //         dir('droid.git') {
+        //              deleteDir()
+        //         }
+        //         dir('droid.git') {
+        //             git([url: 'https://github.com/digital-preservation/droid.git', branch: 'master'])
+        //             withEnv(["JAVA_TOOL_OPTIONS=-Dhttp.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttp.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttps.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttps.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttp.nonProxyHosts=pic-prod-nexus.vitam-env"]) {
+        //                 sh '$MVN_BASE --settings ../.ci/settings_internet.xml clean install -DskipTests'
+        //             }
+        //         }
+        //     }
+        // }
         // OMA: commented as now in a separate Jenkins job
         // stage("Build mailextract dependency") {
         //     environment {
@@ -111,8 +111,15 @@ pipeline {
                 DEPLOY_GOAL = readFile("deploy_goal.txt")
             }
             steps {
-                sh '$MVN_COMMAND -f pom.xml -Dmaven.test.skip=true -DskipTests=true clean package javadoc:aggregate-jar $DEPLOY_GOAL -X'
+                sh '$MVN_COMMAND -f pom.xml -Dmaven.test.skip=true -DskipTests=true clean package javadoc:aggregate-jar $DEPLOY_GOAL'
             }
         }
+        // stage("Packaging") {
+        //     steps{
+        //         dir('packaging') {
+        //             sh '$MVN_COMMAND -f pom.xml clean deploy'
+        //         }
+        //     }
+        // }
     }
 }

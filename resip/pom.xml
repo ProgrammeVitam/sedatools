@@ -141,6 +141,22 @@
                     </descriptorRefs>
                 </configuration>
             </plugin>
+
+            <!-- <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                <execution>
+                    <id>exe</id>
+                    <phase>package</phase>
+                    <goals><goal>attached</goal></goals>
+                    <configuration>
+                    <descriptors>
+                        <descriptor>assembly.xml</descriptor>
+                    </descriptors>
+                    </configuration>
+                </execution>
+                </executions>
+            </plugin> -->
             <!-- make a minimal runnable jar -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
