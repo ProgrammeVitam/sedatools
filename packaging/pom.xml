@@ -44,7 +44,7 @@
 			<groupId>fr.gouv.vitam.tools</groupId>
 			<artifactId>resip</artifactId>
 			<version>${project.version}</version>
-			<type>shaded</type>
+			<type>*</type>
 		</dependency>
 	</dependencies>
 </project>
