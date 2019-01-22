@@ -18,6 +18,11 @@ pipeline {
         MAILEXTRACT_GIT_URL=credentials("mailextract-gitlab-url")
     }
 
+    triggers {
+        upstream(upstreamProjects: 'build-mailextractor', threshold: hudson.model.Result.SUCCESS)
+    }
+
+
    stages {
 
        stage("Tools configuration") {
