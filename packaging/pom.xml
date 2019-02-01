@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>fr.gouv.vitam.tools</groupId>
 		<artifactId>sedatools</artifactId>
-		<version>0.9-SNAPSHOT</version>
+		<version>1.0.0</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 	<artifactId>sedatools-package</artifactId>

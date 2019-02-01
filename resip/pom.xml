@@ -5,11 +5,11 @@
     <parent>
         <groupId>fr.gouv.vitam.tools</groupId>
         <artifactId>sedatools</artifactId>
-        <version>0.9-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
     <groupId>fr.gouv.vitam.tools</groupId>
     <artifactId>resip</artifactId>
-    <!-- <version>0.9-SNAPSHOT</version> -->
+    <!-- <version>1.0.0</version> -->
     <packaging>jar</packaging>
 
     <name>resip</name>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>fr.gouv.vitam.tools</groupId>
             <artifactId>sedalib</artifactId>
-            <version>0.9-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>fr.gouv.vitam.tools</groupId>
