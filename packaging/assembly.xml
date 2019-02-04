@@ -13,6 +13,10 @@
                 <exclude>VitamIcon.ico</exclude>
             </excludes> -->
         </fileSet>
+        <fileSet>
+            <directory>../doc</directory>
+            <outputDirectory>/doc</outputDirectory>
+        </fileSet>
         <!-- Add "native" vitam-product rpm -->
         <fileSet>
             <directory>../resip/src/test/resources/PacketSamples/</directory>
