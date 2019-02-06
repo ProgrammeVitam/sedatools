@@ -25,7 +25,7 @@ Avec un JDK 1.8, git, maven et gpg installés, la séquence de build est la suiv
     # mvn parameters to skip javadoc errors in 1.8
     mvn clean install -Dadditionalparam=-Xdoclint:none
     cd ..
-    git clone https://gitlab.dev.programmevitam.fr/vitam/mailextract.git
+    git clone https://github.com/ProgrammeVitam/mailextract.git
     cd mailextract/
     mvn clean install
     cd ..
@@ -34,7 +34,7 @@ Avec un JDK 1.8, git, maven et gpg installés, la séquence de build est la suiv
     # mvn parameters to skip a test failure in non english environement
     mvn clean install -DskipTests
     cd ..
-    git clone https://gitlab.dev.programmevitam.fr/jslair/sedatools.git
+    git clone https://github.com/ProgrammeVitam/sedatools.git
     cd sedatools/
     mvn clean install
 
@@ -48,7 +48,7 @@ Execution de l'application d'exemple
 ------------------------------------
 
     cd sedalib-samples/
-    java -jar target/sedalib-samples-0.9-SNAPSHOT-shaded.jar
+    java -jar target/sedalib-samples-{VERSION}-shaded.jar
 
 A noter les paquets générés, peuvent être entrés dans une plateforme VITAM
 sur le tenant de test 0. Les valeurs de référentiels sont prises parmi celles
@@ -108,7 +108,7 @@ Execution
 ---------
 
     cd ../resip
-    java -jar target/resip-0.9-SNAPSHOT-shaded.jar
+    java -jar target/resip-{VERSION}-shaded.jar
 
 Sous Windows, il est aussi possible de lancer l'exécutable: windows/Resip.exe
 

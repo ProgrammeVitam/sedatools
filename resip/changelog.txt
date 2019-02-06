@@ -1,4 +1,9 @@
-Evolutions/Corrections en 0.9
+Evolutions/Corrections en 1.1.0-SNAPSHOT
+
+- Evolution: Mise à jour des bibliothèques java utilisées
+
+============================================================================
+Evolutions/Corrections -> 1.0
 
 - Bug (corrigé): si l'extraction de métadonnées textuelles des courriels contient des caractères non standards dans le XML la constitution des paquets échoue...
 - Bug (corrigé): le glissé/déposé sur Resip.bat d'un dossier ayant dans le chemin des caractères accentués ne fonctionne pas
