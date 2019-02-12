@@ -16,6 +16,7 @@ pipeline {
         SERVICE_PROXY_HOST = credentials("http-proxy-host")
         SERVICE_PROXY_PORT = credentials("http-proxy-port")
         MAILEXTRACT_GIT_URL=credentials("mailextract-gitlab-url")
+        SERVICE_NOPROXY = credentials("http_nonProxyHosts")
     }
 
     triggers {
@@ -55,50 +56,6 @@ pipeline {
                 echo "We are on master branch (${env.GIT_BRANCH}) ; deploy goal is \"${env.DEPLOY_GOAL}\""
             }
         }
-        // OMA: will have to be commented when released on maven repository
-        // stage("Build pre-release droid module") {
-        //     steps {
-        //         dir('droid.git') {
-        //              deleteDir()
-        //         }
-        //         dir('droid.git') {
-        //             git([url: 'https://github.com/digital-preservation/droid.git', branch: 'master'])
-        //             withEnv(["JAVA_TOOL_OPTIONS=-Dhttp.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttp.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttps.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttps.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttp.nonProxyHosts=pic-prod-nexus.vitam-env"]) {
-        //                 sh '$MVN_BASE --settings ../.ci/settings_internet.xml clean install -DskipTests'
-        //             }
-        //         }
-        //     }
-        // }
-        // OMA: commented as now in a separate Jenkins job
-        // stage("Build mailextract dependency") {
-        //     environment {
-        //         DEPLOY_GOAL = readFile("deploy_goal.txt")
-        //     }
-        //     steps {
-        //         dir('libpst.git') {
-        //              deleteDir()
-        //         }
-        //         dir('libpst.git') {
-        //             git([url: 'https://github.com/rjohnsondev/java-libpst.git', branch: 'develop'])
-        //             withEnv(["JAVA_TOOL_OPTIONS=-Dhttp.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttp.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttps.proxyHost=${env.SERVICE_PROXY_HOST} -Dhttps.proxyPort=${env.SERVICE_PROXY_PORT} -Dhttp.nonProxyHosts=pic-prod-nexus.vitam-env"]) {
-        //                 sh '$MVN_BASE --settings ../.ci/settings_internet.xml clean install -DskipTests -Dmaven.javadoc.skip=true -Dgpg.skip'
-        //             }
-        //         }
-        //         dir('mailextract.git') {
-        //              deleteDir()
-        //         }
-        //         checkout([$class: 'GitSCM',
-        //             branches: [[name: 'master']],
-        //             doGenerateSubmoduleConfigurations: false,
-        //             extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'mailextract.git']],
-        //             submoduleCfg: [],
-        //             userRemoteConfigs: [[credentialsId: 'app-jenkins', url: "$MAILEXTRACT_GIT_URL"]]
-        //         ])
-        //         dir('mailextract.git') {
-        //             sh '$MVN_COMMAND -f pom.xml clean install -DskipTests -Dmaven.skip.tests=true $DEPLOY_GOAL'
-        //         }
-        //     }
-        // }
 
         stage ("Execute unit tests") {
             steps {
@@ -119,12 +76,5 @@ pipeline {
                 sh '$MVN_COMMAND -f pom.xml -Dmaven.test.skip=true -DskipTests=true clean package javadoc:aggregate-jar $DEPLOY_GOAL'
             }
         }
-        // stage("Packaging") {
-        //     steps{
-        //         dir('packaging') {
-        //             sh '$MVN_COMMAND -f pom.xml clean deploy'
-        //         }
-        //     }
-        // }
     }
 }
