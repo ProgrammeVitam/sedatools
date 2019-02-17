@@ -86,6 +86,7 @@ public class InOutDialog extends JDialog {
 			lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 			gbc_lblNewLabel.anchor = GridBagConstraints.FIRST_LINE_START;
+			gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_lblNewLabel.insets = new Insets(5, 5, 5, 0);
 			gbc_lblNewLabel.gridx = 0;
 			gbc_lblNewLabel.gridy = 0;
