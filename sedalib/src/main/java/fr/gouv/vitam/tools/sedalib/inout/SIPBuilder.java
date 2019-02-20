@@ -118,6 +118,13 @@ public class SIPBuilder implements AutoCloseable  {
   }
 
     /**
+     * Gets the ArchiveTransfer in construction.
+     */
+    public ArchiveTransfer getArchiveTransfer() {
+        return archiveTransfer;
+    }
+
+    /**
      * Sets the comment.
      *
      * @param comment the new comment
