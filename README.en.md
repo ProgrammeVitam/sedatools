@@ -49,8 +49,27 @@ Sample application execution
     cd sedalib-samples
     java -jar target/sedalib-samples-{VERSION}-shaded.jar
 
-L'application Resip
-====================
+The TestSipGenerator tool
+=============================
+This command line tool generate SIP used for injection tests.
+You can choose depth of ArchiveUnit tree, number ans size of standard objects
+distributed in the tree, number and size of big objects...
+
+It has been developed with sedalib, and is so a sedalib usage sample code.
+
+
+Execution
+---------
+To get the generation options, you can use --help ou -h argument.
+
+    cd ../testsipgenerator
+    java -jar target/testsipgenerator-{VERSION}-shaded.jar -h
+
+On Windows, it's also possible to execute: windows/TestSipGenerator.exe -h
+
+
+The Resip application
+=====================
 
 This is the SIP creation and manipulation GUI.
 

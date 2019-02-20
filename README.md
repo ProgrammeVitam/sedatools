@@ -98,6 +98,27 @@ les métadonnées dans un csv et en les injectant dans les archives des dossiers
 * Sample3plus: la construction d'un SIP ajoutant des dossiers à un archivage
 précédent fait avec Sample3
 
+L'utilitaire TestSipGenerator
+=============================
+Cet utilitaire en ligne de commande génère des SIP utilisés pour des tests
+d'injection. Vous pouvez choisir la profondeur de l'arborescence, le
+nombre et la taille d'objets standards répartis dans l'arbre, le nombre
+et la taille de gros objets...
+
+Il a été développé en utilisant sedalib et constitue donc aussi un exemple 
+de code.
+
+Execution
+---------
+Pour avoir les options de génération, il suffit d'utiliser l'argument 
+--help ou -h.
+
+    cd ../testsipgenerator
+    java -jar target/testsipgenerator-{VERSION}-shaded.jar -h
+
+Sous Windows, il est aussi possible de lancer l'exécutable: windows/TestSipGenerator.exe -h
+
+
 L'application Resip
 ====================
 

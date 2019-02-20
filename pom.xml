@@ -109,6 +109,7 @@
     <modules>
         <module>sedalib</module>
         <module>sedalib-samples</module>
+        <module>testsipgenerator</module>
         <module>resip</module>
     </modules>
 </project>
