@@ -1,0 +1,7 @@
+target/
+config/
+bin/
+windows/TestFileGenerator.exe
+.settings/
+.classpath
+.project

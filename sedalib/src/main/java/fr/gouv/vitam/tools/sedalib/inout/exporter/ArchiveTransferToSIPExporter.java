@@ -202,6 +202,7 @@ public class ArchiveTransferToSIPExporter {
 							zipout.putNextEntry(e);
 							FileInputStream fis = new FileInputStream(bo.getOnDiskPath().toFile());
 							IOUtils.copy(fis, zipout);
+							fis.close();
 							zipout.closeEntry();
 							counter++;
 							if (sedaLibProgressLogger !=null)
