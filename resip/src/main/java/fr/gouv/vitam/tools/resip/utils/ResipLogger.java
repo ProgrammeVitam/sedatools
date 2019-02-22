@@ -127,6 +127,8 @@ public class ResipLogger {
         log.addAppender(logConsoleAppender);
         log.addAppender(logFileAppender);
 
+        if (globalLogger!=null)
+            globalLogger.close();
         globalLogger = new ResipLogger(log, progressLogLevel);
     }
 
@@ -185,4 +187,8 @@ public class ResipLogger {
         return progressLogLevel;
     }
 
+    public void close(){
+        if (logger instanceof ch.qos.logback.classic.Logger)
+            ((ch.qos.logback.classic.Logger)logger).detachAndStopAllAppenders();
+    }
 }

@@ -34,20 +34,7 @@ import java.awt.Insets;
 import java.io.IOException;
 import java.util.Arrays;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
@@ -194,6 +181,16 @@ public class PrefsDialog extends JDialog {
     private JRadioButton mboxRadioButton;
 
     /**
+     * The eml radio button.
+     */
+    private JRadioButton emlRadioButton;
+
+    /**
+     * The default charset combobox.
+     */
+    private JComboBox defaultCharsetCombobox;
+
+    /**
      * The cc.
      */
     public CreationContext cc;
@@ -217,6 +214,15 @@ public class PrefsDialog extends JDialog {
      * The return value.
      */
     public int returnValue;
+
+    /**
+     * The proposed charsets.
+     */
+    static String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
+            "IBM850", "IBM852", "IBM855", "IBM857", "IBM862", "IBM866", "ISO-8859-2", "ISO-8859-4", "ISO-8859-5",
+            "ISO-8859-7", "ISO-8859-9", "ISO-8859-13", "ISO-8859-15", "KOI8-R", "KOI8-U", "US-ASCII", "UTF-16",
+            "UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
+            "windows-1250", "windows-1251", "windows-1253", "windows-1254", "windows-1257"};
 
     /**
      * Create the dialog.
@@ -528,22 +534,182 @@ public class PrefsDialog extends JDialog {
                 .setText(gmc.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData);
         transferringAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
 
-        // Parameters Panel
+        // ImportParameters Panel
 
-        JPanel parametersPanel = new JPanel();
-        tabbedPane.addTab("Import/Export", null, parametersPanel, null);
-        GridBagLayout gbl_parametersPanel = new GridBagLayout();
-        gbl_parametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
-        parametersPanel.setLayout(gbl_parametersPanel);
+        JPanel importParametersPanel = new JPanel();
+        tabbedPane.addTab("Import", null, importParametersPanel, null);
+        GridBagLayout gbl_importParametersPanel = new GridBagLayout();
+        gbl_importParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
+        importParametersPanel.setLayout(gbl_importParametersPanel);
 
-        JLabel parametersLabel = new JLabel("Paramètres d'import/export");
-        GridBagConstraints gbc_parametersLabel = new GridBagConstraints();
-        gbc_parametersLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_parametersLabel.anchor = GridBagConstraints.NORTHWEST;
-        gbc_parametersLabel.gridx = 0;
-        gbc_parametersLabel.gridy = 0;
-        gbc_parametersLabel.gridwidth = 2;
-        parametersPanel.add(parametersLabel, gbc_parametersLabel);
+       JLabel protocolLabel = new JLabel("Protocole d'extraction courriel:");
+        GridBagConstraints gbc_protocolLabel = new GridBagConstraints();
+        gbc_protocolLabel.anchor = GridBagConstraints.EAST;
+        gbc_protocolLabel.insets = new Insets(0, 0, 0, 5);
+        gbc_protocolLabel.gridx = 0;
+        gbc_protocolLabel.gridy = 1;
+        importParametersPanel.add(protocolLabel, gbc_protocolLabel);
+
+        pstRadioButton = new JRadioButton("Outlook-Pst");
+        GridBagConstraints gbc_pstRadioButton = new GridBagConstraints();
+        gbc_pstRadioButton.anchor = GridBagConstraints.WEST;
+        gbc_pstRadioButton.insets = new Insets(0, 0, 0, 5);
+        gbc_pstRadioButton.gridx = 1;
+        gbc_pstRadioButton.gridy = 1;
+        importParametersPanel.add(pstRadioButton, gbc_pstRadioButton);
+
+        msgRadioButton = new JRadioButton("Outlook-Msg");
+        GridBagConstraints gbc_msgRadioButton = new GridBagConstraints();
+        gbc_msgRadioButton.anchor = GridBagConstraints.WEST;
+        gbc_msgRadioButton.insets = new Insets(0, 0, 0, 5);
+        gbc_msgRadioButton.gridx = 2;
+        gbc_msgRadioButton.gridy = 1;
+        importParametersPanel.add(msgRadioButton, gbc_msgRadioButton);
+
+        tdbRadioButton = new JRadioButton("Thunderbird");
+        GridBagConstraints gbc_tdbRadioButton = new GridBagConstraints();
+        gbc_tdbRadioButton.anchor = GridBagConstraints.WEST;
+        gbc_tdbRadioButton.insets = new Insets(0, 0, 0, 5);
+        gbc_tdbRadioButton.gridx = 1;
+        gbc_tdbRadioButton.gridy = 2;
+        importParametersPanel.add(tdbRadioButton, gbc_tdbRadioButton);
+
+        mboxRadioButton = new JRadioButton("Mbox");
+        GridBagConstraints gbc_mboxRadioButton = new GridBagConstraints();
+        gbc_mboxRadioButton.anchor = GridBagConstraints.WEST;
+        gbc_mboxRadioButton.insets = new Insets(0, 0, 0, 5);
+        gbc_mboxRadioButton.gridx = 2;
+        gbc_mboxRadioButton.gridy = 2;
+        importParametersPanel.add(mboxRadioButton, gbc_mboxRadioButton);
+
+        emlRadioButton = new JRadioButton("Eml");
+        GridBagConstraints gbc_emlRadioButton = new GridBagConstraints();
+        gbc_emlRadioButton.anchor = GridBagConstraints.WEST;
+        gbc_emlRadioButton.insets = new Insets(0, 0, 0, 5);
+        gbc_emlRadioButton.gridx = 1;
+        gbc_emlRadioButton.gridy = 3;
+        importParametersPanel.add(emlRadioButton, gbc_emlRadioButton);
+
+        ButtonGroup protocolButtonGroup = new ButtonGroup();
+        protocolButtonGroup.add(pstRadioButton);
+        protocolButtonGroup.add(msgRadioButton);
+        protocolButtonGroup.add(tdbRadioButton);
+        protocolButtonGroup.add(mboxRadioButton);
+        protocolButtonGroup.add(emlRadioButton);
+        pstRadioButton.setSelected("pst".equals(mic.getProtocol()));
+        msgRadioButton.setSelected("msg".equals(mic.getProtocol()));
+        tdbRadioButton.setSelected("thunderbird".equals(mic.getProtocol()));
+        mboxRadioButton.setSelected("mbox".equals(mic.getProtocol()));
+        emlRadioButton.setSelected("eml".equals(mic.getProtocol()));
+
+        JLabel charsetLabel = new JLabel("Encodage par défaut");
+        GridBagConstraints gbc_charsetLabel = new GridBagConstraints();
+        gbc_charsetLabel.anchor = GridBagConstraints.EAST;
+        gbc_charsetLabel.insets = new Insets(0, 0, 5, 5);
+        gbc_charsetLabel.gridx = 0;
+        gbc_charsetLabel.gridy = 4;
+        importParametersPanel.add(charsetLabel, gbc_charsetLabel);
+
+        defaultCharsetCombobox = new JComboBox(charsetStrings);
+        GridBagConstraints gbc_charsetComboBox = new GridBagConstraints();
+        gbc_charsetComboBox.insets = new Insets(0, 0, 5, 5);
+        gbc_charsetComboBox.fill = GridBagConstraints.HORIZONTAL;
+        gbc_charsetComboBox.gridx = 1;
+        gbc_charsetComboBox.gridy = 4;
+        importParametersPanel.add(defaultCharsetCombobox, gbc_charsetComboBox);
+        defaultCharsetCombobox.setSelectedItem(mic.getDefaultCharsetName());
+
+        JLabel mailFileTextExtractAULabel = new JLabel("Extraction des fichiers textes des courriels:");
+        GridBagConstraints gbc_mailFileTextExtractAULabel = new GridBagConstraints();
+        gbc_mailFileTextExtractAULabel.anchor = GridBagConstraints.EAST;
+        gbc_mailFileTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
+        gbc_mailFileTextExtractAULabel.gridx = 0;
+        gbc_mailFileTextExtractAULabel.gridy = 5;
+        importParametersPanel.add(mailFileTextExtractAULabel, gbc_mailFileTextExtractAULabel);
+
+        messageFileCheckBox = new JCheckBox("des messages");
+        GridBagConstraints gbc_messageFileCheckBox = new GridBagConstraints();
+        gbc_messageFileCheckBox.anchor = GridBagConstraints.WEST;
+        gbc_messageFileCheckBox.insets = new Insets(0, 0, 5, 5);
+        gbc_messageFileCheckBox.gridx = 1;
+        gbc_messageFileCheckBox.gridy = 5;
+        importParametersPanel.add(messageFileCheckBox, gbc_messageFileCheckBox);
+        messageFileCheckBox.setSelected(mic.isExtractMessageTextFile());
+
+        attachementFileCheckBox = new JCheckBox("des pièces jointes");
+        GridBagConstraints gbc_attachementFileCheckBox = new GridBagConstraints();
+        gbc_attachementFileCheckBox.anchor = GridBagConstraints.WEST;
+        gbc_attachementFileCheckBox.insets = new Insets(0, 0, 5, 5);
+        gbc_attachementFileCheckBox.gridx = 2;
+        gbc_attachementFileCheckBox.gridy = 5;
+        importParametersPanel.add(attachementFileCheckBox, gbc_attachementFileCheckBox);
+        attachementFileCheckBox.setSelected(mic.isExtractAttachmentTextFile());
+
+        JLabel mailMetadataTextExtractAULabel = new JLabel("Extraction des métadonnées textuelles des courriels:");
+        GridBagConstraints gbc_mailMetadataTextExtractAULabel = new GridBagConstraints();
+        gbc_mailMetadataTextExtractAULabel.anchor = GridBagConstraints.EAST;
+        gbc_mailMetadataTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
+        gbc_mailMetadataTextExtractAULabel.gridx = 0;
+        gbc_mailMetadataTextExtractAULabel.gridy = 6;
+        importParametersPanel.add(mailMetadataTextExtractAULabel, gbc_mailMetadataTextExtractAULabel);
+
+        messageMetadataCheckBox = new JCheckBox("des messages");
+        GridBagConstraints gbc_messageMetadataCheckBox = new GridBagConstraints();
+        gbc_messageMetadataCheckBox.anchor = GridBagConstraints.WEST;
+        gbc_messageMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
+        gbc_messageMetadataCheckBox.gridx = 1;
+        gbc_messageMetadataCheckBox.gridy = 6;
+        importParametersPanel.add(messageMetadataCheckBox, gbc_messageMetadataCheckBox);
+        messageMetadataCheckBox.setSelected(mic.isExtractMessageTextMetadata());
+
+        attachementMetadataCheckBox = new JCheckBox("des pièces jointes");
+        GridBagConstraints gbc_attachementMetadataCheckBox = new GridBagConstraints();
+        gbc_attachementMetadataCheckBox.anchor = GridBagConstraints.WEST;
+        gbc_attachementMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
+        gbc_attachementMetadataCheckBox.gridx = 2;
+        gbc_attachementMetadataCheckBox.gridy = 6;
+        importParametersPanel.add(attachementMetadataCheckBox, gbc_attachementMetadataCheckBox);
+        attachementMetadataCheckBox.setSelected(mic.isExtractAttachmentTextMetadata());
+
+        JScrollPane scrollPane_5 = new JScrollPane();
+        GridBagConstraints gbc_scrollPane_5 = new GridBagConstraints();
+        gbc_scrollPane_5.weightx = 1.0;
+        gbc_scrollPane_5.weighty = 1.0;
+        gbc_scrollPane_5.gridwidth = 2;
+        gbc_scrollPane_5.fill = GridBagConstraints.BOTH;
+        gbc_scrollPane_5.gridheight = 2;
+        gbc_scrollPane_5.gridx = 1;
+        gbc_scrollPane_5.gridy = 7;
+        importParametersPanel.add(scrollPane_5, gbc_scrollPane_5);
+
+        ignorePatternsTextArea = new JTextArea();
+        scrollPane_5.setViewportView(ignorePatternsTextArea);
+
+        JLabel ignorePatternsLabel = new JLabel("Fichiers exclus des imports:");
+        GridBagConstraints gbc_ignorePatternsLabel = new GridBagConstraints();
+        gbc_ignorePatternsLabel.gridwidth = 1;
+        gbc_ignorePatternsLabel.anchor = GridBagConstraints.EAST;
+        gbc_ignorePatternsLabel.insets = new Insets(0, 0, 0, 5);
+        gbc_ignorePatternsLabel.gridx = 0;
+        gbc_ignorePatternsLabel.gridy = 7;
+        importParametersPanel.add(ignorePatternsLabel, gbc_ignorePatternsLabel);
+        if (dic.getIgnorePatternList() != null) {
+            StringBuilder sb = new StringBuilder();
+            for (String p : dic.getIgnorePatternList()) {
+                sb.append(p).append('\n');
+            }
+            ignorePatternsTextArea.setText(sb.toString().trim());
+        }
+
+        // ExportParameters Panel
+
+        JPanel exportParametersPanel = new JPanel();
+        tabbedPane.addTab("Export", null, exportParametersPanel, null);
+        GridBagLayout gbl_exportParametersPanel = new GridBagLayout();
+        gbl_exportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
+        gbl_exportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+        gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0,0,1};
+        exportParametersPanel.setLayout(gbl_exportParametersPanel);
 
         JLabel workDirLabel = new JLabel("Rép. de travail:");
         GridBagConstraints gbc_workDirLabel = new GridBagConstraints();
@@ -551,7 +717,7 @@ public class PrefsDialog extends JDialog {
         gbc_workDirLabel.insets = new Insets(0, 0, 5, 5);
         gbc_workDirLabel.gridx = 0;
         gbc_workDirLabel.gridy = 1;
-        parametersPanel.add(workDirLabel, gbc_workDirLabel);
+        exportParametersPanel.add(workDirLabel, gbc_workDirLabel);
 
         workDirTextField = new JTextField();
         workDirTextField.setText(cc.getWorkDir());
@@ -562,7 +728,7 @@ public class PrefsDialog extends JDialog {
         gbc_workDirTextField.fill = GridBagConstraints.HORIZONTAL;
         gbc_workDirTextField.gridx = 1;
         gbc_workDirTextField.gridy = 1;
-        parametersPanel.add(workDirTextField, gbc_workDirTextField);
+        exportParametersPanel.add(workDirTextField, gbc_workDirTextField);
         workDirTextField.setColumns(10);
 
         JButton workDirButton = new JButton("Choisir...");
@@ -570,7 +736,7 @@ public class PrefsDialog extends JDialog {
         gbc_workDirButton.insets = new Insets(0, 0, 5, 0);
         gbc_workDirButton.gridx = 3;
         gbc_workDirButton.gridy = 1;
-        parametersPanel.add(workDirButton, gbc_workDirButton);
+        exportParametersPanel.add(workDirButton, gbc_workDirButton);
         workDirButton.addActionListener(arg0 -> buttonChooseWorkDir());
 
         JLabel hierarchicalAULabel = new JLabel("Export des AU dans le SIP:");
@@ -579,7 +745,7 @@ public class PrefsDialog extends JDialog {
         gbc_hierarchicalAULabel.insets = new Insets(0, 0, 5, 5);
         gbc_hierarchicalAULabel.gridx = 0;
         gbc_hierarchicalAULabel.gridy = 2;
-        parametersPanel.add(hierarchicalAULabel, gbc_hierarchicalAULabel);
+        exportParametersPanel.add(hierarchicalAULabel, gbc_hierarchicalAULabel);
 
         JRadioButton flatRadioButton = new JRadioButton("A plat");
         GridBagConstraints gbc_flatRadioButton = new GridBagConstraints();
@@ -587,7 +753,7 @@ public class PrefsDialog extends JDialog {
         gbc_flatRadioButton.insets = new Insets(0, 0, 5, 5);
         gbc_flatRadioButton.gridx = 2;
         gbc_flatRadioButton.gridy = 2;
-        parametersPanel.add(flatRadioButton, gbc_flatRadioButton);
+        exportParametersPanel.add(flatRadioButton, gbc_flatRadioButton);
 
         hierarchicalRadioButton = new JRadioButton("Imbriquées");
         GridBagConstraints gbc_hierarchicalRadioButton = new GridBagConstraints();
@@ -595,7 +761,7 @@ public class PrefsDialog extends JDialog {
         gbc_hierarchicalRadioButton.insets = new Insets(0, 0, 5, 5);
         gbc_hierarchicalRadioButton.gridx = 1;
         gbc_hierarchicalRadioButton.gridy = 2;
-        parametersPanel.add(hierarchicalRadioButton, gbc_hierarchicalRadioButton);
+        exportParametersPanel.add(hierarchicalRadioButton, gbc_hierarchicalRadioButton);
 
         ButtonGroup hierarchicalAUButtonGroup = new ButtonGroup();
         hierarchicalAUButtonGroup.add(flatRadioButton);
@@ -612,7 +778,7 @@ public class PrefsDialog extends JDialog {
         gbc_xmlPresentationLabel.insets = new Insets(0, 0, 0, 5);
         gbc_xmlPresentationLabel.gridx = 0;
         gbc_xmlPresentationLabel.gridy = 3;
-        parametersPanel.add(xmlPresentationLabel, gbc_xmlPresentationLabel);
+        exportParametersPanel.add(xmlPresentationLabel, gbc_xmlPresentationLabel);
 
         JRadioButton linearRadioButton = new JRadioButton("Linéaire");
         GridBagConstraints gbc_linearRadioButton = new GridBagConstraints();
@@ -620,14 +786,14 @@ public class PrefsDialog extends JDialog {
         gbc_linearRadioButton.insets = new Insets(0, 0, 0, 5);
         gbc_linearRadioButton.gridx = 2;
         gbc_linearRadioButton.gridy = 3;
-        parametersPanel.add(linearRadioButton, gbc_linearRadioButton);
+        exportParametersPanel.add(linearRadioButton, gbc_linearRadioButton);
 
         indentedRadioButton = new JRadioButton("Indentée");
         GridBagConstraints gbc_indentedRadioButton = new GridBagConstraints();
         gbc_indentedRadioButton.anchor = GridBagConstraints.WEST;
         gbc_indentedRadioButton.gridx = 1;
         gbc_indentedRadioButton.gridy = 3;
-        parametersPanel.add(indentedRadioButton, gbc_indentedRadioButton);
+        exportParametersPanel.add(indentedRadioButton, gbc_indentedRadioButton);
 
         ButtonGroup indentedButtonGroup = new ButtonGroup();
         indentedButtonGroup.add(linearRadioButton);
@@ -644,7 +810,7 @@ public class PrefsDialog extends JDialog {
         gbc_xmlReindexLabel.insets = new Insets(0, 0, 0, 5);
         gbc_xmlReindexLabel.gridx = 0;
         gbc_xmlReindexLabel.gridy = 4;
-        parametersPanel.add(xmlReindexLabel, gbc_xmlReindexLabel);
+        exportParametersPanel.add(xmlReindexLabel, gbc_xmlReindexLabel);
 
         reindexYesRadioButton = new JRadioButton("Oui");
         GridBagConstraints gbc_reindexYesRadioButton = new GridBagConstraints();
@@ -653,14 +819,14 @@ public class PrefsDialog extends JDialog {
         gbc_reindexYesRadioButton.insets = new Insets(0, 0, 0, 5);
         gbc_reindexYesRadioButton.gridx = 1;
         gbc_reindexYesRadioButton.gridy = 4;
-        parametersPanel.add(reindexYesRadioButton, gbc_reindexYesRadioButton);
+        exportParametersPanel.add(reindexYesRadioButton, gbc_reindexYesRadioButton);
 
         JRadioButton reindexNoRadioButton = new JRadioButton("Non");
         GridBagConstraints gbc_reindexNoRadioButton = new GridBagConstraints();
         gbc_reindexNoRadioButton.anchor = GridBagConstraints.WEST;
         gbc_reindexNoRadioButton.gridx = 2;
         gbc_reindexNoRadioButton.gridy = 4;
-        parametersPanel.add(reindexNoRadioButton, gbc_reindexNoRadioButton);
+        exportParametersPanel.add(reindexNoRadioButton, gbc_reindexNoRadioButton);
 
         ButtonGroup reindexButtonGroup = new ButtonGroup();
         reindexButtonGroup.add(reindexYesRadioButton);
@@ -670,139 +836,6 @@ public class PrefsDialog extends JDialog {
             reindexYesRadioButton.setSelected(true);
         else
             reindexNoRadioButton.setSelected(true);
-
-
-        JLabel protocolLabel = new JLabel("Protocole d'extraction courriel:");
-        GridBagConstraints gbc_protocolLabel = new GridBagConstraints();
-        gbc_protocolLabel.anchor = GridBagConstraints.EAST;
-        gbc_protocolLabel.insets = new Insets(0, 0, 0, 5);
-        gbc_protocolLabel.gridx = 0;
-        gbc_protocolLabel.gridy = 5;
-        parametersPanel.add(protocolLabel, gbc_protocolLabel);
-
-        pstRadioButton = new JRadioButton("Outlook-Pst");
-        GridBagConstraints gbc_pstRadioButton = new GridBagConstraints();
-        gbc_pstRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_pstRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_pstRadioButton.gridx = 1;
-        gbc_pstRadioButton.gridy = 5;
-        parametersPanel.add(pstRadioButton, gbc_pstRadioButton);
-
-        msgRadioButton = new JRadioButton("Outlook-Msg");
-        GridBagConstraints gbc_msgRadioButton = new GridBagConstraints();
-        gbc_msgRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_msgRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_msgRadioButton.gridx = 2;
-        gbc_msgRadioButton.gridy = 5;
-        parametersPanel.add(msgRadioButton, gbc_msgRadioButton);
-
-        tdbRadioButton = new JRadioButton("Thunderbird");
-        GridBagConstraints gbc_tdbRadioButton = new GridBagConstraints();
-        gbc_tdbRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_tdbRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_tdbRadioButton.gridx = 1;
-        gbc_tdbRadioButton.gridy = 6;
-        parametersPanel.add(tdbRadioButton, gbc_tdbRadioButton);
-
-        mboxRadioButton = new JRadioButton("Mbox");
-        GridBagConstraints gbc_mboxRadioButton = new GridBagConstraints();
-        gbc_mboxRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_mboxRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_mboxRadioButton.gridx = 2;
-        gbc_mboxRadioButton.gridy = 6;
-        parametersPanel.add(mboxRadioButton, gbc_mboxRadioButton);
-
-        ButtonGroup protocolButtonGroup = new ButtonGroup();
-        protocolButtonGroup.add(pstRadioButton);
-        protocolButtonGroup.add(msgRadioButton);
-        protocolButtonGroup.add(tdbRadioButton);
-        protocolButtonGroup.add(mboxRadioButton);
-        pstRadioButton.setSelected("pst".equals(mic.getProtocol()));
-        msgRadioButton.setSelected("msg".equals(mic.getProtocol()));
-        tdbRadioButton.setSelected("thunderbird".equals(mic.getProtocol()));
-        mboxRadioButton.setSelected("mbox".equals(mic.getProtocol()));
-
-        JLabel mailFileTextExtractAULabel = new JLabel("Extraction des fichiers textes des courriels:");
-        GridBagConstraints gbc_mailFileTextExtractAULabel = new GridBagConstraints();
-        gbc_mailFileTextExtractAULabel.anchor = GridBagConstraints.EAST;
-        gbc_mailFileTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
-        gbc_mailFileTextExtractAULabel.gridx = 0;
-        gbc_mailFileTextExtractAULabel.gridy = 7;
-        parametersPanel.add(mailFileTextExtractAULabel, gbc_mailFileTextExtractAULabel);
-
-        messageFileCheckBox = new JCheckBox("des messages");
-        GridBagConstraints gbc_messageFileCheckBox = new GridBagConstraints();
-        gbc_messageFileCheckBox.anchor = GridBagConstraints.WEST;
-        gbc_messageFileCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_messageFileCheckBox.gridx = 1;
-        gbc_messageFileCheckBox.gridy = 7;
-        parametersPanel.add(messageFileCheckBox, gbc_messageFileCheckBox);
-        messageFileCheckBox.setSelected(mic.isExtractMessageTextFile());
-
-        attachementFileCheckBox = new JCheckBox("des pièces jointes");
-        GridBagConstraints gbc_attachementFileCheckBox = new GridBagConstraints();
-        gbc_attachementFileCheckBox.anchor = GridBagConstraints.WEST;
-        gbc_attachementFileCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_attachementFileCheckBox.gridx = 2;
-        gbc_attachementFileCheckBox.gridy = 7;
-        parametersPanel.add(attachementFileCheckBox, gbc_attachementFileCheckBox);
-        attachementFileCheckBox.setSelected(mic.isExtractAttachmentTextFile());
-
-        JLabel mailMetadataTextExtractAULabel = new JLabel("Extraction des métadonnées textuelles des courriels:");
-        GridBagConstraints gbc_mailMetadataTextExtractAULabel = new GridBagConstraints();
-        gbc_mailMetadataTextExtractAULabel.anchor = GridBagConstraints.EAST;
-        gbc_mailMetadataTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
-        gbc_mailMetadataTextExtractAULabel.gridx = 0;
-        gbc_mailMetadataTextExtractAULabel.gridy = 8;
-        parametersPanel.add(mailMetadataTextExtractAULabel, gbc_mailMetadataTextExtractAULabel);
-
-        messageMetadataCheckBox = new JCheckBox("des messages");
-        GridBagConstraints gbc_messageMetadataCheckBox = new GridBagConstraints();
-        gbc_messageMetadataCheckBox.anchor = GridBagConstraints.WEST;
-        gbc_messageMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_messageMetadataCheckBox.gridx = 1;
-        gbc_messageMetadataCheckBox.gridy = 8;
-        parametersPanel.add(messageMetadataCheckBox, gbc_messageMetadataCheckBox);
-        messageMetadataCheckBox.setSelected(mic.isExtractMessageTextMetadata());
-
-        attachementMetadataCheckBox = new JCheckBox("des pièces jointes");
-        GridBagConstraints gbc_attachementMetadataCheckBox = new GridBagConstraints();
-        gbc_attachementMetadataCheckBox.anchor = GridBagConstraints.WEST;
-        gbc_attachementMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_attachementMetadataCheckBox.gridx = 2;
-        gbc_attachementMetadataCheckBox.gridy = 8;
-        parametersPanel.add(attachementMetadataCheckBox, gbc_attachementMetadataCheckBox);
-        attachementMetadataCheckBox.setSelected(mic.isExtractAttachmentTextMetadata());
-
-        JScrollPane scrollPane_5 = new JScrollPane();
-        GridBagConstraints gbc_scrollPane_5 = new GridBagConstraints();
-        gbc_scrollPane_5.weightx = 1.0;
-        gbc_scrollPane_5.weighty = 1.0;
-        gbc_scrollPane_5.gridwidth = 2;
-        gbc_scrollPane_5.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane_5.gridheight = 2;
-        gbc_scrollPane_5.gridx = 1;
-        gbc_scrollPane_5.gridy = 9;
-        parametersPanel.add(scrollPane_5, gbc_scrollPane_5);
-
-        ignorePatternsTextArea = new JTextArea();
-        scrollPane_5.setViewportView(ignorePatternsTextArea);
-
-        JLabel ignorePatternsLabel = new JLabel("Fichiers exclus des imports:");
-        GridBagConstraints gbc_ignorePatternsLabel = new GridBagConstraints();
-        gbc_ignorePatternsLabel.gridwidth = 1;
-        gbc_ignorePatternsLabel.anchor = GridBagConstraints.EAST;
-        gbc_ignorePatternsLabel.insets = new Insets(0, 0, 0, 5);
-        gbc_ignorePatternsLabel.gridx = 0;
-        gbc_ignorePatternsLabel.gridy = 9;
-        parametersPanel.add(ignorePatternsLabel, gbc_ignorePatternsLabel);
-        if (dic.getIgnorePatternList() != null) {
-            StringBuilder sb = new StringBuilder();
-            for (String p : dic.getIgnorePatternList()) {
-                sb.append(p).append('\n');
-            }
-            ignorePatternsTextArea.setText(sb.toString().trim());
-        }
 
         // Buttons
         JButton cancelButton = new JButton("Annuler");
@@ -881,6 +914,8 @@ public class PrefsDialog extends JDialog {
      */
     public void extractFromDialog() {
         cc.setWorkDir(workDirTextField.getText());
+        dic.setWorkDir(workDirTextField.getText());
+        mic.setWorkDir(workDirTextField.getText());
 
         dic.setIgnorePatternList(Arrays.asList(ignorePatternsTextArea.getText().split("\\s*\n\\s*")));
 
@@ -896,6 +931,9 @@ public class PrefsDialog extends JDialog {
             mic.setProtocol("thunderbird");
         else if (mboxRadioButton.isSelected())
             mic.setProtocol("mbox");
+        else if (emlRadioButton.isSelected())
+            mic.setProtocol("eml");
+        mic.setDefaultCharsetName((String) defaultCharsetCombobox.getSelectedItem());
 
         gmc.setHierarchicalArchiveUnits(hierarchicalRadioButton.isSelected());
         gmc.setIndented(indentedRadioButton.isSelected());

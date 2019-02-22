@@ -49,10 +49,15 @@ public class MailImportContext extends CreationContext {
     String mailFolder;
 
     /**
+     * The default charset name.
+     */
+    String defaultCharsetName;
+
+    /**
      * Instantiates a new mail import context.
      */
     public MailImportContext() {
-        this(false, false, false, false, null, null, null);
+        this(false, false, false, false, null, null, null, null);
     }
 
     /**
@@ -63,13 +68,14 @@ public class MailImportContext extends CreationContext {
      * @param extractAttachmentTextFile  the extract attachment text file
      * @param extractAttachementMetadata the extract attachement metadata
      * @param protocol                   the protocol
+     * @param defaultCharsetName         the default charset name
      * @param onDiskInput                the on disk input
      * @param workDir                    the work dir
      */
     public MailImportContext(boolean extractMessageTextFile,
                              boolean extractMessageTextMetadata,
                              boolean extractAttachmentTextFile,
-                             boolean extractAttachementMetadata, String protocol, String onDiskInput, String workDir) {
+                             boolean extractAttachementMetadata, String protocol, String defaultCharsetName, String onDiskInput, String workDir) {
         super(onDiskInput, workDir);
         this.extractMessageTextFile = extractMessageTextFile;
         this.extractMessageTextMetadata = extractMessageTextMetadata;
@@ -77,6 +83,7 @@ public class MailImportContext extends CreationContext {
         this.extractAttachmentTextMetadata = extractAttachementMetadata;
         this.protocol = protocol;
         this.mailFolder = "";
+        this.defaultCharsetName=defaultCharsetName;
     }
 
     /**
@@ -86,13 +93,14 @@ public class MailImportContext extends CreationContext {
      */
     public MailImportContext(Preferences globalNode) {
         super(globalNode);
-        Preferences contextNode = globalNode.node("resiptMailImportContext");
+        Preferences contextNode = globalNode.node("MailImportContext");
         this.extractMessageTextFile = contextNode.getBoolean("extractMessageTextFile", false);
         this.extractMessageTextMetadata = contextNode.getBoolean("extractMessageTextMetadata", true);
         this.extractAttachmentTextFile = contextNode.getBoolean("extractAttachmentTextFile", true);
         this.extractAttachmentTextMetadata = contextNode.getBoolean("extractAttachmentTextMetadata", false);
         this.protocol = contextNode.get("protocol", "thunderbird");
         this.mailFolder = "";
+        this.defaultCharsetName = contextNode.get("defaultCharsetName", "windows-1252");
     }
 
     /* (non-Javadoc)
@@ -100,12 +108,13 @@ public class MailImportContext extends CreationContext {
      */
     public void toPrefs(Preferences globalNode) throws BackingStoreException {
         super.toPrefs(globalNode);
-        Preferences contextNode = globalNode.node("resiptMailImportContext");
+        Preferences contextNode = globalNode.node("MailImportContext");
         contextNode.putBoolean("extractMessageTextFile", extractMessageTextFile);
         contextNode.putBoolean("extractMessageTextMetadata", extractMessageTextMetadata);
         contextNode.putBoolean("extractAttachmentTextFile", extractAttachmentTextFile);
         contextNode.putBoolean("extractAttachmentTextMetadata", extractAttachmentTextMetadata);
         contextNode.put("protocol", (protocol == null ? "" : protocol));
+        contextNode.put("defaultCharsetName", (defaultCharsetName == null ? "" : defaultCharsetName));
         contextNode.flush();
     }
 
@@ -120,7 +129,10 @@ public class MailImportContext extends CreationContext {
         this.extractAttachmentTextMetadata = false;
         this.protocol = "thunderbird";
         this.mailFolder = "";
+        this.defaultCharsetName="windows-1252";
     }
+
+    // Getters and setters
 
     /**
      * Checks if is extract message text file.
@@ -230,7 +242,24 @@ public class MailImportContext extends CreationContext {
         this.mailFolder = mailFolder;
     }
 
-    // Getters and setters
+
+    /**
+     * Gets default charset name.
+     *
+     * @return the default charset name
+     */
+    public String getDefaultCharsetName() {
+        return defaultCharsetName;
+    }
+
+    /**
+     * Sets default charset name.
+     *
+     * @param defaultCharsetName the default charset name
+     */
+    public void setDefaultCharsetName(String defaultCharsetName) {
+        this.defaultCharsetName = defaultCharsetName;
+    }
 
     @Override
     public void setOnDiskInput(String onDiskInput) {

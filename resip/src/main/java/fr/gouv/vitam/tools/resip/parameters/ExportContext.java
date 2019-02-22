@@ -130,7 +130,7 @@ public class ExportContext {
 	public ExportContext(Preferences contextNode) {
 		Preferences node;
 		setArchiveTransferGlobalMetadata(new GlobalMetadata());
-		node = contextNode.node("sipExportContext");
+		node = contextNode.node("ExportContext");
 		serializationVersion = node.get("serializationVersion", CURRENT_SERIALIZATION_VERSION);
 		hierarchicalArchiveUnits = node.getBoolean("hierarchicalArchiveUnits", true);
 		indented = node.getBoolean("indented", true);
@@ -163,7 +163,7 @@ public class ExportContext {
 	 * @throws BackingStoreException the backing store exception
 	 */
 	public void toPrefs(Preferences globalNode) throws BackingStoreException {
-		Preferences contextNode = globalNode.node("sipExportContext");
+		Preferences contextNode = globalNode.node("ExportContext");
 		contextNode.put("serializationVersion", serializationVersion);
 		contextNode.putBoolean("hierarchicalArchiveUnits", hierarchicalArchiveUnits);
 		contextNode.putBoolean("indented", indented);

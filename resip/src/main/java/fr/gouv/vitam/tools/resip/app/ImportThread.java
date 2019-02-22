@@ -141,7 +141,7 @@ public class ImportThread extends SwingWorker<Work, String> {
                 MailImportContext mic = (MailImportContext) work.getCreationContext();
                 MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),
                         mic.isExtractAttachmentTextFile(), mic.isExtractAttachmentTextMetadata(), mic.getProtocol(),
-                        mic.getOnDiskInput(), mic.getMailFolder(), mic.getWorkDir(),mepl);
+                        mic.getDefaultCharsetName(),mic.getOnDiskInput(), mic.getMailFolder(), mic.getWorkDir(),mepl);
                 mi.doExtract();
                 spl.progressLog(SEDALibProgressLogger.GLOBAL, "Extraction terminée\n" + mi.getSummary());
 
