@@ -20,7 +20,7 @@ With JDK 1.8, git, maven and gpg installed, the build sequence is:
 
     mkdir test-sedatools
     cd test-sedatools
-    git clone https://github.com/rjohnsondev/java-libpst.git
+    git clone https://github.com/ProgrammeVitam/java-libpst.git
     cd java-libpst/
     # mvn parameters to skip javadoc errors in 1.8
     mvn clean install -Dadditionalparam=-Xdoclint:none
