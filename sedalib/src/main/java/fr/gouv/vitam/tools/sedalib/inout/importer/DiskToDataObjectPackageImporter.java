@@ -335,10 +335,11 @@ public class DiskToDataObjectPackageImporter {
      * @throws SEDALibException any import exception
      */
     private String processManagementMetadata(Path path) throws SEDALibException {
-        String xmlData;
+        String xmlData=null;
 
         try (FileInputStream bais = new FileInputStream(path.toFile());
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
+            xmlReader.nextUsefullEvent();
             xmlData = xmlReader.nextBlockAsStringIfNamed("ManagementMetadata");
         } catch (XMLStreamException | SEDALibException | IOException e) {
             throw new SEDALibException("Lecture des métadonnées globales à partir du fichier [" + path
@@ -819,8 +820,6 @@ public class DiskToDataObjectPackageImporter {
         Path nextPath=null;
         ArchiveUnit au;
         start = Instant.now();
-
-
 
         try (Stream<Path> sp = onDiskRootPaths.stream()) {
             pi = sp.iterator();

@@ -68,7 +68,7 @@ public class DiskToArchiveTransferImporter {
 	/** The on disk root paths. */
 	private List<Path> onDiskRootPaths;
 
-	/** The on disk root paths. */
+	/** The GlobalMetaData file path . */
 	private Path onDiskGlobalMetadataPath;
 
 	/** The archive transfer. */
