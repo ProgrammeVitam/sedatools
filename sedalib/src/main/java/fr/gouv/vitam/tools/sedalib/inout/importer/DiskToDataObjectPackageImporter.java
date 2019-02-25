@@ -145,11 +145,6 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 public class DiskToDataObjectPackageImporter {
 
     /**
-     * The on disk SIP directory.
-     */
-    private Path currentDiskImportDirectory;
-
-    /**
      * The on disk root paths.
      */
     private List<Path> onDiskRootPaths;
@@ -211,7 +206,6 @@ public class DiskToDataObjectPackageImporter {
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
     private DiskToDataObjectPackageImporter(SEDALibProgressLogger sedaLibProgressLogger) {
-        this.currentDiskImportDirectory = null;
         this.onDiskRootPaths = new ArrayList<Path>();
         this.dataObjectPackage = null;
         ignorePatterns = new ArrayList<Pattern>();
@@ -381,6 +375,24 @@ public class DiskToDataObjectPackageImporter {
     }
 
     /**
+     * Test if a path is in the import perimeter, to validate a link target.
+     *
+     * @param path the path to test
+     * @return true if is in Root Paths
+     */
+    private boolean isInRootPaths(Path path){
+        boolean isInRootPath=false;
+        path=path.toAbsolutePath();
+        for (Path rootPath : onDiskRootPaths) {
+            if (path.startsWith(rootPath.toAbsolutePath())) {
+                isInRootPath = true;
+                break;
+            }
+        }
+        return isInRootPath;
+    }
+
+    /**
      * Process the symbolic link to generate the represented ArchiveUnit.
      *
      * @param path the path
@@ -393,7 +405,7 @@ public class DiskToDataObjectPackageImporter {
 
         analyzeLink(path);
         // verify it's in the original path
-        if (!lastAnalyzedLinkTarget.toAbsolutePath().startsWith(currentDiskImportDirectory.toAbsolutePath()))
+        if (!isInRootPaths(lastAnalyzedLinkTarget))
             throw new SEDALibException(
                     "La cible du lien [" + path.toString() + "] est hors de la hiérarchie à importer");
         au = processPath(lastAnalyzedLinkTarget);
@@ -597,8 +609,7 @@ public class DiskToDataObjectPackageImporter {
                     continue;
                 } else if (analyzeLink(curPath)) {
                     // verify it's in the currently imported path
-                    if (!lastAnalyzedLinkTarget.toAbsolutePath()
-                            .startsWith(currentDiskImportDirectory.toAbsolutePath()))
+                    if (!isInRootPaths(lastAnalyzedLinkTarget))
                         throw new SEDALibException(
                                 "Le lien est hors du champ de l'import [" + curPath.toString() + "]");
                     // treat specific case of DataObjectGroup directory
@@ -805,9 +816,11 @@ public class DiskToDataObjectPackageImporter {
      */
     public void doImport() throws SEDALibException, InterruptedException {
         Iterator<Path> pi;
-        Path nextPath;
+        Path nextPath=null;
         ArchiveUnit au;
         start = Instant.now();
+
+
 
         try (Stream<Path> sp = onDiskRootPaths.stream()) {
             pi = sp.iterator();
@@ -817,8 +830,7 @@ public class DiskToDataObjectPackageImporter {
                     dataObjectPackage.setManagementMetadataXmlData(processManagementMetadata(nextPath));
                     continue;
                 }
-                currentDiskImportDirectory = nextPath;
-                au = processPath(currentDiskImportDirectory);
+                au = processPath(nextPath);
                 if (au!=null)
                     dataObjectPackage.addRootAu(au);
             }
@@ -826,7 +838,7 @@ public class DiskToDataObjectPackageImporter {
                 sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " ArchiveUnits importées");
         } catch (SEDALibException e) {
             throw new SEDALibException("Impossible d'importer les ressources du répertoire ["
-                    + currentDiskImportDirectory.toString() + "]\n->" + e.getMessage());
+                    + nextPath.toString() + "]\n->" + e.getMessage());
         }
 
         inCounter = 0;
