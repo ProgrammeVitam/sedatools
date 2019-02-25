@@ -1,6 +1,10 @@
-Evolutions/Corrections en 1.1.0-SNAPSHOT
+Evolutions/Corrections en 1.1.0
 
 - Evolution: Mise à jour des bibliothèques java utilisées
+- Evolution: Les patterns de fichiers ignorés sont appliqués à tous les fichiers ce qui permet d'exclure les liens (*.lnk)
+- Bug (corrigé): Vérification que la cible d'un lien est dans le périmère d'import
+- Bug (corrigé): Import du fichier ManagementMetadata lors d'un import depuis une hiérarchie disque
+- Evolution: accès possible à l'ArchiveTransfer depuis SIPBuilder
 
 ============================================================================
 Evolutions/Corrections -> 1.0

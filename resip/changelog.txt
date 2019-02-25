@@ -1,6 +1,9 @@
-Evolutions/Corrections en 1.1.0-SNAPSHOT
+Evolutions/Corrections en 1.1.0
 
-- Evolution: Mise à jour des bibliothèques java utilisées
+- Evolution: mise à jour des bibliothèques java utilisées
+- Evolution: ajout d'un jeu de caractéres d'encodage par défaut pour l'import de courriels (utilisé pour le décodage des pst)
+[Evolution de mailextract correspondante en 0.9.2-SNAPSHOT]
+- Evolution: les logs de MailExtract sont visibles dans la fenêtre d'import
 
 ============================================================================
 Evolutions/Corrections -> 1.0
