@@ -145,11 +145,6 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 public class DiskToDataObjectPackageImporter {
 
     /**
-     * The on disk SIP directory.
-     */
-    private Path currentDiskImportDirectory;
-
-    /**
      * The on disk root paths.
      */
     private List<Path> onDiskRootPaths;
@@ -211,7 +206,6 @@ public class DiskToDataObjectPackageImporter {
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
     private DiskToDataObjectPackageImporter(SEDALibProgressLogger sedaLibProgressLogger) {
-        this.currentDiskImportDirectory = null;
         this.onDiskRootPaths = new ArrayList<Path>();
         this.dataObjectPackage = null;
         ignorePatterns = new ArrayList<Pattern>();
@@ -230,7 +224,7 @@ public class DiskToDataObjectPackageImporter {
      * It will consider each directory and each file in this directory as a root
      * ArchiveUnit or the management metadata file
      *
-     * @param directory      the directory
+     * @param directory             the directory
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if not a directory
      */
@@ -260,7 +254,7 @@ public class DiskToDataObjectPackageImporter {
      * It will consider each directory and each file in this list as a root
      * ArchiveUnit or the management metadata file
      *
-     * @param paths          the paths
+     * @param paths                 the paths
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
     public DiskToDataObjectPackageImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
@@ -276,6 +270,23 @@ public class DiskToDataObjectPackageImporter {
      */
     public void addIgnorePattern(String patternString) {
         ignorePatterns.add(Pattern.compile(patternString));
+    }
+
+
+    /**
+     * Test if a file name is compliant to one of ignore patterns.
+     *
+     * @param fileName the file name string to test
+     */
+    private boolean mustBeIgnored(String fileName) {
+        boolean doMatch = false;
+        for (Pattern p : ignorePatterns) {
+            if (p.matcher(fileName).matches()) {
+                doMatch = true;
+                break;
+            }
+        }
+        return doMatch;
     }
 
     /**
@@ -324,10 +335,11 @@ public class DiskToDataObjectPackageImporter {
      * @throws SEDALibException any import exception
      */
     private String processManagementMetadata(Path path) throws SEDALibException {
-        String xmlData;
+        String xmlData=null;
 
         try (FileInputStream bais = new FileInputStream(path.toFile());
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
+            xmlReader.nextUsefullEvent();
             xmlData = xmlReader.nextBlockAsStringIfNamed("ManagementMetadata");
         } catch (XMLStreamException | SEDALibException | IOException e) {
             throw new SEDALibException("Lecture des métadonnées globales à partir du fichier [" + path
@@ -358,9 +370,27 @@ public class DiskToDataObjectPackageImporter {
         else if (Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS))
             au = processDirectory(path);
         else
-            au = processFile(path);
+            au = processFile(path,true);
 
         return au;
+    }
+
+    /**
+     * Test if a path is in the import perimeter, to validate a link target.
+     *
+     * @param path the path to test
+     * @return true if is in Root Paths
+     */
+    private boolean isInRootPaths(Path path){
+        boolean isInRootPath=false;
+        path=path.toAbsolutePath();
+        for (Path rootPath : onDiskRootPaths) {
+            if (path.startsWith(rootPath.toAbsolutePath())) {
+                isInRootPath = true;
+                break;
+            }
+        }
+        return isInRootPath;
     }
 
     /**
@@ -376,7 +406,7 @@ public class DiskToDataObjectPackageImporter {
 
         analyzeLink(path);
         // verify it's in the original path
-        if (!lastAnalyzedLinkTarget.toAbsolutePath().startsWith(currentDiskImportDirectory.toAbsolutePath()))
+        if (!isInRootPaths(lastAnalyzedLinkTarget))
             throw new SEDALibException(
                     "La cible du lien [" + path.toString() + "] est hors de la hiérarchie à importer");
         au = processPath(lastAnalyzedLinkTarget);
@@ -390,15 +420,15 @@ public class DiskToDataObjectPackageImporter {
      * @param filename the filename
      * @return the data object version string
      */
-    public static String extractDataObjectVersion(String filename){
+    public static String extractDataObjectVersion(String filename) {
         String result;
         filename = filename.substring(2);
         result = filename.substring(0, filename.indexOf('_'));
         filename = filename.substring(filename.indexOf('_') + 1);
         if (filename.matches("[0-9]+__.*"))
-            result += "_"+filename.substring(0, filename.indexOf("__"));
+            result += "_" + filename.substring(0, filename.indexOf("__"));
         else if (filename.matches("[0-9]+_.*"))
-            result += "_"+filename.substring(0, filename.indexOf("_"));
+            result += "_" + filename.substring(0, filename.indexOf("_"));
         return result;
     }
 
@@ -414,7 +444,7 @@ public class DiskToDataObjectPackageImporter {
      */
     private DataObjectGroup addPhysicalDataObjectMetadata(Path path, String filename, ArchiveUnit au,
                                                           DataObjectGroup dog) throws SEDALibException {
-        String dataObjectVersion= extractDataObjectVersion(filename);
+        String dataObjectVersion = extractDataObjectVersion(filename);
         if (dog == null) {
             dog = new DataObjectGroup(dataObjectPackage, null);
             au.addDataObjectById(dog.getInDataObjectPackageId());
@@ -450,7 +480,7 @@ public class DiskToDataObjectPackageImporter {
     private DataObjectGroup addBinaryDataObjectMetadata(Path path, String filename, ArchiveUnit au,
                                                         DataObjectGroup dog) throws SEDALibException {
         BinaryDataObject bdo;
-        String dataObjectVersion= extractDataObjectVersion(filename);
+        String dataObjectVersion = extractDataObjectVersion(filename);
         if (dog == null) {
             dog = new DataObjectGroup(dataObjectPackage, null);
             au.addDataObjectById(dog.getInDataObjectPackageId());
@@ -500,12 +530,12 @@ public class DiskToDataObjectPackageImporter {
     private DataObjectGroup addBinaryDataObject(Path path, String filename, ArchiveUnit au, DataObjectGroup dog)
             throws SEDALibException {
         BinaryDataObject bdo;
-        String dataObjectVersion= extractDataObjectVersion(filename);
-        filename = filename.substring(dataObjectVersion.length()+2);
+        String dataObjectVersion = extractDataObjectVersion(filename);
+        filename = filename.substring(dataObjectVersion.length() + 2);
         if (filename.startsWith("__"))
             filename = filename.substring(2);
         else
-           filename = filename.substring(1);
+            filename = filename.substring(1);
         if (dog == null) {
             dog = new DataObjectGroup(dataObjectPackage, null);
             au.addDataObjectById(dog.getInDataObjectPackageId());
@@ -537,9 +567,11 @@ public class DiskToDataObjectPackageImporter {
     private ArchiveUnit processDirectory(Path path) throws SEDALibException, InterruptedException {
         Path curPath;
         Iterator<Path> pi;
-        ArchiveUnit au;
+        ArchiveUnit au,childAu;
         DataObjectGroup implicitDog = null;
         boolean auMetadataDefined = false;
+        String fileName;
+        boolean doMatch;
 
         // test if already analyzed
         au = getArchiveUnit(path);
@@ -552,9 +584,9 @@ public class DiskToDataObjectPackageImporter {
                     + "] devrait décrire un ArchiveUnit, mais décrit un DataObjectGroup");
 
         inCounter++;
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
-                " ArchiveUnits importées");
+                    " ArchiveUnits importées");
 
         String dirName = path.getFileName().toString();
 
@@ -572,20 +604,25 @@ public class DiskToDataObjectPackageImporter {
 
             for (String curPathString : subPathStringList) {
                 curPath = Paths.get(curPathString);
+                fileName = curPath.getFileName().toString();
 
-                if (analyzeLink(curPath)) {
+                if (!Files.isDirectory(curPath) && mustBeIgnored(fileName)) {
+                    continue;
+                } else if (analyzeLink(curPath)) {
                     // verify it's in the currently imported path
-                    if (!lastAnalyzedLinkTarget.toAbsolutePath()
-                            .startsWith(currentDiskImportDirectory.toAbsolutePath()))
+                    if (!isInRootPaths(lastAnalyzedLinkTarget))
                         throw new SEDALibException(
                                 "Le lien est hors du champ de l'import [" + curPath.toString() + "]");
                     // treat specific case of DataObjectGroup directory
                     if (isDataObjectGroupDirectory(lastAnalyzedLinkTarget)) {
                         modelVersion |= 2;
                         au.addDataObjectById(processObjectGroup(lastAnalyzedLinkTarget).getInDataObjectPackageId());
-                    } else
-                        au.addChildArchiveUnit(processPath(lastAnalyzedLinkTarget));
-
+                    } else {
+                        childAu=processPath(lastAnalyzedLinkTarget);
+                        if (childAu==null)
+                            continue;
+                        au.addChildArchiveUnit(childAu);
+                    }
                 } else if (isDataObjectGroupDirectory(curPath)) {
                     modelVersion |= 2;
                     au.addDataObjectById(processObjectGroup(curPath).getInDataObjectPackageId());
@@ -594,7 +631,6 @@ public class DiskToDataObjectPackageImporter {
                     // manage files either ArchiveUnit file, BinaryDataObject file, ArchiveUnit
                     // metadata file or DataObject metadata file
                 else {
-                    String fileName = curPath.getFileName().toString();
                     // Model V1 (GenerateurSeda) AU Content metadataXmlData file
                     if (fileName.equals("ArchiveUnitContent.xml")) {
                         modelVersion |= 1;
@@ -618,7 +654,7 @@ public class DiskToDataObjectPackageImporter {
                         modelVersion |= 2;
                         try {
                             au.fromSedaXmlFragments(new String(Files.readAllBytes(curPath), "UTF-8"));
-                            if ((au.getContentXmlData()!=null) && !au.getContentXmlData().isEmpty())
+                            if ((au.getContentXmlData() != null) && !au.getContentXmlData().isEmpty())
                                 auMetadataDefined = true;
                         } catch (IOException e) {
                             throw new SEDALibException(
@@ -642,15 +678,7 @@ public class DiskToDataObjectPackageImporter {
                     }
                     // archive file except if conform to ignore patterns
                     else {
-                        boolean doMatch = false;
-                        for (Pattern p : ignorePatterns) {
-                            if (p.matcher(fileName).matches()) {
-                                doMatch = true;
-                                break;
-                            }
-                        }
-                        if (!doMatch)
-                            au.addChildArchiveUnit(processFile(curPath));
+                        au.addChildArchiveUnit(processFile(curPath,false));
                     }
                 }
 
@@ -680,7 +708,7 @@ public class DiskToDataObjectPackageImporter {
      * @throws InterruptedException if import process is interrupted
      */
     // - an ObjectGroup is associated with the file as BinaryMaster object
-    private ArchiveUnit processFile(Path path) throws SEDALibException, InterruptedException {
+    private ArchiveUnit processFile(Path path, boolean testIgnorePatterns) throws SEDALibException, InterruptedException {
         String filename;
         ArchiveUnit au;
         DataObjectGroup dog;
@@ -691,16 +719,20 @@ public class DiskToDataObjectPackageImporter {
         if (au != null)
             return au;
 
-        // verify that the file is not one with special meaning
         filename = path.getFileName().toString();
+        // verify not to be ignored
+        if (testIgnorePatterns && mustBeIgnored(filename))
+            return null;
+
+        // verify that the file is not one with special meaning
         if (filename.equals("ArchiveUnitContent.xml") || filename.equals("ArchiveUnitManagement.xml")
                 || filename.equals("__ArchiveUnitMetadata.xml") || filename.matches("__\\w+__.+"))
             throw new SEDALibException("Le chemin [" + path.toString() + "] a la racine de l'import n'a pas de sens");
 
         inCounter++;
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
-                " ArchiveUnits importées");
+                    " ArchiveUnits importées");
 
         dog = new DataObjectGroup(dataObjectPackage, path);
         bdo = new BinaryDataObject(dataObjectPackage, path, null, "BinaryMaster_1");
@@ -785,7 +817,7 @@ public class DiskToDataObjectPackageImporter {
      */
     public void doImport() throws SEDALibException, InterruptedException {
         Iterator<Path> pi;
-        Path nextPath;
+        Path nextPath=null;
         ArchiveUnit au;
         start = Instant.now();
 
@@ -797,15 +829,15 @@ public class DiskToDataObjectPackageImporter {
                     dataObjectPackage.setManagementMetadataXmlData(processManagementMetadata(nextPath));
                     continue;
                 }
-                currentDiskImportDirectory = nextPath;
-                au = processPath(currentDiskImportDirectory);
-                dataObjectPackage.addRootAu(au);
+                au = processPath(nextPath);
+                if (au!=null)
+                    dataObjectPackage.addRootAu(au);
             }
-            if (sedaLibProgressLogger !=null)
+            if (sedaLibProgressLogger != null)
                 sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " ArchiveUnits importées");
         } catch (SEDALibException e) {
             throw new SEDALibException("Impossible d'importer les ressources du répertoire ["
-                    + currentDiskImportDirectory.toString() + "]\n->" + e.getMessage());
+                    + nextPath.toString() + "]\n->" + e.getMessage());
         }
 
         inCounter = 0;
@@ -813,11 +845,11 @@ public class DiskToDataObjectPackageImporter {
             if (pair.getValue().fileInfo.lastModified == null)
                 pair.getValue().extractTechnicalElements(sedaLibProgressLogger);
             inCounter++;
-            if (sedaLibProgressLogger !=null)
+            if (sedaLibProgressLogger != null)
                 sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
-                    " BinaryDataObject analysés");
+                        " BinaryDataObject analysés");
         }
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " BinaryDataObject analysés");
         end = Instant.now();
     }

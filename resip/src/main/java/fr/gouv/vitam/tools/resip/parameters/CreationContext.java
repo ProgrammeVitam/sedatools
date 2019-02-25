@@ -64,21 +64,6 @@ public class CreationContext {
 	/** The structure changed. */
 	boolean structureChanged;
 	
-//	/** The archive unit count. */
-//	int archiveUnitCount;
-//	
-//	/** The data object group count. */
-//	int dataObjectGroupCount;
-//	
-//	/** The binary data object count. */
-//	int binaryDataObjectCount;
-//	
-//	/** The physical data object count. */
-//	int physicalDataObjectCount;
-//	
-//	/** The data objects total size. */
-//	long dataObjectsTotalSize;
-//
 	/**
 	 * Instantiates a new creation context.
 	 */
@@ -97,11 +82,6 @@ public class CreationContext {
 		this.workDir = workDir;
 		this.summary = null;
 		this.structureChanged = false;
-//		this.archiveUnitCount=0;
-//		this.dataObjectGroupCount=0;
-//		this.binaryDataObjectCount=0;
-//		this.physicalDataObjectCount=0;
-//		this.dataObjectsTotalSize=0;
 	}
 
 	/**

@@ -52,7 +52,7 @@ public class DiskImportContext extends CreationContext {
 	 */
 	public DiskImportContext(Preferences globalNode) {
 		super(globalNode);
-		Preferences contextNode = globalNode.node("resiptDiskImportContext");
+		Preferences contextNode = globalNode.node("DiskImportContext");
 		String ignorePatternsString = contextNode.get("ignorePatternList", "");
 		if (ignorePatternsString.isEmpty())
 			ignorePatternList = new ArrayList<String>();
@@ -65,7 +65,7 @@ public class DiskImportContext extends CreationContext {
 	 */
 	public void toPrefs(Preferences globalNode) throws BackingStoreException {
 		super.toPrefs(globalNode);
-		Preferences contextNode = globalNode.node("resiptDiskImportContext");
+		Preferences contextNode = globalNode.node("DiskImportContext");
 		contextNode.put("ignorePatternList", String.join("\n", ignorePatternList));
 		contextNode.flush();
 	}

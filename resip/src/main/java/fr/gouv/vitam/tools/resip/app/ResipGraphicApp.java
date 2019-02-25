@@ -191,7 +191,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Editer les informations d'export...");
         menuItem.addActionListener(this);
-        actionByMenuItem.put(menuItem, "EditSIPExportContext");
+        actionByMenuItem.put(menuItem, "EditExportContext");
         contextMenu.add(menuItem);
 
         menuItem = new JMenuItem("Régénérer des ID continus");
@@ -286,7 +286,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "SeeImportContext":
                         seeImportContext();
                         break;
-                    case "EditSIPExportContext":
+                    case "EditExportContext":
                         editExportContext();
                         break;
                     case "RegenerateContinuousIds":
@@ -473,6 +473,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 prefsDialog.dic.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.mic.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.gmc.toPrefs(Prefs.getInstance().getPrefsContextNode());
+                ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir()+ File.separator + "log.txt",
+                        ResipLogger.getGlobalLogger().getProgressLogLevel());
             }
         } catch (BackingStoreException e) {
             JOptionPane.showMessageDialog(mainWindow,

@@ -32,15 +32,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
 
@@ -81,6 +73,21 @@ public class MailImportContextDialog extends JDialog {
 
 	/** The eml radio button. */
 	private JRadioButton emlRadioButton;
+
+	/**
+	 * The default charset combobox.
+	 */
+	private JComboBox defaultCharsetCombobox;
+
+	/**
+	 * The proposed charsets.
+	 */
+	static String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
+			"IBM850", "IBM852", "IBM855", "IBM857", "IBM862", "IBM866", "ISO-8859-2", "ISO-8859-4", "ISO-8859-5",
+			"ISO-8859-7", "ISO-8859-9", "ISO-8859-13", "ISO-8859-15", "KOI8-R", "KOI8-U", "US-ASCII", "UTF-16",
+			"UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
+			"windows-1250", "windows-1251", "windows-1253", "windows-1254", "windows-1257"};
+
 	/**
 	 * Create the dialog.
 	 *
@@ -170,12 +177,29 @@ public class MailImportContextDialog extends JDialog {
 		mboxRadioButton.setSelected("mbox".equals(mailImportContext.getProtocol()));
 		emlRadioButton.setSelected("eml".equals(mailImportContext.getProtocol()));
 
+		defaultCharsetCombobox = new JComboBox(charsetStrings);
+		GridBagConstraints gbc_charsetComboBox = new GridBagConstraints();
+		gbc_charsetComboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_charsetComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_charsetComboBox.gridx = 1;
+		gbc_charsetComboBox.gridy = 4;
+		parametersPanel.add(defaultCharsetCombobox, gbc_charsetComboBox);
+		defaultCharsetCombobox.setSelectedItem(mailImportContext.getDefaultCharsetName());
+
+		JLabel charsetLabel = new JLabel("Encodage par défaut");
+		GridBagConstraints gbc_charsetLabel = new GridBagConstraints();
+		gbc_charsetLabel.anchor = GridBagConstraints.EAST;
+		gbc_charsetLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_charsetLabel.gridx = 0;
+		gbc_charsetLabel.gridy = 4;
+		parametersPanel.add(charsetLabel, gbc_charsetLabel);
+
 		JLabel mailFileTextExtractAULabel = new JLabel("Extraction des fichiers textes des courriels:");
 		GridBagConstraints gbc_mailFileTextExtractAULabel = new GridBagConstraints();
 		gbc_mailFileTextExtractAULabel.anchor = GridBagConstraints.EAST;
 		gbc_mailFileTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
 		gbc_mailFileTextExtractAULabel.gridx = 0;
-		gbc_mailFileTextExtractAULabel.gridy = 4;
+		gbc_mailFileTextExtractAULabel.gridy = 5;
 		parametersPanel.add(mailFileTextExtractAULabel, gbc_mailFileTextExtractAULabel);
 
 		messageFileCheckBox = new JCheckBox("des messages");
@@ -183,7 +207,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_messageFileCheckBox.anchor = GridBagConstraints.WEST;
 		gbc_messageFileCheckBox.insets = new Insets(0, 0, 5, 5);
 		gbc_messageFileCheckBox.gridx = 1;
-		gbc_messageFileCheckBox.gridy = 4;
+		gbc_messageFileCheckBox.gridy = 5;
 		parametersPanel.add(messageFileCheckBox, gbc_messageFileCheckBox);
 		messageFileCheckBox.setSelected(mailImportContext.isExtractMessageTextFile());
 
@@ -192,7 +216,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_attachementFileCheckBox.anchor = GridBagConstraints.WEST;
 		gbc_attachementFileCheckBox.insets = new Insets(0, 0, 5, 5);
 		gbc_attachementFileCheckBox.gridx = 2;
-		gbc_attachementFileCheckBox.gridy = 4;
+		gbc_attachementFileCheckBox.gridy = 5;
 		parametersPanel.add(attachementFileCheckBox, gbc_attachementFileCheckBox);
 		attachementFileCheckBox.setSelected(mailImportContext.isExtractAttachmentTextFile());
 
@@ -201,7 +225,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_mailMetadataTextExtractAULabel.anchor = GridBagConstraints.EAST;
 		gbc_mailMetadataTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
 		gbc_mailMetadataTextExtractAULabel.gridx = 0;
-		gbc_mailMetadataTextExtractAULabel.gridy = 5;
+		gbc_mailMetadataTextExtractAULabel.gridy = 6;
 		parametersPanel.add(mailMetadataTextExtractAULabel, gbc_mailMetadataTextExtractAULabel);
 
 		messageMetadataCheckBox = new JCheckBox("des messages");
@@ -209,7 +233,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_messageMetadataCheckBox.anchor = GridBagConstraints.WEST;
 		gbc_messageMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
 		gbc_messageMetadataCheckBox.gridx = 1;
-		gbc_messageMetadataCheckBox.gridy = 5;
+		gbc_messageMetadataCheckBox.gridy = 6;
 		parametersPanel.add(messageMetadataCheckBox, gbc_messageMetadataCheckBox);
 		messageMetadataCheckBox.setSelected(mailImportContext.isExtractMessageTextMetadata());
 
@@ -218,7 +242,7 @@ public class MailImportContextDialog extends JDialog {
 		gbc_attachementMetadataCheckBox.anchor = GridBagConstraints.WEST;
 		gbc_attachementMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
 		gbc_attachementMetadataCheckBox.gridx = 2;
-		gbc_attachementMetadataCheckBox.gridy = 5;
+		gbc_attachementMetadataCheckBox.gridy = 6;
 		parametersPanel.add(attachementMetadataCheckBox, gbc_attachementMetadataCheckBox);
 		attachementMetadataCheckBox.setSelected(mailImportContext.isExtractAttachmentTextMetadata());
 
@@ -280,5 +304,6 @@ public class MailImportContextDialog extends JDialog {
 			mailImportContext.setProtocol("mbox");
 		else if (emlRadioButton.isSelected())
 			mailImportContext.setProtocol("eml");
+		mailImportContext.setDefaultCharsetName((String) defaultCharsetCombobox.getSelectedItem());
 	}
 }

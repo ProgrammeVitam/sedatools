@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 
 import fr.gouv.vitam.tools.mailextract.lib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextract.lib.core.StoreExtractorOptions;
+import fr.gouv.vitam.tools.mailextract.lib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -51,6 +52,9 @@ public class MailImporter {
 	/** The store extractor. */
 	StoreExtractor storeExtractor;
 
+	/** The MailExtract progress logger. */
+	MailExtractProgressLogger mailExtractProgressLogger;
+
 	/**
 	 * Instantiates a new mail importer.
 	 *
@@ -64,17 +68,18 @@ public class MailImporter {
 	 * @param workDir the work dir
 	 */
 	public MailImporter(boolean extractMessageTextFile, boolean extractMessageTextMetadata,
-			boolean extractAttachmentTextFile, boolean extractAttachmentMetadata, String protocol, String container,
-			String mailfolder, String workDir) {
+			boolean extractAttachmentTextFile, boolean extractAttachmentMetadata, String protocol, String defaultCharsetName, String container,
+			String mailfolder, String workDir,MailExtractProgressLogger mailExtractProgressLogger) {
 		this.protocol = protocol;
 		this.container = container;
 		this.urlString = StoreExtractor.composeStoreURL(protocol, null, null, null, container);
 		this.mailfolder = mailfolder;
 		this.summary = null;
 
-		this.storeExtractorOptions = new StoreExtractorOptions(true, false, true, 12, true, extractMessageTextFile,
+		this.storeExtractorOptions = new StoreExtractorOptions(true, false, true, 12, defaultCharsetName,true, extractMessageTextFile,
 				extractMessageTextMetadata, extractAttachmentTextFile, extractAttachmentMetadata, 2);
 		this.target = workDir + File.separator + Paths.get(container).getFileName().toString() + "-tmpdir";
+		this.mailExtractProgressLogger=mailExtractProgressLogger;
 	}
 
 	/**
@@ -104,7 +109,7 @@ public class MailImporter {
 			PrintStream psExtractList = new PrintStream(new FileOutputStream(target + File.separator + "MailList.csv"));
 
 			storeExtractor = StoreExtractor.createStoreExtractor(urlString, mailfolder, target,
-					storeExtractorOptions, Logger.getLogger("mailextract"), psExtractList);
+					storeExtractorOptions, mailExtractProgressLogger, psExtractList);
 			storeExtractor.extractAllFolders();
 			summary = "Extraction de " + Integer.toString(storeExtractor.getFolderTotalCount()) + " dossiers, "
 					+ Integer.toString(storeExtractor.getTotalElementsCount()) + " messages, pour un taille totale de "

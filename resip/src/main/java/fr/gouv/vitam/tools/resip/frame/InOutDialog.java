@@ -79,13 +79,14 @@ public class InOutDialog extends JDialog {
 		gridBagLayout.columnWidths = new int[] { 550, 0 };
 		gridBagLayout.rowHeights = new int[] { 15, 220, 35, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 		{
 			JLabel lblNewLabel = new JLabel("Opération en cours:");
 			lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
 			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 			gbc_lblNewLabel.anchor = GridBagConstraints.FIRST_LINE_START;
+			gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
 			gbc_lblNewLabel.insets = new Insets(5, 5, 5, 0);
 			gbc_lblNewLabel.gridx = 0;
 			gbc_lblNewLabel.gridy = 0;

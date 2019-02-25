@@ -491,7 +491,7 @@ public class DataObjectPackageToDiskExporter {
 			int counter = dataObjectPackage.getNextInOutCounter();
 			if (sedaLibProgressLogger !=null)
 				sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
-						Integer.toString(counter) + " ArchiveUnit/DataObject analysés");
+						Integer.toString(counter) + " ArchiveUnit/DataObject exportés");
 		}
 	}
 

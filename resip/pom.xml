@@ -5,7 +5,7 @@
     <parent>
         <groupId>fr.gouv.vitam.tools</groupId>
         <artifactId>sedatools</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
+        <version>1.1.0</version>
     </parent>
     <groupId>fr.gouv.vitam.tools</groupId>
     <artifactId>resip</artifactId>
@@ -27,12 +27,12 @@
         <dependency>
             <groupId>fr.gouv.vitam.tools</groupId>
             <artifactId>sedalib</artifactId>
-            <version>1.1.0-SNAPSHOT</version>
+            <version>1.1.0</version>
         </dependency>
         <dependency>
             <groupId>fr.gouv.vitam.tools</groupId>
             <artifactId>mailextract</artifactId>
-            <version>0.9.2-SNAPSHOT</version>
+            <version>0.9.3</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
@@ -236,7 +236,7 @@
                                 <minVersion>1.8.0</minVersion>
                                 <maxVersion></maxVersion>
                                 <jdkPreference>preferJre</jdkPreference>
-                                <runtimeBits>32</runtimeBits>
+                                <runtimeBits>64</runtimeBits>
                                 <opts>
                                     <!-- 									<opt>-Dsun.jnu.encoding="Cp850"</opt> -->
                                     <opt>-Dfile.encoding="UTF8"</opt>

@@ -70,26 +70,7 @@ public class Prefs {
 	 * @throws SEDALibException the resip exception
 	 */
 	void createDefaultPrefs() throws SEDALibException {
-//		File f = new File(DEFAULTCONTEXT_FILENAME);
-//
-//		if (f.exists() && f.isFile())
-//		try {
-//			ObjectMapper mapper = new ObjectMapper();
-//			GlobalMetadata sipContext=mapper.readValue(f, GlobalMetadata.class);
-//			try{prefs.putInt("PrefsVersion", version);
-//			Preferences context=prefs.node("SIPContext").node("Default");
-//			sipContext.toPrefs(context);
-//			context.flush();
-//			}
-//			catch (Exception e) {
-//				throw new SEDALibException("Panic: Can't create a default preferences file, stop");
-//			}
-//				
-//		} catch (Exception e) {
-//			throw new SEDALibException("Panic: Can't extract a default preferences file, stop");
-//		}
-//		else {
-		try {
+	try {
 			Preferences globalNode = getPrefsContextNode();
 			globalNode.put("serilizationVersion", CURRENT_SERIALIZATION_VERSION);
 			CreationContext oic = new CreationContext();
@@ -108,7 +89,6 @@ public class Prefs {
 		} catch (Exception e) {
 			throw new SEDALibException("Panic: Can't create a default preferences file, stop");
 		}
-//		}
 	}
 
 	/**

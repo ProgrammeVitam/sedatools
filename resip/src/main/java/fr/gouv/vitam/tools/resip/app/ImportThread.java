@@ -34,6 +34,7 @@ import java.util.List;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
+import fr.gouv.vitam.tools.mailextract.lib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.inout.MailImporter;
 import fr.gouv.vitam.tools.resip.parameters.*;
@@ -131,10 +132,16 @@ public class ImportThread extends SwingWorker<Work, String> {
                 summary = cti.getSummary();
             } else if (work.getCreationContext() instanceof MailImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un conteneur courriel en " + work.getCreationContext().getOnDiskInput()+"\n");
+                MailExtractProgressLogger mepl = null;
+                mepl = new MailExtractProgressLogger(ResipLogger.getGlobalLogger().getLogger(), MailExtractProgressLogger.MESSAGE_GROUP, (count, log) -> {
+                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                    inOutDialog.extProgressTextArea.setText(newLog);
+                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+                }, 100);
                 MailImportContext mic = (MailImportContext) work.getCreationContext();
                 MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),
                         mic.isExtractAttachmentTextFile(), mic.isExtractAttachmentTextMetadata(), mic.getProtocol(),
-                        mic.getOnDiskInput(), mic.getMailFolder(), mic.getWorkDir());
+                        mic.getDefaultCharsetName(),mic.getOnDiskInput(), mic.getMailFolder(), mic.getWorkDir(),mepl);
                 mi.doExtract();
                 spl.progressLog(SEDALibProgressLogger.GLOBAL, "Extraction terminée\n" + mi.getSummary());
 
