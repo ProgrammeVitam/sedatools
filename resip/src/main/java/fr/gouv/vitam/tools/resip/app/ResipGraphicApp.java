@@ -196,7 +196,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         treatMenu = new JMenu("Traiter");
         menuBar.add(treatMenu);
-//        treatMenu.setEnabled(false);
+        treatMenu.setEnabled(false);
 
         menuItem = new JMenuItem("Chercher...");
         menuItem.addActionListener(this);
