@@ -17,6 +17,14 @@
     </prerequisites>
     <properties>
         <mailextract.version>0.9.3</mailextract.version>
+        <junit-platform-surefire-provider.version>1.3.0</junit-platform-surefire-provider.version>
+        <junit-jupiter-engine.version>5.2.0</junit-jupiter-engine.version>
+        <assertj-core.version>3.11.1</assertj-core.version>
+        <commons-cli.version>1.4</commons-cli.version>
+        <jackson.version>2.9.8</jackson.version>
+        <droid.version>6.5-SNAPSHOT</droid.version>
+        <logback.version>1.2.3</logback.version>
+        <woodstox-core.version>5.2.0</woodstox-core.version>
     </properties>
     <profiles>
         <profile>
