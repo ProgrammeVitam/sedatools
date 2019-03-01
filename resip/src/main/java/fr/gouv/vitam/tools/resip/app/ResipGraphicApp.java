@@ -69,7 +69,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MainWindow menu elements dis/enabled depending on work state and used by controller. */
     private JMenuItem saveMenuItem, saveAsMenuItem, closeMenuItem;
-    private JMenu contextMenu, exportMenu;
+    private JMenu treatMenu, contextMenu, exportMenu;
     private Map<JMenuItem, String> actionByMenuItem = new HashMap<JMenuItem, String>();
 
     // Thread control elements. */
@@ -194,10 +194,19 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "EditExportContext");
         contextMenu.add(menuItem);
 
+        treatMenu = new JMenu("Traiter");
+        menuBar.add(treatMenu);
+//        treatMenu.setEnabled(false);
+
+        menuItem = new JMenuItem("Chercher...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "Search");
+        treatMenu.add(menuItem);
+
         menuItem = new JMenuItem("Régénérer des ID continus");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "RegenerateContinuousIds");
-        contextMenu.add(menuItem);
+        treatMenu.add(menuItem);
 
         importMenu = new JMenu("Import");
         menuBar.add(importMenu);
@@ -282,6 +291,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "EditPrefs":
                         editPrefs();
                         break;
+                    case "Search":
+                        search();
+                        break;
                     // Context Menu
                     case "SeeImportContext":
                         seeImportContext();
@@ -337,6 +349,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     }
 
     public void setContextLoaded(boolean isLoaded) {
+        treatMenu.setEnabled(isLoaded);
         contextMenu.setEnabled(isLoaded);
         exportMenu.setEnabled(isLoaded);
         saveAsMenuItem.setEnabled(isLoaded);
@@ -483,6 +496,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Resip.GraphicApp: Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage());
 
         }
+    }
+
+    // Treat Menu
+
+    // MenuItem Search
+
+    void search(){
+        SearchDialog searchDialog = new SearchDialog(mainWindow, "Chercher");
+        searchDialog.setVisible(true);
     }
 
     // Context Menu
