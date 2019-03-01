@@ -15,6 +15,9 @@
     <prerequisites>
         <maven>3.3.9</maven>
     </prerequisites>
+    <properties>
+        <mailextract.version>0.9.3</mailextract.version>
+    </properties>
     <profiles>
         <profile>
             <!-- Profile to use for all Vitam internal developers -->
