@@ -76,7 +76,7 @@ public class MailImporter {
 		this.mailfolder = mailfolder;
 		this.summary = null;
 
-		this.storeExtractorOptions = new StoreExtractorOptions(true, false, true, 12, defaultCharsetName,true, extractMessageTextFile,
+		this.storeExtractorOptions = new StoreExtractorOptions(true, true, true, 12, defaultCharsetName,true, extractMessageTextFile,
 				extractMessageTextMetadata, extractAttachmentTextFile, extractAttachmentMetadata, 2);
 		this.target = workDir + File.separator + Paths.get(container).getFileName().toString() + "-tmpdir";
 		this.mailExtractProgressLogger=mailExtractProgressLogger;
@@ -104,12 +104,9 @@ public class MailImporter {
 	public void doExtract() throws SEDALibException {
 		try {
 			start = Instant.now();
-			Path targetPath = Paths.get(target);
-			Files.createDirectories(targetPath);
-			PrintStream psExtractList = new PrintStream(new FileOutputStream(target + File.separator + "MailList.csv"));
 
 			storeExtractor = StoreExtractor.createStoreExtractor(urlString, mailfolder, target,
-					storeExtractorOptions, mailExtractProgressLogger, psExtractList);
+					storeExtractorOptions, mailExtractProgressLogger);
 			storeExtractor.extractAllFolders();
 			summary = "Extraction de " + Integer.toString(storeExtractor.getFolderTotalCount()) + " dossiers, "
 					+ Integer.toString(storeExtractor.getTotalElementsCount()) + " messages, pour un taille totale de "
