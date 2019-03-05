@@ -35,6 +35,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -52,6 +55,8 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 public class ResipGraphicApp implements ActionListener, Runnable {
 
@@ -122,8 +127,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     mainWindow.load();
                 }
             } else {
-                currentWork = new Work(new DataObjectPackage(),
-                        new CreationContext(Prefs.getInstance().getPrefsContextNode()), launchWork.getExportContext());
+                currentWork = null;
                 mainWindow.load();
             }
 
@@ -178,6 +182,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         menuItem = new JMenuItem("Préférences...");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "EditPrefs");
+        fileMenu.add(menuItem);
+
+        menuItem = new JMenuItem("Nettoyer le répertoire de travail...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "EmptyWorkDir");
         fileMenu.add(menuItem);
 
         contextMenu = new JMenu("Contexte");
@@ -281,6 +290,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "EditPrefs":
                         editPrefs();
+                        break;
+                    case "EmptyWorkDir":
+                        emptyWorkDir();
                         break;
                     // Context Menu
                     case "SeeImportContext":
@@ -447,8 +459,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
                 return;
 
-            currentWork = new Work(new DataObjectPackage(),
-                    new CreationContext(Prefs.getInstance().getPrefsContextNode()), launchWork.getExportContext());
+            currentWork = null;
             setFilenameWork(null);
             setModifiedContext(false);
             setContextLoaded(false);
@@ -473,7 +484,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 prefsDialog.dic.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.mic.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.gmc.toPrefs(Prefs.getInstance().getPrefsContextNode());
-                ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir()+ File.separator + "log.txt",
+                ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
                         ResipLogger.getGlobalLogger().getProgressLogLevel());
             }
         } catch (BackingStoreException e) {
@@ -483,6 +494,42 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Resip.GraphicApp: Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage());
 
         }
+    }
+
+    // MenuItem Empty WorkDir
+
+    private void emptyWorkDir() {
+        CreationContext cc = null;
+        try {
+            if (currentWork != null) {
+                JOptionPane.showMessageDialog(mainWindow,
+                        "Vous devez fermer tout travail en cours avant de\n" +
+                                "procéder au nettoyage du répertoire de travail", "Alerte", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            cc = new CreationContext(Prefs.getInstance().getPrefsContextNode());
+            if (JOptionPane.showConfirmDialog(mainWindow,
+                    "Vous allez effacer tous les répertoires temporaires " +
+                            "d'extraction (finissant par \"-tmpdir\")\ndans le répertoire de travail\n"+
+                            cc.getWorkDir()+"\nCeux-ci servent à " +
+                            "stocker les fichiers avant génération du SIP.\n\n" +
+                            "Voulez-vous continuer?",
+                    "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
+                return;
+            for (Path p : Files.list(Paths.get(cc.getWorkDir())).toArray(Path[]::new)) {
+                if (p.toString().endsWith("-tmpdir"))
+                    FileUtils.deleteDirectory(p.toFile());
+            }
+            JOptionPane.showMessageDialog(mainWindow, "Le nettoyage du répertoire de travail est terminé.", "Confirmation",
+                    JOptionPane.PLAIN_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(mainWindow, "Erreur pendant le nettoyage du " +
+                            "répertoire de travail. Certains répertoires temporaires ne sont pas effacés.", "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.Graphic: Erreur de nettoyage du répertoire de travail ["
+                    + (cc == null ? "introuvable" : cc.getWorkDir()) + "]\n->" + e.getMessage());
+        }
+
     }
 
     // Context Menu
@@ -526,7 +573,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         }
     }
 
-    // Import Menu
+// Import Menu
 
     private boolean isImportActionWrong() {
         if (importThreadRunning) {
@@ -680,7 +727,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         }
     }
 
-    // Export Menu
+// Export Menu
 
     private boolean completeResipWork() {
         if (currentWork == null)
@@ -697,7 +744,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         return false;
     }
 
-    // MenuItem Export Manifest, SIP or disk
+// MenuItem Export Manifest, SIP or disk
 
     private void exportWork(int exportType) {
         try {
@@ -723,12 +770,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         }
     }
 
-    // Info Menu
+// Info Menu
 
-    private void aPropos(){
+    private void aPropos() {
         try {
-            String version="non définie";
-            String builddate="non définie";
+            String version = "non définie";
+            String builddate = "non définie";
             try {
                 Properties p = new Properties();
                 InputStream is = getClass().getResourceAsStream("/buildinfo.txt");
@@ -741,7 +788,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 // ignore
             }
             JOptionPane.showMessageDialog(mainWindow,
-                    "Application Resip (Version : " + version + " Date : " + builddate+")", "A propos de Resip...",
+                    "Application Resip (Version : " + version + " Date : " + builddate + ")", "A propos de Resip...",
                     JOptionPane.PLAIN_MESSAGE);
         } catch (Exception ignored) {
         }
