@@ -371,14 +371,26 @@ public class DroidIdentifier {
 		try {
 			resultsContainerCollection = getContainerResults(resultsSignatureCollection, request);
 		} catch (SEDALibException e) {
+			try {
+				request.close();
+			} catch (IOException e1) {
+				//ignored
+			}
 			throw new SEDALibException("Erreur dans l'identification par container du fichier [" + filename + "]");
 		}
+
 		if ((resultsContainerCollection != null) && !resultsContainerCollection.getResults().isEmpty()) {
 			irl = resultsContainerCollection.getResults();
 		} else if (!resultsSignatureCollection.getResults().isEmpty()) {
 			irl = resultsSignatureCollection.getResults();
 		} else {
 			irl = getExtensionResults(request).getResults();
+		}
+
+		try {
+			request.close();
+		} catch (IOException e) {
+			throw new SEDALibException("Erreur dans l'identification droid du fichier [" + filename + "], impossible de fermer la requête");
 		}
 
 		if ((irl != null) && (!irl.isEmpty())) {
