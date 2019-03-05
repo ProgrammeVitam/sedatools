@@ -22,10 +22,10 @@ class DataObjectPackageTest {
     void testCycleDetectionOK() throws SEDALibException, InterruptedException {
         // Given
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit", null);
+                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
         si.doImport();
         SIPToArchiveTransferImporter wrongSi = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples" +
-                "/TestSipCyclic.zip", "target/tmpJunit"
+                "/TestSipCyclic.zip", "target/tmpJunit/TestSIPCyclic.zip-tmpdir"
                 , null);
         wrongSi.doImport();
 
@@ -39,7 +39,7 @@ class DataObjectPackageTest {
     void testCycleDetectionKO() throws SEDALibException, InterruptedException {
         // Given
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples" +
-                "/TestSipCyclic.zip", "target/tmpJunit"
+                "/TestSipCyclic.zip", "target/tmpJunit/TestSipCyclic.zip-tmpdir"
                 , null);
         si.doImport();
 
@@ -62,7 +62,8 @@ class DataObjectPackageTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip", "target/tmpJunit", null);
+                "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip",
+                "target/tmpJunit/TestSipWrongDogReferences.zip-tmpdir", null);
         si.doImport();
         try {
             si.getArchiveTransfer().getDataObjectPackage().verifyDogUnicityCapacity();
@@ -72,8 +73,8 @@ class DataObjectPackageTest {
             assert (e.getMessage().contains("impossible sur l'ArchiveUnit [ID21]"));
         }
 
-        si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples/TestSipDogMerge.zip", "target" +
-                "/tmpJunit", null);
+        si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples/TestSipDogMerge.zip",
+                "target/tmpJunit/TestSipDogMerge.zip-tmpdir", null);
         si.doImport();
         String testau = "{\r\n" + "  \"archiveUnitProfileXmlData\" : null,\r\n" + "  \"managementXmlData\" : null,\r\n"
                 + "  \"contentXmlData\" : \"<Content>\\n              <DescriptionLevel>Item</DescriptionLevel>\\n              <Title>20160429_tuleap.pdf</Title>\\n              <Description>Document \\\"20160429_tuleap.pdf\\\" joint au message &lt;a8f34cc23a55bf2de3606d4e45609230@culture.gouv.fr></Description>\\n            </Content>\",\r\n"
@@ -341,7 +342,7 @@ class DataObjectPackageTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter("src/test/resources/PacketSamples/TestSip" +
-                ".zip", "target/tmpJunit", null);
+                ".zip", "target/tmpJunit/TestSip.zip-tmpdir", null);
         si.doImport();
         si.getArchiveTransfer().getDataObjectPackage().regenerateContinuousIds();
 

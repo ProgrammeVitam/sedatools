@@ -27,7 +27,7 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit", null);
+                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
         si.doImport();
         BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
                 .get("ID7");
@@ -89,7 +89,7 @@ class BinaryDataObjectTest {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit", null);
+                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
         si.doImport();
         BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
                 .get("ID7");

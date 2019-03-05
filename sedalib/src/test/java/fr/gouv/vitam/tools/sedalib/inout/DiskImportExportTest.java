@@ -283,7 +283,7 @@ public class DiskImportExportTest implements UseTestFiles {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip", "target/tmpJunit", null);
+                "src/test/resources/PacketSamples/TestSipWrongDogReferences.zip", "target/tmpJunit/TestSipWrongDogReferences.zip-tmpdir", null);
         si.doImport();
 
         ArchiveTransferToDiskExporter atde = new ArchiveTransferToDiskExporter(si.getArchiveTransfer(), null);
