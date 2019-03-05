@@ -379,7 +379,8 @@ public class ResipApp {
                 } else //noinspection ConstantConditions
                     if (creationContext instanceof SIPImportContext) {
                         SIPImportContext sipImportContext = (SIPImportContext) creationContext;
-                        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sipImportContext.getOnDiskInput(), sipImportContext.getWorkDir(), spl);
+                        String target = sipImportContext.getWorkDir() + File.separator + Paths.get(sipImportContext.getOnDiskInput()).getFileName().toString() + "-tmpdir";
+                        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sipImportContext.getOnDiskInput(), target, spl);
                         si.doImport();
                         packet = si.getArchiveTransfer();
                     }

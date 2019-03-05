@@ -65,11 +65,12 @@ public class MailImporter {
 	 * @param protocol the protocol
 	 * @param container the container
 	 * @param mailfolder the mailfolder
-	 * @param workDir the work dir
+	 * @param target the work dir
+	 * @param mailExtractProgressLogger the logge
 	 */
 	public MailImporter(boolean extractMessageTextFile, boolean extractMessageTextMetadata,
 			boolean extractAttachmentTextFile, boolean extractAttachmentMetadata, String protocol, String defaultCharsetName, String container,
-			String mailfolder, String workDir,MailExtractProgressLogger mailExtractProgressLogger) {
+			String mailfolder, String target,MailExtractProgressLogger mailExtractProgressLogger) {
 		this.protocol = protocol;
 		this.container = container;
 		this.urlString = StoreExtractor.composeStoreURL(protocol, null, null, null, container);
@@ -78,7 +79,7 @@ public class MailImporter {
 
 		this.storeExtractorOptions = new StoreExtractorOptions(true, true, true, 12, defaultCharsetName,true, extractMessageTextFile,
 				extractMessageTextMetadata, extractAttachmentTextFile, extractAttachmentMetadata, 2);
-		this.target = workDir + File.separator + Paths.get(container).getFileName().toString() + "-tmpdir";
+		this.target = target;
 		this.mailExtractProgressLogger=mailExtractProgressLogger;
 	}
 
