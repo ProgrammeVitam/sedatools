@@ -36,13 +36,16 @@ import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
 import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.parameters.CreationContext;
 import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
+import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
@@ -59,7 +62,13 @@ public class AddThread extends SwingWorker<String, String> {
 
 	public AddThread(Work work, DataObjectPackageTreeNode targetNode, List<File> files,
 			InOutDialog dialog) {
-		this.work = work;
+		if (work!=null)
+			this.work = work;
+		else
+			this.work = new Work(new DataObjectPackage(),
+					new CreationContext(Prefs.getInstance().getPrefsContextNode()),
+					new ExportContext(Prefs.getInstance().getPrefsContextNode()));
+
 		this.targetNode = targetNode;
 		this.lp = new ArrayList<Path>();
 		for (File f : files)
@@ -93,8 +102,8 @@ public class AddThread extends SwingWorker<String, String> {
 
             di = new DiskToDataObjectPackageImporter(lp, spl);
             DiskImportContext dic;
-			if (ResipGraphicApp.getTheApp().currentWork.getCreationContext() instanceof DiskImportContext)
-				dic = (DiskImportContext) ResipGraphicApp.getTheApp().currentWork.getCreationContext();
+			if (this.work.getCreationContext() instanceof DiskImportContext)
+				dic = (DiskImportContext) this.work.getCreationContext();
 			else
 				dic = new DiskImportContext(Prefs.getInstance().getPrefsContextNode());
 			for (String ip : dic.getIgnorePatternList())
@@ -121,6 +130,7 @@ public class AddThread extends SwingWorker<String, String> {
 		if (isCancelled() || (exitException!=null))
 			progressTextArea.setText(progressTextArea.getText() + "\n-> " + "les données n'ont pas été modifiées.");
 		else {
+			ResipGraphicApp.getTheApp().currentWork=this.work;
 			List<ArchiveUnit> addedNodes = di.getDataObjectPackage().getGhostRootAu().getChildrenAuList()
 					.getArchiveUnitList();
             targetNode.getArchiveUnit().getDataObjectPackage().moveContentFromDataObjectPackage(di.getDataObjectPackage(), targetNode.getArchiveUnit());
