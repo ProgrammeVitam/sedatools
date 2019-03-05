@@ -146,29 +146,28 @@ public class SIPToArchiveTransferImporter {
      * Instantiates a new SEDA SIP importer.
      *
      * @param zipFile the zip file
-     * @param workDir the work dir
+     * @param unCompressDirectory the directory where the zipfile is uncompressed
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if file or directory doesn't exist
      */
-    public SIPToArchiveTransferImporter(String zipFile, String workDir, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
-        Path pathFile, pathDirectory;
+    public SIPToArchiveTransferImporter(String zipFile, String unCompressDirectory, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
+        Path zipFilePath, unCompressDirectoryPath;
 
-        pathFile = Paths.get(zipFile);
-        if (!Files.isRegularFile(pathFile, java.nio.file.LinkOption.NOFOLLOW_LINKS))
+        zipFilePath = Paths.get(zipFile);
+        if (!Files.isRegularFile(zipFilePath, java.nio.file.LinkOption.NOFOLLOW_LINKS))
             throw new SEDALibException("Le chemin [" + zipFile + "] pointant vers le SIP ne désigne pas un fichier");
-        pathDirectory = Paths.get(workDir).toAbsolutePath();
-        if (!Files.exists(pathDirectory))
+        unCompressDirectoryPath = Paths.get(unCompressDirectory).toAbsolutePath();
+        if (!Files.exists(unCompressDirectoryPath))
             try {
-                Files.createDirectories(pathDirectory);
+                Files.createDirectories(unCompressDirectoryPath);
             } catch (IOException e) {
-                throw new SEDALibException("Impossible de créer le répertoire de travail [" + workDir + "]");
+                throw new SEDALibException("Impossible de créer le répertoire d'extraction [" + unCompressDirectory + "]");
             }
-        if (!Files.isDirectory(pathDirectory, java.nio.file.LinkOption.NOFOLLOW_LINKS))
-            throw new SEDALibException("Le chemin [" + workDir + "] pointant le répertoire de travail ne désigne pas un répertoire");
+        if (!Files.isDirectory(unCompressDirectoryPath, java.nio.file.LinkOption.NOFOLLOW_LINKS))
+            throw new SEDALibException("Le chemin [" + unCompressDirectory + "] pointant le répertoire d'extraction ne désigne pas un répertoire");
 
         this.zipFile = zipFile;
-        this.unCompressDirectory = pathDirectory.normalize().toString() + File.separator
-                + pathFile.getFileName().toString() + "-tmpdir";
+        this.unCompressDirectory = unCompressDirectoryPath.normalize().toString();
         this.sedaLibProgressLogger = sedaLibProgressLogger;
     }
 
