@@ -64,7 +64,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     static ResipGraphicApp theApp = null;
 
     // Data elements. */
-    public Work launchWork;
+    public CreationContext launchCreationContext;
+    public ExportContext launchExportContext;
     public Work currentWork;
     public boolean modifiedWork;
     public String filenameWork;
@@ -88,7 +89,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         theApp = this;
 
         // inner variables
-        this.launchWork = new Work(null, creationContext, exportContext);
+        this.launchCreationContext = creationContext;
         this.currentWork = null;
         this.modifiedWork = false;
         this.filenameWork = null;
@@ -113,29 +114,20 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         try {
             mainWindow = new MainWindow(this);
             mainWindow.setVisible(true);
+            currentWork = null;
 
-            if (launchWork.getCreationContext() != null) {
-                if (launchWork.getCreationContext() instanceof DiskImportContext) {
-                    currentWork = launchWork;
-                    importWork(launchWork);
-                } else if (launchWork.getCreationContext() instanceof SIPImportContext) {
-                    currentWork = launchWork;
-                    importWork(launchWork);
-                } else {
-                    currentWork = new Work(new DataObjectPackage(), launchWork.getCreationContext(),
-                            launchWork.getExportContext());
-                    mainWindow.load();
-                }
-            } else {
-                currentWork = null;
+            if ((launchCreationContext instanceof DiskImportContext) ||
+                    (launchCreationContext instanceof SIPImportContext))
+                importWork(launchCreationContext);
+            else
                 mainWindow.load();
-            }
 
             StoreExtractor.initDefaultExtractors();
         } catch (Exception e) {
             System.err.println("Resip.Graphic: Erreur fatale, exécution interrompue (" + e.getMessage() + ")");
             System.exit(1);
         }
+
     }
 
     @SuppressWarnings("SameReturnValue")
@@ -510,8 +502,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             cc = new CreationContext(Prefs.getInstance().getPrefsContextNode());
             if (JOptionPane.showConfirmDialog(mainWindow,
                     "Vous allez effacer tous les répertoires temporaires " +
-                            "d'extraction (finissant par \"-tmpdir\")\ndans le répertoire de travail\n"+
-                            cc.getWorkDir()+"\nCeux-ci servent à " +
+                            "d'extraction (finissant par \"-tmpdir\")\ndans le répertoire de travail\n" +
+                            cc.getWorkDir() + "\nCeux-ci servent à " +
                             "stocker les fichiers avant génération du SIP.\n\n" +
                             "Voulez-vous continuer?",
                     "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
@@ -592,10 +584,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         return false;
     }
 
-    private void importWork(Work work) {
+    private void importWork(CreationContext cc) {
         try {
             InOutDialog inOutDialog = new InOutDialog(mainWindow, "Import");
-            ImportThread importThread = new ImportThread(work, inOutDialog);
+            ImportThread importThread = new ImportThread(cc, inOutDialog);
             importThread.execute();
             inOutDialog.setVisible(true);
         } catch (Exception e) {
@@ -618,8 +610,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CreationContext oic = new SIPImportContext(Prefs.getInstance().getPrefsContextNode());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
-                Work work = new Work(null, oic, null);
-                importWork(work);
+                importWork(oic);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
@@ -641,8 +632,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CreationContext oic = new DIPImportContext(Prefs.getInstance().getPrefsContextNode());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
-                Work work = new Work(null, oic, null);
-                importWork(work);
+                importWork(oic);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
@@ -664,8 +654,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CreationContext oic = new DiskImportContext(Prefs.getInstance().getPrefsContextNode());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
-                Work work = new Work(null, oic, null);
-                importWork(work);
+                importWork(oic);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
@@ -692,8 +681,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 if (micd.returnValue != JOptionPane.OK_OPTION)
                     return;
                 micd.setMailImportContextFromDialog(mic);
-                Work work = new Work(null, mic, null);
-                importWork(work);
+                importWork(mic);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
@@ -715,8 +703,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CSVTreeImportContext ctic = new CSVTreeImportContext(Prefs.getInstance().getPrefsContextNode());
                 ctic.setOnDiskInput(fileChooser.getSelectedFile().toString());
-                Work work = new Work(null, ctic, null);
-                importWork(work);
+                importWork(ctic);
                 //        ,"Import depuis un csv d'arbre de classement en " + work.getCreationContext().getOnDiskInput());
             }
         } catch (Exception e) {

@@ -400,8 +400,8 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
 
         try {
             InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.getTheApp().mainWindow, "Import");
-            addThread = new AddThread(ResipGraphicApp.getTheApp().currentWork,
-                    (DataObjectPackageTreeNode) targetPath.getLastPathComponent(), files, inOutDialog);
+            addThread = new AddThread(ResipGraphicApp.getTheApp().currentWork,(targetPath==null?null:
+                    (DataObjectPackageTreeNode) targetPath.getLastPathComponent()), files, inOutDialog);
             addThread.execute();
             inOutDialog.setVisible(true);
         } catch (Exception e) {
@@ -411,8 +411,6 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
             return;
         }
-        main.getApp().currentWork.getCreationContext().setStructureChanged(true);
-        main.getApp().setContextLoaded(true);
     }
 
     /**
