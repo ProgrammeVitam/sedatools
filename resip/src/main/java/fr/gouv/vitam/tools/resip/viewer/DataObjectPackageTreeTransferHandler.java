@@ -146,8 +146,14 @@ public class DataObjectPackageTreeTransferHandler extends TransferHandler {
 		TreePath target;
 		if (dl.getPath() != null)
 			target = dl.getPath();
-		else
-			target = new TreePath(tree.getModel().getRoot());
+		else {
+			Object root=tree.getModel().getRoot();
+			if (root==null)
+				// tree is empty and must be created by AddThread
+				target=null;
+			else
+				target = new TreePath(tree.getModel().getRoot());
+		}
 
 		// Extract transfer data and action
 		List<File> files;

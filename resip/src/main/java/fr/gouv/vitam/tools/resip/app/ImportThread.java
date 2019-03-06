@@ -68,8 +68,8 @@ public class ImportThread extends SwingWorker<Work, String> {
     // logger
     private SEDALibProgressLogger spl;
 
-    ImportThread(Work work, InOutDialog dialog) {
-        this.work = work;
+    ImportThread(CreationContext cc, InOutDialog dialog) {
+        this.work = new Work(null, cc, null);
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitException = null;
