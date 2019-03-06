@@ -65,7 +65,6 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // Data elements. */
     public CreationContext launchCreationContext;
-    public ExportContext launchExportContext;
     public Work currentWork;
     public boolean modifiedWork;
     public String filenameWork;
@@ -83,7 +82,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public boolean addThreadRunning;
     public boolean exportThreadRunning;
 
-    public ResipGraphicApp(CreationContext creationContext, ExportContext exportContext) throws ResipException {
+    public ResipGraphicApp(CreationContext creationContext) throws ResipException {
         if (theApp != null)
             throw new ResipException("L'application a déjà été lancée");
         theApp = this;
