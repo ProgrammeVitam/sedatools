@@ -358,7 +358,7 @@ public class ResipApp {
             else
                 UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
-            new ResipGraphicApp(creationContext, exportContext);
+            new ResipGraphicApp(creationContext);
         } else {
 
             try {
