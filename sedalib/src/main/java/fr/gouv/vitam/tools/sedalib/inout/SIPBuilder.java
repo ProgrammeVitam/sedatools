@@ -424,7 +424,7 @@ public class SIPBuilder implements AutoCloseable  {
         String filename = path.getFileName().toString();
         BinaryDataObject bdo = new BinaryDataObject(archiveTransfer.getDataObjectPackage(), path, filename, usageVersion);
         bdo.extractTechnicalElements(sedaLibProgressLogger);
-        au.addDataObjectById(bdo.dataObjectSystemId);
+        au.addDataObjectById(bdo.getInDataObjectPackageId());
     }
 
     /**

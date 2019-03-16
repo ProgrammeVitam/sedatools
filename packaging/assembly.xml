@@ -9,9 +9,9 @@
         <fileSet>
             <directory>../resip/windows</directory>
             <outputDirectory></outputDirectory>
-            <!-- <excludes>
+            <excludes>
                 <exclude>VitamIcon.ico</exclude>
-            </excludes> -->
+            </excludes>
         </fileSet>
         <fileSet>
             <directory>../doc</directory>
