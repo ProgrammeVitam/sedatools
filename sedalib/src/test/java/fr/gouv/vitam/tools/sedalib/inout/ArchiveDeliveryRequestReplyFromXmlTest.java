@@ -30,7 +30,7 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 		mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
 		DIPToArchiveDeliveryRequestReplyImporter si = new DIPToArchiveDeliveryRequestReplyImporter(
-				"src/test/resources/PacketSamples/TestDIP.zip", "target/tmpJunit", null);
+				"src/test/resources/PacketSamples/TestDIP.zip", "target/tmpJunit/TestDIP.zip-tmpdir", null);
 		si.doImport();
 		
 		String testog = "{\n" + 

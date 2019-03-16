@@ -62,7 +62,7 @@ public class InOutDialog extends JDialog {
 	
 	/** The thread. */
 	public SwingWorker<?, ?> thread;
-	
+
 
 	/**
 	 * Create the dialog.

@@ -102,7 +102,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
  * </tr>
  * <tr>
  * <td>--context</td>
- * <td>define the export context options and global metadatas for SIP generation(MessageIdentifier...), argument is context file name</td>
+ * <td>define the export context options and global metadatas for SIP generation(MessageIdentifier...), argument is context file name. Only used if not in graphic mode.</td>
  * </tr>
  * <tr>
  * <td>--generatesip</td>
@@ -267,6 +267,12 @@ public class ResipApp {
             System.exit(1);
         }
 
+        if (cmd.hasOption("context") && !cmd.hasOption("xcommand")) {
+            System.err.println(
+                    "Resip: Ne prend en compte un fichier de contexte qu'en mode command (option --xcommand)");
+            System.exit(1);
+        }
+
         // define workdir
         workdirString = cmd.getOptionValue("workdir");
         if (workdirString != null) {
@@ -358,7 +364,7 @@ public class ResipApp {
             else
                 UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
-            new ResipGraphicApp(creationContext, exportContext);
+            new ResipGraphicApp(creationContext);
         } else {
 
             try {
@@ -379,7 +385,8 @@ public class ResipApp {
                 } else //noinspection ConstantConditions
                     if (creationContext instanceof SIPImportContext) {
                         SIPImportContext sipImportContext = (SIPImportContext) creationContext;
-                        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sipImportContext.getOnDiskInput(), sipImportContext.getWorkDir(), spl);
+                        String target = sipImportContext.getWorkDir() + File.separator + Paths.get(sipImportContext.getOnDiskInput()).getFileName().toString() + "-tmpdir";
+                        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sipImportContext.getOnDiskInput(), target, spl);
                         si.doImport();
                         packet = si.getArchiveTransfer();
                     }
