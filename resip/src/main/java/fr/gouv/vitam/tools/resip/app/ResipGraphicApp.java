@@ -294,8 +294,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "EmptyWorkDir":
                         emptyWorkDir();
                         break;
+                    // Treat Menu
                     case "Search":
                         search();
+                        break;
+                    case "RegenerateContinuousIds":
+                        doRegenerateContinuousIds();
                         break;
                     // Context Menu
                     case "SeeImportContext":
@@ -303,9 +307,6 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "EditExportContext":
                         editExportContext();
-                        break;
-                    case "RegenerateContinuousIds":
-                        doRegenerateContinuousIds();
                         break;
                     // Import Menu
                     case "ImportFromSIP":
@@ -520,20 +521,16 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                             "Voulez-vous continuer?",
                     "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
                 return;
-            for (Path p : Files.list(Paths.get(cc.getWorkDir())).toArray(Path[]::new)) {
-                if (p.toString().endsWith("-tmpdir"))
-                    FileUtils.deleteDirectory(p.toFile());
-            }
-            JOptionPane.showMessageDialog(mainWindow, "Le nettoyage du répertoire de travail est terminé.", "Confirmation",
-                    JOptionPane.PLAIN_MESSAGE);
+            InOutDialog inOutDialog = new InOutDialog(mainWindow, "Nettoyage");
+            CleanThread cleanThread = new CleanThread(cc.getWorkDir(), inOutDialog);
+            cleanThread.execute();
+            inOutDialog.setVisible(true);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow, "Erreur pendant le nettoyage du " +
-                            "répertoire de travail. Certains répertoires temporaires ne sont pas effacés.", "Erreur",
+            JOptionPane.showMessageDialog(mainWindow,
+                    "Erreur fatale, impossible de faire le nettoyage \n->" + e.getMessage(), "Erreur",
                     JOptionPane.ERROR_MESSAGE);
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.Graphic: Erreur de nettoyage du répertoire de travail ["
-                    + (cc == null ? "introuvable" : cc.getWorkDir()) + "]\n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire le nettoyage \n->" + e.getMessage());
         }
-
     }
 
     // Treat Menu
@@ -543,6 +540,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     void search(){
         SearchDialog searchDialog = new SearchDialog(mainWindow, "Chercher");
         searchDialog.setVisible(true);
+    }
+
+    // MenuItem Regenerate Continuous ids
+
+    void doRegenerateContinuousIds() {
+        if (currentWork != null) {
+            currentWork.getDataObjectPackage().regenerateContinuousIds();
+            mainWindow.allTreeChanged();
+        }
     }
 
     // Context Menu
@@ -575,15 +581,6 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 exportContextDialog.setExportContextFromDialog(currentWork.getExportContext());
         } else
             JOptionPane.showMessageDialog(mainWindow, "Pas de contexte ouvert", "Alerte", JOptionPane.WARNING_MESSAGE);
-    }
-
-    // MenuItem Regenerate Continuous ids
-
-    void doRegenerateContinuousIds() {
-        if (currentWork != null) {
-            currentWork.getDataObjectPackage().regenerateContinuousIds();
-            mainWindow.allTreeChanged();
-        }
     }
 
     // Import Menu
@@ -772,9 +769,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 inOutDialog.setVisible(true);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow, "Impossible de faire l'export \n->" + e.getMessage(), "Erreur",
+            JOptionPane.showMessageDialog(mainWindow, "Erreur fatale, impossible de faire l'export \n->" + e.getMessage(), "Erreur",
                     JOptionPane.ERROR_MESSAGE);
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Impossible de faire l'export \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur fatale, impossible de faire l'export \n->" + e.getMessage());
         }
     }
 
