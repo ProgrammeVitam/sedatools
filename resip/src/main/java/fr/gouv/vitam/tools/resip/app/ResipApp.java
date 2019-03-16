@@ -102,7 +102,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
  * </tr>
  * <tr>
  * <td>--context</td>
- * <td>define the export context options and global metadatas for SIP generation(MessageIdentifier...), argument is context file name</td>
+ * <td>define the export context options and global metadatas for SIP generation(MessageIdentifier...), argument is context file name. Only used if not in graphic mode.</td>
  * </tr>
  * <tr>
  * <td>--generatesip</td>
@@ -264,6 +264,12 @@ public class ResipApp {
         if (cmd.hasOption("generatesip") && !cmd.hasOption("xcommand")) {
             System.err.println(
                     "Resip: Ne peux pas générer en mode graphique, seulement en mode command (option --xcommand)");
+            System.exit(1);
+        }
+
+        if (cmd.hasOption("context") && !cmd.hasOption("xcommand")) {
+            System.err.println(
+                    "Resip: Ne prend en compte un fichier de contexte qu'en mode command (option --xcommand)");
             System.exit(1);
         }
 

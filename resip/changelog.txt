@@ -1,3 +1,17 @@
+Evolutions/Corrections en 1.2.0
+
+ - Evolution: ajout de la fonction Rechercher dans les titres et métadonnées
+ - Bug (corrigé): fermeture des fichiers après identification du format par Droid
+ - Evolution: détection, alerte et proposition de changement ou de nettoyage quand un répertoire temporaire a déjà été utilisé
+ - Evolution: les logs de MailExtract sont visibles dans la fenêtre d'import
+ - Bug (corrigé): ajout par drag-and-drop dans un document vide
+ - Evolution: suppression de la prise en compte du contexte d'exportation défini en ligne de commande
+
+ [Evolutions de mailextract en 1.2.0-SNAPSHOT ayant un impact sur ReSIP]
+ - Refacto: synchronisation de la version sedatools/mailextract
+ - Evolution: prise en compte de l'évolution de la bibliothèque MailExtract (Changement de l'appel StoreExtractor)
+
+============================================================================
 Evolutions/Corrections en 1.1.0
 
 - Evolution: mise à jour des bibliothèques java utilisées
