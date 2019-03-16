@@ -49,7 +49,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
  * <p>
  * Class for easily constructing SIP from any java application.
  * <p>
- * This has to be improved with usage cases...
+ * For code samples, consult <b>sedalib-samples</b> module
  */
 public class SIPBuilder implements AutoCloseable  {
 
