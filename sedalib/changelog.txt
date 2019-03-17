@@ -1,3 +1,8 @@
+Evolutions/Corrections en 1.2.0
+
+- Evolution: ajout de l'import de métadonnées sous la forme csv
+
+============================================================================
 Evolutions/Corrections en 1.1.0
 
 - Evolution: Mise à jour des bibliothèques java utilisées

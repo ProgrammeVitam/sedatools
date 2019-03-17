@@ -151,7 +151,7 @@ public class CSVTreeToDataObjectPackageImporter {
      * @throws SEDALibException     if csv file can't be accessed or is badly formatted
      * @throws InterruptedException if import process is interrupted
      */
-    public void readCSVFile() throws SEDALibException, InterruptedException {
+    private void readCSVFile() throws SEDALibException, InterruptedException {
         Line line;
         int lineCount = 0;
         linesMap = new HashMap<String, List<Line>>();
@@ -228,7 +228,7 @@ public class CSVTreeToDataObjectPackageImporter {
         Date d = new Date();
         start = Instant.now();
         if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, "Début de l'import du fichier csv [" + csvFileName + "] date="
+            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, "Début de l'import du fichier csv d'arbre de plan de classement [" + csvFileName + "] date="
                     + DateFormat.getDateTimeInstance().format(d));
 
         readCSVFile();

@@ -231,6 +231,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "ImportFromCSVTree");
         importMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Importer depuis un csv de métadonnées...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "ImportFromCSVMetadata");
+        importMenu.add(menuItem);
+
         menuItem = new JMenuItem("Importer depuis un conteneur courriels...");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "ImportFromMail");
@@ -320,6 +325,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "ImportFromCSVTree":
                         importFromCSVTree();
+                        break;
+                    case "ImportFromCSVMetadata":
+                        importFromCSVMetadata();
                         break;
                     case "ImportFromMail":
                         importFromMail();
@@ -722,7 +730,28 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 CSVTreeImportContext ctic = new CSVTreeImportContext(Prefs.getInstance().getPrefsContextNode());
                 ctic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(ctic);
-                //        ,"Import depuis un csv d'arbre de classement en " + work.getCreationContext().getOnDiskInput());
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(mainWindow,
+                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+        }
+    }
+
+    // MenuItem Import from csv metadata
+
+    void importFromCSVMetadata() {
+        try {
+            if (isImportActionWrong())
+                return;
+
+            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+                CSVMetadataImportContext cmic = new CSVMetadataImportContext(Prefs.getInstance().getPrefsContextNode());
+                cmic.setOnDiskInput(fileChooser.getSelectedFile().toString());
+                importWork(cmic);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(mainWindow,
