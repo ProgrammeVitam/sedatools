@@ -37,22 +37,22 @@ class CSVMetadataToDataObjectPackageImporterTest {
 		cmi.doImport();
 
 		// Then
-//		String testAu = "{\n" +
-//				"  \"archiveUnitProfileXmlData\" : null,\n" +
-//				"  \"managementXmlData\" : null,\n" +
-//				"  \"contentXmlData\" : \"<Content>\\n  <DescriptionLevel>Subseries</DescriptionLevel>\\n  <Title>Justice</Title>\\n  <OriginatingAgencyArchiveUnitIdentifier>REP.7.</OriginatingAgencyArchiveUnitIdentifier>\\n</Content>\",\n" +
-//				"  \"childrenAuList\" : {\n" +
-//				"    \"inDataObjectPackageIdList\" : [ \"ID36\", \"ID37\", \"ID38\", \"ID39\", \"ID40\", \"ID41\", \"ID42\", \"ID43\", \"ID44\", \"ID45\", \"ID46\", \"ID47\", \"ID48\", \"ID49\" ]\n" +
-//				"  },\n" +
-//				"  \"dataObjectRefList\" : {\n" +
-//				"    \"inDataObjectPackageIdList\" : [ ]\n" +
-//				"  },\n" +
-//				"  \"inDataObjectPackageId\" : \"ID35\",\n" +
-//				"  \"onDiskPath\" : null\n" +
-//				"}";
-//		ArchiveUnit au = cti.getDataObjectPackage().getArchiveUnitById("ID35");
-//		String sau = mapper.writeValueAsString(au);
-//		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
+		String testAu = "{\n" +
+				"  \"archiveUnitProfileXmlData\" : null,\n" +
+				"  \"managementXmlData\" : null,\n" +
+				"  \"contentXmlData\" : \"<Content><DescriptionLevel>Item</DescriptionLevel><Title>image001.jpg</Title><Description lang=\\\"fr\\\">Document &quot;image001.jpg&quot; joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize&gt;</Description><CreatedDate>2016-08-30T10:14:17Z</CreatedDate></Content>\",\n" +
+				"  \"childrenAuList\" : {\n" +
+				"    \"inDataObjectPackageIdList\" : [ ]\n" +
+				"  },\n" +
+				"  \"dataObjectRefList\" : {\n" +
+				"    \"inDataObjectPackageIdList\" : [ \"ID13\" ]\n" +
+				"  },\n" +
+				"  \"inDataObjectPackageId\" : \"6\",\n" +
+				"  \"onDiskPath\" : null\n" +
+				"}";
+		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("6");
+		String sau = mapper.writeValueAsString(au);
+		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
 	}
 
 //	@Test
