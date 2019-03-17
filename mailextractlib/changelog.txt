@@ -1,0 +1,11 @@
+Evolutions/Corrections en 1.2.0
+
+ - Evolution: intégration de la partie bibliothèque de mailextract dans sedatools et changement de version en cohérence
+ - Bug (corrigé): forçage de l'encodage UTF-8/Q dans le mime généré
+ - Refacto: ajout d'un mécanisme global de génération de listes d'extraction
+ - Evolution: suppression du paramètre psExtractList dans l'interface principale StoreExtractor
+ - Evolution: rend générique le paramètre d'extraction de listes, extractGlobalLists parameter, qui établit si les toutes les listes (mails, contacts...) sont extraites ou non
+ - Evolution: ajout de l'extraction de liste de contacts des PST
+ - Evolution: changement de la description des attachements pour permettre la déduplication
+ - Refacto: gestion des fichiers générés (fermeture)
+

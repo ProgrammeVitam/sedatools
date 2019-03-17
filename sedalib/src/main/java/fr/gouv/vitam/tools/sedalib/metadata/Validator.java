@@ -74,8 +74,9 @@ public class Validator extends ComplexListType {
     /**
      * Instantiates a new validator type with corpname and validation time.
      *
-     * @param elementName the element name
-     * @param corpname   the corporation name
+     * @param elementName    the element name
+     * @param corpname       the corporation name
+     * @param validationTime the validation time
      */
     public Validator(String elementName, String corpname, LocalDateTime validationTime) {
         super(elementName);
@@ -86,7 +87,7 @@ public class Validator extends ComplexListType {
         }
     }
 
-     /**
+    /**
      * Instantiates a new validator type from args.
      *
      * @param elementName the XML element name

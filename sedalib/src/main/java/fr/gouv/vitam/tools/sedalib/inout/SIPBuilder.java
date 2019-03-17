@@ -76,7 +76,7 @@ public class SIPBuilder implements AutoCloseable  {
     /**
      * Instantiates a new SIP builder.
      *
-     * @param sipPathString  the sip path string
+     * @param sipPathString         the sip path string
      * @param sedaLibProgressLogger the progress logger
      */
     public SIPBuilder(String sipPathString, SEDALibProgressLogger sedaLibProgressLogger)
@@ -119,6 +119,8 @@ public class SIPBuilder implements AutoCloseable  {
 
     /**
      * Gets the ArchiveTransfer in construction.
+     *
+     * @return the ArchiveTransfer
      */
     public ArchiveTransfer getArchiveTransfer() {
         return archiveTransfer;

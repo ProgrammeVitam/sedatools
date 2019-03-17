@@ -14,9 +14,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.logging.Logger;
 
-import fr.gouv.vitam.tools.mailextract.lib.core.StoreExtractor;
-import fr.gouv.vitam.tools.mailextract.lib.core.StoreExtractorOptions;
-import fr.gouv.vitam.tools.mailextract.lib.utils.MailExtractProgressLogger;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 

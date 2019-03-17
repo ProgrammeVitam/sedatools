@@ -1,0 +1,3 @@
+Evolutions/Corrections en 1.2.0
+
+ - Evolution: intégration de la partie application de mailextract dans sedatools et changement de version en cohérence

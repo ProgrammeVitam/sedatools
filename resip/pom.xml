@@ -30,8 +30,8 @@
         </dependency>
         <dependency>
             <groupId>fr.gouv.vitam.tools</groupId>
-            <artifactId>mailextract</artifactId>
-            <version>${mailextract.version}</version>
+            <artifactId>mailextractlib</artifactId>
+            <version>${project.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>
