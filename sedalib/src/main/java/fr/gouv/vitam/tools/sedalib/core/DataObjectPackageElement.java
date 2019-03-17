@@ -36,7 +36,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class DataObjectPackageElement {
 
-    /** The archiveTransfer. */
+    /**
+     * The archiveTransfer.
+     */
     @JsonIgnore
     private DataObjectPackage dataObjectPackage;
 

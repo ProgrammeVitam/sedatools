@@ -27,15 +27,15 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.GenericXMLBlockType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * The Class Management.
@@ -54,10 +54,14 @@ public class Management extends ComplexListType {
         initMetadataMap();
     }
 
-    /** The metadata ordered list. */
+    /**
+     * The metadata ordered list.
+     */
     protected static List<String> metadataOrderedList;
 
-    /** The metadata map. */
+    /**
+     * The metadata map.
+     */
     protected static HashMap<String, MetadataKind> metadataMap;
 
     /**

@@ -28,8 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
@@ -50,13 +50,19 @@ import java.util.List;
 public class DataObjectGroup extends DataObjectPackageIdElement implements DataObject {
 
     // SEDA Elements
-    /** The BinaryDataObject list. */
+    /**
+     * The BinaryDataObject list.
+     */
     private List<BinaryDataObject> binaryDataObjectList;
 
-    /** The PhysicalDataObject list. */
+    /**
+     * The PhysicalDataObject list.
+     */
     private List<PhysicalDataObject> physicalDataObjectList;
 
-    /** The LogBook xml element in String form. */
+    /**
+     * The LogBook xml element in String form.
+     */
     private String logBookXmlData;
 
     // Constructors
@@ -234,11 +240,11 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
      * Import the DataObjectGroup in XML expected form form the SEDA Manifest in the
      * ArchiveTransfer and return it's id in ArchiveTransfer.
      *
-     * @param xmlReader         the SEDAXMLEventReader reading the SEDA manifest
-     * @param dataObjectPackage the DataObjectPackage to be completed
-     * @param rootDir           the directory where the BinaryDataObject files are
-     *                          exported
-     * @param sedaLibProgressLogger    the progress logger
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param dataObjectPackage     the DataObjectPackage to be completed
+     * @param rootDir               the directory where the BinaryDataObject files are
+     *                              exported
+     * @param sedaLibProgressLogger the progress logger
      * @return the inDataPackageObjectId of the read DataObjectGroup, or null if not a DataObjectGroup
      * @throws SEDALibException     if the XML can't be read or the SEDA scheme is
      *                              not respected

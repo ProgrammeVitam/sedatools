@@ -27,6 +27,11 @@
  */
 package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
+import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -37,11 +42,6 @@ import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 /**
  * The Class ArchiveTransferToDiskExporter.
@@ -62,26 +62,36 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
  */
 public class ArchiveTransferToDiskExporter {
 
-    /** The DataObjectPackage to disk exporter. */
+    /**
+     * The DataObjectPackage to disk exporter.
+     */
     private DataObjectPackageToDiskExporter dataObjectPackageToDiskExporter;
 
-    /** The export path. */
+    /**
+     * The export path.
+     */
     private Path exportPath;
 
-    /** The ArchiveTransfer. */
+    /**
+     * The ArchiveTransfer.
+     */
     private final ArchiveTransfer archiveTransfer;
 
-    /** The start and end instants, for duration computation. */
+    /**
+     * The start and end instants, for duration computation.
+     */
     private Instant start, end;
 
-    /** The progress logger. */
+    /**
+     * The progress logger.
+     */
     private final SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
      * Instantiates a new ArchiveTransfer to disk exporter
      *
-     * @param archiveTransfer the archive transfer
-     * @param sedaLibProgressLogger  the progress logger
+     * @param archiveTransfer       the archive transfer
+     * @param sedaLibProgressLogger the progress logger
      */
     public ArchiveTransferToDiskExporter(ArchiveTransfer archiveTransfer, SEDALibProgressLogger sedaLibProgressLogger) {
         this.sedaLibProgressLogger = sedaLibProgressLogger;
@@ -133,8 +143,8 @@ public class ArchiveTransferToDiskExporter {
         String log = "Début de l'export d'un ArchiveTransfer dans une hiérarchie sur disque\n";
         log += "en [" + directoryName + "]";
         log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        if (sedaLibProgressLogger !=null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,log);
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, log);
 
         exportPath = Paths.get(directoryName);
         try {

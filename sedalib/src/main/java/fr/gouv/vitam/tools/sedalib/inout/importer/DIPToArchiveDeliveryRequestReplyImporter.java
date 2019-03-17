@@ -28,16 +28,18 @@
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
-import org.apache.tools.zip.ZipEntry;
 
 import javax.xml.stream.XMLStreamException;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -45,7 +47,6 @@ import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-import java.util.Enumeration;
 
 /**
  * The Class DIPToArchiveDeliveryRequestReplyImporter.
@@ -56,19 +57,29 @@ import java.util.Enumeration;
  */
 public class DIPToArchiveDeliveryRequestReplyImporter {
 
-    /** The zip file containing the DIP. */
+    /**
+     * The zip file containing the DIP.
+     */
     private String zipFile;
 
-    /** The directory for zip uncompress. */
+    /**
+     * The directory for zip uncompress.
+     */
     private String unCompressDirectory;
 
-    /** The ArchiveDeliveryRequestReply SEDA message. */
+    /**
+     * The ArchiveDeliveryRequestReply SEDA message.
+     */
     private ArchiveDeliveryRequestReply archiveDeliveryRequestReply;
 
-    /** The start, end of import process. */
+    /**
+     * The start, end of import process.
+     */
     Instant start, end;
 
-    /** The progress logger. */
+    /**
+     * The progress logger.
+     */
     private SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
@@ -84,7 +95,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
     public String unZipDip(String zipFile, String outputFolder) throws SEDALibException, InterruptedException {
         String manifest = null;
         int counter = 0;
-        try (FileInputStream fis=new FileInputStream(zipFile);
+        try (FileInputStream fis = new FileInputStream(zipFile);
              ZipArchiveInputStream zais = new ZipArchiveInputStream(fis)) {
             // create output directory is not exists
             File folder = new File(outputFolder);
@@ -94,7 +105,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
             }
             // get the zipped file list entry
             ArchiveEntry ze;
-            while ((ze=zais.getNextEntry())!=null) {
+            while ((ze = zais.getNextEntry()) != null) {
                 String fileName = ze.getName().trim();
                 // change any case ConTenT to lowercase content on import as in fromSEDA in
                 // BinaryDataObject
@@ -124,7 +135,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                     FileOutputStream fos = new FileOutputStream(newPath.toFile());
                     IOUtils.copy(zais, fos);
                     counter++;
-                    if (sedaLibProgressLogger !=null)
+                    if (sedaLibProgressLogger != null)
                         sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
                                 "extraits");
                     fos.close();
@@ -134,7 +145,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
             throw new SEDALibException("Impossible de décompresser le fichier [" + zipFile + "] dans le répertoire ["
                     + outputFolder + "]\n->" + ex.getMessage());
         }
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
                     "extraits");
         if (manifest == null)
@@ -145,8 +156,8 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
     /**
      * Instantiates a new SEDA DIP importer.
      *
-     * @param zipFile        the zip file
-     * @param unCompressDirectory the directory where the zipfile is uncompressed
+     * @param zipFile               the zip file
+     * @param unCompressDirectory   the directory where the zipfile is uncompressed
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if file or directory doesn't exist
      */
@@ -185,9 +196,9 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
 
         Date d = new Date();
         start = Instant.now();
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,
-                "Début de l'import du DIP [" + zipFile + "] date=" + DateFormat.getDateTimeInstance().format(d));
+                    "Début de l'import du DIP [" + zipFile + "] date=" + DateFormat.getDateTimeInstance().format(d));
 
         manifest = unZipDip(zipFile, unCompressDirectory);
 
@@ -201,7 +212,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
         }
 
         end = Instant.now();
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, getSummary());
     }
 

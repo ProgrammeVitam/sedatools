@@ -28,8 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
@@ -50,35 +50,53 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
 
     // SEDA elements
 
-    /** The data object system id. */
+    /**
+     * The data object system id.
+     */
     public String dataObjectSystemId;
 
-    /** The data object group system id. */
+    /**
+     * The data object group system id.
+     */
     public String dataObjectGroupSystemId;
 
-    /** The relationships xml element in String form. */
+    /**
+     * The relationships xml element in String form.
+     */
     public List<String> relationshipsXmlData;
 
-    /** The data object group reference id. */
+    /**
+     * The data object group reference id.
+     */
     String dataObjectGroupReferenceId;
 
-    /** The data object group id. */
+    /**
+     * The data object group id.
+     */
     String dataObjectGroupId;
 
-    /** The data object version. */
+    /**
+     * The data object version.
+     */
     public String dataObjectVersion;
 
-    /** The physical id xml element in String form. */
+    /**
+     * The physical id xml element in String form.
+     */
     public String physicalIdXmlData;
 
-    /** The physical dimensions xml element in String form. */
+    /**
+     * The physical dimensions xml element in String form.
+     */
     public String physicalDimensionsXmlData;
 
     // otherDimensionsAbstractXmlData not supported
 
     // Inner element
 
-    /** The DataObjectGroup in which is the PhysicalDataObject, or null. */
+    /**
+     * The DataObjectGroup in which is the PhysicalDataObject, or null.
+     */
     @JsonIgnore
     DataObjectGroup dataObjectGroup;
 
@@ -96,6 +114,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      * <p>
      * If DataObjectPackage is defined the new ArchiveUnit is added with a generated
      * uniqID in the structure.
+     *
      * @param dataObjectPackage the DataObjectPackage
      */
     public PhysicalDataObject(DataObjectPackage dataObjectPackage) {
@@ -126,18 +145,18 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      * &lt;DataObjectVersion&gt;PhysicalMaster_1&lt;/DataObjectVersion&gt;
      * &lt;PhysicalId&gt;940 W&lt;/PhysicalId&gt;
      * &lt;PhysicalDimensions&gt;
-     *   &lt;Width unit="centimetre"&gt;10&lt;/Width&gt;
-     *   &lt;Height unit="centimetre"&gt;8&lt;/Height&gt;
-     *   &lt;Depth unit="centimetre"&gt;1&lt;/Depth&gt;
-     *   &lt;Diameter unit="centimetre"&gt;0&lt;/Diameter&gt;
-     *   &lt;Weight unit="gram"&gt;59&lt;/Weight&gt;
+     * &lt;Width unit="centimetre"&gt;10&lt;/Width&gt;
+     * &lt;Height unit="centimetre"&gt;8&lt;/Height&gt;
+     * &lt;Depth unit="centimetre"&gt;1&lt;/Depth&gt;
+     * &lt;Diameter unit="centimetre"&gt;0&lt;/Diameter&gt;
+     * &lt;Weight unit="gram"&gt;59&lt;/Weight&gt;
      * &lt;/PhysicalDimensions&gt;
      * </code>
      *
      * @param dataObjectPackage the DataObjectPackage
-     * @param xmlData         the raw XML content describing this PhysicalDataObject
-     *                        in manifest but without DataObjectGroup ID or RefID
-     *                        information
+     * @param xmlData           the raw XML content describing this PhysicalDataObject
+     *                          in manifest but without DataObjectGroup ID or RefID
+     *                          information
      * @throws SEDALibException if any xmlData reading exception
      */
     public PhysicalDataObject(DataObjectPackage dataObjectPackage, String xmlData) throws SEDALibException {
@@ -215,9 +234,9 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      * SEDA Manifest in the ArchiveTransfer. Utility methods for fromSedaXml and
      * fromSedaXmlFragments
      *
-     * @param xmlReader          the SEDAXMLEventReader reading the SEDA manifest
-     * @throws SEDALibException     if the XML can't be read or the SEDA scheme is
-     *                              not respected
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is
+     *                          not respected
      */
     private void setFromXmlContent(SEDAXMLEventReader xmlReader)
             throws SEDALibException {
@@ -246,8 +265,8 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      * Import the PhysicalDataObject in XML expected form from the SEDA Manifest in
      * the ArchiveTransfer.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
-     * @param dataObjectPackage the DataObjectPackage to be completed
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param dataObjectPackage     the DataObjectPackage to be completed
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read PhysicalDataObject, or null if not a PhysicalDataObject
      * @throws SEDALibException     if the XML can't be read or the SEDA scheme is
@@ -286,9 +305,9 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             dog.setInDataObjectPackageId(pdo.dataObjectGroupId);
             dataObjectPackage.addDataObjectGroup(dog);
             dog.addDataObject(pdo);
-            if (sedaLibProgressLogger !=null)
+            if (sedaLibProgressLogger != null)
                 sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
-                    + "] créé depuis PhysicalDataObject [" + pdo.inDataPackageObjectId + "]");
+                        + "] créé depuis PhysicalDataObject [" + pdo.inDataPackageObjectId + "]");
         } else if (pdo.dataObjectGroupReferenceId != null) {
             dog = dataObjectPackage.getDataObjectGroupById(pdo.dataObjectGroupReferenceId);
             if (dog == null)
