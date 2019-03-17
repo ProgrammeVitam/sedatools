@@ -96,6 +96,7 @@ public class Signer extends ComplexListType {
      * @param firstName   the first name
      * @param birthName   the birth name
      * @param identifier  the identifier
+     * @param signingTime the signing time
      */
     public Signer(String elementName, String firstName, String birthName, String identifier, LocalDateTime signingTime) {
         super(elementName);

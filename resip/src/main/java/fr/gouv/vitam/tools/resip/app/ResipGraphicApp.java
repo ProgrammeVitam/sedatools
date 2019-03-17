@@ -49,7 +49,7 @@ import javax.swing.*;
 
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.*;
-import fr.gouv.vitam.tools.mailextract.lib.core.StoreExtractor;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;

@@ -7,11 +7,16 @@ Projet sedatools
 ================
 
 Le projet contient les outils utiles aux développeurs et testeurs pour la construction et manipulation des SIP conforme au SEDA.
-Il s'agit d'un projet Maven avec trois modules qui contiennent:
+Il s'agit d'un projet Maven avec six modules qui contiennent:
 
-* ``sedalib``: le code de la bibliothèque SEDA
+* ``sedalib``: le code de la bibliothèque SEDA (manipulation de paquets SEDA)
 * ``sedalib-samples``: le code d'exemples d'usage pour construire des SIP complexes en peu de lignes
-* ``resip``: le code de l'application de création et manipulation des SIP s'appuyant sur la bibliothèque SEDA
+* ``mailextractlib``: le code de la bibliothèque mailextract (extraction conforme SEDA de messagerie)
+
+et
+* ``resip``: le code de l'application de création et manipulation des SIP s'appuyant sur les bibliothèques SEDA et mailextract
+* ``mailextract``: le code de l'application permettant toutes les extractions de messagerie s'appuyant sur la bibliothèque mailextract
+* ``testsipgenerator``: le code de l'application permettant de générer des paquets SIP simulés pour test
 
 Build
 -----
@@ -24,10 +29,6 @@ Avec un JDK 1.8, git, maven et gpg installés, la séquence de build est la suiv
     cd java-libpst/
     # mvn parameters to skip javadoc errors in 1.8
     mvn clean install -Dadditionalparam=-Xdoclint:none
-    cd ..
-    git clone https://github.com/ProgrammeVitam/mailextract.git
-    cd mailextract/
-    mvn clean install
     cd ..
     git clone https://github.com/digital-preservation/droid.git
     cd droid
@@ -98,6 +99,138 @@ les métadonnées dans un csv et en les injectant dans les archives des dossiers
 * Sample3plus: la construction d'un SIP ajoutant des dossiers à un archivage
 précédent fait avec Sample3
 
+La bibliothèque mailextract 
+===========================
+Cette bibliothèque permet de réaliser l'extraction ou l'édition de la structure de 
+boites de messageries de différentes sources:
+* serveur *IMAP* or *IMAPS* avec identifiant/mot de passe (et tous standards connus de JavaMail pop3, gmail...)
+* *répertoire Thunderbird* contenant des fichiers mbox et des hiérarchies en .sbd
+* fichier *Outlook pst*, *Microsoft msg*, *RFC-4155 mbox* et *RFC-822 eml*
+
+L'extraction génère une structure de répertoire et fichiers (format "sur disque") représentant une structure 
+d'Archive Unit au sens du SEDA (NF Z44-022) et directement utilisable par sedalib. Elle normalise aussi l'extraction, quelqu'en soit la source même pst, en eml (RFC 822). 
+Pour plus d'information voir le javadoc de la classe StoreExtractor.
+ 
+Elle utilise :
+* la bibliothèque JavaMail pour l'extraction de boites distantes (imap,imaps...) et dans les fichiers Thunderbird,
+* la bibliothèque java-libpst pour l'extraction de boites dans les fichiers Outlook (merci à Richard Johnson http://github.com/rjohnsondev),
+* la bibliothèque POI HSMF library pour l'extraction des messages .msg de Microsoft.
+
+Note: Pour l'instant elle ne permet pas d'extraire de messages S/MIME (chiffrés ou signés).
+
+l'application MailExtract
+=========================
+Cette application s'appuyant sur mailextractlib fourni une capacité en ligne de commande et une IHM d'extraction 
+de toutes sortes de messageries (pst, thunderbird, imap, msg, mbox...) sous forme d'arborescence disque conforme au SEDA et directement utilisables par sedalib.
+
+Execution
+---------
+
+    cd mailextract
+    java -jar target/mailextract-{VERSION}-shaded.jar
+
+Sous Windows, il est aussi possible de lancer l'exécutable: windows/MailExtract.exe
+
+Elle peut être lancée avec des arguments en ligne de commande (voir ci-dessous), ou sans option pour avoir directement l'interface graphique.
+Pour avoir toutes les possibilités d'options, il suffit d'utiliser l'argument --help ou -h.
+
+Pour information la syntaxe des arguments est:
+
+|Option|Description|
+|--------|----------|
+|*help*|aide|
+|*type TYPE*|type de conteneur local à extraire (thunderbird|pst|eml|mbox) ou protocole d'accès distant (imap|imaps|pop3...)|
+|*user USERNAME*|nom d'utilisateur de la boite (aussi utilisé pour générer le nom de l'extraction)|
+|*password PASSWORD*|mot de passe|
+|*server [HostName|IP](:port)*|serveur de messagerie [HostName|IP](:port)|
+|*container ONDISK*|localisation sur le disque du conteneur local à utiliser (répertoire Thunderbird, fichier pst, eml, mbox, msg...)|
+|*folder INMAIL*|répertoire particulier de la boite à partir duquel faire l'extraction ou l'édition de la structure|
+|*rootdir ONDISK*|répertoire de base sur le disque (par défaut répertoire courant de la console) pour l'extraction (extraction en root/username[-timestamp])|
+|*dropemptyfolders*|n'extrait pas les répertoires n'ayant aucun message en direct ou dans son arborescence|
+|*keeponlydeep*|garde les répertoires vides sauf ceux à la racine (il existe couramment des répertoires non utilisés à côté de INBOX)|
+|*verbatim LOGLEVEL*|niveau de log (OFF|GLOBAL|WARNING|FOLDER|MESSAGE_GROUP|MESSAGE|MESSAGE_DETAILS), valeur par défaut OFF.|
+|*nameslength NUMBER*|longueur limite des noms de répertoires et fichiers générés|
+|*setchar ENCODING*|jeu d'encodage de caratère par défaut, notamment utile pour l'extraction correct des pst, valeur par défaut jeu de caractère de l'OS.|
+|*extractlists*|génère les listes csv d'objets (messages, contacts, rendez-vous) le cas échéant|
+|*extractmessagetextfile*|extrait un fichier avec le texte du message|
+|*extractmessagetextmetadata*|inclus le texte du message dans les métadonnées|
+|*extractfiletextfile*|extrait un fichier avec le texte des fichiers attachés|
+|*extractfiletextmetadata*|inclus le texte du fichier attaché dans les métadonnées|
+|*model NUMBER*|modèle d'extraction sur disque 1 (generateurseda) ou 2 (sedalib), valeur par défaut 2|
+|*warning*|génère un avertissement quand il y a un problème d'extraction limité à un message en particulier (sinon cela est loggé au niveau FINE)|
+|*x*|fait l'extraction|
+|*l*|édite l'ensemble des répertoires de la messagerie (ne prend pas en compte les options -d et -k)|
+|*z*|édite l'ensemble des répertoires de la messagerie ainsi que le nombre et le poids des messages qu'ils contiennent (ne prend pas en compte les options -d et -k)|
+
+Si le niveau de log est autre chose que OFF l'opération, d'extraction ou d'édition, sera loggée sur la console et dans un fichier 
+(en rootdir/username.log).
+
+Selon le niveau choisi de log vous aurez: informations sur le process global (GLOBAL), avertissement sur 
+les problèmes d'extraction et les items abandonnés (WARNING), liste des répertoires traités (FOLDER), 
+décompte de messages traités (MESSAGE_GROUP), liste des messages traités (MESSAGE), 
+problèmes avec certaines méta-données (MESSAGE_DETAILS).
+
+A noter: Si aucune option -x, -l ou -z n'est mise l'interface graphique est lancée avec les éléments complétés.
+
+Les libellés long des options peut être réduit au premier caractère précédé d'un seul - (par exemple -h est équivalent à --help)
+
+**AVERTISSEMENT**: Editer la liste des répertoires avec le nombre et poids des messages est une opération potentiellement lourde sur un serveur distant car cela nécessite d'importer l'ensemble des messages.
+
+Interface graphique
+-------------------
+
+![mailextractIHM](mailextract/windows/mailextractIHM.png)
+
+
+L'application Resip
+====================
+
+Cette application permet toutes sortes de manipulations de structures d'archives que cela soit sous forme
+SIP, DIP ou hiérarchie sur disque. Elle a été créée pour "Réaliser et Editer des SIP" pour les recettes d'où RESIP.
+
+Execution
+---------
+
+    cd resip
+    java -jar target/resip-{VERSION}-shaded.jar
+
+Sous Windows, il est aussi possible de lancer l'exécutable: windows/Resip.exe
+
+Elle peut être lancée avec des arguments en ligne de commande (voir ci-dessous), ou sans option pour avoir directement l'interface graphique.
+Pour avoir toutes les possibilités d'options, il suffit d'utiliser l'argument --help ou -h.
+
+Pour information la syntaxe des arguments est:
+
+|Option|Description|
+|--------|----------|
+|*help*|aide|
+|*diskimport ONDISK*|importe une hiérarchie d'AU depuis une hiérarchie de répertoires et fichiers avec en argument le répertoire racine XXXX|
+|*exclude ONDISK*|exclu de l'import d'une hiérarchie les fichiers dont le nom sont conformes aux expressions régulières contenue sur chaque ligne du fichier|
+|*sipimport ONDISK*|importe une hiérarchie d'AU depuis un SIP SEDA avec en argument le nom du fichier|
+|*context ONDISK*|défini les informations globales utiles à la génération du SIP (MessageIdentifier...) dans le fichier indiqué|
+|*generatesip ONDISK*|génère un paquet SEDA SIP de la structure importée avec en argument le nom du fichier à générer|
+|*manifest ONDISK*|génère le manifest SEDA de la structure importée avec en argument le nom du fichier à générer|
+|*workdir ONDISK*|désigne le répertoire de travail pour les logs, les répertoires d'extraction temporaire|
+|*xcommand*|ne lance pas l'interface graphique|
+|*hierarchical*|génère les ArchiveUnits en mode hiérarchique dans le manifest SEDA|
+|*indented*|génère le manifest SEDA en XML indenté|
+|*verbatim*|niveau de log (OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)*|;
+
+Si le niveau de log est autre chose que OFF l'opération, d'extraction ou d'édition, sera loggée sur la console et dans un fichier 
+(en workdir/log.txt).
+
+Selon le niveau choisi de log vous aurez: informations sur le process global (GLOBAL), avertissement sur 
+les problèmes n'empêchant pas le process global (WARNING), liste des étapes effectuées (STEP), 
+décompte des unités d'archives et des objets traités (OBJECTS_GROUP), liste des unités d'archives 
+et des objets traités (OBJECTS), 
+problèmes de détails sur les objets (OBJECTS_WARNINGS).
+
+Interface graphique
+-------------------
+
+![resipIHM](resip/windows/resipIHM.png)
+
+
 L'utilitaire TestSipGenerator
 =============================
 Cet utilitaire en ligne de commande génère des SIP utilisés pour des tests
@@ -110,26 +243,10 @@ de code.
 
 Execution
 ---------
-Pour avoir les options de génération, il suffit d'utiliser l'argument 
---help ou -h.
 
-    cd ../testsipgenerator
+    cd testsipgenerator
     java -jar target/testsipgenerator-{VERSION}-shaded.jar -h
 
 Sous Windows, il est aussi possible de lancer l'exécutable: windows/TestSipGenerator.exe -h
-
-
-L'application Resip
-====================
-
-Cette application permet toutes sortes de manipulations de structures d'archives que cela soit sous forme
-SIP, DIP ou hiérarchie sur disque. Elle a été créée pour "Réaliser et Editer des SIP" pour les recettes d'où RESIP.
-
-Execution
----------
-
-    cd ../resip
-    java -jar target/resip-{VERSION}-shaded.jar
-
-Sous Windows, il est aussi possible de lancer l'exécutable: windows/Resip.exe
+Pour avoir toutes les possibilités d'options, il suffit d'utiliser l'argument --help ou -h.
 

@@ -1,0 +1,4 @@
+============================================================================
+Evolutions/Corrections -> 1.2
+
+- Evolution: création de l'utilitaire

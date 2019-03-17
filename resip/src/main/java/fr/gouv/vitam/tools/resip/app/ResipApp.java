@@ -159,7 +159,7 @@ public class ResipApp {
         options.addOption(sipimport);
 
         Option context = new Option("c", "context", true,
-                "défini les informations globales utiles à la génération du SIP (MessageIdentifier...)");
+                "défini les informations globales utiles à la génération du SIP (MessageIdentifier...) dans le fichier indiqué");
         options.addOption(context);
 
         Option generatesip = new Option("g", "generatesip", true,
@@ -188,7 +188,7 @@ public class ResipApp {
         options.addOption(indented);
 
         Option verbatim = new Option("v", "verbatim", true,
-                "niveau d'évènement à loguer (OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)");
+                "niveau de log (OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)");
         options.addOption(verbatim);
 
         return options;
