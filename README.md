@@ -205,7 +205,8 @@ Pour information la syntaxe des arguments est:
 |--------|----------|
 |*help*|aide|
 |*diskimport ONDISK*|importe une hiérarchie d'AU depuis une hiérarchie de répertoires et fichiers avec en argument le répertoire racine XXXX|
-|*exclude ONDISK*|exclu de l'import d'une hiérarchie les fichiers dont le nom sont conformes aux expressions régulières contenue sur chaque ligne du fichier|
+|*exclude ONDISK*|exclu de l'import par diskimport les fichiers dont le nom sont conformes aux expressions régulières contenue sur chaque ligne du fichier|
+|*listimport ONDISK*|importe une hiérarchie d'AU depuis un ensemble de répertoires et de fichiers dont la hiérarchie et les métadonnées sont décrits dans un csv|
 |*sipimport ONDISK*|importe une hiérarchie d'AU depuis un SIP SEDA avec en argument le nom du fichier|
 |*context ONDISK*|défini les informations globales utiles à la génération du SIP (MessageIdentifier...) dans le fichier indiqué|
 |*generatesip ONDISK*|génère un paquet SEDA SIP de la structure importée avec en argument le nom du fichier à générer|

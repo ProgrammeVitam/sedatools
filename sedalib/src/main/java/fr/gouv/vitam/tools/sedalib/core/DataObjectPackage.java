@@ -28,8 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import fr.gouv.vitam.tools.sedalib.metadata.Content;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
@@ -847,7 +847,7 @@ public class DataObjectPackage {
     /**
      * Export data object package, DataObjects part, of SEDA DataObjectPackage XML.
      *
-     * @param xmlWriter      the SEDAXMLStreamWriter generating the SEDA manifest
+     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA manifest
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws InterruptedException if export process is interrupted
      * @throws SEDALibException     if the XML can't be written
@@ -906,10 +906,10 @@ public class DataObjectPackage {
      * Export data object package, ArchiveUnits and global metadata part, of SEDA
      * ArchiveTransfer XML.
      *
-     * @param xmlWriter      the SEDAXMLStreamWriter generating the SEDA manifest
-     * @param imbricateFlag  indicates if the manifest ArchiveUnits are to be
-     *                       exported in imbricate mode (true) or in flat mode
-     *                       (false)
+     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA manifest
+     * @param imbricateFlag         indicates if the manifest ArchiveUnits are to be
+     *                              exported in imbricate mode (true) or in flat mode
+     *                              (false)
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
@@ -949,10 +949,10 @@ public class DataObjectPackage {
     /**
      * Export the whole structure in XML SEDA Manifest.
      *
-     * @param xmlWriter      the SEDAXMLStreamWriter generating the SEDA manifest
-     * @param imbricateFlag  indicates if the manifest ArchiveUnits are to be
-     *                       exported in imbricate mode (true) or in flat mode
-     *                       (false)
+     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA manifest
+     * @param imbricateFlag         indicates if the manifest ArchiveUnits are to be
+     *                              exported in imbricate mode (true) or in flat mode
+     *                              (false)
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
@@ -971,11 +971,11 @@ public class DataObjectPackage {
     /**
      * Import data object package, DataObjects part, of SEDA ArchiveTransfer XML.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
-     * @param archiveTransfer the ArchiveTransfer to be completed
-     * @param rootDir         the directory where the BinaryDataObject files are
-     *                        exported
-     * @param sedaLibProgressLogger  the progress logger or null if no progress log expected
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param archiveTransfer       the ArchiveTransfer to be completed
+     * @param rootDir               the directory where the BinaryDataObject files are
+     *                              exported
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected
      * @throws InterruptedException if export process is interrupted
@@ -1033,9 +1033,9 @@ public class DataObjectPackage {
      * Import data object package, ArchiveUnits and global metadata part, of SEDA
      * ArchiveTransfer XML.
      *
-     * @param xmlReader         the SEDAXMLEventReader reading the SEDA manifest
-     * @param dataObjectPackage the ArchiveTransfer to be completed
-     * @param sedaLibProgressLogger    the progress logger or null if no progress log expected
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param dataObjectPackage     the ArchiveTransfer to be completed
+     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected
      * @throws InterruptedException if export process is interrupted
@@ -1081,9 +1081,9 @@ public class DataObjectPackage {
     /**
      * Import the whole structure in XML SEDA Manifest.
      *
-     * @param xmlReader      the SEDAXMLEventReader reading the SEDA manifest
-     * @param rootDir        the directory where the BinaryDataObject files are
-     *                       exported
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param rootDir               the directory where the BinaryDataObject files are
+     *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read ArchiveTransfer
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
@@ -1116,7 +1116,7 @@ public class DataObjectPackage {
                 dataObjectPackage
                         .addRootAu(dataObjectPackage.getArchiveUnitById(pair.getValue().inDataPackageObjectId));
 
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.progressLog(SEDALibProgressLogger.STEP, "Manifest importé");
 
         return dataObjectPackage;

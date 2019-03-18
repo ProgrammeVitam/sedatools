@@ -27,19 +27,15 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
-import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.xml.stream.XMLStreamException;
-
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+
+import javax.xml.stream.XMLStreamException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Class RuleType.
@@ -48,19 +44,29 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
  */
 public abstract class RuleType extends NamedTypeMetadata {
 
-    /** The rules. */
+    /**
+     * The rules.
+     */
     private List<String> rules;
 
-    /** The start dates. */
+    /**
+     * The start dates.
+     */
     private List<LocalDate> startDates;
 
-    /** The prevent inheritance. */
+    /**
+     * The prevent inheritance.
+     */
     private Boolean preventInheritance;
 
-    /** The ref non rule ids. */
+    /**
+     * The ref non rule ids.
+     */
     private List<String> refNonRuleIds;
 
-    /** The final action. */
+    /**
+     * The final action.
+     */
     private String finalAction;
 
     /**

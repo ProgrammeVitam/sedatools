@@ -27,10 +27,23 @@
  */
 package fr.gouv.vitam.tools.resip.app;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.gouv.vitam.tools.resip.parameters.*;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
+import fr.gouv.vitam.tools.resip.utils.ResipLogger;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
+import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
+import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import org.apache.commons.cli.*;
+
+import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -38,34 +51,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
-import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
-import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.resip.parameters.CreationContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
-import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
-import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 /**
  * ResipApp class for launching the command or the graphic application.
@@ -94,7 +79,11 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
  * </tr>
  * <tr>
  * <td>--exclude</td>
- * <td>exclude from the disk hierarchy files with names compliant with one of the regexp in a file, argument is file name</td>
+ * <td>exclude from the import by diskimport the files with names compliant with one of the regexp in a file, argument is file name</td>
+ * </tr>
+ * <tr>
+ * <td>--listimport</td>
+ * <td>import an ArchiveUnit hierarchy from a set of disk directories and files, the hierarchy and metadata defined in a csv file</td>
  * </tr>
  * <tr>
  * <td>--sipimport</td>
@@ -150,9 +139,14 @@ public class ResipApp {
                         "argument le répertoire racine");
         options.addOption(diskimport);
 
-        Option exclude = new Option("e", "exclude", true, "exclu de l'import d'une " +
-                "hiérarchie les fichiers dont le nom sont conformes aux expressions régulières contenue sur chaque ligne du fichier");
+        Option exclude = new Option("e", "exclude", true, "de l'import par diskimport les fichiers" +
+                " les fichiers dont le nom sont conformes aux expressions régulières contenue sur chaque ligne du fichier");
         options.addOption(exclude);
+
+        Option listimport = new Option("l", "listimport", true,
+                "importe une hiérarchie d'AU depuis un ensemble de répertoires et de fichiers dont " +
+                        "la hiérarchie et les métadonnées sont décrits dans un csv");
+        options.addOption(listimport);
 
         Option sipimport = new Option("s", "sipimport", true,
                 "importe une hiérarchie d'AU depuis un SIP SEDA avec en argument le nom du fichier");
@@ -250,12 +244,13 @@ public class ResipApp {
             System.exit(1);
         }
 
-        if (cmd.hasOption("sipimport") && cmd.hasOption("diskimport")) {
-            System.err.println("Resip: Ne peux pas importer selon les deux modes en même temps");
+        if ((cmd.hasOption("sipimport") ? 1 : 0) + (cmd.hasOption("diskimport") ? 1 : 0) + (cmd.hasOption("listimport") ? 1 : 0) > 1) {
+            System.err.println("Resip: Ne peux pas importer selon deux modes en même temps");
             System.exit(1);
         }
 
-        if (cmd.hasOption("generatesip") && !cmd.hasOption("diskimport") && !cmd.hasOption("sipimport")) {
+        if (cmd.hasOption("generatesip") && !cmd.hasOption("diskimport") &&
+                !cmd.hasOption("listimport") && !cmd.hasOption("sipimport")) {
             System.err.println(
                     "Resip: Ne peux pas générer un SIP sans avoir importé une structure archiveUnit préalable");
             System.exit(1);
@@ -329,6 +324,8 @@ public class ResipApp {
             creationContext = new DiskImportContext(Arrays.asList(excludePatterns), cmd.getOptionValue("diskimport"), workdirString);
         } else if (cmd.hasOption("sipimport"))
             creationContext = new SIPImportContext(cmd.getOptionValue("sipimport"), workdirString);
+        else if (cmd.hasOption("listimport"))
+            creationContext = new CSVMetadataImportContext(cmd.getOptionValue("listimport"), workdirString);
         else
             creationContext = null;
 

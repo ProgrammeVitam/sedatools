@@ -46,11 +46,15 @@ import java.util.List;
  */
 public class ArchiveUnitRefList extends DataObjectPackageElement {
 
-    /** The ArchiveUnit list. */
+    /**
+     * The ArchiveUnit list.
+     */
     @JsonIgnore
     private List<ArchiveUnit> archiveUnitList;
 
-    /** The inDataPackageObjectId list. */
+    /**
+     * The inDataPackageObjectId list.
+     */
     private List<String> inDataObjectPackageIdList;
 
     /**

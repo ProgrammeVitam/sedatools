@@ -17,5 +17,9 @@ public class App {
 
 // Build a SIP from a disk hierarchy with more affair files organized in a csv and to add to existing archived files group
         Sample3plus.run();
+
+// Build a SIP from a disk hierarchy for a part and from affair files with hierarchy and metadata defined in a csv
+// which is automatically interpreted
+        Sample4.run();
     }
 }

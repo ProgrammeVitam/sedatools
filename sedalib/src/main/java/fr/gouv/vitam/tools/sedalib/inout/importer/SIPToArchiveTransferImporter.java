@@ -28,17 +28,18 @@
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
-import org.apache.tools.zip.ZipEntry;
-import org.apache.tools.zip.ZipFile;
 
 import javax.xml.stream.XMLStreamException;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -46,35 +47,44 @@ import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
-import java.util.Enumeration;
 
 /**
  * The Class SIPToArchiveTransferImporter.
  * <p>
  * Class for SEDA Submission Information Packet (SIP) import in
- * ArchiveTransfer object. 
+ * ArchiveTransfer object.
  */
 public class SIPToArchiveTransferImporter {
 
-    /** The zip file. */
+    /**
+     * The zip file.
+     */
     private String zipFile;
 
-    /** The un compress directory. */
+    /**
+     * The un compress directory.
+     */
     private String unCompressDirectory;
 
-    /** The archive transfer. */
+    /**
+     * The archive transfer.
+     */
     private ArchiveTransfer archiveTransfer;
 
-    /** The end. */
+    /**
+     * The end.
+     */
     Instant start, end;
 
-    /** The progress logger. */
+    /**
+     * The progress logger.
+     */
     private SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
      * Unzip file.
      *
-     * @param zipFile input zip file
+     * @param zipFile      input zip file
      * @param outputFolder the output folder
      * @return the manifest file name
      * @throws SEDALibException     zip uncompress problem or lack of manifest file
@@ -84,7 +94,7 @@ public class SIPToArchiveTransferImporter {
     public String unZipSip(String zipFile, String outputFolder) throws SEDALibException, InterruptedException {
         String manifest = null;
         int counter = 0;
-        try (FileInputStream fis=new FileInputStream(zipFile);
+        try (FileInputStream fis = new FileInputStream(zipFile);
              ZipArchiveInputStream zais = new ZipArchiveInputStream(fis)) {
             // create output directory is not exists
             File folder = new File(outputFolder);
@@ -94,7 +104,7 @@ public class SIPToArchiveTransferImporter {
             }
             // get the zipped file list entry
             ArchiveEntry ze;
-            while ((ze=zais.getNextEntry())!=null) {
+            while ((ze = zais.getNextEntry()) != null) {
                 String fileName = ze.getName().trim();
                 // change any case ConTenT to lowercase content on import as in fromSEDA in
                 // BinaryDataObject
@@ -124,7 +134,7 @@ public class SIPToArchiveTransferImporter {
                     FileOutputStream fos = new FileOutputStream(newPath.toFile());
                     IOUtils.copy(zais, fos);
                     counter++;
-                    if (sedaLibProgressLogger !=null)
+                    if (sedaLibProgressLogger != null)
                         sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
                                 "extraits");
                     fos.close();
@@ -134,7 +144,7 @@ public class SIPToArchiveTransferImporter {
             throw new SEDALibException("Impossible de décompresser le fichier [" + zipFile + "] dans le répertoire ["
                     + outputFolder + "]\n->" + ex.getMessage());
         }
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
                     "extraits");
         if (manifest == null)
@@ -145,8 +155,8 @@ public class SIPToArchiveTransferImporter {
     /**
      * Instantiates a new SEDA SIP importer.
      *
-     * @param zipFile the zip file
-     * @param unCompressDirectory the directory where the zipfile is uncompressed
+     * @param zipFile               the zip file
+     * @param unCompressDirectory   the directory where the zipfile is uncompressed
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if file or directory doesn't exist
      */
@@ -183,9 +193,9 @@ public class SIPToArchiveTransferImporter {
 
         Date d = new Date();
         start = Instant.now();
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, "Début de l'import du SIP [" + zipFile + "] date="
-                + DateFormat.getDateTimeInstance().format(d));
+                    + DateFormat.getDateTimeInstance().format(d));
 
         manifest = unZipSip(zipFile, unCompressDirectory);
 
@@ -198,7 +208,7 @@ public class SIPToArchiveTransferImporter {
         }
 
         end = Instant.now();
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, getSummary());
     }
 

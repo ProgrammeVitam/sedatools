@@ -1,5 +1,5 @@
 /*
- * 
+ *
  */
 package fr.gouv.vitam.tools.sedalib.utils;
 
@@ -12,15 +12,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  */
 public class SEDALibJsonProcessingException extends JsonProcessingException {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = 961528185663683074L;
+    /**
+     * The Constant serialVersionUID.
+     */
+    private static final long serialVersionUID = 961528185663683074L;
 
-	/**
-	 * Instantiates a new seda lib json processing exception.
-	 *
-	 * @param msg the msg
-	 */
-	public SEDALibJsonProcessingException(String msg) {
-		super(msg);
-	}
+    /**
+     * Instantiates a new seda lib json processing exception.
+     *
+     * @param msg the msg
+     */
+    public SEDALibJsonProcessingException(String msg) {
+        super(msg);
+    }
 }

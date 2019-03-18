@@ -33,7 +33,6 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
-import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -81,7 +80,7 @@ public class DateTimeType extends NamedTypeMetadata {
      * Instantiates a new string.
      *
      * @param elementName the XML element name
-     * @param dateValue       the date (no time) value
+     * @param dateValue   the date (no time) value
      */
     public DateTimeType(String elementName, LocalDate dateValue) {
         super(elementName);
@@ -161,14 +160,14 @@ public class DateTimeType extends NamedTypeMetadata {
     }
 
     // Getters and setters
-    
+
     /**
      * Get the value
      *
      * @return the value
      */
     public LocalDateTime getValue() {
-         return value;
+        return value;
     }
 
     /**

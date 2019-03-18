@@ -44,10 +44,14 @@ import java.nio.file.Paths;
  */
 public class DataObjectPackageIdElement extends DataObjectPackageElement {
 
-    /** The id in DataObjectPackage. */
+    /**
+     * The id in DataObjectPackage.
+     */
     protected String inDataPackageObjectId;
 
-    /** The on disk path. */
+    /**
+     * The on disk path.
+     */
     protected Path onDiskPath;
 
     /**

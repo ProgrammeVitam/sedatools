@@ -27,13 +27,13 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * The Class Content.
