@@ -27,7 +27,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.GenericXMLBlockType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
@@ -93,7 +94,7 @@ public class Signature extends ComplexListType {
         metadataOrderedList.add("Validator");
         metadataOrderedList.add("Masterdata");
         metadataOrderedList.add("ReferencedObject");
-     }
+    }
 
     /**
      * Init metadata map.

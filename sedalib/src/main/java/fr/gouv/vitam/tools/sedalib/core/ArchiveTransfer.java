@@ -28,8 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
@@ -49,10 +49,14 @@ import javax.xml.stream.events.XMLEvent;
 public class ArchiveTransfer {
 
     // SEDA elements
-    /** The archive transfer global metadata. */
+    /**
+     * The archive transfer global metadata.
+     */
     private GlobalMetadata globalMetadata;
 
-    /** The inner DataObjects and ArchiveUnit structure. */
+    /**
+     * The inner DataObjects and ArchiveUnit structure.
+     */
     private DataObjectPackage dataObjectPackage;
 
     // Constructors
@@ -167,10 +171,10 @@ public class ArchiveTransfer {
     /**
      * Export the whole structure in XML SEDA Manifest.
      *
-     * @param xmlWriter      the SEDAXMLStreamWriter generating the SEDA manifest
-     * @param imbricateFlag  indicates if the manifest ArchiveUnits are to be
-     *                       exported in imbricate mode (true) or in flat mode
-     *                       (false)
+     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA manifest
+     * @param imbricateFlag         indicates if the manifest ArchiveUnits are to be
+     *                              exported in imbricate mode (true) or in flat mode
+     *                              (false)
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
@@ -190,7 +194,7 @@ public class ArchiveTransfer {
     /**
      * Import start document of SEDA ArchiveTransfer XML.
      *
-     * @param xmlReader      the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
@@ -205,7 +209,7 @@ public class ArchiveTransfer {
             if (!xmlReader.nextBlockIfNamed("ArchiveTransfer")) {
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
             }
-            if (sedaLibProgressLogger !=null)
+            if (sedaLibProgressLogger != null)
                 sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Début de l'import du document ArchiveTransfer");
 
         } catch (XMLStreamException e) {
@@ -216,16 +220,16 @@ public class ArchiveTransfer {
     /**
      * Import header, with global metadata, of SEDA ArchiveTransfer XML.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
-     * @param archiveTransfer the ArchiveTransfer to be completed
-     * @param sedaLibProgressLogger  the progress logger
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param archiveTransfer       the ArchiveTransfer to be completed
+     * @param sedaLibProgressLogger the progress logger
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
 
     private static void importHeader(SEDAXMLEventReader xmlReader, ArchiveTransfer archiveTransfer,
                                      SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
         try {
-            if (sedaLibProgressLogger !=null)
+            if (sedaLibProgressLogger != null)
                 sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Début de l'import de l'entête");
             archiveTransfer.globalMetadata.comment = xmlReader.nextValueIfNamed("Comment");
             archiveTransfer.globalMetadata.date = xmlReader.nextMandatoryValue("Date");
@@ -235,7 +239,7 @@ public class ArchiveTransfer {
             archiveTransfer.globalMetadata.archivalAgreement = xmlReader.nextValueIfNamed("ArchivalAgreement");
             archiveTransfer.globalMetadata
                     .codeListVersionsXmlData = xmlReader.nextMandatoryBlockAsString("CodeListVersions");
-            if (sedaLibProgressLogger !=null)
+            if (sedaLibProgressLogger != null)
                 sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Entête importé");
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML d'entête du manifest\n->" + e.getMessage());
@@ -298,9 +302,9 @@ public class ArchiveTransfer {
     /**
      * Import the whole structure from XML SEDA Manifest.
      *
-     * @param xmlReader      the SEDAXMLEventReader reading the SEDA manifest
-     * @param rootDir        the directory where the BinaryDataObject files are
-     *                       exported
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param rootDir               the directory where the BinaryDataObject files are
+     *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read ArchiveTransfer
      * @throws SEDALibException     if the XML can't be read or is not in expected form

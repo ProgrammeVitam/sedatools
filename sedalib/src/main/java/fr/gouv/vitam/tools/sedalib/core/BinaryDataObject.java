@@ -31,8 +31,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.FormatIdentification;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
@@ -399,9 +399,9 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
                 result += "\nPath: null";
             else
                 result += "\nPath: " + undefined(onDiskPath.toString());
-            if (metadataXmlData!=null)
+            if (metadataXmlData != null)
                 result += "\nMetadata:\n" + metadataXmlData;
-            if (otherMetadataXmlData!=null)
+            if (otherMetadataXmlData != null)
                 result += "\nOtherMetadata:\n" + otherMetadataXmlData;
         } catch (Exception e) {
             return "Can't give elements-" + super.toString();

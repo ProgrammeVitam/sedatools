@@ -27,6 +27,12 @@
  */
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
+import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+
+import javax.xml.stream.XMLStreamException;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -34,26 +40,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import javax.xml.stream.XMLStreamException;
-
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 /**
  * The Class DiskToDataObjectPackageImporter.
@@ -335,7 +324,7 @@ public class DiskToDataObjectPackageImporter {
      * @throws SEDALibException any import exception
      */
     private String processManagementMetadata(Path path) throws SEDALibException {
-        String xmlData=null;
+        String xmlData = null;
 
         try (FileInputStream bais = new FileInputStream(path.toFile());
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
@@ -370,7 +359,7 @@ public class DiskToDataObjectPackageImporter {
         else if (Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS))
             au = processDirectory(path);
         else
-            au = processFile(path,true);
+            au = processFile(path, true);
 
         return au;
     }
@@ -381,9 +370,9 @@ public class DiskToDataObjectPackageImporter {
      * @param path the path to test
      * @return true if is in Root Paths
      */
-    private boolean isInRootPaths(Path path){
-        boolean isInRootPath=false;
-        path=path.toAbsolutePath();
+    private boolean isInRootPaths(Path path) {
+        boolean isInRootPath = false;
+        path = path.toAbsolutePath();
         for (Path rootPath : onDiskRootPaths) {
             if (path.startsWith(rootPath.toAbsolutePath())) {
                 isInRootPath = true;
@@ -567,7 +556,7 @@ public class DiskToDataObjectPackageImporter {
     private ArchiveUnit processDirectory(Path path) throws SEDALibException, InterruptedException {
         Path curPath;
         Iterator<Path> pi;
-        ArchiveUnit au,childAu;
+        ArchiveUnit au, childAu;
         DataObjectGroup implicitDog = null;
         boolean auMetadataDefined = false;
         String fileName;
@@ -618,8 +607,8 @@ public class DiskToDataObjectPackageImporter {
                         modelVersion |= 2;
                         au.addDataObjectById(processObjectGroup(lastAnalyzedLinkTarget).getInDataObjectPackageId());
                     } else {
-                        childAu=processPath(lastAnalyzedLinkTarget);
-                        if (childAu==null)
+                        childAu = processPath(lastAnalyzedLinkTarget);
+                        if (childAu == null)
                             continue;
                         au.addChildArchiveUnit(childAu);
                     }
@@ -678,7 +667,7 @@ public class DiskToDataObjectPackageImporter {
                     }
                     // archive file except if conform to ignore patterns
                     else {
-                        au.addChildArchiveUnit(processFile(curPath,false));
+                        au.addChildArchiveUnit(processFile(curPath, false));
                     }
                 }
 
@@ -817,7 +806,7 @@ public class DiskToDataObjectPackageImporter {
      */
     public void doImport() throws SEDALibException, InterruptedException {
         Iterator<Path> pi;
-        Path nextPath=null;
+        Path nextPath = null;
         ArchiveUnit au;
         start = Instant.now();
 
@@ -830,7 +819,7 @@ public class DiskToDataObjectPackageImporter {
                     continue;
                 }
                 au = processPath(nextPath);
-                if (au!=null)
+                if (au != null)
                     dataObjectPackage.addRootAu(au);
             }
             if (sedaLibProgressLogger != null)

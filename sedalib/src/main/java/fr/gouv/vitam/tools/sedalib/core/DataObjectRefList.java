@@ -46,11 +46,15 @@ import java.util.List;
  */
 public class DataObjectRefList extends DataObjectPackageElement {
 
-    /** The DataObject list. */
+    /**
+     * The DataObject list.
+     */
     @JsonIgnore
     private List<DataObject> dataObjectList;
 
-    /** The inDataPackageObjectId list. */
+    /**
+     * The inDataPackageObjectId list.
+     */
     private ArrayList<String> inDataObjectPackageIdList;
 
     /**

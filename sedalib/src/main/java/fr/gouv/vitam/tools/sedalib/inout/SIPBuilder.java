@@ -27,15 +27,12 @@
  */
 package fr.gouv.vitam.tools.sedalib.inout;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
+import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.Content;
@@ -44,6 +41,10 @@ import fr.gouv.vitam.tools.sedalib.metadata.ManagementMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 /**
  * The Class SIPBuilder.
  * <p>
@@ -51,7 +52,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
  * <p>
  * For code samples, consult <b>sedalib-samples</b> module
  */
-public class SIPBuilder implements AutoCloseable  {
+public class SIPBuilder implements AutoCloseable {
 
     /**
      * The progress logger..
@@ -79,8 +80,7 @@ public class SIPBuilder implements AutoCloseable  {
      * @param sipPathString         the sip path string
      * @param sedaLibProgressLogger the progress logger
      */
-    public SIPBuilder(String sipPathString, SEDALibProgressLogger sedaLibProgressLogger)
-    {
+    public SIPBuilder(String sipPathString, SEDALibProgressLogger sedaLibProgressLogger) {
         GlobalMetadata gm = new GlobalMetadata();
         ManagementMetadata mm = new ManagementMetadata();
 
@@ -115,7 +115,7 @@ public class SIPBuilder implements AutoCloseable  {
         this.archiveTransfer.setGlobalMetadata(gm);
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.managementMetadata = mm;
-  }
+    }
 
     /**
      * Gets the ArchiveTransfer in construction.
@@ -183,12 +183,12 @@ public class SIPBuilder implements AutoCloseable  {
     public ArchiveUnit createRootArchiveUnit(String archiveUnitID) throws SEDALibException {
         ArchiveUnit au;
         au = new ArchiveUnit();
-        au.setInDataObjectPackageId("SIPBuilder" + archiveUnitID);
+        au.setInDataObjectPackageId(archiveUnitID);
         au.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
         archiveTransfer.getDataObjectPackage().addArchiveUnit(au);
         archiveTransfer.getDataObjectPackage().addRootAu(au);
-        if (sedaLibProgressLogger !=null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,"Creation d'une ArchiveUnit racine [" + archiveUnitID + "]");
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS, "Creation d'une ArchiveUnit racine [" + archiveUnitID + "]");
         return au;
     }
 
@@ -219,7 +219,8 @@ public class SIPBuilder implements AutoCloseable  {
     }
 
     /**
-     * Creates a root archive unit in the SIP which is in fact an existing archive unit in the archiving system. This archive unit is defined by its uniq systemId.
+     * Creates a root archive unit in the SIP which is in fact an existing archive unit in the archiving system.
+     * This archive unit is defined by its uniq systemId.
      *
      * @param archiveUnitID the archive unit ID
      * @param systemId      the system id
@@ -277,11 +278,11 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException if no identified ArchiveUnit
      */
     public ArchiveUnit addSubArchiveUnit(String archiveUnitID, String childArchiveUnitID) throws SEDALibException {
-        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (parentAU == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         ArchiveUnit childAU = archiveTransfer.getDataObjectPackage()
-                .getArchiveUnitById("SIPBuilder" + childArchiveUnitID);
+                .getArchiveUnitById(childArchiveUnitID);
         if (childAU == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         parentAU.addChildArchiveUnit(childAU);
@@ -301,13 +302,13 @@ public class SIPBuilder implements AutoCloseable  {
      */
     public ArchiveUnit addNewSubArchiveUnit(String archiveUnitID, String childArchiveUnitID, String descriptionLevel,
                                             String title, String description) throws SEDALibException {
-        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (parentAU == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
 
         ArchiveUnit au;
         au = new ArchiveUnit();
-        au.setInDataObjectPackageId("SIPBuilder" + childArchiveUnitID);
+        au.setInDataObjectPackageId(childArchiveUnitID);
         archiveTransfer.getDataObjectPackage().addArchiveUnit(au);
         Content c = new Content();
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
@@ -315,7 +316,7 @@ public class SIPBuilder implements AutoCloseable  {
         c.addNewMetadata("Description", description);
         au.setContent(c);
         parentAU.addChildArchiveUnit(au);
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,
                     "Creation d'une sous ArchiveUnit [" + childArchiveUnitID + "] de [" + archiveUnitID + "]");
         return au;
@@ -329,17 +330,17 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException if no identified ArchiveUnit
      */
     public void addArchiveUnitSubTree(String archiveUnitID, String fromArchiveUnitID) throws SEDALibException {
-        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (parentAU == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         ArchiveUnit fromAU = archiveTransfer.getDataObjectPackage()
-                .getArchiveUnitById("SIPBuilder" + fromArchiveUnitID);
+                .getArchiveUnitById(fromArchiveUnitID);
         if (fromAU == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         for (ArchiveUnit au : fromAU.getChildrenAuList().getArchiveUnitList())
             parentAU.addChildArchiveUnit(au);
-        if (sedaLibProgressLogger !=null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,"Ajout d'un sous-arbre à [" + archiveUnitID + "]");
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS, "Ajout d'un sous-arbre à [" + archiveUnitID + "]");
     }
 
     /**
@@ -356,14 +357,14 @@ public class SIPBuilder implements AutoCloseable  {
      */
     public ArchiveUnit addFileSubArchiveUnit(String archiveUnitID, String onDiskPath, String childArchiveUnitID,
                                              String descriptionLevel, String title, String description) throws SEDALibException {
-        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (parentAU == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         ArchiveUnit au;
         BinaryDataObject bdo;
 
         au = new ArchiveUnit();
-        au.setInDataObjectPackageId("SIPBuilder" + childArchiveUnitID);
+        au.setInDataObjectPackageId(childArchiveUnitID);
         archiveTransfer.getDataObjectPackage().addArchiveUnit(au);
         Content c = new Content();
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
@@ -376,7 +377,7 @@ public class SIPBuilder implements AutoCloseable  {
                 "BinaryMaster_1");
         bdo.extractTechnicalElements(sedaLibProgressLogger);
         au.addDataObjectById(bdo.getInDataObjectPackageId());
-        if (sedaLibProgressLogger !=null)
+        if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,
                     "Creation d'une sous ArchiveUnit [" + childArchiveUnitID + "] de [" + archiveUnitID + "]");
         return au;
@@ -392,7 +393,7 @@ public class SIPBuilder implements AutoCloseable  {
      */
     public void addDiskSubTree(String archiveUnitID, String onDiskPathString, String... ignorePatterString)
             throws SEDALibException {
-        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (parentAU == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         DiskToDataObjectPackageImporter di = new DiskToDataObjectPackageImporter(onDiskPathString, sedaLibProgressLogger);
@@ -405,8 +406,34 @@ public class SIPBuilder implements AutoCloseable  {
         }
 
         parentAU.getDataObjectPackage().moveContentFromDataObjectPackage(di.getDataObjectPackage(), parentAU);
-        if (sedaLibProgressLogger !=null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,"Ajout d'un sous-arbre à [" + archiveUnitID + "]");
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS, "Ajout d'un sous-arbre à [" + archiveUnitID + "]");
+    }
+
+    /**
+     * Adds the tree representation of a set of files with hierarchy and metadata defined in a csv file to the given archive unit.
+     *
+     * @param archiveUnitID    the archive unit ID
+     * @param encoding         the encoding
+     * @param separator        the separator
+     * @param onDiskPathString the on disk path string
+     * @throws SEDALibException if no identified ArchiveUnit
+     */
+    public void addCSVMetadataSubTree(String archiveUnitID, String encoding, char separator, String onDiskPathString)
+            throws SEDALibException {
+        ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
+        if (parentAU == null)
+            throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
+        CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(onDiskPathString, encoding, separator, sedaLibProgressLogger);
+
+        try {
+            cmi.doImport();
+        } catch (InterruptedException ignored) {
+        }
+
+        parentAU.getDataObjectPackage().moveContentFromDataObjectPackage(cmi.getDataObjectPackage(), parentAU);
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS, "Ajout d'un sous-arbre à [" + archiveUnitID + "]");
     }
 
     /**
@@ -418,7 +445,7 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException if no identified ArchiveUnit or file acces problem
      */
     public void addFileToArchiveUnit(String archiveUnitID, String onDiskPathString, String usageVersion) throws SEDALibException {
-        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (au == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
 
@@ -431,9 +458,7 @@ public class SIPBuilder implements AutoCloseable  {
 
     /**
      * Gets the value of a simple descriptive metadata (String, Text or DateTime type), in archive unit Content,
-     * determined only
-     * by a
-     * metadata name in String format or null if not found
+     * determined only by a metadata name in String format or null if not found
      *
      * @param archiveUnitID the ArchiveUnit id
      * @param metadataName  the metadata name
@@ -448,6 +473,25 @@ public class SIPBuilder implements AutoCloseable  {
     }
 
     /**
+     * Gets an ArchiveUnit identified by a simple descriptive metadata (String, Text or DateTime type) being equal
+     * to a given value. It return a compliant ArchiveUnit (if many exists it's a random one among the compliant), or null.
+     *
+     * @param metadataName  the metadata name
+     * @param metadataValue the metadata value
+     * @return the ArchiveUnit or null
+     * @throws SEDALibException if no identified ArchiveUnit
+     */
+    public ArchiveUnit findArchiveUnitBySimpleDescriptiveMetadata(String metadataName,String metadataValue) throws SEDALibException {
+
+        for (ArchiveUnit au:archiveTransfer.getDataObjectPackage().getAuInDataObjectPackageIdMap().values()) {
+            String auValue=au.getContent().getSimpleMetadata(metadataName);
+            if ((auValue!=null) && (auValue.equals(metadataValue)))
+                return au;
+        }
+        return null;
+    }
+
+    /**
      * Gets the ArchiveUnit identified by an id.
      *
      * @param archiveUnitID the ArchiveUnit id
@@ -455,7 +499,7 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException if no identified ArchiveUnit
      */
     public ArchiveUnit findArchiveUnit(String archiveUnitID) throws SEDALibException {
-        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (au == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         return au;
@@ -469,12 +513,12 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException if no identified ArchiveUnit, XML read exception or inappropriate xml in                          rawArchiveUnitProfileData
      */
     public ArchiveUnitProfile getArchiveUnitProfile(String archiveUnitID) throws SEDALibException {
-        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (au == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
-        ArchiveUnitProfile aup=au.getArchiveUnitProfile();
-        if (aup==null) {
-            aup=new ArchiveUnitProfile();
+        ArchiveUnitProfile aup = au.getArchiveUnitProfile();
+        if (aup == null) {
+            aup = new ArchiveUnitProfile();
             au.setArchiveUnitProfile(aup);
         }
         return aup;
@@ -488,7 +532,7 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException if no identified ArchiveUnit
      */
     public void setArchiveUnitProfile(String archiveUnitID, ArchiveUnitProfile archiveUnitProfile) throws SEDALibException {
-        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (au == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         au.setArchiveUnitProfile(archiveUnitProfile);
@@ -502,12 +546,12 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException if no identified ArchiveUnit, XML read exception or inappropriate xml in rawContentData
      */
     public Content getContent(String archiveUnitID) throws SEDALibException {
-        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (au == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
-        Content c=au.getContent();
-        if (c==null) {
-            c=new Content();
+        Content c = au.getContent();
+        if (c == null) {
+            c = new Content();
             au.setContent(c);
         }
         return c;
@@ -521,7 +565,7 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException the seda lib exception
      */
     public void setContent(String archiveUnitID, Content content) throws SEDALibException {
-        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (au == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         au.setContent(content);
@@ -535,12 +579,12 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException if no identified ArchiveUnit, XML read exception or inappropriate xml in rawData
      */
     public Management getManagement(String archiveUnitID) throws SEDALibException {
-        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (au == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
-        Management m=au.getManagement();
-        if (m==null){
-            m=new Management();
+        Management m = au.getManagement();
+        if (m == null) {
+            m = new Management();
             au.setManagement(m);
         }
         return m;
@@ -554,7 +598,7 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException if no identified ArchiveUnit, XML read exception or inappropriate xml in                          rawManagementData
      */
     public void setManagement(String archiveUnitID, Management management) throws SEDALibException {
-        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById("SIPBuilder" + archiveUnitID);
+        ArchiveUnit au = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (au == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
         au.setManagement(management);
@@ -625,8 +669,8 @@ public class SIPBuilder implements AutoCloseable  {
      * @throws SEDALibException the SEDA lib exception
      */
     public void generateSIP(boolean hierarchicalArchiveUnitsFlag, boolean indentedFlag) throws SEDALibException {
-        if (sedaLibProgressLogger !=null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,"Lancement de la génération du SIP");
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, "Lancement de la génération du SIP");
         try {
             archiveTransfer.getDataObjectPackage().vitamNormalize();
             verifyContext();
@@ -640,9 +684,9 @@ public class SIPBuilder implements AutoCloseable  {
         } catch (InterruptedException e) {
             // impossible
         }
-        if (sedaLibProgressLogger !=null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,"Fichier sauvegardé (" + SEDALibProgressLogger.readableFileSize(new File(sipPathString).length())
-                + ")");
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, "Fichier sauvegardé (" + SEDALibProgressLogger.readableFileSize(new File(sipPathString).length())
+                    + ")");
     }
 
     /*

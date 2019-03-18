@@ -48,10 +48,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.inout.importer.CSVTreeToDataObjectPackageImporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.DIPToArchiveDeliveryRequestReplyImporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.io.FileUtils;
 
@@ -176,6 +173,14 @@ public class ImportThread extends SwingWorker<Work, String> {
                 work.setDataObjectPackage(cti.getDataObjectPackage());
                 work.setExportContext(new ExportContext(Prefs.getInstance().getPrefsContextNode()));
                 summary = cti.getSummary();
+            } else if (work.getCreationContext() instanceof CSVMetadataImportContext) {
+                inOutDialog.extProgressTextArea.setText("Import depuis un csv de métadonnées en " + work.getCreationContext().getOnDiskInput() + "\n");
+                CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+                        work.getCreationContext().getOnDiskInput(), "Cp1252", ';', spl);
+                cmi.doImport();
+                work.setDataObjectPackage(cmi.getDataObjectPackage());
+                work.setExportContext(new ExportContext(Prefs.getInstance().getPrefsContextNode()));
+                summary = cmi.getSummary();
             } else if (work.getCreationContext() instanceof MailImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un conteneur courriel en " + work.getCreationContext().getOnDiskInput() + "\n");
                 MailExtractProgressLogger mepl = null;

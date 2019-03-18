@@ -31,8 +31,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.Management;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
@@ -377,8 +377,8 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
     /**
      * Export the ArchiveUnit in XML expected form for the SEDA Manifest.
      *
-     * @param xmlWriter      the SEDAXMLStreamWriter generating the SEDA manifest
-     * @param imbricateFlag  indicates if the manifest ArchiveUnits are to be                       exported in imbricate mode (true) or in flat mode                       (false)
+     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA manifest
+     * @param imbricateFlag         indicates if the manifest ArchiveUnits are to be                       exported in imbricate mode (true) or in flat mode                       (false)
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
@@ -460,9 +460,9 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      * Import the ArchiveUnit in XML expected form from the SEDA Manifest in the
      * ArchiveTransfer and return it's id in ArchiveTransfer.
      *
-     * @param xmlReader         the SEDAXMLEventReader reading the SEDA manifest
-     * @param dataObjectPackage the DataObjectPackage to be completed
-     * @param sedaLibProgressLogger    the progress logger
+     * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
+     * @param dataObjectPackage     the DataObjectPackage to be completed
+     * @param sedaLibProgressLogger the progress logger
      * @return the inDataPackageObjectId of the read ArchiveUnit, or null if not an ArchiveUnit
      * @throws SEDALibException     if the XML can't be read
      * @throws InterruptedException if export process is interrupted

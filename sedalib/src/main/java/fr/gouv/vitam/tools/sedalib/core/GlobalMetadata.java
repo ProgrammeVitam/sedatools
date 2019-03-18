@@ -49,25 +49,37 @@ public class GlobalMetadata {
     // SEDA elements
     // Before DataObjectPackage
 
-    /** The comment. */
+    /**
+     * The comment.
+     */
     public String comment;
 
-    /** The date. */
+    /**
+     * The date.
+     */
     public String date;
 
-    /** The now flag. */
+    /**
+     * The now flag.
+     */
     public boolean nowFlag;
 
-    /** The message identifier. */
+    /**
+     * The message identifier.
+     */
     public String messageIdentifier;
 
     // Signature
     // - signature of xml content not supported
 
-    /** The archival agreement. */
+    /**
+     * The archival agreement.
+     */
     public String archivalAgreement;
 
-    /** The code list versions xml data. */
+    /**
+     * The code list versions xml data.
+     */
     public String codeListVersionsXmlData;
 
     // After DataObjectPackage
@@ -75,19 +87,29 @@ public class GlobalMetadata {
     // RelatedTransferReference
     // - reference to other transfers not supported
 
-    /** The transfer request reply identifier. */
+    /**
+     * The transfer request reply identifier.
+     */
     public String transferRequestReplyIdentifier;
 
-    /** The archival agency identifier. */
+    /**
+     * The archival agency identifier.
+     */
     public String archivalAgencyIdentifier;
 
-    /** The archival agency organization descriptive metadata. */
+    /**
+     * The archival agency organization descriptive metadata.
+     */
     public String archivalAgencyOrganizationDescriptiveMetadataXmlData;
 
-    /** The transferring agency identifier. */
+    /**
+     * The transferring agency identifier.
+     */
     public String transferringAgencyIdentifier;
 
-    /** The transferring agency organization descriptive metadata. */
+    /**
+     * The transferring agency organization descriptive metadata.
+     */
     public String transferringAgencyOrganizationDescriptiveMetadataXmlData;
 
     // Constructors
@@ -116,7 +138,6 @@ public class GlobalMetadata {
     /**
      * Export the elements that can be edited. This is in XML expected form for the
      * SEDA Manifest but in String.
-     *
      *
      * @return the XML elements in String format
      * @throws SEDALibException if the XML can't be written
@@ -155,7 +176,7 @@ public class GlobalMetadata {
      * Manifest in the ArchiveTransfer. Utility methods for fromSedaXml and
      * fromSedaXmlFragments
      *
-     * @param xmlReader        the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
      *                          respected
      */

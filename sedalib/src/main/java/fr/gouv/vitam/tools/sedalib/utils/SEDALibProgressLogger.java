@@ -27,11 +27,11 @@
  */
 package fr.gouv.vitam.tools.sedalib.utils;
 
-import java.text.DecimalFormat;
-
 import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
+
+import java.text.DecimalFormat;
 
 /**
  * The Class SEDALibProgressLogger.
