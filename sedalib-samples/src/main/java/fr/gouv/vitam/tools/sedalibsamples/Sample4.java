@@ -19,7 +19,7 @@ public class Sample4 {
 
             sb.addNewSubArchiveUnit("Racine", "Contexte", "RecordGrp", "Contexte",
                     "Ensemble des fichiers donnant le contexte de la procédure Cerfa-1244771");
-            sb.addDiskSubTree("Contexte", "sedalib-samples/src/main/resources/Procédure/Contexte");
+            sb.addDiskSubTree("Contexte", "sedalib-samples/src/main/resources/Procedure/Contexte");
             sb.addCSVMetadataSubTree("Racine", "Cp1252", ';', "sedalib-samples/src/main/resources/MetadataCSV.csv");
 
             // keep one file for history in Contexte part and without AppraisalRuleOld

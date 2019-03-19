@@ -30,7 +30,9 @@ public class CSVMetadataFormatter {
          * @param name   the name
          * @param parent the parent
          */
-        protected MetadataTag(String name, MetadataTag parent) {
+        protected MetadataTag(String name, MetadataTag parent) throws SEDALibException {
+            if (!name.matches("[a-zA-Z0-9_-]+"))
+                throw new SEDALibException("Caractère interdit dans le tag XML ["+name+"]");
             this.name = name;
             this.value = null;
             this.attr = null;
@@ -125,7 +127,7 @@ public class CSVMetadataFormatter {
                     "et ParentID.");
     }
 
-    private MetadataTag getInSubTagsMap(MetadataTag tag, String name, int rank) {
+    private MetadataTag getInSubTagsMap(MetadataTag tag, String name, int rank) throws SEDALibException {
         if (tag.subTags != null) {
             if (tag.subTags.get(rank) != null)
                 for (MetadataTag subTag : tag.subTags.get(rank))
@@ -144,7 +146,7 @@ public class CSVMetadataFormatter {
         return subTag;
     }
 
-    private MetadataTag getTag(MetadataTag tag, List<String> splittedMetadataName) {
+    private MetadataTag getTag(MetadataTag tag, List<String> splittedMetadataName) throws SEDALibException {
         if (splittedMetadataName.size() == 0)
             return tag;
         String name = splittedMetadataName.get(0);

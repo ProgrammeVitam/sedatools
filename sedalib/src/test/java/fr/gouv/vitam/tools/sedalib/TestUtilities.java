@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedalib;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -8,6 +9,7 @@ import java.nio.file.Paths;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import mslinks.ShellLink;
 import mslinks.ShellLinkException;
+import org.apache.commons.io.FileUtils;
 
 public class TestUtilities {
 
@@ -43,6 +45,21 @@ public class TestUtilities {
 			else
 				throw new SEDALibException(
 						"Link [" + link + "] creation impossible\n->" + e.getMessage());
+		}
+	}
+
+	public static void createOrEraseAll(String dirOrFile) {
+		try {
+			Files.createDirectories(Paths.get(dirOrFile));
+		} catch (Exception ignored) {
+		}
+		try {
+			Files.delete(Paths.get(dirOrFile));
+		} catch (Exception ignored) {
+		}
+		try {
+			FileUtils.deleteDirectory(new File(dirOrFile));
+		} catch (Exception ignored) {
 		}
 	}
 

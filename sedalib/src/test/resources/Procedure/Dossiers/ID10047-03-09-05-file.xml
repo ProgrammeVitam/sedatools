@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10047</OriginatingSystemId>
+  <RegisteredDate>2105-09-03T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235534</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-09-18T02:00:00</EventDateTime>
+    <Outcome>KO</Outcome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-44C98F5797C4</Identifier>
+    <FirstName>Emmanuel</FirstName>
+    <BirthName>LAZOTE</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Verte à cliquet</CommonName>
+    <ScientificName>Viridi Rana Strepiti</ScientificName>
+  </Frog>
+</File>

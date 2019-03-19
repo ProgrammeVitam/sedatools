@@ -72,6 +72,22 @@ public class Signer extends ComplexListType {
     }
 
     /**
+     * Instantiates a new signer type with fullname and signing time.
+     *
+     * @param elementName the element name
+     * @param fullName   the full name
+     * @param signingTime the signing time
+     */
+    public Signer(String elementName, String fullName, LocalDateTime signingTime) {
+        super(elementName);
+        try {
+            addNewMetadata("FullName", fullName);
+            addNewMetadata("SigningTime", signingTime);
+        } catch (SEDALibException ignored) {
+        }
+    }
+
+    /**
      * Instantiates a new signer type with firstname, birthname and signing time.
      *
      * @param elementName the element name
@@ -118,17 +134,21 @@ public class Signer extends ComplexListType {
      */
     public Signer(String elementName, Object[] args) throws SEDALibException {
         super(elementName);
-        if ((args.length == 3) && (args[0] instanceof String) && (args[1] instanceof String)
-                && (args[2] instanceof LocalDateTime)) {
-            addNewMetadata("FirstName", (String) args[0]);
-            addNewMetadata("BirthName", (String) args[1]);
-            addNewMetadata("SigningTime", (String) args[2]);
+        if ((args.length == 2) && (args[0] instanceof String)
+                && (args[1] instanceof LocalDateTime)) {
+            addNewMetadata("FullName", (String) args[0]);
+            addNewMetadata("SigningTime", (LocalDateTime) args[1]);
+        } else if ((args.length == 3) && (args[0] instanceof String) && (args[1] instanceof String)
+                    && (args[2] instanceof LocalDateTime)) {
+                addNewMetadata("FirstName", (String) args[0]);
+                addNewMetadata("BirthName", (String) args[1]);
+                addNewMetadata("SigningTime", (LocalDateTime) args[2]);
         } else if ((args.length == 4) && (args[0] instanceof String) && (args[1] instanceof String)
                 && (args[2] instanceof String) && (args[3] instanceof LocalDateTime)) {
             addNewMetadata("FirstName", (String) args[0]);
             addNewMetadata("BirthName", (String) args[1]);
             addNewMetadata("Identifier", (String) args[2]);
-            addNewMetadata("SigningTime", (String) args[3]);
+            addNewMetadata("SigningTime", (LocalDateTime) args[3]);
         } else
             throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
     }

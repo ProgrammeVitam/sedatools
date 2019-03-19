@@ -55,24 +55,23 @@ class CSVMetadataToDataObjectPackageImporterTest {
 		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
 	}
 
-//	@Test
-//	void importKOCSV() throws SEDALibException, InterruptedException, JsonProcessingException {
-//		// Given
-//		ObjectMapper mapper = new ObjectMapper();
-//		SimpleModule module = new SimpleModule();
-//		module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
-//		module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
-//		mapper.registerModule(module);
-//		mapper.enable(SerializationFeature.INDENT_OUTPUT);
-//
-//		CSVTreeToDataObjectPackageImporter cti;
-//
-//		// When loaded with the csv KO test file with a line out of all defined series
-//		cti= new CSVTreeToDataObjectPackageImporter(
-//				"src/test/resources/PacketSamples/TestKO1.csv", "Cp1252",';',null);
-//
-//		// Test message identify the wrong line
-//		assertThatThrownBy(() -> cti.doImport())
-//				.hasMessageContaining("2b"); // for StringType;
-//	}
+	@Test
+	void importTagKOCSV() throws SEDALibException, InterruptedException, JsonProcessingException {
+		// Given
+		ObjectMapper mapper = new ObjectMapper();
+		SimpleModule module = new SimpleModule();
+		module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+		module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+		mapper.registerModule(module);
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		CSVMetadataToDataObjectPackageImporter cmi;
+
+		// When loaded with the csv OK test file
+		cmi= new CSVMetadataToDataObjectPackageImporter(
+				"src/test/resources/PacketSamples/MetadataTestTagKO.csv", "Cp1252",';',null);
+
+		assertThatThrownBy(() -> cmi.doImport())
+				.hasMessageContaining("Caractère interdit"); // for StringType;
+	}
 }
