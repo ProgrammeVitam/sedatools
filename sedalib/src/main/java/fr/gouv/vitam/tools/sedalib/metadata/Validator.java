@@ -98,7 +98,7 @@ public class Validator extends ComplexListType {
         super(elementName);
         if ((args.length == 2) && (args[0] instanceof String) && (args[1] instanceof LocalDateTime)) {
             addNewMetadata("Corpname", (String) args[0]);
-            addNewMetadata("ValidationTime", (String) args[1]);
+            addNewMetadata("ValidationTime", args[1]);
         } else
             throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
     }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10097</OriginatingSystemId>
+  <RegisteredDate>2106-11-18T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-236682</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2106-11-30T12:00:00</EventDateTime>
+    <Outcome>OK</Outcome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-BE3AE7E100CD</Identifier>
+    <FirstName>Emmanuel</FirstName>
+    <BirthName>BORDE</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Bleu lumineuse</CommonName>
+    <ScientificName>Hyacinthum Lux Rana</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Verte à détente</CommonName>
+    <ScientificName>Viridi Rana Elasticis</ScientificName>
+  </Frog>
+</File>

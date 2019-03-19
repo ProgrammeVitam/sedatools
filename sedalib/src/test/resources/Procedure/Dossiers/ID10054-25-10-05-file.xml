@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10054</OriginatingSystemId>
+  <RegisteredDate>2105-10-25T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235677</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-11-14T13:00:00</EventDateTime>
+    <Outcome>OK</Outcome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-44C98F5797C4</Identifier>
+    <FirstName>Emmanuel</FirstName>
+    <BirthName>LAZOTE</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Verte à détente</CommonName>
+    <ScientificName>Viridi Rana Elasticis</ScientificName>
+  </Frog>
+</File>

@@ -1,11 +1,13 @@
 package fr.gouv.vitam.tools.sedalib.core.json;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibJsonProcessingException;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -52,4 +54,25 @@ class ArchiveTransferSerDeserializerTest implements UseTestFiles {
 
 	}
 
+	@Test
+	void TestDeserializationKO()
+			throws SEDALibException, IOException, InterruptedException {
+
+		// create jackson object mapper
+		ObjectMapper mapper = new ObjectMapper();
+		SimpleModule module = new SimpleModule();
+		module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+		module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+		mapper.registerModule(module);
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		// assert archiveTransfer serialization/deserialization
+		assertThatThrownBy(() -> mapper.readValue("{Toto}", ArchiveTransfer.class))
+				.hasMessageContaining("Unexpected character");
+	}
+
+	@Test
+	void TestSEDALibJsonProcessingException(){
+		assertThatThrownBy(()->{throw new SEDALibJsonProcessingException("Test it");}).hasMessage("Test it");
+	}
 }

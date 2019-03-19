@@ -46,6 +46,7 @@ import java.util.jar.JarFile;
 import java.util.prefs.BackingStoreException;
 import java.util.zip.ZipEntry;
 import javax.swing.*;
+import javax.swing.tree.TreePath;
 
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.*;
@@ -53,7 +54,9 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -203,6 +206,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "Search");
         treatMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Trier l'arbre de visualisation");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "SortTreeViewer");
+        treatMenu.add(menuItem);
+
         menuItem = new JMenuItem("Régénérer des ID continus");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "RegenerateContinuousIds");
@@ -305,6 +313,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "RegenerateContinuousIds":
                         doRegenerateContinuousIds();
+                        break;
+                    case "SortTreeViewer":
+                        doSortTreeViewer();
                         break;
                     // Context Menu
                     case "SeeImportContext":
@@ -550,12 +561,63 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         searchDialog.setVisible(true);
     }
 
-    // MenuItem Regenerate Continuous ids
+    // MenuItem Regenerate continuous ids
+
 
     void doRegenerateContinuousIds() {
         if (currentWork != null) {
             currentWork.getDataObjectPackage().regenerateContinuousIds();
             mainWindow.allTreeChanged();
+        }
+    }
+
+    // MenuItem Sort tree viewer
+
+    class SortByTitle implements Comparator<ArchiveUnit>
+    {
+        DataObjectPackageTreeModel treeModel;
+
+        public int compare(ArchiveUnit a, ArchiveUnit b)
+        {
+            String titleA=treeModel.findTreeNode(a).getTitle();
+            String titleB=treeModel.findTreeNode(b).getTitle();
+            return titleA.compareTo(titleB);
+        }
+
+        SortByTitle(DataObjectPackageTreeModel treeModel){
+            this.treeModel=treeModel;
+        }
+    }
+
+    Map<TreePath,Boolean> getExpansionState(DataObjectPackageTreeModel treeModel){
+        Map<TreePath,Boolean> expansionState=new HashMap<TreePath,Boolean>();
+        for ( int i = 0; i < mainWindow.getDataObjectPackageTreePaneViewer().getRowCount(); i++ ){
+            TreePath treePath=mainWindow.getDataObjectPackageTreePaneViewer().getPathForRow(i);
+            expansionState.put(treePath,mainWindow.getDataObjectPackageTreePaneViewer().isExpanded(i));
+        }
+        return expansionState;
+    }
+
+    void setExpansionState(Map<TreePath,Boolean> expansionState){
+        for (Map.Entry<TreePath,Boolean> e:expansionState.entrySet()){
+            if (e.getValue())
+                mainWindow.getDataObjectPackageTreePaneViewer().expandPath(e.getKey());
+        }
+    }
+
+    void doSortTreeViewer() {
+        if (currentWork != null) {
+            DataObjectPackageTreeModel treeModel=(DataObjectPackageTreeModel)mainWindow.getDataObjectPackageTreePaneViewer().getModel();
+            Map<TreePath,Boolean> expansionState=getExpansionState(treeModel);
+            SortByTitle sortByTitle=new SortByTitle(treeModel);
+            for (Map.Entry<String, ArchiveUnit> pair :
+                    currentWork.getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet()) {
+                Collections.sort(pair.getValue().getChildrenAuList().getArchiveUnitList(),sortByTitle);
+            }
+            Collections.sort(currentWork.getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList(),
+                    sortByTitle);
+            treeModel.reload();
+            setExpansionState(expansionState);
         }
     }
 

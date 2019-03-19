@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10076</OriginatingSystemId>
+  <RegisteredDate>2106-05-20T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-236190</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2106-06-05T11:00:00</EventDateTime>
+    <Outcome>OK</Outcome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-96C2D3210481</Identifier>
+    <FirstName>Pierre</FirstName>
+    <BirthName>BOURG</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+</File>

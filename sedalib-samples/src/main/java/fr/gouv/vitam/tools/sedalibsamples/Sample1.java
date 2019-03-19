@@ -14,7 +14,7 @@ public class Sample1 {
             sb.createRootArchiveUnit("Racine", "Subseries", "Procédure Cerfa-1244771",
                     "Procédure Cerfa-1244771 - DEMANDE D'AUTORISATION DE DETENTION DE GRENOUILLES CYBORG "
                             + "(Arrêté du 30 février 2104 fixant les règles générales de fonctionnement des installations d’élevage d’agrément d’animaux cyborg)");
-            sb.addDiskSubTree("Racine", "sedalib-samples/src/main/resources/Procédure");
+            sb.addDiskSubTree("Racine", "sedalib-samples/src/main/resources/Procedure");
             sb.generateSIP();
         }
     }

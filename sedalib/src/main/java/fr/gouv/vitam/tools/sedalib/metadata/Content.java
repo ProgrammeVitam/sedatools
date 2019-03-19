@@ -118,7 +118,7 @@ public class Content extends ComplexListType {
         metadataOrderedList.add("Transmitter");
         metadataOrderedList.add("Sender");
         metadataOrderedList.add("Source");
-        metadataOrderedList.add("RelatedObjectReference");
+        // RelatedObjectReference not implemented in Vitam
         metadataOrderedList.add("CreatedDate");
         metadataOrderedList.add("TransactedDate");
         metadataOrderedList.add("AcquiredDate");
@@ -150,7 +150,7 @@ public class Content extends ComplexListType {
                 new ComplexListType.MetadataKind(StringType.class, true));
         metadataMap.put("Description", new ComplexListType.MetadataKind(TextType.class, true));
         metadataMap.put("CustodialHistory",
-                new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
+                new ComplexListType.MetadataKind(CustodialHistory.class, false));
         metadataMap.put("Type", new ComplexListType.MetadataKind(StringType.class, false));
         metadataMap.put("DocumentType", new ComplexListType.MetadataKind(StringType.class, false));
         metadataMap.put("Language", new ComplexListType.MetadataKind(StringType.class, true));
@@ -158,12 +158,12 @@ public class Content extends ComplexListType {
         metadataMap.put("Status", new ComplexListType.MetadataKind(StringType.class, false));
         metadataMap.put("Version", new ComplexListType.MetadataKind(StringType.class, false));
         metadataMap.put("Tag", new ComplexListType.MetadataKind(StringType.class, true));
-        metadataMap.put("Keyword", new ComplexListType.MetadataKind(GenericXMLBlockType.class, true));
-        metadataMap.put("Coverage", new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
+        metadataMap.put("Keyword", new ComplexListType.MetadataKind(Keyword.class, true));
+        metadataMap.put("Coverage", new ComplexListType.MetadataKind(Coverage.class, false));
         metadataMap.put("OriginatingAgency",
-                new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
+                new ComplexListType.MetadataKind(AgencyType.class, false));
         metadataMap.put("SubmissionAgency",
-                new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
+                new ComplexListType.MetadataKind(AgencyType.class, false));
         // can't implement AgentAbstract (abstract in middle of th list...)
         metadataMap.put("AuthorizedAgent", new ComplexListType.MetadataKind(AgentType.class, true));
         metadataMap.put("Writer", new ComplexListType.MetadataKind(AgentType.class, true));
@@ -172,8 +172,7 @@ public class Content extends ComplexListType {
         metadataMap.put("Transmitter", new ComplexListType.MetadataKind(AgentType.class, true));
         metadataMap.put("Sender", new ComplexListType.MetadataKind(AgentType.class, true));
         metadataMap.put("Source", new ComplexListType.MetadataKind(StringType.class, false));
-        metadataMap.put("RelatedObjectReference",
-                new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
+        // RelatedObjectReference not implemented in Vitam
         metadataMap.put("CreatedDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
         metadataMap.put("TransactedDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
         metadataMap.put("AcquiredDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
@@ -184,7 +183,7 @@ public class Content extends ComplexListType {
         metadataMap.put("EndDate", new ComplexListType.MetadataKind(DateTimeType.class, false));
         metadataMap.put("Event", new ComplexListType.MetadataKind(Event.class, true));
         metadataMap.put("Signature", new ComplexListType.MetadataKind(Signature.class, true));
-        metadataMap.put("Gps", new ComplexListType.MetadataKind(GenericXMLBlockType.class, false));
+        metadataMap.put("Gps", new ComplexListType.MetadataKind(Gps.class, false));
     }
 
     // Getters and setters

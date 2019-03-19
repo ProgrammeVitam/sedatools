@@ -53,7 +53,8 @@ public class AddMetadataItem {
         typeExtraInformationMap = new HashMap<String, String>();
 
         typeCreatorMap.put("DateTimeType", AddMetadataItem::dateTimeTypeSample);
-        typeExtraInformationMap.put("DateTimeType", "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z] ou YYYY-MM-DD'T'HH:MM:SS[Timezone ou Z]");
+        typeExtraInformationMap.put("DateTimeType", "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z]" +
+                " ou YYYY-MM-DD'T'HH:MM:SS[Timezone ou Z]");
 
         typeCreatorMap.put("GenericXMLBlockType", AddMetadataItem::genericXMLBlockTypeSample);
         typeExtraInformationMap.put("GenericXMLBlockType", "Bloc XML de structure non connue par ReSIP");
@@ -61,14 +62,38 @@ public class AddMetadataItem {
         typeCreatorMap.put("AgentType", AddMetadataItem::agentTypeSample);
         typeExtraInformationMap.put("AgentType", "Metadonnée de type agent");
 
+        typeCreatorMap.put("AgencyType", AddMetadataItem::agencyTypeSample);
+        typeExtraInformationMap.put("AgencyType", "Metadonnée de type agence");
+
         typeCreatorMap.put("StringType", AddMetadataItem::stringTypeSample);
         typeExtraInformationMap.put("StringType", "Metadonnée de type chaîne de caractères");
+
+        typeCreatorMap.put("CodeKeywordType", AddMetadataItem::codeKeywordTypeSample);
+        typeExtraInformationMap.put("CodeKeywordType", "Metadonnée de type code de mot-clef, fait partie des valeurs: " +
+                "corpname, famname, geogname, name, occupation, persname, subject, genreform, function");
+
+        typeCreatorMap.put("IntegerType", AddMetadataItem::integerTypeSample);
+        typeExtraInformationMap.put("IntegerType", "Metadonnée de type entier long");
 
         typeCreatorMap.put("TextType", AddMetadataItem::textTypeSample);
         typeExtraInformationMap.put("TextType", "Metadonnée de type chaîne de caractères avec un attribut de langue");
 
         typeCreatorMap.put("ArchiveUnitProfile", AddMetadataItem::archiveUnitProfileSample);
         typeExtraInformationMap.put("ArchiveUnitProfile", "Identifiant du profil d'unité archivistique");
+
+        typeCreatorMap.put("Coverage", AddMetadataItem::coverageSample);
+        typeExtraInformationMap.put("Coverage", "Métadonnées de couverture spatiale, temporelle ou juridictionnelle");
+
+        typeCreatorMap.put("CustodialHistory", AddMetadataItem::custodialHistorySample);
+        typeExtraInformationMap.put("CustodialHistory", "Métadonnées indiquant les changements successifs de propriété, " +
+                "de responsabilité et de conservation avant leur entrée dans le lieu de conservation");
+
+        typeCreatorMap.put("Gps", AddMetadataItem::gpsSample);
+        typeExtraInformationMap.put("Gps", "Métadonnées de coordonnées gps complétées ou vérifiées par un utilisateur");
+
+        typeCreatorMap.put("Keyword", AddMetadataItem::keywordSample);
+        typeExtraInformationMap.put("Keyword", "Métadonnées de mots-clef avec contexte inspiré du SEDA 1.0. KeywordType " +
+                "doit faire partie des valeurs: corpname, famname, geogname, name, occupation, persname, subject, genreform, function");
 
         typeCreatorMap.put("Signer", AddMetadataItem::signerSample);
         typeExtraInformationMap.put("Signer", "Métadonnées d'un signataire de la transaction ou de l'objet");
@@ -150,6 +175,30 @@ public class AddMetadataItem {
         return result;
     }
 
+    static Coverage coverageSample(String elementName) {
+        Coverage result = new Coverage();
+        constructComplexListType(result);
+        return result;
+    }
+
+    static CustodialHistory custodialHistorySample(String elementName) {
+        CustodialHistory result = new CustodialHistory();
+        constructComplexListType(result);
+        return result;
+    }
+
+    static Gps gpsSample(String elementName) {
+        Gps result = new Gps();
+        constructComplexListType(result);
+        return result;
+    }
+
+    static Keyword keywordSample(String elementName) {
+        Keyword result = new Keyword();
+        constructComplexListType(result);
+        return result;
+    }
+
     static Signer signerSample(String elementName) {
         Signer result = new Signer();
         constructComplexListType(result);
@@ -168,8 +217,28 @@ public class AddMetadataItem {
         return result;
     }
 
+    static AgencyType agencyTypeSample(String elementName) {
+        AgencyType result = new AgencyType(elementName);
+        constructComplexListType(result);
+        return result;
+    }
+
+    static CodeKeywordType codeKeywordTypeSample(String elementName) {
+        CodeKeywordType ckt=null;
+        try {
+            ckt=new CodeKeywordType(elementName, "subject");
+        }
+        catch(SEDALibException ignored){
+        }
+        return ckt;
+    }
+
     static StringType stringTypeSample(String elementName) {
         return new StringType(elementName, "Text");
+    }
+
+    static IntegerType integerTypeSample(String elementName) {
+        return new IntegerType(elementName, 123);
     }
 
     static TextType textTypeSample(String elementName) {

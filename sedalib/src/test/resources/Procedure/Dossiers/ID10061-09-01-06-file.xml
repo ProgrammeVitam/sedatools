@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10061</OriginatingSystemId>
+  <RegisteredDate>2106-01-09T23:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235841</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2106-01-21T18:00:00</EventDateTime>
+    <Outcome>KO</Outcome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-3182D6204A41</Identifier>
+    <FirstName>Marion</FirstName>
+    <BirthName>ENVERS</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Verte à cliquet</CommonName>
+    <ScientificName>Viridi Rana Strepiti</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+</File>

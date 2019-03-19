@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10037</OriginatingSystemId>
+  <RegisteredDate>2105-05-30T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-235305</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2105-06-15T10:00:00</EventDateTime>
+    <Outcome>OK</Outcome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-39EFB02FA82F</Identifier>
+    <FirstName>Pierre</FirstName>
+    <BirthName>BORDE</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Bleu lumineuse</CommonName>
+    <ScientificName>Hyacinthum Lux Rana</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+</File>

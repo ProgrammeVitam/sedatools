@@ -41,14 +41,14 @@ public class Sample3 {
 
             sb.addNewSubArchiveUnit("Racine", "Contexte", "RecordGrp", "Contexte",
                     "Ensemble des fichiers donnant le contexte de la procédure Cerfa-1244771");
-            sb.addDiskSubTree("Contexte", "sedalib-samples/src/main/resources/Procédure/Contexte");
+            sb.addDiskSubTree("Contexte", "sedalib-samples/src/main/resources/Procedure/Contexte");
             sb.addNewSubArchiveUnit("Racine", "Dossiers", "RecordGrp", "Dossiers",
                     "Ensemble des dossiers archivés de la procédure Cerfa-1244771");
             sb.addNewContentMetadataInArchiveUnit("Dossiers", "FilePlanPosition", "Dossiers-Cerfa-1244771");
 
             // iterate through csv
-            Path procDir = Paths.get("sedalib-samples/src/main/resources/Procédure/Dossiers");
-            Scanner scanner = new Scanner(new File("sedalib-samples/src/main/resources/Procédure.csv"));
+            Path procDir = Paths.get("sedalib-samples/src/main/resources/Procedure/Dossiers");
+            Scanner scanner = new Scanner(new File("sedalib-samples/src/main/resources/Procedure.csv"));
             String procId = null;
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();

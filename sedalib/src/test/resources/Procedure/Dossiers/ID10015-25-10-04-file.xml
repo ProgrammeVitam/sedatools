@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10015</OriginatingSystemId>
+  <RegisteredDate>2104-10-25T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-234788</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2104-11-06T02:00:00</EventDateTime>
+    <Outcome>OK</Outcome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-0ADC02F8E14D</Identifier>
+    <FirstName>Edouard</FirstName>
+    <BirthName>LEVASSEUR</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Bleu lumineuse</CommonName>
+    <ScientificName>Hyacinthum Lux Rana</ScientificName>
+  </Frog>
+</File>

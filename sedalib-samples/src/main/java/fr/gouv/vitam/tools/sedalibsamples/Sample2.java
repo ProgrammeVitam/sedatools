@@ -38,12 +38,12 @@ public class Sample2 {
 
             sb.addNewSubArchiveUnit("Racine", "Contexte", "RecordGrp", "Contexte",
                     "Ensemble des fichiers donnant le contexte de la procédure Cerfa-1244771");
-            sb.addDiskSubTree("Contexte", "sedalib-samples/src/main/resources/Procédure/Contexte");
+            sb.addDiskSubTree("Contexte", "sedalib-samples/src/main/resources/Procedure/Contexte");
             sb.addNewSubArchiveUnit("Racine", "Dossiers", "RecordGrp", "Dossiers",
                     "Ensemble des dossiers archivés de la procédure Cerfa-1244771");
 
             // find proc IDs
-            Path procDir = Paths.get("sedalib-samples/src/main/resources/Procédure/Dossiers");
+            Path procDir = Paths.get("sedalib-samples/src/main/resources/Procedure/Dossiers");
             Iterator<Path> pi;
             List<String> procIdList = new ArrayList<String>();
             try (Stream<Path> sp = Files.list(procDir)) {

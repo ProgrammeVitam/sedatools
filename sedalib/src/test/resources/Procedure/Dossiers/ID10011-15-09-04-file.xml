@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<File>
+  <OriginatingSystemId>Cerfa-1244771-ID10011</OriginatingSystemId>
+  <RegisteredDate>2104-09-15T00:00:00</RegisteredDate>
+  <Event>
+    <EventIdentifier>AUT-234702</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2104-10-03T18:00:00</EventDateTime>
+    <Outcome>OK</Outcome>
+  </Event>
+  <Requirer>
+    <Identifier>REF-BE3F5CD85105</Identifier>
+    <FirstName>Marion</FirstName>
+    <BirthName>CHEVAL</BirthName>
+  </Requirer>
+  <Frog>
+    <CommonName>Jaune gluante</CommonName>
+    <ScientificName>Lutea Rana Spissa</ScientificName>
+  </Frog>
+</File>
