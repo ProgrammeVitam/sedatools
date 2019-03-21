@@ -25,10 +25,11 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata;
+package fr.gouv.vitam.tools.sedalib.metadata.data;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonSetter;
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -133,38 +134,35 @@ public class FileInfo extends SEDAMetadata {
     }
 
     /**
-     * Import the FileInfo in XML expected form for the SEDA Manifest.
+     * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read FileInfo
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
+     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @return true, if it finds something convenient, false if not
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
-    public static FileInfo fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        FileInfo fi = null;
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         String tmp;
         try {
             if (xmlReader.nextBlockIfNamed("FileInfo")) {
-                fi = new FileInfo();
-                fi.filename = xmlReader.nextMandatoryValue("Filename");
-                fi.creatingApplicationName = xmlReader.nextValueIfNamed("CreatingApplicationName");
-                fi.creatingApplicationVersion = xmlReader.nextValueIfNamed("CreatingApplicationVersion");
+                filename = xmlReader.nextMandatoryValue("Filename");
+                creatingApplicationName = xmlReader.nextValueIfNamed("CreatingApplicationName");
+                creatingApplicationVersion = xmlReader.nextValueIfNamed("CreatingApplicationVersion");
                 tmp = xmlReader.nextValueIfNamed("DateCreatedByApplication");
                 if (tmp != null)
-                    fi.dateCreatedByApplication = xmlReader.getDateTimeFromString(tmp);
-                fi.creatingOs = xmlReader.nextValueIfNamed("CreatingOs");
-                fi.creatingOsVersion = xmlReader.nextValueIfNamed("CreatingOsVersion");
+                    dateCreatedByApplication = xmlReader.getDateTimeFromString(tmp);
+                creatingOs = xmlReader.nextValueIfNamed("CreatingOs");
+                creatingOsVersion = xmlReader.nextValueIfNamed("CreatingOsVersion");
                 tmp = xmlReader.nextValueIfNamed("LastModified");
                 if (tmp != null) {
                     Calendar cal = DatatypeConverter.parseDateTime(tmp);
-                    fi.lastModified = FileTime.fromMillis(cal.toInstant().toEpochMilli());
+                    lastModified = FileTime.fromMillis(cal.toInstant().toEpochMilli());
                 }
                 xmlReader.endBlockNamed("FileInfo");
-            }
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément FileInfo\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type FileInfo\n->" + e.getMessage());
         }
-        return fi;
+        return true;
     }
 
     // Getters and setters

@@ -25,70 +25,55 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * The Class TextType.
+ * The Class KeywordType.
  * <p>
- * For abstract String formatted with optional language SEDA metadata
+ * For abstract String formatted SEDA metadata
  */
-public class TextType extends NamedTypeMetadata {
+public class KeywordType extends NamedTypeMetadata {
 
     /**
-     * The value.
+     * Enum restricted values.
      */
+    static final List<String> enumValues= Arrays.asList("corpname","famname","geogname","name",
+            "occupation","persname","subject","genreform","function");
+
+    /** The value. */
     private String value;
 
     /**
-     * The lang.
+     * Instantiates a new code keyword.
      */
-    private String lang;
-
-    /**
-     * Instantiates a new string with language attribute.
-     */
-    public TextType() {
-        this(null, null, null);
+    public KeywordType() {
+        super("KeywordType");
     }
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new code keyword.
      *
-     * @param elementName the XML element name
-     */
-    public TextType(String elementName) {
-        this(elementName, null, null);
-    }
-
-    /**
-     * Instantiates a new string with language attribute.
-     *
-     * @param elementName the XML element name
      * @param value       the value
+     * @throws SEDALibException the seda lib exception
      */
-    public TextType(String elementName, String value) {
-        this(elementName, value, null);
+    public KeywordType(String value) throws SEDALibException {
+        this();
+        if (enumValues.contains(value))
+            this.value = value;
+        else
+            throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
     }
 
-    /**
-     * Instantiates a new string with language attribute.
-     *
-     * @param elementName the XML element name
-     * @param value       the value
-     * @param lang        the language
-     */
-    public TextType(String elementName, String value, String lang) {
-        super(elementName);
-        this.value = value;
-        this.lang = lang;
-    }
 
     /*
      * (non-Javadoc)
@@ -100,81 +85,39 @@ public class TextType extends NamedTypeMetadata {
     @Override
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
-            xmlWriter.writeStartElement(elementName);
-            if (lang != null)
-                xmlWriter.writeAttribute("xml", "xml", "lang", lang);
-            xmlWriter.writeCharactersIfNotEmpty(value);
-            xmlWriter.writeEndElement();
+            xmlWriter.writeElementValue(elementName, value);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type TextType [" + getXmlElementName() + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type KeywordType ["+getXmlElementName()+"]\n->" + e.getMessage());
         }
     }
 
     /**
      * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
      * @return true, if it finds something convenient, false if not
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
             if (xmlReader.peekBlockIfNamed(elementName)) {
-                lang = xmlReader.peekAttribute("http://www.w3.org/XML/1998/namespace", "lang");
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
                     value = event.asCharacters().getData();
+                    if (!enumValues.contains(value))
+                        throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
                     event = xmlReader.nextUsefullEvent();
                 } else
                     value = "";
-                if ((!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
+                if ((!event.isEndElement())
+                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
                     throw new SEDALibException("Elément " + elementName + " mal terminé");
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type KeywordType\n->" + e.getMessage());
         }
         return true;
     }
-
-    // Getters and setters
-
-    /**
-     * Get the lang
-     *
-     * @return the lang
-     */
-    public String getLang() {
-        return lang;
-    }
-
-    /**
-     * Get the value
-     *
-     * @return the value
-     */
-    public String getValue() {
-        return value;
-    }
-
-    /**
-     * Sets value.
-     *
-     * @param value the value
-     */
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    /**
-     * Sets lang.
-     *
-     * @param lang the lang
-     */
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
-
-
 }

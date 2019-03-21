@@ -28,17 +28,25 @@
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Gps;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.ClassUtils;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -49,35 +57,23 @@ import java.util.List;
 public abstract class ComplexListType extends NamedTypeMetadata {
 
     /**
-     * The Class MetadataItem.
+     * The Sub type metadata ordered list map.
      */
-    public class MetadataKind {
+    static protected HashMap<Class, List<String>> subTypeMetadataOrderedListMap = new HashMap<Class, List<String>>();
+    /**
+     * The Sub type metadata map map.
+     */
+    static protected HashMap<Class, LinkedHashMap<String, ComplexListMetadataKind>> subTypeMetadataMapMap =
+            new HashMap<Class, LinkedHashMap<String, ComplexListMetadataKind>>();
+    /**
+     * The Sub type expandable map.
+     */
+    static protected HashMap<Class, Boolean> subTypeNotExpandableMap =
+            new HashMap<Class, Boolean>();
 
-        /** The c. */
-        public Class<?> metadataClass;
-
-        /** The many. */
-        public boolean many;
-
-        /**
-         * Instantiates a new metadata item.
-         *
-         * @param metadataClass the metadata class
-         * @param many          the many
-         */
-        public MetadataKind(Class<?> metadataClass, boolean many) {
-            this.metadataClass = metadataClass;
-            this.many = many;
-        }
-    }
-
-    /** The metadata ordered list. */
-    static protected List<String> metadataOrderedList;
-
-    /** The metadata map. */
-    static protected HashMap<String, MetadataKind> metadataMap;
-
-    /** The metadata list. */
+    /**
+     * The metadata list.
+     */
     public List<SEDAMetadata> metadataList;
 
     /**
@@ -91,7 +87,53 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     }
 
     /**
-     * New SEDA metadata.
+     * Gets convenient constructor for args.
+     *
+     * @param metadataClass the metadata class
+     * @param args          the args
+     * @return the convenient constructor for args
+     * @throws SEDALibException the seda lib exception
+     */
+    private static SEDAMetadata getClassMemberConstructedFromArgs(Class<?> metadataClass, String elementName, Object[] args) throws SEDALibException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        Object[] newArgs;
+        boolean needName = metadataClass.getName().contains(".namedtype.");
+        SEDAMetadata sm;
+        args = ArrayUtils.nullToEmpty(args);
+        if (needName) {
+            newArgs = new Object[args.length + 1];
+            newArgs[0] = elementName;
+            System.arraycopy(args, 0, newArgs, 1, args.length);
+        } else
+            newArgs = args;
+        Class<?>[] parameterTypes = ClassUtils.toClass(newArgs);
+        Constructor theConstructor = ConstructorUtils.getMatchingAccessibleConstructor(metadataClass, parameterTypes);
+        if (theConstructor == null) {
+            try {
+                if (metadataClass.getName().contains(".namedtype."))
+                    sm = (SEDAMetadata) metadataClass.getConstructor(String.class, Object[].class).newInstance(elementName, args);
+                else {
+                    newArgs = new Object[1];
+                    newArgs[0] = args;
+                    sm = (SEDAMetadata) metadataClass.getConstructor(Object[].class).newInstance(newArgs);
+                }
+            } catch (NoSuchMethodException e) {
+                throw new SEDALibException("Pas de constructeur de l'élément [" + elementName + "]");
+            }
+        } else {
+            Type[] types = theConstructor.getGenericParameterTypes();
+            if ((types.length != 1) || (!types[0].equals(Object[].class)))
+                sm = (SEDAMetadata) theConstructor.newInstance(newArgs);
+            else {
+                newArgs = new Object[1];
+                newArgs[0] = args;
+                sm = (SEDAMetadata) theConstructor.newInstance(newArgs);
+            }
+        }
+        return sm;
+    }
+
+    /**
+     * Construct a new SEDA metadata.
      *
      * @param elementName the element name
      * @param args        the args
@@ -99,17 +141,22 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * @throws SEDALibException if failed in construction
      */
     private SEDAMetadata newSEDAMetadata(String elementName, Object[] args) throws SEDALibException {
-        MetadataKind mi = getMetadataMap().get(elementName);
+        ComplexListMetadataKind mi = getMetadataMap().get(elementName);
         Constructor<?> constructor;
+        int i;
         try {
+            Class metadataClass;
             if (mi == null)
-                constructor = GenericXMLBlockType.class.getConstructor(String.class, Object[].class);
+                metadataClass = AnyXMLType.class;
             else
-                constructor = mi.metadataClass.getConstructor(String.class, Object[].class);
-            return (SEDAMetadata) constructor.newInstance(elementName, args);
-        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+                metadataClass = mi.metadataClass;
+            SEDAMetadata sm = getClassMemberConstructedFromArgs(metadataClass, elementName, args);
+            if (sm == null)
+                throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]");
+            return sm;
+        } catch (SecurityException | InstantiationException | IllegalAccessException
                 | IllegalArgumentException e) {
-            throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]");
+            throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]\n->" + e.getMessage());
         } catch (InvocationTargetException te) {
             throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]\n->" + te.getTargetException().getMessage());
         }
@@ -117,17 +164,27 @@ public abstract class ComplexListType extends NamedTypeMetadata {
 
     /**
      * Adds a new metadata, or replace it if it exists and the metadata can't have
-     * many values
+     * many values. This is a flexible constructor used to simplify metadata management.
+     * <p>
+     * To know what kind of args you can use in this generic method, go and see the different constructors that exists
+     * for each kind of metadata, or the .
+     * <p>
+     * For example to know the args possibility for :
+     * <ul>
+     * <li>Gps, see {@link Gps#Gps(String, int, String, String, String)}</li>
+     * <li> or AgentType, see {@link AgentType#AgentType(String, String)}, {@link AgentType#AgentType(String, String, String)}
+     * and {@link AgentType#AgentType(String, String, String, String)}</li>
+     * <li>...</li>
+     * </ul>
      *
      * @param elementName the element name
      * @param args        the args of the metadata constructor
-     * @throws SEDALibException if construction is not possible, most of the time
-     *                          wrong args
+     * @throws SEDALibException if construction is not possible, most of the time                          wrong args
      */
     public void addNewMetadata(String elementName, Object... args) throws SEDALibException {
         int addOrderIndex, curOrderIndex, i;
         boolean manyFlag, setFlag;
-        if ((args.length > 0) && (args[0] != null)) {
+        if (args.length > 0) {
             addOrderIndex = getMetadataOrderedList().indexOf(elementName);
             i = 0;
             setFlag = false;
@@ -174,8 +231,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * values.
      *
      * @param sedaMetadata the named type metadata
-     * @throws SEDALibException if try to add an unknown metadata in a not
-     *                          expandable type
+     * @throws SEDALibException if try to add an unknown metadata in a not                          expandable type
      */
     public void addMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
         int addOrderIndex, curOrderIndex, i;
@@ -249,57 +305,52 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             }
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément d'un ComplexListType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément d'un ComplexListType [" + getXmlElementName() + "]\n->" + e.getMessage());
         }
     }
 
     /**
-     * Import the Content in XML expected form for the SEDA Manifest.
+     * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
-     * @param complexListType the ComplexListType to complete
-     * @return the complex list type completed or null of not convenient element
-     *         name
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected, for example
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
+     * @return true, if it finds something convenient, false if not
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
-    public static ComplexListType fromSedaXmlInObject(SEDAXMLEventReader xmlReader, ComplexListType complexListType)
-            throws SEDALibException {
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         Class<?> metadataClass;
         try {
-            if (xmlReader.nextBlockIfNamed(complexListType.elementName)) {
+            if (xmlReader.nextBlockIfNamed(elementName)) {
                 xmlReader.peekUsefullEvent();
                 String tmp = xmlReader.peekName();
                 while (tmp != null) {
-                    MetadataKind mi = complexListType.getMetadataMap().get(tmp);
+                    ComplexListMetadataKind mi = getMetadataMap().get(tmp);
                     if (mi == null) {
-                        if (complexListType.isNotExpendable())
+                        if (isNotExpendable())
                             throw new SEDALibException(
                                     "Impossible d'étendre le schéma avec des métadonnées non prévues ["
                                             + tmp + "]");
                         else
-                            metadataClass = GenericXMLBlockType.class;
+                            metadataClass = AnyXMLType.class;
                     } else
                         metadataClass = mi.metadataClass;
                     SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
-                    complexListType.addMetadata(sm);
+                    addMetadata(sm);
                     tmp = xmlReader.peekName();
                 }
-                xmlReader.endBlockNamed(complexListType.elementName);
+                xmlReader.endBlockNamed(elementName);
             } else
-                return null;
+                return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément [" + complexListType.elementName + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément [" + elementName + "]\n->" + e.getMessage());
         }
-        return complexListType;
+        return true;
     }
 
     /**
      * Add metadata from fragments in XML expected form for the SEDA Manifest.
      *
      * @param xmlData the xml data
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not                          respected
      */
     public void addSedaXmlFragments(String xmlData) throws SEDALibException {
         Class<?> metadataClass;
@@ -309,14 +360,14 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             xmlReader.nextUsefullEvent();
             String tmp = xmlReader.peekName();
             while (tmp != null) {
-                MetadataKind mi = getMetadataMap().get(tmp);
+                ComplexListMetadataKind mi = getMetadataMap().get(tmp);
                 if (mi == null) {
                     if (isNotExpendable())
                         throw new SEDALibException(
                                 "Impossible d'étendre le schéma avec des métadonnées non prévues ["
                                         + tmp + "]");
                     else
-                        metadataClass = GenericXMLBlockType.class;
+                        metadataClass = AnyXMLType.class;
                 } else
                     metadataClass = mi.metadataClass;
                 SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
@@ -328,12 +379,43 @@ public abstract class ComplexListType extends NamedTypeMetadata {
         }
     }
 
+    private static void getNewComplexListSubType(Class subClass) throws SEDALibException {
+        List<Field> fields = FieldUtils.getFieldsListWithAnnotation(subClass, ComplexListMetadataMap.class);
+        if (fields.isEmpty())
+            throw new SEDALibException("Le type " + subClass + " n'a pas de variable annotée @ComplexListMetadataMap accessible");
+        else if (fields.size() > 1)
+            throw new SEDALibException("Le type " + subClass + " a plusieurs variables annotées @ComplexListMetadataMap accessibles (classe ou parents)");
+
+        Object object;
+        LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+        try {
+            object = fields.get(0).get(null);
+        } catch (IllegalAccessException e) {
+            throw new SEDALibException("La variable " + fields.get(0) + " annotée @ComplexListMetadataMap du type " + subClass + " ne peut être accédée");
+        }
+        try {
+            metadataMap = (LinkedHashMap<String, ComplexListMetadataKind>) object;
+        } catch (ClassCastException e) {
+            throw new SEDALibException("La variable " + fields.get(0) + " annotée @ComplexListMetadataMap du type " + subClass + " n'est pas de type LinkedHashMap<String,ComplexListMetadataKind>");
+        }
+        subTypeMetadataMapMap.put(subClass, metadataMap);
+        subTypeMetadataOrderedListMap.put(subClass, new ArrayList(metadataMap.keySet()));
+        subTypeNotExpandableMap.put(subClass, !fields.get(0).getAnnotation(ComplexListMetadataMap.class).isExpandable());
+    }
+
     /**
      * Gets the metadata ordered list.
      *
      * @return the metadata ordered list
      */
-    public abstract List<String> getMetadataOrderedList();
+    public List<String> getMetadataOrderedList() throws SEDALibException {
+        List<String> metadataOrderedList = subTypeMetadataOrderedListMap.get(this.getClass());
+        if (metadataOrderedList == null) {
+            getNewComplexListSubType(this.getClass());
+            metadataOrderedList = subTypeMetadataOrderedListMap.get(this.getClass());
+        }
+        return metadataOrderedList;
+    }
 
     /**
      * Gets the metadata map, which link xml element name with metadata class and
@@ -341,15 +423,27 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      *
      * @return the metadata map
      */
-    public abstract HashMap<String, MetadataKind> getMetadataMap();
+    public HashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
+        HashMap<String, ComplexListMetadataKind> metadataMap = subTypeMetadataMapMap.get(this.getClass());
+        if (metadataMap == null) {
+            getNewComplexListSubType(this.getClass());
+            metadataMap = subTypeMetadataMapMap.get(this.getClass());
+        }
+        return metadataMap;
+    }
 
     /**
      * Checks if it the metadata list is closed.
      *
      * @return true, if is not expendable
      */
-    public boolean isNotExpendable() {
-        return false;
+    public boolean isNotExpendable() throws SEDALibException {
+        Boolean isNotExpandable = subTypeNotExpandableMap.get(this.getClass());
+        if (isNotExpandable == null) {
+            getNewComplexListSubType(this.getClass());
+            isNotExpandable = subTypeNotExpandableMap.get(this.getClass());
+        }
+        return isNotExpandable;
     }
 
     /**

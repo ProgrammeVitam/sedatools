@@ -3,8 +3,10 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+import fr.gouv.vitam.tools.sedalib.metadata.management.*;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -13,14 +15,14 @@ class ManagementTest {
 
 	@Test
 	void testConstructors() throws SEDALibException {
-
 		// Given
 		Management m = new Management();
 
 		// When loaded with all different kind of metadata
 
 		// Test StorageRule and RuleType subclass newmetadata
-		m.addNewMetadata("StorageRule","TestStoRule1",LocalDate.of(1970,1,1),"Transfer");
+		StorageRule storageRule = new StorageRule("TestStoRule1",LocalDate.of(1970,1,1),"Transfer");
+		m.addMetadata(storageRule);
 
 		// Test AppraisalRule and RuleType subclass metadata add
 		AppraisalRule appraisalRule = new AppraisalRule();
@@ -71,13 +73,16 @@ class ManagementTest {
 		m.addNewMetadata("LogBook","<LogBook>TestLogBook</LogBook>");
 
 		// Test UpdateOperation
-		UpdateOperation updateOperation = new UpdateOperation();
-		updateOperation.setSystemId("TestSystemId");
+		UpdateOperation updateOperation = new UpdateOperation("TestSystemId");
 		m.addMetadata(updateOperation);
-		m.addNewMetadata("UpdateOperation","TestMetadataName", "TestMetadataValue"); // verify that uniq metadata is overwritten
+		UpdateOperation updateOperation2 = new UpdateOperation("TestMetadataName", "TestMetadataValue"); // verify that uniq metadata is overwritten
+		m.addMetadata(updateOperation2);
+
+		// Test RuleType
+		RuleType ruleType = new RuleType("AnotherRule","TestRule1", LocalDate.of(1970,1,1));
+		m.addMetadata(ruleType);
 
 		String mOut = m.toString();
- //       System.out.println("Value to verify=" + mOut);
 
 		// Test read write in XML string format
 		Management mNext = (Management) SEDAMetadata.fromString(mOut, Management.class);
@@ -137,12 +142,74 @@ class ManagementTest {
 				"      <MetadataValue>TestMetadataValue</MetadataValue>\n" +
 				"    </ArchiveUnitIdentifierKey>\n" +
 				"  </UpdateOperation>\n" +
+				"  <AnotherRule>\n" +
+				"    <Rule>TestRule1</Rule>\n" +
+				"    <StartDate>1970-01-01</StartDate>\n" +
+				"  </AnotherRule>\n" +
 				"</Management>";
 		assertThat(mNextOut).isEqualTo(testOut);
 	}
 
 	@Test
-	void testAddNewMetadata() {
-	}
+	void testAddNewMetadata() throws SEDALibException {
+		// Given
+		Management m = new Management();
 
+		// When loaded with all different kind of metadata
+
+		// Test RuleType subclass metadata add
+		m.addNewMetadata("AccessRule","TestAccessRule",LocalDate.of(1970,1,1));
+		m.addNewMetadata("AppraisalRule","TestAppraisalRule",LocalDate.of(1970,1,1)); // no value in result
+		m.addNewMetadata("AppraisalRule","TestAppraisalRule",LocalDate.of(1970,1,1),"Keep");
+		m.addNewMetadata("ClassificationRule","TestLevel","TestOwner");
+		m.addNewMetadata("DisseminationRule","TestDisseminationRule",LocalDate.of(1970,1,1));
+		m.addNewMetadata("ReuseRule","TestReuseRule",LocalDate.of(1970,1,1));
+		m.addNewMetadata("StorageRule","TestStorageRule",LocalDate.of(1970,1,1),"Copy");
+
+		// Test UpdateOperation
+		m.addNewMetadata("UpdateOperation","TestMetadataName","TestMetadataValue");
+
+		String mOut = m.toString();
+
+		// Test read write in XML string format
+		Management mNext = (Management) SEDAMetadata.fromString(mOut, Management.class);
+		String mNextOut = mNext.toString();
+
+		// Then
+		String testOut = "<Management>\n" +
+				"  <StorageRule>\n" +
+				"    <Rule>TestStorageRule</Rule>\n" +
+				"    <StartDate>1970-01-01</StartDate>\n" +
+				"    <FinalAction>Copy</FinalAction>\n" +
+				"  </StorageRule>\n" +
+				"  <AppraisalRule>\n" +
+				"    <Rule>TestAppraisalRule</Rule>\n" +
+				"    <StartDate>1970-01-01</StartDate>\n" +
+				"    <FinalAction>Keep</FinalAction>\n" +
+				"  </AppraisalRule>\n" +
+				"  <AccessRule>\n" +
+				"    <Rule>TestAccessRule</Rule>\n" +
+				"    <StartDate>1970-01-01</StartDate>\n" +
+				"  </AccessRule>\n" +
+				"  <DisseminationRule>\n" +
+				"    <Rule>TestDisseminationRule</Rule>\n" +
+				"    <StartDate>1970-01-01</StartDate>\n" +
+				"  </DisseminationRule>\n" +
+				"  <ReuseRule>\n" +
+				"    <Rule>TestReuseRule</Rule>\n" +
+				"    <StartDate>1970-01-01</StartDate>\n" +
+				"  </ReuseRule>\n" +
+				"  <ClassificationRule>\n" +
+				"    <ClassificationLevel>TestLevel</ClassificationLevel>\n" +
+				"    <ClassificationOwner>TestOwner</ClassificationOwner>\n" +
+				"  </ClassificationRule>\n" +
+				"  <UpdateOperation>\n" +
+				"    <ArchiveUnitIdentifierKey>\n" +
+				"      <MetadataName>TestMetadataName</MetadataName>\n" +
+				"      <MetadataValue>TestMetadataValue</MetadataValue>\n" +
+				"    </ArchiveUnitIdentifierKey>\n" +
+				"  </UpdateOperation>\n" +
+				"</Management>";
+		assertThat(mNextOut).isEqualTo(testOut);
+	}
 }

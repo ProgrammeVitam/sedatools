@@ -25,11 +25,10 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata;
+package fr.gouv.vitam.tools.sedalib.metadata.management;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -84,31 +83,6 @@ public class StorageRule extends RuleType {
      */
     public StorageRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
         super("StorageRule", rule, startDate, finalAction);
-    }
-
-    /**
-     * Instantiates a new storage rule form args.
-     *
-     * @param elementName the XML element name (here "StorageRule")
-     * @param args        the generic args for metadata construction
-     * @throws SEDALibException if args are not suitable for constructor
-     */
-    public StorageRule(String elementName, Object[] args) throws SEDALibException {
-        super("StorageRule", args);
-    }
-
-    /**
-     * Import the StorageRule in XML expected form for the SEDA Manifest.
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read StorageRule
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
-     */
-    public static StorageRule fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        StorageRule storageRule = new StorageRule();
-        storageRule = (StorageRule) fromSedaXmlInObject(xmlReader, storageRule);
-        return storageRule;
     }
 
     @Override

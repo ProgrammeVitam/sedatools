@@ -27,7 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.core;
 
-import fr.gouv.vitam.tools.sedalib.metadata.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;

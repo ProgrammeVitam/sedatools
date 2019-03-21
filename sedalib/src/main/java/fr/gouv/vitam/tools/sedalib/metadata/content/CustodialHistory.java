@@ -25,18 +25,15 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata;
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.GenericXMLBlockType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 /**
  * The Class CustodialHistory.
@@ -51,20 +48,15 @@ import java.util.List;
  */
 public class CustodialHistory extends ComplexListType {
 
-    /** Init the metadata possibilities. */ {
-        initMetadataOrderedList();
-        initMetadataMap();
+    /**
+     * Init metadata map.
+     */
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("CustodialHistoryItem", new ComplexListMetadataKind(StringType.class, true));
     }
-
-    /**
-     * The metadata ordered list.
-     */
-    protected static List<String> metadataOrderedList;
-
-    /**
-     * The metadata map.
-     */
-    protected static HashMap<String, MetadataKind> metadataMap;
 
     /**
      * Instantiates a new custodial history.
@@ -74,70 +66,17 @@ public class CustodialHistory extends ComplexListType {
     }
 
     /**
-     * Instantiates a new custodial history type from args.
+     * Instantiates a new custodial history type from args, each is a custodial history item.
      *
-     * @param elementName the XML element name
      * @param args        the generic args for NameTypeMetadata construction
      * @throws SEDALibException if args are not suitable for constructor
      */
-    public CustodialHistory(String elementName, Object[] args) throws SEDALibException {
-        super(elementName);
+    public CustodialHistory(Object... args) throws SEDALibException {
+        this();
         for (int i=0;i<args.length;i++){
             if (!(args[i] instanceof String))
                 throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
             addNewMetadata("CustodialHistoryItem",args[i]);
         }
-    }
-
-    /**
-     * Import the CustodialHistory in XML expected form for the SEDA Manifest.
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read CustodialHistory
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not                          respected
-     */
-    public static CustodialHistory fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        CustodialHistory custodialHistory = new CustodialHistory();
-        custodialHistory = (CustodialHistory) fromSedaXmlInObject(xmlReader, custodialHistory);
-        return custodialHistory;
-    }
-
-    // Init
-
-    /**
-     * Init metadata ordered list.
-     */
-    protected void initMetadataOrderedList() {
-        metadataOrderedList = new ArrayList<String>();
-        metadataOrderedList.add("CustodialHistoryItem");
-    }
-
-    /**
-     * Init metadata map.
-     */
-    protected void initMetadataMap() {
-        metadataMap = new HashMap<String, MetadataKind>();
-        metadataMap.put("CustodialHistoryItem", new MetadataKind(StringType.class, true));
-    }
-
-    // Getters and setters
-
-    @Override
-    public List<String> getMetadataOrderedList() {
-        if (metadataOrderedList == null)
-            initMetadataOrderedList();
-        return metadataOrderedList;
-    }
-
-    @Override
-    public HashMap<String, MetadataKind> getMetadataMap() {
-        if (metadataMap == null)
-            initMetadataMap();
-        return metadataMap;
-    }
-
-    @Override
-    public boolean isNotExpendable() {
-        return true;
     }
 }

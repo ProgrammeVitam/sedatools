@@ -48,8 +48,8 @@ class ArchiveTransferSerDeserializerTest implements UseTestFiles {
 		String ssip = mapper.writeValueAsString(di.getArchiveTransfer());
 		ArchiveTransfer dssip = mapper.readValue(ssip, ArchiveTransfer.class);
 		String sdssip = mapper.writeValueAsString(dssip);
-		mapper.writeValue(new FileOutputStream("target/tmpJunit/junit_sip.json"), di.getArchiveTransfer());
-		mapper.writeValue(new FileOutputStream("target/tmpJunit/junit_sip_after.json"), dssip);
+//		mapper.writeValue(new FileOutputStream("target/tmpJunit/junit_sip.json"), di.getArchiveTransfer());
+//		mapper.writeValue(new FileOutputStream("target/tmpJunit/junit_sip_after.json"), dssip);
 		assertEquals(ssip, sdssip);
 
 	}

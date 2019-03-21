@@ -46,8 +46,9 @@ import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
-import fr.gouv.vitam.tools.sedalib.metadata.Content;
-import fr.gouv.vitam.tools.sedalib.metadata.Management;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
@@ -633,14 +634,14 @@ public class MainWindow extends JFrame {
         }
     }
 
-    AddMetadataItem getAddMetadataItem(String definition) {
+    AddMetadataItem getAddMetadataItem(String definition) throws SEDALibException {
         AddMetadataItem result;
         String macroMetadata = definition.substring(0, 3);
         String elementName = definition.substring(3, definition.indexOf(' '));
         if (macroMetadata.equals("[A]")) {
             result = new AddMetadataItem(ArchiveUnitProfile.class, "ArchiveUnitProfile");
         } else {
-            HashMap<String, ComplexListType.MetadataKind> metadataMap;
+            HashMap<String, ComplexListMetadataKind> metadataMap;
             if (macroMetadata.equals("[C]")) {
                 Content c = new Content();
                 metadataMap = c.getMetadataMap();
@@ -657,10 +658,10 @@ public class MainWindow extends JFrame {
      * Button add metadata.
      */
     void buttonAddMetadata() {
-        AddMetadataItem ami=getAddMetadataItem((String) metadataComboBox.getSelectedItem());
-        XmlEditDialog xmlEditDialog = new XmlEditDialog(this, ami);
-        xmlEditDialog.setVisible(true);
         try{
+            AddMetadataItem ami=getAddMetadataItem((String) metadataComboBox.getSelectedItem());
+            XmlEditDialog xmlEditDialog = new XmlEditDialog(this, ami);
+            xmlEditDialog.setVisible(true);
             if (xmlEditDialog.indentedXmlData != null) {
                 //noinspection ConstantConditions
                 String macroMetadata = ((String) metadataComboBox.getSelectedItem()).substring(0, 3);

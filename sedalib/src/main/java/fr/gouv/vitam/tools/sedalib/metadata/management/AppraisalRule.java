@@ -26,11 +26,10 @@
  * accept its terms.
  */
 
-package fr.gouv.vitam.tools.sedalib.metadata;
+package fr.gouv.vitam.tools.sedalib.metadata.management;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -84,31 +83,6 @@ public class AppraisalRule extends RuleType {
      */
     public AppraisalRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
         super("AppraisalRule", rule, startDate, finalAction);
-    }
-
-    /**
-     * Instantiates a new appraisal rule form args.
-     *
-     * @param elementName the XML element name (here "AppraisalRule")
-     * @param args        the generic args for metadata construction
-     * @throws SEDALibException if args are not suitable for constructor
-     */
-    public AppraisalRule(String elementName, Object[] args) throws SEDALibException {
-        super("AppraisalRule", args);
-    }
-
-    /**
-     * Import the AppraisalRule in XML expected form for the SEDA Manifest.
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read AppraisalRule
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
-     */
-    public static AppraisalRule fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        AppraisalRule appraisalRule = new AppraisalRule();
-        appraisalRule = (AppraisalRule) fromSedaXmlInObject(xmlReader, appraisalRule);
-        return appraisalRule;
     }
 
     @Override

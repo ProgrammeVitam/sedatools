@@ -35,11 +35,11 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
 /**
- * The Class GenericXMLBlockType.
+ * The Class AnyXMLType.
  * <p>
  * For abstract not determined SEDA metadata, take all the xml block
  */
-public class GenericXMLBlockType extends NamedTypeMetadata {
+public class AnyXMLType extends NamedTypeMetadata {
 
     /** The raw xml. */
     private String rawXml;
@@ -47,7 +47,7 @@ public class GenericXMLBlockType extends NamedTypeMetadata {
     /**
      * Instantiates a new XML block type.
      */
-    public GenericXMLBlockType() {
+    public AnyXMLType() {
         this(null, (String) null);
     }
 
@@ -56,7 +56,7 @@ public class GenericXMLBlockType extends NamedTypeMetadata {
      *
      * @param elementName the XML element name
      */
-    public GenericXMLBlockType(String elementName) {
+    public AnyXMLType(String elementName) {
         this(elementName, (String) null);
     }
 
@@ -66,24 +66,9 @@ public class GenericXMLBlockType extends NamedTypeMetadata {
      * @param elementName the XML element name
      * @param rawXml       the raw Xml String
      */
-    public GenericXMLBlockType(String elementName, String rawXml) {
+    public AnyXMLType(String elementName, String rawXml) {
         super(elementName);
         this.rawXml = rawXml;
-    }
-
-    /**
-     * Instantiates a new string.
-     *
-     * @param elementName the XML element name
-     * @param args        the generic args for NameTypeMetadata construction
-     * @throws SEDALibException if args are not suitable for constructor
-     */
-    public GenericXMLBlockType(String elementName, Object[] args) throws SEDALibException {
-        super(elementName);
-        if ((args.length == 1) && (args[0] instanceof String)) {
-            this.rawXml = (String) args[0];
-        } else
-            throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
     }
 
     /*
@@ -98,31 +83,27 @@ public class GenericXMLBlockType extends NamedTypeMetadata {
         try {
             xmlWriter.writeRawXMLBlockIfNotEmpty(rawXml);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type GenericXMLBlockType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type AnyXMLType ["+getXmlElementName()+"]\n->" + e.getMessage());
         }
     }
 
     /**
-     * Import an element of type GenericXMLBlockType in XML expected form for the SEDA
-     * Manifest.
+     * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read GenericXMLBlockType
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
+     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @return true, if it finds something convenient, false if not
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
-    public static GenericXMLBlockType fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        GenericXMLBlockType xbt;
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
-            xbt = new GenericXMLBlockType();
             XMLEvent event = xmlReader.peekUsefullEvent();
-            xbt.elementName = event.asStartElement().getName().getLocalPart();
-            xbt.rawXml = xmlReader.nextBlockAsStringIfNamed(xbt.elementName);
+            elementName = event.asStartElement().getName().getLocalPart();
+            rawXml = xmlReader.nextBlockAsStringIfNamed(elementName);
         } catch (XMLStreamException | IllegalArgumentException e) {
             throw new SEDALibException(
-                    "Erreur de lecture XML dans un élément de type GenericXMLBlockType\n->" + e.getMessage());
+                    "Erreur de lecture XML dans un élément de type AnyXMLType\n->" + e.getMessage());
         }
-        return xbt;
+        return true;
     }
 
     // Getters and setters

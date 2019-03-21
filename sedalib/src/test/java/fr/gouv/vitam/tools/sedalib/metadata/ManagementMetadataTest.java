@@ -2,17 +2,17 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
 import org.junit.jupiter.api.Test;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 class ManagementMetadataTest {
 
 	@Test
-	void test() throws SEDALibException {
+	void testConstructors() throws SEDALibException {
         //Given
         ManagementMetadata mm = new ManagementMetadata();
 
@@ -38,7 +38,6 @@ class ManagementMetadataTest {
         // ...other types all tested in Management metadata
 
         String mmOut = mm.toString();
-//        System.out.println("Value to verify=" + mmOut);
 
         // Test read write in XML string format
         ManagementMetadata mmNext = (ManagementMetadata) SEDAMetadata.fromString(mmOut, ManagementMetadata.class);

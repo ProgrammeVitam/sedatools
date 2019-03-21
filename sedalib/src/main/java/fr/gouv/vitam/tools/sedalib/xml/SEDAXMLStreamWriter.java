@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.xml;
 
 import com.ctc.wstx.api.WstxOutputProperties;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.stax2.XMLOutputFactory2;
@@ -60,37 +61,59 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 
     public static final String dayTimePattern = "yyyy-MM-dd'T'HH:mm:ss";
 
-    /** The Constant LINEFEED_CHAR. */
+    /**
+     * The Constant LINEFEED_CHAR.
+     */
     private static final String LINEFEED_CHAR = "\n";
 
-    /** The XMLOutputFactory. */
+    /**
+     * The XMLOutputFactory.
+     */
     private static XMLOutputFactory xmlof;
 
-    /** The XMLOutputFactory for fragments. */
+    /**
+     * The XMLOutputFactory for fragments.
+     */
     private static XMLOutputFactory xmlofFragments;
 
-    /** The raw writer. */
+    /**
+     * The raw writer.
+     */
     private Writer rawWriter;
 
-    /** The xml writer. */
+    /**
+     * The xml writer.
+     */
     private XMLStreamWriter xmlWriter;
 
-    /** The depth. */
+    /**
+     * The depth.
+     */
     private int depth;
 
-    /** The has child element structure used for indent management. */
+    /**
+     * The has child element structure used for indent management.
+     */
     private final Map<Integer, Boolean> hasChildElement;
 
-    /** The indent element, elementary brick of indentation (indentLength spaces). */
+    /**
+     * The indent element, elementary brick of indentation (indentLength spaces).
+     */
     private String indentElement;
 
-    /** The indent length. */
+    /**
+     * The indent length.
+     */
     private int indentLength;
 
-    /** The indent flag. */
+    /**
+     * The indent flag.
+     */
     private boolean indentFlag;
 
-    /** The first line flag. */
+    /**
+     * The first line flag.
+     */
     private boolean firstLineFlag;
 
     // XML objects initialization
@@ -105,7 +128,9 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
         }
     }
 
-    /** The id counter. */
+    /**
+     * The id counter.
+     */
     private int idCounter;
 
     // constructors
@@ -124,8 +149,8 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
     /**
      * Instantiates a new SEDAXML stream writer.
      *
-     * @param os           the os
-     * @param indentLength the indent length
+     * @param os            the os
+     * @param indentLength  the indent length
      * @param isForElements the is for elements
      * @throws SEDALibException the SEDALibException
      */
@@ -369,7 +394,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      * Wrap XMLStreamWriter write attribute.
      *
      * @param localName the local name
-     * @param value the value
+     * @param value     the value
      * @throws XMLStreamException the XML stream exception
      */
     public void writeAttribute(String localName, String value) throws XMLStreamException {
@@ -380,7 +405,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      * Write attribute if not empty.
      *
      * @param localName the local name
-     * @param value the value
+     * @param value     the value
      * @throws XMLStreamException the XML stream exception
      */
     public void writeAttributeIfNotEmpty(String localName, String value) throws XMLStreamException {
@@ -391,10 +416,10 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
     /**
      * Wrap XMLStreamWriter write attribute.
      *
-     * @param prefix the prefix
+     * @param prefix       the prefix
      * @param namespaceURI the namespace URI
-     * @param localName the local name
-     * @param value the value
+     * @param localName    the local name
+     * @param value        the value
      * @throws XMLStreamException the XML stream exception
      */
     public void writeAttribute(String prefix, String namespaceURI, String localName, String value)
@@ -412,6 +437,16 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
         xmlWriter.writeCharacters(text);
     }
 
+    /**
+     * Wrap XMLStreamWriter write characters.
+     *
+     * @param text the text
+     * @throws XMLStreamException the XML stream exception
+     */
+    public void writeCharactersIfNotEmpty(String text) throws XMLStreamException {
+        if ((text != null) && !text.isEmpty())
+            xmlWriter.writeCharacters(text);
+    }
 
     /**
      * Wrap XMLStreamWriter write comment.
@@ -455,7 +490,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
     /**
      * Wrap XMLStreamWriter write namespace.
      *
-     * @param prefix the prefix
+     * @param prefix       the prefix
      * @param namespaceURI the namespace URI
      * @throws XMLStreamException the XML stream exception
      */

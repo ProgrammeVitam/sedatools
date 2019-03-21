@@ -28,8 +28,6 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 /**
  * The Class ArchiveUnitProfile.
@@ -58,19 +56,5 @@ public class ArchiveUnitProfile extends StringType {
      */
     public ArchiveUnitProfile(String value) {
         super("ArchiveUnitProfile", value);
-    }
-
-    /**
-     * Import the ArchiveUnitProfile in XML expected form for the SEDA Manifest.
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read Content
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
-     */
-    public static ArchiveUnitProfile fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        ArchiveUnitProfile result = new ArchiveUnitProfile();
-        result = (ArchiveUnitProfile) fromSedaXmlInObject(xmlReader, result);
-        return result;
     }
 }

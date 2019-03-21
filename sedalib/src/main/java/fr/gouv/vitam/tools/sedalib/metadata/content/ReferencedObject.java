@@ -25,72 +25,56 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-package fr.gouv.vitam.tools.sedalib.metadata;
-
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 /**
- * The Class ReuseRule.
+ * The Class ReferencedObject.
  * <p>
- * Class for SEDA element ReuseRule
+ * Class for ReferencedObject metadata.
  * <p>
- * A management ArchiveUnit metadata.
+ * Part of Signature ArchiveUnit metadata.
  * <p>
- * Standard quote: "Gestion de la réutilisation"
+ * Standard quote: "Référence à l'objet signé."
  */
-public class ReuseRule extends RuleType {
+public class ReferencedObject extends ComplexListType {
 
     /**
-     * Instantiates a new reuse rule.
+     * Init metadata map.
      */
-    public ReuseRule() {
-        super("ReuseRule");
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("SignedObjectID", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("SignedObjectDigest", new ComplexListMetadataKind(StringType.class, false));
     }
 
     /**
-     * Instantiates a new reuse rule, with one rule and a date.
+     * Instantiates a new reference object type.
+     */
+    public ReferencedObject() {
+        super("ReferencedObject");
+    }
+
+    /**
+     * Instantiates a new referenced object type with SignedObjectID and SignedObjectDigest.
      *
-     * @param rule        the rule
-     * @param startDate   the start date
+     * @param signedObjectID     the signed object id
+     * @param signedObjectDigest the signed object digest
      */
-    public ReuseRule(String rule, LocalDate startDate) {
-        super("ReuseRule", rule, startDate);
-    }
+    public ReferencedObject(String signedObjectID, String signedObjectDigest) throws SEDALibException {
+        this();
 
-    /**
-     * Instantiates a new reuse rule form args.
-     *
-     * @param elementName the XML element name (here "ReuseRule")
-     * @param args        the generic args for metadata construction
-     * @throws SEDALibException if args are not suitable for constructor
-     */
-    public ReuseRule(String elementName, Object[] args) throws SEDALibException {
-        super("ReuseRule", args);
+        addNewMetadata("SignedObjectID", signedObjectID);
+        addNewMetadata("SignedObjectDigest", signedObjectDigest);
     }
-
-    /**
-     * Import the AccessRule in XML expected form for the SEDA Manifest.
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read Content
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
-     */
-    public static ReuseRule fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        ReuseRule reuseRule = new ReuseRule();
-        reuseRule = (ReuseRule) fromSedaXmlInObject(xmlReader, reuseRule);
-        return reuseRule;
-    }
-
-    @Override
-    public List<String> getFinalActionList() {
-        return null;
-    }
-
 }

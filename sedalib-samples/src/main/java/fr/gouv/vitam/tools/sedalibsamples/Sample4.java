@@ -2,7 +2,7 @@ package fr.gouv.vitam.tools.sedalibsamples;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
-import fr.gouv.vitam.tools.sedalib.metadata.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.slf4j.LoggerFactory;
 

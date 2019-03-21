@@ -25,49 +25,39 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import java.util.LinkedHashMap;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
- * The Class AgencyType.
+ * The Class ReuseRule.
  * <p>
- * For abstract agency type SEDA metadata
+ * Class for SEDA element ReuseRule
+ * <p>
+ * A management ArchiveUnit metadata.
+ * <p>
+ * Standard quote: "Gestion de la réutilisation"
  */
-public class AgencyType extends ComplexListType {
+public class ReuseRule extends RuleType {
 
     /**
-     * Init metadata map.
+     * Instantiates a new reuse rule.
      */
-    @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
-    static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, false));
+    public ReuseRule() {
+        super("ReuseRule");
     }
 
     /**
-     * Instantiates a new agency type.
+     * Instantiates a new reuse rule, with one rule and a date.
      *
-     * @param elementName the element name
+     * @param rule        the rule
+     * @param startDate   the start date
      */
-    public AgencyType(String elementName) {
-        super(elementName);
-    }
-
-    /**
-     * Instantiates a new agency type with identifier.
-     *
-     * @param elementName the element name
-     * @param identifier  the identifier
-     */
-    public AgencyType(String elementName, String identifier) {
-        super(elementName);
-        try {
-            addNewMetadata("Identifier", identifier);
-        } catch (SEDALibException ignored) {
-        }
+    public ReuseRule(String rule, LocalDate startDate) {
+        super("ReuseRule", rule, startDate);
     }
 }

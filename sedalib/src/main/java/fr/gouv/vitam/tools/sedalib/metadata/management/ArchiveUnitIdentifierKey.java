@@ -25,18 +25,26 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
 
 /**
- * The Class AgencyType.
+ * The Class ArchiveUnitIdentifierKey.
  * <p>
- * For abstract agency type SEDA metadata
+ * Class for ArchiveUnitIdentifierKey metadata.
+ * <p>
+ * Part of UpdateOperation Management metadata.
+ * <p>
+ * Standard quote: "Validateur de la signature"
  */
-public class AgencyType extends ComplexListType {
+public class ArchiveUnitIdentifierKey extends ComplexListType {
 
     /**
      * Init metadata map.
@@ -45,28 +53,28 @@ public class AgencyType extends ComplexListType {
     static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("MetadataName", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("MetadataValue", new ComplexListMetadataKind(StringType.class, false));
     }
 
     /**
-     * Instantiates a new agency type.
-     *
-     * @param elementName the element name
+     * Instantiates a new ArchiveUnit identifier key type.
      */
-    public AgencyType(String elementName) {
-        super(elementName);
+    public ArchiveUnitIdentifierKey() {
+        super("ArchiveUnitIdentifierKey");
     }
 
     /**
-     * Instantiates a new agency type with identifier.
+     * Instantiates a new ArchiveUnit identifier key type with metadata name and value.
      *
-     * @param elementName the element name
-     * @param identifier  the identifier
+     * @param metadataName  the metadata name
+     * @param metadataValue the metadata value
      */
-    public AgencyType(String elementName, String identifier) {
-        super(elementName);
+    public ArchiveUnitIdentifierKey(String metadataName, String metadataValue) {
+        this();
         try {
-            addNewMetadata("Identifier", identifier);
+            addNewMetadata("MetadataName", metadataName);
+            addNewMetadata("MetadataValue", metadataValue);
         } catch (SEDALibException ignored) {
         }
     }
