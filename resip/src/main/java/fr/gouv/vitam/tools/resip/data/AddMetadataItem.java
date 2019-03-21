@@ -28,6 +28,8 @@
 package fr.gouv.vitam.tools.resip.data;
 
 import fr.gouv.vitam.tools.sedalib.metadata.*;
+import fr.gouv.vitam.tools.sedalib.metadata.content.*;
+import fr.gouv.vitam.tools.sedalib.metadata.management.*;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -42,7 +44,7 @@ public class AddMetadataItem {
 
     @FunctionalInterface
     interface Creator {
-        SEDAMetadata create(String elementName);
+        SEDAMetadata create(String elementName) throws SEDALibException;
     }
 
     static HashMap<String, Creator> typeCreatorMap;
@@ -56,8 +58,8 @@ public class AddMetadataItem {
         typeExtraInformationMap.put("DateTimeType", "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z]" +
                 " ou YYYY-MM-DD'T'HH:MM:SS[Timezone ou Z]");
 
-        typeCreatorMap.put("GenericXMLBlockType", AddMetadataItem::genericXMLBlockTypeSample);
-        typeExtraInformationMap.put("GenericXMLBlockType", "Bloc XML de structure non connue par ReSIP");
+        typeCreatorMap.put("AnyXMLType", AddMetadataItem::genericXMLBlockTypeSample);
+        typeExtraInformationMap.put("AnyXMLType", "Bloc XML de structure non connue par ReSIP");
 
         typeCreatorMap.put("AgentType", AddMetadataItem::agentTypeSample);
         typeExtraInformationMap.put("AgentType", "Metadonnée de type agent");
@@ -68,8 +70,8 @@ public class AddMetadataItem {
         typeCreatorMap.put("StringType", AddMetadataItem::stringTypeSample);
         typeExtraInformationMap.put("StringType", "Metadonnée de type chaîne de caractères");
 
-        typeCreatorMap.put("CodeKeywordType", AddMetadataItem::codeKeywordTypeSample);
-        typeExtraInformationMap.put("CodeKeywordType", "Metadonnée de type code de mot-clef, fait partie des valeurs: " +
+        typeCreatorMap.put("KeywordType", AddMetadataItem::keywordTypeSample);
+        typeExtraInformationMap.put("KeywordType", "Metadonnée de type code de mot-clef, fait partie des valeurs: " +
                 "corpname, famname, geogname, name, occupation, persname, subject, genreform, function");
 
         typeCreatorMap.put("IntegerType", AddMetadataItem::integerTypeSample);
@@ -141,20 +143,20 @@ public class AddMetadataItem {
         return new DateTimeType(elementName, LocalDateTime.of(1970, 1, 1, 1, 0, 0));
     }
 
-    static GenericXMLBlockType genericXMLBlockTypeSample(String elementName) {
-        return new GenericXMLBlockType(elementName, "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2 attr=\"any\">Text2</BlockTag2></"+elementName+">");
+    static AnyXMLType genericXMLBlockTypeSample(String elementName) {
+        return new AnyXMLType(elementName, "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2 attr=\"any\">Text2</BlockTag2></"+elementName+">");
     }
 
-   static void constructComplexListType(ComplexListType clt){
+   static void constructComplexListType(ComplexListType clt) throws SEDALibException {
         for (String metadataName : clt.getMetadataOrderedList()) {
-            ComplexListType.MetadataKind metadataKind = clt.getMetadataMap().get(metadataName);
-            Creator c = typeCreatorMap.get(metadataKind.metadataClass.getSimpleName());
+            ComplexListMetadataKind complexListMetadataKind = clt.getMetadataMap().get(metadataName);
+            Creator c = typeCreatorMap.get(complexListMetadataKind.metadataClass.getSimpleName());
             SEDAMetadata metadataObject = c.create(metadataName);
             try {
                 clt.addMetadata(metadataObject);
             } catch (SEDALibException ignored) {
             }
-            if (metadataKind.many) {
+            if (complexListMetadataKind.many) {
                 metadataObject = c.create(metadataName);
                 try {
                     clt.addMetadata(metadataObject);
@@ -169,64 +171,64 @@ public class AddMetadataItem {
             }
     }
 
-    static AgentType agentTypeSample(String elementName) {
+    static AgentType agentTypeSample(String elementName) throws SEDALibException {
         AgentType result = new AgentType(elementName);
         constructComplexListType(result);
         return result;
     }
 
-    static Coverage coverageSample(String elementName) {
+    static Coverage coverageSample(String elementName) throws SEDALibException {
         Coverage result = new Coverage();
         constructComplexListType(result);
         return result;
     }
 
-    static CustodialHistory custodialHistorySample(String elementName) {
+    static CustodialHistory custodialHistorySample(String elementName) throws SEDALibException {
         CustodialHistory result = new CustodialHistory();
         constructComplexListType(result);
         return result;
     }
 
-    static Gps gpsSample(String elementName) {
+    static Gps gpsSample(String elementName) throws SEDALibException {
         Gps result = new Gps();
         constructComplexListType(result);
         return result;
     }
 
-    static Keyword keywordSample(String elementName) {
+    static Keyword keywordSample(String elementName) throws SEDALibException {
         Keyword result = new Keyword();
         constructComplexListType(result);
         return result;
     }
 
-    static Signer signerSample(String elementName) {
+    static Signer signerSample(String elementName) throws SEDALibException {
         Signer result = new Signer();
         constructComplexListType(result);
         return result;
     }
 
-    static Validator validatorSample(String elementName) {
+    static Validator validatorSample(String elementName) throws SEDALibException {
         Validator result = new Validator();
         constructComplexListType(result);
         return result;
     }
 
-    static Signature signatureSample(String elementName) {
+    static Signature signatureSample(String elementName) throws SEDALibException {
         Signature result = new Signature();
         constructComplexListType(result);
         return result;
     }
 
-    static AgencyType agencyTypeSample(String elementName) {
+    static AgencyType agencyTypeSample(String elementName) throws SEDALibException {
         AgencyType result = new AgencyType(elementName);
         constructComplexListType(result);
         return result;
     }
 
-    static CodeKeywordType codeKeywordTypeSample(String elementName) {
-        CodeKeywordType ckt=null;
+    static KeywordType keywordTypeSample(String elementName) {
+        KeywordType ckt=null;
         try {
-            ckt=new CodeKeywordType(elementName, "subject");
+            ckt=new KeywordType("subject");
         }
         catch(SEDALibException ignored){
         }
@@ -307,17 +309,17 @@ public class AddMetadataItem {
         return result;
     }
 
-    static Event eventSample(String elementName) {
+    static Event eventSample(String elementName) throws SEDALibException {
         Event result = new Event();
         for (String metadataName : result.getMetadataOrderedList()) {
-            ComplexListType.MetadataKind metadataKind = result.getMetadataMap().get(metadataName);
-            Creator c = typeCreatorMap.get(metadataKind.metadataClass.getSimpleName());
+            ComplexListMetadataKind complexListMetadataKind = result.getMetadataMap().get(metadataName);
+            Creator c = typeCreatorMap.get(complexListMetadataKind.metadataClass.getSimpleName());
             SEDAMetadata metadataObject = c.create(metadataName);
             try {
                 result.addMetadata(metadataObject);
             } catch (SEDALibException ignored) {
             }
-            if (metadataKind.many) {
+            if (complexListMetadataKind.many) {
                 metadataObject = c.create(metadataName);
                 try {
                     result.addMetadata(metadataObject);
@@ -336,7 +338,7 @@ public class AddMetadataItem {
         return new UpdateOperation("Name", "Value");
     }
 
-    public AddMetadataItem(Class metadataClass, String elementName) {
+    public AddMetadataItem(Class metadataClass, String elementName) throws SEDALibException {
         SEDAMetadata result;
 
         Creator c = typeCreatorMap.get(metadataClass.getSimpleName());
@@ -353,27 +355,31 @@ public class AddMetadataItem {
 
     public static String[] getAddContentMetadataArray() {
         if (addContentMetadataArray == null) {
-            List<String> tmp = new ArrayList<String>();
-            tmp.add("[A]ArchiveUnitProfile ");
-            Content c=new Content();
-            List<String> contentMetadataList=new ArrayList<String>();
-            contentMetadataList.add("[C]AnyOtherMetadata ");
-            for (String metadataName : c.getMetadataOrderedList()) {
-                ComplexListType.MetadataKind metadataKind = c.getMetadataMap().get(metadataName);
-                contentMetadataList.add("[C]" + metadataName + (metadataKind.many ? " *" : " "));
-            }
-            Collections.sort(contentMetadataList);
-            tmp.addAll(contentMetadataList);
-            Management m=new Management();
-            List<String> managementMetadataList=new ArrayList<String>();
-            managementMetadataList.add("[C]AnyOtherMetadata ");
-            for (String metadataName : m.getMetadataOrderedList()) {
-                ComplexListType.MetadataKind metadataKind = m.getMetadataMap().get(metadataName);
-                managementMetadataList.add("[M]" + metadataName + (metadataKind.many ? " *" : " "));
-            }
-            Collections.sort(managementMetadataList);
-            tmp.addAll(managementMetadataList);
-            addContentMetadataArray = tmp.toArray(new String[0]);
+           try {
+               List<String> tmp = new ArrayList<String>();
+               tmp.add("[A]ArchiveUnitProfile ");
+               Content c = new Content();
+               List<String> contentMetadataList = new ArrayList<String>();
+               contentMetadataList.add("[C]AnyOtherMetadata ");
+               for (String metadataName : c.getMetadataOrderedList()) {
+                   ComplexListMetadataKind complexListMetadataKind = c.getMetadataMap().get(metadataName);
+                   contentMetadataList.add("[C]" + metadataName + (complexListMetadataKind.many ? " *" : " "));
+               }
+               Collections.sort(contentMetadataList);
+               tmp.addAll(contentMetadataList);
+               Management m = new Management();
+               List<String> managementMetadataList = new ArrayList<String>();
+               managementMetadataList.add("[C]AnyOtherMetadata ");
+               for (String metadataName : m.getMetadataOrderedList()) {
+                   ComplexListMetadataKind complexListMetadataKind = m.getMetadataMap().get(metadataName);
+                   managementMetadataList.add("[M]" + metadataName + (complexListMetadataKind.many ? " *" : " "));
+               }
+               Collections.sort(managementMetadataList);
+               tmp.addAll(managementMetadataList);
+               addContentMetadataArray = tmp.toArray(new String[0]);
+           } catch (SEDALibException e) {
+               addContentMetadataArray = new String[0];
+           }
         }
         return addContentMetadataArray;
     }

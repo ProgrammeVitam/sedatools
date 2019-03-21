@@ -25,49 +25,66 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 
 /**
- * The Class AgencyType.
+ * The Class Event.
  * <p>
- * For abstract agency type SEDA metadata
+ * Class for SEDA element Event.
+ * <p>
+ * An Event metadata.
+ * <p>
+ * Standard quote: "Informations décrivant un événement survenu au cours d’une
+ * procédure (ex. publication d’un marché, notification d’un marché, recueil
+ * d’un avis administratif, etc.)."
  */
-public class AgencyType extends ComplexListType {
+public class Event extends ComplexListType {
 
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap
+    @ComplexListMetadataMap(isExpandable = true)
     static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("EventIdentifier",
+                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("EventType", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap.put("EventDetail", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("OutcomeDetailMessage",
+                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("EventDetailData",
+                new ComplexListMetadataKind(StringType.class, false));
     }
 
     /**
-     * Instantiates a new agency type.
-     *
-     * @param elementName the element name
+     * Instantiates a new Event.
      */
-    public AgencyType(String elementName) {
-        super(elementName);
+    public Event() {
+        super("Event");
     }
 
     /**
-     * Instantiates a new agency type with identifier.
-     *
-     * @param elementName the element name
-     * @param identifier  the identifier
+     * Instantiates a new Event, with EventIdentifier, EventType, EventDateTime and Outcome.
+     * If any is null, it's not added.
      */
-    public AgencyType(String elementName, String identifier) {
-        super(elementName);
-        try {
-            addNewMetadata("Identifier", identifier);
-        } catch (SEDALibException ignored) {
-        }
+    public Event(String eventIdentifier, String eventType, LocalDateTime eventDateTime, String outcome) throws SEDALibException {
+        super("Event");
+
+        if (eventIdentifier != null) addNewMetadata("EventIdentifier", eventIdentifier);
+        if (eventType != null) addNewMetadata("EventType", eventType);
+        if (eventDateTime != null) addNewMetadata("EventDateTime", eventDateTime);
+        if (outcome != null) addNewMetadata("Outcome", outcome);
     }
 }

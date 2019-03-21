@@ -39,8 +39,8 @@ import java.util.Formatter;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
-import fr.gouv.vitam.tools.sedalib.metadata.FileInfo;
-import fr.gouv.vitam.tools.sedalib.metadata.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 

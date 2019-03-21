@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import org.apache.commons.lang3.reflect.ConstructorUtils;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
@@ -77,22 +78,43 @@ public abstract class SEDAMetadata {
     }
 
     /**
+     * Fill a SEDAMetadata subtype from SEDA XML content.
+     *
+     * @param xmlReader the xml reader
+     * @return true if the SEDAMetadata has been generated, false if not
+     * @throws SEDALibException the seda lib exception
+     */
+    public abstract boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException;
+
+
+    /**
      * Return the SEDAMetadata object from an XML event reader.
      *
      * @param xmlReader the xml reader
-     * @param target the target sub-class of SEDAMetadata
+     * @param target    the target sub-class of SEDAMetadata
      * @return the read SEDAMetadata object
      * @throws SEDALibException if XML read exception or inappropriate sub-class
      */
     static public SEDAMetadata fromSedaXml(SEDAXMLEventReader xmlReader, Class<?> target) throws SEDALibException {
         try {
+            boolean needName = target.getName().contains(".namedtype.");
+            SEDAMetadata sm;
+            if (needName) {
+                XMLEvent event = xmlReader.peekUsefullEvent();
+                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, event.asStartElement().getName().getLocalPart());
+            } else
+                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, null);
+            if (sm.fillFromSedaXml(xmlReader))
+                return sm;
             Method method = target.getMethod("fromSedaXml", SEDAXMLEventReader.class);
             return (SEDAMetadata) method.invoke(null, xmlReader);
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException
-                | SecurityException e) {
+                | SecurityException | InstantiationException e) {
             throw new SEDALibException("Erreur de construction du " + target.getSimpleName() + "\n->" + e.getMessage());
         } catch (InvocationTargetException te) {
             throw new SEDALibException("Erreur de construction du " + target.getSimpleName() + "\n->" + te.getTargetException().getMessage());
+        } catch (XMLStreamException e) {
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type "+target.getSimpleName()+"\n->" + e.getMessage());
         }
     }
 
@@ -100,7 +122,7 @@ public abstract class SEDAMetadata {
      * Return the SEDAMetadata object from an XML the String representation.
      *
      * @param xmlData the xml data
-     * @param target the target sub-class of SEDAMetadata
+     * @param target  the target sub-class of SEDAMetadata
      * @return the SEDAMetadata object
      * @throws SEDALibException if XML read exception or inappropriate sub-class
      */

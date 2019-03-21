@@ -25,8 +25,9 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata;
+package fr.gouv.vitam.tools.sedalib.metadata.data;
 
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -105,28 +106,24 @@ public class FormatIdentification extends SEDAMetadata {
     }
 
     /**
-     * Import the FormatIdentification in XML expected form for the SEDA Manifest.
+     * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read FormatIdentification
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
+     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @return true, if it finds something convenient, false if not
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
-    public static FormatIdentification fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        FormatIdentification fi = null;
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
             if (xmlReader.nextBlockIfNamed("FormatIdentification")) {
-                fi = new FormatIdentification();
-                fi.formatLitteral = xmlReader.nextValueIfNamed("FormatLitteral");
-                fi.mimeType = xmlReader.nextValueIfNamed("MimeType");
-                fi.formatId = xmlReader.nextValueIfNamed("FormatId");
-                fi.encoding = xmlReader.nextValueIfNamed("Encoding");
+                formatLitteral = xmlReader.nextValueIfNamed("FormatLitteral");
+                mimeType = xmlReader.nextValueIfNamed("MimeType");
+                formatId = xmlReader.nextValueIfNamed("FormatId");
+                encoding = xmlReader.nextValueIfNamed("Encoding");
                 xmlReader.endBlockNamed("FormatIdentification");
-            }
-        } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException(
-                    "Erreur de lecture XML dans un élément FormatIdentification\n->" + e.getMessage());
+            } else return false;
+        } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type FormatIdentification\n->" + e.getMessage());
         }
-        return fi;
+        return true;
     }
 }

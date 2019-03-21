@@ -25,24 +25,30 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 
 /**
- * The Class AgentType.
+ * The Class Validator.
  * <p>
- * For abstract agent type SEDA metadata
+ * Class for Validator metadata.
+ * <p>
+ * Part of Signature ArchiveUnit metadata.
+ * <p>
+ * Standard quote: "Validateur de la signature"
  */
-public class AgentType extends ComplexListType {
+public class Validator extends ComplexListType {
 
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
 
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
@@ -58,6 +64,7 @@ public class AgentType extends ComplexListType {
         metadataMap.put("Nationality", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Corpname", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("ValidationTime", new ComplexListMetadataKind(DateTimeType.class, false));
         metadataMap.put("Function", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("Activity", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("Position", new ComplexListMetadataKind(TextType.class, true));
@@ -66,53 +73,21 @@ public class AgentType extends ComplexListType {
     }
 
     /**
-     * Instantiates a new agent type.
-     *
-     * @param elementName the element name
+     * Instantiates a new validator type.
      */
-    public AgentType(String elementName) {
-        super(elementName);
+    public Validator() {
+        super("Validator");
     }
 
     /**
-     * Instantiates a new agent type with fullname.
+     * Instantiates a new validator type with corpname and validation time.
      *
-     * @param elementName the element name
-     * @param fullName    the full name
+     * @param corpname       the corporation name
+     * @param validationTime the validation time
      */
-    public AgentType(String elementName, String fullName) throws SEDALibException {
-        super(elementName);
-
-        addNewMetadata("FullName", fullName);
-    }
-
-    /**
-     * Instantiates a new agent type with firstname and birthname.
-     *
-     * @param elementName the element name
-     * @param firstName   the first name
-     * @param birthName   the birth name
-     */
-    public AgentType(String elementName, String firstName, String birthName) throws SEDALibException {
-        super(elementName);
-
-        addNewMetadata("FirstName", firstName);
-        addNewMetadata("BirthName", birthName);
-    }
-
-    /**
-     * Instantiates a new agent type with firstname, birthname and identifier.
-     *
-     * @param elementName the element name
-     * @param firstName   the first name
-     * @param birthName   the birth name
-     * @param identifier  the identifier
-     */
-    public AgentType(String elementName, String firstName, String birthName, String identifier) throws SEDALibException {
-        super(elementName);
-
-        addNewMetadata("FirstName", firstName);
-        addNewMetadata("BirthName", birthName);
-        addNewMetadata("Identifier", identifier);
+    public Validator(String corpname, LocalDateTime validationTime) throws SEDALibException {
+        this();
+        addNewMetadata("Corpname", corpname);
+        addNewMetadata("ValidationTime", validationTime);
     }
 }

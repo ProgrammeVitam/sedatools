@@ -25,49 +25,60 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
 
 /**
- * The Class AgencyType.
+ * The Class Coverage.
  * <p>
- * For abstract agency type SEDA metadata
+ * Class for Coverage metadata.
+ * <p>
+ * An ArchiveUnit metadata.
+ * <p>
+ * Standard quote: "Couverture spatiale, temporelle ou juridictionnelle"
  */
-public class AgencyType extends ComplexListType {
+public class Coverage extends ComplexListType {
 
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
     static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("Spatial", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("Temporal", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("Juridictional", new ComplexListMetadataKind(StringType.class, true));
     }
 
     /**
-     * Instantiates a new agency type.
-     *
-     * @param elementName the element name
+     * Instantiates a new coverage type.
      */
-    public AgencyType(String elementName) {
-        super(elementName);
+    public Coverage() {
+        super("Coverage");
     }
 
     /**
-     * Instantiates a new agency type with identifier.
+     * Instantiates a new coverage type with Spatial, Temporal and Juridictional. If any is null, it's not added
      *
-     * @param elementName the element name
-     * @param identifier  the identifier
+     * @param elementName   the element name
+     * @param spatial       the spatial
+     * @param temporal      the temporal
+     * @param juridictional the juridictional
      */
-    public AgencyType(String elementName, String identifier) {
+    public Coverage(String elementName, String spatial, String temporal, String juridictional) throws SEDALibException {
         super(elementName);
-        try {
-            addNewMetadata("Identifier", identifier);
-        } catch (SEDALibException ignored) {
-        }
+
+        if (spatial != null) addNewMetadata("Spatial", spatial);
+        if (temporal != null) addNewMetadata("Temporal", temporal);
+        if (juridictional != null) addNewMetadata("Juridictional", juridictional);
     }
 }

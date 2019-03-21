@@ -99,63 +99,37 @@ public class IntegerType extends NamedTypeMetadata {
         try {
             xmlWriter.writeElementValue(elementName, Long.toString(value));
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type IntegerType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type IntegerType ["+getXmlElementName()+"]\n->" + e.getMessage());
         }
     }
 
     /**
-     * Import an element of type IntegerType in XML expected form for the SEDA
-     * Manifest.
+     * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read IntegerType
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
+     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @return true, if it finds something convenient, false if not
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
-    public static IntegerType fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        IntegerType st;
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
-            st = new IntegerType();
-            XMLEvent event = xmlReader.peekUsefullEvent();
-            st.elementName = event.asStartElement().getName().getLocalPart();
-            fromSedaXmlInObject(xmlReader, st);
-        } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément IntegerType\n->" + e.getMessage());
-        }
-        return st;
-    }
-
-    /**
-     * Import an element of type IntegerType in XML expected form for the SEDA
-     * Manifest.
-     *
-     * @param xmlReader  the SEDAXMLEventReader reading the SEDA manifest
-     * @param integerType the IntegerType to complete
-     * @return the read IntegerType
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
-     */
-    public static IntegerType fromSedaXmlInObject(SEDAXMLEventReader xmlReader, IntegerType integerType)
-            throws SEDALibException {
-        try {
-            if (xmlReader.peekBlockIfNamed(integerType.elementName)) {
+            if (xmlReader.peekBlockIfNamed(elementName)) {
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
                     String tmp = event.asCharacters().getData();
-                    integerType.value = Long.parseLong(tmp);
+                    value = Long.parseLong(tmp);
                     event = xmlReader.nextUsefullEvent();
                 } else
                     throw new SEDALibException("Erreur de lecture XML dans un élément de type IntegerType qui est vide");
                 if ((!event.isEndElement())
-                        || (!integerType.elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + integerType.elementName + " mal terminé");
+                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
+                    throw new SEDALibException("Elément " + elementName + " mal terminé");
             } else
-                return null;
+                return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type IntegerType\n->" + e.getMessage());
         }
-        return integerType;
+        return true;
     }
 
     // Getters and setters

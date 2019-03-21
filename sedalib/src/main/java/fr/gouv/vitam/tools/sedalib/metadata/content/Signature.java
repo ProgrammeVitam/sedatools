@@ -25,18 +25,25 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 
 import java.util.LinkedHashMap;
 
 /**
- * The Class AgencyType.
+ * The Class Signature.
  * <p>
- * For abstract agency type SEDA metadata
+ * Class for SEDA element Signature.
+ * <p>
+ * An ArchiveUnit metadata.
+ * <p>
+ * Standard quote: "Contient toutes les informations relatives à la signature"
  */
-public class AgencyType extends ComplexListType {
+public class Signature extends ComplexListType {
 
     /**
      * Init metadata map.
@@ -45,29 +52,16 @@ public class AgencyType extends ComplexListType {
     static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("Signer", new ComplexListMetadataKind(Signer.class, true));
+        metadataMap.put("Validator", new ComplexListMetadataKind(Validator.class, false));
+        metadataMap.put("Masterdata", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("ReferencedObject", new ComplexListMetadataKind(ReferencedObject.class, false));
     }
 
     /**
-     * Instantiates a new agency type.
-     *
-     * @param elementName the element name
+     * Instantiates a new signature.
      */
-    public AgencyType(String elementName) {
-        super(elementName);
-    }
-
-    /**
-     * Instantiates a new agency type with identifier.
-     *
-     * @param elementName the element name
-     * @param identifier  the identifier
-     */
-    public AgencyType(String elementName, String identifier) {
-        super(elementName);
-        try {
-            addNewMetadata("Identifier", identifier);
-        } catch (SEDALibException ignored) {
-        }
+    public Signature() {
+        super("Signature");
     }
 }

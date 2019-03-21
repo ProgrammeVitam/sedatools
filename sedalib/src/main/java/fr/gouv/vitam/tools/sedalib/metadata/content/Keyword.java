@@ -25,71 +25,56 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-package fr.gouv.vitam.tools.sedalib.metadata;
-
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 /**
- * The Class AccessRule.
+ * The Class Keyword.
  * <p>
- * Class for SEDA element AccessRule
+ * Class for Keyword metadata.
  * <p>
- * A management ArchiveUnit metadata.
+ * an ArchiveUnit metadata.
  * <p>
- * Standard quote: "Gestion de la communicabilité"
+ * Standard quote: "Mots-clef avec contexte inspiré du SEDA 1.0. En ce qui concerne l'indexation, on pourra
+ * utiliser Tag ou Keyword en fonction de ce que l'on souhaite décrire."
  */
-public class AccessRule extends RuleType {
+public class Keyword extends ComplexListType {
 
     /**
-     * Instantiates a new access rule.
+     * Init metadata map.
      */
-    public AccessRule() {
-        super("AccessRule");
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("KeywordContent", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("KeywordReference", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("KeywordType", new ComplexListMetadataKind(KeywordType.class, false));
     }
 
     /**
-     * Instantiates a new access rule, with one rule and a date.
+     * Instantiates a new keyword type.
+     */
+    public Keyword() {
+        super("Keyword");
+    }
+
+    /**
+     * Instantiates a new keyword type with KeywordContent, KeywordReference and KeywordType. If any is null, it's not added.
      *
-     * @param rule        the rule
-     * @param startDate   the start date
+     * @param keywordContent   the keyword content
+     * @param keywordReference the keyword reference
+     * @param keywordType      the keyword type
      */
-    public AccessRule(String rule, LocalDate startDate) {
-        super("AccessRule", rule, startDate);
-    }
-
-    /**
-     * Instantiates a new access rule form args.
-     *
-     * @param elementName the XML element name (here "AccessRule")
-     * @param args        the generic args for metadata construction
-     * @throws SEDALibException if args are not suitable for constructor
-     */
-    public AccessRule(String elementName, Object[] args) throws SEDALibException {
-        super("AccessRule", args);
-    }
-
-    /**
-     * Import the AccessRule in XML expected form for the SEDA Manifest.
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read AccessRule
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
-     */
-    public static AccessRule fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        AccessRule accessRule = new AccessRule();
-        accessRule = (AccessRule) fromSedaXmlInObject(xmlReader, accessRule);
-        return accessRule;
-    }
-
-    @Override
-    public List<String> getFinalActionList() {
-        return null;
+    public Keyword(String keywordContent, String keywordReference, String keywordType) throws SEDALibException {
+        this();
+        if (keywordContent != null) addNewMetadata("KeywordContent", keywordContent);
+        if (keywordReference != null) addNewMetadata("KeywordReference", keywordReference);
+        if (keywordType != null) addNewMetadata("KeywordType", keywordType);
     }
 }

@@ -87,23 +87,6 @@ public class DateTimeType extends NamedTypeMetadata {
         this.value = dateValue.atStartOfDay();
     }
 
-    /**
-     * Instantiates a new string from args.
-     *
-     * @param elementName the XML element name
-     * @param args        the generic args for NameTypeMetadata construction
-     * @throws SEDALibException if args are not suitable for constructor
-     */
-    public DateTimeType(String elementName, Object[] args) throws SEDALibException {
-        super(elementName);
-        if ((args.length == 1) && (args[0] instanceof LocalDateTime))
-            this.value = (LocalDateTime) args[0];
-        else if ((args.length == 1) && (args[0] instanceof LocalDate))
-            this.value = ((LocalDate) args[0]).atStartOfDay();
-        else
-            throw new SEDALibException("Mauvais constructeur de l'élément [" + elementName + "]");
-    }
-
     /*
      * (non-Javadoc)
      *
@@ -120,43 +103,41 @@ public class DateTimeType extends NamedTypeMetadata {
             else
                 xmlWriter.writeElementValue(elementName, xmlWriter.getStringFromDateTime(value));
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type DateTimeType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type DateTimeType [" + getXmlElementName() + "]\n->" + e.getMessage());
         }
     }
 
     /**
-     * Import an element of type DateTimeType in XML expected form for the SEDA
-     * Manifest.
+     * Import the metadata content in XML expected form from the SEDA Manifest.
      *
      * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read DateTimeType
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
+     * @return true, if it finds something convenient, false if not
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
-    public static DateTimeType fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        DateTimeType st;
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         String tmpDate;
         try {
-            st = new DateTimeType();
-            XMLEvent event = xmlReader.nextUsefullEvent();
-            st.elementName = event.asStartElement().getName().getLocalPart();
-            event = xmlReader.nextUsefullEvent();
-            if (event.isCharacters()) {
-                tmpDate = event.asCharacters().getData();
-                try {
-                    st.value = xmlReader.getDateTimeFromString(tmpDate);
-                } catch (DateTimeParseException e) {
-                    throw new SEDALibException("La date est mal formatée");
-                }
+            if (xmlReader.peekBlockIfNamed(elementName)) {
+                XMLEvent event = xmlReader.nextUsefullEvent();
+                elementName = event.asStartElement().getName().getLocalPart();
                 event = xmlReader.nextUsefullEvent();
-            } else
-                st.value = null;
-            if ((!event.isEndElement()) || (!st.elementName.equals(event.asEndElement().getName().getLocalPart())))
-                throw new SEDALibException("Elément " + st.elementName + " mal terminé");
+                if (event.isCharacters()) {
+                    tmpDate = event.asCharacters().getData();
+                    try {
+                        value = xmlReader.getDateTimeFromString(tmpDate);
+                    } catch (DateTimeParseException e) {
+                        throw new SEDALibException("La date est mal formatée");
+                    }
+                    event = xmlReader.nextUsefullEvent();
+                } else
+                    value = null;
+                if ((!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
+                    throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type DateTimeType\n->" + e.getMessage());
         }
-        return st;
+        return true;
     }
 
     // Getters and setters
@@ -178,6 +159,4 @@ public class DateTimeType extends NamedTypeMetadata {
     public void setValue(LocalDateTime value) {
         this.value = value;
     }
-
-
 }

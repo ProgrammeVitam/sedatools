@@ -9,7 +9,7 @@
  * <p>
  * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
  * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveDeliveryRequestReply the following URL "http://www.cecill.info".
+ * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
  * <p>
  * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
  * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
@@ -25,18 +25,27 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.metadata.management.ArchiveUnitIdentifierKey;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
 
 /**
- * The Class AgencyType.
+ * The Class UpdateOperation.
  * <p>
- * For abstract agency type SEDA metadata
+ * Class for SEDA element UpdateOperation.
+ * <p>
+ * A Management metadata.
+ * <p>
+ * Vitam quote: "Pointeur vers un ArchiveUnit existant dans le système."
  */
-public class AgencyType extends ComplexListType {
+public class UpdateOperation extends ComplexListType {
 
     /**
      * Init metadata map.
@@ -45,28 +54,40 @@ public class AgencyType extends ComplexListType {
     static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("SystemId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("ArchiveUnitIdentifierKey", new ComplexListMetadataKind(ArchiveUnitIdentifierKey.class, false));
     }
 
     /**
-     * Instantiates a new agency type.
-     *
-     * @param elementName the element name
+     * Instantiates a new validator type.
      */
-    public AgencyType(String elementName) {
-        super(elementName);
+    public UpdateOperation() {
+        super("UpdateOperation");
     }
 
     /**
-     * Instantiates a new agency type with identifier.
+     * Instantiates a new update operation with a systemId link.
      *
-     * @param elementName the element name
-     * @param identifier  the identifier
+     * @param systemId the system id
      */
-    public AgencyType(String elementName, String identifier) {
-        super(elementName);
+    public UpdateOperation(String systemId) {
+        this();
         try {
-            addNewMetadata("Identifier", identifier);
+            addNewMetadata("SystemId", systemId);
+        } catch (SEDALibException ignored) {
+        }
+    }
+
+    /**
+     * Instantiates a new update operation with a metadata name and value link.
+     *
+     * @param metadataName  the metadata name
+     * @param metadataValue the metadata value
+     */
+    public UpdateOperation(String metadataName, String metadataValue) {
+        this();
+        try {
+            addNewMetadata("ArchiveUnitIdentifierKey", metadataName, metadataValue);
         } catch (SEDALibException ignored) {
         }
     }

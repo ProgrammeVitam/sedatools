@@ -3,6 +3,8 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import org.junit.jupiter.api.Test;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -10,10 +12,10 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-class FileInfoTest {
+class DataTest {
 
     @Test
-    void test() throws SEDALibException {
+    void testFileInfo() throws SEDALibException {
         // Given
         FileInfo fi = new FileInfo("TestFileName", "TestCreatingApplicationName",
                 "TestCreatingApplicationVersion",
@@ -22,7 +24,6 @@ class FileInfoTest {
                 "TestCreatingOsVersion", FileTime.fromMillis(0));
 
         String fiOut = fi.toString();
-//        System.out.println("Value to verify=" + fiOut);
 
         // When read write in XML string format
         FileInfo fiNext = (FileInfo) SEDAMetadata.fromString(fiOut, FileInfo.class);
@@ -40,5 +41,27 @@ class FileInfoTest {
                 "</FileInfo>";
         assertThat(fiNextOut).isEqualTo(testOut);
     }
+
+    @Test
+    void testFormatIdentification() throws SEDALibException {
+        // Given
+        FormatIdentification fi = new FormatIdentification("TestFormatLitteral", "TestMimeType", "TestFormatId", "TestEncoding");
+
+        String fiOut = fi.toString();
+
+        // When read write in XML string format
+        FormatIdentification fiNext = (FormatIdentification) SEDAMetadata.fromString(fiOut, FormatIdentification.class);
+        String fiNextOut = fiNext.toString();
+
+        //Then
+        String testOut = "<FormatIdentification>\n" +
+                "  <FormatLitteral>TestFormatLitteral</FormatLitteral>\n" +
+                "  <MimeType>TestMimeType</MimeType>\n" +
+                "  <FormatId>TestFormatId</FormatId>\n" +
+                "  <Encoding>TestEncoding</Encoding>\n" +
+                "</FormatIdentification>";
+        assertThat(fiNextOut).isEqualTo(testOut);
+    }
+
 
 }

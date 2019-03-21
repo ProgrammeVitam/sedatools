@@ -25,8 +25,9 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata;
+package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -112,22 +113,6 @@ public class ClassificationRule extends SEDAMetadata {
         this();
         this.classificationLevel = classificationLevel;
         this.classificationOwner = classificationOwner;
-    }
-
-    /**
-     * Instantiates a new classification rule form args.
-     *
-     * @param elementName the XML element name (here "ClassificationRule")
-     * @param args        the generic args for metadata construction
-     * @throws SEDALibException if args are not suitable for constructor
-     */
-    public ClassificationRule(String elementName, Object[] args) throws SEDALibException {
-        this();
-        if ((args.length == 2) && (args[0] instanceof String) && (args[1] instanceof String)) {
-            this.classificationLevel = (String) args[0];
-            this.classificationOwner = (String) args[1];
-        } else
-            throw new SEDALibException("Mauvais constructeur de l'élément [" + elementName + "]");
     }
 
     /*
@@ -249,19 +234,17 @@ public class ClassificationRule extends SEDAMetadata {
     }
 
     /**
-     * Import the ClassificationRule in XML expected form for the SEDA Manifest.
+     * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read ClassificationRule
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not                          respected
+     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @return true, if it finds something convenient, false if not
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
-    public static ClassificationRule fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        ClassificationRule cr = null;
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         String tmp, tmpDate;
         LocalDate startDate;
         try {
             if (xmlReader.nextBlockIfNamed("ClassificationRule")) {
-                cr = new ClassificationRule();
                 tmp = xmlReader.nextValueIfNamed("Rule");
                 while (tmp != null) {
                     tmpDate = xmlReader.nextValueIfNamed("StartDate");
@@ -272,30 +255,31 @@ public class ClassificationRule extends SEDAMetadata {
                     } catch (DateTimeParseException e) {
                         throw new SEDALibException("La date d'une règle est mal formatée");
                     }
-                    cr.addRule(tmp, startDate);
+                    addRule(tmp, startDate);
                     tmp = xmlReader.nextValueIfNamed("Rule");
                 }
-                cr.preventInheritance = xmlReader.nextBooleanValueIfNamed("PreventInheritance");
+                preventInheritance = xmlReader.nextBooleanValueIfNamed("PreventInheritance");
                 tmp = xmlReader.nextValueIfNamed("RefNonRuleId");
                 while (tmp != null) {
-                    cr.addRefNonRuleId(tmp);
+                    addRefNonRuleId(tmp);
                     tmp = xmlReader.nextValueIfNamed("RefNonRuleId");
                 }
-                cr.classificationLevel = xmlReader.nextValueIfNamed("ClassificationLevel");
-                cr.classificationOwner = xmlReader.nextValueIfNamed("ClassificationOwner");
+                classificationLevel = xmlReader.nextValueIfNamed("ClassificationLevel");
+                classificationOwner = xmlReader.nextValueIfNamed("ClassificationOwner");
                 tmpDate = xmlReader.nextValueIfNamed("ClassificationReassessingDate");
                 if (tmpDate != null)
                     try {
-                        cr.classificationReassessingDate = SEDAXMLEventReader.getDateFromString(tmpDate);
+                        classificationReassessingDate = SEDAXMLEventReader.getDateFromString(tmpDate);
                     } catch (DateTimeParseException e) {
                         throw new SEDALibException("La date ClassificationReassessingDate est mal formatée");
                     }
-                cr.needReassessingAuthorization = xmlReader.nextBooleanValueIfNamed("NeedReassessingAuthorization");
+                needReassessingAuthorization = xmlReader.nextBooleanValueIfNamed("NeedReassessingAuthorization");
                 xmlReader.endBlockNamed("ClassificationRule");
-            }
+            } else
+                return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément StorageRule\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type ClassificationRule\n->" + e.getMessage());
         }
-        return cr;
+        return true;
     }
 }

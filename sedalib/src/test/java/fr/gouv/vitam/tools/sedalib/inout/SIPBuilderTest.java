@@ -2,11 +2,10 @@ package fr.gouv.vitam.tools.sedalib.inout;
 
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
-import fr.gouv.vitam.tools.sedalib.metadata.AppraisalRule;
-import fr.gouv.vitam.tools.sedalib.metadata.Content;
-import fr.gouv.vitam.tools.sedalib.metadata.Event;
-import fr.gouv.vitam.tools.sedalib.metadata.Management;
+import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
+import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -70,7 +69,7 @@ public class SIPBuilderTest {
 
 //TODO Improve test quality
             assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip")).isFile();
-            assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip").length()).isGreaterThan(10869000).isLessThan(10871000);
+            assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip").length()).isGreaterThan(10868000).isLessThan(10871000);
         } catch (Exception e) {
             throw new SEDALibException("SIPBuilder test KO");
         }
@@ -150,7 +149,7 @@ public class SIPBuilderTest {
 
 //TODO Improve test quality
             assertThat(new File("target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip")).isFile();
-            assertThat(new File("target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip").length()).isGreaterThan(2184000).isLessThan(2185000);
+            assertThat(new File("target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip").length()).isGreaterThan(2183000).isLessThan(2185000);
         } catch (Exception e) {
             throw new SEDALibException("SIPBuilder test KO");
         }

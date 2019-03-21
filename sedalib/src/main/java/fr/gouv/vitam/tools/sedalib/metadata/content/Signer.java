@@ -25,24 +25,30 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
+import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 
 /**
- * The Class AgentType.
+ * The Class Signer.
  * <p>
- * For abstract agent type SEDA metadata
+ * Class for Signer metadata.
+ * <p>
+ * Part of Signature ArchiveUnit metadata.
+ * <p>
+ * Standard quote: "Signataire(s) de la transaction ou de l'objet"
  */
-public class AgentType extends ComplexListType {
+public class Signer extends ComplexListType {
 
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
 
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
@@ -58,6 +64,7 @@ public class AgentType extends ComplexListType {
         metadataMap.put("Nationality", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Corpname", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("SigningTime", new ComplexListMetadataKind(DateTimeType.class, false));
         metadataMap.put("Function", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("Activity", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("Position", new ComplexListMetadataKind(TextType.class, true));
@@ -66,53 +73,54 @@ public class AgentType extends ComplexListType {
     }
 
     /**
-     * Instantiates a new agent type.
-     *
-     * @param elementName the element name
+     * Instantiates a new signer type.
      */
-    public AgentType(String elementName) {
-        super(elementName);
+    public Signer() {
+        super("Signer");
     }
 
     /**
-     * Instantiates a new agent type with fullname.
+     * Instantiates a new signer type with fullname and signing time.
      *
-     * @param elementName the element name
      * @param fullName    the full name
+     * @param signingTime the signing time
      */
-    public AgentType(String elementName, String fullName) throws SEDALibException {
-        super(elementName);
+    public Signer(String fullName, LocalDateTime signingTime) throws SEDALibException {
+        this();
 
         addNewMetadata("FullName", fullName);
+        addNewMetadata("SigningTime", signingTime);
     }
 
     /**
-     * Instantiates a new agent type with firstname and birthname.
+     * Instantiates a new signer type with firstname, birthname and signing time.
      *
-     * @param elementName the element name
      * @param firstName   the first name
      * @param birthName   the birth name
+     * @param signingTime the signing time
      */
-    public AgentType(String elementName, String firstName, String birthName) throws SEDALibException {
-        super(elementName);
+    public Signer(String firstName, String birthName, LocalDateTime signingTime) throws SEDALibException {
+        this();
 
         addNewMetadata("FirstName", firstName);
         addNewMetadata("BirthName", birthName);
+        addNewMetadata("SigningTime", signingTime);
     }
 
     /**
-     * Instantiates a new agent type with firstname, birthname and identifier.
+     * Instantiates a new signer type with firstname, birthname, identifier and signing time.
      *
-     * @param elementName the element name
      * @param firstName   the first name
      * @param birthName   the birth name
      * @param identifier  the identifier
+     * @param signingTime the signing time
      */
-    public AgentType(String elementName, String firstName, String birthName, String identifier) throws SEDALibException {
-        super(elementName);
+    public Signer(String firstName, String birthName, LocalDateTime signingTime, String identifier) throws SEDALibException {
+        this();
 
         addNewMetadata("FirstName", firstName);
         addNewMetadata("BirthName", birthName);
         addNewMetadata("Identifier", identifier);
+        addNewMetadata("SigningTime", signingTime);
     }
 }

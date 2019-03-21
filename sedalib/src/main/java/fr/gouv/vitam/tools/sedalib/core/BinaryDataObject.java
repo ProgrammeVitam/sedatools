@@ -29,8 +29,9 @@ package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.FileInfo;
-import fr.gouv.vitam.tools.sedalib.metadata.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -527,8 +528,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             if (tmp != null)
                 size = Integer.parseInt(tmp);
             compressed = xmlReader.nextValueIfNamed("Compressed");
-            formatIdentification = FormatIdentification.fromSedaXml(xmlReader);
-            fileInfo = FileInfo.fromSedaXml(xmlReader);
+            formatIdentification = (FormatIdentification) SEDAMetadata.fromSedaXml(xmlReader,FormatIdentification.class);
+            fileInfo = (FileInfo) SEDAMetadata.fromSedaXml(xmlReader,FileInfo.class);
             metadataXmlData = xmlReader.nextBlockAsStringIfNamed("Metadata");
             otherMetadataXmlData = xmlReader.nextBlockAsStringIfNamed("OtherMetadata");
         } catch (XMLStreamException e) {

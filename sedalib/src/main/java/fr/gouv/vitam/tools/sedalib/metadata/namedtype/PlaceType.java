@@ -25,72 +25,54 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
+package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
-package fr.gouv.vitam.tools.sedalib.metadata;
-
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
-import java.time.LocalDate;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 /**
- * The Class AccessRule.
+ * The Class PlaceType.
  * <p>
- * Class for SEDA element AccessRule
- * <p>
- * A management ArchiveUnit metadata.
- * <p>
- * Standard quote: "Gestion de la diffusion"
+ * For abstract place type SEDA metadata
  */
-public class DisseminationRule extends RuleType {
+public class PlaceType extends ComplexListType {
 
     /**
-     * Instantiates a new dissemination rule.
+     * Init metadata map.
      */
-    public DisseminationRule() {
-        super("DisseminationRule");
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("Geogname", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("Address", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("PostalCode", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("City", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("Region", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("Country", new ComplexListMetadataKind(StringType.class, false));
     }
 
     /**
-     * Instantiates a new dissemination rule, with one rule and a date.
+     * Instantiates a new place type.
      *
-     * @param rule        the rule
-     * @param startDate   the start date
+     * @param elementName the element name
      */
-    public DisseminationRule(String rule, LocalDate startDate) {
-        super("DisseminationRule", rule, startDate);
+    public PlaceType(String elementName) {
+        super(elementName);
     }
 
     /**
-     * Instantiates a new dissemination rule form args.
+     * Instantiates a new place type with geogname.
      *
-     * @param elementName the XML element name (here "DisseminationRule")
-     * @param args        the generic args for metadata construction
-     * @throws SEDALibException if args are not suitable for constructor
+     * @param elementName the element name
+     * @param geogname    the geogname
      */
-    public DisseminationRule(String elementName, Object[] args) throws SEDALibException {
-        super("DisseminationRule", args);
+    public PlaceType(String elementName, String geogname) {
+        super(elementName);
+        try {
+            addNewMetadata("Geogname", geogname);
+        } catch (SEDALibException ignored) {
+        }
     }
-
-    /**
-     * Import the AccessRule in XML expected form for the SEDA Manifest.
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return the read Content
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
-     */
-    public static DisseminationRule fromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        DisseminationRule disseminationRule = new DisseminationRule();
-        disseminationRule = (DisseminationRule) fromSedaXmlInObject(xmlReader, disseminationRule);
-        return disseminationRule;
-    }
-
-    @Override
-    public List<String> getFinalActionList() {
-        return null;
-    }
-
 }
