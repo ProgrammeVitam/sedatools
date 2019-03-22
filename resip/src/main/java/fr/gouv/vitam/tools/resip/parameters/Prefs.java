@@ -195,4 +195,19 @@ public class Prefs {
 		if (tmp != null)
 			prefs.put("exportDir", tmp.toString());
 	}
+
+	/**
+	 * Reinitialise prefs.
+	 *
+	 * @throws SEDALibException the seda lib exception
+	 */
+	public void reinitialisePrefs() throws SEDALibException {
+		try {
+			Preferences.userRoot().node(ResipGraphicApp.getAppName()).clear();
+		} catch (BackingStoreException e) {
+			throw new SEDALibException("Suppression des preférences existantes impossible");
+		}
+		createDefaultPrefs();
+	}
+
 }

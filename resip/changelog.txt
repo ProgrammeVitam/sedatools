@@ -3,6 +3,7 @@ Evolutions/Corrections en 1.3.0
 - Evolution: prise en compte dans l'édition assistée des métadonnées ajoutées à sedalib
 - Evolution: ajout de la fonction de tri des ArchiveUnit
 - Refacto: prise en compte de l'évolution de l'implémentation des métadonnées dans sedalib
+- Evolution: ajout du bouton de réinitialisation des préférences dans le dialogue "A Propos"
 
 ============================================================================
 Evolutions/Corrections en 1.2.0

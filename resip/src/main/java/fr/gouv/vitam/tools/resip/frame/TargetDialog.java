@@ -39,7 +39,7 @@ public class TargetDialog extends JDialog {
         questionTextArea.setLineWrap(true);
         questionTextArea.setWrapStyleWord(true);
         questionTextArea.setBackground(getContentPane().getBackground());
-        questionTextArea.setFont(questionTextArea.getFont().deriveFont(Font.BOLD, questionTextArea.getFont().getSize()));
+        questionTextArea.setFont(UIManager.getDefaults().getFont("Label.font"));
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
