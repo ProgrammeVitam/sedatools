@@ -85,10 +85,7 @@ public class HTMLTextExtractor {
         element = Jsoup.parse(html);
 
         FormattingVisitor formatter = new FormattingVisitor();
-        NodeTraversor traversor = new NodeTraversor(formatter);
-        traversor.traverse(element); // walk the DOM, and call .head() and
-        // .tail() for each node
-        // strip html tags
+        NodeTraversor.traverse(formatter, element); // walk the DOM, and call .head() and .tail() for each node
         result = formatter.toString();
 
         return result;
