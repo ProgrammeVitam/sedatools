@@ -883,9 +883,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             } catch (Exception e) {
                 // ignore
             }
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Application Resip (Version : " + version + " Date : " + builddate+")", "A propos de Resip...",
-                    JOptionPane.PLAIN_MESSAGE);
+            AProposDialog dialog=new AProposDialog(mainWindow,"Application Resip (Version : " + version + " Date : " + builddate+")");
+            dialog.setVisible(true);
         } catch (Exception ignored) {
         }
     }
