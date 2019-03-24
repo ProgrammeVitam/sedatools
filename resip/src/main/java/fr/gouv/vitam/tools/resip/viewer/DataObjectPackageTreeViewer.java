@@ -40,17 +40,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DropMode;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.JTree;
-import javax.swing.SwingUtilities;
+import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.app.AddThread;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
@@ -156,7 +152,11 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
 
         setRootVisible(false);
         setLargeModel(true);
-        setCellRenderer(new DataObjectPackageTreeCellRenderer());
+        DataObjectPackageTreeCellRenderer doptcr=new DataObjectPackageTreeCellRenderer();
+        doptcr.setClosedIcon(new ImageIcon(getClass().getResource("/icon/folder.png")));
+        doptcr.setOpenIcon(new ImageIcon(getClass().getResource("/icon/folder-open.png")));
+        doptcr.setLeafIcon(new ImageIcon(getClass().getResource("/icon/text-x-generic.png")));
+        setCellRenderer(doptcr);
         setDragEnabled(true);
         setDropMode(DropMode.ON);
         setTransferHandler(new DataObjectPackageTreeTransferHandler(this));
@@ -360,12 +360,13 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             auCount++;
         if (childNode.getDataObject() != null)
             ogCount++;
-        if (confirmFlag && (JOptionPane.showConfirmDialog(main,
+        if (confirmFlag && (UserInteractionDialog.getUserAnswer(main,
                 "Vous allez effacer " +
                         (auCount == 0 ? "" : Integer.toString(auCount) + " ArchiveUnits ") +
                         (auCount != 0 && ogCount != 0 ? "et " : "") +
                         (ogCount == 0 ? "" : Integer.toString(ogCount) + " DataObjectGroups "),
-                "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
+                "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                null) != ResipGraphicApp.OK_DIALOG))
             return;
 
         fatherNode.removeChildrenNode(childNode);
@@ -405,9 +406,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             addThread.execute();
             inOutDialog.setVisible(true);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(ResipGraphicApp.getTheApp().mainWindow,
+            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+                    UserInteractionDialog.ERROR_DIALOG,null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
             return;
         }

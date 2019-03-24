@@ -27,41 +27,30 @@
  */
 package fr.gouv.vitam.tools.resip.app;
 
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.prefs.BackingStoreException;
-import java.util.zip.ZipEntry;
-import javax.swing.*;
-import javax.swing.tree.TreePath;
-
+import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.*;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
-import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
+
+import javax.swing.*;
+import javax.swing.tree.TreePath;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.InputStream;
+import java.util.*;
+import java.util.prefs.BackingStoreException;
 
 public class ResipGraphicApp implements ActionListener, Runnable {
+
+    static public final int OK_DIALOG=1;
+    static public final int KO_DIALOG=2;
 
     // Uniq instance. */
     static ResipGraphicApp theApp = null;
@@ -273,9 +262,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("A propos de Resip");
         menuItem.addActionListener(this);
-        actionByMenuItem.put(menuItem, "APropos");
+        actionByMenuItem.put(menuItem, "About");
         infoMenu.add(menuItem);
-
         return menuBar;
     }
 
@@ -353,8 +341,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "ExportToDisk":
                         exportWork(ExportThread.DISK_EXPORT);
                         break;
-                    case "APropos":
-                        aPropos();
+                    case "About":
+                        about();
                         break;
                 }
         }
@@ -392,17 +380,19 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         String filename = "Non défini";
         try {
             if (importThreadRunning) {
-                JOptionPane.showMessageDialog(mainWindow,
+                UserInteractionDialog.getUserAnswer(mainWindow,
                         "Un import est en cours vous devez l'annuler ou attendre la fin avant de faire un chargement.",
-                        "Alerte", JOptionPane.WARNING_MESSAGE);
+                        "Information", UserInteractionDialog.IMPORTANT_DIALOG,
+                        null);
                 return;
             }
 
             if ((currentWork != null) && modifiedWork
-                    && (JOptionPane.showConfirmDialog(mainWindow,
+                    && (UserInteractionDialog.getUserAnswer(mainWindow,
                     "Vous avez un contexte en cours non sauvegardé, un chargement l'écrasera.\n"
                             + "Voulez-vous continuer?",
-                    "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
+                    "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                    null) != OK_DIALOG))
                 return;
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsLoadDir());
@@ -419,9 +409,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 Prefs.getInstance().setPrefsLoadDirFromChild(filename);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur de chargement de [" + filename + "]\n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur de chargement de [" + filename + "]\n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur de chargement de [" + filename + "]\n->" + e.getMessage());
         }
     }
@@ -434,9 +425,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 currentWork.save(filenameWork);
                 setModifiedContext(false);
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(mainWindow,
-                        "Erreur de sauvegarde de [" + filenameWork + "]\n->" + e.getMessage(), "Erreur",
-                        JOptionPane.ERROR_MESSAGE);
+                UserInteractionDialog.getUserAnswer(mainWindow,
+                        "Erreur de sauvegarde de [" + filenameWork + "]\n->" + e.getMessage(),
+                        "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                        null);
                 ResipLogger.getGlobalLogger().log(ResipLogger.STEP,
                         "Resip.Graphic: Erreur de sauvegarde de [" + filenameWork + "]\n->" + e.getMessage());
             }
@@ -453,10 +445,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             if (fileChooser.showSaveDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
                 if (new File(filename).exists()) {
-                    int dialogResult = JOptionPane.showConfirmDialog(mainWindow,
-                            "Le fichier [" + filename + "] existe. Voulez-vous le remplacer?", "Confirmation",
-                            JOptionPane.YES_NO_OPTION);
-                    if (dialogResult == JOptionPane.NO_OPTION)
+                    if (UserInteractionDialog.getUserAnswer(mainWindow,
+                            "Le fichier [" + filename + "] existe. Voulez-vous le remplacer ?", 
+                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                            null)!=OK_DIALOG)
                         return;
                 }
                 currentWork.save(filename);
@@ -466,9 +458,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 Prefs.getInstance().setPrefsLoadDirFromChild(filename);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur de sauvegarde de [" + filename + "]\n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur de sauvegarde de [" + filename + "]\n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur de sauvegarde de [" + filename + "]\n->" + e.getMessage());
         }
     }
@@ -477,10 +470,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     private void closeWork() {
         try {
             if ((currentWork != null) && modifiedWork
-                    && JOptionPane.showConfirmDialog(mainWindow,
+                    && UserInteractionDialog.getUserAnswer(mainWindow,
                     "Vous avez un contexte en cours non sauvegardé, la fermeture perdra les modifications.\n"
                             + "Voulez-vous continuer?",
-                    "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
+                    "Confirmation",  UserInteractionDialog.WARNING_DIALOG,
+                    null) !=OK_DIALOG)
                 return;
 
             currentWork = null;
@@ -489,9 +483,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             setContextLoaded(false);
             mainWindow.load();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
+            UserInteractionDialog.getUserAnswer(mainWindow,
                     "Erreur de fermeture du contexte en cours [" + filenameWork + "]\n->" + e.getMessage(),
-                    "Erreur", JOptionPane.ERROR_MESSAGE);
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.Graphic: Erreur de fermeture du contexte en cours ["
                     + filenameWork + "]\n->" + e.getMessage());
         }
@@ -503,17 +498,21 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         try {
             PrefsDialog prefsDialog = new PrefsDialog(mainWindow);
             prefsDialog.setVisible(true);
-            if (prefsDialog.returnValue == JOptionPane.OK_OPTION) {
+            if (prefsDialog.getReturnValue() == OK_DIALOG) {
                 prefsDialog.cc.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.dic.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.mic.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.gmc.toPrefs(Prefs.getInstance().getPrefsContextNode());
-                ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir()+ File.separator + "log.txt",
+                prefsDialog.cmic.toPrefs(Prefs.getInstance().getPrefsContextNode());
+                prefsDialog.ctic.toPrefs(Prefs.getInstance().getPrefsContextNode());
+                ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
                         ResipLogger.getGlobalLogger().getProgressLogLevel());
             }
         } catch (BackingStoreException e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage());
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
                     "Resip.GraphicApp: Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage());
 
@@ -526,28 +525,34 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         CreationContext cc = null;
         try {
             if (currentWork != null) {
-                JOptionPane.showMessageDialog(mainWindow,
+                UserInteractionDialog.getUserAnswer(mainWindow,
                         "Vous devez fermer tout travail en cours avant de\n" +
-                                "procéder au nettoyage du répertoire de travail", "Alerte", JOptionPane.WARNING_MESSAGE);
+                                "procéder au nettoyage du répertoire de travail",
+                        "Information", UserInteractionDialog.IMPORTANT_DIALOG,
+                        null);
                 return;
             }
             cc = new CreationContext(Prefs.getInstance().getPrefsContextNode());
-            if (JOptionPane.showConfirmDialog(mainWindow,
+            if (UserInteractionDialog.getUserAnswer(mainWindow,
                     "Vous allez effacer tous les répertoires temporaires " +
                             "d'extraction (finissant par \"-tmpdir\")\ndans le répertoire de travail\n" +
-                            cc.getWorkDir() + "\nCeux-ci servent à " +
-                            "stocker les fichiers avant génération du SIP.\n\n" +
+                            cc.getWorkDir() + "\n" +
                             "Voulez-vous continuer?",
-                    "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
+                    "Confirmation",
+                    UserInteractionDialog.WARNING_DIALOG,
+                    "Ces répertoires temporaires sont utilisés pour stocker les fichiers issus " +
+                            "des extraction de conteneurs de messageries ou de SIP, DIP...\nAssurez-vous que vous n'avez" +
+                            " pas de sauvegarde de travail en cours qui utilise ces fichiers, avant de les supprimer.") != OK_DIALOG)
                 return;
             InOutDialog inOutDialog = new InOutDialog(mainWindow, "Nettoyage");
             CleanThread cleanThread = new CleanThread(cc.getWorkDir(), inOutDialog);
             cleanThread.execute();
             inOutDialog.setVisible(true);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire le nettoyage \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire le nettoyage \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire le nettoyage \n->" + e.getMessage());
         }
     }
@@ -556,8 +561,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem Search
 
-    void search(){
-        SearchDialog searchDialog = new SearchDialog(mainWindow, "Chercher");
+    void search() {
+        SearchDialog searchDialog = new SearchDialog(mainWindow);
         searchDialog.setVisible(true);
     }
 
@@ -573,33 +578,31 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem Sort tree viewer
 
-    class SortByTitle implements Comparator<ArchiveUnit>
-    {
+    class SortByTitle implements Comparator<ArchiveUnit> {
         DataObjectPackageTreeModel treeModel;
 
-        public int compare(ArchiveUnit a, ArchiveUnit b)
-        {
-            String titleA=treeModel.findTreeNode(a).getTitle();
-            String titleB=treeModel.findTreeNode(b).getTitle();
+        public int compare(ArchiveUnit a, ArchiveUnit b) {
+            String titleA = treeModel.findTreeNode(a).getTitle();
+            String titleB = treeModel.findTreeNode(b).getTitle();
             return titleA.compareTo(titleB);
         }
 
-        SortByTitle(DataObjectPackageTreeModel treeModel){
-            this.treeModel=treeModel;
+        SortByTitle(DataObjectPackageTreeModel treeModel) {
+            this.treeModel = treeModel;
         }
     }
 
-    Map<TreePath,Boolean> getExpansionState(DataObjectPackageTreeModel treeModel){
-        Map<TreePath,Boolean> expansionState=new HashMap<TreePath,Boolean>();
-        for ( int i = 0; i < mainWindow.getDataObjectPackageTreePaneViewer().getRowCount(); i++ ){
-            TreePath treePath=mainWindow.getDataObjectPackageTreePaneViewer().getPathForRow(i);
-            expansionState.put(treePath,mainWindow.getDataObjectPackageTreePaneViewer().isExpanded(i));
+    Map<TreePath, Boolean> getExpansionState(DataObjectPackageTreeModel treeModel) {
+        Map<TreePath, Boolean> expansionState = new HashMap<TreePath, Boolean>();
+        for (int i = 0; i < mainWindow.getDataObjectPackageTreePaneViewer().getRowCount(); i++) {
+            TreePath treePath = mainWindow.getDataObjectPackageTreePaneViewer().getPathForRow(i);
+            expansionState.put(treePath, mainWindow.getDataObjectPackageTreePaneViewer().isExpanded(i));
         }
         return expansionState;
     }
 
-    void setExpansionState(Map<TreePath,Boolean> expansionState){
-        for (Map.Entry<TreePath,Boolean> e:expansionState.entrySet()){
+    void setExpansionState(Map<TreePath, Boolean> expansionState) {
+        for (Map.Entry<TreePath, Boolean> e : expansionState.entrySet()) {
             if (e.getValue())
                 mainWindow.getDataObjectPackageTreePaneViewer().expandPath(e.getKey());
         }
@@ -607,12 +610,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     void doSortTreeViewer() {
         if (currentWork != null) {
-            DataObjectPackageTreeModel treeModel=(DataObjectPackageTreeModel)mainWindow.getDataObjectPackageTreePaneViewer().getModel();
-            Map<TreePath,Boolean> expansionState=getExpansionState(treeModel);
-            SortByTitle sortByTitle=new SortByTitle(treeModel);
+            DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
+            Map<TreePath, Boolean> expansionState = getExpansionState(treeModel);
+            SortByTitle sortByTitle = new SortByTitle(treeModel);
             for (Map.Entry<String, ArchiveUnit> pair :
                     currentWork.getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet()) {
-                Collections.sort(pair.getValue().getChildrenAuList().getArchiveUnitList(),sortByTitle);
+                Collections.sort(pair.getValue().getChildrenAuList().getArchiveUnitList(), sortByTitle);
             }
             Collections.sort(currentWork.getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList(),
                     sortByTitle);
@@ -633,9 +636,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         currentWork.getDataObjectPackage());
                 creationContextDialog.setVisible(true);
             } else
-                JOptionPane.showMessageDialog(mainWindow, "Pas de contexte de création défini", "Information", JOptionPane.INFORMATION_MESSAGE);
+                UserInteractionDialog.getUserAnswer(mainWindow, "Pas de contexte de création défini", "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                        null);
         } else
-            JOptionPane.showMessageDialog(mainWindow, "Pas de contexte ouvert", "Alerte", JOptionPane.WARNING_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow, "Pas de contexte ouvert", "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
     }
 
     // MenuItem Edit ExportContext
@@ -647,27 +652,30 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             }
             ExportContextDialog exportContextDialog = new ExportContextDialog(mainWindow, currentWork.getExportContext());
             exportContextDialog.setVisible(true);
-            if (exportContextDialog.returnValue == JOptionPane.OK_OPTION)
+            if (exportContextDialog.getReturnValue() == OK_DIALOG)
                 exportContextDialog.setExportContextFromDialog(currentWork.getExportContext());
         } else
-            JOptionPane.showMessageDialog(mainWindow, "Pas de contexte ouvert", "Alerte", JOptionPane.WARNING_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow, "Pas de contexte ouvert", "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
     }
 
     // Import Menu
 
     private boolean isImportActionWrong() {
         if (importThreadRunning) {
-            JOptionPane.showMessageDialog(mainWindow,
+            UserInteractionDialog.getUserAnswer(mainWindow,
                     "Un import est en cours vous devez l'annuler ou attendre la fin avant de faire un autre import.",
-                    "Alerte", JOptionPane.WARNING_MESSAGE);
+                    "Information", UserInteractionDialog.IMPORTANT_DIALOG,
+                    null);
             return true;
         }
 
         if ((currentWork != null) && modifiedWork
-                && (JOptionPane.showConfirmDialog(mainWindow,
+                && (UserInteractionDialog.getUserAnswer(mainWindow,
                 "Vous avez un contexte en cours non sauvegardé, un import l'écrasera.\n"
                         + "Voulez-vous continuer?",
-                "Confirmation", JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION))
+                "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                null) != OK_DIALOG))
             return true;
         return false;
     }
@@ -679,9 +687,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             importThread.execute();
             inOutDialog.setVisible(true);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
@@ -701,9 +710,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 importWork(oic);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
@@ -723,9 +733,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 importWork(oic);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
@@ -745,9 +756,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 importWork(oic);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
@@ -766,15 +778,16 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 mic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 MailImportContextDialog micd = new MailImportContextDialog(mainWindow, mic);
                 micd.setVisible(true);
-                if (micd.returnValue != JOptionPane.OK_OPTION)
+                if (micd.returnValue != OK_DIALOG)
                     return;
                 micd.setMailImportContextFromDialog(mic);
                 importWork(mic);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
@@ -794,9 +807,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 importWork(ctic);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
@@ -816,9 +830,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 importWork(cmic);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
@@ -832,7 +847,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             ExportContext newExportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
             ExportContextDialog exportContextDialog = new ExportContextDialog(mainWindow, newExportContext);
             exportContextDialog.setVisible(true);
-            if (exportContextDialog.returnValue == JOptionPane.CANCEL_OPTION)
+            if (exportContextDialog.getReturnValue() == KO_DIALOG)
                 return true;
             exportContextDialog.setExportContextFromDialog(newExportContext);
             currentWork.setExportContext(newExportContext);
@@ -860,18 +875,19 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 inOutDialog.setVisible(true);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(mainWindow, "Erreur fatale, impossible de faire l'export \n->" + e.getMessage(), "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de faire l'export \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur fatale, impossible de faire l'export \n->" + e.getMessage());
         }
     }
 
     // Info Menu
 
-    private void aPropos(){
+    private void about() {
         try {
-            String version="non définie";
-            String builddate="non définie";
+            String version = "non définie";
+            String builddate = "non définie";
             try {
                 Properties p = new Properties();
                 InputStream is = getClass().getResourceAsStream("/buildinfo.txt");
@@ -883,7 +899,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             } catch (Exception e) {
                 // ignore
             }
-            AProposDialog dialog=new AProposDialog(mainWindow,"Application Resip (Version : " + version + " Date : " + builddate+")");
+            AboutDialog dialog = new AboutDialog(mainWindow, "Application Resip\n  - Version : " + version + "\n  - Date : " + builddate + ")");
             dialog.setVisible(true);
         } catch (Exception ignored) {
         }

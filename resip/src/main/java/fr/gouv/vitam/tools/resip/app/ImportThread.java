@@ -27,23 +27,12 @@
  */
 package fr.gouv.vitam.tools.resip.app;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.JTextArea;
-import javax.swing.SwingWorker;
-
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.resip.data.Work;
-import fr.gouv.vitam.tools.resip.frame.MainWindow;
-import fr.gouv.vitam.tools.resip.frame.TargetDialog;
+import fr.gouv.vitam.tools.resip.frame.InOutDialog;
+import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.inout.MailImporter;
 import fr.gouv.vitam.tools.resip.parameters.*;
-import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
@@ -52,7 +41,16 @@ import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.io.FileUtils;
 
-import static fr.gouv.vitam.tools.resip.frame.TargetDialog.*;
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+
+import static fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog.*;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 
 public class ImportThread extends SwingWorker<Work, String> {
@@ -96,31 +94,36 @@ public class ImportThread extends SwingWorker<Work, String> {
         work.setExportContext(newExportContext);
     }
 
-    private String getNewTarget(String target) throws ResipException {
-        TargetDialog td = new TargetDialog(ResipGraphicApp.getTheApp().mainWindow, target);
-        td.setVisible(true);
-        if (td.returnValue == STATUS_CLEAN) {
-            try {
-                if (Files.isDirectory(Paths.get(td.target)))
-                    FileUtils.deleteDirectory(new File(td.target));
-                else
-                    Files.deleteIfExists(Paths.get(td.target));
-            } catch (IOException e) {
-                JTextArea progressTextArea = inOutDialog.extProgressTextArea;
-                progressTextArea.setText(progressTextArea.getText() +
-                        "\n-> l'effacement demandé sur [" + td.target + "] n'a pas été possible.\n->" +
-                        e.getMessage());
-                spl.log(GLOBAL, e.getMessage());
+    private String getTmpDirTarget(String workDir, String srcPathName) throws ResipException {
+        String subDir=Paths.get(srcPathName).getFileName().toString() + "-tmpdir";
+        String target = workDir + File.separator + subDir;
+        if (Files.exists(Paths.get(target))) {
+            UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.getTheApp().mainWindow, workDir,subDir);
+            utdd.setVisible(true);
+            if (utdd.getReturnValue() == STATUS_CLEAN) {
+                try {
+                    if (Files.isDirectory(Paths.get(utdd.getResult())))
+                        FileUtils.deleteDirectory(new File(utdd.getResult()));
+                    else
+                        Files.deleteIfExists(Paths.get(utdd.getResult()));
+                } catch (IOException e) {
+                    JTextArea progressTextArea = inOutDialog.extProgressTextArea;
+                    progressTextArea.setText(progressTextArea.getText() +
+                            "\n-> l'effacement demandé sur [" + utdd.getResult() + "] n'a pas été possible.\n->" +
+                            e.getMessage());
+                    spl.log(GLOBAL, e.getMessage());
+                    this.cancel(false);
+                    throw new ResipException("Effacement impossible");
+                }
+                target = utdd.getResult();
+            } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
+                target = utdd.getResult();
+            } else {// STATUS_CANCEL
                 this.cancel(false);
-                throw new ResipException("Effacement impossible");
+                throw new ResipException("Opération annulée");
             }
-            return td.target;
-        } else if ((td.returnValue == STATUS_CONTINUE) || (td.returnValue == STATUS_CHANGE)) {
-            return td.target;
-        } else {// STATUS_CANCEL
-            this.cancel(false);
-            throw new ResipException("Opération annulée");
         }
+        return target;
     }
 
     @Override
@@ -145,10 +148,8 @@ public class ImportThread extends SwingWorker<Work, String> {
                 summary = di.getSummary();
             } else if (work.getCreationContext() instanceof SIPImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un fichier SIP en " + work.getCreationContext().getOnDiskInput() + "\n");
-                SIPImportContext sic=(SIPImportContext)work.getCreationContext();
-                String target = sic.getWorkDir() + File.separator + Paths.get(sic.getOnDiskInput()).getFileName().toString() + "-tmpdir";
-                if (Files.exists(Paths.get(target)))
-                    target = getNewTarget(target);
+                SIPImportContext sic = (SIPImportContext) work.getCreationContext();
+                String target = getTmpDirTarget(sic.getWorkDir(), sic.getOnDiskInput());
                 SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sic.getOnDiskInput(),
                         target, spl);
                 si.doImport();
@@ -156,10 +157,8 @@ public class ImportThread extends SwingWorker<Work, String> {
                 summary = si.getSummary();
             } else if (work.getCreationContext() instanceof DIPImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un fichier DIP en " + work.getCreationContext().getOnDiskInput() + "\n");
-                DIPImportContext dic=(DIPImportContext)work.getCreationContext();
-                String target = dic.getWorkDir() + File.separator + Paths.get(dic.getOnDiskInput()).getFileName().toString() + "-tmpdir";
-                if (Files.exists(Paths.get(target)))
-                    target = getNewTarget(target);
+                DIPImportContext dic = (DIPImportContext) work.getCreationContext();
+                String target = getTmpDirTarget(dic.getWorkDir(), dic.getOnDiskInput());
                 DIPToArchiveDeliveryRequestReplyImporter si = new DIPToArchiveDeliveryRequestReplyImporter(
                         dic.getOnDiskInput(), target, spl);
                 si.doImport();
@@ -167,16 +166,18 @@ public class ImportThread extends SwingWorker<Work, String> {
                 summary = si.getSummary();
             } else if (work.getCreationContext() instanceof CSVTreeImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un csv d'arbre de classement en " + work.getCreationContext().getOnDiskInput() + "\n");
+                CSVTreeImportContext ctic = (CSVTreeImportContext) work.getCreationContext();
                 CSVTreeToDataObjectPackageImporter cti = new CSVTreeToDataObjectPackageImporter(
-                        work.getCreationContext().getOnDiskInput(), "Cp1252", ';', spl);
+                        ctic.getOnDiskInput(), ctic.getCsvCharsetName(), ctic.getDelimiter(), spl);
                 cti.doImport();
                 work.setDataObjectPackage(cti.getDataObjectPackage());
                 work.setExportContext(new ExportContext(Prefs.getInstance().getPrefsContextNode()));
                 summary = cti.getSummary();
             } else if (work.getCreationContext() instanceof CSVMetadataImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un csv de métadonnées en " + work.getCreationContext().getOnDiskInput() + "\n");
+                CSVMetadataImportContext cmic = (CSVMetadataImportContext) work.getCreationContext();
                 CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
-                        work.getCreationContext().getOnDiskInput(), "Cp1252", ';', spl);
+                        cmic.getOnDiskInput(), cmic.getCsvCharsetName(), cmic.getDelimiter(), spl);
                 cmi.doImport();
                 work.setDataObjectPackage(cmi.getDataObjectPackage());
                 work.setExportContext(new ExportContext(Prefs.getInstance().getPrefsContextNode()));
@@ -190,9 +191,7 @@ public class ImportThread extends SwingWorker<Work, String> {
                     inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
                 }, 100);
                 MailImportContext mic = (MailImportContext) work.getCreationContext();
-                String target = mic.getWorkDir() + File.separator + Paths.get(mic.getOnDiskInput()).getFileName().toString() + "-tmpdir";
-                if (Files.exists(Paths.get(target)))
-                    target = getNewTarget(target);
+                String target = getTmpDirTarget(mic.getWorkDir(), mic.getOnDiskInput());
                 MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),
                         mic.isExtractAttachmentTextFile(), mic.isExtractAttachmentTextMetadata(), mic.getProtocol(),
                         mic.getDefaultCharsetName(), mic.getOnDiskInput(), mic.getMailFolder(), target, mepl);

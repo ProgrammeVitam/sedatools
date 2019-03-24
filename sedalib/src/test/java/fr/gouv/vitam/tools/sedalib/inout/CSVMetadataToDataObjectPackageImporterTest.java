@@ -33,7 +33,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
 		// When loaded with the csv OK test file
 		cmi= new CSVMetadataToDataObjectPackageImporter(
-				"src/test/resources/PacketSamples/MetadataTestOK3col.csv", "Cp1252",';',null);
+				"src/test/resources/PacketSamples/MetadataTestOK3col.csv", "windows-1252",';',null);
 		cmi.doImport();
 
 		// Then
@@ -69,7 +69,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
 		// When loaded with the csv OK test file
 		cmi= new CSVMetadataToDataObjectPackageImporter(
-				"src/test/resources/PacketSamples/MetadataTestTagKO.csv", "Cp1252",';',null);
+				"src/test/resources/PacketSamples/MetadataTestTagKO.csv", "windows-1252",';',null);
 
 		assertThatThrownBy(() -> cmi.doImport())
 				.hasMessageContaining("Caractère interdit"); // for StringType;

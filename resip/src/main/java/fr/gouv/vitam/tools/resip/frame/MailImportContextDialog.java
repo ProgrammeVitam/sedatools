@@ -27,66 +27,75 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
+import fr.gouv.vitam.tools.resip.parameters.Prefs;
 
 /**
- * The Class MailImportContextDialog.
+ * The class MailImportContextDialog.
+ * <p>
+ * Class for mail extraction and import context definition dialog.
  */
 public class MailImportContextDialog extends JDialog {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -4092514078236156035L;
-
-	/** The return value. */
-	public int returnValue;
-
-	/** The message file check box. */
+	/**
+	 * The actions components.
+	 */
 	private JCheckBox messageFileCheckBox;
-	
-	/** The attachement file check box. */
 	private JCheckBox attachementFileCheckBox;
-	
-	/** The message metadata check box. */
 	private JCheckBox messageMetadataCheckBox;
-	
-	/** The attachement metadata check box. */
 	private JCheckBox attachementMetadataCheckBox;
-	
-	/** The pst radio button. */
 	private JRadioButton pstRadioButton;
-	
-	/** The msg radio button. */
 	private JRadioButton msgRadioButton;
-	
-	/** The tdb radio button. */
 	private JRadioButton tdbRadioButton;
-	
-	/** The mbox radio button. */
 	private JRadioButton mboxRadioButton;
-
-	/** The eml radio button. */
 	private JRadioButton emlRadioButton;
+	private JComboBox defaultCharsetCombobox;
 
 	/**
-	 * The default charset combobox.
+	 * The result.
 	 */
-	private JComboBox defaultCharsetCombobox;
+	public int returnValue;
 
 	/**
 	 * The proposed charsets.
 	 */
-	static String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
+	static private String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
 			"IBM850", "IBM852", "IBM855", "IBM857", "IBM862", "IBM866", "ISO-8859-2", "ISO-8859-4", "ISO-8859-5",
 			"ISO-8859-7", "ISO-8859-9", "ISO-8859-13", "ISO-8859-15", "KOI8-R", "KOI8-U", "US-ASCII", "UTF-16",
 			"UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
 			"windows-1250", "windows-1251", "windows-1253", "windows-1254", "windows-1257"};
+
+	// Dialog test context
+
+	/**
+	 * The entry point of dialog test.
+	 *
+	 * @param args the input arguments
+	 * @throws ClassNotFoundException          the class not found exception
+	 * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+	 * @throws InstantiationException          the instantiation exception
+	 * @throws IllegalAccessException          the illegal access exception
+	 * @throws NoSuchMethodException           the no such method exception
+	 * @throws InvocationTargetException       the invocation target exception
+	 */
+	public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		TestDialogWindow window = new TestDialogWindow(MailImportContextDialog.class);
+	}
+
+	/**
+	 * Instantiates a new MailImportContextDialog for test.
+	 *
+	 * @param owner the owner
+	 */
+	public MailImportContextDialog(JFrame owner) {
+		this(owner, new MailImportContext(Prefs.getInstance().getPrefsContextNode()));
+	}
 
 	/**
 	 * Create the dialog.
@@ -96,74 +105,80 @@ public class MailImportContextDialog extends JDialog {
 	 */
 	public MailImportContextDialog(JFrame owner, MailImportContext mailImportContext) {
 		super(owner, "Edition des paramètres d'extraction des courriels", true);
-		getContentPane().setMinimumSize(new Dimension(600, 50));
+		GridBagConstraints gbc;
 
+		//this.setPreferredSize(new Dimension(500, 300));
+		this.setMinimumSize(new Dimension(550, 230));
+
+		Container contentPane = getContentPane();
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.1 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 1.0 };
-		getContentPane().setLayout(gridBagLayout);
-
+		contentPane.setLayout(new GridBagLayout());
+		
 		// Parameters Panel
-
 		JPanel parametersPanel = new JPanel();
-		GridBagConstraints gbc_parametersPanel = new GridBagConstraints();
-		gbc_parametersPanel.anchor = GridBagConstraints.EAST;
-		gbc_parametersPanel.insets = new Insets(5, 5, 5, 5);
-		gbc_parametersPanel.gridwidth = 2;
-		gbc_parametersPanel.gridx = 0;
-		gbc_parametersPanel.gridy = 0;
-		getContentPane().add(parametersPanel, gbc_parametersPanel);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.gridwidth = 2;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		contentPane.add(parametersPanel, gbc);
 		GridBagLayout gbl_parametersPanel = new GridBagLayout();
 		gbl_parametersPanel.columnWeights = new double[] { 0.1, 0.5, 0.5 };
 		parametersPanel.setLayout(gbl_parametersPanel);
 
-		JLabel protocolLabel = new JLabel("Protocole d'extraction courriel:");
-		GridBagConstraints gbc_protocolLabel = new GridBagConstraints();
-		gbc_protocolLabel.anchor = GridBagConstraints.EAST;
-		gbc_protocolLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_protocolLabel.gridx = 0;
-		gbc_protocolLabel.gridy = 1;
-		parametersPanel.add(protocolLabel, gbc_protocolLabel);
+		JLabel protocolLabel = new JLabel("Protocole d'extraction courriel :");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		parametersPanel.add(protocolLabel, gbc);
 
 		pstRadioButton = new JRadioButton("Outlook-Pst");
-		GridBagConstraints gbc_pstRadioButton = new GridBagConstraints();
-		gbc_pstRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_pstRadioButton.insets = new Insets(0, 0, 0, 5);
-		gbc_pstRadioButton.gridx = 1;
-		gbc_pstRadioButton.gridy = 1;
-		parametersPanel.add(pstRadioButton, gbc_pstRadioButton);
+		pstRadioButton.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		parametersPanel.add(pstRadioButton, gbc);
 
 		msgRadioButton = new JRadioButton("Outlook-Msg");
-		GridBagConstraints gbc_msgRadioButton = new GridBagConstraints();
-		gbc_msgRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_msgRadioButton.insets = new Insets(0, 0, 0, 5);
-		gbc_msgRadioButton.gridx = 2;
-		gbc_msgRadioButton.gridy = 1;
-		parametersPanel.add(msgRadioButton, gbc_msgRadioButton);
+		msgRadioButton.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 2;
+		gbc.gridy = 1;
+		parametersPanel.add(msgRadioButton, gbc);
 
 		tdbRadioButton = new JRadioButton("Thunderbird");
-		GridBagConstraints gbc_tdbRadioButton = new GridBagConstraints();
-		gbc_tdbRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_tdbRadioButton.insets = new Insets(0, 0, 0, 5);
-		gbc_tdbRadioButton.gridx = 1;
-		gbc_tdbRadioButton.gridy = 2;
-		parametersPanel.add(tdbRadioButton, gbc_tdbRadioButton);
+		tdbRadioButton.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		parametersPanel.add(tdbRadioButton, gbc);
 
 		mboxRadioButton = new JRadioButton("Mbox");
-		GridBagConstraints gbc_mboxRadioButton = new GridBagConstraints();
-		gbc_mboxRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_mboxRadioButton.insets = new Insets(0, 0, 0, 5);
-		gbc_mboxRadioButton.gridx = 2;
-		gbc_mboxRadioButton.gridy =2;
-		parametersPanel.add(mboxRadioButton, gbc_mboxRadioButton);
+		mboxRadioButton.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 2;
+		gbc.gridy =2;
+		parametersPanel.add(mboxRadioButton, gbc);
 
 		emlRadioButton = new JRadioButton("Eml");
-		GridBagConstraints gbc_emlRadioButton = new GridBagConstraints();
-		gbc_emlRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_emlRadioButton.insets = new Insets(0, 0, 0, 5);
-		gbc_emlRadioButton.gridx = 1;
-		gbc_emlRadioButton.gridy =3;
-		parametersPanel.add(emlRadioButton, gbc_emlRadioButton);
+		emlRadioButton.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 1;
+		gbc.gridy =3;
+		parametersPanel.add(emlRadioButton, gbc);
 
 		ButtonGroup protocolButtonGroup = new ButtonGroup();
 		protocolButtonGroup.add(pstRadioButton);
@@ -178,108 +193,115 @@ public class MailImportContextDialog extends JDialog {
 		emlRadioButton.setSelected("eml".equals(mailImportContext.getProtocol()));
 
 		defaultCharsetCombobox = new JComboBox(charsetStrings);
-		GridBagConstraints gbc_charsetComboBox = new GridBagConstraints();
-		gbc_charsetComboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_charsetComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_charsetComboBox.gridx = 1;
-		gbc_charsetComboBox.gridy = 4;
-		parametersPanel.add(defaultCharsetCombobox, gbc_charsetComboBox);
+		defaultCharsetCombobox.setFont(MainWindow.LABEL_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		parametersPanel.add(defaultCharsetCombobox, gbc);
 		defaultCharsetCombobox.setSelectedItem(mailImportContext.getDefaultCharsetName());
 
-		JLabel charsetLabel = new JLabel("Encodage par défaut");
-		GridBagConstraints gbc_charsetLabel = new GridBagConstraints();
-		gbc_charsetLabel.anchor = GridBagConstraints.EAST;
-		gbc_charsetLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_charsetLabel.gridx = 0;
-		gbc_charsetLabel.gridy = 4;
-		parametersPanel.add(charsetLabel, gbc_charsetLabel);
+		JLabel charsetLabel = new JLabel("Encodage par défaut :");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		parametersPanel.add(charsetLabel, gbc);
 
-		JLabel mailFileTextExtractAULabel = new JLabel("Extraction des fichiers textes des courriels:");
-		GridBagConstraints gbc_mailFileTextExtractAULabel = new GridBagConstraints();
-		gbc_mailFileTextExtractAULabel.anchor = GridBagConstraints.EAST;
-		gbc_mailFileTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
-		gbc_mailFileTextExtractAULabel.gridx = 0;
-		gbc_mailFileTextExtractAULabel.gridy = 5;
-		parametersPanel.add(mailFileTextExtractAULabel, gbc_mailFileTextExtractAULabel);
+		JLabel mailFileTextExtractAULabel = new JLabel("Extraction des fichiers textes des courriels :");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		parametersPanel.add(mailFileTextExtractAULabel, gbc);
 
 		messageFileCheckBox = new JCheckBox("des messages");
-		GridBagConstraints gbc_messageFileCheckBox = new GridBagConstraints();
-		gbc_messageFileCheckBox.anchor = GridBagConstraints.WEST;
-		gbc_messageFileCheckBox.insets = new Insets(0, 0, 5, 5);
-		gbc_messageFileCheckBox.gridx = 1;
-		gbc_messageFileCheckBox.gridy = 5;
-		parametersPanel.add(messageFileCheckBox, gbc_messageFileCheckBox);
+		messageFileCheckBox.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 5;
+		parametersPanel.add(messageFileCheckBox, gbc);
 		messageFileCheckBox.setSelected(mailImportContext.isExtractMessageTextFile());
 
 		attachementFileCheckBox = new JCheckBox("des pièces jointes");
-		GridBagConstraints gbc_attachementFileCheckBox = new GridBagConstraints();
-		gbc_attachementFileCheckBox.anchor = GridBagConstraints.WEST;
-		gbc_attachementFileCheckBox.insets = new Insets(0, 0, 5, 5);
-		gbc_attachementFileCheckBox.gridx = 2;
-		gbc_attachementFileCheckBox.gridy = 5;
-		parametersPanel.add(attachementFileCheckBox, gbc_attachementFileCheckBox);
+		attachementFileCheckBox.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 2;
+		gbc.gridy = 5;
+		parametersPanel.add(attachementFileCheckBox, gbc);
 		attachementFileCheckBox.setSelected(mailImportContext.isExtractAttachmentTextFile());
 
-		JLabel mailMetadataTextExtractAULabel = new JLabel("Extraction des métadonnées textuelles des courriels:");
-		GridBagConstraints gbc_mailMetadataTextExtractAULabel = new GridBagConstraints();
-		gbc_mailMetadataTextExtractAULabel.anchor = GridBagConstraints.EAST;
-		gbc_mailMetadataTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
-		gbc_mailMetadataTextExtractAULabel.gridx = 0;
-		gbc_mailMetadataTextExtractAULabel.gridy = 6;
-		parametersPanel.add(mailMetadataTextExtractAULabel, gbc_mailMetadataTextExtractAULabel);
+		JLabel mailMetadataTextExtractAULabel = new JLabel("Extraction des métadonnées textuelles des courriels :");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 6;
+		parametersPanel.add(mailMetadataTextExtractAULabel, gbc);
 
 		messageMetadataCheckBox = new JCheckBox("des messages");
-		GridBagConstraints gbc_messageMetadataCheckBox = new GridBagConstraints();
-		gbc_messageMetadataCheckBox.anchor = GridBagConstraints.WEST;
-		gbc_messageMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
-		gbc_messageMetadataCheckBox.gridx = 1;
-		gbc_messageMetadataCheckBox.gridy = 6;
-		parametersPanel.add(messageMetadataCheckBox, gbc_messageMetadataCheckBox);
+		messageMetadataCheckBox.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 6;
+		parametersPanel.add(messageMetadataCheckBox, gbc);
 		messageMetadataCheckBox.setSelected(mailImportContext.isExtractMessageTextMetadata());
 
 		attachementMetadataCheckBox = new JCheckBox("des pièces jointes");
-		GridBagConstraints gbc_attachementMetadataCheckBox = new GridBagConstraints();
-		gbc_attachementMetadataCheckBox.anchor = GridBagConstraints.WEST;
-		gbc_attachementMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
-		gbc_attachementMetadataCheckBox.gridx = 2;
-		gbc_attachementMetadataCheckBox.gridy = 6;
-		parametersPanel.add(attachementMetadataCheckBox, gbc_attachementMetadataCheckBox);
+		attachementMetadataCheckBox.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 2;
+		gbc.gridy = 6;
+		parametersPanel.add(attachementMetadataCheckBox, gbc);
 		attachementMetadataCheckBox.setSelected(mailImportContext.isExtractAttachmentTextMetadata());
 
 		// Buttons
 		JButton cancelButton = new JButton("Annuler");
-		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
-		gbc_cancelButton.insets = new Insets(5, 5, 5, 5);
-		gbc_cancelButton.gridx = 0;
-		gbc_cancelButton.gridy = 1;
-		getContentPane().add(cancelButton, gbc_cancelButton);
-		cancelButton.addActionListener(arg0 -> buttonCancel());
+		cancelButton.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.anchor=GridBagConstraints.CENTER;
+		gbc.weightx = 1.0;
+		contentPane.add(cancelButton, gbc);
+		cancelButton.addActionListener(arg -> buttonCancel());
 
 		JButton okButton = new JButton("OK");
-		GridBagConstraints gbc_okButton = new GridBagConstraints();
-		gbc_okButton.insets = new Insets(5, 5, 5, 5);
-		gbc_okButton.gridx = 1;
-		gbc_okButton.gridy = 1;
-		getContentPane().add(okButton, gbc_okButton);
-		okButton.addActionListener(arg0 -> buttonOk());
+		okButton.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		gbc.anchor=GridBagConstraints.CENTER;
+		gbc.weightx = 1.0;
+		contentPane.add(okButton, gbc);
+		okButton.addActionListener(arg -> buttonOk());
 
 		pack();
 		setLocationRelativeTo(owner);
 	}
 
-	/**
-	 * Button cancel.
-	 */
-	public void buttonCancel() {
-		returnValue = JOptionPane.CANCEL_OPTION;
+	// actions
+
+	private void buttonCancel() {
+		returnValue = ResipGraphicApp.KO_DIALOG;
 		setVisible(false);
 	}
 
-	/**
-	 * Button ok.
-	 */
-	public void buttonOk() {
-		returnValue = JOptionPane.OK_OPTION;
+	private void buttonOk() {
+		returnValue = ResipGraphicApp.OK_DIALOG;
 		setVisible(false);
 	}
 
@@ -305,5 +327,14 @@ public class MailImportContextDialog extends JDialog {
 		else if (emlRadioButton.isSelected())
 			mailImportContext.setProtocol("eml");
 		mailImportContext.setDefaultCharsetName((String) defaultCharsetCombobox.getSelectedItem());
+	}
+
+	/**
+	 * Get return value int.
+	 *
+	 * @return the return value
+	 */
+	public int getReturnValue(){
+		return returnValue;
 	}
 }

@@ -32,9 +32,8 @@ import java.nio.file.Paths;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
-import javax.swing.JOptionPane;
-
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -101,8 +100,9 @@ public class Prefs {
 				createDefaultPrefs();
 			}
 		} catch (BackingStoreException | SEDALibException e) {
-			JOptionPane.showMessageDialog(null,
-					"Erreur fatale, impossible de manipuler les préférences \n->" + e.getMessage());
+			UserInteractionDialog.getUserAnswer(null,
+					"Erreur fatale, impossible de manipuler les préférences \n->" + e.getMessage(),"Erreur",
+					UserInteractionDialog.ERROR_DIALOG,null);
 			ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
 					"Resip.GraphicApp: Erreur fatale, impossible de manipuler les préférences \n->" + e.getMessage());
 			System.exit(1);

@@ -28,6 +28,9 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import javax.swing.*;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
@@ -49,7 +52,6 @@ import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
@@ -61,17 +63,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
-// TODO: Auto-generated Javadoc
-
 /**
  * The Class MainWindow.
+ * <p>
+ * Class for the main window
  */
 public class MainWindow extends JFrame {
 
-    /**
-     * The Constant serialVersionUID.
-     */
-    private static final long serialVersionUID = 4607177374736676766L;
+    public static Font LABEL_FONT=UIManager.getFont("Label.font");
+    public static Font CLICK_FONT=UIManager.getFont("Button.font");
+    public static Font BOLD_LABEL_FONT = LABEL_FONT.deriveFont(LABEL_FONT.getStyle() | Font.BOLD);
+    public static Font TREE_FONT=LABEL_FONT;
+    public static Font DETAILS_FONT=LABEL_FONT.deriveFont(LABEL_FONT.getSize()+(float)2.0);
+    public static Color GENERAL_BACKGROUND=UIManager.getColor("Label.background");
 
     /**
      * The app.
@@ -79,94 +83,30 @@ public class MainWindow extends JFrame {
     private ResipGraphicApp app;
 
     /**
-     * The archive transfer tree item displayed.
+     * The data.
      */
     public DataObjectPackageTreeNode dataObjectPackageTreeItemDisplayed;
-
-    /**
-     * The data object list item displayed.
-     */
     private DataObject dataObjectListItemDisplayed;
 
-    // recordGrp
-
     /**
-     * The archive transfer tree pane.
+     * The actions components.
      */
     private JPanel dataObjectPackageTreePane;
-
-    /**
-     * The long archive transfer tree item name check box.
-     */
     private JCheckBox longDataObjectPackageTreeItemNameCheckBox;
-
-    /**
-     * The au metadata pane.
-     */
     private JPanel auMetadataPane;
-
-    /**
-     * The au metadata text.
-     */
     private JTextPane auMetadataText;
-
-    /**
-     * The au metadata pane label.
-     */
     private JLabel auMetadataPaneLabel;
-
-    /**
-     * The open archiveTransfer item button.
-     */
     private JButton openSipItemButton;
-
-    /**
-     * The data object detail text.
-     */
-    private JTextPane dataObjectDetailText;
-
-    /**
-     * The data objects list viewer.
-     */
-    private DataObjectListViewer dataObjectsListViewer;
-
-    /**
-     * The archive transfer tree pane label.
-     */
-    private JLabel dataObjectPackageTreePaneLabel;
-
-    /**
-     * The archive transfer tree pane model.
-     */
-    private DataObjectPackageTreeModel dataObjectPackageTreePaneModel;
-
-    /**
-     * The archive transfer tree pane viewer.
-     */
-    private DataObjectPackageTreeViewer dataObjectPackageTreePaneViewer;
-
-    /**
-     * The edit archive unit button.
-     */
-    private JButton editArchiveUnitButton;
-
-    /**
-     * The edit object button.
-     */
-    private JButton editObjectButton;
-
-    /**
-     * The open object button.
-     */
     private JButton openObjectButton;
-
-    /**
-     * The change object button.
-     */
+    private JTextPane dataObjectDetailText;
+    private DataObjectListViewer dataObjectsListViewer;
+    private JLabel dataObjectPackageTreePaneLabel;
+    private DataObjectPackageTreeModel dataObjectPackageTreePaneModel;
+    private DataObjectPackageTreeViewer dataObjectPackageTreePaneViewer;
+    private JButton editArchiveUnitButton;
+    private JButton editObjectButton;
     private JButton changeObjectButton;
-
     private JComboBox<String> metadataComboBox;
-
     private JButton addMetadataButton;
     private JScrollPane dataObjectDetailScrollPane;
 
@@ -196,7 +136,6 @@ public class MainWindow extends JFrame {
     private void initialize() {
         JMenuBar menuBar=app.createMenu();
         setJMenuBar(menuBar);
-        menuBar.setBackground(Color.RED);
 
         java.net.URL imageURL = getClass().getClassLoader().getResource("VitamIcon96.png");
         if (imageURL != null) {
@@ -223,9 +162,7 @@ public class MainWindow extends JFrame {
         generalSplitPaneHoriz.setLeftComponent(getDataObjectPackageTreePane());
 
         dataObjectPackageTreePaneLabel = new JLabel("Arbre du SIP");
-        Font boldLabelFont = dataObjectPackageTreePaneLabel.getFont();
-        boldLabelFont=boldLabelFont.deriveFont(boldLabelFont.getStyle() | Font.BOLD);
-        dataObjectPackageTreePaneLabel.setFont(boldLabelFont);
+        dataObjectPackageTreePaneLabel.setFont(BOLD_LABEL_FONT);
         dataObjectPackageTreePaneLabel.setMinimumSize(new Dimension(300, 15));
         GridBagConstraints gbc_dataObjectPackageTreePaneLabel = new GridBagConstraints();
         gbc_dataObjectPackageTreePaneLabel.anchor = GridBagConstraints.WEST;
@@ -237,7 +174,7 @@ public class MainWindow extends JFrame {
 
         dataObjectPackageTreePaneModel = new DataObjectPackageTreeModel(null);
         dataObjectPackageTreePaneViewer = new DataObjectPackageTreeViewer(this, dataObjectPackageTreePaneModel);
-        dataObjectPackageTreePaneViewer.setFont(UIManager.getFont("TextArea.font"));
+        dataObjectPackageTreePaneViewer.setFont(TREE_FONT);
         JScrollPane dataObjectPackageTreePaneViewerScrollPane = new JScrollPane(getDataObjectPackageTreePaneViewer());
         GridBagConstraints gbc_dataObjectPackageTreePaneViewerScrollPane = new GridBagConstraints();
         gbc_dataObjectPackageTreePaneViewerScrollPane.fill = GridBagConstraints.BOTH;
@@ -249,6 +186,7 @@ public class MainWindow extends JFrame {
                 gbc_dataObjectPackageTreePaneViewerScrollPane);
 
         longDataObjectPackageTreeItemNameCheckBox = new JCheckBox("+ (direct subAU/total subAU) - xmlID");
+        longDataObjectPackageTreeItemNameCheckBox.setFont(CLICK_FONT);
         longDataObjectPackageTreeItemNameCheckBox.setVerticalAlignment(SwingConstants.TOP);
         longDataObjectPackageTreeItemNameCheckBox.addActionListener(e -> checkBoxLongDataObjectPackageTreeItemName());
         GridBagConstraints gbc_longDataObjectPackageTreeItemNameCheckBox = new GridBagConstraints();
@@ -261,7 +199,7 @@ public class MainWindow extends JFrame {
                 gbc_longDataObjectPackageTreeItemNameCheckBox);
 
         openSipItemButton = new JButton("Ouvrir dossier AU/OG");
-        openSipItemButton.setFont(UIManager.getFont("Button.font"));
+        openSipItemButton.setFont(CLICK_FONT);
         openSipItemButton.setEnabled(false);
         openSipItemButton.addActionListener(e -> buttonOpenDataObjectPackageItemDirectory());
         GridBagConstraints gbc_OpenSipItemButton = new GridBagConstraints();
@@ -295,12 +233,13 @@ public class MainWindow extends JFrame {
         gbc_auMetadataPaneScrollPane.gridx = 0;
         gbc_auMetadataPaneScrollPane.fill = GridBagConstraints.BOTH;
         auMetadataPane.add(auMetadataPaneScrollPane, gbc_auMetadataPaneScrollPane);
-        setAuMetadataText(new JTextPane());
-        getArchiveUnitMetadataText().setEditable(false);
-        auMetadataPaneScrollPane.setViewportView(getArchiveUnitMetadataText());
-
+        auMetadataText=new JTextPane();
+        auMetadataText.setFont(DETAILS_FONT);
+        changeLineSpacing(auMetadataText, 0.10);
+        auMetadataText.setEditable(false);
+        auMetadataPaneScrollPane.setViewportView(auMetadataText);
         auMetadataPaneLabel = new JLabel("AU Metadata");
-        auMetadataPaneLabel.setFont(boldLabelFont);
+        auMetadataPaneLabel.setFont(BOLD_LABEL_FONT);
         GridBagConstraints gbc_auMetadataPaneLabel = new GridBagConstraints();
         gbc_auMetadataPaneLabel.gridwidth = 2;
         gbc_auMetadataPaneLabel.insets = new Insets(5, 5, 5, 0);
@@ -311,7 +250,7 @@ public class MainWindow extends JFrame {
         auMetadataPane.add(auMetadataPaneLabel, gbc_auMetadataPaneLabel);
 
         editArchiveUnitButton = new JButton("Editer l'ArchiveUnit");
-        editArchiveUnitButton.setFont(UIManager.getFont("Button.font"));
+        editArchiveUnitButton.setFont(CLICK_FONT);
         editArchiveUnitButton.setEnabled(false);
         editArchiveUnitButton.addActionListener(e -> buttonEditArchiveUnit());
         GridBagConstraints gbc_editArchiveUnitButton = new GridBagConstraints();
@@ -328,7 +267,7 @@ public class MainWindow extends JFrame {
 
 
         metadataComboBox = new JComboBox<String>(AddMetadataItem.getAddContentMetadataArray());
-        metadataComboBox.setFont(UIManager.getFont("Button.font"));
+        metadataComboBox.setFont(CLICK_FONT);
         metadataComboBox.setEnabled(false);
         GridBagConstraints gbc_metadataComboBox = new GridBagConstraints();
         gbc_metadataComboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -339,7 +278,7 @@ public class MainWindow extends JFrame {
         auMetadataPane.add(metadataComboBox, gbc_metadataComboBox);
 
         addMetadataButton = new JButton("Ajouter...");
-        addMetadataButton.setFont(UIManager.getFont("Button.font"));
+        addMetadataButton.setFont(CLICK_FONT);
         addMetadataButton.setEnabled(false);
         GridBagConstraints gbc_addMetadataButton = new GridBagConstraints();
         gbc_addMetadataButton.anchor = GridBagConstraints.EAST;
@@ -367,7 +306,7 @@ public class MainWindow extends JFrame {
         binaryObjectsPane.setLayout(gbl_binaryObjectsPane);
 
         JLabel binaryObjectsPaneLabel = new JLabel("Objets");
-        binaryObjectsPaneLabel.setFont(boldLabelFont);
+        binaryObjectsPaneLabel.setFont(BOLD_LABEL_FONT);
         GridBagConstraints gbc_binaryObjectsPaneLabel = new GridBagConstraints();
         gbc_binaryObjectsPaneLabel.insets = new Insets(5, 5, 5, 0);
         gbc_binaryObjectsPaneLabel.anchor = GridBagConstraints.NORTHWEST;
@@ -379,14 +318,14 @@ public class MainWindow extends JFrame {
 
         DefaultListModel<DataObject> dataObjectsListModel = new DefaultListModel<DataObject>();
         dataObjectsListViewer = new DataObjectListViewer(this, dataObjectsListModel);
-        dataObjectsListViewer.setFont(UIManager.getFont("TextArea.font"));
+        dataObjectsListViewer.setFont(DETAILS_FONT);
         dataObjectsListViewer.setLayoutOrientation(JList.VERTICAL);
         dataObjectsListViewer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DataObjectListCellRenderer dataObjectListCellRenderer = new DataObjectListCellRenderer();
         dataObjectsListViewer.setCellRenderer(dataObjectListCellRenderer);
 
         openObjectButton = new JButton("Ouvrir l'objet");
-        openObjectButton.setFont(UIManager.getFont("Button.font"));
+        openObjectButton.setFont(CLICK_FONT);
         openObjectButton.setMinimumSize(new Dimension(20, 25));
         openObjectButton.setEnabled(false);
         openObjectButton.addActionListener(e -> buttonOpenObject());
@@ -402,7 +341,7 @@ public class MainWindow extends JFrame {
         binaryObjectsPane.add(openObjectButton, gbc_openObjectButton);
 
         changeObjectButton = new JButton("Changer l'objet");
-        changeObjectButton.setFont(UIManager.getFont("Button.font"));
+        changeObjectButton.setFont(CLICK_FONT);
         changeObjectButton.setMinimumSize(new Dimension(20, 25));
         changeObjectButton.setEnabled(false);
         changeObjectButton.addActionListener(e -> buttonChangeObject());
@@ -437,7 +376,7 @@ public class MainWindow extends JFrame {
         ogBinaryObjectDetailPane.setLayout(gbl_ogInformationSplitPane);
 
         JLabel ogBinaryObjectDetailPaneLabel = new JLabel("Détails");
-        ogBinaryObjectDetailPaneLabel.setFont(boldLabelFont);
+        ogBinaryObjectDetailPaneLabel.setFont(BOLD_LABEL_FONT);
         GridBagConstraints gbc_ogBinaryObjectDetailPaneLabel = new GridBagConstraints();
         gbc_ogBinaryObjectDetailPaneLabel.insets = new Insets(5, 5, 5, 0);
         gbc_ogBinaryObjectDetailPaneLabel.anchor = GridBagConstraints.NORTHWEST;
@@ -447,7 +386,7 @@ public class MainWindow extends JFrame {
         ogBinaryObjectDetailPane.add(ogBinaryObjectDetailPaneLabel, gbc_ogBinaryObjectDetailPaneLabel);
 
         editObjectButton = new JButton("Editer le DataObject");
-        editObjectButton.setFont(UIManager.getFont("Button.font"));
+        editObjectButton.setFont(CLICK_FONT);
         editObjectButton.setEnabled(false);
         editObjectButton.addActionListener(e -> buttonEditDataObject());
         GridBagConstraints gbc_editObjectButton = new GridBagConstraints();
@@ -471,7 +410,8 @@ public class MainWindow extends JFrame {
         ogBinaryObjectDetailPane.add(dataObjectDetailScrollPane, gbc_dataObjectDetailScrollPane);
 
         dataObjectDetailText = new JTextPane();
-        dataObjectDetailText.setFont(UIManager.getFont("TextArea.font"));
+        changeLineSpacing(dataObjectDetailText,0.1);
+        dataObjectDetailText.setFont(DETAILS_FONT);
         dataObjectDetailScrollPane.setViewportView(dataObjectDetailText);
 
        pack();
@@ -582,9 +522,10 @@ public class MainWindow extends JFrame {
             } else
                 return null;
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Le fichier choisi "
-                            + (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + " ne peut être pris en compte", "Erreur",
-                    JOptionPane.ERROR_MESSAGE);
+            UserInteractionDialog.getUserAnswer(this,
+                    "Le fichier choisi "+ (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + " ne peut être pris en compte",
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,"Erreur fatale, impossible de choisir le fichier "
                     + (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + "\n->" + e.getMessage());
             return null;
@@ -605,10 +546,11 @@ public class MainWindow extends JFrame {
                 try {
                     bdo.extractTechnicalElements(null);
                 } catch (SEDALibException e) {
-                    JOptionPane.showMessageDialog(this,
+                    UserInteractionDialog.getUserAnswer(this,
                             "Les informations techniques du fichier choisi [" + newBinary
                                     + "] n'ont pas pu être toutes extraites, la mise à jour est partielle.",
-                            "Erreur", JOptionPane.ERROR_MESSAGE);
+                            "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                            null);
                     ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,"Les informations techniques du fichier choisi [" + newBinary
                                     + "] n'ont pas pu être toutes extraites, la mise à jour est partielle.\n->"
                                     + e.getMessage());
@@ -627,10 +569,11 @@ public class MainWindow extends JFrame {
     void buttonEditArchiveUnit() {
         XmlEditDialog xmlEditDialog = new XmlEditDialog(this, dataObjectPackageTreeItemDisplayed);
         xmlEditDialog.setVisible(true);
-        if (xmlEditDialog.indentedXmlData != null) {
+        if (xmlEditDialog.getReturnValue()) {
             ((DataObjectPackageTreeModel) dataObjectPackageTreePaneViewer.getModel())
                     .nodeChanged(dataObjectPackageTreeItemDisplayed);
-            getArchiveUnitMetadataText().setText(xmlEditDialog.indentedXmlData);
+            getArchiveUnitMetadataText().setText(xmlEditDialog.getResult());
+            ResipGraphicApp.getTheApp().setModifiedContext(true);
         }
     }
 
@@ -662,7 +605,7 @@ public class MainWindow extends JFrame {
             AddMetadataItem ami=getAddMetadataItem((String) metadataComboBox.getSelectedItem());
             XmlEditDialog xmlEditDialog = new XmlEditDialog(this, ami);
             xmlEditDialog.setVisible(true);
-            if (xmlEditDialog.indentedXmlData != null) {
+            if (xmlEditDialog.getReturnValue()) {
                 //noinspection ConstantConditions
                 String macroMetadata = ((String) metadataComboBox.getSelectedItem()).substring(0, 3);
                 switch(macroMetadata) {
@@ -686,12 +629,14 @@ public class MainWindow extends JFrame {
                         .nodeChanged(dataObjectPackageTreeItemDisplayed);
                 getArchiveUnitMetadataText().setText(IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
                         .indentString(dataObjectPackageTreeItemDisplayed.getArchiveUnit().toSedaXmlFragments()));
+                ResipGraphicApp.getTheApp().setModifiedContext(true);
             }
         } catch (SEDALibException e) {
-            JOptionPane.showMessageDialog(this,
+            UserInteractionDialog.getUserAnswer(this,
                     "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.\n->"
                             + e.getMessage(),
-                    "Erreur", JOptionPane.ERROR_MESSAGE);
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,"L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.\n->"
                             + e.getMessage());
         }
@@ -705,7 +650,7 @@ public class MainWindow extends JFrame {
         DataObject dataObject = getDataObjectListItemDisplayed();
         XmlEditDialog xmlEditDialog = new XmlEditDialog(this, dataObject);
         xmlEditDialog.setVisible(true);
-        if (xmlEditDialog.indentedXmlData != null) {
+        if (xmlEditDialog.getReturnValue()) {
             ((DefaultListModel<DataObject>) dataObjectsListViewer.getModel()).set(0,
                     ((DefaultListModel<DataObject>) dataObjectsListViewer.getModel()).get(0));
             dataObjectListItemClick(dataObject);
@@ -931,6 +876,19 @@ public class MainWindow extends JFrame {
     }
 
     /**
+     * Change line spacing in a JTextPane.
+     *
+     * @param pane    the pane
+     * @param factor  the factor
+     */
+    private void changeLineSpacing(JTextPane pane, double factor) {
+        pane.selectAll();
+        MutableAttributeSet set = new SimpleAttributeSet(pane.getParagraphAttributes());
+        StyleConstants.setLineSpacing(set, (float)factor);
+        pane.setParagraphAttributes(set, true);
+    }
+
+    /**
      * Gets the archive unit metadata text.
      *
      * @return the archive unit metadata text
@@ -939,17 +897,8 @@ public class MainWindow extends JFrame {
         return auMetadataText;
     }
 
-    /**
-     * Sets the au metadata text.
-     *
-     * @param auMetadataText the new au metadata text
-     */
-    public void setAuMetadataText(JTextPane auMetadataText) {
-        this.auMetadataText = auMetadataText;
-        auMetadataText.setFont(UIManager.getFont("TextArea.font"));
-    }
 
-    /**
+     /**
      * Gets the archive transfer tree pane.
      *
      * @return the archive transfer tree pane

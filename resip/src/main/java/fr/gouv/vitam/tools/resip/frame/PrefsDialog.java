@@ -27,202 +27,97 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import javax.swing.*;
 
-import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
-import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
-import fr.gouv.vitam.tools.resip.parameters.CreationContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 
-// TODO: Auto-generated Javadoc
-
 /**
- * The Class PrefsDialog.
+ * The class PrefsDialog.
+ * <p>
+ * Class for prefs definition dialog.
  */
 public class PrefsDialog extends JDialog {
 
     /**
-     * The Constant serialVersionUID.
-     */
-    private static final long serialVersionUID = -4092514078236156033L;
-
-    /**
-     * The work dir text field.
-     */
-    private JTextField workDirTextField;
-
-    /**
-     * The ignore patterns text area.
-     */
-    private JTextArea ignorePatternsTextArea;
-
-    /**
-     * The hierarchical radio button.
-     */
-    private JRadioButton hierarchicalRadioButton;
-
-    /**
-     * The indented radio button.
-     */
-    private JRadioButton indentedRadioButton;
-
-    /**
-     * The reindex radio button.
-     */
-    private JRadioButton reindexYesRadioButton;
-
-    /**
-     * The message identifier text field.
+     * The actions components.
      */
     private JTextField messageIdentifierTextField;
-
-    /**
-     * The date text field.
-     */
     private JTextField dateTextField;
-
-    /**
-     * The chckbx now flag.
-     */
     private JCheckBox chckbxNowFlag;
-
-    /**
-     * The comment text area.
-     */
     private JTextArea commentTextArea;
-
-    /**
-     * The archival agreement text field.
-     */
     private JTextField archivalAgreementTextField;
-
-    /**
-     * The clv text area.
-     */
-    private JTextArea clvTextArea;
-
-    /**
-     * The management metadata text area.
-     */
-    private JTextArea managementMetadataTextArea;
-
-    /**
-     * The transfer request reply identifier text field.
-     */
-    private JTextField transferRequestReplyIdentifierTextField;
-
-    /**
-     * The archival agency identifier text field.
-     */
     private JTextField archivalAgencyIdentifierTextField;
-
-    /**
-     * The archival agency organization descriptive metadata text area.
-     */
-    private JTextArea archivalAgencyOrganizationDescriptiveMetadataTextArea;
-
-    /**
-     * The transferring agency identifier text field.
-     */
     private JTextField transferringAgencyIdentifierTextField;
 
-    /**
-     * The transferring agency organization descriptive metadata text area.
-     */
+    private JTextArea clvTextArea;
+    private JTextArea managementMetadataTextArea;
+    private JTextField transferRequestReplyIdentifierTextField;
+    private JTextArea archivalAgencyOrganizationDescriptiveMetadataTextArea;
     private JTextArea transferringAgencyOrganizationDescriptiveMetadataTextArea;
 
-    /**
-     * The message file check box.
-     */
+    private JComboBox defaultMailCharsetCombobox;
     private JCheckBox messageFileCheckBox;
-
-    /**
-     * The attachement file check box.
-     */
     private JCheckBox attachementFileCheckBox;
-
-    /**
-     * The message metadata check box.
-     */
     private JCheckBox messageMetadataCheckBox;
-
-    /**
-     * The attachement metadata check box.
-     */
     private JCheckBox attachementMetadataCheckBox;
+    private JTextArea ignorePatternsTextArea;
+    private JComboBox csvCharsetCombobox;
+    private JTextField csvDelimiterTextField;
+
+    private JTextField workDirTextField;
+    private JRadioButton hierarchicalRadioButton;
+    private JRadioButton indentedRadioButton;
+    private JRadioButton reindexYesRadioButton;
+
+    private JFrame owner;
 
     /**
-     * The pst radio button.
-     */
-    private JRadioButton pstRadioButton;
-
-    /**
-     * The msg radio button.
-     */
-    private JRadioButton msgRadioButton;
-
-    /**
-     * The tdb radio button.
-     */
-    private JRadioButton tdbRadioButton;
-
-    /**
-     * The mbox radio button.
-     */
-    private JRadioButton mboxRadioButton;
-
-    /**
-     * The eml radio button.
-     */
-    private JRadioButton emlRadioButton;
-
-    /**
-     * The default charset combobox.
-     */
-    private JComboBox defaultCharsetCombobox;
-
-    /**
-     * The cc.
+     * The data.
      */
     public CreationContext cc;
-
-    /**
-     * The dic.
-     */
     public DiskImportContext dic;
-
-    /**
-     * The mic.
-     */
     public MailImportContext mic;
-
-    /**
-     * The gmc.
-     */
     public ExportContext gmc;
+    public CSVMetadataImportContext cmic;
+    public CSVTreeImportContext ctic;
 
     /**
      * The return value.
      */
-    public int returnValue;
+    private int returnValue;
 
     /**
      * The proposed charsets.
      */
-    static String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
+    static private String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
             "IBM850", "IBM852", "IBM855", "IBM857", "IBM862", "IBM866", "ISO-8859-2", "ISO-8859-4", "ISO-8859-5",
             "ISO-8859-7", "ISO-8859-9", "ISO-8859-13", "ISO-8859-15", "KOI8-R", "KOI8-U", "US-ASCII", "UTF-16",
             "UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
             "windows-1250", "windows-1251", "windows-1253", "windows-1254", "windows-1257"};
+
+    // Dialog test context
+
+    /**
+     * The entry point of dialog test.
+     *
+     * @param args the input arguments
+     * @throws ClassNotFoundException          the class not found exception
+     * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+     * @throws InstantiationException          the instantiation exception
+     * @throws IllegalAccessException          the illegal access exception
+     * @throws NoSuchMethodException           the no such method exception
+     * @throws InvocationTargetException       the invocation target exception
+     */
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        TestDialogWindow window = new TestDialogWindow(PrefsDialog.class);
+    }
 
     /**
      * Create the dialog.
@@ -231,31 +126,39 @@ public class PrefsDialog extends JDialog {
      */
     public PrefsDialog(JFrame owner) {
         super(owner, "Edition des paramètres par défaut", true);
+        GridBagConstraints gbc;
 
         cc = new CreationContext(Prefs.getInstance().getPrefsContextNode());
         dic = new DiskImportContext(Prefs.getInstance().getPrefsContextNode());
         mic = new MailImportContext(Prefs.getInstance().getPrefsContextNode());
         gmc = new ExportContext(Prefs.getInstance().getPrefsContextNode());
+        cmic= new CSVMetadataImportContext(Prefs.getInstance().getPrefsContextNode());
+        ctic= new CSVTreeImportContext(Prefs.getInstance().getPrefsContextNode());
 
-        getContentPane().setPreferredSize(new Dimension(800, 500));
+        this.owner=owner;
+        this.setPreferredSize(new Dimension(800, 500));
+        this.setMinimumSize(new Dimension(500, 300));
 
+        Container contentPane = getContentPane();
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.rowWeights = new double[]{1.0, 0.1};
         gridBagLayout.columnWeights = new double[]{1.0, 1.0};
-        getContentPane().setLayout(gridBagLayout);
+        contentPane.setLayout(new GridBagLayout());
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-        GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
-        gbc_tabbedPane.fill = GridBagConstraints.BOTH;
-        gbc_tabbedPane.gridwidth = 2;
-        gbc_tabbedPane.insets = new Insets(0, 0, 5, 5);
-        gbc_tabbedPane.gridx = 0;
-        gbc_tabbedPane.gridy = 0;
-        getContentPane().add(tabbedPane, gbc_tabbedPane);
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weightx=1.0;
+        gbc.weighty=1.0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        contentPane.add(tabbedPane, gbc);
 
         // header and footer simple fields
         JPanel headerFooterSimplePanel = new JPanel();
-        tabbedPane.addTab("Métadonnées globales", null, headerFooterSimplePanel, null);
+        tabbedPane.addTab("Métadonnées globales",  new ImageIcon(getClass().getResource("/icon/document-properties.png")), headerFooterSimplePanel, null);
         GridBagLayout gbl_headerFooterSimplePanel = new GridBagLayout();
         gbl_headerFooterSimplePanel.columnWidths = new int[]{0, 0, 0};
         gbl_headerFooterSimplePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
@@ -264,78 +167,86 @@ public class PrefsDialog extends JDialog {
         headerFooterSimplePanel.setLayout(gbl_headerFooterSimplePanel);
 
         JLabel presentationLabel = new JLabel("Champs globaux du SIP");
-        GridBagConstraints gbc_presentationLabel = new GridBagConstraints();
-        gbc_presentationLabel.gridwidth = 3;
-        gbc_presentationLabel.insets = new Insets(0, 0, 5, 0);
-        gbc_presentationLabel.weightx = 1.0;
-        gbc_presentationLabel.anchor = GridBagConstraints.NORTHWEST;
-        gbc_presentationLabel.fill = GridBagConstraints.HORIZONTAL;
-        gbc_presentationLabel.gridx = 0;
-        gbc_presentationLabel.gridy = 0;
-        headerFooterSimplePanel.add(presentationLabel, gbc_presentationLabel);
+        presentationLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(0, 0, 5, 0);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        headerFooterSimplePanel.add(presentationLabel, gbc);
 
-        JLabel messageIdentifierLabel = new JLabel("Identifiant du message (MessageIdentifier):");
-        GridBagConstraints gbc_messageIdentifierLabel = new GridBagConstraints();
-        gbc_messageIdentifierLabel.anchor = GridBagConstraints.EAST;
-        gbc_messageIdentifierLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_messageIdentifierLabel.gridx = 0;
-        gbc_messageIdentifierLabel.gridy = 1;
-        headerFooterSimplePanel.add(messageIdentifierLabel, gbc_messageIdentifierLabel);
+        JLabel messageIdentifierLabel = new JLabel("Identifiant du message :");
+        messageIdentifierLabel.setToolTipText("MessageIdentifier");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        headerFooterSimplePanel.add(messageIdentifierLabel, gbc);
 
         messageIdentifierTextField = new JTextField();
         messageIdentifierTextField.setText(gmc.getArchiveTransferGlobalMetadata().messageIdentifier);
-        GridBagConstraints gbc_messageIdentifierTextField = new GridBagConstraints();
-        gbc_messageIdentifierTextField.weightx = 1.0;
-        gbc_messageIdentifierTextField.insets = new Insets(0, 0, 5, 0);
-        gbc_messageIdentifierTextField.gridwidth = 2;
-        gbc_messageIdentifierTextField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_messageIdentifierTextField.gridx = 1;
-        gbc_messageIdentifierTextField.gridy = 1;
-        headerFooterSimplePanel.add(messageIdentifierTextField, gbc_messageIdentifierTextField);
+        messageIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
+        gbc = new GridBagConstraints();
+        gbc.weightx = 1.0;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        headerFooterSimplePanel.add(messageIdentifierTextField, gbc);
         messageIdentifierTextField.setColumns(10);
 
-        JLabel dateLabel = new JLabel("Date (ISO 8601):");
-        GridBagConstraints gbc_dateLabel = new GridBagConstraints();
-        gbc_dateLabel.anchor = GridBagConstraints.EAST;
-        gbc_dateLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_dateLabel.gridx = 0;
-        gbc_dateLabel.gridy = 2;
-        headerFooterSimplePanel.add(dateLabel, gbc_dateLabel);
+        JLabel dateLabel = new JLabel("Date :");
+        dateLabel.setToolTipText("ISO 8601");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        headerFooterSimplePanel.add(dateLabel, gbc);
 
         dateTextField = new JTextField();
         dateTextField.setText(gmc.getArchiveTransferGlobalMetadata().date);
-        GridBagConstraints gbc_dateTextField = new GridBagConstraints();
-        gbc_dateTextField.insets = new Insets(0, 0, 5, 5);
-        gbc_dateTextField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_dateTextField.gridx = 1;
-        gbc_dateTextField.gridy = 2;
-        headerFooterSimplePanel.add(dateTextField, gbc_dateTextField);
+        dateTextField.setFont(MainWindow.DETAILS_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        headerFooterSimplePanel.add(dateTextField, gbc);
         dateTextField.setColumns(10);
 
         chckbxNowFlag = new JCheckBox("du jour");
         chckbxNowFlag.setSelected(gmc.getArchiveTransferGlobalMetadata().isNowFlag());
-        GridBagConstraints gbc_chckbxNowFlag = new GridBagConstraints();
-        gbc_chckbxNowFlag.insets = new Insets(0, 0, 5, 0);
-        gbc_chckbxNowFlag.gridx = 2;
-        gbc_chckbxNowFlag.gridy = 2;
-        headerFooterSimplePanel.add(chckbxNowFlag, gbc_chckbxNowFlag);
+        chckbxNowFlag.setFont(MainWindow.CLICK_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        headerFooterSimplePanel.add(chckbxNowFlag, gbc);
 
-        JLabel lblComment = new JLabel("Commentaire (Comment):");
-        GridBagConstraints gbc_lblComment = new GridBagConstraints();
-        gbc_lblComment.anchor = GridBagConstraints.EAST;
-        gbc_lblComment.insets = new Insets(0, 0, 5, 5);
-        gbc_lblComment.gridx = 0;
-        gbc_lblComment.gridy = 3;
-        headerFooterSimplePanel.add(lblComment, gbc_lblComment);
+        JLabel lblComment = new JLabel("Commentaire :");
+        lblComment.setToolTipText("Comment");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        headerFooterSimplePanel.add(lblComment, gbc);
 
         JScrollPane scrollPane = new JScrollPane();
-        GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-        gbc_scrollPane.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane.gridwidth = 2;
-        gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-        gbc_scrollPane.gridx = 1;
-        gbc_scrollPane.gridy = 3;
-        headerFooterSimplePanel.add(scrollPane, gbc_scrollPane);
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        headerFooterSimplePanel.add(scrollPane, gbc);
 
         commentTextArea = new JTextArea();
         commentTextArea.setLineWrap(true);
@@ -343,67 +254,74 @@ public class PrefsDialog extends JDialog {
         commentTextArea.setCaretPosition(0);
         scrollPane.setViewportView(commentTextArea);
         commentTextArea.setText(gmc.getArchiveTransferGlobalMetadata().comment);
+        commentTextArea.setFont(MainWindow.DETAILS_FONT);
 
-        JLabel lblArchivalagreement = new JLabel("Identifiant du contrat d'entrée (ArchivalAgreement):");
-        GridBagConstraints gbc_lblArchivalagreement = new GridBagConstraints();
-        gbc_lblArchivalagreement.anchor = GridBagConstraints.EAST;
-        gbc_lblArchivalagreement.insets = new Insets(0, 0, 5, 5);
-        gbc_lblArchivalagreement.gridx = 0;
-        gbc_lblArchivalagreement.gridy = 4;
-        headerFooterSimplePanel.add(lblArchivalagreement, gbc_lblArchivalagreement);
+        JLabel lblArchivalagreement = new JLabel("Identifiant du contrat d'entrée :");
+        lblArchivalagreement.setToolTipText("ArchivalAgreement");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        headerFooterSimplePanel.add(lblArchivalagreement, gbc);
 
         archivalAgreementTextField = new JTextField();
         archivalAgreementTextField.setText(gmc.getArchiveTransferGlobalMetadata().archivalAgreement);
-        GridBagConstraints gbc_archivalAgreementTextField = new GridBagConstraints();
-        gbc_archivalAgreementTextField.insets = new Insets(0, 0, 5, 0);
-        gbc_archivalAgreementTextField.gridwidth = 2;
-        gbc_archivalAgreementTextField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_archivalAgreementTextField.gridx = 1;
-        gbc_archivalAgreementTextField.gridy = 4;
-        headerFooterSimplePanel.add(archivalAgreementTextField, gbc_archivalAgreementTextField);
+        archivalAgreementTextField.setFont(MainWindow.DETAILS_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        headerFooterSimplePanel.add(archivalAgreementTextField, gbc);
         archivalAgreementTextField.setColumns(10);
 
-        JLabel lblArchivalAgencyIdentifier = new JLabel("Service d'archivage (ArchivalAgency.Identifier):");
-        GridBagConstraints gbc_lblArchivalAgencyIdentifier = new GridBagConstraints();
-        gbc_lblArchivalAgencyIdentifier.anchor = GridBagConstraints.EAST;
-        gbc_lblArchivalAgencyIdentifier.insets = new Insets(0, 0, 5, 5);
-        gbc_lblArchivalAgencyIdentifier.gridx = 0;
-        gbc_lblArchivalAgencyIdentifier.gridy = 5;
-        headerFooterSimplePanel.add(lblArchivalAgencyIdentifier, gbc_lblArchivalAgencyIdentifier);
+        JLabel lblArchivalAgencyIdentifier = new JLabel("Service d'archivage :");
+        lblArchivalAgencyIdentifier.setToolTipText("ArchivalAgency.Identifier");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        headerFooterSimplePanel.add(lblArchivalAgencyIdentifier, gbc);
 
         archivalAgencyIdentifierTextField = new JTextField();
         archivalAgencyIdentifierTextField.setText(gmc.getArchiveTransferGlobalMetadata().archivalAgencyIdentifier);
-        GridBagConstraints gbc_archivalAgencyIdentifierTextField = new GridBagConstraints();
-        gbc_archivalAgencyIdentifierTextField.insets = new Insets(0, 0, 5, 0);
-        gbc_archivalAgencyIdentifierTextField.gridwidth = 2;
-        gbc_archivalAgencyIdentifierTextField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_archivalAgencyIdentifierTextField.gridx = 1;
-        gbc_archivalAgencyIdentifierTextField.gridy = 5;
-        headerFooterSimplePanel.add(archivalAgencyIdentifierTextField, gbc_archivalAgencyIdentifierTextField);
+        archivalAgencyIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        headerFooterSimplePanel.add(archivalAgencyIdentifierTextField, gbc);
         archivalAgencyIdentifierTextField.setColumns(10);
 
-        JLabel lblTransferringAgencyIdentifier = new JLabel("Service versant (TransferringAgency.Identifier):");
-        GridBagConstraints gbc_lblTransferringAgencyIdentifier = new GridBagConstraints();
-        gbc_lblTransferringAgencyIdentifier.anchor = GridBagConstraints.EAST;
-        gbc_lblTransferringAgencyIdentifier.insets = new Insets(0, 0, 5, 5);
-        gbc_lblTransferringAgencyIdentifier.gridx = 0;
-        gbc_lblTransferringAgencyIdentifier.gridy = 6;
-        headerFooterSimplePanel.add(lblTransferringAgencyIdentifier, gbc_lblTransferringAgencyIdentifier);
+        JLabel lblTransferringAgencyIdentifier = new JLabel("Service versant :");
+        lblTransferringAgencyIdentifier.setToolTipText("TransferringAgency.Identifier");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        headerFooterSimplePanel.add(lblTransferringAgencyIdentifier, gbc);
 
         transferringAgencyIdentifierTextField = new JTextField();
         transferringAgencyIdentifierTextField.setText(gmc.getArchiveTransferGlobalMetadata().transferringAgencyIdentifier);
-        GridBagConstraints gbc_transferringAgencyIdentifierTextField = new GridBagConstraints();
-        gbc_transferringAgencyIdentifierTextField.insets = new Insets(0, 0, 5, 0);
-        gbc_transferringAgencyIdentifierTextField.gridwidth = 2;
-        gbc_transferringAgencyIdentifierTextField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_transferringAgencyIdentifierTextField.gridx = 1;
-        gbc_transferringAgencyIdentifierTextField.gridy = 6;
-        headerFooterSimplePanel.add(transferringAgencyIdentifierTextField, gbc_transferringAgencyIdentifierTextField);
+        transferringAgencyIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        headerFooterSimplePanel.add(transferringAgencyIdentifierTextField, gbc);
         transferringAgencyIdentifierTextField.setColumns(10);
 
         // Header and footer complex fields
         JPanel headerFooterComplexPanel = new JPanel();
-        tabbedPane.addTab("Métadonnées globales étendues", null, headerFooterComplexPanel, null);
+        tabbedPane.addTab("Métadonnées globales étendues",   new ImageIcon(getClass().getResource("/icon/text-x-generic.png")), headerFooterComplexPanel, null);
         GridBagLayout gbl_headerFooterComplexPanel = new GridBagLayout();
         gbl_headerFooterComplexPanel.columnWidths = new int[]{0, 0, 0};
         gbl_headerFooterComplexPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
@@ -412,287 +330,263 @@ public class PrefsDialog extends JDialog {
         headerFooterComplexPanel.setLayout(gbl_headerFooterComplexPanel);
 
         JLabel presentationComplexLabel = new JLabel("Champs globaux étendus du SIP");
-        GridBagConstraints gbc_presentationComplexLabel = new GridBagConstraints();
-        gbc_presentationComplexLabel.gridwidth = 3;
-        gbc_presentationComplexLabel.insets = new Insets(0, 0, 5, 0);
-        gbc_presentationComplexLabel.weightx = 1.0;
-        gbc_presentationComplexLabel.anchor = GridBagConstraints.NORTHWEST;
-        gbc_presentationComplexLabel.fill = GridBagConstraints.HORIZONTAL;
-        gbc_presentationComplexLabel.gridx = 0;
-        gbc_presentationComplexLabel.gridy = 0;
-        headerFooterComplexPanel.add(presentationComplexLabel, gbc_presentationComplexLabel);
+        presentationComplexLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        headerFooterComplexPanel.add(presentationComplexLabel, gbc);
 
-        JLabel clvLabel = new JLabel("CodeListVersions (XML):");
-        GridBagConstraints gbc_clvLabel = new GridBagConstraints();
-        gbc_clvLabel.anchor = GridBagConstraints.EAST;
-        gbc_clvLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_clvLabel.gridx = 0;
-        gbc_clvLabel.gridy = 1;
-        headerFooterComplexPanel.add(clvLabel, gbc_clvLabel);
+        JLabel clvLabel = new JLabel("Liste des codes :");
+        clvLabel.setToolTipText("Bloc XML CodeListVersions");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        headerFooterComplexPanel.add(clvLabel, gbc);
 
         JScrollPane scrollPane_1 = new JScrollPane();
-        GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-        gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane_1.gridwidth = 2;
-        gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-        gbc_scrollPane_1.gridx = 1;
-        gbc_scrollPane_1.gridy = 1;
-        headerFooterComplexPanel.add(scrollPane_1, gbc_scrollPane_1);
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        headerFooterComplexPanel.add(scrollPane_1, gbc);
 
         clvTextArea = new JTextArea();
+        clvTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane_1.setViewportView(clvTextArea);
         clvTextArea.setText(gmc.getArchiveTransferGlobalMetadata().codeListVersionsXmlData);
         clvTextArea.setCaretPosition(0);
 
-        JLabel managementMetadataLabel = new JLabel("ManagementMetadata (XML):");
-        GridBagConstraints gbc_managementMetadataLabel = new GridBagConstraints();
-        gbc_managementMetadataLabel.anchor = GridBagConstraints.EAST;
-        gbc_managementMetadataLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_managementMetadataLabel.gridx = 0;
-        gbc_managementMetadataLabel.gridy = 2;
-        headerFooterComplexPanel.add(managementMetadataLabel, gbc_managementMetadataLabel);
+        JLabel managementMetadataLabel = new JLabel("Métadonnées de gestion globales :");
+        managementMetadataLabel.setToolTipText("Bloc XML ManagementMetadata");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        headerFooterComplexPanel.add(managementMetadataLabel, gbc);
 
         JScrollPane scrollPane_2 = new JScrollPane();
-        GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
-        gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane_2.gridwidth = 2;
-        gbc_scrollPane_2.insets = new Insets(0, 0, 5, 0);
-        gbc_scrollPane_2.gridx = 1;
-        gbc_scrollPane_2.gridy = 2;
-        headerFooterComplexPanel.add(scrollPane_2, gbc_scrollPane_2);
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        headerFooterComplexPanel.add(scrollPane_2, gbc);
 
         managementMetadataTextArea = new JTextArea();
+        managementMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane_2.setViewportView(managementMetadataTextArea);
         managementMetadataTextArea.setText(gmc.getManagementMetadataXmlData());
         managementMetadataTextArea.setCaretPosition(0);
 
-        JLabel lblTransferRequestReplyIdentifier = new JLabel("TransferRequestReplyIdentifier:");
-        GridBagConstraints gbc_lblTransferRequestReplyIdentifier = new GridBagConstraints();
-        gbc_lblTransferRequestReplyIdentifier.anchor = GridBagConstraints.EAST;
-        gbc_lblTransferRequestReplyIdentifier.insets = new Insets(0, 0, 5, 5);
-        gbc_lblTransferRequestReplyIdentifier.gridx = 0;
-        gbc_lblTransferRequestReplyIdentifier.gridy = 3;
-        headerFooterComplexPanel.add(lblTransferRequestReplyIdentifier, gbc_lblTransferRequestReplyIdentifier);
+        JLabel lblTransferRequestReplyIdentifier = new JLabel("Identifiant de réponse de transfert :");
+        lblTransferRequestReplyIdentifier.setToolTipText("Valeur de TransferRequestReplyIdentifier");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        headerFooterComplexPanel.add(lblTransferRequestReplyIdentifier, gbc);
 
         transferRequestReplyIdentifierTextField = new JTextField();
+        transferRequestReplyIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
         transferRequestReplyIdentifierTextField.setText(gmc.getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier);
-        GridBagConstraints gbc_transferRequestReplyIdentifierTextField = new GridBagConstraints();
-        gbc_transferRequestReplyIdentifierTextField.insets = new Insets(0, 0, 5, 0);
-        gbc_transferRequestReplyIdentifierTextField.gridwidth = 2;
-        gbc_transferRequestReplyIdentifierTextField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_transferRequestReplyIdentifierTextField.gridx = 1;
-        gbc_transferRequestReplyIdentifierTextField.gridy = 3;
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 3;
         headerFooterComplexPanel.add(transferRequestReplyIdentifierTextField,
-                gbc_transferRequestReplyIdentifierTextField);
+                gbc);
         transferRequestReplyIdentifierTextField.setColumns(10);
 
-        JLabel archivalAgencyOrganizationDescriptiveMetadataLabel = new JLabel("ArchivalAgency.ODM (XML):");
-        GridBagConstraints gbc_archivalAgencyOrganizationDescriptiveMetadataLabel = new GridBagConstraints();
-        gbc_archivalAgencyOrganizationDescriptiveMetadataLabel.anchor = GridBagConstraints.EAST;
-        gbc_archivalAgencyOrganizationDescriptiveMetadataLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_archivalAgencyOrganizationDescriptiveMetadataLabel.gridx = 0;
-        gbc_archivalAgencyOrganizationDescriptiveMetadataLabel.gridy = 4;
+        JLabel archivalAgencyOrganizationDescriptiveMetadataLabel = new JLabel("Détails sur l'acteur d'archivage :");
+        archivalAgencyOrganizationDescriptiveMetadataLabel.setToolTipText("Bloc XML OrganisationDescriptiveMetadata de la métadonnée ArchivalAgency ");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
         headerFooterComplexPanel.add(archivalAgencyOrganizationDescriptiveMetadataLabel,
-                gbc_archivalAgencyOrganizationDescriptiveMetadataLabel);
+                gbc);
 
         JScrollPane scrollPane_3 = new JScrollPane();
-        GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
-        gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane_3.gridwidth = 2;
-        gbc_scrollPane_3.insets = new Insets(0, 0, 5, 0);
-        gbc_scrollPane_3.gridx = 1;
-        gbc_scrollPane_3.gridy = 4;
-        headerFooterComplexPanel.add(scrollPane_3, gbc_scrollPane_3);
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        headerFooterComplexPanel.add(scrollPane_3, gbc);
 
         archivalAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
+        archivalAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane_3.setViewportView(archivalAgencyOrganizationDescriptiveMetadataTextArea);
         archivalAgencyOrganizationDescriptiveMetadataTextArea
                 .setText(gmc.getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData);
         archivalAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
 
-        JLabel transferringAgencyOrganizationDescriptiveMetadataLabel = new JLabel("TransferringAgency.ODM (XML):");
-        GridBagConstraints gbc_transferringAgencyOrganizationDescriptiveMetadataLabel = new GridBagConstraints();
-        gbc_transferringAgencyOrganizationDescriptiveMetadataLabel.anchor = GridBagConstraints.EAST;
-        gbc_transferringAgencyOrganizationDescriptiveMetadataLabel.insets = new Insets(0, 0, 0, 5);
-        gbc_transferringAgencyOrganizationDescriptiveMetadataLabel.gridx = 0;
-        gbc_transferringAgencyOrganizationDescriptiveMetadataLabel.gridy = 5;
+        JLabel transferringAgencyOrganizationDescriptiveMetadataLabel = new JLabel("Détails sur l'acteur de transfert :");
+        transferringAgencyOrganizationDescriptiveMetadataLabel.setToolTipText("Bloc XML OrganisationDescriptiveMetadata de la métadonnée TransferringAgency ");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
         headerFooterComplexPanel.add(transferringAgencyOrganizationDescriptiveMetadataLabel,
-                gbc_transferringAgencyOrganizationDescriptiveMetadataLabel);
+                gbc);
 
         JScrollPane scrollPane_4 = new JScrollPane();
-        GridBagConstraints gbc_scrollPane_4 = new GridBagConstraints();
-        gbc_scrollPane_4.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane_4.gridwidth = 2;
-        gbc_scrollPane_4.insets = new Insets(0, 0, 0, 5);
-        gbc_scrollPane_4.gridx = 1;
-        gbc_scrollPane_4.gridy = 5;
-        headerFooterComplexPanel.add(scrollPane_4, gbc_scrollPane_4);
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        headerFooterComplexPanel.add(scrollPane_4, gbc);
 
         transferringAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
+        transferringAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane_4.setViewportView(transferringAgencyOrganizationDescriptiveMetadataTextArea);
         transferringAgencyOrganizationDescriptiveMetadataTextArea
                 .setText(gmc.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData);
         transferringAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
 
         // ImportParameters Panel
-
         JPanel importParametersPanel = new JPanel();
-        tabbedPane.addTab("Import", null, importParametersPanel, null);
+        tabbedPane.addTab("Import", new ImageIcon(getClass().getResource("/icon/document-open.png")), importParametersPanel, null);
         GridBagLayout gbl_importParametersPanel = new GridBagLayout();
         gbl_importParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
         importParametersPanel.setLayout(gbl_importParametersPanel);
 
-       JLabel protocolLabel = new JLabel("Protocole d'extraction courriel:");
-        GridBagConstraints gbc_protocolLabel = new GridBagConstraints();
-        gbc_protocolLabel.anchor = GridBagConstraints.EAST;
-        gbc_protocolLabel.insets = new Insets(0, 0, 0, 5);
-        gbc_protocolLabel.gridx = 0;
-        gbc_protocolLabel.gridy = 1;
-        importParametersPanel.add(protocolLabel, gbc_protocolLabel);
+        JLabel mailImportLabel = new JLabel("Import des messageries");
+        mailImportLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        importParametersPanel.add(mailImportLabel, gbc);
 
-        pstRadioButton = new JRadioButton("Outlook-Pst");
-        GridBagConstraints gbc_pstRadioButton = new GridBagConstraints();
-        gbc_pstRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_pstRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_pstRadioButton.gridx = 1;
-        gbc_pstRadioButton.gridy = 1;
-        importParametersPanel.add(pstRadioButton, gbc_pstRadioButton);
+        JLabel mailCharsetLabel = new JLabel("Encodage par défaut des messageries :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        importParametersPanel.add(mailCharsetLabel, gbc);
 
-        msgRadioButton = new JRadioButton("Outlook-Msg");
-        GridBagConstraints gbc_msgRadioButton = new GridBagConstraints();
-        gbc_msgRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_msgRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_msgRadioButton.gridx = 2;
-        gbc_msgRadioButton.gridy = 1;
-        importParametersPanel.add(msgRadioButton, gbc_msgRadioButton);
+        defaultMailCharsetCombobox = new JComboBox(charsetStrings);
+        defaultMailCharsetCombobox.setFont(MainWindow.LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        importParametersPanel.add(defaultMailCharsetCombobox, gbc);
+        defaultMailCharsetCombobox.setSelectedItem(mic.getDefaultCharsetName());
 
-        tdbRadioButton = new JRadioButton("Thunderbird");
-        GridBagConstraints gbc_tdbRadioButton = new GridBagConstraints();
-        gbc_tdbRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_tdbRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_tdbRadioButton.gridx = 1;
-        gbc_tdbRadioButton.gridy = 2;
-        importParametersPanel.add(tdbRadioButton, gbc_tdbRadioButton);
-
-        mboxRadioButton = new JRadioButton("Mbox");
-        GridBagConstraints gbc_mboxRadioButton = new GridBagConstraints();
-        gbc_mboxRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_mboxRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_mboxRadioButton.gridx = 2;
-        gbc_mboxRadioButton.gridy = 2;
-        importParametersPanel.add(mboxRadioButton, gbc_mboxRadioButton);
-
-        emlRadioButton = new JRadioButton("Eml");
-        GridBagConstraints gbc_emlRadioButton = new GridBagConstraints();
-        gbc_emlRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_emlRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_emlRadioButton.gridx = 1;
-        gbc_emlRadioButton.gridy = 3;
-        importParametersPanel.add(emlRadioButton, gbc_emlRadioButton);
-
-        ButtonGroup protocolButtonGroup = new ButtonGroup();
-        protocolButtonGroup.add(pstRadioButton);
-        protocolButtonGroup.add(msgRadioButton);
-        protocolButtonGroup.add(tdbRadioButton);
-        protocolButtonGroup.add(mboxRadioButton);
-        protocolButtonGroup.add(emlRadioButton);
-        pstRadioButton.setSelected("pst".equals(mic.getProtocol()));
-        msgRadioButton.setSelected("msg".equals(mic.getProtocol()));
-        tdbRadioButton.setSelected("thunderbird".equals(mic.getProtocol()));
-        mboxRadioButton.setSelected("mbox".equals(mic.getProtocol()));
-        emlRadioButton.setSelected("eml".equals(mic.getProtocol()));
-
-        JLabel charsetLabel = new JLabel("Encodage par défaut");
-        GridBagConstraints gbc_charsetLabel = new GridBagConstraints();
-        gbc_charsetLabel.anchor = GridBagConstraints.EAST;
-        gbc_charsetLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_charsetLabel.gridx = 0;
-        gbc_charsetLabel.gridy = 4;
-        importParametersPanel.add(charsetLabel, gbc_charsetLabel);
-
-        defaultCharsetCombobox = new JComboBox(charsetStrings);
-        GridBagConstraints gbc_charsetComboBox = new GridBagConstraints();
-        gbc_charsetComboBox.insets = new Insets(0, 0, 5, 5);
-        gbc_charsetComboBox.fill = GridBagConstraints.HORIZONTAL;
-        gbc_charsetComboBox.gridx = 1;
-        gbc_charsetComboBox.gridy = 4;
-        importParametersPanel.add(defaultCharsetCombobox, gbc_charsetComboBox);
-        defaultCharsetCombobox.setSelectedItem(mic.getDefaultCharsetName());
-
-        JLabel mailFileTextExtractAULabel = new JLabel("Extraction des fichiers textes des courriels:");
-        GridBagConstraints gbc_mailFileTextExtractAULabel = new GridBagConstraints();
-        gbc_mailFileTextExtractAULabel.anchor = GridBagConstraints.EAST;
-        gbc_mailFileTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
-        gbc_mailFileTextExtractAULabel.gridx = 0;
-        gbc_mailFileTextExtractAULabel.gridy = 5;
-        importParametersPanel.add(mailFileTextExtractAULabel, gbc_mailFileTextExtractAULabel);
+        JLabel mailFileTextExtractAULabel = new JLabel("Extraction des fichiers textes des courriels :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        importParametersPanel.add(mailFileTextExtractAULabel, gbc);
 
         messageFileCheckBox = new JCheckBox("des messages");
-        GridBagConstraints gbc_messageFileCheckBox = new GridBagConstraints();
-        gbc_messageFileCheckBox.anchor = GridBagConstraints.WEST;
-        gbc_messageFileCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_messageFileCheckBox.gridx = 1;
-        gbc_messageFileCheckBox.gridy = 5;
-        importParametersPanel.add(messageFileCheckBox, gbc_messageFileCheckBox);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        importParametersPanel.add(messageFileCheckBox, gbc);
         messageFileCheckBox.setSelected(mic.isExtractMessageTextFile());
 
         attachementFileCheckBox = new JCheckBox("des pièces jointes");
-        GridBagConstraints gbc_attachementFileCheckBox = new GridBagConstraints();
-        gbc_attachementFileCheckBox.anchor = GridBagConstraints.WEST;
-        gbc_attachementFileCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_attachementFileCheckBox.gridx = 2;
-        gbc_attachementFileCheckBox.gridy = 5;
-        importParametersPanel.add(attachementFileCheckBox, gbc_attachementFileCheckBox);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        importParametersPanel.add(attachementFileCheckBox, gbc);
         attachementFileCheckBox.setSelected(mic.isExtractAttachmentTextFile());
 
-        JLabel mailMetadataTextExtractAULabel = new JLabel("Extraction des métadonnées textuelles des courriels:");
-        GridBagConstraints gbc_mailMetadataTextExtractAULabel = new GridBagConstraints();
-        gbc_mailMetadataTextExtractAULabel.anchor = GridBagConstraints.EAST;
-        gbc_mailMetadataTextExtractAULabel.insets = new Insets(0, 0, 5, 5);
-        gbc_mailMetadataTextExtractAULabel.gridx = 0;
-        gbc_mailMetadataTextExtractAULabel.gridy = 6;
-        importParametersPanel.add(mailMetadataTextExtractAULabel, gbc_mailMetadataTextExtractAULabel);
+        JLabel mailMetadataTextExtractAULabel = new JLabel("Extraction des métadonnées textuelles des courriels :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        importParametersPanel.add(mailMetadataTextExtractAULabel, gbc);
 
         messageMetadataCheckBox = new JCheckBox("des messages");
-        GridBagConstraints gbc_messageMetadataCheckBox = new GridBagConstraints();
-        gbc_messageMetadataCheckBox.anchor = GridBagConstraints.WEST;
-        gbc_messageMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_messageMetadataCheckBox.gridx = 1;
-        gbc_messageMetadataCheckBox.gridy = 6;
-        importParametersPanel.add(messageMetadataCheckBox, gbc_messageMetadataCheckBox);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        importParametersPanel.add(messageMetadataCheckBox, gbc);
         messageMetadataCheckBox.setSelected(mic.isExtractMessageTextMetadata());
 
         attachementMetadataCheckBox = new JCheckBox("des pièces jointes");
-        GridBagConstraints gbc_attachementMetadataCheckBox = new GridBagConstraints();
-        gbc_attachementMetadataCheckBox.anchor = GridBagConstraints.WEST;
-        gbc_attachementMetadataCheckBox.insets = new Insets(0, 0, 5, 5);
-        gbc_attachementMetadataCheckBox.gridx = 2;
-        gbc_attachementMetadataCheckBox.gridy = 6;
-        importParametersPanel.add(attachementMetadataCheckBox, gbc_attachementMetadataCheckBox);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        importParametersPanel.add(attachementMetadataCheckBox, gbc);
         attachementMetadataCheckBox.setSelected(mic.isExtractAttachmentTextMetadata());
 
+        JLabel diskImportLabel = new JLabel("Import des hiérarchies sur disque");
+        diskImportLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        importParametersPanel.add(diskImportLabel, gbc);
+
         JScrollPane scrollPane_5 = new JScrollPane();
-        GridBagConstraints gbc_scrollPane_5 = new GridBagConstraints();
-        gbc_scrollPane_5.weightx = 1.0;
-        gbc_scrollPane_5.weighty = 1.0;
-        gbc_scrollPane_5.gridwidth = 2;
-        gbc_scrollPane_5.fill = GridBagConstraints.BOTH;
-        gbc_scrollPane_5.gridheight = 2;
-        gbc_scrollPane_5.gridx = 1;
-        gbc_scrollPane_5.gridy = 7;
-        importParametersPanel.add(scrollPane_5, gbc_scrollPane_5);
+        gbc = new GridBagConstraints();
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        importParametersPanel.add(scrollPane_5, gbc);
 
         ignorePatternsTextArea = new JTextArea();
         scrollPane_5.setViewportView(ignorePatternsTextArea);
 
-        JLabel ignorePatternsLabel = new JLabel("Fichiers exclus des imports:");
-        GridBagConstraints gbc_ignorePatternsLabel = new GridBagConstraints();
-        gbc_ignorePatternsLabel.gridwidth = 1;
-        gbc_ignorePatternsLabel.anchor = GridBagConstraints.EAST;
-        gbc_ignorePatternsLabel.insets = new Insets(0, 0, 0, 5);
-        gbc_ignorePatternsLabel.gridx = 0;
-        gbc_ignorePatternsLabel.gridy = 7;
-        importParametersPanel.add(ignorePatternsLabel, gbc_ignorePatternsLabel);
+        JLabel ignorePatternsLabel = new JLabel("Fichiers exclus des imports :");
+        ignorePatternsLabel.setToolTipText("Liste d'expressions régulières définissant les noms de fichiers à ne pas prendre en compte");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        gbc.weighty = 1.0;
+        importParametersPanel.add(ignorePatternsLabel, gbc);
         if (dic.getIgnorePatternList() != null) {
             StringBuilder sb = new StringBuilder();
             for (String p : dic.getIgnorePatternList()) {
@@ -701,10 +595,61 @@ public class PrefsDialog extends JDialog {
             ignorePatternsTextArea.setText(sb.toString().trim());
         }
 
+        JLabel csvImportLabel = new JLabel("Import des csv");
+        csvImportLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        importParametersPanel.add(csvImportLabel, gbc);
+
+        JLabel csvCharsetLabel = new JLabel("Encodage des csv :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        importParametersPanel.add(csvCharsetLabel, gbc);
+
+        csvCharsetCombobox = new JComboBox(charsetStrings);
+        csvCharsetCombobox.setFont(MainWindow.LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        importParametersPanel.add(csvCharsetCombobox, gbc);
+        csvCharsetCombobox.setSelectedItem(cmic.getCsvCharsetName());
+
+        JLabel lblCsvDelimiter = new JLabel("Séparateur :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        importParametersPanel.add(lblCsvDelimiter, gbc);
+
+        csvDelimiterTextField = new JTextField();
+        csvDelimiterTextField.setText(Character.toString(cmic.getDelimiter()));
+        csvDelimiterTextField.setFont(MainWindow.DETAILS_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridwidth = 2;
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        gbc.anchor = GridBagConstraints.WEST;
+        importParametersPanel.add(csvDelimiterTextField, gbc);
+        csvDelimiterTextField.setColumns(1);
+
+
         // ExportParameters Panel
 
         JPanel exportParametersPanel = new JPanel();
-        tabbedPane.addTab("Export", null, exportParametersPanel, null);
+        tabbedPane.addTab("Export", new ImageIcon(getClass().getResource("/icon/document-save.png")), exportParametersPanel, null);
         GridBagLayout gbl_exportParametersPanel = new GridBagLayout();
         gbl_exportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
         gbl_exportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
@@ -712,56 +657,56 @@ public class PrefsDialog extends JDialog {
         exportParametersPanel.setLayout(gbl_exportParametersPanel);
 
         JLabel workDirLabel = new JLabel("Rép. de travail:");
-        GridBagConstraints gbc_workDirLabel = new GridBagConstraints();
-        gbc_workDirLabel.anchor = GridBagConstraints.EAST;
-        gbc_workDirLabel.insets = new Insets(0, 0, 5, 5);
-        gbc_workDirLabel.gridx = 0;
-        gbc_workDirLabel.gridy = 1;
-        exportParametersPanel.add(workDirLabel, gbc_workDirLabel);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        exportParametersPanel.add(workDirLabel, gbc);
 
         workDirTextField = new JTextField();
         workDirTextField.setText(cc.getWorkDir());
-        GridBagConstraints gbc_workDirTextField = new GridBagConstraints();
-        gbc_workDirTextField.weightx = 1.0;
-        gbc_workDirTextField.gridwidth = 2;
-        gbc_workDirTextField.insets = new Insets(0, 0, 5, 5);
-        gbc_workDirTextField.fill = GridBagConstraints.HORIZONTAL;
-        gbc_workDirTextField.gridx = 1;
-        gbc_workDirTextField.gridy = 1;
-        exportParametersPanel.add(workDirTextField, gbc_workDirTextField);
+        gbc = new GridBagConstraints();
+        gbc.weightx = 1.0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        exportParametersPanel.add(workDirTextField, gbc);
         workDirTextField.setColumns(10);
 
         JButton workDirButton = new JButton("Choisir...");
-        GridBagConstraints gbc_workDirButton = new GridBagConstraints();
-        gbc_workDirButton.insets = new Insets(0, 0, 5, 0);
-        gbc_workDirButton.gridx = 3;
-        gbc_workDirButton.gridy = 1;
-        exportParametersPanel.add(workDirButton, gbc_workDirButton);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 0);
+        gbc.gridx = 3;
+        gbc.gridy = 1;
+        exportParametersPanel.add(workDirButton, gbc);
         workDirButton.addActionListener(arg0 -> buttonChooseWorkDir());
 
         JLabel hierarchicalAULabel = new JLabel("Export des AU dans le SIP:");
-        GridBagConstraints gbc_hierarchicalAULabel = new GridBagConstraints();
-        gbc_hierarchicalAULabel.anchor = GridBagConstraints.EAST;
-        gbc_hierarchicalAULabel.insets = new Insets(0, 0, 5, 5);
-        gbc_hierarchicalAULabel.gridx = 0;
-        gbc_hierarchicalAULabel.gridy = 2;
-        exportParametersPanel.add(hierarchicalAULabel, gbc_hierarchicalAULabel);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        exportParametersPanel.add(hierarchicalAULabel, gbc);
 
         JRadioButton flatRadioButton = new JRadioButton("A plat");
-        GridBagConstraints gbc_flatRadioButton = new GridBagConstraints();
-        gbc_flatRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_flatRadioButton.insets = new Insets(0, 0, 5, 5);
-        gbc_flatRadioButton.gridx = 2;
-        gbc_flatRadioButton.gridy = 2;
-        exportParametersPanel.add(flatRadioButton, gbc_flatRadioButton);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        exportParametersPanel.add(flatRadioButton, gbc);
 
         hierarchicalRadioButton = new JRadioButton("Imbriquées");
-        GridBagConstraints gbc_hierarchicalRadioButton = new GridBagConstraints();
-        gbc_hierarchicalRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_hierarchicalRadioButton.insets = new Insets(0, 0, 5, 5);
-        gbc_hierarchicalRadioButton.gridx = 1;
-        gbc_hierarchicalRadioButton.gridy = 2;
-        exportParametersPanel.add(hierarchicalRadioButton, gbc_hierarchicalRadioButton);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        exportParametersPanel.add(hierarchicalRadioButton, gbc);
 
         ButtonGroup hierarchicalAUButtonGroup = new ButtonGroup();
         hierarchicalAUButtonGroup.add(flatRadioButton);
@@ -773,27 +718,27 @@ public class PrefsDialog extends JDialog {
             flatRadioButton.setSelected(true);
 
         JLabel xmlPresentationLabel = new JLabel("Présentation XML dans le SIP:");
-        GridBagConstraints gbc_xmlPresentationLabel = new GridBagConstraints();
-        gbc_xmlPresentationLabel.anchor = GridBagConstraints.EAST;
-        gbc_xmlPresentationLabel.insets = new Insets(0, 0, 0, 5);
-        gbc_xmlPresentationLabel.gridx = 0;
-        gbc_xmlPresentationLabel.gridy = 3;
-        exportParametersPanel.add(xmlPresentationLabel, gbc_xmlPresentationLabel);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 0, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        exportParametersPanel.add(xmlPresentationLabel, gbc);
 
         JRadioButton linearRadioButton = new JRadioButton("Linéaire");
-        GridBagConstraints gbc_linearRadioButton = new GridBagConstraints();
-        gbc_linearRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_linearRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_linearRadioButton.gridx = 2;
-        gbc_linearRadioButton.gridy = 3;
-        exportParametersPanel.add(linearRadioButton, gbc_linearRadioButton);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 0, 5);
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        exportParametersPanel.add(linearRadioButton, gbc);
 
         indentedRadioButton = new JRadioButton("Indentée");
-        GridBagConstraints gbc_indentedRadioButton = new GridBagConstraints();
-        gbc_indentedRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_indentedRadioButton.gridx = 1;
-        gbc_indentedRadioButton.gridy = 3;
-        exportParametersPanel.add(indentedRadioButton, gbc_indentedRadioButton);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        exportParametersPanel.add(indentedRadioButton, gbc);
 
         ButtonGroup indentedButtonGroup = new ButtonGroup();
         indentedButtonGroup.add(linearRadioButton);
@@ -805,28 +750,28 @@ public class PrefsDialog extends JDialog {
             linearRadioButton.setSelected(true);
 
         JLabel xmlReindexLabel = new JLabel("Renumérotation des éléments XML avant export:");
-        GridBagConstraints gbc_xmlReindexLabel = new GridBagConstraints();
-        gbc_xmlReindexLabel.anchor = GridBagConstraints.EAST;
-        gbc_xmlReindexLabel.insets = new Insets(0, 0, 0, 5);
-        gbc_xmlReindexLabel.gridx = 0;
-        gbc_xmlReindexLabel.gridy = 4;
-        exportParametersPanel.add(xmlReindexLabel, gbc_xmlReindexLabel);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 0, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        exportParametersPanel.add(xmlReindexLabel, gbc);
 
         reindexYesRadioButton = new JRadioButton("Oui");
-        GridBagConstraints gbc_reindexYesRadioButton = new GridBagConstraints();
-        gbc_reindexYesRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_reindexYesRadioButton.fill = GridBagConstraints.HORIZONTAL;
-        gbc_reindexYesRadioButton.insets = new Insets(0, 0, 0, 5);
-        gbc_reindexYesRadioButton.gridx = 1;
-        gbc_reindexYesRadioButton.gridy = 4;
-        exportParametersPanel.add(reindexYesRadioButton, gbc_reindexYesRadioButton);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 0, 0, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        exportParametersPanel.add(reindexYesRadioButton, gbc);
 
         JRadioButton reindexNoRadioButton = new JRadioButton("Non");
-        GridBagConstraints gbc_reindexNoRadioButton = new GridBagConstraints();
-        gbc_reindexNoRadioButton.anchor = GridBagConstraints.WEST;
-        gbc_reindexNoRadioButton.gridx = 2;
-        gbc_reindexNoRadioButton.gridy = 4;
-        exportParametersPanel.add(reindexNoRadioButton, gbc_reindexNoRadioButton);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 2;
+        gbc.gridy = 4;
+        exportParametersPanel.add(reindexNoRadioButton, gbc);
 
         ButtonGroup reindexButtonGroup = new ButtonGroup();
         reindexButtonGroup.add(reindexYesRadioButton);
@@ -839,46 +784,44 @@ public class PrefsDialog extends JDialog {
 
         // Buttons
         JButton cancelButton = new JButton("Annuler");
-        GridBagConstraints gbc_cancelButton = new GridBagConstraints();
-        gbc_cancelButton.insets = new Insets(0, 0, 0, 5);
-        gbc_cancelButton.gridx = 0;
-        gbc_cancelButton.gridy = 1;
-        getContentPane().add(cancelButton, gbc_cancelButton);
-        cancelButton.addActionListener(arg0 -> buttonCancel());
+        cancelButton.setFont(MainWindow.CLICK_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx=1.0;
+        gbc.weighty=0.0;
+        contentPane.add(cancelButton, gbc);
+        cancelButton.addActionListener(arg -> buttonCancel());
 
         JButton okButton = new JButton("OK");
-        GridBagConstraints gbc_okButton = new GridBagConstraints();
-        gbc_okButton.gridx = 1;
-        gbc_okButton.gridy = 1;
-        getContentPane().add(okButton, gbc_okButton);
-        okButton.addActionListener(arg0 -> buttonOk());
+        okButton.setFont(MainWindow.CLICK_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weightx=1.0;
+        gbc.weighty=0.0;
+        contentPane.add(okButton, gbc);
+        okButton.addActionListener(arg -> buttonOk());
 
         pack();
         setLocationRelativeTo(owner);
     }
 
-    /**
-     * Button cancel.
-     */
+    // actions
+
     private void buttonCancel() {
-        returnValue = JOptionPane.CANCEL_OPTION;
+        returnValue = ResipGraphicApp.KO_DIALOG;
         setVisible(false);
     }
 
-    /**
-     * Button ok.
-     */
     private void buttonOk() {
         extractFromDialog();
-        returnValue = JOptionPane.OK_OPTION;
+        returnValue = ResipGraphicApp.OK_DIALOG;
         setVisible(false);
     }
 
-    /**
-     * Choose a directory.
-     *
-     * @return the string
-     */
     private String chooseDirectory() {
         JFileChooser fileChooser = new JFileChooser(cc.getWorkDir());
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -891,9 +834,6 @@ public class PrefsDialog extends JDialog {
         return null;
     }
 
-    /**
-     * Button choose work dir.
-     */
     private void buttonChooseWorkDir() {
         try {
             String dir = chooseDirectory();
@@ -902,17 +842,16 @@ public class PrefsDialog extends JDialog {
 
             workDirTextField.setText(dir);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Erreur fatale, impossible de sélectionner sur le disque \n->" + e.getMessage());
+            UserInteractionDialog.getUserAnswer(this.owner,
+                    "Erreur fatale, impossible de sélectionner sur le disque \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
                     "Resip.GraphicApp: Erreur fatale, impossible de sélectionner sur le disque \n->" + e.getMessage());
         }
     }
 
-    /**
-     * Extract from dialog.
-     */
-    public void extractFromDialog() {
+    private void extractFromDialog() {
         cc.setWorkDir(workDirTextField.getText());
         dic.setWorkDir(workDirTextField.getText());
         mic.setWorkDir(workDirTextField.getText());
@@ -923,17 +862,7 @@ public class PrefsDialog extends JDialog {
         mic.setExtractAttachmentTextMetadata(attachementMetadataCheckBox.isSelected());
         mic.setExtractMessageTextFile(messageFileCheckBox.isSelected());
         mic.setExtractAttachmentTextFile(attachementFileCheckBox.isSelected());
-        if (pstRadioButton.isSelected())
-            mic.setProtocol("pst");
-        else if (msgRadioButton.isSelected())
-            mic.setProtocol("msg");
-        else if (tdbRadioButton.isSelected())
-            mic.setProtocol("thunderbird");
-        else if (mboxRadioButton.isSelected())
-            mic.setProtocol("mbox");
-        else if (emlRadioButton.isSelected())
-            mic.setProtocol("eml");
-        mic.setDefaultCharsetName((String) defaultCharsetCombobox.getSelectedItem());
+        mic.setDefaultCharsetName((String) defaultMailCharsetCombobox.getSelectedItem());
 
         gmc.setHierarchicalArchiveUnits(hierarchicalRadioButton.isSelected());
         gmc.setIndented(indentedRadioButton.isSelected());
@@ -953,5 +882,20 @@ public class PrefsDialog extends JDialog {
         gmc.getArchiveTransferGlobalMetadata().transferringAgencyIdentifier = transferringAgencyIdentifierTextField.getText();
         gmc.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData =
                 transferringAgencyOrganizationDescriptiveMetadataTextArea.getText();
+
+        cmic.setDelimiter((csvDelimiterTextField.getText().isEmpty()?';':csvDelimiterTextField.getText().charAt(0)));
+        cmic.setCsvCharsetName((String) csvCharsetCombobox.getSelectedItem());
+
+        ctic.setDelimiter((csvDelimiterTextField.getText().isEmpty()?';':csvDelimiterTextField.getText().charAt(0)));
+        ctic.setCsvCharsetName((String) csvCharsetCombobox.getSelectedItem());
+    }
+
+    /**
+     * Get return value int.
+     *
+     * @return the return value
+     */
+    public int getReturnValue(){
+        return returnValue;
     }
 }

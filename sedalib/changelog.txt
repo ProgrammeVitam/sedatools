@@ -6,6 +6,7 @@ Evolutions/Corrections en 1.3.0
 - Evolution: renforcement des tests 100% classes et >75% des lignes
 - Refacto: renommage de la classe GenericXMLBlockType en AnyXMLType
 - Refacto: refonte majeur des classes de métadonnées en utilisant la réflexion pour faciliter la maintenance et la création d'autres, notamment des sous-types de ComplexListType
+- Fix: AgencyType étendu avec OrganisationDescriptiveMetadata
 
 ============================================================================
 Evolutions/Corrections en 1.2.0
