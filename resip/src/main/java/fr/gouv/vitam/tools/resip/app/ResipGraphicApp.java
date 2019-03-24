@@ -172,6 +172,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "EmptyWorkDir");
         fileMenu.add(menuItem);
 
+        fileMenu.add(new JSeparator());
+
+        menuItem = new JMenuItem("Quitter");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "Exit");
+        fileMenu.add(menuItem);
+
         contextMenu = new JMenu("Contexte");
         menuBar.add(contextMenu);
         contextMenu.setEnabled(false);
@@ -190,9 +197,14 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         menuBar.add(treatMenu);
         treatMenu.setEnabled(false);
 
-        menuItem = new JMenuItem("Chercher...");
+        menuItem = new JMenuItem("Chercher des unités d'archives...");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "Search");
+        treatMenu.add(menuItem);
+
+        menuItem = new JMenuItem("Chercher des objets...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "TechnicalSearch");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Trier l'arbre de visualisation");
@@ -292,12 +304,18 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "EditPrefs":
                         editPrefs();
                         break;
+                    case "Exit":
+                        exit();
+                        break;
                     case "EmptyWorkDir":
                         emptyWorkDir();
                         break;
                     // Treat Menu
                     case "Search":
                         search();
+                        break;
+                    case "TechnicalSearch":
+                        technicalSearch();
                         break;
                     case "RegenerateContinuousIds":
                         doRegenerateContinuousIds();
@@ -471,7 +489,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         try {
             if ((currentWork != null) && modifiedWork
                     && UserInteractionDialog.getUserAnswer(mainWindow,
-                    "Vous avez un contexte en cours non sauvegardé, la fermeture perdra les modifications.\n"
+                    "Vous avez un contexte en cours non sauvegardé, la fermeture entrainera la perte des modifications.\n"
                             + "Voulez-vous continuer?",
                     "Confirmation",  UserInteractionDialog.WARNING_DIALOG,
                     null) !=OK_DIALOG)
@@ -553,7 +571,32 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire le nettoyage \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire le nettoyage \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire le nettoyage\n->" + e.getMessage());
+        }
+    }
+
+    // MenuItem Close
+    /**
+     * Exit to system.
+     */
+
+    public void exit() {
+        try {
+            if ((currentWork != null) && modifiedWork
+                    && UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Vous avez un contexte en cours non sauvegardé, la fermeture de l'application entrainera la perte des modifications.\n"
+                            + "Voulez-vous continuer?",
+                    "Confirmation",  UserInteractionDialog.WARNING_DIALOG,
+                    null) !=OK_DIALOG)
+                return;
+
+            System.exit(0);
+        } catch (Exception e) {
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur de fermeture de l'application\n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.Graphic: Erreur de fermeture de l'application\n->" + e.getMessage());
         }
     }
 
@@ -564,6 +607,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     void search() {
         SearchDialog searchDialog = new SearchDialog(mainWindow);
         searchDialog.setVisible(true);
+    }
+
+    // MenuItem TechnicalSearch
+
+    void technicalSearch() {
+        TechnicalSearchDialog technicalSearchDialog = new TechnicalSearchDialog(mainWindow);
+        technicalSearchDialog.setVisible(true);
     }
 
     // MenuItem Regenerate continuous ids

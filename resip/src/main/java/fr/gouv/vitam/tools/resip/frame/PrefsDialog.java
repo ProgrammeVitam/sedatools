@@ -576,6 +576,7 @@ public class PrefsDialog extends JDialog {
         importParametersPanel.add(scrollPane_5, gbc);
 
         ignorePatternsTextArea = new JTextArea();
+        ignorePatternsTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane_5.setViewportView(ignorePatternsTextArea);
 
         JLabel ignorePatternsLabel = new JLabel("Fichiers exclus des imports :");

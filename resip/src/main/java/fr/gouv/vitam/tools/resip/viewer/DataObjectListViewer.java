@@ -231,4 +231,18 @@ public class DataObjectListViewer extends JList<DataObject> {
         main.getApp().currentWork.getCreationContext().setStructureChanged(true);
         main.refreshTreePaneLabel();
     }
+
+    /**
+     * Select the data object.
+     *
+     * @param dataObject the data object
+     */
+    public void selectDataObject(DataObject dataObject) {
+        for (int i=0;i<getModel().getSize();i++){
+            if (getModel().getElementAt(i).equals(dataObject)) {
+                this.setSelectedIndex(i);
+                break;
+            }
+        }
+    }
 }
