@@ -1,54 +1,99 @@
 package fr.gouv.vitam.tools.resip.frame;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.app.SearchThread;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeViewer;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnitRefList;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
-import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.awt.event.ItemEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-public class SearchDialog extends JDialog{
-    public JTextField searchTextField;
-    public JButton searchButton;
-    public JButton nextButton;
-    public JButton previousButton;
-    public JCheckBox regExpCheckBox;
-    public JCheckBox caseCheckBox;
-    public JCheckBox metadataCheckBox;
-    public JLabel resultLabel;
+import static java.awt.event.ItemEvent.DESELECTED;
+import static java.awt.event.ItemEvent.SELECTED;
 
+/**
+ * The class SearchDialog.
+ * <p>
+ * Class for search dialog.
+ */
+public class SearchDialog extends JDialog {
+
+    /**
+     * The actions components.
+     */
+    private JTextField searchTextField;
+    private JCheckBox regExpCheckBox;
+    private JCheckBox caseCheckBox;
+    private JCheckBox metadataCheckBox;
+    private JLabel resultLabel;
     private MainWindow mainWindow;
+    private JPanel optionalInfoPanel;
+
+    /**
+     * The data.
+     */
+    private DataObjectPackageTreeViewer dataObjectPackageTreeViewer;
     private DataObjectPackageTreeModel dataObjectPackageTreeModel;
-    public List<ArchiveUnit> searchResult;
-    public int searchResultPosition;
-    public boolean searchRunning;
+    private List<ArchiveUnit> searchResult;
+    private int searchResultPosition;
+    private boolean searchRunning;
+
+    // Dialog test context
+
+    /**
+     * The entry point of dialog test.
+     *
+     * @param args the input arguments
+     * @throws ClassNotFoundException          the class not found exception
+     * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+     * @throws InstantiationException          the instantiation exception
+     * @throws IllegalAccessException          the illegal access exception
+     * @throws NoSuchMethodException           the no such method exception
+     * @throws InvocationTargetException       the invocation target exception
+     */
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        TestDialogWindow window = new TestDialogWindow(SearchDialog.class);
+    }
+
+    /**
+     * Instantiates a new SearchDialog for test.
+     *
+     * @param owner the owner
+     */
+    public SearchDialog(JFrame owner) throws ResipException {
+        this(new MainWindow(new ResipGraphicApp(null)));
+    }
 
     /**
      * Create the dialog.
      *
      * @param owner the owner
-     * @param title the title
      */
-    public SearchDialog(JFrame owner, String title) {
-        super(owner, title, false);
+    public SearchDialog(MainWindow owner) {
+        super(owner, "Chercher", false);
 
-        mainWindow=(MainWindow)owner;
-        searchRunning=false;
+        searchRunning = false;
 
-        setBounds(100, 100, 400, 100);
-        setMinimumSize(new Dimension(400, 100));
-        setMaximumSize(new Dimension(400, 100));
-        getContentPane().setLayout(new GridBagLayout());
+        mainWindow=owner;
+        dataObjectPackageTreeViewer=mainWindow.getDataObjectPackageTreePaneViewer();
+        dataObjectPackageTreeModel=(DataObjectPackageTreeModel)(dataObjectPackageTreeViewer.getModel());
+
+        setMinimumSize(new Dimension(500, 110));
+        setPreferredSize(new Dimension(500, 110));
+        setResizable(false);
+
+        Container contentPane = getContentPane();
+        contentPane.setLayout(new GridBagLayout());
+
         searchTextField = new JTextField();
         searchTextField.setText("");
+        searchTextField.setFont(MainWindow.DETAILS_FONT);
         GridBagConstraints gbc;
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -57,124 +102,254 @@ public class SearchDialog extends JDialog{
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        getContentPane().add(searchTextField, gbc);
+        gbc.insets = new Insets(5, 5, 5, 0);
+        contentPane.add(searchTextField, gbc);
 
-        searchButton = new JButton();
-        searchButton.setIcon(new ImageIcon(getClass().getResource("/001-search.png")));
+        JButton searchButton = new JButton();
+        searchButton.setIcon(new ImageIcon(getClass().getResource("/icon/search-system.png")));
         searchButton.setText("");
-        searchButton.setMaximumSize(new Dimension(24, 24));
-        searchButton.setMinimumSize(new Dimension(24, 24));
-        searchButton.setPreferredSize(new Dimension(24, 24));
+        searchButton.setMaximumSize(new Dimension(26, 26));
+        searchButton.setMinimumSize(new Dimension(26, 26));
+        searchButton.setPreferredSize(new Dimension(26, 26));
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.NONE;
-        getContentPane().add(searchButton, gbc);
+        gbc.insets = new Insets(5, 5, 5, 5);
+        contentPane.add(searchButton, gbc);
         searchButton.addActionListener(arg0 -> buttonSearch());
 
-        nextButton = new JButton();
-        nextButton.setIcon(new ImageIcon(getClass().getResource("/003-down.png")));
+        JButton nextButton = new JButton();
+        nextButton.setIcon(new ImageIcon(getClass().getResource("/icon/go-down.png")));
         nextButton.setText("");
-        nextButton.setMaximumSize(new Dimension(24, 24));
-        nextButton.setMinimumSize(new Dimension(24, 24));
-        nextButton.setPreferredSize(new Dimension(24, 24));
+        nextButton.setMaximumSize(new Dimension(26, 26));
+        nextButton.setMinimumSize(new Dimension(26, 26));
+        nextButton.setPreferredSize(new Dimension(26, 26));
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.NONE;
-        getContentPane().add(nextButton, gbc);
+        gbc.insets = new Insets(5, 5, 5, 0);
+        contentPane.add(nextButton, gbc);
         nextButton.addActionListener(arg0 -> buttonNext());
 
-        previousButton = new JButton();
-        previousButton.setIcon(new ImageIcon(getClass().getResource("/002-up.png")));
+        JButton previousButton = new JButton();
+        previousButton.setIcon(new ImageIcon(getClass().getResource("/icon/go-up.png")));
         previousButton.setText("");
-        previousButton.setMaximumSize(new Dimension(24, 24));
-        previousButton.setMinimumSize(new Dimension(24, 24));
-        previousButton.setPreferredSize(new Dimension(24, 24));
+        previousButton.setMaximumSize(new Dimension(26, 26));
+        previousButton.setMinimumSize(new Dimension(26, 26));
+        previousButton.setPreferredSize(new Dimension(26, 26));
         gbc = new GridBagConstraints();
         gbc.gridx = 5;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.NONE;
-        getContentPane().add(previousButton, gbc);
+        gbc.insets = new Insets(5, 0, 5, 5);
+        contentPane.add(previousButton, gbc);
         previousButton.addActionListener(arg0 -> buttonPrevious());
 
         regExpCheckBox = new JCheckBox();
         regExpCheckBox.setText("RegExp");
+        regExpCheckBox.setFont(MainWindow.CLICK_FONT);
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridwidth = 1;
         gbc.gridy = 1;
-        gbc.weightx = 0;
+        gbc.weightx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        getContentPane().add(regExpCheckBox, gbc);
-        regExpCheckBox.setEnabled(false);
+        contentPane.add(regExpCheckBox, gbc);
+        regExpCheckBox.addItemListener(arg -> regexpEvent(arg));
 
         caseCheckBox = new JCheckBox();
         caseCheckBox.setText("Respecter la casse");
+        caseCheckBox.setFont(MainWindow.CLICK_FONT);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
-        gbc.gridwidth =1;
+        gbc.gridwidth = 1;
         gbc.gridy = 1;
         gbc.weightx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        getContentPane().add(caseCheckBox, gbc);
+        contentPane.add(caseCheckBox, gbc);
 
         metadataCheckBox = new JCheckBox();
         metadataCheckBox.setText("Métadonnées");
+        metadataCheckBox.setFont(MainWindow.CLICK_FONT);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
-        gbc.gridwidth =1;
+        gbc.gridwidth = 1;
         gbc.gridy = 1;
         gbc.weightx = 1;
         gbc.anchor = GridBagConstraints.WEST;
-        getContentPane().add(metadataCheckBox, gbc);
+        contentPane.add(metadataCheckBox, gbc);
 
         resultLabel = new JLabel();
         resultLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
-        gbc.gridwidth =3;
+        gbc.gridwidth = 3;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.CENTER;
-        getContentPane().add(resultLabel, gbc);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        contentPane.add(resultLabel, gbc);
+
+        optionalInfoPanel = new JPanel();
+        optionalInfoPanel.setLayout(new GridBagLayout());
+        optionalInfoPanel.setVisible(true);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 6;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        contentPane.add(optionalInfoPanel, gbc);
+        final JSeparator separator = new JSeparator();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        optionalInfoPanel.add(separator, gbc);
+        JLabel informationLabel = new JLabel();
+        informationLabel.setText("");
+        informationLabel.setIcon(new ImageIcon(getClass().getResource("/icon/large-dialog-information.png")));
+        informationLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        optionalInfoPanel.add(informationLabel, gbc);
+        JTextArea informationTextArea = new JTextArea("Il s'agit d'une recherche par expression régulière de type java d'une partie quelconque de la chaine, avec les caractères spéciaux classiques .?+*[]^|\\\\s\\w...\n"+
+                "Pour plus d'info chercher sur Internet \"Regexp java\"");
+        informationTextArea.setFont(MainWindow.LABEL_FONT);
+        informationTextArea.setEditable(false);
+        informationTextArea.setLineWrap(true);
+        informationTextArea.setWrapStyleWord(true);
+        informationTextArea.setBackground(MainWindow.GENERAL_BACKGROUND);
+        gbc = new GridBagConstraints();
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.insets = new Insets(5, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        optionalInfoPanel.add(informationTextArea, gbc);
 
         getRootPane().setDefaultButton(searchButton);
+
+        pack();
+        optionalInfoPanel.setVisible(false);
+        pack();
+        setLocationRelativeTo(owner);
     }
 
-    public void focusArchiveUnit(ArchiveUnit au){
+    // actions
+
+    private void regexpEvent(ItemEvent event) {
+        if (event.getStateChange() == SELECTED) {
+            optionalInfoPanel.setVisible(true);
+            Dimension dim = this.getSize();
+            pack();
+            dim.height = dim.height + optionalInfoPanel.getHeight();
+            this.setSize(dim);
+            this.setPreferredSize(dim);
+            pack();
+        } else if (event.getStateChange() == DESELECTED) {
+            optionalInfoPanel.setVisible(false);
+            Dimension dim = this.getSize();
+            dim.height = dim.height - optionalInfoPanel.getHeight();
+            this.setSize(dim);
+            this.setPreferredSize(dim);
+            pack();
+        }
+    }
+
+    private void focusArchiveUnit(ArchiveUnit au) {
         TreePath path = new TreePath(dataObjectPackageTreeModel.getPathToRoot(dataObjectPackageTreeModel.findTreeNode(au)));
-        mainWindow.getDataObjectPackageTreePaneViewer().setExpandsSelectedPaths(true);
-        mainWindow.getDataObjectPackageTreePaneViewer().setSelectionPath(path);
-        mainWindow.getDataObjectPackageTreePaneViewer().scrollPathToVisible(path);
+        dataObjectPackageTreeViewer.setExpandsSelectedPaths(true);
+        dataObjectPackageTreeViewer.setSelectionPath(path);
+        dataObjectPackageTreeViewer.scrollPathToVisible(path);
         mainWindow.dataObjectPackageTreeItemClick(path);
     }
 
-    void buttonSearch(){
+    private void buttonSearch() {
         if (searchRunning)
             resultLabel.setText("En cours");
         else {
-            searchRunning=true;
+            searchRunning = true;
             dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
             SearchThread st = new SearchThread(this, mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu());
             st.execute();
         }
     }
 
-    void buttonNext(){
-        if (searchResult.size()>0) {
-            searchResultPosition = Math.min(searchResultPosition+1,searchResult.size()-1);
-            resultLabel.setText((searchResultPosition+1)+"/"+searchResult.size());
+    private void buttonNext() {
+        if (searchResult != null && searchResult.size() > 0) {
+            searchResultPosition = Math.min(searchResultPosition + 1, searchResult.size() - 1);
+                resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size()+" trouvé"+(searchResult.size()>1?"s":""));
             focusArchiveUnit(searchResult.get(searchResultPosition));
         }
     }
 
-    void buttonPrevious(){
-        if (searchResult.size()>0) {
-            searchResultPosition = Math.max(searchResultPosition-1,0);
-            resultLabel.setText((searchResultPosition+1)+"/"+searchResult.size());
+    private void buttonPrevious() {
+        if (searchResult != null && searchResult.size() > 0) {
+            searchResultPosition = Math.max(searchResultPosition - 1, 0);
+            resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size()+" trouvé"+(searchResult.size()>1?"s":""));
             focusArchiveUnit(searchResult.get(searchResultPosition));
         }
+    }
+
+    /**
+     * Is regexp check boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isRegExpCheck(){
+        return regExpCheckBox.isSelected();
+    }
+
+    /**
+     * Is metadata check boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isMetadataCheck(){
+        return metadataCheckBox.isSelected();
+    }
+
+    /**
+     * Is case check boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isCaseCheck(){
+        return caseCheckBox.isSelected();
+    }
+
+    /**
+     * Get search text string.
+     *
+     * @return the string
+     */
+    public String getSearchText(){
+        return searchTextField.getText();
+    }
+
+    /**
+     * Set ArchiveUnit list search result.
+     *
+     * @param searchResult the search result
+     */
+    public void setSearchResult(List<ArchiveUnit> searchResult){
+        this.searchResult=searchResult;
+        searchResultPosition=0;
+        if (searchResult.size()>0) {
+            resultLabel.setText("1/"+searchResult.size()+" trouvé"+(searchResult.size()>1?"s":""));
+            focusArchiveUnit(searchResult.get(0));
+        }
+        else
+            resultLabel.setText("0 trouvé");
+        searchRunning=false;
     }
 }

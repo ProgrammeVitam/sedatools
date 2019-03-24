@@ -67,6 +67,9 @@ public class AddMetadataItem {
         typeCreatorMap.put("AgencyType", AddMetadataItem::agencyTypeSample);
         typeExtraInformationMap.put("AgencyType", "Metadonnée de type agence");
 
+        typeCreatorMap.put("PlaceType", AddMetadataItem::placeTypeSample);
+        typeExtraInformationMap.put("PlaceType", "Metadonnée de type localisation");
+
         typeCreatorMap.put("StringType", AddMetadataItem::stringTypeSample);
         typeExtraInformationMap.put("StringType", "Metadonnée de type chaîne de caractères");
 
@@ -173,6 +176,12 @@ public class AddMetadataItem {
 
     static AgentType agentTypeSample(String elementName) throws SEDALibException {
         AgentType result = new AgentType(elementName);
+        constructComplexListType(result);
+        return result;
+    }
+
+    static PlaceType placeTypeSample(String elementName) throws SEDALibException {
+        PlaceType result = new PlaceType(elementName);
         constructComplexListType(result);
         return result;
     }

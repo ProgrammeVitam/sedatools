@@ -41,9 +41,9 @@ import java.nio.file.Path;
 import javax.swing.DefaultListModel;
 import javax.swing.DropMode;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 
+import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
@@ -184,10 +184,10 @@ public class DataObjectListViewer extends JList<DataObject> {
                 addToArchiveUnitDataObjectGroup(targetAU, pdo);
                 ((DefaultListModel<DataObject>) getModel()).addElement(pdo);
             } catch (IOException | SEDALibException e) {
-                JOptionPane.showMessageDialog(ResipGraphicApp.getTheApp().mainWindow,
+                UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                         "Impossible d'ouvrir le fichier " + path.toString()
                                 + "\nLes données peuvent avoir été parteillement modifiées",
-                        "Erreur", JOptionPane.ERROR_MESSAGE);
+                        "Erreur", UserInteractionDialog.ERROR_DIALOG,null);
                 return;
             }
         } else {

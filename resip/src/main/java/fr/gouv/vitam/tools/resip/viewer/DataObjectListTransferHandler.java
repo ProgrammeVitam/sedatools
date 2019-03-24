@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
 import javax.swing.TransferHandler;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -68,7 +68,10 @@ class DataObjectListTransferHandler extends TransferHandler {
 
 	         for (File file : files)  {
 	        	 if (file.isDirectory()) {
-	        		 JOptionPane.showMessageDialog(ResipGraphicApp.getTheApp().mainWindow,"Il n'est pas possible de mettre\nen objet un répertoire");
+	        		 UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
+							 "Il n'est pas possible de mettre\nen objet un répertoire",
+							 "Avertissement", UserInteractionDialog.IMPORTANT_DIALOG,
+							 null);
 	        		 return false;
 	        	 }
 	         }

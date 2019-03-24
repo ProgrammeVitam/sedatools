@@ -1,172 +1,179 @@
 /**
  * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
- *
+ * <p>
  * contact.vitam@programmevitam.fr
- * 
- * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives 
- * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high 
+ * <p>
+ * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
+ * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
  * volumetry securely and efficiently.
- *
+ * <p>
  * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
  * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
  * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
- *
+ * <p>
  * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
  * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
  * successive licensors have only limited liability.
- *
+ * <p>
  * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
  * developing or reproducing the software by the user in light of its specific status of free software, that may mean
  * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
  * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
  * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
  * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
- *
+ * <p>
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
+import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
+import fr.gouv.vitam.tools.resip.parameters.Prefs;
 
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JScrollPane;
+import java.lang.reflect.InvocationTargetException;
 
 /**
- * The Class InOutDialog.
+ * The class InOutDialog.
+ * <p>
+ * Class for following logs during import and export threads.
  */
 public class InOutDialog extends JDialog {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -4092514078236156033L;
+    /**
+     * The actions components.
+     */
+    public JTextArea extProgressTextArea;
+    public JButton okButton;
+    public JButton cancelButton;
 
-	/** The ext progress text area. */
-	public JTextArea extProgressTextArea;
-	
-	/** The cancel button. */
-	public JButton cancelButton;
-	
-	/** The ok button. */
-	public JButton okButton;
-	
-	/** The thread. */
-	public SwingWorker<?, ?> thread;
+    /**
+     * The data.
+     */
+    public SwingWorker<?, ?> thread;
 
+    // Dialog test context
 
-	/**
-	 * Create the dialog.
-	 *
-	 * @param owner the owner
-	 * @param title the title
-	 */
-	public InOutDialog(JFrame owner, String title) {
-		super(owner, title, false);
-		setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+    /**
+     * The entry point of dialog test.
+     *
+     * @param args the input arguments
+     * @throws ClassNotFoundException          the class not found exception
+     * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+     * @throws InstantiationException          the instantiation exception
+     * @throws IllegalAccessException          the illegal access exception
+     * @throws NoSuchMethodException           the no such method exception
+     * @throws InvocationTargetException       the invocation target exception
+     */
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        TestDialogWindow window = new TestDialogWindow(InOutDialog.class);
+    }
 
-		setBounds(100, 100, 550, 300);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 550, 0 };
-		gridBagLayout.rowHeights = new int[] { 15, 220, 35, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		getContentPane().setLayout(gridBagLayout);
-		{
-			JLabel lblNewLabel = new JLabel("Opération en cours:");
-			lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-			gbc_lblNewLabel.anchor = GridBagConstraints.FIRST_LINE_START;
-			gbc_lblNewLabel.fill = GridBagConstraints.HORIZONTAL;
-			gbc_lblNewLabel.insets = new Insets(5, 5, 5, 0);
-			gbc_lblNewLabel.gridx = 0;
-			gbc_lblNewLabel.gridy = 0;
-			getContentPane().add(lblNewLabel, gbc_lblNewLabel);
-		}
-		{
-			JScrollPane scrollPane = new JScrollPane();
-			GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-			gbc_scrollPane.fill = GridBagConstraints.BOTH;
-			gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-			gbc_scrollPane.gridx = 0;
-			gbc_scrollPane.gridy = 1;
-			getContentPane().add(scrollPane, gbc_scrollPane);
-			{
-				extProgressTextArea = new JTextArea();
-				extProgressTextArea.setWrapStyleWord(true);
-				extProgressTextArea.setLineWrap(true);
-				scrollPane.setViewportView(extProgressTextArea);
-			}
-		}
-			JPanel buttonPane = new JPanel();
-			GridBagLayout gbl_buttonPane = new GridBagLayout();
-			gbl_buttonPane.columnWeights = new double[] { 1.0, 1.0 };
-			buttonPane.setLayout(gbl_buttonPane);
-			GridBagConstraints gbc_buttonPane = new GridBagConstraints();
-			gbc_buttonPane.fill = GridBagConstraints.HORIZONTAL;
-			gbc_buttonPane.gridx = 0;
-			gbc_buttonPane.gridy = 2;
-			getContentPane().add(buttonPane, gbc_buttonPane);
+    /**
+     * Instantiates a new InOutDialog for test.
+     *
+     * @param owner the owner
+     */
+    public InOutDialog(JFrame owner) {
+        this(owner, "Test InOut");
+    }
 
-			cancelButton = new JButton("Annuler");
-			GridBagConstraints gbc_cancelButton = new GridBagConstraints();
-			gbc_cancelButton.gridx = 0;
-			gbc_cancelButton.gridy = 0;
-			buttonPane.add(cancelButton, gbc_cancelButton);
-			cancelButton.addActionListener(arg0 -> buttonCancel());
+    /**
+     * Create the dialog.
+     *
+     * @param owner the owner
+     * @param title the title
+     */
+    public InOutDialog(JFrame owner, String title) {
+        super(owner, title, false);
+        GridBagConstraints gbc;
+        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
-			okButton = new JButton("Fermer");
-			okButton.setEnabled(false);
-			GridBagConstraints gbc_okButton = new GridBagConstraints();
-			gbc_okButton.gridx = 1;
-			gbc_okButton.gridy = 0;
-			buttonPane.add(okButton, gbc_okButton);
-			okButton.addActionListener(arg0 -> buttonOk());
+        setMinimumSize(new Dimension(300, 200));
+        setPreferredSize(new Dimension(600, 300));
 
-		
-		addWindowListener(new WindowAdapter()
-	    {
-	        @Override
-	        public void windowClosing(WindowEvent e)
-	        {
-	            cancelButton.doClick();
-	            okButton.doClick();
-	        }
-	    });
-		
-		pack();
-		setLocationRelativeTo(owner);
-	}
-	
-	/**
-	 * Sets the thread.
-	 *
-	 * @param thread the thread
-	 */
-	public void setThread(SwingWorker<?, ?> thread) {
-		this.thread=thread;
-	}
-	
-	/**
-	 * Button cancel.
-	 */
-	private void buttonCancel() {
-		thread.cancel(true);
-	}
+        Container contentPane = getContentPane();
+        contentPane.setLayout(new GridBagLayout());
 
-	/**
-	 * Button ok.
-	 */
-	private void buttonOk() {
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        gridBagLayout.columnWeights = new double[]{1.0,1.0};
+        gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0};
+        contentPane.setLayout(gridBagLayout);
+
+        JLabel lblNewLabel = new JLabel("Informations de progression");
+        lblNewLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.FIRST_LINE_START;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth=2;
+        contentPane.add(lblNewLabel, gbc);
+
+        JScrollPane scrollPane = new JScrollPane();
+        gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth=2;
+        contentPane.add(scrollPane, gbc);
+        extProgressTextArea = new JTextArea();
+        extProgressTextArea.setFont(MainWindow.LABEL_FONT);
+        extProgressTextArea.setWrapStyleWord(true);
+        extProgressTextArea.setLineWrap(true);
+        scrollPane.setViewportView(extProgressTextArea);
+
+        cancelButton = new JButton("Annuler");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        contentPane.add(cancelButton, gbc);
+        cancelButton.addActionListener(arg -> buttonCancel());
+
+        okButton = new JButton("Fermer");
+        okButton.setEnabled(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        contentPane.add(okButton, gbc);
+        okButton.addActionListener(arg -> buttonOk());
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                cancelButton.doClick();
+                okButton.doClick();
+            }
+        });
+
+        pack();
+        setLocationRelativeTo(owner);
+    }
+
+    // actions
+
+    private void buttonCancel() {
+        thread.cancel(true);
+    }
+
+    private void buttonOk() {
         setVisible(false);
-	}
+    }
+
+    /**
+     * Sets the thread.
+     *
+     * @param thread the thread
+     */
+    public void setThread(SwingWorker<?, ?> thread) {
+        this.thread = thread;
+    }
 }

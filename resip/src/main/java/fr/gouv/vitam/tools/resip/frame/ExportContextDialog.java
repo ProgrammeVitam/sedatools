@@ -27,89 +27,75 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import javax.swing.*;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
+import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
+import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 
 /**
- * The Class ExportContextDialog.
+ * The class ExportContextDialog.
+ * <p>
+ * Class for export context specific definition dialog.
  */
 public class ExportContextDialog extends JDialog {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -4092514078236156033L;
-
-	/** The on disk text field. */
-	public JTextField onDiskTextField;
-	
-	/** The work dir text field. */
-	public JTextField workDirTextField;
-	
-	/** The message identifier text field. */
+	/**
+	 * The actions components.
+	 */
 	private JTextField messageIdentifierTextField;
-	
-	/** The date text field. */
 	private JTextField dateTextField;
-	
-	/** The chckbx now flag. */
 	private JCheckBox chckbxNowFlag;
-	
-	/** The comment text area. */
 	private JTextArea commentTextArea;
-	
-	/** The archival agreement text field. */
 	private JTextField archivalAgreementTextField;
-	
-	/** The clv text area. */
-	private JTextArea clvTextArea;
-	
-	/** The management metadata text area. */
-	private JTextArea managementMetadataTextArea;
-	
-	/** The transfer request reply identifier text field. */
-	private JTextField transferRequestReplyIdentifierTextField;
-	
-	/** The archival agency identifier text field. */
 	private JTextField archivalAgencyIdentifierTextField;
-	
-	/** The archival agency organization descriptive metadata text area. */
-	private JTextArea archivalAgencyOrganizationDescriptiveMetadataTextArea;
-	
-	/** The transferring agency identifier text field. */
 	private JTextField transferringAgencyIdentifierTextField;
-	
-	/** The transferring agency organization descriptive metadata text area. */
+
+	private JTextArea clvTextArea;
+	private JTextArea managementMetadataTextArea;
+	private JTextField transferRequestReplyIdentifierTextField;
+	private JTextArea archivalAgencyOrganizationDescriptiveMetadataTextArea;
 	private JTextArea transferringAgencyOrganizationDescriptiveMetadataTextArea;
 
-	/** The hierarchical radio button. */
 	private JRadioButton hierarchicalRadioButton;
-	
-	/** The indented radio button. */
 	private JRadioButton indentedRadioButton;
-	
-	/** The reindex radio button. */
 	private JRadioButton reindexYesRadioButton;
 
-	/** The return value. */
-	public int returnValue;
+	/**
+	 * The return value.
+	 */
+	private int returnValue;
+
+	// Dialog test context
+
+	/**
+	 * The entry point of dialog test.
+	 *
+	 * @param args the input arguments
+	 * @throws ClassNotFoundException          the class not found exception
+	 * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+	 * @throws InstantiationException          the instantiation exception
+	 * @throws IllegalAccessException          the illegal access exception
+	 * @throws NoSuchMethodException           the no such method exception
+	 * @throws InvocationTargetException       the invocation target exception
+	 */
+	public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		TestDialogWindow window = new TestDialogWindow(ExportContextDialog.class);
+	}
+
+	/**
+	 * Instantiates a new ExportContextDialog for test.
+	 *
+	 * @param owner the owner
+	 */
+	public ExportContextDialog(JFrame owner) {
+		this(owner, new ExportContext(Prefs.getInstance().getPrefsContextNode()));
+	}
 
 	/**
 	 * Create the dialog.
@@ -119,105 +105,119 @@ public class ExportContextDialog extends JDialog {
 	 */
 	public ExportContextDialog(JFrame owner, ExportContext exportContext) {
 		super(owner, "Edition des informations utiles à la création du manifest", true);
-		getContentPane().setPreferredSize(new Dimension(800, 500));
+		GridBagConstraints gbc;
 
+		this.setPreferredSize(new Dimension(800, 500));
+		this.setMinimumSize(new Dimension(500, 300));
+
+		Container contentPane = getContentPane();
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.1 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 1.0 };
-		getContentPane().setLayout(gridBagLayout);
+		gridBagLayout.rowWeights = new double[]{1.0, 0.1};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0};
+		contentPane.setLayout(new GridBagLayout());
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
-		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
-		gbc_tabbedPane.gridwidth = 2;
-		gbc_tabbedPane.insets = new Insets(0, 0, 5, 5);
-		gbc_tabbedPane.gridx = 0;
-		gbc_tabbedPane.gridy = 0;
-		getContentPane().add(tabbedPane, gbc_tabbedPane);
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx=1.0;
+		gbc.weighty=1.0;
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		contentPane.add(tabbedPane, gbc);
 
-		// metadata simple fields
-		JPanel metadataSimplePanel = new JPanel();
-		tabbedPane.addTab("Métadonnées essentielles", null, metadataSimplePanel, null);
-		GridBagLayout gbl_metadataSimplePanel = new GridBagLayout();
-		gbl_metadataSimplePanel.columnWidths = new int[] { 0, 0, 0 };
-		gbl_metadataSimplePanel.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0 };
-		gbl_metadataSimplePanel.columnWeights = new double[] { 0.0, 1.0, 0.0 };
-		gbl_metadataSimplePanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0 };
-		metadataSimplePanel.setLayout(gbl_metadataSimplePanel);
+		// header and footer simple fields
+		JPanel headerFooterSimplePanel = new JPanel();
+		tabbedPane.addTab("Métadonnées globales",  new ImageIcon(getClass().getResource("/icon/document-properties.png")), headerFooterSimplePanel, null);
+		GridBagLayout gbl_headerFooterSimplePanel = new GridBagLayout();
+		gbl_headerFooterSimplePanel.columnWidths = new int[]{0, 0, 0};
+		gbl_headerFooterSimplePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_headerFooterSimplePanel.columnWeights = new double[]{0.0, 1.0, 0.0};
+		gbl_headerFooterSimplePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
+		headerFooterSimplePanel.setLayout(gbl_headerFooterSimplePanel);
 
 		JLabel presentationLabel = new JLabel("Champs globaux du SIP");
-		GridBagConstraints gbc_presentationLabel = new GridBagConstraints();
-		gbc_presentationLabel.gridwidth = 3;
-		gbc_presentationLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_presentationLabel.weightx = 1.0;
-		gbc_presentationLabel.anchor = GridBagConstraints.NORTHWEST;
-		gbc_presentationLabel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_presentationLabel.gridx = 0;
-		gbc_presentationLabel.gridy = 0;
-		metadataSimplePanel.add(presentationLabel, gbc_presentationLabel);
+		presentationLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+		gbc = new GridBagConstraints();
+		gbc.gridwidth = 3;
+		gbc.insets = new Insets(0, 0, 5, 0);
+		gbc.weightx = 1.0;
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		gbc.insets = new Insets(5, 5, 5, 5);
+		headerFooterSimplePanel.add(presentationLabel, gbc);
 
-		JLabel messageIdentifierLabel = new JLabel("Identifiant du message (MessageIdentifier):");
-		GridBagConstraints gbc_messageIdentifierLabel = new GridBagConstraints();
-		gbc_messageIdentifierLabel.anchor = GridBagConstraints.EAST;
-		gbc_messageIdentifierLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_messageIdentifierLabel.gridx = 0;
-		gbc_messageIdentifierLabel.gridy = 1;
-		metadataSimplePanel.add(messageIdentifierLabel, gbc_messageIdentifierLabel);
+		JLabel messageIdentifierLabel = new JLabel("Identifiant du message :");
+		messageIdentifierLabel.setToolTipText("MessageIdentifier");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		headerFooterSimplePanel.add(messageIdentifierLabel, gbc);
 
 		messageIdentifierTextField = new JTextField();
 		messageIdentifierTextField.setText(exportContext.getArchiveTransferGlobalMetadata().messageIdentifier);
-		GridBagConstraints gbc_messageIdentifierTextField = new GridBagConstraints();
-		gbc_messageIdentifierTextField.weightx = 1.0;
-		gbc_messageIdentifierTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_messageIdentifierTextField.gridwidth = 2;
-		gbc_messageIdentifierTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_messageIdentifierTextField.gridx = 1;
-		gbc_messageIdentifierTextField.gridy = 1;
-		metadataSimplePanel.add(messageIdentifierTextField, gbc_messageIdentifierTextField);
+		messageIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
+		gbc = new GridBagConstraints();
+		gbc.weightx = 1.0;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		headerFooterSimplePanel.add(messageIdentifierTextField, gbc);
 		messageIdentifierTextField.setColumns(10);
 
-		JLabel dateLabel = new JLabel("Date (ISO 8601):");
-		GridBagConstraints gbc_dateLabel = new GridBagConstraints();
-		gbc_dateLabel.anchor = GridBagConstraints.EAST;
-		gbc_dateLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_dateLabel.gridx = 0;
-		gbc_dateLabel.gridy = 2;
-		metadataSimplePanel.add(dateLabel, gbc_dateLabel);
+		JLabel dateLabel = new JLabel("Date :");
+		dateLabel.setToolTipText("ISO 8601");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		headerFooterSimplePanel.add(dateLabel, gbc);
 
 		dateTextField = new JTextField();
 		dateTextField.setText(exportContext.getArchiveTransferGlobalMetadata().date);
-		GridBagConstraints gbc_dateTextField = new GridBagConstraints();
-		gbc_dateTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_dateTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_dateTextField.gridx = 1;
-		gbc_dateTextField.gridy = 2;
-		metadataSimplePanel.add(dateTextField, gbc_dateTextField);
+		dateTextField.setFont(MainWindow.DETAILS_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		headerFooterSimplePanel.add(dateTextField, gbc);
 		dateTextField.setColumns(10);
 
 		chckbxNowFlag = new JCheckBox("du jour");
 		chckbxNowFlag.setSelected(exportContext.getArchiveTransferGlobalMetadata().isNowFlag());
-		GridBagConstraints gbc_chckbxNowFlag = new GridBagConstraints();
-		gbc_chckbxNowFlag.insets = new Insets(0, 0, 5, 0);
-		gbc_chckbxNowFlag.gridx = 2;
-		gbc_chckbxNowFlag.gridy = 2;
-		metadataSimplePanel.add(chckbxNowFlag, gbc_chckbxNowFlag);
+		chckbxNowFlag.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 2;
+		gbc.gridy = 2;
+		headerFooterSimplePanel.add(chckbxNowFlag, gbc);
 
-		JLabel lblComment = new JLabel("Commentaire (Comment):");
-		GridBagConstraints gbc_lblComment = new GridBagConstraints();
-		gbc_lblComment.anchor = GridBagConstraints.EAST;
-		gbc_lblComment.insets = new Insets(0, 0, 5, 5);
-		gbc_lblComment.gridx = 0;
-		gbc_lblComment.gridy = 3;
-		metadataSimplePanel.add(lblComment, gbc_lblComment);
+		JLabel lblComment = new JLabel("Commentaire :");
+		lblComment.setToolTipText("Comment");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		headerFooterSimplePanel.add(lblComment, gbc);
 
 		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridwidth = 2;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.gridx = 1;
-		gbc_scrollPane.gridy = 3;
-		metadataSimplePanel.add(scrollPane, gbc_scrollPane);
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		headerFooterSimplePanel.add(scrollPane, gbc);
 
 		commentTextArea = new JTextArea();
 		commentTextArea.setLineWrap(true);
@@ -225,243 +225,248 @@ public class ExportContextDialog extends JDialog {
 		commentTextArea.setCaretPosition(0);
 		scrollPane.setViewportView(commentTextArea);
 		commentTextArea.setText(exportContext.getArchiveTransferGlobalMetadata().comment);
+		commentTextArea.setFont(MainWindow.DETAILS_FONT);
 
-		JLabel lblArchivalagreement = new JLabel("Identifiant du contrat d'entrée (ArchivalAgreement):");
-		GridBagConstraints gbc_lblArchivalagreement = new GridBagConstraints();
-		gbc_lblArchivalagreement.anchor = GridBagConstraints.EAST;
-		gbc_lblArchivalagreement.insets = new Insets(0, 0, 5, 5);
-		gbc_lblArchivalagreement.gridx = 0;
-		gbc_lblArchivalagreement.gridy = 4;
-		metadataSimplePanel.add(lblArchivalagreement, gbc_lblArchivalagreement);
+		JLabel lblArchivalagreement = new JLabel("Identifiant du contrat d'entrée :");
+		lblArchivalagreement.setToolTipText("ArchivalAgreement");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		headerFooterSimplePanel.add(lblArchivalagreement, gbc);
 
 		archivalAgreementTextField = new JTextField();
 		archivalAgreementTextField.setText(exportContext.getArchiveTransferGlobalMetadata().archivalAgreement);
-		GridBagConstraints gbc_archivalAgreementTextField = new GridBagConstraints();
-		gbc_archivalAgreementTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_archivalAgreementTextField.gridwidth = 2;
-		gbc_archivalAgreementTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_archivalAgreementTextField.gridx = 1;
-		gbc_archivalAgreementTextField.gridy = 4;
-		metadataSimplePanel.add(archivalAgreementTextField, gbc_archivalAgreementTextField);
+		archivalAgreementTextField.setFont(MainWindow.DETAILS_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		headerFooterSimplePanel.add(archivalAgreementTextField, gbc);
 		archivalAgreementTextField.setColumns(10);
 
-		JLabel lblArchivalAgencyIdentifier = new JLabel("Service d'archivage (ArchivalAgency.Identifier):");
-		GridBagConstraints gbc_lblArchivalAgencyIdentifier = new GridBagConstraints();
-		gbc_lblArchivalAgencyIdentifier.anchor = GridBagConstraints.EAST;
-		gbc_lblArchivalAgencyIdentifier.insets = new Insets(0, 0, 5, 5);
-		gbc_lblArchivalAgencyIdentifier.gridx = 0;
-		gbc_lblArchivalAgencyIdentifier.gridy = 5;
-		metadataSimplePanel.add(lblArchivalAgencyIdentifier, gbc_lblArchivalAgencyIdentifier);
+		JLabel lblArchivalAgencyIdentifier = new JLabel("Service d'archivage :");
+		lblArchivalAgencyIdentifier.setToolTipText("ArchivalAgency.Identifier");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		headerFooterSimplePanel.add(lblArchivalAgencyIdentifier, gbc);
 
 		archivalAgencyIdentifierTextField = new JTextField();
 		archivalAgencyIdentifierTextField.setText(exportContext.getArchiveTransferGlobalMetadata().archivalAgencyIdentifier);
-		GridBagConstraints gbc_archivalAgencyIdentifierTextField = new GridBagConstraints();
-		gbc_archivalAgencyIdentifierTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_archivalAgencyIdentifierTextField.gridwidth = 2;
-		gbc_archivalAgencyIdentifierTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_archivalAgencyIdentifierTextField.gridx = 1;
-		gbc_archivalAgencyIdentifierTextField.gridy = 5;
-		metadataSimplePanel.add(archivalAgencyIdentifierTextField, gbc_archivalAgencyIdentifierTextField);
+		archivalAgencyIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 5;
+		headerFooterSimplePanel.add(archivalAgencyIdentifierTextField, gbc);
 		archivalAgencyIdentifierTextField.setColumns(10);
 
-		JLabel lblTransferringAgencyIdentifier = new JLabel("Service versant (TransferringAgency.Identifier):");
-		GridBagConstraints gbc_lblTransferringAgencyIdentifier = new GridBagConstraints();
-		gbc_lblTransferringAgencyIdentifier.anchor = GridBagConstraints.EAST;
-		gbc_lblTransferringAgencyIdentifier.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTransferringAgencyIdentifier.gridx = 0;
-		gbc_lblTransferringAgencyIdentifier.gridy = 6;
-		metadataSimplePanel.add(lblTransferringAgencyIdentifier, gbc_lblTransferringAgencyIdentifier);
+		JLabel lblTransferringAgencyIdentifier = new JLabel("Service versant :");
+		lblTransferringAgencyIdentifier.setToolTipText("TransferringAgency.Identifier");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 6;
+		headerFooterSimplePanel.add(lblTransferringAgencyIdentifier, gbc);
 
 		transferringAgencyIdentifierTextField = new JTextField();
 		transferringAgencyIdentifierTextField.setText(exportContext.getArchiveTransferGlobalMetadata().transferringAgencyIdentifier);
-		GridBagConstraints gbc_transferringAgencyIdentifierTextField = new GridBagConstraints();
-		gbc_transferringAgencyIdentifierTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_transferringAgencyIdentifierTextField.gridwidth = 2;
-		gbc_transferringAgencyIdentifierTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_transferringAgencyIdentifierTextField.gridx = 1;
-		gbc_transferringAgencyIdentifierTextField.gridy = 6;
-		metadataSimplePanel.add(transferringAgencyIdentifierTextField, gbc_transferringAgencyIdentifierTextField);
+		transferringAgencyIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 6;
+		headerFooterSimplePanel.add(transferringAgencyIdentifierTextField, gbc);
 		transferringAgencyIdentifierTextField.setColumns(10);
 
-		JLabel managementMetadataLabel = new JLabel("ManagementMetadata (XML):");
-		GridBagConstraints gbc_managementMetadataLabel = new GridBagConstraints();
-		gbc_managementMetadataLabel.anchor = GridBagConstraints.EAST;
-		gbc_managementMetadataLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_managementMetadataLabel.gridx = 0;
-		gbc_managementMetadataLabel.gridy = 7;
-		metadataSimplePanel.add(managementMetadataLabel, gbc_managementMetadataLabel);
-
-		JScrollPane scrollPane_2 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_2 = new GridBagConstraints();
-		gbc_scrollPane_2.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_2.gridwidth = 2;
-		gbc_scrollPane_2.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_2.gridx = 1;
-		gbc_scrollPane_2.gridy = 7;
-		metadataSimplePanel.add(scrollPane_2, gbc_scrollPane_2);
-
-		managementMetadataTextArea = new JTextArea();
-		scrollPane_2.setViewportView(managementMetadataTextArea);
-		managementMetadataTextArea.setText(exportContext.getManagementMetadataXmlData());
-		managementMetadataTextArea.setCaretPosition(0);
-
-		// Metadata complex fields
-		JPanel metadataComplexPanel = new JPanel();
-		tabbedPane.addTab("Métadonnées étendues", null, metadataComplexPanel, null);
-		GridBagLayout gbl_metadataComplexPanel = new GridBagLayout();
-		gbl_metadataComplexPanel.columnWidths = new int[] { 0, 0, 0 };
-		gbl_metadataComplexPanel.rowHeights = new int[] { 0, 0, 0, 0, 0 };
-		gbl_metadataComplexPanel.columnWeights = new double[] { 0.0, 1.0, 0.0 };
-		gbl_metadataComplexPanel.rowWeights = new double[] {0.0, 1.0,0.0,  1.0, 1.0 };
-		metadataComplexPanel.setLayout(gbl_metadataComplexPanel);
+		// Header and footer complex fields
+		JPanel headerFooterComplexPanel = new JPanel();
+		tabbedPane.addTab("Métadonnées globales étendues",   new ImageIcon(getClass().getResource("/icon/text-x-generic.png")), headerFooterComplexPanel, null);
+		GridBagLayout gbl_headerFooterComplexPanel = new GridBagLayout();
+		gbl_headerFooterComplexPanel.columnWidths = new int[]{0, 0, 0};
+		gbl_headerFooterComplexPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_headerFooterComplexPanel.columnWeights = new double[]{0.0, 1.0, 0.0};
+		gbl_headerFooterComplexPanel.rowWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.5, 0.5, 0.0};
+		headerFooterComplexPanel.setLayout(gbl_headerFooterComplexPanel);
 
 		JLabel presentationComplexLabel = new JLabel("Champs globaux étendus du SIP");
-		GridBagConstraints gbc_presentationComplexLabel = new GridBagConstraints();
-		gbc_presentationComplexLabel.gridwidth = 3;
-		gbc_presentationComplexLabel.insets = new Insets(0, 0, 5, 0);
-		gbc_presentationComplexLabel.weightx = 1.0;
-		gbc_presentationComplexLabel.anchor = GridBagConstraints.NORTHWEST;
-		gbc_presentationComplexLabel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_presentationComplexLabel.gridx = 0;
-		gbc_presentationComplexLabel.gridy = 0;
-		metadataComplexPanel.add(presentationComplexLabel, gbc_presentationComplexLabel);
+		presentationComplexLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+		gbc = new GridBagConstraints();
+		gbc.gridwidth = 3;
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.weightx = 1.0;
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		headerFooterComplexPanel.add(presentationComplexLabel, gbc);
 
-		JLabel clvLabel = new JLabel("CodeListVersions (XML):");
-		GridBagConstraints gbc_clvLabel = new GridBagConstraints();
-		gbc_clvLabel.anchor = GridBagConstraints.EAST;
-		gbc_clvLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_clvLabel.gridx = 0;
-		gbc_clvLabel.gridy = 1;
-		metadataComplexPanel.add(clvLabel, gbc_clvLabel);
+		JLabel clvLabel = new JLabel("Liste des codes :");
+		clvLabel.setToolTipText("Bloc XML CodeListVersions");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		headerFooterComplexPanel.add(clvLabel, gbc);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.gridwidth = 2;
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_1.gridx = 1;
-		gbc_scrollPane_1.gridy = 1;
-		metadataComplexPanel.add(scrollPane_1, gbc_scrollPane_1);
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		headerFooterComplexPanel.add(scrollPane_1, gbc);
 
 		clvTextArea = new JTextArea();
+		clvTextArea.setFont(MainWindow.DETAILS_FONT);
 		scrollPane_1.setViewportView(clvTextArea);
 		clvTextArea.setText(exportContext.getArchiveTransferGlobalMetadata().codeListVersionsXmlData);
 		clvTextArea.setCaretPosition(0);
 
-		JLabel lblTransferRequestReplyIdentifier = new JLabel("TransferRequestReplyIdentifier:");
-		GridBagConstraints gbc_lblTransferRequestReplyIdentifier = new GridBagConstraints();
-		gbc_lblTransferRequestReplyIdentifier.anchor = GridBagConstraints.EAST;
-		gbc_lblTransferRequestReplyIdentifier.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTransferRequestReplyIdentifier.gridx = 0;
-		gbc_lblTransferRequestReplyIdentifier.gridy = 2;
-		metadataComplexPanel.add(lblTransferRequestReplyIdentifier, gbc_lblTransferRequestReplyIdentifier);
+		JLabel managementMetadataLabel = new JLabel("Métadonnées de gestion globales :");
+		managementMetadataLabel.setToolTipText("Bloc XML ManagementMetadata");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		headerFooterComplexPanel.add(managementMetadataLabel, gbc);
+
+		JScrollPane scrollPane_2 = new JScrollPane();
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		headerFooterComplexPanel.add(scrollPane_2, gbc);
+
+		managementMetadataTextArea = new JTextArea();
+		managementMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
+		scrollPane_2.setViewportView(managementMetadataTextArea);
+		managementMetadataTextArea.setText(exportContext.getManagementMetadataXmlData());
+		managementMetadataTextArea.setCaretPosition(0);
+
+		JLabel lblTransferRequestReplyIdentifier = new JLabel("Identifiant de réponse de transfert :");
+		lblTransferRequestReplyIdentifier.setToolTipText("Valeur de TransferRequestReplyIdentifier");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		headerFooterComplexPanel.add(lblTransferRequestReplyIdentifier, gbc);
 
 		transferRequestReplyIdentifierTextField = new JTextField();
+		transferRequestReplyIdentifierTextField.setFont(MainWindow.DETAILS_FONT);
 		transferRequestReplyIdentifierTextField.setText(exportContext.getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier);
-		GridBagConstraints gbc_transferRequestReplyIdentifierTextField = new GridBagConstraints();
-		gbc_transferRequestReplyIdentifierTextField.insets = new Insets(0, 0, 5, 0);
-		gbc_transferRequestReplyIdentifierTextField.gridwidth = 2;
-		gbc_transferRequestReplyIdentifierTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_transferRequestReplyIdentifierTextField.gridx = 1;
-		gbc_transferRequestReplyIdentifierTextField.gridy = 2;
-		metadataComplexPanel.add(transferRequestReplyIdentifierTextField,
-				gbc_transferRequestReplyIdentifierTextField);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		headerFooterComplexPanel.add(transferRequestReplyIdentifierTextField,
+				gbc);
 		transferRequestReplyIdentifierTextField.setColumns(10);
 
-		JLabel archivalAgencyOrganizationDescriptiveMetadataLabel = new JLabel("ArchivalAgency.ODM (XML):");
-		GridBagConstraints gbc_archivalAgencyOrganizationDescriptiveMetadataLabel = new GridBagConstraints();
-		gbc_archivalAgencyOrganizationDescriptiveMetadataLabel.anchor = GridBagConstraints.EAST;
-		gbc_archivalAgencyOrganizationDescriptiveMetadataLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_archivalAgencyOrganizationDescriptiveMetadataLabel.gridx = 0;
-		gbc_archivalAgencyOrganizationDescriptiveMetadataLabel.gridy = 3;
-		metadataComplexPanel.add(archivalAgencyOrganizationDescriptiveMetadataLabel,
-				gbc_archivalAgencyOrganizationDescriptiveMetadataLabel);
+		JLabel archivalAgencyOrganizationDescriptiveMetadataLabel = new JLabel("Détails sur l'acteur d'archivage :");
+		archivalAgencyOrganizationDescriptiveMetadataLabel.setToolTipText("Bloc XML OrganisationDescriptiveMetadata de la métadonnée ArchivalAgency ");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		headerFooterComplexPanel.add(archivalAgencyOrganizationDescriptiveMetadataLabel,
+				gbc);
 
 		JScrollPane scrollPane_3 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_3 = new GridBagConstraints();
-		gbc_scrollPane_3.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_3.gridwidth = 2;
-		gbc_scrollPane_3.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_3.gridx = 1;
-		gbc_scrollPane_3.gridy = 3;
-		metadataComplexPanel.add(scrollPane_3, gbc_scrollPane_3);
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		headerFooterComplexPanel.add(scrollPane_3, gbc);
 
 		archivalAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
+		archivalAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
 		scrollPane_3.setViewportView(archivalAgencyOrganizationDescriptiveMetadataTextArea);
 		archivalAgencyOrganizationDescriptiveMetadataTextArea
 				.setText(exportContext.getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData);
 		archivalAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
 
-		JLabel transferringAgencyOrganizationDescriptiveMetadataLabel = new JLabel("TransferringAgency.ODM (XML):");
-		GridBagConstraints gbc_transferringAgencyOrganizationDescriptiveMetadataLabel = new GridBagConstraints();
-		gbc_transferringAgencyOrganizationDescriptiveMetadataLabel.anchor = GridBagConstraints.EAST;
-		gbc_transferringAgencyOrganizationDescriptiveMetadataLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_transferringAgencyOrganizationDescriptiveMetadataLabel.gridx = 0;
-		gbc_transferringAgencyOrganizationDescriptiveMetadataLabel.gridy = 4;
-		metadataComplexPanel.add(transferringAgencyOrganizationDescriptiveMetadataLabel,
-				gbc_transferringAgencyOrganizationDescriptiveMetadataLabel);
+		JLabel transferringAgencyOrganizationDescriptiveMetadataLabel = new JLabel("Détails sur l'acteur de transfert :");
+		transferringAgencyOrganizationDescriptiveMetadataLabel.setToolTipText("Bloc XML OrganisationDescriptiveMetadata de la métadonnée TransferringAgency ");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		headerFooterComplexPanel.add(transferringAgencyOrganizationDescriptiveMetadataLabel,
+				gbc);
 
 		JScrollPane scrollPane_4 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_4 = new GridBagConstraints();
-		gbc_scrollPane_4.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_4.gridwidth = 2;
-		gbc_scrollPane_4.insets = new Insets(0, 0, 0, 5);
-		gbc_scrollPane_4.gridx = 1;
-		gbc_scrollPane_4.gridy = 4;
-		metadataComplexPanel.add(scrollPane_4, gbc_scrollPane_4);
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 5;
+		headerFooterComplexPanel.add(scrollPane_4, gbc);
 
 		transferringAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
+		transferringAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
 		scrollPane_4.setViewportView(transferringAgencyOrganizationDescriptiveMetadataTextArea);
 		transferringAgencyOrganizationDescriptiveMetadataTextArea
 				.setText(exportContext.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData);
 		transferringAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
 
-		// Manifest construction parameters
-		JPanel manifestParametersPanel = new JPanel();
-		tabbedPane.addTab("Paramètres de construction du manifest", null, manifestParametersPanel, null);
-		GridBagLayout gbl_manifestParametersPanel = new GridBagLayout();
-		gbl_manifestParametersPanel.columnWidths = new int[] { 0, 0, 0 };
-		gbl_manifestParametersPanel.rowHeights = new int[] { 0, 0, 0};
-		gbl_manifestParametersPanel.columnWeights = new double[] {};
-		gbl_manifestParametersPanel.rowWeights = new double[] {};
-		manifestParametersPanel.setLayout(gbl_manifestParametersPanel);
+		// ExportParameters Panel
 
-		JPanel parametersPanel = new JPanel();
-		GridBagConstraints gbc_parametersPanel = new GridBagConstraints();
-		gbc_parametersPanel.anchor = GridBagConstraints.EAST;
-		gbc_parametersPanel.insets = new Insets(5, 5, 5, 5);
-		gbc_parametersPanel.gridwidth = 2;
-		gbc_parametersPanel.gridx = 0;
-		gbc_parametersPanel.gridy = 0;
-		getContentPane().add(parametersPanel, gbc_parametersPanel);
-		GridBagLayout gbl_parametersPanel = new GridBagLayout();
-		gbl_parametersPanel.columnWeights = new double[] { 0.1, 0.5, 0.5 };
-		manifestParametersPanel.setLayout(gbl_parametersPanel);
+		JPanel exportParametersPanel = new JPanel();
+		tabbedPane.addTab("Export", new ImageIcon(getClass().getResource("/icon/document-save.png")), exportParametersPanel, null);
+		GridBagLayout gbl_exportParametersPanel = new GridBagLayout();
+		gbl_exportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
+		gbl_exportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0,0,1};
+		exportParametersPanel.setLayout(gbl_exportParametersPanel);
 
-		JLabel hierarchicalAULabel = new JLabel("Export des AU:");
-		GridBagConstraints gbc_hierarchicalAULabel = new GridBagConstraints();
-		gbc_hierarchicalAULabel.anchor = GridBagConstraints.EAST;
-		gbc_hierarchicalAULabel.insets = new Insets(0, 0, 5, 5);
-		gbc_hierarchicalAULabel.gridx = 0;
-		gbc_hierarchicalAULabel.gridy = 0;
-		manifestParametersPanel.add(hierarchicalAULabel, gbc_hierarchicalAULabel);
+		JLabel hierarchicalAULabel = new JLabel("Export des AU dans le SIP:");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 2;
+		exportParametersPanel.add(hierarchicalAULabel, gbc);
 
 		JRadioButton flatRadioButton = new JRadioButton("A plat");
-		GridBagConstraints gbc_flatRadioButton = new GridBagConstraints();
-		gbc_flatRadioButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_flatRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_flatRadioButton.insets = new Insets(0, 0, 5, 5);
-		gbc_flatRadioButton.gridx = 2;
-		gbc_flatRadioButton.gridy = 0;
-		manifestParametersPanel.add(flatRadioButton, gbc_flatRadioButton);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 2;
+		gbc.gridy = 2;
+		exportParametersPanel.add(flatRadioButton, gbc);
 
 		hierarchicalRadioButton = new JRadioButton("Imbriquées");
-		GridBagConstraints gbc_hierarchicalRadioButton = new GridBagConstraints();
-		gbc_hierarchicalRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_hierarchicalRadioButton.insets = new Insets(0, 0, 5, 0);
-		gbc_hierarchicalRadioButton.gridx = 1;
-		gbc_hierarchicalRadioButton.gridy = 0;
-		manifestParametersPanel.add(hierarchicalRadioButton, gbc_hierarchicalRadioButton);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 2;
+		exportParametersPanel.add(hierarchicalRadioButton, gbc);
 
 		ButtonGroup hierarchicalAUButtonGroup = new ButtonGroup();
 		hierarchicalAUButtonGroup.add(flatRadioButton);
@@ -471,30 +476,29 @@ public class ExportContextDialog extends JDialog {
 			hierarchicalRadioButton.setSelected(true);
 		else
 			flatRadioButton.setSelected(true);
-		
-		JLabel xmlPresentationLabel = new JLabel("Présentation XML:");
-		GridBagConstraints gbc_xmlPresentationLabel = new GridBagConstraints();
-		gbc_xmlPresentationLabel.anchor = GridBagConstraints.EAST;
-		gbc_xmlPresentationLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_xmlPresentationLabel.gridx = 0;
-		gbc_xmlPresentationLabel.gridy = 1;
-		manifestParametersPanel.add(xmlPresentationLabel, gbc_xmlPresentationLabel);
-		
+
+		JLabel xmlPresentationLabel = new JLabel("Présentation XML dans le SIP:");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 3;
+		exportParametersPanel.add(xmlPresentationLabel, gbc);
+
 		JRadioButton linearRadioButton = new JRadioButton("Linéaire");
-		GridBagConstraints gbc_linearRadioButton = new GridBagConstraints();
-		gbc_linearRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_linearRadioButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_linearRadioButton.insets = new Insets(0, 0, 0, 5);
-		gbc_linearRadioButton.gridx = 2;
-		gbc_linearRadioButton.gridy = 1;
-		manifestParametersPanel.add(linearRadioButton, gbc_linearRadioButton);
-		
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 2;
+		gbc.gridy = 3;
+		exportParametersPanel.add(linearRadioButton, gbc);
+
 		indentedRadioButton = new JRadioButton("Indentée");
-		GridBagConstraints gbc_indentedRadioButton = new GridBagConstraints();
-		gbc_indentedRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_indentedRadioButton.gridx = 1;
-		gbc_indentedRadioButton.gridy = 1;
-		manifestParametersPanel.add(indentedRadioButton, gbc_indentedRadioButton);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.gridx = 1;
+		gbc.gridy = 3;
+		exportParametersPanel.add(indentedRadioButton, gbc);
 
 		ButtonGroup indentedButtonGroup = new ButtonGroup();
 		indentedButtonGroup.add(linearRadioButton);
@@ -504,31 +508,30 @@ public class ExportContextDialog extends JDialog {
 			indentedRadioButton.setSelected(true);
 		else
 			linearRadioButton.setSelected(true);
-		
-		
+
 		JLabel xmlReindexLabel = new JLabel("Renumérotation des éléments XML avant export:");
-		GridBagConstraints gbc_xmlReindexLabel = new GridBagConstraints();
-		gbc_xmlReindexLabel.anchor = GridBagConstraints.EAST;
-		gbc_xmlReindexLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_xmlReindexLabel.gridx = 0;
-		gbc_xmlReindexLabel.gridy = 2;
-		manifestParametersPanel.add(xmlReindexLabel, gbc_xmlReindexLabel);
-		
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		exportParametersPanel.add(xmlReindexLabel, gbc);
+
 		reindexYesRadioButton = new JRadioButton("Oui");
-		GridBagConstraints gbc_reindexYesRadioButton = new GridBagConstraints();
-		gbc_reindexYesRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_reindexYesRadioButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_reindexYesRadioButton.insets = new Insets(0, 0, 0, 5);
-		gbc_reindexYesRadioButton.gridx = 1;
-		gbc_reindexYesRadioButton.gridy = 2;
-		manifestParametersPanel.add(reindexYesRadioButton, gbc_reindexYesRadioButton);
-		
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(0, 0, 0, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 4;
+		exportParametersPanel.add(reindexYesRadioButton, gbc);
+
 		JRadioButton reindexNoRadioButton = new JRadioButton("Non");
-		GridBagConstraints gbc_reindexNoRadioButton = new GridBagConstraints();
-		gbc_reindexNoRadioButton.anchor = GridBagConstraints.WEST;
-		gbc_reindexNoRadioButton.gridx = 2;
-		gbc_reindexNoRadioButton.gridy = 2;
-		manifestParametersPanel.add(reindexNoRadioButton, gbc_reindexNoRadioButton);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.gridx = 2;
+		gbc.gridy = 4;
+		exportParametersPanel.add(reindexNoRadioButton, gbc);
 
 		ButtonGroup reindexButtonGroup = new ButtonGroup();
 		reindexButtonGroup.add(reindexYesRadioButton);
@@ -538,41 +541,43 @@ public class ExportContextDialog extends JDialog {
 			reindexYesRadioButton.setSelected(true);
 		else
 			reindexNoRadioButton.setSelected(true);
-		
-		
+
 		// Buttons
 		JButton cancelButton = new JButton("Annuler");
-		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
-		gbc_cancelButton.insets = new Insets(0, 0, 0, 5);
-		gbc_cancelButton.gridx = 0;
-		gbc_cancelButton.gridy = 1;
-		getContentPane().add(cancelButton, gbc_cancelButton);
-		cancelButton.addActionListener(arg0 -> buttonCancel());
+		cancelButton.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.weightx=1.0;
+		gbc.weighty=0.0;
+		contentPane.add(cancelButton, gbc);
+		cancelButton.addActionListener(arg -> buttonCancel());
 
 		JButton okButton = new JButton("OK");
-		GridBagConstraints gbc_okButton = new GridBagConstraints();
-		gbc_okButton.gridx = 1;
-		gbc_okButton.gridy = 1;
-		getContentPane().add(okButton, gbc_okButton);
-		okButton.addActionListener(arg0 -> buttonOk());
+		okButton.setFont(MainWindow.CLICK_FONT);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 1;
+		gbc.weightx=1.0;
+		gbc.weighty=0.0;
+		contentPane.add(okButton, gbc);
+		okButton.addActionListener(arg -> buttonOk());
 
 		pack();
 		setLocationRelativeTo(owner);
 	}
 
-	/**
-	 * Button cancel.
-	 */
-	public void buttonCancel() {
-		returnValue = JOptionPane.CANCEL_OPTION;
+	// actions
+
+	private void buttonCancel() {
+		returnValue = ResipGraphicApp.KO_DIALOG;
 		setVisible(false);
 	}
 
-	/**
-	 * Button ok.
-	 */
-	public void buttonOk() {
-		returnValue = JOptionPane.OK_OPTION;
+	private void buttonOk() {
+		returnValue = ResipGraphicApp.OK_DIALOG;
 		setVisible(false);
 	}
 
@@ -600,5 +605,14 @@ public class ExportContextDialog extends JDialog {
 		atgm.transferringAgencyIdentifier=transferringAgencyIdentifierTextField.getText();
 		atgm.transferringAgencyOrganizationDescriptiveMetadataXmlData=
 				transferringAgencyOrganizationDescriptiveMetadataTextArea.getText();
+	}
+
+	/**
+	 * Get return value int.
+	 *
+	 * @return the return value
+	 */
+	public int getReturnValue(){
+		return returnValue;
 	}
 }

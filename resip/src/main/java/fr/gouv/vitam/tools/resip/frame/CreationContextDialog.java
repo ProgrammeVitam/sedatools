@@ -27,35 +27,52 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
-import fr.gouv.vitam.tools.resip.parameters.CreationContext;
-import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
-import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 
 /**
- * The Class CreationContextDialog.
+ * The class CreationContextDialog.
+ * <p>
+ * Class for creation context informations visualisation dialog.
  */
 public class CreationContextDialog extends JDialog {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -4092514078236156034L;
+	/**
+	 * The return value.
+	 */
+	private int returnValue;
 
-	/** The return value. */
-	public int returnValue;
+	// Dialog test context
+
+	/**
+	 * The entry point of dialog test.
+	 *
+	 * @param args the input arguments
+	 * @throws ClassNotFoundException          the class not found exception
+	 * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+	 * @throws InstantiationException          the instantiation exception
+	 * @throws IllegalAccessException          the illegal access exception
+	 * @throws NoSuchMethodException           the no such method exception
+	 * @throws InvocationTargetException       the invocation target exception
+	 */
+	public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+		TestDialogWindow window = new TestDialogWindow(CreationContextDialog.class);
+	}
+
+	/**
+	 * Instantiates a new CreationContextDialog for test.
+	 *
+	 * @param owner the owner
+	 */
+	public CreationContextDialog(JFrame owner) {
+		this(owner, new DiskImportContext(Prefs.getInstance().getPrefsContextNode()), new DataObjectPackage());
+	}
 
 	/**
 	 * Create the dialog.
@@ -65,104 +82,107 @@ public class CreationContextDialog extends JDialog {
 	 */
 	public CreationContextDialog(JFrame owner, CreationContext creationContext, DataObjectPackage dataObjectPackage) {
 		super(owner, "Visualisation du contexte d'import", true);
-		setMinimumSize(new Dimension(600, 50));
+		GridBagConstraints gbc;
+		setMinimumSize(new Dimension(400, 200));
+		setPreferredSize(new Dimension(700, 400));
+
+		Container contentPane = getContentPane();
+		contentPane.setLayout(new GridBagLayout());
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.1 };
+		gridBagLayout.rowWeights = new double[] { 1.0, 0.0 };
 		gridBagLayout.columnWeights = new double[] { 1.0 };
-		getContentPane().setLayout(gridBagLayout);
+		contentPane.setLayout(gridBagLayout);
 
 		// Parameters Panel
-
 		JPanel parametersPanel = new JPanel();
-		parametersPanel.setBorder(null);
 		GridBagLayout gbl_parametersPanel = new GridBagLayout();
-		gbl_parametersPanel.columnWeights = new double[] { 0.1, 0.1, 1.0 };
 		parametersPanel.setLayout(gbl_parametersPanel);
-		GridBagConstraints gbc_parametersPanel = new GridBagConstraints();
-		gbc_parametersPanel.anchor = GridBagConstraints.EAST;
-		gbc_parametersPanel.fill = GridBagConstraints.BOTH;
-		gbc_parametersPanel.insets = new Insets(5, 5, 5, 5);
-		gbc_parametersPanel.gridwidth = 2;
-		gbc_parametersPanel.gridx = 0;
-		gbc_parametersPanel.gridy = 0;
-		getContentPane().add(parametersPanel, gbc_parametersPanel);
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		contentPane.add(parametersPanel, gbc);
 
-		JLabel parametersLabel = new JLabel("Résumé:");
-		GridBagConstraints gbc_parametersLabel = new GridBagConstraints();
-		gbc_parametersLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_parametersLabel.anchor = GridBagConstraints.EAST;
-		gbc_parametersLabel.gridx = 0;
-		gbc_parametersLabel.gridy = 0;
-		parametersPanel.add(parametersLabel, gbc_parametersLabel);
+		JLabel parametersLabel = new JLabel("Résumé :");
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		parametersPanel.add(parametersLabel, gbc);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
-		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane_1.weightx = 1.0;
-		gbc_scrollPane_1.weighty = 1.0;
-		gbc_scrollPane_1.gridwidth = 2;
-		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane_1.gridx = 1;
-		gbc_scrollPane_1.gridy = 0;
-		parametersPanel.add(scrollPane_1, gbc_scrollPane_1);
+		gbc = new GridBagConstraints();
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
+		gbc.gridwidth = 2;
+		gbc.insets = new Insets(0, 0, 5, 0);
+		gbc.gridx = 1;
+		gbc.gridy = 0;
+		parametersPanel.add(scrollPane_1, gbc);
 
 		JTextArea importTypeTextArea = new JTextArea();
+		importTypeTextArea.setFont(MainWindow.LABEL_FONT);
+		importTypeTextArea.setEditable(false);
 		scrollPane_1.setViewportView(importTypeTextArea);
 		importTypeTextArea.setText(creationContext.getActualisedSummary(dataObjectPackage));
 		importTypeTextArea.setCaretPosition(0);
 			
 		if ((creationContext instanceof DiskImportContext) || (creationContext instanceof SIPImportContext)) {
 
-			JLabel workDirLabel = new JLabel("Répertoire de travail:");
-			GridBagConstraints gbc_workDirLabel = new GridBagConstraints();
-			gbc_workDirLabel.anchor = GridBagConstraints.EAST;
-			gbc_workDirLabel.insets = new Insets(0, 0, 5, 5);
-			gbc_workDirLabel.gridx = 0;
-			gbc_workDirLabel.gridy = 1;
-			parametersPanel.add(workDirLabel, gbc_workDirLabel);
+			JLabel workDirLabel = new JLabel("Répertoire de travail :");
+			gbc = new GridBagConstraints();
+			gbc.anchor = GridBagConstraints.EAST;
+			gbc.insets = new Insets(0, 0, 5, 5);
+			gbc.gridx = 0;
+			gbc.gridy = 1;
+			parametersPanel.add(workDirLabel, gbc);
 
 			JTextArea workDirTextArea = new JTextArea(2, 60);
+			workDirTextArea.setFont(MainWindow.LABEL_FONT);
 			workDirTextArea.setEditable(false);
+			workDirTextArea.setBorder(scrollPane_1.getBorder());
 			workDirTextArea.setText(creationContext.getWorkDir());
 			workDirTextArea.setCaretPosition(0);
 			workDirTextArea.setLineWrap(true);
-			GridBagConstraints gbc_workDirTextArea = new GridBagConstraints();
-			gbc_workDirTextArea.weightx = 1.0;
-			gbc_workDirTextArea.gridwidth = 2;
-			gbc_workDirTextArea.insets = new Insets(0, 0, 5, 5);
-			gbc_workDirTextArea.fill = GridBagConstraints.HORIZONTAL;
-			gbc_workDirTextArea.gridx = 1;
-			gbc_workDirTextArea.gridy = 1;
-			parametersPanel.add(workDirTextArea, gbc_workDirTextArea);
+			gbc = new GridBagConstraints();
+			gbc.weightx = 1.0;
+			gbc.gridwidth = 2;
+			gbc.insets = new Insets(0, 0, 5, 0);
+			gbc.fill = GridBagConstraints.HORIZONTAL;
+			gbc.gridx = 1;
+			gbc.gridy = 1;
+			parametersPanel.add(workDirTextArea, gbc);
 			workDirTextArea.setColumns(10);
 
 			if (creationContext instanceof DiskImportContext) {
 				JScrollPane ignorePatternsSrollPane = new JScrollPane();
-
-				GridBagConstraints gbc_ignorePatternsSrollPane = new GridBagConstraints();
-				gbc_ignorePatternsSrollPane.weightx = 1.0;
-				gbc_ignorePatternsSrollPane.weighty = 1.0;
-				gbc_ignorePatternsSrollPane.gridwidth = 2;
-				gbc_ignorePatternsSrollPane.fill = GridBagConstraints.BOTH;
-				gbc_ignorePatternsSrollPane.gridheight = 2;
-				gbc_ignorePatternsSrollPane.gridx = 1;
-				gbc_ignorePatternsSrollPane.gridy = 3;
-				parametersPanel.add(ignorePatternsSrollPane, gbc_ignorePatternsSrollPane);
+				gbc = new GridBagConstraints();
+				gbc.weightx = 1.0;
+				gbc.weighty = 1.0;
+				gbc.fill = GridBagConstraints.BOTH;
+				gbc.gridheight = 2;
+				gbc.gridx = 1;
+				gbc.gridy = 2;
+				parametersPanel.add(ignorePatternsSrollPane, gbc);
 
 				JTextArea ignorePatternsTextArea = new JTextArea();
+				ignorePatternsTextArea.setFont(MainWindow.LABEL_FONT);
 				ignorePatternsTextArea.setEditable(false);
-				ignorePatternsTextArea.setRows(6);
+				ignorePatternsTextArea.setCaretPosition(0);
+				ignorePatternsTextArea.setLineWrap(true);
 				ignorePatternsSrollPane.setViewportView(ignorePatternsTextArea);
 
-				JLabel ignorePatternsLabel = new JLabel("Fichiers exclus des imports:");
-				GridBagConstraints gbc_ignorePatternsLabel = new GridBagConstraints();
-				gbc_ignorePatternsLabel.gridwidth = 2;
-				gbc_ignorePatternsLabel.anchor = GridBagConstraints.EAST;
-				gbc_ignorePatternsLabel.insets = new Insets(0, 0, 0, 5);
-				gbc_ignorePatternsLabel.gridx = 0;
-				gbc_ignorePatternsLabel.gridy = 2;
-				parametersPanel.add(ignorePatternsLabel, gbc_ignorePatternsLabel);
+				JLabel ignorePatternsLabel = new JLabel("Fichiers exclus des imports :");
+				gbc = new GridBagConstraints();
+				gbc.anchor = GridBagConstraints.EAST;
+				gbc.insets = new Insets(0, 0, 0, 5);
+				gbc.gridx = 0;
+				gbc.gridy = 2;
+				parametersPanel.add(ignorePatternsLabel, gbc);
 
 				if (((DiskImportContext) creationContext).getIgnorePatternList() != null) {
 					StringBuilder sb = new StringBuilder();
@@ -175,22 +195,21 @@ public class CreationContextDialog extends JDialog {
 		}
 		// Buttons
 		JButton cancelButton = new JButton("Fermer");
-		GridBagConstraints gbc_cancelButton = new GridBagConstraints();
-		gbc_cancelButton.insets = new Insets(0, 0, 0, 5);
-		gbc_cancelButton.gridx = 0;
-		gbc_cancelButton.gridy = 1;
-		getContentPane().add(cancelButton, gbc_cancelButton);
-		cancelButton.addActionListener(arg0 -> buttonClose());
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		contentPane.add(cancelButton, gbc);
+		cancelButton.addActionListener(arg -> buttonClose());
 
 		pack();
 		setLocationRelativeTo(owner);
 	}
 
-	/**
-	 * Button close.
-	 */
-	public void buttonClose() {
-		returnValue = JOptionPane.CANCEL_OPTION;
+	// actions
+
+	private void buttonClose() {
+		returnValue = ResipGraphicApp.KO_DIALOG;
 		setVisible(false);
 	}
 

@@ -4,6 +4,10 @@ Evolutions/Corrections en 1.3.0
 - Evolution: ajout de la fonction de tri des ArchiveUnit
 - Refacto: prise en compte de l'évolution de l'implémentation des métadonnées dans sedalib
 - Evolution: ajout du bouton de réinitialisation des préférences dans le dialogue "A Propos"
+- Evolution: amélioration graphique des dialogues
+- Evolution: ajout de préférences pour choisir l'encodage et le séparateur des csv
+- Refacto: suppression des préférences sur le protocole de messagerie par défaut, qui ne servait à rien
+- Evolution: ajout de la recherche par expression régulière
 
 ============================================================================
 Evolutions/Corrections en 1.2.0

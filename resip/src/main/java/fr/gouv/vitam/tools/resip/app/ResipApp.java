@@ -209,7 +209,6 @@ public class ResipApp {
      */
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
             IllegalAccessException, UnsupportedLookAndFeelException, ResipException {
-        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
         String workdirString;
         int logLevel;
@@ -324,8 +323,12 @@ public class ResipApp {
             creationContext = new DiskImportContext(Arrays.asList(excludePatterns), cmd.getOptionValue("diskimport"), workdirString);
         } else if (cmd.hasOption("sipimport"))
             creationContext = new SIPImportContext(cmd.getOptionValue("sipimport"), workdirString);
-        else if (cmd.hasOption("listimport"))
-            creationContext = new CSVMetadataImportContext(cmd.getOptionValue("listimport"), workdirString);
+        else if (cmd.hasOption("listimport")) {
+            if (System.getProperty("os.name").toLowerCase().contains("win"))
+                creationContext = new CSVMetadataImportContext("windows-1252",';',cmd.getOptionValue("listimport"), workdirString);
+            else
+                creationContext = new CSVMetadataImportContext("UTF-8",';',cmd.getOptionValue("listimport"), workdirString);
+        }
         else
             creationContext = null;
 
