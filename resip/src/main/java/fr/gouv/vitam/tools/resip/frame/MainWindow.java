@@ -57,6 +57,8 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -99,7 +101,7 @@ public class MainWindow extends JFrame {
     private JButton openSipItemButton;
     private JButton openObjectButton;
     private JTextPane dataObjectDetailText;
-    private DataObjectListViewer dataObjectsListViewer;
+    private DataObjectListViewer dataObjectListViewer;
     private JLabel dataObjectPackageTreePaneLabel;
     private DataObjectPackageTreeModel dataObjectPackageTreePaneModel;
     private DataObjectPackageTreeViewer dataObjectPackageTreePaneViewer;
@@ -317,12 +319,12 @@ public class MainWindow extends JFrame {
         binaryObjectsPane.add(binaryObjectsPaneLabel, gbc_binaryObjectsPaneLabel);
 
         DefaultListModel<DataObject> dataObjectsListModel = new DefaultListModel<DataObject>();
-        dataObjectsListViewer = new DataObjectListViewer(this, dataObjectsListModel);
-        dataObjectsListViewer.setFont(DETAILS_FONT);
-        dataObjectsListViewer.setLayoutOrientation(JList.VERTICAL);
-        dataObjectsListViewer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        dataObjectListViewer = new DataObjectListViewer(this, dataObjectsListModel);
+        dataObjectListViewer.setFont(DETAILS_FONT);
+        dataObjectListViewer.setLayoutOrientation(JList.VERTICAL);
+        dataObjectListViewer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DataObjectListCellRenderer dataObjectListCellRenderer = new DataObjectListCellRenderer();
-        dataObjectsListViewer.setCellRenderer(dataObjectListCellRenderer);
+        dataObjectListViewer.setCellRenderer(dataObjectListCellRenderer);
 
         openObjectButton = new JButton("Ouvrir l'objet");
         openObjectButton.setFont(CLICK_FONT);
@@ -358,7 +360,7 @@ public class MainWindow extends JFrame {
 
         ogInformationSplitPane.setLeftComponent(binaryObjectsPane);
 
-        JScrollPane binaryObjectsListViewerScrollPane = new JScrollPane(dataObjectsListViewer);
+        JScrollPane binaryObjectsListViewerScrollPane = new JScrollPane(dataObjectListViewer);
         GridBagConstraints gbc_binaryObjectsListViewerScrollPane = new GridBagConstraints();
         gbc_binaryObjectsListViewerScrollPane.insets = new Insets(0, 5, 0, 0);
         gbc_binaryObjectsListViewerScrollPane.weightx = 1.0;
@@ -414,7 +416,15 @@ public class MainWindow extends JFrame {
         dataObjectDetailText.setFont(DETAILS_FONT);
         dataObjectDetailScrollPane.setViewportView(dataObjectDetailText);
 
-       pack();
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                ResipGraphicApp.getTheApp().exit();
+            }
+        });
+
+        pack();
     }
 
     // long name checkbox
@@ -651,8 +661,8 @@ public class MainWindow extends JFrame {
         XmlEditDialog xmlEditDialog = new XmlEditDialog(this, dataObject);
         xmlEditDialog.setVisible(true);
         if (xmlEditDialog.getReturnValue()) {
-            ((DefaultListModel<DataObject>) dataObjectsListViewer.getModel()).set(0,
-                    ((DefaultListModel<DataObject>) dataObjectsListViewer.getModel()).get(0));
+            ((DefaultListModel<DataObject>) dataObjectListViewer.getModel()).set(0,
+                    ((DefaultListModel<DataObject>) dataObjectListViewer.getModel()).get(0));
             dataObjectListItemClick(dataObject);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         }
@@ -684,7 +694,7 @@ public class MainWindow extends JFrame {
         auMetadataPane.repaint();
         dataObjectPackageTreeItemDisplayed = node;
 
-        DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectsListViewer.getModel();
+        DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectListViewer.getModel();
         model.removeAllElements();
         for (int i = 0; i < node.getArchiveUnit().getDataObjectRefList().getCount(); i++) {
             DataObject dataObject = node.getArchiveUnit().getDataObjectRefList().getDataObjectList().get(i);
@@ -775,7 +785,7 @@ public class MainWindow extends JFrame {
             dataObjectPackageTreeItemDisplayed = null;
             auMetadataPaneLabel.setText("Métadonnées AU");
             auMetadataText.setText("");
-            DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectsListViewer.getModel();
+            DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectListViewer.getModel();
             model.removeAllElements();
             dataObjectListItemDisplayed = null;
             dataObjectDetailText.setText("");
@@ -791,7 +801,7 @@ public class MainWindow extends JFrame {
             dataObjectPackageTreeItemDisplayed = null;
             auMetadataPaneLabel.setText("Métadonnées AU");
             auMetadataText.setText("");
-            DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectsListViewer.getModel();
+            DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectListViewer.getModel();
             model.removeAllElements();
             dataObjectListItemDisplayed = null;
             dataObjectDetailText.setText("");
@@ -826,7 +836,7 @@ public class MainWindow extends JFrame {
         dataObjectPackageTreeItemDisplayed = null;
         auMetadataPaneLabel.setText("Métadonnées AU");
         auMetadataText.setText("");
-        DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectsListViewer.getModel();
+        DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectListViewer.getModel();
         model.removeAllElements();
         dataObjectListItemDisplayed = null;
         dataObjectDetailText.setText("");
@@ -933,6 +943,15 @@ public class MainWindow extends JFrame {
      */
     public void setDataObjectPackageTreePaneViewer(DataObjectPackageTreeViewer dataObjectPackageTreePaneViewer) {
         this.dataObjectPackageTreePaneViewer = dataObjectPackageTreePaneViewer;
+    }
+
+    /**
+     * Gets the data object list viewer.
+     *
+     * @return the data object list viewer
+     */
+    public DataObjectListViewer getDataObjectListViewer() {
+        return dataObjectListViewer;
     }
 
 }
