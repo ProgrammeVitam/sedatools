@@ -632,8 +632,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         DataObjectPackageTreeModel treeModel;
 
         public int compare(ArchiveUnit a, ArchiveUnit b) {
-            String titleA = treeModel.findTreeNode(a).getTitle();
-            String titleB = treeModel.findTreeNode(b).getTitle();
+            String titleA = treeModel.findTreeNode(a).getTitle().toLowerCase();
+            String titleB = treeModel.findTreeNode(b).getTitle().toLowerCase();
             return titleA.compareTo(titleB);
         }
 
@@ -662,6 +662,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         if (currentWork != null) {
             DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
             Map<TreePath, Boolean> expansionState = getExpansionState(treeModel);
+            TreePath selectedPath=mainWindow.getDataObjectPackageTreePaneViewer().getSelectionPath();
             SortByTitle sortByTitle = new SortByTitle(treeModel);
             for (Map.Entry<String, ArchiveUnit> pair :
                     currentWork.getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet()) {
@@ -671,6 +672,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     sortByTitle);
             treeModel.reload();
             setExpansionState(expansionState);
+            if (selectedPath!=null) {
+                mainWindow.getDataObjectPackageTreePaneViewer().setSelectionPath(selectedPath);
+                mainWindow.getDataObjectPackageTreePaneViewer().scrollPathToVisible(selectedPath);
+            }
         }
     }
 
