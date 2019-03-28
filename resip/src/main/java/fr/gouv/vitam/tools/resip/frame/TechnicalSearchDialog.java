@@ -8,7 +8,6 @@ import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeViewer;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -41,7 +40,7 @@ public class TechnicalSearchDialog extends JDialog {
     private JLabel resultArchiveUnitLabel;
     private JLabel resultObjectLabel;
     private MainWindow mainWindow;
-    private JPanel optionalInfoPanel;
+    private JPanel explanationPanel;
 
     /**
      * The data.
@@ -111,7 +110,7 @@ public class TechnicalSearchDialog extends JDialog {
         mainWindow = owner;
         dataObjectPackageTreeViewer = mainWindow.getDataObjectPackageTreePaneViewer();
         dataObjectPackageTreeModel = (DataObjectPackageTreeModel) (dataObjectPackageTreeViewer.getModel());
-        dataObjectListViewer=mainWindow.getDataObjectListViewer();
+        dataObjectListViewer = mainWindow.getDataObjectListViewer();
 
         setMinimumSize(new Dimension(500, 150));
         setResizable(false);
@@ -235,14 +234,20 @@ public class TechnicalSearchDialog extends JDialog {
         gbc.gridwidth = 5;
         gbc.fill = GridBagConstraints.BOTH;
         actionPanel.add(separator, gbc);
-        JLabel emptyLabel=new JLabel(" ");
+        JCheckBox moreOptionsCheckBox = new JCheckBox();
+        moreOptionsCheckBox.setEnabled(true);
+        moreOptionsCheckBox.setIcon(new ImageIcon(getClass().getResource("/icon/list-add.png")));
+        moreOptionsCheckBox.setSelectedIcon(new ImageIcon(getClass().getResource("/icon/list-remove.png")));
+        moreOptionsCheckBox.setText("En savoir plus");
+        moreOptionsCheckBox.addItemListener(arg -> moreExplanationEvent(arg));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridheight=2;
-        gbc.weightx=1.0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        actionPanel.add(emptyLabel, gbc);
+        gbc.insets = new Insets(5, 5, 5, 5);
+        actionPanel.add(moreOptionsCheckBox, gbc);
         JButton searchButton = new JButton();
         searchButton.setIcon(new ImageIcon(getClass().getResource("/icon/search-system.png")));
         searchButton.setText("");
@@ -252,8 +257,8 @@ public class TechnicalSearchDialog extends JDialog {
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 1;
-        gbc.gridheight=2;
-        gbc.weightx=0.0;
+        gbc.gridheight = 2;
+        gbc.weightx = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
         actionPanel.add(searchButton, gbc);
@@ -267,8 +272,8 @@ public class TechnicalSearchDialog extends JDialog {
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
-        gbc.gridheight=2;
-        gbc.weightx=0.0;
+        gbc.gridheight = 2;
+        gbc.weightx = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 0);
         actionPanel.add(nextButton, gbc);
@@ -282,22 +287,22 @@ public class TechnicalSearchDialog extends JDialog {
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 1;
-        gbc.gridheight=2;
-        gbc.weightx=0.0;
+        gbc.gridheight = 2;
+        gbc.weightx = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 0, 5, 5);
         actionPanel.add(previousButton, gbc);
 
-        JPanel resultPanel=new JPanel();
+        JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new GridBagLayout());
-        resultPanel.setPreferredSize(new Dimension(80,32));
-        resultPanel.setMinimumSize(new Dimension(80,32));
+        resultPanel.setPreferredSize(new Dimension(80, 32));
+        resultPanel.setMinimumSize(new Dimension(80, 32));
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 1;
-        gbc.gridheight=2;
-        gbc.weightx=1.0;
-        gbc.weighty=1.0;
+        gbc.gridheight = 2;
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         actionPanel.add(resultPanel, gbc);
         previousButton.addActionListener(arg -> buttonPrevious());
@@ -314,11 +319,75 @@ public class TechnicalSearchDialog extends JDialog {
         gbc.gridy = 1;
         resultPanel.add(resultObjectLabel, gbc);
 
+        explanationPanel = new JPanel();
+        explanationPanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.fill = GridBagConstraints.BOTH;
+        contentPane.add(explanationPanel, gbc);
+        JSeparator separator2 = new JSeparator();
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        explanationPanel.add(separator2, gbc);
+        final JLabel label7 = new JLabel();
+        label7.setIcon(new ImageIcon(getClass().getResource("/icon/dialog-information.png")));
+        label7.setText("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        explanationPanel.add(label7, gbc);
+        JTextArea explanationTextArea = new JTextArea();
+        explanationTextArea.setLineWrap(true);
+        explanationTextArea.setFont(new JLabel().getFont());
+        explanationTextArea.setBackground(UIManager.getColor("Dialog.background"));
+        explanationTextArea.setFocusable(false);
+        explanationTextArea.setText("La recherche se fait sur l'ensemble des formats fournis, selon les choix cochés, par:\n" +
+                "  - une catégorie de fichiers, déterminant une liste de PUID Pronom,\n" +
+                "  - une liste libre de PUID Pronom séparés par des virgules (par exemple: x-fmt/111, fmt/101)\n" +
+                "En cliquant sur le bouton de mise à jour, on peut voir la liste de l'ensemble des formats pris en compte.");
+        explanationTextArea.setWrapStyleWord(true);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        explanationPanel.add(explanationTextArea, gbc);
+
+        pack();
+        explanationPanel.setVisible(false);
         pack();
         setLocationRelativeTo(owner);
     }
 
     // actions
+
+    private void moreExplanationEvent(ItemEvent event) {
+        if (event.getStateChange() == SELECTED) {
+            Dimension dim = this.getSize();
+            explanationPanel.setVisible(true);
+            pack();
+            dim.height = dim.height + explanationPanel.getHeight();
+            this.setSize(dim);
+            this.setPreferredSize(dim);
+            pack();
+        } else if (event.getStateChange() == DESELECTED) {
+            Dimension dim = this.getSize();
+            dim.height = dim.height - explanationPanel.getHeight();
+            explanationPanel.setVisible(false);
+            this.setSize(dim);
+            this.setPreferredSize(dim);
+            pack();
+        }
+    }
 
     private List<String> constructFormatList() {
         List<String> result = new ArrayList<String>();
@@ -405,7 +474,7 @@ public class TechnicalSearchDialog extends JDialog {
             searchResultPosition = Math.max(0, searchResultPosition - 1);
             if (searchObjectPosition < 0) {
                 searchArchiveUnitPosition--;
-                if (searchArchiveUnitPosition <0) {
+                if (searchArchiveUnitPosition < 0) {
                     searchObjectPosition++;
                     searchArchiveUnitPosition++;
                 } else {
@@ -425,11 +494,11 @@ public class TechnicalSearchDialog extends JDialog {
     }
 
     private String stepObjectInfo() {
-        if (searchResultListCount==0)
+        if (searchResultListCount == 0)
             return "";
         else
             return "" + (searchResultPosition + 1) + "/" + searchResultCount +
-                " obj. trouvé" + (searchResultCount > 1 ? "s" : "");
+                    " obj. trouvé" + (searchResultCount > 1 ? "s" : "");
     }
 
     /**
