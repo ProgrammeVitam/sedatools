@@ -1,13 +1,13 @@
 <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
-  <Uri>content/ID10.eml</Uri>
-  <MessageDigest algorithm="SHA-512">d914f779f06bb509326769439eb76e062d57d76d361bb298abf11a9b14b585f0062daba79d5b3ff913f49daff54b9dcd900f25504ac96c21bacbec176f32cf5d</MessageDigest>
-  <Size>110350</Size>
-  <FormatIdentification>
-    <FormatLitteral>MIME Email</FormatLitteral>
-    <MimeType>message/rfc822</MimeType>
-    <FormatId>fmt/950</FormatId>
-  </FormatIdentification>
-  <FileInfo>
-    <Filename>-79980C36BA239C449A957.eml</Filename>
-    <LastModified>2018-08-29T02:14:40.547276Z</LastModified>
-  </FileInfo>
+<Uri>content/ID10.eml</Uri>
+<MessageDigest algorithm="SHA-512">aa5ffc20efc3ae8f8e25ab95e08b3f5daa9004eeaed33006f4849faddec7d82675284b5de4125e03f9aad336e5c79b394b3a39183dcd456496fa0fd354896a6b</MessageDigest>
+<Size>108810</Size>
+<FormatIdentification>
+<FormatLitteral>MIME Email</FormatLitteral>
+<MimeType>message/rfc822</MimeType>
+<FormatId>fmt/950</FormatId>
+</FormatIdentification>
+<FileInfo>
+<Filename>-79980C36BA239C449A957.eml</Filename>
+<LastModified>2018-08-29T02:14:40.547276Z</LastModified>
+</FileInfo>

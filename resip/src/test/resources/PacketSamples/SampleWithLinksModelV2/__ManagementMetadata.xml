@@ -1,6 +1,6 @@
 <ManagementMetadata>
   <AcquisitionInformation>Test Acquisition Information</AcquisitionInformation>
-  <LegalStatus>Test Public Archive</LegalStatus>
+  <LegalStatus>Public Archive</LegalStatus>
   <OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>
   <SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>
 </ManagementMetadata>

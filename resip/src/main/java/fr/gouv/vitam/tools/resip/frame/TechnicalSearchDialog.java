@@ -10,10 +10,14 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 
 import javax.swing.*;
+import javax.swing.text.*;
 import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -23,7 +27,7 @@ import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
 /**
- * The class TehcnicalSearchDialog.
+ * The class TechnicalSearchDialog.
  * <p>
  * Class for search dialog on technical caracteristics.
  */
@@ -36,11 +40,15 @@ public class TechnicalSearchDialog extends JDialog {
     private JComboBox formatCategoryComboBox;
     private JCheckBox formatListCheckBox;
     private JTextField formatListTextField;
+    private JCheckBox sizeCheckBox;
+    private JTextField minTextField;
+    private JTextField maxTextField;
     private JTextArea formatsTextArea;
     private JLabel resultArchiveUnitLabel;
     private JLabel resultObjectLabel;
     private MainWindow mainWindow;
     private JPanel explanationPanel;
+    private NumberFormatter numberFormatter;
 
     /**
      * The data.
@@ -58,17 +66,21 @@ public class TechnicalSearchDialog extends JDialog {
     private int searchResultListCount;
     private boolean searchRunning;
 
-    static private String[] formatCategories = {"Zip,arc...", "Video", "Eml", "Txt"};
-    static private List<String>[] formatCategoriesList;
+    public class NumericFilter extends DocumentFilter {
+        @Override
+        public void replace(FilterBypass fb, int offs, int length,
+                            String str, AttributeSet a) throws BadLocationException {
+            str = str.replaceAll("[^0-9]", "");
+            super.replace(fb, offs, length, str, a);
+        }
 
-    static {
-        formatCategoriesList = new List[4];
-        formatCategoriesList[0] = Arrays.asList("x-fmt/263", "x-fmt/265", "x-fmt/264", "fmt/411", "fmt/613");
-        formatCategoriesList[1] = Arrays.asList("fmt/5", "fmt/569");
-        formatCategoriesList[2] = Arrays.asList("fmt/278", "fmt/950");
-        formatCategoriesList[3] = Arrays.asList("x-fmt/111");
+        @Override
+        public void insertString(FilterBypass fb, int offs, String str,
+                                 AttributeSet a) throws BadLocationException {
+            str = str.replaceAll("[^0-9]", "");
+            super.insertString(fb, offs, str, a);
+        }
     }
-
 
     // Dialog test context
 
@@ -83,7 +95,9 @@ public class TechnicalSearchDialog extends JDialog {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
+        ResipGraphicApp rga = new ResipGraphicApp(null);
+        Thread.sleep(1000);
         TestDialogWindow window = new TestDialogWindow(TechnicalSearchDialog.class);
     }
 
@@ -93,7 +107,7 @@ public class TechnicalSearchDialog extends JDialog {
      * @param owner the owner
      */
     public TechnicalSearchDialog(JFrame owner) throws ResipException {
-        this(new MainWindow(new ResipGraphicApp(null)));
+        this(ResipGraphicApp.getTheApp().mainWindow);
     }
 
     /**
@@ -112,7 +126,7 @@ public class TechnicalSearchDialog extends JDialog {
         dataObjectPackageTreeModel = (DataObjectPackageTreeModel) (dataObjectPackageTreeViewer.getModel());
         dataObjectListViewer = mainWindow.getDataObjectListViewer();
 
-        setMinimumSize(new Dimension(500, 150));
+        setMinimumSize(new Dimension(600, 150));
         setResizable(false);
 
         Container contentPane = getContentPane();
@@ -151,7 +165,8 @@ public class TechnicalSearchDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         criteriaPanel.add(formatCategoryCheckBox, gbc);
         formatCategoryCheckBox.addItemListener(arg -> formatCategoryEvent(arg));
-        formatCategoryComboBox = new JComboBox(formatCategories);
+        formatCategoryComboBox = new JComboBox(ResipGraphicApp.getTheApp().
+                technicalSearchParameters.getFormatByCategoryMap().keySet().toArray());
         formatCategoryComboBox.setEnabled(false);
         formatCategoryComboBox.setFont(MainWindow.LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -215,7 +230,53 @@ public class TechnicalSearchDialog extends JDialog {
         formatsTextArea.setToolTipText("Liste des formats recherchés");
         formatsTextArea.setEditable(false);
         formatsTextArea.setFont(MainWindow.DETAILS_FONT);
+        formatsTextArea.setColumns(10);
         scrollPane.setViewportView(formatsTextArea);
+
+        sizeCheckBox = new JCheckBox();
+        sizeCheckBox.setText("Taille entre :");
+        sizeCheckBox.setFont(MainWindow.CLICK_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        gbc.weightx = 0;
+        gbc.anchor = GridBagConstraints.WEST;
+        criteriaPanel.add(sizeCheckBox, gbc);
+        sizeCheckBox.addItemListener(arg -> sizeEvent(arg));
+        minTextField = new JTextField();
+        DocumentFilter filter = new NumericFilter();
+        ((AbstractDocument) minTextField.getDocument()).setDocumentFilter(filter);
+        minTextField.setText("");
+        minTextField.setFont(MainWindow.DETAILS_FONT);
+        minTextField.setEnabled(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 0, 5, 5);
+        criteriaPanel.add(minTextField, gbc);
+        JLabel andLabel = new JLabel(" et ");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 3;
+        gbc.weightx = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        criteriaPanel.add(andLabel, gbc);
+        maxTextField = new JTextField();
+        ((AbstractDocument) maxTextField.getDocument()).setDocumentFilter(filter);
+        maxTextField.setText("");
+        maxTextField.setFont(MainWindow.DETAILS_FONT);
+        maxTextField.setEnabled(false);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 3;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        criteriaPanel.add(maxTextField, gbc);
 
         final JPanel actionPanel = new JPanel();
         actionPanel.setLayout(new GridBagLayout());
@@ -226,7 +287,6 @@ public class TechnicalSearchDialog extends JDialog {
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.BOTH;
         contentPane.add(actionPanel, gbc);
-
         final JSeparator separator = new JSeparator();
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -347,10 +407,12 @@ public class TechnicalSearchDialog extends JDialog {
         explanationTextArea.setFont(new JLabel().getFont());
         explanationTextArea.setBackground(UIManager.getColor("Dialog.background"));
         explanationTextArea.setFocusable(false);
-        explanationTextArea.setText("La recherche se fait sur l'ensemble des formats fournis, selon les choix cochés, par:\n" +
+        explanationTextArea.setText("La recherche se fait sur :\n" +
+                "- l'ensemble des formats fournis, selon les choix cochés, par:\n" +
                 "  - une catégorie de fichiers, déterminant une liste de PUID Pronom,\n" +
                 "  - une liste libre de PUID Pronom séparés par des virgules (par exemple: x-fmt/111, fmt/101)\n" +
-                "En cliquant sur le bouton de mise à jour, on peut voir la liste de l'ensemble des formats pris en compte.");
+                "  En cliquant sur le bouton de mise à jour, on peut voir la liste de l'ensemble des formats pris en compte.\n" +
+                "- la taille du fichier.");
         explanationTextArea.setWrapStyleWord(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -392,7 +454,8 @@ public class TechnicalSearchDialog extends JDialog {
     private List<String> constructFormatList() {
         List<String> result = new ArrayList<String>();
         if (formatCategoryCheckBox.isSelected()) {
-            result.addAll(formatCategoriesList[formatCategoryComboBox.getSelectedIndex()]);
+            result.addAll(ResipGraphicApp.getTheApp().technicalSearchParameters.getFormatByCategoryMap().
+                    get((String) formatCategoryComboBox.getSelectedItem()));
         }
         if (formatListCheckBox.isSelected()) {
             List<String> formats = Arrays.asList(formatListTextField.getText().split(","));
@@ -415,6 +478,16 @@ public class TechnicalSearchDialog extends JDialog {
             formatListTextField.setEnabled(true);
         } else if (event.getStateChange() == DESELECTED) {
             formatListTextField.setEnabled(false);
+        }
+    }
+
+    private void sizeEvent(ItemEvent event) {
+        if (event.getStateChange() == SELECTED) {
+            minTextField.setEnabled(true);
+            maxTextField.setEnabled(true);
+        } else if (event.getStateChange() == DESELECTED) {
+            minTextField.setEnabled(false);
+            maxTextField.setEnabled(false);
         }
     }
 
@@ -442,8 +515,31 @@ public class TechnicalSearchDialog extends JDialog {
         } else {
             searchRunning = true;
             dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
+            long min, max;
+            if (minTextField.getText().isEmpty() || !sizeCheckBox.isSelected())
+                min = 0;
+            else {
+                try {
+                    min = Long.parseLong(minTextField.getText());
+                } catch (NumberFormatException e) {
+                    min = 0;
+                }
+            }
+            if (maxTextField.getText().isEmpty() || !sizeCheckBox.isSelected())
+                max = Long.MAX_VALUE;
+            else
+                try {
+                    max = Long.parseLong(maxTextField.getText());
+                } catch (NumberFormatException e) {
+                    max = Long.MAX_VALUE;
+                }
+            if (min > max) {
+                long tmp = max;
+                max = min;
+                min = tmp;
+            }
             TechnicalSearchThread tst = new TechnicalSearchThread(this, mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu(),
-                    constructFormatList());
+                    constructFormatList(), min, max);
             tst.execute();
         }
     }
@@ -524,5 +620,47 @@ public class TechnicalSearchDialog extends JDialog {
             resultObjectLabel.setText("");
         }
         searchRunning = false;
+    }
+
+    public void setFormatCategory(String formatCategory) {
+        if (formatCategory == null) {
+            formatCategoryCheckBox.setSelected(false);
+            return;
+        }
+        if (ResipGraphicApp.getTheApp().technicalSearchParameters.getFormatByCategoryMap()
+                .keySet().contains(formatCategory)) {
+            formatCategoryCheckBox.setSelected(true);
+            formatCategoryComboBox.setSelectedItem(formatCategory);
+        }
+    }
+
+    public void setFormatList(String formatList) {
+        if (formatList == null) {
+            formatListCheckBox.setSelected(false);
+            return;
+        }
+        formatListCheckBox.setSelected(true);
+        formatListTextField.setText(formatList);
+    }
+
+
+    public void setMinMax(long min,long max) {
+        if (min<0) {
+            sizeCheckBox.setSelected(false);
+            return;
+        }
+        sizeCheckBox.setSelected(true);
+        minTextField.setText(Long.toString(min));
+        maxTextField.setText(Long.toString(max));
+    }
+
+    public void emptyDialog(){
+        setFormatCategory(null);
+        setFormatList(null);
+        setMinMax(-1,0);
+    }
+
+    public void search(){
+        buttonSearch();
     }
 }
