@@ -137,14 +137,7 @@ public class StatisticDialog extends JDialog {
         statisticTable.setAutoCreateRowSorter(true);
         statisticTable.setDefaultRenderer(Object.class, new StatisticCellRenderer());
         statisticTable.setDefaultRenderer(Long.class, new StatisticCellRenderer());
-        statisticTable.getTableHeader().setDefaultRenderer(new DefaultTableHeaderCellRenderer() {
-            {
-                // you need to set it to opaque
-                setOpaque(false);
-                setFont(BOLD_LABEL_FONT);
-                setHorizontalAlignment(JLabel.CENTER);
-            }
-        });
+        statisticTable.getTableHeader().setDefaultRenderer(new DefaultTableHeaderCellRenderer());
         statisticTable.getColumnModel().getColumn(0)
                 .setPreferredWidth(250);
         scrollPane.setViewportView(statisticTable);

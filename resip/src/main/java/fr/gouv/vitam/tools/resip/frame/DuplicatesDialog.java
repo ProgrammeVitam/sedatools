@@ -305,14 +305,7 @@ public class DuplicatesDialog extends JDialog {
         duplicatesTable.setFont(MainWindow.LABEL_FONT);
         duplicatesTable.setAutoCreateRowSorter(true);
         duplicatesTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        duplicatesTable.getTableHeader().setDefaultRenderer(new DefaultTableHeaderCellRenderer() {
-            {
-                // you need to set it to opaque
-                setOpaque(false);
-                setFont(BOLD_LABEL_FONT);
-                setHorizontalAlignment(JLabel.CENTER);
-            }
-        });
+        duplicatesTable.getTableHeader().setDefaultRenderer(new DefaultTableHeaderCellRenderer());
         duplicatesTable.getColumnModel().getColumn(0)
                 .setPreferredWidth(20);
         duplicatesTable.getColumnModel().getColumn(1)
