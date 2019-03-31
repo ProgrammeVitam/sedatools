@@ -49,8 +49,8 @@ import java.util.prefs.BackingStoreException;
 
 public class ResipGraphicApp implements ActionListener, Runnable {
 
-    static public final int OK_DIALOG=1;
-    static public final int KO_DIALOG=2;
+    static public final int OK_DIALOG = 1;
+    static public final int KO_DIALOG = 2;
 
     // Uniq instance. */
     static ResipGraphicApp theApp = null;
@@ -60,6 +60,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public Work currentWork;
     public boolean modifiedWork;
     public String filenameWork;
+    public TechnicalSearchParameters technicalSearchParameters;
 
     // GUI elements. */
     public MainWindow mainWindow;
@@ -73,6 +74,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public boolean importThreadRunning;
     public boolean addThreadRunning;
     public boolean exportThreadRunning;
+
+    // Dialogs elements. */
+    public SearchDialog searchDialog;
+    public TechnicalSearchDialog technicalSearchDialog;
+    public StatisticDialog statisticDialog;
+    public DuplicatesDialog duplicatesDialog;
 
     public ResipGraphicApp(CreationContext creationContext) throws ResipException {
         if (theApp != null)
@@ -104,6 +111,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public void run() {
         try {
             mainWindow = new MainWindow(this);
+            this.searchDialog=new SearchDialog(mainWindow);
+            this.technicalSearchParameters = new TechnicalSearchParameters(Prefs.getInstance().getPrefsContextNode());
+            this.technicalSearchDialog=new TechnicalSearchDialog(mainWindow);
+            this.statisticDialog=new StatisticDialog(mainWindow);
+            this.duplicatesDialog=new DuplicatesDialog(mainWindow);
             mainWindow.setVisible(true);
             currentWork = null;
 
@@ -207,9 +219,19 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "TechnicalSearch");
         treatMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Chercher des doublons...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "DuplicatesSearch");
+        treatMenu.add(menuItem);
+
         menuItem = new JMenuItem("Trier l'arbre de visualisation");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "SortTreeViewer");
+        treatMenu.add(menuItem);
+
+        menuItem = new JMenuItem("Voir les statistiques...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "Statistics");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Régénérer des ID continus");
@@ -316,6 +338,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "TechnicalSearch":
                         technicalSearch();
+                        break;
+                    case "DuplicatesSearch":
+                        duplicatesSearch();
+                        break;
+                    case "Statistics":
+                        generateStatistics();
                         break;
                     case "RegenerateContinuousIds":
                         doRegenerateContinuousIds();
@@ -464,9 +492,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
                 if (new File(filename).exists()) {
                     if (UserInteractionDialog.getUserAnswer(mainWindow,
-                            "Le fichier [" + filename + "] existe. Voulez-vous le remplacer ?", 
+                            "Le fichier [" + filename + "] existe. Voulez-vous le remplacer ?",
                             "Confirmation", UserInteractionDialog.WARNING_DIALOG,
-                            null)!=OK_DIALOG)
+                            null) != OK_DIALOG)
                         return;
                 }
                 currentWork.save(filename);
@@ -491,8 +519,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     && UserInteractionDialog.getUserAnswer(mainWindow,
                     "Vous avez un contexte en cours non sauvegardé, la fermeture entrainera la perte des modifications.\n"
                             + "Voulez-vous continuer?",
-                    "Confirmation",  UserInteractionDialog.WARNING_DIALOG,
-                    null) !=OK_DIALOG)
+                    "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                    null) != OK_DIALOG)
                 return;
 
             currentWork = null;
@@ -576,6 +604,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     }
 
     // MenuItem Close
+
     /**
      * Exit to system.
      */
@@ -586,8 +615,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     && UserInteractionDialog.getUserAnswer(mainWindow,
                     "Vous avez un contexte en cours non sauvegardé, la fermeture de l'application entrainera la perte des modifications.\n"
                             + "Voulez-vous continuer?",
-                    "Confirmation",  UserInteractionDialog.WARNING_DIALOG,
-                    null) !=OK_DIALOG)
+                    "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                    null) != OK_DIALOG)
                 return;
 
             System.exit(0);
@@ -605,15 +634,19 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MenuItem Search
 
     void search() {
-        SearchDialog searchDialog = new SearchDialog(mainWindow);
         searchDialog.setVisible(true);
     }
 
     // MenuItem TechnicalSearch
 
     void technicalSearch() {
-        TechnicalSearchDialog technicalSearchDialog = new TechnicalSearchDialog(mainWindow);
         technicalSearchDialog.setVisible(true);
+    }
+
+    // MenuItem DuplicatesSearch
+
+    void duplicatesSearch() {
+        duplicatesDialog.setVisible(true);
     }
 
     // MenuItem Regenerate continuous ids
@@ -662,7 +695,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         if (currentWork != null) {
             DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
             Map<TreePath, Boolean> expansionState = getExpansionState(treeModel);
-            TreePath selectedPath=mainWindow.getDataObjectPackageTreePaneViewer().getSelectionPath();
+            TreePath selectedPath = mainWindow.getDataObjectPackageTreePaneViewer().getSelectionPath();
             SortByTitle sortByTitle = new SortByTitle(treeModel);
             for (Map.Entry<String, ArchiveUnit> pair :
                     currentWork.getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet()) {
@@ -672,11 +705,18 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     sortByTitle);
             treeModel.reload();
             setExpansionState(expansionState);
-            if (selectedPath!=null) {
+            if (selectedPath != null) {
                 mainWindow.getDataObjectPackageTreePaneViewer().setSelectionPath(selectedPath);
                 mainWindow.getDataObjectPackageTreePaneViewer().scrollPathToVisible(selectedPath);
             }
         }
+    }
+
+    // Menu item statistics
+
+    void generateStatistics() {
+        statisticDialog.refresh();
+        statisticDialog.setVisible(true);
     }
 
     // Context Menu

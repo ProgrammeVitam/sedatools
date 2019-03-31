@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.sedalib.core.*;
 
 import javax.swing.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class TechnicalSearchThread extends SwingWorker<String, String> {
 
@@ -41,14 +42,37 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
     private DataObjectPackage dataObjectPackage;
     private LinkedHashMap<ArchiveUnit,List<BinaryDataObject>> searchResult;
     private List<String> formats;
+    private boolean searchOthers;
+    private List<String> otherFormats;
+    private long min;
+    private long max;
+    private boolean allFormatsFlag;
 
-    public TechnicalSearchThread(TechnicalSearchDialog technicalSearchDialog, ArchiveUnit au, List<String> formats) {
+
+    public TechnicalSearchThread(TechnicalSearchDialog technicalSearchDialog, ArchiveUnit au, List<String> formats,long min, long max) {
         this.technicalSearchDialog = technicalSearchDialog;
         this.searchUnit = au;
         this.formats = formats;
+        if (formats.contains("Other")) {
+            this.searchOthers=true;
+            this.otherFormats =
+                    ResipGraphicApp.getTheApp().technicalSearchParameters.getFormatByCategoryMap().
+                            entrySet().
+                            stream().
+                            flatMap(e -> e.getValue().stream()).
+                            collect(Collectors.toList());
+            this.formats.remove("Other");
+        }
+        else {
+            this.searchOthers = false;
+            this.otherFormats = null;
+        }
+        this.allFormatsFlag=(formats.size()==0);
+        this.min=min;
+        this.max=max;
     }
 
-    void addBinaryDataObject(ArchiveUnit au, BinaryDataObject bdo){
+    private void addBinaryDataObject(ArchiveUnit au, BinaryDataObject bdo){
         List<BinaryDataObject> bdos=searchResult.get(au);
         if (bdos==null)
             bdos=new ArrayList<BinaryDataObject>();
@@ -56,7 +80,19 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
         searchResult.put(au,bdos);
     }
 
-    void searchInArchiveUnit(ArchiveUnit au) {
+    private boolean testBinaryDataObject(BinaryDataObject bdo) {
+        if ((bdo.size<min) || (bdo.size>max))
+            return false;
+        if (allFormatsFlag)
+            return true;
+        if (formats.contains(bdo.formatIdentification.formatId))
+            return true;
+        if (searchOthers && !otherFormats.contains(bdo.formatIdentification.formatId))
+            return true;
+        return false;
+    }
+
+    private void searchInArchiveUnit(ArchiveUnit au) {
         List<ArchiveUnit> auList = au.getChildrenAuList().getArchiveUnitList();
 
         for (ArchiveUnit childUnit : auList) {
@@ -67,11 +103,12 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
                     continue;
                 else if (dataObject instanceof BinaryDataObject) {
                     BinaryDataObject bdo = (BinaryDataObject) dataObject;
-                    if (formats.contains(bdo.formatIdentification.formatId))
+                    if (testBinaryDataObject(bdo))
                         addBinaryDataObject(childUnit,bdo);
+
                 } else if (dataObject instanceof DataObjectGroup){
                     for (BinaryDataObject bdo:((DataObjectGroup) dataObject).getBinaryDataObjectList()){
-                        if (formats.contains(bdo.formatIdentification.formatId))
+                        if (testBinaryDataObject(bdo))
                             addBinaryDataObject(childUnit,bdo);
                     }
                 }

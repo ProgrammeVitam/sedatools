@@ -343,7 +343,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         if (ir != null)
             formatIdentification = new FormatIdentification(ir.getName(), ir.getMimeType(), ir.getPuid(), null);
         else
-            formatIdentification = new FormatIdentification("Unknown", null, null, null);
+            formatIdentification = new FormatIdentification("Unknown", null, "UNKNOWN", null);
 
         if (fileInfo == null)
             fileInfo = new FileInfo();

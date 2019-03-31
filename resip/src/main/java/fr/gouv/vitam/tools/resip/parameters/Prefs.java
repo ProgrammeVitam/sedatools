@@ -85,6 +85,9 @@ public class Prefs {
 			mic.setDefaultPrefs();
 			mic.toPrefs(globalNode);
 			globalNode.flush();
+			TechnicalSearchParameters tsp=new TechnicalSearchParameters();
+			tsp.setDefaultPrefs();
+			tsp.toPrefs(globalNode);
 		} catch (Exception e) {
 			throw new SEDALibException("Panic: Can't create a default preferences file, stop");
 		}
