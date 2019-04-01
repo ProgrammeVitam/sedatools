@@ -65,7 +65,7 @@ class ContentTest {
         signature.addNewMetadata("Signer","Martin Durant",LocalDateTime.of(1970,1,2,1,0));
         signature.addNewMetadata("Signer","Emilie","Martin",LocalDateTime.of(1970,1,2,1,0),"emilie.martin@corp.fr");
         signature.addNewMetadata("Validator" ,"The corporation",LocalDateTime.of(1970,1,3,1,0));
-        signature.addNewMetadata("ReferencedObject","TestID1","TestDigest1");
+        signature.addNewMetadata("ReferencedObject","TestID1","TestDigest1","TestSHA");
         signature.addMetadata(signer);
         c.addMetadata(signature);
 
@@ -95,6 +95,26 @@ class ContentTest {
         KeywordType keywordType =new KeywordType("subject");
         keyword.addMetadata(keywordType);
         c.addMetadata(keyword);
+
+        // Test RelatedObjectReference
+        RelatedObjectReference relatedObjectReference= new RelatedObjectReference();
+        relatedObjectReference.addNewMetadata("IsVersionOf","DogRefId");
+        DataObjectOrArchiveUnitReferenceType isVersionOf=new DataObjectOrArchiveUnitReferenceType("IsVersionOf");
+        isVersionOf.addNewMetadata("ArchiveUnitRefId","AURefId");
+        DataObjectOrArchiveUnitReferenceType replaces=new DataObjectOrArchiveUnitReferenceType("Replaces");
+        replaces.addNewMetadata("DataObjectReference","DoRefId",null);
+        DataObjectOrArchiveUnitReferenceType requires=new DataObjectOrArchiveUnitReferenceType("Requires");
+        requires.addNewMetadata("RepositoryArchiveUnitPID","AuPid");
+        DataObjectOrArchiveUnitReferenceType isPartOf=new DataObjectOrArchiveUnitReferenceType("IsPartOf");
+        isPartOf.addNewMetadata("RepositoryObjectPID","DoPid");
+        DataObjectOrArchiveUnitReferenceType references=new DataObjectOrArchiveUnitReferenceType("References");
+        references.addNewMetadata("ExternalReference","ExtrenalRef");
+        relatedObjectReference.addMetadata(isVersionOf);
+        relatedObjectReference.addMetadata(replaces);
+        relatedObjectReference.addMetadata(requires);
+        relatedObjectReference.addMetadata(isPartOf);
+        relatedObjectReference.addMetadata(references);
+        c.addMetadata(relatedObjectReference);
 
         // Test GPS metadata
         c.addNewMetadata("Gps", "TestVersion",10000,"-TestLatitude","-TestLongitude","TestDateStamp");
@@ -136,7 +156,7 @@ class ContentTest {
         String testOut = "<Content>\n" +
                 "  <DescriptionLevel>Series</DescriptionLevel>\n" +
                 "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
-                "  <Description xml:lang=\"en\">TestDescription EN</Description>\n" +
+                "  <Description lang=\"en\">TestDescription EN</Description>\n" +
                 "  <CustodialHistory>\n" +
                 "    <CustodialHistoryItem>TestItem1</CustodialHistoryItem>\n" +
                 "    <CustodialHistoryItem>TestItem2</CustodialHistoryItem>\n" +
@@ -168,6 +188,30 @@ class ContentTest {
                 "    <Identifier>ID2</Identifier>\n" +
                 "    <Function>F1</Function>\n" +
                 "  </Writer>\n" +
+                "  <RelatedObjectReference>\n" +
+                "    <IsVersionOf>\n" +
+                "      <DataObjectReference>\n" +
+                "        <DataObjectGroupReferenceId>DogRefId</DataObjectGroupReferenceId>\n" +
+                "      </DataObjectReference>\n" +
+                "    </IsVersionOf>\n" +
+                "    <IsVersionOf>\n" +
+                "      <ArchiveUnitRefId>AURefId</ArchiveUnitRefId>\n" +
+                "    </IsVersionOf>\n" +
+                "    <Replaces>\n" +
+                "      <DataObjectReference>\n" +
+                "        <DataObjectReferenceId>DoRefId</DataObjectReferenceId>\n" +
+                "      </DataObjectReference>\n" +
+                "    </Replaces>\n" +
+                "    <Requires>\n" +
+                "      <RepositoryArchiveUnitPID>AuPid</RepositoryArchiveUnitPID>\n" +
+                "    </Requires>\n" +
+                "    <IsPartOf>\n" +
+                "      <RepositoryObjectPID>DoPid</RepositoryObjectPID>\n" +
+                "    </IsPartOf>\n" +
+                "    <References>\n" +
+                "      <ExternalReference>ExtrenalRef</ExternalReference>\n" +
+                "    </References>\n" +
+                "  </RelatedObjectReference>\n" +
                 "  <RegisteredDate>2104-05-13T00:00:00</RegisteredDate>\n" +
                 "  <Event>\n" +
                 "    <EventDateTime>1970-01-01T01:00:00</EventDateTime>\n" +
@@ -208,8 +252,8 @@ class ContentTest {
                 "      <ValidationTime>1970-01-03T01:00:00</ValidationTime>\n" +
                 "    </Validator>\n" +
                 "    <ReferencedObject>\n" +
-                "      <SignedObjectID>TestID1</SignedObjectID>\n" +
-                "      <SignedObjectDigest>TestDigest1</SignedObjectDigest>\n" +
+                "      <SignedObjectId>TestID1</SignedObjectId>\n" +
+                "      <SignedObjectDigest algorithm=\"TestSHA\">TestDigest1</SignedObjectDigest>\n" +
                 "    </ReferencedObject>\n" +
                 "  </Signature>\n" +
                 "  <Gps>\n" +
@@ -403,7 +447,7 @@ class ContentTest {
         String testOut = "<Content>\n" +
                 "  <DescriptionLevel>RecordGrp</DescriptionLevel>\n" +
                 "  <Title>TestTitle</Title>\n" +
-                "  <Title xml:lang=\"de\">TestTitleLang</Title>\n" +
+                "  <Title lang=\"de\">TestTitleLang</Title>\n" +
                 "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
                 "  <Description>TestDescription</Description>\n" +
                 "  <CustodialHistory>\n" +
@@ -487,7 +531,7 @@ class ContentTest {
                 "      <ValidationTime>1970-01-01T01:00:00</ValidationTime>\n" +
                 "    </Validator>\n" +
                 "    <ReferencedObject>\n" +
-                "      <SignedObjectID>TestSystemID</SignedObjectID>\n" +
+                "      <SignedObjectId>TestSystemID</SignedObjectId>\n" +
                 "      <SignedObjectDigest>TestDigest</SignedObjectDigest>\n" +
                 "    </ReferencedObject>\n" +
                 "  </Signature>\n" +
