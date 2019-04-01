@@ -16,6 +16,6 @@ public interface UseTestFiles {
     static void initializeTestFiles() throws IOException, ShellLinkException, SEDALibException {
         TestUtilities.ContructTestFiles();
         Path dir = Paths.get("./target/tmpJunit");
-        Files.createDirectory(dir);
+        Files.createDirectories(dir);
     }
 }
