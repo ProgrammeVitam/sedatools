@@ -36,6 +36,8 @@ import fr.gouv.vitam.tools.resip.viewer.StatisticCellRenderer;
 import fr.gouv.vitam.tools.resip.viewer.StatisticTableModel;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -57,6 +59,7 @@ public class StatisticWindow extends JFrame {
     public JTable statisticTable;
     public JButton okButton;
     private JPanel warningPanel;
+    private String formatCategory;
 
     /**
      * The data.
@@ -114,7 +117,7 @@ public class StatisticWindow extends JFrame {
 
         Container contentPane = getContentPane();
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWeights = new double[]{1.0, 1.0,1.0};
+        gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0};
         gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0};
         contentPane.setLayout(gridBagLayout);
 
@@ -141,14 +144,26 @@ public class StatisticWindow extends JFrame {
         statisticTable = new JTable(new StatisticTableModel());
         statisticTable.setFont(MainWindow.LABEL_FONT);
         statisticTable.setAutoCreateRowSorter(true);
+        statisticTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         statisticTable.setDefaultRenderer(Object.class, new StatisticCellRenderer());
         statisticTable.setDefaultRenderer(Long.class, new StatisticCellRenderer());
         statisticTable.getTableHeader().setDefaultRenderer(new DefaultTableHeaderCellRenderer());
         statisticTable.getColumnModel().getColumn(0)
                 .setPreferredWidth(250);
+        ListSelectionModel selectionModel = statisticTable.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                handleDuplicatesSelectionEvent(e);
+            }
+        });
         scrollPane.setViewportView(statisticTable);
 
-        JButton copyButton = new JButton("Copier");
+        JButton copyButton = new JButton("");
+        copyButton.setIcon(new ImageIcon(getClass().getResource("/icon/edit-copy.png")));
+        copyButton.setToolTipText("Copier");
+        copyButton.setMaximumSize(new Dimension(26, 26));
+        copyButton.setMinimumSize(new Dimension(26, 26));
+        copyButton.setPreferredSize(new Dimension(26, 26));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -156,7 +171,12 @@ public class StatisticWindow extends JFrame {
         contentPane.add(copyButton, gbc);
         copyButton.addActionListener(arg -> copyToClipboard());
 
-        JButton refreshButton = new JButton("Recalculer");
+        JButton refreshButton = new JButton("");
+        refreshButton.setIcon(new ImageIcon(getClass().getResource("/icon/view-refresh.png")));
+        refreshButton.setToolTipText("Recalculer");
+        refreshButton.setMaximumSize(new Dimension(26, 26));
+        refreshButton.setMinimumSize(new Dimension(26, 26));
+        refreshButton.setPreferredSize(new Dimension(26, 26));
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -164,13 +184,18 @@ public class StatisticWindow extends JFrame {
         contentPane.add(refreshButton, gbc);
         refreshButton.addActionListener(arg -> refresh());
 
-        JButton okButton = new JButton("Fermer");
+        JButton searchButton = new JButton("");
+        searchButton.setIcon(new ImageIcon(getClass().getResource("/icon/search-system.png")));
+        searchButton.setToolTipText("Chercher");
+        searchButton.setMaximumSize(new Dimension(26, 26));
+        searchButton.setMinimumSize(new Dimension(26, 26));
+        searchButton.setPreferredSize(new Dimension(26, 26));
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 2;
         gbc.insets = new Insets(0, 5, 5, 5);
-        contentPane.add(okButton, gbc);
-        okButton.addActionListener(arg -> buttonOk());
+        contentPane.add(searchButton, gbc);
+        searchButton.addActionListener(arg -> buttonSearch());
 
         warningPanel = new JPanel();
         warningPanel.setLayout(new GridBagLayout());
@@ -214,7 +239,7 @@ public class StatisticWindow extends JFrame {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         warningPanel.add(warningTextArea, gbc);
-        JButton emptySearchButton = new JButton("Chercher");
+        JButton emptySearchButton = new JButton("Chercher vide");
         gbc = new GridBagConstraints();
         gbc.weightx = 0.0;
         gbc.insets = new Insets(5, 0, 5, 5);
@@ -229,13 +254,36 @@ public class StatisticWindow extends JFrame {
 
     // actions
 
-    private void buttonOk() {
-        setVisible(false);
+    void handleDuplicatesSelectionEvent(ListSelectionEvent e) {
+        if (e.getValueIsAdjusting())
+            return;
+
+        final DefaultListSelectionModel target = (DefaultListSelectionModel) e.getSource();
+        int selectedIndex = target.getMinSelectionIndex();
+        if (selectedIndex>=0)
+            formatCategory = (String) statisticTable.getModel().getValueAt(statisticTable
+                .convertRowIndexToModel(selectedIndex), 0);
+        else
+            formatCategory=null;
+    }
+
+    private void buttonSearch() {
+        if (formatCategory != null) {
+            if (ResipGraphicApp.getTheApp().technicalSearchDialog == null)
+                ResipGraphicApp.getTheApp().technicalSearchDialog =
+                        new TechnicalSearchDialog(ResipGraphicApp.getTheApp().mainWindow);
+            TechnicalSearchDialog technicalSearchDialog = ResipGraphicApp.getTheApp().technicalSearchDialog;
+            technicalSearchDialog.emptyDialog();
+            technicalSearchDialog.setFormatCategory(formatCategory);
+            technicalSearchDialog.search();
+            technicalSearchDialog.setVisible(true);
+        }
     }
 
     public void refresh() {
         StatisticThread statisticsThread = new StatisticThread(this);
         statisticsThread.execute();
+        formatCategory = null;
     }
 
     public void copyToClipboard() {
@@ -252,7 +300,7 @@ public class StatisticWindow extends JFrame {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
                 Object value = statisticTable.getValueAt(i, j);
-                if (!(value instanceof Long) || ((long)value != Long.MAX_VALUE))
+                if (!(value instanceof Long) || ((long) value != Long.MAX_VALUE))
                     sbf.append(value);
                 if (j < numColumns - 1) sbf.append("\t");
             }

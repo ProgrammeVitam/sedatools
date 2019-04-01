@@ -126,7 +126,7 @@ public class TechnicalSearchDialog extends JDialog {
         dataObjectPackageTreeModel = (DataObjectPackageTreeModel) (dataObjectPackageTreeViewer.getModel());
         dataObjectListViewer = mainWindow.getDataObjectListViewer();
 
-        setMinimumSize(new Dimension(600, 150));
+        setMinimumSize(new Dimension(600, 200));
         setResizable(false);
 
         Container contentPane = getContentPane();
@@ -229,7 +229,7 @@ public class TechnicalSearchDialog extends JDialog {
         formatsTextArea = new JTextArea();
         formatsTextArea.setToolTipText("Liste des formats recherchés");
         formatsTextArea.setEditable(false);
-        formatsTextArea.setFont(MainWindow.DETAILS_FONT);
+        formatsTextArea.setFont(MainWindow.LABEL_FONT);
         formatsTextArea.setColumns(10);
         scrollPane.setViewportView(formatsTextArea);
 
