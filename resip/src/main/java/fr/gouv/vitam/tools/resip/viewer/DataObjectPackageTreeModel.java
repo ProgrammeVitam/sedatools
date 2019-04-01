@@ -175,7 +175,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
             } catch (SEDALibException ignored) {
             }
             if (node.getTitle() == null)
-                node.setTitle("Undefined");
+                node.setTitle("Can't interpret Content");
         }
         return node;
     }
