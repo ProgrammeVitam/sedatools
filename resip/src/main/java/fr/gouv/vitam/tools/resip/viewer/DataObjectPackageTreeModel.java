@@ -27,19 +27,18 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackageIdElement;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 // TODO: Auto-generated Javadoc
 
@@ -48,13 +47,17 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
  */
 public class DataObjectPackageTreeModel extends DefaultTreeModel {
 
-    /** The Constant serialVersionUID. */
+    /**
+     * The Constant serialVersionUID.
+     */
     private static final long serialVersionUID = 140500100384184333L;
 
 //	/** The in archive transfer ID tree node map. */
 //	private HashMap<String, DataObjectPackageTreeNode> inArchiveTransferIDTreeNodeMap;
 //
-    /** The DataObjectPackageIdElement Treenode map. */
+    /**
+     * The DataObjectPackageIdElement Treenode map.
+     */
     private HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> idElementTreeNodeMap;
 
     /**
@@ -169,13 +172,11 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
             node.setOgRecursivCount(ogRecursivCount + archiveUnit.getDataObjectRefList().getCount());
             for (DataObject dataObject : archiveUnit.getDataObjectRefList().getDataObjectList())
                 generateDataObjectNode(dataObject, node);
-            try {
-                if (archiveUnit.getContent() != null)
-                    node.setTitle(archiveUnit.getContent().getSimpleMetadata("Title"));
-            } catch (SEDALibException ignored) {
-            }
+            if (archiveUnit.getContentXmlData() != null)
+                node.setTitle(SEDAXMLEventReader.extractNamedElement("Title", archiveUnit.getContentXmlData()));
+            //  node.setTitle(archiveUnit.getContent().getSimpleMetadata("Title"));
             if (node.getTitle() == null)
-                node.setTitle("Can't interpret Content");
+                node.setTitle("Can't find Title");
         }
         return node;
     }
