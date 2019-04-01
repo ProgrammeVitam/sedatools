@@ -33,15 +33,15 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import java.util.LinkedHashMap;
 
 /**
- * The Class ReferencedObject.
+ * The Class RelatedObjectReference.
  * <p>
- * Class for ReferencedObject metadata.
+ * Class for RelatedObjectReference metadata.
  * <p>
- * Part of Signature ArchiveUnit metadata.
+ * an ArchiveUnit metadata.
  * <p>
- * Standard quote: "Référence à l'objet signé."
+ * Standard quote: "Référence à un objet faisant ou ne faisant pas partie du présent paquet d'information."
  */
-public class ReferencedObject extends ComplexListType {
+public class RelatedObjectReference extends ComplexListType {
 
     /**
      * Init metadata map.
@@ -51,27 +51,30 @@ public class ReferencedObject extends ComplexListType {
 
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("SignedObjectId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("SignedObjectDigest", new ComplexListMetadataKind(DigestType.class, false));
+        metadataMap.put("IsVersionOf", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
+        metadataMap.put("Replaces", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
+        metadataMap.put("Requires", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
+        metadataMap.put("IsPartOf", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
+        metadataMap.put("References", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
     }
 
     /**
      * Instantiates a new reference object type.
      */
-    public ReferencedObject() {
-        super("ReferencedObject");
+    public RelatedObjectReference() {
+        super("RelatedObjectReference");
     }
 
     /**
-     * Instantiates a new referenced object type with SignedObjectId and SignedObjectDigest.
+     * Instantiates a new referenced object type with SignedObjectID and SignedObjectDigest.
      *
-     * @param signedObjectId    the signed object id
+     * @param signedObjectID     the signed object id
      * @param signedObjectDigest the signed object digest
      */
-    public ReferencedObject(String signedObjectId, String signedObjectDigest) throws SEDALibException {
+    public RelatedObjectReference(String signedObjectID, String signedObjectDigest) throws SEDALibException {
         this();
 
-        addNewMetadata("SignedObjectId", signedObjectId);
+        addNewMetadata("SignedObjectID", signedObjectID);
         addNewMetadata("SignedObjectDigest", signedObjectDigest);
     }
 }

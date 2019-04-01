@@ -33,45 +33,48 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import java.util.LinkedHashMap;
 
 /**
- * The Class ReferencedObject.
+ * The Class DataObjectReference.
  * <p>
- * Class for ReferencedObject metadata.
+ * Class for DataObjectReference metadata.
  * <p>
- * Part of Signature ArchiveUnit metadata.
+ * Part of RelatedReferenceObject metadata.
  * <p>
- * Standard quote: "Référence à l'objet signé."
+ * Standard quote: "Référence à un objet-données ou à un groupe d'objets-données interne(s)."
  */
-public class ReferencedObject extends ComplexListType {
+public class DataObjectReference extends ComplexListType {
 
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
     static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
-
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("SignedObjectId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("SignedObjectDigest", new ComplexListMetadataKind(DigestType.class, false));
+        metadataMap.put("DataObjectReferenceId", new ComplexListMetadataKind(SIPInternalIDType.class, false));
+        metadataMap.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(SIPInternalIDType.class, false));
     }
 
     /**
-     * Instantiates a new reference object type.
+     * Instantiates a new reference to SIP internal object type.
      */
-    public ReferencedObject() {
-        super("ReferencedObject");
+    public DataObjectReference() {
+        super("DataObjectReference");
     }
 
     /**
-     * Instantiates a new referenced object type with SignedObjectId and SignedObjectDigest.
+     * Instantiates a new referenced to SIP internal object type with DataObjectReferenceId and DataObjectGroupReferenceId..
+     * If one field is null, it's omitted.
      *
-     * @param signedObjectId    the signed object id
-     * @param signedObjectDigest the signed object digest
+     * @param dataObjectReferenceId      the data object reference id
+     * @param dataObjectGroupReferenceId the data object group reference id
+     * @throws SEDALibException the seda lib exception
      */
-    public ReferencedObject(String signedObjectId, String signedObjectDigest) throws SEDALibException {
+    public DataObjectReference(String dataObjectReferenceId, String dataObjectGroupReferenceId) throws SEDALibException {
         this();
 
-        addNewMetadata("SignedObjectId", signedObjectId);
-        addNewMetadata("SignedObjectDigest", signedObjectDigest);
+        if (dataObjectReferenceId!=null)
+            addNewMetadata("DataObjectReferenceId", dataObjectReferenceId);
+        if (dataObjectGroupReferenceId!=null)
+            addNewMetadata("DataObjectGroupReferenceId", dataObjectGroupReferenceId);
     }
 }
