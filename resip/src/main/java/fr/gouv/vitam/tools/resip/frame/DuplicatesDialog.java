@@ -18,7 +18,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import static fr.gouv.vitam.tools.resip.frame.MainWindow.BOLD_LABEL_FONT;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
@@ -36,7 +35,8 @@ public class DuplicatesDialog extends JDialog {
     private JCheckBox binaryFilenameCheckBox;
     private JCheckBox physicalAllMDCheckBox;
     private JTable duplicatesTable;
-    private JLabel resultLabel;
+    private JLabel lineResultLabel;
+    private JLabel globalResultLabel;
 
     private MainWindow mainWindow;
     private JPanel explanationPanel;
@@ -271,16 +271,36 @@ public class DuplicatesDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 0, 5, 5);
         actionPanel.add(previousButton, gbc);
+        previousButton.addActionListener(arg -> buttonPrevious());
 
-        resultLabel = new JLabel();
-        resultLabel.setText("- trouvés");
+        JPanel resultPanel = new JPanel();
+        resultPanel.setLayout(new GridBagLayout());
+        resultPanel.setPreferredSize(new Dimension(80, 32));
+        resultPanel.setMinimumSize(new Dimension(80, 32));
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 1;
         gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(5, 0, 5, 5);
-        actionPanel.add(resultLabel, gbc);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        actionPanel.add(resultPanel, gbc);
+        globalResultLabel = new JLabel();
+        globalResultLabel.setText("Aucune recherche effectuée");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.SOUTHEAST;
+        gbc.insets = new Insets(5, 0, 0, 5);
+        resultPanel.add(globalResultLabel, gbc);
+        lineResultLabel = new JLabel();
+        lineResultLabel.setText("                       ");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        resultPanel.add(lineResultLabel, gbc);
 
         JPanel detailedResultPanel = new JPanel();
         detailedResultPanel.setLayout(new GridBagLayout());
@@ -397,12 +417,12 @@ public class DuplicatesDialog extends JDialog {
         final DefaultListSelectionModel target = (DefaultListSelectionModel) e.getSource();
         int selectedIndex = target.getMinSelectionIndex();
         if (selectedIndex < 0) {
-            resultLabel.setText("- trouvés");
+            lineResultLabel.setText("");
             dogList = null;
             return;
         }
-        resultLabel.setText("1/" + duplicatesTable.getModel().getValueAt(duplicatesTable
-                .convertRowIndexToModel(selectedIndex), 1) + " trouvés");
+        lineResultLabel.setText("1/" + duplicatesTable.getModel().getValueAt(duplicatesTable
+                .convertRowIndexToModel(selectedIndex), 1) + " doublons sur cette ligne");
         dogList = ((DuplicatesTableModel) duplicatesTable.getModel()).getRowDogList(duplicatesTable
                 .convertRowIndexToModel(selectedIndex));
         dogListPosition = 0;
@@ -426,6 +446,7 @@ public class DuplicatesDialog extends JDialog {
         //showFormatList();
         if (searchRunning) {
         } else {
+            globalResultLabel.setText("En cours");
             DuplicatesThread dt = new DuplicatesThread(this, binaryHashCheckBox.isSelected(),
                     binaryFilenameCheckBox.isSelected(),
                     physicalAllMDCheckBox.isSelected());
@@ -436,7 +457,7 @@ public class DuplicatesDialog extends JDialog {
     private void buttonNext() {
         if ((dogList != null) && (dogListPosition < dogList.size() - 1)) {
             dogListPosition++;
-            resultLabel.setText("" + (dogListPosition + 1) + "/" + dogList.size() + " trouvés");
+            lineResultLabel.setText("" + (dogListPosition + 1) + "/" + dogList.size() + " doublons sur cette ligne");
             focusObject(dogList.get(dogListPosition));
         }
     }
@@ -444,7 +465,7 @@ public class DuplicatesDialog extends JDialog {
     private void buttonPrevious() {
         if ((dogList != null) && (dogListPosition > 0)) {
             dogListPosition--;
-            resultLabel.setText("" + (dogListPosition + 1) + "/" + dogList.size() + " trouvés");
+            lineResultLabel.setText("" + (dogListPosition + 1) + "/" + dogList.size() + " doublons sur cette ligne");
             focusObject(dogList.get(dogListPosition));
         }
     }
@@ -462,5 +483,12 @@ public class DuplicatesDialog extends JDialog {
                 .setPreferredWidth(20);
         duplicatesTable.getColumnModel().getColumn(1)
                 .setPreferredWidth(20);
+        globalResultLabel.setText(""+dogByDigestMap.size()+" lots de doublons trouvés");
+    }
+
+    public void emptyDialog(){
+        DuplicatesTableModel dtm = ((DuplicatesTableModel) (duplicatesTable.getModel()));
+        dtm.setDogByDigestMap(null);
+        dtm.fireTableDataChanged();
     }
 }
