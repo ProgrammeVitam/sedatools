@@ -89,6 +89,9 @@ public class AddMetadataItem {
         typeCreatorMap.put("DataObjectReference", AddMetadataItem::dataObjectReferenceSample);
         typeExtraInformationMap.put("DataObjectReference", "Metadonnée de type ID de référence DataObject interne au SIP");
 
+        typeCreatorMap.put("ReferencedObject", AddMetadataItem::referencedObjectSample);
+        typeExtraInformationMap.put("ReferencedObject", "Metadonnée de type référence à un objet signé");
+
         typeCreatorMap.put("TextType", AddMetadataItem::textTypeSample);
         typeExtraInformationMap.put("TextType", "Metadonnée de type chaîne de caractères avec un attribut de langue");
 
@@ -197,6 +200,12 @@ public class AddMetadataItem {
 
     static PlaceType placeTypeSample(String elementName) throws SEDALibException {
         PlaceType result = new PlaceType(elementName);
+        constructComplexListType(result);
+        return result;
+    }
+
+    static ReferencedObject referencedObjectSample(String elementName) throws SEDALibException {
+        ReferencedObject result = new ReferencedObject();
         constructComplexListType(result);
         return result;
     }
