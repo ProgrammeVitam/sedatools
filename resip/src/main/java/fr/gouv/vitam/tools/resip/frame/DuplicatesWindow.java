@@ -22,11 +22,11 @@ import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
 /**
- * The class DuplicatesDialog.
+ * The class DuplicatesWindow.
  * <p>
  * Class for duplicates search and management.
  */
-public class DuplicatesDialog extends JDialog {
+public class DuplicatesWindow extends JFrame {
 
     /**
      * The actions components.
@@ -58,7 +58,7 @@ public class DuplicatesDialog extends JDialog {
     private int searchResultListCount;
     private boolean searchRunning;
 
-    // Dialog test context
+    // Window test context
 
     /**
      * The entry point of dialog test.
@@ -74,32 +74,26 @@ public class DuplicatesDialog extends JDialog {
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
         ResipGraphicApp rga = new ResipGraphicApp(null);
         Thread.sleep(1000);
-        TestDialogWindow window = new TestDialogWindow(DuplicatesDialog.class);
-        DuplicatesDialog duplicatesDialog = (DuplicatesDialog) window.it;
-
+        DuplicatesWindow window = new DuplicatesWindow();
+        window.setVisible(true);
     }
 
     /**
-     * Instantiates a new SearchDialog for test.
-     *
-     * @param owner the owner
+     * Create the window.
      */
-    public DuplicatesDialog(JFrame owner) throws ResipException {
-        this(ResipGraphicApp.getTheApp().mainWindow);
-    }
-
-    /**
-     * Create the dialog.
-     *
-     * @param owner the owner
-     */
-    public DuplicatesDialog(MainWindow owner) {
-        super(owner, "Chercher des doublons", false);
+    public DuplicatesWindow() {
         GridBagConstraints gbc;
+
+        java.net.URL imageURL = getClass().getClassLoader().getResource("VitamIcon96.png");
+        if (imageURL != null) {
+            ImageIcon icon = new ImageIcon(imageURL);
+            setIconImage(icon.getImage());
+        }
+        this.setTitle("Chercher des doublons");
 
         searchRunning = false;
 
-        mainWindow = owner;
+        mainWindow = ResipGraphicApp.getTheApp().mainWindow;
         dataObjectPackageTreeViewer = mainWindow.getDataObjectPackageTreePaneViewer();
         dataObjectPackageTreeModel = (DataObjectPackageTreeModel) (dataObjectPackageTreeViewer.getModel());
         dataObjectListViewer = mainWindow.getDataObjectListViewer();
@@ -386,7 +380,7 @@ public class DuplicatesDialog extends JDialog {
         pack();
         explanationPanel.setVisible(false);
         pack();
-        setLocationRelativeTo(owner);
+        setLocationRelativeTo(mainWindow);
     }
 
     // actions
@@ -483,10 +477,10 @@ public class DuplicatesDialog extends JDialog {
                 .setPreferredWidth(20);
         duplicatesTable.getColumnModel().getColumn(1)
                 .setPreferredWidth(20);
-        globalResultLabel.setText(""+dogByDigestMap.size()+" lots de doublons trouvés");
+        globalResultLabel.setText("" + dogByDigestMap.size() + " lots de doublons trouvés");
     }
 
-    public void emptyDialog(){
+    public void emptyDialog() {
         DuplicatesTableModel dtm = ((DuplicatesTableModel) (duplicatesTable.getModel()));
         dtm.setDogByDigestMap(null);
         dtm.fireTableDataChanged();

@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.resip.frame;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.app.StatisticThread;
 import fr.gouv.vitam.tools.resip.data.StatisticData;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.viewer.DefaultTableHeaderCellRenderer;
 import fr.gouv.vitam.tools.resip.viewer.StatisticCellRenderer;
 import fr.gouv.vitam.tools.resip.viewer.StatisticTableModel;
@@ -43,14 +44,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static fr.gouv.vitam.tools.resip.frame.MainWindow.BOLD_LABEL_FONT;
-
 /**
- * The class StatisticDialog.
+ * The class StatisticWindow.
  * <p>
  * Class for formats category statistics display.
  */
-public class StatisticDialog extends JDialog {
+public class StatisticWindow extends JFrame {
 
     /**
      * The actions components.
@@ -77,31 +76,38 @@ public class StatisticDialog extends JDialog {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        TestDialogWindow window = new TestDialogWindow(StatisticDialog.class);
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
+        ResipGraphicApp rga = new ResipGraphicApp(null);
+        Thread.sleep(1000);
+        StatisticWindow window = new StatisticWindow();
         ArrayList<StatisticData> sdl = new ArrayList<StatisticData>();
         sdl.add(new StatisticData("Test", Arrays.asList(new Long(1), new Long(2),
                 new Long(3), new Long(4), new Long(5))));
         sdl.add(new StatisticData("No", Arrays.asList()));
-        ((StatisticTableModel) (((StatisticDialog) (window.it)).statisticTable.getModel()))
+        ((StatisticTableModel) (((StatisticWindow) (window)).statisticTable.getModel()))
                 .setStatisticDataList(sdl);
-        ((DefaultRowSorter) ((StatisticDialog) (window.it)).statisticTable.getRowSorter()).toggleSortOrder(1);
-        ((DefaultRowSorter) ((StatisticDialog) (window.it)).statisticTable.getRowSorter()).toggleSortOrder(1);
-        ((StatisticDialog) (window.it)).statisticTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        ((StatisticTableModel) (((StatisticDialog) (window.it)).statisticTable.getModel()))
+        ((DefaultRowSorter) ((StatisticWindow) (window)).statisticTable.getRowSorter()).toggleSortOrder(1);
+        ((DefaultRowSorter) ((StatisticWindow) (window)).statisticTable.getRowSorter()).toggleSortOrder(1);
+        ((StatisticWindow) (window)).statisticTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        ((StatisticTableModel) (((StatisticWindow) (window)).statisticTable.getModel()))
                 .fireTableDataChanged();
-        ((StatisticDialog) (window.it)).statisticTable.getColumnModel().getColumn(0)
+        ((StatisticWindow) (window)).statisticTable.getColumnModel().getColumn(0)
                 .setPreferredWidth(200);
+        window.setVisible(true);
     }
 
     /**
-     * Create the dialog.
-     *
-     * @param owner the owner
-     */
-    public StatisticDialog(JFrame owner) {
-        super(owner, "Statistiques", false);
+     * Create the window.
+     **/
+    public StatisticWindow() {
         GridBagConstraints gbc;
+
+        java.net.URL imageURL = getClass().getClassLoader().getResource("VitamIcon96.png");
+        if (imageURL != null) {
+            ImageIcon icon = new ImageIcon(imageURL);
+            setIconImage(icon.getImage());
+        }
+        this.setTitle("Statistiques");
 
         setMinimumSize(new Dimension(600, 200));
         setPreferredSize(new Dimension(600, 400));
@@ -218,7 +224,7 @@ public class StatisticDialog extends JDialog {
         warningPanel.add(emptySearchButton, gbc);
 
         pack();
-        setLocationRelativeTo(owner);
+        setLocationRelativeTo(ResipGraphicApp.getTheApp().mainWindow);
     }
 
     // actions

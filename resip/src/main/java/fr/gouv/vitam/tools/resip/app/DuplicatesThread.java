@@ -27,7 +27,7 @@
  */
 package fr.gouv.vitam.tools.resip.app;
 
-import fr.gouv.vitam.tools.resip.frame.DuplicatesDialog;
+import fr.gouv.vitam.tools.resip.frame.DuplicatesWindow;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -42,7 +42,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 
 public class DuplicatesThread extends SwingWorker<String, String> {
 
-    private DuplicatesDialog duplicatesDialog;
+    private DuplicatesWindow duplicatesWindow;
     private DataObjectPackage dataObjectPackage;
     private LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap;
     private boolean binaryHash;
@@ -52,9 +52,9 @@ public class DuplicatesThread extends SwingWorker<String, String> {
     // logger
     private SEDALibProgressLogger spl;
 
-    public DuplicatesThread(DuplicatesDialog duplicatesDialog, boolean binaryHash, boolean binaryFilename,
+    public DuplicatesThread(DuplicatesWindow duplicatesWindow, boolean binaryHash, boolean binaryFilename,
                             boolean physicalAllMD) {
-        this.duplicatesDialog = duplicatesDialog;
+        this.duplicatesWindow = duplicatesWindow;
         this.binaryHash = binaryHash;
         this.binaryFilename = binaryFilename;
         this.physicalAllMD = physicalAllMD;
@@ -142,7 +142,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         ResipGraphicApp theApp = ResipGraphicApp.getTheApp();
 
         if ((!isCancelled()) && (dogByDigestMap != null)) {
-            duplicatesDialog.setDuplicatesResult(dogByDigestMap);
+            duplicatesWindow.setDuplicatesResult(dogByDigestMap);
         }
     }
 }

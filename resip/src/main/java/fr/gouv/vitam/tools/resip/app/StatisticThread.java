@@ -28,10 +28,8 @@
 package fr.gouv.vitam.tools.resip.app;
 
 import fr.gouv.vitam.tools.resip.data.StatisticData;
-import fr.gouv.vitam.tools.resip.frame.MainWindow;
-import fr.gouv.vitam.tools.resip.frame.StatisticDialog;
+import fr.gouv.vitam.tools.resip.frame.StatisticWindow;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.viewer.StatisticTableModel;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -47,14 +45,14 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 
 public class StatisticThread extends SwingWorker<String, String> {
 
-    private StatisticDialog statisticDialog;
+    private StatisticWindow statisticWindow;
     private DataObjectPackage dataObjectPackage;
     private List<StatisticData> statisticDataList;
     // logger
     private SEDALibProgressLogger spl;
 
-    public StatisticThread(StatisticDialog statisticDialog) {
-        this.statisticDialog = statisticDialog;
+    public StatisticThread(StatisticWindow statisticWindow) {
+        this.statisticWindow = statisticWindow;
     }
 
     private String findCategory(String formatId, LinkedHashMap<String, List<String>> formatByCatgeoryMap) {
@@ -108,7 +106,7 @@ public class StatisticThread extends SwingWorker<String, String> {
         ResipGraphicApp theApp = ResipGraphicApp.getTheApp();
 
         if ((!isCancelled()) && (statisticDataList != null)) {
-            statisticDialog.setStatisticDataList(statisticDataList);
+            statisticWindow.setStatisticDataList(statisticDataList);
             try {
                 spl.progressLog(SEDALibProgressLogger.GLOBAL, String.format(
                         "%-40.40s %10s %10s %10s %10s", "Categorie", "Nb", "Min", "Moyenne", "Max"));
