@@ -411,6 +411,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         exportMenu.setEnabled(isLoaded);
         saveAsMenuItem.setEnabled(isLoaded);
         closeMenuItem.setEnabled(isLoaded);
+        statisticDialog.setVisible(false);
+        duplicatesDialog.setVisible(false);
+        duplicatesDialog.emptyDialog();
     }
 
     public void setFilenameWork(String fileName) {
