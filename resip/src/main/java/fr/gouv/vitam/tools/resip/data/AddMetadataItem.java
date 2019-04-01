@@ -80,8 +80,23 @@ public class AddMetadataItem {
         typeCreatorMap.put("IntegerType", AddMetadataItem::integerTypeSample);
         typeExtraInformationMap.put("IntegerType", "Metadonnée de type entier long");
 
+        typeCreatorMap.put("SIPInternalIDType", AddMetadataItem::sipInternalIDTypeSample);
+        typeExtraInformationMap.put("SIPInternalIDType", "Metadonnée de type ID de référence interne au SIP");
+
+        typeCreatorMap.put("DataObjectOrArchiveUnitReferenceType", AddMetadataItem::dataObjectOrArchiveUnitReferenceTypeSample);
+        typeExtraInformationMap.put("DataObjectOrArchiveUnitReferenceType", "Metadonnée de type ID de référence ArchiveUnit ou DataObject interne au SIP ou externe ");
+
+        typeCreatorMap.put("DataObjectReference", AddMetadataItem::dataObjectReferenceSample);
+        typeExtraInformationMap.put("DataObjectReference", "Metadonnée de type ID de référence DataObject interne au SIP");
+
         typeCreatorMap.put("TextType", AddMetadataItem::textTypeSample);
         typeExtraInformationMap.put("TextType", "Metadonnée de type chaîne de caractères avec un attribut de langue");
+
+        typeCreatorMap.put("RelatedObjectReference", AddMetadataItem::relatedObjectReferenceSample);
+        typeExtraInformationMap.put("RelatedObjectReference", "Metadonnée de type relation ArchiveUnit ou DataObject externe ou interne au SIP");
+
+        typeCreatorMap.put("DigestType", AddMetadataItem::digestTypeSample);
+        typeExtraInformationMap.put("DigestType", "Metadonnée de type hachage avec un attribut d'algorithme");
 
         typeCreatorMap.put("ArchiveUnitProfile", AddMetadataItem::archiveUnitProfileSample);
         typeExtraInformationMap.put("ArchiveUnitProfile", "Identifiant du profil d'unité archivistique");
@@ -186,8 +201,26 @@ public class AddMetadataItem {
         return result;
     }
 
+    static DataObjectOrArchiveUnitReferenceType dataObjectOrArchiveUnitReferenceTypeSample(String elementName) throws SEDALibException {
+        DataObjectOrArchiveUnitReferenceType result = new DataObjectOrArchiveUnitReferenceType(elementName);
+        constructComplexListType(result);
+        return result;
+    }
+
     static Coverage coverageSample(String elementName) throws SEDALibException {
         Coverage result = new Coverage();
+        constructComplexListType(result);
+        return result;
+    }
+
+    static DataObjectReference dataObjectReferenceSample(String elementName) throws SEDALibException {
+        DataObjectReference result = new DataObjectReference();
+        constructComplexListType(result);
+        return result;
+    }
+
+    static RelatedObjectReference relatedObjectReferenceSample(String elementName) throws SEDALibException {
+        RelatedObjectReference result = new RelatedObjectReference();
         constructComplexListType(result);
         return result;
     }
@@ -248,12 +281,20 @@ public class AddMetadataItem {
         return new StringType(elementName, "Text");
     }
 
+    static SIPInternalIDType sipInternalIDTypeSample(String elementName) {
+        return new SIPInternalIDType(elementName, "ID");
+    }
+
     static IntegerType integerTypeSample(String elementName) {
         return new IntegerType(elementName, 123);
     }
 
     static TextType textTypeSample(String elementName) {
         return new TextType(elementName, "Text", "fr");
+    }
+
+    static DigestType digestTypeSample(String elementName) {
+        return new DigestType(elementName, "HashSHA-512", "SHA-512");
     }
 
     static ArchiveUnitProfile archiveUnitProfileSample(String elementName) {
