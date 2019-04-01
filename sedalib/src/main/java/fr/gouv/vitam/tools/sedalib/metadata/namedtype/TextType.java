@@ -102,7 +102,7 @@ public class TextType extends NamedTypeMetadata {
         try {
             xmlWriter.writeStartElement(elementName);
             if (lang != null)
-                xmlWriter.writeAttribute("xml", "xml", "lang", lang);
+                xmlWriter.writeAttribute("lang", lang);
             xmlWriter.writeCharactersIfNotEmpty(value);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
@@ -120,7 +120,7 @@ public class TextType extends NamedTypeMetadata {
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
             if (xmlReader.peekBlockIfNamed(elementName)) {
-                lang = xmlReader.peekAttribute("http://www.w3.org/XML/1998/namespace", "lang");
+                lang = xmlReader.peekAttribute( "lang");
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {

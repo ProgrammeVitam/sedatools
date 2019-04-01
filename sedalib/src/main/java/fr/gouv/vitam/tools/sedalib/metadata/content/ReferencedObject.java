@@ -74,4 +74,19 @@ public class ReferencedObject extends ComplexListType {
         addNewMetadata("SignedObjectId", signedObjectId);
         addNewMetadata("SignedObjectDigest", signedObjectDigest);
     }
+
+    /**
+     * Instantiates a new referenced object type with SignedObjectId and SignedObjectDigest.
+     *
+     * @param signedObjectId              the signed object id
+     * @param signedObjectDigest          the signed object digest
+     * @param signedObjectDigestAlgorithm the signed object digest algorithm
+     * @throws SEDALibException the seda lib exception
+     */
+    public ReferencedObject(String signedObjectId, String signedObjectDigest, String signedObjectDigestAlgorithm) throws SEDALibException {
+        this();
+
+        addNewMetadata("SignedObjectId", signedObjectId);
+        addNewMetadata("SignedObjectDigest", signedObjectDigest,signedObjectDigestAlgorithm);
+    }
 }

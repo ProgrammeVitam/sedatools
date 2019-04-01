@@ -102,7 +102,7 @@ public class DigestType extends NamedTypeMetadata {
         try {
             xmlWriter.writeStartElement(elementName);
             if (algorithm != null)
-                xmlWriter.writeAttribute("xml", "xml", "algorithm", algorithm);
+                xmlWriter.writeAttribute("algorithm", algorithm);
             xmlWriter.writeCharactersIfNotEmpty(value);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
@@ -120,7 +120,7 @@ public class DigestType extends NamedTypeMetadata {
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
             if (xmlReader.peekBlockIfNamed(elementName)) {
-                algorithm = xmlReader.peekAttribute("http://www.w3.org/XML/1998/namespace", "algorithm");
+                algorithm = xmlReader.peekAttribute("algorithm");
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {

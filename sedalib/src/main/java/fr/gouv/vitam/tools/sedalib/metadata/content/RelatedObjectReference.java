@@ -51,11 +51,11 @@ public class RelatedObjectReference extends ComplexListType {
 
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("IsVersionOf", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
-        metadataMap.put("Replaces", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
-        metadataMap.put("Requires", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
-        metadataMap.put("IsPartOf", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
-        metadataMap.put("References", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, false));
+        metadataMap.put("IsVersionOf", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
+        metadataMap.put("Replaces", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
+        metadataMap.put("Requires", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
+        metadataMap.put("IsPartOf", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
+        metadataMap.put("References", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
     }
 
     /**
