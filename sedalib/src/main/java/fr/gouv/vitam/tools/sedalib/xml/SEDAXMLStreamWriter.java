@@ -33,6 +33,8 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.stax2.XMLOutputFactory2;
 
+import javax.xml.XMLConstants;
+import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -398,7 +400,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      * @throws XMLStreamException the XML stream exception
      */
     public void writeAttribute(String localName, String value) throws XMLStreamException {
-        xmlWriter.writeAttribute(localName, value);
+        xmlWriter.writeAttribute(XMLConstants.DEFAULT_NS_PREFIX, XMLConstants.NULL_NS_URI,localName, value);
     }
 
     /**
@@ -410,7 +412,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      */
     public void writeAttributeIfNotEmpty(String localName, String value) throws XMLStreamException {
         if ((value != null) && !value.isEmpty())
-            xmlWriter.writeAttribute(localName, value);
+            writeAttribute(localName, value);
     }
 
     /**

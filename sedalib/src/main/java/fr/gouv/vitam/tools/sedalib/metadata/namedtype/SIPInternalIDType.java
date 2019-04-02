@@ -35,59 +35,40 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
 /**
- * The Class TextType.
+ * The Class SIPInternalIDType.
  * <p>
- * For abstract String formatted with optional language SEDA metadata
+ * For abstract ID formatted SEDA metadata
  */
-public class TextType extends NamedTypeMetadata {
+public class SIPInternalIDType extends NamedTypeMetadata {
 
-    /**
-     * The value.
-     */
+    /** The value. */
     private String value;
 
     /**
-     * The lang.
+     * Instantiates a new SIP internal ID.
      */
-    private String lang;
-
-    /**
-     * Instantiates a new string with language attribute.
-     */
-    public TextType() {
-        this(null, null, null);
+    public SIPInternalIDType() {
+        this(null, (String) null);
     }
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new SIP internal ID.
      *
      * @param elementName the XML element name
      */
-    public TextType(String elementName) {
-        this(elementName, null, null);
+    public SIPInternalIDType(String elementName) {
+        this(elementName, (String) null);
     }
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new SIP internal ID.
      *
      * @param elementName the XML element name
      * @param value       the value
      */
-    public TextType(String elementName, String value) {
-        this(elementName, value, null);
-    }
-
-    /**
-     * Instantiates a new string with language attribute.
-     *
-     * @param elementName the XML element name
-     * @param value       the value
-     * @param lang        the language
-     */
-    public TextType(String elementName, String value, String lang) {
+    public SIPInternalIDType(String elementName, String value) {
         super(elementName);
         this.value = value;
-        this.lang = lang;
     }
 
     /*
@@ -100,27 +81,22 @@ public class TextType extends NamedTypeMetadata {
     @Override
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
-            xmlWriter.writeStartElement(elementName);
-            if (lang != null)
-                xmlWriter.writeAttribute("lang", lang);
-            xmlWriter.writeCharactersIfNotEmpty(value);
-            xmlWriter.writeEndElement();
+            xmlWriter.writeElementValue(elementName, value);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type TextType [" + getXmlElementName() + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type SIPInternalIDType ["+getXmlElementName()+"]\n->" + e.getMessage());
         }
     }
 
     /**
      * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
      * @return true, if it finds something convenient, false if not
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
             if (xmlReader.peekBlockIfNamed(elementName)) {
-                lang = xmlReader.peekAttribute( "lang");
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
@@ -128,26 +104,18 @@ public class TextType extends NamedTypeMetadata {
                     event = xmlReader.nextUsefullEvent();
                 } else
                     value = "";
-                if ((!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
+                if ((!event.isEndElement())
+                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
                     throw new SEDALibException("Elément " + elementName + " mal terminé");
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type SIPInternalIDType\n->" + e.getMessage());
         }
         return true;
     }
 
     // Getters and setters
-
-    /**
-     * Get the lang
-     *
-     * @return the lang
-     */
-    public String getLang() {
-        return lang;
-    }
 
     /**
      * Get the value
@@ -166,15 +134,4 @@ public class TextType extends NamedTypeMetadata {
     public void setValue(String value) {
         this.value = value;
     }
-
-    /**
-     * Sets lang.
-     *
-     * @param lang the lang
-     */
-    public void setLang(String lang) {
-        this.lang = lang;
-    }
-
-
 }

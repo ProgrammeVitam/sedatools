@@ -3,11 +3,12 @@ package fr.gouv.vitam.tools.resip.viewer;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.text.DecimalFormat;
 
-public class StatisticCellRenderer extends JLabel implements TableCellRenderer {
+public class StatisticCellRenderer extends DefaultTableCellRenderer {
 
     /**
      * Readable file size.
@@ -25,6 +26,8 @@ public class StatisticCellRenderer extends JLabel implements TableCellRenderer {
 
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                    boolean hasFocus, int row, int column) {
+        super.getTableCellRendererComponent(table,"",isSelected,hasFocus,row,column);
+
         String cellContent;
         if (value != null) {
             if (value instanceof String)

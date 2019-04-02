@@ -78,8 +78,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // Dialogs elements. */
     public SearchDialog searchDialog;
     public TechnicalSearchDialog technicalSearchDialog;
-    public StatisticDialog statisticDialog;
-    public DuplicatesDialog duplicatesDialog;
+    public StatisticWindow statisticWindow;
+    public DuplicatesWindow duplicatesWindow;
 
     public ResipGraphicApp(CreationContext creationContext) throws ResipException {
         if (theApp != null)
@@ -114,8 +114,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             this.searchDialog=new SearchDialog(mainWindow);
             this.technicalSearchParameters = new TechnicalSearchParameters(Prefs.getInstance().getPrefsContextNode());
             this.technicalSearchDialog=new TechnicalSearchDialog(mainWindow);
-            this.statisticDialog=new StatisticDialog(mainWindow);
-            this.duplicatesDialog=new DuplicatesDialog(mainWindow);
+            this.statisticWindow =new StatisticWindow();
+            this.duplicatesWindow =new DuplicatesWindow();
             mainWindow.setVisible(true);
             currentWork = null;
 
@@ -411,6 +411,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         exportMenu.setEnabled(isLoaded);
         saveAsMenuItem.setEnabled(isLoaded);
         closeMenuItem.setEnabled(isLoaded);
+        statisticWindow.setVisible(false);
+        duplicatesWindow.setVisible(false);
+        duplicatesWindow.emptyDialog();
     }
 
     public void setFilenameWork(String fileName) {
@@ -646,7 +649,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MenuItem DuplicatesSearch
 
     void duplicatesSearch() {
-        duplicatesDialog.setVisible(true);
+        duplicatesWindow.setVisible(true);
     }
 
     // MenuItem Regenerate continuous ids
@@ -715,8 +718,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // Menu item statistics
 
     void generateStatistics() {
-        statisticDialog.refresh();
-        statisticDialog.setVisible(true);
+        statisticWindow.refresh();
+        statisticWindow.setVisible(true);
     }
 
     // Context Menu

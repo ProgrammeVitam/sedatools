@@ -22,7 +22,8 @@ public class DuplicatesTableModel extends AbstractTableModel {
 
     public void setDogByDigestMap(LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap) {
         this.dogByDigestMap = dogByDigestMap;
-        this.lotList=dogByDigestMap.keySet().toArray(new String[0]);
+        if (dogByDigestMap!=null)
+            this.lotList=dogByDigestMap.keySet().toArray(new String[0]);
 
     }
 
@@ -91,6 +92,9 @@ public class DuplicatesTableModel extends AbstractTableModel {
     }
 
     public List<DataObjectGroup> getRowDogList(int row){
-        return dogByDigestMap.get(lotList[row]);
+        if (dogByDigestMap!=null)
+            return dogByDigestMap.get(lotList[row]);
+        else
+            return null;
     }
 }

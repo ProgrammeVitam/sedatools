@@ -27,12 +27,9 @@
  */
 package fr.gouv.vitam.tools.resip.app;
 
-import fr.gouv.vitam.tools.resip.frame.DuplicatesDialog;
+import fr.gouv.vitam.tools.resip.frame.DuplicatesWindow;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
+import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -45,7 +42,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 
 public class DuplicatesThread extends SwingWorker<String, String> {
 
-    private DuplicatesDialog duplicatesDialog;
+    private DuplicatesWindow duplicatesWindow;
     private DataObjectPackage dataObjectPackage;
     private LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap;
     private boolean binaryHash;
@@ -55,12 +52,42 @@ public class DuplicatesThread extends SwingWorker<String, String> {
     // logger
     private SEDALibProgressLogger spl;
 
-    public DuplicatesThread(DuplicatesDialog duplicatesDialog, boolean binaryHash, boolean binaryFilename,
+    public DuplicatesThread(DuplicatesWindow duplicatesWindow, boolean binaryHash, boolean binaryFilename,
                             boolean physicalAllMD) {
-        this.duplicatesDialog = duplicatesDialog;
+        this.duplicatesWindow = duplicatesWindow;
         this.binaryHash = binaryHash;
         this.binaryFilename = binaryFilename;
         this.physicalAllMD = physicalAllMD;
+    }
+
+    void followTree(ArchiveUnit au, LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap,LinkedHashMap<String, List<DataObjectGroup>> sortedDogByDigestMap) {
+        List<ArchiveUnit> auList = au.getChildrenAuList().getArchiveUnitList();
+
+        for (ArchiveUnit childUnit : auList) {
+            if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId()))
+                continue;
+            for(DataObject dataObject: childUnit.getDataObjectRefList().getDataObjectList()){
+                if (dataObject instanceof DataObjectGroup){
+                    for (Map.Entry<String,List<DataObjectGroup>>e:dogByDigestMap.entrySet()){
+                        if (e.getValue().contains(dataObject)){
+                            e.getValue().remove(dataObject);
+                            sortedDogByDigestMap.get(e.getKey()).add((DataObjectGroup)dataObject);
+                        }
+                    }
+                }
+            }
+            dataObjectPackage.addTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId());
+            followTree(childUnit,dogByDigestMap,sortedDogByDigestMap);
+        }
+    }
+
+    private LinkedHashMap<String, List<DataObjectGroup>> treeSort(LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap){
+        dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
+        LinkedHashMap<String, List<DataObjectGroup>> sortedDogByDigestMap=new LinkedHashMap<String, List<DataObjectGroup>>();
+        for (String e:dogByDigestMap.keySet())
+            sortedDogByDigestMap.put(e,new ArrayList<DataObjectGroup>());
+        followTree(dataObjectPackage.getGhostRootAu(),dogByDigestMap,sortedDogByDigestMap);
+        return sortedDogByDigestMap;
     }
 
     @Override
@@ -97,6 +124,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                         Integer.toString(counter) + " groupes d'objets comparés");
             }
             dogByDigestMap.entrySet().removeIf(e -> e.getValue().size() == 1);
+            dogByDigestMap=treeSort(dogByDigestMap);
             spl.progressLog(SEDALibProgressLogger.GLOBAL,
                     Integer.toString(dogByDigestMap.size()) + " lots de groupes d'objets semblables");
         } catch (Exception e) {
@@ -114,7 +142,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         ResipGraphicApp theApp = ResipGraphicApp.getTheApp();
 
         if ((!isCancelled()) && (dogByDigestMap != null)) {
-            duplicatesDialog.setDuplicatesResult(dogByDigestMap);
+            duplicatesWindow.setDuplicatesResult(dogByDigestMap);
         }
     }
 }

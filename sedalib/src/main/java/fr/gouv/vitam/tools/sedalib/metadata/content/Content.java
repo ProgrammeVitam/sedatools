@@ -84,7 +84,7 @@ public class Content extends ComplexListType {
         metadataMap.put("Transmitter", new ComplexListMetadataKind(AgentType.class, true));
         metadataMap.put("Sender", new ComplexListMetadataKind(AgentType.class, true));
         metadataMap.put("Source", new ComplexListMetadataKind(StringType.class, false));
-        // RelatedObjectReference not implemented in Vitam
+        metadataMap.put("RelatedObjectReference", new ComplexListMetadataKind(RelatedObjectReference.class, false));
         metadataMap.put("CreatedDate", new ComplexListMetadataKind(DateTimeType.class, false));
         metadataMap.put("TransactedDate", new ComplexListMetadataKind(DateTimeType.class, false));
         metadataMap.put("AcquiredDate", new ComplexListMetadataKind(DateTimeType.class, false));

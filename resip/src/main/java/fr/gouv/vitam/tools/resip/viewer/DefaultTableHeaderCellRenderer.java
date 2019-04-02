@@ -6,13 +6,12 @@ package fr.gouv.vitam.tools.resip.viewer;
 
 import java.awt.Component;
 import java.util.List;
-import javax.swing.Icon;
-import javax.swing.JTable;
-import javax.swing.RowSorter;
+import javax.swing.*;
 import javax.swing.RowSorter.SortKey;
-import javax.swing.UIManager;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+
+import static fr.gouv.vitam.tools.resip.frame.MainWindow.BOLD_LABEL_FONT;
 
 /**
  * A default cell renderer for a JTableHeader.
@@ -68,6 +67,7 @@ public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
         if (tableHeader != null) {
             setForeground(tableHeader.getForeground());
         }
+        setFont(BOLD_LABEL_FONT);
         setIcon(getIcon(table, column));
         setBorder(UIManager.getBorder("TableHeader.cellBorder"));
         return this;

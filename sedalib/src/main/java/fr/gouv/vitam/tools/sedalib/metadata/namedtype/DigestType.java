@@ -35,11 +35,11 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
 /**
- * The Class TextType.
+ * The Class DigestType.
  * <p>
- * For abstract String formatted with optional language SEDA metadata
+ * For abstract Digest formatted with algorithm SEDA metadata
  */
-public class TextType extends NamedTypeMetadata {
+public class DigestType extends NamedTypeMetadata {
 
     /**
      * The value.
@@ -47,47 +47,47 @@ public class TextType extends NamedTypeMetadata {
     private String value;
 
     /**
-     * The lang.
+     * The algorithm.
      */
-    private String lang;
+    private String algorithm;
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new string with algorith attribute.
      */
-    public TextType() {
+    public DigestType() {
         this(null, null, null);
     }
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new string with algorithm attribute.
      *
      * @param elementName the XML element name
      */
-    public TextType(String elementName) {
+    public DigestType(String elementName) {
         this(elementName, null, null);
     }
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new string with algorithm attribute.
      *
      * @param elementName the XML element name
      * @param value       the value
      */
-    public TextType(String elementName, String value) {
+    public DigestType(String elementName, String value) {
         this(elementName, value, null);
     }
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new string with algorithm attribute.
      *
      * @param elementName the XML element name
      * @param value       the value
-     * @param lang        the language
+     * @param algorithm        the algorithm
      */
-    public TextType(String elementName, String value, String lang) {
+    public DigestType(String elementName, String value, String algorithm) {
         super(elementName);
         this.value = value;
-        this.lang = lang;
+        this.algorithm = algorithm;
     }
 
     /*
@@ -101,8 +101,8 @@ public class TextType extends NamedTypeMetadata {
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
             xmlWriter.writeStartElement(elementName);
-            if (lang != null)
-                xmlWriter.writeAttribute("lang", lang);
+            if (algorithm != null)
+                xmlWriter.writeAttribute("algorithm", algorithm);
             xmlWriter.writeCharactersIfNotEmpty(value);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
@@ -120,7 +120,7 @@ public class TextType extends NamedTypeMetadata {
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
             if (xmlReader.peekBlockIfNamed(elementName)) {
-                lang = xmlReader.peekAttribute( "lang");
+                algorithm = xmlReader.peekAttribute("algorithm");
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
@@ -133,7 +133,7 @@ public class TextType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type DigestType\n->" + e.getMessage());
         }
         return true;
     }
@@ -141,12 +141,12 @@ public class TextType extends NamedTypeMetadata {
     // Getters and setters
 
     /**
-     * Get the lang
+     * Get the algorithm
      *
-     * @return the lang
+     * @return the algorithm
      */
-    public String getLang() {
-        return lang;
+    public String getAlgorithm() {
+        return algorithm;
     }
 
     /**
@@ -168,12 +168,12 @@ public class TextType extends NamedTypeMetadata {
     }
 
     /**
-     * Sets lang.
+     * Sets algorithm.
      *
-     * @param lang the lang
+     * @param algorithm the algorithm
      */
-    public void setLang(String lang) {
-        this.lang = lang;
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
     }
 
 

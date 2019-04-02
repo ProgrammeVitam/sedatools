@@ -16,6 +16,12 @@ Evolutions/Corrections en 1.3.0
 - Evolution: calcul des statistiques par format, avec alerte sur les fichiers vide
 - Evolution: copie des statistiques vers le presse-papier
 - Evolution: ajout recherche de doublons de groupes d'objets (DataObjectGroup SEDA) avec visualisation et circulation dans les résultats
+- Evolution: prise en comptes des nouvelles métadonnées de sedalib (RelatedObjectReference)
+- Evolution: retour d'information sur les recherches de doublons (en cours, résultat du nombre de lots)
+- Evolution: circulation dans les doublons dans l'ordre naturel de l'arbre d'ArchiveUnit
+- Evolution: transformation des dialogues de statistiques et de doublons en fenêtre pour permettre une manipulation plus libre
+- Evolution: ajout de la recherche de formats depuis la fenêtre des statistiques
+- Evolution: renforce la recherche du Titre pour générer le nom du noeud de l'arbre même quand le content est mal formé
 
 ============================================================================
 Evolutions/Corrections en 1.2.0

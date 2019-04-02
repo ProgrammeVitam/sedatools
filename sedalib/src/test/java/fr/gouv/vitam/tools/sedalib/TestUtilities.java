@@ -122,4 +122,15 @@ public class TestUtilities {
 		}
 		return sb.toString();
 	}
+
+	public static void eraseAll(String dirOrFile) {
+		try {
+			Files.delete(Paths.get(dirOrFile));
+		} catch (Exception ignored) {
+		}
+		try {
+			FileUtils.deleteDirectory(new File(dirOrFile));
+		} catch (Exception ignored) {
+		}
+	}
 }
