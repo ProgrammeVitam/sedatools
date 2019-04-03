@@ -126,8 +126,8 @@ public class TechnicalSearchDialog extends JDialog {
         dataObjectPackageTreeModel = (DataObjectPackageTreeModel) (dataObjectPackageTreeViewer.getModel());
         dataObjectListViewer = mainWindow.getDataObjectListViewer();
 
-        setMinimumSize(new Dimension(600, 200));
-        setResizable(false);
+        setMinimumSize(new Dimension(700, 200));
+        //setResizable(false);
 
         Container contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
@@ -232,6 +232,7 @@ public class TechnicalSearchDialog extends JDialog {
         formatsTextArea.setFont(MainWindow.LABEL_FONT);
         formatsTextArea.setColumns(10);
         scrollPane.setViewportView(formatsTextArea);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         sizeCheckBox = new JCheckBox();
         sizeCheckBox.setText("Taille entre :");

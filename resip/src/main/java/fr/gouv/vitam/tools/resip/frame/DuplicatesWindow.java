@@ -35,8 +35,10 @@ public class DuplicatesWindow extends JFrame {
     private JCheckBox binaryFilenameCheckBox;
     private JCheckBox physicalAllMDCheckBox;
     private JTable duplicatesTable;
+    private JLabel resultPlaceHolder;
     private JLabel lineResultLabel;
     private JLabel globalResultLabel;
+    private JPanel resultPanel;
 
     private MainWindow mainWindow;
     private JPanel explanationPanel;
@@ -74,6 +76,7 @@ public class DuplicatesWindow extends JFrame {
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
         ResipGraphicApp rga = new ResipGraphicApp(null);
         Thread.sleep(1000);
+
         DuplicatesWindow window = new DuplicatesWindow();
         window.setVisible(true);
     }
@@ -103,7 +106,6 @@ public class DuplicatesWindow extends JFrame {
 
         Container contentPane = getContentPane();
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0};
         contentPane.setLayout(gridBagLayout);
 
         final JPanel criteriaPanel = new JPanel();
@@ -194,17 +196,12 @@ public class DuplicatesWindow extends JFrame {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.weightx = 1.0;
         gbc.gridwidth = 5;
         gbc.fill = GridBagConstraints.BOTH;
         actionPanel.add(separator, gbc);
 
-        JCheckBox moreOptionsCheckBox = new JCheckBox();
-        moreOptionsCheckBox.setEnabled(true);
-        moreOptionsCheckBox.setVisible(false);
-        moreOptionsCheckBox.setIcon(new ImageIcon(getClass().getResource("/icon/list-add.png")));
-        moreOptionsCheckBox.setSelectedIcon(new ImageIcon(getClass().getResource("/icon/list-remove.png")));
-        moreOptionsCheckBox.setText("En savoir plus");
-        moreOptionsCheckBox.addItemListener(arg -> moreExplanationEvent(arg));
+        resultPlaceHolder = new JLabel(" ");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -212,17 +209,7 @@ public class DuplicatesWindow extends JFrame {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
-        actionPanel.add(moreOptionsCheckBox, gbc);
-
-        JLabel placeHolder = new JLabel(" ");
-        gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
-        actionPanel.add(placeHolder, gbc);
+        actionPanel.add(resultPlaceHolder, gbc);
 
         JButton searchButton = new JButton();
         searchButton.setIcon(new ImageIcon(getClass().getResource("/icon/search-system.png")));
@@ -234,7 +221,6 @@ public class DuplicatesWindow extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.weightx = 0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
         actionPanel.add(searchButton, gbc);
         searchButton.addActionListener(arg0 -> buttonSearch());
@@ -248,7 +234,6 @@ public class DuplicatesWindow extends JFrame {
         gbc.gridx = 2;
         gbc.gridy = 1;
         gbc.weightx = 0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 0);
         actionPanel.add(nextButton, gbc);
         nextButton.addActionListener(arg -> buttonNext());
@@ -262,38 +247,38 @@ public class DuplicatesWindow extends JFrame {
         gbc.gridx = 3;
         gbc.gridy = 1;
         gbc.weightx = 0.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 0, 5, 5);
         actionPanel.add(previousButton, gbc);
         previousButton.addActionListener(arg -> buttonPrevious());
 
-        JPanel resultPanel = new JPanel();
+        resultPanel = new JPanel();
         resultPanel.setLayout(new GridBagLayout());
-        resultPanel.setPreferredSize(new Dimension(80, 32));
-        resultPanel.setMinimumSize(new Dimension(80, 32));
+        resultPanel.setPreferredSize(new Dimension(1000,32));
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 1;
         gbc.weightx = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.EAST;
         actionPanel.add(resultPanel, gbc);
         globalResultLabel = new JLabel();
-        globalResultLabel.setText("Aucune recherche effectuée");
+        globalResultLabel.setText(" ");
+        globalResultLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.SOUTHEAST;
-        gbc.insets = new Insets(5, 0, 0, 5);
+        gbc.insets = new Insets(5, 5, 0, 5);
         resultPanel.add(globalResultLabel, gbc);
         lineResultLabel = new JLabel();
-        lineResultLabel.setText("                       ");
+        lineResultLabel.setText(" ");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.NORTHEAST;
-        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 5, 5, 5);
         resultPanel.add(lineResultLabel, gbc);
 
         JPanel detailedResultPanel = new JPanel();
@@ -332,11 +317,68 @@ public class DuplicatesWindow extends JFrame {
         });
         scrollPane.setViewportView(duplicatesTable);
 
+        final JPanel deduplicateActionPanel = new JPanel();
+        deduplicateActionPanel.setLayout(new GridBagLayout());
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        gbc.fill = GridBagConstraints.BOTH;
+        contentPane.add(deduplicateActionPanel, gbc);
+
+        JCheckBox moreOptionsCheckBox = new JCheckBox();
+        moreOptionsCheckBox.setEnabled(true);
+        moreOptionsCheckBox.setVisible(false);
+        moreOptionsCheckBox.setIcon(new ImageIcon(getClass().getResource("/icon/list-add.png")));
+        moreOptionsCheckBox.setSelectedIcon(new ImageIcon(getClass().getResource("/icon/list-remove.png")));
+        moreOptionsCheckBox.setText("En savoir plus");
+        moreOptionsCheckBox.addItemListener(arg -> moreExplanationEvent(arg));
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        deduplicateActionPanel.add(moreOptionsCheckBox, gbc);
+
+        JButton lineDedupButton=new JButton("Fusionner la ligne");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weightx = 0.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        deduplicateActionPanel.add(lineDedupButton, gbc);
+
+        JButton allDedupButton=new JButton("Fusionner tous les doublons");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.weightx =0.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        deduplicateActionPanel.add(allDedupButton, gbc);
+
+        JLabel placeHolder=new JLabel("");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 1;
+        gbc.weightx =1.0;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        deduplicateActionPanel.add(placeHolder, gbc);
+
+
         explanationPanel = new JPanel();
         explanationPanel.setLayout(new GridBagLayout());
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         gbc.fill = GridBagConstraints.BOTH;
         contentPane.add(explanationPanel, gbc);
         JSeparator separator2 = new JSeparator();
@@ -380,6 +422,8 @@ public class DuplicatesWindow extends JFrame {
         pack();
         explanationPanel.setVisible(false);
         pack();
+        setGlobalResultLabel("Aucune recherche effectuée");
+        setLineResultLabel("Aucun lot sélectionné");
         setLocationRelativeTo(mainWindow);
     }
 
@@ -404,6 +448,18 @@ public class DuplicatesWindow extends JFrame {
         }
     }
 
+    void setGlobalResultLabel(String text){
+        globalResultLabel.setText(text);
+        int width=Math.max(lineResultLabel.getMinimumSize().width,globalResultLabel.getMinimumSize().width);
+        resultPlaceHolder.setMinimumSize(new Dimension(width,32));
+    }
+
+    void setLineResultLabel(String text){
+        lineResultLabel.setText(text);
+        int width=Math.max(lineResultLabel.getMinimumSize().width,globalResultLabel.getMinimumSize().width);
+        resultPlaceHolder.setMinimumSize(new Dimension(width,32));
+    }
+
     void handleDuplicatesSelectionEvent(ListSelectionEvent e) {
         if (e.getValueIsAdjusting())
             return;
@@ -415,7 +471,7 @@ public class DuplicatesWindow extends JFrame {
             dogList = null;
             return;
         }
-        lineResultLabel.setText("1/" + duplicatesTable.getModel().getValueAt(duplicatesTable
+        setLineResultLabel("1/" + duplicatesTable.getModel().getValueAt(duplicatesTable
                 .convertRowIndexToModel(selectedIndex), 1) + " doublons sur cette ligne");
         dogList = ((DuplicatesTableModel) duplicatesTable.getModel()).getRowDogList(duplicatesTable
                 .convertRowIndexToModel(selectedIndex));
@@ -440,7 +496,7 @@ public class DuplicatesWindow extends JFrame {
         //showFormatList();
         if (searchRunning) {
         } else {
-            globalResultLabel.setText("En cours");
+            setGlobalResultLabel("En cours");
             DuplicatesThread dt = new DuplicatesThread(this, binaryHashCheckBox.isSelected(),
                     binaryFilenameCheckBox.isSelected(),
                     physicalAllMDCheckBox.isSelected());
@@ -451,7 +507,7 @@ public class DuplicatesWindow extends JFrame {
     private void buttonNext() {
         if ((dogList != null) && (dogListPosition < dogList.size() - 1)) {
             dogListPosition++;
-            lineResultLabel.setText("" + (dogListPosition + 1) + "/" + dogList.size() + " doublons sur cette ligne");
+            setLineResultLabel("" + (dogListPosition + 1) + "/" + dogList.size() + " doublons sur cette ligne");
             focusObject(dogList.get(dogListPosition));
         }
     }
@@ -459,7 +515,7 @@ public class DuplicatesWindow extends JFrame {
     private void buttonPrevious() {
         if ((dogList != null) && (dogListPosition > 0)) {
             dogListPosition--;
-            lineResultLabel.setText("" + (dogListPosition + 1) + "/" + dogList.size() + " doublons sur cette ligne");
+            setLineResultLabel("" + (dogListPosition + 1) + "/" + dogList.size() + " doublons sur cette ligne");
             focusObject(dogList.get(dogListPosition));
         }
     }
@@ -477,12 +533,14 @@ public class DuplicatesWindow extends JFrame {
                 .setPreferredWidth(20);
         duplicatesTable.getColumnModel().getColumn(1)
                 .setPreferredWidth(20);
-        globalResultLabel.setText("" + dogByDigestMap.size() + " lots de doublons trouvés");
+        setGlobalResultLabel("" + dogByDigestMap.size() + " lots de doublons trouvés");
     }
 
     public void emptyDialog() {
         DuplicatesTableModel dtm = ((DuplicatesTableModel) (duplicatesTable.getModel()));
         dtm.setDogByDigestMap(null);
         dtm.fireTableDataChanged();
+        setGlobalResultLabel("Aucune recherche effectuée");
+        setLineResultLabel("Aucun lot sélectionné");
     }
 }

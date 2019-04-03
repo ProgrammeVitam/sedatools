@@ -57,7 +57,6 @@ public class StatisticWindow extends JFrame {
      * The actions components.
      */
     public JTable statisticTable;
-    public JButton okButton;
     private JPanel warningPanel;
     private String formatCategory;
 
@@ -113,7 +112,7 @@ public class StatisticWindow extends JFrame {
         this.setTitle("Statistiques");
 
         setMinimumSize(new Dimension(600, 200));
-        setPreferredSize(new Dimension(600, 400));
+        setPreferredSize(new Dimension(700, 400));
 
         Container contentPane = getContentPane();
         GridBagLayout gridBagLayout = new GridBagLayout();
