@@ -202,6 +202,8 @@ public class DuplicatesWindow extends JFrame {
         actionPanel.add(separator, gbc);
 
         resultPlaceHolder = new JLabel(" ");
+        resultPlaceHolder.setMinimumSize(new Dimension(250,36));
+        resultPlaceHolder.setPreferredSize(new Dimension(250,36));
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -253,7 +255,8 @@ public class DuplicatesWindow extends JFrame {
 
         resultPanel = new JPanel();
         resultPanel.setLayout(new GridBagLayout());
-        resultPanel.setPreferredSize(new Dimension(1000,32));
+        resultPanel.setMinimumSize(new Dimension(250,36));
+        resultPanel.setPreferredSize(new Dimension(250,36));
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 1;
@@ -261,8 +264,7 @@ public class DuplicatesWindow extends JFrame {
         gbc.anchor = GridBagConstraints.EAST;
         actionPanel.add(resultPanel, gbc);
         globalResultLabel = new JLabel();
-        globalResultLabel.setText(" ");
-        globalResultLabel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        globalResultLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -271,13 +273,12 @@ public class DuplicatesWindow extends JFrame {
         gbc.insets = new Insets(5, 5, 0, 5);
         resultPanel.add(globalResultLabel, gbc);
         lineResultLabel = new JLabel();
-        lineResultLabel.setText(" ");
+        lineResultLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.NORTHEAST;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 5, 5, 5);
         resultPanel.add(lineResultLabel, gbc);
 
@@ -450,14 +451,10 @@ public class DuplicatesWindow extends JFrame {
 
     void setGlobalResultLabel(String text){
         globalResultLabel.setText(text);
-        int width=Math.max(lineResultLabel.getMinimumSize().width,globalResultLabel.getMinimumSize().width);
-        resultPlaceHolder.setMinimumSize(new Dimension(width,32));
     }
 
     void setLineResultLabel(String text){
         lineResultLabel.setText(text);
-        int width=Math.max(lineResultLabel.getMinimumSize().width,globalResultLabel.getMinimumSize().width);
-        resultPlaceHolder.setMinimumSize(new Dimension(width,32));
     }
 
     void handleDuplicatesSelectionEvent(ListSelectionEvent e) {

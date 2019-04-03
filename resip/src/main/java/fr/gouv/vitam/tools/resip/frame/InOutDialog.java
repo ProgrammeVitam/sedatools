@@ -126,6 +126,7 @@ public class InOutDialog extends JDialog {
         extProgressTextArea = new JTextArea();
         extProgressTextArea.setFont(MainWindow.LABEL_FONT);
         extProgressTextArea.setWrapStyleWord(true);
+        extProgressTextArea.setEditable(false);
         extProgressTextArea.setLineWrap(true);
         scrollPane.setViewportView(extProgressTextArea);
 
@@ -145,6 +146,7 @@ public class InOutDialog extends JDialog {
         gbc.insets = new Insets(0, 5, 5, 5);
         contentPane.add(okButton, gbc);
         okButton.addActionListener(arg -> buttonOk());
+        getRootPane().setDefaultButton(okButton);
 
         addWindowListener(new WindowAdapter() {
             @Override

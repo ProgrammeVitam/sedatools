@@ -296,6 +296,8 @@ public class TechnicalSearchDialog extends JDialog {
         gbc.fill = GridBagConstraints.BOTH;
         actionPanel.add(separator, gbc);
         JCheckBox moreOptionsCheckBox = new JCheckBox();
+        moreOptionsCheckBox.setPreferredSize(new Dimension(250,36));
+        moreOptionsCheckBox.setMinimumSize(new Dimension(250,36));
         moreOptionsCheckBox.setEnabled(true);
         moreOptionsCheckBox.setIcon(new ImageIcon(getClass().getResource("/icon/list-add.png")));
         moreOptionsCheckBox.setSelectedIcon(new ImageIcon(getClass().getResource("/icon/list-remove.png")));
@@ -330,6 +332,7 @@ public class TechnicalSearchDialog extends JDialog {
         nextButton.setMaximumSize(new Dimension(26, 26));
         nextButton.setMinimumSize(new Dimension(26, 26));
         nextButton.setPreferredSize(new Dimension(26, 26));
+        nextButton.addActionListener(arg -> buttonNext());
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -338,13 +341,13 @@ public class TechnicalSearchDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 0);
         actionPanel.add(nextButton, gbc);
-        nextButton.addActionListener(arg -> buttonNext());
         JButton previousButton = new JButton();
         previousButton.setIcon(new ImageIcon(getClass().getResource("/icon/go-up.png")));
         previousButton.setText("");
         previousButton.setMaximumSize(new Dimension(26, 26));
         previousButton.setMinimumSize(new Dimension(26, 26));
         previousButton.setPreferredSize(new Dimension(26, 26));
+        previousButton.addActionListener(arg -> buttonPrevious());
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 1;
@@ -356,28 +359,30 @@ public class TechnicalSearchDialog extends JDialog {
 
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new GridBagLayout());
-        resultPanel.setPreferredSize(new Dimension(80, 32));
-        resultPanel.setMinimumSize(new Dimension(80, 32));
+        resultPanel.setMinimumSize(new Dimension(250, 36));
+        resultPanel.setPreferredSize(new Dimension(250,36));
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 1;
         gbc.gridheight = 2;
         gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.EAST;
         actionPanel.add(resultPanel, gbc);
-        previousButton.addActionListener(arg -> buttonPrevious());
         resultArchiveUnitLabel = new JLabel();
-        resultArchiveUnitLabel.setText("0 trouvé");
+        resultArchiveUnitLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.SOUTHEAST;
         resultPanel.add(resultArchiveUnitLabel, gbc);
         resultObjectLabel = new JLabel();
-        resultObjectLabel.setText("                       ");
+        resultObjectLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
         resultPanel.add(resultObjectLabel, gbc);
 
         explanationPanel = new JPanel();
@@ -427,6 +432,7 @@ public class TechnicalSearchDialog extends JDialog {
 
         pack();
         explanationPanel.setVisible(false);
+        resultArchiveUnitLabel.setText("Aucune recherche effectuée");
         pack();
         setLocationRelativeTo(owner);
     }
@@ -659,6 +665,8 @@ public class TechnicalSearchDialog extends JDialog {
         setFormatCategory(null);
         setFormatList(null);
         setMinMax(-1,0);
+        resultArchiveUnitLabel.setText("Aucune recherche effectuée");
+        resultObjectLabel.setText("");
     }
 
     public void search(){
