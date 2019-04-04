@@ -45,6 +45,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
     private DuplicatesWindow duplicatesWindow;
     private DataObjectPackage dataObjectPackage;
     private LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap;
+    private LinkedHashMap<String, List<ArchiveUnit>> auByDigestMap;
     private boolean binaryHash;
     private boolean binaryFilename;
     private boolean physicalAllMD;
@@ -72,7 +73,10 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                         if (e.getValue().contains(dataObject)){
                             e.getValue().remove(dataObject);
                             sortedDogByDigestMap.get(e.getKey()).add((DataObjectGroup)dataObject);
+                            auByDigestMap.get(e.getKey()).add(childUnit);
                         }
+                        else if (sortedDogByDigestMap.get(e.getKey()).contains(dataObject))
+                            auByDigestMap.get(e.getKey()).add(childUnit);
                     }
                 }
             }
@@ -86,6 +90,9 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         LinkedHashMap<String, List<DataObjectGroup>> sortedDogByDigestMap=new LinkedHashMap<String, List<DataObjectGroup>>();
         for (String e:dogByDigestMap.keySet())
             sortedDogByDigestMap.put(e,new ArrayList<DataObjectGroup>());
+        auByDigestMap=new LinkedHashMap<String, List<ArchiveUnit>>();
+        for (String e:dogByDigestMap.keySet())
+            auByDigestMap.put(e,new ArrayList<ArchiveUnit>());
         followTree(dataObjectPackage.getGhostRootAu(),dogByDigestMap,sortedDogByDigestMap);
         return sortedDogByDigestMap;
     }
@@ -142,7 +149,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         ResipGraphicApp theApp = ResipGraphicApp.getTheApp();
 
         if ((!isCancelled()) && (dogByDigestMap != null)) {
-            duplicatesWindow.setDuplicatesResult(dogByDigestMap);
+            duplicatesWindow.setDuplicatesResult(dogByDigestMap,auByDigestMap);
         }
     }
 }

@@ -168,6 +168,7 @@ public class MainWindow extends JFrame {
         dataObjectPackageTreePaneLabel.setMinimumSize(new Dimension(300, 15));
         GridBagConstraints gbc_dataObjectPackageTreePaneLabel = new GridBagConstraints();
         gbc_dataObjectPackageTreePaneLabel.anchor = GridBagConstraints.WEST;
+        gbc_dataObjectPackageTreePaneLabel.fill = GridBagConstraints.HORIZONTAL;
         gbc_dataObjectPackageTreePaneLabel.insets = new Insets(5, 5, 5, 0);
         gbc_dataObjectPackageTreePaneLabel.gridwidth = 2;
         gbc_dataObjectPackageTreePaneLabel.gridx = 0;
