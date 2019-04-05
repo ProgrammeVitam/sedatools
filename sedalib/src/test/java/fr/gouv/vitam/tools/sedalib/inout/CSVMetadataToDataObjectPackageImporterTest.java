@@ -38,17 +38,17 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
 		// Then
 		String testAu = "{\n" +
-				"  \"archiveUnitProfileXmlData\" : null,\n" +
-				"  \"managementXmlData\" : null,\n" +
-				"  \"contentXmlData\" : \"<Content><DescriptionLevel>Item</DescriptionLevel><Title>image001.jpg</Title><Description lang=\\\"fr\\\">Document &quot;image001.jpg&quot; joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize&gt;</Description><CreatedDate>2016-08-30T10:14:17Z</CreatedDate></Content>\",\n" +
-				"  \"childrenAuList\" : {\n" +
-				"    \"inDataObjectPackageIdList\" : [ ]\n" +
-				"  },\n" +
-				"  \"dataObjectRefList\" : {\n" +
-				"    \"inDataObjectPackageIdList\" : [ \"ID13\" ]\n" +
-				"  },\n" +
-				"  \"inDataObjectPackageId\" : \"6\",\n" +
-				"  \"onDiskPath\" : null\n" +
+				"\"archiveUnitProfileXmlData\":null,\n" +
+				"\"managementXmlData\":null,\n" +
+				"\"contentXmlData\":\"<Content>  <DescriptionLevel>Item</DescriptionLevel>  <Title>image001.jpg</Title>  <Description lang=fr>Document image001.jpg joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>  <CreatedDate>2016-08-30T10:14:17</CreatedDate></Content>\",\n" +
+				"\"childrenAuList\":{\n" +
+				"\"inDataObjectPackageIdList\":[]\n" +
+				"},\n" +
+				"\"dataObjectRefList\":{\n" +
+				"\"inDataObjectPackageIdList\":[\"ID13\"]\n" +
+				"},\n" +
+				"\"inDataObjectPackageId\":\"6\",\n" +
+				"\"onDiskPath\":null\n" +
 				"}";
 		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("6");
 		String sau = mapper.writeValueAsString(au);
@@ -73,5 +73,25 @@ class CSVMetadataToDataObjectPackageImporterTest {
 
 		assertThatThrownBy(() -> cmi.doImport())
 				.hasMessageContaining("Caractère interdit"); // for StringType;
+	}
+
+	@Test
+	void importLineKOCSV() throws SEDALibException, InterruptedException, JsonProcessingException {
+		// Given
+		ObjectMapper mapper = new ObjectMapper();
+		SimpleModule module = new SimpleModule();
+		module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+		module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+		mapper.registerModule(module);
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		CSVMetadataToDataObjectPackageImporter cmi;
+
+		// When loaded with the csv OK test file
+		cmi= new CSVMetadataToDataObjectPackageImporter(
+				"src/test/resources/PacketSamples/MetadataTestLineKO.csv", "windows-1252",';',null);
+
+		assertThatThrownBy(() -> cmi.doImport())
+				.hasMessageContaining("ligne 4"); // for StringType;
 	}
 }

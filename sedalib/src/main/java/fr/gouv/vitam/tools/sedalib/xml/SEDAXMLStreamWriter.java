@@ -31,6 +31,7 @@ import com.ctc.wstx.api.WstxOutputProperties;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.StringEscapeUtils;
 import org.codehaus.stax2.XMLOutputFactory2;
 
 import javax.xml.XMLConstants;
