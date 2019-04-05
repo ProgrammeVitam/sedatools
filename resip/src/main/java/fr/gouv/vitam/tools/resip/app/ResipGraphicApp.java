@@ -44,6 +44,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.prefs.BackingStoreException;
 
@@ -411,9 +414,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         exportMenu.setEnabled(isLoaded);
         saveAsMenuItem.setEnabled(isLoaded);
         closeMenuItem.setEnabled(isLoaded);
+
         statisticWindow.setVisible(false);
+
         duplicatesWindow.setVisible(false);
         duplicatesWindow.emptyDialog();
+
+        technicalSearchDialog.setVisible(false);
+        technicalSearchDialog.emptyDialog();
+
+        searchDialog.setVisible(false);
+        searchDialog.emptyDialog();
     }
 
     public void setFilenameWork(String fileName) {
@@ -964,10 +975,27 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 fileChooser = new JFileChooser(currentWork.getExportContext().getOnDiskOutput());
             else
                 fileChooser = new JFileChooser(Prefs.getInstance().getPrefsExportDir());
-            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if (exportType!=ExportThread.DISK_EXPORT)
+                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            else
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             if (fileChooser.showSaveDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+                Path path= Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+                if (Files.exists(path)) {
+                    if (!Files.isDirectory(path) && UserInteractionDialog.getUserAnswer(mainWindow,
+                            "Le fichier [" + path.toString() + "] existe. Voulez-vous le remplacer ?",
+                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                            null) != OK_DIALOG)
+                        return;
+                    else if (Files.isDirectory(path) && UserInteractionDialog.getUserAnswer(mainWindow,
+                            "Le répertoire [" + path.toString() + "] existe. Les fichiers exportés sur le disque vont " +
+                                    "se mélanger avec ceux déjà existants. Voulez-vous continuer? ?",
+                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                            null) != OK_DIALOG)
+                        return;
+                }
                 InOutDialog inOutDialog = new InOutDialog(mainWindow, "Export");
-                currentWork.getExportContext().setOnDiskOutput(fileChooser.getSelectedFile().getAbsolutePath());
+                currentWork.getExportContext().setOnDiskOutput(path.toString());
                 ExportThread exportThread = new ExportThread(currentWork, exportType, inOutDialog);
                 exportThread.execute();
                 inOutDialog.setVisible(true);

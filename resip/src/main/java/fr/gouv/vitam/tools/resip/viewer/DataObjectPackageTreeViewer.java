@@ -386,6 +386,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         ((DataObjectPackageTreeModel) getModel()).nodeStructureChanged(fatherNode);
         main.getApp().currentWork.getCreationContext().setStructureChanged(true);
         main.getApp().setContextLoaded(true);
+        main.getApp().setModifiedContext(true);
         main.refreshInformations();
     }
 

@@ -644,6 +644,7 @@ public class TechnicalSearchDialog extends JDialog {
     public void setFormatList(String formatList) {
         if (formatList == null) {
             formatListCheckBox.setSelected(false);
+            formatListTextField.setText("");
             return;
         }
         formatListCheckBox.setSelected(true);
@@ -654,6 +655,8 @@ public class TechnicalSearchDialog extends JDialog {
     public void setMinMax(long min,long max) {
         if (min<0) {
             sizeCheckBox.setSelected(false);
+            minTextField.setText("");
+            maxTextField.setText("");
             return;
         }
         sizeCheckBox.setSelected(true);

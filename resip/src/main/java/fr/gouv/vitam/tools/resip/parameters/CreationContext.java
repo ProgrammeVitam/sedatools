@@ -44,7 +44,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({ @Type(value = DiskImportContext.class, name = "DiskImportContext"),
-	@Type(value = SIPImportContext.class, name = "SIPImportContext"),
+		@Type(value = CSVTreeImportContext.class, name = "CSVTreeImportContext"),
+		@Type(value = CSVMetadataImportContext.class, name = "CSVMetadataImportContext"),
+		@Type(value = SIPImportContext.class, name = "SIPImportContext"),
 	@Type(value = DIPImportContext.class, name = "DIPImportContext"),
 	@Type(value = MailImportContext.class, name = "MailImportContext") })
 public class CreationContext {
