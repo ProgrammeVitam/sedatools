@@ -63,7 +63,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public Work currentWork;
     public boolean modifiedWork;
     public String filenameWork;
-    public TechnicalSearchParameters technicalSearchParameters;
+    public TreatmentParameters treatmentParameters;
 
     // GUI elements. */
     public MainWindow mainWindow;
@@ -115,7 +115,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         try {
             mainWindow = new MainWindow(this);
             this.searchDialog=new SearchDialog(mainWindow);
-            this.technicalSearchParameters = new TechnicalSearchParameters(Prefs.getInstance().getPrefsContextNode());
+            this.treatmentParameters = new TreatmentParameters(Prefs.getInstance().getPrefsContextNode());
             this.technicalSearchDialog=new TechnicalSearchDialog(mainWindow);
             this.statisticWindow =new StatisticWindow();
             this.duplicatesWindow =new DuplicatesWindow();
@@ -565,6 +565,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 prefsDialog.gmc.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.cmic.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.ctic.toPrefs(Prefs.getInstance().getPrefsContextNode());
+                prefsDialog.tp.toPrefs(Prefs.getInstance().getPrefsContextNode());
+                treatmentParameters=prefsDialog.tp;
                 ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
                         ResipLogger.getGlobalLogger().getProgressLogLevel());
             }

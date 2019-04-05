@@ -56,7 +56,7 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
         if (formats.contains("Other")) {
             this.searchOthers=true;
             this.otherFormats =
-                    ResipGraphicApp.getTheApp().technicalSearchParameters.getFormatByCategoryMap().
+                    ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap().
                             entrySet().
                             stream().
                             flatMap(e -> e.getValue().stream()).

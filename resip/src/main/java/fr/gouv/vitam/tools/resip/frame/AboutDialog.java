@@ -2,7 +2,7 @@ package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
-import fr.gouv.vitam.tools.resip.parameters.TechnicalSearchParameters;
+import fr.gouv.vitam.tools.resip.parameters.TreatmentParameters;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 
 import javax.imageio.ImageIO;
@@ -121,7 +121,7 @@ public class AboutDialog extends JDialog {
     private void buttonReinitPrefs() {
         try {
             Prefs.getInstance().reinitialisePrefs();
-            ResipGraphicApp.getTheApp().technicalSearchParameters=new TechnicalSearchParameters(Prefs.
+            ResipGraphicApp.getTheApp().treatmentParameters =new TreatmentParameters(Prefs.
                     getInstance().getPrefsContextNode());
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Erreur fatale, réinitialisation des préférences impossible \n->" + e.getMessage(), "Erreur",

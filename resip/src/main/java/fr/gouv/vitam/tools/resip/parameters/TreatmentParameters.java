@@ -42,7 +42,7 @@ import java.util.prefs.Preferences;
 /**
  * The Class CreationContext.
  */
-public class TechnicalSearchParameters {
+public class TreatmentParameters {
 
     // general elements
     /**
@@ -50,10 +50,15 @@ public class TechnicalSearchParameters {
      */
     LinkedHashMap<String, List<String>> formatByCategoryMap;
 
+   /**
+     * The maximum duplicates aggregation number.
+     */
+    int dupMax;
+
     /**
      * Instantiates a new creation context.
      */
-    public TechnicalSearchParameters() {
+    public TreatmentParameters() {
         formatByCategoryMap = new LinkedHashMap<String, List<String>>();
     }
 
@@ -63,10 +68,10 @@ public class TechnicalSearchParameters {
      *
      * @param globalNode the global node
      */
-    public TechnicalSearchParameters(Preferences globalNode) {
-        Preferences technicalSearchNode = globalNode.node("TechnicalSearchParameters");
-        String categoriesString = technicalSearchNode.get("categories", null);
-        Preferences categoryNode = technicalSearchNode.node("Category");
+    public TreatmentParameters(Preferences globalNode) {
+        Preferences treatmentNode = globalNode.node("TreatmentParameters");
+        String categoriesString = treatmentNode.get("categories", null);
+        Preferences categoryNode = treatmentNode.node("Category");
         if (categoriesString == null) {
             setDefaultPrefs();
             try {
@@ -84,6 +89,7 @@ public class TechnicalSearchParameters {
             formatList.replaceAll(String::trim);
             formatByCategoryMap.put(category, formatList);
         }
+        dupMax=treatmentNode.getInt("dupMax",10000);
     }
 
     /**
@@ -93,13 +99,14 @@ public class TechnicalSearchParameters {
      * @throws BackingStoreException the backing store exception
      */
     public void toPrefs(Preferences globalNode) throws BackingStoreException {
-        Preferences technicalSearchNode = globalNode.node("TechnicalSearchParameters");
-        technicalSearchNode.put("categories", String.join("|",formatByCategoryMap.keySet()));
-        Preferences categoryNode = technicalSearchNode.node("Category");
+        Preferences treatmentNode = globalNode.node("TreatmentParameters");
+        treatmentNode.put("categories", String.join("|",formatByCategoryMap.keySet()));
+        Preferences categoryNode = treatmentNode.node("Category");
         for (Map.Entry<String,List<String>> e:formatByCategoryMap.entrySet()) {
             categoryNode.put(e.getKey(),String.join("|",e.getValue()));
         }
-        technicalSearchNode.flush();
+        treatmentNode.putInt("dupMax", dupMax);
+        treatmentNode.flush();
     }
 
     /**
@@ -148,6 +155,7 @@ public class TechnicalSearchParameters {
                 "fmt/649", "fmt/797", "x-fmt/384", "x-fmt/385", "x-fmt/386"));
         formatByCategoryMap.put("Structuré (XML,json)",Arrays.asList("fmt/101", "fmt/817", "fmt/880"));
         formatByCategoryMap.put("Autres...",Arrays.asList("Other"));
+        dupMax=10000;
     }
 
     // Getters and setters
@@ -168,5 +176,23 @@ public class TechnicalSearchParameters {
      */
     public void setFormatByCategoryMap(LinkedHashMap<String, List<String>> formatByCategoryMap) {
         this.formatByCategoryMap = formatByCategoryMap;
+    }
+
+    /**
+     * Gets duplicates maximum aggregation number.
+     *
+     * @return the dup max
+     */
+    public int getDupMax() {
+        return dupMax;
+    }
+
+    /**
+     * Sets duplicates maximum aggregation number.
+     *
+     * @param dupMax the dup max
+     */
+    public void setDupMax(int dupMax) {
+        this.dupMax = dupMax;
     }
 }

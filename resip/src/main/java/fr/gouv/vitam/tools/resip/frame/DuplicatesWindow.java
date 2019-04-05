@@ -418,8 +418,6 @@ public class DuplicatesWindow extends JFrame {
 
     // actions
 
-    static final int MAX_LOT = 10;
-
     private void meldLine(int line) {
         String auLotKey = auSearchResultKeyArray[line];
         List<ArchiveUnit> auList = auSearchResult.get(auLotKey);
@@ -427,7 +425,7 @@ public class DuplicatesWindow extends JFrame {
         List<BinaryDataObject> originBdoList = dogList.get(0).getBinaryDataObjectList();
         // meld using existing DOGs
         List<DataObjectGroup> newDogList = new ArrayList<DataObjectGroup>();
-        for (int i = 0; i < (auList.size() / MAX_LOT) + 1; i++) {
+        for (int i = 0; i < (auList.size() / ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()) + 1; i++) {
             DataObjectGroup dog = dogList.get(i);
             newDogList.add(dog);
             List<BinaryDataObject> bdoList = dog.getBinaryDataObjectList();
@@ -435,7 +433,7 @@ public class DuplicatesWindow extends JFrame {
                 bdoList.get(j).fileInfo.filename = originBdoList.get(j).fileInfo.filename;
                 bdoList.get(j).fileInfo.lastModified = originBdoList.get(j).fileInfo.lastModified;
             }
-            for (int j = i * MAX_LOT; j < Math.min((i + 1) * MAX_LOT, auList.size()); j++) {
+            for (int j = i * ResipGraphicApp.getTheApp().treatmentParameters.getDupMax(); j < Math.min((i + 1) * ResipGraphicApp.getTheApp().treatmentParameters.getDupMax(), auList.size()); j++) {
                 ArchiveUnit au = auList.get(j);
                 DataObjectRefList dorl = new DataObjectRefList(au.getDataObjectPackage());
                 dorl.add(dog);
@@ -445,7 +443,7 @@ public class DuplicatesWindow extends JFrame {
         ((DuplicatesTableModel) duplicatesTable.getModel()).changeRowDogList(newDogList, line);
         // suppress BDO, PDO and DOGs not used by melting
         DataObjectPackage dop = auList.get(0).getDataObjectPackage();
-        for (int i = (auList.size() / MAX_LOT) + 1; i < dogList.size(); i++) {
+        for (int i = (auList.size() / ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()) + 1; i < dogList.size(); i++) {
             for (BinaryDataObject bdo : dogList.get(i).getBinaryDataObjectList()) {
                 dop.getBdoInDataObjectPackageIdMap().remove(bdo.getInDataObjectPackageId());
                 System.out.println("remove");
@@ -464,17 +462,17 @@ public class DuplicatesWindow extends JFrame {
         String auLotKey = auSearchResultKeyArray[selectedRow];
         List<ArchiveUnit> auList = auSearchResult.get(auLotKey);
         List<DataObjectGroup> dogList = ((DuplicatesTableModel) duplicatesTable.getModel()).getRowDogList(selectedRow);
-        if (auList.size() > MAX_LOT) {
-            if ((auList.size() / MAX_LOT) + 1 >= dogList.size()) {
+        if (auList.size() > ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()) {
+            if ((auList.size() / ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()) + 1 >= dogList.size()) {
                 UserInteractionDialog.getUserAnswer(mainWindow,
                         "Ce lot de doublons représente un groupe d'objets référencé par " + auList.size() + " ArchiveUnit.\n"
-                                + "La fusion peut être faite au plus par lots de " + MAX_LOT + " ArchiveUnit. Il n'est pas possible de fusionner plus.",
+                                + "La fusion peut être faite au plus par lots de " + ResipGraphicApp.getTheApp().treatmentParameters.getDupMax() + " ArchiveUnit. Il n'est pas possible de fusionner plus.",
                         "Confirmation", UserInteractionDialog.IMPORTANT_DIALOG,
                         null);
                 return;
             } else UserInteractionDialog.getUserAnswer(mainWindow,
                     "Ce lot de doublons représente un groupe d'objets référencé par " + auList.size() + " ArchiveUnit.\n"
-                            + "La fusion sera faite par lots de " + MAX_LOT + " ArchiveUnit au plus.",
+                            + "La fusion sera faite par lots de " + ResipGraphicApp.getTheApp().treatmentParameters.getDupMax() + " ArchiveUnit au plus.",
                     "Confirmation", UserInteractionDialog.IMPORTANT_DIALOG,
                     null);
         }

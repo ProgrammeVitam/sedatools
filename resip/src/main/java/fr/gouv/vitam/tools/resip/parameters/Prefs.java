@@ -85,7 +85,7 @@ public class Prefs {
 			mic.setDefaultPrefs();
 			mic.toPrefs(globalNode);
 			globalNode.flush();
-			TechnicalSearchParameters tsp=new TechnicalSearchParameters();
+			TreatmentParameters tsp=new TreatmentParameters();
 			tsp.setDefaultPrefs();
 			tsp.toPrefs(globalNode);
 		} catch (Exception e) {

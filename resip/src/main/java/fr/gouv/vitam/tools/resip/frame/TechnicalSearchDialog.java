@@ -13,11 +13,8 @@ import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.lang.reflect.InvocationTargetException;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -65,22 +62,6 @@ public class TechnicalSearchDialog extends JDialog {
     private int searchResultCount;
     private int searchResultListCount;
     private boolean searchRunning;
-
-    public class NumericFilter extends DocumentFilter {
-        @Override
-        public void replace(FilterBypass fb, int offs, int length,
-                            String str, AttributeSet a) throws BadLocationException {
-            str = str.replaceAll("[^0-9]", "");
-            super.replace(fb, offs, length, str, a);
-        }
-
-        @Override
-        public void insertString(FilterBypass fb, int offs, String str,
-                                 AttributeSet a) throws BadLocationException {
-            str = str.replaceAll("[^0-9]", "");
-            super.insertString(fb, offs, str, a);
-        }
-    }
 
     // Dialog test context
 
@@ -166,7 +147,7 @@ public class TechnicalSearchDialog extends JDialog {
         criteriaPanel.add(formatCategoryCheckBox, gbc);
         formatCategoryCheckBox.addItemListener(arg -> formatCategoryEvent(arg));
         formatCategoryComboBox = new JComboBox(ResipGraphicApp.getTheApp().
-                technicalSearchParameters.getFormatByCategoryMap().keySet().toArray());
+                treatmentParameters.getFormatByCategoryMap().keySet().toArray());
         formatCategoryComboBox.setEnabled(false);
         formatCategoryComboBox.setFont(MainWindow.LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -461,7 +442,7 @@ public class TechnicalSearchDialog extends JDialog {
     private List<String> constructFormatList() {
         List<String> result = new ArrayList<String>();
         if (formatCategoryCheckBox.isSelected()) {
-            result.addAll(ResipGraphicApp.getTheApp().technicalSearchParameters.getFormatByCategoryMap().
+            result.addAll(ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap().
                     get((String) formatCategoryComboBox.getSelectedItem()));
         }
         if (formatListCheckBox.isSelected()) {
@@ -634,7 +615,7 @@ public class TechnicalSearchDialog extends JDialog {
             formatCategoryCheckBox.setSelected(false);
             return;
         }
-        if (ResipGraphicApp.getTheApp().technicalSearchParameters.getFormatByCategoryMap()
+        if (ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap()
                 .keySet().contains(formatCategory)) {
             formatCategoryCheckBox.setSelected(true);
             formatCategoryComboBox.setSelectedItem(formatCategory);
