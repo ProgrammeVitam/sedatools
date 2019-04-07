@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?><ArchiveTransfer xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:pr="info:lc/xmlns/premis-v2" xmlns="fr:gouv:culture:archivesdefrance:seda:v2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd" xml:id="ID1">
   <Comment>2eme SIP</Comment>
-  <Date>2019-04-07T19:51:17.431</Date>
+  <Date>2019-04-07T22:55:33.5</Date>
   <MessageIdentifier>MessageIdentifier0</MessageIdentifier>
   <ArchivalAgreement>ArchivalAgreement0</ArchivalAgreement>
   <CodeListVersions>
@@ -34,22 +34,22 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>image001.jpg</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID14">
       <BinaryDataObject id="ID15">
         <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
         <Uri>content/ID15.text</Uri>
-        <MessageDigest algorithm="SHA-512">f9a9c778dde3f5d641177ced7ed994ce951d59d1172e498b6e54744bab00db9e489ff17e27f0953044650ea5190f20834578cf36edced1a6c313250fc2888a77</MessageDigest>
-        <Size>128</Size>
+        <MessageDigest algorithm="SHA-512">3e8c7ca5f7f0a742b8f424639b81ed9c5d9c6296ad22e5fdb90cb908e04a36c51f698beb0045931e6df4001214f4f49f7b0d6b8ba4461c7a188da10ac5586839</MessageDigest>
+        <Size>120</Size>
         <FormatIdentification>
           <FormatLitteral>Unknown</FormatLitteral>
           <FormatId>UNKNOWN</FormatId>
         </FormatIdentification>
         <FileInfo>
           <Filename>SmallContract.text</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID18">
@@ -65,7 +65,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>-79980C36BA239C449A957.eml</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
       <BinaryDataObject id="ID20">
         <DataObjectVersion>TextContent_1</DataObjectVersion>
@@ -79,7 +79,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>-79980C36BA239C449A957.txt</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID22">
@@ -95,7 +95,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>201609-TdB-suivi-des-a.ods</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
       <BinaryDataObject id="ID25">
         <DataObjectVersion>TextContent_1</DataObjectVersion>
@@ -109,7 +109,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>201609-TdB-suivi-des-a.txt</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
       <PhysicalDataObject id="ID24">
         <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>
@@ -136,7 +136,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>20160429-tuleap.pdf</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
       <BinaryDataObject id="ID30">
         <DataObjectVersion>TextContent_1</DataObjectVersion>
@@ -150,15 +150,15 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>20160429-tuleap.pdf.txt</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID33">
       <BinaryDataObject id="ID34">
         <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
         <Uri>content/ID34.csv</Uri>
-        <MessageDigest algorithm="SHA-512">92495907ad4729c6ea3df93bf311e78f46e78bb89447e06aef619cc211ad416ebfecbbadc587b68a4be9f23bcc510f673d2bc67b09dfedf8970093dc58406638</MessageDigest>
-        <Size>185</Size>
+        <MessageDigest algorithm="SHA-512">b5ce285c1f82d2d20006e1cd91d0dd30d71ec6b9d9fdad8dc803953e9c9ec0db075ea4164ad3b3118bf7ffcf8f8a16970d619d28ee4df8bb2dda819124d82b85</MessageDigest>
+        <Size>183</Size>
         <FormatIdentification>
           <FormatLitteral>Comma Separated Values</FormatLitteral>
           <MimeType>text/csv</MimeType>
@@ -166,7 +166,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>3059_KO_agencies_HTML.csv</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID41">
@@ -182,7 +182,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>OK-RULES-MDRULES.zip</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID44">
@@ -198,7 +198,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>OK-RULES-MDRULES_DEUX_ORIGINES.zip</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID47">
@@ -214,37 +214,37 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>OK-RULES-MDRULES_SEDA20.zip</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID50">
       <BinaryDataObject id="ID51">
         <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
         <Uri>content/ID51.text</Uri>
-        <MessageDigest algorithm="SHA-512">ac8619cd71bced4843e662c8dd21ba19b59cc903b8e19ca020a5114931d88f0f87785e7b9e5ed3dd2d7bb77a59c9b8c28954c79ee16a1b088df2522274835954</MessageDigest>
-        <Size>458</Size>
+        <MessageDigest algorithm="SHA-512">b3416e222b8defd89d1a6b79bc2d8e05c8dfd4e8dadae44e6974fac76866f3b14b5dbf6575bd61e87b080720f411f1bbcd40dc3e80e609f602474c0331e6bfe4</MessageDigest>
+        <Size>443</Size>
         <FormatIdentification>
           <FormatLitteral>Unknown</FormatLitteral>
           <FormatId>UNKNOWN</FormatId>
         </FormatIdentification>
         <FileInfo>
           <Filename>referential_contracts_ok.text</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID53">
       <BinaryDataObject id="ID54">
         <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
         <Uri>content/ID54.text</Uri>
-        <MessageDigest algorithm="SHA-512">836a7bdc8431cf8a044cb2ac6e892d8f3a63c099ceedc749247337fecd42eb92e9b532f7912a11be2e7ab6fd84c997fbd2f46f69fe19b293164905c043da7ef3</MessageDigest>
-        <Size>178492</Size>
+        <MessageDigest algorithm="SHA-512">48844233cee9cede85a79a631099b842877befd0ba55e83155c04243fa6f399be5c76bb00f54a8c961a9098f01284520ebed1142976044fe86331ed192d9398a</MessageDigest>
+        <Size>176466</Size>
         <FormatIdentification>
           <FormatLitteral>Unknown</FormatLitteral>
           <FormatId>UNKNOWN</FormatId>
         </FormatIdentification>
         <FileInfo>
           <Filename>vitam-logbook-messages_fr.text</Filename>
-        </FileInfo>
+                  </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DescriptiveMetadata>
@@ -308,24 +308,24 @@
             <ReceivedDate>2016-08-30T10:14:18Z</ReceivedDate>
             <TextContent>Bonjour,
 
-              Vous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l'avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.
+Vous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l'avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.
 
-              Pour rappel :
-              - L'objectif est de remonter l'état des activités (statut, livrable/jalon, points importants).
-              - Les colonnes de N à V sont à mettre à jour si nécessaire (fond orange clair).
+Pour rappel :
+- L'objectif est de remonter l'état des activités (statut, livrable/jalon, points importants).
+- Les colonnes de N à V sont à mettre à jour si nécessaire (fond orange clair).
 
-              Merci par avance.
+Merci par avance.
 
-              Bien cordialement,
+Bien cordialement,
 
 
-              [http://www.modernisation.gouv.fr/sites/default/files/bloc-sgmap-2.jpg]&lt; http://www.modernisation.gouv.fr/&gt;
+[http://www.modernisation.gouv.fr/sites/default/files/bloc-sgmap-2.jpg]&lt; http://www.modernisation.gouv.fr/&gt;
 
-              Benjamin PLANCHOT | PMO
-              Service « performance des services numériques »
-              Direction interministérielle du numérique et du système d'information et de communication de l'Etat
-              01 40 15 71 50 | Tour Mirabeau - 39-43 Quai André Citroën, 75015 Paris - Bureau 4027
-              modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent>
+Benjamin PLANCHOT | PMO
+Service « performance des services numériques »
+Direction interministérielle du numérique et du système d'information et de communication de l'Etat
+01 40 15 71 50 | Tour Mirabeau - 39-43 Quai André Citroën, 75015 Paris - Bureau 4027
+modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent>
           </Content>
           <ArchiveUnit id="ID21">
             <Content>

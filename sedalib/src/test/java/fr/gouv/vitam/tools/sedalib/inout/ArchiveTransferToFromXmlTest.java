@@ -2,7 +2,9 @@ package fr.gouv.vitam.tools.sedalib.inout;
 
 import java.io.ByteArrayOutputStream;
 //import java.io.FileOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -10,6 +12,8 @@ import javax.xml.stream.XMLStreamException;
 
 //import org.apache.commons.io.Charsets;
 //import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
@@ -87,9 +91,9 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
 		String generatedHierarchicalManifest = baos.toString("UTF-8").replaceAll("<LastModified>.*</LastModified>\n", "");
 
 //		IOUtils.write(generatedFlatManifest,
-//				new FileOutputStream("src/test/resources/PacketSamples/SampleWithLinkFlatManifest.xml"),Charsets.UTF_8);
+//				new FileOutputStream("src/test/resources/PacketSamples/SampleWithLinkFlatManifest.xml"), StandardCharsets.UTF_8);
 //		IOUtils.write(generatedHierarchicalManifest,
-//				new FileOutputStream("src/test/resources/PacketSamples/SampleWithLinkHierarchicalManifest.xml"),Charsets.UTF_8);
+//				new FileOutputStream("src/test/resources/PacketSamples/SampleWithLinkHierarchicalManifest.xml"),StandardCharsets.UTF_8);
 
 		String fileManifest = readFileToString("src/test/resources/PacketSamples/SampleWithLinkFlatManifest.xml");
 		generatedFlatManifest = generatedFlatManifest.substring(generatedFlatManifest.indexOf("MessageIdentifier"));
