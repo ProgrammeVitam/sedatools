@@ -27,15 +27,29 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
+import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.apache.commons.io.IOUtils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -63,33 +77,112 @@ public class Prefs {
 		return instance;
 	}
 
+    /**
+     * Creates the default prefs.
+     *
+     * @throws SEDALibException the resip exception
+     */
+    public void createDefaultPrefs() throws SEDALibException {
+        try {
+            Preferences globalNode = getPrefsContextNode();
+            globalNode.put("serilizationVersion", CURRENT_SERIALIZATION_VERSION);
+            CreationContext oic = new CreationContext();
+            oic.setDefaultPrefs();
+            oic.toPrefs(globalNode);
+            ExportContext gmc = new ExportContext();
+            gmc.setDefaultPrefs();
+            gmc.toPrefs(globalNode);
+            DiskImportContext dic = new DiskImportContext();
+            dic.setDefaultPrefs();
+            dic.toPrefs(globalNode);
+            MailImportContext mic = new MailImportContext();
+            mic.setDefaultPrefs();
+            mic.toPrefs(globalNode);
+            CSVMetadataImportContext cmic= new CSVMetadataImportContext();
+            cmic.setDefaultPrefs();
+            cmic.toPrefs(globalNode);
+            CSVTreeImportContext ctic= new CSVTreeImportContext();
+            ctic.setDefaultPrefs();
+            ctic.toPrefs(globalNode);
+            TreatmentParameters tsp=new TreatmentParameters();
+            tsp.setDefaultPrefs();
+            tsp.toPrefs(globalNode);
+            globalNode.flush();
+        } catch (Exception e) {
+            throw new SEDALibException("Panic: Can't create a default preferences file, stop");
+        }
+    }
+
 	/**
-	 * Creates the default prefs.
+	 * Save the prefs in a file.
 	 *
+	 * @param filename the filename
 	 * @throws SEDALibException the resip exception
 	 */
-	void createDefaultPrefs() throws SEDALibException {
-	try {
+	public void savePrefs(String filename) throws SEDALibException {
+		try(FileOutputStream fos=new FileOutputStream(filename)) {
 			Preferences globalNode = getPrefsContextNode();
-			globalNode.put("serilizationVersion", CURRENT_SERIALIZATION_VERSION);
-			CreationContext oic = new CreationContext();
-			oic.setDefaultPrefs();
-			oic.toPrefs(globalNode);
-			ExportContext gmc = new ExportContext();
-			gmc.setDefaultPrefs();
-			gmc.toPrefs(globalNode);
-			DiskImportContext dic = new DiskImportContext();
-			dic.setDefaultPrefs();
-			dic.toPrefs(globalNode);
-			MailImportContext mic = new MailImportContext();
-			mic.setDefaultPrefs();
-			mic.toPrefs(globalNode);
-			globalNode.flush();
-			TechnicalSearchParameters tsp=new TechnicalSearchParameters();
-			tsp.setDefaultPrefs();
-			tsp.toPrefs(globalNode);
+			CreationContext oic = new CreationContext(globalNode);
+			DiskImportContext dic = new DiskImportContext(globalNode);
+			MailImportContext mic = new MailImportContext(globalNode);
+			CSVMetadataImportContext cmic= new CSVMetadataImportContext(globalNode);
+			CSVTreeImportContext ctic= new CSVTreeImportContext(globalNode);
+			ExportContext gmc = new ExportContext(globalNode);
+			TreatmentParameters tsp=new TreatmentParameters(globalNode);
+
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.enable(SerializationFeature.INDENT_OUTPUT);
+			mapper.configure(JsonGenerator.Feature.AUTO_CLOSE_TARGET, false);
+			mapper.writeValue(fos,CURRENT_SERIALIZATION_VERSION);
+			mapper.writeValue(fos, oic);
+			mapper.writeValue(fos, dic);
+			mapper.writeValue(fos, mic);
+			mapper.writeValue(fos, cmic);
+			mapper.writeValue(fos, ctic);
+			mapper.writeValue(fos, gmc);
+			mapper.writeValue(fos, tsp);
 		} catch (Exception e) {
-			throw new SEDALibException("Panic: Can't create a default preferences file, stop");
+			throw new SEDALibException("Impossible de sauvegarder les préférences\n-> "+e.getMessage());
+		}
+	}
+
+	/**
+	 * Import the prefs from a file.
+	 *
+	 * @param filename the filename
+	 * @throws SEDALibException the resip exception
+	 */
+	public void importPrefs(String filename) throws SEDALibException {
+		String prefSerializationVersion;
+		try(FileInputStream fis=new FileInputStream(filename)) {
+			ObjectMapper mapper = new ObjectMapper();
+			JsonParser jsonParser = mapper.getFactory().createParser(fis);
+			jsonParser.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
+
+			prefSerializationVersion=mapper.readValue(jsonParser,String.class);
+			if (!prefSerializationVersion.equals("1.0"))
+				throw new SEDALibException("Version de sauvegarde inconnue");
+
+			CreationContext oic = mapper.readValue(jsonParser,CreationContext.class);
+			DiskImportContext dic = mapper.readValue(jsonParser,DiskImportContext.class);
+			MailImportContext mic = mapper.readValue(jsonParser,MailImportContext.class);
+			CSVMetadataImportContext cmic= mapper.readValue(jsonParser,CSVMetadataImportContext.class);
+			CSVTreeImportContext ctic= mapper.readValue(jsonParser,CSVTreeImportContext.class);
+			ExportContext gmc = mapper.readValue(jsonParser,ExportContext.class);
+			TreatmentParameters tsp=mapper.readValue(jsonParser,TreatmentParameters.class);
+
+			Preferences globalNode = getPrefsContextNode();
+			globalNode.put("serilizationVersion", prefSerializationVersion);
+			oic.toPrefs(globalNode);
+			gmc.toPrefs(globalNode);
+			dic.toPrefs(globalNode);
+			mic.toPrefs(globalNode);
+			cmic.toPrefs(globalNode);
+			ctic.toPrefs(globalNode);
+			tsp.toPrefs(globalNode);
+			globalNode.flush();
+		} catch (Exception e) {
+			throw new SEDALibException("Impossible d'importer les préférences\n-> "+e.getMessage());
 		}
 	}
 

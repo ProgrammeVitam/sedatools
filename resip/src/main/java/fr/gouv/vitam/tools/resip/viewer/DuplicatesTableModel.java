@@ -1,6 +1,7 @@
 package fr.gouv.vitam.tools.resip.viewer;
 
 import fr.gouv.vitam.tools.resip.data.StatisticData;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 
@@ -12,19 +13,26 @@ import java.util.List;
 
 public class DuplicatesTableModel extends AbstractTableModel {
 
-    private final String[] entetes = { "Index", "Nombre", "Noms", "Tailles","Formats","MimeTypes"};
+    private final String[] entetes = {"Index", "Nb AU", "Nb DOG", "Noms", "Tailles", "Formats", "MimeTypes"};
     private LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap;
+    private LinkedHashMap<String, List<ArchiveUnit>> auByDigestMap;
     private String[] lotList;
 
     public HashMap<String, List<DataObjectGroup>> getDogByDigestMap() {
         return dogByDigestMap;
     }
 
-    public void setDogByDigestMap(LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap) {
+    public void setData(LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap,
+                        LinkedHashMap<String, List<ArchiveUnit>> auByDigestMap) {
         this.dogByDigestMap = dogByDigestMap;
-        if (dogByDigestMap!=null)
-            this.lotList=dogByDigestMap.keySet().toArray(new String[0]);
+        this.auByDigestMap = auByDigestMap;
+        if (dogByDigestMap != null)
+            this.lotList = dogByDigestMap.keySet().toArray(new String[0]);
 
+    }
+
+    public void changeRowDogList(List<DataObjectGroup> dogList, int row){
+        dogByDigestMap.put(lotList[row],dogList);
     }
 
     @Override
@@ -39,7 +47,7 @@ public class DuplicatesTableModel extends AbstractTableModel {
 
     @Override
     public Class getColumnClass(int col) {
-        if (col<2)
+        if (col < 3)
             return Integer.class;
         else
             return String.class;
@@ -56,43 +64,45 @@ public class DuplicatesTableModel extends AbstractTableModel {
         if (dogByDigestMap == null) return null;
         if (arg0 >= dogByDigestMap.size())
             throw new IllegalArgumentException();
-        List<DataObjectGroup> dogList=dogByDigestMap.get(lotList[arg0]);
+        List<DataObjectGroup> dogList = dogByDigestMap.get(lotList[arg0]);
         switch (arg1) {
             case 0:
                 return arg0;
             case 1:
-                return dogList.size();
+                return auByDigestMap.get(lotList[arg0]).size();
             case 2:
-                List<String> names=new ArrayList<String>();
-                for (BinaryDataObject bdo:dogList.get(0).getBinaryDataObjectList()) {
+                return dogList.size();
+            case 3:
+                List<String> names = new ArrayList<String>();
+                for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
                     names.add(bdo.fileInfo.filename);
                 }
-                return String.join(", ",names);
-            case 3:
-                List<String> sizes=new ArrayList<String>();
-                for (BinaryDataObject bdo:dogList.get(0).getBinaryDataObjectList()) {
-                    sizes.add(String.format("%,d",bdo.size));
-                }
-                return String.join(", ",sizes);
+                return String.join(", ", names);
             case 4:
-                List<String> formats=new ArrayList<String>();
-                for (BinaryDataObject bdo:dogList.get(0).getBinaryDataObjectList()) {
+                List<String> sizes = new ArrayList<String>();
+                for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
+                    sizes.add(String.format("%,d", bdo.size));
+                }
+                return String.join(", ", sizes);
+            case 5:
+                List<String> formats = new ArrayList<String>();
+                for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
                     formats.add(bdo.formatIdentification.formatId);
                 }
-                return String.join(", ",formats);
-            case 5:
-                List<String> types=new ArrayList<String>();
-                for (BinaryDataObject bdo:dogList.get(0).getBinaryDataObjectList()) {
+                return String.join(", ", formats);
+            case 6:
+                List<String> types = new ArrayList<String>();
+                for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
                     types.add(bdo.formatIdentification.mimeType);
                 }
-                return String.join(", ",types);
+                return String.join(", ", types);
             default:
                 throw new IllegalArgumentException();
         }
     }
 
-    public List<DataObjectGroup> getRowDogList(int row){
-        if (dogByDigestMap!=null)
+    public List<DataObjectGroup> getRowDogList(int row) {
+        if (dogByDigestMap != null)
             return dogByDigestMap.get(lotList[row]);
         else
             return null;

@@ -70,6 +70,7 @@ public class Keyword extends ComplexListType {
      * @param keywordContent   the keyword content
      * @param keywordReference the keyword reference
      * @param keywordType      the keyword type
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public Keyword(String keywordContent, String keywordReference, String keywordType) throws SEDALibException {
         this();

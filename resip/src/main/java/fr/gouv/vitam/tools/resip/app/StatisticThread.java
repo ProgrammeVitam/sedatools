@@ -69,7 +69,7 @@ public class StatisticThread extends SwingWorker<String, String> {
             spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null, 1000);
             dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
             LinkedHashMap<String, List<Long>> sizeByCategoryMap = new LinkedHashMap<String, List<Long>>();
-            LinkedHashMap<String, List<String>> formatByCatgeoryMap = ResipGraphicApp.getTheApp().technicalSearchParameters.getFormatByCategoryMap();
+            LinkedHashMap<String, List<String>> formatByCatgeoryMap = ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap();
             String otherCategory = null;
             for (Map.Entry<String, List<String>> category : formatByCatgeoryMap.entrySet()) {
                 sizeByCategoryMap.put(category.getKey(), new ArrayList<Long>());

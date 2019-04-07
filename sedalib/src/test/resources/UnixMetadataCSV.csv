@@ -1,4 +1,4 @@
-"ID";"ParentID";"File";"DescriptionLevel";"Title";"Description";"OriginatingSystemId";"RegisteredDate";"Requirer.Identifier";"Requirer.BirthName";"Requirer.FirstName";"Event.EventTypeCode";"Event.EventDateTime";"Event.OutCome"
+"ID";"ParentID";"File";"DescriptionLevel";"Title";"Description";"OriginatingSystemId";"RegisteredDate";"Requirer.Identifier";"Requirer.BirthName";"Requirer.FirstName";"Event.EventTypeCode";"Event.EventDateTime";"Event.Outcome"
 "ID0";"ID0";;"RecordGrp";"Dossiers";"Ensemble des dossiers archivés de la procédure Cerfa-1244771";;;;;;;;
 "ID10000";"ID0";;"RecordGrp";"Cerfa-1244771-ID10000";;"ID10000";"2104-05-13T00:00:00";"REF-16F14A19BF22";"AFINA";"Edouard";"Avis administratif";"2104-05-31T01:00:00";"OK"
 "ID10000-13-05-04-Cerfa1244771-Annexe1.odt";"ID10000";"Procedure/Dossiers/ID10000-13-05-04-Cerfa1244771-Annexe1.odt";"Item";"13-05-04-Cerfa1244771-Annexe1";;;;;;;;;

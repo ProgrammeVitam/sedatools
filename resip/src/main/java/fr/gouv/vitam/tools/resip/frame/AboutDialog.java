@@ -2,7 +2,7 @@ package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
-import fr.gouv.vitam.tools.resip.parameters.TechnicalSearchParameters;
+import fr.gouv.vitam.tools.resip.parameters.TreatmentParameters;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 
 import javax.imageio.ImageIO;
@@ -47,11 +47,11 @@ public class AboutDialog extends JDialog {
         super(owner, "A propos de...", true);
         GridBagConstraints gbc;
 
-        setPreferredSize(new Dimension(500, 200));
+        setPreferredSize(new Dimension(500, 250));
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.rowWeights = new double[]{1.0, 0.0};
-        gridBagLayout.columnWeights = new double[]{0.1, 0.1};
+        gridBagLayout.columnWeights = new double[]{0,0,1.0,0};
         getContentPane().setLayout(gridBagLayout);
 
         try {
@@ -65,7 +65,8 @@ public class AboutDialog extends JDialog {
             gbc.gridx = 0;
             gbc.gridy = 0;
             gbc.anchor = GridBagConstraints.CENTER;
-            gbc.weightx=1.0;
+            gbc.weightx=0.0;
+            gbc.gridwidth=3;
             gbc.insets = new Insets(5, 5, 5, 5);
             getContentPane().add(vitamPanel, gbc);
         } catch (IOException ignored) {
@@ -79,9 +80,9 @@ public class AboutDialog extends JDialog {
         messageTextArea.setBackground(getContentPane().getBackground());
         messageTextArea.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
+        gbc.gridx = 3;
         gbc.gridy = 0;
-        gbc.weightx=0.0;
+        gbc.weightx=1.0;
         gbc.weighty = 1.0;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -91,8 +92,8 @@ public class AboutDialog extends JDialog {
         JButton okButton = new JButton();
         okButton.setText("OK");
         gbc = new GridBagConstraints();
-        gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridx = 3;
+        gbc.gridy = 2;
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -104,11 +105,34 @@ public class AboutDialog extends JDialog {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.gridwidth=2;
         gbc.fill = GridBagConstraints.NONE;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(5, 5, 5, 5);
         getContentPane().add(reinitPrefsButton, gbc);
         reinitPrefsButton.addActionListener(arg0 -> buttonReinitPrefs());
+
+        JButton savePrefsButton = new JButton();
+        savePrefsButton.setText("Sauver");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        getContentPane().add(savePrefsButton, gbc);
+        savePrefsButton.addActionListener(arg0 -> buttonSavePrefs());
+
+        JButton importPrefsButton = new JButton();
+        importPrefsButton.setText("Importer");
+        gbc = new GridBagConstraints();
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        getContentPane().add(importPrefsButton, gbc);
+        importPrefsButton.addActionListener(arg0 -> buttonImportPrefs());
 
         pack();
         setLocationRelativeTo(owner);
@@ -121,12 +145,42 @@ public class AboutDialog extends JDialog {
     private void buttonReinitPrefs() {
         try {
             Prefs.getInstance().reinitialisePrefs();
-            ResipGraphicApp.getTheApp().technicalSearchParameters=new TechnicalSearchParameters(Prefs.
+            ResipGraphicApp.getTheApp().treatmentParameters =new TreatmentParameters(Prefs.
                     getInstance().getPrefsContextNode());
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Erreur fatale, réinitialisation des préférences impossible \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur fatale, réinitialisation des préférences impossible \n->" + e.getMessage());
+        }
+        this.setVisible(false);
+    }
+
+    private void buttonSavePrefs() {
+        try {
+            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if (fileChooser.showOpenDialog(ResipGraphicApp.getTheApp().mainWindow) == JFileChooser.APPROVE_OPTION) {
+                Prefs.getInstance().savePrefs(fileChooser.getSelectedFile().getAbsolutePath());
+            }
+        } catch (Exception e) {
+            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Sauvegarde des préférences impossible \n->" + e.getMessage(), "Erreur",
+                    UserInteractionDialog.ERROR_DIALOG, null);
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Sauvegarde des préférences impossible \n->" + e.getMessage());
+        }
+        this.setVisible(false);
+    }
+
+    private void buttonImportPrefs() {
+        try {
+            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if (fileChooser.showOpenDialog(ResipGraphicApp.getTheApp().mainWindow) == JFileChooser.APPROVE_OPTION) {
+                Prefs.getInstance().importPrefs(fileChooser.getSelectedFile().getAbsolutePath());
+            }
+        } catch (Exception e) {
+            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Import des préférences impossible \n->" + e.getMessage(), "Erreur",
+                    UserInteractionDialog.ERROR_DIALOG, null);
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Import des préférences impossible \n->" + e.getMessage());
         }
         this.setVisible(false);
     }

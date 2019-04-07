@@ -84,6 +84,7 @@ public class Validator extends ComplexListType {
      *
      * @param corpname       the corporation name
      * @param validationTime the validation time
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public Validator(String corpname, LocalDateTime validationTime) throws SEDALibException {
         this();

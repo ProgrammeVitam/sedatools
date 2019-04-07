@@ -233,7 +233,7 @@ public class ImportThread extends SwingWorker<Work, String> {
             progressTextArea.setText(progressTextArea.getText() + "\n-> " + "les données n'ont pas été modifiées.");
         else if ((work == null) || (work.getDataObjectPackage() == null))
             progressTextArea.setText(progressTextArea.getText() + "\n-> "
-                    + "Erreur durant l'import, les données n'ont pas été modifiées." + (exitException != null ? "\n-> " + exitException.getMessage() : ""));
+                    + "Erreur durant l'import, les données n'ont pas été modifiées.");
         else {
             work.getCreationContext().setSummary(summary);
             progressTextArea.setText(progressTextArea.getText() + "\n-> " + summary);

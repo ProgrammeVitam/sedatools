@@ -352,4 +352,15 @@ public class SearchDialog extends JDialog {
             resultLabel.setText("0 trouvé");
         searchRunning=false;
     }
+
+    /**
+     * Empty dialog.
+     */
+    public void emptyDialog(){
+        searchTextField.setText("");
+        regExpCheckBox.setSelected(false);
+        metadataCheckBox.setSelected(false);
+        caseCheckBox.setSelected(false);
+
+    }
 }

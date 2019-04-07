@@ -70,6 +70,7 @@ public class RelatedObjectReference extends ComplexListType {
      *
      * @param signedObjectID     the signed object id
      * @param signedObjectDigest the signed object digest
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public RelatedObjectReference(String signedObjectID, String signedObjectDigest) throws SEDALibException {
         this();

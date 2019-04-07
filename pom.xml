@@ -39,6 +39,9 @@
         <apache.httpcomponents.version>4.5.7</apache.httpcomponents.version>
         <jsoup.version>1.11.3</jsoup.version>
         <jopt-simple.version>5.0.4</jopt-simple.version>
+        <xerces-xsd11.version>2.12-beta-r1667115</xerces-xsd11.version>
+        <xml-resolver.version>1.2</xml-resolver.version>
+        <thaiopensource.version>20091111</thaiopensource.version>
     </properties>
     <profiles>
         <profile>

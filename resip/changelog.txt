@@ -22,6 +22,16 @@ Evolutions/Corrections en 1.3.0
 - Evolution: transformation des dialogues de statistiques et de doublons en fenêtre pour permettre une manipulation plus libre
 - Evolution: ajout de la recherche de formats depuis la fenêtre des statistiques
 - Evolution: renforce la recherche du Titre pour générer le nom du noeud de l'arbre même quand le content est mal formé
+- Fix: en cas de suppression d'une partie de l'arbre le contexte est bien vu comme modifié
+- Evolution: en cas de chargement de contexte l'ensemble des dialogues sont vidés
+- Fix: demande un répertoire et non un fichier pour l'export sur disque
+- Fix: chargement d'un contexte créé par import d'un csv
+- Fix: contrôle l'existence de la destination avant export et demande confirmation s'il y a lieu
+- Evolution: ajout dans PrefsDialog d'une limite d'aggrégation des doublons prise en compte dans le traitement
+- Evolution: changement des tailles d'icones utilisée dans PrefsDialog
+- Evolution: ajout de la vérification de la conformité au SEDA 2.1
+- Evolution: ajout de la vérification de la conformité à un profil spécifique SEDA 2.1
+- Evolution: ajout de la sauvegarde et import des préférences dans le dialogue "A Propos"
 
 ============================================================================
 Evolutions/Corrections en 1.2.0

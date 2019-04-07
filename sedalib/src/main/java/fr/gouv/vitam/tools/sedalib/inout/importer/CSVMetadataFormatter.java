@@ -82,6 +82,7 @@ public class CSVMetadataFormatter {
     private MetadataTag contentTag;
     private Map<Integer, ValueAttrMetadataTag> tagHeaderColumnMapping;
     private int firstIndex;
+    private int columnCount;
 
     private Path baseDir;
 
@@ -122,7 +123,7 @@ public class CSVMetadataFormatter {
             fileColumn = firsts.indexOf(FILE_COLUMN);
             parentGUIDColumn = firsts.indexOf(PARENTID_COLUMN);
         } else
-            throw new SEDALibException("Le header est mal formatté. Il doit contenir au début soit une colonne File, " +
+            throw new SEDALibException("Le header ["+String.join("|",headerRow)+"] est mal formatté. Il doit contenir au début soit une colonne File, " +
                     "soit deux colonnes File et ParentFile, soit trois colonnes ID, File et ParentFile ou ID, File " +
                     "et ParentID.");
     }
@@ -191,6 +192,7 @@ public class CSVMetadataFormatter {
         this.baseDir=baseDir;
         analyseFirstColumns(headerRow);
         analyseTags(headerRow);
+        columnCount=headerRow.length;
     }
 
     private void resetValues() {
@@ -222,7 +224,7 @@ public class CSVMetadataFormatter {
                 && ((tag.attr == null) || tag.value.isEmpty()))
             return "";
         if (!value.isEmpty() && (tag.value != null) && !tag.value.isEmpty())
-            throw new SEDALibException("Il ne peut y avoir une valeur et des sous-éléments dans un élément XML [" + tag + "].");
+            throw new SEDALibException("Il ne peut y avoir une valeur et des sous-éléments dans un élément SEDA [" + tag + "].");
         result = "<" + tag.name;
         if ((tag.attr != null) && !tag.attr.isEmpty())
             result += " " + tag.attr;
@@ -243,6 +245,8 @@ public class CSVMetadataFormatter {
      * @throws SEDALibException the seda lib exception
      */
     public String doformatXML(String[] row) throws SEDALibException {
+        if (row.length!=columnCount)
+            throw new SEDALibException("Il n'y a pas le bon nombre d'éléments sur la ligne.");
         resetValues();
         for (int i = firstIndex; i < row.length; i++)
             defineColumnValue(i, row[i]);
@@ -282,5 +286,14 @@ public class CSVMetadataFormatter {
      */
     public String getFile(String[] row){
         return baseDir.resolve(row[fileColumn]).toAbsolutePath().normalize().toString();
+    }
+
+    /**
+     * Need ID regeneration.
+     *
+     * @return the need ID regeneration boolean
+     */
+    public boolean needIdRegeneration(){
+        return isOnlyFile;
     }
 }

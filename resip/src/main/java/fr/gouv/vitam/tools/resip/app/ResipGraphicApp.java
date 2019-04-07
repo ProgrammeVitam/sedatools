@@ -44,6 +44,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.prefs.BackingStoreException;
 
@@ -60,7 +63,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public Work currentWork;
     public boolean modifiedWork;
     public String filenameWork;
-    public TechnicalSearchParameters technicalSearchParameters;
+    public TreatmentParameters treatmentParameters;
 
     // GUI elements. */
     public MainWindow mainWindow;
@@ -111,11 +114,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public void run() {
         try {
             mainWindow = new MainWindow(this);
-            this.searchDialog=new SearchDialog(mainWindow);
-            this.technicalSearchParameters = new TechnicalSearchParameters(Prefs.getInstance().getPrefsContextNode());
-            this.technicalSearchDialog=new TechnicalSearchDialog(mainWindow);
-            this.statisticWindow =new StatisticWindow();
-            this.duplicatesWindow =new DuplicatesWindow();
+            this.searchDialog = new SearchDialog(mainWindow);
+            this.treatmentParameters = new TreatmentParameters(Prefs.getInstance().getPrefsContextNode());
+            this.technicalSearchDialog = new TechnicalSearchDialog(mainWindow);
+            this.statisticWindow = new StatisticWindow();
+            this.duplicatesWindow = new DuplicatesWindow();
             mainWindow.setVisible(true);
             currentWork = null;
 
@@ -219,19 +222,31 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "TechnicalSearch");
         treatMenu.add(menuItem);
 
-        menuItem = new JMenuItem("Chercher des doublons...");
-        menuItem.addActionListener(this);
-        actionByMenuItem.put(menuItem, "DuplicatesSearch");
-        treatMenu.add(menuItem);
+        treatMenu.add(new JSeparator());
 
         menuItem = new JMenuItem("Trier l'arbre de visualisation");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "SortTreeViewer");
         treatMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Traiter les doublons...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "Duplicates");
+        treatMenu.add(menuItem);
+
         menuItem = new JMenuItem("Voir les statistiques...");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "Statistics");
+        treatMenu.add(menuItem);
+
+        menuItem = new JMenuItem("Vérifier la conformité SEDA 2.1...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "CheckSEDA21");
+        treatMenu.add(menuItem);
+
+        menuItem = new JMenuItem("Vérifier la conformité à un profil SEDA 2.1...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "CheckSpecificSEDA21Profile");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Régénérer des ID continus");
@@ -339,11 +354,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "TechnicalSearch":
                         technicalSearch();
                         break;
-                    case "DuplicatesSearch":
-                        duplicatesSearch();
+                    case "Duplicates":
+                        duplicates();
                         break;
                     case "Statistics":
                         generateStatistics();
+                        break;
+                    case "CheckSEDA21":
+                        checkSEDA21();
+                        break;
+                    case "CheckSpecificSEDA21Profile":
+                        checkSpecificSEDA21Profile();
                         break;
                     case "RegenerateContinuousIds":
                         doRegenerateContinuousIds();
@@ -411,9 +432,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         exportMenu.setEnabled(isLoaded);
         saveAsMenuItem.setEnabled(isLoaded);
         closeMenuItem.setEnabled(isLoaded);
+
         statisticWindow.setVisible(false);
+
         duplicatesWindow.setVisible(false);
         duplicatesWindow.emptyDialog();
+
+        technicalSearchDialog.setVisible(false);
+        technicalSearchDialog.emptyDialog();
+
+        searchDialog.setVisible(false);
+        searchDialog.emptyDialog();
     }
 
     public void setFilenameWork(String fileName) {
@@ -554,6 +583,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 prefsDialog.gmc.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.cmic.toPrefs(Prefs.getInstance().getPrefsContextNode());
                 prefsDialog.ctic.toPrefs(Prefs.getInstance().getPrefsContextNode());
+                prefsDialog.tp.toPrefs(Prefs.getInstance().getPrefsContextNode());
+                treatmentParameters = prefsDialog.tp;
                 ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
                         ResipLogger.getGlobalLogger().getProgressLogLevel());
             }
@@ -646,14 +677,48 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         technicalSearchDialog.setVisible(true);
     }
 
-    // MenuItem DuplicatesSearch
+    // MenuItem Duplicates
 
-    void duplicatesSearch() {
+    void duplicates() {
         duplicatesWindow.setVisible(true);
     }
 
-    // MenuItem Regenerate continuous ids
+    // MenuItem Check SEDA 21 compliance
 
+    void checkSEDA21() {
+        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification SEDA 2.1");
+        CheckProfileThread checkProfileThread = new CheckProfileThread(null, inOutDialog);
+        completeResipWork();
+        checkProfileThread.execute();
+        inOutDialog.setVisible(true);
+    }
+
+    // MenuItem Check specific SEDA 21 Profile compliance
+
+    void checkSpecificSEDA21Profile() {
+        try {
+            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification Profil SEDA 2.1");
+                CheckProfileThread checkProfileThread = new CheckProfileThread(fileChooser.getSelectedFile()
+                        .getAbsolutePath(), inOutDialog);
+                completeResipWork();
+                checkProfileThread.execute();
+                inOutDialog.setVisible(true);
+            }
+        } catch (Exception e) {
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire la vérification de confirmité au profil SEDA 2.1 \n->"
+                            + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire la " +
+                    "vérification de confirmité au profil SEDA 2.1 \n->" + e.getMessage());
+        }
+    }
+
+    // MenuItem Regenerate continuous ids
 
     void doRegenerateContinuousIds() {
         if (currentWork != null) {
@@ -964,10 +1029,27 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 fileChooser = new JFileChooser(currentWork.getExportContext().getOnDiskOutput());
             else
                 fileChooser = new JFileChooser(Prefs.getInstance().getPrefsExportDir());
-            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if (exportType != ExportThread.DISK_EXPORT)
+                fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            else
+                fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             if (fileChooser.showSaveDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+                Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
+                if (Files.exists(path)) {
+                    if (!Files.isDirectory(path) && UserInteractionDialog.getUserAnswer(mainWindow,
+                            "Le fichier [" + path.toString() + "] existe. Voulez-vous le remplacer ?",
+                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                            null) != OK_DIALOG)
+                        return;
+                    else if (Files.isDirectory(path) && UserInteractionDialog.getUserAnswer(mainWindow,
+                            "Le répertoire [" + path.toString() + "] existe. Les fichiers exportés sur le disque vont " +
+                                    "se mélanger avec ceux déjà existants. Voulez-vous continuer? ?",
+                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                            null) != OK_DIALOG)
+                        return;
+                }
                 InOutDialog inOutDialog = new InOutDialog(mainWindow, "Export");
-                currentWork.getExportContext().setOnDiskOutput(fileChooser.getSelectedFile().getAbsolutePath());
+                currentWork.getExportContext().setOnDiskOutput(path.toString());
                 ExportThread exportThread = new ExportThread(currentWork, exportType, inOutDialog);
                 exportThread.execute();
                 inOutDialog.setVisible(true);

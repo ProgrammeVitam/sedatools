@@ -384,7 +384,7 @@ public class ArchiveUnit {
      * @param version       Object version (usually 1)
      */
     public void addObject(String stringContent, String filename, String usage, int version) {
-        objects.add(new ArchiveObject(stringContent.getBytes(), normalizeFilename(filename), usage, version));
+        objects.add(new ArchiveObject(stringContent.getBytes(StandardCharsets.UTF_8), normalizeFilename(filename), usage, version));
     }
 
     /**

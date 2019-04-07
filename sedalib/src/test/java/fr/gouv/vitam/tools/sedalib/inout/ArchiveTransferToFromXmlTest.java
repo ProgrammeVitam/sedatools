@@ -2,7 +2,9 @@ package fr.gouv.vitam.tools.sedalib.inout;
 
 import java.io.ByteArrayOutputStream;
 //import java.io.FileOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -10,6 +12,8 @@ import javax.xml.stream.XMLStreamException;
 
 //import org.apache.commons.io.Charsets;
 //import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.Charsets;
+import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Test;
 
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
@@ -17,6 +21,10 @@ import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+
+import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ArchiveTransferToFromXmlTest implements UseTestFiles {
 
@@ -26,7 +34,7 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
 	}
 
 	@Test
-	void testToSedaXml()
+	void testToFromSedaXml()
 			throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
 
 		// do import of test directory
@@ -73,32 +81,31 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
 		SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2);
 		di.getArchiveTransfer().toSedaXml(xmlWriter, false, null);
 		xmlWriter.close();
-		String generatedFlatManifest = baos.toString().replaceAll("<LastModified>.*</LastModified>\n", "");
+		String generatedFlatManifest = baos.toString("UTF-8").replaceAll("<LastModified>.*</LastModified>\n", "");
 
 		// hierarchical
 		baos.reset();
 		xmlWriter = new SEDAXMLStreamWriter(baos, 2);
 		di.getArchiveTransfer().toSedaXml(xmlWriter, true, null);
 		xmlWriter.close();
-		String generatedHierarchicalManifest = baos.toString().replaceAll("<LastModified>.*</LastModified>\n", "");
+		String generatedHierarchicalManifest = baos.toString("UTF-8").replaceAll("<LastModified>.*</LastModified>\n", "");
 
 //		IOUtils.write(generatedFlatManifest,
-//				new FileOutputStream("src/test/resources/PacketSamples/SampleWithoutLinkFlatManifest.xml"),Charsets.UTF_8);
+//				new FileOutputStream("src/test/resources/PacketSamples/SampleWithLinkFlatManifest.xml"), StandardCharsets.UTF_8);
 //		IOUtils.write(generatedHierarchicalManifest,
-//				new FileOutputStream("src/test/resources/PacketSamples/SampleWithoutLinkHierarchicalManifest.xml"),Charsets.UTF_8);
+//				new FileOutputStream("src/test/resources/PacketSamples/SampleWithLinkHierarchicalManifest.xml"),StandardCharsets.UTF_8);
 
-		String fileManifest = readFileToString("src/test/resources/PacketSamples/SampleWithoutLinkFlatManifest.xml");
+		String fileManifest = readFileToString("src/test/resources/PacketSamples/SampleWithLinkFlatManifest.xml");
 		generatedFlatManifest = generatedFlatManifest.substring(generatedFlatManifest.indexOf("MessageIdentifier"));
 		fileManifest = fileManifest.substring(fileManifest.indexOf("MessageIdentifier"));
-//FIXME different order in manifest in windows and linux
-		// assertEquals(generatedFlatManifest, fileManifest);
+//WARNING: if Git is not set to respect LF this test will fail
+		assertEquals(LineEndNormalize(generatedFlatManifest), LineEndNormalize(fileManifest));
 
-		fileManifest = readFileToString("src/test/resources/PacketSamples/SampleWithoutLinkHierarchicalManifest.xml");
+		fileManifest = readFileToString("src/test/resources/PacketSamples/SampleWithLinkHierarchicalManifest.xml");
 		generatedHierarchicalManifest = generatedHierarchicalManifest
 				.substring(generatedHierarchicalManifest.indexOf("MessageIdentifier"));
 		fileManifest = fileManifest.substring(fileManifest.indexOf("MessageIdentifier"));
-// FIXME different order in manifest in windows and linux
-		// assertEquals(generatedHierarchicalManifest, fileManifest);
+//WARNING: if Git is not set to respect LF this test will fail
+		assertEquals(LineEndNormalize(generatedHierarchicalManifest), LineEndNormalize(fileManifest));
 	}
-
 }

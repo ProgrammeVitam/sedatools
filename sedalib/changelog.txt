@@ -11,6 +11,11 @@ Evolutions/Corrections en 1.3.0
 - Fix: lecture et écriture des attributs
 - Evolution: ajout de la métadonnée RelatedObjectReference et de différentes métadonnées primitives (DigestType...)
 - Evolution: renforcement des tests avec le SIP de référence SIP_OK.zip et sur toutes les métadonnées
+- Fix: génère des identifiants d'objets conforme XML lors de l'import de csv de métadonnées
+- Evolution: les colonnes du csv de metadonnées n'ont pas à être dans l'ordre du seda
+- Evolution: les messages d'erreur pour l'import cvs de métadonnées sont plus explicites
+- Evolution: ajout de fonctions de vérification de conformité SEDA et par rapport à un profil SEDA, y compris dans SIPBuilder
+- Fix: encodage UTF-8
 
 ============================================================================
 Evolutions/Corrections en 1.2.0

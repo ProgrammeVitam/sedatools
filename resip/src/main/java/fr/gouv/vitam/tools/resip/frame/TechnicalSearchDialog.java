@@ -13,11 +13,8 @@ import javax.swing.*;
 import javax.swing.text.*;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.lang.reflect.InvocationTargetException;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -66,22 +63,6 @@ public class TechnicalSearchDialog extends JDialog {
     private int searchResultListCount;
     private boolean searchRunning;
 
-    public class NumericFilter extends DocumentFilter {
-        @Override
-        public void replace(FilterBypass fb, int offs, int length,
-                            String str, AttributeSet a) throws BadLocationException {
-            str = str.replaceAll("[^0-9]", "");
-            super.replace(fb, offs, length, str, a);
-        }
-
-        @Override
-        public void insertString(FilterBypass fb, int offs, String str,
-                                 AttributeSet a) throws BadLocationException {
-            str = str.replaceAll("[^0-9]", "");
-            super.insertString(fb, offs, str, a);
-        }
-    }
-
     // Dialog test context
 
     /**
@@ -126,8 +107,8 @@ public class TechnicalSearchDialog extends JDialog {
         dataObjectPackageTreeModel = (DataObjectPackageTreeModel) (dataObjectPackageTreeViewer.getModel());
         dataObjectListViewer = mainWindow.getDataObjectListViewer();
 
-        setMinimumSize(new Dimension(600, 200));
-        setResizable(false);
+        setMinimumSize(new Dimension(700, 200));
+        //setResizable(false);
 
         Container contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
@@ -166,7 +147,7 @@ public class TechnicalSearchDialog extends JDialog {
         criteriaPanel.add(formatCategoryCheckBox, gbc);
         formatCategoryCheckBox.addItemListener(arg -> formatCategoryEvent(arg));
         formatCategoryComboBox = new JComboBox(ResipGraphicApp.getTheApp().
-                technicalSearchParameters.getFormatByCategoryMap().keySet().toArray());
+                treatmentParameters.getFormatByCategoryMap().keySet().toArray());
         formatCategoryComboBox.setEnabled(false);
         formatCategoryComboBox.setFont(MainWindow.LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -232,6 +213,7 @@ public class TechnicalSearchDialog extends JDialog {
         formatsTextArea.setFont(MainWindow.LABEL_FONT);
         formatsTextArea.setColumns(10);
         scrollPane.setViewportView(formatsTextArea);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         sizeCheckBox = new JCheckBox();
         sizeCheckBox.setText("Taille entre :");
@@ -295,6 +277,8 @@ public class TechnicalSearchDialog extends JDialog {
         gbc.fill = GridBagConstraints.BOTH;
         actionPanel.add(separator, gbc);
         JCheckBox moreOptionsCheckBox = new JCheckBox();
+        moreOptionsCheckBox.setPreferredSize(new Dimension(250,36));
+        moreOptionsCheckBox.setMinimumSize(new Dimension(250,36));
         moreOptionsCheckBox.setEnabled(true);
         moreOptionsCheckBox.setIcon(new ImageIcon(getClass().getResource("/icon/list-add.png")));
         moreOptionsCheckBox.setSelectedIcon(new ImageIcon(getClass().getResource("/icon/list-remove.png")));
@@ -329,6 +313,7 @@ public class TechnicalSearchDialog extends JDialog {
         nextButton.setMaximumSize(new Dimension(26, 26));
         nextButton.setMinimumSize(new Dimension(26, 26));
         nextButton.setPreferredSize(new Dimension(26, 26));
+        nextButton.addActionListener(arg -> buttonNext());
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
         gbc.gridy = 1;
@@ -337,13 +322,13 @@ public class TechnicalSearchDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 0);
         actionPanel.add(nextButton, gbc);
-        nextButton.addActionListener(arg -> buttonNext());
         JButton previousButton = new JButton();
         previousButton.setIcon(new ImageIcon(getClass().getResource("/icon/go-up.png")));
         previousButton.setText("");
         previousButton.setMaximumSize(new Dimension(26, 26));
         previousButton.setMinimumSize(new Dimension(26, 26));
         previousButton.setPreferredSize(new Dimension(26, 26));
+        previousButton.addActionListener(arg -> buttonPrevious());
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridy = 1;
@@ -355,28 +340,30 @@ public class TechnicalSearchDialog extends JDialog {
 
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new GridBagLayout());
-        resultPanel.setPreferredSize(new Dimension(80, 32));
-        resultPanel.setMinimumSize(new Dimension(80, 32));
+        resultPanel.setMinimumSize(new Dimension(250, 36));
+        resultPanel.setPreferredSize(new Dimension(250,36));
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridy = 1;
         gbc.gridheight = 2;
         gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.EAST;
         actionPanel.add(resultPanel, gbc);
-        previousButton.addActionListener(arg -> buttonPrevious());
         resultArchiveUnitLabel = new JLabel();
-        resultArchiveUnitLabel.setText("0 trouvé");
+        resultArchiveUnitLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.SOUTHEAST;
         resultPanel.add(resultArchiveUnitLabel, gbc);
         resultObjectLabel = new JLabel();
-        resultObjectLabel.setText("                       ");
+        resultObjectLabel.setText("");
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 1;
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
         resultPanel.add(resultObjectLabel, gbc);
 
         explanationPanel = new JPanel();
@@ -426,6 +413,7 @@ public class TechnicalSearchDialog extends JDialog {
 
         pack();
         explanationPanel.setVisible(false);
+        resultArchiveUnitLabel.setText("Aucune recherche effectuée");
         pack();
         setLocationRelativeTo(owner);
     }
@@ -454,7 +442,7 @@ public class TechnicalSearchDialog extends JDialog {
     private List<String> constructFormatList() {
         List<String> result = new ArrayList<String>();
         if (formatCategoryCheckBox.isSelected()) {
-            result.addAll(ResipGraphicApp.getTheApp().technicalSearchParameters.getFormatByCategoryMap().
+            result.addAll(ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap().
                     get((String) formatCategoryComboBox.getSelectedItem()));
         }
         if (formatListCheckBox.isSelected()) {
@@ -627,7 +615,7 @@ public class TechnicalSearchDialog extends JDialog {
             formatCategoryCheckBox.setSelected(false);
             return;
         }
-        if (ResipGraphicApp.getTheApp().technicalSearchParameters.getFormatByCategoryMap()
+        if (ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap()
                 .keySet().contains(formatCategory)) {
             formatCategoryCheckBox.setSelected(true);
             formatCategoryComboBox.setSelectedItem(formatCategory);
@@ -637,6 +625,7 @@ public class TechnicalSearchDialog extends JDialog {
     public void setFormatList(String formatList) {
         if (formatList == null) {
             formatListCheckBox.setSelected(false);
+            formatListTextField.setText("");
             return;
         }
         formatListCheckBox.setSelected(true);
@@ -647,6 +636,8 @@ public class TechnicalSearchDialog extends JDialog {
     public void setMinMax(long min,long max) {
         if (min<0) {
             sizeCheckBox.setSelected(false);
+            minTextField.setText("");
+            maxTextField.setText("");
             return;
         }
         sizeCheckBox.setSelected(true);
@@ -658,6 +649,8 @@ public class TechnicalSearchDialog extends JDialog {
         setFormatCategory(null);
         setFormatList(null);
         setMinMax(-1,0);
+        resultArchiveUnitLabel.setText("Aucune recherche effectuée");
+        resultObjectLabel.setText("");
     }
 
     public void search(){
