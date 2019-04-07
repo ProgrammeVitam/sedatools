@@ -18,6 +18,8 @@ import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
+
 class ArchiveTransferToFromXmlTest implements UseTestFiles {
 
 	private static String readFileToString(String path) throws IOException {
@@ -26,7 +28,7 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
 	}
 
 	@Test
-	void testToSedaXml()
+	void testToFromSedaXml()
 			throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
 
 		// do import of test directory
@@ -100,5 +102,4 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
 // FIXME different order in manifest in windows and linux
 		// assertEquals(generatedHierarchicalManifest, fileManifest);
 	}
-
 }

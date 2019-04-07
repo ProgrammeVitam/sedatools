@@ -24,6 +24,7 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class SIPBuilderTest {
 
@@ -70,6 +71,8 @@ public class SIPBuilderTest {
 //TODO Improve test quality
             assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip")).isFile();
             assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip").length()).isGreaterThan(10868000).isLessThan(10871000);
+            assertAll(()->sb.seda21Validate());
+
         } catch (Exception e) {
             throw new SEDALibException("SIPBuilder test KO");
         }

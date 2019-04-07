@@ -35,9 +35,9 @@ import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
+import fr.gouv.vitam.tools.sedalib.metadata.ManagementMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
-import fr.gouv.vitam.tools.sedalib.metadata.ManagementMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
@@ -369,7 +369,7 @@ public class SIPBuilder implements AutoCloseable {
         Content c = new Content();
         c.addNewMetadata("DescriptionLevel", descriptionLevel);
         c.addNewMetadata("Title", title);
-        if (description!=null) c.addNewMetadata("Description", description);
+        if (description != null) c.addNewMetadata("Description", description);
         au.setContent(c);
         parentAU.addChildArchiveUnit(au);
         Path path = Paths.get(onDiskPath);
@@ -481,11 +481,11 @@ public class SIPBuilder implements AutoCloseable {
      * @return the ArchiveUnit or null
      * @throws SEDALibException if no identified ArchiveUnit
      */
-    public ArchiveUnit findArchiveUnitBySimpleDescriptiveMetadata(String metadataName,String metadataValue) throws SEDALibException {
+    public ArchiveUnit findArchiveUnitBySimpleDescriptiveMetadata(String metadataName, String metadataValue) throws SEDALibException {
 
-        for (ArchiveUnit au:archiveTransfer.getDataObjectPackage().getAuInDataObjectPackageIdMap().values()) {
-            String auValue=au.getContent().getSimpleMetadata(metadataName);
-            if ((auValue!=null) && (auValue.equals(metadataValue)))
+        for (ArchiveUnit au : archiveTransfer.getDataObjectPackage().getAuInDataObjectPackageIdMap().values()) {
+            String auValue = au.getContent().getSimpleMetadata(metadataName);
+            if ((auValue != null) && (auValue.equals(metadataValue)))
                 return au;
         }
         return null;
@@ -632,6 +632,33 @@ public class SIPBuilder implements AutoCloseable {
         Management m = getManagement(archiveUnitID);
         m.addNewMetadata(elementName, args);
         setManagement(archiveUnitID, m);
+    }
+
+
+    /**
+     * Validate SEDA 2.1 conformity.
+     *
+     * @throws SEDALibException if any validation problem occurs with a descriptive message
+     */
+    public void seda21Validate() throws SEDALibException {
+        try {
+            archiveTransfer.seda21Validate(sedaLibProgressLogger);
+        } catch (InterruptedException e) {
+            // impossible
+        }
+    }
+
+    /**
+     * Validate SEDA Profile, either RNG or XSD file, conformity.
+     *
+     * @throws SEDALibException if any validation problem occurs with a descriptive message
+     */
+    public void sedaProfileValidate(String profileFileName) throws SEDALibException {
+        try {
+            archiveTransfer.sedaProfileValidate(profileFileName,sedaLibProgressLogger);
+        } catch (InterruptedException e) {
+            // impossible
+        }
     }
 
     /**
