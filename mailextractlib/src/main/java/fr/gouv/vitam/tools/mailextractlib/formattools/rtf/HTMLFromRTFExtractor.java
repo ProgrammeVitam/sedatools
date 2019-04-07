@@ -36,10 +36,7 @@ import java.io.InputStream;
 import java.io.PushbackInputStream;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CoderResult;
-import java.nio.charset.CodingErrorAction;
+import java.nio.charset.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -112,7 +109,7 @@ public class HTMLFromRTFExtractor {
     public HTMLFromRTFExtractor(String rtfText) {
         ByteArrayInputStream bais;
 
-        bais = new ByteArrayInputStream(rtfText.getBytes());
+        bais = new ByteArrayInputStream(rtfText.getBytes(StandardCharsets.UTF_8));
         pbis = new PushbackInputStream(bais, 100);
         initHTMLFromRTFExtractor();
         detectEncapsulatedHTMLorTEXTinRTF();

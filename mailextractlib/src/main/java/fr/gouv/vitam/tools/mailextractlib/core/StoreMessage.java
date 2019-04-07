@@ -883,7 +883,7 @@ public abstract class StoreMessage extends StoreElement {
             }
         // put in file
         if (getStoreExtractor().options.extractFileTextFile && (!((textExtract == null) || textExtract.trim().isEmpty()))) {
-            attachmentNode.addObject(textExtract.getBytes(), attachment.name + ".txt", "TextContent", 1);
+            attachmentNode.addObject(textExtract.getBytes(StandardCharsets.UTF_8), attachment.name + ".txt", "TextContent", 1);
         }
         // put in metadata
         if (getStoreExtractor().options.extractFileTextMetadata

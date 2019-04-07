@@ -42,6 +42,7 @@ import javax.xml.validation.Schema;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The Class ArchiveTransfer
@@ -338,13 +339,13 @@ public class ArchiveTransfer {
         try (ByteArrayOutputStream baos=new ByteArrayOutputStream();
              SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
-            manifest=baos.toString();
+            manifest= baos.toString("UTF-8");
         } catch (XMLStreamException | IOException e) {
             throw new SEDALibException("Echec d'écriture XML du manifest\n->"+e.getMessage());
         }
         SEDAXMLValidator sedaXMLvalidator= new SEDAXMLValidator();
         Schema sedaSchema=sedaXMLvalidator.getSEDASchema();
-        try (ByteArrayInputStream bais=new ByteArrayInputStream(manifest.getBytes())) {
+        try (ByteArrayInputStream bais=new ByteArrayInputStream(manifest.getBytes(StandardCharsets.UTF_8))) {
             sedaXMLvalidator.checkWithXSDSchema(bais,sedaSchema);
         } catch (IOException e) {
             throw new SEDALibException("Erreur d'accès au manifest\n->"+e.getMessage());
@@ -356,7 +357,7 @@ public class ArchiveTransfer {
         try (ByteArrayOutputStream baos=new ByteArrayOutputStream();
              SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
-            manifest=baos.toString();
+            manifest=baos.toString("UTF-8");
         } catch (XMLStreamException | IOException e) {
             throw new SEDALibException("Echec d'écriture XML du manifest\n->"+e.getMessage());
         }
@@ -367,7 +368,7 @@ public class ArchiveTransfer {
         else
             sedaSchema=sedaXMLvalidator.getSchemaFromXSDFile(profileFileName);
 
-        try (ByteArrayInputStream bais=new ByteArrayInputStream(manifest.getBytes())) {
+        try (ByteArrayInputStream bais=new ByteArrayInputStream(manifest.getBytes(StandardCharsets.UTF_8))) {
             if (profileFileName.endsWith(".rng"))
             sedaXMLvalidator.checkWithRNGSchema(bais,sedaSchema);
         else
