@@ -593,7 +593,10 @@ public class DuplicatesWindow extends JFrame {
                 .setPreferredWidth(20);
         duplicatesTable.getColumnModel().getColumn(1)
                 .setPreferredWidth(20);
-        globalResultLabel.setText("" + dogByDigestMap.size() + " lots de doublons/"+
+        if (auByDigestMap.size()==0)
+            globalResultLabel.setText("0 lots de doublons/0 AU");
+        else
+            globalResultLabel.setText("" + dogByDigestMap.size() + " lots de doublons/"+
                 auByDigestMap.entrySet().stream().map(arg->arg.getValue().size()).reduce(Integer::sum).get()+" AU");
         if (dogByDigestMap.size() > 0)
             allDedupButton.setEnabled(true);
