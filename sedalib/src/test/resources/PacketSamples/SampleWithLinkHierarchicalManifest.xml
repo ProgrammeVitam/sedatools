@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?><ArchiveTransfer xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:pr="info:lc/xmlns/premis-v2" xmlns="fr:gouv:culture:archivesdefrance:seda:v2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd" xml:id="ID1">
   <Comment>2eme SIP</Comment>
-  <Date>2018-10-12T13:01:37</Date>
+  <Date>2019-04-07T19:51:17.431</Date>
   <MessageIdentifier>MessageIdentifier0</MessageIdentifier>
   <ArchivalAgreement>ArchivalAgreement0</ArchivalAgreement>
   <CodeListVersions>
@@ -34,7 +34,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>image001.jpg</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID14">
@@ -45,18 +45,19 @@
         <Size>128</Size>
         <FormatIdentification>
           <FormatLitteral>Unknown</FormatLitteral>
+          <FormatId>UNKNOWN</FormatId>
         </FormatIdentification>
         <FileInfo>
           <Filename>SmallContract.text</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID18">
       <BinaryDataObject id="ID19">
         <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
         <Uri>content/ID19.eml</Uri>
-        <MessageDigest algorithm="SHA-512">d914f779f06bb509326769439eb76e062d57d76d361bb298abf11a9b14b585f0062daba79d5b3ff913f49daff54b9dcd900f25504ac96c21bacbec176f32cf5d</MessageDigest>
-        <Size>110350</Size>
+        <MessageDigest algorithm="SHA-512">aa5ffc20efc3ae8f8e25ab95e08b3f5daa9004eeaed33006f4849faddec7d82675284b5de4125e03f9aad336e5c79b394b3a39183dcd456496fa0fd354896a6b</MessageDigest>
+        <Size>108810</Size>
         <FormatIdentification>
           <FormatLitteral>MIME Email</FormatLitteral>
           <MimeType>message/rfc822</MimeType>
@@ -64,13 +65,13 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>-79980C36BA239C449A957.eml</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
       <BinaryDataObject id="ID20">
         <DataObjectVersion>TextContent_1</DataObjectVersion>
         <Uri>content/ID20.txt</Uri>
-        <MessageDigest algorithm="SHA-512">21f4c720439c394fdaa368e98870de630df00ef1cc33e19d48cfe60ce866415e73c5c121e0c7c38b6dc04e1e292fcf120bbe46edb8a5ef5f212050aa4630ebef</MessageDigest>
-        <Size>1038</Size>
+        <MessageDigest algorithm="SHA-512">e683bbe434cd5389bb2b05f4ad80f8b030f4d75ccabdf112b01000090f1e61a052a3536532720a189aa358a20c8b4db38c083722625be955edadc51d11688024</MessageDigest>
+        <Size>1019</Size>
         <FormatIdentification>
           <FormatLitteral>Plain Text File</FormatLitteral>
           <MimeType>text/plain</MimeType>
@@ -78,7 +79,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>-79980C36BA239C449A957.txt</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID22">
@@ -94,13 +95,13 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>201609-TdB-suivi-des-a.ods</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
       <BinaryDataObject id="ID25">
         <DataObjectVersion>TextContent_1</DataObjectVersion>
         <Uri>content/ID25.txt</Uri>
-        <MessageDigest algorithm="SHA-512">d3f3481e1c633b3dc87661b44798777f0c0ce7af74da2a21d7f2428626d0d6fa44aad0293fc63571079df7a6d4fb7fdcf5315f3ccea8d5374b94b2222348a146</MessageDigest>
-        <Size>3557</Size>
+        <MessageDigest algorithm="SHA-512">7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2</MessageDigest>
+        <Size>3307</Size>
         <FormatIdentification>
           <FormatLitteral>Plain Text File</FormatLitteral>
           <MimeType>text/plain</MimeType>
@@ -108,7 +109,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>201609-TdB-suivi-des-a.txt</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
       <PhysicalDataObject id="ID24">
         <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>
@@ -135,13 +136,13 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>20160429-tuleap.pdf</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
       <BinaryDataObject id="ID30">
         <DataObjectVersion>TextContent_1</DataObjectVersion>
         <Uri>content/ID30.txt</Uri>
-        <MessageDigest algorithm="SHA-512">911c3d7c802817d131225054bdbbcdc70bc4190aabdc8a88079901ed802d38485de8fe3ec3cdcf39984b4c21c396ee30d81d73dcba95a9e3e1a96943ab2998f3</MessageDigest>
-        <Size>5306</Size>
+        <MessageDigest algorithm="SHA-512">14a0a17426b8b356f7769faede46fd09391689c5362939b8b5d8559fda5908b8579072cb802a87856f172401ded5f8bcf3c0315340da415b71e6f86deef72545</MessageDigest>
+        <Size>5104</Size>
         <FormatIdentification>
           <FormatLitteral>Plain Text File</FormatLitteral>
           <MimeType>text/plain</MimeType>
@@ -149,7 +150,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>20160429-tuleap.pdf.txt</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID33">
@@ -165,7 +166,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>3059_KO_agencies_HTML.csv</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID41">
@@ -181,7 +182,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>OK-RULES-MDRULES.zip</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID44">
@@ -197,7 +198,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>OK-RULES-MDRULES_DEUX_ORIGINES.zip</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID47">
@@ -213,7 +214,7 @@
         </FormatIdentification>
         <FileInfo>
           <Filename>OK-RULES-MDRULES_SEDA20.zip</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID50">
@@ -224,24 +225,26 @@
         <Size>458</Size>
         <FormatIdentification>
           <FormatLitteral>Unknown</FormatLitteral>
+          <FormatId>UNKNOWN</FormatId>
         </FormatIdentification>
         <FileInfo>
           <Filename>referential_contracts_ok.text</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DataObjectGroup id="ID53">
       <BinaryDataObject id="ID54">
         <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
         <Uri>content/ID54.text</Uri>
-        <MessageDigest algorithm="SHA-512">4bf7d5fbc38ca927931955c4483dd3e7b1032b59f69c7d9adf4175f0c80d2c1d64af9463d124dbd14b4f0b1dc36f34f0767e25f349b2fd7a8f3c80a335dbd746</MessageDigest>
+        <MessageDigest algorithm="SHA-512">836a7bdc8431cf8a044cb2ac6e892d8f3a63c099ceedc749247337fecd42eb92e9b532f7912a11be2e7ab6fd84c997fbd2f46f69fe19b293164905c043da7ef3</MessageDigest>
         <Size>178492</Size>
         <FormatIdentification>
           <FormatLitteral>Unknown</FormatLitteral>
+          <FormatId>UNKNOWN</FormatId>
         </FormatIdentification>
         <FileInfo>
           <Filename>vitam-logbook-messages_fr.text</Filename>
-                  </FileInfo>
+        </FileInfo>
       </BinaryDataObject>
     </DataObjectGroup>
     <DescriptiveMetadata>
@@ -305,24 +308,24 @@
             <ReceivedDate>2016-08-30T10:14:18Z</ReceivedDate>
             <TextContent>Bonjour,
 
-Vous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l'avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.
+              Vous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l'avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.
 
-Pour rappel :
-- L'objectif est de remonter l'état des activités (statut, livrable/jalon, points importants).
-- Les colonnes de N à V sont à mettre à jour si nécessaire (fond orange clair).
+              Pour rappel :
+              - L'objectif est de remonter l'état des activités (statut, livrable/jalon, points importants).
+              - Les colonnes de N à V sont à mettre à jour si nécessaire (fond orange clair).
 
-Merci par avance.
+              Merci par avance.
 
-Bien cordialement,
+              Bien cordialement,
 
 
-[http://www.modernisation.gouv.fr/sites/default/files/bloc-sgmap-2.jpg]&lt; http://www.modernisation.gouv.fr/&gt;
+              [http://www.modernisation.gouv.fr/sites/default/files/bloc-sgmap-2.jpg]&lt; http://www.modernisation.gouv.fr/&gt;
 
-Benjamin PLANCHOT | PMO
-Service « performance des services numériques »
-Direction interministérielle du numérique et du système d'information et de communication de l'Etat
-01 40 15 71 50 | Tour Mirabeau - 39-43 Quai André Citroën, 75015 Paris - Bureau 4027
-modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent>
+              Benjamin PLANCHOT | PMO
+              Service « performance des services numériques »
+              Direction interministérielle du numérique et du système d'information et de communication de l'Etat
+              01 40 15 71 50 | Tour Mirabeau - 39-43 Quai André Citroën, 75015 Paris - Bureau 4027
+              modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent>
           </Content>
           <ArchiveUnit id="ID21">
             <Content>

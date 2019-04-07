@@ -1,0 +1,561 @@
+<?xml version='1.0' encoding='UTF-8'?><ArchiveTransfer xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:pr="info:lc/xmlns/premis-v2" xmlns="fr:gouv:culture:archivesdefrance:seda:v2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd" xml:id="ID1">
+    <Comment>2eme SIP</Comment>
+    <Date>2019-04-07T19:51:17.289</Date>
+    <MessageIdentifier>MessageIdentifier0</MessageIdentifier>
+    <ArchivalAgreement>ArchivalAgreement0</ArchivalAgreement>
+    <CodeListVersions>
+        <ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion>
+        <MessageDigestAlgorithmCodeListVersion>MessageDigestAlgorithmCodeListVersion0</MessageDigestAlgorithmCodeListVersion>
+        <MimeTypeCodeListVersion>MimeTypeCodeListVersion0</MimeTypeCodeListVersion>
+        <EncodingCodeListVersion>EncodingCodeListVersion0</EncodingCodeListVersion>
+        <FileFormatCodeListVersion>FileFormatCodeListVersion0</FileFormatCodeListVersion>
+        <CompressionAlgorithmCodeListVersion>CompressionAlgorithmCodeListVersion0</CompressionAlgorithmCodeListVersion>
+        <DataObjectVersionCodeListVersion>DataObjectVersionCodeListVersion0</DataObjectVersionCodeListVersion>
+        <StorageRuleCodeListVersion>StorageRuleCodeListVersion0</StorageRuleCodeListVersion>
+        <AppraisalRuleCodeListVersion>AppraisalRuleCodeListVersion0</AppraisalRuleCodeListVersion>
+        <AccessRuleCodeListVersion>AccessRuleCodeListVersion0</AccessRuleCodeListVersion>
+        <DisseminationRuleCodeListVersion>DisseminationRuleCodeListVersion0</DisseminationRuleCodeListVersion>
+        <ReuseRuleCodeListVersion>ReuseRuleCodeListVersion0</ReuseRuleCodeListVersion>
+        <ClassificationRuleCodeListVersion>ClassificationRuleCodeListVersion0</ClassificationRuleCodeListVersion>
+        <AuthorizationReasonCodeListVersion>AuthorizationReasonCodeListVersion0</AuthorizationReasonCodeListVersion>
+        <RelationshipCodeListVersion>RelationshipCodeListVersion0</RelationshipCodeListVersion>
+    </CodeListVersions>
+    <DataObjectPackage>
+        <DataObjectGroup id="ID12">
+            <BinaryDataObject id="ID13">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID13.jpg</Uri>
+                <MessageDigest algorithm="SHA-512">e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3</MessageDigest>
+                <Size>21232</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Exchangeable Image File Format (Compressed)</FormatLitteral>
+                    <MimeType>image/jpeg</MimeType>
+                    <FormatId>fmt/645</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>image001.jpg</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID14">
+            <BinaryDataObject id="ID15">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID15.text</Uri>
+                <MessageDigest algorithm="SHA-512">f9a9c778dde3f5d641177ced7ed994ce951d59d1172e498b6e54744bab00db9e489ff17e27f0953044650ea5190f20834578cf36edced1a6c313250fc2888a77</MessageDigest>
+                <Size>128</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Unknown</FormatLitteral>
+                    <FormatId>UNKNOWN</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>SmallContract.text</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID18">
+            <BinaryDataObject id="ID19">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID19.eml</Uri>
+                <MessageDigest algorithm="SHA-512">aa5ffc20efc3ae8f8e25ab95e08b3f5daa9004eeaed33006f4849faddec7d82675284b5de4125e03f9aad336e5c79b394b3a39183dcd456496fa0fd354896a6b</MessageDigest>
+                <Size>108810</Size>
+                <FormatIdentification>
+                    <FormatLitteral>MIME Email</FormatLitteral>
+                    <MimeType>message/rfc822</MimeType>
+                    <FormatId>fmt/950</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>-79980C36BA239C449A957.eml</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+            <BinaryDataObject id="ID20">
+                <DataObjectVersion>TextContent_1</DataObjectVersion>
+                <Uri>content/ID20.txt</Uri>
+                <MessageDigest algorithm="SHA-512">e683bbe434cd5389bb2b05f4ad80f8b030f4d75ccabdf112b01000090f1e61a052a3536532720a189aa358a20c8b4db38c083722625be955edadc51d11688024</MessageDigest>
+                <Size>1019</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Plain Text File</FormatLitteral>
+                    <MimeType>text/plain</MimeType>
+                    <FormatId>x-fmt/111</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>-79980C36BA239C449A957.txt</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID22">
+            <BinaryDataObject id="ID23">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID23.ods</Uri>
+                <MessageDigest algorithm="SHA-512">ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e</MessageDigest>
+                <Size>50651</Size>
+                <FormatIdentification>
+                    <FormatLitteral>OpenDocument Spreadsheet</FormatLitteral>
+                    <MimeType>application/vnd.oasis.opendocument.spreadsheet</MimeType>
+                    <FormatId>fmt/294</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>201609-TdB-suivi-des-a.ods</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+            <BinaryDataObject id="ID25">
+                <DataObjectVersion>TextContent_1</DataObjectVersion>
+                <Uri>content/ID25.txt</Uri>
+                <MessageDigest algorithm="SHA-512">7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2</MessageDigest>
+                <Size>3307</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Plain Text File</FormatLitteral>
+                    <MimeType>text/plain</MimeType>
+                    <FormatId>x-fmt/111</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>201609-TdB-suivi-des-a.txt</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+            <PhysicalDataObject id="ID24">
+                <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>
+                <PhysicalId>940 W</PhysicalId>
+                <PhysicalDimensions>
+                    <Width unit="centimetre">10</Width>
+                    <Height unit="centimetre">8</Height>
+                    <Depth unit="centimetre">1</Depth>
+                    <Diameter unit="centimetre">0</Diameter>
+                    <Weight unit="gram">59</Weight>
+                </PhysicalDimensions>
+            </PhysicalDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID28">
+            <BinaryDataObject id="ID29">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID29.pdf</Uri>
+                <MessageDigest algorithm="SHA-512">559dc14b4821f78aa138bb72923214c0f3635f0262f63999ba9c78d8df7833206f5e8310dedff60e9522c502ae3a5fe4e444c8e333efffac0f9c242b8f7a27f6</MessageDigest>
+                <Size>3868571</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Acrobat PDF 1.4 - Portable Document Format</FormatLitteral>
+                    <MimeType>application/pdf</MimeType>
+                    <FormatId>fmt/18</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>20160429-tuleap.pdf</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+            <BinaryDataObject id="ID30">
+                <DataObjectVersion>TextContent_1</DataObjectVersion>
+                <Uri>content/ID30.txt</Uri>
+                <MessageDigest algorithm="SHA-512">14a0a17426b8b356f7769faede46fd09391689c5362939b8b5d8559fda5908b8579072cb802a87856f172401ded5f8bcf3c0315340da415b71e6f86deef72545</MessageDigest>
+                <Size>5104</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Plain Text File</FormatLitteral>
+                    <MimeType>text/plain</MimeType>
+                    <FormatId>x-fmt/111</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>20160429-tuleap.pdf.txt</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID33">
+            <BinaryDataObject id="ID34">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID34.csv</Uri>
+                <MessageDigest algorithm="SHA-512">92495907ad4729c6ea3df93bf311e78f46e78bb89447e06aef619cc211ad416ebfecbbadc587b68a4be9f23bcc510f673d2bc67b09dfedf8970093dc58406638</MessageDigest>
+                <Size>185</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Comma Separated Values</FormatLitteral>
+                    <MimeType>text/csv</MimeType>
+                    <FormatId>x-fmt/18</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>3059_KO_agencies_HTML.csv</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID41">
+            <BinaryDataObject id="ID42">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID42.zip</Uri>
+                <MessageDigest algorithm="SHA-512">4723e0f6f8d54cda8989ffa5809318b2369b4b0c7957deda8399c311c397c026cc1511a0494d6f8e7b474e20171c40a5d40435c95841820a08a92e844b960947</MessageDigest>
+                <Size>1466</Size>
+                <FormatIdentification>
+                    <FormatLitteral>ZIP Format</FormatLitteral>
+                    <MimeType>application/zip</MimeType>
+                    <FormatId>x-fmt/263</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>OK-RULES-MDRULES.zip</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID44">
+            <BinaryDataObject id="ID45">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID45.zip</Uri>
+                <MessageDigest algorithm="SHA-512">1b46ff8be4c7f08aca8077466bae9ef898c2e48e890b3f1ea5c841457c1787e896aba7ba7dd330a1736dfbe05b9eb26bdc4908590c44f5ef6b296960c7f93db5</MessageDigest>
+                <Size>1284</Size>
+                <FormatIdentification>
+                    <FormatLitteral>ZIP Format</FormatLitteral>
+                    <MimeType>application/zip</MimeType>
+                    <FormatId>x-fmt/263</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>OK-RULES-MDRULES_DEUX_ORIGINES.zip</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID47">
+            <BinaryDataObject id="ID48">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID48.zip</Uri>
+                <MessageDigest algorithm="SHA-512">7091a5a8fc1fe60fbe5b68ca618b6a01352905294407b27a383eddbca64215593e30a7b79ee59203efc96a66223184895b173ebab36ed72bf4b2d5a8b5e3d293</MessageDigest>
+                <Size>1421</Size>
+                <FormatIdentification>
+                    <FormatLitteral>ZIP Format</FormatLitteral>
+                    <MimeType>application/zip</MimeType>
+                    <FormatId>x-fmt/263</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>OK-RULES-MDRULES_SEDA20.zip</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID50">
+            <BinaryDataObject id="ID51">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID51.text</Uri>
+                <MessageDigest algorithm="SHA-512">ac8619cd71bced4843e662c8dd21ba19b59cc903b8e19ca020a5114931d88f0f87785e7b9e5ed3dd2d7bb77a59c9b8c28954c79ee16a1b088df2522274835954</MessageDigest>
+                <Size>458</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Unknown</FormatLitteral>
+                    <FormatId>UNKNOWN</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>referential_contracts_ok.text</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DataObjectGroup id="ID53">
+            <BinaryDataObject id="ID54">
+                <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+                <Uri>content/ID54.text</Uri>
+                <MessageDigest algorithm="SHA-512">836a7bdc8431cf8a044cb2ac6e892d8f3a63c099ceedc749247337fecd42eb92e9b532f7912a11be2e7ab6fd84c997fbd2f46f69fe19b293164905c043da7ef3</MessageDigest>
+                <Size>178492</Size>
+                <FormatIdentification>
+                    <FormatLitteral>Unknown</FormatLitteral>
+                    <FormatId>UNKNOWN</FormatId>
+                </FormatIdentification>
+                <FileInfo>
+                    <Filename>vitam-logbook-messages_fr.text</Filename>
+                </FileInfo>
+            </BinaryDataObject>
+        </DataObjectGroup>
+        <DescriptiveMetadata>
+            <ArchiveUnit id="ID10">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Root</Title>
+                </Content>
+                <ArchiveUnit id="RefID1">
+                    <ArchiveUnitRefId>ID11</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID2">
+                    <ArchiveUnitRefId>ID16</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID3">
+                    <ArchiveUnitRefId>ID17</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID4">
+                    <ArchiveUnitRefId>ID26</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID5">
+                    <ArchiveUnitRefId>ID43</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID6">
+                    <ArchiveUnitRefId>ID56</ArchiveUnitRefId>
+                </ArchiveUnit>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID11">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>image001.jpg</Title>
+                    <Description>Document "image001.jpg" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize&gt;</Description>
+                    <CreatedDate>2016-08-30T10:14:17Z</CreatedDate>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID12</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID16">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>SmallContract.text</Title>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID14</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID17">
+                <Management>
+                    <AccessRule>
+                        <Rule>ACC-00002</Rule>
+                        <StartDate>2015-11-19</StartDate>
+                    </AccessRule>
+                </Management>
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>CSIC Tech : points remarquables PMO</Title>
+                    <OriginatingSystemId>&lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize&gt;</OriginatingSystemId>
+                    <Writer>
+                        <FirstName>PLANCHOT Benjamin</FirstName>
+                        <BirthName>PLANCHOT Benjamin</BirthName>
+                        <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>
+                    </Writer>
+                    <Addressee>
+                        <FirstName>frederic.deguilhen@culture.gouv.fr</FirstName>
+                        <BirthName>frederic.deguilhen@culture.gouv.fr</BirthName>
+                        <Identifier>frederic.deguilhen@culture.gouv.fr</Identifier>
+                    </Addressee>
+                    <Addressee>
+                        <FirstName>jean-severin.lair@culture.gouv.fr</FirstName>
+                        <BirthName>jean-severin.lair@culture.gouv.fr</BirthName>
+                        <Identifier>jean-severin.lair@culture.gouv.fr</Identifier>
+                    </Addressee>
+                    <Recipient>
+                        <FirstName>PLANCHOT Benjamin</FirstName>
+                        <BirthName>PLANCHOT Benjamin</BirthName>
+                        <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>
+                    </Recipient>
+                    <SentDate>2016-08-30T10:14:17Z</SentDate>
+                    <ReceivedDate>2016-08-30T10:14:18Z</ReceivedDate>
+                    <TextContent>Bonjour,
+
+                        Vous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l'avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.
+
+                        Pour rappel :
+                        - L'objectif est de remonter l'état des activités (statut, livrable/jalon, points importants).
+                        - Les colonnes de N à V sont à mettre à jour si nécessaire (fond orange clair).
+
+                        Merci par avance.
+
+                        Bien cordialement,
+
+
+                        [http://www.modernisation.gouv.fr/sites/default/files/bloc-sgmap-2.jpg]&lt; http://www.modernisation.gouv.fr/&gt;
+
+                        Benjamin PLANCHOT | PMO
+                        Service « performance des services numériques »
+                        Direction interministérielle du numérique et du système d'information et de communication de l'Etat
+                        01 40 15 71 50 | Tour Mirabeau - 39-43 Quai André Citroën, 75015 Paris - Bureau 4027
+                        modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent>
+                </Content>
+                <ArchiveUnit id="RefID7">
+                    <ArchiveUnitRefId>ID21</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID8">
+                    <ArchiveUnitRefId>ID11</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID18</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID21">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>201609_TdB_suivi_des_activites_VITAM.ods</Title>
+                    <Description>Document "201609_TdB_suivi_des_activites_VITAM.ods" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize&gt;</Description>
+                    <CreatedDate>2016-08-30T10:13:03Z</CreatedDate>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID22</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID26">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Node 2</Title>
+                </Content>
+                <ArchiveUnit id="RefID9">
+                    <ArchiveUnitRefId>ID27</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID10">
+                    <ArchiveUnitRefId>ID31</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID11">
+                    <ArchiveUnitRefId>ID40</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID12">
+                    <ArchiveUnitRefId>ID56</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID13">
+                    <ArchiveUnitRefId>ID57</ArchiveUnitRefId>
+                </ArchiveUnit>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID27">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>20160429_tuleap.pdf</Title>
+                    <Description>Document "20160429_tuleap.pdf" joint au message &lt;a8f34cc23a55bf2de3606d4e45609230@culture.gouv.fr&gt;</Description>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID28</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID31">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Node 2.2 - Title cases</Title>
+                </Content>
+                <ArchiveUnit id="RefID14">
+                    <ArchiveUnitRefId>ID32</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID15">
+                    <ArchiveUnitRefId>ID37</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID16">
+                    <ArchiveUnitRefId>ID38</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID17">
+                    <ArchiveUnitRefId>ID39</ArchiveUnitRefId>
+                </ArchiveUnit>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID32">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Node 2.2.1-^@]}êë^$£ê%ùµ_§._,;_!œŒÊ</Title>
+                </Content>
+                <ArchiveUnit id="RefID18">
+                    <ArchiveUnitRefId>ID35</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID19">
+                    <ArchiveUnitRefId>ID36</ArchiveUnitRefId>
+                </ArchiveUnit>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID35">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>3059_KO_agencies_HTML.csv</Title>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID33</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID36">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>^@]}êë^$£ê%ùµ_§._,;_!œŒÊ</Title>
+                </Content></ArchiveUnit>
+            <ArchiveUnit id="ID37">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Node 2.2.2-1234567890-a</Title>
+                </Content></ArchiveUnit>
+            <ArchiveUnit id="ID38">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Node 2.2.3-ENMAJUSCULE</Title>
+                </Content></ArchiveUnit>
+            <ArchiveUnit id="ID39">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Node 2.2.4-Un                                             espace</Title>
+                </Content></ArchiveUnit>
+            <ArchiveUnit id="ID40">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Node 2.3 - Many</Title>
+                </Content>
+                <ArchiveUnit id="RefID20">
+                    <ArchiveUnitRefId>ID43</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID21">
+                    <ArchiveUnitRefId>ID46</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID22">
+                    <ArchiveUnitRefId>ID49</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID23">
+                    <ArchiveUnitRefId>ID16</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID24">
+                    <ArchiveUnitRefId>ID52</ArchiveUnitRefId>
+                </ArchiveUnit>
+                <ArchiveUnit id="RefID25">
+                    <ArchiveUnitRefId>ID55</ArchiveUnitRefId>
+                </ArchiveUnit>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID43">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>OK-RULES-MDRULES.zip</Title>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID41</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID46">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>OK-RULES-MDRULES_DEUX_ORIGINES.zip</Title>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID44</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID49">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>OK-RULES-MDRULES_SEDA20.zip</Title>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID47</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID52">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>referential_contracts_ok.text</Title>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID50</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID55">
+                <Content>
+                    <DescriptionLevel>Item</DescriptionLevel>
+                    <Title>vitam-logbook-messages_fr.text</Title>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID53</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID56">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Node 2.4 - OG Link</Title>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID18</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+            <ArchiveUnit id="ID57">
+                <Content>
+                    <DescriptionLevel>RecordGrp</DescriptionLevel>
+                    <Title>Node 2.5 - OG Shortcut</Title>
+                </Content>
+                <DataObjectReference>
+                    <DataObjectGroupReferenceId>ID18</DataObjectGroupReferenceId>
+                </DataObjectReference>
+            </ArchiveUnit>
+        </DescriptiveMetadata>
+        <ManagementMetadata>
+            <AcquisitionInformation>Acquisition Information</AcquisitionInformation>
+            <LegalStatus>Public Archive</LegalStatus>
+            <OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>
+            <SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>
+        </ManagementMetadata>
+    </DataObjectPackage>
+    <ArchivalAgency>
+        <Identifier>Identifier4</Identifier>
+    </ArchivalAgency>
+    <TransferringAgency>
+        <Identifier>Identifier5</Identifier>
+    </TransferringAgency>
+</ArchiveTransfer>

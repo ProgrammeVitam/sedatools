@@ -70,7 +70,7 @@ public class SIPBuilderTest {
 
 //TODO Improve test quality
             assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip")).isFile();
-            assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip").length()).isGreaterThan(10868000).isLessThan(10871000);
+            assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip").length()).isGreaterThan(10865000).isLessThan(10875000);
             assertAll(()->sb.seda21Validate());
 
         } catch (Exception e) {
@@ -152,7 +152,7 @@ public class SIPBuilderTest {
 
 //TODO Improve test quality
             assertThat(new File("target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip")).isFile();
-            assertThat(new File("target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip").length()).isGreaterThan(2183000).isLessThan(2185000);
+            assertThat(new File("target/tmpJunit/SIPBuilder/ComplexSIPBuilderTest.zip").length()).isGreaterThan(2180000).isLessThan(2190000);
         } catch (Exception e) {
             throw new SEDALibException("SIPBuilder test KO");
         }
