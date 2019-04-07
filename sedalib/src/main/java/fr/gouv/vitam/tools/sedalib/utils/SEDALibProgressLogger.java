@@ -196,6 +196,12 @@ public class SEDALibProgressLogger {
         return GLOBAL_MARKER;
     }
 
+    /**
+     * Log only (no call to progress log function).
+     *
+     * @param level   the level
+     * @param message the message
+     */
     public void log(int level, String message) {
         if (level <= progressLogLevel) {
             if (logger != null)
