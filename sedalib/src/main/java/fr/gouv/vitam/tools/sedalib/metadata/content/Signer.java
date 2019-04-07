@@ -84,6 +84,7 @@ public class Signer extends ComplexListType {
      *
      * @param fullName    the full name
      * @param signingTime the signing time
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public Signer(String fullName, LocalDateTime signingTime) throws SEDALibException {
         this();
@@ -98,6 +99,7 @@ public class Signer extends ComplexListType {
      * @param firstName   the first name
      * @param birthName   the birth name
      * @param signingTime the signing time
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public Signer(String firstName, String birthName, LocalDateTime signingTime) throws SEDALibException {
         this();
@@ -114,6 +116,7 @@ public class Signer extends ComplexListType {
      * @param birthName   the birth name
      * @param identifier  the identifier
      * @param signingTime the signing time
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public Signer(String firstName, String birthName, LocalDateTime signingTime, String identifier) throws SEDALibException {
         this();

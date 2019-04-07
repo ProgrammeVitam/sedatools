@@ -79,6 +79,7 @@ public class AgentType extends ComplexListType {
      *
      * @param elementName the element name
      * @param fullName    the full name
+     * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
     public AgentType(String elementName, String fullName) throws SEDALibException {
         super(elementName);
@@ -92,6 +93,7 @@ public class AgentType extends ComplexListType {
      * @param elementName the element name
      * @param firstName   the first name
      * @param birthName   the birth name
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public AgentType(String elementName, String firstName, String birthName) throws SEDALibException {
         super(elementName);
@@ -107,6 +109,7 @@ public class AgentType extends ComplexListType {
      * @param firstName   the first name
      * @param birthName   the birth name
      * @param identifier  the identifier
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public AgentType(String elementName, String firstName, String birthName, String identifier) throws SEDALibException {
         super(elementName);

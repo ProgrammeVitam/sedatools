@@ -73,6 +73,7 @@ public class Coverage extends ComplexListType {
      * @param spatial       the spatial
      * @param temporal      the temporal
      * @param juridictional the juridictional
+     * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
     public Coverage(String elementName, String spatial, String temporal, String juridictional) throws SEDALibException {
         super(elementName);

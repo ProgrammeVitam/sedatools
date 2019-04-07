@@ -134,8 +134,7 @@ public class SEDAXMLValidator {
      * @param xmlFile   the xml file
      * @param rngSchema the rng schema
      * @return true if validated
-     * @throws SAXException the sax exception
-     * @throws IOException  the io exception
+     * @throws SEDALibException the seda lib exception
      */
     public boolean checkWithRNGSchema(InputStream xmlFile, Schema rngSchema) throws SEDALibException {
         try {

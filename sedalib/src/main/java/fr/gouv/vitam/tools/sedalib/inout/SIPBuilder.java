@@ -651,6 +651,7 @@ public class SIPBuilder implements AutoCloseable {
     /**
      * Validate SEDA Profile, either RNG or XSD file, conformity.
      *
+     * @param profileFileName the profile file name
      * @throws SEDALibException if any validation problem occurs with a descriptive message
      */
     public void sedaProfileValidate(String profileFileName) throws SEDALibException {

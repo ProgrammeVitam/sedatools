@@ -78,6 +78,12 @@ public class Event extends ComplexListType {
     /**
      * Instantiates a new Event, with EventIdentifier, EventType, EventDateTime and Outcome.
      * If any is null, it's not added.
+     *
+     * @param eventIdentifier the event identifier
+     * @param eventType       the event type
+     * @param eventDateTime   the event date time
+     * @param outcome         the outcome
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public Event(String eventIdentifier, String eventType, LocalDateTime eventDateTime, String outcome) throws SEDALibException {
         super("Event");

@@ -79,6 +79,7 @@ public class Gps extends ComplexListType {
      * @param gpsLatitude  the gps latitude
      * @param gpsLongitude the gps longitude
      * @param gpsDateStamp the gps date stamp
+     * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
     public Gps(String gpsVersionID, int gpsAltitude, String gpsLatitude, String gpsLongitude,
                String gpsDateStamp) throws SEDALibException {

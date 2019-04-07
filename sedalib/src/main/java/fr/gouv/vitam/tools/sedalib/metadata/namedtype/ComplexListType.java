@@ -179,7 +179,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      *
      * @param elementName the element name
      * @param args        the args of the metadata constructor
-     * @throws SEDALibException if construction is not possible, most of the time                          wrong args
+     * @throws SEDALibException if construction is not possible, most of the time wrong args
      */
     public void addNewMetadata(String elementName, Object... args) throws SEDALibException {
         int addOrderIndex, curOrderIndex, i;
@@ -407,6 +407,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * Gets the metadata ordered list.
      *
      * @return the metadata ordered list
+     * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
     public List<String> getMetadataOrderedList() throws SEDALibException {
         List<String> metadataOrderedList = subTypeMetadataOrderedListMap.get(this.getClass());
@@ -422,6 +423,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * cardinality.
      *
      * @return the metadata map
+     * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
     public HashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
         HashMap<String, ComplexListMetadataKind> metadataMap = subTypeMetadataMapMap.get(this.getClass());
@@ -436,6 +438,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * Checks if it the metadata list is closed.
      *
      * @return true, if is not expendable
+     * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
     public boolean isNotExpendable() throws SEDALibException {
         Boolean isNotExpandable = subTypeNotExpandableMap.get(this.getClass());
