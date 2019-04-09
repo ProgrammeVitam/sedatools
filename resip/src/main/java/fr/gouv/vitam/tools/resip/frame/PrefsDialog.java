@@ -926,6 +926,8 @@ public class PrefsDialog extends JDialog {
         cc.setWorkDir(workDirTextField.getText());
         dic.setWorkDir(workDirTextField.getText());
         mic.setWorkDir(workDirTextField.getText());
+        cmic.setWorkDir(workDirTextField.getText());
+        ctic.setWorkDir(workDirTextField.getText());
 
         dic.setIgnorePatternList(Arrays.asList(ignorePatternsTextArea.getText().split("\\s*\n\\s*")));
 
