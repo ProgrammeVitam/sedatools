@@ -67,7 +67,7 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
             this.searchOthers = false;
             this.otherFormats = null;
         }
-        this.allFormatsFlag=(formats.size()==0);
+        this.allFormatsFlag=((formats.size()==0) && !this.searchOthers);
         this.min=min;
         this.max=max;
     }
