@@ -11,6 +11,7 @@
             <outputDirectory></outputDirectory>
             <excludes>
                 <exclude>VitamIcon.ico</exclude>
+                <exclude>resipIHM.png</exclude>
             </excludes>
         </fileSet>
         <fileSet>
