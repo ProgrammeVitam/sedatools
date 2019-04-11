@@ -41,6 +41,8 @@ import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -152,7 +154,16 @@ public class StatisticWindow extends JFrame {
         ListSelectionModel selectionModel = statisticTable.getSelectionModel();
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                handleDuplicatesSelectionEvent(e);
+                handleFormatSelectionEvent(e);
+            }
+        });
+        statisticTable.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                JTable table =(JTable) me.getSource();
+                Point p = me.getPoint();
+                int row = table.rowAtPoint(p);
+                if (me.getClickCount() ==2)
+                    handleFormatDoubleClick(row);
             }
         });
         scrollPane.setViewportView(statisticTable);
@@ -253,7 +264,7 @@ public class StatisticWindow extends JFrame {
 
     // actions
 
-    void handleDuplicatesSelectionEvent(ListSelectionEvent e) {
+    private void handleFormatSelectionEvent(ListSelectionEvent e) {
         if (e.getValueIsAdjusting())
             return;
 
@@ -264,6 +275,10 @@ public class StatisticWindow extends JFrame {
                 .convertRowIndexToModel(selectedIndex), 0);
         else
             formatCategory=null;
+    }
+
+    private void handleFormatDoubleClick(int row){
+        buttonSearch();
     }
 
     private void buttonSearch() {
