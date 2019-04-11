@@ -5,7 +5,6 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.viewer.*;
 import fr.gouv.vitam.tools.sedalib.core.*;
-import ucar.nc2.iosp.hdf5.H5header;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -19,7 +18,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
@@ -481,7 +479,17 @@ public class DuplicatesWindow extends JFrame {
             dogList = ((DuplicatesTableModel) duplicatesTable.getModel()).getRowDogList(selectedRow);
         dogListPosition = 0;
 
+        Map<TreePath, Boolean> expansionState = mainWindow.getDataObjectPackageTreePaneViewer().getExpansionState();
+        TreePath selectedPath = mainWindow.getDataObjectPackageTreePaneViewer().getSelectionPath();
+        DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
         mainWindow.refreshInformations();
+        treeModel.actualiseDataObjectPackageNodes();
+        mainWindow.getDataObjectPackageTreePaneViewer().setExpansionState(expansionState);
+        if (selectedPath != null) {
+            mainWindow.getDataObjectPackageTreePaneViewer().setSelectionPath(selectedPath);
+            mainWindow.getDataObjectPackageTreePaneViewer().scrollPathToVisible(selectedPath);
+        }
+        mainWindow.getDataObjectPackageTreePaneViewer().repaint();
         duplicatesTable.repaint();
     }
 
@@ -496,7 +504,17 @@ public class DuplicatesWindow extends JFrame {
             dogList = ((DuplicatesTableModel) duplicatesTable.getModel()).getRowDogList(selectedRow);
         dogListPosition = 0;
 
+        Map<TreePath, Boolean> expansionState = mainWindow.getDataObjectPackageTreePaneViewer().getExpansionState();
+        TreePath selectedPath = mainWindow.getDataObjectPackageTreePaneViewer().getSelectionPath();
+        DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
         mainWindow.refreshInformations();
+        treeModel.actualiseDataObjectPackageNodes();
+        mainWindow.getDataObjectPackageTreePaneViewer().setExpansionState(expansionState);
+        if (selectedPath != null) {
+            mainWindow.getDataObjectPackageTreePaneViewer().setSelectionPath(selectedPath);
+            mainWindow.getDataObjectPackageTreePaneViewer().scrollPathToVisible(selectedPath);
+        }
+        mainWindow.getDataObjectPackageTreePaneViewer().repaint();
         duplicatesTable.repaint();
     }
 
