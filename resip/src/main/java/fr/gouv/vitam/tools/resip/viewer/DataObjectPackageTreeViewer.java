@@ -38,7 +38,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.*;
 import javax.swing.tree.DefaultTreeModel;
@@ -330,7 +332,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             countTouchedFromNode((DataObjectPackageTreeNode) node.getChildAt(i));
     }
 
-    void removeNode(DataObjectPackageTreeNode parentNode, DataObjectPackageTreeNode node, DustbinItem de) {
+    private void removeNode(DataObjectPackageTreeNode parentNode, DataObjectPackageTreeNode node, DustbinItem de) {
         node.removeParent(parentNode);
         node.decTouchedCounter();
         if (node.getParents().size() > node.getTouchedCounter())
@@ -339,6 +341,34 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         for (int i = 0; i < node.getChildCount(); i++)
             removeNode(node, (DataObjectPackageTreeNode) node.getChildAt(i), de);
     }
+
+
+    /**
+     * Gets expansion state of the displayed tree.
+     *
+     * @return the expansion state
+     */
+    public Map<TreePath, Boolean> getExpansionState() {
+        Map<TreePath, Boolean> expansionState = new HashMap<TreePath, Boolean>();
+        for (int i = 0; i < getRowCount(); i++) {
+            TreePath treePath = getPathForRow(i);
+            expansionState.put(treePath, isExpanded(i));
+        }
+        return expansionState;
+    }
+
+    /**
+     * Sets expansion state of the displayed tree.
+     *
+     * @param expansionState the expansion state
+     */
+    public void setExpansionState(Map<TreePath, Boolean> expansionState) {
+        for (Map.Entry<TreePath, Boolean> e : expansionState.entrySet()) {
+            if (e.getValue())
+                expandPath(e.getKey());
+        }
+    }
+
 
     /**
      * Removes the sub tree.
