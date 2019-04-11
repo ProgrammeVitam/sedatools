@@ -76,7 +76,7 @@ public class CleanThread extends SwingWorker<String, String> {
                     String newLog = logTextArea.getText() + "\n" + log;
                     logTextArea.setText(newLog);
                     logTextArea.setCaretPosition(newLog.length());
-                }, 1000);
+                }, 100);
             else
                 spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP);
 

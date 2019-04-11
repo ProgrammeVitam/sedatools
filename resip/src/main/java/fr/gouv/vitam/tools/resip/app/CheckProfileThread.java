@@ -69,7 +69,7 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 1000);
+            }, 100);
 
             if (work==null)
                 throw new SEDALibException("Pas de contenu à valider");
