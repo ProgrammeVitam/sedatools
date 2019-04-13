@@ -163,7 +163,7 @@ public class StatisticWindow extends JFrame {
                 Point p = me.getPoint();
                 int row = table.rowAtPoint(p);
                 if (me.getClickCount() ==2)
-                    handleFormatDoubleClick(row);
+                    buttonSearch();
             }
         });
         scrollPane.setViewportView(statisticTable);
@@ -275,10 +275,6 @@ public class StatisticWindow extends JFrame {
                 .convertRowIndexToModel(selectedIndex), 0);
         else
             formatCategory=null;
-    }
-
-    private void handleFormatDoubleClick(int row){
-        buttonSearch();
     }
 
     private void buttonSearch() {

@@ -57,6 +57,8 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -325,6 +327,13 @@ public class MainWindow extends JFrame {
         dataObjectListViewer.setLayoutOrientation(JList.VERTICAL);
         dataObjectListViewer.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         DataObjectListCellRenderer dataObjectListCellRenderer = new DataObjectListCellRenderer();
+        dataObjectListViewer.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent me) {
+                DataObjectListViewer dolv =(DataObjectListViewer) me.getSource();
+                if (me.getClickCount() == 2)
+                    buttonOpenObject();
+            }
+        });
         dataObjectListViewer.setCellRenderer(dataObjectListCellRenderer);
 
         openObjectButton = new JButton("Ouvrir l'objet");
