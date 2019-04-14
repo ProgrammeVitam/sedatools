@@ -16,17 +16,14 @@ import java.util.prefs.Preferences;
  */
 public class DiskImportContext extends CreationContext {
 
-	// disk import elements
 	/**
 	 * The ignore pattern list.
 	 */
-// prefs elements
 	List<String> ignorePatternList;
 
 	/**
 	 * The No link flag.
 	 */
-//** The no link flag. */
 	boolean noLinkFlag;
 
 	/**
