@@ -48,9 +48,9 @@ public class WorkTest implements UseTestFiles {
 		ignorePatternList.add("Thumbs.db");
 		ignorePatternList.add("pagefile.sys");
 		ExportContext gmc=new ExportContext("src/test/resources/PacketSamples/ExportContext.config");
-		CreationContext oic=new DiskImportContext(ignorePatternList,"src/test/resources/PacketSamples/SampleWithoutLinksModelV2", destLog);
+		CreationContext oic=new DiskImportContext(ignorePatternList,false, "src/test/resources/PacketSamples/SampleWithoutLinksModelV2", destLog);
 		Work ow=new Work(null,oic,gmc);
-		
+
 		DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(ow.getCreationContext().getOnDiskInput(),
 				spl);
 		for (String ip : ((DiskImportContext) ow.getCreationContext()).getIgnorePatternList())

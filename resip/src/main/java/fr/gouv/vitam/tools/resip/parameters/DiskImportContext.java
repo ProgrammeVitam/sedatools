@@ -10,39 +10,52 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class DiskImportContext.
  */
 public class DiskImportContext extends CreationContext {
 
 	// disk import elements
-	/** The ignore pattern list. */
-	// prefs elements
+	/**
+	 * The ignore pattern list.
+	 */
+// prefs elements
 	List<String> ignorePatternList;
-	
-	/** The model version. */
+
+	/**
+	 * The No link flag.
+	 */
+//** The no link flag. */
+	boolean noLinkFlag;
+
+	/**
+	 * The model version.
+	 */
 	int modelVersion;
 
 	/**
 	 * Instantiates a new disk import context.
 	 */
 	public DiskImportContext() {
-		this(null, null, null);
+		this(null, false, null, null);
 	}
 
 	/**
 	 * Instantiates a new disk import context.
 	 *
 	 * @param ignorePatternList the ignore pattern list
-	 * @param onDiskInput the on disk input
-	 * @param workDir the work dir
+	 * @param noLinkFlag        the no link flag
+	 * @param onDiskInput       the on disk input
+	 * @param workDir           the work dir
 	 */
-	public DiskImportContext(List<String> ignorePatternList, String onDiskInput, String workDir) {
+	public DiskImportContext(List<String> ignorePatternList, boolean noLinkFlag, String onDiskInput, String workDir) {
 		super(onDiskInput, workDir);
 		if (ignorePatternList == null)
 			this.ignorePatternList = new ArrayList<String>();
 		else
 			this.ignorePatternList = ignorePatternList;
+		this.noLinkFlag=noLinkFlag;
 	}
 
 	/**
@@ -58,6 +71,7 @@ public class DiskImportContext extends CreationContext {
 			ignorePatternList = new ArrayList<String>();
 		else
 			ignorePatternList = Arrays.asList(ignorePatternsString.split("\\s*\n\\s*"));
+		noLinkFlag=contextNode.getBoolean("noLinkFlag", false);
 	}
 
 	/* (non-Javadoc)
@@ -67,6 +81,7 @@ public class DiskImportContext extends CreationContext {
 		super.toPrefs(globalNode);
 		Preferences contextNode = globalNode.node("DiskImportContext");
 		contextNode.put("ignorePatternList", String.join("\n", ignorePatternList));
+		contextNode.putBoolean("noLinkFlag",noLinkFlag);
 		contextNode.flush();
 	}
 
@@ -76,6 +91,7 @@ public class DiskImportContext extends CreationContext {
 	public void setDefaultPrefs() {
 		super.setDefaultPrefs();
 		ignorePatternList = Arrays.asList("Thumbs.db", "pagefile.sys");
+		noLinkFlag=false;
 	}
 
 	// Getters and setters
@@ -96,6 +112,24 @@ public class DiskImportContext extends CreationContext {
 	 */
 	public void setIgnorePatternList(List<String> ignorePatternList) {
 		this.ignorePatternList = ignorePatternList;
+	}
+
+	/**
+	 * Is no link flag boolean.
+	 *
+	 * @return the boolean
+	 */
+	public boolean isNoLinkFlag() {
+		return noLinkFlag;
+	}
+
+	/**
+	 * Sets no link flag.
+	 *
+	 * @param noLinkFlag the no link flag
+	 */
+	public void setNoLinkFlag(boolean noLinkFlag) {
+		this.noLinkFlag = noLinkFlag;
 	}
 
 	/**

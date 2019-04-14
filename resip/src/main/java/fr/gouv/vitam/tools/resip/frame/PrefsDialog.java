@@ -73,6 +73,7 @@ public class PrefsDialog extends JDialog {
     private JCheckBox messageMetadataCheckBox;
     private JCheckBox attachementMetadataCheckBox;
     private JTextArea ignorePatternsTextArea;
+    private JCheckBox ignoreLinksChexBox;
     private JComboBox csvCharsetCombobox;
     private JTextField csvDelimiterTextField;
 
@@ -742,6 +743,18 @@ public class PrefsDialog extends JDialog {
             ignorePatternsTextArea.setText(sb.toString().trim());
         }
 
+        ignoreLinksChexBox=new JCheckBox("ignorer les liens symboliques et rassourcis");
+        ignoreLinksChexBox.setSelected(dic.isNoLinkFlag());
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        importParametersPanel.add(ignoreLinksChexBox, gbc);
+
         JLabel csvImportLabel = new JLabel("Import des csv");
         csvImportLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -751,7 +764,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         importParametersPanel.add(csvImportLabel, gbc);
 
         JLabel csvCharsetLabel = new JLabel("Encodage des csv :");
@@ -759,7 +772,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         importParametersPanel.add(csvCharsetLabel, gbc);
 
         csvCharsetCombobox = new JComboBox(charsetStrings);
@@ -768,7 +781,7 @@ public class PrefsDialog extends JDialog {
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         importParametersPanel.add(csvCharsetCombobox, gbc);
         csvCharsetCombobox.setSelectedItem(cmic.getCsvCharsetName());
 
@@ -777,7 +790,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         importParametersPanel.add(lblCsvDelimiter, gbc);
 
         csvDelimiterTextField = new JTextField();
@@ -787,7 +800,7 @@ public class PrefsDialog extends JDialog {
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridwidth = 2;
         gbc.gridx = 1;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         gbc.anchor = GridBagConstraints.WEST;
         importParametersPanel.add(csvDelimiterTextField, gbc);
         csvDelimiterTextField.setColumns(1);
@@ -930,6 +943,7 @@ public class PrefsDialog extends JDialog {
         ctic.setWorkDir(workDirTextField.getText());
 
         dic.setIgnorePatternList(Arrays.asList(ignorePatternsTextArea.getText().split("\\s*\n\\s*")));
+        dic.setNoLinkFlag(ignoreLinksChexBox.isSelected());
 
         mic.setExtractMessageTextMetadata(messageMetadataCheckBox.isSelected());
         mic.setExtractAttachmentTextMetadata(attachementMetadataCheckBox.isSelected());

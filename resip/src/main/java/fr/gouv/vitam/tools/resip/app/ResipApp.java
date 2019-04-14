@@ -102,6 +102,10 @@ import java.util.List;
  * <td>generate a SEDA manifest, argument is manifest file name</td>
  * </tr>
  * <tr>
+ * <td>--nolink</td>
+ * <td>ignore symbolic links and windows shortcuts</td>
+ * </tr>
+ * <tr>
  * <td>--workdir</td>
  * <td>define the working directory for logs and temporary extractions</td>
  * </tr>
@@ -165,6 +169,10 @@ public class ResipApp {
                 "génère le manifest SEDA de la structure importée avec en argument le nom du fichier à " +
                         "générer");
         options.addOption(manifest);
+
+        Option nolink = new Option("n", "nolink", false,
+                "indique qu'il faut ignorer les liens symboliques et raccourcis");
+        options.addOption(nolink);
 
         Option workdir = new Option("w", "workdir", true,
                 "désigne le répertoire de travail pour les logs, les répertoires d'extraction temporaire");
@@ -320,7 +328,7 @@ public class ResipApp {
                     System.exit(1);
                 }
             }
-            creationContext = new DiskImportContext(Arrays.asList(excludePatterns), cmd.getOptionValue("diskimport"), workdirString);
+            creationContext = new DiskImportContext(Arrays.asList(excludePatterns), false, cmd.getOptionValue("diskimport"), workdirString);
         } else if (cmd.hasOption("sipimport"))
             creationContext = new SIPImportContext(cmd.getOptionValue("sipimport"), workdirString);
         else if (cmd.hasOption("listimport")) {

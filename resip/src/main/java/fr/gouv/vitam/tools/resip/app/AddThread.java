@@ -118,12 +118,12 @@ public class AddThread extends SwingWorker<String, String> {
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
             }, 100);
 
-            di = new DiskToDataObjectPackageImporter(lp, spl);
             DiskImportContext dic;
             if (this.work.getCreationContext() instanceof DiskImportContext)
                 dic = (DiskImportContext) this.work.getCreationContext();
             else
                 dic = new DiskImportContext(Prefs.getInstance().getPrefsContextNode());
+            di = new DiskToDataObjectPackageImporter(lp,dic.isNoLinkFlag(),null, spl);
             for (String ip : dic.getIgnorePatternList())
                 di.addIgnorePattern(ip);
             di.doImport();

@@ -138,12 +138,14 @@ public class ImportThread extends SwingWorker<Work, String> {
 
             if (work.getCreationContext() instanceof DiskImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n");
+                DiskImportContext diskImportContext=(DiskImportContext) work.getCreationContext();
                 DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(),
+                        diskImportContext.isNoLinkFlag(),null,
                         spl);
-                for (String ip : ((DiskImportContext) work.getCreationContext()).getIgnorePatternList())
+                for (String ip : diskImportContext.getIgnorePatternList())
                     di.addIgnorePattern(ip);
                 di.doImport();
-                ((DiskImportContext) work.getCreationContext()).setModelVersion(di.getModelVersion());
+                diskImportContext.setModelVersion(di.getModelVersion());
                 setWorkFromArchiveTransfer(di.getArchiveTransfer());
                 summary = di.getSummary();
             } else if (work.getCreationContext() instanceof SIPImportContext) {
