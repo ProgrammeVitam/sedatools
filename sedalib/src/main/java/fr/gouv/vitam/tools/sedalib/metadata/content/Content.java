@@ -27,9 +27,16 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
+import javax.xml.stream.XMLStreamException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * The Class Content.
@@ -105,5 +112,31 @@ public class Content extends ComplexListType {
      */
     public Content() {
         super("Content");
+    }
+
+    /**
+     * Return the XML export form as the String representation.
+     *
+     * @return the indented XML form String
+     */
+    public String filteredToString(List<String> keptMetadataList) {
+        String result = null;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+            xmlWriter.writeStartElement(elementName);
+            for (SEDAMetadata sm : metadataList) {
+                if (keptMetadataList.contains(sm.getXmlElementName()))
+                    sm.toSedaXml(xmlWriter);
+            }
+            xmlWriter.writeEndElement();
+            xmlWriter.flush();
+            result = baos.toString("UTF-8");
+            if (result.startsWith("\n"))
+                result = result.substring(1);
+        } catch (XMLStreamException | IOException | SEDALibException e) {
+            if (result == null)
+                result = super.toString();
+        }
+        return result;
     }
 }

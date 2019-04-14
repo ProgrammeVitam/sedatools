@@ -42,7 +42,12 @@ import java.util.Map.Entry;
 /**
  * The Class DataObjectPackage
  * <p>
- * Abstract super class for SEDA messages containing a ArchiveTransfer.
+ * Class for the SEDA SIP DataObjectPackage. It contains all the elements
+ * in tree structure ArchiveUnits and DataObjects.
+ * <p>
+ * It has also a specific exportMetadataList field which define the list
+ * of descriptive metadata elements kept in export. This is used to restrict
+ *  the set of metadata that an archiving system can handle.
  */
 public class DataObjectPackage {
 
@@ -79,6 +84,12 @@ public class DataObjectPackage {
     private ArchiveUnit ghostRootAu;
 
     // Inner objects
+
+    /**
+     * The kept metadata list for export.
+     */
+    private List<String> exportMetadataList;
+
     /**
      * The counter used to generate inArchiveTransferIds.
      */
@@ -141,6 +152,7 @@ public class DataObjectPackage {
         }
         this.ghostRootAu.setDataObjectPackage(this);
 
+        this.exportMetadataList=null;
         this.resetIdCounter();
         this.resetRefIdCounter();
         this.resetInOutCounter();
@@ -1302,5 +1314,23 @@ public class DataObjectPackage {
      */
     public void setManagementMetadataXmlData(String managementMetadataXmlData) {
         this.managementMetadataXmlData = managementMetadataXmlData;
+    }
+
+    /**
+     * Gets export metadata list.
+     *
+     * @return the export metadata list
+     */
+    public List<String> getExportMetadataList() {
+        return exportMetadataList;
+    }
+
+    /**
+     * Sets export metadata list.
+     *
+     * @param exportMetadataList the export metadata list
+     */
+    public void setExportMetadataList(List<String> exportMetadataList) {
+        this.exportMetadataList = exportMetadataList;
     }
 }
