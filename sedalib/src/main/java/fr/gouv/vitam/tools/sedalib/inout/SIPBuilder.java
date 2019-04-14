@@ -44,6 +44,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.function.Function;
 
 /**
  * The Class SIPBuilder.
@@ -393,10 +394,35 @@ public class SIPBuilder implements AutoCloseable {
      */
     public void addDiskSubTree(String archiveUnitID, String onDiskPathString, String... ignorePatterString)
             throws SEDALibException {
+        addDiskSubTree(archiveUnitID,onDiskPathString,false,null,ignorePatterString);
+    }
+
+    /**
+     * Adds the tree representation of a disk hierarchy to the given archive unit.
+     * <p>
+     * It will take into account two options:
+     * <ul>
+     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored</li>
+     * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
+     * </ul>
+     *
+     * @param archiveUnitID                    the archive unit ID
+     * @param onDiskPathString                 the on disk path string
+     * @param noLinkFlag                       the no link flag
+     * @param extractTitleFromFileNameFunction the extract title from file name function
+     * @param ignorePatterString               the ignore patter string
+     * @throws SEDALibException if no identified ArchiveUnit
+     */
+    public void addDiskSubTree(String archiveUnitID, String onDiskPathString, boolean noLinkFlag,
+                               Function<String,String> extractTitleFromFileNameFunction,
+                               String... ignorePatterString)
+            throws SEDALibException {
+
         ArchiveUnit parentAU = archiveTransfer.getDataObjectPackage().getArchiveUnitById(archiveUnitID);
         if (parentAU == null)
             throw new SEDALibException("Pas d'ArchiveUnit avec l'identifiant [" + archiveUnitID + "]");
-        DiskToDataObjectPackageImporter di = new DiskToDataObjectPackageImporter(onDiskPathString, sedaLibProgressLogger);
+        DiskToDataObjectPackageImporter di = new DiskToDataObjectPackageImporter(onDiskPathString, noLinkFlag,
+                extractTitleFromFileNameFunction,sedaLibProgressLogger);
 
         for (String ip : ignorePatterString)
             di.addIgnorePattern(ip);

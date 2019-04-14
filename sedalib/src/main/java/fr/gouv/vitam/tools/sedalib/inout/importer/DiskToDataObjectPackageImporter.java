@@ -41,6 +41,7 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
@@ -130,6 +131,11 @@ import java.util.stream.Stream;
  * reference to the ArchiveUnit or the DataObjectGroup represented by the
  * target</li>
  * </ul>
+ * There are also two options in any model, that can be added to the constructors:
+ * <ul>
+ * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored (default false)</li>
+ * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (default simple copy)</li>
+ * </ul>
  */
 public class DiskToDataObjectPackageImporter {
 
@@ -185,16 +191,27 @@ public class DiskToDataObjectPackageImporter {
     private Instant start, end;
 
     /**
+     * The no link flag.
+     */
+    private boolean noLinkFlag;
+
+    /**
+     * The function used to extract Title from filename.
+     */
+    private Function<String, String> extractTitleFromFileNameFunction;
+
+    /**
+     * The simpleCopy function used by default to extract Title from file name.
+     */
+    static public Function<String, String> simpleCopy = s -> s;
+
+    /**
      * The progress logger.
      */
     private SEDALibProgressLogger sedaLibProgressLogger;
 
-    /**
-     * Instantiates a new DataObjectPackage importer.
-     *
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
-     */
-    private DiskToDataObjectPackageImporter(SEDALibProgressLogger sedaLibProgressLogger) {
+    private DiskToDataObjectPackageImporter(boolean noLinkFlag, Function<String, String> extractTitleFromFileNameFunction,
+                                            SEDALibProgressLogger sedaLibProgressLogger) {
         this.onDiskRootPaths = new ArrayList<Path>();
         this.dataObjectPackage = null;
         ignorePatterns = new ArrayList<Pattern>();
@@ -202,6 +219,11 @@ public class DiskToDataObjectPackageImporter {
         this.auPathStringMap = new HashMap<String, ArchiveUnit>();
         this.dogPathStringMap = new HashMap<String, DataObjectGroup>();
         this.modelVersion = 0;
+        this.noLinkFlag = noLinkFlag;
+        if (extractTitleFromFileNameFunction != null)
+            this.extractTitleFromFileNameFunction = extractTitleFromFileNameFunction;
+        else
+            this.extractTitleFromFileNameFunction = simpleCopy;
 
         this.inCounter = 0;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
@@ -219,7 +241,32 @@ public class DiskToDataObjectPackageImporter {
      */
     public DiskToDataObjectPackageImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException {
-        this(sedaLibProgressLogger);
+        this(directory, false, simpleCopy, sedaLibProgressLogger);
+    }
+
+    /**
+     * Instantiates a new DataObjectPackage importer from a single directory name.
+     * <p>
+     * It will consider each directory and each file in this directory as a root
+     * ArchiveUnit or the management metadata file
+     * <p>
+     * It will take into account two options:
+     * <ul>
+     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored</li>
+     * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
+     * </ul>
+     *
+     * @param directory                        the directory
+     * @param noLinkFlag                       the no link flag
+     * @param extractTitleFromFileNameFunction the extract title from file name function
+     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
+     * @throws SEDALibException if not a directory
+     */
+    public DiskToDataObjectPackageImporter(String directory, boolean noLinkFlag,
+                                           Function<String, String> extractTitleFromFileNameFunction,
+                                           SEDALibProgressLogger sedaLibProgressLogger)
+            throws SEDALibException {
+        this(noLinkFlag, extractTitleFromFileNameFunction, sedaLibProgressLogger);
         Path path;
         Iterator<Path> pi;
 
@@ -247,7 +294,30 @@ public class DiskToDataObjectPackageImporter {
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
     public DiskToDataObjectPackageImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
-        this(sedaLibProgressLogger);
+        this(paths, false, simpleCopy, sedaLibProgressLogger);
+    }
+
+    /**
+     * Instantiates a new DataObjectPackage importer from a list of paths.
+     * <p>
+     * It will consider each directory and each file in this list as a root
+     * ArchiveUnit or the management metadata file
+     * <p>
+     * It will take into account two options:
+     * <ul>
+     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored</li>
+     * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
+     * </ul>
+     *
+     * @param paths                            the paths
+     * @param noLinkFlag                       the no link flag
+     * @param extractTitleFromFileNameFunction the extract title from file name function
+     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
+     */
+    public DiskToDataObjectPackageImporter(List<Path> paths, boolean noLinkFlag,
+                                           Function<String, String> extractTitleFromFileNameFunction,
+                                           SEDALibProgressLogger sedaLibProgressLogger) {
+        this(noLinkFlag, extractTitleFromFileNameFunction, sedaLibProgressLogger);
         this.onDiskRootPaths = paths;
         dataObjectPackage = new DataObjectPackage();
     }
@@ -354,9 +424,12 @@ public class DiskToDataObjectPackageImporter {
         if (au != null)
             return au;
 
-        if (analyzeLink(path))
-            au = processSymbolicLink(lastAnalyzedLinkTarget);
-        else if (Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS))
+        if (analyzeLink(path)) {
+            if (noLinkFlag)
+                au = null;
+            else
+                au = processSymbolicLink(lastAnalyzedLinkTarget);
+        } else if (Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS))
             au = processDirectory(path);
         else
             au = processFile(path, true);
@@ -393,7 +466,6 @@ public class DiskToDataObjectPackageImporter {
     private ArchiveUnit processSymbolicLink(Path path) throws SEDALibException, InterruptedException {
         ArchiveUnit au;
 
-        analyzeLink(path);
         // verify it's in the original path
         if (!isInRootPaths(lastAnalyzedLinkTarget))
             throw new SEDALibException(
@@ -598,6 +670,8 @@ public class DiskToDataObjectPackageImporter {
                 if (!Files.isDirectory(curPath) && mustBeIgnored(fileName)) {
                     continue;
                 } else if (analyzeLink(curPath)) {
+                    if (noLinkFlag)
+                        continue;
                     // verify it's in the currently imported path
                     if (!isInRootPaths(lastAnalyzedLinkTarget))
                         throw new SEDALibException(
@@ -673,7 +747,7 @@ public class DiskToDataObjectPackageImporter {
 
             }
             if (!auMetadataDefined)
-                au.setDefaultContent(dirName, "RecordGrp");
+                au.setDefaultContent(extractTitleFromFileNameFunction.apply(dirName), "RecordGrp");
         } catch (IOException e) {
             throw new SEDALibException(
                     "Impossible de parcourir le répertoire [" + path.toString() + "]->" + e.getMessage());
@@ -727,7 +801,7 @@ public class DiskToDataObjectPackageImporter {
         bdo = new BinaryDataObject(dataObjectPackage, path, null, "BinaryMaster_1");
         au = new ArchiveUnit(dataObjectPackage);
         au.setOnDiskPath(path);
-        au.setDefaultContent(path.getFileName().toString(), "Item");
+        au.setDefaultContent(extractTitleFromFileNameFunction.apply(path.getFileName().toString()), "Item");
 
         auPathStringMap.put(au.getOnDiskPath().toString(), au);
         dogPathStringMap.put(dog.getOnDiskPath().toString(), dog);
