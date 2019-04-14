@@ -177,6 +177,8 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
         archiveUnitProfile = (ArchiveUnitProfile) ArchiveUnitProfile.fromString(archiveUnitProfileXmlData,
                 ArchiveUnitProfile.class);
+        // as fromString function normalise ArchiveUnitProfile had to destroy approximate version archiveUnitProfileXmlData
+        archiveUnitProfileXmlData=null;
         return archiveUnitProfile;
     }
 
@@ -228,6 +230,8 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
         management = (Management) Management.fromString(managementXmlData,
                 Management.class);
+        // as fromString function normalise Management had to destroy approximate version managementXmlData
+        managementXmlData=null;
         return management;
     }
 
@@ -260,6 +264,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      *
      * @return the compliance flag.
      */
+    @JsonIgnore
     public boolean isContentSEDACompliant(){
         if (content!=null)
             return true;
@@ -279,6 +284,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      *
      * @return the content xml data
      */
+    @JsonIgnore
     public String getFilteredContentExportString(){
         if (getDataObjectPackage().getExportMetadataList()==null)
             return getContentXmlData();
@@ -317,6 +323,8 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
         content = (Content) Content.fromString(contentXmlData,
                 Content.class);
+        // as fromString function normalise Content had to destroy approximate version contentXmlData
+        contentXmlData=null;
         return content;
     }
 
