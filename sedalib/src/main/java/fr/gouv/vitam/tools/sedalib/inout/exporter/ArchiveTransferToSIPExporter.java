@@ -211,7 +211,7 @@ public class ArchiveTransferToSIPExporter {
                 }
             }
         } catch (IOException | SEDALibException e) {
-            throw new SEDALibException("Echec de l'export du SIP dans le fichier [" + fileName + "]");
+            throw new SEDALibException("Echec de l'export du SIP dans le fichier [" + fileName + "]\n->"+e.getMessage());
         }
         if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(counter) +
