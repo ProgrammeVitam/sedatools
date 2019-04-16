@@ -17,7 +17,6 @@ public class TestUtilities {
 	private static boolean isWindows = false;
 
 	private static void createSymbolicLink(String link, String target) throws SEDALibException {
-		System.err.println("link="+link+" target="+target);
 		Path linkpath = Paths.get(link);
 		Path targetpath = Paths.get(target);
 		try {

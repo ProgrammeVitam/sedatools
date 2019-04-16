@@ -117,6 +117,7 @@ public class Content extends ComplexListType {
     /**
      * Return the XML export form as the String representation.
      *
+     * @param keptMetadataList the kept metadata list
      * @return the indented XML form String
      */
     public String filteredToString(List<String> keptMetadataList) {

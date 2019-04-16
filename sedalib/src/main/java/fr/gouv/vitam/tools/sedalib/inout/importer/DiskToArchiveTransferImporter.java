@@ -176,8 +176,10 @@ public class DiskToArchiveTransferImporter {
      * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
      * </ul>
      *
-     * @param paths          the paths
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param paths                            the paths
+     * @param noLinkFlag                       the no link flag
+     * @param extractTitleFromFileNameFunction the extract title from file name function
+     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      */
     public DiskToArchiveTransferImporter(List<Path> paths, boolean noLinkFlag,
                                          Function<String, String> extractTitleFromFileNameFunction,
