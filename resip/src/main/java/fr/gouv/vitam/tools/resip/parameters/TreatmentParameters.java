@@ -115,27 +115,22 @@ public class TreatmentParameters {
     public void setDefaultPrefs() {
         formatByCategoryMap=new LinkedHashMap<String,List<String>>();
 
-        formatByCategoryMap.put("Compressé (zip,tar...)",Arrays.asList("fmt/484", "x-fmt/263", "x-fmt/265", "x-fmt/266",
-                "x-fmt/268"));
         formatByCategoryMap.put("Base de données (access,filemaker...)",Arrays.asList("fmt/161", "fmt/194", "fmt/275",
                 "fmt/995", "fmt/1196", "x-fmt/1", "x-fmt/8", "x-fmt/9", "x-fmt/10", "x-fmt/66", "x-fmt/238", "x-fmt/239",
                 "x-fmt/240", "x-fmt/241", "x-fmt/318", "x-fmt/319"));
-        formatByCategoryMap.put("Tableur (csv,xls,xlsx,ods...)",Arrays.asList("fmt/55", "fmt/56", "fmt/57", "fmt/59",
-                "fmt/61", "fmt/62", "fmt/137", "fmt/175", "fmt/176", "fmt/177", "fmt/214", "fmt/294", "fmt/295",
-                "fmt/445", "x-fmt/18"));
-        formatByCategoryMap.put("Texte (doc,docx,odt...)", Arrays.asList("fmt/37", "fmt/38", "fmt/39", "fmt/40", "fmt/45",
-                "fmt/50", "fmt/51", "fmt/52", "fmt/53", "fmt/136", "fmt/258", "fmt/290", "fmt/291", "fmt/412", "fmt/609",
-                "fmt/754", "x-fmt/42", "x-fmt/43", "x-fmt/44", "x-fmt/64", "x-fmt/65", "x-fmt/273", "x-fmt/274",
-                "x-fmt/275", "x-fmt/276", "x-fmt/393", "x-fmt/394"));
+        formatByCategoryMap.put("Chiffré",Arrays.asList("fmt/494", "fmt/754", "fmt/755"));
+        formatByCategoryMap.put("Compressé (zip,tar...)",Arrays.asList("fmt/484", "x-fmt/263", "x-fmt/265", "x-fmt/266",
+                "x-fmt/268"));
+        formatByCategoryMap.put("Dessin (svg,odg,autocad...)",Arrays.asList("fmt/21", "fmt/22", "fmt/23", "fmt/24",
+                "fmt/25", "fmt/26", "fmt/27", "fmt/28", "fmt/29", "fmt/30", "fmt/31", "fmt/32", "fmt/33", "fmt/34",
+                "fmt/35", "fmt/36"));
         formatByCategoryMap.put("Exécutable",Arrays.asList("fmt/688", "fmt/689", "fmt-899", "fmt/900", "x-fmt/409",
                 "x-fmt/410", "x-fmt/411"));
-        formatByCategoryMap.put("Chiffré",Arrays.asList("fmt/494", "fmt/754", "fmt/755"));
         formatByCategoryMap.put("HTML",Arrays.asList("fmt/96", "fmt/97", "fmt/98", "fmt/99", "fmt/100", "fmt/101",
                 "fmt/102", "fmt/103", "fmt/471"));
         formatByCategoryMap.put("Image (jpg,jpg2000,tiff...)", Arrays.asList("fmt/3", "fmt/4", "fmt/11", "fmt/12",
                 "fmt/13", "fmt/41", "fmt/42", "fmt/43", "fmt/44", "fmt/150", "fmt/156", "fmt/353", "fmt/463", "fmt/529",
                 "fmt/645", "x-fmt/387", "x-fmt/390", "x-fmt/391", "x-fmt/392", "x-fmt/398"));
-        formatByCategoryMap.put("Non connu",Arrays.asList("UNKNOWN"));
         formatByCategoryMap.put("Messagerie (mbox,pst,eml...)",Arrays.asList("fmt/278", "fmt/720", "fmt/950", "x-fmt/248",
                 "x-fmt/249", "x-fmt/430"));
         formatByCategoryMap.put("Pdf",Arrays.asList("fmt/14", "fmt/15", "fmt/16", "fmt/17", "fmt/18", "fmt/19", "fmt/20",
@@ -147,13 +142,18 @@ public class TreatmentParameters {
         formatByCategoryMap.put("Son (wave,mp3...)",Arrays.asList("fmt/1", "fmt/2", "fmt/6", "fmt/132", "fmt/134",
                 "fmt/141", "fmt/142", "fmt/527", "fmt/703", "fmt/704", "fmt/705", "fmt/706", "fmt/707", "fmt/708",
                 "fmt/709", "fmt/710", "fmt/711"));
-        formatByCategoryMap.put("Dessin (svg,odg,autocad...)",Arrays.asList("fmt/21", "fmt/22", "fmt/23", "fmt/24",
-                "fmt/25", "fmt/26", "fmt/27", "fmt/28", "fmt/29", "fmt/30", "fmt/31", "fmt/32", "fmt/33", "fmt/34",
-                "fmt/35", "fmt/36"));
+        formatByCategoryMap.put("Structuré (XML,json)",Arrays.asList("fmt/101", "fmt/817", "fmt/880"));
+        formatByCategoryMap.put("Tableur (csv,xls,xlsx,ods...)",Arrays.asList("fmt/55", "fmt/56", "fmt/57", "fmt/59",
+                "fmt/61", "fmt/62", "fmt/137", "fmt/175", "fmt/176", "fmt/177", "fmt/214", "fmt/294", "fmt/295",
+                "fmt/445", "x-fmt/18"));
+        formatByCategoryMap.put("Texte (doc,docx,odt...)", Arrays.asList("fmt/37", "fmt/38", "fmt/39", "fmt/40", "fmt/45",
+                "fmt/50", "fmt/51", "fmt/52", "fmt/53", "fmt/136", "fmt/258", "fmt/290", "fmt/291", "fmt/412", "fmt/609",
+                "fmt/754", "x-fmt/42", "x-fmt/43", "x-fmt/44", "x-fmt/64", "x-fmt/65", "x-fmt/273", "x-fmt/274",
+                "x-fmt/275", "x-fmt/276", "x-fmt/393", "x-fmt/394"));
         formatByCategoryMap.put("Texte brut",Arrays.asList("x-fmt/111"));
         formatByCategoryMap.put("Video (avi,mov,mpeg,mp4...)",Arrays.asList("fmt/5", "fmt/199", "fmt/569", "fmt/640",
                 "fmt/649", "fmt/797", "x-fmt/384", "x-fmt/385", "x-fmt/386"));
-        formatByCategoryMap.put("Structuré (XML,json)",Arrays.asList("fmt/101", "fmt/817", "fmt/880"));
+        formatByCategoryMap.put("Non connu",Arrays.asList("UNKNOWN"));
         formatByCategoryMap.put("Autres...",Arrays.asList("Other"));
         dupMax=10000;
     }
