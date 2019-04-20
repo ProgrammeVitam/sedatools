@@ -116,7 +116,7 @@ public class AddThread extends SwingWorker<String, String> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 100);
+            }, 1000,2);
 
             DiskImportContext dic;
             if (this.work.getCreationContext() instanceof DiskImportContext)

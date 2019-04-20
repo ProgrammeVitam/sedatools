@@ -127,7 +127,8 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         String tmp = null;
         int counter = 0;
         try {
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null, 1000);
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null,
+                    1000,2);
             dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
 
             spl.progressLog(SEDALibProgressLogger.GLOBAL, "Recherche de doublons ( " + (binaryHash ? "hachage de fichier " : "") +

@@ -134,7 +134,7 @@ public class ImportThread extends SwingWorker<Work, String> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 100);
+            }, 1000,2);
 
             if (work.getCreationContext() instanceof DiskImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n");
@@ -191,7 +191,7 @@ public class ImportThread extends SwingWorker<Work, String> {
                     String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                     inOutDialog.extProgressTextArea.setText(newLog);
                     inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                }, 100);
+                }, 1000,2);
                 MailImportContext mic = (MailImportContext) work.getCreationContext();
                 String target = getTmpDirTarget(mic.getWorkDir(), mic.getOnDiskInput());
                 MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),

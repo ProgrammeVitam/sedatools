@@ -89,7 +89,7 @@ public class ExportThread extends SwingWorker<String, String> {
 					String newLog = logTextArea.getText() + "\n" + log;
 					logTextArea.setText(newLog);
 					logTextArea.setCaretPosition(newLog.length());
-				},  100);
+				},  1000,2);
 			else
 				spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP);
 
