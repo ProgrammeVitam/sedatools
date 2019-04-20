@@ -701,6 +701,178 @@ class ContentTest {
         assertThat(tmp).isEqualTo(csvListString);
     }
 
+    @Test
+    void testFilteredToString() throws SEDALibException {
+        // Given
+        String contentXmlData = "<Content>\n" +
+                "  <DescriptionLevel>Series</DescriptionLevel>\n" +
+                "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
+                "  <Description lang=\"en\">TestDescription EN</Description>\n" +
+                "  <CustodialHistory>\n" +
+                "    <CustodialHistoryItem>TestItem1</CustodialHistoryItem>\n" +
+                "    <CustodialHistoryItem>TestItem2</CustodialHistoryItem>\n" +
+                "    <CustodialHistoryItem>TestItem3</CustodialHistoryItem>\n" +
+                "    <CustodialHistoryItem>TestItem4</CustodialHistoryItem>\n" +
+                "  </CustodialHistory>\n" +
+                "  <Keyword>\n" +
+                "    <KeywordType>subject</KeywordType>\n" +
+                "  </Keyword>\n" +
+                "  <Coverage>\n" +
+                "    <Spatial>TestSpatial1</Spatial>\n" +
+                "    <Spatial>TestSpatial2</Spatial>\n" +
+                "    <Spatial>TestSpatial3</Spatial>\n" +
+                "    <Temporal>TestTemporal1</Temporal>\n" +
+                "    <Temporal>TestTemporal2</Temporal>\n" +
+                "    <Juridictional>TestJuridictional1</Juridictional>\n" +
+                "  </Coverage>\n" +
+                "  <OriginatingAgency>\n" +
+                "    <Identifier>Agency1</Identifier>\n" +
+                "  </OriginatingAgency>\n" +
+                "  <Writer>\n" +
+                "    <FirstName>TestPrenom</FirstName>\n" +
+                "    <BirthName>TestNom</BirthName>\n" +
+                "    <BirthPlace>\n" +
+                "      <Geogname>Location1</Geogname>\n" +
+                "      <Country>Country1</Country>\n" +
+                "    </BirthPlace>\n" +
+                "    <Identifier>ID1</Identifier>\n" +
+                "    <Identifier>ID2</Identifier>\n" +
+                "    <Function>F1</Function>\n" +
+                "  </Writer>\n" +
+                "  <RelatedObjectReference>\n" +
+                "    <IsVersionOf>\n" +
+                "      <DataObjectReference>\n" +
+                "        <DataObjectGroupReferenceId>DogRefId</DataObjectGroupReferenceId>\n" +
+                "      </DataObjectReference>\n" +
+                "    </IsVersionOf>\n" +
+                "    <IsVersionOf>\n" +
+                "      <ArchiveUnitRefId>AURefId</ArchiveUnitRefId>\n" +
+                "    </IsVersionOf>\n" +
+                "    <Replaces>\n" +
+                "      <DataObjectReference>\n" +
+                "        <DataObjectReferenceId>DoRefId</DataObjectReferenceId>\n" +
+                "      </DataObjectReference>\n" +
+                "    </Replaces>\n" +
+                "    <Requires>\n" +
+                "      <RepositoryArchiveUnitPID>AuPid</RepositoryArchiveUnitPID>\n" +
+                "    </Requires>\n" +
+                "    <IsPartOf>\n" +
+                "      <RepositoryObjectPID>DoPid</RepositoryObjectPID>\n" +
+                "    </IsPartOf>\n" +
+                "    <References>\n" +
+                "      <ExternalReference>ExtrenalRef</ExternalReference>\n" +
+                "    </References>\n" +
+                "  </RelatedObjectReference>\n" +
+                "  <RegisteredDate>2104-05-13T00:00:00</RegisteredDate>\n" +
+                "  <Event>\n" +
+                "    <EventDateTime>1970-01-01T01:00:00</EventDateTime>\n" +
+                "    <Outcome>OK</Outcome>\n" +
+                "    <Information>OK</Information>\n" +
+                "  </Event>\n" +
+                "  <Event>\n" +
+                "    <EventIdentifier>AUT-234452</EventIdentifier>\n" +
+                "    <EventTypeCode>Autorisation</EventTypeCode>\n" +
+                "    <EventDateTime>2104-05-31T01:00:00</EventDateTime>\n" +
+                "    <Outcome>OK</Outcome>\n" +
+                "  </Event>\n" +
+                "  <Signature>\n" +
+                "    <Signer>\n" +
+                "      <FirstName>Paul</FirstName>\n" +
+                "      <BirthName>Dupont</BirthName>\n" +
+                "      <SigningTime>1970-01-01T01:00:00</SigningTime>\n" +
+                "    </Signer>\n" +
+                "    <Signer>\n" +
+                "      <FullName>Martin Durant</FullName>\n" +
+                "      <SigningTime>1970-01-02T01:00:00</SigningTime>\n" +
+                "    </Signer>\n" +
+                "    <Signer>\n" +
+                "      <FirstName>Emilie</FirstName>\n" +
+                "      <BirthName>Martin</BirthName>\n" +
+                "      <Identifier>emilie.martin@corp.fr</Identifier>\n" +
+                "      <SigningTime>1970-01-02T01:00:00</SigningTime>\n" +
+                "    </Signer>\n" +
+                "    <Signer>\n" +
+                "      <FullName>Laura Tremoulet</FullName>\n" +
+                "      <BirthPlace>\n" +
+                "        <Geogname>TestLocation1</Geogname>\n" +
+                "      </BirthPlace>\n" +
+                "      <SigningTime>1970-01-01T02:00:00</SigningTime>\n" +
+                "    </Signer>\n" +
+                "    <Validator>\n" +
+                "      <Corpname>The corporation</Corpname>\n" +
+                "      <ValidationTime>1970-01-03T01:00:00</ValidationTime>\n" +
+                "    </Validator>\n" +
+                "    <ReferencedObject>\n" +
+                "      <SignedObjectId>TestID1</SignedObjectId>\n" +
+                "      <SignedObjectDigest algorithm=\"TestSHA\">TestDigest1</SignedObjectDigest>\n" +
+                "    </ReferencedObject>\n" +
+                "  </Signature>\n" +
+                "  <Gps>\n" +
+                "    <GpsVersionID>TestVersion</GpsVersionID>\n" +
+                "    <GpsAltitude>10000</GpsAltitude>\n" +
+                "    <GpsAltitudeRef>0</GpsAltitudeRef>\n" +
+                "    <GpsLatitude>TestLatitude</GpsLatitude>\n" +
+                "    <GpsLatitudeRef>S</GpsLatitudeRef>\n" +
+                "    <GpsLongitude>TestLongitude</GpsLongitude>\n" +
+                "    <GpsLongitudeRef>O</GpsLongitudeRef>\n" +
+                "    <GpsDateStamp>TestDateStamp</GpsDateStamp>\n" +
+                "  </Gps>\n" +
+                "  <XMLTest>\n" +
+                "    <TestTag>TestValue</TestTag>\n" +
+                "  </XMLTest>\n" +
+                "  <XMLTest>\n" +
+                "    <TestTag>TestValue</TestTag>\n" +
+                "  </XMLTest>\n" +
+                "  <UniversalNumber>42</UniversalNumber>\n" +
+                "  <Frog>\n" +
+                "    <CommonName>Rouge à laser</CommonName>\n" +
+                "    <ScientificName>Rubra Rana Laseri</ScientificName>\n" +
+                "  </Frog>\n" +
+                "  <Frog>\n" +
+                "    <CommonName>Verte à détente</CommonName>\n" +
+                "    <ScientificName>Viridi Rana Elasticis</ScientificName>\n" +
+                "  </Frog>\n" +
+                "  <Requirer>\n" +
+                "    <Identifier>REF-16F14A19BF22</Identifier>\n" +
+                "    <FirstName>Edouard</FirstName>\n" +
+                "    <BirthName>AFINA</BirthName>\n" +
+                "  </Requirer>\n" +
+                "</Content>";
+
+        List<String> filter= Arrays.asList("Description","Title","Event","Frog");
+
+        Content content= (Content) Content.fromString(contentXmlData,
+                Content.class);
+
+        // When the csv list is generated
+        String tmp=content.filteredToString(filter);
+
+        // Then
+        String out="<Content>\n" +
+                "  <Description lang=\"en\">TestDescription EN</Description>\n" +
+                "  <Event>\n" +
+                "    <EventDateTime>1970-01-01T01:00:00</EventDateTime>\n" +
+                "    <Outcome>OK</Outcome>\n" +
+                "    <Information>OK</Information>\n" +
+                "  </Event>\n" +
+                "  <Event>\n" +
+                "    <EventIdentifier>AUT-234452</EventIdentifier>\n" +
+                "    <EventTypeCode>Autorisation</EventTypeCode>\n" +
+                "    <EventDateTime>2104-05-31T01:00:00</EventDateTime>\n" +
+                "    <Outcome>OK</Outcome>\n" +
+                "  </Event>\n" +
+                "  <Frog>\n" +
+                "    <CommonName>Rouge à laser</CommonName>\n" +
+                "    <ScientificName>Rubra Rana Laseri</ScientificName>\n" +
+                "  </Frog>\n" +
+                "  <Frog>\n" +
+                "    <CommonName>Verte à détente</CommonName>\n" +
+                "    <ScientificName>Viridi Rana Elasticis</ScientificName>\n" +
+                "  </Frog>\n" +
+                "</Content>";
+        assertThat(tmp).isEqualTo(out);
+    }
+
 
     @Test
     void testSpecificMetadata() throws SEDALibException {
