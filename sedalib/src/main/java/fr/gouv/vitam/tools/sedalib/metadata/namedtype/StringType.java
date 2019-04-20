@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
+import java.util.LinkedHashMap;
 
 /**
  * The Class StringType.
@@ -85,6 +86,18 @@ public class StringType extends NamedTypeMetadata {
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML dans un élément de type StringType ["+getXmlElementName()+"]\n->" + e.getMessage());
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
+     */
+    public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
+        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        result.put("",value);
+        return result;
     }
 
     /**

@@ -35,6 +35,7 @@ import javax.xml.stream.XMLStreamException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -200,6 +201,31 @@ public class RuleType extends NamedTypeMetadata {
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML dans un élément RuleType\n->" + e.getMessage());
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
+     */
+    public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
+        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        for (int i = 0; i < rules.size(); i++) {
+            result.put("Rule." + i, rules.get(i));
+            if (startDates.get(i) != null)
+                result.put("StartDate." + i, SEDAXMLStreamWriter.getStringFromDate(startDates.get(i)));
+        }
+        if (preventInheritance != null)
+            result.put("PreventInheritance", preventInheritance.toString());
+        int count = 0;
+        for (String refNonRuleId : refNonRuleIds) {
+            result.put("RefNonRuleId." + count, refNonRuleId);
+            count++;
+        }
+        if ((getFinalActionList()!=null) && (finalAction!=null))
+            result.put("FinalAction", finalAction);
+        return result;
     }
 
     /**
