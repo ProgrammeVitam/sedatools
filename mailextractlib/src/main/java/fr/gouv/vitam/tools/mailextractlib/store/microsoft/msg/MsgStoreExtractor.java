@@ -71,7 +71,7 @@ public class MsgStoreExtractor extends StoreExtractor {
      * @throws InterruptedException the interrupted exception
      */
     public MsgStoreExtractor(String urlString, String folder, String destPathString, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException, InterruptedException {
+                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException, InterruptedException, IOException {
         super(urlString, folder, destPathString, options, rootStoreExtractor, logger);
         MAPIMessage message;
         long size = 0;
