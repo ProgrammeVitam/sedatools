@@ -104,7 +104,8 @@ public class Content extends ComplexListType {
         metadataMap.put("Event", new ComplexListMetadataKind(Event.class, true));
         metadataMap.put("Signature", new ComplexListMetadataKind(Signature.class, true));
         metadataMap.put("Gps", new ComplexListMetadataKind(Gps.class, false));
-        // Vitam extension
+        // Vitam extensions
+        metadataMap.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
     }
 
