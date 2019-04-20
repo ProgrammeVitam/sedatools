@@ -32,14 +32,16 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 import java.text.DecimalFormat;
+import java.time.Instant;
 
 /**
  * The Class SEDALibProgressLogger.
  * <p>
  * Class for logging in standard logger but also send events used to follow a long process advancement.
- * To do that it calls a lambda function when asked for on an event (method progressLog) or when a counter is a
- * multiple of the "step" value defined at the SEDALibProgressLogger creation (method progressLogIfStep).This can be used for example to actualise a
- * progress dialog.
+ * To do that it calls a lambda function when asked for on an event (method progressLog), when a counter is a
+ * multiple of the "step" value defined at the SEDALibProgressLogger creation or when the time past since previous
+ * "step" log is more than the specified "stepDuration" (method progressLogIfStep).This can be
+ * used for example to actualise a progress dialog.
  * <p>
  * The progress levels are defined with java.util.logging level:
  * <ul>
@@ -50,6 +52,7 @@ import java.text.DecimalFormat;
  * <li>OBJECTS: information on the treatment of one of multiple elements (ArchiveUnits, DataObjects...)</li>
  * <li>OBJECTS_WARNINGS : alert issued from treatment of one of multiple elements (ArchiveUnits, DataObjects...)
  * </li>
+ * <p>
  * </ul>
  */
 public class SEDALibProgressLogger {
@@ -97,6 +100,16 @@ public class SEDALibProgressLogger {
     private int step;
 
     /**
+     * The number of seconds expected between to "step" log publication.
+     */
+    private int stepDuration;
+
+    /**
+     * The last "step" log epoch seconds.
+     */
+    private long previousStepEpochSeconds;
+
+    /**
      * The progressLogLevel.
      */
     private int progressLogLevel;
@@ -112,6 +125,8 @@ public class SEDALibProgressLogger {
         this.logger = logger;
         this.step = Integer.MAX_VALUE;
         this.progressLogLevel = progressLogLevel;
+        this.stepDuration = Integer.MAX_VALUE;
+        this.previousStepEpochSeconds = Instant.now().getEpochSecond();
     }
 
     /**
@@ -127,6 +142,26 @@ public class SEDALibProgressLogger {
         this.logger = logger;
         this.step = step;
         this.progressLogLevel = progressLogLevel;
+        this.stepDuration = Integer.MAX_VALUE;
+        this.previousStepEpochSeconds = Instant.now().getEpochSecond();
+    }
+
+    /**
+     * Instantiates a new SEDA lib progress logger.
+     *
+     * @param logger           the standard logger
+     * @param progressLogLevel the progress log level
+     * @param progressConsumer the lambda function called to follow the progress
+     * @param step             the step value
+     * @param stepDuration     the step duration in seconds
+     */
+    public SEDALibProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer, int step, int stepDuration) {
+        this.progressLogFunc = progressConsumer;
+        this.logger = logger;
+        this.step = step;
+        this.progressLogLevel = progressLogLevel;
+        this.stepDuration = stepDuration;
+        this.previousStepEpochSeconds = Instant.now().getEpochSecond();
     }
 
     /**
@@ -139,13 +174,15 @@ public class SEDALibProgressLogger {
      */
     public void progressLogIfStep(int level, int count, String log) throws InterruptedException {
         if (level <= progressLogLevel) {
-            if ((count == 0) || (count % step != 0))
-                return;
-            if (progressLogFunc != null) {
-                progressLogFunc.doprogressLog(count, log);
+            long nowEpochSeconds = Instant.now().getEpochSecond();
+            int mod=count%step;
+            if ((mod == 0) || (stepDuration < nowEpochSeconds-previousStepEpochSeconds)) {
+                if (progressLogFunc != null)
+                    progressLogFunc.doprogressLog(count, (mod==0?"":"* ") + log);
+                log(level, log);
+                Thread.sleep(1);
+                previousStepEpochSeconds=nowEpochSeconds;
             }
-            log(level, log);
-            Thread.sleep(1);
         }
     }
 
