@@ -46,4 +46,16 @@ public class SEDALibException extends Exception {
     public SEDALibException(String message) {
         super(message);
     }
+    
+    /**
+     * Instantiates a new SEDALib exception.
+     *
+     * @param message
+     *            the message
+     * @param cause
+     *            the cause
+     */
+    public SEDALibException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
