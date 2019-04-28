@@ -680,20 +680,20 @@ class ContentTest {
         }
 
         // Then
-        String csvListString="Description.0: TestDescription EN\n" +
-                "Description.0.attr: lang=\"en\"\n" +
-                "Event.0.EventDateTime: 1970-01-01T01:00:00\n" +
-                "Event.0.Outcome: OK\n" +
-                "Event.0.Information.0: <Information>OK</Information>\n" +
-                "Event.1.EventIdentifier: AUT-234452\n" +
-                "Event.1.EventTypeCode: Autorisation\n" +
-                "Event.1.EventDateTime: 2104-05-31T01:00:00\n" +
-                "Event.1.Outcome: OK\n" +
-                "Frog.0: <Frog>\n" +
+        String csvListString="Content.Description.0: TestDescription EN\n" +
+                "Content.Description.0.attr: lang=\"en\"\n" +
+                "Content.Event.0.EventDateTime: 1970-01-01T01:00:00\n" +
+                "Content.Event.0.Outcome: OK\n" +
+                "Content.Event.0.Information.0: <Information>OK</Information>\n" +
+                "Content.Event.1.EventIdentifier: AUT-234452\n" +
+                "Content.Event.1.EventTypeCode: Autorisation\n" +
+                "Content.Event.1.EventDateTime: 2104-05-31T01:00:00\n" +
+                "Content.Event.1.Outcome: OK\n" +
+                "Content.Frog.0: <Frog>\n" +
                 "    <CommonName>Rouge à laser</CommonName>\n" +
                 "    <ScientificName>Rubra Rana Laseri</ScientificName>\n" +
                 "  </Frog>\n" +
-                "Frog.1: <Frog>\n" +
+                "Content.Frog.1: <Frog>\n" +
                 "    <CommonName>Verte à détente</CommonName>\n" +
                 "    <ScientificName>Viridi Rana Elasticis</ScientificName>\n" +
                 "  </Frog>\n";
