@@ -157,7 +157,7 @@ public class Content extends ComplexListType {
         String previousXMLElementName = null;
         int count = 0;
         for (SEDAMetadata sm : metadataList) {
-            if (!keptMetadataList.contains(sm.getXmlElementName()))
+            if ((keptMetadataList!=null) && (!keptMetadataList.contains(sm.getXmlElementName())))
                 continue;
             if (!sm.getXmlElementName().equals(previousXMLElementName)) {
                 previousXMLElementName = sm.getXmlElementName();
@@ -170,7 +170,7 @@ public class Content extends ComplexListType {
                 addedName = sm.getXmlElementName();
             LinkedHashMap<String, String> smCsvList = sm.toCsvList();
             smCsvList.entrySet().stream().forEach(e -> {
-                result.put(addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue());
+                result.put("Content."+addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue());
             });
         }
         return result;
