@@ -277,8 +277,8 @@ public class XmlEditDialog extends JDialog {
         gbc.gridy = 0;
         gbc.gridx = 1;
         actionPanel.add(saveButton, gbc);
-        if (xmlObject instanceof DataObjectPackage) {
-            final JButton canonizeButton = new JButton("Corriger");
+        if (xmlObject instanceof DataObjectPackageTreeNode) {
+            final JButton canonizeButton = new JButton("Ordonner");
             canonizeButton.addActionListener(arg -> buttonCanonizeXmlEdit());
             gbc = new GridBagConstraints();
             gbc.insets = new Insets(0, 0, 5, 5);
