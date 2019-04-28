@@ -7,10 +7,13 @@ resip
 - Fonction de vérification ou de recalcul de hachage
 - Fonction de contrôle de manifest avant export
 - Elimination des objets (DOG, BDO, PDO) non utilisés après l'import
+- Generation d'un csv, du manifest et de la hierachie disque avec seulement les fichiers et leur nom d'origine
+- Remplacer les archivetransfer qui nomment des DataObjectPackage
 
 sedalib
 - Créer la notion de DOG implicite (non exportés)
 - Avoir une fonction vitamnormalize préservant ou pas la structure avec des DOG implicites
+- Capacité à ajouter des extensions de manières dynamique sur les ComplexListType extensibles
 
 mailextract
 - revoir gestion des args comme les autres

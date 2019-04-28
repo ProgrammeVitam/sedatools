@@ -52,7 +52,6 @@ import java.time.Instant;
  * <li>OBJECTS: information on the treatment of one of multiple elements (ArchiveUnits, DataObjects...)</li>
  * <li>OBJECTS_WARNINGS : alert issued from treatment of one of multiple elements (ArchiveUnits, DataObjects...)
  * </li>
- * <p>
  * </ul>
  */
 public class SEDALibProgressLogger {

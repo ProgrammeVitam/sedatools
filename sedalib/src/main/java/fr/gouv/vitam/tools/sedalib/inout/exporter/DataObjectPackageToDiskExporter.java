@@ -49,7 +49,7 @@ import java.util.Set;
  * <p>
  * The general principles are:
  * <ul>
- * <li>the directory imported contains all the directories and files that
+ * <li>the directory exported contains all the directories and files that
  * represent one root ArchiveUnit in the ArchiveTransfer</li>
  * <li>each sub-directory in the hierarchy represent an ArchiveUnit</li>
  * <li>each file represent an ArchiveUnit containing a BinaryDataObject for the
@@ -90,7 +90,8 @@ import java.util.Set;
  * <p>
  * |---__BinaryMaster_1_BinaryDataObjectMetadata
  * <p>
- * the export is compliant to Model V2-Extended model
+ * the export is compliant to Model V2-Extended model.
+ * It also export xml files with ArchiveUnit and DataObject metadata.
  * ({@link fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter}
  */
 public class DataObjectPackageToDiskExporter {

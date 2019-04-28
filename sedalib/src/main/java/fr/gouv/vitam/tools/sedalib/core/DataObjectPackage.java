@@ -46,8 +46,9 @@ import java.util.Map.Entry;
  * in tree structure ArchiveUnits and DataObjects.
  * <p>
  * It has also a specific exportMetadataList field which define the list
- * of descriptive metadata elements kept in export. This is used to restrict
- *  the set of metadata that an archiving system can handle.
+ * of descriptive metadata elements kept in export to XML manifest or csv metadata file. This is used to restrict
+ *  to the set of metadata that an archiving system can handle. This export filter do not apply to any other XML
+ *  or csv format function (for example toString, toSedaXMLFragments, toCsvList...).
  */
 public class DataObjectPackage {
 
@@ -1022,7 +1023,6 @@ public class DataObjectPackage {
                         break;
                     case "PhysicalDataObject":
                         pdo = PhysicalDataObject.fromSedaXml(xmlReader, archiveTransfer, sedaLibProgressLogger);
-                        //noinspection ConstantConditions
                         if (sedaLibProgressLogger != null)
                             sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS, "PhysicalDataObject [" + pdo.inDataPackageObjectId +
                                     "] importé");
