@@ -10,6 +10,7 @@ Evolutions/Corrections en 1.4.0
 - Evolution: circulation dans toutes les AU portant des mêmes DOG
 - Fix: amélioration de la robustesse des dialogues de recherche, leur fermeture les remet à zéro si un problème est intervenu
 - Evolution: les log de progression se déclenche non seulement tous les 1000 obets mais aussi toutes les 2 secondes
+- Evolution: ajout de la fonction de filtre des metadonnées descriptives exportées et gestion des préférences et du contexte d'export associés
 - Evolution: ajout dans les préférences d'import d'une option pour ignorer les liens symboliques et raccourcis lors de l'import d'une hiérarchie sur disque
 - Fix: tri des catégories de format dans le dialogue de recherche par ordre alphabétique
 - Evolution: ajout d'une fonction de correction d'ArchiveUnit dans le dialogue d'édition XML
