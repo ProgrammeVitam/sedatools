@@ -39,6 +39,7 @@ import javax.xml.stream.XMLStreamException;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 import java.util.Calendar;
+import java.util.LinkedHashMap;
 
 /**
  * The Class FileInfo.
@@ -54,25 +55,39 @@ public class FileInfo extends SEDAMetadata {
 
     // SEDA elements
 
-    /** The filename. */
+    /**
+     * The filename.
+     */
     public String filename;
 
-    /** The creating application name. */
+    /**
+     * The creating application name.
+     */
     public String creatingApplicationName;
 
-    /** The creating application version. */
+    /**
+     * The creating application version.
+     */
     public String creatingApplicationVersion;
 
-    /** The creation date by application. */
+    /**
+     * The creation date by application.
+     */
     public LocalDateTime dateCreatedByApplication;
 
-    /** The creating os. */
+    /**
+     * The creating os.
+     */
     public String creatingOs;
 
-    /** The creating os version. */
+    /**
+     * The creating os version.
+     */
     public String creatingOsVersion;
 
-    /** The last modified. */
+    /**
+     * The last modified.
+     */
     public FileTime lastModified;
 
     // Constructors
@@ -133,10 +148,20 @@ public class FileInfo extends SEDAMetadata {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
+     */
+    public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
+        throw new SEDALibException("Not implemented");
+    }
+
     /**
      * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
      * @return true, if it finds something convenient, false if not
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */

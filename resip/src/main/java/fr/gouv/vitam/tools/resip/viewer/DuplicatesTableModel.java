@@ -1,6 +1,5 @@
 package fr.gouv.vitam.tools.resip.viewer;
 
-import fr.gouv.vitam.tools.resip.data.StatisticData;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
@@ -11,28 +10,50 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+/**
+ * The class DuplicatesTableModel.
+ * <p>
+ * Class for duplicates table.
+ */
 public class DuplicatesTableModel extends AbstractTableModel {
 
     private final String[] entetes = {"Index", "Nb AU", "Nb DOG", "Noms", "Tailles", "Formats", "MimeTypes"};
-    private LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap;
-    private LinkedHashMap<String, List<ArchiveUnit>> auByDigestMap;
+    private LinkedHashMap<String, List<DataObjectGroup>> dogByDogDigestMap;
+    private HashMap<String, List<ArchiveUnit>> auByDogDigestMap;
     private String[] lotList;
 
-    public HashMap<String, List<DataObjectGroup>> getDogByDigestMap() {
-        return dogByDigestMap;
+    /**
+     * Gets DOG by DOG digest map.
+     *
+     * @return the dog by digest map
+     */
+    public HashMap<String, List<DataObjectGroup>> getDogByDogDigestMap() {
+        return dogByDogDigestMap;
     }
 
+    /**
+     * Sets data, DOG and AU by DOG digest maps.
+     *
+     * @param dogByDigestMap the dog by digest map
+     * @param auByDigestMap  the au by digest map
+     */
     public void setData(LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap,
-                        LinkedHashMap<String, List<ArchiveUnit>> auByDigestMap) {
-        this.dogByDigestMap = dogByDigestMap;
-        this.auByDigestMap = auByDigestMap;
+                        HashMap<String, List<ArchiveUnit>> auByDigestMap) {
+        this.dogByDogDigestMap = dogByDigestMap;
+        this.auByDogDigestMap = auByDigestMap;
         if (dogByDigestMap != null)
             this.lotList = dogByDigestMap.keySet().toArray(new String[0]);
 
     }
 
+    /**
+     * Change row dog list.
+     *
+     * @param dogList the dog list
+     * @param row     the row
+     */
     public void changeRowDogList(List<DataObjectGroup> dogList, int row){
-        dogByDigestMap.put(lotList[row],dogList);
+        dogByDogDigestMap.put(lotList[row],dogList);
     }
 
     @Override
@@ -55,21 +76,21 @@ public class DuplicatesTableModel extends AbstractTableModel {
 
     @Override
     public int getRowCount() {
-        if (dogByDigestMap == null) return 0;
-        return dogByDigestMap.size();
+        if (dogByDogDigestMap == null) return 0;
+        return dogByDogDigestMap.size();
     }
 
     @Override
     public Object getValueAt(int arg0, int arg1) {
-        if (dogByDigestMap == null) return null;
-        if (arg0 >= dogByDigestMap.size())
+        if (dogByDogDigestMap == null) return null;
+        if (arg0 >= dogByDogDigestMap.size())
             throw new IllegalArgumentException();
-        List<DataObjectGroup> dogList = dogByDigestMap.get(lotList[arg0]);
+        List<DataObjectGroup> dogList = dogByDogDigestMap.get(lotList[arg0]);
         switch (arg1) {
             case 0:
                 return arg0;
             case 1:
-                return auByDigestMap.get(lotList[arg0]).size();
+                return auByDogDigestMap.get(lotList[arg0]).size();
             case 2:
                 return dogList.size();
             case 3:
@@ -101,9 +122,28 @@ public class DuplicatesTableModel extends AbstractTableModel {
         }
     }
 
+    /**
+     * Gets row dog list.
+     *
+     * @param row the row
+     * @return the row dog list
+     */
     public List<DataObjectGroup> getRowDogList(int row) {
-        if (dogByDigestMap != null)
-            return dogByDigestMap.get(lotList[row]);
+        if (dogByDogDigestMap != null)
+            return dogByDogDigestMap.get(lotList[row]);
+        else
+            return null;
+    }
+
+    /**
+     * Gets row au list.
+     *
+     * @param row the row
+     * @return the row au list
+     */
+    public List<ArchiveUnit> getRowAuList(int row) {
+        if (auByDogDigestMap != null)
+            return auByDogDigestMap.get(lotList[row]);
         else
             return null;
     }

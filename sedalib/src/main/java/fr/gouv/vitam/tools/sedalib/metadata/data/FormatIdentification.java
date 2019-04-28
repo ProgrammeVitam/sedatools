@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
+import java.util.LinkedHashMap;
 
 /**
  * The Class FormatIdentification.
@@ -103,6 +104,16 @@ public class FormatIdentification extends SEDAMetadata {
             throw new SEDALibException(
                     "Erreur d'écriture XML dans un élément FormatIdentification\n->" + e.getMessage());
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
+     */
+    public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
+        throw new SEDALibException("Not implemented");
     }
 
     /**

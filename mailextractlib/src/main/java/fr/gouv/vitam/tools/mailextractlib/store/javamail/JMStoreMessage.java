@@ -613,7 +613,7 @@ public class JMStoreMessage extends StoreMessage {
         else
             try {
                 aName = MimeUtility.decodeText(aName);
-            } catch (Exception e) {
+            } catch (UnsupportedEncodingException ignored) {
             }
         aName = sanitizeFilename(aName);
 

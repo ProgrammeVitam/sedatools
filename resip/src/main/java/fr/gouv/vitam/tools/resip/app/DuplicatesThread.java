@@ -33,26 +33,46 @@ import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 
+/**
+ * The class DuplicatesThread.
+ * <p>
+ * Class for asynchronous duplicates computation thread.
+ */
 public class DuplicatesThread extends SwingWorker<String, String> {
 
+    /**
+     * Graphic element.
+     */
     private DuplicatesWindow duplicatesWindow;
+
+    /**
+     * Data.
+     */
     private DataObjectPackage dataObjectPackage;
-    private LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap;
-    private LinkedHashMap<String, List<ArchiveUnit>> auByDigestMap;
+    private LinkedHashMap<String, List<DataObjectGroup>> sortedDogByDogDigestMap;
+    private HashMap<String, List<ArchiveUnit>> sortedAuByDogDigestMap;
+    private HashMap<DataObjectGroup, String> dogKeyMap;
     private boolean binaryHash;
     private boolean binaryFilename;
     private boolean physicalAllMD;
 
-    // logger
+    /**
+     * Logger.
+     */
     private SEDALibProgressLogger spl;
 
+    /**
+     * Instantiates a new Duplicates thread.
+     *
+     * @param duplicatesWindow the duplicates window
+     * @param binaryHash       the binary hash
+     * @param binaryFilename   the binary filename
+     * @param physicalAllMD    the physical all md
+     */
     public DuplicatesThread(DuplicatesWindow duplicatesWindow, boolean binaryHash, boolean binaryFilename,
                             boolean physicalAllMD) {
         this.duplicatesWindow = duplicatesWindow;
@@ -61,40 +81,45 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         this.physicalAllMD = physicalAllMD;
     }
 
-    void followTree(ArchiveUnit au, LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap,LinkedHashMap<String, List<DataObjectGroup>> sortedDogByDigestMap) {
+    /**
+     * Recursively browse the ArchiveUnit tree to sort the DOG by DOG digest map and create the sorted ArchiveUnit by DOG digest map.
+     * The result is then sorted in the natural order of ArchiveUnit tree browsing.
+     *
+     * @param au             the au
+     * @param dogByDogDigestMap the dog by digest map
+     */
+    void followTree(ArchiveUnit au, HashMap<String, List<DataObjectGroup>> dogByDogDigestMap) {
         List<ArchiveUnit> auList = au.getChildrenAuList().getArchiveUnitList();
 
         for (ArchiveUnit childUnit : auList) {
             if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId()))
                 continue;
-            for(DataObject dataObject: childUnit.getDataObjectRefList().getDataObjectList()){
-                if (dataObject instanceof DataObjectGroup){
-                    for (Map.Entry<String,List<DataObjectGroup>>e:dogByDigestMap.entrySet()){
-                        if (e.getValue().contains(dataObject)){
-                            e.getValue().remove(dataObject);
-                            sortedDogByDigestMap.get(e.getKey()).add((DataObjectGroup)dataObject);
-                            auByDigestMap.get(e.getKey()).add(childUnit);
-                        }
-                        else if (sortedDogByDigestMap.get(e.getKey()).contains(dataObject))
-                            auByDigestMap.get(e.getKey()).add(childUnit);
-                    }
+            for (DataObject dataObject : childUnit.getDataObjectRefList().getDataObjectList()) {
+                if (dataObject instanceof DataObjectGroup) {
+                    String dogKey = dogKeyMap.get(dataObject);
+                    if (dogByDogDigestMap.get(dogKey).contains(dataObject)) {
+                        dogByDogDigestMap.get(dogKey).remove(dataObject);
+                        sortedDogByDogDigestMap.get(dogKey).add((DataObjectGroup) dataObject);
+                        sortedAuByDogDigestMap.get(dogKey).add(childUnit);
+                    } else if (sortedDogByDogDigestMap.get(dogKey).contains(dataObject))
+                        sortedAuByDogDigestMap.get(dogKey).add(childUnit);
                 }
             }
             dataObjectPackage.addTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId());
-            followTree(childUnit,dogByDigestMap,sortedDogByDigestMap);
+            followTree(childUnit, dogByDogDigestMap);
         }
     }
 
-    private LinkedHashMap<String, List<DataObjectGroup>> treeSort(LinkedHashMap<String, List<DataObjectGroup>> dogByDigestMap){
+    private LinkedHashMap<String, List<DataObjectGroup>> treeSort(HashMap<String, List<DataObjectGroup>> dogByDogDigestMap) {
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
-        LinkedHashMap<String, List<DataObjectGroup>> sortedDogByDigestMap=new LinkedHashMap<String, List<DataObjectGroup>>();
-        for (String e:dogByDigestMap.keySet())
-            sortedDogByDigestMap.put(e,new ArrayList<DataObjectGroup>());
-        auByDigestMap=new LinkedHashMap<String, List<ArchiveUnit>>();
-        for (String e:dogByDigestMap.keySet())
-            auByDigestMap.put(e,new ArrayList<ArchiveUnit>());
-        followTree(dataObjectPackage.getGhostRootAu(),dogByDigestMap,sortedDogByDigestMap);
-        return sortedDogByDigestMap;
+        sortedDogByDogDigestMap = new LinkedHashMap<String, List<DataObjectGroup>>();
+        sortedAuByDogDigestMap = new HashMap<String, List<ArchiveUnit>>();
+        for (String e : dogByDogDigestMap.keySet()) {
+            sortedDogByDogDigestMap.put(e, new ArrayList<DataObjectGroup>());
+            sortedAuByDogDigestMap.put(e, new ArrayList<ArchiveUnit>());
+        }
+        followTree(dataObjectPackage.getGhostRootAu(), dogByDogDigestMap);
+        return sortedDogByDogDigestMap;
     }
 
     @Override
@@ -102,12 +127,14 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         String tmp = null;
         int counter = 0;
         try {
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null, 1000);
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null,
+                    1000,2);
             dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
 
-            spl.progressLog(SEDALibProgressLogger.GLOBAL,"Recherche de doublons ( "+(binaryHash?"hachage de fichier ":"")+
-                    (binaryFilename?"nom de fichier ":"")+(physicalAllMD?"toute MD physique ":"")+")");
-            dogByDigestMap = new LinkedHashMap<String, List<DataObjectGroup>>();
+            spl.progressLog(SEDALibProgressLogger.GLOBAL, "Recherche de doublons ( " + (binaryHash ? "hachage de fichier " : "") +
+                    (binaryFilename ? "nom de fichier " : "") + (physicalAllMD ? "toute MD physique " : "") + ")");
+            HashMap<String, List<DataObjectGroup>> dogByDigestMap = new HashMap<String, List<DataObjectGroup>>();
+            dogKeyMap = new HashMap<DataObjectGroup, String>();
             for (DataObjectGroup dog : dataObjectPackage.getDogInDataObjectPackageIdMap().values()) {
                 tmp = dog.getLogBookXmlData();
                 for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
@@ -120,6 +147,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                     if (physicalAllMD)
                         tmp += "|PDO=" + pdo.toString();
                 }
+                dogKeyMap.put(dog, tmp);
                 if (dogByDigestMap.get(tmp) == null) {
                     ArrayList<DataObjectGroup> dogList = new ArrayList<DataObjectGroup>();
                     dogList.add(dog);
@@ -130,8 +158,14 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                 spl.progressLogIfStep(SEDALibProgressLogger.GLOBAL, counter,
                         Integer.toString(counter) + " groupes d'objets comparés");
             }
-            dogByDigestMap.entrySet().removeIf(e -> e.getValue().size() == 1);
-            dogByDigestMap=treeSort(dogByDigestMap);
+            dogByDigestMap = treeSort(dogByDigestMap);
+            for (Iterator<Map.Entry<String, List<ArchiveUnit>>> it = sortedAuByDogDigestMap.entrySet().iterator(); it.hasNext(); ) {
+                Map.Entry<String, List<ArchiveUnit>> entry = it.next();
+                if (entry.getValue().size() == 1) {
+                    it.remove();
+                    dogByDigestMap.remove(entry.getKey());
+                }
+            }
             spl.progressLog(SEDALibProgressLogger.GLOBAL,
                     Integer.toString(dogByDigestMap.size()) + " lots de groupes d'objets semblables");
         } catch (Exception e) {
@@ -148,8 +182,9 @@ public class DuplicatesThread extends SwingWorker<String, String> {
     protected void done() {
         ResipGraphicApp theApp = ResipGraphicApp.getTheApp();
 
-        if ((!isCancelled()) && (dogByDigestMap != null)) {
-            duplicatesWindow.setDuplicatesResult(dogByDigestMap,auByDigestMap);
-        }
+        if ((!isCancelled()) && (sortedDogByDogDigestMap != null))
+            duplicatesWindow.setDuplicatesResult(sortedDogByDogDigestMap, sortedAuByDogDigestMap);
+        else
+            duplicatesWindow.setBlankDuplicatesResult();
     }
 }

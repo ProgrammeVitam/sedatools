@@ -31,6 +31,7 @@ import fr.gouv.vitam.tools.mailextractlib.store.javamail.JMEmbeddedStore;
 
 import javax.mail.*;
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 
 /**
@@ -102,7 +103,7 @@ public class EmlStore extends Store implements JMEmbeddedStore {
             // verify declared file for eml availability
             try {
                 container = URLDecoder.decode(url.getFile(), "UTF-8");
-            } catch (Exception e) {
+            } catch (UnsupportedEncodingException e) {
                 throw new MessagingException("Eml: Can't decode the container file name");
             }
             File test = new File(container);

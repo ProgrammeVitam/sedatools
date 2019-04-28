@@ -28,7 +28,10 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import java.awt.*;
+import java.awt.event.ItemEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 import javax.swing.*;
 
@@ -37,6 +40,9 @@ import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
+
+import static java.awt.event.ItemEvent.DESELECTED;
+import static java.awt.event.ItemEvent.SELECTED;
 
 /**
  * The class ExportContextDialog.
@@ -65,6 +71,8 @@ public class ExportContextDialog extends JDialog {
 	private JRadioButton hierarchicalRadioButton;
 	private JRadioButton indentedRadioButton;
 	private JRadioButton reindexYesRadioButton;
+	private JTextArea metadataFilterTextArea;
+	private JCheckBox metadataFilterCheckBox;
 
 	/**
 	 * The return value.
@@ -444,12 +452,24 @@ public class ExportContextDialog extends JDialog {
 		gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0,0,1};
 		exportParametersPanel.setLayout(gbl_exportParametersPanel);
 
+		JLabel inSIPLabel = new JLabel("Options de formation du SIP");
+		inSIPLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+		gbc = new GridBagConstraints();
+		gbc.gridwidth = 3;
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.weightx = 1.0;
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		exportParametersPanel.add(inSIPLabel, gbc);
+
 		JLabel hierarchicalAULabel = new JLabel("Export des AU dans le SIP:");
 		gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.insets = new Insets(0, 0, 5, 5);
 		gbc.gridx = 0;
-		gbc.gridy = 2;
+		gbc.gridy = 1;
 		exportParametersPanel.add(hierarchicalAULabel, gbc);
 
 		JRadioButton flatRadioButton = new JRadioButton("A plat");
@@ -457,7 +477,7 @@ public class ExportContextDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.insets = new Insets(0, 0, 5, 5);
 		gbc.gridx = 2;
-		gbc.gridy = 2;
+		gbc.gridy = 1;
 		exportParametersPanel.add(flatRadioButton, gbc);
 
 		hierarchicalRadioButton = new JRadioButton("Imbriquées");
@@ -465,7 +485,7 @@ public class ExportContextDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.insets = new Insets(0, 0, 5, 5);
 		gbc.gridx = 1;
-		gbc.gridy = 2;
+		gbc.gridy = 1;
 		exportParametersPanel.add(hierarchicalRadioButton, gbc);
 
 		ButtonGroup hierarchicalAUButtonGroup = new ButtonGroup();
@@ -482,7 +502,7 @@ public class ExportContextDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.insets = new Insets(0, 0, 0, 5);
 		gbc.gridx = 0;
-		gbc.gridy = 3;
+		gbc.gridy = 2;
 		exportParametersPanel.add(xmlPresentationLabel, gbc);
 
 		JRadioButton linearRadioButton = new JRadioButton("Linéaire");
@@ -490,14 +510,14 @@ public class ExportContextDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.insets = new Insets(0, 0, 0, 5);
 		gbc.gridx = 2;
-		gbc.gridy = 3;
+		gbc.gridy = 2;
 		exportParametersPanel.add(linearRadioButton, gbc);
 
 		indentedRadioButton = new JRadioButton("Indentée");
 		gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridx = 1;
-		gbc.gridy = 3;
+		gbc.gridy = 2;
 		exportParametersPanel.add(indentedRadioButton, gbc);
 
 		ButtonGroup indentedButtonGroup = new ButtonGroup();
@@ -514,7 +534,7 @@ public class ExportContextDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.insets = new Insets(0, 0, 0, 5);
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 3;
 		exportParametersPanel.add(xmlReindexLabel, gbc);
 
 		reindexYesRadioButton = new JRadioButton("Oui");
@@ -523,14 +543,14 @@ public class ExportContextDialog extends JDialog {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		gbc.insets = new Insets(0, 0, 0, 5);
 		gbc.gridx = 1;
-		gbc.gridy = 4;
+		gbc.gridy = 3;
 		exportParametersPanel.add(reindexYesRadioButton, gbc);
 
 		JRadioButton reindexNoRadioButton = new JRadioButton("Non");
 		gbc = new GridBagConstraints();
 		gbc.anchor = GridBagConstraints.WEST;
 		gbc.gridx = 2;
-		gbc.gridy = 4;
+		gbc.gridy = 3;
 		exportParametersPanel.add(reindexNoRadioButton, gbc);
 
 		ButtonGroup reindexButtonGroup = new ButtonGroup();
@@ -541,6 +561,50 @@ public class ExportContextDialog extends JDialog {
 			reindexYesRadioButton.setSelected(true);
 		else
 			reindexNoRadioButton.setSelected(true);
+
+		JLabel metadataFilterLabel = new JLabel("Filtrage des métadonnées");
+		metadataFilterLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+		gbc = new GridBagConstraints();
+		gbc.gridwidth = 3;
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.weightx = 1.0;
+		gbc.weighty = 0.0;
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		exportParametersPanel.add(metadataFilterLabel, gbc);
+
+		scrollPane = new JScrollPane();
+		gbc = new GridBagConstraints();
+		gbc.weightx = 1.0;
+		gbc.weighty = 1.0;
+		gbc.gridwidth = 2;
+		gbc.fill = GridBagConstraints.BOTH;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 5;
+		exportParametersPanel.add(scrollPane, gbc);
+
+		metadataFilterTextArea = new JTextArea();
+		metadataFilterTextArea.setFont(MainWindow.DETAILS_FONT);
+		scrollPane.setViewportView(metadataFilterTextArea);
+		if (exportContext.getKeptMetadataList() != null)
+			metadataFilterTextArea.setText(String.join("\n", String.join("\n", exportContext.getKeptMetadataList())));
+		metadataFilterTextArea.setCaretPosition(0);
+
+		metadataFilterCheckBox = new JCheckBox("Seules métadonnées exportées :");
+		metadataFilterCheckBox.setToolTipText("Liste des noms de métadonnées dans <Content>, utilisée comm filtre si coché ");
+		metadataFilterCheckBox.setSelected(exportContext.isMetadataFilterFlag());
+		metadataFilterTextArea.setEnabled(exportContext.isMetadataFilterFlag());
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		gbc.weighty = 1.0;
+		exportParametersPanel.add(metadataFilterCheckBox, gbc);
+		metadataFilterCheckBox.addItemListener(arg -> metadataFilterEvent(arg));
 
 		// Buttons
 		JButton cancelButton = new JButton("Annuler");
@@ -571,6 +635,14 @@ public class ExportContextDialog extends JDialog {
 
 	// actions
 
+	private void metadataFilterEvent(ItemEvent event) {
+		if (event.getStateChange() == SELECTED) {
+			metadataFilterTextArea.setEnabled(true);
+		} else if (event.getStateChange() == DESELECTED) {
+			metadataFilterTextArea.setEnabled(false);
+		}
+	}
+
 	private void buttonCancel() {
 		returnValue = ResipGraphicApp.KO_DIALOG;
 		setVisible(false);
@@ -591,6 +663,10 @@ public class ExportContextDialog extends JDialog {
 		sec.setIndented(indentedRadioButton.isSelected());
 		sec.setReindex(reindexYesRadioButton.isSelected());
 		sec.setManagementMetadataXmlData(managementMetadataTextArea.getText());
+		sec.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
+		sec.setKeptMetadataList(Arrays.asList(metadataFilterTextArea.getText().split("\\s*\n\\s*"))
+				.stream().map(String::trim).collect(Collectors.toList()));
+
 		GlobalMetadata atgm=sec.getArchiveTransferGlobalMetadata();
 		atgm.comment=commentTextArea.getText();
 		atgm.date=dateTextField.getText();

@@ -27,9 +27,16 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
+import javax.xml.stream.XMLStreamException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * The Class Content.
@@ -45,8 +52,9 @@ public class Content extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap (isExpandable = true)
+    @ComplexListMetadataMap(isExpandable = true)
     static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
         metadataMap.put("DescriptionLevel", new ComplexListMetadataKind(StringType.class, false));
@@ -96,7 +104,8 @@ public class Content extends ComplexListType {
         metadataMap.put("Event", new ComplexListMetadataKind(Event.class, true));
         metadataMap.put("Signature", new ComplexListMetadataKind(Signature.class, true));
         metadataMap.put("Gps", new ComplexListMetadataKind(Gps.class, false));
-        // Vitam extension
+        // Vitam extensions
+        metadataMap.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
     }
 
@@ -105,5 +114,65 @@ public class Content extends ComplexListType {
      */
     public Content() {
         super("Content");
+    }
+
+    /**
+     * Return the XML export form as the String representation, but filtered by a list of authorized inner metadata.
+     *
+     * @param keptMetadataList the kept metadata list
+     * @return the indented XML form String
+     */
+    public String filteredToString(List<String> keptMetadataList) {
+        String result = null;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+            xmlWriter.writeStartElement(elementName);
+            for (SEDAMetadata sm : metadataList) {
+                if (keptMetadataList.contains(sm.getXmlElementName()))
+                    sm.toSedaXml(xmlWriter);
+            }
+            xmlWriter.writeEndElement();
+            xmlWriter.flush();
+            result = baos.toString("UTF-8");
+            if (result.startsWith("\n"))
+                result = result.substring(1);
+        } catch (XMLStreamException | IOException | SEDALibException e) {
+            if (result == null)
+                result = super.toString();
+        }
+        return result;
+    }
+
+    /**
+     * Export the Content metadata to csv List for the csv metadata file, but filtered by a list of authorized inner metadata.
+     * <p>
+     * In the HashMap result, the key is a metadata path of a leaf and the value is the leaf of the metadata value.
+     *
+     * @param keptMetadataList the kept metadata list
+     * @return the linked hash map with header title as key and metadata value as value
+     * @throws SEDALibException the seda lib exception
+     */
+    public LinkedHashMap<String, String> filteredToCsvList(List<String> keptMetadataList) throws SEDALibException {
+        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        String previousXMLElementName = null;
+        int count = 0;
+        for (SEDAMetadata sm : metadataList) {
+            if ((keptMetadataList!=null) && (!keptMetadataList.contains(sm.getXmlElementName())))
+                continue;
+            if (!sm.getXmlElementName().equals(previousXMLElementName)) {
+                previousXMLElementName = sm.getXmlElementName();
+                count = 0;
+            } else count++;
+            final String addedName;
+            if (isAMultiValuedMetadata(sm.getXmlElementName()))
+                addedName = sm.getXmlElementName() + "." + count;
+            else
+                addedName = sm.getXmlElementName();
+            LinkedHashMap<String, String> smCsvList = sm.toCsvList();
+            smCsvList.entrySet().stream().forEach(e -> {
+                result.put("Content."+addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue());
+            });
+        }
+        return result;
     }
 }

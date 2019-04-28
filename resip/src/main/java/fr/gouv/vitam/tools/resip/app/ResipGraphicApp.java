@@ -743,26 +743,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         }
     }
 
-    Map<TreePath, Boolean> getExpansionState(DataObjectPackageTreeModel treeModel) {
-        Map<TreePath, Boolean> expansionState = new HashMap<TreePath, Boolean>();
-        for (int i = 0; i < mainWindow.getDataObjectPackageTreePaneViewer().getRowCount(); i++) {
-            TreePath treePath = mainWindow.getDataObjectPackageTreePaneViewer().getPathForRow(i);
-            expansionState.put(treePath, mainWindow.getDataObjectPackageTreePaneViewer().isExpanded(i));
-        }
-        return expansionState;
-    }
-
-    void setExpansionState(Map<TreePath, Boolean> expansionState) {
-        for (Map.Entry<TreePath, Boolean> e : expansionState.entrySet()) {
-            if (e.getValue())
-                mainWindow.getDataObjectPackageTreePaneViewer().expandPath(e.getKey());
-        }
-    }
-
     void doSortTreeViewer() {
         if (currentWork != null) {
             DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
-            Map<TreePath, Boolean> expansionState = getExpansionState(treeModel);
+            Map<TreePath, Boolean> expansionState = mainWindow.getDataObjectPackageTreePaneViewer().getExpansionState();
             TreePath selectedPath = mainWindow.getDataObjectPackageTreePaneViewer().getSelectionPath();
             SortByTitle sortByTitle = new SortByTitle(treeModel);
             for (Map.Entry<String, ArchiveUnit> pair :
@@ -772,7 +756,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             Collections.sort(currentWork.getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList(),
                     sortByTitle);
             treeModel.reload();
-            setExpansionState(expansionState);
+            mainWindow.getDataObjectPackageTreePaneViewer().setExpansionState(expansionState);
             if (selectedPath != null) {
                 mainWindow.getDataObjectPackageTreePaneViewer().setSelectionPath(selectedPath);
                 mainWindow.getDataObjectPackageTreePaneViewer().scrollPathToVisible(selectedPath);

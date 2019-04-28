@@ -36,6 +36,7 @@ import javax.xml.stream.XMLStreamException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -233,10 +234,44 @@ public class ClassificationRule extends SEDAMetadata {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
+     */
+    public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
+        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        for (int i = 0; i < rules.size(); i++) {
+            result.put("Rule." + i, rules.get(i));
+            if (startDates.get(i) != null)
+                result.put("StartDate." + i, SEDAXMLStreamWriter.getStringFromDate(startDates.get(i)));
+        }
+        if (preventInheritance != null)
+            result.put("PreventInheritance", preventInheritance.toString());
+        int count = 0;
+        for (String refNonRuleId : refNonRuleIds) {
+            result.put("RefNonRuleId." + count, refNonRuleId);
+            count++;
+        }
+        if ((classificationLevel != null) && !classificationLevel.isEmpty())
+            result.put("ClassificationLevel", classificationLevel);
+        if ((classificationOwner != null) && !classificationOwner.isEmpty())
+            result.put("ClassificationOwner", classificationOwner);
+        if (classificationReassessingDate != null)
+            result.put("ClassificationReassessingDate",
+                    SEDAXMLStreamWriter.getStringFromDate(classificationReassessingDate));
+        if (needReassessingAuthorization != null)
+            result.put("NeedReassessingAuthorization",
+                    needReassessingAuthorization.toString());
+        return result;
+    }
+
+
     /**
      * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
      * @return true, if it finds something convenient, false if not
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */

@@ -134,16 +134,18 @@ public class ImportThread extends SwingWorker<Work, String> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 1000);
+            }, 1000,2);
 
             if (work.getCreationContext() instanceof DiskImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n");
+                DiskImportContext diskImportContext=(DiskImportContext) work.getCreationContext();
                 DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(),
+                        diskImportContext.isNoLinkFlag(),null,
                         spl);
-                for (String ip : ((DiskImportContext) work.getCreationContext()).getIgnorePatternList())
+                for (String ip : diskImportContext.getIgnorePatternList())
                     di.addIgnorePattern(ip);
                 di.doImport();
-                ((DiskImportContext) work.getCreationContext()).setModelVersion(di.getModelVersion());
+                diskImportContext.setModelVersion(di.getModelVersion());
                 setWorkFromArchiveTransfer(di.getArchiveTransfer());
                 summary = di.getSummary();
             } else if (work.getCreationContext() instanceof SIPImportContext) {
@@ -189,7 +191,7 @@ public class ImportThread extends SwingWorker<Work, String> {
                     String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                     inOutDialog.extProgressTextArea.setText(newLog);
                     inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                }, 100);
+                }, 1000,2);
                 MailImportContext mic = (MailImportContext) work.getCreationContext();
                 String target = getTmpDirTarget(mic.getWorkDir(), mic.getOnDiskInput());
                 MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),

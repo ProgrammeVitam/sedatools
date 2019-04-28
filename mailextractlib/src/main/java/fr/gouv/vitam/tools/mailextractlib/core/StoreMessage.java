@@ -45,6 +45,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
@@ -703,7 +704,7 @@ public abstract class StoreMessage extends StoreElement {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 mimeFake.writeTo(baos);
                 mimeContent = baos.toByteArray();
-            } catch (Exception e) {
+            } catch (MessagingException | IOException e) {
                 logMessageWarning("mailextract: Can't extract raw content");
             }
         }
@@ -727,6 +728,8 @@ public abstract class StoreMessage extends StoreElement {
 
         // write in csv list if asked for
         writeToMailsList(writeFlag);
+        if (Thread.interrupted())
+            throw new InterruptedException("mailextractlib: interrupted");
     }
 
     /**

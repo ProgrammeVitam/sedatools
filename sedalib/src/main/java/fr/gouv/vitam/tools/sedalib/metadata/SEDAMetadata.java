@@ -40,6 +40,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.LinkedHashMap;
 
 /**
  * The Class SEDAMetadata.
@@ -55,6 +56,16 @@ public abstract class SEDAMetadata {
      * @throws SEDALibException if the XML can't be written
      */
     public abstract void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException;
+
+    /**
+     * Export the metadata to csv List for the csv metadata file.
+     * <p>
+     * In the HashMap result, the key is a metadata path of a leaf and the value is the leaf of the metadata value.
+     *
+     * @return the linked hash map with header title as key and metadata value as value
+     * @throws SEDALibException if the XML can't be written
+     */
+    public abstract LinkedHashMap<String,String> toCsvList() throws SEDALibException;
 
     /**
      * Return the indented XML export form as the String representation.

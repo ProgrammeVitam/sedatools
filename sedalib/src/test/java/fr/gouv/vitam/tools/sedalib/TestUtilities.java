@@ -28,6 +28,7 @@ public class TestUtilities {
 		} catch (Exception ignored) {
 		}
 		try {
+			Files.createDirectories(linkpath.getParent());
 			Files.createSymbolicLink(linkpath.toAbsolutePath(), linkpath.toAbsolutePath().getParent().relativize(targetpath.toAbsolutePath()));
 		} catch (Exception e) {
 			if (isWindows) {

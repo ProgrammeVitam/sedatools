@@ -1,3 +1,21 @@
+Evolutions/Corrections en 1.4.0
+
+- Fix: recherche des "Autres" formats
+- Fix: sauvegarde correct du répertoire de trvail défini dans les préférences
+- Evolution: ajout du double clic sur les lignes des statistiques pour lancer directement la recherche des formats concernés
+- Fix: mise à jour de l'arbre des archives lors de la fusion des doublons
+- Evolution: ajout du double clic sur une ligne d'objet pour l'ouvrir
+- Evolution: forte amélioration de performance en recherche de doublons
+- Evolution: les DOG ayant plusieurs AU sont pris en compte dans le résultat sur les doublons, ceci permet de les retrouver après fusion
+- Evolution: circulation dans toutes les AU portant des mêmes DOG
+- Fix: amélioration de la robustesse des dialogues de recherche, leur fermeture les remet à zéro si un problème est intervenu
+- Evolution: les log de progression se déclenche non seulement tous les 1000 obets mais aussi toutes les 2 secondes
+- Evolution: ajout de la fonction de filtre des metadonnées descriptives exportées et gestion des préférences et du contexte d'export associés
+- Evolution: ajout dans les préférences d'import d'une option pour ignorer les liens symboliques et raccourcis lors de l'import d'une hiérarchie sur disque
+- Fix: tri des catégories de format dans le dialogue de recherche par ordre alphabétique
+- Evolution: ajout d'une fonction de correction de l'ordre des métadonnées d'un ArchiveUnit dans le dialogue d'édition XML
+
+============================================================================
 Evolutions/Corrections en 1.3.0
 
 - Evolution: ajout de la fonction de construction avec un csv de métadonnées

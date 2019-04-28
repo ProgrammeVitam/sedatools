@@ -35,10 +35,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 // TODO: Auto-generated Javadoc
 
@@ -200,6 +197,102 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
                 idElementTreeNodeMap.put((DataObjectPackageIdElement) dataObject, node);
         }
     }
+
+    /**
+     * Regenerate all JTree nodes for a DataObjectPackage.
+     * Don't recreate nodes but recompute parents and au and og recursiv count,
+     * and drop nodes no more linked to DataObjectPackage structure.
+     */
+    public void actualiseDataObjectPackageNodes() {
+        DataObjectPackageTreeNode top, node;
+
+        int auRecursivCount = 0;
+        int ogRecursivCount = 0;
+        top = (DataObjectPackageTreeNode) this.root;
+        HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap = new HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode>();
+        newIdElementTreeNodeMap.put(top.getArchiveUnit(), top);
+
+        //remove all parents and counts
+        for (DataObjectPackageTreeNode cleanNode:idElementTreeNodeMap.values()){
+            cleanNode.setParents(new ArrayList<DataObjectPackageTreeNode>());
+            cleanNode.setAuRecursivCount(0);
+            cleanNode.setOgRecursivCount(0);
+        }
+
+        for (ArchiveUnit au : top.getArchiveUnit().getChildrenAuList().getArchiveUnitList()) {
+            node = actualiseArchiveUnitNode(au, top, newIdElementTreeNodeMap);
+            auRecursivCount += node.getAuRecursivCount() + 1;
+            ogRecursivCount += node.getOgRecursivCount() + au.getDataObjectRefList().getCount();
+        }
+        top.setAuRecursivCount(auRecursivCount);
+        top.setOgRecursivCount(ogRecursivCount);
+
+        idElementTreeNodeMap=newIdElementTreeNodeMap;
+    }
+
+    /**
+     * Regenerate JTree Node for an ArchiveUnit.
+     * Don't recreate nodes but recompute parents and au and og recursiv count.
+     *
+     * @param archiveUnit             the ArchiveUnit
+     * @param parent                  the parent
+     * @param newIdElementTreeNodeMap the new id element tree node map
+     * @return the archive transfer tree node
+     */
+    public DataObjectPackageTreeNode actualiseArchiveUnitNode(ArchiveUnit archiveUnit,
+                                                              DataObjectPackageTreeNode parent,
+                                                              HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap) {
+        DataObjectPackageTreeNode node, childNode;
+        int auRecursivCount = 0;
+        int ogRecursivCount = 0;
+
+        node = findTreeNode(archiveUnit);
+        if (node.getParents().size() != 0) {
+            node.addParent(parent);
+            parent.actualiseRecursivCounts(node.getAuRecursivCount() + 1,
+                    node.getOgRecursivCount() + archiveUnit.getDataObjectRefList().getCount());
+        } else {
+            node.addParent(parent);
+            newIdElementTreeNodeMap.put(archiveUnit, node);
+            if (archiveUnit.getChildrenAuList() != null) {
+                for (ArchiveUnit au : archiveUnit.getChildrenAuList().getArchiveUnitList()) {
+                    childNode = actualiseArchiveUnitNode(au, node,newIdElementTreeNodeMap);
+                    auRecursivCount += childNode.getAuRecursivCount() + 1;
+                    ogRecursivCount += childNode.getOgRecursivCount() + au.getDataObjectRefList().getCount();
+                }
+            }
+            node.setAuRecursivCount(auRecursivCount);
+            node.setOgRecursivCount(ogRecursivCount + archiveUnit.getDataObjectRefList().getCount());
+            for (DataObject dataObject : archiveUnit.getDataObjectRefList().getDataObjectList())
+                actualiseDataObjectNode(dataObject, node,newIdElementTreeNodeMap);
+        }
+        return node;
+    }
+
+    /**
+     * Regenerate JTree Node for a DataObject.
+     * Don't recreate nodes but recompute parents and au and og recursiv count.
+     *
+     * @param dataObject              the DataObject
+     * @param parent                  the parent
+     * @param newIdElementTreeNodeMap the new id element tree node map
+     */
+    public void actualiseDataObjectNode(DataObject dataObject, DataObjectPackageTreeNode parent,
+                                        HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap) {
+        DataObjectPackageTreeNode node;
+
+        //noinspection SuspiciousMethodCalls
+        node = idElementTreeNodeMap.get(dataObject);
+        if (node.getParents().size() != 0) {
+            node.addParent(parent);
+        } else {
+            node.addParent(parent);
+            if (dataObject instanceof DataObjectPackageIdElement)
+                newIdElementTreeNodeMap.put((DataObjectPackageIdElement) dataObject, node);
+        }
+    }
+
+
 
     private void oneStepBeyond(DataObjectPackageTreeNode node, List<DataObjectPackageTreeNode> subPath,
                                List<DataObjectPackageTreeNode[]> allPathsList) {

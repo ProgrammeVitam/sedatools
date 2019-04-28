@@ -43,7 +43,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Stream;
+
+import static fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter.simpleCopy;
 
 /**
  * The Class DiskToArchiveTransferImporter.
@@ -86,12 +89,38 @@ public class DiskToArchiveTransferImporter {
      * It will consider each directory and each file in this directory as a root
      * ArchiveUnit or a special metadata file
      *
-     * @param directory      the directory name
+     * @param directory             the directory name
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if not a directory
      */
     public DiskToArchiveTransferImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException {
+        this(directory,false,simpleCopy,sedaLibProgressLogger);
+    }
+
+    /**
+     * Instantiates a new ArchiveTransfer importer from a single directory name.
+     * <p>
+     * It will consider each directory and each file in this directory as a root
+     * ArchiveUnit or a special metadata file
+     * <p>
+     * It will take into account two options:
+     * <ul>
+     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored</li>
+     * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
+     * </ul>
+     *
+     * @param directory                        the directory name
+     * @param noLinkFlag                       the no link flag
+     * @param extractTitleFromFileNameFunction the extract title from file name function
+     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
+     * @throws SEDALibException if not a directory
+     */
+    public DiskToArchiveTransferImporter(String directory, boolean noLinkFlag,
+                                         Function<String, String> extractTitleFromFileNameFunction,
+                                         SEDALibProgressLogger sedaLibProgressLogger)
+            throws SEDALibException {
+
         Path path;
         Iterator<Path> pi;
 
@@ -117,7 +146,8 @@ public class DiskToArchiveTransferImporter {
                     "Impossible de lister les fichiers du répertoire [" + directory + "]\n->" + e.getMessage());
         }
 
-        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths,
+        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths,noLinkFlag,
+                extractTitleFromFileNameFunction,
                 sedaLibProgressLogger);
     }
 
@@ -131,6 +161,30 @@ public class DiskToArchiveTransferImporter {
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
     public DiskToArchiveTransferImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
+        this(paths,false,simpleCopy,sedaLibProgressLogger);
+    }
+
+    /**
+     * Instantiates a new ArchiveTransfer importer from a list of paths.
+     * <p>
+     * It will consider each directory and each file in this list as a root
+     * ArchiveUnit or a special metadata file
+     * <p>
+     * It will take into account two options:
+     * <ul>
+     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored</li>
+     * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
+     * </ul>
+     *
+     * @param paths                            the paths
+     * @param noLinkFlag                       the no link flag
+     * @param extractTitleFromFileNameFunction the extract title from file name function
+     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
+     */
+    public DiskToArchiveTransferImporter(List<Path> paths, boolean noLinkFlag,
+                                         Function<String, String> extractTitleFromFileNameFunction,
+                                         SEDALibProgressLogger sedaLibProgressLogger) {
+
         this.onDiskGlobalMetadataPath = null;
         this.archiveTransfer = new ArchiveTransfer();
         this.sedaLibProgressLogger = sedaLibProgressLogger;
@@ -143,7 +197,8 @@ public class DiskToArchiveTransferImporter {
                 this.onDiskRootPaths.add(path);
         }
 
-        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths,
+        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths,noLinkFlag,
+                extractTitleFromFileNameFunction,
                 sedaLibProgressLogger);
     }
 

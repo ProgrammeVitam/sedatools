@@ -93,7 +93,7 @@ public class PstStoreExtractor extends StoreExtractor {
      *                             format problems...)
      */
     public PstStoreExtractor(String urlString, String storeFolder, String destPathString, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException {
+                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException, PSTException, IOException {
         super(urlString, storeFolder, destPathString, options, rootStoreExtractor, logger);
 
         try {

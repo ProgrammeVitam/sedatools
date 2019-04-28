@@ -151,6 +151,8 @@ public class CSVMetadataFormatter {
         if (splittedMetadataName.size() == 0)
             return tag;
         String name = splittedMetadataName.get(0);
+        if ((splittedMetadataName.size()==1) && (name.equals("attr")))
+            return tag;
         int rank = 0;
         if (splittedMetadataName.size() > 1) {
             try {
@@ -167,17 +169,24 @@ public class CSVMetadataFormatter {
 
     private void analyseTags(String[] headerRow) throws SEDALibException {
         MetadataTag currentTag = null;
+        ValueAttrMetadataTag vamt;
         contentTag = new MetadataTag("Content", null);
         tagHeaderColumnMapping = new HashMap<Integer, ValueAttrMetadataTag>();
         for (int i = firstIndex; i < headerRow.length; i++) {
             if (headerRow[i].toLowerCase().equals("attr")) {
                 if (currentTag == null)
                     throw new SEDALibException("Le header attr en colonne n°" + i + " ne peut pas s'appliquer.");
-                tagHeaderColumnMapping.put(i, new ValueAttrMetadataTag(false, currentTag));
-            } else {
-                currentTag = getTag(contentTag, new ArrayList(Arrays.asList(headerRow[i].split("\\."))));
-                tagHeaderColumnMapping.put(i, new ValueAttrMetadataTag(true, currentTag));
+                vamt=new ValueAttrMetadataTag(false, currentTag);
             }
+            else if (headerRow[i].endsWith(".attr")) {
+                currentTag = getTag(contentTag, new ArrayList(Arrays.asList(headerRow[i].split("\\."))));
+                vamt=new ValueAttrMetadataTag(false, currentTag);
+            }
+            else {
+                currentTag = getTag(contentTag, new ArrayList(Arrays.asList(headerRow[i].split("\\."))));
+                vamt=new ValueAttrMetadataTag(true, currentTag);
+            }
+            tagHeaderColumnMapping.put(i,vamt);
         }
     }
 

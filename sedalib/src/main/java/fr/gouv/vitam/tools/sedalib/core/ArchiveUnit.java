@@ -171,14 +171,14 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      */
     public ArchiveUnitProfile getArchiveUnitProfile() throws SEDALibException {
         if (archiveUnitProfile != null) {
-            archiveUnitProfileXmlData = null;
             return archiveUnitProfile;
         }
         if (archiveUnitProfileXmlData == null)
             return null;
         archiveUnitProfile = (ArchiveUnitProfile) ArchiveUnitProfile.fromString(archiveUnitProfileXmlData,
                 ArchiveUnitProfile.class);
-        archiveUnitProfileXmlData = null;
+        // as fromString function normalise ArchiveUnitProfile had to destroy approximate version archiveUnitProfileXmlData
+        archiveUnitProfileXmlData=null;
         return archiveUnitProfile;
     }
 
@@ -224,14 +224,14 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      */
     public Management getManagement() throws SEDALibException {
         if (management != null) {
-            managementXmlData = null;
             return management;
         }
         if (managementXmlData == null)
             return null;
         management = (Management) Management.fromString(managementXmlData,
                 Management.class);
-        managementXmlData = null;
+        // as fromString function normalise Management had to destroy approximate version managementXmlData
+        managementXmlData=null;
         return management;
     }
 
@@ -260,6 +260,46 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
     }
 
     /**
+     * Is descriptive metadata in Content SEDA compliant.
+     *
+     * @return the compliance flag.
+     */
+    @JsonIgnore
+    public boolean isContentSEDACompliant(){
+        if (content!=null)
+            return true;
+        if (contentXmlData==null)
+            return false;
+        try {
+            content = (Content) Content.fromString(contentXmlData,
+                    Content.class);
+        } catch (SEDALibException e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Gets content in export form, filtered if needed.
+     *
+     * @return the content xml data
+     */
+    @JsonIgnore
+    public String getFilteredContentExportString(){
+        if (getDataObjectPackage().getExportMetadataList()==null)
+            return getContentXmlData();
+        if (content!=null)
+            return content.filteredToString(getDataObjectPackage().getExportMetadataList());
+        try {
+            content = (Content) Content.fromString(contentXmlData,
+                    Content.class);
+        } catch (SEDALibException e) {
+            return contentXmlData;
+        }
+        return content.filteredToString(getDataObjectPackage().getExportMetadataList());
+    }
+
+    /**
      * Sets content xml data.
      *
      * @param contentXmlData the content xml data
@@ -277,14 +317,14 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      */
     public Content getContent() throws SEDALibException {
         if (content != null) {
-            contentXmlData = null;
             return content;
         }
         if (contentXmlData == null)
             return null;
         content = (Content) Content.fromString(contentXmlData,
                 Content.class);
-        contentXmlData = null;
+        // as fromString function normalise Content had to destroy approximate version contentXmlData
+        contentXmlData=null;
         return content;
     }
 
@@ -401,7 +441,15 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             xmlWriter.writeAttribute("id", inDataPackageObjectId);
             xmlWriter.writeRawXMLBlockIfNotEmpty(getArchiveUnitProfileXmlData());
             xmlWriter.writeRawXMLBlockIfNotEmpty(getManagementXmlData());
-            xmlWriter.writeRawXMLBlockIfNotEmpty(getContentXmlData());
+            if ((getDataObjectPackage().getExportMetadataList()!=null) &&
+                    !isContentSEDACompliant()) {
+                sedaLibProgressLogger.progressLog(SEDALibProgressLogger.GLOBAL,
+                        "L'ArchiveUnit [" + inDataPackageObjectId + "] ne peut être filtrée car son Content " +
+                                "n'est pas conforme SEDA. Le Content est écrit tel quel.");
+                xmlWriter.writeRawXMLBlockIfNotEmpty(getContentXmlData());
+            }
+            else
+                xmlWriter.writeRawXMLBlockIfNotEmpty(getFilteredContentExportString());
             for (ArchiveUnit au : childrenAuList.getArchiveUnitList()) {
                 if (!imbricateFlag) {
                     xmlWriter.writeStartElement("ArchiveUnit");

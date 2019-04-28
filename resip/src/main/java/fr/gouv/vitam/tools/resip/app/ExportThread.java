@@ -89,7 +89,7 @@ public class ExportThread extends SwingWorker<String, String> {
 					String newLog = logTextArea.getText() + "\n" + log;
 					logTextArea.setText(newLog);
 					logTextArea.setCaretPosition(newLog.length());
-				},  1000);
+				},  1000,2);
 			else
 				spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP);
 
@@ -103,6 +103,10 @@ public class ExportThread extends SwingWorker<String, String> {
 			work.getDataObjectPackage().setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
 			archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
 			archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
+			if (work.getExportContext().isMetadataFilterFlag())
+				work.getDataObjectPackage().setExportMetadataList(work.getExportContext().getKeptMetadataList());
+			else
+				work.getDataObjectPackage().setExportMetadataList(null);
 			if (exportType == MANIFEST_EXPORT) {
 				inOutDialog.extProgressTextArea.setText("Export du manifest SEDA en " + work.getExportContext().getOnDiskOutput() + "\n");
 				ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, spl);

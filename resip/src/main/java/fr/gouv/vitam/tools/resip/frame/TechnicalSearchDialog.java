@@ -14,6 +14,8 @@ import javax.swing.text.*;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ItemEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +63,7 @@ public class TechnicalSearchDialog extends JDialog {
     private int searchResultPosition;
     private int searchResultCount;
     private int searchResultListCount;
-    private boolean searchRunning;
+    private TechnicalSearchThread technicalSearchThread;
 
     // Dialog test context
 
@@ -75,6 +77,8 @@ public class TechnicalSearchDialog extends JDialog {
      * @throws IllegalAccessException          the illegal access exception
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
+     * @throws ResipException                  the resip exception
+     * @throws InterruptedException            the interrupted exception
      */
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
         ResipGraphicApp rga = new ResipGraphicApp(null);
@@ -86,6 +90,7 @@ public class TechnicalSearchDialog extends JDialog {
      * Instantiates a new SearchDialog for test.
      *
      * @param owner the owner
+     * @throws ResipException the resip exception
      */
     public TechnicalSearchDialog(JFrame owner) throws ResipException {
         this(ResipGraphicApp.getTheApp().mainWindow);
@@ -100,7 +105,8 @@ public class TechnicalSearchDialog extends JDialog {
         super(owner, "Chercher des objets", false);
         GridBagConstraints gbc;
 
-        searchRunning = false;
+        technicalSearchThread = null;
+        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
         mainWindow = owner;
         dataObjectPackageTreeViewer = mainWindow.getDataObjectPackageTreePaneViewer();
@@ -413,12 +419,29 @@ public class TechnicalSearchDialog extends JDialog {
 
         pack();
         explanationPanel.setVisible(false);
-        resultArchiveUnitLabel.setText("Aucune recherche effectuée");
+        resultArchiveUnitLabel.setText("Aucune recherche");
         pack();
         setLocationRelativeTo(owner);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                close();
+            }
+        });
     }
 
     // actions
+
+    private void close(){
+        if (technicalSearchThread!=null) {
+            technicalSearchThread.cancel(true);
+            technicalSearchThread=null;
+            resultArchiveUnitLabel.setText("Aucune recherche");
+            resultObjectLabel.setText("");
+        }
+        setVisible(false);
+    }
 
     private void moreExplanationEvent(ItemEvent event) {
         if (event.getStateChange() == SELECTED) {
@@ -497,11 +520,7 @@ public class TechnicalSearchDialog extends JDialog {
 
     private void buttonSearch() {
         showFormatList();
-        if (searchRunning) {
-            resultArchiveUnitLabel.setText("En cours");
-            resultObjectLabel.setText("");
-        } else {
-            searchRunning = true;
+        if (technicalSearchThread==null) {
             dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
             long min, max;
             if (minTextField.getText().isEmpty() || !sizeCheckBox.isSelected())
@@ -526,9 +545,11 @@ public class TechnicalSearchDialog extends JDialog {
                 max = min;
                 min = tmp;
             }
-            TechnicalSearchThread tst = new TechnicalSearchThread(this, mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu(),
+            technicalSearchThread = new TechnicalSearchThread(this, mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu(),
                     constructFormatList(), min, max);
-            tst.execute();
+            technicalSearchThread.execute();
+            resultArchiveUnitLabel.setText("En cours");
+            resultObjectLabel.setText("");
         }
     }
 
@@ -607,9 +628,14 @@ public class TechnicalSearchDialog extends JDialog {
             resultArchiveUnitLabel.setText("0 trouvé");
             resultObjectLabel.setText("");
         }
-        searchRunning = false;
+        technicalSearchThread = null;
     }
 
+    /**
+     * Sets format category.
+     *
+     * @param formatCategory the format category
+     */
     public void setFormatCategory(String formatCategory) {
         if (formatCategory == null) {
             formatCategoryCheckBox.setSelected(false);
@@ -622,6 +648,11 @@ public class TechnicalSearchDialog extends JDialog {
         }
     }
 
+    /**
+     * Sets format list.
+     *
+     * @param formatList the format list
+     */
     public void setFormatList(String formatList) {
         if (formatList == null) {
             formatListCheckBox.setSelected(false);
@@ -633,6 +664,12 @@ public class TechnicalSearchDialog extends JDialog {
     }
 
 
+    /**
+     * Sets min max.
+     *
+     * @param min the min
+     * @param max the max
+     */
     public void setMinMax(long min,long max) {
         if (min<0) {
             sizeCheckBox.setSelected(false);
@@ -645,6 +682,9 @@ public class TechnicalSearchDialog extends JDialog {
         maxTextField.setText(Long.toString(max));
     }
 
+    /**
+     * Empty dialog. To be used when the context is changed.
+     */
     public void emptyDialog(){
         setFormatCategory(null);
         setFormatList(null);
@@ -653,6 +693,9 @@ public class TechnicalSearchDialog extends JDialog {
         resultObjectLabel.setText("");
     }
 
+    /**
+     * Launch search process from another frame.
+     */
     public void search(){
         buttonSearch();
     }

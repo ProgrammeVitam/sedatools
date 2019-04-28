@@ -309,6 +309,34 @@ public abstract class ComplexListType extends NamedTypeMetadata {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
+     */
+    public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
+        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        String previousXMLElementName = null;
+        int count = 0;
+        for (SEDAMetadata sm : metadataList) {
+            if (!sm.getXmlElementName().equals(previousXMLElementName)) {
+                previousXMLElementName = sm.getXmlElementName();
+                count = 0;
+            } else count++;
+            final String addedName;
+            if (isAMultiValuedMetadata(sm.getXmlElementName()))
+                addedName = sm.getXmlElementName() + "." + count;
+            else
+                addedName = sm.getXmlElementName();
+            LinkedHashMap<String, String> smCsvList = sm.toCsvList();
+            smCsvList.entrySet().stream().forEach(e -> {
+                result.put(addedName + (e.getKey().isEmpty()?"":"."+e.getKey()), e.getValue());
+            });
+        }
+        return result;
+    }
+
     /**
      * Import the metadata content in XML expected form from the SEDA Manifest.
      *
@@ -472,5 +500,12 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             }
         }
         return langText;
+    }
+
+    public boolean isAMultiValuedMetadata(String metadataName) {
+        ComplexListMetadataKind clmk = subTypeMetadataMapMap.get(this.getClass()).get(metadataName);
+        if (clmk == null)
+            return true;
+        return clmk.many;
     }
 }

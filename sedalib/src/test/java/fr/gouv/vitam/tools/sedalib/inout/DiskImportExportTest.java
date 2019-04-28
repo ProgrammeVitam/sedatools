@@ -3,6 +3,7 @@ package fr.gouv.vitam.tools.sedalib.inout;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -186,9 +187,6 @@ public class DiskImportExportTest implements UseTestFiles {
 
         // do import of test directory
         DiskToArchiveTransferImporter di;
-//		if (System.getProperty("os.name").toLowerCase().contains("win"))
-//			di = new DiskToArchiveTransferImporter("src/test/ressources/PacketSamples/SampleWithWindowsLinksAndShortcutsModelV2",spl);
-//		else
         di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithLinksModelV2", null);
 
         di.addIgnorePattern("Thumbs.db");
@@ -268,6 +266,56 @@ public class DiskImportExportTest implements UseTestFiles {
         sau = TestUtilities.LineEndNormalize(sau.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(saupath & testaupath);
+        assertEquals(sau, testau);
+    }
+
+    static Function<String,String> replaced = s->"Replaced";
+
+    @Test
+    public void TestDiskImportWithLinkIgnoringLinksAndExtractingTitle() throws Exception {
+
+        // do import of test directory
+        DiskToArchiveTransferImporter di;
+        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithLinksModelV2",
+                true,replaced,null);
+
+        di.addIgnorePattern("Thumbs.db");
+        di.addIgnorePattern("pagefile.sys");
+        di.doImport();
+
+        // assert macro results
+        assertEquals(di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().size(), 22);
+        assertEquals(di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().size(), 11);
+
+        // create jackson object mapper
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+        module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+        mapper.registerModule(module);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        // assert one archiveUnit using serialization
+        String testau = "{\n" +
+                "\"archiveUnitProfileXmlData\":null,\n" +
+                "\"managementXmlData\":null,\n" +
+                "\"contentXmlData\":\"<Content>  <DescriptionLevel>RecordGrp</DescriptionLevel>  <Title>Replaced</Title></Content>\",\n" +
+                "\"childrenAuList\":{\n" +
+                "\"inDataObjectPackageIdList\":[]\n" +
+                "},\n" +
+                "\"dataObjectRefList\":{\n" +
+                "\"inDataObjectPackageIdList\":[]\n" +
+                "},\n" +
+                "\"inDataObjectPackageId\":\"ID56\",\n" +
+                "\n" +
+                "}";
+
+        testau = TestUtilities.LineEndNormalize(testau.replaceAll("\"onDiskPath\" : .*\"", ""));
+
+        ArchiveUnit au = di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID56");
+        String sau = mapper.writeValueAsString(au);
+        sau = TestUtilities.LineEndNormalize(sau.replaceAll("\"onDiskPath\" : .*\"", ""));
+
         assertEquals(sau, testau);
     }
 }

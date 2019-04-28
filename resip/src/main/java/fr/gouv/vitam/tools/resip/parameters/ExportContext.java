@@ -6,8 +6,12 @@ package fr.gouv.vitam.tools.resip.parameters;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +24,9 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
  */
 public class ExportContext {
 
+	/**
+	 * The export nature.
+	 */
 	public static final int SIP=1;
 	public static final int MANIFEST=2;
 	public static final int DISK=3;
@@ -40,13 +47,20 @@ public class ExportContext {
 	/** The archive transfer global metadata. */
 	private GlobalMetadata globalMetadata;
 
-	// session elements
+	/** The descriptive metadata filter flag. */
+	private boolean metadataFilterFlag;
+
+	/** The descriptive metadata kept in content. */
+	private List<String> keptMetadataList;
+
 	/** The on disk output. */
 	private String onDiskOutput;
 
 	// Inner Object
 
-	/** The Constant CURRENT_SERIALIZATION_VERSION. */
+	/**
+	 * The Constant CURRENT_SERIALIZATION_VERSION.
+	 */
 	static final String CURRENT_SERIALIZATION_VERSION = "1.0";
 
 	/**
@@ -65,24 +79,36 @@ public class ExportContext {
 		this.globalMetadata=new GlobalMetadata();
 		this.managementMetadataXmlData=null;
 		this.onDiskOutput=null;
+		this.metadataFilterFlag=false;
+		this.keptMetadataList=new ArrayList<String>();
 	}
 
 	/**
 	 * Instantiates a new global metadata context.
 	 *
-	 * @param globalMetadata the archive transfer global metadata
-	 * @param hierarchicalArchiveUnits the hierarchical archive units
-	 * @param indented the indented
-	 * @param onDiskOutput the on disk output
+	 * @param globalMetadata            the archive transfer global metadata
+	 * @param hierarchicalArchiveUnits  the hierarchical archive units
+	 * @param indented                  the indented
+	 * @param reindex                   the reindex
+	 * @param onDiskOutput              the on disk output
+	 * @param managementMetadataXmlData the management metadata xml data
+	 * @param metadataFilterFlag        the metadata filter flag
+	 * @param keptMetadataList          the kept metadata list
 	 */
 	public ExportContext(GlobalMetadata globalMetadata,
-			boolean hierarchicalArchiveUnits, boolean indented, boolean reindex, String onDiskOutput, String managementMetadataXmlData) {
+			boolean hierarchicalArchiveUnits, boolean indented, boolean reindex, String onDiskOutput, String managementMetadataXmlData,
+						 boolean metadataFilterFlag, List<String> keptMetadataList) {
 		this.hierarchicalArchiveUnits = hierarchicalArchiveUnits;
 		this.indented = indented;
 		this.reindex = indented;
 		this.globalMetadata=globalMetadata;
 		this.managementMetadataXmlData=managementMetadataXmlData;
 		this.setOnDiskOutput(onDiskOutput);
+		this.metadataFilterFlag=metadataFilterFlag;
+		if (keptMetadataList == null)
+			this.keptMetadataList = new ArrayList<String>();
+		else
+			this.keptMetadataList = keptMetadataList;
 	}
 
 	/**
@@ -103,7 +129,8 @@ public class ExportContext {
 			this.reindex = sec.reindex;
 			this.globalMetadata=sec.globalMetadata;
 			this.managementMetadataXmlData=sec.managementMetadataXmlData;
-			
+			this.metadataFilterFlag=sec.metadataFilterFlag;
+			this.keptMetadataList=sec.keptMetadataList;
 		} catch (IOException e) {
 			throw new SEDALibException("Resip.InOut: Le fichier [" + sipExportFileName
 					+ "] de contexte est illisible\n->" + e.getMessage());
@@ -136,6 +163,13 @@ public class ExportContext {
 		indented = node.getBoolean("indented", true);
 		reindex = node.getBoolean("reindex", false);
 		managementMetadataXmlData=nullIfEmpty(node.get("managementMetadataXmlData", ""));
+		metadataFilterFlag = node.getBoolean("metadataFilterFlag", false);
+		String keptMetadataString = node.get("keptMetadataList", "");
+		if (keptMetadataString.isEmpty())
+			keptMetadataList = new ArrayList<String>();
+		else
+			keptMetadataList = Arrays.asList(keptMetadataString.split("\\s*\n\\s*"))
+					.stream().map(String::trim).collect(Collectors.toList());
 		node = node.node("globalMetadata");
 		getArchiveTransferGlobalMetadata().comment=nullIfEmpty(node.get("comment", ""));
 		getArchiveTransferGlobalMetadata().date=nullIfEmpty(node.get("date", ""));
@@ -170,6 +204,9 @@ public class ExportContext {
 		contextNode.putBoolean("reindex", reindex);
 		contextNode.put("managementMetadataXmlData", (managementMetadataXmlData == null ? ""
 				: managementMetadataXmlData));
+		contextNode.putBoolean("metadataFilterFlag", metadataFilterFlag);
+		contextNode.put("keptMetadataList", String.join("\n", keptMetadataList));
+
 		contextNode = contextNode.node("globalMetadata");
 		contextNode.put("comment", (getArchiveTransferGlobalMetadata().comment == null ? ""
 				: getArchiveTransferGlobalMetadata().comment));
@@ -209,12 +246,24 @@ public class ExportContext {
 		this.hierarchicalArchiveUnits = true;
 		this.indented = true;
 		this.reindex = false;
-		managementMetadataXmlData="    <ManagementMetadata>\n"
+		this.managementMetadataXmlData="    <ManagementMetadata>\n"
 				+ "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n"
 				+ "      <LegalStatus>Public Archive</LegalStatus>\n"
 				+ "      <OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>\n"
 				+ "      <SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>\n"
 				+ "    </ManagementMetadata>";
+		this.metadataFilterFlag=false;
+		String keptMetadataString="DescriptionLevel\nTitle\n" +
+				"FilePlanPosition\nSystemId\nOriginatingSystemId\n" +
+				"ArchivalAgencyArchiveUnitIdentifier\nOriginatingAgencyArchiveUnitIdentifier\n"+
+				"TransferringAgencyArchiveUnitIdentifier\n"+
+				"Description\nCustodialHistory\nType\nDocumentType\nLanguage\nDescriptionLanguage\n"+
+				"Status\nVersion\nTag\nKeyword\nCoverage\nOriginatingAgency\nSubmissionAgency\n"+
+				"AuthorizedAgent\nWriter\nAddressee\nRecipient\nTransmitter\nSender\nSource\nRelatedObjectReference\n"+
+				"CreatedDate\nTransactedDate\nAcquiredDate\nSentDate\nReceivedDate\nRegisteredDate\nStartDate\n"+
+				"EndDate\nEvent\nSignature\nGps";
+		this.keptMetadataList = Arrays.asList(keptMetadataString.split("\\s*\n\\s*"))
+					.stream().map(String::trim).collect(Collectors.toList());
 		if (getArchiveTransferGlobalMetadata() == null)
 			setArchiveTransferGlobalMetadata(new GlobalMetadata());
 		getArchiveTransferGlobalMetadata().comment="Avec valeurs utilisables sur environnement de démo Vitam";
@@ -315,10 +364,20 @@ public class ExportContext {
 		this.indented = indented;
 	}
 
+	/**
+	 * Is reindex boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isReindex() {
 		return reindex;
 	}
 
+	/**
+	 * Sets reindex.
+	 *
+	 * @param reindex the reindex
+	 */
 	public void setReindex(boolean reindex) {
 		this.reindex = reindex;
 	}
@@ -341,12 +400,57 @@ public class ExportContext {
 		this.managementMetadataXmlData = managementMetadataXmlData;
 	}
 
+	/**
+	 * Gets on disk output.
+	 *
+	 * @return the on disk output
+	 */
 	public String getOnDiskOutput() {
 		return onDiskOutput;
 	}
 
+	/**
+	 * Sets on disk output.
+	 *
+	 * @param onDiskOutput the on disk output
+	 */
 	public void setOnDiskOutput(String onDiskOutput) {
 		this.onDiskOutput = onDiskOutput;
 	}
 
+	/**
+	 * Is metadata filter flag boolean.
+	 *
+	 * @return the boolean
+	 */
+	public boolean isMetadataFilterFlag() {
+		return metadataFilterFlag;
+	}
+
+	/**
+	 * Sets metadata filter flag.
+	 *
+	 * @param metadataFilterFlag the metadata filter flag
+	 */
+	public void setMetadataFilterFlag(boolean metadataFilterFlag) {
+		this.metadataFilterFlag = metadataFilterFlag;
+	}
+
+	/**
+	 * Gets kept metadata list.
+	 *
+	 * @return the kept metadata list
+	 */
+	public List<String> getKeptMetadataList() {
+		return keptMetadataList;
+	}
+
+	/**
+	 * Sets kept metadata list.
+	 *
+	 * @param keptMetadataList the kept metadata list
+	 */
+	public void setKeptMetadataList(List<String> keptMetadataList) {
+		this.keptMetadataList = keptMetadataList;
+	}
 }

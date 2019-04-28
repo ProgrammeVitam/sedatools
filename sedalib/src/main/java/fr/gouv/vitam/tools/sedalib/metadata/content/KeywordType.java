@@ -35,6 +35,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -47,10 +48,12 @@ public class KeywordType extends NamedTypeMetadata {
     /**
      * Enum restricted values.
      */
-    static final List<String> enumValues= Arrays.asList("corpname","famname","geogname","name",
-            "occupation","persname","subject","genreform","function");
+    static final List<String> enumValues = Arrays.asList("corpname", "famname", "geogname", "name",
+            "occupation", "persname", "subject", "genreform", "function");
 
-    /** The value. */
+    /**
+     * The value.
+     */
     private String value;
 
     /**
@@ -63,7 +66,7 @@ public class KeywordType extends NamedTypeMetadata {
     /**
      * Instantiates a new code keyword.
      *
-     * @param value       the value
+     * @param value the value
      * @throws SEDALibException the seda lib exception
      */
     public KeywordType(String value) throws SEDALibException {
@@ -87,14 +90,26 @@ public class KeywordType extends NamedTypeMetadata {
         try {
             xmlWriter.writeElementValue(elementName, value);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type KeywordType ["+getXmlElementName()+"]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type KeywordType [" + getXmlElementName() + "]\n->" + e.getMessage());
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
+     */
+    public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
+        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        result.put("",value);
+        return result;
     }
 
     /**
      * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
      * @return true, if it finds something convenient, false if not
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */

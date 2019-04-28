@@ -11,6 +11,8 @@ import javax.swing.*;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ItemEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class SearchDialog extends JDialog {
     private DataObjectPackageTreeModel dataObjectPackageTreeModel;
     private List<ArchiveUnit> searchResult;
     private int searchResultPosition;
-    private boolean searchRunning;
+    private SearchThread searchThread;
 
     // Dialog test context
 
@@ -76,9 +78,10 @@ public class SearchDialog extends JDialog {
      * @param owner the owner
      */
     public SearchDialog(MainWindow owner) {
-        super(owner, "Chercher", false);
+        super(owner, "Chercher des unités d'archives", false);
 
-        searchRunning = false;
+        searchThread = null;
+        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
         mainWindow=owner;
         dataObjectPackageTreeViewer=mainWindow.getDataObjectPackageTreePaneViewer();
@@ -184,7 +187,7 @@ public class SearchDialog extends JDialog {
         contentPane.add(metadataCheckBox, gbc);
 
         resultLabel = new JLabel();
-        resultLabel.setText("");
+        resultLabel.setText("Aucune recherche");
         gbc = new GridBagConstraints();
         gbc.gridx = 3;
         gbc.gridwidth = 3;
@@ -242,9 +245,25 @@ public class SearchDialog extends JDialog {
         optionalInfoPanel.setVisible(false);
         pack();
         setLocationRelativeTo(owner);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                close();
+            }
+        });
     }
 
     // actions
+
+    private void close(){
+        if (searchThread!=null) {
+            searchThread.cancel(true);
+            searchThread=null;
+            resultLabel.setText("Aucune recherche");
+        }
+        setVisible(false);
+    }
 
     private void regexpEvent(ItemEvent event) {
         if (event.getStateChange() == SELECTED) {
@@ -254,6 +273,7 @@ public class SearchDialog extends JDialog {
             dim.height = dim.height + optionalInfoPanel.getHeight();
             this.setSize(dim);
             this.setPreferredSize(dim);
+            caseCheckBox.setEnabled(false);
             pack();
         } else if (event.getStateChange() == DESELECTED) {
             optionalInfoPanel.setVisible(false);
@@ -261,6 +281,7 @@ public class SearchDialog extends JDialog {
             dim.height = dim.height - optionalInfoPanel.getHeight();
             this.setSize(dim);
             this.setPreferredSize(dim);
+            caseCheckBox.setEnabled(true);
             pack();
         }
     }
@@ -274,13 +295,12 @@ public class SearchDialog extends JDialog {
     }
 
     private void buttonSearch() {
-        if (searchRunning)
-            resultLabel.setText("En cours");
-        else {
-            searchRunning = true;
+        if (searchThread==null) {
             dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
-            SearchThread st = new SearchThread(this, mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu());
-            st.execute();
+            searchThread = new SearchThread(this, mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu());
+            searchThread.execute();
+            searchResult=null;
+            resultLabel.setText("En cours");
         }
     }
 
@@ -350,17 +370,17 @@ public class SearchDialog extends JDialog {
         }
         else
             resultLabel.setText("0 trouvé");
-        searchRunning=false;
+        searchThread=null;
     }
 
     /**
-     * Empty dialog.
+     * Empty dialog. To be used when the context is changed.
      */
     public void emptyDialog(){
         searchTextField.setText("");
         regExpCheckBox.setSelected(false);
         metadataCheckBox.setSelected(false);
         caseCheckBox.setSelected(false);
-
+        caseCheckBox.setEnabled(true);
     }
 }

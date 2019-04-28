@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -55,15 +56,21 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class XmlEditDialog extends JDialog {
 
-    /** The actions components. */
+    /**
+     * The actions components.
+     */
     private RSyntaxTextArea xmlTextArea;
     private JTextArea informationTextArea;
     private JPanel informationPanel;
 
-    /** The data. */
+    /**
+     * The data.
+     */
     private Object xmlObject;
 
-    /** The result. */
+    /**
+     * The result.
+     */
     private String xmlDataString;
 
     // Dialog test context
@@ -95,7 +102,7 @@ public class XmlEditDialog extends JDialog {
     /**
      * Create the dialog.
      *
-     * @param owner the owner
+     * @param owner     the owner
      * @param xmlObject the xml object
      */
     public XmlEditDialog(JFrame owner, Object xmlObject) {
@@ -154,7 +161,7 @@ public class XmlEditDialog extends JDialog {
 
         Container contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(500,500));
+        setPreferredSize(new Dimension(500, 500));
 
         final JPanel presentationPanel = new JPanel();
         presentationPanel.setLayout(new GridBagLayout());
@@ -270,13 +277,23 @@ public class XmlEditDialog extends JDialog {
         gbc.gridy = 0;
         gbc.gridx = 1;
         actionPanel.add(saveButton, gbc);
+        if (xmlObject instanceof DataObjectPackageTreeNode) {
+            final JButton canonizeButton = new JButton("Ordonner");
+            canonizeButton.addActionListener(arg -> buttonCanonizeXmlEdit());
+            gbc = new GridBagConstraints();
+            gbc.insets = new Insets(0, 0, 5, 5);
+            gbc.weightx = 1.0;
+            gbc.gridy = 0;
+            gbc.gridx = 2;
+            actionPanel.add(canonizeButton, gbc);
+        }
         final JButton cancelButton = new JButton("Annuler");
         cancelButton.addActionListener(arg -> buttonCancel());
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 0);
         gbc.weightx = 1.0;
         gbc.gridy = 0;
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         actionPanel.add(cancelButton, gbc);
 
         addWindowListener(new WindowAdapter() {
@@ -356,6 +373,26 @@ public class XmlEditDialog extends JDialog {
             informationTextArea.setForeground(Color.BLACK);
             informationTextArea.setText("");
             setVisible(false);
+        } catch (Exception e) {
+            showWarning(e.getMessage());
+        }
+    }
+
+    private void buttonCanonizeXmlEdit() {
+        try {
+            xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
+                    .indentString(xmlTextArea.getText());
+            ArchiveUnit au = new ArchiveUnit();
+            au.fromSedaXmlFragments(xmlDataString);
+            au.getContent();
+            au.getManagement();
+            au.getArchiveUnitProfile();
+            String xmlData = au.toSedaXmlFragments();
+            xmlData = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
+                    .indentString(xmlData);
+            xmlTextArea.setText(xmlData);
+            informationTextArea.setForeground(Color.BLACK);
+            informationTextArea.setText("");
         } catch (Exception e) {
             showWarning(e.getMessage());
         }

@@ -1,3 +1,8 @@
+Evolutions/Corrections en 1.4.0
+
+- Evolution: les log de progression se déclenche non seulement tous les 1000 obets mais aussi toutes les 2 secondes
+
+============================================================================
 Evolutions/Corrections en 1.2.0
 
  - Evolution: intégration de la partie application de mailextract dans sedatools et changement de version en cohérence

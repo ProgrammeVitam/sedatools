@@ -27,19 +27,23 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import java.awt.*;
-import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-
-import javax.swing.*;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.DocumentFilter;
-
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
+
+import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DocumentFilter;
+import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import static java.awt.event.ItemEvent.DESELECTED;
+import static java.awt.event.ItemEvent.SELECTED;
 
 /**
  * The class PrefsDialog.
@@ -73,6 +77,7 @@ public class PrefsDialog extends JDialog {
     private JCheckBox messageMetadataCheckBox;
     private JCheckBox attachementMetadataCheckBox;
     private JTextArea ignorePatternsTextArea;
+    private JCheckBox ignoreLinksChexBox;
     private JComboBox csvCharsetCombobox;
     private JTextField csvDelimiterTextField;
 
@@ -82,6 +87,8 @@ public class PrefsDialog extends JDialog {
     private JRadioButton hierarchicalRadioButton;
     private JRadioButton indentedRadioButton;
     private JRadioButton reindexYesRadioButton;
+    private JTextArea metadataFilterTextArea;
+    private JCheckBox metadataFilterCheckBox;
 
     private JFrame owner;
 
@@ -144,7 +151,7 @@ public class PrefsDialog extends JDialog {
         gmc = new ExportContext(Prefs.getInstance().getPrefsContextNode());
         cmic = new CSVMetadataImportContext(Prefs.getInstance().getPrefsContextNode());
         ctic = new CSVTreeImportContext(Prefs.getInstance().getPrefsContextNode());
-        tp=new TreatmentParameters(Prefs.getInstance().getPrefsContextNode());
+        tp = new TreatmentParameters(Prefs.getInstance().getPrefsContextNode());
 
         this.owner = owner;
         this.setPreferredSize(new Dimension(800, 500));
@@ -479,8 +486,8 @@ public class PrefsDialog extends JDialog {
         tabbedPane.addTab("Export", new ImageIcon(getClass().getResource("/icon/document-save.png")), exportParametersPanel, null);
         GridBagLayout gbl_exportParametersPanel = new GridBagLayout();
         gbl_exportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
-        gbl_exportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-        gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 1};
+        gbl_exportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+        gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 1};
         exportParametersPanel.setLayout(gbl_exportParametersPanel);
 
         JLabel workDirLabel = new JLabel("Rép. de travail:");
@@ -511,12 +518,24 @@ public class PrefsDialog extends JDialog {
         exportParametersPanel.add(workDirButton, gbc);
         workDirButton.addActionListener(arg0 -> buttonChooseWorkDir());
 
+        JLabel inSIPLabel = new JLabel("Options de formation du SIP");
+        inSIPLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        exportParametersPanel.add(inSIPLabel, gbc);
+
         JLabel hierarchicalAULabel = new JLabel("Export des AU dans le SIP:");
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         exportParametersPanel.add(hierarchicalAULabel, gbc);
 
         JRadioButton flatRadioButton = new JRadioButton("A plat");
@@ -524,7 +543,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 2;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         exportParametersPanel.add(flatRadioButton, gbc);
 
         hierarchicalRadioButton = new JRadioButton("Imbriquées");
@@ -532,7 +551,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 2;
+        gbc.gridy = 4;
         exportParametersPanel.add(hierarchicalRadioButton, gbc);
 
         ButtonGroup hierarchicalAUButtonGroup = new ButtonGroup();
@@ -549,7 +568,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 0, 0, 5);
         gbc.gridx = 0;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         exportParametersPanel.add(xmlPresentationLabel, gbc);
 
         JRadioButton linearRadioButton = new JRadioButton("Linéaire");
@@ -557,14 +576,14 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 0, 5);
         gbc.gridx = 2;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         exportParametersPanel.add(linearRadioButton, gbc);
 
         indentedRadioButton = new JRadioButton("Indentée");
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 1;
-        gbc.gridy = 3;
+        gbc.gridy = 4;
         exportParametersPanel.add(indentedRadioButton, gbc);
 
         ButtonGroup indentedButtonGroup = new ButtonGroup();
@@ -581,7 +600,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 0, 0, 5);
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         exportParametersPanel.add(xmlReindexLabel, gbc);
 
         reindexYesRadioButton = new JRadioButton("Oui");
@@ -590,14 +609,14 @@ public class PrefsDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 0, 0, 5);
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         exportParametersPanel.add(reindexYesRadioButton, gbc);
 
         JRadioButton reindexNoRadioButton = new JRadioButton("Non");
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.gridx = 2;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         exportParametersPanel.add(reindexNoRadioButton, gbc);
 
         ButtonGroup reindexButtonGroup = new ButtonGroup();
@@ -608,6 +627,50 @@ public class PrefsDialog extends JDialog {
             reindexYesRadioButton.setSelected(true);
         else
             reindexNoRadioButton.setSelected(true);
+
+        JLabel metadataFilterLabel = new JLabel("Filtrage des métadonnées");
+        metadataFilterLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.weighty = 0.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        exportParametersPanel.add(metadataFilterLabel, gbc);
+
+        scrollPane = new JScrollPane();
+        gbc = new GridBagConstraints();
+        gbc.weightx = 1.0;
+        gbc.weighty = 1.0;
+        gbc.gridwidth = 2;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        exportParametersPanel.add(scrollPane, gbc);
+
+        metadataFilterTextArea = new JTextArea();
+        metadataFilterTextArea.setFont(MainWindow.DETAILS_FONT);
+        scrollPane.setViewportView(metadataFilterTextArea);
+        if (gmc.getKeptMetadataList() != null)
+            metadataFilterTextArea.setText(String.join("\n", String.join("\n", gmc.getKeptMetadataList())));
+        metadataFilterTextArea.setCaretPosition(0);
+
+        metadataFilterCheckBox = new JCheckBox("Seules métadonnées exportées :");
+        metadataFilterCheckBox.setToolTipText("Liste des noms de métadonnées dans <Content>, utilisée comm filtre si coché ");
+        metadataFilterCheckBox.setSelected(gmc.isMetadataFilterFlag());
+        metadataFilterTextArea.setEnabled(gmc.isMetadataFilterFlag());
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.weighty = 1.0;
+        exportParametersPanel.add(metadataFilterCheckBox, gbc);
+        metadataFilterCheckBox.addItemListener(arg -> metadataFilterEvent(arg));
 
         // ImportParameters Panel
         JPanel importParametersPanel = new JPanel();
@@ -724,6 +787,8 @@ public class PrefsDialog extends JDialog {
         ignorePatternsTextArea = new JTextArea();
         ignorePatternsTextArea.setFont(MainWindow.DETAILS_FONT);
         scrollPane_5.setViewportView(ignorePatternsTextArea);
+        if (dic.getIgnorePatternList() != null)
+            ignorePatternsTextArea.setText(String.join("\n", String.join("\n", dic.getIgnorePatternList())));
 
         JLabel ignorePatternsLabel = new JLabel("Fichiers exclus des imports :");
         ignorePatternsLabel.setToolTipText("Liste d'expressions régulières définissant les noms de fichiers à ne pas prendre en compte");
@@ -734,13 +799,18 @@ public class PrefsDialog extends JDialog {
         gbc.gridy = 5;
         gbc.weighty = 1.0;
         importParametersPanel.add(ignorePatternsLabel, gbc);
-        if (dic.getIgnorePatternList() != null) {
-            StringBuilder sb = new StringBuilder();
-            for (String p : dic.getIgnorePatternList()) {
-                sb.append(p).append('\n');
-            }
-            ignorePatternsTextArea.setText(sb.toString().trim());
-        }
+
+        ignoreLinksChexBox = new JCheckBox("ignorer les liens symboliques et rassourcis");
+        ignoreLinksChexBox.setSelected(dic.isNoLinkFlag());
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        importParametersPanel.add(ignoreLinksChexBox, gbc);
 
         JLabel csvImportLabel = new JLabel("Import des csv");
         csvImportLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -751,7 +821,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         importParametersPanel.add(csvImportLabel, gbc);
 
         JLabel csvCharsetLabel = new JLabel("Encodage des csv :");
@@ -759,7 +829,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         importParametersPanel.add(csvCharsetLabel, gbc);
 
         csvCharsetCombobox = new JComboBox(charsetStrings);
@@ -768,7 +838,7 @@ public class PrefsDialog extends JDialog {
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         importParametersPanel.add(csvCharsetCombobox, gbc);
         csvCharsetCombobox.setSelectedItem(cmic.getCsvCharsetName());
 
@@ -777,7 +847,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         importParametersPanel.add(lblCsvDelimiter, gbc);
 
         csvDelimiterTextField = new JTextField();
@@ -787,7 +857,7 @@ public class PrefsDialog extends JDialog {
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridwidth = 2;
         gbc.gridx = 1;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         gbc.anchor = GridBagConstraints.WEST;
         importParametersPanel.add(csvDelimiterTextField, gbc);
         csvDelimiterTextField.setColumns(1);
@@ -862,8 +932,15 @@ public class PrefsDialog extends JDialog {
         pack();
         setLocationRelativeTo(owner);
     }
-
     // actions
+
+    private void metadataFilterEvent(ItemEvent event) {
+        if (event.getStateChange() == SELECTED) {
+            metadataFilterTextArea.setEnabled(true);
+        } else if (event.getStateChange() == DESELECTED) {
+            metadataFilterTextArea.setEnabled(false);
+        }
+    }
 
     private void buttonCancel() {
         returnValue = ResipGraphicApp.KO_DIALOG;
@@ -910,10 +987,9 @@ public class PrefsDialog extends JDialog {
         int tmp;
         try {
             tmp = Integer.parseInt(dupMaxTextField.getText());
-            if (tmp<=0)
+            if (tmp <= 0)
                 throw new NumberFormatException("Number not strictly negative");
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             tabbedPane.setSelectedIndex(4);
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                     "La valeur limite d'aggrégation des doublons doit être un nombre strictement supérieur à 0.",
@@ -930,6 +1006,7 @@ public class PrefsDialog extends JDialog {
         ctic.setWorkDir(workDirTextField.getText());
 
         dic.setIgnorePatternList(Arrays.asList(ignorePatternsTextArea.getText().split("\\s*\n\\s*")));
+        dic.setNoLinkFlag(ignoreLinksChexBox.isSelected());
 
         mic.setExtractMessageTextMetadata(messageMetadataCheckBox.isSelected());
         mic.setExtractAttachmentTextMetadata(attachementMetadataCheckBox.isSelected());
@@ -941,6 +1018,9 @@ public class PrefsDialog extends JDialog {
         gmc.setIndented(indentedRadioButton.isSelected());
         gmc.setReindex(reindexYesRadioButton.isSelected());
         gmc.setManagementMetadataXmlData(managementMetadataTextArea.getText());
+        gmc.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
+        gmc.setKeptMetadataList(Arrays.asList(metadataFilterTextArea.getText().split("\\s*\n\\s*"))
+                .stream().map(String::trim).collect(Collectors.toList()));
 
         gmc.getArchiveTransferGlobalMetadata().comment = commentTextArea.getText();
         gmc.getArchiveTransferGlobalMetadata().date = dateTextField.getText();
@@ -963,7 +1043,7 @@ public class PrefsDialog extends JDialog {
         ctic.setCsvCharsetName((String) csvCharsetCombobox.getSelectedItem());
 
         return true;
-     }
+    }
 
     /**
      * Get return value int.
