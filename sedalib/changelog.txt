@@ -1,6 +1,13 @@
 Evolutions/Corrections en 1.4.0
 
 - Evolution: ajout de la capacité à filtrer l'export des métadonnées descriptives dans le DataObjectPackage (chaque Content des ArchiveUnit)
+- Evolution: ajout d'une fonction de transformation des noms de fichiers en titre lors de l'import d'une hiérarchie sur disque (par défaut simple copie)
+- Evolution: possibilité de déclencher un log de progression non seulement sur la base d'un décompte tous les n objets mais aussi toutes les p secondes
+- Evolution: ajout d'une option pour ignorer les liens symboliques et raccourcis lors de l'import d'une hiérarchie sur disque
+- Fix: Javadoc
+- Evolution: ajout d'une fonction de sortie sous forme csv des métadonnées d'ArchiveUnit
+- Evolution: ajout d'OriginatingSystemIdReplyTo comme extension de Content
+- Evolution: import de csv de métadonnées avec des attributs soit exprimés par une colonne 'attr' après le tag auquel il s'applique, soit exprimés par une colonne '"XMLPath".attr'
 
 ============================================================================
 Evolutions/Corrections en 1.3.0
