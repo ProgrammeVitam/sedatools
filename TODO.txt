@@ -9,6 +9,7 @@ resip
 - Elimination des objets (DOG, BDO, PDO) non utilisés après l'import
 - Generation d'un csv, du manifest et de la hierachie disque avec seulement les fichiers et leur nom d'origine
 - Remplacer les archivetransfer qui nomment des DataObjectPackage
+- fix: si certains champs d'une AU sont long les boutons d'édition ne sont pas visibles
 
 sedalib
 - Créer la notion de DOG implicite (non exportés)
