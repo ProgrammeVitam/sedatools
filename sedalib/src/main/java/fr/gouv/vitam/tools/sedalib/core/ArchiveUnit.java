@@ -171,6 +171,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      */
     public ArchiveUnitProfile getArchiveUnitProfile() throws SEDALibException {
         if (archiveUnitProfile != null) {
+            archiveUnitProfileXmlData=null;
             return archiveUnitProfile;
         }
         if (archiveUnitProfileXmlData == null)
@@ -224,6 +225,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      */
     public Management getManagement() throws SEDALibException {
         if (management != null) {
+            managementXmlData=null;
             return management;
         }
         if (managementXmlData == null)
@@ -273,6 +275,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         try {
             content = (Content) Content.fromString(contentXmlData,
                     Content.class);
+            contentXmlData=null;
         } catch (SEDALibException e) {
             return false;
         }
@@ -293,6 +296,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         try {
             content = (Content) Content.fromString(contentXmlData,
                     Content.class);
+            contentXmlData=null;
         } catch (SEDALibException e) {
             return contentXmlData;
         }
@@ -317,6 +321,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      */
     public Content getContent() throws SEDALibException {
         if (content != null) {
+            contentXmlData=null;
             return content;
         }
         if (contentXmlData == null)
