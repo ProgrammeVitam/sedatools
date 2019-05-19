@@ -22,7 +22,7 @@ public class Sample4 {
             sb.addDiskSubTree("Contexte", "sedalib-samples/src/main/resources/Procedure/Contexte");
             sb.addCSVMetadataSubTree("Racine", "Cp1252", ';', "sedalib-samples/src/main/resources/MetadataCSV.csv");
 
-            // keep one file for history in Contexte part and without AppraisalRuleOld
+            // keep one file for history in Contexte part and without AppraisalRule
             ArchiveUnit sampleAU = sb.findArchiveUnitBySimpleDescriptiveMetadata("OriginatingSystemId", "ID10000");
             Content c = sb.getContent(sampleAU.getInDataObjectPackageId());
             sb.addNewSubArchiveUnit("Contexte", "Exemple de dossier",

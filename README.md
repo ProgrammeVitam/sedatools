@@ -90,7 +90,7 @@ champ de possibles au travers de la JavaDoc et du code de la bibliothèque.
 Les différents exemples démontrent:
 
 * Sample1: la construction d'un SIP par simple réplication de la structure
-sur disque d'un enesmeble de fichiers
+sur disque d'un ensemble de fichiers
 * Sample2: la construction d'un SIP à partir d'une part une arborescence sur
 disque et d'autre part en construisant une arborescence de dossiers avec des
 métadonnées dans des fichiers

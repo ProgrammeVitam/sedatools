@@ -446,41 +446,6 @@ public class MailExtractApp {
         }
     }
 
-//	// generate a specific logger at the loglevel defined in constructor
-//	private final static Logger generateLogger(String fileName, Level logLevel) throws Exception {
-//		Logger logger;
-//		try {
-//			Properties props = System.getProperties();
-//			props.setProperty("java.util.logging.SimpleFormatter.format", "[%1$tc] %4$s: %5$s%n");
-//			logger = Logger.getProgressLogger(MailExtractApp.class.getName());
-//			logger.setLevel(logLevel);
-//
-//			Formatter simpleFormatter;
-//			simpleFormatter = new SimpleFormatter();
-//
-//			if (logLevel != Level.OFF) {
-//				Files.createDirectories(Paths.get(fileName).getParent());
-//				Handler fileHandler = new FileHandler(fileName);
-//				fileHandler.setFormatter(simpleFormatter);
-//				fileHandler.setLevel(logLevel);
-//				logger.addHandler(fileHandler);
-//			}
-//
-//			Handler consoleHandler = new ConsoleHandler();
-//			consoleHandler.setFormatter(simpleFormatter);
-//			consoleHandler.setLevel(logLevel);
-//			if (System.getProperty("os.name").toLowerCase().startsWith("windows"))
-//				consoleHandler.setEncoding("Cp850");
-//			logger.addHandler(consoleHandler);
-//
-//			// don't use ConsoleHandler at global level
-//			logger.setUseParentHandlers(false);
-//		} catch (IOException e) {
-//			throw new Exception("mailextract: Can't create logger");
-//		}
-//		return logger;
-//	}
-
     // try if possible to log in the store extractor logger all the information
     // about the fatal error
     private final static void logFatalError(Exception e, StoreExtractor storeExtractor, MailExtractLogger logger) {

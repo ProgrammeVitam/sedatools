@@ -107,7 +107,7 @@ public class DigestType extends NamedTypeMetadata {
             xmlWriter.writeCharactersIfNotEmpty(value);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type TextType [" + getXmlElementName() + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type DigestType [" + getXmlElementName() + "]\n->" + e.getMessage());
         }
     }
 

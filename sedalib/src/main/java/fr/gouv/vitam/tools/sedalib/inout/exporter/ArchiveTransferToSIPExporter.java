@@ -107,7 +107,7 @@ public class ArchiveTransferToSIPExporter {
             xmlWriter = ixsw;
             archiveTransfer.toSedaXml(xmlWriter, hierarchicalFlag, sedaLibProgressLogger);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Echec d'écriture XML du manifest");
+            throw new SEDALibException("Echec d'écriture XML du manifest", e);
         }
     }
 
@@ -138,7 +138,7 @@ public class ArchiveTransferToSIPExporter {
         try (FileOutputStream fos = new FileOutputStream(fileName)) {
             exportManifestOutputStream(fos, hierarchicalFlag, indentedFlag);
         } catch (SEDALibException | IOException e) {
-            throw new SEDALibException("Echec de l'export du manifest dans le fichier [" + fileName + "]");
+            throw new SEDALibException("Echec de l'export du manifest dans le fichier [" + fileName + "]", e);
         }
         if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP,
@@ -176,7 +176,7 @@ public class ArchiveTransferToSIPExporter {
         try {
             Files.createDirectories(Paths.get(fileName).getParent());
         } catch (IOException e1) {
-            throw new SEDALibException("Impossible de créer le répertoire [" + Paths.get(fileName).getParent().toString() + "]");
+            throw new SEDALibException("Impossible de créer le répertoire [" + Paths.get(fileName).getParent().toString() + "]", e1);
         }
         try (ZipOutputStream zipout = new ZipOutputStream(new FileOutputStream(fileName))) {
             ZipEntry e = new ZipEntry("manifest.xml");
@@ -211,7 +211,7 @@ public class ArchiveTransferToSIPExporter {
                 }
             }
         } catch (IOException | SEDALibException e) {
-            throw new SEDALibException("Echec de l'export du SIP dans le fichier [" + fileName + "]\n->"+e.getMessage());
+            throw new SEDALibException("Echec de l'export du SIP dans le fichier [" + fileName + "]", e);
         }
         if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(counter) +
