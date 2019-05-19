@@ -69,7 +69,7 @@ public class CSVMetadataFormatter {
     /**
      * The first columns header names.
      */
-    static private List<String> headerNames = Arrays.asList("id", "file", "parentid", "fileid");
+    static private List<String> headerNames = Arrays.asList("id", "file", "parentid", "parentfile");
 
     /**
      * The first columns types.
