@@ -46,7 +46,7 @@ class PhysicalDataObjectTest {
                 "\"relationshipsXmlData\":[],\n" +
                 "\"dataObjectVersion\":\"PhysicalMaster_1\",\n" +
                 "\"physicalIdXmlData\":\"<PhysicalId>940 W</PhysicalId>\",\n" +
-                "\"physicalDimensionsXmlData\":\"<PhysicalDimensions>          <Width unit=centimetre>10</Width>          <Height unit=centimetre>8</Height>          <Depth unit=centimetre>1</Depth>          <Diameter unit=centimetre>0</Diameter>          <Weight unit=gram>59</Weight>        </PhysicalDimensions>\",\n" +
+                "\"physicalDimensionsXmlData\":\"<PhysicalDimensions>          <Width unit=\"centimetre\">10</Width>          <Height unit=\"centimetre\">8</Height>          <Depth unit=\"centimetre\">1</Depth>          <Diameter unit=\"centimetre\">0</Diameter>          <Weight unit=\"gram\">59</Weight>        </PhysicalDimensions>\",\n" +
                 "\"inDataObjectPackageId\":\"ID18\",\n" +
                 "\"onDiskPath\":null\n" +
                 "}";
