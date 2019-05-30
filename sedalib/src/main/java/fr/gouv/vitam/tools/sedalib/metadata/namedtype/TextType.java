@@ -31,6 +31,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
+import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.util.LinkedHashMap;
@@ -103,7 +104,7 @@ public class TextType extends NamedTypeMetadata {
         try {
             xmlWriter.writeStartElement(elementName);
             if (lang != null)
-                xmlWriter.writeAttribute("lang", lang);
+                xmlWriter.writeAttribute("xml:lang", lang);
             xmlWriter.writeCharactersIfNotEmpty(value);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
@@ -122,7 +123,7 @@ public class TextType extends NamedTypeMetadata {
         if (value != null) {
             result.put("", value);
             if (lang != null)
-                result.put("attr", "lang=\""+lang+"\"");
+                result.put("attr", "xml:lang=\""+lang+"\"");
         }
         return result;
     }
@@ -137,7 +138,7 @@ public class TextType extends NamedTypeMetadata {
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
             if (xmlReader.peekBlockIfNamed(elementName)) {
-                lang = xmlReader.peekAttribute( "lang");
+                lang = xmlReader.peekAttribute(XMLConstants.XML_NS_URI,"lang");
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
