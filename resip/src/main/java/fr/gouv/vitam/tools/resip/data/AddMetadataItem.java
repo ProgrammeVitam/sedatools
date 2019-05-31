@@ -93,7 +93,7 @@ public class AddMetadataItem {
         typeExtraInformationMap.put("ReferencedObject", "Metadonnée de type référence à un objet signé");
 
         typeCreatorMap.put("TextType", AddMetadataItem::textTypeSample);
-        typeExtraInformationMap.put("TextType", "Metadonnée de type chaîne de caractères avec un attribut de langue");
+        typeExtraInformationMap.put("TextType", "Metadonnée de type chaîne de caractères avec, si nécessaire, un attribut de langue (xml:lang). Par exemple pour définir la langue du texte comme anglaise on mettra l'attribut xml:lang=\"en\"");
 
         typeCreatorMap.put("RelatedObjectReference", AddMetadataItem::relatedObjectReferenceSample);
         typeExtraInformationMap.put("RelatedObjectReference", "Metadonnée de type relation ArchiveUnit ou DataObject externe ou interne au SIP");
@@ -299,7 +299,7 @@ public class AddMetadataItem {
     }
 
     static TextType textTypeSample(String elementName) {
-        return new TextType(elementName, "Text", "fr");
+        return new TextType(elementName, "Text");
     }
 
     static DigestType digestTypeSample(String elementName) {

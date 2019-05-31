@@ -159,7 +159,7 @@ class ContentTest {
         String testOut = "<Content>\n" +
                 "  <DescriptionLevel>Series</DescriptionLevel>\n" +
                 "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
-                "  <Description lang=\"en\">TestDescription EN</Description>\n" +
+                "  <Description xml:lang=\"en\">TestDescription EN</Description>\n" +
                 "  <CustodialHistory>\n" +
                 "    <CustodialHistoryItem>TestItem1</CustodialHistoryItem>\n" +
                 "    <CustodialHistoryItem>TestItem2</CustodialHistoryItem>\n" +
@@ -300,7 +300,7 @@ class ContentTest {
         String contentXmlData = "<Content>\n" +
                 "  <DescriptionLevel>Series</DescriptionLevel>\n" +
                 "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
-                "  <Description lang=\"en\">TestDescription EN</Description>\n" +
+                "  <Description xml:lang=\"en\">TestDescription EN</Description>\n" +
                 "  <CustodialHistory>\n" +
                 "    <CustodialHistoryItem>TestItem1</CustodialHistoryItem>\n" +
                 "    <CustodialHistoryItem>TestItem2</CustodialHistoryItem>\n" +
@@ -446,7 +446,7 @@ class ContentTest {
         String csvListString="DescriptionLevel: Series\n" +
                 "OriginatingSystemId.0: Cerfa-1244771-ID10000\n" +
                 "Description.0: TestDescription EN\n" +
-                "Description.0.attr: lang=\"en\"\n" +
+                "Description.0.attr: xml:lang=\"en\"\n" +
                 "CustodialHistory.CustodialHistoryItem.0: TestItem1\n" +
                 "CustodialHistory.CustodialHistoryItem.1: TestItem2\n" +
                 "CustodialHistory.CustodialHistoryItem.2: TestItem3\n" +
@@ -535,7 +535,7 @@ class ContentTest {
         String contentXmlData = "<Content>\n" +
                 "  <DescriptionLevel>Series</DescriptionLevel>\n" +
                 "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
-                "  <Description lang=\"en\">TestDescription EN</Description>\n" +
+                "  <Description xml:lang=\"en\">TestDescription EN</Description>\n" +
                 "  <CustodialHistory>\n" +
                 "    <CustodialHistoryItem>TestItem1</CustodialHistoryItem>\n" +
                 "    <CustodialHistoryItem>TestItem2</CustodialHistoryItem>\n" +
@@ -681,7 +681,7 @@ class ContentTest {
 
         // Then
         String csvListString="Content.Description.0: TestDescription EN\n" +
-                "Content.Description.0.attr: lang=\"en\"\n" +
+                "Content.Description.0.attr: xml:lang=\"en\"\n" +
                 "Content.Event.0.EventDateTime: 1970-01-01T01:00:00\n" +
                 "Content.Event.0.Outcome: OK\n" +
                 "Content.Event.0.Information.0: <Information>OK</Information>\n" +
@@ -707,7 +707,7 @@ class ContentTest {
         String contentXmlData = "<Content>\n" +
                 "  <DescriptionLevel>Series</DescriptionLevel>\n" +
                 "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
-                "  <Description lang=\"en\">TestDescription EN</Description>\n" +
+                "  <Description xml:lang=\"en\">TestDescription EN</Description>\n" +
                 "  <CustodialHistory>\n" +
                 "    <CustodialHistoryItem>TestItem1</CustodialHistoryItem>\n" +
                 "    <CustodialHistoryItem>TestItem2</CustodialHistoryItem>\n" +
@@ -849,7 +849,7 @@ class ContentTest {
 
         // Then
         String out="<Content>\n" +
-                "  <Description lang=\"en\">TestDescription EN</Description>\n" +
+                "  <Description xml:lang=\"en\">TestDescription EN</Description>\n" +
                 "  <Event>\n" +
                 "    <EventDateTime>1970-01-01T01:00:00</EventDateTime>\n" +
                 "    <Outcome>OK</Outcome>\n" +
@@ -1030,7 +1030,7 @@ class ContentTest {
         String testOut = "<Content>\n" +
                 "  <DescriptionLevel>RecordGrp</DescriptionLevel>\n" +
                 "  <Title>TestTitle</Title>\n" +
-                "  <Title lang=\"de\">TestTitleLang</Title>\n" +
+                "  <Title xml:lang=\"de\">TestTitleLang</Title>\n" +
                 "  <OriginatingSystemId>Cerfa-1244771-ID10000</OriginatingSystemId>\n" +
                 "  <Description>TestDescription</Description>\n" +
                 "  <CustodialHistory>\n" +
