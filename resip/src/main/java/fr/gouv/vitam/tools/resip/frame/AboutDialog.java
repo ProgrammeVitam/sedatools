@@ -8,8 +8,12 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class AboutDialog extends JDialog {
     private JTextArea messageTextArea;
@@ -47,7 +51,7 @@ public class AboutDialog extends JDialog {
         super(owner, "A propos de...", true);
         GridBagConstraints gbc;
 
-        setPreferredSize(new Dimension(500, 250));
+        setPreferredSize(new Dimension(550, 250));
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         gridBagLayout.rowWeights = new double[]{1.0, 0.0};
@@ -88,6 +92,28 @@ public class AboutDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
         getContentPane().add(messageTextArea, gbc);
+
+        JLabel urlLabel = new JLabel();
+        urlLabel.setText("<html>Aller sur <a href=\"www.programmevitam.fr\">www.programmevitam.fr</a>");
+        urlLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Desktop.getDesktop().browse(new URI("http://www.programmevitam.fr/pages/ressources/resip"));
+                } catch (URISyntaxException | IOException ex) {
+                    //It looks like there's a problem
+                }
+            }
+        });
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridy = 1;
+        gbc.weightx=1.0;
+        gbc.weighty = 1.0;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        getContentPane().add(urlLabel, gbc);
 
         JButton okButton = new JButton();
         okButton.setText("OK");

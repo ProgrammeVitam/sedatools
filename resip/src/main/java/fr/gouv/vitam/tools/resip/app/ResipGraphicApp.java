@@ -1063,7 +1063,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             } catch (Exception e) {
                 // ignore
             }
-            AboutDialog dialog = new AboutDialog(mainWindow, "Application Resip\n  - Version : " + version + "\n  - Date : " + builddate + ")");
+            AboutDialog dialog = new AboutDialog(mainWindow, "Application Resip\n  - Version : " + version + "\n  - Date : " + builddate);
             dialog.setVisible(true);
         } catch (Exception ignored) {
         }
