@@ -888,7 +888,7 @@ public abstract class StoreMessage extends StoreElement {
         // put in metadata
         if (getStoreExtractor().options.extractFileTextMetadata
                 && (!((textExtract == null) || textExtract.isEmpty()))) {
-            attachmentNode.addMetadata("TextContent", purifyMetadataText(textExtract), true);
+            attachmentNode.addLongMetadata("TextContent", purifyMetadataText(textExtract), true);
         }
 
         if (writeFlag)
