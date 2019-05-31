@@ -498,9 +498,10 @@ public class DuplicatesWindow extends JFrame {
         List<BinaryDataObject> originBdoList = dogList.get(0).getBinaryDataObjectList();
         // meld using existing DOGs
         List<DataObjectGroup> newDogList = new ArrayList<DataObjectGroup>();
-        if (Math.ceil(auList.size() / ResipGraphicApp.getTheApp().treatmentParameters.getDupMax())>=dogList.size())
+        int afterMeldDOGNumber= (int) Math.ceil((double)auList.size() / (double)ResipGraphicApp.getTheApp().treatmentParameters.getDupMax());
+        if (dogList.size()<=afterMeldDOGNumber)
             return;
-        for (int i = 0; i < Math.ceil(auList.size() / ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()); i++) {
+        for (int i = 0; i < afterMeldDOGNumber; i++) {
             DataObjectGroup dog = dogList.get(i);
             newDogList.add(dog);
             List<BinaryDataObject> bdoList = dog.getBinaryDataObjectList();
@@ -518,7 +519,7 @@ public class DuplicatesWindow extends JFrame {
         ((DuplicatesTableModel) duplicatesTable.getModel()).changeRowDogList(newDogList, line);
         // suppress BDO, PDO and DOGs not used by melting
         DataObjectPackage dop = auList.get(0).getDataObjectPackage();
-        for (int i = (auList.size() / ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()) + 1; i < dogList.size(); i++) {
+        for (int i = afterMeldDOGNumber; i < dogList.size(); i++) {
             for (BinaryDataObject bdo : dogList.get(i).getBinaryDataObjectList()) {
                 dop.getBdoInDataObjectPackageIdMap().remove(bdo.getInDataObjectPackageId());
             }
