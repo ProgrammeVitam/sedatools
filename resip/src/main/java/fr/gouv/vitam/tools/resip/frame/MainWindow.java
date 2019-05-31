@@ -217,8 +217,7 @@ public class MainWindow extends JFrame {
 
         JSplitPane ItemPane = new JSplitPane();
         ItemPane.setResizeWeight(0.5);
-        ItemPane.setPreferredSize(new Dimension(400, 800));
-        ItemPane.setMinimumSize(new Dimension(100, 200));
+        ItemPane.setMinimumSize(new Dimension(200, 200));
         generalSplitPaneHoriz.setRightComponent(ItemPane);
         ItemPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
@@ -246,12 +245,11 @@ public class MainWindow extends JFrame {
         auMetadataPaneLabel = new JLabel("AU Metadata");
         auMetadataPaneLabel.setFont(BOLD_LABEL_FONT);
         GridBagConstraints gbc_auMetadataPaneLabel = new GridBagConstraints();
-        gbc_auMetadataPaneLabel.gridwidth = 2;
+        gbc_auMetadataPaneLabel.gridwidth = 3;
         gbc_auMetadataPaneLabel.insets = new Insets(5, 5, 5, 0);
         gbc_auMetadataPaneLabel.anchor = GridBagConstraints.WEST;
         gbc_auMetadataPaneLabel.gridx = 0;
         gbc_auMetadataPaneLabel.gridy = 0;
-        gbl_auMetadataPane.columnWeights = new double[]{0.5, 0.5};
         auMetadataPane.add(auMetadataPaneLabel, gbc_auMetadataPaneLabel);
 
         editArchiveUnitButton = new JButton("Editer l'ArchiveUnit");
