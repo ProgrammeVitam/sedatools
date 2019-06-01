@@ -543,7 +543,8 @@ public class DuplicatesWindow extends JFrame {
         }
         mainWindow.getDataObjectPackageTreePaneViewer().repaint();
         duplicatesTable.repaint();
-        lineResultLabel.setText("rang " + (dogListPosition + 1) + "/" + dogList.size() + " DOG et "
+        if (dogList!=null)
+            lineResultLabel.setText("rang " + (dogListPosition + 1) + "/" + dogList.size() + " DOG et "
                 + (auListPosition + 1) + "/" + auList.size() + " AU sur la ligne");
     }
 
