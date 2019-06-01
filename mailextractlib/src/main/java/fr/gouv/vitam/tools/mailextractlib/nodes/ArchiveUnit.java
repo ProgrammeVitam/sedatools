@@ -213,8 +213,8 @@ public class ArchiveUnit {
      * Adds a simple (key, value) metadata which can be splitted if necessary
      * <p>
      * If value is null or empty, no metadata is added.
-     * If value is longer than 32k0, the value is splitted in 32ko max pieces -
-     * splitted on a space if possible - and each piece is added in a separate XML tag.
+     * If value is longer than 32k0, the value will be splitted in 32000.
+     * @see fr.gouv.vitam.tools.mailextractlib.nodes.MetadataXMLSplittedNode
      * <p>
      * If mandatory flag is true and value is null or empty, the fact is logged
      *
@@ -225,28 +225,7 @@ public class ArchiveUnit {
      */
     public void addLongMetadata(String key, String value, boolean mandatory) throws InterruptedException {
         if (value != null && !value.isEmpty()) {
-            int i;
-            char c;
-            while (value.length() > 32000) {
-                int whiteSpaceSplitPlace = 0;
-                // try first to split on line, if not possible split on whitespace, if not split at 32000
-                for (i = 32000; i > 31000; i--) {
-                    c = value.charAt(i);
-                    if ((c == '\r') || (c == '\n'))
-                        break;
-                    if ((whiteSpaceSplitPlace == 0) && Character.isWhitespace(c))
-                        whiteSpaceSplitPlace = i;
-                }
-                if (i == 31000) {
-                    if (whiteSpaceSplitPlace != 0)
-                        i = whiteSpaceSplitPlace;
-                    else i = 32000;
-                }
-                contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key,
-                        value.substring(0, i)));
-                value = value.substring(i);
-            }
-            contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, value));
+            contentmetadatalist.addMetadataXMLNode(new MetadataXMLSplittedNode(key, value));
         } else if (mandatory)
             getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
                     + rootPath + "'");

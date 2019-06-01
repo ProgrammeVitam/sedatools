@@ -29,6 +29,9 @@ package fr.gouv.vitam.tools.mailextractlib.nodes;
 
 import org.apache.commons.text.StringEscapeUtils;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Class for a XML string value in metadata
  * <p>
@@ -60,18 +63,52 @@ public class MetadataXMLString extends MetadataXML {
         return (value == null) || value.isEmpty();
     }
 
+
+    // Vitam XML value sanity check
+    private static final String TAG_START =
+            "\\<\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\>\\s]+))?)+\\s*|\\s*)\\>";
+    private static final String TAG_END =
+            "\\</\\w+\\>";
+    private static final String TAG_SELF_CLOSING =
+            "\\<\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\>\\s]+))?)+\\s*|\\s*)/\\>";
+    private static final String HTML_ENTITY =
+            "&[a-zA-Z][a-zA-Z0-9]+;";
+    public static final Pattern HTML_PATTERN = Pattern.compile(
+            "(" + TAG_START + ".*" + TAG_END + ")|(" + TAG_SELF_CLOSING + ")|(" + HTML_ENTITY + ")",
+            Pattern.DOTALL);
+
     /**
      * Write the value in XML format.
      * <p>
-     * The String is UTF-8 encoded with linefeed, carriagereturn and tabulation escaped and
+     * First unescape all HMTL4 entities, then still existing HTML structures are broken,
+     * to be accepted by Vitam sanitizer, if any is detected a space is inserted after the
+     * first character, either "&gt;" or "&amp;".
+     * Then the String is UTF-8 encoded with linefeed, carriagereturn and tabulation escaped and
      * &lt;,&amp;,&gt;,' and " XML encoded, and stripped from illegal characters.
      *
-     * @param depth
-     *            Depth used for tabulation (no use for this tree Metadata
-     *            Structure which is always a terminal tree node)
+     * @param depth Depth used for tabulation (no use for this tree Metadata
+     *              Structure which is always a terminal tree node)
      * @return the string
      */
     public String writeXML(int depth) {
-        return StringEscapeUtils.escapeXml10(value);
+        String normalisedValue;
+
+        normalisedValue=StringEscapeUtils.unescapeHtml4(value);
+        Matcher m = HTML_PATTERN.matcher(normalisedValue);
+        int iter=0;
+        if (m.find()) {
+            StringBuffer sb = new StringBuffer();
+            do {
+                iter++;
+                m.appendReplacement(sb, m.group().substring(0, 1) + " " + m.group().substring(1));
+            } while (m.find());
+            m.appendTail(sb);
+            normalisedValue = sb.toString();
+        }
+        return StringEscapeUtils.escapeXml10(normalisedValue);
+    }
+
+    public String getValue() {
+        return value;
     }
 }
