@@ -71,7 +71,7 @@ public class CreationContextDialog extends JDialog {
 	 * @param owner the owner
 	 */
 	public CreationContextDialog(JFrame owner) {
-		this(owner, new DiskImportContext(Prefs.getInstance().getPrefsContextNode()), new DataObjectPackage());
+		this(owner, new DiskImportContext(Prefs.getInstance()), new DataObjectPackage());
 	}
 
 	/**

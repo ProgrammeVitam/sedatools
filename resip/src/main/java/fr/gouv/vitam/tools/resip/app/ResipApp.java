@@ -290,7 +290,7 @@ public class ResipApp {
                 System.exit(1);
             }
         } else {
-            workdirString = new CreationContext(Prefs.getInstance().getPrefsContextNode()).getWorkDir();
+            workdirString = Prefs.getDefaultWorkDir();
         }
         try {
             Files.createDirectories(Paths.get(workdirString));
@@ -298,7 +298,6 @@ public class ResipApp {
             System.err.println("Resip: La création de l'arborescence en --workdir n'est pas possible\n->" + e.getMessage());
             System.exit(1);
         }
-
 
         // define loglevel
         logLevel = -1;
@@ -314,6 +313,11 @@ public class ResipApp {
                 System.exit(1);
             }
         }
+
+        // define the global logger
+        ResipLogger.createGlobalLogger(workdirString + File.separator + "log.txt", logLevel);
+        ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, "Début du journal au niveau=" +
+                ResipLogger.getMarker(ResipLogger.getGlobalLogger().getProgressLogLevel()).getName());
 
         // define the convenient import context
         if (cmd.hasOption("diskimport")) {
@@ -353,17 +357,12 @@ public class ResipApp {
             }
         } else {
             try {
-                exportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
+                exportContext = new ExportContext(Prefs.getInstance());
             } catch (Exception e) {
                 exportContext = new ExportContext();
                 exportContext.setDefaultPrefs();
             }
         }
-
-        // define the global logger
-        ResipLogger.createGlobalLogger(workdirString + File.separator + "log.txt", logLevel);
-        ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, "Début du journal au niveau=" +
-                ResipLogger.getMarker(ResipLogger.getGlobalLogger().getProgressLogLevel()).getName());
 
         // graphic application
         if (!cmd.hasOption("xcommand")) {

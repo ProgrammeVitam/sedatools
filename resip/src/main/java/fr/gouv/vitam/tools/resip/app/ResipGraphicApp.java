@@ -36,6 +36,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -115,7 +116,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         try {
             mainWindow = new MainWindow(this);
             this.searchDialog = new SearchDialog(mainWindow);
-            this.treatmentParameters = new TreatmentParameters(Prefs.getInstance().getPrefsContextNode());
+            this.treatmentParameters = new TreatmentParameters(Prefs.getInstance());
             this.technicalSearchDialog = new TechnicalSearchDialog(mainWindow);
             this.statisticWindow = new StatisticWindow();
             this.duplicatesWindow = new DuplicatesWindow();
@@ -577,18 +578,18 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             PrefsDialog prefsDialog = new PrefsDialog(mainWindow);
             prefsDialog.setVisible(true);
             if (prefsDialog.getReturnValue() == OK_DIALOG) {
-                prefsDialog.cc.toPrefs(Prefs.getInstance().getPrefsContextNode());
-                prefsDialog.dic.toPrefs(Prefs.getInstance().getPrefsContextNode());
-                prefsDialog.mic.toPrefs(Prefs.getInstance().getPrefsContextNode());
-                prefsDialog.gmc.toPrefs(Prefs.getInstance().getPrefsContextNode());
-                prefsDialog.cmic.toPrefs(Prefs.getInstance().getPrefsContextNode());
-                prefsDialog.ctic.toPrefs(Prefs.getInstance().getPrefsContextNode());
-                prefsDialog.tp.toPrefs(Prefs.getInstance().getPrefsContextNode());
+                prefsDialog.cc.toPrefs(Prefs.getInstance());
+                prefsDialog.dic.toPrefs(Prefs.getInstance());
+                prefsDialog.mic.toPrefs(Prefs.getInstance());
+                prefsDialog.gmc.toPrefs(Prefs.getInstance());
+                prefsDialog.cic.toPrefs(Prefs.getInstance());
+                prefsDialog.tp.toPrefs(Prefs.getInstance());
+                Prefs.getInstance().save();
                 treatmentParameters = prefsDialog.tp;
                 ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
                         ResipLogger.getGlobalLogger().getProgressLogLevel());
             }
-        } catch (BackingStoreException e) {
+        } catch (SEDALibException e) {
             UserInteractionDialog.getUserAnswer(mainWindow,
                     "Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
@@ -612,7 +613,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         null);
                 return;
             }
-            cc = new CreationContext(Prefs.getInstance().getPrefsContextNode());
+            cc = new CreationContext(Prefs.getInstance());
             if (UserInteractionDialog.getUserAnswer(mainWindow,
                     "Vous allez effacer tous les répertoires temporaires " +
                             "d'extraction (finissant par \"-tmpdir\")\ndans le répertoire de travail\n" +
@@ -795,7 +796,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     void editExportContext() {
         if (currentWork != null) {
             if (currentWork.getExportContext() == null) {
-                currentWork.setExportContext(new ExportContext(Prefs.getInstance().getPrefsContextNode()));
+                currentWork.setExportContext(new ExportContext(Prefs.getInstance()));
             }
             ExportContextDialog exportContextDialog = new ExportContextDialog(mainWindow, currentWork.getExportContext());
             exportContextDialog.setVisible(true);
@@ -852,7 +853,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                CreationContext oic = new SIPImportContext(Prefs.getInstance().getPrefsContextNode());
+                CreationContext oic = new SIPImportContext(Prefs.getInstance());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(oic);
             }
@@ -875,7 +876,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                CreationContext oic = new DIPImportContext(Prefs.getInstance().getPrefsContextNode());
+                CreationContext oic = new DIPImportContext(Prefs.getInstance());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(oic);
             }
@@ -898,7 +899,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                CreationContext oic = new DiskImportContext(Prefs.getInstance().getPrefsContextNode());
+                CreationContext oic = new DiskImportContext(Prefs.getInstance());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(oic);
             }
@@ -921,7 +922,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                MailImportContext mic = new MailImportContext(Prefs.getInstance().getPrefsContextNode());
+                MailImportContext mic = new MailImportContext(Prefs.getInstance());
                 mic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 MailImportContextDialog micd = new MailImportContextDialog(mainWindow, mic);
                 micd.setVisible(true);
@@ -949,7 +950,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                CSVTreeImportContext ctic = new CSVTreeImportContext(Prefs.getInstance().getPrefsContextNode());
+                CSVTreeImportContext ctic = new CSVTreeImportContext(Prefs.getInstance());
                 ctic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(ctic);
             }
@@ -972,7 +973,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                CSVMetadataImportContext cmic = new CSVMetadataImportContext(Prefs.getInstance().getPrefsContextNode());
+                CSVMetadataImportContext cmic = new CSVMetadataImportContext(Prefs.getInstance());
                 cmic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(cmic);
             }
@@ -991,7 +992,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         if (currentWork == null)
             return true;
         if (currentWork.getExportContext() == null) {
-            ExportContext newExportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
+            ExportContext newExportContext = new ExportContext(Prefs.getInstance());
             ExportContextDialog exportContextDialog = new ExportContextDialog(mainWindow, newExportContext);
             exportContextDialog.setVisible(true);
             if (exportContextDialog.getReturnValue() == KO_DIALOG)

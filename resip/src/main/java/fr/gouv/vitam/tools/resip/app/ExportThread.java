@@ -41,6 +41,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToDiskExporter;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 public class ExportThread extends SwingWorker<String, String> {
@@ -154,7 +155,11 @@ public class ExportThread extends SwingWorker<String, String> {
 			loadText.setText(loadText.getText() + "\n-> " + "Export annulé, les données seront partiellement sur le disque.");
 		else {
 			loadText.setText(loadText.getText() + "\n-> " + summary);
-			Prefs.getInstance().setPrefsExportDirFromChild(work.getExportContext().getOnDiskOutput());
+			try {
+				Prefs.getInstance().setPrefsExportDirFromChild(work.getExportContext().getOnDiskOutput());
+			} catch (SEDALibException e) {
+				loadText.setText(loadText.getText() + "\n-> " + "La localisation d'export par défaut n'a pu être actualisée dans les préférences.");
+			}
 		}
 	}
 }

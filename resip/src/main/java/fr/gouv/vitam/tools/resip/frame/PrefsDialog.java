@@ -99,8 +99,7 @@ public class PrefsDialog extends JDialog {
     public DiskImportContext dic;
     public MailImportContext mic;
     public ExportContext gmc;
-    public CSVMetadataImportContext cmic;
-    public CSVTreeImportContext ctic;
+    public CSVImportContext cic;
     public TreatmentParameters tp;
 
     /**
@@ -145,13 +144,12 @@ public class PrefsDialog extends JDialog {
         super(owner, "Edition des paramètres par défaut", true);
         GridBagConstraints gbc;
 
-        cc = new CreationContext(Prefs.getInstance().getPrefsContextNode());
-        dic = new DiskImportContext(Prefs.getInstance().getPrefsContextNode());
-        mic = new MailImportContext(Prefs.getInstance().getPrefsContextNode());
-        gmc = new ExportContext(Prefs.getInstance().getPrefsContextNode());
-        cmic = new CSVMetadataImportContext(Prefs.getInstance().getPrefsContextNode());
-        ctic = new CSVTreeImportContext(Prefs.getInstance().getPrefsContextNode());
-        tp = new TreatmentParameters(Prefs.getInstance().getPrefsContextNode());
+        cc = new CreationContext(Prefs.getInstance());
+        dic = new DiskImportContext(Prefs.getInstance());
+        mic = new MailImportContext(Prefs.getInstance());
+        gmc = new ExportContext(Prefs.getInstance());
+        cic = new CSVImportContext(Prefs.getInstance());
+        tp = new TreatmentParameters(Prefs.getInstance());
 
         this.owner = owner;
         this.setPreferredSize(new Dimension(800, 500));
@@ -551,7 +549,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 4;
+        gbc.gridy = 3;
         exportParametersPanel.add(hierarchicalRadioButton, gbc);
 
         ButtonGroup hierarchicalAUButtonGroup = new ButtonGroup();
@@ -840,7 +838,7 @@ public class PrefsDialog extends JDialog {
         gbc.gridx = 1;
         gbc.gridy = 8;
         importParametersPanel.add(csvCharsetCombobox, gbc);
-        csvCharsetCombobox.setSelectedItem(cmic.getCsvCharsetName());
+        csvCharsetCombobox.setSelectedItem(cic.getCsvCharsetName());
 
         JLabel lblCsvDelimiter = new JLabel("Séparateur :");
         gbc = new GridBagConstraints();
@@ -851,7 +849,7 @@ public class PrefsDialog extends JDialog {
         importParametersPanel.add(lblCsvDelimiter, gbc);
 
         csvDelimiterTextField = new JTextField();
-        csvDelimiterTextField.setText(Character.toString(cmic.getDelimiter()));
+        csvDelimiterTextField.setText(Character.toString(cic.getDelimiter()));
         csvDelimiterTextField.setFont(MainWindow.DETAILS_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 5);
@@ -984,26 +982,7 @@ public class PrefsDialog extends JDialog {
     }
 
     private boolean extractFromDialog() {
-        int tmp;
-        try {
-            tmp = Integer.parseInt(dupMaxTextField.getText());
-            if (tmp <= 0)
-                throw new NumberFormatException("Number not strictly negative");
-        } catch (NumberFormatException e) {
-            tabbedPane.setSelectedIndex(4);
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
-                    "La valeur limite d'aggrégation des doublons doit être un nombre strictement supérieur à 0.",
-                    "Information", UserInteractionDialog.IMPORTANT_DIALOG,
-                    null);
-            return false;
-        }
-        tp.setDupMax(tmp);
-
         cc.setWorkDir(workDirTextField.getText());
-        dic.setWorkDir(workDirTextField.getText());
-        mic.setWorkDir(workDirTextField.getText());
-        cmic.setWorkDir(workDirTextField.getText());
-        ctic.setWorkDir(workDirTextField.getText());
 
         dic.setIgnorePatternList(Arrays.asList(ignorePatternsTextArea.getText().split("\\s*\n\\s*")));
         dic.setNoLinkFlag(ignoreLinksChexBox.isSelected());
@@ -1036,11 +1015,23 @@ public class PrefsDialog extends JDialog {
         gmc.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData =
                 transferringAgencyOrganizationDescriptiveMetadataTextArea.getText();
 
-        cmic.setDelimiter((csvDelimiterTextField.getText().isEmpty() ? ';' : csvDelimiterTextField.getText().charAt(0)));
-        cmic.setCsvCharsetName((String) csvCharsetCombobox.getSelectedItem());
+        cic.setDelimiter((csvDelimiterTextField.getText().isEmpty() ? ';' : csvDelimiterTextField.getText().charAt(0)));
+        cic.setCsvCharsetName((String) csvCharsetCombobox.getSelectedItem());
 
-        ctic.setDelimiter((csvDelimiterTextField.getText().isEmpty() ? ';' : csvDelimiterTextField.getText().charAt(0)));
-        ctic.setCsvCharsetName((String) csvCharsetCombobox.getSelectedItem());
+        int tmp;
+        try {
+            tmp = Integer.parseInt(dupMaxTextField.getText());
+            if (tmp <= 0)
+                throw new NumberFormatException("Number not strictly negative");
+        } catch (NumberFormatException e) {
+            tabbedPane.setSelectedIndex(4);
+            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
+                    "La valeur limite d'aggrégation des doublons doit être un nombre strictement supérieur à 0.",
+                    "Information", UserInteractionDialog.IMPORTANT_DIALOG,
+                    null);
+            return false;
+        }
+        tp.setDupMax(tmp);
 
         return true;
     }

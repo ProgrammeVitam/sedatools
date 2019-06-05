@@ -102,7 +102,7 @@ public class ExportContextDialog extends JDialog {
 	 * @param owner the owner
 	 */
 	public ExportContextDialog(JFrame owner) {
-		this(owner, new ExportContext(Prefs.getInstance().getPrefsContextNode()));
+		this(owner, new ExportContext(Prefs.getInstance()));
 	}
 
 	/**

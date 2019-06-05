@@ -3,22 +3,20 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
-import java.util.prefs.Preferences;
-
 /**
- * The Class SIPImportContext.
+ * The Class DIPImportContext.
  */
 public class DIPImportContext extends CreationContext {
 
 	/**
-	 * Instantiates a new SIP import context.
+	 * Instantiates a new DIP import context.
 	 */
 	public DIPImportContext() {
 		this(null, null);
 	}
 
 	/**
-	 * Instantiates a new SIP import context.
+	 * Instantiates a new DIP import context.
 	 *
 	 * @param onDiskInput the on disk input
 	 * @param workDir the work dir
@@ -28,11 +26,17 @@ public class DIPImportContext extends CreationContext {
 	}
 
 	/**
-	 * Instantiates a new SIP import context.
+	 * Instantiates a new DIP import context.
 	 *
-	 * @param globalNode the global node
+	 * @param prefs the prefs
 	 */
-	public DIPImportContext(Preferences globalNode) {
-		super(globalNode);
+	public DIPImportContext(Prefs prefs) {
+		super(prefs);
+	}
+
+	/* (non-Javadoc)
+	 * @see CreationContext#toPrefs(Prefs)
+	 */
+	public void toPrefs(Prefs prefs) {
 	}
 }

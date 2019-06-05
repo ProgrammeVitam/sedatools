@@ -172,7 +172,7 @@ public class AboutDialog extends JDialog {
         try {
             Prefs.getInstance().reinitialisePrefs();
             ResipGraphicApp.getTheApp().treatmentParameters =new TreatmentParameters(Prefs.
-                    getInstance().getPrefsContextNode());
+                    getInstance());
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Erreur fatale, réinitialisation des préférences impossible \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
@@ -186,7 +186,7 @@ public class AboutDialog extends JDialog {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(ResipGraphicApp.getTheApp().mainWindow) == JFileChooser.APPROVE_OPTION) {
-                Prefs.getInstance().savePrefs(fileChooser.getSelectedFile().getAbsolutePath());
+                Prefs.getInstance().save(fileChooser.getSelectedFile().getAbsolutePath());
             }
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Sauvegarde des préférences impossible \n->" + e.getMessage(), "Erreur",
@@ -201,7 +201,7 @@ public class AboutDialog extends JDialog {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(ResipGraphicApp.getTheApp().mainWindow) == JFileChooser.APPROVE_OPTION) {
-                Prefs.getInstance().importPrefs(fileChooser.getSelectedFile().getAbsolutePath());
+                Prefs.getInstance().load(fileChooser.getSelectedFile().getAbsolutePath());
             }
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Import des préférences impossible \n->" + e.getMessage(), "Erreur",

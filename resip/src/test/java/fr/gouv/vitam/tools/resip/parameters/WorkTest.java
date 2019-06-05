@@ -31,7 +31,7 @@ public class WorkTest implements UseTestFiles {
 
 	private void setWorkFromArchiveTransfer(Work work, ArchiveTransfer archiveTransfer) {
 		work.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
-		ExportContext newExportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
+		ExportContext newExportContext = new ExportContext(Prefs.getInstance());
 		newExportContext.setArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata());
 		newExportContext.setManagementMetadataXmlData(
 				archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData());
