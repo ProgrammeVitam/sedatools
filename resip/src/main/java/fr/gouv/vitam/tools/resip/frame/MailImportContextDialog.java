@@ -94,7 +94,7 @@ public class MailImportContextDialog extends JDialog {
 	 * @param owner the owner
 	 */
 	public MailImportContextDialog(JFrame owner) {
-		this(owner, new MailImportContext(Prefs.getInstance().getPrefsContextNode()));
+		this(owner, new MailImportContext(Prefs.getInstance()));
 	}
 
 	/**

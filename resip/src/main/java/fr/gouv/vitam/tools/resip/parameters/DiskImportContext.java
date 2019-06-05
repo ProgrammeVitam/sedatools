@@ -6,16 +6,13 @@ package fr.gouv.vitam.tools.resip.parameters;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
-
-// TODO: Auto-generated Javadoc
 
 /**
  * The Class DiskImportContext.
  */
 public class DiskImportContext extends CreationContext {
 
+// prefs elements
 	/**
 	 * The ignore pattern list.
 	 */
@@ -26,7 +23,8 @@ public class DiskImportContext extends CreationContext {
 	 */
 	boolean noLinkFlag;
 
-	/**
+// session element
+    /**
 	 * The model version.
 	 */
 	int modelVersion;
@@ -58,28 +56,24 @@ public class DiskImportContext extends CreationContext {
 	/**
 	 * Instantiates a new disk import context.
 	 *
-	 * @param globalNode the global node
+	 * @param prefs the prefs
 	 */
-	public DiskImportContext(Preferences globalNode) {
-		super(globalNode);
-		Preferences contextNode = globalNode.node("DiskImportContext");
-		String ignorePatternsString = contextNode.get("ignorePatternList", "");
+	public DiskImportContext(Prefs prefs) {
+		super(prefs);
+		String ignorePatternsString = prefs.getPrefProperties().getProperty("importContext.disk.ignorePatternList", "");
 		if (ignorePatternsString.isEmpty())
 			ignorePatternList = new ArrayList<String>();
 		else
 			ignorePatternList = Arrays.asList(ignorePatternsString.split("\\s*\n\\s*"));
-		noLinkFlag=contextNode.getBoolean("noLinkFlag", false);
+		noLinkFlag=Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.disk.noLinkFlag", "false"));
 	}
 
 	/* (non-Javadoc)
-	 * @see CreationContext#toPrefs(java.util.prefs.Preferences)
+	 * @see CreationContext#toPrefs(Prefs)
 	 */
-	public void toPrefs(Preferences globalNode) throws BackingStoreException {
-		super.toPrefs(globalNode);
-		Preferences contextNode = globalNode.node("DiskImportContext");
-		contextNode.put("ignorePatternList", String.join("\n", ignorePatternList));
-		contextNode.putBoolean("noLinkFlag",noLinkFlag);
-		contextNode.flush();
+	public void toPrefs(Prefs prefs) {
+		prefs.getPrefProperties().setProperty("importContext.disk.ignorePatternList", String.join("\n", ignorePatternList));
+		prefs.getPrefProperties().setProperty("importContext.disk.noLinkFlag",Boolean.toString(noLinkFlag));
 	}
 
 	/* (non-Javadoc)

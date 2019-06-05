@@ -38,6 +38,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.io.FileUtils;
 
@@ -74,7 +75,7 @@ public class ImportThread extends SwingWorker<Work, String> {
 
     private void setWorkFromArchiveTransfer(ArchiveTransfer archiveTransfer) {
         work.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
-        ExportContext newExportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
+        ExportContext newExportContext = new ExportContext(Prefs.getInstance());
         if (archiveTransfer.getGlobalMetadata() != null)
             newExportContext.setArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata());
         if (archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData() != null)
@@ -85,7 +86,7 @@ public class ImportThread extends SwingWorker<Work, String> {
 
     private void setWorkFromArchiveDeliveryRequestReply(ArchiveDeliveryRequestReply archiveDeliveryRequestReply) {
         work.setDataObjectPackage(archiveDeliveryRequestReply.getDataObjectPackage());
-        ExportContext newExportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
+        ExportContext newExportContext = new ExportContext(Prefs.getInstance());
         if (archiveDeliveryRequestReply.getGlobalMetadata() != null)
             newExportContext.setArchiveTransferGlobalMetadata(archiveDeliveryRequestReply.getGlobalMetadata());
         if (archiveDeliveryRequestReply.getDataObjectPackage().getManagementMetadataXmlData() != null)
@@ -173,7 +174,7 @@ public class ImportThread extends SwingWorker<Work, String> {
                         ctic.getOnDiskInput(), ctic.getCsvCharsetName(), ctic.getDelimiter(), spl);
                 cti.doImport();
                 work.setDataObjectPackage(cti.getDataObjectPackage());
-                work.setExportContext(new ExportContext(Prefs.getInstance().getPrefsContextNode()));
+                work.setExportContext(new ExportContext(Prefs.getInstance()));
                 summary = cti.getSummary();
             } else if (work.getCreationContext() instanceof CSVMetadataImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un csv de métadonnées en " + work.getCreationContext().getOnDiskInput() + "\n");
@@ -182,7 +183,7 @@ public class ImportThread extends SwingWorker<Work, String> {
                         cmic.getOnDiskInput(), cmic.getCsvCharsetName(), cmic.getDelimiter(), spl);
                 cmi.doImport();
                 work.setDataObjectPackage(cmi.getDataObjectPackage());
-                work.setExportContext(new ExportContext(Prefs.getInstance().getPrefsContextNode()));
+                work.setExportContext(new ExportContext(Prefs.getInstance()));
                 summary = cmi.getSummary();
             } else if (work.getCreationContext() instanceof MailImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un conteneur courriel en " + work.getCreationContext().getOnDiskInput() + "\n");
@@ -203,7 +204,7 @@ public class ImportThread extends SwingWorker<Work, String> {
                 List<Path> lp = new ArrayList<Path>();
                 lp.add(Paths.get(mi.getTarget()));
                 DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(lp, spl);
-                for (String ip : new DiskImportContext(Prefs.getInstance().getPrefsContextNode())
+                for (String ip : new DiskImportContext(Prefs.getInstance())
                         .getIgnorePatternList())
                     di.addIgnorePattern(ip);
                 di.doImport();
@@ -239,7 +240,11 @@ public class ImportThread extends SwingWorker<Work, String> {
         else {
             work.getCreationContext().setSummary(summary);
             progressTextArea.setText(progressTextArea.getText() + "\n-> " + summary);
-            Prefs.getInstance().setPrefsImportDirFromChild(work.getCreationContext().getOnDiskInput());
+            try {
+                Prefs.getInstance().setPrefsImportDirFromChild(work.getCreationContext().getOnDiskInput());
+            } catch (SEDALibException e) {
+                progressTextArea.setText(progressTextArea.getText() + "\n-> " + "La localisation d'import par défaut n'a pu être actualisée dans les préférences.");
+            }
             theApp.currentWork = work;
             theApp.setFilenameWork(null);
             theApp.setModifiedContext(true);

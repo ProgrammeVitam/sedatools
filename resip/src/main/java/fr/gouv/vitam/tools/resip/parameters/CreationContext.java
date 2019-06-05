@@ -27,45 +27,50 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
-import java.io.File;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import java.io.File;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
 
 /**
  * The Class CreationContext.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes({ @Type(value = DiskImportContext.class, name = "DiskImportContext"),
-		@Type(value = CSVTreeImportContext.class, name = "CSVTreeImportContext"),
-		@Type(value = CSVMetadataImportContext.class, name = "CSVMetadataImportContext"),
-		@Type(value = SIPImportContext.class, name = "SIPImportContext"),
-	@Type(value = DIPImportContext.class, name = "DIPImportContext"),
-	@Type(value = MailImportContext.class, name = "MailImportContext") })
+@JsonSubTypes({ @JsonSubTypes.Type(value = DiskImportContext.class, name = "DiskImportContext"),
+		@JsonSubTypes.Type(value = CSVImportContext.class, name = "CSVImportContext"),
+		@JsonSubTypes.Type(value = CSVTreeImportContext.class, name = "CSVTreeImportContext"),
+		@JsonSubTypes.Type(value = CSVMetadataImportContext.class, name = "CSVMetadataImportContext"),
+		@JsonSubTypes.Type(value = SIPImportContext.class, name = "SIPImportContext"),
+		@JsonSubTypes.Type(value = DIPImportContext.class, name = "DIPImportContext"),
+		@JsonSubTypes.Type(value = MailImportContext.class, name = "MailImportContext") })
 public class CreationContext {
 
-	// general elements
-	/** The work dir. */
-	// prefs elements
+// prefs elements
+	/**
+	 * The work dir.
+	 */
 	String workDir;
 
-	/** The on disk input. */
-	// session elements
+// session elements
+	/**
+	 * The on disk input.
+	 */
 	String onDiskInput;
-	
-	/** The summary. */
+
+	/**
+	 * The summary.
+	 */
 	String summary;
-	
-	/** The structure changed. */
+
+	/**
+	 * The structure changed.
+	 */
 	boolean structureChanged;
-	
+
 	/**
 	 * Instantiates a new creation context.
 	 */
@@ -77,7 +82,7 @@ public class CreationContext {
 	 * Instantiates a new creation context.
 	 *
 	 * @param onDiskInput the on disk input
-	 * @param workDir the work dir
+	 * @param workDir     the work dir
 	 */
 	public CreationContext(String onDiskInput, String workDir) {
 		this.onDiskInput = onDiskInput;
@@ -87,45 +92,41 @@ public class CreationContext {
 	}
 
 	/**
-	 * Instantiates a new creation context.
-	 *
-	 * @param globalNode the global node
+	 * Instantiates a new creation context from preferences.
 	 */
-	public CreationContext(Preferences globalNode) {
-		Preferences contextNode = globalNode.node("CreationContext");
-		workDir = contextNode.get("workDir", "");
-		if (workDir.isEmpty()) {
-			if (System.getProperty("os.name").toLowerCase().contains("win"))
-				workDir = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Resip";
-			else
-				workDir = System.getProperty("user.home") + File.separator + ".Resip";
+	public CreationContext(Prefs prefs) {
+		workDir = prefs.getPrefProperties().getProperty("importContext.workDir", "");
+		try {
+			 Paths.get(workDir);
 		}
-		this.onDiskInput = null;
-		this.summary = null;
-		this.structureChanged = false;
+		catch (InvalidPathException e){
+			workDir="";
+		}
+		if (workDir.isEmpty())
+				workDir = Prefs.getDefaultWorkDir();
+		onDiskInput = null;
+		summary = null;
+		structureChanged = false;
 	}
 
 	/**
-	 * To prefs.
+	 * Put in preferences the values specific of this context class.
+	 * Values from the upper class are not put in preferences.
 	 *
-	 * @param globalNode the global node
-	 * @throws BackingStoreException the backing store exception
+	 * @param prefs the prefs
 	 */
-	public void toPrefs(Preferences globalNode) throws BackingStoreException {
-		Preferences contextNode = globalNode.node("CreationContext");
-		contextNode.put("workDir", (workDir == null ? "" : workDir));
-		contextNode.flush();
+	public void toPrefs(Prefs prefs) {
+		prefs.getPrefProperties().setProperty("importContext.workDir", (workDir == null ? "" : workDir));
 	}
 
 	/**
 	 * Sets the default prefs.
 	 */
 	public void setDefaultPrefs() {
-		if (System.getProperty("os.name").toLowerCase().contains("win"))
-			workDir = System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Resip";
-		else
-			workDir = System.getProperty("user.home") + File.separator + ".Resip";
-
+		workDir = Prefs.getDefaultWorkDir();
+		onDiskInput = null;
+		summary = null;
+		structureChanged = false;
 	}
 
 	// Getters and setters
@@ -169,6 +170,7 @@ public class CreationContext {
 	/**
 	 * Gets the actualised summary.
 	 *
+	 * @param at the at
 	 * @return the actualised summary
 	 */
 	@JsonIgnore
@@ -218,21 +220,4 @@ public class CreationContext {
 		this.structureChanged = structureChanged;
 	}
 
-//	/**
-//	 * Adds the counts.
-//	 *
-//	 * @param archiveUnitCount the archive unit count
-//	 * @param dataObjectGroupCount the data object group count
-//	 * @param binaryDataObjectCount the binary data object count
-//	 * @param physicalDataObjectCount the physical data object count
-//	 * @param dataObjectsTotalSize the data objects total size
-//	 */
-//	public void addCounts(int archiveUnitCount, int dataObjectGroupCount, int binaryDataObjectCount,
-//			int physicalDataObjectCount, long dataObjectsTotalSize) {
-//		this.archiveUnitCount+=archiveUnitCount;
-//		this.dataObjectGroupCount+=dataObjectGroupCount;
-//		this.binaryDataObjectCount+=binaryDataObjectCount;
-//		this.physicalDataObjectCount+=physicalDataObjectCount;
-//		this.dataObjectsTotalSize+=dataObjectsTotalSize;
-//	}
 }

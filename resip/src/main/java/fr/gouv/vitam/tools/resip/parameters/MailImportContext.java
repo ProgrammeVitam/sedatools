@@ -5,21 +5,16 @@ package fr.gouv.vitam.tools.resip.parameters;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
-
-// TODO: Auto-generated Javadoc
 
 /**
  * The Class MailImportContext.
  */
 public class MailImportContext extends CreationContext {
 
-    // mail import elements
+// prefs elements
     /**
      * The extract message text file.
      */
-    // prefs elements
     boolean extractMessageTextFile;
 
     /**
@@ -43,15 +38,15 @@ public class MailImportContext extends CreationContext {
     String protocol;
 
     /**
-     * The mail folder.
-     */
-    // session elements
-    String mailFolder;
-
-    /**
      * The default charset name.
      */
     String defaultCharsetName;
+
+// session elements
+    /**
+     * The mail folder.
+     */
+    String mailFolder;
 
     /**
      * Instantiates a new mail import context.
@@ -87,35 +82,31 @@ public class MailImportContext extends CreationContext {
     }
 
     /**
-     * Instantiates a new mail import context.
+     * Instantiates a new mail import context from preferences.
      *
-     * @param globalNode the global node
+     * @param prefs the prefs
      */
-    public MailImportContext(Preferences globalNode) {
-        super(globalNode);
-        Preferences contextNode = globalNode.node("MailImportContext");
-        this.extractMessageTextFile = contextNode.getBoolean("extractMessageTextFile", false);
-        this.extractMessageTextMetadata = contextNode.getBoolean("extractMessageTextMetadata", true);
-        this.extractAttachmentTextFile = contextNode.getBoolean("extractAttachmentTextFile", true);
-        this.extractAttachmentTextMetadata = contextNode.getBoolean("extractAttachmentTextMetadata", false);
-        this.protocol = contextNode.get("protocol", "thunderbird");
+    public MailImportContext(Prefs prefs) {
+        super(prefs);
+        this.extractMessageTextFile = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractMessageTextFile", "false"));
+        this.extractMessageTextMetadata = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractMessageTextMetadata", "true"));
+        this.extractAttachmentTextFile = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextFile", "true"));
+        this.extractAttachmentTextMetadata = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextMetadata", "false"));
+        this.protocol = prefs.getPrefProperties().getProperty("importContext.mail.protocol", "thunderbird");
         this.mailFolder = "";
-        this.defaultCharsetName = contextNode.get("defaultCharsetName", "windows-1252");
+        this.defaultCharsetName = prefs.getPrefProperties().getProperty("importContext.mail.defaultCharsetName", "windows-1252");
     }
 
     /* (non-Javadoc)
-     * @see CreationContext#toPrefs(java.util.prefs.Preferences)
+     * @see CreationContext#toPrefs(Prefs)
      */
-    public void toPrefs(Preferences globalNode) throws BackingStoreException {
-        super.toPrefs(globalNode);
-        Preferences contextNode = globalNode.node("MailImportContext");
-        contextNode.putBoolean("extractMessageTextFile", extractMessageTextFile);
-        contextNode.putBoolean("extractMessageTextMetadata", extractMessageTextMetadata);
-        contextNode.putBoolean("extractAttachmentTextFile", extractAttachmentTextFile);
-        contextNode.putBoolean("extractAttachmentTextMetadata", extractAttachmentTextMetadata);
-        contextNode.put("protocol", (protocol == null ? "" : protocol));
-        contextNode.put("defaultCharsetName", (defaultCharsetName == null ? "" : defaultCharsetName));
-        contextNode.flush();
+    public void toPrefs(Prefs prefs) {
+        prefs.getPrefProperties().setProperty("importContext.mail.extractMessageTextFile", Boolean.toString(extractMessageTextFile));
+        prefs.getPrefProperties().setProperty("importContext.mail.extractMessageTextMetadata", Boolean.toString(extractMessageTextMetadata));
+        prefs.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextFile", Boolean.toString(extractAttachmentTextFile));
+        prefs.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextMetadata", Boolean.toString(extractAttachmentTextMetadata));
+        prefs.getPrefProperties().setProperty("importContext.mail.protocol", (protocol == null ? "" : protocol));
+        prefs.getPrefProperties().setProperty("importContext.mail.defaultCharsetName", (defaultCharsetName == null ? "" : defaultCharsetName));
     }
 
     /* (non-Javadoc)
@@ -280,6 +271,4 @@ public class MailImportContext extends CreationContext {
             }
         }
     }
-
-
 }

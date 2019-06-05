@@ -74,7 +74,7 @@ public class AddThread extends SwingWorker<String, String> {
             this.work = work;
         else
             this.work = new Work(null,
-                    new DiskImportContext(Prefs.getInstance().getPrefsContextNode()),
+                    new DiskImportContext(Prefs.getInstance()),
                     null);
 
         this.targetNode = targetNode;
@@ -89,7 +89,7 @@ public class AddThread extends SwingWorker<String, String> {
 
     private void setWorkFromDataObjectPackage(DataObjectPackage dataObjectPackage) {
         work.setDataObjectPackage(dataObjectPackage);
-        ExportContext newExportContext = new ExportContext(Prefs.getInstance().getPrefsContextNode());
+        ExportContext newExportContext = new ExportContext(Prefs.getInstance());
         if (dataObjectPackage.getManagementMetadataXmlData() != null)
             newExportContext.setManagementMetadataXmlData(
                     dataObjectPackage.getManagementMetadataXmlData());
@@ -122,7 +122,7 @@ public class AddThread extends SwingWorker<String, String> {
             if (this.work.getCreationContext() instanceof DiskImportContext)
                 dic = (DiskImportContext) this.work.getCreationContext();
             else
-                dic = new DiskImportContext(Prefs.getInstance().getPrefsContextNode());
+                dic = new DiskImportContext(Prefs.getInstance());
             di = new DiskToDataObjectPackageImporter(lp,dic.isNoLinkFlag(),null, spl);
             for (String ip : dic.getIgnorePatternList())
                 di.addIgnorePattern(ip);

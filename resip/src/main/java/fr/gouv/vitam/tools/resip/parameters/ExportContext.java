@@ -28,7 +28,13 @@ public class ExportContext {
 	 * The export nature.
 	 */
 	public static final int SIP=1;
+	/**
+	 * The constant MANIFEST.
+	 */
 	public static final int MANIFEST=2;
+	/**
+	 * The constant DISK.
+	 */
 	public static final int DISK=3;
 	
 	// prefs elements
@@ -55,19 +61,6 @@ public class ExportContext {
 
 	/** The on disk output. */
 	private String onDiskOutput;
-
-	// Inner Object
-
-	/**
-	 * The Constant CURRENT_SERIALIZATION_VERSION.
-	 */
-	static final String CURRENT_SERIALIZATION_VERSION = "1.0";
-
-	/**
-	 * The version of this object used for to distinct serialization in prefs or on
-	 * disk.
-	 */
-	private String serializationVersion;
 
 	/**
 	 * Instantiates a new global metadata context.
@@ -152,97 +145,88 @@ public class ExportContext {
 	/**
 	 * Instantiates a new GlobalMetadata from the preferences.
 	 *
-	 * @param contextNode the node in which preferences
+	 * @param prefs the prefs
 	 */
-	public ExportContext(Preferences contextNode) {
-		Preferences node;
+	public ExportContext(Prefs prefs) {
 		setArchiveTransferGlobalMetadata(new GlobalMetadata());
-		node = contextNode.node("ExportContext");
-		serializationVersion = node.get("serializationVersion", CURRENT_SERIALIZATION_VERSION);
-		hierarchicalArchiveUnits = node.getBoolean("hierarchicalArchiveUnits", true);
-		indented = node.getBoolean("indented", true);
-		reindex = node.getBoolean("reindex", false);
-		managementMetadataXmlData=nullIfEmpty(node.get("managementMetadataXmlData", ""));
-		metadataFilterFlag = node.getBoolean("metadataFilterFlag", false);
-		String keptMetadataString = node.get("keptMetadataList", "");
+		hierarchicalArchiveUnits = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.hierarchicalArchiveUnits", "true"));
+		indented = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.indented", "true"));
+		reindex = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.reindex", "false"));
+		managementMetadataXmlData=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.general.managementMetadataXmlData", ""));
+		metadataFilterFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.metadataFilterFlag", "false"));
+		String keptMetadataString = prefs.getPrefProperties().getProperty("exportContext.general.keptMetadataList", "");
 		if (keptMetadataString.isEmpty())
 			keptMetadataList = new ArrayList<String>();
 		else
 			keptMetadataList = Arrays.asList(keptMetadataString.split("\\s*\n\\s*"))
 					.stream().map(String::trim).collect(Collectors.toList());
-		node = node.node("globalMetadata");
-		getArchiveTransferGlobalMetadata().comment=nullIfEmpty(node.get("comment", ""));
-		getArchiveTransferGlobalMetadata().date=nullIfEmpty(node.get("date", ""));
-		getArchiveTransferGlobalMetadata().setNowFlag(node.getBoolean("nowFlag", true));
-		getArchiveTransferGlobalMetadata().messageIdentifier=nullIfEmpty(node.get("messageIdentifier", ""));
-		getArchiveTransferGlobalMetadata().archivalAgreement=nullIfEmpty(node.get("archivalAgreement", ""));
+
+		getArchiveTransferGlobalMetadata().comment=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.comment", ""));
+		getArchiveTransferGlobalMetadata().date=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.date", ""));
+		getArchiveTransferGlobalMetadata().setNowFlag(Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.nowFlag", "true")));
+		getArchiveTransferGlobalMetadata().messageIdentifier=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.messageIdentifier", ""));
+		getArchiveTransferGlobalMetadata().archivalAgreement=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.archivalAgreement", ""));
 		getArchiveTransferGlobalMetadata()
-				.codeListVersionsXmlData=nullIfEmpty(node.get("codeListVersionsXmlData", ""));
+				.codeListVersionsXmlData=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.codeListVersionsXmlData", ""));
 		getArchiveTransferGlobalMetadata()
-				.transferRequestReplyIdentifier=nullIfEmpty(node.get("transferRequestReplyIdentifier", ""));
+				.transferRequestReplyIdentifier=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.transferRequestReplyIdentifier", ""));
 		getArchiveTransferGlobalMetadata()
-				.archivalAgencyIdentifier=nullIfEmpty(node.get("archivalAgencyIdentifier", ""));
+				.archivalAgencyIdentifier=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.archivalAgencyIdentifier", ""));
 		getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData=
-				nullIfEmpty(node.get("archivalAgencyOrganizationDescriptiveMetadataXmlData", ""));
+				nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.archivalAgencyOrganizationDescriptiveMetadataXmlData", ""));
 		getArchiveTransferGlobalMetadata()
-				.transferringAgencyIdentifier=nullIfEmpty(node.get("transferringAgencyIdentifier", ""));
+				.transferringAgencyIdentifier=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.transferringAgencyIdentifier", ""));
 		getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData=
-				nullIfEmpty(node.get("transferringAgencyOrganizationDescriptiveMetadataXmlData", ""));
+				nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData", ""));
 	}
 
 	/**
 	 * To prefs.
 	 *
-	 * @param globalNode the global node
-	 * @throws BackingStoreException the backing store exception
+	 * @param prefs the prefs
 	 */
-	public void toPrefs(Preferences globalNode) throws BackingStoreException {
-		Preferences contextNode = globalNode.node("ExportContext");
-		contextNode.put("serializationVersion", serializationVersion);
-		contextNode.putBoolean("hierarchicalArchiveUnits", hierarchicalArchiveUnits);
-		contextNode.putBoolean("indented", indented);
-		contextNode.putBoolean("reindex", reindex);
-		contextNode.put("managementMetadataXmlData", (managementMetadataXmlData == null ? ""
+	public void toPrefs(Prefs prefs) {
+		prefs.getPrefProperties().setProperty("exportContext.general.hierarchicalArchiveUnits", Boolean.toString(hierarchicalArchiveUnits));
+		prefs.getPrefProperties().setProperty("exportContext.general.indented", Boolean.toString(indented));
+		prefs.getPrefProperties().setProperty("exportContext.general.reindex", Boolean.toString(reindex));
+		prefs.getPrefProperties().setProperty("exportContext.general.managementMetadataXmlData", (managementMetadataXmlData == null ? ""
 				: managementMetadataXmlData));
-		contextNode.putBoolean("metadataFilterFlag", metadataFilterFlag);
-		contextNode.put("keptMetadataList", String.join("\n", keptMetadataList));
+		prefs.getPrefProperties().setProperty("exportContext.general.metadataFilterFlag", Boolean.toString(metadataFilterFlag));
+		prefs.getPrefProperties().setProperty("exportContext.general.keptMetadataList", String.join("\n", keptMetadataList));
 
-		contextNode = contextNode.node("globalMetadata");
-		contextNode.put("comment", (getArchiveTransferGlobalMetadata().comment == null ? ""
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.comment", (getArchiveTransferGlobalMetadata().comment == null ? ""
 				: getArchiveTransferGlobalMetadata().comment));
-		contextNode.put("date", (getArchiveTransferGlobalMetadata().date == null ? ""
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.date", (getArchiveTransferGlobalMetadata().date == null ? ""
 				: getArchiveTransferGlobalMetadata().date));
-		contextNode.putBoolean("nowFlag", getArchiveTransferGlobalMetadata().isNowFlag());
-		contextNode.put("messageIdentifier", (getArchiveTransferGlobalMetadata().messageIdentifier == null ? ""
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.nowFlag", Boolean.toString(getArchiveTransferGlobalMetadata().isNowFlag()));
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.messageIdentifier", (getArchiveTransferGlobalMetadata().messageIdentifier == null ? ""
 				: getArchiveTransferGlobalMetadata().messageIdentifier));
-		contextNode.put("archivalAgreement", (getArchiveTransferGlobalMetadata().archivalAgreement == null ? ""
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.archivalAgreement", (getArchiveTransferGlobalMetadata().archivalAgreement == null ? ""
 				: getArchiveTransferGlobalMetadata().archivalAgreement));
-		contextNode.put("codeListVersionsXmlData",
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.codeListVersionsXmlData",
 				(getArchiveTransferGlobalMetadata().codeListVersionsXmlData == null ? ""
 						: getArchiveTransferGlobalMetadata().codeListVersionsXmlData));
-		contextNode.put("transferRequestReplyIdentifier",
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.transferRequestReplyIdentifier",
 				(getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier == null ? ""
 						: getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier));
-		contextNode.put("archivalAgencyIdentifier",
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.archivalAgencyIdentifier",
 				(getArchiveTransferGlobalMetadata().archivalAgencyIdentifier == null ? ""
 						: getArchiveTransferGlobalMetadata().archivalAgencyIdentifier));
-		contextNode.put("archivalAgencyOrganizationDescriptiveMetadataXmlData",
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.archivalAgencyOrganizationDescriptiveMetadataXmlData",
 				(getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData == null ? ""
 						: getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData));
-		contextNode.put("transferringAgencyIdentifier",
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.transferringAgencyIdentifier",
 				(getArchiveTransferGlobalMetadata().transferringAgencyIdentifier == null ? ""
 						: getArchiveTransferGlobalMetadata().transferringAgencyIdentifier));
-		contextNode.put("transferringAgencyOrganizationDescriptiveMetadataXmlData",
+		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData",
 				(getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData == null ? ""
 						: getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData));
-		contextNode.flush();
 	}
 
 	/**
 	 * Sets the default prefs.
 	 */
 	public void setDefaultPrefs() {
-		serializationVersion = CURRENT_SERIALIZATION_VERSION;
 		this.hierarchicalArchiveUnits = true;
 		this.indented = true;
 		this.reindex = false;
@@ -290,24 +274,6 @@ public class ExportContext {
 		getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier="Identifier3";
 		getArchiveTransferGlobalMetadata().archivalAgencyIdentifier="Identifier4";
 		getArchiveTransferGlobalMetadata().transferringAgencyIdentifier="Identifier5";
-	}
-
-	/**
-	 * Gets the version.
-	 *
-	 * @return the version
-	 */
-	public String getSerializationVersion() {
-		return serializationVersion;
-	}
-
-	/**
-	 * Sets the version.
-	 *
-	 * @param serializationVersion the new serialization version
-	 */
-	public void setSerializationVersion(String serializationVersion) {
-		this.serializationVersion = serializationVersion;
 	}
 
 	/**

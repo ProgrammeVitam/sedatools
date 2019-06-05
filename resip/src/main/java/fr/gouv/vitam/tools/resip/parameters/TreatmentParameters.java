@@ -33,6 +33,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import opennlp.tools.cmdline.AbstractTrainerTool;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.*;
@@ -50,7 +51,7 @@ public class TreatmentParameters {
      */
     LinkedHashMap<String, List<String>> formatByCategoryMap;
 
-   /**
+    /**
      * The maximum duplicates aggregation number.
      */
     int dupMax;
@@ -63,50 +64,48 @@ public class TreatmentParameters {
     }
 
 
-    /**
-     * Instantiates a new creation context.
-     *
-     * @param globalNode the global node
-     */
-    public TreatmentParameters(Preferences globalNode) {
-        Preferences treatmentNode = globalNode.node("TreatmentParameters");
-        String categoriesString = treatmentNode.get("categories", null);
-        Preferences categoryNode = treatmentNode.node("Category");
-        if (categoriesString == null) {
-            setDefaultPrefs();
-            try {
-                toPrefs(globalNode);
-            } catch (BackingStoreException ignored) {
-            }
-            return;
-        }
-        List<String> categoryList = Arrays.asList(categoriesString.split("\\|"));
-        categoryList.replaceAll(String::trim);
-        formatByCategoryMap = new LinkedHashMap<String, List<String>>();
-        for (String category : categoryList) {
-            String formatsString = categoryNode.get(category, "");
-            List<String> formatList = Arrays.asList(formatsString.split("\\|"));
-            formatList.replaceAll(String::trim);
-            formatByCategoryMap.put(category, formatList);
-        }
-        dupMax=treatmentNode.getInt("dupMax",10000);
+    private String canonizeCategoryName(String category){
+        return StringUtils.stripAccents(category).replaceAll("[^A-Za-z0-9]","");
     }
 
     /**
-     * To prefs.
+     * Instantiates a new creation context.
      *
-     * @param globalNode the global node
-     * @throws BackingStoreException the backing store exception
+     * @param prefs the prefs
      */
-    public void toPrefs(Preferences globalNode) throws BackingStoreException {
-        Preferences treatmentNode = globalNode.node("TreatmentParameters");
-        treatmentNode.put("categories", String.join("|",formatByCategoryMap.keySet()));
-        Preferences categoryNode = treatmentNode.node("Category");
-        for (Map.Entry<String,List<String>> e:formatByCategoryMap.entrySet()) {
-            categoryNode.put(e.getKey(),String.join("|",e.getValue()));
+    public TreatmentParameters(Prefs prefs) {
+        String categoriesString = prefs.getPrefProperties().getProperty("treatmentParameters.categoriesList", null);
+        formatByCategoryMap = new LinkedHashMap<String, List<String>>();
+        if (categoriesString != null) {
+            List<String> categoryList = Arrays.asList(categoriesString.split("\\|"));
+            categoryList.replaceAll(String::trim);
+            formatByCategoryMap = new LinkedHashMap<String, List<String>>();
+            for (String category : categoryList) {
+                String formatsString = prefs.getPrefProperties().getProperty("treatmentParameters.categories." + canonizeCategoryName(category), "");
+                List<String> formatList = Arrays.asList(formatsString.split("\\|"));
+                formatList.replaceAll(String::trim);
+                formatByCategoryMap.put(category, formatList);
+            }
         }
-        treatmentNode.putInt("dupMax", dupMax);
-        treatmentNode.flush();
+        try {
+            dupMax=Integer.parseInt(prefs.getPrefProperties().getProperty("treatmentParameters.dupMax","1000"));
+        }
+        catch (NumberFormatException e){
+            dupMax=1000;
+        }
+    }
+
+    /**
+     * Put in preferences the values specific of this class.
+     *
+     * @param prefs the prefs
+     */
+    public void toPrefs(Prefs prefs) {
+        prefs.getPrefProperties().setProperty("treatmentParameters.categoriesList", String.join("|",formatByCategoryMap.keySet()));
+        for (Map.Entry<String,List<String>> e:formatByCategoryMap.entrySet()) {
+            prefs.getPrefProperties().setProperty("treatmentParameters.categories."+canonizeCategoryName(e.getKey()),String.join("|",e.getValue()));
+        }
+        prefs.getPrefProperties().setProperty("treatmentParameters.dupMax", Integer.toString(dupMax));
     }
 
     /**
@@ -155,7 +154,7 @@ public class TreatmentParameters {
                 "fmt/649", "fmt/797", "x-fmt/384", "x-fmt/385", "x-fmt/386"));
         formatByCategoryMap.put("Non connu",Arrays.asList("UNKNOWN"));
         formatByCategoryMap.put("Autres...",Arrays.asList("Other"));
-        dupMax=10000;
+        dupMax=1000;
     }
 
     // Getters and setters
