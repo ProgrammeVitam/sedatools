@@ -20,7 +20,43 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class CSVMetadataToDataObjectPackageImporterTest {
 
 	@Test
-	void importOKCSV() throws SEDALibException, InterruptedException, JsonProcessingException {
+	void importOKCSV1column() throws SEDALibException, InterruptedException, JsonProcessingException {
+		// Given
+		ObjectMapper mapper = new ObjectMapper();
+		SimpleModule module = new SimpleModule();
+		module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+		module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+		mapper.registerModule(module);
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		CSVMetadataToDataObjectPackageImporter cmi;
+
+		// When loaded with the csv OK test file
+		cmi= new CSVMetadataToDataObjectPackageImporter(
+				"src/test/resources/PacketSamples/MetadataTestOK1col.csv", "windows-1252",';',null);
+		cmi.doImport();
+
+		// Then
+		String testAu = "{\n" +
+				"\"archiveUnitProfileXmlData\":null,\n" +
+				"\"managementXmlData\":null,\n" +
+				"\"contentXmlData\":\"<Content>  <DescriptionLevel>Item</DescriptionLevel>  <Title>201609_TdB_suivi_des_activites_VITAM.ods</Title>  <Description>Document \"201609_TdB_suivi_des_activites_VITAM.ods\" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>  <CreatedDate>2016-08-30T10:13:03</CreatedDate></Content>\",\n" +
+				"\"childrenAuList\":{\n" +
+				"\"inDataObjectPackageIdList\":[]\n" +
+				"},\n" +
+				"\"dataObjectRefList\":{\n" +
+				"\"inDataObjectPackageIdList\":[\"ID18\"]\n" +
+				"},\n" +
+				"\"inDataObjectPackageId\":\"ID13\",\n" +
+				"\"onDiskPath\":null\n" +
+				"}";
+		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("ID13");
+		String sau = mapper.writeValueAsString(au);
+		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
+	}
+
+	@Test
+	void importOKCSV3column() throws SEDALibException, InterruptedException, JsonProcessingException {
 		// Given
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();

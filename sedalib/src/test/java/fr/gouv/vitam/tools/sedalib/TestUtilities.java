@@ -129,11 +129,13 @@ public class TestUtilities {
     public static void eraseAll(String dirOrFile) {
         try {
             Files.delete(Paths.get(dirOrFile));
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
         }
         try {
             FileUtils.deleteDirectory(new File(dirOrFile));
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
         }
     }
 }
