@@ -26,7 +26,7 @@ class CSVMetadataExporterTest {
         try {
             if (Files.isSymbolicLink(path)) {
                 return true;
-            } else if (TestUtilities.isWindows && Files.isRegularFile(path)
+            } else if (TestUtilities.isWindowsOS() && Files.isRegularFile(path)
                     && path.getFileName().toString().toLowerCase().endsWith(".lnk")) {
                 WindowsShortcut ws = new WindowsShortcut(path.toFile());
                 return true;
@@ -77,6 +77,8 @@ class CSVMetadataExporterTest {
             }
             if (isLink(firstPath)) {
                 //TODO verify redirection content
+                filename=filename.replace(".lnk","");
+                secondPath=second.resolve(filename);
                 if (Files.exists(second.resolve(filename + ".link"))) {
                     secondListNames.remove(filename + ".link");
                     continue;

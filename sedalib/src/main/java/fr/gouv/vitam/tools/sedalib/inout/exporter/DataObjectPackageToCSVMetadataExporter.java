@@ -214,10 +214,41 @@ public class DataObjectPackageToCSVMetadataExporter {
                 Content.class);
     }
 
-    // generate header line int the csv
+    // remove .0 after toSimplify in all header names
+    private void simplifyAllHeaders(List<String> simplifiedHeaderNames, String toSimplify) {
+        for (int i = 0; i < simplifiedHeaderNames.size(); i++) {
+            String header = simplifiedHeaderNames.get(i);
+            if (header.startsWith(toSimplify)) {
+                header = toSimplify + header.substring(toSimplify.length() + 2);
+                simplifiedHeaderNames.set(i, header);
+            }
+        }
+    }
+
+    // generate header line in the csv, after simplifying header names (remove unnecessary .0)
     private void generateHeader(List<String> headerNames, PrintStream csvPrintStream) {
         csvPrintStream.print("Path");
-        for (String header : headerNames)
+        List<String> simplifiedHeaderNames = new ArrayList<String>();
+        simplifiedHeaderNames.addAll(headerNames);
+        for (int i = 0; i < simplifiedHeaderNames.size(); i++) {
+            String header = simplifiedHeaderNames.get(i);
+            int pos = 0;
+            while (header.indexOf(".0", pos) != -1) {
+                pos = header.indexOf(".0", pos);
+                boolean absent = true;
+                for (int j = i + 1; j < simplifiedHeaderNames.size(); j++) {
+                    if (simplifiedHeaderNames.get(j).startsWith(header.substring(0, pos) + ".1")) {
+                        absent = false;
+                        break;
+                    }
+                }
+                if (absent)
+                    simplifyAllHeaders(simplifiedHeaderNames,header.substring(0, pos));
+                pos++;
+            }
+        }
+
+        for (String header : simplifiedHeaderNames)
             csvPrintStream.print(separator + header);
         csvPrintStream.println();
     }
