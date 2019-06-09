@@ -46,9 +46,20 @@ import java.util.*;
 /**
  * The Class DataObjectPackageToCSVMetadataExporter.
  * <p>
- * It will export a DataObjectPackage to a set of files, the disk hierarchy and metadata being defined in a csv file.
- * The disk hierarchy is organised as the DataObjectPackage ArchiveUnit tree and filenames are recovered from metadata
- * (in case of name collision the second file as a derived name).
+ * It will export a DataObjectPackage to a set of files, the disk hierarchy, optionally gathered in a zip file, and all
+ * metadata defined in a csv file. The disk hierarchy is organised as the DataObjectPackage ArchiveUnit tree.
+ * The export follows theese few rules:
+ * <ul>
+ * <li>An ArchiveUnit with child AUs is exported
+ * as a directory with name being the Title (shorten if more than maxNameSize long</li>
+ * <li>An AU with no child AUs and only one object file is exported as a file with the object filename as name</li>
+ * <li>In other cases an object with only one usage_version is exported as a file with the object filename as name</li>
+ * <li>Each usage_version of an object is exported as a file with the object filename being derived as name inserting
+ * before the extension of a short field composed with '_', the first letter of the Usage and with the Version number</li>
+ * <li>For any export name, directory or file, if there is a collision the name is made uniq by adding '_xmlID'</li>
+ * </ul>
+ * With theese rules in simple cases the disk hierarchy is very simple and very near from the original version if this
+ * has been created from a disk hierarchy, but it's also possible to export any structure.
  * <p>
  * The csv has one header line at the beginning there is one column with 'File' which contains the file (or directory)
  * name which is also used as uniq ID and which defines the hierarchy as the file hierarchy.
@@ -62,7 +73,7 @@ import java.util.*;
  */
 public class DataObjectPackageToCSVMetadataExporter {
     /**
-     * The archive transfer.
+     * The data object package.
      */
     private DataObjectPackage dataObjectPackage;
 
@@ -82,20 +93,20 @@ public class DataObjectPackageToCSVMetadataExporter {
     private int usageVersionSelectionMode;
 
     /**
-     * The First dataobject.
+     * The First dataobject selection mode.
      */
     static public final int FIRST_DATAOBJECT = 1;
     /**
-     * The Last dataobject.
+     * The Last dataobject selection mode.
      */
     static public final int LAST_DATAOBJECT = 2;
     /**
-     * The All dataobjects.
+     * The All dataobjects selection mode.
      */
     static public final int ALL_DATAOBJECTS = 3;
 
     /**
-     * The max name size.
+     * The max name size used to limit directory names.
      */
     private int maxNameSize;
 
@@ -113,11 +124,6 @@ public class DataObjectPackageToCSVMetadataExporter {
      * The ArchiveUnit path string map, used to manage symbolic links.
      */
     private HashMap<ArchiveUnit, Path> auPathStringMap;
-
-    /**
-     * The set of all generated files paths to detect collision.
-     */
-    private Set<Path> filesPathSet;
 
     /**
      * Instantiates a new DataObjectPackage to csv metadata exporter.
@@ -140,18 +146,22 @@ public class DataObjectPackageToCSVMetadataExporter {
         this.maxNameSize = maxNameSize;
     }
 
+    // compute the number of appearance of one type of metadata in all headers name
+    // for example for Writer if there is Writer.0.FullName and Writer.1.Identifier this will be 2
+    // 0 is for no metadata present but without number derivation
+    // -1 is for not present metadata
     private int getMaxRank(Set<String> headerNames, String name) {
         if (headerNames.contains(name))
-            return -1;
+            return 0;
         int pos = name.split("\\.").length;
-        int maxRank = -2;
+        int maxRank = -1;
         for (String tmp : headerNames) {
             if (tmp.startsWith(name)) {
-                if (maxRank == -2) maxRank = -1;
+                if (maxRank == -1) maxRank = 0;
                 String[] splittedTmp = tmp.split("\\.");
                 if (splittedTmp.length > pos) {
                     try {
-                        maxRank = Math.max(maxRank, Integer.parseInt(splittedTmp[pos]));
+                        maxRank = Math.max(maxRank, Integer.parseInt(splittedTmp[pos]) + 1);
                     } catch (NumberFormatException ignored) {
                     }
                 }
@@ -160,13 +170,14 @@ public class DataObjectPackageToCSVMetadataExporter {
         return maxRank;
     }
 
+    // extract and sort headernames by there defined order in composed types (for now only ComplexListTypes)
     private List<String> getSortedHeaderNames(List<String> sortedHeaderNames, Set<String> headerNames,
                                               String prefixHeaderName, String xmlElementName, Class metadataClass) {
         String currentName = prefixHeaderName + (prefixHeaderName.isEmpty() ? "" : ".") + xmlElementName, infix;
         int maxRank = getMaxRank(headerNames, currentName);
-        if (maxRank != -2) {
+        if (maxRank != -1) {
             {
-                if (maxRank == -1)
+                if (maxRank == 0)
                     infix = "";
                 else infix = ".0";
                 int i = 0;
@@ -176,7 +187,9 @@ public class DataObjectPackageToCSVMetadataExporter {
                             getSortedHeaderNames(sortedHeaderNames, headerNames, currentName + infix,
                                     e.getKey(), e.getValue().metadataClass);
                         }
-                    } else {
+                    }
+                    // TODO for Management extraction add other rules complex types
+                    else {
                         sortedHeaderNames.add(currentName + infix);
                         headerNames.remove(currentName + infix);
                         if (headerNames.contains(currentName + infix + ".attr")) {
@@ -186,12 +199,13 @@ public class DataObjectPackageToCSVMetadataExporter {
                     }
                     i++;
                     infix = "." + i;
-                } while (i <= maxRank);
+                } while (i < maxRank);
             }
         }
         return sortedHeaderNames;
     }
 
+    // determine the csv header line by extracting metadata names from all ArchiveUnits and then sorting this set
     private void computeCsvHeader() throws SEDALibException {
         Set<String> headerNames = new HashSet<String>();
         for (ArchiveUnit au : dataObjectPackage.getAuInDataObjectPackageIdMap().values()) {
@@ -201,35 +215,39 @@ public class DataObjectPackageToCSVMetadataExporter {
                 Content.class);
     }
 
-    private void generateHeader(List<String> headerNames, PrintStream csvPrintStream){
+    // generate header line int the csv
+    private void generateHeader(List<String> headerNames, PrintStream csvPrintStream) {
         csvPrintStream.print("Path");
-        for (String header:headerNames)
-            csvPrintStream.print(separator+header);
+        for (String header : headerNames)
+            csvPrintStream.print(separator + header);
         csvPrintStream.println();
     }
 
-    private void generateCsvLine(ArchiveUnit au, Path auPath, Path rootPath, PrintStream csvPrintStream){
-        LinkedHashMap<String,String> metadataHashMap;
+    // generate one ArchiveUnit line int the csv
+    private void generateCsvLine(ArchiveUnit au, Path auPath, Path rootPath, PrintStream csvPrintStream) {
+        LinkedHashMap<String, String> metadataHashMap;
 
-        String value="\""+rootPath.relativize(auPath).toString().replace("\"","\"\"")+"\"";
+        String value = "\"" + rootPath.relativize(auPath).toString().replace("\"", "\"\"") + "\"";
         csvPrintStream.print(value);
         try {
-            metadataHashMap=au.getContent().filteredToCsvList(null);
+            metadataHashMap = au.getContent().filteredToCsvList(dataObjectPackage.getExportMetadataList());
         } catch (SEDALibException e) {
-            csvPrintStream.print(separator+"Extraction des métadonnées impossible");
+            csvPrintStream.print(separator + "Extraction des métadonnées impossible");
             return;
         }
-        for (String header:headerNames){
-            value=metadataHashMap.get(header);
-            if (value==null)
-                value="";
+        for (String header : headerNames) {
+            value = metadataHashMap.get(header);
+            if (value == null)
+                value = "";
             else
-                value="\""+value.replace("\"","\"\"")+"\"";
-            csvPrintStream.print(separator+value);
+                value = "\"" + value.replace("\"", "\"\"") + "\"";
+            csvPrintStream.print(separator + value);
         }
         csvPrintStream.println();
     }
 
+    // get the best Usage_Version object in a list of objects. First find the best Usage and then find the first or
+    // last version of this usage depending on firstFlag
     private BinaryDataObject getBestUsageVersionObject(List<BinaryDataObject> objectList, boolean firstFlag) {
         int rank, version;
         TreeMap<Integer, BinaryDataObject> rankMap = new TreeMap<Integer, BinaryDataObject>();
@@ -283,6 +301,7 @@ public class DataObjectPackageToCSVMetadataExporter {
         return bdo;
     }
 
+    // get the list of all objects in an ArchiveUnit (with DataObjectGroup or not)
     private List<BinaryDataObject> getArchiveUnitObjectList(ArchiveUnit au) {
         if ((au.getDataObjectRefList() == null) || (au.getDataObjectRefList().getCount() == 0))
             return null;
@@ -299,54 +318,66 @@ public class DataObjectPackageToCSVMetadataExporter {
             return Collections.singletonList(getBestUsageVersionObject(objectList, usageVersionSelectionMode == FIRST_DATAOBJECT));
     }
 
-    /**
-     * Strip a String of all characters not allowed in a file name.
-     *
-     * @param fileName the file name
-     * @return the string
-     */
-    @SuppressWarnings("Annotator")
+    // strip a String of all characters not allowed in a file name.
     private String stripFileName(String fileName) {
         return fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
     }
 
-    /**
-     * Construct directory name for ArchiveUnit.
-     *
-     * @param au the ArchiveUnit
-     * @return the file name
-     */
-    private String constructDirectoryName(ArchiveUnit au) throws SEDALibException {
-        String result = "";
+    // Construct directory name for ArchiveUnit and insert id if already exists.
+    private String constructArchiveUnitDirectoryName(Path root, ArchiveUnit au) throws SEDALibException {
+        String dirName = "";
         if (au.getContent() != null) {
-            result = au.getContent().getSimpleMetadata("Title");
-            if (result == null)
-                result = "NoTitle";
-            if ((maxNameSize > 0) && (result.length() > maxNameSize - au.getInDataObjectPackageId().length() - 1))
-                result = result.substring(0, 11);
-            result += "_";
+            dirName = au.getContent().getSimpleMetadata("Title");
+            if (dirName == null)
+                dirName = "NoTitle";
+            if ((maxNameSize > 0) && (dirName.length() > maxNameSize))
+                dirName = dirName.substring(0, maxNameSize);
+            dirName=stripFileName(dirName);
+            if (root.resolve(dirName).toFile().exists()) {
+                String id = stripFileName("_" + au.getInDataObjectPackageId());
+                if (maxNameSize <= 0)
+                    dirName += id;
+                else if (id.length() >= maxNameSize)
+                    dirName = id;
+                else if (id.length() + dirName.length() <= maxNameSize)
+                    dirName += id;
+                else
+                    dirName = dirName.substring(0, maxNameSize - id.length()) + id;
+            }
         }
-        result += au.getInDataObjectPackageId();
-        return stripFileName(result);
+
+        return dirName;
     }
 
-    private String getShortUsageVersionFilename(BinaryDataObject bdo,String filename) {
-        String[] usageVersion = bdo.dataObjectVersion.split("_");
-        String shortUsageVersion, result;
-
-        if (usageVersion[0].isEmpty())
-            shortUsageVersion = "Z";
-        else
-            shortUsageVersion = usageVersion[0].substring(0, 1);
-        shortUsageVersion += usageVersion[1];
-
-        int point=filename.lastIndexOf('.');
-        if (point==-1)
-            result=filename+shortUsageVersion;
-        else {
-            result=filename.substring(0,point)+"_"+shortUsageVersion+"."+filename.substring(point+1);
+    // Construct file name for Object, either uniq or in a list of different usage_version and insert id if already
+    // exists.
+    private String constructObjectFileName(Path root, BinaryDataObject bdo, boolean uniqFlag) {
+        String filename = bdo.fileInfo.filename, name, ext;
+        int point = filename.lastIndexOf('.');
+        if (point == -1) {
+            name = filename;
+            ext = "";
+        } else {
+            name = filename.substring(0, point);
+            ext = filename.substring(point);
         }
-        return result;
+
+        if (!uniqFlag) {
+            String[] usageVersion = bdo.dataObjectVersion.split("_");
+            String shortUsageVersion;
+            if (usageVersion[0].isEmpty())
+                shortUsageVersion = "Z";
+            else
+                shortUsageVersion = usageVersion[0].substring(0, 1);
+            shortUsageVersion += usageVersion[1];
+            ext = shortUsageVersion + ext;
+        }
+
+        filename=stripFileName(name+ext);
+        if (root.resolve(filename).toFile().exists())
+            filename=stripFileName(name+bdo.getInDataObjectPackageId()+ext);
+
+        return filename;
     }
 
     /**
@@ -369,8 +400,8 @@ public class DataObjectPackageToCSVMetadataExporter {
         List<BinaryDataObject> objectList = getArchiveUnitObjectList(au);
         // if not only a file ArchiveUnit create a named directory with the ArchiveUnit Title
         if (((au.getChildrenAuList() != null) && (au.getChildrenAuList().getCount() != 0)) ||
-                ((objectList==null) || (objectList.size() > 1) || (objectList.size() == 0))) {
-            auPath = containerPath.resolve(constructDirectoryName(au));
+                ((objectList == null) || (objectList.size() > 1) || (objectList.size() == 0))) {
+            auPath = containerPath.resolve(constructArchiveUnitDirectoryName(containerPath,au));
         } else auPath = containerPath;
         try {
             Files.createDirectories(auPath);
@@ -378,12 +409,10 @@ public class DataObjectPackageToCSVMetadataExporter {
             throw new SEDALibException(
                     "Création du répertoire [" + auPath + "] impossible\n->" + e.getMessage());
         }
-        if ((objectList!=null) && (objectList.size()>0)) {
+        if ((objectList != null) && (objectList.size() > 0)) {
             try {
                 for (BinaryDataObject bdo : objectList) {
-                    filename = bdo.fileInfo.filename;
-                    if (objectList.size() > 1)
-                        filename = getShortUsageVersionFilename(bdo,filename);
+                    filename = constructObjectFileName(auPath,bdo, objectList.size() == 1);
                     Files.copy(bdo.getOnDiskPath(), auPath.resolve(filename));
                 }
             } catch (IOException e) {
@@ -405,13 +434,14 @@ public class DataObjectPackageToCSVMetadataExporter {
     }
 
     /**
-     * Do export the DataObjectPackage to a disk hierarchy.
+     * Do export the DataObjectPackage to a csv disk hierarchy.
      * <p>
      * It will export in the output directory:
      * <ul>
      * <li>metadata.csv, the csv file with all descriptive metadata</li>
      * <li>each root ArchiveUnit as a sub directory, and recursively all the
-     * DataObjectPackage structure</li>
+     * DataObjectPackage structure in a simplified way as near as possible of original form if it was a disk
+     * hierarchy, optionnaly in a zip file</li>
      * </ul>
      *
      * @param csvMetadataFileName the csv metadata file name
@@ -439,7 +469,7 @@ public class DataObjectPackageToCSVMetadataExporter {
         }
         generateHeader(headerNames, csvPrintStream);
 
-        auPathStringMap=new HashMap<ArchiveUnit,Path>();
+        auPathStringMap = new HashMap<ArchiveUnit, Path>();
         for (ArchiveUnit au : dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList())
             exportArchiveUnit(au, csvFolderPath, csvFolderPath, csvPrintStream);
 

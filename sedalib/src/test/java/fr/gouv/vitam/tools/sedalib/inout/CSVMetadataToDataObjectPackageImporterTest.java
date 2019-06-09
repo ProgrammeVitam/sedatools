@@ -40,7 +40,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 		String testAu = "{\n" +
 				"\"archiveUnitProfileXmlData\":null,\n" +
 				"\"managementXmlData\":null,\n" +
-				"\"contentXmlData\":\"<Content>  <DescriptionLevel>Item</DescriptionLevel>  <Title>201609_TdB_suivi_des_activites_VITAM.ods</Title>  <Description>Document \"201609_TdB_suivi_des_activites_VITAM.ods\" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>  <CreatedDate>2016-08-30T10:13:03</CreatedDate></Content>\",\n" +
+				"\"contentXmlData\":\"<Content>  <DescriptionLevel>Item</DescriptionLevel>  <Title>image001.jpg</Title>  <Description>Document \"image001.jpg\" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>  <CreatedDate>2016-08-30T10:14:17</CreatedDate></Content>\",\n" +
 				"\"childrenAuList\":{\n" +
 				"\"inDataObjectPackageIdList\":[]\n" +
 				"},\n" +
