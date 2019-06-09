@@ -5,16 +5,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import fr.gouv.vitam.tools.sedalib.inout.importer.WindowsShortcut;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import mslinks.ShellLink;
-import mslinks.ShellLinkException;
 import org.apache.commons.io.FileUtils;
 
 public class TestUtilities {
 
-    private static boolean isPrepared = false;
-    private static boolean isWindows = false;
+    public static boolean isPrepared = false;
+    public static boolean isWindows = false;
 
     private static void createSymbolicLink(String link, String target) throws SEDALibException {
         Path linkpath = Paths.get(link);
@@ -97,6 +99,16 @@ public class TestUtilities {
                     prefix + "Node 1/##Test ObjectGroup##");
             createShortcutIfWindows(prefix + "Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk",
                     prefix + "Node 1/##Test ObjectGroup##");
+            System.err.println("Test files with links in [" + prefix + "] prepared");
+
+            prefix = "src/test/resources/PacketSamples/SampleTitleDirectoryNameModelV2/Root/";
+            // regenerate PacketSamples.SampleWithWindowsLinksAndShortcutsModelV2 links
+            createSymbolicLink(prefix + "Link Node 1.2", prefix + "Node 1/Node 1.2");
+            createSymbolicLink(prefix + "Link SmallContract.text",
+                    prefix + "Node 2/Node 2.3 - Many/SmallContract.text");
+            createShortcutIfWindows(prefix + "Shortcut Node 2.4 - OG Link.lnk", prefix + "Node 2/Node 2.4 - OG Link");
+            createShortcutIfWindows(prefix + "ShortCut OK-RULES-MDRULES.zip.lnk",
+                    prefix + "Node 2/Node 2.3 - Many/OK-RULES-MDRULES.zip");
             System.err.println("Test files with links in [" + prefix + "] prepared");
             isPrepared = true;
         }
