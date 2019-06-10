@@ -100,6 +100,7 @@ public class TestUtilities {
 
             prefix = "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2/Root/";
             // regenerate PacketSamples.SampleWithWindowsLinksAndShortcutsModelV2 links
+            createSymbolicLink(prefix + "Node 1.1", prefix + "Node 1/Node 1.1");
             createSymbolicLink(prefix + "SmallContract.text",
                     prefix + "Node 2/Node 2.3 - Many/SmallContract.text");
             createShortcutIfWindows(prefix + "OK-RULES-MDRULES.zip.lnk",

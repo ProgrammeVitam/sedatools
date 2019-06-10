@@ -57,8 +57,8 @@ class CSVMetadataExporterTest {
                         + filename.substring(filename.lastIndexOf('.'));
             } else if (filename.startsWith("__"))
                 continue;
-            if ((Files.isDirectory(firstPath)) && (second.getFileSystem()!= FileSystems.getDefault()))
-                filename+="/";
+            if ((Files.isDirectory(firstPath)) && (second.getFileSystem() != FileSystems.getDefault()))
+                filename += "/";
 
             Path secondPath = second.resolve(filename);
             if (filename.endsWith(".link")) {
@@ -77,10 +77,14 @@ class CSVMetadataExporterTest {
             }
             if (isLink(firstPath)) {
                 //TODO verify redirection content
-                filename=filename.replace(".lnk","");
-                secondPath=second.resolve(filename);
-                if (Files.exists(second.resolve(filename + ".link"))) {
-                    secondListNames.remove(filename + ".link");
+                filename = filename.replace(".lnk", "");
+                secondPath = second.resolve(filename);
+                String tmp = filename;
+                if (filename.endsWith("/"))
+                    tmp = filename.substring(0, filename.length() - 1) + ".link";
+                else tmp = filename + ".link";
+                if (Files.exists(second.resolve(tmp))) {
+                    secondListNames.remove(tmp);
                     continue;
                 }
                 if (!isLink(secondPath)) {
@@ -127,7 +131,7 @@ class CSVMetadataExporterTest {
     }
 
     private FileSystem getZipFileSystem(String zipFileName) throws SEDALibException {
-        FileSystem result=null;
+        FileSystem result = null;
         if (zipFileName != null)
             try {
                 final Path path = Paths.get(zipFileName);
@@ -204,7 +208,7 @@ class CSVMetadataExporterTest {
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
         cme.doExportToCSVZip("target/tmpJunit/CSVMetadataExporterZIP/export.zip");
 
-        FileSystem zipFS=getZipFileSystem("target/tmpJunit/CSVMetadataExporterZIP/export.zip");
+        FileSystem zipFS = getZipFileSystem("target/tmpJunit/CSVMetadataExporterZIP/export.zip");
         assertThat(zipFS).isNotNull();
 
         assert (compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),

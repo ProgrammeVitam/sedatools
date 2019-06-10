@@ -40,17 +40,17 @@ class CSVMetadataToDataObjectPackageImporterTest {
 		String testAu = "{\n" +
 				"\"archiveUnitProfileXmlData\":null,\n" +
 				"\"managementXmlData\":null,\n" +
-				"\"contentXmlData\":\"<Content>  <DescriptionLevel>Item</DescriptionLevel>  <Title>image001.jpg</Title>  <Description>Document \"image001.jpg\" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>  <CreatedDate>2016-08-30T10:14:17</CreatedDate></Content>\",\n" +
+				"\"contentXmlData\":\"<Content>  <DescriptionLevel>RecordGrp</DescriptionLevel>  <Title>Root2</Title></Content>\",\n" +
 				"\"childrenAuList\":{\n" +
 				"\"inDataObjectPackageIdList\":[]\n" +
 				"},\n" +
 				"\"dataObjectRefList\":{\n" +
-				"\"inDataObjectPackageIdList\":[\"ID18\"]\n" +
+				"\"inDataObjectPackageIdList\":[]\n" +
 				"},\n" +
-				"\"inDataObjectPackageId\":\"ID13\",\n" +
+				"\"inDataObjectPackageId\":\"ID17\",\n" +
 				"\"onDiskPath\":null\n" +
 				"}";
-		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("ID13");
+		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("ID17");
 		String sau = mapper.writeValueAsString(au);
 		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
 	}
