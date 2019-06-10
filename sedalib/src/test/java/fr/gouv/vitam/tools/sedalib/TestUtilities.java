@@ -5,16 +5,17 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.*;
+import java.util.stream.Collectors;
 
+import fr.gouv.vitam.tools.sedalib.inout.importer.WindowsShortcut;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import mslinks.ShellLink;
-import mslinks.ShellLinkException;
 import org.apache.commons.io.FileUtils;
 
 public class TestUtilities {
 
-    private static boolean isPrepared = false;
-    private static boolean isWindows = false;
+    public static boolean isPrepared = false;
 
     private static void createSymbolicLink(String link, String target) throws SEDALibException {
         Path linkpath = Paths.get(link);
@@ -31,7 +32,7 @@ public class TestUtilities {
             Files.createDirectories(linkpath.getParent());
             Files.createSymbolicLink(linkpath.toAbsolutePath(), linkpath.toAbsolutePath().getParent().relativize(targetpath.toAbsolutePath()));
         } catch (Exception e) {
-            if (isWindows) {
+            if (isWindowsOS()) {
                 System.err.println(
                         "Link creation is impossible, Windows shortcut creation is tried");
                 ShellLink sl = new ShellLink();
@@ -65,7 +66,7 @@ public class TestUtilities {
 
     private static void createShortcutIfWindows(String link, String target)
             throws IOException, SEDALibException {
-        if (!isWindows)
+        if (!isWindowsOS())
             createSymbolicLink(link, target);
         else {
             Path linkpath = Paths.get(link);
@@ -82,8 +83,6 @@ public class TestUtilities {
     static void ContructTestFiles() throws IOException, SEDALibException {
         if (!isPrepared) {
             String prefix;
-            isWindows = System.getProperty("os.name").toLowerCase().contains("win");
-
 
             prefix = "src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/";
             // regenerate PacketSamples.SampleWithWindowsLinksAndShortcutsModelV2 links
@@ -97,6 +96,15 @@ public class TestUtilities {
                     prefix + "Node 1/##Test ObjectGroup##");
             createShortcutIfWindows(prefix + "Node 2/Node 2.5 - OG Shortcut/Shortcut ##Test ObjectGroup##.lnk",
                     prefix + "Node 1/##Test ObjectGroup##");
+            System.err.println("Test files with links in [" + prefix + "] prepared");
+
+            prefix = "src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2/Root/";
+            // regenerate PacketSamples.SampleWithWindowsLinksAndShortcutsModelV2 links
+            createSymbolicLink(prefix + "Node 1.1", prefix + "Node 1/Node 1.1");
+            createSymbolicLink(prefix + "SmallContract.text",
+                    prefix + "Node 2/Node 2.3 - Many/SmallContract.text");
+            createShortcutIfWindows(prefix + "OK-RULES-MDRULES.zip.lnk",
+                    prefix + "Node 2/Node 2.3 - Many/OK-RULES-MDRULES.zip");
             System.err.println("Test files with links in [" + prefix + "] prepared");
             isPrepared = true;
         }
@@ -129,11 +137,15 @@ public class TestUtilities {
     public static void eraseAll(String dirOrFile) {
         try {
             Files.delete(Paths.get(dirOrFile));
-        } catch (Exception ignored) {
+        } catch (Exception e) {
         }
         try {
             FileUtils.deleteDirectory(new File(dirOrFile));
-        } catch (Exception ignored) {
+        } catch (Exception e) {
         }
+    }
+
+    public static boolean isWindowsOS(){
+        return 	System.getProperty("os.name").toLowerCase().contains("win");
     }
 }

@@ -20,7 +20,43 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class CSVMetadataToDataObjectPackageImporterTest {
 
 	@Test
-	void importOKCSV() throws SEDALibException, InterruptedException, JsonProcessingException {
+	void importOKCSV1column() throws SEDALibException, InterruptedException, JsonProcessingException {
+		// Given
+		ObjectMapper mapper = new ObjectMapper();
+		SimpleModule module = new SimpleModule();
+		module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+		module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+		mapper.registerModule(module);
+		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+		CSVMetadataToDataObjectPackageImporter cmi;
+
+		// When loaded with the csv OK test file
+		cmi= new CSVMetadataToDataObjectPackageImporter(
+				"src/test/resources/PacketSamples/MetadataTestOK1col.csv", "windows-1252",';',null);
+		cmi.doImport();
+
+		// Then
+		String testAu = "{\n" +
+				"\"archiveUnitProfileXmlData\":null,\n" +
+				"\"managementXmlData\":null,\n" +
+				"\"contentXmlData\":\"<Content>  <DescriptionLevel>RecordGrp</DescriptionLevel>  <Title>Root2</Title></Content>\",\n" +
+				"\"childrenAuList\":{\n" +
+				"\"inDataObjectPackageIdList\":[]\n" +
+				"},\n" +
+				"\"dataObjectRefList\":{\n" +
+				"\"inDataObjectPackageIdList\":[]\n" +
+				"},\n" +
+				"\"inDataObjectPackageId\":\"ID17\",\n" +
+				"\"onDiskPath\":null\n" +
+				"}";
+		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("ID17");
+		String sau = mapper.writeValueAsString(au);
+		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
+	}
+
+	@Test
+	void importOKCSV3column() throws SEDALibException, InterruptedException, JsonProcessingException {
 		// Given
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();

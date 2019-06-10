@@ -463,6 +463,18 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     }
 
     /**
+     * Gets the metadata map, which link xml element name with metadata class and
+     * cardinality for a given ComplexListType sub class.
+     *
+     * @param complexListTypeMetadataClass the complex list type metadata class
+     * @return the metadata map
+     */
+    static public HashMap<String, ComplexListMetadataKind> getMetadataMap(Class complexListTypeMetadataClass) {
+        HashMap<String, ComplexListMetadataKind> metadataMap = subTypeMetadataMapMap.get(complexListTypeMetadataClass);
+        return metadataMap;
+    }
+
+    /**
      * Checks if it the metadata list is closed.
      *
      * @return true, if is not expendable
@@ -502,6 +514,12 @@ public abstract class ComplexListType extends NamedTypeMetadata {
         return langText;
     }
 
+    /**
+     * Is a multi valued metadata boolean.
+     *
+     * @param metadataName the metadata name
+     * @return the boolean
+     */
     public boolean isAMultiValuedMetadata(String metadataName) {
         ComplexListMetadataKind clmk = subTypeMetadataMapMap.get(this.getClass()).get(metadataName);
         if (clmk == null)

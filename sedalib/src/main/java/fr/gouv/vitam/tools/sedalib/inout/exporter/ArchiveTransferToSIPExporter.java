@@ -241,7 +241,7 @@ public class ArchiveTransferToSIPExporter {
             result += "en XML continu\n";
 
         if ((start != null) && (end != null))
-            result += "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
+            result += "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
 }
