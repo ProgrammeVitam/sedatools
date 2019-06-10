@@ -6,6 +6,7 @@ import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadata
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.WindowsShortcut;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.codehaus.plexus.util.FileUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -165,7 +166,7 @@ class CSVMetadataExporterTest {
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
         cme.doExportToCSVDiskHierarchy("target/tmpJunit/CSVMetadataExporterDisk/metadata.csv");
 
-
+        // Then exported directory is equivalent to imported one
         assert (compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
                 Paths.get("target/tmpJunit/CSVMetadataExporterDisk")));
     }
@@ -187,8 +188,10 @@ class CSVMetadataExporterTest {
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
         cme.doExportToCSVMetadataFile("target/tmpJunit/CSVMetadataExporterCSV/metadata.csv");
 
-        assertThat(new File("target/tmpJunit/CSVMetadataExporterCSV/metadata.csv"))
-                .hasSameContentAs(new File("src/test/resources/ExpectedResults/ExportedMetadata.csv"));
+        // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
+        String generatedFileContent= FileUtils.fileRead("target/tmpJunit/CSVMetadataExporterCSV/metadata.csv").replaceAll("[\\\\/]","");
+        String expectedFileContent= FileUtils.fileRead("src/test/resources/ExpectedResults/ExportedMetadata.csv").replaceAll("[\\\\/]","");
+        assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
     }
 
     @Test
@@ -211,6 +214,7 @@ class CSVMetadataExporterTest {
         FileSystem zipFS = getZipFileSystem("target/tmpJunit/CSVMetadataExporterZIP/export.zip");
         assertThat(zipFS).isNotNull();
 
+        // Then exported directory in the zip is equivalent to imported one
         assert (compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
                 zipFS.getPath("/")));
     }
