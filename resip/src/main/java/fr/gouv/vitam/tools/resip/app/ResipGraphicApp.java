@@ -49,7 +49,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.prefs.BackingStoreException;
 
 public class ResipGraphicApp implements ActionListener, Runnable {
 
@@ -86,6 +85,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public DuplicatesWindow duplicatesWindow;
 
     public ResipGraphicApp(CreationContext creationContext) throws ResipException {
+        try {
+            if (System.getProperty("os.name").toLowerCase().contains("win"))
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            else
+                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (IllegalAccessException | InstantiationException |
+                UnsupportedLookAndFeelException | ClassNotFoundException ignored) {
+        }
+
         if (theApp != null)
             throw new ResipException("L'application a déjà été lancée");
         theApp = this;
@@ -307,6 +315,21 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "ExportToDisk");
         exportMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Exporter la hiérarchie simplifiée et le csv sur disque...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "ExportToCSVDisk");
+        exportMenu.add(menuItem);
+
+        menuItem = new JMenuItem("Exporter la hiérarchie simplifiée et le csv en zip...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "ExportToCSVZip");
+        exportMenu.add(menuItem);
+
+        menuItem = new JMenuItem("Exporter le csv des métadonnées...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "ExportToCSVMetadataFile");
+        exportMenu.add(menuItem);
+
         infoMenu = new JMenu("?");
         menuBar.add(infoMenu);
 
@@ -401,13 +424,22 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     // Export Menu
                     case "ExportToSEDASIP":
-                        exportWork(ExportThread.SIP_EXPORT);
+                        exportWork(ExportThread.SIP_ALL_EXPORT);
                         break;
                     case "ExportToSEDAXMLManifest":
-                        exportWork(ExportThread.MANIFEST_EXPORT);
+                        exportWork(ExportThread.SIP_MANIFEST_EXPORT);
                         break;
                     case "ExportToDisk":
                         exportWork(ExportThread.DISK_EXPORT);
+                        break;
+                    case "ExportToCSVDisk":
+                        exportWork(ExportThread.CSV_ALL_DISK_EXPORT);
+                        break;
+                    case "ExportToCSVZip":
+                        exportWork(ExportThread.CSV_ALL_ZIP_EXPORT);
+                        break;
+                    case "ExportToCSVMetadataFile":
+                        exportWork(ExportThread.CSV_METADATA_FILE_EXPORT);
                         break;
                     case "About":
                         about();
@@ -1014,7 +1046,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 fileChooser = new JFileChooser(currentWork.getExportContext().getOnDiskOutput());
             else
                 fileChooser = new JFileChooser(Prefs.getInstance().getPrefsExportDir());
-            if (exportType != ExportThread.DISK_EXPORT)
+            if ((exportType != ExportThread.DISK_EXPORT) && (exportType != ExportThread.CSV_ALL_DISK_EXPORT))
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             else
                 fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

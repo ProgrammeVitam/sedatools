@@ -366,11 +366,6 @@ public class ResipApp {
 
         // graphic application
         if (!cmd.hasOption("xcommand")) {
-            if (System.getProperty("os.name").toLowerCase().contains("win"))
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            else
-                UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-
             new ResipGraphicApp(creationContext);
         } else {
 
