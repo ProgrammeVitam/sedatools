@@ -42,6 +42,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.*;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
@@ -81,14 +82,18 @@ public class PrefsDialog extends JDialog {
     private JComboBox csvCharsetCombobox;
     private JTextField csvDelimiterTextField;
 
-    private JTextField dupMaxTextField;
-
     private JTextField workDirTextField;
     private JRadioButton hierarchicalRadioButton;
     private JRadioButton indentedRadioButton;
+    private JRadioButton firstUsageButton;
+    private JRadioButton lastUsageButton;
+    private JRadioButton allUsageButton;
+    private JTextField nameMaxSizeTextField;
     private JRadioButton reindexYesRadioButton;
     private JTextArea metadataFilterTextArea;
     private JCheckBox metadataFilterCheckBox;
+
+    private JTextField dupMaxTextField;
 
     private JFrame owner;
 
@@ -483,9 +488,9 @@ public class PrefsDialog extends JDialog {
         JPanel exportParametersPanel = new JPanel();
         tabbedPane.addTab("Export", new ImageIcon(getClass().getResource("/icon/document-save.png")), exportParametersPanel, null);
         GridBagLayout gbl_exportParametersPanel = new GridBagLayout();
-        gbl_exportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
+        gbl_exportParametersPanel.columnWeights = new double[]{0, 0.5, 0.5, 0};
         gbl_exportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-        gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 1};
+        gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
         exportParametersPanel.setLayout(gbl_exportParametersPanel);
 
         JLabel workDirLabel = new JLabel("Rép. de travail:");
@@ -626,6 +631,90 @@ public class PrefsDialog extends JDialog {
         else
             reindexNoRadioButton.setSelected(true);
 
+        JLabel inCSVLabel = new JLabel("Options d'export en hiérarchie simplifiée et fichier csv");
+        inCSVLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        exportParametersPanel.add(inCSVLabel, gbc);
+
+        JLabel exportModeChoiceLabel = new JLabel("Mode de choix des objets exportés:");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        exportParametersPanel.add(exportModeChoiceLabel, gbc);
+
+        firstUsageButton = new JRadioButton("Premier");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 7;
+        exportParametersPanel.add(firstUsageButton, gbc);
+
+        lastUsageButton = new JRadioButton("Dernier");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 2;
+        gbc.gridy = 7;
+        exportParametersPanel.add(lastUsageButton, gbc);
+
+        allUsageButton = new JRadioButton("Tous");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 3;
+        gbc.gridy = 7;
+        exportParametersPanel.add(allUsageButton, gbc);
+
+        ButtonGroup exportModeChoiceButtonGroup = new ButtonGroup();
+        exportModeChoiceButtonGroup.add(firstUsageButton);
+        exportModeChoiceButtonGroup.add(lastUsageButton);
+        exportModeChoiceButtonGroup.add(allUsageButton);
+        exportModeChoiceButtonGroup.clearSelection();
+        switch (gmc.getUsageVersionSelectionMode()) {
+            case FIRST_DATAOBJECT:
+                firstUsageButton.setSelected(true);
+                break;
+            case LAST_DATAOBJECT:
+            default:
+                lastUsageButton.setSelected(true);
+                break;
+            case ALL_DATAOBJECTS:
+                allUsageButton.setSelected(true);
+                break;
+        }
+
+        JLabel lblNameMaxSize = new JLabel("Taille max des noms de répertoires :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        exportParametersPanel.add(lblNameMaxSize, gbc);
+
+        nameMaxSizeTextField = new JTextField();
+        DocumentFilter filter = new NumericFilter();
+        ((AbstractDocument) nameMaxSizeTextField.getDocument()).setDocumentFilter(filter);
+        nameMaxSizeTextField.setText(Integer.toString(gmc.getMaxNameSize()));
+        nameMaxSizeTextField.setFont(MainWindow.DETAILS_FONT);
+        nameMaxSizeTextField.setColumns(10);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 8;
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        exportParametersPanel.add(nameMaxSizeTextField, gbc);
+
         JLabel metadataFilterLabel = new JLabel("Filtrage des métadonnées");
         metadataFilterLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -636,18 +725,18 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 9;
         exportParametersPanel.add(metadataFilterLabel, gbc);
 
         scrollPane = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 3;
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 7;
+        gbc.gridy = 10;
         exportParametersPanel.add(scrollPane, gbc);
 
         metadataFilterTextArea = new JTextArea();
@@ -665,7 +754,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 10;
         gbc.weighty = 1.0;
         exportParametersPanel.add(metadataFilterCheckBox, gbc);
         metadataFilterCheckBox.addItemListener(arg -> metadataFilterEvent(arg));
@@ -810,7 +899,7 @@ public class PrefsDialog extends JDialog {
         gbc.gridy = 6;
         importParametersPanel.add(ignoreLinksChexBox, gbc);
 
-        JLabel csvImportLabel = new JLabel("Import des csv");
+        JLabel csvImportLabel = new JLabel("Import/export des csv");
         csvImportLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
         gbc.gridwidth = 3;
@@ -890,8 +979,8 @@ public class PrefsDialog extends JDialog {
         treatmentParametersPanel.add(lblDupMax, gbc);
 
         dupMaxTextField = new JTextField();
-        DocumentFilter filter = new NumericFilter();
-        ((AbstractDocument) dupMaxTextField.getDocument()).setDocumentFilter(filter);
+        DocumentFilter dupMaxFilter = new NumericFilter();
+        ((AbstractDocument) dupMaxTextField.getDocument()).setDocumentFilter(dupMaxFilter);
         dupMaxTextField.setText(Integer.toString(tp.getDupMax()));
         dupMaxTextField.setFont(MainWindow.DETAILS_FONT);
         dupMaxTextField.setColumns(10);
@@ -982,6 +1071,8 @@ public class PrefsDialog extends JDialog {
     }
 
     private boolean extractFromDialog() {
+        int tmp;
+
         cc.setWorkDir(workDirTextField.getText());
 
         dic.setIgnorePatternList(Arrays.asList(ignorePatternsTextArea.getText().split("\\s*\n\\s*")));
@@ -996,6 +1087,25 @@ public class PrefsDialog extends JDialog {
         gmc.setHierarchicalArchiveUnits(hierarchicalRadioButton.isSelected());
         gmc.setIndented(indentedRadioButton.isSelected());
         gmc.setReindex(reindexYesRadioButton.isSelected());
+        if (firstUsageButton.isSelected())
+            gmc.setUsageVersionSelectionMode(FIRST_DATAOBJECT);
+        else  if (allUsageButton.isSelected())
+            gmc.setUsageVersionSelectionMode(ALL_DATAOBJECTS);
+        else
+            gmc.setUsageVersionSelectionMode(LAST_DATAOBJECT);
+        try {
+            tmp = Integer.parseInt(nameMaxSizeTextField.getText());
+            if (tmp <= 0)
+                throw new NumberFormatException("Number not strictly negative");
+        } catch (NumberFormatException e) {
+            tabbedPane.setSelectedIndex(4);
+            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
+                    "La taille limite des noms de répertoires exportées doit être un nombre strictement supérieur à 0.",
+                    "Information", UserInteractionDialog.IMPORTANT_DIALOG,
+                    null);
+            return false;
+        }
+        gmc.setMaxNameSize(tmp);
         gmc.setManagementMetadataXmlData(managementMetadataTextArea.getText());
         gmc.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
         gmc.setKeptMetadataList(Arrays.asList(metadataFilterTextArea.getText().split("\\s*\n\\s*"))
@@ -1018,7 +1128,6 @@ public class PrefsDialog extends JDialog {
         cic.setDelimiter((csvDelimiterTextField.getText().isEmpty() ? ';' : csvDelimiterTextField.getText().charAt(0)));
         cic.setCsvCharsetName((String) csvCharsetCombobox.getSelectedItem());
 
-        int tmp;
         try {
             tmp = Integer.parseInt(dupMaxTextField.getText());
             if (tmp <= 0)

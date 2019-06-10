@@ -33,11 +33,9 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import org.apache.commons.vfs2.provider.zip.ZipFileSystem;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.URI;
 import java.nio.file.*;
 import java.text.DateFormat;
@@ -122,11 +120,13 @@ public class DataObjectPackageToCSVMetadataExporter {
      */
     private int exportAction;
 
-    private static final int ALL_DISK_EXPORT=1;
-    private static final int METADATA_FILE_EXPORT=2;
-    private static final int ALL_ZIP_EXPORT=3;
+    private static final int ALL_DISK_EXPORT = 1;
+    private static final int METADATA_FILE_EXPORT = 2;
+    private static final int ALL_ZIP_EXPORT = 3;
 
-    /** The start and end instants, for duration computation. */
+    /**
+     * The start and end instants, for duration computation.
+     */
     private Instant start, end;
 
     /**
@@ -258,7 +258,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                     }
                 }
                 if (absent)
-                    simplifyAllHeaders(simplifiedHeaderNames,header.substring(0, pos));
+                    simplifyAllHeaders(simplifiedHeaderNames, header.substring(0, pos));
                 pos++;
             }
         }
@@ -378,8 +378,10 @@ public class DataObjectPackageToCSVMetadataExporter {
             if ((maxNameSize > 0) && (dirName.length() > maxNameSize))
                 dirName = dirName.substring(0, maxNameSize);
             dirName = stripFileName(dirName);
+            dirName = dirName.trim();
+            System.out.println("["+dirName+"]");
             if (Files.exists(root.resolve(dirName))) {
-                String id = stripFileName("_" + au.getInDataObjectPackageId());
+                String id = stripFileName("-" + au.getInDataObjectPackageId());
                 if (maxNameSize <= 0)
                     dirName += id;
                 else if (id.length() >= maxNameSize)
@@ -420,7 +422,7 @@ public class DataObjectPackageToCSVMetadataExporter {
 
         filename = stripFileName(name + ext);
         if (Files.exists(root.resolve(filename)))
-            filename = stripFileName(name + bdo.getInDataObjectPackageId() + ext);
+            filename = stripFileName(name + "-" + bdo.getInDataObjectPackageId() + ext);
 
         return filename;
     }
@@ -522,7 +524,8 @@ public class DataObjectPackageToCSVMetadataExporter {
 
                 final Map<String, String> env = new HashMap<>();
                 env.put("create", "true");
-                result = FileSystems.newFileSystem(uri, env);
+                env.put("encoding", "UTF-8");
+                result = FileSystems.newFileSystem(uri, env, null);
             } catch (IOException e) {
                 throw new SEDALibException(
                         "Impossible de créer le fichier zip [" + zipFileName + "]\n->" + e.getMessage());
@@ -606,7 +609,7 @@ public class DataObjectPackageToCSVMetadataExporter {
      */
     public void doExportToCSVMetadataFile(String csvMetadataFileName) throws SEDALibException, InterruptedException {
         exportAll(csvMetadataFileName, false, null);
-        exportAction=METADATA_FILE_EXPORT;
+        exportAction = METADATA_FILE_EXPORT;
     }
 
     /**
@@ -620,13 +623,13 @@ public class DataObjectPackageToCSVMetadataExporter {
      * hierarchy, optionnaly in a zip file</li>
      * </ul>
      *
-     * @param csvMetadataFileName the csv metadata file name
+     * @param dirName the export directory name
      * @throws SEDALibException     if writing has failed
      * @throws InterruptedException if export process is interrupted
      */
-    public void doExportToCSVDiskHierarchy(String csvMetadataFileName) throws SEDALibException, InterruptedException {
-        exportAll(csvMetadataFileName, true, null);
-        exportAction=ALL_DISK_EXPORT;
+    public void doExportToCSVDiskHierarchy(String dirName) throws SEDALibException, InterruptedException {
+        exportAll(dirName + File.separator + "metadata.csv", true, null);
+        exportAction = ALL_DISK_EXPORT;
     }
 
     /**
@@ -646,7 +649,7 @@ public class DataObjectPackageToCSVMetadataExporter {
      */
     public void doExportToCSVZip(String zipFileName) throws SEDALibException, InterruptedException {
         exportAll(Paths.get(zipFileName).getParent().resolve("metadata.csv").toString(), true, zipFileName);
-        exportAction=ALL_ZIP_EXPORT;
+        exportAction = ALL_ZIP_EXPORT;
     }
 
     /**
@@ -658,13 +661,14 @@ public class DataObjectPackageToCSVMetadataExporter {
         String result = "Export d'un DataObjectPackage en ";
         switch (exportAction) {
             case ALL_DISK_EXPORT:
-                result+="hiérarchie disque simplifiée avec le fichier csv des métadonnées\n";
+                result += "hiérarchie disque simplifiée avec le fichier csv des métadonnées\n";
                 break;
             case ALL_ZIP_EXPORT:
-                result+="zip contenant hiérarchie simplifiée avec le fichier csv des métadonnées\n";
+                result += "zip contenant hiérarchie simplifiée avec le fichier csv des métadonnées\n";
                 break;
             case METADATA_FILE_EXPORT:
                 result += "fichier csv des métadonnées\n";
+                break;
             default:
                 result += "???\n";
         }

@@ -19,33 +19,28 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
+import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.*;
+
 /**
  * The Class ExportContext.
  */
 public class ExportContext {
 
-	/**
-	 * The export nature.
-	 */
-	public static final int SIP=1;
-	/**
-	 * The constant MANIFEST.
-	 */
-	public static final int MANIFEST=2;
-	/**
-	 * The constant DISK.
-	 */
-	public static final int DISK=3;
-	
 	// prefs elements
-	/** The hierarchical archive units. */
+	/** The hierarchical archive units in SEDA manifest. */
 	private boolean hierarchicalArchiveUnits;
 
-	/** The indented. */
+	/** The indented xml in SEDA manifest. */
 	private boolean indented;
 
-	/** The reindex DataObjectPackage elements before export. */
+	/** The DataObjectPackage elements reindex before export flag. */
 	private boolean reindex;
+
+	/** The csv export mode for usage_version object selection. */
+	private int usageVersionSelectionMode;
+
+	/** The csv export max name size for directories. */
+	private int maxNameSize;
 
 	/** The ManagementMetadata. */
 	private String managementMetadataXmlData;
@@ -69,6 +64,8 @@ public class ExportContext {
 		this.hierarchicalArchiveUnits = true;
 		this.indented = true;
 		this.reindex = false;
+		this.usageVersionSelectionMode = LAST_DATAOBJECT;
+		this.maxNameSize = 32;
 		this.globalMetadata=new GlobalMetadata();
 		this.managementMetadataXmlData=null;
 		this.onDiskOutput=null;
@@ -83,17 +80,22 @@ public class ExportContext {
 	 * @param hierarchicalArchiveUnits  the hierarchical archive units
 	 * @param indented                  the indented
 	 * @param reindex                   the reindex
+	 * @param usageVersionSelectionMode the usage version selection mode
+	 * @param maxNameSize               the max name size
 	 * @param onDiskOutput              the on disk output
 	 * @param managementMetadataXmlData the management metadata xml data
 	 * @param metadataFilterFlag        the metadata filter flag
 	 * @param keptMetadataList          the kept metadata list
 	 */
 	public ExportContext(GlobalMetadata globalMetadata,
-			boolean hierarchicalArchiveUnits, boolean indented, boolean reindex, String onDiskOutput, String managementMetadataXmlData,
+			boolean hierarchicalArchiveUnits, boolean indented, boolean reindex, int usageVersionSelectionMode,
+						 int maxNameSize, String onDiskOutput, String managementMetadataXmlData,
 						 boolean metadataFilterFlag, List<String> keptMetadataList) {
 		this.hierarchicalArchiveUnits = hierarchicalArchiveUnits;
 		this.indented = indented;
 		this.reindex = indented;
+		this.usageVersionSelectionMode = usageVersionSelectionMode;
+		this.maxNameSize = maxNameSize;
 		this.globalMetadata=globalMetadata;
 		this.managementMetadataXmlData=managementMetadataXmlData;
 		this.setOnDiskOutput(onDiskOutput);
@@ -120,6 +122,8 @@ public class ExportContext {
 			this.hierarchicalArchiveUnits = sec.hierarchicalArchiveUnits;
 			this.indented = sec.indented;
 			this.reindex = sec.reindex;
+			this.usageVersionSelectionMode = sec.usageVersionSelectionMode;
+			this.maxNameSize = sec.maxNameSize;
 			this.globalMetadata=sec.globalMetadata;
 			this.managementMetadataXmlData=sec.managementMetadataXmlData;
 			this.metadataFilterFlag=sec.metadataFilterFlag;
@@ -152,6 +156,20 @@ public class ExportContext {
 		hierarchicalArchiveUnits = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.hierarchicalArchiveUnits", "true"));
 		indented = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.indented", "true"));
 		reindex = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.reindex", "false"));
+		try {
+			usageVersionSelectionMode=Integer.parseInt(prefs.getPrefProperties().getProperty("exportContext.csvExport.usageVersionSelectionMode",Integer.toString(LAST_DATAOBJECT)));
+		}
+		catch (NumberFormatException e){
+			usageVersionSelectionMode=LAST_DATAOBJECT;
+		}
+		if ((usageVersionSelectionMode<FIRST_DATAOBJECT) || (usageVersionSelectionMode>ALL_DATAOBJECTS)) usageVersionSelectionMode=LAST_DATAOBJECT;
+		try {
+			maxNameSize=Integer.parseInt(prefs.getPrefProperties().getProperty("exportContext.csvExport.maxNameSize","32"));
+		}
+		catch (NumberFormatException e){
+			maxNameSize=32;
+		}
+		if (maxNameSize<0) maxNameSize=0;
 		managementMetadataXmlData=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.general.managementMetadataXmlData", ""));
 		metadataFilterFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.metadataFilterFlag", "false"));
 		String keptMetadataString = prefs.getPrefProperties().getProperty("exportContext.general.keptMetadataList", "");
@@ -189,6 +207,8 @@ public class ExportContext {
 		prefs.getPrefProperties().setProperty("exportContext.general.hierarchicalArchiveUnits", Boolean.toString(hierarchicalArchiveUnits));
 		prefs.getPrefProperties().setProperty("exportContext.general.indented", Boolean.toString(indented));
 		prefs.getPrefProperties().setProperty("exportContext.general.reindex", Boolean.toString(reindex));
+		prefs.getPrefProperties().setProperty("exportContext.csvExport.usageVersionSelectionMode", Integer.toString(usageVersionSelectionMode));
+		prefs.getPrefProperties().setProperty("exportContext.csvExport.maxNameSize", Integer.toString(maxNameSize));
 		prefs.getPrefProperties().setProperty("exportContext.general.managementMetadataXmlData", (managementMetadataXmlData == null ? ""
 				: managementMetadataXmlData));
 		prefs.getPrefProperties().setProperty("exportContext.general.metadataFilterFlag", Boolean.toString(metadataFilterFlag));
@@ -230,6 +250,8 @@ public class ExportContext {
 		this.hierarchicalArchiveUnits = true;
 		this.indented = true;
 		this.reindex = false;
+		this.usageVersionSelectionMode = LAST_DATAOBJECT;
+		this.maxNameSize = 32;
 		this.managementMetadataXmlData="    <ManagementMetadata>\n"
 				+ "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n"
 				+ "      <LegalStatus>Public Archive</LegalStatus>\n"
@@ -346,6 +368,42 @@ public class ExportContext {
 	 */
 	public void setReindex(boolean reindex) {
 		this.reindex = reindex;
+	}
+
+	/**
+	 * Gets usage version selection mode.
+	 *
+	 * @return the usage version selection mode
+	 */
+	public int getUsageVersionSelectionMode() {
+		return usageVersionSelectionMode;
+	}
+
+	/**
+	 * Sets usage version selection mode.
+	 *
+	 * @param usageVersionSelectionMode the usage version selection mode
+	 */
+	public void setUsageVersionSelectionMode(int usageVersionSelectionMode) {
+		this.usageVersionSelectionMode = usageVersionSelectionMode;
+	}
+
+	/**
+	 * Gets max name size.
+	 *
+	 * @return the max name size
+	 */
+	public int getMaxNameSize() {
+		return maxNameSize;
+	}
+
+	/**
+	 * Sets max name size.
+	 *
+	 * @param maxNameSize the max name size
+	 */
+	public void setMaxNameSize(int maxNameSize) {
+		this.maxNameSize = maxNameSize;
 	}
 
 	/**
