@@ -40,6 +40,9 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.nio.file.*;
+import java.text.DateFormat;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.*;
 
 /**
@@ -113,6 +116,18 @@ public class DataObjectPackageToCSVMetadataExporter {
      * The progress logger.
      */
     private SEDALibProgressLogger sedaLibProgressLogger;
+
+    /**
+     * The export action type
+     */
+    private int exportAction;
+
+    private static final int ALL_DISK_EXPORT=1;
+    private static final int METADATA_FILE_EXPORT=2;
+    private static final int ALL_ZIP_EXPORT=3;
+
+    /** The start and end instants, for duration computation. */
+    private Instant start, end;
 
     /**
      * The header row in csv metadata.
@@ -518,6 +533,14 @@ public class DataObjectPackageToCSVMetadataExporter {
     // inner utility function to export all disk representation, optionnaly in zip form, or only csv file
     // csv and zip file has to be in same directory
     private void exportAll(String csvMetadataFileName, boolean fileExportFlag, String zipFileName) throws SEDALibException, InterruptedException {
+        Date d = new Date();
+        start = Instant.now();
+        String log = "Début de l'export csv\n";
+        log += "en [" + csvMetadataFileName + "]";
+        log += " date=" + DateFormat.getDateTimeInstance().format(d);
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, log);
+
         Path rootPath = Paths.get(csvMetadataFileName).getParent().toAbsolutePath();
         try {
             Files.createDirectories(rootPath);
@@ -566,6 +589,12 @@ public class DataObjectPackageToCSVMetadataExporter {
                 }
             }
         }
+        if (sedaLibProgressLogger != null)
+            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP,
+                    dataObjectPackage.getInOutCounter(),
+                    Integer.toString(dataObjectPackage.getInOutCounter())
+                            + " ArchiveUnit exportés\n" + dataObjectPackage.getDescription());
+        end = Instant.now();
     }
 
     /**
@@ -577,6 +606,7 @@ public class DataObjectPackageToCSVMetadataExporter {
      */
     public void doExportToCSVMetadataFile(String csvMetadataFileName) throws SEDALibException, InterruptedException {
         exportAll(csvMetadataFileName, false, null);
+        exportAction=METADATA_FILE_EXPORT;
     }
 
     /**
@@ -596,6 +626,7 @@ public class DataObjectPackageToCSVMetadataExporter {
      */
     public void doExportToCSVDiskHierarchy(String csvMetadataFileName) throws SEDALibException, InterruptedException {
         exportAll(csvMetadataFileName, true, null);
+        exportAction=ALL_DISK_EXPORT;
     }
 
     /**
@@ -615,5 +646,31 @@ public class DataObjectPackageToCSVMetadataExporter {
      */
     public void doExportToCSVZip(String zipFileName) throws SEDALibException, InterruptedException {
         exportAll(Paths.get(zipFileName).getParent().resolve("metadata.csv").toString(), true, zipFileName);
+        exportAction=ALL_ZIP_EXPORT;
+    }
+
+    /**
+     * Gets the summary of the export process.
+     *
+     * @return the summary String
+     */
+    public String getSummary() {
+        String result = "Export d'un DataObjectPackage en ";
+        switch (exportAction) {
+            case ALL_DISK_EXPORT:
+                result+="hiérarchie disque simplifiée avec le fichier csv des métadonnées\n";
+                break;
+            case ALL_ZIP_EXPORT:
+                result+="zip contenant hiérarchie simplifiée avec le fichier csv des métadonnées\n";
+                break;
+            case METADATA_FILE_EXPORT:
+                result += "fichier csv des métadonnées\n";
+            default:
+                result += "???\n";
+        }
+
+        if ((start != null) && (end != null))
+            result += "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
+        return result;
     }
 }
