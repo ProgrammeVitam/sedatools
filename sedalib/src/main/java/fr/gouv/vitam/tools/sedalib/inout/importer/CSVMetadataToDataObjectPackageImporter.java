@@ -93,6 +93,10 @@ public class CSVMetadataToDataObjectPackageImporter {
          */
         String contentXMLMetadata;
         /**
+         * The Management xml metadata.
+         */
+        String managementXMLMetadata;
+        /**
          * The Au.
          */
         ArchiveUnit au;
@@ -105,11 +109,12 @@ public class CSVMetadataToDataObjectPackageImporter {
          * @param file               the file
          * @param contentXMLMetadata the content xml metadata
          */
-        public Line(String guid, String parentGUID, String file, String contentXMLMetadata) {
+        public Line(String guid, String parentGUID, String file, String contentXMLMetadata, String managementXMLMetadata) {
             this.guid = guid;
             this.parentGUID = parentGUID;
             this.file = file;
             this.contentXMLMetadata = contentXMLMetadata;
+            this.managementXMLMetadata = managementXMLMetadata;
             this.au = null;
         }
     }
@@ -195,7 +200,7 @@ public class CSVMetadataToDataObjectPackageImporter {
                 }
                 try {
                     currentLine = new Line(metadataFormatter.getGUID(row), metadataFormatter.getParentGUID(row),
-                            metadataFormatter.getFile(row), metadataFormatter.doformatXML(row));
+                            metadataFormatter.getFile(row), metadataFormatter.doFormatAndExtractContentXML(row), metadataFormatter.extractManagementXML());
                 } catch (SEDALibException e) {
                     throw new SEDALibException("Erreur sur la ligne "+lineCount+"\n->"+e.getMessage());
                 }
@@ -216,9 +221,13 @@ public class CSVMetadataToDataObjectPackageImporter {
         au = new ArchiveUnit();
         au.setInDataObjectPackageId(line.guid);
         dataObjectPackage.addArchiveUnit(au);
+
         au.setContentXmlData(line.contentXMLMetadata);
         au.getContent();
-
+        if (!line.managementXMLMetadata.isEmpty()) {
+            au.setManagementXmlData(line.managementXMLMetadata);
+            au.getManagement();
+        }
         Path path = Paths.get(line.file);
         if (Files.isRegularFile(path)) {
             bdo = new BinaryDataObject(dataObjectPackage, path, path.getFileName().toString(),

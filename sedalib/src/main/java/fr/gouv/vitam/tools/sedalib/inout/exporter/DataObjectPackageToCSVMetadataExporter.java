@@ -29,14 +29,17 @@ package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import org.apache.commons.vfs2.provider.zip.ZipFileSystem;
 
 import java.io.*;
 import java.net.URI;
+import java.nio.file.FileSystem;
 import java.nio.file.*;
 import java.text.DateFormat;
 import java.time.Duration;
@@ -184,10 +187,51 @@ public class DataObjectPackageToCSVMetadataExporter {
         return maxRank;
     }
 
-    // extract and sort headernames by there defined order in composed types (for now only ComplexListTypes)
+
+    // extract and sort headernames for RuleType metadata
+    private List<String> getRuleTypeHeaderNames(Set<String> headerNames, String ruleName) {
+        List<String> ruleHeaderNames = new ArrayList<String>();
+        int rank = 0;
+        while (headerNames.contains(ruleName + ".Rule." + Integer.toString(rank))) {
+            ruleHeaderNames.add(ruleName + ".Rule." + Integer.toString(rank));
+            if (headerNames.contains(ruleName + ".StartDate." + Integer.toString(rank)))
+                ruleHeaderNames.add(ruleName + ".StartDate." + Integer.toString(rank));
+            rank++;
+        }
+        if (headerNames.contains(ruleName + ".PreventInheritance"))
+            ruleHeaderNames.add(ruleName + ".PreventInheritance");
+        rank = 0;
+        while (headerNames.contains(ruleName + ".RefNonRuleId." + Integer.toString(rank))) {
+            ruleHeaderNames.add(ruleName + ".RefNonRuleId." + Integer.toString(rank));
+            rank++;
+        }
+        if (headerNames.contains(ruleName + ".FinalAction"))
+            ruleHeaderNames.add(ruleName + ".FinalAction");
+        return ruleHeaderNames;
+    }
+
+    // extract and sort headernames for ClassificationRule metadata
+    private List<String> getClassificationRuleHeaderNames(Set<String> headerNames, String ruleName) {
+        List<String> ruleHeaderNames = getRuleTypeHeaderNames(headerNames, ruleName);
+
+        if (headerNames.contains(ruleName + ".ClassificationLevel"))
+            ruleHeaderNames.add(ruleName + ".ClassificationLevel");
+        if (headerNames.contains(ruleName + ".ClassificationOwner"))
+            ruleHeaderNames.add(ruleName + ".ClassificationOwner");
+        if (headerNames.contains(ruleName + ".ClassificationReassessingDate"))
+            ruleHeaderNames.add(ruleName + ".ClassificationReassessingDate");
+        if (headerNames.contains(ruleName + ".NeedReassessingAuthorization"))
+            ruleHeaderNames.add(ruleName + ".NeedReassessingAuthorization");
+
+        return ruleHeaderNames;
+    }
+
+
+    // extract and sort headernames by there defined order in composed types
     private List<String> getSortedHeaderNames(List<String> sortedHeaderNames, Set<String> headerNames,
                                               String prefixHeaderName, String xmlElementName, Class metadataClass) {
-        String currentName = prefixHeaderName + (prefixHeaderName.isEmpty() ? "" : ".") + xmlElementName, infix;
+        String currentName = prefixHeaderName + (prefixHeaderName.isEmpty() ? "" : ".") + xmlElementName;
+        String infix;
         int maxRank = getMaxRank(headerNames, currentName);
         if (maxRank != -1) {
             {
@@ -201,8 +245,28 @@ public class DataObjectPackageToCSVMetadataExporter {
                             getSortedHeaderNames(sortedHeaderNames, headerNames, currentName + infix,
                                     e.getKey(), e.getValue().metadataClass);
                         }
+                        // add extensions if any
+                        TreeSet<String> extensions = new TreeSet<String>();
+                        for (String header : headerNames) {
+                            if (header.startsWith(currentName + "."))
+                                extensions.add(header);
+                        }
+                        headerNames.removeAll(extensions);
+                        sortedHeaderNames.addAll(extensions);
                     }
-                    // TODO for Management extraction add other rules complex types
+                    // manage other composed types which can't be expressed as ComplexListType
+                    else if (RuleType.class.isAssignableFrom(metadataClass)) {
+                        List<String> ruleHeaderNames;
+                        ruleHeaderNames = getRuleTypeHeaderNames(headerNames, currentName + infix);
+                        sortedHeaderNames.addAll(ruleHeaderNames);
+                        headerNames.removeAll(ruleHeaderNames);
+                    } else if (ClassificationRule.class.isAssignableFrom(metadataClass)) {
+                        List<String> ruleHeaderNames;
+                        ruleHeaderNames = getClassificationRuleHeaderNames(headerNames, currentName + infix);
+                        sortedHeaderNames.addAll(ruleHeaderNames);
+                        headerNames.removeAll(ruleHeaderNames);
+                    }
+                    // at last simple types
                     else {
                         sortedHeaderNames.add(currentName + infix);
                         headerNames.remove(currentName + infix);
@@ -222,18 +286,25 @@ public class DataObjectPackageToCSVMetadataExporter {
     // determine the csv header line by extracting metadata names from all ArchiveUnits and then sorting this set
     private void computeCsvHeader() throws SEDALibException {
         Set<String> headerNames = new HashSet<String>();
+        List<String> sortedHeaderNames;
         for (ArchiveUnit au : dataObjectPackage.getAuInDataObjectPackageIdMap().values()) {
-            headerNames.addAll(au.getContent().filteredToCsvList(dataObjectPackage.getExportMetadataList()).keySet());
+            Management management = au.getManagement();
+            if (management != null)
+                headerNames.addAll(management.externToCsvList().keySet());
+            headerNames.addAll(au.getContent().externToCsvList(dataObjectPackage.getExportMetadataList()).keySet());
         }
-        this.headerNames = getSortedHeaderNames(new ArrayList<String>(), headerNames, "", "Content",
+        sortedHeaderNames = getSortedHeaderNames(new ArrayList<String>(), headerNames, "", "Content",
                 Content.class);
+        sortedHeaderNames.addAll(getSortedHeaderNames(new ArrayList<String>(), headerNames, "", "Management",
+                Management.class));
+        this.headerNames = sortedHeaderNames;
     }
 
     // remove .0 after toSimplify in all header names
     private void simplifyAllHeaders(List<String> simplifiedHeaderNames, String toSimplify) {
         for (int i = 0; i < simplifiedHeaderNames.size(); i++) {
             String header = simplifiedHeaderNames.get(i);
-            if (header.startsWith(toSimplify)) {
+            if (header.startsWith(toSimplify + ".")) {
                 header = toSimplify + header.substring(toSimplify.length() + 2);
                 simplifiedHeaderNames.set(i, header);
             }
@@ -269,19 +340,19 @@ public class DataObjectPackageToCSVMetadataExporter {
     }
 
     // generate one ArchiveUnit line int the csv
-    private void generateCsvLine(ArchiveUnit au, Path auPath, Path rootPath, PrintStream csvPrintStream) {
-        LinkedHashMap<String, String> metadataHashMap;
+    private void generateCsvLine(ArchiveUnit au, Path auPath, Path rootPath, PrintStream csvPrintStream) throws SEDALibException {
+        LinkedHashMap<String, String> contentMetadataHashMap,managementMetadataHashMap=null;
 
         String value = "\"" + rootPath.relativize(auPath).toString().replace("\"", "\"\"") + "\"";
         csvPrintStream.print(value);
-        try {
-            metadataHashMap = au.getContent().filteredToCsvList(dataObjectPackage.getExportMetadataList());
-        } catch (SEDALibException e) {
-            csvPrintStream.print(separator + "Extraction des métadonnées impossible");
-            return;
-        }
+        contentMetadataHashMap = au.getContent().externToCsvList(dataObjectPackage.getExportMetadataList());
+        Management management=au.getManagement();
+        if (management!=null)
+            managementMetadataHashMap=management.externToCsvList();
         for (String header : headerNames) {
-            value = metadataHashMap.get(header);
+            value = contentMetadataHashMap.get(header);
+            if ((value==null) && (managementMetadataHashMap!=null))
+              value = managementMetadataHashMap.get(header);
             if (value == null)
                 value = "";
             else
@@ -379,7 +450,6 @@ public class DataObjectPackageToCSVMetadataExporter {
                 dirName = dirName.substring(0, maxNameSize);
             dirName = stripFileName(dirName);
             dirName = dirName.trim();
-            System.out.println("["+dirName+"]");
             if (Files.exists(root.resolve(dirName))) {
                 String id = stripFileName("-" + au.getInDataObjectPackageId());
                 if (maxNameSize <= 0)

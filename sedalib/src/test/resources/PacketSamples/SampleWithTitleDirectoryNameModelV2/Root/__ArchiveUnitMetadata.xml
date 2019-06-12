@@ -1,0 +1,24 @@
+<Management>
+    <AccessRule>
+        <Rule>ACC-00001</Rule>
+        <StartDate>2015-11-19</StartDate>
+        <Rule>ACC-00002</Rule>
+        <PreventInheritance>true</PreventInheritance>
+        <RefNonRuleId>ACC-00003</RefNonRuleId>
+        <RefNonRuleId>ACC-00004</RefNonRuleId>
+    </AccessRule>
+    <ClassificationRule>
+        <Rule>CLAS-00001</Rule>
+        <StartDate>2015-11-19</StartDate>
+        <ClassificationOwner>Autorité</ClassificationOwner>
+        <NeedReassessingAuthorization>true</NeedReassessingAuthorization>
+    </ClassificationRule>
+</Management>
+<Content>
+    <DescriptionLevel>RecordGrp</DescriptionLevel>
+    <Title>Root</Title>
+    <OriginatingSystemId>&lt;79980C36BA239C449A9575FE17591F3D0C237AD&gt;</OriginatingSystemId>
+    <ExtensionSEDA0>Pour Test00</ExtensionSEDA0>
+    <ExtensionSEDA1><Tag1>Pour Test10</Tag1><Tag2>Pour Test10-t2</Tag2></ExtensionSEDA1>
+    <ExtensionSEDA0>Pour Test01</ExtensionSEDA0>
+</Content>

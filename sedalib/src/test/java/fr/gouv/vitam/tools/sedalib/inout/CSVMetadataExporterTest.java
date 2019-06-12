@@ -40,7 +40,7 @@ class CSVMetadataExporterTest {
     public static boolean compareImportAndExportDirectories(Path first, Path second) throws IOException {
         Set<String> secondListNames = new HashSet<String>();
         for (Path inSecond : Files.list(second).collect(Collectors.toList())) {
-            if ((!inSecond.getFileName().startsWith("__")) && (!inSecond.getFileName().equals("metadata.csv")))
+            if ((!inSecond.getFileName().startsWith("__")) && (!inSecond.getFileName().equals("ExportedMetadata.csv")))
                 secondListNames.add(inSecond.getFileName().toString());
         }
         for (Path firstPath : Files.list(first).collect(Collectors.toList())) {
@@ -120,8 +120,8 @@ class CSVMetadataExporterTest {
         }
 
         if (secondListNames.size() > 0) {
-            if ((secondListNames.size() == 1) && (secondListNames.toArray()[0].equals("metadata.csv"))) {
-                System.out.println("metadata.csv left in " + second);
+            if ((secondListNames.size() == 1) && (secondListNames.toArray()[0].equals("ExportedMetadata.csv"))) {
+                System.out.println("ExportedMetadata.csv left in " + second);
             } else {
                 System.err.println(secondListNames.size() + " left in " + second);
                 for (String name : secondListNames)
@@ -175,7 +175,7 @@ class CSVMetadataExporterTest {
     void exportCSVOK() throws SEDALibException, InterruptedException, IOException {
         // do import of test directory
         DiskToArchiveTransferImporter di;
-        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithLinksModelV2", null);
+        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2", null);
 
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
@@ -186,10 +186,10 @@ class CSVMetadataExporterTest {
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterCSV");
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
-        cme.doExportToCSVMetadataFile("target/tmpJunit/CSVMetadataExporterCSV/metadata.csv");
+        cme.doExportToCSVMetadataFile("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv");
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
-        String generatedFileContent= FileUtils.fileRead("target/tmpJunit/CSVMetadataExporterCSV/metadata.csv").replaceAll("[\\\\/]","");
+        String generatedFileContent= FileUtils.fileRead("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv").replaceAll("[\\\\/]","");
         String expectedFileContent= FileUtils.fileRead("src/test/resources/ExpectedResults/ExportedMetadata.csv").replaceAll("[\\\\/]","");
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
     }

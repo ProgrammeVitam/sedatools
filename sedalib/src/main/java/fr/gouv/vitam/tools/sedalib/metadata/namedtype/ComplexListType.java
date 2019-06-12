@@ -490,6 +490,15 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     }
 
     /**
+     * Checks if it the metadata list is closed for a given ComplexListType sub class.
+     *
+     * @return true, if is not expendable
+     */
+    static public Boolean isNotExpendable(Class complexListTypeMetadataClass) {
+        return subTypeNotExpandableMap.get(complexListTypeMetadataClass);
+    }
+
+    /**
      * Gets the value of a simple metadata (String, Text or DateTime type) determined only by a metadata name in String
      * format or null if not found
      *
