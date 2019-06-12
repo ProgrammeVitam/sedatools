@@ -27,9 +27,12 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * The Class Management.
@@ -72,4 +75,35 @@ public class Management extends ComplexListType {
     public Management() {
         super("Management");
     }
+
+    /**
+     * Export the Management metadata to csv List for the csv metadata file.
+     * <p>
+     * In the HashMap result, the key is a metadata path of a leaf and the value is the leaf of the metadata value.
+     *
+     * @return the linked hash map with header title as key and metadata value as value
+     * @throws SEDALibException the seda lib exception
+     */
+    public LinkedHashMap<String, String> externToCsvList() throws SEDALibException {
+        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        String previousXMLElementName = null;
+        int count = 0;
+        for (SEDAMetadata sm : metadataList) {
+            if (!sm.getXmlElementName().equals(previousXMLElementName)) {
+                previousXMLElementName = sm.getXmlElementName();
+                count = 0;
+            } else count++;
+            final String addedName;
+            if (isAMultiValuedMetadata(sm.getXmlElementName()))
+                addedName = sm.getXmlElementName() + "." + count;
+            else
+                addedName = sm.getXmlElementName();
+            LinkedHashMap<String, String> smCsvList = sm.toCsvList();
+            smCsvList.entrySet().stream().forEach(e -> {
+                result.put("Management."+addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue());
+            });
+        }
+        return result;
+    }
+
 }

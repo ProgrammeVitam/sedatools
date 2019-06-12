@@ -152,7 +152,7 @@ public class Content extends ComplexListType {
      * @return the linked hash map with header title as key and metadata value as value
      * @throws SEDALibException the seda lib exception
      */
-    public LinkedHashMap<String, String> filteredToCsvList(List<String> keptMetadataList) throws SEDALibException {
+    public LinkedHashMap<String, String> externToCsvList(List<String> keptMetadataList) throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
         String previousXMLElementName = null;
         int count = 0;

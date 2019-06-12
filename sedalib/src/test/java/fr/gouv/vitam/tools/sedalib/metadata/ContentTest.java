@@ -673,7 +673,7 @@ class ContentTest {
                 Content.class);
 
         // When the csv list is generated
-        LinkedHashMap<String,String> csvList=content.filteredToCsvList(filter);
+        LinkedHashMap<String,String> csvList=content.externToCsvList(filter);
         String tmp="";
         for (String header:csvList.keySet()){
             tmp+=header+": "+csvList.get(header)+"\n";
