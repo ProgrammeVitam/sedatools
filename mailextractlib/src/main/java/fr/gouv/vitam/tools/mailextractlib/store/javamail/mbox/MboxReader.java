@@ -63,12 +63,9 @@ public class MboxReader {
     /**
      * Instantiates a new thunder mbox file reader.
      *
-     * @param logger
-     *            Operation store extractor logger
-     * @param file
-     *            File containing the mbox formatted data
-     * @throws IOException
-     *             Unable to open the file.
+     * @param logger Operation store extractor logger
+     * @param file   File containing the mbox formatted data
+     * @throws IOException Unable to open the file.
      */
     public MboxReader(MailExtractProgressLogger logger, File file) throws IOException {
         this.logger = logger;
@@ -80,10 +77,8 @@ public class MboxReader {
     /**
      * Instantiates a new thunder mbox byte reader.
      *
-     * @param logger
-     *            Operation store extractor logger
-     * @param source
-     *            Byte array containing the mbox formatted data
+     * @param logger Operation store extractor logger
+     * @param source Byte array containing the mbox formatted data
      */
     public MboxReader(MailExtractProgressLogger logger, byte[] source) {
         this.logger = logger;
@@ -107,8 +102,7 @@ public class MboxReader {
     /**
      * Close.
      *
-     * @throws IOException
-     *             Unable to close the file.
+     * @throws IOException Unable to close the file.
      */
     public void close() throws IOException {
         if (raf != null)
@@ -123,10 +117,8 @@ public class MboxReader {
      * <p>
      * If end=-1 from bytes are from start position to the end of file
      *
-     * @param start
-     *            Start
-     * @param end
-     *            End
+     * @param start Start
+     * @param end   End
      * @return the input stream
      */
     public InputStream newStream(long start, long end) {
@@ -191,30 +183,32 @@ public class MboxReader {
     }
 
     // verify line compliance to the delimiter pattern
-    // TODO get information on the Thunderbird mbox file delimiter
-    // pattern and verify the date if present
-    private boolean isCompliantFromLine(byte[] buffer, int len) {
-        // too long to be a delimiter line
-        if (len > 34) {
+    // A message encoded in MBOX format begins with a "From " line, continues with a series of non-"From " lines,
+    // and ends with a blank line.  A "From " line means any line in the message or header that  begins with the five
+    // characters 'F', 'r', 'o', 'm', and ' ' (space).
+    // The "From " line structure is From sender date moreinfo:
+    //
+    // - sender, usually the envelope sender of the message (e.g., sender@sender.com) is one word without spaces or tabs
+    // - date is the delivery date of the message which always contains exactly 24 characters in Standard C asctime
+    // format (i.e. in English, with the redundant weekday, and without timezone information)
+    // - moreinfo is optional and it may contain arbitrary information.
+    //
+    //After the "From " line is the message itself in RFC 5322 format. The final line is a completely blank line with no spaces or tabs.
+    // WARNING: due to tested mbox files diversity the only kept filter is the beginning "From " pattern!
+    private boolean isCompliantMBoxDelimiterLine(byte[] buffer, int len) {
+        if ((buffer[0] == 'F') && (buffer[1] == 'r') && (buffer[2] == 'o') && (buffer[3] == 'm')
+                && (buffer[4] == ' '))
+            return true;
+        else
             return false;
-        } else {
-            String line = constructLine(buffer, len);
-            if (line.length() == 5)
-                return true;
-            else if (line.startsWith("From - "))
-                return true;
-            getProgressLogger().progressLogWithoutInterruption(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract.mbox|thunderbird: Misleading '" + line + "' line in file " + filePath
-                    + " at line " + Integer.toString(lineNum) + " is not considered as a message delimiter");
-            return false;
-        }
+
     }
 
     /**
      * Gets the next position of a "From - date" line start.
      *
      * @return File position
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     public long getNextFromLineBeg() throws IOException {
         long beg;
@@ -228,14 +222,10 @@ public class MboxReader {
                 fromLineEnd = -1;
                 return -1;
             }
-            if ((buffer[0] == 'F') && (buffer[1] == 'r') && (buffer[2] == 'o') && (buffer[3] == 'm')
-                    && (buffer[4] == ' ')) {
-                // then verify whole line compliance
-                if (isCompliantFromLine(buffer, len)) {
+                if (isCompliantMBoxDelimiterLine(buffer, len)) {
                     fromLineEnd = getPointer();
                     return beg;
                 }
-            }
         }
     }
 
@@ -243,8 +233,7 @@ public class MboxReader {
      * Gets the end position of the last "From " line identified.
      *
      * @return File position
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @throws IOException Signals that an I/O exception has occurred.
      */
     public long getLastFromLineEnd() throws IOException {
         return fromLineEnd;
