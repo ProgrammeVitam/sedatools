@@ -35,6 +35,7 @@ import fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.embeddedmsg.PstEmb
 import fr.gouv.vitam.tools.mailextractlib.utils.DateRange;
 import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
+import org.apache.poi.util.IOUtils;
 
 import javax.mail.URLName;
 import java.io.File;
@@ -183,6 +184,10 @@ public abstract class StoreExtractor {
         MsgStoreExtractor.subscribeStoreExtractor();
         PstStoreExtractor.subscribeStoreExtractor();
         PstEmbeddedStoreExtractor.subscribeStoreExtractor();
+
+        // HMEF calls when extracting TNEF can generate an exception if an attachment extraction is bigger than 1Mo,
+        // this change the limit to 100Mo
+        IOUtils.setByteArrayMaxOverride(100000000);
     }
 
     // StoreExtractor definition parameters
