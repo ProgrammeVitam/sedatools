@@ -1038,17 +1038,37 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MenuItem Export Manifest, SIP or disk
 
     private void exportWork(int exportType) {
+        String defaultFilename = "";
         try {
             if (completeResipWork())
                 return;
             JFileChooser fileChooser;
-            if (currentWork.getExportContext().getOnDiskOutput() != null)
+            if (currentWork.getExportContext().getOnDiskOutput() != null) {
                 fileChooser = new JFileChooser(currentWork.getExportContext().getOnDiskOutput());
-            else
+                defaultFilename=currentWork.getExportContext().getOnDiskOutput()+File.separator;
+            }
+            else {
                 fileChooser = new JFileChooser(Prefs.getInstance().getPrefsExportDir());
-            if ((exportType != ExportThread.DISK_EXPORT) && (exportType != ExportThread.CSV_ALL_DISK_EXPORT))
+                defaultFilename=Prefs.getInstance().getPrefsExportDir()+File.separator;
+            }
+            if ((exportType != ExportThread.DISK_EXPORT) && (exportType != ExportThread.CSV_ALL_DISK_EXPORT)) {
+                switch (exportType) {
+                    case ExportThread.SIP_ALL_EXPORT:
+                        defaultFilename += "SIP.zip";
+                        break;
+                    case ExportThread.SIP_MANIFEST_EXPORT:
+                        defaultFilename += "manifest.xml";
+                        break;
+                    case ExportThread.CSV_ALL_ZIP_EXPORT:
+                        defaultFilename += "FilesCsv.zip";
+                        break;
+                    case ExportThread.CSV_METADATA_FILE_EXPORT:
+                        defaultFilename += "metadata.csv";
+                        break;
+                }
+                fileChooser.setSelectedFile(new File(defaultFilename));
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            else
+            } else
                 fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             if (fileChooser.showSaveDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
                 Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
