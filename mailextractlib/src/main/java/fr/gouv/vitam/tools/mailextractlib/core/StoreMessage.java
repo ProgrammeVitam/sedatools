@@ -36,6 +36,8 @@ import fr.gouv.vitam.tools.mailextractlib.utils.DateRange;
 import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RawDataSource;
+import org.apache.poi.hmef.Attachment;
+import org.apache.poi.hmef.HMEFMessage;
 
 import javax.activation.DataHandler;
 import javax.mail.MessagingException;
@@ -44,10 +46,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -65,7 +64,7 @@ import java.util.Properties;
  * a message.
  * <p>
  * It is able to generate a mime fake of the message, if not natively Mime.
-  * <p>
+ * <p>
  * Metadata information to collect in Vitam guidelines for mail extraction
  * <ul>
  * <li>Subject (Title metadata),</li>
@@ -429,6 +428,50 @@ public abstract class StoreMessage extends StoreElement {
      */
     protected abstract void analyzeAttachments() throws InterruptedException;
 
+    /**
+     * Detect embedded TNEF attachment and if exists process it to get the rtf content and attachments.
+     *
+     * @throws InterruptedException the interrupted exception
+     */
+    protected void detectTNEFAttachment() throws InterruptedException {
+        String mimeType;
+
+        if (attachments != null && !attachments.isEmpty()) {
+            for (StoreMessageAttachment a : attachments) {
+                if ((a.attachmentType != StoreMessageAttachment.STORE_ATTACHMENT) && (a.attachmentContent != null)
+                        && (a.attachmentContent instanceof byte[])
+                        && ((a.mimeType.toLowerCase().equals("application/ms-tnef")
+                        || (a.mimeType.toLowerCase().equals("application/vnd.ms-tnef"))))) {
+                    try {
+                        ByteArrayInputStream bais=new ByteArrayInputStream((byte [])a.attachmentContent);
+                        HMEFMessage tnefPart = new HMEFMessage(bais);
+
+                        String rtfBody=tnefPart.getBody();
+                        List<Attachment> tnefAttachments=tnefPart.getAttachments();
+
+                        attachments.remove(a);
+                        if ((bodyContent[RTF_BODY]==null) || bodyContent[RTF_BODY].isEmpty())
+                            bodyContent[RTF_BODY]=rtfBody;
+                        else
+                            logMessageWarning("mailextract: redondant rtf body extracted from winmail.dat droped");
+
+                        for (Attachment tnefAttachment:tnefAttachments) {
+                            StoreMessageAttachment smAttachment=new StoreMessageAttachment(tnefAttachment.getContents(),
+                                    "file",tnefAttachment.getLongFilename(),
+                                    null, tnefAttachment.getModifiedDate(),
+                                    TikaExtractor.getInstance().getMimeType(tnefAttachment.getContents()),
+                                    null,StoreMessageAttachment.FILE_ATTACHMENT);
+                            attachments.add(smAttachment);
+                        }
+                        break;
+                    } catch (Exception e) {
+                        logMessageWarning("mailextract: can't analyze winmail.dat content, it will be extracted as a file");
+                    }
+                }
+            }
+        }
+    }
+
     // change attachement type to store with the good scheme
     private void setStoreAttachment(StoreMessageAttachment a, String scheme) {
         a.attachmentStoreScheme = scheme;
@@ -451,14 +494,15 @@ public abstract class StoreMessage extends StoreElement {
         if (attachments != null && !attachments.isEmpty()) {
             for (StoreMessageAttachment a : attachments) {
                 if ((a.attachmentType != StoreMessageAttachment.STORE_ATTACHMENT) && (a.attachmentContent != null)
-                        && (a.attachmentContent instanceof byte[])) {
+                        && (a.attachmentContent instanceof byte[])
+                        // special case for ms-tnef attachments "winmail.dat" because tika can identify them as rfc822
+                        // when part of it is mail
+                        && (!a.mimeType.toLowerCase().equals("application/ms-tnef")
+                        && (!a.mimeType.toLowerCase().equals("application/vnd.ms-tnef")))) {
                     try {
                         mimeType = TikaExtractor.getInstance().getMimeType(a.getRawAttachmentContent());
                         if (mimeType == null)
                             continue;
-                        // if (mimeType.equals("application/vnd.ms-tnef"))
-                        // System.out.println("---------------------TNEF
-                        // detected");
                         for (String mt : StoreExtractor.mimeTypeSchemeMap.keySet()) {
                             if (mimeType.equals(mt)) {
                                 setStoreAttachment(a, StoreExtractor.mimeTypeSchemeMap.get(mt));
@@ -535,8 +579,9 @@ public abstract class StoreMessage extends StoreElement {
 
         // content extraction
         analyzeBodies();
-        optimizeBodies();
         analyzeAttachments();
+        detectTNEFAttachment();
+        optimizeBodies();
 
         // try to get appointment information if any
         analyzeAppointmentInformation();
