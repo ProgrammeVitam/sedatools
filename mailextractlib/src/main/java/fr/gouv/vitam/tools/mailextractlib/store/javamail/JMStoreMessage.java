@@ -27,6 +27,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 
+import com.sun.mail.util.QPDecoderStream;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
@@ -34,12 +35,10 @@ import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
 import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
+import javax.activation.DataHandler;
 import javax.mail.*;
 import javax.mail.internet.*;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -536,6 +535,25 @@ public class JMStoreMessage extends StoreMessage {
         return baos.toByteArray();
     }
 
+    // rawcontent of a part, replacing LF by CRLF in quoted-printable encoded parts (used for windows TNEF fixing)
+    private byte[] getPartLFFixedRawContent(BodyPart bp) throws IOException, MessagingException, InterruptedException {
+        InputStream is = bp.getInputStream();
+        if (is instanceof QPDecoderStream) {
+            DataHandler dh=bp.getDataHandler();
+            bp.setDataHandler(null);
+            is=new LFFixingQPDecoderStream(bp.getInputStream());
+            bp.setDataHandler(dh);
+            logMessageWarning("mailextract: using LFFixing quoted-printable decoding");
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] buf = new byte[4096];
+        int bytesRead;
+        while ((bytesRead = is.read(buf)) != -1) {
+            baos.write(buf, 0, bytesRead);
+        }
+        return baos.toByteArray();
+    }
+
     // replace illegal characters in a filename with "_"
     // illegal characters : \ / * ? | < >
     private static String sanitizeFilename(String name) {
@@ -544,7 +562,7 @@ public class JMStoreMessage extends StoreMessage {
 
     // add one attachment
     private void addAttachment(List<StoreMessageAttachment> lStoreMessageAttachment, BodyPart bodyPart)
-            throws IOException, MessagingException, ParseException {
+            throws IOException, MessagingException, ParseException, InterruptedException {
         String[] headers;
         ContentDisposition disposition = null;
         ContentType contenttype = null;
@@ -620,9 +638,15 @@ public class JMStoreMessage extends StoreMessage {
         if (aType == StoreMessageAttachment.STORE_ATTACHMENT)
             lStoreMessageAttachment.add(new StoreMessageAttachment(getPartRawContent(bodyPart), "eml",
                     MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
-        else
-            lStoreMessageAttachment.add(new StoreMessageAttachment(getPartRawContent(bodyPart), "file",
+        else {
+            if (aMimeType.toLowerCase().equals("application/ms-tnef")
+                    || aMimeType.toLowerCase().equals("application/vnd.ms-tnef"))
+                lStoreMessageAttachment.add(new StoreMessageAttachment(getPartLFFixedRawContent(bodyPart), "file",
+                        MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
+            else
+                    lStoreMessageAttachment.add(new StoreMessageAttachment(getPartRawContent(bodyPart), "file",
                     MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
+        }
     }
 
     /*
