@@ -43,6 +43,7 @@ import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -163,23 +164,27 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Charger...");
         menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "LoadWork");
         fileMenu.add(menuItem);
 
         saveMenuItem = new JMenuItem("Sauver");
         saveMenuItem.addActionListener(this);
+        saveMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         saveMenuItem.setEnabled(false);
         actionByMenuItem.put(saveMenuItem, "SaveWork");
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem = new JMenuItem("Sauver sous...");
         saveAsMenuItem.addActionListener(this);
+        saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.SHIFT_DOWN_MASK+Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         saveAsMenuItem.setEnabled(false);
         actionByMenuItem.put(saveAsMenuItem, "SaveAsWork");
         fileMenu.add(saveAsMenuItem);
 
         closeMenuItem = new JMenuItem("Fermer");
         closeMenuItem.addActionListener(this);
+        closeMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         closeMenuItem.setEnabled(false);
         actionByMenuItem.put(closeMenuItem, "CloseWork");
         fileMenu.add(closeMenuItem);
@@ -214,6 +219,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Editer les informations d'export...");
         menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "EditExportContext");
         contextMenu.add(menuItem);
 
@@ -223,11 +229,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Chercher des unités d'archives...");
         menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "Search");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Chercher des objets...");
         menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', InputEvent.SHIFT_DOWN_MASK+Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "TechnicalSearch");
         treatMenu.add(menuItem);
 
@@ -235,26 +243,31 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Trier l'arbre de visualisation");
         menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "SortTreeViewer");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Traiter les doublons...");
         menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "Duplicates");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Voir les statistiques...");
         menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "Statistics");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Vérifier la conformité SEDA 2.1...");
         menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "CheckSEDA21");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Vérifier la conformité à un profil SEDA 2.1...");
         menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK+Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "CheckSpecificSEDA21Profile");
         treatMenu.add(menuItem);
 
