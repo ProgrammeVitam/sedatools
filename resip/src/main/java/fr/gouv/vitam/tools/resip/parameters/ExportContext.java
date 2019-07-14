@@ -13,6 +13,7 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -24,6 +25,7 @@ import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVM
 /**
  * The Class ExportContext.
  */
+@JsonIgnoreProperties({"serializationVersion"})
 public class ExportContext {
 
 	// prefs elements
