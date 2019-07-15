@@ -374,7 +374,9 @@ public class XmlEditDialog extends JDialog {
         }
     }
 
-    static ArrayList<String> defaultValues = new ArrayList(Arrays.asList("Text", "1970-01-01", "1970-01-01T01:00:00"));
+    static ArrayList<String> defaultValues = new ArrayList(Arrays.asList("Text",
+            "1970-01-01", "1970-01-01T01:00:00", "Rule1","Rule2","Rule3","Rule4",
+            "Level1","Owner1","Text1","Text2"));
 
     private String filterDefaultValues(SEDAXMLEventReader xmlReader) throws XMLStreamException {
         String result = "", tag, tmp, attrStr = "";
