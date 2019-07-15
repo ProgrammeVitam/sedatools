@@ -174,7 +174,7 @@ public class AddMetadataItem {
     }
 
     static AnyXMLType genericXMLBlockTypeSample(String elementName) {
-        return new AnyXMLType(elementName, "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2 attr=\"any\">Text2</BlockTag2></"+elementName+">");
+        return new AnyXMLType(elementName, "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2>Text2</BlockTag2></"+elementName+">");
     }
 
    static void constructComplexListType(ComplexListType clt) throws SEDALibException {
@@ -196,7 +196,7 @@ public class AddMetadataItem {
         }
         if (!clt.isNotExpendable())
             try {
-                clt.addNewMetadata("AnyOtherMetadata","<AnyOtherMetadata><SubTag1>Text1</SubTag1><SubTag2 attr=\"any\">Text2</SubTag2></AnyOtherMetadata>");
+                clt.addNewMetadata("AnyOtherMetadata","<AnyOtherMetadata><SubTag1>Text1</SubTag1><SubTag2>Text2</SubTag2></AnyOtherMetadata>");
             } catch (SEDALibException ignored) {
             }
     }
