@@ -1,19 +1,49 @@
+Evolutions/Corrections en 1.8.0
+
+- Evolution: ajout de noms par défaut dans les dialogues de choix de destination d'export
+- Evolution: ajout de raccourcis sur les menus
+- Fix: corrige l'erreur sur serializationVersion lors de l'ouverture des anciens fichiers de contexte ou de configuration
+- Fix: change le texte d'aide sur les champs de type TextType (chaine pouvant avoir une langue en attribut)
+- Evolution: ajout d'une fonction de nettoyage, enlevant les valeurs par défaut, dans le dialogue d'ajout XML d'une métadonnée choisie
+- Fix: lors du changement d'un objet le nom du nouveau fichier est pris en compte dans les métadonnées de l'objet
+
+============================================================================
+Evolutions/Corrections en 1.7.0
+
+- Evolution: ajout d'une fonction d'export en hiérarchie simplifiée et csv de métadonnées sur disque
+- Evolution: ajout d'une fonction d'export en hiérarchie simplifiée et csv de métadonnées dans un zip
+- Evolution: ajout d'une fonction d'export d'un fichier csv de métadonnées
+
+============================================================================
+Evolutions/Corrections en 1.6.0
+
+- Fix: correction de la gestion des attributs de lang (xml:lang)
+- Fix: libellé de la version dans le dialogue 'A propos'
+- Fix: disposition correcte des boutons d'édition des métadonnées même si une des métadonnées est très longue
+- Fix: fusion des doublons
+- Evolution: lecture et écriture des préférences depuis un fichier 'ResipPreferences.properties' soit, par ordre de prise en compte, à côté de l'application soit dans le dossier utilisateur Resip
+
+============================================================================
+Evolutions/Corrections en 1.5.0
+
+- Evolution: les log de progression se déclenche non seulement tous les 1000 obets mais aussi toutes les 2 secondes
+- Evolution: ajout du double clic sur les lignes des statistiques pour lancer directement la recherche des formats concernés
+- Fix: mise à jour de l'arbre des archives lors de la fusion des doublons
+- Evolution: ouverture des fichiers d'objets par double clic sur une ligne de la liste d'objets
+- Evolution: forte amélioration de performance en recherche de doublons
+- Evolution: circulation dans toutes les AU portant des mêmes DOG
+- Evolution: les DOG ayant plusieurs AU sont pris en compte dans le résultat sur les doublons, ceci permet de les retrouver après fusion
+- Fix: amélioration de la robustesse des dialogues de recherche, leur fermeture les remet à zéro si un problème est intervenu
+- Evolution: ajout d'une option pour ignorer les liens dans les imports
+- Evolution: ajout en préférences de la capacité à filtrer sur une liste de métadonnées et gestion de la liste blanche de tags à retenir
+- Fix: tri des catégories de format dans le dialogue de recherche par ordre alphabétique
+- Evolution: ajout d'une fonction de correction de l'ordre des métadonnées d'un ArchiveUnit dans le dialogue d'édition XML
+
+============================================================================
 Evolutions/Corrections en 1.4.0
 
 - Fix: recherche des "Autres" formats
-- Fix: sauvegarde correct du répertoire de trvail défini dans les préférences
-- Evolution: ajout du double clic sur les lignes des statistiques pour lancer directement la recherche des formats concernés
-- Fix: mise à jour de l'arbre des archives lors de la fusion des doublons
-- Evolution: ajout du double clic sur une ligne d'objet pour l'ouvrir
-- Evolution: forte amélioration de performance en recherche de doublons
-- Evolution: les DOG ayant plusieurs AU sont pris en compte dans le résultat sur les doublons, ceci permet de les retrouver après fusion
-- Evolution: circulation dans toutes les AU portant des mêmes DOG
-- Fix: amélioration de la robustesse des dialogues de recherche, leur fermeture les remet à zéro si un problème est intervenu
-- Evolution: les log de progression se déclenche non seulement tous les 1000 obets mais aussi toutes les 2 secondes
-- Evolution: ajout de la fonction de filtre des metadonnées descriptives exportées et gestion des préférences et du contexte d'export associés
-- Evolution: ajout dans les préférences d'import d'une option pour ignorer les liens symboliques et raccourcis lors de l'import d'une hiérarchie sur disque
-- Fix: tri des catégories de format dans le dialogue de recherche par ordre alphabétique
-- Evolution: ajout d'une fonction de correction de l'ordre des métadonnées d'un ArchiveUnit dans le dialogue d'édition XML
+- Fix: sauvegarde correct du répertoire de travail défini dans les préférences
 
 ============================================================================
 Evolutions/Corrections en 1.3.0
@@ -55,10 +85,10 @@ Evolutions/Corrections en 1.3.0
 Evolutions/Corrections en 1.2.0
 
  - Evolution: ajout de la fonction Rechercher dans les titres et métadonnées
- - Bug (corrigé): fermeture des fichiers après identification du format par Droid
+ - Fix: fermeture des fichiers après identification du format par Droid
  - Evolution: détection, alerte et proposition de changement ou de nettoyage quand un répertoire temporaire a déjà été utilisé
  - Evolution: les logs de MailExtract sont visibles dans la fenêtre d'import
- - Bug (corrigé): ajout par drag-and-drop dans un document vide
+ - Fix: ajout par drag-and-drop dans un document vide
  - Evolution: suppression de la prise en compte du contexte d'exportation défini en ligne de commande
  - Evolution: ajout de la fonction Nettoyage de l'espace de travail
 

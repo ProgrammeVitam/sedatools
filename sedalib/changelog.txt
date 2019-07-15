@@ -1,9 +1,30 @@
-Evolutions/Corrections en 1.4.0
+Evolutions/Corrections en 1.8.0
+
+- Fix: typage des métadonnées BirthDate et DeathDate en DateType
+
+============================================================================
+Evolutions/Corrections en 1.7.0
+
+- Evolution: ajout d'une fonction d'export en hiérarchie simplifiée et csv de métadonnées sur disque
+- Evolution: ajout d'une fonction d'export en hiérarchie simplifiée et csv de métadonnées dans un zip
+- Evolution: ajout d'une fonction d'export d'un fichier csv de métadonnées
+- Fix: ajout de la prise en compte des métadonnées de gestion dans les exports et imports csv
+
+============================================================================
+Evolutions/Corrections en 1.6.0
+
+- Fix: correction de la gestion des attributs de lang (xml:lang)
+
+============================================================================
+Evolutions/Corrections en 1.5.0
 
 - Evolution: ajout de la capacité à filtrer l'export des métadonnées descriptives dans le DataObjectPackage (chaque Content des ArchiveUnit)
 - Evolution: ajout d'une fonction de transformation des noms de fichiers en titre lors de l'import d'une hiérarchie sur disque (par défaut simple copie)
 - Evolution: possibilité de déclencher un log de progression non seulement sur la base d'un décompte tous les n objets mais aussi toutes les p secondes
 - Evolution: ajout d'une option pour ignorer les liens symboliques et raccourcis lors de l'import d'une hiérarchie sur disque
+- Evolution: ajout d'une possibilité d'ignorer les liens lors des imports
+- Evolution: ajout d'une possibilité de dériver le Title depuis le nom du fichier par appel d'une fonction Lambda
+- Evolution: ajout de la capacité de filtrer, par une liste blanche de tags, les métadonnées descriptives exportées
 - Fix: Javadoc
 - Evolution: ajout d'une fonction de sortie sous forme csv des métadonnées d'ArchiveUnit
 - Evolution: ajout d'OriginatingSystemIdReplyTo comme extension de Content

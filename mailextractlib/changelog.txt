@@ -1,4 +1,17 @@
-Evolutions/Corrections en 1.4.0
+
+Evolutions/Corrections en 1.8.0
+
+- Fix: assouplissement des règles de définition des delimiteurs dans un fichier mbox
+- Evolution: décodage des contenus TNEF (extension MIME Microsoft connu sous la forme de pièces jointes "winmail.dat")
+- Evolution: corrige les LF seuls dans un fichier TNEF quoted-printable et les remplace par CRLF
+
+============================================================================
+Evolutions/Corrections en 1.6.0
+
+- Fix: découpage des TextContent extraits en morceaux de 32ko (comptage UTF8) au maximum
+
+============================================================================
+Evolutions/Corrections en 1.5.0
 
 - Evolution: possibilité de déclencher un log de progression non seulement sur la base d'un décompte tous les n objets mais aussi toutes les p secondes
 
@@ -11,7 +24,7 @@ Evolutions/Corrections en 1.3.0
 Evolutions/Corrections en 1.2.0
 
  - Evolution: intégration de la partie bibliothèque de mailextract dans sedatools et changement de version en cohérence
- - Bug (corrigé): forçage de l'encodage UTF-8/Q dans le mime généré
+ - Fix: forçage de l'encodage UTF-8/Q dans le mime généré
  - Refacto: ajout d'un mécanisme global de génération de listes d'extraction
  - Evolution: suppression du paramètre psExtractList dans l'interface principale StoreExtractor
  - Evolution: rend générique le paramètre d'extraction de listes, extractGlobalLists parameter, qui établit si les toutes les listes (mails, contacts...) sont extraites ou non
