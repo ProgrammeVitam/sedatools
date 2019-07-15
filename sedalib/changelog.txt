@@ -1,6 +1,7 @@
 Evolutions/Corrections en 1.8.0
 
 - Fix: typage des métadonnées BirthDate et DeathDate en DateType
+- Evolution: lors d'une vérification de conformité par rapport à un profil SEDA, en cas d'échec le contexte de l'erreur est précisé
 
 ============================================================================
 Evolutions/Corrections en 1.7.0
