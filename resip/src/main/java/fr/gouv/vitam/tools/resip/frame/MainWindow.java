@@ -561,8 +561,8 @@ public class MainWindow extends JFrame {
             if ((dataObject instanceof BinaryDataObject)) {
                 BinaryDataObject bdo = (BinaryDataObject) dataObject;
                 bdo.setOnDiskPath(Paths.get(newBinary));
-                // FIXME
                 try {
+                    bdo.fileInfo = null;
                     bdo.extractTechnicalElements(null);
                 } catch (SEDALibException e) {
                     UserInteractionDialog.getUserAnswer(this,
