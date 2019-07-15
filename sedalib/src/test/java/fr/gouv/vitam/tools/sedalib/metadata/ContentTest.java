@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Date;
@@ -44,10 +45,12 @@ class ContentTest {
         writer.addNewMetadata("Identifier", "ID1");
         writer.addNewMetadata("Identifier", "ID2");
         writer.addNewMetadata("Function", "F1");
+        writer.addNewMetadata("BirthDate", LocalDate.of(2019,7,14));
         PlaceType birthPlace=new PlaceType("BirthPlace");
         birthPlace.addNewMetadata("Geogname","Location1");
         birthPlace.addNewMetadata("Country","Country1");
         writer.addMetadata(birthPlace);
+        writer.addNewMetadata("DeathDate", LocalDate.of(2099,7,14));
         c.addMetadata(writer);
 
         // Test AnyXMLType metadata
@@ -183,10 +186,12 @@ class ContentTest {
                 "  <Writer>\n" +
                 "    <FirstName>TestPrenom</FirstName>\n" +
                 "    <BirthName>TestNom</BirthName>\n" +
+                "    <BirthDate>2019-07-14</BirthDate>\n"+
                 "    <BirthPlace>\n" +
                 "      <Geogname>Location1</Geogname>\n" +
                 "      <Country>Country1</Country>\n" +
                 "    </BirthPlace>\n" +
+                "    <DeathDate>2099-07-14</DeathDate>\n"+
                 "    <Identifier>ID1</Identifier>\n" +
                 "    <Identifier>ID2</Identifier>\n" +
                 "    <Function>F1</Function>\n" +

@@ -51,6 +51,7 @@ import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
@@ -610,7 +611,10 @@ public class MainWindow extends JFrame {
                 Management m = new Management();
                 metadataMap = m.getMetadataMap();
             }
-            result = new AddMetadataItem(metadataMap.get(elementName).metadataClass, elementName);
+            if (elementName.equals("AnyOtherMetadata"))
+                result=new AddMetadataItem(AnyXMLType.class, elementName);
+            else
+                result = new AddMetadataItem(metadataMap.get(elementName).metadataClass, elementName);
         }
         return result;
     }

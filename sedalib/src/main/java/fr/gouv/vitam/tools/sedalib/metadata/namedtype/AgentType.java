@@ -51,9 +51,9 @@ public class AgentType extends ComplexListType {
         metadataMap.put("FullName", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("GivenName", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Gender", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("BirthDate", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("BirthDate", new ComplexListMetadataKind(DateType.class, false));
         metadataMap.put("BirthPlace", new ComplexListMetadataKind(PlaceType.class, false));
-        metadataMap.put("DeathDate", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("DeathDate", new ComplexListMetadataKind(DateType.class, false));
         metadataMap.put("DeathPlace", new ComplexListMetadataKind(PlaceType.class, false));
         metadataMap.put("Nationality", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Corpname", new ComplexListMetadataKind(StringType.class, false));

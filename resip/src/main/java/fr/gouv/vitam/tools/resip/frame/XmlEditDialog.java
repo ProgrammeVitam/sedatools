@@ -39,15 +39,26 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.XMLEvent;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
 
 /**
  * The Class XmlEditDialog.
@@ -261,6 +272,7 @@ public class XmlEditDialog extends JDialog {
         gbc.gridx = 0;
         gbc.gridy = 3;
         getContentPane().add(actionPanel, gbc);
+
         final JButton indentButton = new JButton("Indenter");
         indentButton.addActionListener(arg -> buttonIndent());
         gbc = new GridBagConstraints();
@@ -269,14 +281,28 @@ public class XmlEditDialog extends JDialog {
         gbc.gridy = 0;
         gbc.gridx = 0;
         actionPanel.add(indentButton, gbc);
+
+        int buttonPlace = 1;
+        if (xmlObject instanceof AddMetadataItem) {
+            final JButton cleanButton = new JButton("Nettoyer");
+            cleanButton.addActionListener(arg -> buttonClean());
+            gbc = new GridBagConstraints();
+            gbc.insets = new Insets(0, 0, 5, 5);
+            gbc.weightx = 1.0;
+            gbc.gridy = 0;
+            gbc.gridx = buttonPlace++;
+            actionPanel.add(cleanButton, gbc);
+        }
+
         final JButton saveButton = new JButton("Sauver");
         saveButton.addActionListener(arg -> buttonSaveXmlEdit());
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.weightx = 1.0;
         gbc.gridy = 0;
-        gbc.gridx = 1;
+        gbc.gridx = buttonPlace++;
         actionPanel.add(saveButton, gbc);
+
         if (xmlObject instanceof DataObjectPackageTreeNode) {
             final JButton canonizeButton = new JButton("Ordonner");
             canonizeButton.addActionListener(arg -> buttonCanonizeXmlEdit());
@@ -284,16 +310,17 @@ public class XmlEditDialog extends JDialog {
             gbc.insets = new Insets(0, 0, 5, 5);
             gbc.weightx = 1.0;
             gbc.gridy = 0;
-            gbc.gridx = 2;
+            gbc.gridx = buttonPlace++;
             actionPanel.add(canonizeButton, gbc);
         }
+
         final JButton cancelButton = new JButton("Annuler");
         cancelButton.addActionListener(arg -> buttonCancel());
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 0);
         gbc.weightx = 1.0;
         gbc.gridy = 0;
-        gbc.gridx = 3;
+        gbc.gridx = buttonPlace;
         actionPanel.add(cancelButton, gbc);
 
         addWindowListener(new WindowAdapter() {
@@ -340,6 +367,74 @@ public class XmlEditDialog extends JDialog {
             String xml = xmlTextArea.getText();
             String indentedString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(xml);
             xmlTextArea.setText(indentedString);
+            hideWarning();
+            xmlTextArea.setCaretPosition(0);
+        } catch (Exception e) {
+            showWarning(e.getMessage());
+        }
+    }
+
+    static ArrayList<String> defaultValues = new ArrayList(Arrays.asList("Text",
+            "1970-01-01", "1970-01-01T01:00:00", "Rule1","Rule2","Rule3","Rule4",
+            "Level1","Owner1","Text1","Text2"));
+
+    private String filterDefaultValues(SEDAXMLEventReader xmlReader) throws XMLStreamException {
+        String result = "", tag, tmp, attrStr = "";
+        XMLEvent mainEvent, subEvent, tmpEvent;
+        mainEvent = xmlReader.peekUsefullEvent();
+        if (mainEvent.isEndElement())
+            return null;
+        mainEvent = xmlReader.nextUsefullEvent();
+        tag = mainEvent.asStartElement().getName().getLocalPart();
+        Iterator<Attribute>  attributes=mainEvent.asStartElement().getAttributes();
+        while (attributes.hasNext()) {
+            Attribute attribute=attributes.next();
+            attrStr+=" "+(attribute.getName().getPrefix().equals("xml")?"xml:":"")+
+                    attribute.getName().getLocalPart()+"=\""+attribute.getValue()+"\"";
+        }
+        tmpEvent = xmlReader.peekUsefullEvent();
+        if (tmpEvent.isCharacters()) {
+            String value = tmpEvent.asCharacters().getData();
+            if (!defaultValues.contains(value)) {
+                result = "<" + tag + attrStr + ">" + value + "</" + tag + ">";
+            }
+            tmpEvent = xmlReader.nextUsefullEvent();
+            tmpEvent = xmlReader.nextUsefullEvent();
+        } else {
+            while ((tmp = filterDefaultValues(xmlReader)) != null) {
+                if (result.isEmpty() && !tmp.isEmpty()) {
+                    result = "<" + tag + ">";
+                }
+                result += tmp;
+            }
+            if (!result.isEmpty())
+                result += "</" + tag + ">";
+            tmpEvent = xmlReader.nextUsefullEvent();
+        }
+        return result;
+    }
+
+    public void buttonClean() {
+        String result;
+        try {
+            // indent to verify XML format
+            xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
+                    .indentString(xmlTextArea.getText());
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlDataString.getBytes("UTF-8"));
+                 SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
+                // jump StartDocument
+                xmlReader.nextUsefullEvent();
+                result = filterDefaultValues(xmlReader);
+                XMLEvent event = xmlReader.xmlReader.peek();
+                if (!event.isEndDocument())
+                    throw new SEDALibException("Il y a des champs en trop");
+            } catch (XMLStreamException | SEDALibException | IOException e) {
+                throw new SEDALibException("Erreur de lecture \n->" + e.getMessage());
+            }
+            if (!result.isEmpty())
+                result = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
+                        .indentString(result);
+            xmlTextArea.setText(result);
             hideWarning();
             xmlTextArea.setCaretPosition(0);
         } catch (Exception e) {
