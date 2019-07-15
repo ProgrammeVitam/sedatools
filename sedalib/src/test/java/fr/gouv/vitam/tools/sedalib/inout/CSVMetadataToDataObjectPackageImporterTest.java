@@ -37,7 +37,20 @@ class CSVMetadataToDataObjectPackageImporterTest {
 		cmi.doImport();
 
 		// Then
-		String testAu = "{\n" +
+		String testAuID10 = "{\n" +
+				"\"archiveUnitProfileXmlData\":null,\n" +
+				"\"managementXmlData\":null,\n" +
+				"\"contentXmlData\":\"<Content>  <DescriptionLevel>RecordGrp</DescriptionLevel>  <Title>Root2</Title></Content>\",\n" +
+				"\"childrenAuList\":{\n" +
+				"\"inDataObjectPackageIdList\":[]\n" +
+				"},\n" +
+				"\"dataObjectRefList\":{\n" +
+				"\"inDataObjectPackageIdList\":[]\n" +
+				"},\n" +
+				"\"inDataObjectPackageId\":\"ID10\",\n" +
+				"\"onDiskPath\":null\n" +
+				"}";
+		String testAuID17 = "{\n" +
 				"\"archiveUnitProfileXmlData\":null,\n" +
 				"\"managementXmlData\":null,\n" +
 				"\"contentXmlData\":\"<Content>  <DescriptionLevel>RecordGrp</DescriptionLevel>  <Title>Root2</Title></Content>\",\n" +
@@ -50,9 +63,16 @@ class CSVMetadataToDataObjectPackageImporterTest {
 				"\"inDataObjectPackageId\":\"ID17\",\n" +
 				"\"onDiskPath\":null\n" +
 				"}";
+		// Root2 is either the first or last AU (random order due to hashmap use)
 		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("ID17");
 		String sau = mapper.writeValueAsString(au);
-		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
+		if (sau.contains("Root2"))
+			assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAuID17));
+		else {
+			au = cmi.getDataObjectPackage().getArchiveUnitById("ID10");
+			sau = mapper.writeValueAsString(au);
+			assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAuID10));
+		}
 	}
 
 	@Test
