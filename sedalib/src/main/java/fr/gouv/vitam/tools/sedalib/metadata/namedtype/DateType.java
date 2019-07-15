@@ -39,22 +39,22 @@ import java.time.format.DateTimeParseException;
 import java.util.LinkedHashMap;
 
 /**
- * The Class DateTimeType.
+ * The Class DateType.
  * <p>
- * For abstract DateTime formatted SEDA metadata
+ * For abstract Date formatted SEDA metadata
  */
-public class DateTimeType extends NamedTypeMetadata {
+public class DateType extends NamedTypeMetadata {
 
     /**
      * The value.
      */
-    private LocalDateTime value;
+    private LocalDate value;
 
     /**
      * Instantiates a new string.
      */
-    public DateTimeType() {
-        this(null, (LocalDateTime) null);
+    public DateType() {
+        this(null, (LocalDate) null);
     }
 
     /**
@@ -62,8 +62,8 @@ public class DateTimeType extends NamedTypeMetadata {
      *
      * @param elementName the XML element name
      */
-    public DateTimeType(String elementName) {
-        this(elementName, (LocalDateTime) null);
+    public DateType(String elementName) {
+        this(elementName, (LocalDate) null);
     }
 
     /**
@@ -72,20 +72,9 @@ public class DateTimeType extends NamedTypeMetadata {
      * @param elementName the XML element name
      * @param value       the value
      */
-    public DateTimeType(String elementName, LocalDateTime value) {
+    public DateType(String elementName, LocalDate value) {
         super(elementName);
         this.value = value;
-    }
-
-    /**
-     * Instantiates a new string.
-     *
-     * @param elementName the XML element name
-     * @param dateValue   the date (no time) value
-     */
-    public DateTimeType(String elementName, LocalDate dateValue) {
-        super(elementName);
-        this.value = dateValue.atStartOfDay();
     }
 
     /*
@@ -102,7 +91,7 @@ public class DateTimeType extends NamedTypeMetadata {
             if (value == null)
                 xmlWriter.writeElementValue(elementName, null);
             else
-                xmlWriter.writeElementValue(elementName, xmlWriter.getStringFromDateTime(value));
+                xmlWriter.writeElementValue(elementName, xmlWriter.getStringFromDate(value));
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML dans un élément de type DateTimeType [" + getXmlElementName() + "]\n->" + e.getMessage());
         }
@@ -117,7 +106,7 @@ public class DateTimeType extends NamedTypeMetadata {
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
         if (value != null)
-            result.put("",SEDAXMLStreamWriter.getStringFromDateTime(value));
+            result.put("",SEDAXMLStreamWriter.getStringFromDate(value));
         return result;
     }
 
@@ -138,7 +127,7 @@ public class DateTimeType extends NamedTypeMetadata {
                 if (event.isCharacters()) {
                     tmpDate = event.asCharacters().getData();
                     try {
-                        value = xmlReader.getDateTimeFromString(tmpDate);
+                        value = xmlReader.getDateFromString(tmpDate);
                     } catch (DateTimeParseException e) {
                         throw new SEDALibException("La date est mal formatée");
                     }
@@ -161,7 +150,7 @@ public class DateTimeType extends NamedTypeMetadata {
      *
      * @return the value
      */
-    public LocalDateTime getValue() {
+    public LocalDate getValue() {
         return value;
     }
 
@@ -170,7 +159,7 @@ public class DateTimeType extends NamedTypeMetadata {
      *
      * @param value the value
      */
-    public void setValue(LocalDateTime value) {
+    public void setValue(LocalDate value) {
         this.value = value;
     }
 }
