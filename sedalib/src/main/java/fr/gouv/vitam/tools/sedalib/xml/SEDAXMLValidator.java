@@ -1,9 +1,9 @@
 package fr.gouv.vitam.tools.sedalib.xml;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import org.apache.commons.io.IOUtils;
 import org.apache.xerces.util.XMLCatalogResolver;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLInputFactory;
@@ -14,10 +14,12 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 public class SEDAXMLValidator {
 
@@ -80,7 +82,7 @@ public class SEDAXMLValidator {
      */
     public Schema getSchemaFromRNGFile(String rngFile) throws SEDALibException {
         System.setProperty(RNG_PROPERTY_KEY, RNG_FACTORY);
-        SchemaFactory factory  = SchemaFactory.newInstance(XMLConstants.RELAXNG_NS_URI);
+        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.RELAXNG_NS_URI);
 
         // Load catalog to resolve external schemas even offline.
         final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
@@ -93,60 +95,82 @@ public class SEDAXMLValidator {
         }
     }
 
+    private String getContextualErrorMessage(String manifest, SAXParseException e) {
+        int i = 0;
+        String line="", inArchiveUnit = "", result;
+
+        Scanner scanner = new Scanner(manifest);
+        while (scanner.hasNextLine() && (i < e.getLineNumber())) {
+            line = scanner.nextLine();
+            if (line.trim().startsWith("<ArchiveUnit "))
+                inArchiveUnit = line.trim();
+            i++;
+        }
+        result = "contexte de l'erreur: " + (inArchiveUnit.isEmpty()?"non précisé":inArchiveUnit) + "\n" +
+                "position de l'erreur identifiée: ligne " + e.getLineNumber() + ", colonne " + e.getColumnNumber() + "\n" +
+                "ligne: " + line+"\n" +
+                "erreur brute: " + e.getMessage();
+        scanner.close();
+        return result;
+    }
+
     /**
      * Check with xsd schema.
      *
-     * @param xmlFile   the xml file
+     * @param manifest  the XML manifest
      * @param xmlSchema the xml schema
      * @return true if validated
      * @throws SEDALibException the seda lib exception
      */
-    public boolean checkWithXSDSchema(InputStream xmlFile, Schema xmlSchema) throws SEDALibException {
+    public boolean checkWithXSDSchema(String manifest, Schema xmlSchema) throws SEDALibException {
         XMLInputFactory xmlInputFactory;
-        XMLStreamReader xmlStreamReader=null;
-        try {
+        XMLStreamReader xmlStreamReader = null;
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(manifest.getBytes(StandardCharsets.UTF_8))) {
             xmlInputFactory = XMLInputFactory.newInstance();
-            xmlStreamReader = xmlInputFactory.createXMLStreamReader(xmlFile, "UTF-8");
+            xmlStreamReader = xmlInputFactory.createXMLStreamReader(bais, "UTF-8");
 
             final Validator validator = xmlSchema.newValidator();
             validator.validate(new StAXSource(xmlStreamReader));
             return true;
         } catch (IOException e) {
-            throw new SEDALibException("Erreur d'accès au flux XML\n->"+e.getMessage());
+            throw new SEDALibException("Erreur d'accès au flux XML\n-> " + e.getMessage());
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Impossible d'ouvrir le flux XML\n->"+e.getMessage());
+            throw new SEDALibException("Impossible d'ouvrir le flux XML\n-> " + e.getMessage());
+        } catch (SAXParseException e) {
+            throw new SEDALibException("Le flux XML n'est pas conforme\n-> "
+                    + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n->"+e.getMessage());
+            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + e.getMessage());
         } finally {
-            if (xmlStreamReader!=null) {
+            if (xmlStreamReader != null) {
                 try {
                     xmlStreamReader.close();
                 } catch (XMLStreamException ignored) {
                 }
             }
-            IOUtils.closeQuietly(xmlFile);
         }
     }
 
     /**
      * Check with rng schema.
      *
-     * @param xmlFile   the xml file
+     * @param manifest  the XML manifest
      * @param rngSchema the rng schema
      * @return true if validated
      * @throws SEDALibException the seda lib exception
      */
-    public boolean checkWithRNGSchema(InputStream xmlFile, Schema rngSchema) throws SEDALibException {
-        try {
+    public boolean checkWithRNGSchema(String manifest, Schema rngSchema) throws SEDALibException {
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(manifest.getBytes(StandardCharsets.UTF_8))) {
             final Validator validator = rngSchema.newValidator();
-            validator.validate(new StreamSource(xmlFile));
+            validator.validate(new StreamSource(bais));
             return true;
+        } catch (SAXParseException e) {
+            throw new SEDALibException("Le flux XML n'est pas conforme\n-> "
+                    + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n->"+e.getMessage());
+            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + e.getMessage());
         } catch (IOException e) {
-            throw new SEDALibException("Erreur d'accès au flux XML\n->"+e.getMessage());
-        } finally {
-            IOUtils.closeQuietly(xmlFile);
+            throw new SEDALibException("Erreur d'accès au flux XML\n-> " + e.getMessage());
         }
     }
 }

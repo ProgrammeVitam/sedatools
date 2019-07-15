@@ -34,15 +34,12 @@ import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLValidator;
-import org.xml.sax.SAXException;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import javax.xml.validation.Schema;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 /**
  * The Class ArchiveTransfer
@@ -334,48 +331,40 @@ public class ArchiveTransfer {
 
     // SEDA Validator
 
-    public void seda21Validate(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException,  InterruptedException {
-        String manifest=null;
-        try (ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    public void seda21Validate(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+        String manifest = null;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
-            manifest= baos.toString("UTF-8");
+            manifest = baos.toString("UTF-8");
         } catch (XMLStreamException | IOException e) {
-            throw new SEDALibException("Echec d'écriture XML du manifest\n->"+e.getMessage());
+            throw new SEDALibException("Echec d'écriture XML du manifest\n->" + e.getMessage());
         }
-        SEDAXMLValidator sedaXMLvalidator= new SEDAXMLValidator();
-        Schema sedaSchema=sedaXMLvalidator.getSEDASchema();
-        try (ByteArrayInputStream bais=new ByteArrayInputStream(manifest.getBytes(StandardCharsets.UTF_8))) {
-            sedaXMLvalidator.checkWithXSDSchema(bais,sedaSchema);
-        } catch (IOException e) {
-            throw new SEDALibException("Erreur d'accès au manifest\n->"+e.getMessage());
-        }
+        SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
+        Schema sedaSchema = sedaXMLvalidator.getSEDASchema();
+        sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
     }
 
-    public void sedaProfileValidate(String profileFileName,SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
-        String manifest=null;
-        try (ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    public void sedaProfileValidate(String profileFileName, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+        String manifest = null;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
-            manifest=baos.toString("UTF-8");
+            manifest = baos.toString("UTF-8");
         } catch (XMLStreamException | IOException e) {
-            throw new SEDALibException("Echec d'écriture XML du manifest\n->"+e.getMessage());
+            throw new SEDALibException("Echec d'écriture XML du manifest\n->" + e.getMessage());
         }
-        SEDAXMLValidator sedaXMLvalidator= new SEDAXMLValidator();
+        SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
         Schema sedaSchema;
         if (profileFileName.endsWith(".rng"))
-            sedaSchema=sedaXMLvalidator.getSchemaFromRNGFile(profileFileName);
+            sedaSchema = sedaXMLvalidator.getSchemaFromRNGFile(profileFileName);
         else
-            sedaSchema=sedaXMLvalidator.getSchemaFromXSDFile(profileFileName);
+            sedaSchema = sedaXMLvalidator.getSchemaFromXSDFile(profileFileName);
 
-        try (ByteArrayInputStream bais=new ByteArrayInputStream(manifest.getBytes(StandardCharsets.UTF_8))) {
-            if (profileFileName.endsWith(".rng"))
-            sedaXMLvalidator.checkWithRNGSchema(bais,sedaSchema);
+        if (profileFileName.endsWith(".rng"))
+            sedaXMLvalidator.checkWithRNGSchema(manifest, sedaSchema);
         else
-            sedaXMLvalidator.checkWithXSDSchema(bais,sedaSchema);
-        } catch (IOException e) {
-            throw new SEDALibException("Erreur d'accès au manifest\n->"+e.getMessage());
-        }
+            sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
     }
 
     // Getters and setters
