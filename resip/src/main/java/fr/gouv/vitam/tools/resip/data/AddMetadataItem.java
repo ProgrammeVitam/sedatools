@@ -58,6 +58,9 @@ public class AddMetadataItem {
         typeExtraInformationMap.put("DateTimeType", "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z]" +
                 " ou YYYY-MM-DD'T'HH:MM:SS[Timezone ou Z]");
 
+        typeCreatorMap.put("DateType", AddMetadataItem::dateTypeSample);
+        typeExtraInformationMap.put("DateType", "Date\n    YYYY-MM-DD");
+
         typeCreatorMap.put("AnyXMLType", AddMetadataItem::genericXMLBlockTypeSample);
         typeExtraInformationMap.put("AnyXMLType", "Bloc XML de structure non connue par ReSIP");
 
@@ -161,6 +164,10 @@ public class AddMetadataItem {
     public SEDAMetadata skeleton;
 
     public String extraInformation;
+
+    static DateType dateTypeSample(String elementName) {
+        return new DateType(elementName, LocalDate.of(1970, 1, 1));
+    }
 
     static DateTimeType dateTimeTypeSample(String elementName) {
         return new DateTimeType(elementName, LocalDateTime.of(1970, 1, 1, 1, 0, 0));
