@@ -4,6 +4,7 @@ Evolutions/Corrections en 1.8.0
 - Fix: assouplissement des règles de définition des delimiteurs dans un fichier mbox
 - Evolution: décodage des contenus TNEF (extension MIME Microsoft connu sous la forme de pièces jointes "winmail.dat")
 - Evolution: corrige les LF seuls dans un fichier TNEF quoted-printable et les remplace par CRLF
+- Fix: rétablit la fonction d'extraction des "msg" Microsoft
 
 ============================================================================
 Evolutions/Corrections en 1.6.0
