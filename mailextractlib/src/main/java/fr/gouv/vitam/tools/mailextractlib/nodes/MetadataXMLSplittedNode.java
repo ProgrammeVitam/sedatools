@@ -76,13 +76,13 @@ public class MetadataXMLSplittedNode extends MetadataXMLNode {
 
         // then write by 32765
         try {
-            int i;
+            int i,imax;
             char c;
             while (normalisedValue.getBytes("UTF-8").length > MAX_TEXT_LENGTH) {
                 int whiteSpaceSplitPlace;
                 String subValue;
-                int imax = MAX_TEXT_LENGTH;
-                // try first to split on line, if not possible split on whitespace, if not split at 32000
+                imax = Math.min(MAX_TEXT_LENGTH,normalisedValue.length()-1);
+                // try first to split on line, if not possible split on whitespace, and try to reduce till < 32766
                 while (true) {
                     whiteSpaceSplitPlace = 0;
                     for (i = imax; i > imax-1000; i--) {
@@ -97,7 +97,7 @@ public class MetadataXMLSplittedNode extends MetadataXMLNode {
                             i = whiteSpaceSplitPlace;
                         else i = imax;
                     }
-                    subValue = normalisedValue.substring(0, i);
+                    subValue = normalisedValue.substring(0, i+1);
                     int encodedLength = subValue.getBytes("UTF-8").length;
                     if (encodedLength < 32766)
                         break;
@@ -107,7 +107,7 @@ public class MetadataXMLSplittedNode extends MetadataXMLNode {
                 if (attributename != null)
                     result += " " + attributename + "=\"" + attributevalue + "\"";
                 result += ">" + subValue + "</" + tag + ">\n";
-                normalisedValue = normalisedValue.substring(i);
+                normalisedValue = normalisedValue.substring(i+1);
             }
             result += tabs + "<" + tag;
             if (attributename != null)
