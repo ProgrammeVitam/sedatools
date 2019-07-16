@@ -30,8 +30,7 @@ package fr.gouv.vitam.tools.resip.app;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.SearchDialog;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
@@ -63,7 +62,18 @@ public class SearchThread extends SwingWorker<String, String> {
                 continue;
             try {
                 String tmp;
-                if (searchDialog.isMetadataCheck()) {
+                if (searchDialog.isIdCheck()) {
+                    tmp = "<"+childUnit.getInDataObjectPackageId()+">";
+                    for (DataObject dataObject:childUnit.getDataObjectRefList().getDataObjectList()) {
+                        tmp += "<"+dataObject.getInDataObjectPackageId()+">";
+                        if (dataObject instanceof DataObjectGroup){
+                            for (BinaryDataObject bo:((DataObjectGroup) dataObject).getBinaryDataObjectList())
+                                tmp += "<"+ bo.getInDataObjectPackageId()+">";
+                            for (PhysicalDataObject po:((DataObjectGroup) dataObject).getPhysicalDataObjectList())
+                                tmp += "<"+ po.getInDataObjectPackageId()+">";
+                            }
+                    }
+                } else if (searchDialog.isMetadataCheck()) {
                     tmp = childUnit.getContent().toString();
                 } else
                     tmp = dataObjectPackageTreeModel.findTreeNode(childUnit).getTitle();
@@ -90,6 +100,7 @@ public class SearchThread extends SwingWorker<String, String> {
         searchExp = searchDialog.getSearchText();
         if (searchDialog.isRegExpCheck()) searchPattern = Pattern.compile("[\\S\\s]*" + searchExp + "[\\S\\s]*");
         else if (!searchDialog.isCaseCheck()) searchExp = searchExp.toLowerCase();
+        if (searchDialog.isIdCheck()) searchExp = "<"+searchExp+">";
         dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
         dataObjectPackage = mainWindow.getApp().currentWork.getDataObjectPackage();
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();

@@ -6,6 +6,7 @@ Evolutions/Corrections en 1.8.0
 - Fix: change le texte d'aide sur les champs de type TextType (chaine pouvant avoir une langue en attribut)
 - Evolution: ajout d'une fonction de nettoyage, enlevant les valeurs par défaut, dans le dialogue d'ajout XML d'une métadonnée choisie
 - Fix: lors du changement d'un objet le nom du nouveau fichier est pris en compte dans les métadonnées de l'objet
+- Evolution: ajout de la recherche d'une ArchiveUnit par xmlID ou par xmlID de ses DataObjects
 
 ============================================================================
 Evolutions/Corrections en 1.7.0
