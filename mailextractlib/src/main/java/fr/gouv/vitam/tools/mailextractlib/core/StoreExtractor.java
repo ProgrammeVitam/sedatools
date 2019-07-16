@@ -186,8 +186,9 @@ public abstract class StoreExtractor {
         PstEmbeddedStoreExtractor.subscribeStoreExtractor();
 
         // HMEF calls when extracting TNEF can generate an exception if an attachment extraction is bigger than 1Mo,
-        // this change the limit to 100Mo
-        IOUtils.setByteArrayMaxOverride(100000000);
+        // this change the limit to Integer.MAX_VALUE that is to say 2Go
+        // This is also a bypass to a bug in POI 4.0 and 4.1 version when opening msg
+       IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
     }
 
     // StoreExtractor definition parameters
