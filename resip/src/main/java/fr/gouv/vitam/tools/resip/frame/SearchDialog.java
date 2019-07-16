@@ -33,6 +33,7 @@ public class SearchDialog extends JDialog {
     private JCheckBox regExpCheckBox;
     private JCheckBox caseCheckBox;
     private JCheckBox metadataCheckBox;
+    private JCheckBox idCheckBox;
     private JLabel resultLabel;
     private MainWindow mainWindow;
     private JPanel optionalInfoPanel;
@@ -101,7 +102,7 @@ public class SearchDialog extends JDialog {
         gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 4;
         gbc.weightx = 1.0;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -115,7 +116,7 @@ public class SearchDialog extends JDialog {
         searchButton.setMinimumSize(new Dimension(26, 26));
         searchButton.setPreferredSize(new Dimension(26, 26));
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridy = 0;
         gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -129,7 +130,7 @@ public class SearchDialog extends JDialog {
         nextButton.setMinimumSize(new Dimension(26, 26));
         nextButton.setPreferredSize(new Dimension(26, 26));
         gbc = new GridBagConstraints();
-        gbc.gridx = 4;
+        gbc.gridx = 5;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.NONE;
@@ -144,7 +145,7 @@ public class SearchDialog extends JDialog {
         previousButton.setMinimumSize(new Dimension(26, 26));
         previousButton.setPreferredSize(new Dimension(26, 26));
         gbc = new GridBagConstraints();
-        gbc.gridx = 5;
+        gbc.gridx = 6;
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.NORTH;
         gbc.fill = GridBagConstraints.NONE;
@@ -186,10 +187,21 @@ public class SearchDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         contentPane.add(metadataCheckBox, gbc);
 
+        idCheckBox = new JCheckBox();
+        idCheckBox.setText("ID");
+        idCheckBox.setFont(MainWindow.CLICK_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 3;
+        gbc.gridwidth = 1;
+        gbc.gridy = 1;
+        gbc.weightx = 1;
+        gbc.anchor = GridBagConstraints.WEST;
+        contentPane.add(idCheckBox, gbc);
+
         resultLabel = new JLabel();
         resultLabel.setText("Aucune recherche");
         gbc = new GridBagConstraints();
-        gbc.gridx = 3;
+        gbc.gridx = 4;
         gbc.gridwidth = 3;
         gbc.gridy = 1;
         gbc.anchor = GridBagConstraints.CENTER;
@@ -200,7 +212,7 @@ public class SearchDialog extends JDialog {
         optionalInfoPanel.setLayout(new GridBagLayout());
         optionalInfoPanel.setVisible(true);
         gbc = new GridBagConstraints();
-        gbc.gridwidth = 6;
+        gbc.gridwidth = 7;
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 1.0;
@@ -327,6 +339,15 @@ public class SearchDialog extends JDialog {
      */
     public boolean isRegExpCheck(){
         return regExpCheckBox.isSelected();
+    }
+
+    /**
+     * Is ID check boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isIdCheck(){
+        return idCheckBox.isSelected();
     }
 
     /**
