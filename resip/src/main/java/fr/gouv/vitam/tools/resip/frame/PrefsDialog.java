@@ -493,34 +493,6 @@ public class PrefsDialog extends JDialog {
         gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
         exportParametersPanel.setLayout(gbl_exportParametersPanel);
 
-        JLabel workDirLabel = new JLabel("Rép. de travail:");
-        gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.EAST;
-        gbc.insets = new Insets(0, 0, 5, 5);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        exportParametersPanel.add(workDirLabel, gbc);
-
-        workDirTextField = new JTextField();
-        workDirTextField.setText(cc.getWorkDir());
-        gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(0, 0, 5, 5);
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 1;
-        gbc.gridy = 1;
-        exportParametersPanel.add(workDirTextField, gbc);
-        workDirTextField.setColumns(10);
-
-        JButton workDirButton = new JButton("Choisir...");
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 0, 5, 0);
-        gbc.gridx = 3;
-        gbc.gridy = 1;
-        exportParametersPanel.add(workDirButton, gbc);
-        workDirButton.addActionListener(arg0 -> buttonChooseWorkDir());
-
         JLabel inSIPLabel = new JLabel("Options de formation du SIP");
         inSIPLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -958,6 +930,46 @@ public class PrefsDialog extends JDialog {
         gbl_treatmentParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 1};
         treatmentParametersPanel.setLayout(gbl_treatmentParametersPanel);
 
+        JLabel workDirLabel = new JLabel("Répertoire de travail");
+        workDirLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        treatmentParametersPanel.add(workDirLabel, gbc);
+
+        JLabel dirLabel = new JLabel("Dossier:");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        treatmentParametersPanel.add(dirLabel, gbc);
+
+        workDirTextField = new JTextField();
+        workDirTextField.setText(cc.getWorkDir());
+        gbc = new GridBagConstraints();
+        gbc.weightx = 1.0;
+        gbc.gridwidth = 2;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        treatmentParametersPanel.add(workDirTextField, gbc);
+        workDirTextField.setColumns(10);
+
+        JButton workDirButton = new JButton("Choisir...");
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 0, 5, 0);
+        gbc.gridx = 3;
+        gbc.gridy = 1;
+        treatmentParametersPanel.add(workDirButton, gbc);
+        workDirButton.addActionListener(arg0 -> buttonChooseWorkDir());
+
         JLabel dupTreatmentLabel = new JLabel("Traitement des doublons");
         dupTreatmentLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -967,7 +979,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy = 2;
         treatmentParametersPanel.add(dupTreatmentLabel, gbc);
 
         JLabel lblDupMax = new JLabel("Limite d'aggrégation des doublons :");
@@ -975,7 +987,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 3;
         treatmentParametersPanel.add(lblDupMax, gbc);
 
         dupMaxTextField = new JTextField();
@@ -988,7 +1000,7 @@ public class PrefsDialog extends JDialog {
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridwidth = 2;
         gbc.gridx = 1;
-        gbc.gridy = 1;
+        gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         treatmentParametersPanel.add(dupMaxTextField, gbc);
 
@@ -1071,7 +1083,7 @@ public class PrefsDialog extends JDialog {
     }
 
     private boolean extractFromDialog() {
-        int tmp;
+        int tmp=10;
 
         cc.setWorkDir(workDirTextField.getText());
 
@@ -1096,9 +1108,9 @@ public class PrefsDialog extends JDialog {
         try {
             tmp = Integer.parseInt(nameMaxSizeTextField.getText());
             if (tmp <= 0)
-                throw new NumberFormatException("Number not strictly negative");
+                throw new NumberFormatException("Number not strictly positive");
         } catch (NumberFormatException e) {
-            tabbedPane.setSelectedIndex(4);
+            tabbedPane.setSelectedIndex(3);
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                     "La taille limite des noms de répertoires exportées doit être un nombre strictement supérieur à 0.",
                     "Information", UserInteractionDialog.IMPORTANT_DIALOG,
@@ -1131,7 +1143,7 @@ public class PrefsDialog extends JDialog {
         try {
             tmp = Integer.parseInt(dupMaxTextField.getText());
             if (tmp <= 0)
-                throw new NumberFormatException("Number not strictly negative");
+                throw new NumberFormatException("Number not strictly positive");
         } catch (NumberFormatException e) {
             tabbedPane.setSelectedIndex(4);
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,

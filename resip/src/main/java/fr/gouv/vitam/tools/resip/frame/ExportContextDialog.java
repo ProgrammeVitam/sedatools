@@ -34,13 +34,14 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DocumentFilter;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 
+import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.*;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
@@ -54,6 +55,8 @@ public class ExportContextDialog extends JDialog {
 	/**
 	 * The actions components.
 	 */
+	private JTabbedPane tabbedPane;
+
 	private JTextField messageIdentifierTextField;
 	private JTextField dateTextField;
 	private JCheckBox chckbxNowFlag;
@@ -71,8 +74,17 @@ public class ExportContextDialog extends JDialog {
 	private JRadioButton hierarchicalRadioButton;
 	private JRadioButton indentedRadioButton;
 	private JRadioButton reindexYesRadioButton;
+	private JRadioButton firstUsageButton;
+	private JRadioButton lastUsageButton;
+	private JRadioButton allUsageButton;
+	private JTextField nameMaxSizeTextField;
 	private JTextArea metadataFilterTextArea;
 	private JCheckBox metadataFilterCheckBox;
+
+	/**
+	 * The data.
+	 */
+	public ExportContext gmc;
 
 	/**
 	 * The return value.
@@ -124,7 +136,7 @@ public class ExportContextDialog extends JDialog {
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0};
 		contentPane.setLayout(new GridBagLayout());
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx=1.0;
@@ -449,7 +461,7 @@ public class ExportContextDialog extends JDialog {
 		GridBagLayout gbl_exportParametersPanel = new GridBagLayout();
 		gbl_exportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
 		gbl_exportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0,0,1};
+		gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0,0,0,0,0,1};
 		exportParametersPanel.setLayout(gbl_exportParametersPanel);
 
 		JLabel inSIPLabel = new JLabel("Options de formation du SIP");
@@ -562,6 +574,90 @@ public class ExportContextDialog extends JDialog {
 		else
 			reindexNoRadioButton.setSelected(true);
 
+		JLabel inCSVLabel = new JLabel("Options d'export en hiérarchie simplifiée et fichier csv");
+		inCSVLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+		gbc = new GridBagConstraints();
+		gbc.gridwidth = 3;
+		gbc.insets = new Insets(5, 5, 5, 5);
+		gbc.weightx = 1.0;
+		gbc.anchor = GridBagConstraints.NORTHWEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.gridx = 0;
+		gbc.gridy = 4;
+		exportParametersPanel.add(inCSVLabel, gbc);
+
+		JLabel exportModeChoiceLabel = new JLabel("Mode de choix des objets exportés:");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 5;
+		exportParametersPanel.add(exportModeChoiceLabel, gbc);
+
+		firstUsageButton = new JRadioButton("Premier");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 5;
+		exportParametersPanel.add(firstUsageButton, gbc);
+
+		lastUsageButton = new JRadioButton("Dernier");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 2;
+		gbc.gridy = 5;
+		exportParametersPanel.add(lastUsageButton, gbc);
+
+		allUsageButton = new JRadioButton("Tous");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 3;
+		gbc.gridy = 5;
+		exportParametersPanel.add(allUsageButton, gbc);
+
+		ButtonGroup exportModeChoiceButtonGroup = new ButtonGroup();
+		exportModeChoiceButtonGroup.add(firstUsageButton);
+		exportModeChoiceButtonGroup.add(lastUsageButton);
+		exportModeChoiceButtonGroup.add(allUsageButton);
+		exportModeChoiceButtonGroup.clearSelection();
+		switch (exportContext.getUsageVersionSelectionMode()) {
+			case FIRST_DATAOBJECT:
+				firstUsageButton.setSelected(true);
+				break;
+			case LAST_DATAOBJECT:
+			default:
+				lastUsageButton.setSelected(true);
+				break;
+			case ALL_DATAOBJECTS:
+				allUsageButton.setSelected(true);
+				break;
+		}
+
+		JLabel lblNameMaxSize = new JLabel("Taille max des noms de répertoires :");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 6;
+		exportParametersPanel.add(lblNameMaxSize, gbc);
+
+		nameMaxSizeTextField = new JTextField();
+		DocumentFilter filter = new NumericFilter();
+		((AbstractDocument) nameMaxSizeTextField.getDocument()).setDocumentFilter(filter);
+		nameMaxSizeTextField.setText(Integer.toString(exportContext.getMaxNameSize()));
+		nameMaxSizeTextField.setFont(MainWindow.DETAILS_FONT);
+		nameMaxSizeTextField.setColumns(10);
+		gbc = new GridBagConstraints();
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 6;
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		exportParametersPanel.add(nameMaxSizeTextField, gbc);
+
 		JLabel metadataFilterLabel = new JLabel("Filtrage des métadonnées");
 		metadataFilterLabel.setFont(MainWindow.BOLD_LABEL_FONT);
 		gbc = new GridBagConstraints();
@@ -572,7 +668,7 @@ public class ExportContextDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridx = 0;
-		gbc.gridy = 4;
+		gbc.gridy = 7;
 		exportParametersPanel.add(metadataFilterLabel, gbc);
 
 		scrollPane = new JScrollPane();
@@ -583,7 +679,7 @@ public class ExportContextDialog extends JDialog {
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(0, 5, 5, 5);
 		gbc.gridx = 1;
-		gbc.gridy = 5;
+		gbc.gridy = 8;
 		exportParametersPanel.add(scrollPane, gbc);
 
 		metadataFilterTextArea = new JTextArea();
@@ -601,7 +697,7 @@ public class ExportContextDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.insets = new Insets(0, 5, 5, 5);
 		gbc.gridx = 0;
-		gbc.gridy = 5;
+		gbc.gridy = 8;
 		gbc.weighty = 1.0;
 		exportParametersPanel.add(metadataFilterCheckBox, gbc);
 		metadataFilterCheckBox.addItemListener(arg -> metadataFilterEvent(arg));
@@ -649,25 +745,47 @@ public class ExportContextDialog extends JDialog {
 	}
 
 	private void buttonOk() {
+		if (!extractFromDialog())
+			return;
 		returnValue = ResipGraphicApp.OK_DIALOG;
 		setVisible(false);
 	}
 
 	/**
-	 * Sets the global metadata context from dialog.
-	 *
-	 * @param sec the sec
+	 * Extract the global metadata context from dialog.
 	 */
-	public void setExportContextFromDialog(ExportContext sec) {
-		sec.setHierarchicalArchiveUnits(hierarchicalRadioButton.isSelected());
-		sec.setIndented(indentedRadioButton.isSelected());
-		sec.setReindex(reindexYesRadioButton.isSelected());
-		sec.setManagementMetadataXmlData(managementMetadataTextArea.getText());
-		sec.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
-		sec.setKeptMetadataList(Arrays.asList(metadataFilterTextArea.getText().split("\\s*\n\\s*"))
+	public boolean extractFromDialog() {
+		int tmp=10;
+
+		gmc=new ExportContext();
+		gmc.setHierarchicalArchiveUnits(hierarchicalRadioButton.isSelected());
+		gmc.setIndented(indentedRadioButton.isSelected());
+		gmc.setReindex(reindexYesRadioButton.isSelected());
+		if (firstUsageButton.isSelected())
+			gmc.setUsageVersionSelectionMode(FIRST_DATAOBJECT);
+		else  if (allUsageButton.isSelected())
+			gmc.setUsageVersionSelectionMode(ALL_DATAOBJECTS);
+		else
+			gmc.setUsageVersionSelectionMode(LAST_DATAOBJECT);
+		try {
+			tmp = Integer.parseInt(nameMaxSizeTextField.getText());
+			if (tmp <= 0)
+				throw new NumberFormatException("Number not strictly positive");
+		} catch (NumberFormatException e) {
+			tabbedPane.setSelectedIndex(3);
+			UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
+					"La taille limite des noms de répertoires exportées doit être un nombre strictement supérieur à 0.",
+					"Information", UserInteractionDialog.IMPORTANT_DIALOG,
+					null);
+			return false;
+		}
+		gmc.setMaxNameSize(tmp);
+		gmc.setManagementMetadataXmlData(managementMetadataTextArea.getText());
+		gmc.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
+		gmc.setKeptMetadataList(Arrays.asList(metadataFilterTextArea.getText().split("\\s*\n\\s*"))
 				.stream().map(String::trim).collect(Collectors.toList()));
 
-		GlobalMetadata atgm=sec.getArchiveTransferGlobalMetadata();
+		GlobalMetadata atgm=gmc.getArchiveTransferGlobalMetadata();
 		atgm.comment=commentTextArea.getText();
 		atgm.date=dateTextField.getText();
 		atgm.setNowFlag(chckbxNowFlag.isSelected());
@@ -681,6 +799,7 @@ public class ExportContextDialog extends JDialog {
 		atgm.transferringAgencyIdentifier=transferringAgencyIdentifierTextField.getText();
 		atgm.transferringAgencyOrganizationDescriptiveMetadataXmlData=
 				transferringAgencyOrganizationDescriptiveMetadataTextArea.getText();
+		return true;
 	}
 
 	/**

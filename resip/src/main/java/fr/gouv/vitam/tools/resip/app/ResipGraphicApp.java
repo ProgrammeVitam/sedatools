@@ -855,7 +855,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             ExportContextDialog exportContextDialog = new ExportContextDialog(mainWindow, currentWork.getExportContext());
             exportContextDialog.setVisible(true);
             if (exportContextDialog.getReturnValue() == OK_DIALOG)
-                exportContextDialog.setExportContextFromDialog(currentWork.getExportContext());
+                currentWork.setExportContext(exportContextDialog.gmc);
         } else
             UserInteractionDialog.getUserAnswer(mainWindow, "Pas de contexte ouvert", "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
@@ -1051,8 +1051,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             exportContextDialog.setVisible(true);
             if (exportContextDialog.getReturnValue() == KO_DIALOG)
                 return true;
-            exportContextDialog.setExportContextFromDialog(newExportContext);
-            currentWork.setExportContext(newExportContext);
+            currentWork.setExportContext(exportContextDialog.gmc);
         }
         return false;
     }
