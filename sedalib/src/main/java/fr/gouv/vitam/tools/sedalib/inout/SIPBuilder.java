@@ -726,10 +726,10 @@ public class SIPBuilder implements AutoCloseable {
         if (sedaLibProgressLogger != null)
             sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, "Lancement de la génération du SIP");
         try {
-            archiveTransfer.getDataObjectPackage().vitamNormalize();
+            archiveTransfer.getDataObjectPackage().vitamNormalize(sedaLibProgressLogger);
             verifyContext();
             archiveTransfer.getDataObjectPackage().regenerateContinuousIds();
-        } catch (SEDALibException e) {
+        } catch (SEDALibException | InterruptedException e) {
             throw new SEDALibException("Le paquet SIP n'est pas constructible\n->" + e.getMessage());
         }
         ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, sedaLibProgressLogger);

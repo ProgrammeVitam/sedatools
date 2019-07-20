@@ -119,7 +119,7 @@ public class Work {
 		log += " date=" + DateFormat.getDateTimeInstance().format(d);
 		spl.log(SEDALibProgressLogger.GLOBAL,log);
 
-		dataObjectPackage.vitamNormalize();
+		dataObjectPackage.vitamNormalize(spl);
 		
 		spl.progressLog(SEDALibProgressLogger.STEP,
 				Integer.toString(dataObjectPackage.getArchiveUnitCount()) + " ArchiveUnits normalisées");
