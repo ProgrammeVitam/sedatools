@@ -289,7 +289,7 @@ public class CSVMetadataToDataObjectPackageImporter {
             createToRoot(e.getValue());
         }
 
-        dataObjectPackage.vitamNormalize();
+        dataObjectPackage.vitamNormalize(sedaLibProgressLogger);
         if (needIdRegeneration)
             dataObjectPackage.regenerateContinuousIds();
 

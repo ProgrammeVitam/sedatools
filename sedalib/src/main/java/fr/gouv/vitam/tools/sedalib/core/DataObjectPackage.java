@@ -47,8 +47,8 @@ import java.util.Map.Entry;
  * <p>
  * It has also a specific exportMetadataList field which define the list
  * of descriptive metadata elements kept in export to XML manifest or csv metadata file. This is used to restrict
- *  to the set of metadata that an archiving system can handle. This export filter do not apply to any other XML
- *  or csv format function (for example toString, toSedaXMLFragments, toCsvList...).
+ * to the set of metadata that an archiving system can handle. This export filter do not apply to any other XML
+ * or csv format function (for example toString, toSedaXMLFragments, toCsvList...).
  */
 public class DataObjectPackage {
 
@@ -153,7 +153,7 @@ public class DataObjectPackage {
         }
         this.ghostRootAu.setDataObjectPackage(this);
 
-        this.exportMetadataList=null;
+        this.exportMetadataList = null;
         this.resetIdCounter();
         this.resetRefIdCounter();
         this.resetInOutCounter();
@@ -730,6 +730,61 @@ public class DataObjectPackage {
     }
 
     /**
+     * Remove from DataObjectPackage lists all DataObjects (DataObjectGroup, BinaryDataObject,
+     * PhysicalDataObject) not used by an ArchiveUnit
+     *
+     * @throws SEDALibException if one not reducible DataObject list is detected or
+     *                          one DataObjectGroup can't be merge due to LogBook
+     *                          wrong format. Important: nothing has been modified
+     *                          in the DataObjectPackage.
+     */
+    public void removeUnusedDataObjects(SEDALibProgressLogger spl) throws SEDALibException, InterruptedException {
+        HashSet<DataObject> usedDataObjects = new HashSet<DataObject>(1000);
+        for (Entry<String, ArchiveUnit> pair : getAuInDataObjectPackageIdMap().entrySet()) {
+            DataObjectRefList dorl = pair.getValue().getDataObjectRefList();
+            for (DataObject dataObject : dorl.getDataObjectList()) {
+                usedDataObjects.add(dataObject);
+                if (dataObject instanceof DataObjectGroup) {
+                    for (PhysicalDataObject pdo : ((DataObjectGroup) dataObject).getPhysicalDataObjectList())
+                        usedDataObjects.add(pdo);
+                    for (BinaryDataObject bdo : ((DataObjectGroup) dataObject).getBinaryDataObjectList())
+                        usedDataObjects.add(bdo);
+                }
+            }
+        }
+
+        Iterator<Entry<String, DataObjectGroup>> iteratorDog = getDogInDataObjectPackageIdMap().entrySet().iterator();
+        while (iteratorDog.hasNext()) {
+            Entry<String, DataObjectGroup> entry = iteratorDog.next();
+            if (!usedDataObjects.contains(entry.getValue())) {
+                iteratorDog.remove();
+                if (spl!=null)
+                    spl.progressLog(SEDALibProgressLogger.GLOBAL,"Un DataObjectGroup ["+entry.getKey()+"] déclaré n'est pas utilisé, il est déréférencé.");
+            }
+        }
+
+        Iterator<Entry<String, BinaryDataObject>> iteratorBdo = getBdoInDataObjectPackageIdMap().entrySet().iterator();
+        while (iteratorBdo.hasNext()) {
+            Entry<String, BinaryDataObject> entry = iteratorBdo.next();
+            if (!usedDataObjects.contains(entry.getValue())) {
+                iteratorDog.remove();
+                if (spl!=null)
+                    spl.progressLog(SEDALibProgressLogger.GLOBAL,"Un BinaryDataObject ["+entry.getKey()+"] déclaré n'est pas utilisé, il est déréférencé.");
+            }
+        }
+
+        Iterator<Entry<String, PhysicalDataObject>> iteratorPdo = getPdoInDataObjectPackageIdMap().entrySet().iterator();
+        while (iteratorPdo.hasNext()) {
+            Entry<String, PhysicalDataObject> entry = iteratorPdo.next();
+            if (!usedDataObjects.contains(entry.getValue())) {
+                iteratorDog.remove();
+                if (spl!=null)
+                    spl.progressLog(SEDALibProgressLogger.GLOBAL,"Un PhysicalDataObject ["+entry.getKey()+"] déclaré n'est pas utilisé, il est déréférencé.");
+            }
+        }
+    }
+
+    /**
      * Regenerate ArchiveUnit id and maintain an ordered list of DataObjectGroup to
      * reindex.
      *
@@ -831,10 +886,11 @@ public class DataObjectPackage {
      * @throws SEDALibException if one verification fail. Important: nothing has
      *                          been modified in the DataObjectPackage.
      */
-    public void vitamNormalize() throws SEDALibException {
+    public void vitamNormalize(SEDALibProgressLogger spl) throws SEDALibException, InterruptedException {
         vitamNormalizationStatus = NORMALIZATION_STATUS_KO;
         verifyAcyclic();
         normalizeUniqDataObjectGroup();
+        removeUnusedDataObjects(spl);
         vitamNormalizationStatus = NORMALIZATION_STATUS_OK;
     }
 
