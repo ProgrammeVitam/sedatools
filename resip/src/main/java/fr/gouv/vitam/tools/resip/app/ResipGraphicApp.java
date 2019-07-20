@@ -523,10 +523,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
             if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
+                mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
                 currentWork = Work.createFromFile(filename);
                 ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, "Fichier [" + filename + "] chargé");
                 mainWindow.load();
+                mainWindow.setCursor(Cursor.getDefaultCursor());
                 setFilenameWork(filename);
                 setContextLoaded(true);
                 setModifiedContext(false);
@@ -538,6 +540,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur de chargement de [" + filename + "]\n->" + e.getMessage());
+            mainWindow.setCursor(Cursor.getDefaultCursor());
         }
     }
 
@@ -546,7 +549,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     private void saveWork() {
         if (filenameWork != null)
             try {
+                mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 currentWork.save(filenameWork);
+                mainWindow.setCursor(Cursor.getDefaultCursor());
                 setModifiedContext(false);
             } catch (Exception e) {
                 UserInteractionDialog.getUserAnswer(mainWindow,
@@ -555,6 +560,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         null);
                 ResipLogger.getGlobalLogger().log(ResipLogger.STEP,
                         "Resip.Graphic: Erreur de sauvegarde de [" + filenameWork + "]\n->" + e.getMessage());
+                mainWindow.setCursor(Cursor.getDefaultCursor());
             }
     }
 
@@ -575,7 +581,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                             null) != OK_DIALOG)
                         return;
                 }
+                mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 currentWork.save(filename);
+                mainWindow.setCursor(Cursor.getDefaultCursor());
                 ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, "Resip.Graphic: Fichier [" + filename + "] sauvegardé");
                 setModifiedContext(false);
                 filenameWork = filename;
@@ -587,6 +595,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur de sauvegarde de [" + filename + "]\n->" + e.getMessage());
+            mainWindow.setCursor(Cursor.getDefaultCursor());
         }
     }
 
