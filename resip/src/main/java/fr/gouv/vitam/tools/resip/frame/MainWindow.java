@@ -27,36 +27,27 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import javax.swing.*;
-import javax.swing.text.MutableAttributeSet;
-import javax.swing.text.SimpleAttributeSet;
-import javax.swing.text.StyleConstants;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.AddMetadataItem;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeViewer;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectListCellRenderer;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectListViewer;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackageIdElement;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
+import fr.gouv.vitam.tools.resip.viewer.*;
+import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 
+import javax.swing.*;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -64,9 +55,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+
+import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
 
 /**
  * The Class MainWindow.
@@ -75,12 +69,12 @@ import java.util.HashMap;
  */
 public class MainWindow extends JFrame {
 
-    public static Font LABEL_FONT=UIManager.getFont("Label.font");
-    public static Font CLICK_FONT=UIManager.getFont("Button.font");
+    public static Font LABEL_FONT = UIManager.getFont("Label.font");
+    public static Font CLICK_FONT = UIManager.getFont("Button.font");
     public static Font BOLD_LABEL_FONT = LABEL_FONT.deriveFont(LABEL_FONT.getStyle() | Font.BOLD);
-    public static Font TREE_FONT=LABEL_FONT;
-    public static Font DETAILS_FONT=LABEL_FONT.deriveFont(LABEL_FONT.getSize()+(float)2.0);
-    public static Color GENERAL_BACKGROUND=UIManager.getColor("Label.background");
+    public static Font TREE_FONT = LABEL_FONT;
+    public static Font DETAILS_FONT = LABEL_FONT.deriveFont(LABEL_FONT.getSize() + (float) 2.0);
+    public static Color GENERAL_BACKGROUND = UIManager.getColor("Label.background");
 
     /**
      * The app.
@@ -116,6 +110,24 @@ public class MainWindow extends JFrame {
     private JScrollPane dataObjectDetailScrollPane;
 
     /**
+     * The entry point of window test.
+     *
+     * @param args the input arguments
+     * @throws ClassNotFoundException          the class not found exception
+     * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+     * @throws InstantiationException          the instantiation exception
+     * @throws IllegalAccessException          the illegal access exception
+     * @throws NoSuchMethodException           the no such method exception
+     * @throws InvocationTargetException       the invocation target exception
+     * @throws ResipException                  the resip exception
+     * @throws InterruptedException            the interrupted exception
+     */
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
+        ResipGraphicApp rga = new ResipGraphicApp(null);
+        Thread.sleep(1000);
+    }
+
+    /**
      * Gets the app.
      *
      * @return the app
@@ -139,7 +151,7 @@ public class MainWindow extends JFrame {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        JMenuBar menuBar=app.createMenu();
+        JMenuBar menuBar = app.createMenu();
         setJMenuBar(menuBar);
 
         java.net.URL imageURL = getClass().getClassLoader().getResource("VitamIcon96.png");
@@ -160,7 +172,7 @@ public class MainWindow extends JFrame {
         dataObjectPackageTreePane = new JPanel();
         GridBagLayout gbl_dataObjectPackageTreePane = new GridBagLayout();
         gbl_dataObjectPackageTreePane.rowWeights = new double[]{0.0, 1.0, 0.0};
-        gbl_dataObjectPackageTreePane.columnWeights = new double[]{1.0, 1.0};
+        gbl_dataObjectPackageTreePane.columnWeights = new double[]{1.0, 0.0};
         dataObjectPackageTreePane.setLayout(gbl_dataObjectPackageTreePane);
         dataObjectPackageTreePane.setPreferredSize(new Dimension(400, 800));
         dataObjectPackageTreePane.setMinimumSize(new Dimension(100, 200));
@@ -196,13 +208,49 @@ public class MainWindow extends JFrame {
         longDataObjectPackageTreeItemNameCheckBox.setVerticalAlignment(SwingConstants.TOP);
         longDataObjectPackageTreeItemNameCheckBox.addActionListener(e -> checkBoxLongDataObjectPackageTreeItemName());
         GridBagConstraints gbc_longDataObjectPackageTreeItemNameCheckBox = new GridBagConstraints();
-        gbc_longDataObjectPackageTreeItemNameCheckBox.gridwidth = 2;
+        gbc_longDataObjectPackageTreeItemNameCheckBox.gridwidth = 1;
         gbc_longDataObjectPackageTreeItemNameCheckBox.insets = new Insets(0, 5, 5, 0);
         gbc_longDataObjectPackageTreeItemNameCheckBox.anchor = GridBagConstraints.WEST;
         gbc_longDataObjectPackageTreeItemNameCheckBox.gridx = 0;
         gbc_longDataObjectPackageTreeItemNameCheckBox.gridy = 2;
+        gbc_longDataObjectPackageTreeItemNameCheckBox.weightx = 1.0;
+        gbc_longDataObjectPackageTreeItemNameCheckBox.weighty = 0.0;
+        gbc_longDataObjectPackageTreeItemNameCheckBox.fill = GridBagConstraints.HORIZONTAL;
         getDataObjectPackageTreePane().add(longDataObjectPackageTreeItemNameCheckBox,
                 gbc_longDataObjectPackageTreeItemNameCheckBox);
+
+        JPanel expandReducePanel = new JPanel();
+        expandReducePanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridwidth = 1;
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.insets = new Insets(0, 0, 0, 5);
+        getDataObjectPackageTreePane().add(expandReducePanel, gbc);
+
+        JButton expandButton = new JButton("");
+        expandButton.setIcon(new ImageIcon(Class.class.getResource("/icon/list-add-small.png")));
+        expandButton.setMargin(new Insets(0, 0, 0, 0));
+        expandButton.addActionListener(e -> buttonExpandReduceTree(true));
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        expandReducePanel.add(expandButton, gbc);
+
+        JButton reduceButton = new JButton("");
+        reduceButton.setIcon(new ImageIcon(Class.class.getResource("/icon/list-remove-small.png")));
+        reduceButton.setMargin(new Insets(0, 0, 0, 0));
+        reduceButton.addActionListener(e -> buttonExpandReduceTree(false));
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.weightx = 0.0;
+        gbc.weighty = 0.0;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        expandReducePanel.add(reduceButton, gbc);
 
         openSipItemButton = new JButton("Ouvrir dossier AU/OG");
         openSipItemButton.setFont(CLICK_FONT);
@@ -238,7 +286,7 @@ public class MainWindow extends JFrame {
         gbc_auMetadataPaneScrollPane.gridx = 0;
         gbc_auMetadataPaneScrollPane.fill = GridBagConstraints.BOTH;
         auMetadataPane.add(auMetadataPaneScrollPane, gbc_auMetadataPaneScrollPane);
-        auMetadataText=new JTextPane();
+        auMetadataText = new JTextPane();
         auMetadataText.setFont(DETAILS_FONT);
         changeLineSpacing(auMetadataText, 0.10);
         auMetadataText.setEditable(false);
@@ -328,7 +376,7 @@ public class MainWindow extends JFrame {
         DataObjectListCellRenderer dataObjectListCellRenderer = new DataObjectListCellRenderer();
         dataObjectListViewer.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent me) {
-                DataObjectListViewer dolv =(DataObjectListViewer) me.getSource();
+                DataObjectListViewer dolv = (DataObjectListViewer) me.getSource();
                 if (me.getClickCount() == 2)
                     buttonOpenObject();
             }
@@ -421,7 +469,7 @@ public class MainWindow extends JFrame {
         ogBinaryObjectDetailPane.add(dataObjectDetailScrollPane, gbc_dataObjectDetailScrollPane);
 
         dataObjectDetailText = new JTextPane();
-        changeLineSpacing(dataObjectDetailText,0.1);
+        changeLineSpacing(dataObjectDetailText, 0.1);
         dataObjectDetailText.setFont(DETAILS_FONT);
         dataObjectDetailScrollPane.setViewportView(dataObjectDetailText);
 
@@ -436,14 +484,53 @@ public class MainWindow extends JFrame {
         pack();
     }
 
-    // long name checkbox
+
+    /**
+     * Button expand tree.
+     */
+    private void buttonExpandReduceTree(boolean state) {
+        TreePath[] selection;
+        if (app.currentWork != null) {
+            if (dataObjectPackageTreePaneViewer.getSelectionPaths() != null)
+                selection = dataObjectPackageTreePaneViewer.getSelectionPaths();
+            else {
+                DataObjectPackageTreeNode ghostRootNode = (DataObjectPackageTreeNode) (dataObjectPackageTreePaneViewer.getModel().getRoot());
+                if (ghostRootNode != null) {
+                    selection = new TreePath[1];
+                    selection[0] = new TreePath(ghostRootNode);
+                } else
+                    return;
+            }
+
+            int nb = 0;
+            for (TreePath path : selection)
+                nb += ((DataObjectPackageTreeNode) (path.getLastPathComponent())).getAuRecursivCount()
+                        + ((DataObjectPackageTreeNode) (path.getLastPathComponent())).getOgRecursivCount();
+
+            if ((nb > 10000) &&
+                    (UserInteractionDialog.getUserAnswer(this,
+                            "Attention, quand il y a plus de 10000 ArchiveUnit et DataObjectGroup sélectionnés (en l'occurrence "+nb+"), " +
+                                    "l'ouverture ou la fermeture de tous ces noeuds de l'arbre peut prendre beaucoup de temps.\n"
+                                    + "Voulez-vous continuer? ",
+                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                            "Si vous préférez éviter, utilisez l'expansion/réduction sur chaque noeud dans l'arbre en " +
+                                    "cliquant sur le petit signe + ou - au début des lignes, ou en double cliquant sur l'ArchiveUnit.") != OK_DIALOG))
+                return;
+
+            setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+            for (TreePath path : selection)
+                dataObjectPackageTreePaneViewer.setPathExpansionState(path, state);
+            setCursor(Cursor.getDefaultCursor());
+        }
+    }
+
 
     /**
      * Sets the long archive transfer tree item name.
      *
      * @param fileName the new long archive transfer tree item name
      */
-    void setLongDataObjectPackageTreeItemName(boolean fileName) {
+    private void setLongDataObjectPackageTreeItemName(boolean fileName) {
         getDataObjectPackageTreePaneViewer().activateLongDataObjectPackageTreeItemName(fileName);
         getDataObjectPackageTreePane().repaint();
     }
@@ -474,7 +561,7 @@ public class MainWindow extends JFrame {
     /**
      * Check box long archive transfer tree item name.
      */
-    public void checkBoxLongDataObjectPackageTreeItemName() {
+    private void checkBoxLongDataObjectPackageTreeItemName() {
         boolean selected = longDataObjectPackageTreeItemNameCheckBox.isSelected();
         setLongDataObjectPackageTreeItemName(selected);
         allTreeChanged();
@@ -542,10 +629,10 @@ public class MainWindow extends JFrame {
                 return null;
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(this,
-                    "Le fichier choisi "+ (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + " ne peut être pris en compte",
+                    "Le fichier choisi " + (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + " ne peut être pris en compte",
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,"Erreur fatale, impossible de choisir le fichier "
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de choisir le fichier "
                     + (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + "\n->" + e.getMessage());
             return null;
         }
@@ -570,9 +657,9 @@ public class MainWindow extends JFrame {
                                     + "] n'ont pas pu être toutes extraites, la mise à jour est partielle.",
                             "Erreur", UserInteractionDialog.ERROR_DIALOG,
                             null);
-                    ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,"Les informations techniques du fichier choisi [" + newBinary
-                                    + "] n'ont pas pu être toutes extraites, la mise à jour est partielle.\n->"
-                                    + e.getMessage());
+                    ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Les informations techniques du fichier choisi [" + newBinary
+                            + "] n'ont pas pu être toutes extraites, la mise à jour est partielle.\n->"
+                            + e.getMessage());
                 }
                 dataObjectListItemClick(dataObject);
                 ResipGraphicApp.getTheApp().setModifiedContext(true);
@@ -585,7 +672,7 @@ public class MainWindow extends JFrame {
     /**
      * Button edit archive unit.
      */
-    void buttonEditArchiveUnit() {
+    private void buttonEditArchiveUnit() {
         XmlEditDialog xmlEditDialog = new XmlEditDialog(this, dataObjectPackageTreeItemDisplayed);
         xmlEditDialog.setVisible(true);
         if (xmlEditDialog.getReturnValue()) {
@@ -596,7 +683,7 @@ public class MainWindow extends JFrame {
         }
     }
 
-    AddMetadataItem getAddMetadataItem(String definition) throws SEDALibException {
+    private AddMetadataItem getAddMetadataItem(String definition) throws SEDALibException {
         AddMetadataItem result;
         String macroMetadata = definition.substring(0, 3);
         String elementName = definition.substring(3, definition.indexOf(' '));
@@ -612,7 +699,7 @@ public class MainWindow extends JFrame {
                 metadataMap = m.getMetadataMap();
             }
             if (elementName.equals("AnyOtherMetadata"))
-                result=new AddMetadataItem(AnyXMLType.class, elementName);
+                result = new AddMetadataItem(AnyXMLType.class, elementName);
             else
                 result = new AddMetadataItem(metadataMap.get(elementName).metadataClass, elementName);
         }
@@ -622,26 +709,26 @@ public class MainWindow extends JFrame {
     /**
      * Button add metadata.
      */
-    void buttonAddMetadata() {
-        try{
-            AddMetadataItem ami=getAddMetadataItem((String) metadataComboBox.getSelectedItem());
+    private void buttonAddMetadata() {
+        try {
+            AddMetadataItem ami = getAddMetadataItem((String) metadataComboBox.getSelectedItem());
             XmlEditDialog xmlEditDialog = new XmlEditDialog(this, ami);
             xmlEditDialog.setVisible(true);
             if (xmlEditDialog.getReturnValue()) {
                 //noinspection ConstantConditions
                 String macroMetadata = ((String) metadataComboBox.getSelectedItem()).substring(0, 3);
-                switch(macroMetadata) {
+                switch (macroMetadata) {
                     case "[A]":
                         dataObjectPackageTreeItemDisplayed.getArchiveUnit().setArchiveUnitProfile((ArchiveUnitProfile) ami.skeleton);
                         break;
                     case "[C]":
-                        Content c=dataObjectPackageTreeItemDisplayed.getArchiveUnit().getContent();
+                        Content c = dataObjectPackageTreeItemDisplayed.getArchiveUnit().getContent();
                         c.addMetadata(ami.skeleton);
                         break;
                     case "[M]":
-                        Management m=dataObjectPackageTreeItemDisplayed.getArchiveUnit().getManagement();
-                        if (m==null){
-                            m=new Management();
+                        Management m = dataObjectPackageTreeItemDisplayed.getArchiveUnit().getManagement();
+                        if (m == null) {
+                            m = new Management();
                             dataObjectPackageTreeItemDisplayed.getArchiveUnit().setManagement(m);
                         }
                         m.addMetadata(ami.skeleton);
@@ -659,8 +746,8 @@ public class MainWindow extends JFrame {
                             + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,"L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.\n->"
-                            + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.\n->"
+                    + e.getMessage());
         }
     }
     // edit DataObject
@@ -668,7 +755,7 @@ public class MainWindow extends JFrame {
     /**
      * Button edit data object.
      */
-    void buttonEditDataObject() {
+    private void buttonEditDataObject() {
         DataObject dataObject = getDataObjectListItemDisplayed();
         XmlEditDialog xmlEditDialog = new XmlEditDialog(this, dataObject);
         xmlEditDialog.setVisible(true);
@@ -696,7 +783,7 @@ public class MainWindow extends JFrame {
             tmp = node.getArchiveUnit().toSedaXmlFragments();
             tmp = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(tmp);
         } catch (Exception e) {
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP,"Resip.InOut: Erreur à l'indentation de l'ArchiveUnit ["
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation de l'ArchiveUnit ["
                     + node.getArchiveUnit().getInDataObjectPackageId() + "]");
         }
         getArchiveUnitMetadataText().setText(tmp);
@@ -765,7 +852,7 @@ public class MainWindow extends JFrame {
                 tmp = pdo.toSedaXmlFragments();
                 tmp = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(tmp);
             } catch (Exception e) {
-                ResipLogger.getGlobalLogger().log(ResipLogger.STEP,"Resip.InOut: Erreur à l'indentation du PhysicalDataObject ["
+                ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation du PhysicalDataObject ["
                         + pdo.getInDataObjectPackageId() + "]");
             }
             dataObjectDetailText.setText(tmp);
@@ -900,13 +987,13 @@ public class MainWindow extends JFrame {
     /**
      * Change line spacing in a JTextPane.
      *
-     * @param pane    the pane
-     * @param factor  the factor
+     * @param pane   the pane
+     * @param factor the factor
      */
     private void changeLineSpacing(JTextPane pane, double factor) {
         pane.selectAll();
         MutableAttributeSet set = new SimpleAttributeSet(pane.getParagraphAttributes());
-        StyleConstants.setLineSpacing(set, (float)factor);
+        StyleConstants.setLineSpacing(set, (float) factor);
         pane.setParagraphAttributes(set, true);
     }
 
@@ -920,7 +1007,7 @@ public class MainWindow extends JFrame {
     }
 
 
-     /**
+    /**
      * Gets the archive transfer tree pane.
      *
      * @return the archive transfer tree pane

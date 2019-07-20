@@ -27,37 +27,28 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
-import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.swing.*;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
-
-import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.app.AddThread;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.DustbinItem;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
+import fr.gouv.vitam.tools.resip.frame.MainWindow;
+import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+
+import javax.swing.*;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.util.List;
+import java.util.*;
 
 /**
  * The Class DataObjectPackageTreeViewer.
@@ -113,7 +104,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                             int i = 0;
                             for (DataObjectPackageTreeNode pstn : stn.getParents()) {
                                 popupSTN.add(pstn);
-                                mi = new JMenuItem("Voir "+pstn.getArchiveUnit().getInDataObjectPackageId() + "-" + pstn.getTitle());
+                                mi = new JMenuItem("Voir " + pstn.getArchiveUnit().getInDataObjectPackageId() + "-" + pstn.getTitle());
                                 mi.addActionListener(thisSTV);
                                 mi.setActionCommand("Link-" + Integer.toString(i++));
                                 popup.add(mi);
@@ -127,7 +118,10 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
 
                         popup.show((Component) e.getSource(), e.getX(), e.getY());
                     }
-                } else if (SwingUtilities.isRightMouseButton(e)){
+                } else if (SwingUtilities.isLeftMouseButton(e)) {
+                    clearSelection();
+                    main.refreshInformations();
+                } else if (SwingUtilities.isRightMouseButton(e)) {
                     JPopupMenu popup = new JPopupMenu();
                     JMenuItem mi;
                     mi = new JMenuItem("Ajouter une ArchiveUnit racine");
@@ -146,7 +140,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                 if ((e.getKeyCode() == KeyEvent.VK_DELETE) || (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)) {
                     if (tree.getSelectionPaths() != null)
                         for (TreePath path : tree.getSelectionPaths())
-                            removeSubTree(path,true);
+                            removeSubTree(path, true);
                 }
             }
         };
@@ -154,7 +148,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
 
         setRootVisible(false);
         setLargeModel(true);
-        DataObjectPackageTreeCellRenderer doptcr=new DataObjectPackageTreeCellRenderer();
+        DataObjectPackageTreeCellRenderer doptcr = new DataObjectPackageTreeCellRenderer();
         doptcr.setClosedIcon(new ImageIcon(getClass().getResource("/icon/folder.png")));
         doptcr.setOpenIcon(new ImageIcon(getClass().getResource("/icon/folder-open.png")));
         doptcr.setLeafIcon(new ImageIcon(getClass().getResource("/icon/text-x-generic.png")));
@@ -369,6 +363,79 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         }
     }
 
+    private void innerSetPathExpansionState(TreePath treePath, boolean state) {
+        DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) (treePath.getLastPathComponent());
+        for (int i = 0; i < node.getChildCount(); i++) {
+            innerSetPathExpansionState(treePath.pathByAddingChild(node.getChildAt(i)), state);
+        }
+        setExpandedState(treePath, state);
+    }
+
+    /**
+     * Set the same expansion state for all nodes in the given path.
+     *
+     * @param treePath the tree path
+     * @param state    the state
+     */
+    public void setPathExpansionState(TreePath treePath, boolean state) {
+        // Temporarily remove all listeners that would otherwise
+        // be flooded with TreeExpansionEvents
+        List<TreeExpansionListener> expansionListeners =
+                Arrays.asList(getTreeExpansionListeners());
+        if (state) {
+            for (TreeExpansionListener expansionListener : expansionListeners) {
+                removeTreeExpansionListener(expansionListener);
+            }
+        }
+
+        DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) (treePath.getLastPathComponent());
+        for (int i = 0; i < node.getChildCount(); i++) {
+            innerSetPathExpansionState(treePath.pathByAddingChild(node.getChildAt(i)), state);
+        }
+
+        // Restore the listeners that the tree originally had
+        if (state) {
+            for (TreeExpansionListener expansionListener : expansionListeners) {
+                addTreeExpansionListener(expansionListener);
+            }
+        }
+
+        if (treePath.getParentPath()==null) {
+            for (int i = 0; i < node.getChildCount(); i++) {
+                if (state) {
+                    collapsePath(treePath.pathByAddingChild(node.getChildAt(i)));
+                    expandPath(treePath.pathByAddingChild(node.getChildAt(i)));
+                }
+                else {
+                    expandPath(treePath.pathByAddingChild(node.getChildAt(i)));
+                    collapsePath(treePath.pathByAddingChild(node.getChildAt(i)));
+                }
+            }
+        }
+        else {
+            if (state) {
+                collapsePath(treePath);
+                expandPath(treePath);
+            }
+            else {
+                expandPath(treePath);
+                collapsePath(treePath);
+            }
+        }
+    }
+
+    /**
+     * Set the same expansion state for all nodes in the displayed tree.
+     *
+     * @param state the state
+     */
+    public void setAllExpansionState(boolean state) {
+        DataObjectPackageTreeNode ghostRootNode = (DataObjectPackageTreeNode) (getModel().getRoot());
+        if (ghostRootNode != null) {
+            TreePath ghostRootPath = new TreePath(ghostRootNode);
+            setPathExpansionState(ghostRootPath, state);
+        }
+    }
 
     /**
      * Removes the sub tree.
@@ -432,14 +499,14 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
 
         try {
             InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.getTheApp().mainWindow, "Import");
-            addThread = new AddThread(ResipGraphicApp.getTheApp().currentWork,(targetPath==null?null:
+            addThread = new AddThread(ResipGraphicApp.getTheApp().currentWork, (targetPath == null ? null :
                     (DataObjectPackageTreeNode) targetPath.getLastPathComponent()), files, inOutDialog);
             addThread.execute();
             inOutDialog.setVisible(true);
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    UserInteractionDialog.ERROR_DIALOG,null);
+                    UserInteractionDialog.ERROR_DIALOG, null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
             return;
         }
