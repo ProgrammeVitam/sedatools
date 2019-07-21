@@ -28,7 +28,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.formattools.rtf;
 
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -869,16 +869,15 @@ public class HTMLFromRTFExtractor {
      * Get the de-encapsulate HTML from the RTF source.
      *
      * @return the string
-     * @throws ExtractionException the extraction exception
+     * @throws MailExtractLibException the extraction exception
      */
-    public String getDeEncapsulateHTMLFromRTF() throws ExtractionException {
+    public String getDeEncapsulateHTMLFromRTF() throws MailExtractLibException {
         if (resultString == null) {
             resultBuilder = new StringBuilder();
             try {
                 doExtract();
             } catch (IOException e) {
-                e.printStackTrace();
-                throw new ExtractionException("Can't extract html from rtf");
+                throw new MailExtractLibException("Can't extract html from rtf", e);
             }
             resultString = resultBuilder.toString();
 

@@ -32,7 +32,7 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox.MboxFolder;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird.ThunderbirdFolder;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
 import javax.mail.Flags;
 import javax.mail.Folder;
@@ -94,7 +94,7 @@ public class JMStoreFolder extends StoreFolder {
      * doExtractFolderMessages(boolean)
      */
     @Override
-    protected void doExtractFolderElements(boolean writeFlag) throws ExtractionException, InterruptedException {
+    protected void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
         int msgtotal;
         Message message;
 
@@ -113,7 +113,7 @@ public class JMStoreFolder extends StoreFolder {
             }
             folder.close(false);
         } catch (MessagingException e) {
-            throw new ExtractionException("MailExtract: Can't get messages from folder " + getFullName());
+            throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
         }
 
         // no need to return to attachment the binary form if embedded as it's
@@ -128,7 +128,7 @@ public class JMStoreFolder extends StoreFolder {
      * int, boolean)
      */
     @Override
-    protected void doExtractSubFolders(int level, boolean writeFlag) throws ExtractionException, InterruptedException {
+    protected void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException, InterruptedException {
         JMStoreFolder mBSubFolder;
 
         try {
@@ -142,7 +142,7 @@ public class JMStoreFolder extends StoreFolder {
                 dateRange.extendRange(mBSubFolder.getDateRange());
             }
         } catch (MessagingException e) {
-            throw new ExtractionException("MailExtract: Can't get sub folders from folder " + getFullName());
+            throw new MailExtractLibException("mailextractlib.javamail: can't get sub folders from folder " + getFullName(), e);
         }
     }
 
@@ -172,11 +172,11 @@ public class JMStoreFolder extends StoreFolder {
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreFolder#hasMessages()
      */
     @Override
-    public boolean hasElements() throws ExtractionException {
+    public boolean hasElements() throws MailExtractLibException {
         try {
             return (folder.getType() & Folder.HOLDS_MESSAGES) != 0;
         } catch (MessagingException e) {
-            throw new ExtractionException("MailExtract: Can't determine if folder contains messages" + getFullName());
+            throw new MailExtractLibException("mailextractlib.javamail: can't determine if folder contains messages" + getFullName(), e);
         }
     }
 
@@ -186,11 +186,11 @@ public class JMStoreFolder extends StoreFolder {
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreFolder#hasSubfolders()
      */
     @Override
-    public boolean hasSubfolders() throws ExtractionException {
+    public boolean hasSubfolders() throws MailExtractLibException {
         try {
             return (folder.getType() & Folder.HOLDS_FOLDERS) != 0;
         } catch (MessagingException e) {
-            throw new ExtractionException("MailExtract: Can't determine if folder contains subfolders" + getFullName());
+            throw new MailExtractLibException("mailextractlib.javamail: can't determine if folder contains subfolders" + getFullName(), e);
         }
     }
 
@@ -202,7 +202,7 @@ public class JMStoreFolder extends StoreFolder {
      * (boolean)
      */
     @Override
-    protected void doListFolderElements(boolean stats) throws ExtractionException, InterruptedException {
+    protected void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
         int msgtotal;
         Message message;
 
@@ -222,7 +222,7 @@ public class JMStoreFolder extends StoreFolder {
             }
             folder.close(false);
         } catch (MessagingException e) {
-            throw new ExtractionException("MailExtract: Can't get messages from folder " + getFullName());
+            throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
         }
 
     }
@@ -235,7 +235,7 @@ public class JMStoreFolder extends StoreFolder {
      * boolean)
      */
     @Override
-    protected void doListSubFolders(boolean stats) throws ExtractionException, InterruptedException {
+    protected void doListSubFolders(boolean stats) throws MailExtractLibException, InterruptedException {
         JMStoreFolder mBSubFolder;
 
         try {
@@ -247,7 +247,7 @@ public class JMStoreFolder extends StoreFolder {
                 incFolderSubFoldersCount();
             }
         } catch (MessagingException e) {
-            throw new ExtractionException("MailExtract: Can't get sub folders from folder " + getFullName());
+            throw new MailExtractLibException("mailextractlib.javamail: can't get sub folders from folder " + getFullName(), e);
         }
     }
 }

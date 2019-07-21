@@ -193,8 +193,8 @@ public class RFC822Headers extends InternetHeaders {
                 } catch (UnsupportedEncodingException uee) {
                     // too bad
                 }
-                message.logMessageWarning("mailextract.rfc822: Wrongly formatted address " + addressHeaderString
-                        + ", keep raw address list in metadata in header " + name);
+                message.logMessageWarning("mailextractlib.rfc822: wrongly formatted address " + addressHeaderString
+                        + ", keep raw address list in metadata in header " + name, e);
                 result.add(addressHeaderString);
                 return result;
             }

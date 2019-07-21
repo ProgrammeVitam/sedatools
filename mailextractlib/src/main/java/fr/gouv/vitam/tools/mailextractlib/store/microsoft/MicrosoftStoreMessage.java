@@ -40,6 +40,8 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
+
 /**
  * StoreMessage sub-class for Microsoft message format, abstraction for pst and msg messages.
  */
@@ -167,7 +169,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                     rfc822Headers = new RFC822Headers(headerString, this);
                     mailHeader = Collections.list(rfc822Headers.getAllHeaderLines());
                 } catch (MessagingException e) {
-                    logMessageWarning("mailextract.microsoft: Can't decode smtp header");
+                    logMessageWarning("mailextractlib.microsoft: can't decode smtp header", e);
                     rfc822Headers = null;
                     mailHeader = null;
                 }
@@ -191,7 +193,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
             String[] sList = rfc822Headers.getHeader("Subject");
             if (sList != null) {
                 if (sList.length > 1)
-                    logMessageWarning("mailextract.microsoft: Multiple subjects, keep the first one in header");
+                    logMessageWarning("mailextractlib.microsoft: multiple subjects, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(sList[0]);
             }
         } else {
@@ -211,7 +213,8 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                 result = null;
         }
         if (result == null)
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract.microsoft: No subject in header");
+            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS,
+                    "mailextractlib.microsoft: no subject in header", null);
 
         subject = result;
     }
@@ -232,7 +235,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
             String[] mList = rfc822Headers.getHeader("message-ID");
             if (mList != null) {
                 if (mList.length > 1)
-                    logMessageWarning("mailextract.microsoft: Multiple message ID, keep the first one in header");
+                    logMessageWarning("mailextractlib.microsoft: multiple message ID, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(mList[0]);
             }
         } else {
@@ -256,12 +259,13 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                 }
             }
             // FIXME AN pst to test
-            catch (Exception e) {
-                result = null;
+             catch (Exception e) {
+                logMessageWarning("mailextractlib.microsoft: error during Message ID extraction", e);
+                result = "NoMessageID";
             }
         }
         if (result == null) {
-            logMessageWarning("mailextract.microsoft: No Message ID address in header");
+            logMessageWarning("mailextractlib.microsoft: no Message ID address in header", null);
             result = "NoMessageID";
         }
         messageID = result;
@@ -314,7 +318,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
             String[] fromList = rfc822Headers.getHeader("From");
             if (fromList != null) {
                 if (fromList.length > 1)
-                    logMessageWarning("mailextract.microsoft: Multiple From addresses, keep the first one in header");
+                    logMessageWarning("mailextractlib.microsoft: multiple From addresses, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(fromList[0]);
             }
         } else {
@@ -330,7 +334,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
         }
 
         if (result == null)
-            logMessageWarning("mailextract.microsoft: No From address in header");
+            logMessageWarning("mailextractlib.microsoft: no From address in header", null);
 
         from = result;
     }
@@ -364,7 +368,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
             try {
                 recipientNumber = getNativeNumberOfRecipients();
             } catch (Exception e) {
-                logMessageWarning("mailextract.microsoft: Can't determine recipient list");
+                logMessageWarning("mailextractlib.microsoft: can't determine recipient list", e);
                 recipientNumber = 0;
             }
             for (int i = 0; i < recipientNumber; i++) {
@@ -386,8 +390,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                             break;
                     }
                 } catch (Exception e) {
-                    logMessageWarning("mailextract.microsoft: Can't get recipient number " + Integer.toString(i));
-                    getProgressLogger().logException(e);
+                    logMessageWarning("mailextractlib.microsoft: can't get recipient number " + Integer.toString(i), e);
                 }
             }
         }
@@ -430,7 +433,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
             if (rpList != null) {
                 if (rpList.length > 1)
                     logMessageWarning(
-                            "mailextract.microsoft: Multiple Return-Path addresses, keep the first one in header");
+                            "mailextractlib.microsoft: multiple Return-Path addresses, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(rpList[0]);
             }
         }
@@ -469,7 +472,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
             if (irtList != null) {
                 if (irtList.length > 1)
                     logMessageWarning(
-                            "mailextract.microsoft: Multiple In-Reply-To identifiers, keep the first one in header");
+                            "mailextractlib.microsoft: multiple In-Reply-To identifiers, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(irtList[0]);
             }
         } else {
@@ -572,7 +575,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
         try {
             attachmentNumber = nativeAttachments.length;
         } catch (Exception e) {
-            logMessageWarning("mailextract.microsoft: Can't determine attachment list");
+            logMessageWarning("mailextractlib.microsoft: can't determine attachment list", e);
             attachmentNumber = 0;
         }
         for (int i = 0; i < attachmentNumber; i++) {
@@ -585,7 +588,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                     // TODO OLE case you can access the IStorage object through
                     // IAttach::OpenProperty(PR_ATTACH_DATA_OBJ, ...)
                     case ATTACHMENT_METHOD_OLE:
-                        logMessageWarning("mailextract.microsoft: Can't extract OLE attachment");
+                        logMessageWarning("mailextractlib.microsoft: can't extract OLE attachment", null);
                         break;
                     case ATTACHMENT_METHOD_BY_VALUE:
                         attachment = new StoreMessageAttachment(nativeAttachments[i].byteArray, "file",
@@ -598,7 +601,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                     case ATTACHMENT_METHOD_BY_REFERENCE_RESOLVE:
                     case ATTACHMENT_METHOD_BY_REFERENCE_ONLY:
                         // TODO reference cases
-                        logMessageWarning("mailextract.microsoft: Can't extract reference attachment");
+                        logMessageWarning("mailextractlib.microsoft: can't extract reference attachment", null);
                         break;
                     case ATTACHMENT_METHOD_EMBEDDED:
                         attachment = new StoreMessageAttachment(nativeAttachments[i].embeddedMessage,
@@ -609,7 +612,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                         break;
                 }
             } catch (Exception e) {
-                logMessageWarning("mailextract.microsoft: Can't get attachment number " + Integer.toString(i));
+                logMessageWarning("mailextractlib.microsoft: can't get attachment number " + Integer.toString(i), e);
             }
         }
 

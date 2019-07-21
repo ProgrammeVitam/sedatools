@@ -28,7 +28,7 @@ package fr.gouv.vitam.tools.mailextract;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -41,6 +41,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Paths;
 
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogWithoutInterruption;
 
 /**
  * MailExtractApp class for launching the command or the graphic application.
@@ -435,9 +436,8 @@ public class MailExtractApp {
                     storeExtractor.extractAllFolders();
                 }
                 storeExtractor.endStoreExtractor();
-            } catch (ExtractionException ee) {
-                logger.progressLogWithoutInterruption(GLOBAL, ee.getMessage());
-                logger.logException(ee);
+            } catch (MailExtractLibException ee) {
+                doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: extraction error", ee);
                 System.exit(1);
             } catch (Exception e) {
                 logFatalError(e, storeExtractor, mel);

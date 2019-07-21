@@ -27,7 +27,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.core;
 
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
 import javax.activation.MimeType;
 import javax.activation.MimeTypeParseException;
@@ -113,14 +113,14 @@ public class StoreMessageAttachment {
      * Gets the raw attachment content.
      *
      * @return the raw attachment content
-     * @throws ExtractionException
+     * @throws MailExtractLibException
      *             the extraction exception
      */
-    public byte[] getRawAttachmentContent() throws ExtractionException {
+    public byte[] getRawAttachmentContent() throws MailExtractLibException {
         if (attachmentContent instanceof byte[])
             return (byte[]) attachmentContent;
         else
-            throw new ExtractionException("mailextract: this attachment has no binary form");
+            throw new MailExtractLibException("mailextractlib: this attachment has no binary form", null);
     }
 
     /**

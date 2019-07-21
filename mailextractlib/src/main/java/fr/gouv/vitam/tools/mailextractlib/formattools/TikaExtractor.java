@@ -26,7 +26,7 @@
  */
 package fr.gouv.vitam.tools.mailextractlib.formattools;
 
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import org.apache.tika.Tika;
 
 import java.io.ByteArrayInputStream;
@@ -72,10 +72,10 @@ public class TikaExtractor {
      * @param rawContent
      *            the raw content
      * @return the text String
-     * @throws ExtractionException
+     * @throws MailExtractLibException
      *             if text extract was not possible
      */
-    public String extractTextFromBinary(byte[] rawContent) throws ExtractionException {
+    public String extractTextFromBinary(byte[] rawContent) throws MailExtractLibException {
         String s = null;
         Level memLevel;
         Logger logger;
@@ -88,7 +88,7 @@ public class TikaExtractor {
             if (rawContent.length > 0)
                 s = tika.parseToString(new ByteArrayInputStream(rawContent));
         } catch (Throwable e) {
-            throw new ExtractionException("mailextract.formattools: Can't extract text content\n->" + e.getMessage());
+            throw new MailExtractLibException("mailextractlib.formattools: can't extract text content", e);
         } finally {
             logger.setLevel(memLevel);
         }
@@ -102,10 +102,10 @@ public class TikaExtractor {
      * @param rawContent
      *            the raw content
      * @return the mime type
-     * @throws ExtractionException
+     * @throws MailExtractLibException
      *             if text extract was not possible
      */
-    public String getMimeType(byte[] rawContent) throws ExtractionException {
+    public String getMimeType(byte[] rawContent) throws MailExtractLibException {
         String result = null;
         Level memLevel;
         Logger logger;

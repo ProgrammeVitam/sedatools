@@ -33,7 +33,7 @@ import fr.gouv.vitam.tools.mailextractlib.formattools.rtf.HTMLFromRTFExtractor;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.nodes.MetadataPerson;
 import fr.gouv.vitam.tools.mailextractlib.utils.DateRange;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RawDataSource;
 import org.apache.poi.hmef.Attachment;
@@ -54,6 +54,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogIfStep;
 
 /**
  * Abstract class for store element which is a mail box message.
@@ -319,18 +322,23 @@ public abstract class StoreMessage extends StoreElement {
      * To log a problem on a specific message.
      *
      * @param msg Message to log
+     * @param t   the throwable cause
      * @throws InterruptedException the interrupted exception
      */
-    public void logMessageWarning(String msg) throws InterruptedException {
+    public void logMessageWarning(String msg, Throwable t) throws InterruptedException {
         if (subject != null)
             msg += " for message [" + subject + "]";
         else
             msg += " for [no subject] message";
 
+        Exception ex=null;
+        if (t instanceof Exception)
+            ex=(Exception)t;
+
         if (storeFolder.getStoreExtractor().options.warningMsgProblem)
-            getProgressLogger().progressLog(MailExtractProgressLogger.WARNING, msg);
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.WARNING, msg, ex);
         else
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, msg);
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, ex);
     }
 
     /*
@@ -453,7 +461,7 @@ public abstract class StoreMessage extends StoreElement {
                         if ((bodyContent[RTF_BODY]==null) || bodyContent[RTF_BODY].isEmpty())
                             bodyContent[RTF_BODY]=rtfBody;
                         else
-                            logMessageWarning("mailextract: redondant rtf body extracted from winmail.dat droped");
+                            logMessageWarning("mailextractlib: redondant rtf body extracted from winmail.dat droped", null);
 
                         for (Attachment tnefAttachment:tnefAttachments) {
                             StoreMessageAttachment smAttachment=new StoreMessageAttachment(tnefAttachment.getContents(),
@@ -465,7 +473,7 @@ public abstract class StoreMessage extends StoreElement {
                         }
                         break;
                     } catch (Exception e) {
-                        logMessageWarning("mailextract: can't analyze winmail.dat content, it will be extracted as a file");
+                        logMessageWarning("mailextractlib: can't analyze winmail.dat content, it will be extracted as a file", e);
                     }
                 }
             }
@@ -509,7 +517,7 @@ public abstract class StoreMessage extends StoreElement {
                                 break;
                             }
                         }
-                    } catch (ExtractionException e) {
+                    } catch (MailExtractLibException e) {
                         // forget it
                     }
                 }
@@ -546,10 +554,10 @@ public abstract class StoreMessage extends StoreElement {
      * If needed a fake raw SMTP content (.eml) is generated with all the body
      * formats available but without the attachments, which are extracted too.
      *
-     * @throws ExtractionException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
+     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
      * @throws InterruptedException the interrupted exception
      */
-    public void analyzeMessage() throws ExtractionException, InterruptedException {
+    public void analyzeMessage() throws MailExtractLibException, InterruptedException {
         // header metadata extraction
         // * special global
         analyzeSubject();
@@ -632,7 +640,7 @@ public abstract class StoreMessage extends StoreElement {
                 }
 
             }
-        } catch (ExtractionException e) {
+        } catch (MailExtractLibException e) {
             // forget bodies optimisation
         }
     }
@@ -658,10 +666,10 @@ public abstract class StoreMessage extends StoreElement {
      * {@link StoreExtractor#extractAllFolders StoreFolder.extractAllFolders}).
      *
      * @param writeFlag write or not flag (no write used for stats)
-     * @throws ExtractionException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
+     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
      * @throws InterruptedException the interrupted exception
      */
-    public final void extractMessage(boolean writeFlag) throws ExtractionException, InterruptedException {
+    public final void extractMessage(boolean writeFlag) throws MailExtractLibException, InterruptedException {
         // String description = "[Vide]";
         String textContent = null;
 
@@ -747,7 +755,7 @@ public abstract class StoreMessage extends StoreElement {
                 mimeFake.writeTo(baos);
                 mimeContent = baos.toByteArray();
             } catch (MessagingException | IOException e) {
-                logMessageWarning("mailextract: Can't extract raw content");
+                logMessageWarning("mailextractlib: can't extract raw content", e);
             }
         }
         if (mimeContent == null)
@@ -761,11 +769,11 @@ public abstract class StoreMessage extends StoreElement {
 
         getStoreExtractor().incMessageCount();
         if (getStoreExtractor().isRoot()) {
-            getProgressLogger().progressLogIfStep(MailExtractProgressLogger.MESSAGE_GROUP, getStoreExtractor().getMessageCount(), "mailextract: " + getStoreExtractor().getMessageCount() + " extracted messages");
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE, "mailextract: Extracted message " + (subject == null ? "no subject" : subject));
+            doProgressLogIfStep(getProgressLogger(), MailExtractProgressLogger.MESSAGE_GROUP, getStoreExtractor().getMessageCount(), "mailextractlib: " + getStoreExtractor().getMessageCount() + " extracted messages");
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE, "mailextractlib: extracted message " + (subject == null ? "no subject" : subject), null);
         } else
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: Extracted message " + (subject == null ? "no subject" : subject));
-        getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "with SentDate=" + (sentDate == null ? "Unknown sent date" : sentDate.toString()));
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: extracted message " + (subject == null ? "no subject" : subject), null);
+        doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "with SentDate=" + (sentDate == null ? "Unknown sent date" : sentDate.toString()), null);
 
         // write in csv list if asked for
         writeToMailsList(writeFlag);
@@ -840,8 +848,7 @@ public abstract class StoreMessage extends StoreElement {
                 ps.println();
                 ps.flush();
             } catch (Exception e) {
-                getProgressLogger().logException(e);
-                logMessageWarning("mailextract: Can't write in mails csv list");
+                logMessageWarning("mailextractlib: can't write in mails csv list", e);
             }
         }
     }
@@ -888,7 +895,7 @@ public abstract class StoreMessage extends StoreElement {
      * Extract a file or inline message attachment.
      */
     private final void extractFileOrInlineAttachment(ArchiveUnit messageNode, StoreMessageAttachment attachment,
-                                                     boolean writeFlag) throws ExtractionException, InterruptedException {
+                                                     boolean writeFlag) throws MailExtractLibException, InterruptedException {
         ArchiveUnit attachmentNode;
 
         if ((attachment.name == null) || attachment.name.isEmpty())
@@ -921,9 +928,9 @@ public abstract class StoreMessage extends StoreElement {
         if (getStoreExtractor().options.extractFileTextFile || getStoreExtractor().options.extractFileTextMetadata)
             try {
                 textExtract = TikaExtractor.getInstance().extractTextFromBinary(attachment.getRawAttachmentContent());
-            } catch (ExtractionException ee) {
-                this.getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: Can't extract text content from attachment " + attachment.name);
-                this.getProgressLogger().logException(ee);
+            } catch (MailExtractLibException ee) {
+                doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS,
+                        "mailextractlib: can't extract text content from attachment " + attachment.name, ee);
             }
         // put in file
         if (getStoreExtractor().options.extractFileTextFile && (!((textExtract == null) || textExtract.trim().isEmpty()))) {
@@ -944,14 +951,14 @@ public abstract class StoreMessage extends StoreElement {
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
     private final void extractStoreAttachment(ArchiveUnit rootNode, DateRange attachedMessagedateRange,
-                                              StoreMessageAttachment a, boolean writeFlag) throws ExtractionException, InterruptedException {
+                                              StoreMessageAttachment a, boolean writeFlag) throws MailExtractLibException, InterruptedException {
         StoreExtractor extractor;
         Boolean isContainerScheme = false;
 
         Class storeExtractorClass = StoreExtractor.schemeStoreExtractorClassMap.get(a.attachmentStoreScheme);
         if (storeExtractorClass == null) {
-            logMessageWarning("mailextract: Unknown embedded store type=" + a.attachmentStoreScheme
-                    + " , extracting unit in path " + rootNode.getFullName());
+            logMessageWarning("mailextractlib: unknown embedded store type=" + a.attachmentStoreScheme
+                    + " , extracting unit in path " + rootNode.getFullName(), null);
             extractor = null;
         } else {
             isContainerScheme = StoreExtractor.schemeContainerMap.get(a.attachmentStoreScheme);
@@ -972,15 +979,13 @@ public abstract class StoreMessage extends StoreElement {
                         .newInstance(a, rootNode, getStoreExtractor().options, getStoreExtractor(), getProgressLogger());
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException
                     | SecurityException e) {
-                logMessageWarning("mailextract: Dysfonctional embedded store type=" + a.attachmentStoreScheme
-                        + " , extracting unit in path " + rootNode.getFullName());
+                logMessageWarning("mailextractlib: dysfonctional embedded store type=" + a.attachmentStoreScheme
+                        + " , extracting unit in path " + rootNode.getFullName(), e);
                 extractor = null;
             } catch (InvocationTargetException e) {
                 Throwable te = e.getCause();
-                if (te instanceof ExtractionException)
-                    throw (ExtractionException) te;
-                logMessageWarning("mailextract: Dysfonctional embedded store type=" + a.attachmentStoreScheme
-                        + " , extracting unit in path " + rootNode.getFullName());
+                logMessageWarning("mailextractlib: dysfonctional embedded store type=" + a.attachmentStoreScheme
+                        + " , extracting unit in path " + rootNode.getFullName(), te);
                 extractor = null;
             }
         }
@@ -1006,7 +1011,7 @@ public abstract class StoreMessage extends StoreElement {
      * Extract all message attachments.
      */
     private final void extractMessageAttachments(ArchiveUnit messageNode, boolean writeFlag)
-            throws ExtractionException, InterruptedException {
+            throws MailExtractLibException, InterruptedException {
         DateRange attachedMessagedateRange;
         boolean attachedFlag = false;
 
@@ -1016,7 +1021,7 @@ public abstract class StoreMessage extends StoreElement {
             // message identification
             if (a.attachmentType == StoreMessageAttachment.STORE_ATTACHMENT) {
                 // recursive extraction of a message in attachment...
-                getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: Attached message extraction");
+                    doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: attached message extraction", null);
                 extractStoreAttachment(messageNode, attachedMessagedateRange, a, writeFlag);
                 attachedFlag = true;
             } else if (writeFlag) {
@@ -1035,10 +1040,10 @@ public abstract class StoreMessage extends StoreElement {
      * Add this message in the folder accumulators for number of messages and
      * total raw size of messages.
      *
-     * @throws ExtractionException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
+     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
      * @throws InterruptedException the interrupted exception
      */
-    public void countMessage() throws ExtractionException, InterruptedException {
+    public void countMessage() throws MailExtractLibException, InterruptedException {
         // accumulate in folder statistics
         storeFolder.incFolderElementsCount();
         storeFolder.addFolderElementsRawSize(getMessageSize());
@@ -1056,11 +1061,8 @@ public abstract class StoreMessage extends StoreElement {
             buildMimeHeader(mime);
             buildMimePart(mime);
             mime.saveChanges();
-        } catch (MessagingException e) {
-            logMessageWarning("mailextract: Unable to generate mime fake ");
-            mime = null;
-        } catch (ExtractionException e) {
-            logMessageWarning("mailextract: " + e.getMessage());
+        } catch (MessagingException | MailExtractLibException e) {
+            logMessageWarning("mailextractlib: unable to generate mime fake", e);
             mime = null;
         }
         return mime;
@@ -1086,7 +1088,7 @@ public abstract class StoreMessage extends StoreElement {
         }
     }
 
-    private void buildMimeHeader(MimeMessage mime) throws ExtractionException {
+    private void buildMimeHeader(MimeMessage mime) throws MailExtractLibException {
         try {
             // put all know headers, they will be change by the specific ones
             if ((mailHeader != null) && (mailHeader.size() > 0)) {
@@ -1131,11 +1133,11 @@ public abstract class StoreMessage extends StoreElement {
                 mime.setHeader("In-Reply-To", MimeUtility.encodeText(inReplyToUID, "UTF-8", "Q"));
 
         } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new ExtractionException("Unable to generate mime header of message " + subject);
+            throw new MailExtractLibException("Unable to generate mime header of message " + subject, e);
         }
     }
 
-    private void addAttachmentPart(MimeMultipart root, boolean isInline) throws ExtractionException {
+    private void addAttachmentPart(MimeMultipart root, boolean isInline) throws MailExtractLibException {
         try {
             // build attach part
             for (StoreMessageAttachment a : attachments) {
@@ -1189,8 +1191,8 @@ public abstract class StoreMessage extends StoreElement {
                 }
             }
         } catch (MessagingException | UnsupportedEncodingException e) {
-            throw new ExtractionException(
-                    "Unable to generate " + (isInline ? "inlines" : "attachments") + " of message " + subject);
+            throw new MailExtractLibException(
+                    "Unable to generate " + (isInline ? "inlines" : "attachments") + " of message " + subject, e);
         }
 
     }
@@ -1216,7 +1218,7 @@ public abstract class StoreMessage extends StoreElement {
         return true;
     }
 
-    private void buildMimePart(MimeMessage mime) throws ExtractionException {
+    private void buildMimePart(MimeMessage mime) throws MailExtractLibException {
         boolean hasInline = false;
         int relatedPart = OUT_OF_BODY;
 
@@ -1284,7 +1286,7 @@ public abstract class StoreMessage extends StoreElement {
                     }
                 }
             } catch (MessagingException e) {
-                throw new ExtractionException("Unable to generate mime body part of message " + subject);
+                throw new MailExtractLibException("Unable to generate mime body part of message " + subject, e);
             }
 
             // add inline part of attachments if not added to HTML body
@@ -1295,7 +1297,7 @@ public abstract class StoreMessage extends StoreElement {
             try {
                 mime.setContent(rootMp);
             } catch (MessagingException e) {
-                throw new ExtractionException("Unable to generate mime fake of message " + subject);
+                throw new MailExtractLibException("Unable to generate mime fake of message " + subject, e);
             }
         }
     }

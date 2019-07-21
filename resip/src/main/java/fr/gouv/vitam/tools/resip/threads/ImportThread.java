@@ -195,6 +195,7 @@ public class ImportThread extends SwingWorker<String, String> {
                     inOutDialog.extProgressTextArea.setText(newLog);
                     inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
                 }, 1000,2);
+                mepl.setDebugFlag(true);
                 MailImportContext mic = (MailImportContext) work.getCreationContext();
                 String target = getTmpDirTarget(mic.getWorkDir(), mic.getOnDiskInput());
                 MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),

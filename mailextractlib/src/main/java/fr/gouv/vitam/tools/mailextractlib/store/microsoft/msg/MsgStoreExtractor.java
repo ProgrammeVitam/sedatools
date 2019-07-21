@@ -31,7 +31,7 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import org.apache.poi.hsmf.MAPIMessage;
 
@@ -67,11 +67,11 @@ public class MsgStoreExtractor extends StoreExtractor {
      * @param options            the options
      * @param rootStoreExtractor the root store extractor
      * @param logger             the logger
-     * @throws ExtractionException  the extraction exception
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException the extraction exception
+     * @throws InterruptedException    the interrupted exception
      */
     public MsgStoreExtractor(String urlString, String folder, String destPathString, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException, InterruptedException, IOException {
+                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException, InterruptedException {
         super(urlString, folder, destPathString, options, rootStoreExtractor, logger);
         MAPIMessage message;
         long size;
@@ -81,8 +81,8 @@ public class MsgStoreExtractor extends StoreExtractor {
             message = new MAPIMessage(messageFile);
             size = Files.size(messageFile.toPath());
         } catch (Exception e) {
-            throw new ExtractionException(
-                    "mailExtract.msg: can't open " + path + ", doesn't exist or is not a msg file");
+            throw new MailExtractLibException(
+                    "mailextractlib.msg: can't open " + path + ", doesn't exist or is not a msg file", e);
         }
 
         ArchiveUnit rootNode = new ArchiveUnit(this, destRootPath, destName);
@@ -97,11 +97,11 @@ public class MsgStoreExtractor extends StoreExtractor {
      * @param options            the options
      * @param rootStoreExtractor the root store extractor
      * @param logger             the logger
-     * @throws ExtractionException  the extraction exception
+     * @throws MailExtractLibException  the extraction exception
      * @throws InterruptedException the interrupted exception
      */
     public MsgStoreExtractor(StoreMessageAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException, InterruptedException {
+                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException, InterruptedException {
         super("msg.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, logger);
         MAPIMessage message;
 
@@ -113,10 +113,10 @@ public class MsgStoreExtractor extends StoreExtractor {
             try {
                 message = new MAPIMessage(bais);
             } catch (IOException e) {
-                throw new ExtractionException("mailextract.msg: Can't extract msg store");
+                throw new MailExtractLibException("mailextractlib.msg: can't extract msg store", e);
             }
         } else
-            throw new ExtractionException("mailextract.msg: Can't extract msg store");
+            throw new MailExtractLibException("mailextractlib.msg: can't extract msg store", null);
 
         setRootFolder(MsgStoreFolder.createRootFolder(this, message, 0, rootNode));
     }

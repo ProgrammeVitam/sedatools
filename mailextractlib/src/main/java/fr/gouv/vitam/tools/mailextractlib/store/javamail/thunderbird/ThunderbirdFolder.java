@@ -39,6 +39,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogWithoutInterruption;
+
 /**
  * JavaMail Folder for Thunderbird mbox directory/file structure.
  * <p>
@@ -204,8 +206,9 @@ public class ThunderbirdFolder extends Folder {
         if (!test.exists() || !test.isDirectory())
             return false;
         if (!test.getName().endsWith(".sbd")) {
-            logger.progressLogWithoutInterruption(MailExtractProgressLogger.WARNING,
-                    "ThunderMBox: Maybe sub folders directory " + test.getPath() + " without .sbd suffix is ignored");
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.WARNING,
+                    "ThunderMBox: Maybe sub folders directory " + test.getPath() + " without .sbd suffix is ignored",
+                    null);
             return false;
         }
         return true;
@@ -229,8 +232,9 @@ public class ThunderbirdFolder extends Folder {
             if (firstline == null || !firstline.startsWith("From"))
                 return false;
         } catch (IOException e) {
-            logger.progressLogWithoutInterruption(MailExtractProgressLogger.WARNING, "ThunderMBox: Maybe mailbox file " + test.getPath() + " can't be opened and is ignored");
-            logger.logException(e);
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.WARNING,
+                    "ThunderMBox: Maybe mailbox file " + test.getPath() + " can't be opened and is ignored",
+                    e);
         } finally {
             try {
                 if (reader != null)
@@ -242,8 +246,9 @@ public class ThunderbirdFolder extends Folder {
         // then verify that an index file exists "fileName".msf
         test = new File(test.getPath() + ".msf");
         if (!test.exists())
-            logger.progressLogWithoutInterruption(MailExtractProgressLogger.WARNING,
-                    "ThunderMBox: Maybe mailbox file " + test.getPath() + " don't have an index file but is analyzed");
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.WARNING,
+                    "ThunderMBox: Maybe mailbox file " + test.getPath() + " don't have an index file but is analyzed",
+                    null);
         return true;
     }
 
@@ -345,8 +350,8 @@ public class ThunderbirdFolder extends Folder {
             if (listOfFiles[i].isFile() && listOfFiles[i].length() == 0)
                 continue;
             // then garbage and warning
-            logger.progressLogWithoutInterruption(MailExtractProgressLogger.WARNING, "ThunderMBox: Wrong mailbox file " + listOfFiles[i].getName() + " in "
-                    + (folderFullName == null ? "root folder" : "folder " + folderFullName) + " is ignored");
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.WARNING, "ThunderMBox: Wrong mailbox file " + listOfFiles[i].getName() + " in "
+                    + (folderFullName == null ? "root folder" : "folder " + folderFullName) + " is ignored", null);
         }
 
         ArrayList<Folder> folders = new ArrayList<Folder>();

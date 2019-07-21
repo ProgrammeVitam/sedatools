@@ -33,7 +33,7 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.PstStoreMessage;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
 /**
  * StoreFolder sub-class for mail boxes extracted through libpst library.
@@ -82,7 +82,7 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      * doExtractFolderMessages()
      */
     @Override
-    protected void doExtractFolderElements(boolean writeFlag) throws ExtractionException, InterruptedException {
+    protected void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
         lpStoreMessage.analyzeMessage();
         dateRange.extendRange(lpStoreMessage.getSentDate());
         lpStoreMessage.extractMessage(writeFlag);
@@ -104,7 +104,7 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      * int)
      */
     @Override
-    protected void doExtractSubFolders(int level, boolean writeFlag) throws ExtractionException {
+    protected void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException {
         // no subfolders
     }
 
@@ -134,7 +134,7 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      * @see fr.gouv.vitam.tools.mailextract.core.MailBoxFolder#hasMessages()
      */
     @Override
-    public boolean hasElements() throws ExtractionException {
+    public boolean hasElements() throws MailExtractLibException {
         return true;
     }
 
@@ -144,7 +144,7 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      * @see fr.gouv.vitam.tools.mailextract.core.MailBoxFolder#hasSubfolders()
      */
     @Override
-    public boolean hasSubfolders() throws ExtractionException {
+    public boolean hasSubfolders() throws MailExtractLibException {
         return false;
     }
 
@@ -155,7 +155,7 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      * fr.gouv.vitam.tools.mailextract.core.MailBoxFolder#doListFolderMessages()
      */
     @Override
-    protected void doListFolderElements(boolean stats) throws ExtractionException, InterruptedException {
+    protected void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
         lpStoreMessage.countMessage();
     }
 
@@ -166,7 +166,7 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      * boolean)
      */
     @Override
-    protected void doListSubFolders(boolean stats) throws ExtractionException {
+    protected void doListSubFolders(boolean stats) throws MailExtractLibException {
         // no subfolder
     }
 }
