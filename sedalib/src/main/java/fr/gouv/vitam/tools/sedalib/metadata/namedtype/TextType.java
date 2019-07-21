@@ -108,7 +108,7 @@ public class TextType extends NamedTypeMetadata {
             xmlWriter.writeCharactersIfNotEmpty(value);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type TextType [" + getXmlElementName() + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type TextType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -151,7 +151,7 @@ public class TextType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType", e);
         }
         return true;
     }

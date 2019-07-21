@@ -1,13 +1,12 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
 import java.time.LocalDate;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class ManagementMetadataTest {
 

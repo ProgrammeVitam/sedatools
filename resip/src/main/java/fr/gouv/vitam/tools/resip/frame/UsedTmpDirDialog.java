@@ -23,7 +23,6 @@ public class UsedTmpDirDialog extends JDialog {
      */
     private JPanel optionalActionPanel;
     private JPanel subInformationPanel;
-    private Container contentPane;
 
     /**
      * The constant STATUS_CONTINUE.
@@ -90,7 +89,7 @@ public class UsedTmpDirDialog extends JDialog {
         this.setPreferredSize(new Dimension(600, 240));
         this.setResizable(false);
 
-        contentPane = getContentPane();
+        Container contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
 
         final JPanel informationPanel = new JPanel();
@@ -339,7 +338,6 @@ public class UsedTmpDirDialog extends JDialog {
 
         // change the subInformationPanel cause the workDir reference is no more convenient
         subInformationPanel.removeAll();
-        gbc = new GridBagConstraints();
         final JLabel label3bis = new JLabel();
         label3bis.setText("Répertoire :");
         gbc = new GridBagConstraints();

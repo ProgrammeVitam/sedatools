@@ -50,6 +50,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+
 /**
  * The Class CSVMetadataToDataObjectPackageImporter.
  * <p>
@@ -202,11 +205,10 @@ public class CSVMetadataToDataObjectPackageImporter {
                     currentLine = new Line(metadataFormatter.getGUID(row), metadataFormatter.getParentGUID(row),
                             metadataFormatter.getFile(row), metadataFormatter.doFormatAndExtractContentXML(row), metadataFormatter.extractManagementXML());
                 } catch (SEDALibException e) {
-                    throw new SEDALibException("Erreur sur la ligne "+lineCount+"\n->"+e.getMessage());
+                    throw new SEDALibException("Erreur sur la ligne "+lineCount, e);
                 }
                 linesMap.put(metadataFormatter.getGUID(row), currentLine);
-                if (sedaLibProgressLogger != null)
-                    sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, lineCount, Integer.toString(lineCount) + " lignes interprétées");
+                doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, lineCount, "sedalib: "+ lineCount + " lignes interprétées");
             }
         } catch (IOException e) {
             throw new SEDALibException("Le fichier csv [" + csvMetadataFileName + "] n'est pas accessible");
@@ -214,7 +216,7 @@ public class CSVMetadataToDataObjectPackageImporter {
         return metadataFormatter.needIdRegeneration();
     }
 
-    private ArchiveUnit createLineAU(Line line) throws SEDALibException {
+    private ArchiveUnit createLineAU(Line line) throws SEDALibException, InterruptedException {
         ArchiveUnit au;
         BinaryDataObject bdo;
 
@@ -235,21 +237,16 @@ public class CSVMetadataToDataObjectPackageImporter {
             bdo.extractTechnicalElements(sedaLibProgressLogger);
             au.addDataObjectById(bdo.getInDataObjectPackageId());
         }
-
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS,
-                    "Creation d'une ArchiveUnit [" + line.guid + "]");
         return au;
     }
 
-    private ArchiveUnit createToRoot(Line line) throws SEDALibException {
+    private ArchiveUnit createToRoot(Line line) throws SEDALibException, InterruptedException {
         if (line.au == null) {
             line.au = createLineAU(line);
             Line parentLine = linesMap.get(line.parentGUID);
             if ((parentLine == null) || parentLine.equals(line)) {
-                if (sedaLibProgressLogger != null)
-                    sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_GROUP,
-                            "ArchiveUnit [" + line.guid + "] n'a pas de parent, elle est mise en racine");
+                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP,
+                        "sedalib: archiveUnit [" + line.guid + "] n'a pas de parent, elle est mise en racine", null);
                 dataObjectPackage.addRootAu(line.au);
             } else {
                 ArchiveUnit parentAU = createToRoot(parentLine);
@@ -277,16 +274,20 @@ public class CSVMetadataToDataObjectPackageImporter {
     public void doImport() throws SEDALibException, InterruptedException {
         Date d = new Date();
         start = Instant.now();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, "Début de l'import du fichier csv de métadonnées [" + csvMetadataFileName + "] date="
-                    + DateFormat.getDateTimeInstance().format(d));
+        String log = "sedalib: début de l'import du fichier csv de métadonnées\n";
+        log += "en [" + csvMetadataFileName + "]\n";
+        log += "date=" + DateFormat.getDateTimeInstance().format(d);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         boolean needIdRegeneration = readCSVFile();
         dataObjectPackage = new DataObjectPackage();
 
+        int lineCount=0;
         for (Map.Entry<String, Line> e : linesMap.entrySet()) {
             if (e.getValue().au != null) continue;
             createToRoot(e.getValue());
+            lineCount++;
+            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, lineCount, "sedalib: "+ lineCount + " ArchiveUnit importées");
         }
 
         dataObjectPackage.vitamNormalize(sedaLibProgressLogger);
@@ -294,8 +295,7 @@ public class CSVMetadataToDataObjectPackageImporter {
             dataObjectPackage.regenerateContinuousIds();
 
         end = Instant.now();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, getSummary());
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: import du fichier csv de métadonnées terminé", null);
     }
 
     /**
@@ -315,9 +315,7 @@ public class CSVMetadataToDataObjectPackageImporter {
     public String getSummary() {
         String result;
 
-        result = "Import depuis un fichier CSV de métadonnées\n";
-        result += "en [" + csvMetadataFileName + "]\n";
-        result += dataObjectPackage.getDescription() + "\n";
+        result = dataObjectPackage.getDescription() + "\n";
         if (start != null)
             result += "chargé en "
                     + Duration.between(start, end).toString().substring(2) + "\n";

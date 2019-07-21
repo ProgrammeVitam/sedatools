@@ -100,7 +100,7 @@ public class IntegerType extends NamedTypeMetadata {
         try {
             xmlWriter.writeElementValue(elementName, Long.toString(value));
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type IntegerType ["+getXmlElementName()+"]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type IntegerType ["+getXmlElementName()+"]", e);
         }
     }
 
@@ -140,7 +140,7 @@ public class IntegerType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type IntegerType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type IntegerType", e);
         }
         return true;
     }

@@ -247,8 +247,8 @@ public class MailExtractApp {
         UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
         // params
-        String destRootPath = "", destName = "";
-        String protocol = "", host = "localhost", user = "", password = "", container = "", folder = "";
+        String destRootPath, destName;
+        String protocol, host = "localhost", user, password, container, folder;
         int port = -1;
         int namesLength = 12;
         int model = 2;

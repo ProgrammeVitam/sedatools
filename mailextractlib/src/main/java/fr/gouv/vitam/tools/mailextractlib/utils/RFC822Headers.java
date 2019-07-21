@@ -177,13 +177,13 @@ public class RFC822Headers extends InternetHeaders {
      */
     public List<String> getAddressHeader(String name) throws InterruptedException {
         List<String> result = null;
-        String addressHeaderString = null;
+        String addressHeaderString;
 
         addressHeaderString = getHeader(name, ", ");
 
         if (addressHeaderString != null) {
             result = new ArrayList<String>();
-            InternetAddress[] iAddressArray = null;
+            InternetAddress[] iAddressArray;
             try {
                 iAddressArray = InternetAddress.parseHeader(addressHeaderString, false);
             } catch (AddressException e) {
@@ -198,14 +198,10 @@ public class RFC822Headers extends InternetHeaders {
                 result.add(addressHeaderString);
                 return result;
             }
-            if (iAddressArray != null) {
-                for (InternetAddress ia : iAddressArray) {
-                    result.add(getStringAddress(ia));
-                }
-            } else
-                result = null;
+            for (InternetAddress ia : iAddressArray) {
+                result.add(getStringAddress(ia));
+            }
         }
-
         return result;
     }
 }

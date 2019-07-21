@@ -25,37 +25,42 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.app;
+package fr.gouv.vitam.tools.resip.threads;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLValidator;
 
 import javax.swing.*;
-import javax.xml.validation.Schema;
-import java.io.FileInputStream;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
 
+/**
+ * The type Check profile thread.
+ */
 public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
     //input
     private String profileFileName;
     private InOutDialog inOutDialog;
     //run output
-    private String summary;
     private Exception exitException;
     // logger
     private SEDALibProgressLogger spl;
 
-    CheckProfileThread(String profileFileName, InOutDialog dialog) {
+    /**
+     * Instantiates a new Check profile thread.
+     *
+     * @param profileFileName the profile file name
+     * @param dialog          the dialog
+     */
+    public CheckProfileThread(String profileFileName, InOutDialog dialog) {
         this.profileFileName = profileFileName;
         this.inOutDialog = dialog;
-        this.summary = null;
         this.exitException = null;
         this.spl = null;
         dialog.setThread(this);
@@ -63,16 +68,16 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
 
     @Override
     public String doInBackground() {
-        Work work=ResipGraphicApp.getTheApp().currentWork;
+        Work work = ResipGraphicApp.getTheApp().currentWork;
         try {
             spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 1000,2);
+            }, 1000, 2);
 
-            if (work==null)
-                throw new SEDALibException("Pas de contenu à valider");
+            if (work == null)
+                throw new ResipException("Pas de contenu à valider");
 
             // first verify and reindex if neccesary
             if (work.getExportContext().isReindex()) {
@@ -80,7 +85,7 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
                 ResipGraphicApp.getTheApp().mainWindow.allTreeChanged();
             }
 
-            ArchiveTransfer archiveTransfer= new ArchiveTransfer();
+            ArchiveTransfer archiveTransfer = new ArchiveTransfer();
             work.getDataObjectPackage().setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
             archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
             archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
@@ -88,14 +93,9 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
             if (profileFileName == null) {
                 archiveTransfer.seda21Validate(spl);
             } else {
-                archiveTransfer.sedaProfileValidate(profileFileName,spl);
+                archiveTransfer.sedaProfileValidate(profileFileName, spl);
             }
         } catch (Exception e) {
-            try {
-                if (spl != null)
-                    spl.progressLog(GLOBAL, "Validation impossible\n-> " + e.getMessage());
-            } catch (InterruptedException ignored) {
-            }
             exitException = e;
         }
         return "OK";
@@ -109,12 +109,10 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            progressTextArea.setText(progressTextArea.getText() + "\n-> Validation annulée.");
-        else if (exitException==null) {
-            try {
-                spl.progressLog(GLOBAL, "->Validation OK");
-            } catch (InterruptedException ignored) {
-            }
-        }
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: validation annulée", null);
+        else if (exitException != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant la validation", exitException);
+        else
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: validation OK", null);
     }
 }

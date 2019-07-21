@@ -25,7 +25,7 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.app;
+package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.SearchDialog;
@@ -39,6 +39,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * The type Search thread.
+ */
 public class SearchThread extends SwingWorker<String, String> {
 
     private SearchDialog searchDialog;
@@ -49,11 +52,22 @@ public class SearchThread extends SwingWorker<String, String> {
     private List<ArchiveUnit> searchResult;
     private Pattern searchPattern;
 
+    /**
+     * Instantiates a new Search thread.
+     *
+     * @param searchDialog the search dialog
+     * @param au           the au
+     */
     public SearchThread(SearchDialog searchDialog, ArchiveUnit au) {
         this.searchDialog = searchDialog;
         this.searchUnit = au;
     }
 
+    /**
+     * Search in archive unit.
+     *
+     * @param au the au
+     */
     void searchInArchiveUnit(ArchiveUnit au) {
         List<ArchiveUnit> auList = au.getChildrenAuList().getArchiveUnitList();
 

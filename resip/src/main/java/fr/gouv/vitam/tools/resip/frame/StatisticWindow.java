@@ -28,8 +28,8 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.app.StatisticThread;
 import fr.gouv.vitam.tools.resip.data.StatisticData;
+import fr.gouv.vitam.tools.resip.threads.StatisticThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.viewer.DefaultTableHeaderCellRenderer;
 import fr.gouv.vitam.tools.resip.viewer.StatisticCellRenderer;
@@ -79,6 +79,8 @@ public class StatisticWindow extends JFrame {
      * @throws IllegalAccessException          the illegal access exception
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
+     * @throws ResipException                  the resip exception
+     * @throws InterruptedException            the interrupted exception
      */
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
         ResipGraphicApp rga = new ResipGraphicApp(null);
@@ -88,21 +90,21 @@ public class StatisticWindow extends JFrame {
         sdl.add(new StatisticData("Test", Arrays.asList(new Long(1), new Long(2),
                 new Long(3), new Long(4), new Long(5))));
         sdl.add(new StatisticData("No", Arrays.asList()));
-        ((StatisticTableModel) (((StatisticWindow) (window)).statisticTable.getModel()))
+        ((StatisticTableModel) (window.statisticTable.getModel()))
                 .setStatisticDataList(sdl);
-        ((DefaultRowSorter) ((StatisticWindow) (window)).statisticTable.getRowSorter()).toggleSortOrder(1);
-        ((DefaultRowSorter) ((StatisticWindow) (window)).statisticTable.getRowSorter()).toggleSortOrder(1);
-        ((StatisticWindow) (window)).statisticTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        ((StatisticTableModel) (((StatisticWindow) (window)).statisticTable.getModel()))
+        window.statisticTable.getRowSorter().toggleSortOrder(1);
+        window.statisticTable.getRowSorter().toggleSortOrder(1);
+        window.statisticTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        ((StatisticTableModel) (window.statisticTable.getModel()))
                 .fireTableDataChanged();
-        ((StatisticWindow) (window)).statisticTable.getColumnModel().getColumn(0)
+        window.statisticTable.getColumnModel().getColumn(0)
                 .setPreferredWidth(200);
         window.setVisible(true);
     }
 
     /**
      * Create the window.
-     **/
+     */
     public StatisticWindow() {
         GridBagConstraints gbc;
 
@@ -290,12 +292,18 @@ public class StatisticWindow extends JFrame {
         }
     }
 
+    /**
+     * Refresh.
+     */
     public void refresh() {
         StatisticThread statisticsThread = new StatisticThread(this);
         statisticsThread.execute();
         formatCategory = null;
     }
 
+    /**
+     * Copy to clipboard.
+     */
     public void copyToClipboard() {
         StringBuffer sbf = new StringBuffer();
         int numRows = statisticTable.getRowCount();
@@ -321,6 +329,9 @@ public class StatisticWindow extends JFrame {
         clipboard.setContents(stsel, stsel);
     }
 
+    /**
+     * Empty search.
+     */
     public void emptySearch() {
         if (ResipGraphicApp.getTheApp().technicalSearchDialog == null)
             ResipGraphicApp.getTheApp().technicalSearchDialog =
@@ -357,6 +368,11 @@ public class StatisticWindow extends JFrame {
 
     // data
 
+    /**
+     * Sets statistic data list.
+     *
+     * @param statisticDataList the statistic data list
+     */
     public void setStatisticDataList(List<StatisticData> statisticDataList) {
         StatisticTableModel stm = ((StatisticTableModel) (statisticTable.getModel()));
         stm.setStatisticDataList(statisticDataList);

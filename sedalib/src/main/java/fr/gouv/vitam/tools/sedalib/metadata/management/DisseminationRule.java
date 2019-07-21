@@ -31,7 +31,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 
 import java.time.LocalDate;
-import java.util.List;
 
 /**
  * The Class AccessRule.

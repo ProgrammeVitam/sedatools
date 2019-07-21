@@ -137,14 +137,14 @@ public class FileInfo extends SEDAMetadata {
             xmlWriter.writeElementValueIfNotEmpty("CreatingApplicationName", creatingApplicationName);
             xmlWriter.writeElementValueIfNotEmpty("CreatingApplicationVersion", creatingApplicationVersion);
             if (dateCreatedByApplication != null)
-                xmlWriter.writeElementValue("DateCreatedByApplication", xmlWriter.getStringFromDateTime(dateCreatedByApplication));
+                xmlWriter.writeElementValue("DateCreatedByApplication", SEDAXMLStreamWriter.getStringFromDateTime(dateCreatedByApplication));
             xmlWriter.writeElementValueIfNotEmpty("CreatingOs", creatingOs);
             xmlWriter.writeElementValueIfNotEmpty("CreatingOsVersion", creatingOsVersion);
             if (lastModified != null)
                 xmlWriter.writeElementValueIfNotEmpty("LastModified", lastModified.toString());
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément FileInfo\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément FileInfo", e);
         }
     }
 
@@ -174,7 +174,7 @@ public class FileInfo extends SEDAMetadata {
                 creatingApplicationVersion = xmlReader.nextValueIfNamed("CreatingApplicationVersion");
                 tmp = xmlReader.nextValueIfNamed("DateCreatedByApplication");
                 if (tmp != null)
-                    dateCreatedByApplication = xmlReader.getDateTimeFromString(tmp);
+                    dateCreatedByApplication = SEDAXMLEventReader.getDateTimeFromString(tmp);
                 creatingOs = xmlReader.nextValueIfNamed("CreatingOs");
                 creatingOsVersion = xmlReader.nextValueIfNamed("CreatingOsVersion");
                 tmp = xmlReader.nextValueIfNamed("LastModified");
@@ -185,7 +185,7 @@ public class FileInfo extends SEDAMetadata {
                 xmlReader.endBlockNamed("FileInfo");
             } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type FileInfo\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type FileInfo", e);
         }
         return true;
     }

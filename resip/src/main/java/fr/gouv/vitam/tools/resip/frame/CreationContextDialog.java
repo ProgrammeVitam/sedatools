@@ -27,14 +27,15 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
+import fr.gouv.vitam.tools.resip.parameters.CreationContext;
+import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
+import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 
 import javax.swing.*;
-
-import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.parameters.*;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * The class CreationContextDialog.
@@ -42,11 +43,6 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
  * Class for creation context informations visualisation dialog.
  */
 public class CreationContextDialog extends JDialog {
-
-	/**
-	 * The return value.
-	 */
-	private int returnValue;
 
 	// Dialog test context
 
@@ -77,8 +73,9 @@ public class CreationContextDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 *
-	 * @param owner the owner
-	 * @param creationContext the creation context
+	 * @param owner             the owner
+	 * @param creationContext   the creation context
+	 * @param dataObjectPackage the data object package
 	 */
 	public CreationContextDialog(JFrame owner, CreationContext creationContext, DataObjectPackage dataObjectPackage) {
 		super(owner, "Visualisation du contexte d'import", true);
@@ -209,7 +206,6 @@ public class CreationContextDialog extends JDialog {
 	// actions
 
 	private void buttonClose() {
-		returnValue = ResipGraphicApp.KO_DIALOG;
 		setVisible(false);
 	}
 

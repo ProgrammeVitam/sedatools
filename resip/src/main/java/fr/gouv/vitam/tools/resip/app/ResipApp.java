@@ -129,7 +129,7 @@ import java.util.List;
  * <p>
  * Long options can be reduced to short ones (for example -h is equivalent to
  * --help)
- **/
+ */
 public class ResipApp {
 
     private static Options createOptions() {
@@ -212,8 +212,8 @@ public class ResipApp {
      * @throws ClassNotFoundException          the class not found exception
      * @throws InstantiationException          the instantiation exception
      * @throws IllegalAccessException          the illegal access exception
-     * @throws UnsupportedLookAndFeelException the unsupported look and feel
-     *                                         exception
+     * @throws UnsupportedLookAndFeelException the unsupported look and feel                                         exception
+     * @throws ResipException                  the resip exception
      */
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
             IllegalAccessException, UnsupportedLookAndFeelException, ResipException {
@@ -290,7 +290,7 @@ public class ResipApp {
                 System.exit(1);
             }
         } else {
-            workdirString = Prefs.getDefaultWorkDir();
+            workdirString = new CreationContext(Prefs.getInstance()).getWorkDir();
         }
         try {
             Files.createDirectories(Paths.get(workdirString));

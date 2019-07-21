@@ -32,7 +32,6 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 
-import java.io.File;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Paths;
 
@@ -50,51 +49,53 @@ import java.nio.file.Paths;
 public class CreationContext {
 
 // prefs elements
-	/**
-	 * The work dir.
-	 */
-	String workDir;
+    /**
+     * The work dir.
+     */
+    String workDir;
 
 // session elements
-	/**
-	 * The on disk input.
-	 */
-	String onDiskInput;
+    /**
+     * The on disk input.
+     */
+    String onDiskInput;
 
-	/**
-	 * The summary.
-	 */
-	String summary;
+    /**
+     * The summary.
+     */
+    String summary;
 
-	/**
-	 * The structure changed.
-	 */
-	boolean structureChanged;
+    /**
+     * The structure changed.
+     */
+    boolean structureChanged;
 
-	/**
-	 * Instantiates a new creation context.
-	 */
-	public CreationContext() {
+    /**
+     * Instantiates a new creation context.
+     */
+    public CreationContext() {
 		this(null, null);
 	}
 
-	/**
-	 * Instantiates a new creation context.
-	 *
-	 * @param onDiskInput the on disk input
-	 * @param workDir     the work dir
-	 */
-	public CreationContext(String onDiskInput, String workDir) {
+    /**
+     * Instantiates a new creation context.
+     *
+     * @param onDiskInput the on disk input
+     * @param workDir     the work dir
+     */
+    public CreationContext(String onDiskInput, String workDir) {
 		this.onDiskInput = onDiskInput;
 		this.workDir = workDir;
 		this.summary = null;
 		this.structureChanged = false;
 	}
 
-	/**
-	 * Instantiates a new creation context from preferences.
-	 */
-	public CreationContext(Prefs prefs) {
+    /**
+     * Instantiates a new creation context from preferences.
+     *
+     * @param prefs the prefs
+     */
+    public CreationContext(Prefs prefs) {
 		workDir = prefs.getPrefProperties().getProperty("importContext.workDir", "");
 		try {
 			 Paths.get(workDir);
@@ -109,20 +110,20 @@ public class CreationContext {
 		structureChanged = false;
 	}
 
-	/**
-	 * Put in preferences the values specific of this context class.
-	 * Values from the upper class are not put in preferences.
-	 *
-	 * @param prefs the prefs
-	 */
-	public void toPrefs(Prefs prefs) {
+    /**
+     * Put in preferences the values specific of this context class.
+     * Values from the upper class are not put in preferences.
+     *
+     * @param prefs the prefs
+     */
+    public void toPrefs(Prefs prefs) {
 		prefs.getPrefProperties().setProperty("importContext.workDir", (workDir == null ? "" : workDir));
 	}
 
-	/**
-	 * Sets the default prefs.
-	 */
-	public void setDefaultPrefs() {
+    /**
+     * Sets the default prefs.
+     */
+    public void setDefaultPrefs() {
 		workDir = Prefs.getDefaultWorkDir();
 		onDiskInput = null;
 		summary = null;
@@ -131,49 +132,49 @@ public class CreationContext {
 
 	// Getters and setters
 
-	/**
-	 * Gets the work dir.
-	 *
-	 * @return the work dir
-	 */
-	public String getWorkDir() {
+    /**
+     * Gets the work dir.
+     *
+     * @return the work dir
+     */
+    public String getWorkDir() {
 		return workDir;
 	}
 
-	/**
-	 * Sets the work dir.
-	 *
-	 * @param workDir the new work dir
-	 */
-	public void setWorkDir(String workDir) {
+    /**
+     * Sets the work dir.
+     *
+     * @param workDir the new work dir
+     */
+    public void setWorkDir(String workDir) {
 		this.workDir = workDir;
 	}
 
-	/**
-	 * Gets the on disk input.
-	 *
-	 * @return the on disk input
-	 */
-	public String getOnDiskInput() {
+    /**
+     * Gets the on disk input.
+     *
+     * @return the on disk input
+     */
+    public String getOnDiskInput() {
 		return onDiskInput;
 	}
 
-	/**
-	 * Sets the on disk input.
-	 *
-	 * @param onDiskInput the new on disk input
-	 */
-	public void setOnDiskInput(String onDiskInput) {
+    /**
+     * Sets the on disk input.
+     *
+     * @param onDiskInput the new on disk input
+     */
+    public void setOnDiskInput(String onDiskInput) {
 		this.onDiskInput = onDiskInput;
 	}
 
-	/**
-	 * Gets the actualised summary.
-	 *
-	 * @param at the at
-	 * @return the actualised summary
-	 */
-	@JsonIgnore
+    /**
+     * Gets the actualised summary.
+     *
+     * @param at the at
+     * @return the actualised summary
+     */
+    @JsonIgnore
 	public String getActualisedSummary(DataObjectPackage at) {
 		if (structureChanged) {
 			String result=(summary==null?"":summary+"\n") + "Structure modifiée\n";
@@ -184,39 +185,39 @@ public class CreationContext {
 			return summary + "\nPas de modification";
 	}
 
-	/**
-	 * Gets the summary.
-	 *
-	 * @return the summary
-	 */
-	public String getSummary() {
+    /**
+     * Gets the summary.
+     *
+     * @return the summary
+     */
+    public String getSummary() {
 		return summary;
 	}
 
-	/**
-	 * Sets the summary.
-	 *
-	 * @param summary the new summary
-	 */
-	public void setSummary(String summary) {
+    /**
+     * Sets the summary.
+     *
+     * @param summary the new summary
+     */
+    public void setSummary(String summary) {
 		this.summary = summary;
 	}
 
-	/**
-	 * Checks if is structure changed.
-	 *
-	 * @return true, if is structure changed
-	 */
-	public boolean isStructureChanged() {
+    /**
+     * Checks if is structure changed.
+     *
+     * @return true, if is structure changed
+     */
+    public boolean isStructureChanged() {
 		return structureChanged;
 	}
 
-	/**
-	 * Sets the structure changed.
-	 *
-	 * @param structureChanged the new structure changed
-	 */
-	public void setStructureChanged(boolean structureChanged) {
+    /**
+     * Sets the structure changed.
+     *
+     * @param structureChanged the new structure changed
+     */
+    public void setStructureChanged(boolean structureChanged) {
 		this.structureChanged = structureChanged;
 	}
 

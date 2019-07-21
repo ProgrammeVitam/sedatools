@@ -47,6 +47,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter.simpleCopy;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 
 /**
  * The Class DiskToArchiveTransferImporter.
@@ -245,30 +246,32 @@ public class DiskToArchiveTransferImporter {
      * @throws InterruptedException if export process is interrupted
      */
     public void doImport() throws SEDALibException, InterruptedException {
+
         Date d = new Date();
         start = Instant.now();
-        String log = "Début de l'import d'un ArchiveTransfer depuis une hiérarchie sur disque\n";
-        log += "en [";
+        String log = "sedalib: début de l'import d'un ArchiveTransfer depuis une hiérarchie sur disque\n";
+        log += "avec les racines en [";
         boolean first = true;
         for (Path path : onDiskRootPaths) {
-            if (first)
-                first = false;
-            else
-                log += ",\n";
-            log += path.toString();
+            if (!path.getFileName().toString().equals("__ManagementMetadata.xml")) {
+                if (first)
+                    first = false;
+                else
+                    log += ",\n";
+                log += path.toString();
+            }
         }
-        log += "]";
-        log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, log);
+        log += "]\n";
+        log += "date=" + DateFormat.getDateTimeInstance().format(d);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         if (onDiskGlobalMetadataPath != null)
             archiveTransfer.setGlobalMetadata(processGlobalMetadata(onDiskGlobalMetadataPath));
         diskToDataObjectPackageImporter.doImport();
         archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
         end = Instant.now();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, getSummary());
+
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: import d'un ArchiveTransfer depuis une hiérarchie sur disque terminé", null);
     }
 
     /**
@@ -295,18 +298,7 @@ public class DiskToArchiveTransferImporter {
      * @return the summary
      */
     public String getSummary() {
-        String result = "Import d'un ArchiveTransfer depuis une hiérarchie sur disque\n";
-        result += "en [";
-        boolean first = true;
-        for (Path path : onDiskRootPaths) {
-            if (first)
-                first = false;
-            else
-                result += ",\n";
-            result += path.toString();
-        }
-        result += "]\n";
-        result += archiveTransfer.getDescription() + "\n";
+        String result = archiveTransfer.getDescription() + "\n";
         switch (getModelVersion()) {
             case 0:
                 result += "encodé selon un modèle neutre de la structure\n";

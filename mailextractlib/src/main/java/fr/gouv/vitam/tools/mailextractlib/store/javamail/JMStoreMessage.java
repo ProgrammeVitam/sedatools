@@ -32,13 +32,16 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
-import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
+import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 
 import javax.activation.DataHandler;
 import javax.mail.*;
 import javax.mail.internet.*;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -53,7 +56,9 @@ import java.util.List;
  */
 public class JMStoreMessage extends StoreMessage {
 
-    /** Native JavaMail message. */
+    /**
+     * Native JavaMail message.
+     */
     protected MimeMessage message;
 
     // format to parse dates in Receive header
@@ -62,13 +67,10 @@ public class JMStoreMessage extends StoreMessage {
     /**
      * Instantiates a new JM mail box message.
      *
-     * @param mBFolder
-     *            Containing MailBoxFolder
-     * @param message
-     *            Native JavaMail message
-     * @throws ExtractionException
-     *             Any unrecoverable extraction exception (access trouble, major
-     *             format problems...)
+     * @param mBFolder Containing MailBoxFolder
+     * @param message  Native JavaMail message
+     * @throws ExtractionException Any unrecoverable extraction exception (access trouble, major
+     *                             format problems...)
      */
     public JMStoreMessage(StoreFolder mBFolder, MimeMessage message) throws ExtractionException {
         super(mBFolder);
@@ -91,8 +93,6 @@ public class JMStoreMessage extends StoreMessage {
         else {
             mimeContent = getNativeMimeContent();
             result = mimeContent.length;
-            logMessageWarning("mailextract.javamail: Can't get the size");
-            result = 0;
         }
         return result;
     }
@@ -240,7 +240,7 @@ public class JMStoreMessage extends StoreMessage {
 
         if (addressHeaderString != null) {
             result = new ArrayList<String>();
-            InternetAddress[] iAddressArray = null;
+            InternetAddress[] iAddressArray;
             try {
                 iAddressArray = InternetAddress.parseHeader(addressHeaderString, false);
             } catch (AddressException e) {
@@ -255,12 +255,9 @@ public class JMStoreMessage extends StoreMessage {
                 result.add(addressHeaderString);
                 return result;
             }
-            if (iAddressArray != null) {
-                for (InternetAddress ia : iAddressArray) {
-                    result.add(getStringAddress(ia));
-                }
-            } else
-                result = null;
+            for (InternetAddress ia : iAddressArray) {
+                result.add(getStringAddress(ia));
+            }
         }
 
         return result;
@@ -298,10 +295,7 @@ public class JMStoreMessage extends StoreMessage {
         String result = null;
         List<String> aList = getAddressHeader("Return-Path");
 
-        if ((aList == null) || (aList.size() == 0)) {
-            // logMessageWarning("mailextract.javamail: No Return-Path address
-            // in header");
-        } else {
+        if (!((aList == null) || (aList.size() == 0))) {
             if (aList.size() > 1)
                 logMessageWarning("mailextract.javamail: Multiple Return-Path, keep the first one addresses in header");
             result = aList.get(0);
@@ -376,8 +370,7 @@ public class JMStoreMessage extends StoreMessage {
     /**
      * Gets the header value.
      *
-     * @param line
-     *            the line
+     * @param line the line
      * @return the header value
      */
     // utility function to get the value part of an header string
@@ -505,7 +498,8 @@ public class JMStoreMessage extends StoreMessage {
         if ((p.isMimeType("text/plain") || p.isMimeType("text/html") || p.isMimeType("text/rtf"))
                 && ((p.getDisposition() == null) || Part.INLINE.equalsIgnoreCase(p.getDisposition())))
             // test if it's a bodyContent then not an attachment
-            return;
+        {
+        }
         else if (!p.isMimeType("multipart/*")) {
             // any other non multipart is an attachment
 
@@ -539,9 +533,9 @@ public class JMStoreMessage extends StoreMessage {
     private byte[] getPartLFFixedRawContent(BodyPart bp) throws IOException, MessagingException, InterruptedException {
         InputStream is = bp.getInputStream();
         if (is instanceof QPDecoderStream) {
-            DataHandler dh=bp.getDataHandler();
+            DataHandler dh = bp.getDataHandler();
             bp.setDataHandler(null);
-            is=new LFFixingQPDecoderStream(bp.getInputStream());
+            is = new LFFixingQPDecoderStream(bp.getInputStream());
             bp.setDataHandler(dh);
             logMessageWarning("mailextract: using LFFixing quoted-printable decoding");
         }
@@ -564,15 +558,15 @@ public class JMStoreMessage extends StoreMessage {
     private void addAttachment(List<StoreMessageAttachment> lStoreMessageAttachment, BodyPart bodyPart)
             throws IOException, MessagingException, ParseException, InterruptedException {
         String[] headers;
-        ContentDisposition disposition = null;
-        ContentType contenttype = null;
+        ContentDisposition disposition;
+        ContentType contenttype;
         String date;
 
         // all attachment definition vars
         String aName = null;
         Date aCreationDate = null;
         Date aModificationDate = null;
-        String aMimeType = null;
+        String aMimeType;
         String aContentID = null;
         int aType;
 
@@ -644,8 +638,8 @@ public class JMStoreMessage extends StoreMessage {
                 lStoreMessageAttachment.add(new StoreMessageAttachment(getPartLFFixedRawContent(bodyPart), "file",
                         MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
             else
-                    lStoreMessageAttachment.add(new StoreMessageAttachment(getPartRawContent(bodyPart), "file",
-                    MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
+                lStoreMessageAttachment.add(new StoreMessageAttachment(getPartRawContent(bodyPart), "file",
+                        MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
         }
     }
 
@@ -693,7 +687,6 @@ public class JMStoreMessage extends StoreMessage {
     @Override
     protected void analyzeAppointmentInformation() {
         // no normalized appointment information in messages
-        return;
     }
 
     /*

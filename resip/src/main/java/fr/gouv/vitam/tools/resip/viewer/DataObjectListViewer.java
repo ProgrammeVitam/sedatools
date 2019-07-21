@@ -27,32 +27,20 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
-import java.awt.Dimension;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
-import javax.swing.DefaultListModel;
-import javax.swing.DropMode;
-import javax.swing.JList;
-import javax.swing.ListSelectionModel;
-
-import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
+import fr.gouv.vitam.tools.resip.frame.MainWindow;
+import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
+import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * The Class DataObjectListViewer.
@@ -62,16 +50,20 @@ public class DataObjectListViewer extends JList<DataObject> {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 8610503305899021755L;
 
-    /** The main. */
+    /**
+     * The main.
+     */
     MainWindow main;
 
-    /** The long archiveTransfer tree item name. */
+    /**
+     * The long archiveTransfer tree item name.
+     */
     boolean longSipTreeItemName;
 
     /**
      * Instantiates a new data object list viewer.
      *
-     * @param main the main
+     * @param main      the main
      * @param listModel the list model
      */
     public DataObjectListViewer(MainWindow main, DefaultListModel<DataObject> listModel) {
@@ -118,7 +110,7 @@ public class DataObjectListViewer extends JList<DataObject> {
     /**
      * Adds the to archive unit group or not.
      *
-     * @param au the au
+     * @param au         the au
      * @param dataObject the data object
      */
     void addToArchiveUnitDataObjectGroup(ArchiveUnit au, DataObject dataObject) {
@@ -147,7 +139,7 @@ public class DataObjectListViewer extends JList<DataObject> {
     /**
      * Removes the data object from archive unit.
      *
-     * @param au the archive unit
+     * @param au         the archive unit
      * @param dataObject the data object
      */
     void removeFromArchiveUnit(ArchiveUnit au, DataObject dataObject) {
@@ -180,7 +172,7 @@ public class DataObjectListViewer extends JList<DataObject> {
         String filename = path.getFileName().toString();
         if (filename.matches("__\\w+(_[0-9]+)?__PhysicalDataObjectMetadata.xml")) {
             try {
-                PhysicalDataObject pdo = new PhysicalDataObject(targetAU.getDataObjectPackage(), new String(Files.readAllBytes(path), "UTF-8"));
+                PhysicalDataObject pdo = new PhysicalDataObject(targetAU.getDataObjectPackage(), new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
                 addToArchiveUnitDataObjectGroup(targetAU, pdo);
                 ((DefaultListModel<DataObject>) getModel()).addElement(pdo);
             } catch (IOException | SEDALibException e) {

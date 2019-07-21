@@ -30,10 +30,7 @@ package fr.gouv.vitam.tools.mailextractlib.nodes;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.nio.charset.UnsupportedCharsetException;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Class for XML node with only one long String value that has to be splitted

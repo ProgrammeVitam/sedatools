@@ -230,7 +230,7 @@ public class ClassificationRule extends SEDAMetadata {
                         needReassessingAuthorization.toString());
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément FileInfo\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément ClassificationRule", e);
         }
     }
 
@@ -288,7 +288,7 @@ public class ClassificationRule extends SEDAMetadata {
                     else try {
                         startDate = SEDAXMLEventReader.getDateFromString(tmpDate);
                     } catch (DateTimeParseException e) {
-                        throw new SEDALibException("La date d'une règle est mal formatée");
+                        throw new SEDALibException("La date d'une règle est mal formatée", e);
                     }
                     addRule(tmp, startDate);
                     tmp = xmlReader.nextValueIfNamed("Rule");
@@ -306,14 +306,14 @@ public class ClassificationRule extends SEDAMetadata {
                     try {
                         classificationReassessingDate = SEDAXMLEventReader.getDateFromString(tmpDate);
                     } catch (DateTimeParseException e) {
-                        throw new SEDALibException("La date ClassificationReassessingDate est mal formatée");
+                        throw new SEDALibException("La date ClassificationReassessingDate est mal formatée", e);
                     }
                 needReassessingAuthorization = xmlReader.nextBooleanValueIfNamed("NeedReassessingAuthorization");
                 xmlReader.endBlockNamed("ClassificationRule");
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type ClassificationRule\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type ClassificationRule", e);
         }
         return true;
     }

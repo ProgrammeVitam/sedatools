@@ -27,26 +27,48 @@
  */
 package fr.gouv.vitam.tools.resip.data;
 
+import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.sedalib.core.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
-
+/**
+ * The type Dustbin item.
+ */
 public class DustbinItem {
-	DataObjectPackageTreeNode formerRoot;
-	DataObjectPackageTreeNode node;
-	List<ArchiveUnit> removedArchiveUnitList;
-	List<DataObjectGroup> removedDataObjectGroupList;
-	List<BinaryDataObject> removedBinaryDataObjectList;
-	List<PhysicalDataObject> removedPhysicalDataObjectList;
+    /**
+     * The Former root.
+     */
+    DataObjectPackageTreeNode formerRoot;
+    /**
+     * The Node.
+     */
+    DataObjectPackageTreeNode node;
+    /**
+     * The Removed archive unit list.
+     */
+    List<ArchiveUnit> removedArchiveUnitList;
+    /**
+     * The Removed data object group list.
+     */
+    List<DataObjectGroup> removedDataObjectGroupList;
+    /**
+     * The Removed binary data object list.
+     */
+    List<BinaryDataObject> removedBinaryDataObjectList;
+    /**
+     * The Removed physical data object list.
+     */
+    List<PhysicalDataObject> removedPhysicalDataObjectList;
 
-	public DustbinItem(DataObjectPackageTreeNode parentNode, DataObjectPackageTreeNode node) {
+    /**
+     * Instantiates a new Dustbin item.
+     *
+     * @param parentNode the parent node
+     * @param node       the node
+     */
+    public DustbinItem(DataObjectPackageTreeNode parentNode, DataObjectPackageTreeNode node) {
 		this.node=node;
 		this.formerRoot = parentNode;
 		this.removedArchiveUnitList = new ArrayList<ArchiveUnit>();
@@ -55,7 +77,12 @@ public class DustbinItem {
 		this.removedPhysicalDataObjectList = new ArrayList<PhysicalDataObject>();
 	}
 
-	public void addTreeNode(DataObjectPackageTreeNode node) {
+    /**
+     * Add tree node.
+     *
+     * @param node the node
+     */
+    public void addTreeNode(DataObjectPackageTreeNode node) {
 		if (node.getArchiveUnit()!=null)
 			addArchiveUnit(node.getArchiveUnit());
 		else if (node.getDataObject()!=null) {
@@ -65,18 +92,33 @@ public class DustbinItem {
 			//FIXME ne traite les autres DataObject car à terme un TreeNode ne sera qu'un ArchiveUnit ou un DataObjectGroup
 		}
 	}
-	
-	public void addArchiveUnit(ArchiveUnit archiveUnit) {
+
+    /**
+     * Add archive unit.
+     *
+     * @param archiveUnit the archive unit
+     */
+    public void addArchiveUnit(ArchiveUnit archiveUnit) {
 		removedArchiveUnitList.add(archiveUnit);
 	}
 
-	public void addDataObjectGroup(DataObjectGroup dataObjectGroup) {
+    /**
+     * Add data object group.
+     *
+     * @param dataObjectGroup the data object group
+     */
+    public void addDataObjectGroup(DataObjectGroup dataObjectGroup) {
 		removedDataObjectGroupList.add(dataObjectGroup);
 		removedBinaryDataObjectList.addAll(dataObjectGroup.getBinaryDataObjectList());
 		removedPhysicalDataObjectList.addAll(dataObjectGroup.getPhysicalDataObjectList());
 	}
-	
-	public void removeContentFromDataObjectPackage(DataObjectPackage at) {
+
+    /**
+     * Remove content from data object package.
+     *
+     * @param at the at
+     */
+    public void removeContentFromDataObjectPackage(DataObjectPackage at) {
 		for (ArchiveUnit au:removedArchiveUnitList)
 			at.getAuInDataObjectPackageIdMap().remove(au.getInDataObjectPackageId());
 		for (DataObjectGroup dog:removedDataObjectGroupList)

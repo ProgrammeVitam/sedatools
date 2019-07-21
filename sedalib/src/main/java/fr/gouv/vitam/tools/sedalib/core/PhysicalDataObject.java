@@ -41,6 +41,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+
 /**
  * The Class PhysicalDataObject.
  * <p>
@@ -190,13 +193,12 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
-                    "Erreur d'écriture XML du PhysicalDataObject [" + inDataPackageObjectId + "]\n->" + e.getMessage());
+                    "Erreur d'écriture XML du PhysicalDataObject [" + inDataPackageObjectId + "]", e);
         }
 
         int counter = getDataObjectPackage().getNextInOutCounter();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                    Integer.toString(counter) + " DataObject (métadonnées) exportés");
+        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
+                "sedalib: "+ counter + " métadonnées DataObject exportées");
     }
 
     /*
@@ -213,7 +215,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             xmlWriter.close();
             result = baos.toString("UTF-8");
         } catch (SEDALibException | XMLStreamException | InterruptedException | IOException e) {
-            throw new SEDALibException("Erreur interne ->" + e.getMessage());
+            throw new SEDALibException("Erreur interne", e);
         }
         if (result != null) {
             if (result.isEmpty())
@@ -257,7 +259,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             physicalIdXmlData = xmlReader.nextBlockAsStringIfNamed("PhysicalId");
             physicalDimensionsXmlData = xmlReader.nextBlockAsStringIfNamed("PhysicalDimensions");
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML du PhysicalDataObject\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML du PhysicalDataObject", e);
         }
     }
 
@@ -290,7 +292,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             }
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML du PhysicalDataObject"
-                    + (pdo != null ? " [" + pdo.inDataPackageObjectId + "]" : "") + "\n->" + e.getMessage());
+                    + (pdo != null ? " [" + pdo.inDataPackageObjectId + "]" : ""), e);
         }
         //case not a PhysicalDataObject
         if (pdo == null)
@@ -305,9 +307,8 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             dog.setInDataObjectPackageId(pdo.dataObjectGroupId);
             dataObjectPackage.addDataObjectGroup(dog);
             dog.addDataObject(pdo);
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
-                        + "] créé depuis PhysicalDataObject [" + pdo.inDataPackageObjectId + "]");
+            doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_WARNINGS, "sedalib: dataObjectGroup [" + dog.inDataPackageObjectId
+                        + "] créé depuis PhysicalDataObject [" + pdo.inDataPackageObjectId + "]", null);
         } else if (pdo.dataObjectGroupReferenceId != null) {
             dog = dataObjectPackage.getDataObjectGroupById(pdo.dataObjectGroupReferenceId);
             if (dog == null)
@@ -316,9 +317,8 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
         }
 
         int counter = dataObjectPackage.getNextInOutCounter();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                    Integer.toString(counter) + " DataObject (métadonnées) importés");
+        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
+                "sedalib: "+ counter + " métadonnées DataObject importées");
         return pdo;
     }
 
@@ -342,7 +342,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             if (!event.isEndDocument())
                 throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture du PhysicalDataObject\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture du PhysicalDataObject", e);
         }
 
         if ((pdo.dataObjectGroupId != null) || (pdo.dataObjectGroupReferenceId != null))

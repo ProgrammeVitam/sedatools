@@ -438,7 +438,7 @@ public abstract class StoreMessage extends StoreElement {
 
         if (attachments != null && !attachments.isEmpty()) {
             for (StoreMessageAttachment a : attachments) {
-                if ((a.attachmentType != StoreMessageAttachment.STORE_ATTACHMENT) && (a.attachmentContent != null)
+                if ((a.attachmentType != StoreMessageAttachment.STORE_ATTACHMENT)
                         && (a.attachmentContent instanceof byte[])
                         && ((a.mimeType.toLowerCase().equals("application/ms-tnef")
                         || (a.mimeType.toLowerCase().equals("application/vnd.ms-tnef"))))) {
@@ -493,7 +493,7 @@ public abstract class StoreMessage extends StoreElement {
 
         if (attachments != null && !attachments.isEmpty()) {
             for (StoreMessageAttachment a : attachments) {
-                if ((a.attachmentType != StoreMessageAttachment.STORE_ATTACHMENT) && (a.attachmentContent != null)
+                if ((a.attachmentType != StoreMessageAttachment.STORE_ATTACHMENT)
                         && (a.attachmentContent instanceof byte[])
                         // special case for ms-tnef attachments "winmail.dat" because tika can identify them as rfc822
                         // when part of it is mail
@@ -754,8 +754,7 @@ public abstract class StoreMessage extends StoreElement {
             mimeContent = "".getBytes();
 
         // add object binary master except if empty one
-        if (mimeContent != null)
-            messageNode.addObject(mimeContent, messageID + ".eml", "BinaryMaster", 1);
+        messageNode.addObject(mimeContent, messageID + ".eml", "BinaryMaster", 1);
 
         if (writeFlag)
             messageNode.write();
@@ -836,9 +835,9 @@ public abstract class StoreMessage extends StoreElement {
                     ps.format("|\"%s\"|\"%s\"|\"%s\"",
                             filterHyphen(appointment.location), bdString, edString);
                 } else {
-                    ps.format("|||", this.getMessageSize());
+                    ps.format("|||");
                 }
-                ps.println("");
+                ps.println();
                 ps.flush();
             } catch (Exception e) {
                 getProgressLogger().logException(e);
@@ -1030,13 +1029,6 @@ public abstract class StoreMessage extends StoreElement {
                 attachedFlag = true;
             }
         }
-        if (attachedFlag && writeFlag) {
-            if (attachedMessagedateRange.isDefined()) {
-//				messageNode.addMetadata("StartDate", DateRange.getISODateString(attachedMessagedateRange.getStart()),
-//						true);
-//				messageNode.addMetadata("EndDate", DateRange.getISODateString(attachedMessagedateRange.getEnd()), true);
-            }
-        }
     }
 
     /**
@@ -1153,7 +1145,7 @@ public abstract class StoreMessage extends StoreElement {
                     MimeBodyPart attachPart = new MimeBodyPart();
 
                     // set Content-ID
-                    String cidName = null;
+                    String cidName;
                     if ((a.contentID != null) && !a.contentID.trim().isEmpty()) {
                         attachPart.setContentID("<" + a.contentID.trim() + ">");
                         if (a.contentID.indexOf('@') < 0)

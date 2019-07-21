@@ -1,19 +1,22 @@
 package fr.gouv.vitam.tools.resip;
 
+import fr.gouv.vitam.tools.resip.utils.ResipException;
+import mslinks.ShellLink;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import mslinks.ShellLink;
-
+/**
+ * The type Test utilities.
+ */
 public class TestUtilities {
 
     private static boolean isPrepared = false;
     private static boolean isWindows = false;
 
-    private static void createSymbolicLink(String link, String target) throws SEDALibException {
+    private static void createSymbolicLink(String link, String target) throws ResipException {
         Path linkpath = Paths.get(link).toAbsolutePath();
         Path targetpath = Paths.get(target);
         try {
@@ -35,18 +38,18 @@ public class TestUtilities {
                 try {
                     sl.saveTo(link + ".lnk");
                 } catch (IOException e1) {
-                    throw new SEDALibException(
+                    throw new ResipException(
                             "Link and Windows shortcut [" + link + "] creation impossible\n->" + e.getMessage());
                 }
             }
             else
-                throw new SEDALibException(
+                throw new ResipException(
                         "Link [" + link + "] creation impossible\n->" + e.getMessage());
         }
     }
 
     private static void createShortcutIfWindows(String link, String target)
-            throws IOException, SEDALibException {
+            throws IOException, ResipException {
         if (!isWindows)
             createSymbolicLink(link, target);
         else {
@@ -61,7 +64,13 @@ public class TestUtilities {
         }
     }
 
-    static void ContructTestFiles() throws IOException, SEDALibException {
+    /**
+     * Contruct test files.
+     *
+     * @throws IOException    the io exception
+     * @throws ResipException the resip exception
+     */
+    static void ContructTestFiles() throws IOException, ResipException {
         if (!isPrepared) {
             String prefix;
             isWindows=System.getProperty("os.name").toLowerCase().contains("win");
@@ -83,7 +92,14 @@ public class TestUtilities {
             isPrepared = true;
         }
     }
-    // Utility function to get rid of line-ending differences and enbaling cross-platform compilation
+
+    /**
+     * Line end normalize string.
+     *
+     * @param text the text
+     * @return the string
+     */
+// Utility function to get rid of line-ending differences and enbaling cross-platform compilation
     public static String LineEndNormalize(String text) {
         StringBuilder sb = new StringBuilder();
         boolean inString = false;

@@ -27,18 +27,12 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import opennlp.tools.cmdline.AbstractTrainerTool;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.util.*;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * The Class CreationContext.

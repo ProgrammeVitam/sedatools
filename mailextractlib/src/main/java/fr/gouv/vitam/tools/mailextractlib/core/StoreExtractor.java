@@ -188,7 +188,7 @@ public abstract class StoreExtractor {
         // HMEF calls when extracting TNEF can generate an exception if an attachment extraction is bigger than 1Mo,
         // this change the limit to Integer.MAX_VALUE that is to say 2Go
         // This is also a bypass to a bug in POI 4.0 and 4.1 version when opening msg
-       IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
+        IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
     }
 
     // StoreExtractor definition parameters
@@ -460,9 +460,7 @@ public abstract class StoreExtractor {
             if (!first)
                 optionsLog += ", ";
             optionsLog += "with names length=" + Integer.toString(options.namesLength);
-            first = false;
-            if (!first)
-                optionsLog += ", ";
+            optionsLog += ", ";
             optionsLog += "with log level " + getProgressLogger().getLevelName();
 
             getProgressLogger().progressLog(MailExtractProgressLogger.GLOBAL, optionsLog);
@@ -700,7 +698,7 @@ public abstract class StoreExtractor {
         url = new URLName(urlString);
 
         // get read of leading file separator in folder
-        if ((storeFolder != null) && (!storeFolder.isEmpty()) && (storeFolder.substring(0, 1) == File.separator))
+        if ((storeFolder != null) && (!storeFolder.isEmpty()) && (storeFolder.substring(0, 1).equals(File.separator)))
             storeFolder = storeFolder.substring(1);
 
         // find the store extractor constructor for scheme in URL

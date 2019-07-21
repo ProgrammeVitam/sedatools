@@ -192,7 +192,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
                 } catch (IOException e1) {
                     // too bad
                 }
-            throw new SEDALibException("Impossible d'ouvrir un flux de lecture XML (" + e.getMessage() + ")");
+            throw new SEDALibException("Impossible d'ouvrir un flux de lecture XML", e);
         }
     }
 
@@ -442,7 +442,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
             try {
                 result = getDateTimeFromString(tmp);
             } catch (DateTimeParseException e) {
-                throw new SEDALibException("Valeur non interprétable [" + tmp + "] dans l'élément date " + tag);
+                throw new SEDALibException("Valeur non interprétable [" + tmp + "] dans l'élément date " + tag, e);
             }
         }
         return result;

@@ -101,10 +101,25 @@ public class PrefsDialog extends JDialog {
      * The data.
      */
     public CreationContext cc;
+    /**
+     * The Dic.
+     */
     public DiskImportContext dic;
+    /**
+     * The Mic.
+     */
     public MailImportContext mic;
+    /**
+     * The Gmc.
+     */
     public ExportContext gmc;
+    /**
+     * The Cic.
+     */
     public CSVImportContext cic;
+    /**
+     * The Tp.
+     */
     public TreatmentParameters tp;
 
     /**
@@ -133,6 +148,8 @@ public class PrefsDialog extends JDialog {
      * @throws IllegalAccessException          the illegal access exception
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
+     * @throws ResipException                  the resip exception
+     * @throws InterruptedException            the interrupted exception
      */
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
         ResipGraphicApp rga = new ResipGraphicApp(null);
@@ -758,7 +775,7 @@ public class PrefsDialog extends JDialog {
         gbc.gridy = 1;
         importParametersPanel.add(mailCharsetLabel, gbc);
 
-        defaultMailCharsetCombobox = new JComboBox(charsetStrings);
+        defaultMailCharsetCombobox = new JComboBox<String>(charsetStrings);
         defaultMailCharsetCombobox.setFont(MainWindow.LABEL_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 5);
@@ -891,7 +908,7 @@ public class PrefsDialog extends JDialog {
         gbc.gridy = 8;
         importParametersPanel.add(csvCharsetLabel, gbc);
 
-        csvCharsetCombobox = new JComboBox(charsetStrings);
+        csvCharsetCombobox = new JComboBox<String>(charsetStrings);
         csvCharsetCombobox.setFont(MainWindow.LABEL_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 5);
@@ -1083,7 +1100,7 @@ public class PrefsDialog extends JDialog {
     }
 
     private boolean extractFromDialog() {
-        int tmp=10;
+        int tmp;
 
         cc.setWorkDir(workDirTextField.getText());
 
@@ -1103,7 +1120,7 @@ public class PrefsDialog extends JDialog {
             gmc.setUsageVersionSelectionMode(FIRST_DATAOBJECT);
         else  if (allUsageButton.isSelected())
             gmc.setUsageVersionSelectionMode(ALL_DATAOBJECTS);
-        else
+        else  if (lastUsageButton.isSelected())
             gmc.setUsageVersionSelectionMode(LAST_DATAOBJECT);
         try {
             tmp = Integer.parseInt(nameMaxSizeTextField.getText());

@@ -30,8 +30,8 @@ package fr.gouv.vitam.tools.mailextractlib.store.microsoft;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
-import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
+import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 
 import javax.mail.MessagingException;
 import java.time.Instant;
@@ -204,7 +204,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                 if (result.length() == 2) {
                     result = "";
                 } else {
-                    result = result.substring(2, result.length());
+                    result = result.substring(2);
                 }
             }
             if (result.isEmpty())
@@ -436,10 +436,6 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
         }
         // if not in the SMTP header there's no microsoft version
 
-        if (result == null) {
-            // logMessageWarning("mailextract.microsoft: No Return-Path address
-            // in header");
-        }
         returnPath = result;
     }
 
@@ -552,7 +548,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
 
     // try to get the best attachment name
     private String getAttachementFilename(int attachmentNumber) {
-        String result = "";
+        String result;
 
         result = nativeAttachments[attachmentNumber].longFilename;
         if (result.isEmpty())

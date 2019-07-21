@@ -54,6 +54,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getAllJavaStackString;
+
 /**
  * The Class DroidIdentifier.
  * <p>
@@ -115,7 +118,7 @@ public class DroidIdentifier {
             try {
                 instance = new DroidIdentifier(null, "./config");
             } catch (SEDALibException e) {
-                System.err.println(e.getMessage());
+                System.err.println(getAllJavaStackString(e));
                 System.exit(1);
             }
         return instance;
@@ -156,9 +159,8 @@ public class DroidIdentifier {
             dir.mkdirs();
         String[] fileList = dir.list(droidFilter);
         if ((fileList == null) || (fileList.length == 0)) {
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,
-                        "Can't find a DROID signature file, copy from ressource to file DROID_SignatureFile_V88.xml");
+            doProgressLogWithoutInterruption(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,
+                    "sedalib: can't find a DROID signature file, copy from ressource to file DROID_SignatureFile_V88.xml", null);
             try (InputStream is = Thread.currentThread().getContextClassLoader()
                     .getResourceAsStream("DROID_SignatureFile_V88.xml")) {
                 File targetFile = new File(
@@ -235,9 +237,8 @@ public class DroidIdentifier {
             dir.mkdirs();
         String[] fileList = dir.list(droidFilter);
         if ((fileList == null) || (fileList.length == 0)) {
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,
-                        "Can't find a DROID container signature file, copy from ressource to file container-signature-20171130.xml");
+            doProgressLogWithoutInterruption(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL,
+                    "sedalib: can't find a DROID container signature file, copy from ressource to file container-signature-20171130.xml",null);
             try (InputStream is = Thread.currentThread().getContextClassLoader()
                     .getResourceAsStream("container-signature-20171130.xml")) {
                 File targetFile = new File(

@@ -107,7 +107,7 @@ public class DigestType extends NamedTypeMetadata {
             xmlWriter.writeCharactersIfNotEmpty(value);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type DigestType [" + getXmlElementName() + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type DigestType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -150,7 +150,7 @@ public class DigestType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type DigestType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type DigestType", e);
         }
         return true;
     }

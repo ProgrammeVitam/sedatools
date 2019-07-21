@@ -1,17 +1,14 @@
 package fr.gouv.vitam.tools.sedalib;
 
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import mslinks.ShellLink;
+import org.apache.commons.io.FileUtils;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import fr.gouv.vitam.tools.sedalib.inout.importer.WindowsShortcut;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import mslinks.ShellLink;
-import org.apache.commons.io.FileUtils;
 
 public class TestUtilities {
 

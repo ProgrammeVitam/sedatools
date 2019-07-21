@@ -48,6 +48,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+
 /**
  * The Class DIPToArchiveDeliveryRequestReplyImporter.
  * <p>
@@ -122,10 +125,9 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                         if (manifest != null)
                             throw new SEDALibException("DIP mal formé, plusieurs fichiers manifest potentiels");
                         manifest = fileName;
-                        if (sedaLibProgressLogger != null)
-                            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS, "Unzip manifest [" + zipFile + "]");
-                    } else if (sedaLibProgressLogger != null)
-                        sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS, "Unzip fichier [" + zipFile + "]");
+                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: unzip manifest [" + zipFile + "]", null);
+                    } else
+                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: unzip fichier [" + zipFile + "]", null);
 
                     // create all non exists folders
                     // else you will hit FileNotFoundException for compressed folder
@@ -135,18 +137,16 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                     FileOutputStream fos = new FileOutputStream(newPath.toFile());
                     IOUtils.copy(zais, fos);
                     counter++;
-                    if (sedaLibProgressLogger != null)
-                        sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
+                    doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, "sedalib: " + counter + " fichiers " +
                                 "extraits");
                     fos.close();
                 }
             }
         } catch (IOException ex) {
             throw new SEDALibException("Impossible de décompresser le fichier [" + zipFile + "] dans le répertoire ["
-                    + outputFolder + "]\n->" + ex.getMessage());
+                    + outputFolder + "]", ex);
         }
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
+        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.STEP, counter, "sedalib: " + counter + " fichiers " +
                     "extraits");
         if (manifest == null)
             throw new SEDALibException("DIP mal formé, pas de manifest");
@@ -173,7 +173,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
             try {
                 Files.createDirectories(unCompressDirectoryPath);
             } catch (IOException e) {
-                throw new SEDALibException("Impossible de créer le répertoire d'extraction [" + unCompressDirectory + "]");
+                throw new SEDALibException("Impossible de créer le répertoire d'extraction [" + unCompressDirectory + "]", e);
             }
         if (!Files.isDirectory(unCompressDirectoryPath, java.nio.file.LinkOption.NOFOLLOW_LINKS))
             throw new SEDALibException(
@@ -196,9 +196,10 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
 
         Date d = new Date();
         start = Instant.now();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL,
-                    "Début de l'import du DIP [" + zipFile + "] date=" + DateFormat.getDateTimeInstance().format(d));
+        String log = "sedalib: début de l'import du DIP\n";
+        log += "en [" + zipFile + "]\n";
+        log += "date=" + DateFormat.getDateTimeInstance().format(d);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         manifest = unZipDip(zipFile, unCompressDirectory);
 
@@ -208,12 +209,11 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                     sedaLibProgressLogger);
         } catch (XMLStreamException | IOException e) {
             throw new SEDALibException(
-                    "Impossible d'importer le fichier [" + manifest + "] comme manifest du DIP\n->" + e.getMessage());
+                    "Impossible d'importer le fichier [" + manifest + "] comme manifest du DIP", e);
         }
 
         end = Instant.now();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, getSummary());
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: import du DIP terminé", null);
     }
 
     /**
@@ -233,9 +233,7 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
     public String getSummary() {
         String result;
 
-        result = "Import depuis un DIP SEDA\n";
-        result += "en [" + zipFile + "]\n";
-        result += archiveDeliveryRequestReply.getDescription() + "\n";
+        result = archiveDeliveryRequestReply.getDescription() + "\n";
         if (start != null)
             result += "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;

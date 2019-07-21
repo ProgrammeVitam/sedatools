@@ -25,37 +25,56 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.app;
+package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
-import java.io.IOException;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.IOException;
 
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
+/**
+ * The type Clean thread.
+ */
 public class CleanThread extends SwingWorker<String, String> {
 
+    //input
     private String workDir;
-    Exception exitException;
-    JTextArea logTextArea;
-    SEDALibProgressLogger spl;
+    /**
+     * The In out dialog.
+     */
     InOutDialog inOutDialog;
+    /**
+     * The Exit exception.
+     */
+//run output
+    Exception exitException;
+    // logger
+    private SEDALibProgressLogger spl;
 
-    CleanThread(String workDir, InOutDialog dialog) {
+    /**
+     * Instantiates a new Clean thread.
+     *
+     * @param workDir the work dir
+     * @param dialog  the dialog
+     */
+    public CleanThread(String workDir, InOutDialog dialog) {
         this.workDir = workDir;
-        this.logTextArea = dialog.extProgressTextArea;
         dialog.setThread(this);
         this.inOutDialog = dialog;
     }
 
+    /**
+     * Delete.
+     *
+     * @param inFile the in file
+     * @throws IOException          the io exception
+     * @throws InterruptedException the interrupted exception
+     */
     static void delete(File inFile) throws IOException, InterruptedException {
         if (inFile.isDirectory()) {
             for (File f : inFile.listFiles())
@@ -69,39 +88,27 @@ public class CleanThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        SEDALibProgressLogger spl = null;
+        spl = null;
         try {
-            if (logTextArea != null)
-                spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
-                    String newLog = logTextArea.getText() + "\n" + log;
-                    logTextArea.setText(newLog);
-                    logTextArea.setCaretPosition(newLog.length());
-                }, 1000,2);
-            else
-                spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP);
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
+                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                inOutDialog.extProgressTextArea.setText(newLog);
+                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+            }, 1000, 2);
 
-            spl.progressLog(GLOBAL, "Nettoyage du répertoire: " + workDir);
+            doProgressLog(spl, GLOBAL, "Nettoyage du répertoire: " + workDir, null);
             for (File f : new File(workDir).listFiles()) {
                 if (f.isDirectory() && f.toString().endsWith("-tmpdir")) {
-                    spl.progressLog(GLOBAL, "  Sous-répertoire pris en compte: " + f.toString());
+                    doProgressLog(spl, STEP, "  - Sous-répertoire pris en compte: " + f.toString(), null);
                     delete(f);
-                    spl.progressLog(GLOBAL, "       -> terminé");
+                    doProgressLog(spl, STEP, "    Terminé", null);
                 }
             }
-            spl.progressLog(GLOBAL, "    -> nettoyage terminé");
-            return "OK";
         } catch (Exception e) {
-            if (spl != null) {
-                try {
-                    spl.progressLog(GLOBAL, "Erreur pendant le nettoyage du " +
-                            "répertoire de travail, les fichiers sont partiellement effacés.");
-                } catch (InterruptedException ignored) {
-                }
-            }
             exitException = e;
-            e.printStackTrace();
             return "KO";
         }
+        return "OK";
     }
 
     @Override
@@ -110,6 +117,11 @@ public class CleanThread extends SwingWorker<String, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            loadText.setText(loadText.getText() + "\n-> " + "Nettoyage annulé, les fichiers sont partiellement effacées.");
+            doProgressLogWithoutInterruption(spl, GLOBAL,"Nettoyage annulé, les fichiers sont partiellement effacées", null);
+        else if (exitException != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL,"Erreur durant le nettoyage du " +
+                    "répertoire de travail, les fichiers sont partiellement effacés", exitException);
+        else
+            doProgressLogWithoutInterruption(spl, GLOBAL,"Nettoyage terminé", null);
     }
 }

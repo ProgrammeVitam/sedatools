@@ -27,9 +27,6 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -47,7 +44,13 @@ public class InOutDialog extends JDialog {
      * The actions components.
      */
     public JTextArea extProgressTextArea;
+    /**
+     * The Ok button.
+     */
     public JButton okButton;
+    /**
+     * The Cancel button.
+     */
     public JButton cancelButton;
 
     /**

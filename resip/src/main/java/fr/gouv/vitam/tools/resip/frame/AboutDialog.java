@@ -15,6 +15,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+/**
+ * The type About dialog.
+ */
 public class AboutDialog extends JDialog {
     private JTextArea messageTextArea;
     private JButton okButton;
@@ -47,6 +50,12 @@ public class AboutDialog extends JDialog {
     }
 
 
+    /**
+     * Instantiates a new About dialog.
+     *
+     * @param owner   the owner
+     * @param message the message
+     */
     public AboutDialog(JFrame owner, String message) {
         super(owner, "A propos de...", true);
         GridBagConstraints gbc;

@@ -43,6 +43,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+
 /**
  * The Class ArchiveTransferToDiskExporter.
  * <p>
@@ -143,8 +145,7 @@ public class ArchiveTransferToDiskExporter {
         String log = "Début de l'export d'un ArchiveTransfer dans une hiérarchie sur disque\n";
         log += "en [" + directoryName + "]";
         log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, log);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         exportPath = Paths.get(directoryName);
         try {
@@ -158,6 +159,7 @@ public class ArchiveTransferToDiskExporter {
             exportArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata(), exportPath);
         dataObjectPackageToDiskExporter.doExport(directoryName);
 
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: export d'un ArchiveTransfer dans une hiérarchie sur disque terminé", null);
         end = Instant.now();
     }
 

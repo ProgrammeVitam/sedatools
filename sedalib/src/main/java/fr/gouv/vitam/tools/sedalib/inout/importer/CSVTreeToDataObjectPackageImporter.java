@@ -48,6 +48,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+
 /**
  * The Class CSVTreeToDataObjectPackageImporter.
  * <p>
@@ -179,15 +182,14 @@ public class CSVTreeToDataObjectPackageImporter {
                     value = new ArrayList<Line>();
                 value.add(line);
                 linesMap.put(line.motherId, value);
-                if (sedaLibProgressLogger != null)
-                    sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, lineCount, Integer.toString(lineCount) + " lignes interprétées");
+                doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, lineCount, "sedalib: " + lineCount + " lignes interprétées");
             }
         } catch (IOException e) {
             throw new SEDALibException("Le fichier csv [" + csvFileName + "] n'est pas accessible");
         }
     }
 
-    private ArchiveUnit addLineAndChildren(Line line) {
+    private ArchiveUnit addLineAndChildren(Line line) throws InterruptedException {
         ArchiveUnit au;
         Content content;
 
@@ -213,6 +215,9 @@ public class CSVTreeToDataObjectPackageImporter {
             }
         linesMap.remove(line.motherId + line.suffix);
 
+        int counter = dataObjectPackage.getNextInOutCounter();
+        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
+                "sedalib: " + counter + " ArchiveUnit exportées");
         return au;
     }
 
@@ -223,17 +228,17 @@ public class CSVTreeToDataObjectPackageImporter {
      * @throws InterruptedException if export process is interrupted
      */
     public void doImport() throws SEDALibException, InterruptedException {
-        String manifest;
-
         Date d = new Date();
         start = Instant.now();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, "Début de l'import du fichier csv d'arbre de plan de classement [" + csvFileName + "] date="
-                    + DateFormat.getDateTimeInstance().format(d));
+        String log = "sedalib: début de l'import du fichier csv d'arbre de plan de classement\n";
+        log += "en [" + csvFileName + "]\n";
+        log += "date=" + DateFormat.getDateTimeInstance().format(d);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         readCSVFile();
         dataObjectPackage = new DataObjectPackage();
 
+        dataObjectPackage.resetInOutCounter();
         List<Line> rootLines = linesMap.get("");
         if (rootLines == null)
             throw new SEDALibException("Le fichier csv ne contient pas de ligne décrivant de série (champ série vide)");
@@ -255,8 +260,7 @@ public class CSVTreeToDataObjectPackageImporter {
         }
 
         end = Instant.now();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, getSummary());
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: import du fichier csv d'arbre de plan de classement terminé", null);
     }
 
     /**
@@ -276,9 +280,7 @@ public class CSVTreeToDataObjectPackageImporter {
     public String getSummary() {
         String result;
 
-        result = "Import depuis un fichier CSV d'arbre de classement\n";
-        result += "en [" + csvFileName + "]\n";
-        result += dataObjectPackage.getDescription() + "\n";
+        result = dataObjectPackage.getDescription() + "\n";
         if (start != null)
             result += "chargé en "
                     + Duration.between(start, end).toString().substring(2) + "\n";

@@ -74,7 +74,7 @@ public class MsgStoreExtractor extends StoreExtractor {
                              StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException, InterruptedException, IOException {
         super(urlString, folder, destPathString, options, rootStoreExtractor, logger);
         MAPIMessage message;
-        long size = 0;
+        long size;
 
         try {
             File messageFile = new File(path);

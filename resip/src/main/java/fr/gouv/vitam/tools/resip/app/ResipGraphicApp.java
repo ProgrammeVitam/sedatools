@@ -31,12 +31,15 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.*;
 import fr.gouv.vitam.tools.resip.parameters.*;
+import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
+import fr.gouv.vitam.tools.resip.threads.CleanThread;
+import fr.gouv.vitam.tools.resip.threads.ExportThread;
+import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -51,22 +54,52 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+/**
+ * The type Resip graphic app.
+ */
 public class ResipGraphicApp implements ActionListener, Runnable {
 
+    /**
+     * The Ok dialog.
+     */
     static public final int OK_DIALOG = 1;
+    /**
+     * The Ko dialog.
+     */
     static public final int KO_DIALOG = 2;
 
-    // Uniq instance. */
+    /**
+     * The constant theApp.
+     */
+// Uniq instance. */
     static ResipGraphicApp theApp = null;
 
-    // Data elements. */
+    /**
+     * The Launch creation context.
+     */
+// Data elements. */
     public CreationContext launchCreationContext;
+    /**
+     * The Current work.
+     */
     public Work currentWork;
+    /**
+     * The Modified work.
+     */
     public boolean modifiedWork;
+    /**
+     * The Filename work.
+     */
     public String filenameWork;
+    /**
+     * The Treatment parameters.
+     */
     public TreatmentParameters treatmentParameters;
 
-    // GUI elements. */
+    /**
+     * The Main window.
+     */
+// GUI elements. */
     public MainWindow mainWindow;
 
     // MainWindow menu elements dis/enabled depending on work state and used by controller. */
@@ -74,17 +107,44 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     private JMenu treatMenu, contextMenu, exportMenu;
     private Map<JMenuItem, String> actionByMenuItem = new HashMap<JMenuItem, String>();
 
-    // Thread control elements. */
+    /**
+     * The Import thread running.
+     */
+// Thread control elements. */
     public boolean importThreadRunning;
+    /**
+     * The Add thread running.
+     */
     public boolean addThreadRunning;
+    /**
+     * The Export thread running.
+     */
     public boolean exportThreadRunning;
 
-    // Dialogs elements. */
+    /**
+     * The Search dialog.
+     */
+// Dialogs elements. */
     public SearchDialog searchDialog;
+    /**
+     * The Technical search dialog.
+     */
     public TechnicalSearchDialog technicalSearchDialog;
+    /**
+     * The Statistic window.
+     */
     public StatisticWindow statisticWindow;
+    /**
+     * The Duplicates window.
+     */
     public DuplicatesWindow duplicatesWindow;
 
+    /**
+     * Instantiates a new Resip graphic app.
+     *
+     * @param creationContext the creation context
+     * @throws ResipException the resip exception
+     */
     public ResipGraphicApp(CreationContext creationContext) throws ResipException {
         try {
             if (System.getProperty("os.name").toLowerCase().contains("win"))
@@ -146,6 +206,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     }
 
+    /**
+     * Gets app name.
+     *
+     * @return the app name
+     */
     @SuppressWarnings("SameReturnValue")
     public static String getAppName() {
         return "Resip";
@@ -153,6 +218,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // Menu controller
 
+    /**
+     * Create menu j menu bar.
+     *
+     * @return the j menu bar
+     */
     public JMenuBar createMenu() {
         JMenuBar menuBar;
         JMenu importMenu, fileMenu, infoMenu;
@@ -463,15 +533,30 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // Utils
 
+    /**
+     * Gets the app.
+     *
+     * @return the the app
+     */
     public static ResipGraphicApp getTheApp() {
         return theApp;
     }
 
+    /**
+     * Sets modified context.
+     *
+     * @param isModified the is modified
+     */
     public void setModifiedContext(boolean isModified) {
         modifiedWork = isModified;
         saveMenuItem.setEnabled(modifiedWork && (filenameWork != null));
     }
 
+    /**
+     * Sets context loaded.
+     *
+     * @param isLoaded the is loaded
+     */
     public void setContextLoaded(boolean isLoaded) {
         treatMenu.setEnabled(isLoaded);
         contextMenu.setEnabled(isLoaded);
@@ -491,6 +576,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         searchDialog.emptyDialog();
     }
 
+    /**
+     * Sets filename work.
+     *
+     * @param fileName the file name
+     */
     public void setFilenameWork(String fileName) {
         filenameWork = fileName;
         saveMenuItem.setEnabled((filenameWork != null) && modifiedWork);
@@ -627,6 +717,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem Edit Preferences
 
+    /**
+     * Edit prefs.
+     */
     void editPrefs() {
         try {
             PrefsDialog prefsDialog = new PrefsDialog(mainWindow);
@@ -643,13 +736,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
                         ResipLogger.getGlobalLogger().getProgressLogLevel());
             }
-        } catch (SEDALibException e) {
+        } catch (ResipException e) {
             UserInteractionDialog.getUserAnswer(mainWindow,
                     "Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
-                    "Resip.GraphicApp: Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage());
+                    "resip.graphicapp: erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage());
 
         }
     }
@@ -657,7 +750,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MenuItem Empty WorkDir
 
     private void emptyWorkDir() {
-        CreationContext cc = null;
+        CreationContext cc;
         try {
             if (currentWork != null) {
                 UserInteractionDialog.getUserAnswer(mainWindow,
@@ -688,7 +781,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire le nettoyage \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire le nettoyage\n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire le nettoyage\n->" + e.getMessage());
         }
     }
 
@@ -697,7 +790,6 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     /**
      * Exit to system.
      */
-
     public void exit() {
         try {
             if ((currentWork != null) && modifiedWork
@@ -714,7 +806,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur de fermeture de l'application\n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.Graphic: Erreur de fermeture de l'application\n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur de fermeture de l'application\n->" + e.getMessage());
         }
     }
 
@@ -722,24 +814,36 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem Search
 
+    /**
+     * Search.
+     */
     void search() {
         searchDialog.setVisible(true);
     }
 
     // MenuItem TechnicalSearch
 
+    /**
+     * Technical search.
+     */
     void technicalSearch() {
         technicalSearchDialog.setVisible(true);
     }
 
     // MenuItem Duplicates
 
+    /**
+     * Duplicates.
+     */
     void duplicates() {
         duplicatesWindow.setVisible(true);
     }
 
     // MenuItem Check SEDA 21 compliance
 
+    /**
+     * Check seda 21.
+     */
     void checkSEDA21() {
         InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification SEDA 2.1");
         CheckProfileThread checkProfileThread = new CheckProfileThread(null, inOutDialog);
@@ -750,6 +854,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem Check specific SEDA 21 Profile compliance
 
+    /**
+     * Check specific seda 21 profile.
+     */
     void checkSpecificSEDA21Profile() {
         try {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
@@ -768,13 +875,16 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                             + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire la " +
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire la " +
                     "vérification de confirmité au profil SEDA 2.1 \n->" + e.getMessage());
         }
     }
 
     // MenuItem Regenerate continuous ids
 
+    /**
+     * Do regenerate continuous ids.
+     */
     void doRegenerateContinuousIds() {
         if (currentWork != null) {
             currentWork.getDataObjectPackage().regenerateContinuousIds();
@@ -784,7 +894,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem Sort tree viewer
 
+    /**
+     * The type Sort by title.
+     */
     class SortByTitle implements Comparator<ArchiveUnit> {
+        /**
+         * The Tree model.
+         */
         DataObjectPackageTreeModel treeModel;
 
         public int compare(ArchiveUnit a, ArchiveUnit b) {
@@ -793,11 +909,19 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             return titleA.compareTo(titleB);
         }
 
+        /**
+         * Instantiates a new Sort by title.
+         *
+         * @param treeModel the tree model
+         */
         SortByTitle(DataObjectPackageTreeModel treeModel) {
             this.treeModel = treeModel;
         }
     }
 
+    /**
+     * Do sort tree viewer.
+     */
     void doSortTreeViewer() {
         if (currentWork != null) {
             DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
@@ -821,6 +945,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // Menu item statistics
 
+    /**
+     * Generate statistics.
+     */
     void generateStatistics() {
         statisticWindow.refresh();
         statisticWindow.setVisible(true);
@@ -830,6 +957,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem See CreationContext
 
+    /**
+     * See import context.
+     */
     void seeImportContext() {
         if (currentWork != null) {
             CreationContext oic = currentWork.getCreationContext();
@@ -847,6 +977,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MenuItem Edit ExportContext
 
+    /**
+     * Edit export context.
+     */
     void editExportContext() {
         if (currentWork != null) {
             if (currentWork.getExportContext() == null) {
@@ -893,12 +1026,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
 
     // MenuItem Import SIP
 
+    /**
+     * Import from sip.
+     */
     void importFromSIP() {
         try {
             if (isImportActionWrong())
@@ -916,12 +1052,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
 
     // MenuItem Import DIP
 
+    /**
+     * Import from dip.
+     */
     void importFromDIP() {
         try {
             if (isImportActionWrong())
@@ -939,12 +1078,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
 
     // MenuItem Import from disk
 
+    /**
+     * Import from disk.
+     */
     void importFromDisk() {
         try {
             if (isImportActionWrong())
@@ -962,12 +1104,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
 
     // MenuItem Import from mail container
 
+    /**
+     * Import from mail.
+     */
     void importFromMail() {
         try {
             if (isImportActionWrong())
@@ -990,12 +1135,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
 
     // MenuItem Import from csv tree
 
+    /**
+     * Import from csv tree.
+     */
     void importFromCSVTree() {
         try {
             if (isImportActionWrong())
@@ -1013,12 +1161,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
 
     // MenuItem Import from csv metadata
 
+    /**
+     * Import from csv metadata.
+     */
     void importFromCSVMetadata() {
         try {
             if (isImportActionWrong())
@@ -1036,7 +1187,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import \n->" + e.getMessage());
         }
     }
 
@@ -1059,7 +1210,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MenuItem Export Manifest, SIP or disk
 
     private void exportWork(int exportType) {
-        String defaultFilename = "";
+        String defaultFilename;
         try {
             if (completeResipWork())
                 return;
@@ -1116,7 +1267,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de faire l'export \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur fatale, impossible de faire l'export \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de faire l'export \n->" + e.getMessage());
         }
     }
 

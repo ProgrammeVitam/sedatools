@@ -49,7 +49,7 @@ public class StringType extends NamedTypeMetadata {
      * Instantiates a new string.
      */
     public StringType() {
-        this(null, (String) null);
+        this(null, null);
     }
 
     /**
@@ -58,7 +58,7 @@ public class StringType extends NamedTypeMetadata {
      * @param elementName the XML element name
      */
     public StringType(String elementName) {
-        this(elementName, (String) null);
+        this(elementName, null);
     }
 
     /**
@@ -84,7 +84,7 @@ public class StringType extends NamedTypeMetadata {
         try {
             xmlWriter.writeElementValue(elementName, value);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type StringType ["+getXmlElementName()+"]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type StringType ["+getXmlElementName()+"]", e);
         }
     }
 
@@ -123,7 +123,7 @@ public class StringType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType", e);
         }
         return true;
     }

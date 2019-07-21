@@ -5,24 +5,28 @@ package fr.gouv.vitam.tools.resip.viewer;
 
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.tree.TreePath;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 
-import javax.swing.tree.TreePath;
-
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class DataObjectPackageTreeNodesTransferable.
  */
 public class DataObjectPackageTreeNodesTransferable implements Transferable {
-	
-	/** The paths. */
+
+	/**
+	 * The paths.
+	 */
 	TreePath[] paths;
-	
-	/** The flavors. */
+
+	/**
+	 * The flavors.
+	 */
 	static DataFlavor[] flavors;
-	
+
 	/**
 	 * Gets the flavor.
 	 *

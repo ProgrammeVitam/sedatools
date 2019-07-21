@@ -34,7 +34,6 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.LinkedHashMap;
 
@@ -54,7 +53,7 @@ public class DateType extends NamedTypeMetadata {
      * Instantiates a new string.
      */
     public DateType() {
-        this(null, (LocalDate) null);
+        this(null, null);
     }
 
     /**
@@ -63,7 +62,7 @@ public class DateType extends NamedTypeMetadata {
      * @param elementName the XML element name
      */
     public DateType(String elementName) {
-        this(elementName, (LocalDate) null);
+        this(elementName, null);
     }
 
     /**
@@ -91,9 +90,9 @@ public class DateType extends NamedTypeMetadata {
             if (value == null)
                 xmlWriter.writeElementValue(elementName, null);
             else
-                xmlWriter.writeElementValue(elementName, xmlWriter.getStringFromDate(value));
+                xmlWriter.writeElementValue(elementName, SEDAXMLStreamWriter.getStringFromDate(value));
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type DateTimeType [" + getXmlElementName() + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type DateTimeType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -127,9 +126,9 @@ public class DateType extends NamedTypeMetadata {
                 if (event.isCharacters()) {
                     tmpDate = event.asCharacters().getData();
                     try {
-                        value = xmlReader.getDateFromString(tmpDate);
+                        value = SEDAXMLEventReader.getDateFromString(tmpDate);
                     } catch (DateTimeParseException e) {
-                        throw new SEDALibException("La date est mal formatée");
+                        throw new SEDALibException("La date est mal formatée", e);
                     }
                     event = xmlReader.nextUsefullEvent();
                 } else
@@ -138,7 +137,7 @@ public class DateType extends NamedTypeMetadata {
                     throw new SEDALibException("Elément " + elementName + " mal terminé");
             } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type DateTimeType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type DateTimeType", e);
         }
         return true;
     }

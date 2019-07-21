@@ -153,7 +153,7 @@ public class IndentXMLTool {
         if (appTransformer == null)
             return xml;
 
-        DocumentBuilder appDocumentBuilder = null;
+        DocumentBuilder appDocumentBuilder;
         try {
             appDocumentBuilder = dbf.newDocumentBuilder();
             Document doc = appDocumentBuilder.parse(new InputSource(new StringReader("<INDENT>" + xml + "</INDENT>")));
@@ -190,7 +190,7 @@ public class IndentXMLTool {
                 sb.setLength(sb.length() - 1);
             return sb.toString();
         } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException | TransformerException e) {
-            throw new SEDALibException("XML mal formé\n->" + e.getMessage());
+            throw new SEDALibException("XML mal formé", e);
         }
     }
 }

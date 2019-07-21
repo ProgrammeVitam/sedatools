@@ -27,6 +27,19 @@
  */
 package fr.gouv.vitam.tools.resip.data;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import fr.gouv.vitam.tools.resip.parameters.CreationContext;
+import fr.gouv.vitam.tools.resip.parameters.ExportContext;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
+import fr.gouv.vitam.tools.resip.utils.ResipLogger;
+import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
+import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -39,22 +52,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
-import fr.gouv.vitam.tools.resip.parameters.CreationContext;
-import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
-import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
-import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 
 /**
  * The Class Work.
@@ -63,7 +61,9 @@ public class Work {
 
 	// Inner Object
 
-	/** The Constant CURRENT_SERIALIZATION_VERSION. */
+	/**
+	 * The Constant CURRENT_SERIALIZATION_VERSION.
+	 */
 	static final String CURRENT_SERIALIZATION_VERSION = "1.0";
 
 	/**
@@ -108,26 +108,22 @@ public class Work {
 	 *
 	 * @param spl the spl
 	 * @return the string
-	 * @throws SEDALibException the SEDA lib exception
+	 * @throws SEDALibException     the SEDA lib exception
 	 * @throws InterruptedException the interrupted exception
 	 */
 	public String doVitamNormalize(SEDALibProgressLogger spl)
 			throws SEDALibException, InterruptedException {
-		Date d = new Date();
 		Instant start = Instant.now();
-		String log = "Début de la vérification de l'absence de cycle et de la normalisation Vitam de la structure\n";
-		log += " date=" + DateFormat.getDateTimeInstance().format(d);
-		spl.log(SEDALibProgressLogger.GLOBAL,log);
+		String log = "resip: début de la vérification de l'absence de cycle et de la normalisation Vitam de la structure";
+		doProgressLog(spl,SEDALibProgressLogger.GLOBAL,log,null);
 
 		dataObjectPackage.vitamNormalize(spl);
 		
-		spl.progressLog(SEDALibProgressLogger.STEP,
-				Integer.toString(dataObjectPackage.getArchiveUnitCount()) + " ArchiveUnits normalisées");
+		doProgressLog(spl, SEDALibProgressLogger.STEP,"resip: "+
+				dataObjectPackage.getArchiveUnitCount() + " ArchiveUnits normalisées", null);
 		Instant end = Instant.now();
-		String result = "Vérification de l'absence de cycle et normalisation de la structure conforme Vitam\n";
-		result += "effectuée en " + Duration.between(start, end).toString().substring(2) + "\n";
-		spl.log(SEDALibProgressLogger.GLOBAL,result);
-		return result;
+		doProgressLog(spl,SEDALibProgressLogger.GLOBAL,"resip: opération terminée en " + Duration.between(start, end).toString().substring(2),null);
+		return "Vérification de l'absence de cycle et normalisation Vitam effectuées";
 	}
 
 	/**
@@ -135,9 +131,9 @@ public class Work {
 	 *
 	 * @param file the file
 	 * @return the work
-	 * @throws SEDALibException the resip exception
+	 * @throws ResipException the resip exception
 	 */
-	public static Work createFromFile(String file) throws SEDALibException {
+	public static Work createFromFile(String file) throws ResipException {
 		Work ow;
 		try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
 			ObjectMapper mapper = new ObjectMapper();
@@ -147,8 +143,8 @@ public class Work {
 			mapper.registerModule(module);
 			ZipEntry ze = zis.getNextEntry();
 			if (!ze.getName().equals("work.json"))
-				throw new SEDALibException(
-						"Resip.InOut: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip");
+				throw new ResipException(
+						"Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip");
 			ow = mapper.readValue(zis, Work.class);
 
 			// some fields need to be computed or defined after the load phase from Json
@@ -171,8 +167,8 @@ public class Work {
 				}
 			}
 		} catch (IOException e) {
-			throw new SEDALibException("Resip.InOut: La lecture du fichier [" + file
-					+ "] ne permet pas de retrouver une session Resip\n->" + e.getMessage());
+			throw new ResipException("Resip: La lecture du fichier [" + file
+					+ "] ne permet pas de retrouver une session Resip", e);
 		}
 		return ow;
 	}

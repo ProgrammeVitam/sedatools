@@ -42,6 +42,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+
 /**
  * The Class DataObjectPackageToDiskExporter.
  * <p>
@@ -379,8 +382,9 @@ public class DataObjectPackageToDiskExporter {
      * @param newLink       the new link
      * @throws SEDALibException if writing has failed, this can be because the user
      *                          rights are not high enough.
+     * @throws InterruptedException if interrupted
      */
-    private void exportLink(Path target, Path containerPath, String newLink) throws SEDALibException {
+    private void exportLink(Path target, Path containerPath, String newLink) throws SEDALibException, InterruptedException {
         Path linkOnDiskPath;
         // write link
         linkOnDiskPath = containerPath.resolve(newLink);
@@ -394,9 +398,8 @@ public class DataObjectPackageToDiskExporter {
             Files.createSymbolicLink(linkOnDiskPath, linkOnDiskPath.toAbsolutePath().getParent().relativize(target.toAbsolutePath()));
         } catch (Exception e) {
             if (isWindows) {
-                if (sedaLibProgressLogger != null)
-                    sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS,
-                            "La création de lien n'a pas pu avoir lieu, essai de création de raccourci sous Windows");
+                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS,
+                        "sedalib: la création de lien n'a pas pu avoir lieu, essai de création de raccourci sous Windows",e);
                 ShellLink sl = new ShellLink();
                 sl.setTarget(target.toString());
                 try {
@@ -405,7 +408,7 @@ public class DataObjectPackageToDiskExporter {
                     sl.saveTo(linkOnDiskPath.toString() + ".lnk");
                 } catch (IOException e1) {
                     throw new SEDALibException("Création du lien et du raccourci [" + linkOnDiskPath
-                            + "] impossible\n->" + e.getMessage());
+                            + "] impossible", e1);
                 }
             } else
                 throw new SEDALibException("Création du lien [" + linkOnDiskPath + "] impossible\n->" + e.getMessage());
@@ -418,8 +421,9 @@ public class DataObjectPackageToDiskExporter {
      * @param dorl   the DataObjectRefList
      * @param auPath the ArchiveUnit path
      * @throws SEDALibException if writing has failed
+     * @throws InterruptedException if interrupted
      */
-    private void exportDataObjectRefList(DataObjectRefList dorl, Path auPath) throws SEDALibException {
+    private void exportDataObjectRefList(DataObjectRefList dorl, Path auPath) throws SEDALibException, InterruptedException {
         for (DataObject zdo : dorl.getDataObjectList())
             if (zdo instanceof DataObjectGroup) {
                 Path dogPath = dogPathStringMap.get(zdo);
@@ -480,9 +484,8 @@ public class DataObjectPackageToDiskExporter {
                 exportArchiveUnit(childAu, auPath);
 
             int counter = dataObjectPackage.getNextInOutCounter();
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                        Integer.toString(counter) + " ArchiveUnit/DataObject exportés");
+            doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
+                    "sedalib: " + counter + " ArchiveUnit exportées");
         }
     }
 
@@ -517,10 +520,5 @@ public class DataObjectPackageToDiskExporter {
             exportManagementMetadata(dataObjectPackage.getManagementMetadataXmlData(), exportPath);
         for (ArchiveUnit au : dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList())
             exportArchiveUnit(au, exportPath);
-
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP,
-                    Integer.toString(dataObjectPackage.getInOutCounter()) + " ArchiveUnit/DataObject exportées\n"
-                            + dataObjectPackage.getDescription());
     }
 }

@@ -491,8 +491,6 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
      */
     @Override
     protected void analyzeAppointmentInformation() {
-        // TODO Auto-generated method stub
-        return;
     }
 
 }

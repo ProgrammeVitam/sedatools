@@ -1,11 +1,10 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
-import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class GlobalMetadataTest {
 

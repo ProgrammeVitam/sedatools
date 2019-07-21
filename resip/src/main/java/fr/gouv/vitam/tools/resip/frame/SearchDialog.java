@@ -1,7 +1,7 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.app.SearchThread;
+import fr.gouv.vitam.tools.resip.threads.SearchThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeViewer;
@@ -68,6 +68,7 @@ public class SearchDialog extends JDialog {
      * Instantiates a new SearchDialog for test.
      *
      * @param owner the owner
+     * @throws ResipException the resip exception
      */
     public SearchDialog(JFrame owner) throws ResipException {
         this(new MainWindow(new ResipGraphicApp(null)));

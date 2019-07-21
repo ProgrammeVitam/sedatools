@@ -27,17 +27,15 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.DataObject;
+
+import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-
-import javax.swing.tree.TreeNode;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
 
 /**
  * The Class DataObjectPackageTreeNode.
@@ -47,7 +45,9 @@ public class DataObjectPackageTreeNode implements TreeNode {
     /** The archive unit. */
     private ArchiveUnit archiveUnit;
 
-    /** The data object. */
+    /**
+     * The data object.
+     */
     DataObject dataObject;
 
     /** The au recursiv count. */
@@ -89,9 +89,9 @@ public class DataObjectPackageTreeNode implements TreeNode {
     /**
      * Instantiates a new archive transfer tree node.
      *
-     * @param treeModel the tree model
+     * @param treeModel   the tree model
      * @param archiveUnit the archive unit
-     * @param parent the parent
+     * @param parent      the parent
      */
     public DataObjectPackageTreeNode(DataObjectPackageTreeModel treeModel, ArchiveUnit archiveUnit, DataObjectPackageTreeNode parent) {
         this(treeModel, parent);
@@ -102,9 +102,9 @@ public class DataObjectPackageTreeNode implements TreeNode {
     /**
      * Instantiates a new archive transfer tree node.
      *
-     * @param treeModel the tree model
+     * @param treeModel  the tree model
      * @param dataObject the data object
-     * @param parent the parent
+     * @param parent     the parent
      */
     public DataObjectPackageTreeNode(DataObjectPackageTreeModel treeModel, DataObject dataObject, DataObjectPackageTreeNode parent) {
         this(treeModel, parent);
@@ -386,7 +386,7 @@ public class DataObjectPackageTreeNode implements TreeNode {
      * @param aAttn the a attn
      * @return true, if is descendant
      */
-    // Determines if aAttn is a descendant of this TreeNode
+// Determines if aAttn is a descendant of this TreeNode
     public boolean isDescendant(DataObjectPackageTreeNode aAttn) {
         if (aAttn == this)
             return true;
@@ -403,7 +403,7 @@ public class DataObjectPackageTreeNode implements TreeNode {
      * @param aAttn the a attn
      * @return true, if successful
      */
-    // Determines if aAttn is a father of this TreeNode
+// Determines if aAttn is a father of this TreeNode
     public boolean hasFather(DataObjectPackageTreeNode aAttn) {
         for (DataObjectPackageTreeNode parent : parents) {
             if (aAttn.equals(parent))
@@ -430,26 +430,52 @@ public class DataObjectPackageTreeNode implements TreeNode {
         this.title = title;
     }
 
+    /**
+     * Gets touched counter.
+     *
+     * @return the touched counter
+     */
     public int getTouchedCounter() {
         return touchedCounter;
     }
 
+    /**
+     * Sets touched counter.
+     *
+     * @param touchedCounter the touched counter
+     */
     public void setTouchedCounter(int touchedCounter) {
         this.touchedCounter = touchedCounter;
     }
 
+    /**
+     * Inc touched counter.
+     */
     public void incTouchedCounter() {
         touchedCounter++;
     }
 
+    /**
+     * Dec touched counter.
+     */
     public void decTouchedCounter() {
         touchedCounter--;
     }
 
+    /**
+     * Gets parents.
+     *
+     * @return the parents
+     */
     public List<DataObjectPackageTreeNode> getParents() {
         return parents;
     }
 
+    /**
+     * Sets parents.
+     *
+     * @param parents the parents
+     */
     public void setParents(List<DataObjectPackageTreeNode> parents) {
         this.parents = parents;
     }

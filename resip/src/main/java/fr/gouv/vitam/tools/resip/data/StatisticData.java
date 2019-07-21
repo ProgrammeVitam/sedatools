@@ -1,6 +1,5 @@
 package fr.gouv.vitam.tools.resip.data;
 
-import java.util.Comparator;
 import java.util.List;
 
 /**

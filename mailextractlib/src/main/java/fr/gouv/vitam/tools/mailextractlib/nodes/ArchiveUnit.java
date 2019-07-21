@@ -490,7 +490,7 @@ public class ArchiveUnit {
 
     // reduce if needed a filename conserving the extension
     private String normalizeFilename(String filename) {
-        String result = "";
+        String result;
         String extension = "";
         int len;
 

@@ -27,12 +27,12 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
-import fr.gouv.vitam.tools.resip.app.AddThread;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.DustbinItem;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
+import fr.gouv.vitam.tools.resip.threads.AddThread;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
@@ -106,7 +106,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                                 popupSTN.add(pstn);
                                 mi = new JMenuItem("Voir " + pstn.getArchiveUnit().getInDataObjectPackageId() + "-" + pstn.getTitle());
                                 mi.addActionListener(thisSTV);
-                                mi.setActionCommand("Link-" + Integer.toString(i++));
+                                mi.setActionCommand("Link-" + (i++));
                                 popup.add(mi);
                             }
                             popup.addSeparator();
@@ -440,7 +440,8 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
     /**
      * Removes the sub tree.
      *
-     * @param removePath the remove path
+     * @param removePath  the remove path
+     * @param confirmFlag the confirm flag
      */
     public void removeSubTree(TreePath removePath, boolean confirmFlag) {
         ArchiveUnit childAU, fatherAU;
@@ -459,9 +460,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             ogCount++;
         if (confirmFlag && (UserInteractionDialog.getUserAnswer(main,
                 "Vous allez effacer " +
-                        (auCount == 0 ? "" : Integer.toString(auCount) + " ArchiveUnits ") +
+                        (auCount == 0 ? "" : auCount + " ArchiveUnits ") +
                         (auCount != 0 && ogCount != 0 ? "et " : "") +
-                        (ogCount == 0 ? "" : Integer.toString(ogCount) + " DataObjectGroups "),
+                        (ogCount == 0 ? "" : ogCount + " DataObjectGroups "),
                 "Confirmation", UserInteractionDialog.WARNING_DIALOG,
                 null) != ResipGraphicApp.OK_DIALOG))
             return;
@@ -508,7 +509,6 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
-            return;
         }
     }
 

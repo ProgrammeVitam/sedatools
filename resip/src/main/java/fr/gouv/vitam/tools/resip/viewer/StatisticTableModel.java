@@ -1,20 +1,32 @@
 package fr.gouv.vitam.tools.resip.viewer;
 
 import fr.gouv.vitam.tools.resip.data.StatisticData;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
+/**
+ * The type Statistic table model.
+ */
 public class StatisticTableModel extends AbstractTableModel {
 
     private final String[] entetes = { "Catégorie", "Nombre", "Taille min", "Taille moy", "Taille max", "Total"};
     private List<StatisticData> statisticDataList;
 
+    /**
+     * Gets statistic data list.
+     *
+     * @return the statistic data list
+     */
     public List<StatisticData> getStatisticDataList() {
         return statisticDataList;
     }
 
+    /**
+     * Sets statistic data list.
+     *
+     * @param statisticDataList the statistic data list
+     */
     public void setStatisticDataList(List<StatisticData> statisticDataList) {
         this.statisticDataList = statisticDataList;
     }

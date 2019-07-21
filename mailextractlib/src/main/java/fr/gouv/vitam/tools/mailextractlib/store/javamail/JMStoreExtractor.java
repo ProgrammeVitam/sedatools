@@ -31,11 +31,11 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
-import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.eml.EmlStore;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox.MboxStore;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird.ThunderbirdStore;
+import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
 import javax.mail.*;
 import java.io.UnsupportedEncodingException;
@@ -95,9 +95,8 @@ public class JMStoreExtractor extends StoreExtractor {
                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException {
         super(urlString, folder, destPathString, options, rootStoreExtractor, logger);
 
-        String url = "";
+        String url;
 
-        // TODO verify encoding
         url = urlString;
         if (folder != null && !folder.isEmpty())
             url += "/" + folder;

@@ -46,6 +46,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+
 /**
  * The Class DataObjectPackageToCSVMetadataExporter.
  * <p>
@@ -314,8 +317,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     // generate header line in the csv, after simplifying header names (remove unnecessary .0)
     private void generateHeader(List<String> headerNames, PrintStream csvPrintStream) {
         csvPrintStream.print("Path");
-        List<String> simplifiedHeaderNames = new ArrayList<String>();
-        simplifiedHeaderNames.addAll(headerNames);
+        List<String> simplifiedHeaderNames = new ArrayList<String>(headerNames);
         for (int i = 0; i < simplifiedHeaderNames.size(); i++) {
             String header = simplifiedHeaderNames.get(i);
             int pos = 0;
@@ -364,13 +366,13 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // get the best Usage_Version object in a list of objects. First find the best Usage and then find the first or
     // last version of this usage depending on firstFlag
-    private BinaryDataObject getBestUsageVersionObject(List<BinaryDataObject> objectList, boolean firstFlag) {
+    private BinaryDataObject getBestUsageVersionObject(List<BinaryDataObject> objectList, boolean firstFlag) throws InterruptedException {
         int rank, version;
         TreeMap<Integer, BinaryDataObject> rankMap = new TreeMap<Integer, BinaryDataObject>();
         for (BinaryDataObject bdo : objectList) {
             if ((bdo.dataObjectVersion == null) || (bdo.dataObjectVersion.isEmpty())) {
-                sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "Un objet binaire n'a pas d'usage_version," +
-                        " il ne peut être choisi pour l'extraction");
+                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS, "Un objet binaire n'a pas d'usage_version," +
+                        " il ne peut être choisi pour l'extraction",null);
                 continue;
             }
             String[] usageVersion = bdo.dataObjectVersion.split("_");
@@ -392,12 +394,14 @@ public class DataObjectPackageToCSVMetadataExporter {
             }
             if (usageVersion.length == 1)
                 version = 1;
-            try {
-                version = Integer.parseInt(usageVersion[1]);
-            } catch (NumberFormatException e) {
-                sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "Un objet binaire n'a pas d'usage_version," +
-                        " il ne peut être choisi pour l'extraction");
-                continue;
+            else {
+                try {
+                    version = Integer.parseInt(usageVersion[1]);
+                } catch (NumberFormatException e) {
+                    doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS, "Un objet binaire n'a pas d'usage_version," +
+                            " il ne peut être choisi pour l'extraction", e);
+                    continue;
+                }
             }
             rankMap.put(rank * 1000 + version, bdo);
         }
@@ -418,7 +422,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     }
 
     // get the list of all objects in an ArchiveUnit (with DataObjectGroup or not)
-    private List<BinaryDataObject> getArchiveUnitObjectList(ArchiveUnit au) {
+    private List<BinaryDataObject> getArchiveUnitObjectList(ArchiveUnit au) throws InterruptedException {
         if ((au.getDataObjectRefList() == null) || (au.getDataObjectRefList().getCount() == 0))
             return null;
         ArrayList<BinaryDataObject> objectList = new ArrayList<BinaryDataObject>();
@@ -498,7 +502,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     }
 
     // export in containerPath a link to au an already created ArchiveUnit export
-    private void exportLink(ArchiveUnit au, Path containerPath) throws SEDALibException {
+    private void exportLink(ArchiveUnit au, Path containerPath) throws SEDALibException, InterruptedException {
         Path originAUPath = containerPath.relativize(auPathStringMap.get(au));
         Path auPath = containerPath.resolve(originAUPath.getFileName());
         try {
@@ -510,9 +514,7 @@ public class DataObjectPackageToCSVMetadataExporter {
         try {
             Files.createSymbolicLink(auPath.toAbsolutePath(), originAUPath);
         } catch (Exception e) {
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "Lien vers [" + originAUPath + "] n'a pas pu être créé\n-> "
-                        + e.getMessage());
+            doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_WARNINGS, "Lien vers [" + originAUPath + "] n'a pas pu être créé",e);
             try {
                 Path linkFilePath = auPath.getFileSystem().getPath(auPath.toAbsolutePath().toAbsolutePath().toString() + ".link");
                 Files.write(linkFilePath,
@@ -552,7 +554,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                                    PrintStream csvPrintStream, boolean fileExportFlag)
             throws SEDALibException, InterruptedException {
         Path auPath;
-        String filename = null;
+        String filename;
 
         if (auPathStringMap.containsKey(au)) {
             if (fileExportFlag) exportLink(au, containerPath);
@@ -578,10 +580,10 @@ public class DataObjectPackageToCSVMetadataExporter {
         }
 
         generateCsvLine(au, auPath, rootPath, csvPrintStream);
+
         int counter = dataObjectPackage.getNextInOutCounter();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                    Integer.toString(counter) + " ArchiveUnit/DataObject exportés");
+        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
+                    Integer.toString(counter) + " ArchiveUnit exportées");
     }
 
     // define the export zip filesystem
@@ -607,14 +609,16 @@ public class DataObjectPackageToCSVMetadataExporter {
     // csv and zip file has to be in same directory
     private void exportAll(String csvMetadataFileName, boolean fileExportFlag, String zipFileName) throws SEDALibException, InterruptedException {
         Date d = new Date();
-        start = Instant.now();
-        String log = "Début de l'export csv\n";
-        log += "en [" + csvMetadataFileName + "]";
-        log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, log);
-
         Path rootPath = Paths.get(csvMetadataFileName).getParent().toAbsolutePath();
+        start = Instant.now();
+        String log = "Début de l'export csv simplifié\n";
+        if (zipFileName!=null)
+            log += "dans le zip [" + Paths.get(zipFileName).toAbsolutePath().toString() + "]";
+        else
+            log += "en [" + rootPath.toString() + "]";
+        log += " date=" + DateFormat.getDateTimeInstance().format(d);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+
         try {
             Files.createDirectories(rootPath);
         } catch (Exception e) {
@@ -645,10 +649,6 @@ public class DataObjectPackageToCSVMetadataExporter {
             exportArchiveUnit(au, rootPath, rootPath, csvPrintStream, fileExportFlag);
         csvPrintStream.close();
 
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP,
-                    Integer.toString(dataObjectPackage.getInOutCounter()) + " ArchiveUnit/DataObject exportées\n"
-                            + dataObjectPackage.getDescription());
         if (zipFS != null) {
             try {
                 Files.move(Paths.get(csvMetadataFileName), zipFS.getPath("metadata.csv"));
@@ -662,11 +662,8 @@ public class DataObjectPackageToCSVMetadataExporter {
                 }
             }
         }
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP,
-                    dataObjectPackage.getInOutCounter(),
-                    Integer.toString(dataObjectPackage.getInOutCounter())
-                            + " ArchiveUnit exportés\n" + dataObjectPackage.getDescription());
+
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "Export csv simplifié terminé", null);
         end = Instant.now();
     }
 

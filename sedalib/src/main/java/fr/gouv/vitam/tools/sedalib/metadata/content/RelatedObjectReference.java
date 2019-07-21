@@ -27,7 +27,10 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DataObjectOrArchiveUnitReferenceType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;

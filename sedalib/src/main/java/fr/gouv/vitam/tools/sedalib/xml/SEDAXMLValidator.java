@@ -48,7 +48,7 @@ public class SEDAXMLValidator {
         try {
             return factory.newSchema(xsdResource);
         } catch (SAXException e) {
-            throw new SEDALibException("Impossible de charger le schéma " + xsdResource);
+            throw new SEDALibException("Impossible de charger le schéma " + xsdResource, e);
         }
     }
 
@@ -69,7 +69,7 @@ public class SEDAXMLValidator {
         try {
             return factory.newSchema(new File(xsdFile));
         } catch (SAXException e) {
-            throw new SEDALibException("Impossible de charger le schéma " + xsdFile);
+            throw new SEDALibException("Impossible de charger le schéma " + xsdFile, e);
         }
     }
 
@@ -91,7 +91,7 @@ public class SEDAXMLValidator {
         try {
             return factory.newSchema(new File(rngFile));
         } catch (SAXException e) {
-            throw new SEDALibException("Impossible de charger le schéma " + rngFile);
+            throw new SEDALibException("Impossible de charger le schéma " + rngFile, e);
         }
     }
 
@@ -106,7 +106,7 @@ public class SEDAXMLValidator {
                 inArchiveUnit = line.trim();
             i++;
         }
-        result = "contexte de l'erreur: " + (inArchiveUnit.isEmpty()?"non précisé":inArchiveUnit) + "\n" +
+        result = "Contexte de l'erreur: " + (inArchiveUnit.isEmpty()?"hors AU":inArchiveUnit) + "\n" +
                 "position de l'erreur identifiée: ligne " + e.getLineNumber() + ", colonne " + e.getColumnNumber() + "\n" +
                 "ligne: " + line+"\n" +
                 "erreur brute: " + e.getMessage();
@@ -133,14 +133,14 @@ public class SEDAXMLValidator {
             validator.validate(new StAXSource(xmlStreamReader));
             return true;
         } catch (IOException e) {
-            throw new SEDALibException("Erreur d'accès au flux XML\n-> " + e.getMessage());
+            throw new SEDALibException("Erreur d'accès au flux XML", e);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Impossible d'ouvrir le flux XML\n-> " + e.getMessage());
+            throw new SEDALibException("Impossible d'ouvrir le flux XML", e);
         } catch (SAXParseException e) {
             throw new SEDALibException("Le flux XML n'est pas conforme\n-> "
                     + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + e.getMessage());
+            throw new SEDALibException("Le flux XML n'est pas conforme", e);
         } finally {
             if (xmlStreamReader != null) {
                 try {
@@ -168,9 +168,9 @@ public class SEDAXMLValidator {
             throw new SEDALibException("Le flux XML n'est pas conforme\n-> "
                     + getContextualErrorMessage(manifest, e));
         } catch (SAXException e) {
-            throw new SEDALibException("Le flux XML n'est pas conforme\n-> " + e.getMessage());
+            throw new SEDALibException("Le flux XML n'est pas conforme", e);
         } catch (IOException e) {
-            throw new SEDALibException("Erreur d'accès au flux XML\n-> " + e.getMessage());
+            throw new SEDALibException("Erreur d'accès au flux XML", e);
         }
     }
 }

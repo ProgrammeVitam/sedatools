@@ -25,16 +25,22 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.app;
+package fr.gouv.vitam.tools.resip.threads;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.TechnicalSearchDialog;
 import fr.gouv.vitam.tools.sedalib.core.*;
 
 import javax.swing.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The type Technical search thread.
+ */
 public class TechnicalSearchThread extends SwingWorker<String, String> {
 
     private TechnicalSearchDialog technicalSearchDialog;
@@ -49,6 +55,15 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
     private boolean allFormatsFlag;
 
 
+    /**
+     * Instantiates a new Technical search thread.
+     *
+     * @param technicalSearchDialog the technical search dialog
+     * @param au                    the au
+     * @param formats               the formats
+     * @param min                   the min
+     * @param max                   the max
+     */
     public TechnicalSearchThread(TechnicalSearchDialog technicalSearchDialog, ArchiveUnit au, List<String> formats,long min, long max) {
         this.technicalSearchDialog = technicalSearchDialog;
         this.searchUnit = au;

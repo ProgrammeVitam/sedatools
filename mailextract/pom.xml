@@ -112,11 +112,11 @@
 								</opts>
 							</jre>
 							<versionInfo>
-								<fileVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.0.0</fileVersion>
+								<fileVersion>${project.majorVersion}.${project.minorVersion}.0.0</fileVersion>
 								<txtFileVersion>${project.version}</txtFileVersion>
 								<fileDescription>${project.name}</fileDescription>
 								<copyright>Programme Vitam</copyright>
-								<productVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.0.0</productVersion>
+								<productVersion>${project.majorVersion}.${project.minorVersion}.0.0</productVersion>
 								<txtProductVersion>${project.version}</txtProductVersion>
 								<productName>${project.name}</productName>
 								<internalName>${project.name}</internalName>

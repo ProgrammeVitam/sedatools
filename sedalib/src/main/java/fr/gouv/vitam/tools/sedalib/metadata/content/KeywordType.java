@@ -90,7 +90,7 @@ public class KeywordType extends NamedTypeMetadata {
         try {
             xmlWriter.writeElementValue(elementName, value);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type KeywordType [" + getXmlElementName() + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type KeywordType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -131,7 +131,7 @@ public class KeywordType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type KeywordType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type KeywordType", e);
         }
         return true;
     }

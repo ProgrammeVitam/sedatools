@@ -102,7 +102,7 @@ public class FormatIdentification extends SEDAMetadata {
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
-                    "Erreur d'écriture XML dans un élément FormatIdentification\n->" + e.getMessage());
+                    "Erreur d'écriture XML dans un élément FormatIdentification", e);
         }
     }
 
@@ -133,7 +133,7 @@ public class FormatIdentification extends SEDAMetadata {
                 xmlReader.endBlockNamed("FormatIdentification");
             } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type FormatIdentification\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type FormatIdentification", e);
         }
         return true;
     }

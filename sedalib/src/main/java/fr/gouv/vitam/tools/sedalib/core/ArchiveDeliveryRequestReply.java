@@ -35,6 +35,8 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+
 /**
  * The Class ArchiveDeliveryRequestReply
  * <p>
@@ -94,7 +96,6 @@ public class ArchiveDeliveryRequestReply {
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
-
     private static void importStartDocument(SEDAXMLEventReader xmlReader, SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException {
         XMLEvent event;
@@ -105,11 +106,8 @@ public class ArchiveDeliveryRequestReply {
             if (!xmlReader.nextBlockIfNamed("ArchiveDeliveryRequestReply")) {
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
             }
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Début de l'import du document ArchiveTransferRequestReply");
-
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML", e);
         }
     }
 
@@ -121,13 +119,12 @@ public class ArchiveDeliveryRequestReply {
      * @param archiveDeliveryRequestReply the ArchiveDeliveryRequestReply to be
      *                                    completed
      * @param sedaLibProgressLogger       the progress logger or null if no progress log expected
+     * @throws InterruptedException       if interrupted
      */
 
     private static void importHeader(SEDAXMLEventReader xmlReader,
-                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply, SEDALibProgressLogger sedaLibProgressLogger) {
+                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply, SEDALibProgressLogger sedaLibProgressLogger) throws InterruptedException {
         try {
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Début de l'import de l'entête");
             archiveDeliveryRequestReply.globalMetadata.comment = xmlReader.nextValueIfNamed("Comment");
             archiveDeliveryRequestReply.globalMetadata.date = xmlReader.nextMandatoryValue("Date");
             archiveDeliveryRequestReply.globalMetadata
@@ -138,13 +135,10 @@ public class ArchiveDeliveryRequestReply {
                     .archivalAgreement = xmlReader.nextValueIfNamed("ArchivalAgreement");
             archiveDeliveryRequestReply.globalMetadata
                     .codeListVersionsXmlData = xmlReader.nextMandatoryBlockAsString("CodeListVersions");
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Entête importé");
         } catch (XMLStreamException | SEDALibException e) {
             // TODO to correct when VITAM DIP will use more elements
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP,
-                        "L'entête n'est pas conforme à un ArchiveDeliveryRequestReply, mais la tentative d'analyse continue");
+            doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.STEP,
+                    "sedalib: l'entête n'est pas conforme à un ArchiveDeliveryRequestReply, mais la tentative d'analyse continue",null);
             archiveDeliveryRequestReply.globalMetadata = null;
             // throw new SEDALibException("Erreur de lecture XML d'entête du manifest\n->" +
             // e.getMessage());
@@ -184,7 +178,7 @@ public class ArchiveDeliveryRequestReply {
                 throw new SEDALibException(
                         "L'élément Requester dans ArchiveDeliveryRequestReply n'est pas supporté à ce stade");
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture de la fin du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture de la fin du manifest", e);
         }
     }
 
@@ -206,7 +200,7 @@ public class ArchiveDeliveryRequestReply {
             if (!event.isEndDocument())
                 throw new SEDALibException("Pas de fin attendue du document XML");
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture de la cloture du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture de la cloture du manifest", e);
         }
     }
 
@@ -232,6 +226,9 @@ public class ArchiveDeliveryRequestReply {
                 .setDataObjectPackage(DataObjectPackage.fromSedaXml(xmlReader, rootDir, sedaLibProgressLogger));
         importFooter(xmlReader, archiveDeliveryRequestReply);
         importEndDocument(xmlReader, archiveDeliveryRequestReply);
+
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.STEP,
+                "sedalib: archiveDeliveryRequestReply importé",null);
 
         return archiveDeliveryRequestReply;
     }

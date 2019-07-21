@@ -25,8 +25,9 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.app;
+package fr.gouv.vitam.tools.resip.threads;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.StatisticData;
 import fr.gouv.vitam.tools.resip.frame.StatisticWindow;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
@@ -41,16 +42,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
+/**
+ * The type Statistic thread.
+ */
 public class StatisticThread extends SwingWorker<String, String> {
 
+    //input
     private StatisticWindow statisticWindow;
-    private DataObjectPackage dataObjectPackage;
     private List<StatisticData> statisticDataList;
+    //run output
+    private Exception exitException;
     // logger
     private SEDALibProgressLogger spl;
 
+    /**
+     * Instantiates a new Statistic thread.
+     *
+     * @param statisticWindow the statistic window
+     */
     public StatisticThread(StatisticWindow statisticWindow) {
         this.statisticWindow = statisticWindow;
     }
@@ -66,8 +77,8 @@ public class StatisticThread extends SwingWorker<String, String> {
     @Override
     public String doInBackground() {
         try {
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null, 1000,2);
-            dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null, 1000, 2);
+            DataObjectPackage dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
             LinkedHashMap<String, List<Long>> sizeByCategoryMap = new LinkedHashMap<String, List<Long>>();
             LinkedHashMap<String, List<String>> formatByCatgeoryMap = ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap();
             String otherCategory = null;
@@ -77,7 +88,7 @@ public class StatisticThread extends SwingWorker<String, String> {
                     otherCategory = category.getKey();
             }
             sizeByCategoryMap.put("Tous formats", new ArrayList<Long>());
-            int counter=0;
+            int counter = 0;
             for (BinaryDataObject bdo : dataObjectPackage.getBdoInDataObjectPackageIdMap().values()) {
                 String category = findCategory(bdo.formatIdentification.formatId, formatByCatgeoryMap);
                 if (category == null) category = otherCategory;
@@ -85,18 +96,15 @@ public class StatisticThread extends SwingWorker<String, String> {
                     sizeByCategoryMap.get(category).add(bdo.size);
                 sizeByCategoryMap.get("Tous formats").add(bdo.size);
                 counter++;
-                spl.progressLogIfStep(SEDALibProgressLogger.GLOBAL,counter,
-                        Integer.toString(counter)+" objets pris en compte dans les statistiques");
+                doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, counter,"resip: "+
+                        counter + " objets pris en compte dans les statistiques");
             }
             statisticDataList = sizeByCategoryMap.entrySet().stream()
                     .map(e -> new StatisticData(e.getKey(), e.getValue()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            try {
-                if (spl != null)
-                    spl.progressLog(GLOBAL, "Statistiques impossibles\n-> " + e.getMessage());
-            } catch (InterruptedException ignored) {
-            }
+            exitException = e;
+            return "KO";
         }
         return "OK";
     }
@@ -105,28 +113,29 @@ public class StatisticThread extends SwingWorker<String, String> {
     protected void done() {
         ResipGraphicApp theApp = ResipGraphicApp.getTheApp();
 
-        if ((!isCancelled()) && (statisticDataList != null)) {
+        if (isCancelled())
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: statistiques annulées", null);
+        else if (exitException != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant les statistiques", exitException);
+        else {
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: statistiques terminées", null);
             statisticWindow.setStatisticDataList(statisticDataList);
-            try {
-                spl.progressLog(SEDALibProgressLogger.GLOBAL, String.format(
-                        "%-40.40s %10s %10s %10s %10s", "Categorie", "Nb", "Min", "Moyenne", "Max"));
-                for (StatisticData sd : statisticDataList) {
-                    if (sd.getObjectNumber()!=0)
-                        spl.progressLog(SEDALibProgressLogger.GLOBAL, String.format(
+            doProgressLogWithoutInterruption(spl, GLOBAL, String.format(
+                    "%-40.40s %10s %10s %10s %10s", "Categorie", "Nb", "Min", "Moyenne", "Max"), null);
+            for (StatisticData sd : statisticDataList) {
+                if (sd.getObjectNumber() != 0)
+                    doProgressLogWithoutInterruption(spl, GLOBAL, String.format(
                             "%-40.40s %10d %10d %10.0f %10d",
                             sd.getFormatCategory(),
                             sd.getObjectNumber(),
                             sd.getMinSize(),
                             sd.getMeanSize(),
-                            sd.getMaxSize()));
-                    else
-                        spl.progressLog(SEDALibProgressLogger.GLOBAL, String.format(
-                                "%-40.40s %10d %10s %10s %10s",
-                                sd.getFormatCategory(),
-                                0,"-","-","-"));
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                            sd.getMaxSize()), null);
+                else
+                    doProgressLogWithoutInterruption(spl, GLOBAL, String.format(
+                            "%-40.40s %10d %10s %10s %10s",
+                            sd.getFormatCategory(),
+                            0, "-", "-", "-"), null);
             }
         }
     }
