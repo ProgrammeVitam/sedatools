@@ -12,11 +12,26 @@ import java.lang.reflect.InvocationTargetException;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
+/**
+ * The type User interaction dialog.
+ */
 public class UserInteractionDialog extends JDialog {
 
+    /**
+     * The Information dialog.
+     */
     static public final int INFORMATION_DIALOG = 0;
+    /**
+     * The Warning dialog.
+     */
     static public final int WARNING_DIALOG = 1;
+    /**
+     * The Error dialog.
+     */
     static public final int ERROR_DIALOG = 2;
+    /**
+     * The Important dialog.
+     */
     static public final int IMPORTANT_DIALOG = 3;
 
     /**

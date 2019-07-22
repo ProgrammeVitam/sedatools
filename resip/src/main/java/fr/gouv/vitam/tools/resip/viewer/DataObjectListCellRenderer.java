@@ -27,16 +27,15 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
-import java.awt.Component;
-import java.awt.Font;
-
-import javax.swing.*;
-
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 
+import javax.swing.*;
+import java.awt.*;
+
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class DataObjectListCellRenderer.
  */

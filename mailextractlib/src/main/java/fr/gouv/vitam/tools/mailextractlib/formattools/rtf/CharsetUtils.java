@@ -117,7 +117,7 @@ public class CharsetUtils {
         try {
             icuCharset = CharsetUtils.class.getClassLoader().loadClass(
                     "com.ibm.icu.charset.CharsetICU");
-        } catch (ClassNotFoundException e) {
+        } catch (ClassNotFoundException ignored) {
         }
         if (icuCharset != null) {
             try {
@@ -127,7 +127,7 @@ public class CharsetUtils {
             }
             try {
                 isSupportedICU = icuCharset.getMethod("isSupported", String.class);
-            } catch (Throwable t) {
+            } catch (Throwable ignored) {
             }
         }
     }

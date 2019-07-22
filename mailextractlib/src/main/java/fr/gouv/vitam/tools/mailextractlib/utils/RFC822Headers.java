@@ -177,13 +177,13 @@ public class RFC822Headers extends InternetHeaders {
      */
     public List<String> getAddressHeader(String name) throws InterruptedException {
         List<String> result = null;
-        String addressHeaderString = null;
+        String addressHeaderString;
 
         addressHeaderString = getHeader(name, ", ");
 
         if (addressHeaderString != null) {
             result = new ArrayList<String>();
-            InternetAddress[] iAddressArray = null;
+            InternetAddress[] iAddressArray;
             try {
                 iAddressArray = InternetAddress.parseHeader(addressHeaderString, false);
             } catch (AddressException e) {
@@ -193,19 +193,15 @@ public class RFC822Headers extends InternetHeaders {
                 } catch (UnsupportedEncodingException uee) {
                     // too bad
                 }
-                message.logMessageWarning("mailextract.rfc822: Wrongly formatted address " + addressHeaderString
-                        + ", keep raw address list in metadata in header " + name);
+                message.logMessageWarning("mailextractlib.rfc822: wrongly formatted address " + addressHeaderString
+                        + ", keep raw address list in metadata in header " + name, e);
                 result.add(addressHeaderString);
                 return result;
             }
-            if (iAddressArray != null) {
-                for (InternetAddress ia : iAddressArray) {
-                    result.add(getStringAddress(ia));
-                }
-            } else
-                result = null;
+            for (InternetAddress ia : iAddressArray) {
+                result.add(getStringAddress(ia));
+            }
         }
-
         return result;
     }
 }

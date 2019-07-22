@@ -25,52 +25,81 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.app;
+package fr.gouv.vitam.tools.resip.threads;
 
-import java.io.File;
-import java.text.DecimalFormat;
-import java.time.Instant;
-
-import javax.swing.JTextArea;
-import javax.swing.SwingWorker;
-
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
-import fr.gouv.vitam.tools.resip.parameters.CSVImportContext;
-import fr.gouv.vitam.tools.resip.parameters.CSVMetadataImportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
+import fr.gouv.vitam.tools.resip.parameters.CSVImportContext;
+import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToDiskExporter;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
+import javax.swing.*;
+import java.io.File;
+import java.text.DecimalFormat;
+
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
+
+/**
+ * The type Export thread.
+ */
 public class ExportThread extends SwingWorker<String, String> {
 
-    static final int SIP_ALL_EXPORT = 1;
-    static final int SIP_MANIFEST_EXPORT = 2;
-    static final int DISK_EXPORT = 3;
-    static final int CSV_ALL_DISK_EXPORT = 4;
-    static final int CSV_METADATA_FILE_EXPORT = 5;
-    static final int CSV_ALL_ZIP_EXPORT = 6;
+    /**
+     * The Sip all export.
+     */
+    static public final int SIP_ALL_EXPORT = 1;
+    /**
+     * The Sip manifest export.
+     */
+    static public final int SIP_MANIFEST_EXPORT = 2;
+    /**
+     * The Disk export.
+     */
+    static public final int DISK_EXPORT = 3;
+    /**
+     * The Csv all disk export.
+     */
+    static public final int CSV_ALL_DISK_EXPORT = 4;
+    /**
+     * The Csv metadata file export.
+     */
+    static public final int CSV_METADATA_FILE_EXPORT = 5;
+    /**
+     * The Csv all zip export.
+     */
+    static public final int CSV_ALL_ZIP_EXPORT = 6;
 
+    //input
     private Work work;
-    long lastReport = Instant.now().getEpochSecond();
-    Exception exitException;
-    int exportType;
-    JTextArea logTextArea;
-    String summary;
-    SEDALibProgressLogger spl;
-    InOutDialog inOutDialog;
+    private InOutDialog inOutDialog;
+    private int exportType;
+    //run output
+    private String summary;
+    private Exception exitException;
+    // logger
+    private SEDALibProgressLogger spl;
 
-    ExportThread(Work work, int exportType, InOutDialog dialog) {
+
+    /**
+     * Instantiates a new Export thread.
+     *
+     * @param work       the work
+     * @param exportType the export type
+     * @param dialog     the dialog
+     */
+    public ExportThread(Work work, int exportType, InOutDialog dialog) {
         this.work = work;
-        this.logTextArea = dialog.extProgressTextArea;
         this.exportType = exportType;
         dialog.setThread(this);
         this.inOutDialog = dialog;
+        this.exitException = null;
     }
 
     /**
@@ -89,16 +118,13 @@ public class ExportThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        SEDALibProgressLogger spl = null;
+        spl = null;
         try {
-            if (logTextArea != null)
                 spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
-                    String newLog = logTextArea.getText() + "\n" + log;
-                    logTextArea.setText(newLog);
-                    logTextArea.setCaretPosition(newLog.length());
+                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                    inOutDialog.extProgressTextArea.setText(newLog);
+                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
                 }, 1000, 2);
-            else
-                spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP);
 
             // first verify and reindex if neccesary
             if (work.getExportContext().isReindex()) {
@@ -120,8 +146,8 @@ public class ExportThread extends SwingWorker<String, String> {
                     ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
                     sm.doExportToSEDAXMLManifest(work.getExportContext().getOnDiskOutput(), work.getExportContext().isHierarchicalArchiveUnits(),
                             work.getExportContext().isIndented());
-                    spl.progressLog(SEDALibProgressLogger.GLOBAL,
-                            "Fichier sauvegardé (" + readableFileSize(new File(work.getExportContext().getOnDiskOutput()).length()) + ")");
+                    doProgressLog(spl, GLOBAL,
+                            "resip: fichier sauvegardé (" + readableFileSize(new File(work.getExportContext().getOnDiskOutput()).length()) + ")", null);
                     summary = sm.getSummary();
                     break;
                 case SIP_ALL_EXPORT:
@@ -129,8 +155,8 @@ public class ExportThread extends SwingWorker<String, String> {
                     ArchiveTransferToSIPExporter smm = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
                     smm.doExportToSEDASIP(work.getExportContext().getOnDiskOutput(), work.getExportContext().isHierarchicalArchiveUnits(),
                             work.getExportContext().isIndented());
-                    spl.progressLog(SEDALibProgressLogger.GLOBAL,
-                            "Fichier sauvegardé (" + readableFileSize(new File(work.getExportContext().getOnDiskOutput()).length()) + ")");
+                    doProgressLog(spl, GLOBAL,
+                            "resip: fichier sauvegardé (" + readableFileSize(new File(work.getExportContext().getOnDiskOutput()).length()) + ")", null);
                     summary = smm.getSummary();
                     break;
                 case DISK_EXPORT:
@@ -141,47 +167,40 @@ public class ExportThread extends SwingWorker<String, String> {
                     break;
                 case CSV_ALL_DISK_EXPORT:
                     inOutDialog.extProgressTextArea.setText("Export en hiérarchie disque simplifiée avec fichier csv des métadonnées " + work.getExportContext().getOnDiskOutput() + "\n");
-                    CSVImportContext cmic=new CSVImportContext(Prefs.getInstance());
+                    CSVImportContext cmic = new CSVImportContext(Prefs.getInstance());
                     DataObjectPackageToCSVMetadataExporter cme = new DataObjectPackageToCSVMetadataExporter(
-                            archiveTransfer.getDataObjectPackage(), cmic.getCsvCharsetName(),cmic.getDelimiter(),
-                            work.getExportContext().getUsageVersionSelectionMode(),work.getExportContext().getMaxNameSize(),spl);
+                            archiveTransfer.getDataObjectPackage(), cmic.getCsvCharsetName(), cmic.getDelimiter(),
+                            work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
                     cme.doExportToCSVDiskHierarchy(work.getExportContext().getOnDiskOutput());
                     summary = cme.getSummary();
                     break;
                 case CSV_ALL_ZIP_EXPORT:
                     inOutDialog.extProgressTextArea.setText("Export en hiérarchie disque simplifiée avec fichier csv des métadonnées " + work.getExportContext().getOnDiskOutput() + "\n");
-                    CSVImportContext cmicz=new CSVImportContext(Prefs.getInstance());
+                    CSVImportContext cmicz = new CSVImportContext(Prefs.getInstance());
                     DataObjectPackageToCSVMetadataExporter cmez = new DataObjectPackageToCSVMetadataExporter(
-                            archiveTransfer.getDataObjectPackage(), cmicz.getCsvCharsetName(),cmicz.getDelimiter(),
-                            work.getExportContext().getUsageVersionSelectionMode(),work.getExportContext().getMaxNameSize(),spl);
+                            archiveTransfer.getDataObjectPackage(), cmicz.getCsvCharsetName(), cmicz.getDelimiter(),
+                            work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
                     cmez.doExportToCSVZip(work.getExportContext().getOnDiskOutput());
                     summary = cmez.getSummary();
                     break;
                 case CSV_METADATA_FILE_EXPORT:
                     inOutDialog.extProgressTextArea.setText("Export en hiérarchie disque simplifiée avec fichier csv des métadonnées " + work.getExportContext().getOnDiskOutput() + "\n");
-                    CSVImportContext cmicm=new CSVImportContext(Prefs.getInstance());
+                    CSVImportContext cmicm = new CSVImportContext(Prefs.getInstance());
                     DataObjectPackageToCSVMetadataExporter cmem = new DataObjectPackageToCSVMetadataExporter(
-                            archiveTransfer.getDataObjectPackage(), cmicm.getCsvCharsetName(),cmicm.getDelimiter(),
-                            work.getExportContext().getUsageVersionSelectionMode(),work.getExportContext().getMaxNameSize(),spl);
+                            archiveTransfer.getDataObjectPackage(), cmicm.getCsvCharsetName(), cmicm.getDelimiter(),
+                            work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
                     cmem.doExportToCSVMetadataFile(work.getExportContext().getOnDiskOutput());
                     summary = cmem.getSummary();
                     break;
 
                 default:
-                    spl.progressLog(SEDALibProgressLogger.GLOBAL, "Resip.App: Export attendu inconnu");
+                    throw new ResipException("Export attendu inconnu");
             }
-            return "OK";
         } catch (Exception e) {
-            if (spl != null) {
-                try {
-                    spl.progressLog(SEDALibProgressLogger.GLOBAL, "Resip.App: Export impossible\n->" + e.getMessage());
-                } catch (InterruptedException ignored) {
-                }
-            }
-            exitException = e;
-            e.printStackTrace();
+            exitException=e;
             return "KO";
         }
+        return "OK";
     }
 
     @Override
@@ -190,13 +209,16 @@ public class ExportThread extends SwingWorker<String, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            loadText.setText(loadText.getText() + "\n-> " + "Export annulé, les données seront partiellement sur le disque.");
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: export annulé, les données seront partiellement sur le disque",null);
+        else if (exitException != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant l'export, les données seront partiellement sur le disque",exitException);
         else {
-            loadText.setText(loadText.getText() + "\n-> " + summary);
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: export terminé",null);
+            doProgressLogWithoutInterruption(spl, GLOBAL,summary,null);
             try {
                 Prefs.getInstance().setPrefsExportDirFromChild(work.getExportContext().getOnDiskOutput());
-            } catch (SEDALibException e) {
-                loadText.setText(loadText.getText() + "\n-> " + "La localisation d'export par défaut n'a pu être actualisée dans les préférences.");
+            } catch (ResipException e) {
+                doProgressLogWithoutInterruption(spl, GLOBAL,"resip: la localisation d'export par défaut n'a pu être actualisée dans les préférences",e);
             }
         }
     }

@@ -2,9 +2,9 @@ package fr.gouv.vitam.tools.sedalib.inout;
 
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
+import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -93,7 +93,7 @@ public class SIPBuilderTest {
             // iterate through csv
             Path procDir = Paths.get("src/test/resources/AutresDossiers");
             Scanner scanner = new Scanner(new File("src/test/resources/AutresDossiers.csv"));
-            String procId = null;
+            String procId;
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 StringTokenizer st = new StringTokenizer(line, ";");

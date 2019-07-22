@@ -1,11 +1,10 @@
 package fr.gouv.vitam.tools.sedalib;
 
-import java.io.IOException;
-
-import org.junit.jupiter.api.BeforeAll;
-
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import mslinks.ShellLinkException;
+import org.junit.jupiter.api.BeforeAll;
+
+import java.io.IOException;
 
 public interface UseTestFiles {
 

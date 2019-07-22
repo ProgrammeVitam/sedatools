@@ -27,7 +27,8 @@
  */
 package fr.gouv.vitam.tools.resip.data;
 
-import fr.gouv.vitam.tools.sedalib.metadata.*;
+import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.*;
 import fr.gouv.vitam.tools.sedalib.metadata.management.*;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
@@ -40,14 +41,33 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The type Add metadata item.
+ */
 public class AddMetadataItem {
 
+    /**
+     * The interface Creator.
+     */
     @FunctionalInterface
     interface Creator {
+        /**
+         * Create seda metadata.
+         *
+         * @param elementName the element name
+         * @return the seda metadata
+         * @throws SEDALibException the seda lib exception
+         */
         SEDAMetadata create(String elementName) throws SEDALibException;
     }
 
+    /**
+     * The Type creator map.
+     */
     static HashMap<String, Creator> typeCreatorMap;
+    /**
+     * The Type extra information map.
+     */
     static HashMap<String, String> typeExtraInformationMap;
 
     static {
@@ -157,27 +177,63 @@ public class AddMetadataItem {
         typeExtraInformationMap.put("UpdateOperation", "Définition d'attachement à une AU existante\n    Accepte aussi la forme <UpdateOperation><SystemId>guid</SystemId><UpdateOperation>)");
     }
 
+    /**
+     * The Add content metadata array.
+     */
     static String[] addContentMetadataArray = null;
 
+    /**
+     * The Element name.
+     */
     public String elementName;
 
+    /**
+     * The Skeleton.
+     */
     public SEDAMetadata skeleton;
 
+    /**
+     * The Extra information.
+     */
     public String extraInformation;
 
+    /**
+     * Date type sample date type.
+     *
+     * @param elementName the element name
+     * @return the date type
+     */
     static DateType dateTypeSample(String elementName) {
         return new DateType(elementName, LocalDate.of(1970, 1, 1));
     }
 
+    /**
+     * Date time type sample date time type.
+     *
+     * @param elementName the element name
+     * @return the date time type
+     */
     static DateTimeType dateTimeTypeSample(String elementName) {
         return new DateTimeType(elementName, LocalDateTime.of(1970, 1, 1, 1, 0, 0));
     }
 
+    /**
+     * Generic xml block type sample any xml type.
+     *
+     * @param elementName the element name
+     * @return the any xml type
+     */
     static AnyXMLType genericXMLBlockTypeSample(String elementName) {
         return new AnyXMLType(elementName, "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2>Text2</BlockTag2></"+elementName+">");
     }
 
-   static void constructComplexListType(ComplexListType clt) throws SEDALibException {
+    /**
+     * Construct complex list type.
+     *
+     * @param clt the clt
+     * @throws SEDALibException the seda lib exception
+     */
+    static void constructComplexListType(ComplexListType clt) throws SEDALibException {
         for (String metadataName : clt.getMetadataOrderedList()) {
             ComplexListMetadataKind complexListMetadataKind = clt.getMetadataMap().get(metadataName);
             Creator c = typeCreatorMap.get(complexListMetadataKind.metadataClass.getSimpleName());
@@ -201,90 +257,194 @@ public class AddMetadataItem {
             }
     }
 
+    /**
+     * Agent type sample agent type.
+     *
+     * @param elementName the element name
+     * @return the agent type
+     * @throws SEDALibException the seda lib exception
+     */
     static AgentType agentTypeSample(String elementName) throws SEDALibException {
         AgentType result = new AgentType(elementName);
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Place type sample place type.
+     *
+     * @param elementName the element name
+     * @return the place type
+     * @throws SEDALibException the seda lib exception
+     */
     static PlaceType placeTypeSample(String elementName) throws SEDALibException {
         PlaceType result = new PlaceType(elementName);
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Referenced object sample referenced object.
+     *
+     * @param elementName the element name
+     * @return the referenced object
+     * @throws SEDALibException the seda lib exception
+     */
     static ReferencedObject referencedObjectSample(String elementName) throws SEDALibException {
         ReferencedObject result = new ReferencedObject();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Data object or archive unit reference type sample data object or archive unit reference type.
+     *
+     * @param elementName the element name
+     * @return the data object or archive unit reference type
+     * @throws SEDALibException the seda lib exception
+     */
     static DataObjectOrArchiveUnitReferenceType dataObjectOrArchiveUnitReferenceTypeSample(String elementName) throws SEDALibException {
         DataObjectOrArchiveUnitReferenceType result = new DataObjectOrArchiveUnitReferenceType(elementName);
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Coverage sample coverage.
+     *
+     * @param elementName the element name
+     * @return the coverage
+     * @throws SEDALibException the seda lib exception
+     */
     static Coverage coverageSample(String elementName) throws SEDALibException {
         Coverage result = new Coverage();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Data object reference sample data object reference.
+     *
+     * @param elementName the element name
+     * @return the data object reference
+     * @throws SEDALibException the seda lib exception
+     */
     static DataObjectReference dataObjectReferenceSample(String elementName) throws SEDALibException {
         DataObjectReference result = new DataObjectReference();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Related object reference sample related object reference.
+     *
+     * @param elementName the element name
+     * @return the related object reference
+     * @throws SEDALibException the seda lib exception
+     */
     static RelatedObjectReference relatedObjectReferenceSample(String elementName) throws SEDALibException {
         RelatedObjectReference result = new RelatedObjectReference();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Custodial history sample custodial history.
+     *
+     * @param elementName the element name
+     * @return the custodial history
+     * @throws SEDALibException the seda lib exception
+     */
     static CustodialHistory custodialHistorySample(String elementName) throws SEDALibException {
         CustodialHistory result = new CustodialHistory();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Gps sample gps.
+     *
+     * @param elementName the element name
+     * @return the gps
+     * @throws SEDALibException the seda lib exception
+     */
     static Gps gpsSample(String elementName) throws SEDALibException {
         Gps result = new Gps();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Keyword sample keyword.
+     *
+     * @param elementName the element name
+     * @return the keyword
+     * @throws SEDALibException the seda lib exception
+     */
     static Keyword keywordSample(String elementName) throws SEDALibException {
         Keyword result = new Keyword();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Signer sample signer.
+     *
+     * @param elementName the element name
+     * @return the signer
+     * @throws SEDALibException the seda lib exception
+     */
     static Signer signerSample(String elementName) throws SEDALibException {
         Signer result = new Signer();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Validator sample validator.
+     *
+     * @param elementName the element name
+     * @return the validator
+     * @throws SEDALibException the seda lib exception
+     */
     static Validator validatorSample(String elementName) throws SEDALibException {
         Validator result = new Validator();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Signature sample signature.
+     *
+     * @param elementName the element name
+     * @return the signature
+     * @throws SEDALibException the seda lib exception
+     */
     static Signature signatureSample(String elementName) throws SEDALibException {
         Signature result = new Signature();
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Agency type sample agency type.
+     *
+     * @param elementName the element name
+     * @return the agency type
+     * @throws SEDALibException the seda lib exception
+     */
     static AgencyType agencyTypeSample(String elementName) throws SEDALibException {
         AgencyType result = new AgencyType(elementName);
         constructComplexListType(result);
         return result;
     }
 
+    /**
+     * Keyword type sample keyword type.
+     *
+     * @param elementName the element name
+     * @return the keyword type
+     */
     static KeywordType keywordTypeSample(String elementName) {
         KeywordType ckt=null;
         try {
@@ -295,30 +455,71 @@ public class AddMetadataItem {
         return ckt;
     }
 
+    /**
+     * String type sample string type.
+     *
+     * @param elementName the element name
+     * @return the string type
+     */
     static StringType stringTypeSample(String elementName) {
         return new StringType(elementName, "Text");
     }
 
+    /**
+     * Sip internal id type sample sip internal id type.
+     *
+     * @param elementName the element name
+     * @return the sip internal id type
+     */
     static SIPInternalIDType sipInternalIDTypeSample(String elementName) {
         return new SIPInternalIDType(elementName, "ID");
     }
 
+    /**
+     * Integer type sample integer type.
+     *
+     * @param elementName the element name
+     * @return the integer type
+     */
     static IntegerType integerTypeSample(String elementName) {
         return new IntegerType(elementName, 123);
     }
 
+    /**
+     * Text type sample text type.
+     *
+     * @param elementName the element name
+     * @return the text type
+     */
     static TextType textTypeSample(String elementName) {
         return new TextType(elementName, "Text");
     }
 
+    /**
+     * Digest type sample digest type.
+     *
+     * @param elementName the element name
+     * @return the digest type
+     */
     static DigestType digestTypeSample(String elementName) {
         return new DigestType(elementName, "HashSHA-512", "SHA-512");
     }
 
+    /**
+     * Archive unit profile sample archive unit profile.
+     *
+     * @param elementName the element name
+     * @return the archive unit profile
+     */
     static ArchiveUnitProfile archiveUnitProfileSample(String elementName) {
         return new ArchiveUnitProfile("Text");
     }
 
+    /**
+     * Rule type complete sample.
+     *
+     * @param ruleTypeSample the rule type sample
+     */
     static void ruleTypeCompleteSample(RuleType ruleTypeSample) {
         ruleTypeSample.addRule("Rule1", LocalDate.of(1970, 1, 1));
         ruleTypeSample.addRule("Rule2");
@@ -333,18 +534,36 @@ public class AddMetadataItem {
         }
     }
 
+    /**
+     * Access rule sample access rule.
+     *
+     * @param elementName the element name
+     * @return the access rule
+     */
     static AccessRule accessRuleSample(String elementName) {
         AccessRule result = new AccessRule();
         ruleTypeCompleteSample(result);
         return result;
     }
 
+    /**
+     * Appraisal rule sample appraisal rule.
+     *
+     * @param elementName the element name
+     * @return the appraisal rule
+     */
     static AppraisalRule appraisalRuleSample(String elementName) {
         AppraisalRule result = new AppraisalRule();
         ruleTypeCompleteSample(result);
         return result;
     }
 
+    /**
+     * Classification rule sample classification rule.
+     *
+     * @param elementName the element name
+     * @return the classification rule
+     */
     static ClassificationRule classificationRuleSample(String elementName) {
         ClassificationRule result = new ClassificationRule();
         result.addRule("Rule1", LocalDate.of(1970, 1, 1));
@@ -359,24 +578,49 @@ public class AddMetadataItem {
         return result;
     }
 
+    /**
+     * Dissemination rule sample dissemination rule.
+     *
+     * @param elementName the element name
+     * @return the dissemination rule
+     */
     static DisseminationRule disseminationRuleSample(String elementName) {
         DisseminationRule result = new DisseminationRule();
         ruleTypeCompleteSample(result);
         return result;
     }
 
+    /**
+     * Reuse rule sample reuse rule.
+     *
+     * @param elementName the element name
+     * @return the reuse rule
+     */
     static ReuseRule reuseRuleSample(String elementName) {
         ReuseRule result = new ReuseRule();
         ruleTypeCompleteSample(result);
         return result;
     }
 
+    /**
+     * Storage rule sample storage rule.
+     *
+     * @param elementName the element name
+     * @return the storage rule
+     */
     static StorageRule storageRuleSample(String elementName) {
         StorageRule result = new StorageRule();
         ruleTypeCompleteSample(result);
         return result;
     }
 
+    /**
+     * Event sample event.
+     *
+     * @param elementName the element name
+     * @return the event
+     * @throws SEDALibException the seda lib exception
+     */
     static Event eventSample(String elementName) throws SEDALibException {
         Event result = new Event();
         for (String metadataName : result.getMetadataOrderedList()) {
@@ -402,10 +646,23 @@ public class AddMetadataItem {
         return result;
     }
 
+    /**
+     * Update operation sample update operation.
+     *
+     * @param elementName the element name
+     * @return the update operation
+     */
     static UpdateOperation updateOperationSample(String elementName) {
         return new UpdateOperation("Name", "Value");
     }
 
+    /**
+     * Instantiates a new Add metadata item.
+     *
+     * @param metadataClass the metadata class
+     * @param elementName   the element name
+     * @throws SEDALibException the seda lib exception
+     */
     public AddMetadataItem(Class metadataClass, String elementName) throws SEDALibException {
         SEDAMetadata result;
 
@@ -421,6 +678,11 @@ public class AddMetadataItem {
         }
     }
 
+    /**
+     * Get add content metadata array string [ ].
+     *
+     * @return the string [ ]
+     */
     public static String[] getAddContentMetadataArray() {
         if (addContentMetadataArray == null) {
            try {

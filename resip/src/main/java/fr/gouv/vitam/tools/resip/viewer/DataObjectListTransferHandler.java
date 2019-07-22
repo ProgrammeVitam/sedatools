@@ -3,19 +3,18 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
+
+import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.JComponent;
-import javax.swing.TransferHandler;
-
-import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class DataObjectListTransferHandler.
  */
@@ -27,12 +26,12 @@ class DataObjectListTransferHandler extends TransferHandler {
 	/** The list. */
 	private DataObjectListViewer list;
 
-	   /**
-   	 * Instantiates a new data object list transfer handler.
-   	 *
-   	 * @param list the list
-   	 */
-   	public DataObjectListTransferHandler(DataObjectListViewer list) {
+    /**
+     * Instantiates a new data object list transfer handler.
+     *
+     * @param list the list
+     */
+    public DataObjectListTransferHandler(DataObjectListViewer list) {
 	      this.list = list;
 	   }
 

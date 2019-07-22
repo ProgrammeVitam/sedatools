@@ -4,6 +4,7 @@ Evolutions/Corrections en 1.9.0
 - Evolution: en cas de clic dans le vide de l'arbre la sélection est désélectionnée
 - Evolution: ajout d'un curseur d'attente sur certaines opérations pouvant être longues (chargement et sauvegarde d'un contexte, expansion et réduction de l'arbre)
 - Fix: nettoyage du dialogue Préférences et complément du dialogue d'édition de contexte
+- Evolution: nettoyage et systématisation des logs
 
 ============================================================================
 Evolutions/Corrections en 1.8.0

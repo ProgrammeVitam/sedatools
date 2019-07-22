@@ -30,7 +30,7 @@ package fr.gouv.vitam.tools.mailextractlib.store.microsoft.msg;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import org.apache.poi.hsmf.MAPIMessage;
 
 /**
@@ -80,7 +80,7 @@ public class MsgStoreFolder extends StoreFolder {
      *
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreFolder#hasMessages()
      */
-    public boolean hasElements() throws ExtractionException {
+    public boolean hasElements() throws MailExtractLibException {
         return (true);
     }
 
@@ -89,7 +89,7 @@ public class MsgStoreFolder extends StoreFolder {
      *
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreFolder#hasSubfolders()
      */
-    public boolean hasSubfolders() throws ExtractionException {
+    public boolean hasSubfolders() throws MailExtractLibException {
         return (false);
     }
 
@@ -100,7 +100,7 @@ public class MsgStoreFolder extends StoreFolder {
      * doExtractFolderMessages(boolean)
      */
     @Override
-    protected void doExtractFolderElements(boolean writeFlag) throws ExtractionException, InterruptedException {
+    protected void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
         msgStoreMessage.analyzeMessage();
         dateRange.extendRange(msgStoreMessage.getSentDate());
         msgStoreMessage.extractMessage(writeFlag);
@@ -124,7 +124,7 @@ public class MsgStoreFolder extends StoreFolder {
      * int, boolean)
      */
     @Override
-    protected void doExtractSubFolders(int level, boolean writeFlag) throws ExtractionException {
+    protected void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException {
     }
 
     /*
@@ -155,7 +155,7 @@ public class MsgStoreFolder extends StoreFolder {
      * (boolean)
      */
     @Override
-    protected void doListFolderElements(boolean stats) throws ExtractionException, InterruptedException {
+    protected void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
         msgStoreMessage.analyzeMessage();
         dateRange.extendRange(msgStoreMessage.getSentDate());
         msgStoreMessage.extractMessage(false);
@@ -170,6 +170,6 @@ public class MsgStoreFolder extends StoreFolder {
      * boolean)
      */
     @Override
-    protected void doListSubFolders(boolean stats) throws ExtractionException {
+    protected void doListSubFolders(boolean stats) throws MailExtractLibException {
     }
 }

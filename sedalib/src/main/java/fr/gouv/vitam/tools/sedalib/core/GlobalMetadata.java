@@ -164,7 +164,7 @@ public class GlobalMetadata {
             xmlWriter.close();
             result = baos.toString("UTF-8");
         } catch (SEDALibException | XMLStreamException | IOException e) {
-            throw new SEDALibException("Erreur interne ->" + e.getMessage());
+            throw new SEDALibException("Erreur interne", e);
         }
         return result;
     }
@@ -203,7 +203,7 @@ public class GlobalMetadata {
                 xmlReader.endBlockNamed("TransferringAgency");
             }
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML", e);
         }
     }
 
@@ -227,7 +227,7 @@ public class GlobalMetadata {
             if (!event.isEndDocument())
                 throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture du GlobalMetadata\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture du GlobalMetadata", e);
         }
 
         this.comment = gm.comment;

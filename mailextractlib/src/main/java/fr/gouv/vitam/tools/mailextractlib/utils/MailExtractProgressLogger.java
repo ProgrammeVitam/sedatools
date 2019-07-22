@@ -32,6 +32,7 @@ import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.time.Instant;
@@ -83,7 +84,7 @@ public class MailExtractProgressLogger {
          * @param count the count
          * @param log   the log
          */
-        void doprogressLog(int count, String log);
+        void doProgressLog(int count, String log);
     }
 
     /**
@@ -193,69 +194,104 @@ public class MailExtractProgressLogger {
     }
 
     /**
-     * Progress log if the counter is a step multiple.
+     * Gets messages from the exception, and recursively from all causes, in a string.
      *
-     * @param level the level
-     * @param count the count
-     * @param log   the log
-     * @throws InterruptedException the interrupted exception
+     * @param e the exception
+     * @return the messages stack string
      */
-    public void progressLogIfStep(int level, int count, String log) throws InterruptedException {
-        if (level <= progressLogLevel) {
-            long nowEpochSeconds = Instant.now().getEpochSecond();
-            int mod=count%step;
-            if ((mod == 0) || (stepDuration < nowEpochSeconds-previousStepEpochSeconds)) {
-                if (progressLogFunc != null)
-                    progressLogFunc.doprogressLog(count, (mod==0?"":"* ") + log);
-                log(level, log);
-                Thread.sleep(1);
-                previousStepEpochSeconds=nowEpochSeconds;
+    static public String getMessagesStackString(Exception e) {
+        String result;
+        result = "-> " + e.getMessage();
+        if (e.getCause() instanceof Exception)
+            result += "\n" + getMessagesStackString((Exception) e.getCause());
+        return result;
+    }
+
+    static private String getJavaStackString(Exception e) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        e.printStackTrace(ps);
+        return baos.toString();
+    }
+
+    /**
+     * Gets java stacks from the exception, and recursively from all causes, in a string.
+     *
+     * @param e the exception
+     * @return the all java stack string
+     */
+    static public String getAllJavaStackString(Exception e) {
+        String result;
+        result = getJavaStackString(e);
+        if (e.getCause() instanceof Exception)
+            result += "\n------------------------------------\n" + getJavaStackString((Exception) e.getCause());
+        return result;
+    }
+
+    /**
+     * Do progress log, and log with exception detail if any.
+     *
+     * @param mepl   the SEDALib progress logger
+     * @param level the level
+     * @param log   the log
+     * @param e     the exception
+     */
+    static public void doProgressLogWithoutInterruption(MailExtractProgressLogger mepl, int level, String log, Exception e) {
+        if (mepl!=null) {
+            if (level <= mepl.progressLogLevel) {
+                if (e != null)
+                    log += "\n" + getMessagesStackString(e);
+                if (mepl.progressLogFunc != null) {
+                    mepl.progressLogFunc.doProgressLog(-1, log);
+                }
+                if ((e != null) && mepl.debugFlag)
+                    log += "\n" + getAllJavaStackString(e);
+                mepl.log(level, log);
             }
         }
     }
 
     /**
-     * Progress log, and log.
+     * Do progress log, and log with exception detail if any, and wait 1ms to allow interruption
      *
+     * @param mepl   the MailExtract progress logger
      * @param level the level
      * @param log   the log
+     * @param e     the exception
      * @throws InterruptedException the interrupted exception
      */
-    public void progressLog(int level, String log) throws InterruptedException {
-        if (level <= progressLogLevel) {
-            if (progressLogFunc != null) {
-                progressLogFunc.doprogressLog(-1, log);
-            }
-            log(level, log);
+    static public void doProgressLog(MailExtractProgressLogger mepl, int level, String log, Exception e) throws InterruptedException {
+        if (mepl != null) {
+            doProgressLogWithoutInterruption(mepl, level, log, e);
             Thread.sleep(1);
         }
     }
 
     /**
-     * Log an exception.
+     * Do progress log if the counter is a step multiple.
      *
-     * @param e the exception
-     */
-    public void logException(Exception e) {
-        if (debugFlag)
-            log(GLOBAL, getPrintStackTrace(e));
-    }
-
-    /**
-     * Progress log, and log but with no interruption allowed.
-     *
+     * @param mepl  the MailExtract progress logger
      * @param level the level
+     * @param count the count
      * @param log   the log
+     * @throws InterruptedException the interrupted exception
      */
-    public void progressLogWithoutInterruption(int level, String log) {
-        if (level <= progressLogLevel) {
-            if (progressLogFunc != null) {
-                progressLogFunc.doprogressLog(-1, log);
+    static public void doProgressLogIfStep(MailExtractProgressLogger mepl, int level, int count, String log) throws InterruptedException {
+        if (mepl!=null) {
+            if (level <= mepl.progressLogLevel) {
+                long nowEpochSeconds = Instant.now().getEpochSecond();
+                int mod = count % mepl.step;
+                if ((mod == 0) || (mepl.stepDuration < nowEpochSeconds - mepl.previousStepEpochSeconds)) {
+                    if (mepl.progressLogFunc != null)
+                        mepl.progressLogFunc.doProgressLog(count, (mod == 0 ? "" : "* ") + log);
+                    mepl.log(level, log);
+                    Thread.sleep(1);
+                    mepl.previousStepEpochSeconds = nowEpochSeconds;
+                }
             }
-            log(level, log);
         }
     }
-
+    
     /**
      * Readable file size.
      *
@@ -297,12 +333,6 @@ public class MailExtractProgressLogger {
         return getMarker(progressLogLevel).getName();
     }
 
-    /**
-     * Log.
-     *
-     * @param level   the level
-     * @param message the message
-     */
     private void log(int level, String message) {
         if (level <= progressLogLevel) {
             if (logger != null)
@@ -314,15 +344,5 @@ public class MailExtractProgressLogger {
      * Close.
      */
     public void close() {
-    }
-
-    // make a String from the stack trace
-    private final static String getPrintStackTrace(Exception e) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        PrintWriter p = new PrintWriter(baos);
-
-        e.printStackTrace(p);
-        p.close();
-        return baos.toString();
     }
 }

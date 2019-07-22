@@ -3,6 +3,10 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+
+import javax.swing.*;
+import javax.swing.tree.TreePath;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -10,14 +14,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.JComponent;
-import javax.swing.JTree;
-import javax.swing.TransferHandler;
-import javax.swing.tree.TreePath;
-
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class DataObjectPackageTreeTransferHandler.
  */
@@ -29,12 +27,12 @@ public class DataObjectPackageTreeTransferHandler extends TransferHandler {
 	/** The tree. */
 	private DataObjectPackageTreeViewer tree;
 
-	/**
-	 * Instantiates a new archive transfer tree transfer handler.
-	 *
-	 * @param tree the tree
-	 */
-	public DataObjectPackageTreeTransferHandler(DataObjectPackageTreeViewer tree) {
+    /**
+     * Instantiates a new archive transfer tree transfer handler.
+     *
+     * @param tree the tree
+     */
+    public DataObjectPackageTreeTransferHandler(DataObjectPackageTreeViewer tree) {
 		this.tree = tree;
 	}
 

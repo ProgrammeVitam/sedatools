@@ -1,20 +1,48 @@
 package fr.gouv.vitam.tools.resip.frame;
 
-import java.awt.*;
-import java.awt.event.*;
 import javax.swing.*;
-import java.io.*;
+import java.awt.*;
+import java.io.Serializable;
 
+/**
+ * The type Image panel.
+ */
 public class ImagePanel extends JPanel implements Serializable {
+    /**
+     * The Image.
+     */
     Image image = null;
+
+    /**
+     * Instantiates a new Image panel.
+     *
+     * @param image the image
+     */
     public ImagePanel(Image image) {
         this.image = image;
     }
+
+    /**
+     * Instantiates a new Image panel.
+     */
     public ImagePanel() {
     }
+
+    /**
+     * Set image.
+     *
+     * @param image the image
+     */
     public void setImage(Image image){
         this.image = image;
     }
+
+    /**
+     * Get image image.
+     *
+     * @param image the image
+     * @return the image
+     */
     public Image getImage(Image image){
         return image;
     }

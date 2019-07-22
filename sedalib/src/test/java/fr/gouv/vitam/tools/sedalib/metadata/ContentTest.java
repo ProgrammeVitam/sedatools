@@ -1,13 +1,9 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-
 import fr.gouv.vitam.tools.sedalib.metadata.content.*;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
-import org.junit.jupiter.api.Test;
-
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,6 +11,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class ContentTest {
 
@@ -927,7 +926,7 @@ class ContentTest {
                 .hasMessageContaining("Pas de constructeur"); // for DateTimeType
         // Test Keyword metadata with wrong KeywordType
         assertThatThrownBy(()->c.addNewMetadata("Keyword", "TestKeywordContent", "TestKeywordReference", "notconvenient"))
-                .hasMessageContaining("Valeur interdite");
+                .hasMessageContaining("Impossible de construire l'élément [Keyword]");
 
     }
 

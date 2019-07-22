@@ -8,29 +8,29 @@ package fr.gouv.vitam.tools.resip.parameters;
  */
 public class SIPImportContext extends CreationContext {
 
-	/**
-	 * Instantiates a new SIP import context.
-	 */
-	public SIPImportContext() {
+    /**
+     * Instantiates a new SIP import context.
+     */
+    public SIPImportContext() {
 		this(null, null);
 	}
 
-	/**
-	 * Instantiates a new SIP import context.
-	 *
-	 * @param onDiskInput the on disk input
-	 * @param workDir the work dir
-	 */
-	public SIPImportContext(String onDiskInput, String workDir){
+    /**
+     * Instantiates a new SIP import context.
+     *
+     * @param onDiskInput the on disk input
+     * @param workDir     the work dir
+     */
+    public SIPImportContext(String onDiskInput, String workDir){
 		super (onDiskInput, workDir);
 	}
 
-	/**
-	 * Instantiates a new SIP import context.
-	 *
-	 * @param prefs the prefs
-	 */
-	public SIPImportContext(Prefs prefs) {
+    /**
+     * Instantiates a new SIP import context.
+     *
+     * @param prefs the prefs
+     */
+    public SIPImportContext(Prefs prefs) {
 		super(prefs);
 	}
 

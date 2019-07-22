@@ -50,6 +50,8 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
+
 /**
  * The Class BinaryDataObject.
  * <p>
@@ -278,7 +280,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         try {
             messageDigest = MessageDigest.getInstance("SHA-512");
         } catch (NoSuchAlgorithmException e1) {
-            throw new SEDALibException("Impossible de mobiliser l'algorithme de hashage SHA-512");
+            throw new SEDALibException("Impossible de mobiliser l'algorithme de hashage SHA-512", e1);
         }
 
         try (InputStream is = new BufferedInputStream(Files.newInputStream(onDiskPath))) {
@@ -288,7 +290,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             }
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Impossible de calculer le hash du fichier [" + onDiskPath.toString() + "]->" + e.getMessage());
+                    "Impossible de calculer le hash du fichier [" + onDiskPath.toString() + "]",e);
         }
 
         // Convert the byte to hex format
@@ -299,7 +301,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             return formatter.toString();
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Impossible d'encoder le hash du fichier [" + onDiskPath.toString() + "]->" + e.getMessage());
+                    "Impossible d'encoder le hash du fichier [" + onDiskPath.toString() + "]",e);
         }
     }
 
@@ -326,7 +328,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             llastModified = Files.getLastModifiedTime(onDiskPath);
         } catch (IOException e) {
             throw new SEDALibException("Impossible de générer les infos techniques pour le fichier ["
-                    + onDiskPath.toString() + "]\n->" + e.getMessage());
+                    + onDiskPath.toString() + "]", e);
         }
 
         messageDigestAlgorithm = "SHA-512";
@@ -336,9 +338,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         try {
             ir = DroidIdentifier.getInstance().getIdentificationResult(onDiskPath);
         } catch (SEDALibException e) {
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "Impossible de faire l'identification Droid pour le fichier ["
-                        + onDiskPath.toString() + "]\n->" + e.getMessage());
+            doProgressLogWithoutInterruption(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_WARNINGS, "sedalib: impossible de faire l'identification Droid pour le fichier ["
+                        + onDiskPath.toString() + "]", e);
         }
         if (ir != null)
             formatIdentification = new FormatIdentification(ir.getName(), ir.getMimeType(), ir.getPuid(), null);
@@ -452,13 +453,12 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
-                    "Erreur d'écriture XML du BinaryDataObject [" + inDataPackageObjectId + "]\n->" + e.getMessage());
+                    "Erreur d'écriture XML du BinaryDataObject [" + inDataPackageObjectId + "]", e);
         }
 
         int counter = getDataObjectPackage().getNextInOutCounter();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                    Integer.toString(counter) + " DataObject (métadonnées) exportés");
+        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
+                "sedalib: "+ counter + " métadonnées DataObject exportées");
     }
 
     /*
@@ -475,7 +475,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             xmlWriter.close();
             result = baos.toString("UTF-8");
         } catch (SEDALibException | XMLStreamException | InterruptedException | IOException e) {
-            throw new SEDALibException("Erreur interne ->" + e.getMessage());
+            throw new SEDALibException("Erreur interne", e);
         }
         if (result != null) {
             if (result.isEmpty())
@@ -533,7 +533,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             metadataXmlData = xmlReader.nextBlockAsStringIfNamed("Metadata");
             otherMetadataXmlData = xmlReader.nextBlockAsStringIfNamed("OtherMetadata");
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML", e);
         }
     }
 
@@ -568,7 +568,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             }
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture dans le BinaryDataObject"
-                    + (bdo != null ? " [" + bdo.inDataPackageObjectId + "]" : "") + "\n->" + e.getMessage());
+                    + (bdo != null ? " [" + bdo.inDataPackageObjectId + "]" : ""), e);
         }
         //case not a BinaryDataObject
         if (bdo == null)
@@ -583,9 +583,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             dog.setInDataObjectPackageId(bdo.dataObjectGroupId);
             dataObjectPackage.addDataObjectGroup(dog);
             dog.addDataObject(bdo);
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS_WARNINGS, "DataObjectGroup [" + dog.inDataPackageObjectId
-                        + "] créé depuis BinaryDataObject [" + bdo.inDataPackageObjectId + "]");
+            doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_WARNINGS, "sedalib: dataObjectGroup [" + dog.inDataPackageObjectId
+                        + "] créé depuis BinaryDataObject [" + bdo.inDataPackageObjectId + "]",null);
         } else if (bdo.dataObjectGroupReferenceId != null) {
             dog = dataObjectPackage.getDataObjectGroupById(bdo.dataObjectGroupReferenceId);
             if (dog == null)
@@ -594,10 +593,10 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         }
         bdo.dataObjectGroupReferenceId = null;
         bdo.dataObjectGroupId = null;
+
         int counter = dataObjectPackage.getNextInOutCounter();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                    Integer.toString(counter) + " DataObject (métadonnées) importés");
+        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
+                "sedalib: " + counter + " métadonnées DataObject importées");
         return bdo;
     }
 
@@ -620,7 +619,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             if (!event.isEndDocument())
                 throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture du BinaryDataObject\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture du BinaryDataObject", e);
         }
 
         if ((bdo.dataObjectGroupId != null) || (bdo.dataObjectGroupReferenceId != null))

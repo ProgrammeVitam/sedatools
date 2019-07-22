@@ -8,11 +8,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * The type Test dialog window.
+ */
 public class TestDialogWindow extends JFrame implements ActionListener {
 
+    /**
+     * The Dialog class.
+     */
     public Class<? extends JDialog> dialogClass;
+    /**
+     * The It.
+     */
     public JDialog it;
 
+    /**
+     * Create menu j menu bar.
+     *
+     * @return the j menu bar
+     */
     JMenuBar createMenu() {
         JMenuBar menuBar;
         JMenu UIMenu;
@@ -32,6 +46,17 @@ public class TestDialogWindow extends JFrame implements ActionListener {
         return menuBar;
     }
 
+    /**
+     * Instantiates a new Test dialog window.
+     *
+     * @param dialogClass the dialog class
+     * @throws ClassNotFoundException          the class not found exception
+     * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+     * @throws InstantiationException          the instantiation exception
+     * @throws IllegalAccessException          the illegal access exception
+     * @throws NoSuchMethodException           the no such method exception
+     * @throws InvocationTargetException       the invocation target exception
+     */
     public TestDialogWindow(Class<? extends JDialog> dialogClass) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         super("TestDialog");
         this.dialogClass=dialogClass;

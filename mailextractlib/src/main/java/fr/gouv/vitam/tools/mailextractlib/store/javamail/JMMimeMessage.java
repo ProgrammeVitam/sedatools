@@ -30,7 +30,6 @@ package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 import javax.mail.Folder;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.io.IOException;
 import java.io.InputStream;
 
 /**

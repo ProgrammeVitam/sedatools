@@ -27,13 +27,12 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
-import java.awt.Color;
-import java.awt.Component;
-
-import javax.swing.JTree;
+import javax.swing.*;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import java.awt.*;
 
 // TODO: Auto-generated Javadoc
+
 /**
  * The Class DataObjectPackageTreeCellRenderer.
  */

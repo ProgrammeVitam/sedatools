@@ -25,9 +25,10 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.app;
+package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
@@ -38,7 +39,6 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.io.FileUtils;
 
@@ -52,9 +52,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog.*;
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
-public class ImportThread extends SwingWorker<Work, String> {
+/**
+ * The type Import thread.
+ */
+public class ImportThread extends SwingWorker<String, String> {
     //input
     private Work work;
     private InOutDialog inOutDialog;
@@ -64,7 +67,13 @@ public class ImportThread extends SwingWorker<Work, String> {
     // logger
     private SEDALibProgressLogger spl;
 
-    ImportThread(CreationContext cc, InOutDialog dialog) {
+    /**
+     * Instantiates a new Import thread.
+     *
+     * @param cc     the cc
+     * @param dialog the dialog
+     */
+    public ImportThread(CreationContext cc, InOutDialog dialog) {
         this.work = new Work(null, cc, null);
         this.inOutDialog = dialog;
         this.summary = null;
@@ -108,13 +117,7 @@ public class ImportThread extends SwingWorker<Work, String> {
                     else
                         Files.deleteIfExists(Paths.get(utdd.getResult()));
                 } catch (IOException e) {
-                    JTextArea progressTextArea = inOutDialog.extProgressTextArea;
-                    progressTextArea.setText(progressTextArea.getText() +
-                            "\n-> l'effacement demandé sur [" + utdd.getResult() + "] n'a pas été possible.\n->" +
-                            e.getMessage());
-                    spl.log(GLOBAL, e.getMessage());
-                    this.cancel(false);
-                    throw new ResipException("Effacement impossible");
+                    throw new ResipException("Effacement de [" + utdd.getResult() + "] est impossible", e);
                 }
                 target = utdd.getResult();
             } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
@@ -128,7 +131,7 @@ public class ImportThread extends SwingWorker<Work, String> {
     }
 
     @Override
-    public Work doInBackground() {
+    public String doInBackground() {
         ResipGraphicApp.getTheApp().importThreadRunning = true;
         try {
             spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
@@ -187,19 +190,19 @@ public class ImportThread extends SwingWorker<Work, String> {
                 summary = cmi.getSummary();
             } else if (work.getCreationContext() instanceof MailImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un conteneur courriel en " + work.getCreationContext().getOnDiskInput() + "\n");
-                MailExtractProgressLogger mepl = null;
-                mepl = new MailExtractProgressLogger(ResipLogger.getGlobalLogger().getLogger(), MailExtractProgressLogger.MESSAGE_GROUP, (count, log) -> {
+                MailExtractProgressLogger mepl = new MailExtractProgressLogger(ResipLogger.getGlobalLogger().getLogger(), MailExtractProgressLogger.MESSAGE_GROUP, (count, log) -> {
                     String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                     inOutDialog.extProgressTextArea.setText(newLog);
                     inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
                 }, 1000,2);
+                mepl.setDebugFlag(true);
                 MailImportContext mic = (MailImportContext) work.getCreationContext();
                 String target = getTmpDirTarget(mic.getWorkDir(), mic.getOnDiskInput());
                 MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),
                         mic.isExtractAttachmentTextFile(), mic.isExtractAttachmentTextMetadata(), mic.getProtocol(),
                         mic.getDefaultCharsetName(), mic.getOnDiskInput(), mic.getMailFolder(), target, mepl);
                 mi.doExtract();
-                spl.progressLog(GLOBAL, "Extraction terminée\n" + mi.getSummary());
+                doProgressLog(spl, GLOBAL, "resip: extraction terminée\n" + mi.getSummary(), null);
 
                 List<Path> lp = new ArrayList<Path>();
                 lp.add(Paths.get(mi.getTarget()));
@@ -214,15 +217,11 @@ public class ImportThread extends SwingWorker<Work, String> {
             if (work.getDataObjectPackage() != null)
                 summary += "\n" + work.doVitamNormalize(spl);
         } catch (Exception e) {
-            try {
-                if (spl != null)
-                    spl.progressLog(GLOBAL, "Import impossible\n-> " + e.getMessage());
-            } catch (InterruptedException ignored) {
-            }
             exitException = e;
             work = null;
+            return "KO";
         }
-        return work;
+        return "OK";
     }
 
     @Override
@@ -233,23 +232,23 @@ public class ImportThread extends SwingWorker<Work, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            progressTextArea.setText(progressTextArea.getText() + "\n-> " + "les données n'ont pas été modifiées.");
-        else if ((work == null) || (work.getDataObjectPackage() == null))
-            progressTextArea.setText(progressTextArea.getText() + "\n-> "
-                    + "Erreur durant l'import, les données n'ont pas été modifiées.");
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: import annulé, les données n'ont pas été modifiées", null);
+        else if (exitException!=null)
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant l'import, les données n'ont pas été modifiées",exitException);
         else {
             work.getCreationContext().setSummary(summary);
-            progressTextArea.setText(progressTextArea.getText() + "\n-> " + summary);
-            try {
-                Prefs.getInstance().setPrefsImportDirFromChild(work.getCreationContext().getOnDiskInput());
-            } catch (SEDALibException e) {
-                progressTextArea.setText(progressTextArea.getText() + "\n-> " + "La localisation d'import par défaut n'a pu être actualisée dans les préférences.");
-            }
             theApp.currentWork = work;
             theApp.setFilenameWork(null);
             theApp.setModifiedContext(true);
             theApp.setContextLoaded(true);
             theApp.mainWindow.load();
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: import terminé", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL,summary, null);
+            try {
+                Prefs.getInstance().setPrefsImportDirFromChild(work.getCreationContext().getOnDiskInput());
+            } catch (ResipException e) {
+                doProgressLogWithoutInterruption(spl, GLOBAL,"resip: la localisation d'import par défaut n'a pu être actualisée dans les préférences",e);
+            }
         }
         theApp.importThreadRunning = false;
     }

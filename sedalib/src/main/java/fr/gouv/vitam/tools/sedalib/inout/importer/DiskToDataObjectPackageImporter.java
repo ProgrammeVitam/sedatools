@@ -45,6 +45,9 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+
 /**
  * The Class DiskToDataObjectPackageImporter.
  * <p>
@@ -279,7 +282,7 @@ public class DiskToDataObjectPackageImporter {
                 this.onDiskRootPaths.add(pi.next());
         } catch (IOException e) {
             throw new SEDALibException(
-                    "Impossible de lister les fichiers du répertoire [" + directory + "]\n->" + e.getMessage());
+                    "Impossible de lister les fichiers du répertoire [" + directory + "]", e);
         }
         dataObjectPackage = new DataObjectPackage();
     }
@@ -394,7 +397,7 @@ public class DiskToDataObjectPackageImporter {
      * @throws SEDALibException any import exception
      */
     private String processManagementMetadata(Path path) throws SEDALibException {
-        String xmlData = null;
+        String xmlData;
 
         try (FileInputStream bais = new FileInputStream(path.toFile());
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
@@ -402,7 +405,7 @@ public class DiskToDataObjectPackageImporter {
             xmlData = xmlReader.nextBlockAsStringIfNamed("ManagementMetadata");
         } catch (XMLStreamException | SEDALibException | IOException e) {
             throw new SEDALibException("Lecture des métadonnées globales à partir du fichier [" + path
-                    + "] impossible\n->" + e.getMessage());
+                    + "] impossible", e);
         }
         return xmlData;
     }
@@ -523,7 +526,7 @@ public class DiskToDataObjectPackageImporter {
             throw new SEDALibException("Impossible d'accéder au fichier [" + path.toString() + "]");
         } catch (SEDALibException e) {
             throw new SEDALibException(
-                    "Problème à la lecture du fichier [" + path.toString() + "]\n->" + e.getMessage());
+                    "Problème à la lecture du fichier [" + path.toString() + "]", e);
         }
         return dog;
     }
@@ -560,7 +563,7 @@ public class DiskToDataObjectPackageImporter {
                 throw new SEDALibException("Impossible d'accéder au fichier [" + path.toString() + "]");
             } catch (SEDALibException e) {
                 throw new SEDALibException(
-                        "Problème à la lecture du fichier [" + path.toString() + "]\n->" + e.getMessage());
+                        "Problème à la lecture du fichier [" + path.toString() + "]", e);
             }
         } else if (zdo instanceof BinaryDataObject) {
             bdo = (BinaryDataObject) zdo;
@@ -570,7 +573,7 @@ public class DiskToDataObjectPackageImporter {
                 throw new SEDALibException("Impossible d'accéder au fichier [" + path.toString() + "]");
             } catch (SEDALibException e) {
                 throw new SEDALibException(
-                        "Problème à la lecture du fichier [" + path.toString() + "]\n->" + e.getMessage());
+                        "Problème à la lecture du fichier [" + path.toString() + "]", e);
             }
         } else
             throw new SEDALibException("Les métadonnées du BinaryDataObject en [" + path.toString()
@@ -645,8 +648,7 @@ public class DiskToDataObjectPackageImporter {
                     + "] devrait décrire un ArchiveUnit, mais décrit un DataObjectGroup");
 
         inCounter++;
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
+        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, inCounter, "sedalib: "+ inCounter +
                     " ArchiveUnits importées");
 
         String dirName = path.getFileName().toString();
@@ -675,7 +677,7 @@ public class DiskToDataObjectPackageImporter {
                     // verify it's in the currently imported path
                     if (!isInRootPaths(lastAnalyzedLinkTarget))
                         throw new SEDALibException(
-                                "Le lien est hors du champ de l'import [" + curPath.toString() + "]");
+                                "Le lien [" + curPath.toString() + "] est hors du champ de l'import");
                     // treat specific case of DataObjectGroup directory
                     if (isDataObjectGroupDirectory(lastAnalyzedLinkTarget)) {
                         modelVersion |= 2;
@@ -702,7 +704,7 @@ public class DiskToDataObjectPackageImporter {
                             if (!au.getContentXmlData().isEmpty())
                                 auMetadataDefined = true;
                         } catch (IOException e) {
-                            throw new SEDALibException("Impossible d'accéder au fichier [" + curPath.toString() + "]");
+                            throw new SEDALibException("Impossible d'accéder au fichier [" + curPath.toString() + "]", e);
                         }
                         // Model V1 (GenerateurSeda) AU Management metadataXmlData file
                     } else if (fileName.equals("ArchiveUnitManagement.xml")) {
@@ -710,7 +712,7 @@ public class DiskToDataObjectPackageImporter {
                         try {
                             au.setManagementXmlData(new String(Files.readAllBytes(curPath), "UTF-8"));
                         } catch (IOException e) {
-                            throw new SEDALibException("Impossible d'accéder au fichier [" + curPath.toString() + "]");
+                            throw new SEDALibException("Impossible d'accéder au fichier [" + curPath.toString() + "]", e);
                         }
                         // Model V2 (SEDALib) AU Management metadataXmlData file
                     } else if (fileName.equals("__ArchiveUnitMetadata.xml")) {
@@ -722,7 +724,7 @@ public class DiskToDataObjectPackageImporter {
                         } catch (IOException e) {
                             throw new SEDALibException(
                                     "Impossible de lire les métadonnées de l'ArchiveUnit depuis le fichier ["
-                                            + curPath.toString() + "]");
+                                            + curPath.toString() + "]", e);
                         }
                         // Model V2 (SEDALib) PhysicalDataObject metadataXmlData file
                     } else if (fileName.matches("__\\w+(_[0-9]+)?__PhysicalDataObjectMetadata.xml")) {
@@ -750,7 +752,7 @@ public class DiskToDataObjectPackageImporter {
                 au.setDefaultContent(extractTitleFromFileNameFunction.apply(dirName), "RecordGrp");
         } catch (IOException e) {
             throw new SEDALibException(
-                    "Impossible de parcourir le répertoire [" + path.toString() + "]->" + e.getMessage());
+                    "Impossible de parcourir le répertoire [" + path.toString() + "]", e);
         }
         return au;
     }
@@ -793,8 +795,7 @@ public class DiskToDataObjectPackageImporter {
             throw new SEDALibException("Le chemin [" + path.toString() + "] a la racine de l'import n'a pas de sens");
 
         inCounter++;
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
+        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, inCounter, "sedalib: " + inCounter +
                     " ArchiveUnits importées");
 
         dog = new DataObjectGroup(dataObjectPackage, path);
@@ -859,7 +860,7 @@ public class DiskToDataObjectPackageImporter {
                 }
             }
         } catch (IOException e) {
-            throw new SEDALibException("Impossible de parcourir le répertoire [" + path.toString() + "]");
+            throw new SEDALibException("Impossible de parcourir le répertoire [" + path.toString() + "]", e);
         }
         return dog;
     }
@@ -885,6 +886,7 @@ public class DiskToDataObjectPackageImporter {
         start = Instant.now();
 
         try (Stream<Path> sp = onDiskRootPaths.stream()) {
+            inCounter=0;
             pi = sp.iterator();
             while (pi.hasNext()) {
                 nextPath = pi.next();
@@ -896,11 +898,10 @@ public class DiskToDataObjectPackageImporter {
                 if (au != null)
                     dataObjectPackage.addRootAu(au);
             }
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " ArchiveUnits importées");
+            doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP, "sedalib: " + inCounter + " métadonnées ArchiveUnits importées dans le DataObjectPackage", null);
         } catch (SEDALibException e) {
             throw new SEDALibException("Impossible d'importer les ressources du répertoire ["
-                    + nextPath.toString() + "]\n->" + e.getMessage());
+                    + nextPath.toString() + "]",e);
         }
 
         inCounter = 0;
@@ -908,12 +909,10 @@ public class DiskToDataObjectPackageImporter {
             if (pair.getValue().fileInfo.lastModified == null)
                 pair.getValue().extractTechnicalElements(sedaLibProgressLogger);
             inCounter++;
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, inCounter, Integer.toString(inCounter) +
-                        " BinaryDataObject analysés");
+            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, inCounter, "sedalib: " + inCounter +
+                        " fichiers BinaryDataObject analysés");
         }
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(inCounter) + " BinaryDataObject analysés");
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP, "sedalib: "+ inCounter + " fichiers BinaryDataObject analysés et importés dans le DataObjectPackage", null);
         end = Instant.now();
     }
 
@@ -961,18 +960,7 @@ public class DiskToDataObjectPackageImporter {
      * @return the summary
      */
     public String getSummary() {
-        String result = "Import d'une structure d'archives depuis une hiérarchie sur disque\n";
-        result += "en [";
-        boolean first = true;
-        for (Path path : onDiskRootPaths) {
-            if (first)
-                first = false;
-            else
-                result += ",\n";
-            result += path.toString();
-        }
-        result += "]\n";
-        result += dataObjectPackage.getDescription() + "\n";
+        String result = dataObjectPackage.getDescription() + "\n";
         switch (getModelVersion()) {
             case 0:
                 result += "encodé selon un modèle neutre de la structure\n";

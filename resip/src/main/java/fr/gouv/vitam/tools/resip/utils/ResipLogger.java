@@ -44,18 +44,54 @@ import java.nio.charset.Charset;
  */
 public class ResipLogger {
 
-    //** ProgressLog level. */
+    /**
+     * The constant ERROR.
+     */
+//** ProgressLog level. */
     public static final int ERROR = 0;
+    /**
+     * The constant ERROR_MARKER.
+     */
     public static final Marker ERROR_MARKER = MarkerFactory.getMarker("ERROR");
+    /**
+     * The constant GLOBAL.
+     */
     public static final int GLOBAL = 10;
+    /**
+     * The constant GLOBAL_MARKER.
+     */
     public static final Marker GLOBAL_MARKER = MarkerFactory.getMarker("GLOBAL");
+    /**
+     * The constant STEP.
+     */
     public static final int STEP = 20;
+    /**
+     * The constant STEP_MARKER.
+     */
     public static final Marker STEP_MARKER = MarkerFactory.getMarker("STEP");
+    /**
+     * The constant OBJECTS_GROUP.
+     */
     public static final int OBJECTS_GROUP = 30;
+    /**
+     * The constant OBJECTS_GROUP_MARKER.
+     */
     public static final Marker OBJECTS_GROUP_MARKER = MarkerFactory.getMarker("OBJECTS_GROUP");
+    /**
+     * The constant OBJECTS.
+     */
     public static final int OBJECTS = 40;
+    /**
+     * The constant OBJECTS_MARKER.
+     */
     public static final Marker OBJECTS_MARKER = MarkerFactory.getMarker("OBJECTS");
+    /**
+     * The constant OBJECTS_WARNINGS.
+     */
     public static final int OBJECTS_WARNINGS = 50;
+    /**
+     * The constant OBJECTS_WARNINGS_MARKER.
+     */
     public static final Marker OBJECTS_WARNINGS_MARKER = MarkerFactory.getMarker("OBJECTS_WARNINGS");
 
     /**
@@ -85,11 +121,23 @@ public class ResipLogger {
     }
 
 
+    /**
+     * Instantiates a new Resip logger.
+     *
+     * @param logger           the logger
+     * @param progressLogLevel the progress log level
+     */
     public ResipLogger(Logger logger, int progressLogLevel) {
         this.logger = logger;
         this.progressLogLevel = progressLogLevel;
      }
 
+    /**
+     * Create global logger.
+     *
+     * @param logPath          the log path
+     * @param progressLogLevel the progress log level
+     */
     public static void createGlobalLogger(String logPath, int progressLogLevel) {
         LoggerContext logCtx = (LoggerContext) LoggerFactory.getILoggerFactory();
 
@@ -132,6 +180,13 @@ public class ResipLogger {
         globalLogger = new ResipLogger(log, progressLogLevel);
     }
 
+    /**
+     * Gets level.
+     *
+     * @param levelName the level name
+     * @return the level
+     * @throws ResipException the resip exception
+     */
     public static int getLevel(String levelName) throws ResipException {
         if (levelName.equals("OFF"))
             return -1;
@@ -150,6 +205,12 @@ public class ResipLogger {
         throw new ResipException("Niveau de log inconnu");
     }
 
+    /**
+     * Gets marker.
+     *
+     * @param level the level
+     * @return the marker
+     */
     public static Marker getMarker(int level) {
         switch (level) {
             case ERROR:
@@ -168,6 +229,12 @@ public class ResipLogger {
         return GLOBAL_MARKER;
     }
 
+    /**
+     * Log.
+     *
+     * @param level   the level
+     * @param message the message
+     */
     public void log(int level, String message) {
         if (level <= progressLogLevel) {
             if (logger != null) {
@@ -179,14 +246,27 @@ public class ResipLogger {
         }
     }
 
+    /**
+     * Gets logger.
+     *
+     * @return the logger
+     */
     public Logger getLogger() {
         return logger;
     }
 
+    /**
+     * Gets progress log level.
+     *
+     * @return the progress log level
+     */
     public int getProgressLogLevel() {
         return progressLogLevel;
     }
 
+    /**
+     * Close.
+     */
     public void close(){
         if (logger instanceof ch.qos.logback.classic.Logger)
             ((ch.qos.logback.classic.Logger)logger).detachAndStopAllAppenders();

@@ -181,7 +181,6 @@ public class PstStoreContact {
         }
         if (!line.isEmpty()) {
             result += "L3:" + line + "\n";
-            line = "";
         }
         return result;
     }
@@ -215,7 +214,6 @@ public class PstStoreContact {
         }
         if (!line.isEmpty()) {
             result += "L3:" + line + "\n";
-            line = "";
         }
         return result;
     }
@@ -280,7 +278,7 @@ public class PstStoreContact {
             // getOtherAddressStreet, getOtherAddressPostOfficeBox, getOriginalDisplayName,
             // getFtpSite, getManagerName
 
-            ps.println("");
+            ps.println();
             ps.flush();
         }
     }

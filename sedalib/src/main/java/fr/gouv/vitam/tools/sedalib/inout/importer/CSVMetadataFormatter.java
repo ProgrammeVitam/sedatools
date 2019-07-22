@@ -336,7 +336,7 @@ public class CSVMetadataFormatter {
 
         if (value.isEmpty()
                 && ((tag.value == null) || tag.value.isEmpty())
-                && ((tag.attr == null) || tag.value.isEmpty()))
+                && ((tag.attr == null) || tag.attr.isEmpty()))
             return "";
         if (!value.isEmpty() && (tag.value != null) && !tag.value.isEmpty())
             throw new SEDALibException("Il ne peut y avoir une valeur et des sous-éléments dans un élément SEDA [" + tag + "].");

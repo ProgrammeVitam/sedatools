@@ -1,7 +1,7 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.app.TechnicalSearchThread;
+import fr.gouv.vitam.tools.resip.threads.TechnicalSearchThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectListViewer;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
@@ -10,7 +10,9 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 
 import javax.swing.*;
-import javax.swing.text.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DocumentFilter;
+import javax.swing.text.NumberFormatter;
 import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ItemEvent;
@@ -56,7 +58,7 @@ public class TechnicalSearchDialog extends JDialog {
     private DataObjectPackageTreeModel dataObjectPackageTreeModel;
     private DataObjectListViewer dataObjectListViewer;
     private LinkedHashMap<ArchiveUnit, List<BinaryDataObject>> searchResult;
-    private List<ArchiveUnit> searchResultList;
+    private ArrayList<ArchiveUnit> searchResultList;
     private int searchArchiveUnitPosition;
     private ArchiveUnit searchCurrentArchiveUnit;
     private int searchObjectPosition;
@@ -152,7 +154,7 @@ public class TechnicalSearchDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         criteriaPanel.add(formatCategoryCheckBox, gbc);
         formatCategoryCheckBox.addItemListener(arg -> formatCategoryEvent(arg));
-        formatCategoryComboBox = new JComboBox(ResipGraphicApp.getTheApp().
+        formatCategoryComboBox = new JComboBox<>(ResipGraphicApp.getTheApp().
                 treatmentParameters.getFormatByCategoryMap().keySet().toArray());
         formatCategoryComboBox.setEnabled(false);
         formatCategoryComboBox.setFont(MainWindow.LABEL_FONT);

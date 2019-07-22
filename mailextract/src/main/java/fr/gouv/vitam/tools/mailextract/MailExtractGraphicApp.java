@@ -47,20 +47,19 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
     /**
      * The parameters
      */
-    private String destRootPath = "";
-    private String destName = "";
-    private String protocol = "";
-    private String host = "localhost";
-    private int port = -1;
-    private String user = "";
-    private String password = "";
-    private String container = "";
-    private String folder = "";
+    private String destRootPath;
+    private String destName;
+    private String protocol;
+    private String host;
+    private int port;
+    private String user;
+    private String password;
+    private String container;
+    private String folder;
     private StoreExtractorOptions storeExtractorOptions;
     private boolean debugFlag;
-    private boolean local = true;
-    ;
-    private String logLevel = "";
+    private boolean local;
+    private String logLevel;
 
     /**
      * Instantiates a new mail extract graphic app with beginning parameters.

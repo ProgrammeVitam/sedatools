@@ -28,7 +28,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.formattools.rtf;
 
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -276,10 +276,6 @@ public class HTMLFromRTFExtractor {
 
         ANSICPG_MAP.put(709, WINDOWS_709); // Arabic (ASMO 449+, BCON V4)
         ANSICPG_MAP.put(710, WINDOWS_710); // Arabic (transparent Arabic)
-        ANSICPG_MAP.put(710, WINDOWS_711); // Arabic (Nafitha Enhanced)
-        ANSICPG_MAP.put(710, WINDOWS_720); // Arabic (transparent ASMO)
-        ANSICPG_MAP.put(819, CP819); // Windows 3.1 (US & Western Europe)
-        ANSICPG_MAP.put(819, CP819); // Windows 3.1 (US & Western Europe)
 
         ANSICPG_MAP.put(819, CP819); // Windows 3.1 (US & Western Europe)
         ANSICPG_MAP.put(850, CP8502); // IBM Multilingual
@@ -823,7 +819,7 @@ public class HTMLFromRTFExtractor {
     private boolean detectEncapsulatedHTMLorTEXTinRTF() {
         byte[] buf = new byte[100];
         String test;
-        int len = 0, inc = 0;
+        int len = 0, inc;
 
         try {
             while (len < 100) {
@@ -873,16 +869,15 @@ public class HTMLFromRTFExtractor {
      * Get the de-encapsulate HTML from the RTF source.
      *
      * @return the string
-     * @throws ExtractionException the extraction exception
+     * @throws MailExtractLibException the extraction exception
      */
-    public String getDeEncapsulateHTMLFromRTF() throws ExtractionException {
+    public String getDeEncapsulateHTMLFromRTF() throws MailExtractLibException {
         if (resultString == null) {
             resultBuilder = new StringBuilder();
             try {
                 doExtract();
             } catch (IOException e) {
-                e.printStackTrace();
-                throw new ExtractionException("Can't extract html from rtf");
+                throw new MailExtractLibException("Can't extract html from rtf", e);
             }
             resultString = resultBuilder.toString();
 

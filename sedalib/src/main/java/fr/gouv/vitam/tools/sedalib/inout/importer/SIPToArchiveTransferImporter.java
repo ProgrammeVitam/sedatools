@@ -48,6 +48,9 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+
 /**
  * The Class SIPToArchiveTransferImporter.
  * <p>
@@ -121,10 +124,9 @@ public class SIPToArchiveTransferImporter {
                         if (manifest != null)
                             throw new SEDALibException("SIP mal formé, plusieurs fichiers manifest potentiels");
                         manifest = fileName;
-                        if (sedaLibProgressLogger != null)
-                            sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS, "Unzip manifest [" + zipFile + "]");
-                    } else if (sedaLibProgressLogger != null)
-                        sedaLibProgressLogger.log(SEDALibProgressLogger.OBJECTS, "Unzip fichier [" + zipFile + "]");
+                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: unzip manifest [" + zipFile + "]",null);
+                    } else
+                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: unzip fichier [" + zipFile + "]", null);
 
                     // create all non exists folders
                     // else you will hit FileNotFoundException for compressed folder
@@ -134,19 +136,17 @@ public class SIPToArchiveTransferImporter {
                     FileOutputStream fos = new FileOutputStream(newPath.toFile());
                     IOUtils.copy(zais, fos);
                     counter++;
-                    if (sedaLibProgressLogger != null)
-                        sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
-                                "extraits");
+                    doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) +
+                            " fichiers extraits");
                     fos.close();
                 }
             }
         } catch (IOException ex) {
             throw new SEDALibException("Impossible de décompresser le fichier [" + zipFile + "] dans le répertoire ["
-                    + outputFolder + "]\n->" + ex.getMessage());
+                    + outputFolder + "]", ex);
         }
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) + " fichiers " +
-                    "extraits");
+        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, "sedalib: "+ counter +
+                " fichiers extraits");
         if (manifest == null)
             throw new SEDALibException("SIP mal formé, pas de manifest");
         return manifest;
@@ -193,9 +193,10 @@ public class SIPToArchiveTransferImporter {
 
         Date d = new Date();
         start = Instant.now();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, "Début de l'import du SIP [" + zipFile + "] date="
-                    + DateFormat.getDateTimeInstance().format(d));
+        String log = "sedalib: début de l'import du SIP\n";
+        log += "en [" + zipFile + "]";
+        log += " date=" + DateFormat.getDateTimeInstance().format(d);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         manifest = unZipSip(zipFile, unCompressDirectory);
 
@@ -204,12 +205,11 @@ public class SIPToArchiveTransferImporter {
             archiveTransfer = ArchiveTransfer.fromSedaXml(xmlReader, unCompressDirectory, sedaLibProgressLogger);
         } catch (XMLStreamException | IOException e) {
             throw new SEDALibException("Impossible d'importer le fichier [" + manifest
-                    + "] comme manifest du SIP\n->" + e.getMessage());
+                    + "] comme manifest du SIP", e);
         }
 
         end = Instant.now();
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, getSummary());
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: import du SIP terminé", null);
     }
 
     /**
@@ -229,9 +229,7 @@ public class SIPToArchiveTransferImporter {
     public String getSummary() {
         String result;
 
-        result = "Import depuis un SIP SEDA\n";
-        result += "en [" + zipFile + "]\n";
-        result += archiveTransfer.getDescription() + "\n";
+        result = archiveTransfer.getDescription() + "\n";
         if (start != null)
             result += "chargé en "
                     + Duration.between(start, end).toString().substring(2) + "\n";

@@ -4,6 +4,9 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * The type Numeric filter.
+ */
 public class NumericFilter extends DocumentFilter {
     @Override
     public void replace(FilterBypass fb, int offs, int length,

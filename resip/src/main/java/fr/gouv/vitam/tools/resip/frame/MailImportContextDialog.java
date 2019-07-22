@@ -27,14 +27,13 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
-
-import javax.swing.*;
-
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
+
+import javax.swing.*;
+import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * The class MailImportContextDialog.
@@ -57,10 +56,10 @@ public class MailImportContextDialog extends JDialog {
 	private JRadioButton emlRadioButton;
 	private JComboBox defaultCharsetCombobox;
 
-	/**
-	 * The result.
-	 */
-	public int returnValue;
+    /**
+     * The result.
+     */
+    public int returnValue;
 
 	/**
 	 * The proposed charsets.
@@ -73,37 +72,37 @@ public class MailImportContextDialog extends JDialog {
 
 	// Dialog test context
 
-	/**
-	 * The entry point of dialog test.
-	 *
-	 * @param args the input arguments
-	 * @throws ClassNotFoundException          the class not found exception
-	 * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
-	 * @throws InstantiationException          the instantiation exception
-	 * @throws IllegalAccessException          the illegal access exception
-	 * @throws NoSuchMethodException           the no such method exception
-	 * @throws InvocationTargetException       the invocation target exception
-	 */
-	public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    /**
+     * The entry point of dialog test.
+     *
+     * @param args the input arguments
+     * @throws ClassNotFoundException          the class not found exception
+     * @throws UnsupportedLookAndFeelException the unsupported look and feel exception
+     * @throws InstantiationException          the instantiation exception
+     * @throws IllegalAccessException          the illegal access exception
+     * @throws NoSuchMethodException           the no such method exception
+     * @throws InvocationTargetException       the invocation target exception
+     */
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 		TestDialogWindow window = new TestDialogWindow(MailImportContextDialog.class);
 	}
 
-	/**
-	 * Instantiates a new MailImportContextDialog for test.
-	 *
-	 * @param owner the owner
-	 */
-	public MailImportContextDialog(JFrame owner) {
+    /**
+     * Instantiates a new MailImportContextDialog for test.
+     *
+     * @param owner the owner
+     */
+    public MailImportContextDialog(JFrame owner) {
 		this(owner, new MailImportContext(Prefs.getInstance()));
 	}
 
-	/**
-	 * Create the dialog.
-	 *
-	 * @param owner the owner
-	 * @param mailImportContext the mail import context
-	 */
-	public MailImportContextDialog(JFrame owner, MailImportContext mailImportContext) {
+    /**
+     * Create the dialog.
+     *
+     * @param owner             the owner
+     * @param mailImportContext the mail import context
+     */
+    public MailImportContextDialog(JFrame owner, MailImportContext mailImportContext) {
 		super(owner, "Edition des paramètres d'extraction des courriels", true);
 		GridBagConstraints gbc;
 
@@ -192,7 +191,7 @@ public class MailImportContextDialog extends JDialog {
 		mboxRadioButton.setSelected("mbox".equals(mailImportContext.getProtocol()));
 		emlRadioButton.setSelected("eml".equals(mailImportContext.getProtocol()));
 
-		defaultCharsetCombobox = new JComboBox(charsetStrings);
+		defaultCharsetCombobox = new JComboBox<String>(charsetStrings);
 		defaultCharsetCombobox.setFont(MainWindow.LABEL_FONT);
 		gbc = new GridBagConstraints();
 		gbc.insets = new Insets(0, 0, 5, 5);
@@ -305,12 +304,12 @@ public class MailImportContextDialog extends JDialog {
 		setVisible(false);
 	}
 
-	/**
-	 * Sets the mail import context from dialog.
-	 *
-	 * @param mailImportContext the mail import context
-	 */
-	public void setMailImportContextFromDialog(MailImportContext mailImportContext) {
+    /**
+     * Sets the mail import context from dialog.
+     *
+     * @param mailImportContext the mail import context
+     */
+    public void setMailImportContextFromDialog(MailImportContext mailImportContext) {
 		mailImportContext.setExtractMessageTextFile(messageFileCheckBox.isSelected());
 		mailImportContext.setExtractMessageTextMetadata(messageMetadataCheckBox.isSelected());
 		mailImportContext.setExtractAttachmentTextFile(attachementFileCheckBox.isSelected());
@@ -329,12 +328,12 @@ public class MailImportContextDialog extends JDialog {
 		mailImportContext.setDefaultCharsetName((String) defaultCharsetCombobox.getSelectedItem());
 	}
 
-	/**
-	 * Get return value int.
-	 *
-	 * @return the return value
-	 */
-	public int getReturnValue(){
+    /**
+     * Get return value int.
+     *
+     * @return the return value
+     */
+    public int getReturnValue(){
 		return returnValue;
 	}
 }

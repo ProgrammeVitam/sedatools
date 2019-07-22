@@ -1,7 +1,7 @@
 package fr.gouv.vitam.tools.resip.frame;
 
-import fr.gouv.vitam.tools.resip.app.DuplicatesThread;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.threads.DuplicatesThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.viewer.*;
 import fr.gouv.vitam.tools.sedalib.core.*;
@@ -11,15 +11,11 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 import java.util.List;
-
-import static java.awt.event.ItemEvent.DESELECTED;
-import static java.awt.event.ItemEvent.SELECTED;
+import java.util.*;
 
 /**
  * The class DuplicatesWindow.
@@ -35,15 +31,12 @@ public class DuplicatesWindow extends JFrame {
     private JCheckBox binaryFilenameCheckBox;
     private JCheckBox physicalAllMDCheckBox;
     private JTable duplicatesTable;
-    private JLabel resultPlaceHolder;
     private JLabel lineResultLabel;
     private JLabel globalResultLabel;
-    private JPanel resultPanel;
     private JButton lineDedupButton;
     private JButton allDedupButton;
 
     private MainWindow mainWindow;
-    private JPanel explanationPanel;
 
     /**
      * Data.
@@ -88,6 +81,9 @@ public class DuplicatesWindow extends JFrame {
      * Create the window.
      */
     public DuplicatesWindow() {
+        JLabel resultPlaceHolder;
+        JPanel resultPanel;
+        JPanel explanationPanel;
         GridBagConstraints gbc;
 
         java.net.URL imageURL = getClass().getClassLoader().getResource("VitamIcon96.png");
@@ -346,7 +342,6 @@ public class DuplicatesWindow extends JFrame {
         contentPane.add(detailedResultPanel, gbc);
         JScrollPane scrollPane = new JScrollPane();
         gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 1;

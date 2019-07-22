@@ -49,7 +49,7 @@ public class AnyXMLType extends NamedTypeMetadata {
      * Instantiates a new XML block type.
      */
     public AnyXMLType() {
-        this(null, (String) null);
+        this(null, null);
     }
 
     /**
@@ -58,7 +58,7 @@ public class AnyXMLType extends NamedTypeMetadata {
      * @param elementName the XML element name
      */
     public AnyXMLType(String elementName) {
-        this(elementName, (String) null);
+        this(elementName, null);
     }
 
     /**
@@ -84,7 +84,7 @@ public class AnyXMLType extends NamedTypeMetadata {
         try {
             xmlWriter.writeRawXMLBlockIfNotEmpty(rawXml);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type AnyXMLType ["+getXmlElementName()+"]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type AnyXMLType ["+getXmlElementName()+"]", e);
         }
     }
 
@@ -114,7 +114,7 @@ public class AnyXMLType extends NamedTypeMetadata {
             rawXml = xmlReader.nextBlockAsStringIfNamed(elementName);
         } catch (XMLStreamException | IllegalArgumentException e) {
             throw new SEDALibException(
-                    "Erreur de lecture XML dans un élément de type AnyXMLType\n->" + e.getMessage());
+                    "Erreur de lecture XML dans un élément de type AnyXMLType", e);
         }
         return true;
     }

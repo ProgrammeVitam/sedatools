@@ -29,7 +29,7 @@ package fr.gouv.vitam.tools.mailextractlib.nodes;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
 import java.io.File;
@@ -38,6 +38,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
 
 /**
  * Class for SEDA Archive Unit managing metadata, objects, if any, and on disk
@@ -205,8 +207,8 @@ public class ArchiveUnit {
         if (value != null && !value.isEmpty())
             contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, value));
         else if (mandatory)
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'");
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
+                    + rootPath + "'", null);
     }
 
     /**
@@ -227,8 +229,8 @@ public class ArchiveUnit {
         if (value != null && !value.isEmpty()) {
             contentmetadatalist.addMetadataXMLNode(new MetadataXMLSplittedNode(key, value));
         } else if (mandatory)
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'");
+            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
+                    + rootPath + "'", null);
     }
 
     /**
@@ -249,8 +251,8 @@ public class ArchiveUnit {
         if (value != null && !value.isEmpty())
             contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, attributename, attributevalue, value));
         else if (mandatory) {
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: mandatory metadata '" + key + "' is not defined in unit '" + name
-                    + "' in folder '" + rootPath + "'");
+            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' is not defined in unit '" + name
+                    + "' in folder '" + rootPath + "'", null);
         }
     }
 
@@ -289,8 +291,8 @@ public class ArchiveUnit {
                 contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, s));
             }
         } else if (mandatory)
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'");
+            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
+                    + rootPath + "'", null);
     }
 
     /**
@@ -324,8 +326,8 @@ public class ArchiveUnit {
             mlMetaData.addMetadataXMLNode(mvMetaData);
             contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, mlMetaData));
         } else if (mandatory)
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'");
+            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
+                    + rootPath + "'", null);
     }
 
     /**
@@ -389,8 +391,8 @@ public class ArchiveUnit {
                 contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, mlMetaData));
             }
         } else if (mandatory)
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'");
+            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
+                    + rootPath + "'", null);
     }
 
     /**
@@ -422,28 +424,26 @@ public class ArchiveUnit {
     }
 
     // create all the directories hierarchy
-    private void createDirectory(String dirname) throws ExtractionException {
+    private void createDirectory(String dirname) throws MailExtractLibException {
         File dir = new File(dirname);
         if (!dir.isDirectory() && !dir.mkdirs()) {
-            throw new ExtractionException("mailextract: Illegal destination directory, writing unit \"" + name + "\"");
+            throw new MailExtractLibException("mailextractlib: illegal destination directory, writing unit \"" + name + "\"", null);
         }
     }
 
     // create a file from byte array
-    private void writeFile(String dirPath, String filename, byte[] byteContent) throws ExtractionException {
+    private void writeFile(String dirPath, String filename, byte[] byteContent) throws MailExtractLibException {
         try (FileOutputStream fos = new FileOutputStream(dirPath + File.separator + filename)) {
             if (byteContent != null)
                 fos.write(byteContent);
         } catch (IOException ex) {
             if (dirPath.length() + filename.length() > 250) {
-                getProgressLogger().logException(ex);
-                throw new ExtractionException(
-                        "mailextract: Illegal destination file (may be too long pathname), writing unit \"" + name
-                                + "\"" + " dir=" + dirPath + " filename=" + filename);
+                throw new MailExtractLibException(
+                        "mailextractlib: illegal destination file (may be too long pathname), writing unit \"" + name
+                                + "\"" + " dir=" + dirPath + " filename=" + filename, ex);
             } else {
-                getProgressLogger().logException(ex);
-                throw new ExtractionException("mailextract: Illegal destination file, writing unit \"" + name + "\""
-                        + " dir=" + dirPath + " filename=" + filename);
+                throw new MailExtractLibException("mailextractlib: illegal destination file, writing unit \"" + name + "\""
+                        + " dir=" + dirPath + " filename=" + filename, ex);
             }
         }
     }
@@ -451,9 +451,9 @@ public class ArchiveUnit {
     /**
      * Write the Archive Unit representation on disk.
      *
-     * @throws ExtractionException Any unrecoverable extraction exception (access trouble, major                             format problems...)
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
      */
-    public void write() throws ExtractionException {
+    public void write() throws MailExtractLibException {
         String dirPath;
         String filename;
 
@@ -490,7 +490,7 @@ public class ArchiveUnit {
 
     // reduce if needed a filename conserving the extension
     private String normalizeFilename(String filename) {
-        String result = "";
+        String result;
         String extension = "";
         int len;
 

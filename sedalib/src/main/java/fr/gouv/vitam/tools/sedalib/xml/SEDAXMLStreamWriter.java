@@ -28,14 +28,11 @@
 package fr.gouv.vitam.tools.sedalib.xml;
 
 import com.ctc.wstx.api.WstxOutputProperties;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringEscapeUtils;
 import org.codehaus.stax2.XMLOutputFactory2;
 
 import javax.xml.XMLConstants;
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -167,7 +164,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
             else
                 xmlWriter = xmlof.createXMLStreamWriter(rawWriter);
         } catch (Exception e) {
-            throw new SEDALibException("Impossible d'ouvrir un flux d'écriture XML (" + e.getMessage() + ")");
+            throw new SEDALibException("Impossible d'ouvrir un flux d'écriture XML", e);
         }
 
         this.depth = 0;
@@ -360,7 +357,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
                 rawWriter.write(identXml);
                 rawWriter.flush();
             } catch (IOException e) {
-                throw new XMLStreamException(e.getMessage());
+                throw new XMLStreamException("Erreur d'écriture d'un bloc Raw XML",e);
             }
         }
     }

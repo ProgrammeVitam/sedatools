@@ -3,22 +3,19 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
+import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.prefs.BackingStoreException;
-import java.util.prefs.Preferences;
 import java.util.stream.Collectors;
-
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.*;
 
@@ -112,9 +109,9 @@ public class ExportContext {
 	 * Instantiates a new ExportContext from a file.
 	 *
 	 * @param sipExportFileName the sipExportFileName
-	 * @throws SEDALibException the SEDALibException
+	 * @throws ResipException the ResipException
 	 */
-	public ExportContext(String sipExportFileName) throws SEDALibException {
+	public ExportContext(String sipExportFileName) throws ResipException {
 		ObjectMapper mapper = new ObjectMapper();
 
 		try (FileInputStream fis = new FileInputStream(new File(sipExportFileName))) {
@@ -131,8 +128,8 @@ public class ExportContext {
 			this.metadataFilterFlag=sec.metadataFilterFlag;
 			this.keptMetadataList=sec.keptMetadataList;
 		} catch (IOException e) {
-			throw new SEDALibException("Resip.InOut: Le fichier [" + sipExportFileName
-					+ "] de contexte est illisible\n->" + e.getMessage());
+			throw new ResipException("Resip.InOut: Le fichier [" + sipExportFileName
+					+ "] de contexte est illisible", e);
 		}
 	}
 

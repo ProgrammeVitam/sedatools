@@ -28,7 +28,7 @@ package fr.gouv.vitam.tools.mailextract;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
 import java.io.ByteArrayOutputStream;
@@ -37,6 +37,7 @@ import java.io.PrintWriter;
 import java.nio.file.Paths;
 
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogWithoutInterruption;
 
 /**
  * MailExtractThread class for the real extraction command
@@ -115,12 +116,11 @@ public class MailExtractThread extends Thread {
             this.storeExtractor = StoreExtractor.createStoreExtractor(urlString, folder,
                     Paths.get(destRootPath, destName).toString(), storeExtractorOptions, logger);
             this.actionNumber = actionNumber;
-        } catch (ExtractionException ee) {
-            logger.progressLogWithoutInterruption(GLOBAL, ee.getMessage());
-            logger.logException(ee);
+        } catch (MailExtractLibException ee) {
+            doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: erreur d'extraction", ee);
         } catch (Exception e) {
             this.actionNumber = 0;
-            System.out.println(getPrintStackTrace(e));
+            doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: erreur générale", e);
         }
     }
 
@@ -142,25 +142,23 @@ public class MailExtractThread extends Thread {
                     if (storeExtractor.hasDestName())
                         storeExtractor.extractAllFolders();
                     else
-                        throw new ExtractionException("mailextract: no destination name for extraction");
+                        throw new MailExtractLibException("mailextract: no destination name for extraction", null);
                     break;
 
             }
-        } catch (ExtractionException ee) {
-            logger.progressLogWithoutInterruption(GLOBAL, ee.getMessage());
-            logger.logException(ee);
+        } catch (MailExtractLibException ee) {
+            doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: extraction error", ee);
         } catch (InterruptedException ie) {
-            logger.progressLogWithoutInterruption(GLOBAL, ie.getMessage());
-            logger.logException(ie);
+            doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: extraction process interrupted", ie);
         } catch (Exception e) {
+            doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: error", e);
             System.out.println(getPrintStackTrace(e));
         } finally {
             try {
                 if (storeExtractor != null)
                     storeExtractor.endStoreExtractor();
-            } catch (ExtractionException e) {
-                logger.progressLogWithoutInterruption(GLOBAL, e.getMessage());
-                logger.logException(e);
+            } catch (MailExtractLibException e) {
+                doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: closing error", e);
             }
             if (logger != null)
                 logger.close();

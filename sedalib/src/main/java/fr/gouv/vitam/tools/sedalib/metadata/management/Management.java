@@ -32,7 +32,6 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
  * The Class Management.

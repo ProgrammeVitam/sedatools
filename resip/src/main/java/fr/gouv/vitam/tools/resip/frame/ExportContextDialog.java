@@ -27,19 +27,19 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.parameters.ExportContext;
+import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
+
+import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DocumentFilter;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
-
-import javax.swing.*;
-import javax.swing.text.AbstractDocument;
-import javax.swing.text.DocumentFilter;
-
-import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.parameters.*;
-import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 
 import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.*;
 import static java.awt.event.ItemEvent.DESELECTED;
@@ -120,7 +120,7 @@ public class ExportContextDialog extends JDialog {
 	/**
 	 * Create the dialog.
 	 *
-	 * @param owner the owner
+	 * @param owner         the owner
 	 * @param exportContext the sec
 	 */
 	public ExportContextDialog(JFrame owner, ExportContext exportContext) {
@@ -753,9 +753,11 @@ public class ExportContextDialog extends JDialog {
 
 	/**
 	 * Extract the global metadata context from dialog.
+	 *
+	 * @return the boolean
 	 */
 	public boolean extractFromDialog() {
-		int tmp=10;
+		int tmp;
 
 		gmc=new ExportContext();
 		gmc.setHierarchicalArchiveUnits(hierarchicalRadioButton.isSelected());
@@ -765,7 +767,7 @@ public class ExportContextDialog extends JDialog {
 			gmc.setUsageVersionSelectionMode(FIRST_DATAOBJECT);
 		else  if (allUsageButton.isSelected())
 			gmc.setUsageVersionSelectionMode(ALL_DATAOBJECTS);
-		else
+		else if (lastUsageButton.isSelected())
 			gmc.setUsageVersionSelectionMode(LAST_DATAOBJECT);
 		try {
 			tmp = Integer.parseInt(nameMaxSizeTextField.getText());

@@ -25,8 +25,9 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.app;
+package fr.gouv.vitam.tools.resip.threads;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.DuplicatesWindow;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
@@ -35,7 +36,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import javax.swing.*;
 import java.util.*;
 
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
 /**
  * The class DuplicatesThread.
@@ -59,6 +60,12 @@ public class DuplicatesThread extends SwingWorker<String, String> {
     private boolean binaryHash;
     private boolean binaryFilename;
     private boolean physicalAllMD;
+
+    /**
+     * The Exit exception.
+     */
+//run output
+    Exception exitException;
 
     /**
      * Logger.
@@ -85,7 +92,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
      * Recursively browse the ArchiveUnit tree to sort the DOG by DOG digest map and create the sorted ArchiveUnit by DOG digest map.
      * The result is then sorted in the natural order of ArchiveUnit tree browsing.
      *
-     * @param au             the au
+     * @param au                the au
      * @param dogByDogDigestMap the dog by digest map
      */
     void followTree(ArchiveUnit au, HashMap<String, List<DataObjectGroup>> dogByDogDigestMap) {
@@ -124,15 +131,15 @@ public class DuplicatesThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        String tmp = null;
+        String tmp;
         int counter = 0;
         try {
             spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null,
                     1000,2);
             dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
 
-            spl.progressLog(SEDALibProgressLogger.GLOBAL, "Recherche de doublons ( " + (binaryHash ? "hachage de fichier " : "") +
-                    (binaryFilename ? "nom de fichier " : "") + (physicalAllMD ? "toute MD physique " : "") + ")");
+            doProgressLog(spl, GLOBAL, "resip: recherche de doublons ( " + (binaryHash ? "hachage de fichier " : "") +
+                    (binaryFilename ? "nom de fichier " : "") + (physicalAllMD ? "toute MD physique " : "") + ")", null);
             HashMap<String, List<DataObjectGroup>> dogByDigestMap = new HashMap<String, List<DataObjectGroup>>();
             dogKeyMap = new HashMap<DataObjectGroup, String>();
             for (DataObjectGroup dog : dataObjectPackage.getDogInDataObjectPackageIdMap().values()) {
@@ -155,8 +162,8 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                 } else
                     dogByDigestMap.get(tmp).add(dog);
                 counter++;
-                spl.progressLogIfStep(SEDALibProgressLogger.GLOBAL, counter,
-                        Integer.toString(counter) + " groupes d'objets comparés");
+                doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS, counter,"resip: "+
+                        counter + " groupes d'objets comparés");
             }
             dogByDigestMap = treeSort(dogByDigestMap);
             for (Iterator<Map.Entry<String, List<ArchiveUnit>>> it = sortedAuByDogDigestMap.entrySet().iterator(); it.hasNext(); ) {
@@ -166,14 +173,11 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                     dogByDigestMap.remove(entry.getKey());
                 }
             }
-            spl.progressLog(SEDALibProgressLogger.GLOBAL,
-                    Integer.toString(dogByDigestMap.size()) + " lots de groupes d'objets semblables");
+            doProgressLog(spl, GLOBAL,
+                    "resip: "+ dogByDigestMap.size() + " lots de groupes d'objets semblables", null);
         } catch (Exception e) {
-            try {
-                if (spl != null)
-                    spl.progressLog(GLOBAL, "Recherche de doublons impossibles\n-> " + e.getMessage());
-            } catch (InterruptedException ignored) {
-            }
+            exitException=e;
+            return "KO";
         }
         return "OK";
     }
@@ -182,9 +186,17 @@ public class DuplicatesThread extends SwingWorker<String, String> {
     protected void done() {
         ResipGraphicApp theApp = ResipGraphicApp.getTheApp();
 
-        if ((!isCancelled()) && (sortedDogByDogDigestMap != null))
-            duplicatesWindow.setDuplicatesResult(sortedDogByDogDigestMap, sortedAuByDogDigestMap);
-        else
+        if (isCancelled()) {
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: recherche de doublons annulée",null);
             duplicatesWindow.setBlankDuplicatesResult();
+        }
+        else if (exitException!=null){
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant la recherche de doublons",exitException);
+            duplicatesWindow.setBlankDuplicatesResult();
+        }
+        else {
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: recherche de doublons terminée", null);
+            duplicatesWindow.setDuplicatesResult(sortedDogByDogDigestMap, sortedAuByDogDigestMap);
+        }
     }
 }

@@ -31,19 +31,24 @@ import com.sun.mail.util.QPDecoderStream;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
-import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
+import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 
 import javax.activation.DataHandler;
 import javax.mail.*;
 import javax.mail.internet.*;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
 
 /**
  * StoreMessage sub-class for mail boxes extracted through JavaMail library.
@@ -53,7 +58,9 @@ import java.util.List;
  */
 public class JMStoreMessage extends StoreMessage {
 
-    /** Native JavaMail message. */
+    /**
+     * Native JavaMail message.
+     */
     protected MimeMessage message;
 
     // format to parse dates in Receive header
@@ -62,15 +69,12 @@ public class JMStoreMessage extends StoreMessage {
     /**
      * Instantiates a new JM mail box message.
      *
-     * @param mBFolder
-     *            Containing MailBoxFolder
-     * @param message
-     *            Native JavaMail message
-     * @throws ExtractionException
-     *             Any unrecoverable extraction exception (access trouble, major
-     *             format problems...)
+     * @param mBFolder Containing MailBoxFolder
+     * @param message  Native JavaMail message
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major
+     *                             format problems...)
      */
-    public JMStoreMessage(StoreFolder mBFolder, MimeMessage message) throws ExtractionException {
+    public JMStoreMessage(StoreFolder mBFolder, MimeMessage message) throws MailExtractLibException {
         super(mBFolder);
         this.message = message;
     }
@@ -91,8 +95,6 @@ public class JMStoreMessage extends StoreMessage {
         else {
             mimeContent = getNativeMimeContent();
             result = mimeContent.length;
-            logMessageWarning("mailextract.javamail: Can't get the size");
-            result = 0;
         }
         return result;
     }
@@ -168,7 +170,7 @@ public class JMStoreMessage extends StoreMessage {
                 }
             }
         } catch (MessagingException e) {
-            logMessageWarning("mailextract.javamail: Can't extract complete mail header");
+            logMessageWarning("mailextractlib.javamail: can't extract complete mail header", e);
         }
         mailHeader = result;
     }
@@ -185,8 +187,7 @@ public class JMStoreMessage extends StoreMessage {
         try {
             result = message.getSubject();
         } catch (MessagingException e) {
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, "mailextract.javamail: Can't get message subject");
-            getProgressLogger().logException(e);
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib.javamail: can't get message subject", e);
         }
         subject = result;
     }
@@ -203,7 +204,7 @@ public class JMStoreMessage extends StoreMessage {
         try {
             result = message.getMessageID();
         } catch (MessagingException e) {
-            logMessageWarning("mailextract.javamail: Can't extract message ID");
+            logMessageWarning("mailextractlib.javamail: can't extract message ID", e);
         }
         messageID = result;
     }
@@ -218,10 +219,10 @@ public class JMStoreMessage extends StoreMessage {
         List<String> aList = getAddressHeader("From");
 
         if ((aList == null) || (aList.size() == 0)) {
-            logMessageWarning("mailextract.javamail: No From address in header");
+            logMessageWarning("mailextractlib.javamail: no From address in header", null);
         } else {
             if (aList.size() > 1)
-                logMessageWarning("mailextract.javamail: Multiple From addresses, keep the first one in header");
+                logMessageWarning("mailextractlib.javamail: multiple From addresses, keep the first one in header", null);
             result = aList.get(0);
         }
         from = result;
@@ -235,12 +236,12 @@ public class JMStoreMessage extends StoreMessage {
         try {
             addressHeaderString = message.getHeader(name, ", ");
         } catch (MessagingException me) {
-            logMessageWarning("mailextract.javamail: Can't access to [" + name + "] address header");
+            logMessageWarning("mailextractlib.javamail: can't access to [" + name + "] address header", me);
         }
 
         if (addressHeaderString != null) {
             result = new ArrayList<String>();
-            InternetAddress[] iAddressArray = null;
+            InternetAddress[] iAddressArray;
             try {
                 iAddressArray = InternetAddress.parseHeader(addressHeaderString, false);
             } catch (AddressException e) {
@@ -250,17 +251,14 @@ public class JMStoreMessage extends StoreMessage {
                 } catch (UnsupportedEncodingException uee) {
                     // too bad
                 }
-                logMessageWarning("mailextract.javamail: Wrongly formatted address " + addressHeaderString
-                        + ", keep raw address list in metadata in header " + name);
+                logMessageWarning("mailextractlib.javamail: wrongly formatted address " + addressHeaderString
+                        + ", keep raw address list in metadata in header " + name, e);
                 result.add(addressHeaderString);
                 return result;
             }
-            if (iAddressArray != null) {
-                for (InternetAddress ia : iAddressArray) {
-                    result.add(getStringAddress(ia));
-                }
-            } else
-                result = null;
+            for (InternetAddress ia : iAddressArray) {
+                result.add(getStringAddress(ia));
+            }
         }
 
         return result;
@@ -298,12 +296,9 @@ public class JMStoreMessage extends StoreMessage {
         String result = null;
         List<String> aList = getAddressHeader("Return-Path");
 
-        if ((aList == null) || (aList.size() == 0)) {
-            // logMessageWarning("mailextract.javamail: No Return-Path address
-            // in header");
-        } else {
+        if (!((aList == null) || (aList.size() == 0))) {
             if (aList.size() > 1)
-                logMessageWarning("mailextract.javamail: Multiple Return-Path, keep the first one addresses in header");
+                logMessageWarning("mailextractlib.javamail: multiple Return-Path, keep the first one addresses in header", null);
             result = aList.get(0);
         }
 
@@ -344,7 +339,7 @@ public class JMStoreMessage extends StoreMessage {
             sentDate = message.getSentDate();
             receivedDate = getReceivedDate();
         } catch (MessagingException e) {
-            logMessageWarning("mailextract.javamail: Can't extract dates");
+            logMessageWarning("mailextractlib.javamail: can't extract dates", e);
         }
     }
 
@@ -363,11 +358,11 @@ public class JMStoreMessage extends StoreMessage {
             if (irtList != null) {
                 if (irtList.length > 1)
                     logMessageWarning(
-                            "mailextract.javamail: Multiple In-Reply-To identifiers, keep the first one in header");
+                            "mailextractlib.javamail: multiple In-Reply-To identifiers, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(irtList[0]);
             }
         } catch (MessagingException me) {
-            logMessageWarning("mailextract.javamail: Can't access to In-Reply-To header");
+            logMessageWarning("mailextractlib.javamail: can't access to In-Reply-To header", null);
         }
 
         inReplyToUID = result;
@@ -376,8 +371,7 @@ public class JMStoreMessage extends StoreMessage {
     /**
      * Gets the header value.
      *
-     * @param line
-     *            the line
+     * @param line the line
      * @return the header value
      */
     // utility function to get the value part of an header string
@@ -417,7 +411,7 @@ public class JMStoreMessage extends StoreMessage {
                     }
             }
         } catch (MessagingException me) {
-            logMessageWarning("mailextract.javamail: Can't access to In-Reply-To header");
+            logMessageWarning("mailextractlib.javamail: can't access to In-Reply-To header", me);
         }
 
         references = result;
@@ -494,7 +488,7 @@ public class JMStoreMessage extends StoreMessage {
         try {
             getPartBodyContents(message);
         } catch (Exception e) {
-            logMessageWarning("mailextract.javamail: Badly formatted mime message, can't extract body contents");
+            logMessageWarning("mailextractlib.javamail: badly formatted mime message, can't extract body contents", e);
         }
     }
 
@@ -505,14 +499,15 @@ public class JMStoreMessage extends StoreMessage {
         if ((p.isMimeType("text/plain") || p.isMimeType("text/html") || p.isMimeType("text/rtf"))
                 && ((p.getDisposition() == null) || Part.INLINE.equalsIgnoreCase(p.getDisposition())))
             // test if it's a bodyContent then not an attachment
-            return;
+        {
+        }
         else if (!p.isMimeType("multipart/*")) {
             // any other non multipart is an attachment
 
             try {
                 addAttachment(lStoreMessageAttachment, p);
             } catch (IOException | MessagingException | ParseException e) {
-                logMessageWarning("mailextract.javamail: Can't extract a badly formatted attachement");
+                logMessageWarning("mailextractlib.javamail: can't extract a badly formatted attachement", e);
             }
 
         } else if (p.isMimeType("multipart/*")) {
@@ -539,11 +534,11 @@ public class JMStoreMessage extends StoreMessage {
     private byte[] getPartLFFixedRawContent(BodyPart bp) throws IOException, MessagingException, InterruptedException {
         InputStream is = bp.getInputStream();
         if (is instanceof QPDecoderStream) {
-            DataHandler dh=bp.getDataHandler();
+            DataHandler dh = bp.getDataHandler();
             bp.setDataHandler(null);
-            is=new LFFixingQPDecoderStream(bp.getInputStream());
+            is = new LFFixingQPDecoderStream(bp.getInputStream());
             bp.setDataHandler(dh);
-            logMessageWarning("mailextract: using LFFixing quoted-printable decoding");
+            logMessageWarning("mailextractlib.javamail: using LFFixing quoted-printable decoding", null);
         }
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         byte[] buf = new byte[4096];
@@ -564,15 +559,15 @@ public class JMStoreMessage extends StoreMessage {
     private void addAttachment(List<StoreMessageAttachment> lStoreMessageAttachment, BodyPart bodyPart)
             throws IOException, MessagingException, ParseException, InterruptedException {
         String[] headers;
-        ContentDisposition disposition = null;
-        ContentType contenttype = null;
+        ContentDisposition disposition;
+        ContentType contenttype;
         String date;
 
         // all attachment definition vars
         String aName = null;
         Date aCreationDate = null;
         Date aModificationDate = null;
-        String aMimeType = null;
+        String aMimeType;
         String aContentID = null;
         int aType;
 
@@ -644,8 +639,8 @@ public class JMStoreMessage extends StoreMessage {
                 lStoreMessageAttachment.add(new StoreMessageAttachment(getPartLFFixedRawContent(bodyPart), "file",
                         MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
             else
-                    lStoreMessageAttachment.add(new StoreMessageAttachment(getPartRawContent(bodyPart), "file",
-                    MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
+                lStoreMessageAttachment.add(new StoreMessageAttachment(getPartRawContent(bodyPart), "file",
+                        MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
         }
     }
 
@@ -681,7 +676,7 @@ public class JMStoreMessage extends StoreMessage {
                 }
             }
         } catch (Exception e) {
-            logMessageWarning("mailextract.javamail: Badly formatted mime message, can't extract all attachments");
+            logMessageWarning("mailextractlib.javamail: badly formatted mime message, can't extract all attachments", e);
         }
 
         if (result.size() == 0)
@@ -693,7 +688,6 @@ public class JMStoreMessage extends StoreMessage {
     @Override
     protected void analyzeAppointmentInformation() {
         // no normalized appointment information in messages
-        return;
     }
 
     /*
@@ -711,7 +705,7 @@ public class JMStoreMessage extends StoreMessage {
         try {
             message.writeTo(baos);
         } catch (Exception e) {
-            logMessageWarning("mailextract.javamail: Can't extract raw mime content");
+            logMessageWarning("mailextractlib.javamail: can't extract raw mime content", e);
         }
 
         return baos.toByteArray();

@@ -1,15 +1,13 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
+import fr.gouv.vitam.tools.sedalib.metadata.management.*;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import fr.gouv.vitam.tools.sedalib.metadata.management.*;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
-import org.assertj.core.api.AssertionsForClassTypes;
-import org.junit.jupiter.api.Test;
-
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class ManagementTest {
 

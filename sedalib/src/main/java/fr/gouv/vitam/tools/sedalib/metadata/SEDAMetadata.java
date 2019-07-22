@@ -114,18 +114,18 @@ public abstract class SEDAMetadata {
                 XMLEvent event = xmlReader.peekUsefullEvent();
                 sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, event.asStartElement().getName().getLocalPart());
             } else
-                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, null);
+                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, (Object[])null);
             if (sm.fillFromSedaXml(xmlReader))
                 return sm;
             Method method = target.getMethod("fromSedaXml", SEDAXMLEventReader.class);
             return (SEDAMetadata) method.invoke(null, xmlReader);
         } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException
                 | SecurityException | InstantiationException e) {
-            throw new SEDALibException("Erreur de construction du " + target.getSimpleName() + "\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de construction du " + target.getSimpleName(), e);
         } catch (InvocationTargetException te) {
-            throw new SEDALibException("Erreur de construction du " + target.getSimpleName() + "\n->" + te.getTargetException().getMessage());
+            throw new SEDALibException("Erreur de construction du " + target.getSimpleName(), te.getTargetException());
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type "+target.getSimpleName()+"\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type "+target.getSimpleName(), e);
         }
     }
 
@@ -149,7 +149,7 @@ public abstract class SEDAMetadata {
             if (!event.isEndDocument())
                 throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture du " + target.getSimpleName() + "\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture du " + target.getSimpleName(), e);
         }
 
         return result;

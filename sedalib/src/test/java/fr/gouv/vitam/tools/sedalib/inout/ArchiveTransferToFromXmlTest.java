@@ -1,30 +1,24 @@
 package fr.gouv.vitam.tools.sedalib.inout;
 
-import java.io.ByteArrayOutputStream;
-//import java.io.FileOutputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import javax.xml.stream.XMLStreamException;
-
-//import org.apache.commons.io.Charsets;
-//import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.Charsets;
-import org.apache.commons.io.IOUtils;
-import org.junit.jupiter.api.Test;
-
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import org.junit.jupiter.api.Test;
+
+import javax.xml.stream.XMLStreamException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
-import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+//import java.io.FileOutputStream;
+//import org.apache.commons.io.Charsets;
+//import org.apache.commons.io.IOUtils;
 
 class ArchiveTransferToFromXmlTest implements UseTestFiles {
 

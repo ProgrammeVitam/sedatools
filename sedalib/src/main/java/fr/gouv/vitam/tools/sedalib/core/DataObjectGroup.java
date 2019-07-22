@@ -220,7 +220,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
-                    "Erreur d'écriture XML du DataObjectGroup [" + inDataPackageObjectId + "]\n->" + e.getMessage());
+                    "Erreur d'écriture XML du DataObjectGroup [" + inDataPackageObjectId + "]", e);
         }
     }
 
@@ -293,7 +293,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             }
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture du DataObjectGroup"
-                    + (dog != null ? " [" + dog.inDataPackageObjectId + "]" : "") + "\n->" + e.getMessage());
+                    + (dog != null ? " [" + dog.inDataPackageObjectId + "]" : ""), e);
         }
         //case not a DataObjectGroup
         if (dog == null)
@@ -318,7 +318,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             xmlReader.nextUsefullEvent();
             dog.logBookXmlData = xmlReader.nextBlockAsStringIfNamed("LogBook");
         } catch (XMLStreamException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture du DataObjectGroup\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture du DataObjectGroup", e);
         }
 
         this.logBookXmlData = dog.logBookXmlData;

@@ -27,15 +27,6 @@
  */
 package fr.gouv.vitam.tools.testsipgenerator;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.FileTime;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Formatter;
-
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
@@ -43,16 +34,19 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 import org.slf4j.LoggerFactory;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileTime;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Formatter;
 
 /**
  * TestSipGeneratorApp class for launching the command.
@@ -90,7 +84,7 @@ public class TestSipGeneratorApp {
     /**
      * Create the Options object
      *
-     * @return
+     * @return options
      */
     static Options createOptions() {
         Options options = new Options();
@@ -163,7 +157,7 @@ public class TestSipGeneratorApp {
      * Get the int value for option or exit with error status
      *
      * @param option the option string
-     * @return
+     * @return int or exit
      */
     static int getIntOrExit(String option) {
         int result = 0;
@@ -240,10 +234,11 @@ public class TestSipGeneratorApp {
 
     /**
      * Generate a test file with chosen size and content type
-     * @param onDiskPath        the generated file path
-     * @param blockNumber       the number of blocks
-     * @param blockSize         the block size
-     * @param contentType       the content type (zero, text or random)
+     *
+     * @param onDiskPath  the generated file path
+     * @param blockNumber the number of blocks
+     * @param blockSize   the block size
+     * @param contentType the content type (zero, text or random)
      * @return the file SHA-512 digest
      */
     static String generateFile(Path onDiskPath, int blockNumber, int blockSize, int contentType) {
@@ -294,6 +289,7 @@ public class TestSipGeneratorApp {
 
     /**
      * Gets a uniq ID for tree nodes
+     *
      * @return uniq ID
      */
     static int getUniqNodeID() {
@@ -308,7 +304,7 @@ public class TestSipGeneratorApp {
      * @param number    the number of standard objects to distribute
      * @param bigNumber the number of big objects to distribute
      * @param depth     the tree depth to generate
-     * @throws SEDALibException
+     * @throws SEDALibException the seda lib exception
      */
     static void generateTree(SIPBuilder sb, String auName, int number, int bigNumber, int depth) throws SEDALibException {
         String childAuName;
@@ -333,17 +329,17 @@ public class TestSipGeneratorApp {
             return;
         }
 
-        if ((Math.floor(number / 2) > 0) || (Math.floor(bigNumber / 2) > 0)) {
+        if ((Math.floor(number / 2.0) > 0) || (Math.floor(bigNumber / 2.0) > 0)) {
             childAuName = "Node" + Integer.toString(getUniqNodeID());
             sb.addNewSubArchiveUnit(auName, childAuName, "RecordGrp", word + " " + childAuName,
                     "Description " + childAuName);
-            generateTree(sb, childAuName, (int) Math.floor(number / 2), (int) Math.floor(bigNumber / 2), depth - 1);
+            generateTree(sb, childAuName, (int) Math.floor(number / 2.0), (int) Math.floor(bigNumber / 2.0), depth - 1);
         }
-        if ((number - Math.floor(number / 2) > 0) || (bigNumber - Math.floor(bigNumber / 2) > 0)) {
+        if ((number - Math.floor(number / 2.0) > 0) || (bigNumber - Math.floor(bigNumber / 2.0) > 0)) {
             childAuName = "Node" + Integer.toString(getUniqNodeID());
             sb.addNewSubArchiveUnit(auName, childAuName, "RecordGrp", word + " " + childAuName,
                     "Description " + childAuName);
-            generateTree(sb, childAuName, (int) (number - Math.floor(number / 2)), (int) (bigNumber - Math.floor(bigNumber / 2)), depth - 1);
+            generateTree(sb, childAuName, (int) (number - Math.floor(number / 2.0)), (int) (bigNumber - Math.floor(bigNumber / 2.0)), depth - 1);
         }
     }
 
@@ -368,7 +364,7 @@ public class TestSipGeneratorApp {
      *
      * @param bdo    the binary data object
      * @param digest the known digest
-     * @throws SEDALibException
+     * @throws SEDALibException the seda lib exception
      */
     static void putKnownTechnicalElements(BinaryDataObject bdo, String digest) throws SEDALibException {
         IdentificationResult ir = null;
@@ -378,9 +374,7 @@ public class TestSipGeneratorApp {
         FileTime llastModified;
         try {
             lsize = Files.size(bdo.getOnDiskPath());
-            if (lfilename == null) {
-                lfilename = bdo.getOnDiskPath().getFileName().toString();
-            }
+            lfilename = bdo.getOnDiskPath().getFileName().toString();
             llastModified = Files.getLastModifiedTime(bdo.getOnDiskPath());
         } catch (IOException e) {
             throw new SEDALibException("Impossible de générer les infos techniques pour le fichier [" + bdo.getOnDiskPath().toString() + "]\n->" + e.getMessage());
@@ -392,7 +386,7 @@ public class TestSipGeneratorApp {
         if (contentType == TEXT_CONTENT)
             bdo.formatIdentification = new FormatIdentification("Plain Text File", "text/plain", "x-fmt/111", null);
         else
-            bdo.formatIdentification = new FormatIdentification("Unknown", (String) null, (String) null, (String) null);
+            bdo.formatIdentification = new FormatIdentification("Unknown", null, null, null);
 
         bdo.fileInfo = new FileInfo();
         bdo.fileInfo.filename = lfilename;
@@ -431,8 +425,7 @@ public class TestSipGeneratorApp {
             System.out.println("Erreur de traitement du SIP");
             e.printStackTrace();
             System.exit(1);
-        }
-        finally {
+        } finally {
             try {
                 Files.delete(onDiskStandardPath);
                 Files.delete(onDiskBigPath);

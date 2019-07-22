@@ -1,6 +1,20 @@
 package fr.gouv.vitam.tools.resip.parameters;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import fr.gouv.vitam.tools.resip.UseTestFiles;
+import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
+import fr.gouv.vitam.tools.resip.utils.ResipLogger;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
+import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,24 +23,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.gouv.vitam.tools.resip.UseTestFiles;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-
-import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
-import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.resip.data.Work;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-
+/**
+ * The type Work test.
+ */
 public class WorkTest implements UseTestFiles {
 
 	private void setWorkFromArchiveTransfer(Work work, ArchiveTransfer archiveTransfer) {
@@ -39,6 +40,15 @@ public class WorkTest implements UseTestFiles {
 		work.setExportContext(newExportContext);
 	}
 
+	/**
+	 * Test resip work serialization deserialization.
+	 *
+	 * @throws ResipException        the resip exception
+	 * @throws FileNotFoundException the file not found exception
+	 * @throws IOException           the io exception
+	 * @throws InterruptedException  the interrupted exception
+	 * @throws SEDALibException      the seda lib exception
+	 */
 	@Test
 	void TestResipWorkSerializationDeserialization() throws ResipException, FileNotFoundException, IOException, InterruptedException, SEDALibException  {
 		String destLog = "./target/tmpJunit/" + File.separator + "junit_log.log";

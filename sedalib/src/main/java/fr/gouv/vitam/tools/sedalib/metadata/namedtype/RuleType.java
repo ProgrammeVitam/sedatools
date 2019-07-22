@@ -189,7 +189,7 @@ public class RuleType extends NamedTypeMetadata {
             for (int i = 0; i < rules.size(); i++) {
                 xmlWriter.writeElementValue("Rule", rules.get(i));
                 if (startDates.get(i) != null)
-                    xmlWriter.writeElementValue("StartDate", xmlWriter.getStringFromDate(startDates.get(i)));
+                    xmlWriter.writeElementValue("StartDate", SEDAXMLStreamWriter.getStringFromDate(startDates.get(i)));
             }
             if (preventInheritance != null)
                 xmlWriter.writeElementValue("PreventInheritance", preventInheritance.toString());
@@ -199,7 +199,7 @@ public class RuleType extends NamedTypeMetadata {
                 xmlWriter.writeElementValue("FinalAction", finalAction);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément RuleType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément RuleType", e);
         }
     }
 
@@ -246,9 +246,9 @@ public class RuleType extends NamedTypeMetadata {
                     if (tmpDate == null)
                         startDate = null;
                     else try {
-                        startDate = xmlReader.getDateFromString(tmpDate);
+                        startDate = SEDAXMLEventReader.getDateFromString(tmpDate);
                     } catch (DateTimeParseException e) {
-                        throw new SEDALibException("La date est mal formatée");
+                        throw new SEDALibException("La date est mal formatée", e);
                     }
                     addRule(tmp, startDate);
                     tmp = xmlReader.nextValueIfNamed("Rule");
@@ -265,7 +265,7 @@ public class RuleType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type RuleType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type RuleType", e);
         }
         return true;
     }

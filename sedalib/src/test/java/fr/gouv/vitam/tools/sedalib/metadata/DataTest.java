@@ -1,13 +1,12 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import java.nio.file.attribute.FileTime;
-import java.time.LocalDateTime;
-
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import java.nio.file.attribute.FileTime;
+import java.time.LocalDateTime;
 
 import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;

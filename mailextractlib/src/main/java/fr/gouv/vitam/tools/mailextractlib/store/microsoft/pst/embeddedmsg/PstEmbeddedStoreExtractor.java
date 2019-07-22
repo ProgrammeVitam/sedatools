@@ -32,7 +32,7 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
 /**
@@ -67,13 +67,13 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
      *            root one
      * @param logger
      *            logger used
-     * @throws ExtractionException
+     * @throws MailExtractLibException
      *             Any unrecoverable extraction exception (access trouble, major
      *             format problems...)
      */
     public PstEmbeddedStoreExtractor(StoreMessageAttachment attachment, ArchiveUnit rootNode,
                                      StoreExtractorOptions options, StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger)
-            throws ExtractionException {
+            throws MailExtractLibException {
         super("pst.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, logger);
 
         this.attachment = attachment;

@@ -4,22 +4,22 @@ package fr.gouv.vitam.tools.resip.viewer;
  * @(#)DefaultTableHeaderCellRenderer.java	1.0 02/24/09
  */
 
-import java.awt.Component;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+import java.awt.*;
+import java.util.List;
 
 import static fr.gouv.vitam.tools.resip.frame.MainWindow.BOLD_LABEL_FONT;
 
 /**
  * A default cell renderer for a JTableHeader.
- * <P>
+ * <p>
  * DefaultTableHeaderCellRenderer attempts to provide identical behavior to the
  * renderer which the Swing subsystem uses by default, the Sun proprietary
  * class sun.swing.table.DefaultTableCellHeaderRenderer.
- * <P>
+ * <p>
  * To apply any desired customization, DefaultTableHeaderCellRenderer may be
  * suitably extended.
  *
@@ -29,7 +29,7 @@ public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
 
     /**
      * Constructs a <code>DefaultTableHeaderCellRenderer</code>.
-     * <P>
+     * <p>
      * The horizontal alignment and text position are set as appropriate to a
      * table header cell, and the opaque property is set to false.
      */
@@ -77,7 +77,7 @@ public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
      * Overloaded to return an icon suitable to the primary sorted column, or null if
      * the column is not the primary sort key.
      *
-     * @param table the <code>JTable</code>.
+     * @param table  the <code>JTable</code>.
      * @param column the column index.
      * @return the sort icon, or null if the column is unsorted.
      */
@@ -97,7 +97,7 @@ public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
     /**
      * Returns the current sort key, or null if the column is unsorted.
      *
-     * @param table the table
+     * @param table  the table
      * @param column the column index
      * @return the SortKey, or null if the column is unsorted
      */

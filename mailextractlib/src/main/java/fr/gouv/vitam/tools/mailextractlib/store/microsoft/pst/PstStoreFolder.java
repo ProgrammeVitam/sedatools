@@ -31,12 +31,14 @@ import com.pff.*;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
+
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
 
 /**
  * StoreFolder sub-class for mail boxes extracted through libpst library.
@@ -91,11 +93,11 @@ public class PstStoreFolder extends StoreFolder {
         return result;
     }
 
-    private void logMessageWarning(String msg) throws InterruptedException {
+    private void logMessageWarning(String msg, Exception e) throws InterruptedException {
         if (getStoreExtractor().getOptions().warningMsgProblem)
-            getProgressLogger().progressLog(MailExtractProgressLogger.WARNING, msg);
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.WARNING, msg, e);
         else
-            getProgressLogger().progressLog(MailExtractProgressLogger.MESSAGE_DETAILS, msg);
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, e);
     }
 
     /*
@@ -105,7 +107,7 @@ public class PstStoreFolder extends StoreFolder {
      * doExtractFolderMessages()
      */
     @Override
-    protected void doExtractFolderElements(boolean writeFlag) throws ExtractionException, InterruptedException {
+    protected void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
         PSTMessage message;
         PSTObject po = null;
         int mes = 0;
@@ -117,12 +119,11 @@ public class PstStoreFolder extends StoreFolder {
                     po = pstFolder.getNextChild();
                     error = false;
                 } catch (IOException e) {
-                    throw new ExtractionException("MailExtract: Can't use pst file");
+                    throw new MailExtractLibException("mailextract.pst: can't use pst file", e);
                 } catch (PSTException e) {
-                    throw new ExtractionException("MailExtract: Can't get messages from folder " + getFullName());
+                    throw new MailExtractLibException("mailextract.pst: can't get messages from folder " + getFullName(), e);
                 } catch (Exception e) {
-                    logMessageWarning("mailextract.pst: Wrongly formatted message " + mes + " in folder " + this.getName());
-                    getProgressLogger().logException(e);
+                    logMessageWarning("mailextract.pst: wrongly formatted message " + mes + " in folder " + this.getName(), e);
                     error = true;
                 }
             }
@@ -152,7 +153,7 @@ public class PstStoreFolder extends StoreFolder {
      * int)
      */
     @Override
-    protected void doExtractSubFolders(int level, boolean writeFlag) throws ExtractionException, InterruptedException {
+    protected void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException, InterruptedException {
         PstStoreFolder lPMailBoxSubFolder;
 
         try {
@@ -164,9 +165,9 @@ public class PstStoreFolder extends StoreFolder {
                 dateRange.extendRange(lPMailBoxSubFolder.getDateRange());
             }
         } catch (IOException e) {
-            throw new ExtractionException("mailextract.libpst: Can't use pst file");
+            throw new MailExtractLibException("mailextract.pst: can't use pst file", e);
         } catch (PSTException e) {
-            throw new ExtractionException("mailextract.libpst: Can't get sub folders from folder " + getFullName());
+            throw new MailExtractLibException("mailextract.pst: can't get sub folders from folder " + getFullName(), e);
         }
     }
 
@@ -196,13 +197,13 @@ public class PstStoreFolder extends StoreFolder {
      * @see fr.gouv.vitam.tools.mailextract.core.MailBoxFolder#hasMessages()
      */
     @Override
-    public boolean hasElements() throws ExtractionException {
+    public boolean hasElements() throws MailExtractLibException {
         try {
             return (pstFolder.getEmailCount() > 0) || (pstFolder.getContentCount() > 0);
         } catch (IOException e) {
-            throw new ExtractionException("mailextract.libpst: Can't use pst file");
+            throw new MailExtractLibException("mailextract.pst: can't use pst file", e);
         } catch (PSTException e) {
-            throw new ExtractionException("mailextract.libpst: Can't get messages from folder " + getFullName());
+            throw new MailExtractLibException("mailextract.pst: can't get messages from folder " + getFullName(), e);
         }
     }
 
@@ -212,7 +213,7 @@ public class PstStoreFolder extends StoreFolder {
      * @see fr.gouv.vitam.tools.mailextract.core.MailBoxFolder#hasSubfolders()
      */
     @Override
-    public boolean hasSubfolders() throws ExtractionException {
+    public boolean hasSubfolders() throws MailExtractLibException {
         return pstFolder.hasSubfolders();
     }
 
@@ -223,7 +224,7 @@ public class PstStoreFolder extends StoreFolder {
      * fr.gouv.vitam.tools.mailextract.core.MailBoxFolder#doListFolderMessages()
      */
     @Override
-    protected void doListFolderElements(boolean stats) throws ExtractionException, InterruptedException {
+    protected void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
         PSTMessage message;
 
         try {
@@ -234,9 +235,9 @@ public class PstStoreFolder extends StoreFolder {
                 message = (PSTMessage) pstFolder.getNextChild();
             }
         } catch (IOException e) {
-            throw new ExtractionException("mailExtract.libpst: Can't Can't use pst file");
+            throw new MailExtractLibException("mailExtract.pst: can't Can't use pst file", e);
         } catch (PSTException e) {
-            throw new ExtractionException("mailExtract.libpst: Can't get messages from folder " + getFullName());
+            throw new MailExtractLibException("mailExtract.pst: can't get messages from folder " + getFullName(), e);
         }
     }
 
@@ -247,7 +248,7 @@ public class PstStoreFolder extends StoreFolder {
      * boolean)
      */
     @Override
-    protected void doListSubFolders(boolean stats) throws ExtractionException, InterruptedException {
+    protected void doListSubFolders(boolean stats) throws MailExtractLibException, InterruptedException {
         PstStoreFolder lPMailBoxSubFolder;
 
         try {
@@ -258,9 +259,9 @@ public class PstStoreFolder extends StoreFolder {
                 incFolderSubFoldersCount();
             }
         } catch (IOException e) {
-            throw new ExtractionException("mailextract.libpst: Can't use pst file");
+            throw new MailExtractLibException("mailextract.pst: can't use pst file", e);
         } catch (PSTException e) {
-            throw new ExtractionException("mailextract.libpst: Can't get sub folders from folder " + getFullName());
+            throw new MailExtractLibException("mailextract.pst: can't get sub folders from folder " + getFullName(), e);
         }
     }
 }

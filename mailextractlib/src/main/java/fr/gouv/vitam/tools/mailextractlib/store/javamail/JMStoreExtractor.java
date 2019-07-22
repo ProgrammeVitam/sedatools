@@ -31,11 +31,11 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
-import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.eml.EmlStore;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox.MboxStore;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird.ThunderbirdStore;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
 import javax.mail.*;
 import java.io.UnsupportedEncodingException;
@@ -87,17 +87,16 @@ public class JMStoreExtractor extends StoreExtractor {
      *            root one
      * @param logger
      *            logger used
-     * @throws ExtractionException
+     * @throws MailExtractLibException
      *             Any unrecoverable extraction exception (access trouble, major
      *             format problems...)
      */
     public JMStoreExtractor(String urlString, String folder, String destPathString, StoreExtractorOptions options,
-                            StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException {
+                            StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
         super(urlString, folder, destPathString, options, rootStoreExtractor, logger);
 
-        String url = "";
+        String url;
 
-        // TODO verify encoding
         url = urlString;
         if (folder != null && !folder.isEmpty())
             url += "/" + folder;
@@ -127,8 +126,7 @@ public class JMStoreExtractor extends StoreExtractor {
             store = session.getStore(urlName);
             store.connect();
         } catch (MessagingException e) {
-            throw new ExtractionException("mailextract.javamail: can't get store for " + getDecodedURL(url)
-                    + System.lineSeparator() + e.getMessage());
+            throw new MailExtractLibException("mailextractlib.javamail: can't get store for " + getDecodedURL(url), e);
         }
 
         ArchiveUnit rootNode = new ArchiveUnit(this, destRootPath, destName);
@@ -142,11 +140,11 @@ public class JMStoreExtractor extends StoreExtractor {
                 jMRootMailBoxFolder = JMStoreFolder.createRootFolder(this, store.getFolder(folder), rootNode);
 
             if (!jMRootMailBoxFolder.folder.exists()) {
-                throw new ExtractionException("mailextract.javamail: Can't find extraction root folder " + folder);
+                throw new MailExtractLibException("mailextractlib.javamail: can't find extraction root folder " + folder, null);
             }
             setRootFolder(jMRootMailBoxFolder);
         } catch (MessagingException e) {
-            throw new ExtractionException("mailextract.javamail: Can't find extraction root folder " + folder);
+            throw new MailExtractLibException("mailextractlib.javamail: can't find extraction root folder " + folder, e);
         }
     }
 
@@ -164,12 +162,12 @@ public class JMStoreExtractor extends StoreExtractor {
      *            root one
      * @param logger
      *            logger used
-     * @throws ExtractionException
+     * @throws MailExtractLibException
      *             Any unrecoverable extraction exception (access trouble, major
      *             format problems...)
      */
     public JMStoreExtractor(StoreMessageAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
-                            StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException {
+                            StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
         super(attachment.getScheme() + "://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, logger);
         String url;
 
@@ -195,15 +193,15 @@ public class JMStoreExtractor extends StoreExtractor {
             URLName urlName = new URLName(url);
             store = session.getStore(urlName);
             if (!(store instanceof JMEmbeddedStore)) {
-                throw new ExtractionException(
-                        "mailextract.javamail: can't extract embedded store for scheme [" + scheme + "]");
+                throw new MailExtractLibException(
+                        "mailextractlib.javamail: can't extract embedded store for scheme [" + scheme + "]", null);
             }
             JMEmbeddedStore ejs = (JMEmbeddedStore) store;
             ejs.setObjectContent(attachment.getStoreContent());
             store.connect();
         } catch (MessagingException e) {
-            throw new ExtractionException(
-                    "mailextract.javamail: can't get store for " + url + System.lineSeparator() + e.getMessage());
+            throw new MailExtractLibException(
+                    "mailextractlib.javamail: can't get store for " + url, e);
         }
 
         JMStoreFolder jMRootMailBoxFolder;
@@ -212,7 +210,7 @@ public class JMStoreExtractor extends StoreExtractor {
             jMRootMailBoxFolder = JMStoreFolder.createRootFolder(this, store.getDefaultFolder(), rootNode);
             setRootFolder(jMRootMailBoxFolder);
         } catch (MessagingException e) {
-            throw new ExtractionException("mailextract.javamail: Can't find extraction root folder ");
+            throw new MailExtractLibException("mailextractlib.javamail: can't find extraction root folder ", e);
         }
     }
 

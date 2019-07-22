@@ -1,13 +1,13 @@
 package fr.gouv.vitam.tools.resip.viewer;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.text.DecimalFormat;
 
+/**
+ * The type Statistic cell renderer.
+ */
 public class StatisticCellRenderer extends DefaultTableCellRenderer {
 
     /**

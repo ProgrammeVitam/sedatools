@@ -31,6 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.time.Instant;
 
@@ -80,7 +82,7 @@ public class SEDALibProgressLogger {
          * @param count the count
          * @param log   the log
          */
-        void doprogressLog(int count, String log);
+        void doProgressLog(int count, String log);
     }
 
     /**
@@ -164,41 +166,101 @@ public class SEDALibProgressLogger {
     }
 
     /**
-     * Progress log if the counter is a step multiple.
+     * Gets messages from the exception, and recursively from all causes, in a string.
      *
-     * @param level the level
-     * @param count the count
-     * @param log   the log
-     * @throws InterruptedException the interrupted exception
+     * @param e the exception
+     * @return the messages stack string
      */
-    public void progressLogIfStep(int level, int count, String log) throws InterruptedException {
-        if (level <= progressLogLevel) {
-            long nowEpochSeconds = Instant.now().getEpochSecond();
-            int mod=count%step;
-            if ((mod == 0) || (stepDuration < nowEpochSeconds-previousStepEpochSeconds)) {
-                if (progressLogFunc != null)
-                    progressLogFunc.doprogressLog(count, (mod==0?"":"* ") + log);
-                log(level, log);
-                Thread.sleep(1);
-                previousStepEpochSeconds=nowEpochSeconds;
+    static public String getMessagesStackString(Exception e) {
+        String result;
+        result = "-> " + e.getMessage();
+        if (e.getCause() instanceof Exception)
+            result += "\n" + getMessagesStackString((Exception) e.getCause());
+        return result;
+    }
+
+    static private String getJavaStackString(Exception e) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        e.printStackTrace(ps);
+        return baos.toString();
+    }
+
+    /**
+     * Gets java stacks from the exception, and recursively from all causes, in a string.
+     *
+     * @param e the exception
+     * @return the all java stack string
+     */
+    static public String getAllJavaStackString(Exception e) {
+        String result;
+        result = getJavaStackString(e);
+        if (e.getCause() instanceof Exception)
+            result += "\n------------------------------------\n" + getJavaStackString((Exception) e.getCause());
+        return result;
+    }
+
+    /**
+     * Do progress log, and log with exception detail if any.
+     *
+     * @param spl   the SEDALib progress logger
+     * @param level the level
+     * @param log   the log
+     * @param e     the exception
+     */
+    static public void doProgressLogWithoutInterruption(SEDALibProgressLogger spl, int level, String log, Exception e) {
+        if (spl!=null) {
+            if (level <= spl.progressLogLevel) {
+                if (e != null)
+                    log += "\n" + getMessagesStackString(e);
+                if (spl.progressLogFunc != null) {
+                    spl.progressLogFunc.doProgressLog(-1, log);
+                }
+                if (e != null)
+                    log += "\n" + getAllJavaStackString(e);
+                spl.log(level, log);
             }
         }
     }
 
     /**
-     * Progress log, and log.
+     * Do progress log, and log with exception detail if any, and wait 1ms to allow interruption
      *
+     * @param spl   the SEDALib progress logger
      * @param level the level
+     * @param log   the log
+     * @param e     the exception
+     * @throws InterruptedException the interrupted exception
+     */
+    static public void doProgressLog(SEDALibProgressLogger spl, int level, String log, Exception e) throws InterruptedException {
+        if (spl != null) {
+            doProgressLogWithoutInterruption(spl, level, log, e);
+            Thread.sleep(1);
+        }
+    }
+
+    /**
+     * Do progress log if the counter is a step multiple.
+     *
+     * @param spl   the SEDALib progress logger
+     * @param level the level
+     * @param count the count
      * @param log   the log
      * @throws InterruptedException the interrupted exception
      */
-    public void progressLog(int level, String log) throws InterruptedException {
-        if (level <= progressLogLevel) {
-            if (progressLogFunc != null) {
-                progressLogFunc.doprogressLog(-1, log);
+    static public void doProgressLogIfStep(SEDALibProgressLogger spl, int level, int count, String log) throws InterruptedException {
+        if (spl!=null) {
+            if (level <= spl.progressLogLevel) {
+                long nowEpochSeconds = Instant.now().getEpochSecond();
+                int mod = count % spl.step;
+                if ((mod == 0) || (spl.stepDuration < nowEpochSeconds - spl.previousStepEpochSeconds)) {
+                    if (spl.progressLogFunc != null)
+                        spl.progressLogFunc.doProgressLog(count, (mod == 0 ? "" : "* ") + log);
+                    spl.log(level, log);
+                    Thread.sleep(1);
+                    spl.previousStepEpochSeconds = nowEpochSeconds;
+                }
             }
-            log(level, log);
-            Thread.sleep(1);
         }
     }
 
@@ -232,13 +294,7 @@ public class SEDALibProgressLogger {
         return GLOBAL_MARKER;
     }
 
-    /**
-     * Log only (no call to progress log function).
-     *
-     * @param level   the level
-     * @param message the message
-     */
-    public void log(int level, String message) {
+    private void log(int level, String message) {
         if (level <= progressLogLevel) {
             if (logger != null)
                 logger.info(getMarker(level), message);

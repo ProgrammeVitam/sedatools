@@ -41,6 +41,8 @@ import javax.xml.validation.Schema;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+
 /**
  * The Class ArchiveTransfer
  * <p>
@@ -109,7 +111,7 @@ public class ArchiveTransfer {
                     "fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd");
             xmlWriter.setXmlId(true);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML du début du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML du début du manifest", e);
         }
     }
 
@@ -124,13 +126,13 @@ public class ArchiveTransfer {
         try {
             xmlWriter.writeElementValueIfNotEmpty("Comment", globalMetadata.comment);
             if (globalMetadata.isNowFlag())
-                globalMetadata.date = xmlWriter.getStringFromDateTime(null);
+                globalMetadata.date = SEDAXMLStreamWriter.getStringFromDateTime(null);
             xmlWriter.writeElementValueIfNotEmpty("Date", globalMetadata.date);
             xmlWriter.writeElementValueIfNotEmpty("MessageIdentifier", globalMetadata.messageIdentifier);
             xmlWriter.writeElementValueIfNotEmpty("ArchivalAgreement", globalMetadata.archivalAgreement);
             xmlWriter.writeRawXMLBlockIfNotEmpty(globalMetadata.codeListVersionsXmlData);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML d'entête du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML d'entête du manifest", e);
         }
     }
 
@@ -154,7 +156,7 @@ public class ArchiveTransfer {
             xmlWriter.writeRawXMLBlockIfNotEmpty(globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML de la fin du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML de la fin du manifest", e);
         }
     }
 
@@ -169,7 +171,7 @@ public class ArchiveTransfer {
             xmlWriter.writeEndElement();
             xmlWriter.writeEndDocument();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML de la cloture du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML de la cloture du manifest", e);
         }
     }
 
@@ -214,11 +216,8 @@ public class ArchiveTransfer {
             if (!xmlReader.nextBlockIfNamed("ArchiveTransfer")) {
                 throw new SEDALibException("Pas d'élément ArchiveTransfer");
             }
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Début de l'import du document ArchiveTransfer");
-
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML", e);
         }
     }
 
@@ -234,8 +233,6 @@ public class ArchiveTransfer {
     private static void importHeader(SEDAXMLEventReader xmlReader, ArchiveTransfer archiveTransfer,
                                      SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
         try {
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Début de l'import de l'entête");
             archiveTransfer.globalMetadata.comment = xmlReader.nextValueIfNamed("Comment");
             archiveTransfer.globalMetadata.date = xmlReader.nextMandatoryValue("Date");
             archiveTransfer.globalMetadata.messageIdentifier = xmlReader.nextMandatoryValue("MessageIdentifier");
@@ -244,10 +241,8 @@ public class ArchiveTransfer {
             archiveTransfer.globalMetadata.archivalAgreement = xmlReader.nextValueIfNamed("ArchivalAgreement");
             archiveTransfer.globalMetadata
                     .codeListVersionsXmlData = xmlReader.nextMandatoryBlockAsString("CodeListVersions");
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.log(SEDALibProgressLogger.STEP, "Entête importé");
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML d'entête du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML d'entête du manifest", e);
         }
     }
 
@@ -280,7 +275,7 @@ public class ArchiveTransfer {
                     xmlReader.nextBlockAsStringIfNamed("OrganizationDescriptiveMetadata");
             xmlReader.endBlockNamed("TransferringAgency");
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture de la fin du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture de la fin du manifest", e);
         }
     }
 
@@ -300,7 +295,7 @@ public class ArchiveTransfer {
             if (!event.isEndDocument())
                 throw new SEDALibException("Pas de fin attendue du document XML");
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture de la cloture du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture de la cloture du manifest", e);
         }
     }
 
@@ -326,19 +321,22 @@ public class ArchiveTransfer {
         importFooter(xmlReader, archiveTransfer);
         importEndDocument(xmlReader, archiveTransfer);
 
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP,
+                "sedalib: ArchiveTransfer importé", null);
+
         return archiveTransfer;
     }
 
     // SEDA Validator
 
     public void seda21Validate(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
-        String manifest = null;
+        String manifest;
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
             manifest = baos.toString("UTF-8");
         } catch (XMLStreamException | IOException e) {
-            throw new SEDALibException("Echec d'écriture XML du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Echec d'écriture XML du manifest", e);
         }
         SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
         Schema sedaSchema = sedaXMLvalidator.getSEDASchema();
@@ -346,13 +344,13 @@ public class ArchiveTransfer {
     }
 
     public void sedaProfileValidate(String profileFileName, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
-        String manifest = null;
+        String manifest;
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
             manifest = baos.toString("UTF-8");
         } catch (XMLStreamException | IOException e) {
-            throw new SEDALibException("Echec d'écriture XML du manifest\n->" + e.getMessage());
+            throw new SEDALibException("Echec d'écriture XML du manifest", e);
         }
         SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
         Schema sedaSchema;

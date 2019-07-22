@@ -29,17 +29,16 @@ package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.AddMetadataItem;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rtextarea.RTextScrollPane;
@@ -52,13 +51,14 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getMessagesStackString;
 
 /**
  * The Class XmlEditDialog.
@@ -105,6 +105,7 @@ public class XmlEditDialog extends JDialog {
      * Instantiates a new XmlEditDialog for test.
      *
      * @param owner the owner
+     * @throws SEDALibException the seda lib exception
      */
     public XmlEditDialog(JFrame owner) throws SEDALibException {
         this(owner, new AddMetadataItem(AgentType.class, "Writer"));
@@ -362,6 +363,9 @@ public class XmlEditDialog extends JDialog {
         }
     }
 
+    /**
+     * Button indent.
+     */
     public void buttonIndent() {
         try {
             String xml = xmlTextArea.getText();
@@ -374,7 +378,10 @@ public class XmlEditDialog extends JDialog {
         }
     }
 
-    static ArrayList<String> defaultValues = new ArrayList(Arrays.asList("Text",
+    /**
+     * The Default values.
+     */
+    static ArrayList<String> defaultValues = new ArrayList<String>(Arrays.asList("Text",
             "1970-01-01", "1970-01-01T01:00:00", "Rule1","Rule2","Rule3","Rule4",
             "Level1","Owner1","Text1","Text2"));
 
@@ -414,22 +421,25 @@ public class XmlEditDialog extends JDialog {
         return result;
     }
 
+    /**
+     * Button clean.
+     */
     public void buttonClean() {
-        String result;
+        String result="";
         try {
             // indent to verify XML format
             xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
                     .indentString(xmlTextArea.getText());
-            try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlDataString.getBytes("UTF-8"));
+            try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlDataString.getBytes(StandardCharsets.UTF_8));
                  SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
                 // jump StartDocument
                 xmlReader.nextUsefullEvent();
                 result = filterDefaultValues(xmlReader);
                 XMLEvent event = xmlReader.xmlReader.peek();
                 if (!event.isEndDocument())
-                    throw new SEDALibException("Il y a des champs en trop");
+                    throw new ResipException("Il y a des champs en trop");
             } catch (XMLStreamException | SEDALibException | IOException e) {
-                throw new SEDALibException("Erreur de lecture \n->" + e.getMessage());
+                throw new ResipException("Erreur de lecture", e);
             }
             if (!result.isEmpty())
                 result = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
@@ -438,7 +448,7 @@ public class XmlEditDialog extends JDialog {
             hideWarning();
             xmlTextArea.setCaretPosition(0);
         } catch (Exception e) {
-            showWarning(e.getMessage());
+            showWarning(getMessagesStackString(e));
         }
     }
 
@@ -469,7 +479,7 @@ public class XmlEditDialog extends JDialog {
             informationTextArea.setText("");
             setVisible(false);
         } catch (Exception e) {
-            showWarning(e.getMessage());
+            showWarning(getMessagesStackString(e));
         }
     }
 
@@ -489,7 +499,7 @@ public class XmlEditDialog extends JDialog {
             informationTextArea.setForeground(Color.BLACK);
             informationTextArea.setText("");
         } catch (Exception e) {
-            showWarning(e.getMessage());
+            showWarning(getMessagesStackString(e));
         }
     }
 

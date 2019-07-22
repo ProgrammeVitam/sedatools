@@ -52,6 +52,9 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+
 /**
  * The Class ArchiveTransferToSIPExporter.
  * <p>
@@ -124,11 +127,10 @@ public class ArchiveTransferToSIPExporter {
             throws SEDALibException, InterruptedException {
         Date d = new Date();
         start = Instant.now();
-        String log = "Début de l'export d'un ArchiveTransfer dans un manifest SEDA\n";
+        String log = "sedalib: début de l'export d'un ArchiveTransfer dans un manifest SEDA\n";
         log += "en [" + fileName + "]";
         log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, log);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         this.exportPath = Paths.get(fileName);
         this.hierarchicalFlag = hierarchicalFlag;
@@ -140,11 +142,8 @@ public class ArchiveTransferToSIPExporter {
         } catch (SEDALibException | IOException e) {
             throw new SEDALibException("Echec de l'export du manifest dans le fichier [" + fileName + "]", e);
         }
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP,
-                    archiveTransfer.getDataObjectPackage().getInOutCounter(),
-                    Integer.toString(archiveTransfer.getDataObjectPackage().getInOutCounter())
-                            + " ArchiveUnit/DataObject (métadonnées) exportés\n" + archiveTransfer.getDescription());
+
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: export terminé", null);
         end = Instant.now();
     }
 
@@ -162,11 +161,10 @@ public class ArchiveTransferToSIPExporter {
         int counter = 0;
         Date d = new Date();
         start = Instant.now();
-        String log = "Début de l'export d'un ArchiveTransfer dans un SIP\n";
+        String log = "sedalib: début de l'export d'un ArchiveTransfer dans un SIP\n";
         log += "en [" + fileName + "]";
         log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.log(SEDALibProgressLogger.GLOBAL, log);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         this.exportPath = Paths.get(fileName);
         this.hierarchicalFlag = hierarchicalFlag;
@@ -184,11 +182,7 @@ public class ArchiveTransferToSIPExporter {
             zipout.putNextEntry(e);
             exportManifestOutputStream(zipout, hierarchicalFlag, indentedFlag);
             zipout.closeEntry();
-            if (sedaLibProgressLogger != null)
-                sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP,
-                        archiveTransfer.getDataObjectPackage().getInOutCounter(),
-                        Integer.toString(archiveTransfer.getDataObjectPackage().getInOutCounter())
-                                + " ArchiveUnit/DataObject (métadonnées) exportés\n" + archiveTransfer.getDescription());
+            doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: manifest exporté", null);
             // all binary objects
             if (archiveTransfer.getDataObjectPackage().getDataObjectGroupCount() > 0) {
                 for (Map.Entry<String, DataObjectGroup> pair : archiveTransfer.getDataObjectPackage()
@@ -203,9 +197,8 @@ public class ArchiveTransferToSIPExporter {
                             fis.close();
                             zipout.closeEntry();
                             counter++;
-                            if (sedaLibProgressLogger != null)
-                                sedaLibProgressLogger.progressLogIfStep(SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                                        Integer.toString(counter) + " BinaryDataObject (fichiers) exportés");
+                            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
+                                    "sedalib: " + counter + " fichiers BinaryDataObject exportés");
                         }
                     }
                 }
@@ -213,9 +206,8 @@ public class ArchiveTransferToSIPExporter {
         } catch (IOException | SEDALibException e) {
             throw new SEDALibException("Echec de l'export du SIP dans le fichier [" + fileName + "]", e);
         }
-        if (sedaLibProgressLogger != null)
-            sedaLibProgressLogger.progressLog(SEDALibProgressLogger.OBJECTS_GROUP, Integer.toString(counter) +
-                    " BinaryDataObject (fichiers) exportés");
+
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: export d'un ArchiveTransfer dans un SIP terminé", null);
         end = Instant.now();
     }
 

@@ -117,7 +117,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
                     sm = (SEDAMetadata) metadataClass.getConstructor(Object[].class).newInstance(newArgs);
                 }
             } catch (NoSuchMethodException e) {
-                throw new SEDALibException("Pas de constructeur de l'élément [" + elementName + "]");
+                throw new SEDALibException("Pas de constructeur de l'élément [" + elementName + "]", e);
             }
         } else {
             Type[] types = theConstructor.getGenericParameterTypes();
@@ -156,9 +156,9 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             return sm;
         } catch (SecurityException | InstantiationException | IllegalAccessException
                 | IllegalArgumentException e) {
-            throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]\n->" + e.getMessage());
+            throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]", e);
         } catch (InvocationTargetException te) {
-            throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]\n->" + te.getTargetException().getMessage());
+            throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]", te.getTargetException());
         }
     }
 
@@ -305,7 +305,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             }
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément d'un ComplexListType [" + getXmlElementName() + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément d'un ComplexListType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -369,7 +369,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément [" + elementName + "]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément [" + elementName + "]", e);
         }
         return true;
     }
@@ -403,7 +403,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
                 tmp = xmlReader.peekName();
             }
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture XML de fragments d'un élément Content\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML de fragments d'un élément Content", e);
         }
     }
 
@@ -419,12 +419,12 @@ public abstract class ComplexListType extends NamedTypeMetadata {
         try {
             object = fields.get(0).get(null);
         } catch (IllegalAccessException e) {
-            throw new SEDALibException("La variable " + fields.get(0) + " annotée @ComplexListMetadataMap du type " + subClass + " ne peut être accédée");
+            throw new SEDALibException("La variable " + fields.get(0) + " annotée @ComplexListMetadataMap du type " + subClass + " ne peut être accédée", e);
         }
         try {
             metadataMap = (LinkedHashMap<String, ComplexListMetadataKind>) object;
         } catch (ClassCastException e) {
-            throw new SEDALibException("La variable " + fields.get(0) + " annotée @ComplexListMetadataMap du type " + subClass + " n'est pas de type LinkedHashMap<String,ComplexListMetadataKind>");
+            throw new SEDALibException("La variable " + fields.get(0) + " annotée @ComplexListMetadataMap du type " + subClass + " n'est pas de type LinkedHashMap<String,ComplexListMetadataKind>", e);
         }
         subTypeMetadataMapMap.put(subClass, metadataMap);
         subTypeMetadataOrderedListMap.put(subClass, new ArrayList(metadataMap.keySet()));
@@ -492,6 +492,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     /**
      * Checks if it the metadata list is closed for a given ComplexListType sub class.
      *
+     * @param complexListTypeMetadataClass the complex list type metadata class
      * @return true, if is not expendable
      */
     static public Boolean isNotExpendable(Class complexListTypeMetadataClass) {

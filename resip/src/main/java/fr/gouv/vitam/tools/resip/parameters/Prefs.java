@@ -27,14 +27,11 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
-import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -43,10 +40,10 @@ import java.util.*;
 /**
  * The Class Prefs.
  * <p>
- *     The preferences are in a properties file named ResipPreferences.properties. It is first searched in the
- *     application directory. If not found it's searched in the personal work directory
- *     (in windows Documents/Resip in linux ~\.resip). If not found it's created with default values in personal work
- *     directory.
+ * The preferences are in a properties file named ResipPreferences.properties. It is first searched in the
+ * application directory. If not found it's searched in the personal work directory
+ * (in windows Documents/Resip in linux ~\.resip). If not found it's created with default values in personal work
+ * directory.
  * </p>
  */
 public class Prefs {
@@ -122,7 +119,7 @@ public class Prefs {
             try {
                 prefPropertiesFilename=PREFERENCES_FILENAME;
                 load();
-            } catch (SEDALibException e) {
+            } catch (ResipException e) {
                 ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,
                         "Resip.GraphicApp: Le fichier de préférences global \"" + prefPropertiesFilename + "\" n'a pas " +
                                 "été trouvé. Recherche de la version personnelle.\n->" + e.getMessage());
@@ -130,7 +127,7 @@ public class Prefs {
                 try {
                     prefPropertiesFilename=Prefs.getDefaultWorkDir()+File.separator+PREFERENCES_FILENAME;
                     load();
-                } catch (SEDALibException ee) {
+                } catch (ResipException ee) {
                     ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,
                             "Resip.GraphicApp: Le fichier de préférences personnel \"" + prefPropertiesFilename + "\" n'a pas non plus " +
                                     "été trouvé. Ce fichier de préférences va être créé avec les valeurs par défaut.\n->" + ee.getMessage());
@@ -147,9 +144,9 @@ public class Prefs {
     /**
      * Creates the default prefProperties.
      *
-     * @throws SEDALibException the resip exception
+     * @throws ResipException the resip exception
      */
-    public void createDefaultPrefs() throws SEDALibException {
+    public void createDefaultPrefs() throws ResipException {
         try {
             CreationContext oic = new CreationContext();
             oic.setDefaultPrefs();
@@ -177,16 +174,16 @@ public class Prefs {
             tsp.toPrefs(this);
             save();
         } catch (Exception e) {
-            throw new SEDALibException("Panic: Can't create a default preferences file, stop");
+            throw new ResipException("Panic: Can't create a default preferences file, stop", e);
         }
     }
 
     /**
      * Save the prefProperties in the PREFERENCES_FILENAME file.
      *
-     * @throws SEDALibException the resip exception
+     * @throws ResipException the resip exception
      */
-    public void save() throws SEDALibException {
+    public void save() throws ResipException {
         save(prefPropertiesFilename);
     }
 
@@ -194,22 +191,22 @@ public class Prefs {
      * Save the prefProperties in the PREFERENCES_FILENAME file.
      *
      * @param filename the filename
-     * @throws SEDALibException the resip exception
+     * @throws ResipException the resip exception
      */
-    public void save(String filename) throws SEDALibException {
+    public void save(String filename) throws ResipException {
         try (FileOutputStream fos = new FileOutputStream(filename)) {
             prefProperties.store(fos, "Resip preferences");
         } catch (Exception e) {
-            throw new SEDALibException("Impossible de sauvegarder les préférences\n-> " + e.getMessage());
+            throw new ResipException("Impossible de sauvegarder les préférences", e);
         }
     }
 
     /**
      * Import the prefProperties from a file.
      *
-     * @throws SEDALibException the resip exception
+     * @throws ResipException the resip exception
      */
-    public void load() throws SEDALibException {
+    public void load() throws ResipException {
         load(prefPropertiesFilename);
     }
 
@@ -217,13 +214,13 @@ public class Prefs {
      * Import the prefProperties from a file.
      *
      * @param filename the filename
-     * @throws SEDALibException the resip exception
+     * @throws ResipException the resip exception
      */
-    public void load(String filename) throws SEDALibException {
+    public void load(String filename) throws ResipException {
         try (FileInputStream fis = new FileInputStream(filename)) {
             prefProperties.load(fis);
         } catch (Exception e) {
-            throw new SEDALibException("Impossible d'importer les préférences\n-> " + e.getMessage());
+            throw new ResipException("Impossible d'importer les préférences", e);
         }
     }
 
@@ -252,9 +249,8 @@ public class Prefs {
      * Gets the prefProperties load dir.
      *
      * @return the prefProperties load dir
-     * @throws SEDALibException the seda lib exception
      */
-    public String getPrefsLoadDir() throws SEDALibException {
+    public String getPrefsLoadDir() {
         String result = prefProperties.getProperty("global.loadDir", "");
         if (result.isEmpty())
             result = System.getProperty("user.home");
@@ -266,9 +262,9 @@ public class Prefs {
      * Sets the prefProperties load dir from child.
      *
      * @param loadDir the new prefProperties load dir from child
-     * @throws SEDALibException the seda lib exception
+     * @throws ResipException the resip exception
      */
-    public void setPrefsLoadDirFromChild(String loadDir) throws SEDALibException {
+    public void setPrefsLoadDirFromChild(String loadDir) throws ResipException {
         Path tmp = Paths.get(loadDir).toAbsolutePath().normalize().getParent();
         if (tmp != null) {
             prefProperties.setProperty("global.loadDir", tmp.toString());
@@ -280,9 +276,9 @@ public class Prefs {
      * Gets the prefProperties import dir.
      *
      * @return the prefProperties import dir
-     * @throws SEDALibException the seda lib exception
+     * @throws ResipException the resip exception
      */
-    public String getPrefsImportDir() throws SEDALibException {
+    public String getPrefsImportDir() throws ResipException {
         String result = prefProperties.getProperty("global.importDir", "");
         if (result.isEmpty())
             result = System.getProperty("user.home");
@@ -294,9 +290,9 @@ public class Prefs {
      * Sets the prefProperties import dir from child.
      *
      * @param importDir the new prefProperties import dir from child
-     * @throws SEDALibException the seda lib exception
+     * @throws ResipException the resip exception
      */
-    public void setPrefsImportDirFromChild(String importDir) throws SEDALibException {
+    public void setPrefsImportDirFromChild(String importDir) throws ResipException {
         Path tmp = Paths.get(importDir).toAbsolutePath().normalize().getParent();
         if (tmp != null) {
             prefProperties.setProperty("global.importDir", tmp.toString());
@@ -308,9 +304,8 @@ public class Prefs {
      * Gets the prefProperties export dir.
      *
      * @return the prefProperties export dir
-     * @throws SEDALibException the seda lib exception
      */
-    public String getPrefsExportDir() throws SEDALibException {
+    public String getPrefsExportDir() {
         String result = prefProperties.getProperty("global.exportDir", "");
         if (result.isEmpty())
             result = System.getProperty("user.home");
@@ -322,9 +317,9 @@ public class Prefs {
      * Sets the prefProperties export dir from child.
      *
      * @param exportDir the new prefProperties export dir from child
-     * @throws SEDALibException the seda lib exception
+     * @throws ResipException the resip exception
      */
-    public void setPrefsExportDirFromChild(String exportDir) throws SEDALibException {
+    public void setPrefsExportDirFromChild(String exportDir) throws ResipException {
         Path tmp = Paths.get(exportDir).toAbsolutePath().normalize().getParent();
         if (tmp != null){
             prefProperties.setProperty("global.exportDir", tmp.toString());
@@ -335,9 +330,9 @@ public class Prefs {
     /**
      * Reinitialise prefProperties.
      *
-     * @throws SEDALibException the seda lib exception
+     * @throws ResipException the resip exception
      */
-    public void reinitialisePrefs() throws SEDALibException {
+    public void reinitialisePrefs() throws ResipException {
         createDefaultPrefs();
     }
 }

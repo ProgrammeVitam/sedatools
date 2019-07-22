@@ -1,6 +1,5 @@
 package fr.gouv.vitam.tools.sedalib.inout;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
@@ -9,7 +8,6 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.codehaus.plexus.util.FileUtils;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.*;
@@ -18,7 +16,6 @@ import java.util.stream.Collectors;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.eraseAll;
 import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.ALL_DATAOBJECTS;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class CSVMetadataExporterTest {
@@ -40,7 +37,7 @@ class CSVMetadataExporterTest {
     public static boolean compareImportAndExportDirectories(Path first, Path second) throws IOException {
         Set<String> secondListNames = new HashSet<String>();
         for (Path inSecond : Files.list(second).collect(Collectors.toList())) {
-            if ((!inSecond.getFileName().startsWith("__")) && (!inSecond.getFileName().equals("ExportedMetadata.csv")))
+            if ((!inSecond.getFileName().startsWith("__")) && (!inSecond.getFileName().toString().equals("ExportedMetadata.csv")))
                 secondListNames.add(inSecond.getFileName().toString());
         }
         for (Path firstPath : Files.list(first).collect(Collectors.toList())) {
@@ -80,7 +77,7 @@ class CSVMetadataExporterTest {
                 //TODO verify redirection content
                 filename = filename.replace(".lnk", "");
                 secondPath = second.resolve(filename);
-                String tmp = filename;
+                String tmp;
                 if (filename.endsWith("/"))
                     tmp = filename.substring(0, filename.length() - 1) + ".link";
                 else tmp = filename + ".link";

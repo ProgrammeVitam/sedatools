@@ -1,4 +1,10 @@
 
+Evolutions/Corrections en 1.9.0
+
+- Evolution: amélioration du suivi des exceptions spécifiques par empilement des causes, et restitution récursive des causes dans les logs
+- Evolution: nettoyage et systématisation des logs
+
+============================================================================
 Evolutions/Corrections en 1.8.0
 
 - Fix: assouplissement des règles de définition des delimiteurs dans un fichier mbox

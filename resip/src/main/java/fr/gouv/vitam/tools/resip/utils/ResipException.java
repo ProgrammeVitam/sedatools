@@ -31,65 +31,58 @@ package fr.gouv.vitam.tools.resip.utils;
  * Class for all exceptions thrown by the Resip classes
  * <p>
  * These exceptions are always fatal for the validation or listing process.
- *
  */
 public class ResipException extends Exception {
 
-	/** The Constant serialVersionUID. */
-	static final long serialVersionUID = 20172992838030818L;
+    /**
+     * The Constant serialVersionUID.
+     */
+    static final long serialVersionUID = 20172992838030818L;
 
-	/**
-	 * Instantiates a new validation exception.
-	 */
-	public ResipException() {
+    /**
+     * Instantiates a new validation exception.
+     */
+    public ResipException() {
 		super();
 	}
 
-	/**
-	 * Instantiates a new validation exception.
-	 *
-	 * @param message
-	 *            the message
-	 */
-	public ResipException(String message) {
+    /**
+     * Instantiates a new validation exception.
+     *
+     * @param message the message
+     */
+    public ResipException(String message) {
 		super(message);
 	}
 
-	/**
-	 * Instantiates a new validation exception.
-	 *
-	 * @param cause
-	 *            the cause
-	 */
-	public ResipException(Throwable cause) {
+    /**
+     * Instantiates a new validation exception.
+     *
+     * @param cause the cause
+     */
+    public ResipException(Throwable cause) {
 		super(cause);
 	}
 
-	/**
-	 * Instantiates a new validation exception.
-	 *
-	 * @param message
-	 *            the message
-	 * @param cause
-	 *            the cause
-	 */
-	public ResipException(String message, Throwable cause) {
+    /**
+     * Instantiates a new validation exception.
+     *
+     * @param message the message
+     * @param cause   the cause
+     */
+    public ResipException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	/**
-	 * Instantiates a new validation exception.
-	 *
-	 * @param message
-	 *            the message
-	 * @param cause
-	 *            the cause
-	 * @param enableSuppression
-	 *            the enable suppression
-	 * @param writableStackTrace
-	 *            the writable stack trace
-	 */
-	public ResipException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    /**
+     * Instantiates a new validation exception.
+     *
+     * @param message            the message
+     * @param cause              the cause
+     * @param enableSuppression  the enable suppression
+     * @param writableStackTrace the writable stack trace
+     */
+    public ResipException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
 

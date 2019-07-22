@@ -35,7 +35,10 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 // TODO: Auto-generated Javadoc
 
@@ -49,9 +52,6 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      */
     private static final long serialVersionUID = 140500100384184333L;
 
-//	/** The in archive transfer ID tree node map. */
-//	private HashMap<String, DataObjectPackageTreeNode> inArchiveTransferIDTreeNodeMap;
-//
     /**
      * The DataObjectPackageIdElement Treenode map.
      */
@@ -102,10 +102,8 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * event type. The event instance is lazily created using the parameters passed
      * into the fire method.
      *
-     * @param source the source of the {@code TreeModelEvent}; typically
-     *               {@code this}
-     * @param path   the path to the parent of the structure that has changed; use
-     *               {@code null} to identify the root has changed
+     * @param source the source of the {@code TreeModelEvent}; typically               {@code this}
+     * @param path   the path to the parent of the structure that has changed; use               {@code null} to identify the root has changed
      */
     public void fireTreeStructureChanged(Object source, Object[] path) {
         super.fireTreeStructureChanged(source, path, null, null);
@@ -332,9 +330,9 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
     }
 
     /**
-     * Reset in archive transfer ID tree node map.
+     * Reset in DataObjectPackage ID tree node map.
      */
-    public void resetInArchiveTransferIDTreeNodeMap() {
+    public void resetInDataObjectPackageIDTreeNodeMap() {
         idElementTreeNodeMap = new HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode>();
     }
 

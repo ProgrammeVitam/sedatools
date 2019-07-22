@@ -33,7 +33,7 @@ package fr.gouv.vitam.tools.mailextractlib.utils;
  * These exceptions are always fatal for the extraction or listing process.
  *
  */
-public class ExtractionException extends Exception {
+public class MailExtractLibException extends Exception {
 
     /** The Constant serialVersionUID. */
     static final long serialVersionUID = 20172992838787616L;
@@ -41,30 +41,36 @@ public class ExtractionException extends Exception {
     /**
      * Instantiates a new extraction exception.
      */
-    public ExtractionException() {
+    public MailExtractLibException() {
         super();
     }
 
-    /**
+/*
+    */
+/**
      * Instantiates a new extraction exception.
      *
      * @param message
      *            the message
-     */
-    public ExtractionException(String message) {
+     *//*
+
+    public MailExtractLibException(String message) {
         super(message);
     }
 
-    /**
+    */
+/**
      * Instantiates a new extraction exception.
      *
      * @param cause
      *            the cause
-     */
-    public ExtractionException(Throwable cause) {
+     *//*
+
+    public MailExtractLibException(Throwable cause) {
         super(cause);
     }
 
+*/
     /**
      * Instantiates a new extraction exception.
      *
@@ -73,7 +79,7 @@ public class ExtractionException extends Exception {
      * @param cause
      *            the cause
      */
-    public ExtractionException(String message, Throwable cause) {
+    public MailExtractLibException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -89,7 +95,7 @@ public class ExtractionException extends Exception {
      * @param writableStackTrace
      *            the writable stack trace
      */
-    public ExtractionException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public MailExtractLibException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 

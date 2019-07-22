@@ -49,7 +49,7 @@ public class SIPInternalIDType extends NamedTypeMetadata {
      * Instantiates a new SIP internal ID.
      */
     public SIPInternalIDType() {
-        this(null, (String) null);
+        this(null, null);
     }
 
     /**
@@ -58,7 +58,7 @@ public class SIPInternalIDType extends NamedTypeMetadata {
      * @param elementName the XML element name
      */
     public SIPInternalIDType(String elementName) {
-        this(elementName, (String) null);
+        this(elementName, null);
     }
 
     /**
@@ -84,7 +84,7 @@ public class SIPInternalIDType extends NamedTypeMetadata {
         try {
             xmlWriter.writeElementValue(elementName, value);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type SIPInternalIDType ["+getXmlElementName()+"]\n->" + e.getMessage());
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type SIPInternalIDType ["+getXmlElementName()+"]", e);
         }
     }
 
@@ -123,7 +123,7 @@ public class SIPInternalIDType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type SIPInternalIDType\n->" + e.getMessage());
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type SIPInternalIDType", e);
         }
         return true;
     }

@@ -69,11 +69,29 @@ import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
  */
 public class MainWindow extends JFrame {
 
+    /**
+     * The constant LABEL_FONT.
+     */
     public static Font LABEL_FONT = UIManager.getFont("Label.font");
+    /**
+     * The constant CLICK_FONT.
+     */
     public static Font CLICK_FONT = UIManager.getFont("Button.font");
+    /**
+     * The constant BOLD_LABEL_FONT.
+     */
     public static Font BOLD_LABEL_FONT = LABEL_FONT.deriveFont(LABEL_FONT.getStyle() | Font.BOLD);
+    /**
+     * The constant TREE_FONT.
+     */
     public static Font TREE_FONT = LABEL_FONT;
+    /**
+     * The constant DETAILS_FONT.
+     */
     public static Font DETAILS_FONT = LABEL_FONT.deriveFont(LABEL_FONT.getSize() + (float) 2.0);
+    /**
+     * The constant GENERAL_BACKGROUND.
+     */
     public static Color GENERAL_BACKGROUND = UIManager.getColor("Label.background");
 
     /**
@@ -107,7 +125,6 @@ public class MainWindow extends JFrame {
     private JButton changeObjectButton;
     private JComboBox<String> metadataComboBox;
     private JButton addMetadataButton;
-    private JScrollPane dataObjectDetailScrollPane;
 
     /**
      * The entry point of window test.
@@ -151,6 +168,8 @@ public class MainWindow extends JFrame {
      * Initialize the contents of the frame.
      */
     private void initialize() {
+        JScrollPane dataObjectDetailScrollPane;
+
         JMenuBar menuBar = app.createMenu();
         setJMenuBar(menuBar);
 
@@ -1037,8 +1056,7 @@ public class MainWindow extends JFrame {
     /**
      * Sets the archive transfer tree pane viewer.
      *
-     * @param dataObjectPackageTreePaneViewer the new archive transfer tree pane
-     *                                        viewer
+     * @param dataObjectPackageTreePaneViewer the new archive transfer tree pane                                        viewer
      */
     public void setDataObjectPackageTreePaneViewer(DataObjectPackageTreeViewer dataObjectPackageTreePaneViewer) {
         this.dataObjectPackageTreePaneViewer = dataObjectPackageTreePaneViewer;

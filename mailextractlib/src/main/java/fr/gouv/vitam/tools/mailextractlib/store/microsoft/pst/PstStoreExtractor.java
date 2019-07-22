@@ -34,7 +34,7 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
-import fr.gouv.vitam.tools.mailextractlib.utils.ExtractionException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
 import java.io.*;
@@ -45,6 +45,8 @@ import java.util.Vector;
 
 import static fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.PstStoreContact.EXTRACTED_CONTACTS_LIST;
 import static fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.PstStoreContact.printContactCSVHeader;
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogWithoutInterruption;
 
 /**
  * StoreExtractor sub-class for mail boxes extracted through libpst library.
@@ -89,18 +91,18 @@ public class PstStoreExtractor extends StoreExtractor {
      * @param rootStoreExtractor the creating store extractor in nested extraction, or null if
      *                           root one
      * @param logger             logger used
-     * @throws ExtractionException Any unrecoverable extraction exception (access trouble, major
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major
      *                             format problems...)
      */
     public PstStoreExtractor(String urlString, String storeFolder, String destPathString, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException, PSTException, IOException {
+                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
         super(urlString, storeFolder, destPathString, options, rootStoreExtractor, logger);
 
         try {
             pstFile = new PSTFile(path);
         } catch (Exception e) {
-            throw new ExtractionException(
-                    "mailExtract.pst: can't open " + path + ", doesn't exist or is not a pst file");
+            throw new MailExtractLibException(
+                    "mailextractlib.pst: can't open " + path + ", doesn't exist or is not a pst file", e);
         }
 
         pstFile.setGlobalCodepage(options.defaultCharsetName);
@@ -112,21 +114,21 @@ public class PstStoreExtractor extends StoreExtractor {
             PSTFolder pstFolder = findChildFolder(pstFile.getRootFolder(), storeFolder);
 
             if (pstFolder == null)
-                throw new ExtractionException(
-                        "mailExtract.libpst: Can't find the root folder " + storeFolder + " in pst file");
+                throw new MailExtractLibException(
+                        "mailextractlib.pst: can't find the root folder " + storeFolder + " in pst file", null);
 
             lPRootMailBoxFolder = PstStoreFolder.createRootFolder(this, pstFolder, rootNode);
 
             setRootFolder(lPRootMailBoxFolder);
         } catch (IOException e) {
-            throw new ExtractionException("mailExtract.libpst: Can't use " + path + " pst file");
+            throw new MailExtractLibException("mailextractlib.pst: can't use " + path + " pst file", e);
         } catch (PSTException e) {
-            throw new ExtractionException("mailExtract.libpst: Can't find extraction root folder " + storeFolder);
+            throw new MailExtractLibException("mailextractlib.pst: can't find extraction root folder " + storeFolder, e);
         }
     }
 
     // create a store temporary file
-    private static File writeStoreFile(String dirPath, byte[] byteContent) throws ExtractionException {
+    private static File writeStoreFile(String dirPath, byte[] byteContent) throws MailExtractLibException {
         File storeFile;
 
         OutputStream output = null;
@@ -138,20 +140,20 @@ public class PstStoreExtractor extends StoreExtractor {
                 output.write(byteContent);
         } catch (IOException ex) {
             if (dirPath.length() + 8 > 250)
-                throw new ExtractionException(
-                        "mailextract: Store file extraction illegal destination file (may be too long pathname), extracting unit in path "
-                                + dirPath);
+                throw new MailExtractLibException(
+                        "mailextractlib.pst: store file extraction illegal destination file (may be too long pathname), extracting unit in path "
+                                + dirPath, ex);
             else
-                throw new ExtractionException(
-                        "mailextract: Store file extraction illegal destination file, extracting unit in path "
-                                + dirPath);
+                throw new MailExtractLibException(
+                        "mailextractlib.pst: store file extraction illegal destination file, extracting unit in path "
+                                + dirPath, ex);
         } finally {
             if (output != null)
                 try {
                     output.close();
                 } catch (IOException e) {
-                    throw new ExtractionException(
-                            "mailextract: Can't close store file extraction, extracting unit in path " + dirPath);
+                    throw new MailExtractLibException(
+                            "mailextractlib.pst: can't close store file extraction, extracting unit in path " + dirPath, e);
                 }
         }
 
@@ -165,7 +167,7 @@ public class PstStoreExtractor extends StoreExtractor {
 
     // generate temporary file and create the url to it
     static private String generateFileAndUrl(StoreMessageAttachment attachment, ArchiveUnit rootNode)
-            throws ExtractionException {
+            throws MailExtractLibException {
         String result = null;
         File storeFile = writeStoreFile(rootNode.getFullName(), attachment.getRawAttachmentContent());
         try {
@@ -185,11 +187,11 @@ public class PstStoreExtractor extends StoreExtractor {
      * @param rootStoreExtractor the creating store extractor in nested extraction, or null if
      *                           root one
      * @param logger             logger used
-     * @throws ExtractionException Any unrecoverable extraction exception (access trouble, major
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major
      *                             format problems...)
      */
     public PstStoreExtractor(StoreMessageAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws ExtractionException {
+                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
         super(generateFileAndUrl(attachment, rootNode), "", rootNode.getFullName(), options, rootStoreExtractor, logger);
 
         this.attachment = attachment;
@@ -198,8 +200,8 @@ public class PstStoreExtractor extends StoreExtractor {
         try {
             pstFile = new PSTFile(path);
         } catch (Exception e) {
-            throw new ExtractionException(
-                    "mailExtract.pst: can't open " + path + ", doesn't exist or is not a pst file");
+            throw new MailExtractLibException(
+                    "mailextractlib.pst: can't open " + path + ", doesn't exist or is not a pst file", e);
         }
 
         PstStoreFolder lPRootMailBoxFolder;
@@ -208,16 +210,16 @@ public class PstStoreExtractor extends StoreExtractor {
             PSTFolder pstFolder = findChildFolder(pstFile.getRootFolder(), storeFolder);
 
             if (pstFolder == null)
-                throw new ExtractionException(
-                        "mailExtract.libpst: Can't find the root folder " + storeFolder + " in pst file");
+                throw new MailExtractLibException(
+                        "mailextractlib.pst: Can't find the root folder " + storeFolder + " in pst file", null);
 
             lPRootMailBoxFolder = PstStoreFolder.createRootFolder(this, pstFolder, rootNode);
 
             setRootFolder(lPRootMailBoxFolder);
         } catch (IOException e) {
-            throw new ExtractionException("mailExtract.libpst: Can't use " + path + " pst file");
+            throw new MailExtractLibException("mailextractlib.pst: Can't use " + path + " pst file", e);
         } catch (PSTException e) {
-            throw new ExtractionException("mailExtract.libpst: Can't find extraction root folder " + storeFolder);
+            throw new MailExtractLibException("mailextractlib.pst: Can't find extraction root folder " + storeFolder, e);
         }
     }
 
@@ -261,16 +263,16 @@ public class PstStoreExtractor extends StoreExtractor {
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor#endStoreExtractor()
      */
     @Override
-    public void endStoreExtractor() throws ExtractionException {
+    public void endStoreExtractor() throws MailExtractLibException {
         super.endStoreExtractor();
         try {
             pstFile.close();
         } catch (IOException e) {
-            throw new ExtractionException("mailextract.pst: Can't close temporary file tmpstore");
+            throw new MailExtractLibException("mailextractlib.pst: Can't close temporary file tmpstore", e);
         }
         if ((storeFile != null) &&
                 !storeFile.delete())
-            throw new ExtractionException("mailextract.pst: Can't delete temporary file tmpstore");
+            throw new MailExtractLibException("mailextractlib.pst: Can't delete temporary file tmpstore", null);
     }
 
     /* (non-Javadoc)
@@ -293,8 +295,7 @@ public class PstStoreExtractor extends StoreExtractor {
             globalListsPSMap.put(EXTRACTED_CONTACTS_LIST, ps);
             printContactCSVHeader(ps);
         } catch (IOException e) {
-            getProgressLogger().progressLogWithoutInterruption(MailExtractProgressLogger.GLOBAL, "mailextract: can't create contacts list csv file");
-            getProgressLogger().logException(e);
+            doProgressLogWithoutInterruption(getProgressLogger(), MailExtractProgressLogger.GLOBAL, "mailextractlib.pst: can't create contacts list csv file", null);
         }
     }
 
