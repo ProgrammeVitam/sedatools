@@ -1,6 +1,8 @@
 Evolutions/Corrections en 1.9.0
 
 - Fix: suppression des DataObjects non utilisés dans des ArchiveUnit lors de la normalisation
+- Evolution: amélioration du suivi des exceptions spécifiques par empilement des causes, et restitution récursive des causes dans les logs
+- Evolution: nettoyage et systématisation des logs
 
 ============================================================================
 Evolutions/Corrections en 1.8.0
