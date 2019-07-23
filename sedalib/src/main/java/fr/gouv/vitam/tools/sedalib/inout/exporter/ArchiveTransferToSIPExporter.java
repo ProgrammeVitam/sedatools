@@ -172,9 +172,9 @@ public class ArchiveTransferToSIPExporter {
         this.manifestOnly = false;
 
         try {
-            Files.createDirectories(Paths.get(fileName).getParent());
+            Files.createDirectories(Paths.get(fileName).toAbsolutePath().getParent());
         } catch (IOException e1) {
-            throw new SEDALibException("Impossible de créer le répertoire [" + Paths.get(fileName).getParent().toString() + "]", e1);
+            throw new SEDALibException("Impossible de créer le répertoire [" + Paths.get(fileName).toAbsolutePath().getParent().toString() + "]", e1);
         }
         try (ZipOutputStream zipout = new ZipOutputStream(new FileOutputStream(fileName))) {
             ZipEntry e = new ZipEntry("manifest.xml");

@@ -222,6 +222,7 @@
                             <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar>
                             <icon>windows/VitamIcon.ico</icon>
                             <outfile>windows/Resip.exe</outfile>
+                            <stayAlive>true</stayAlive>
                             <downloadUrl>http://java.com/download</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.resip.app.ResipApp</mainClass>

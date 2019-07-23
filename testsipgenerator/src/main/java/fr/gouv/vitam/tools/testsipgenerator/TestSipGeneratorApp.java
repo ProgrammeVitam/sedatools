@@ -403,7 +403,7 @@ public class TestSipGeneratorApp {
 
         extractOptionsOrExit(args);
 
-        Path outPath = Paths.get(out).normalize().toAbsolutePath();
+        Path outPath = Paths.get(out).toAbsolutePath().normalize();
         Path dirPath = outPath.getParent();
         if (dirPath == null)
             dirPath = Paths.get("/");

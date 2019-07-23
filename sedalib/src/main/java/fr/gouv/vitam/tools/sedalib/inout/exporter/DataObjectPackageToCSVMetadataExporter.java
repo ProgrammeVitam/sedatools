@@ -609,7 +609,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     // csv and zip file has to be in same directory
     private void exportAll(String csvMetadataFileName, boolean fileExportFlag, String zipFileName) throws SEDALibException, InterruptedException {
         Date d = new Date();
-        Path rootPath = Paths.get(csvMetadataFileName).getParent().toAbsolutePath();
+        Path rootPath = Paths.get(csvMetadataFileName).toAbsolutePath().getParent();
         start = Instant.now();
         String log = "Début de l'export csv simplifié\n";
         if (zipFileName!=null)
@@ -715,7 +715,7 @@ public class DataObjectPackageToCSVMetadataExporter {
      * @throws InterruptedException if export process is interrupted
      */
     public void doExportToCSVZip(String zipFileName) throws SEDALibException, InterruptedException {
-        exportAll(Paths.get(zipFileName).getParent().resolve("metadata.csv").toString(), true, zipFileName);
+        exportAll(Paths.get(zipFileName).toAbsolutePath().getParent().resolve("metadata.csv").toString(), true, zipFileName);
         exportAction = ALL_ZIP_EXPORT;
     }
 
