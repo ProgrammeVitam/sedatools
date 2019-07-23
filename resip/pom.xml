@@ -234,7 +234,7 @@
                                 <minVersion>1.8.0</minVersion>
                                 <maxVersion></maxVersion>
                                 <jdkPreference>preferJre</jdkPreference>
-                                <runtimeBits>64</runtimeBits>
+                                <runtimeBits>64/32</runtimeBits>
                                 <opts>
                                     <!-- 									<opt>-Dsun.jnu.encoding="Cp850"</opt> -->
                                     <opt>-Dfile.encoding="UTF8"</opt>
