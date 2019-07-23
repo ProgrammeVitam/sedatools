@@ -63,6 +63,7 @@ public class ImportThread extends SwingWorker<String, String> {
     private InOutDialog inOutDialog;
     //run output
     private String summary;
+    private int fileCounter;
     private Exception exitException;
     // logger
     private SEDALibProgressLogger spl;
@@ -104,21 +105,28 @@ public class ImportThread extends SwingWorker<String, String> {
         work.setExportContext(newExportContext);
     }
 
-    private String getTmpDirTarget(String workDir, String srcPathName) throws ResipException {
+    private void recursiveDelete(File inFile) throws InterruptedException {
+        if (inFile.isDirectory()) {
+            for (File f : inFile.listFiles())
+                recursiveDelete(f);
+            inFile.delete();
+        } else {
+            inFile.delete();
+            fileCounter++;
+            doProgressLogIfStep(spl,SEDALibProgressLogger.OBJECTS_GROUP,fileCounter,fileCounter+" fichiers effacés");
+        }
+    }
+
+    private String getTmpDirTarget(String workDir, String srcPathName) throws ResipException, InterruptedException {
         String subDir=Paths.get(srcPathName).getFileName().toString() + "-tmpdir";
         String target = workDir + File.separator + subDir;
         if (Files.exists(Paths.get(target))) {
             UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.getTheApp().mainWindow, workDir,subDir);
             utdd.setVisible(true);
             if (utdd.getReturnValue() == STATUS_CLEAN) {
-                try {
-                    if (Files.isDirectory(Paths.get(utdd.getResult())))
-                        FileUtils.deleteDirectory(new File(utdd.getResult()));
-                    else
-                        Files.deleteIfExists(Paths.get(utdd.getResult()));
-                } catch (IOException e) {
-                    throw new ResipException("Effacement de [" + utdd.getResult() + "] est impossible", e);
-                }
+                fileCounter=0;
+                recursiveDelete(new File(utdd.getResult()));
+                doProgressLog(spl,SEDALibProgressLogger.STEP,fileCounter+" fichiers effacés au total",null);
                 target = utdd.getResult();
             } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
                 target = utdd.getResult();

@@ -44,15 +44,10 @@ public class CleanThread extends SwingWorker<String, String> {
 
     //input
     private String workDir;
-    /**
-     * The In out dialog.
-     */
-    InOutDialog inOutDialog;
-    /**
-     * The Exit exception.
-     */
-//run output
-    Exception exitException;
+    private InOutDialog inOutDialog;
+    //run output
+    private int fileCounter;
+    private Exception exitException;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -68,27 +63,22 @@ public class CleanThread extends SwingWorker<String, String> {
         this.inOutDialog = dialog;
     }
 
-    /**
-     * Delete.
-     *
-     * @param inFile the in file
-     * @throws IOException          the io exception
-     * @throws InterruptedException the interrupted exception
-     */
-    static void delete(File inFile) throws IOException, InterruptedException {
+    private void recursiveDelete(File inFile) throws IOException, InterruptedException {
         if (inFile.isDirectory()) {
             for (File f : inFile.listFiles())
-                delete(f);
+                recursiveDelete(f);
             inFile.delete();
         } else {
             inFile.delete();
-            Thread.sleep(1);
+            fileCounter++;
+            doProgressLogIfStep(spl,OBJECTS_GROUP,fileCounter,fileCounter+" fichiers effacés");
         }
     }
 
     @Override
     public String doInBackground() {
         spl = null;
+        fileCounter=0;
         try {
             spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
@@ -99,9 +89,10 @@ public class CleanThread extends SwingWorker<String, String> {
             doProgressLog(spl, GLOBAL, "Nettoyage du répertoire: " + workDir, null);
             for (File f : new File(workDir).listFiles()) {
                 if (f.isDirectory() && f.toString().endsWith("-tmpdir")) {
+                    fileCounter=0;
                     doProgressLog(spl, STEP, "  - Sous-répertoire pris en compte: " + f.toString(), null);
-                    delete(f);
-                    doProgressLog(spl, STEP, "    Terminé", null);
+                    recursiveDelete(f);
+                    doProgressLog(spl, STEP, "    Terminé, "+fileCounter+" effacés", null);
                 }
             }
         } catch (Exception e) {
