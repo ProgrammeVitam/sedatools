@@ -399,8 +399,8 @@ public abstract class StoreExtractor {
             // not possible
         }
         this.storeFolder = storeFolder;
-        this.destRootPath = Paths.get(destPathString).normalize().getParent().toString();
-        this.destName = Paths.get(destPathString).normalize().getFileName().toString();
+        this.destRootPath = Paths.get(destPathString).toAbsolutePath().normalize().getParent().toString();
+        this.destName = Paths.get(destPathString).toAbsolutePath().normalize().getFileName().toString();
         if (options == null)
             this.options = new StoreExtractorOptions();
         else

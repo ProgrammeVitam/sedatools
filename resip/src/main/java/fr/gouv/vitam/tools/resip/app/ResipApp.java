@@ -412,7 +412,8 @@ public class ResipApp {
                 ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, " Toutes les opérations finies en =" + Duration.between(start, end).toString());
             } catch (Exception e) {
                 System.err.println(
-                        "Resip: Erreur fatale \n->" + e.getMessage());
+                        "Resip: Erreur fatale\n"+ SEDALibProgressLogger.getMessagesStackString(e));
+                e.printStackTrace();
                 System.exit(1);
             }
         }
