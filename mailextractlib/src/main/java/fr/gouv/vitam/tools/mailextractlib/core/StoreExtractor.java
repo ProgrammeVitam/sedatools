@@ -273,16 +273,10 @@ public abstract class StoreExtractor {
 
     /**
      * The Global lists ps map.
+     * private map of printstreams for global lists extraction
+     * mails list, contacts, appointments...)
      */
-// private map of printstreams for global lists extraction
-    // (mails list, contacts, appointments...)
     protected Map<String, PrintStream> globalListsPSMap;
-
-    /**
-     * The "mails list initialised" flag.
-     */
-    private boolean mailsListInitialisedFlag;
-
 
     /**
      * Add mimetypes, scheme, isContainer, store extractor known relation.
@@ -341,22 +335,32 @@ public abstract class StoreExtractor {
     }
 
     /**
-     * Init the PrintStream for mails list, if not already done
+     * Init the PrintStream for a global list generated for a certain type of objects, if not already done with the header in csv format,
+     * and return the printstream
+     *
+     * @param listClass the list class
+     * @return the initialized global list ps
      */
-    protected void initMailsListIfNeeded() {
-        if (mailsListInitialisedFlag)
-            return;
-        mailsListInitialisedFlag = true;
+    public PrintStream getInitializedGlobalListPS(Class listClass) {
+        String globalListName = null;
+        PrintStream result = null;
         try {
-            String dirname = this.destRootPath
-                    + File.separator + this.destName + File.separator;
-            Files.createDirectories(Paths.get(dirname));
-            PrintStream ps = new PrintStream(dirname + StoreMessage.EXTRACTED_MAILS_LIST + ".csv");
-            globalListsPSMap.put(StoreMessage.EXTRACTED_MAILS_LIST, ps);
-            StoreMessage.printMailCSVHeader(ps);
-        } catch (IOException e) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create mails list csv file", e);
+            globalListName = (String) listClass.getMethod("getGlobalListName").invoke(null);
+            result = globalListsPSMap.get(globalListName);
+            if (result == null) {
+                String dirname = this.destRootPath
+                        + File.separator + this.destName + File.separator;
+                Files.createDirectories(Paths.get(dirname));
+                result = new PrintStream(dirname + listClass.getMethod("getGlobalListName").invoke(null) + ".csv");
+                globalListsPSMap.put(globalListName, result);
+                listClass.getMethod("printGlobalListCSVHeader", PrintStream.class).invoke(null, result);
+            }
+        } catch (IOException | NoSuchMethodException | IllegalAccessException e) {
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list for [" + globalListName + "] csv file", e);
+        } catch (InvocationTargetException te) {
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list for [" + globalListName + "] csv file", te.getTargetException());
         }
+        return result;
     }
 
     /**
@@ -418,7 +422,6 @@ public abstract class StoreExtractor {
         this.description = ":p:" + scheme + ":u:" + user;
 
         globalListsPSMap = new HashMap<String, PrintStream>();
-        mailsListInitialisedFlag = false;
     }
 
     /**
@@ -430,15 +433,15 @@ public abstract class StoreExtractor {
 
         // if root extractor log extraction context
         if (rootStoreExtractor == null) {
-            doProgressLog(logger,MailExtractProgressLogger.GLOBAL,
+            doProgressLog(logger, MailExtractProgressLogger.GLOBAL,
                     "mailextract :target store with scheme=" + scheme + (host == null || host.isEmpty() ? "" : "  server=" + host)
                             + (port == -1 ? "" : ":" + Integer.toString(port))
                             + (user == null || user.isEmpty() ? "" : " user=" + user)
                             + (password == null || password.isEmpty() ? "" : " password=" + password)
                             + (path == null || path.isEmpty() ? "" : " path=" + path)
-                            + (storeFolder == null || storeFolder.isEmpty() ? "" : " store folder=" + storeFolder),null);
+                            + (storeFolder == null || storeFolder.isEmpty() ? "" : " store folder=" + storeFolder), null);
             doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "to " + destRootPath + " in " + destName + " directory", null);
-            if ((logger!=null) && logger.getDebugFlag())
+            if ((logger != null) && logger.getDebugFlag())
                 doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "DEBUG MODE", null);
 
             boolean first = true;
@@ -733,8 +736,8 @@ public abstract class StoreExtractor {
      * defined (see also {@link StoreMessage#extractMessage extractMessage} and
      * {@link StoreFolder#extractFolder extractFolder}).
      *
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     public void extractAllFolders() throws MailExtractLibException, InterruptedException {
         String title;
@@ -797,8 +800,8 @@ public abstract class StoreExtractor {
      * downloaded...).
      *
      * @param stats true if detailed information (number and raw size of elements              in each folder) is asked for
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     public void listAllFolders(boolean stats) throws MailExtractLibException, InterruptedException {
         String time, tmp;

@@ -43,11 +43,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Vector;
 
-import static fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.PstStoreContact.EXTRACTED_CONTACTS_LIST;
-import static fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.PstStoreContact.printContactCSVHeader;
-import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
-import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogWithoutInterruption;
-
 /**
  * StoreExtractor sub-class for mail boxes extracted through libpst library.
  */
@@ -74,11 +69,6 @@ public class PstStoreExtractor extends StoreExtractor {
      * The PST File object.
      */
     private PSTFile pstFile;
-
-    /**
-     * The "contacts list initialised" flag.
-     */
-    private boolean contactsListInitialisedFlag;
 
     /**
      * Instantiates a new LP store extractor.
@@ -283,22 +273,6 @@ public class PstStoreExtractor extends StoreExtractor {
         return attachment;
     }
 
-    public void initContactsListIfNeeded() {
-        if (contactsListInitialisedFlag)
-            return;
-        contactsListInitialisedFlag = true;
-        try {
-            String dirname = this.destRootPath
-                    + File.separator + this.destName + File.separator;
-            Files.createDirectories(Paths.get(dirname));
-            PrintStream ps = new PrintStream(dirname + EXTRACTED_CONTACTS_LIST + ".csv");
-            globalListsPSMap.put(EXTRACTED_CONTACTS_LIST, ps);
-            printContactCSVHeader(ps);
-        } catch (IOException e) {
-            doProgressLogWithoutInterruption(getProgressLogger(), MailExtractProgressLogger.GLOBAL, "mailextractlib.pst: can't create contacts list csv file", null);
-        }
-    }
-
     /* (non-Javadoc)
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor#canExtractObjectsLists()
      */
@@ -306,8 +280,6 @@ public class PstStoreExtractor extends StoreExtractor {
     public boolean canExtractObjectsLists() {
         return true;
     }
-
-    ;
 
     /**
      * The Constant PST_MN.

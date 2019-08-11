@@ -782,17 +782,20 @@ public abstract class StoreMessage extends StoreElement {
     }
 
     /**
-     * The constant EXTRACTED_MAILS_LIST.
+     * Gets contacts global list name used for the csv file name construction.
+     *
+     * @return the global list name
      */
-// the global mails list identifier
-    static public String EXTRACTED_MAILS_LIST = "mailsList";
+    static public String getGlobalListName() {
+        return "mails";
+    }
 
     /**
      * Print the header for mails list csv file
      *
      * @param ps the dedicated print stream
      */
-    static protected void printMailCSVHeader(PrintStream ps) {
+    static public void printGlobalListCSVHeader(PrintStream ps) {
         ps.println("SentDate|ReceivedDate|FromName|FromAddress|" +
                 "ToList|Subject|MessageID|" +
                 "AttachmentList|ReplyTo|Folder|Size|Attached|" +
@@ -802,8 +805,7 @@ public abstract class StoreMessage extends StoreElement {
     private void writeToMailsList(boolean writeFlag) throws InterruptedException {
         if (writeFlag && getStoreExtractor().options.extractObjectsLists && getStoreExtractor().canExtractObjectsLists()) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            getStoreExtractor().initMailsListIfNeeded();
-            PrintStream ps = storeFolder.getStoreExtractor().getGlobalListPS(EXTRACTED_MAILS_LIST);
+            PrintStream ps = storeFolder.getStoreExtractor().getInitializedGlobalListPS(this.getClass());
             try {
                 ps.format("\"%s\"|",
                         (sentDate == null ? "" : sdf.format(sentDate)));

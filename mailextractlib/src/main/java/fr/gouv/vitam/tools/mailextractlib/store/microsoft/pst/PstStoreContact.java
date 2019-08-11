@@ -226,11 +226,20 @@ public class PstStoreContact {
      *
      * @param ps the dedicated print stream
      */
-    static protected void printContactCSVHeader(PrintStream ps) {
+    static public void printGlobalListCSVHeader(PrintStream ps) {
         ps.println("Nom complet|Prénom|Nom|Notes|Organisation|Service|Titre|Adresse défaut|" +
                 "Adresse smtp|Tel défaut|Tel mobile|Site pro|Localisation pro|Tel pro|Adresse pro|RefID|" +
                 "Autres adresse messagerie|Autres tel|Nom secrétaire|Tel secrétaire|Site perso|" +
                 "Localisation|Tel perso|Adresse perso|Surnom");
+    }
+
+    /**
+     * Gets contacts global list name used for the csv file name construction.
+     *
+     * @return the global list name
+     */
+    static public String getGlobalListName() {
+        return "contacts";
     }
 
     /**
@@ -240,8 +249,7 @@ public class PstStoreContact {
      */
     public void writeToContactsList(boolean writeFlag) {
         if (writeFlag && pstStoreFolder.getStoreExtractor().getOptions().extractObjectsLists) {
-            ((PstStoreExtractor) pstStoreFolder.getStoreExtractor()).initContactsListIfNeeded();
-            PrintStream ps = pstStoreFolder.getStoreExtractor().getGlobalListPS(EXTRACTED_CONTACTS_LIST);
+            PrintStream ps = pstStoreFolder.getStoreExtractor().getInitializedGlobalListPS(this.getClass());
 
             ps.format("\"%s\"|", filterHyphen(getFullName()));
             ps.format("\"%s\"|", filterHyphen(contact.getGivenName()));
