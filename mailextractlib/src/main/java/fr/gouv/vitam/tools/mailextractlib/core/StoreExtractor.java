@@ -348,6 +348,7 @@ public abstract class StoreExtractor {
      * @param listClass the list class
      * @return the initialized global list ps
      */
+    @SuppressWarnings("unchecked")
     public PrintStream getGlobalListPS(Class listClass) {
         String globalListName = null;
         PrintStream result = null;
@@ -377,6 +378,7 @@ public abstract class StoreExtractor {
      * @param listClass the list class
      * @return the initialized global list counter
      */
+    @SuppressWarnings("unchecked")
     public int getGlobalListCounter(Class listClass) {
         String globalListName = null;
         Integer result = 0;
@@ -400,6 +402,7 @@ public abstract class StoreExtractor {
      *
      * @param listClass the list class
      */
+    @SuppressWarnings("unchecked")
     public int incGlobalListCounter(Class listClass) {
         String globalListName = null;
         Integer result = 0;

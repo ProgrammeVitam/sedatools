@@ -12,7 +12,10 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
+import static java.nio.charset.Charset.defaultCharset;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestPstStoreExtractor implements AllTests {
@@ -38,10 +41,13 @@ public class TestPstStoreExtractor implements AllTests {
         assertThat(storeExtractor.getFolderTotalCount()).isEqualTo(18);
         assertThat(storeExtractor.getGlobalListCounter(StoreMessage.class)).isEqualTo(19);
         assertThat(storeExtractor.getGlobalListCounter(StoreContact.class)).isEqualTo(1);
-        assertThat(new File("target/tmpJUnit/testContactCalendarPstExtractor/mails.csv")).
-                hasSameContentAs(new File("src/test/resources/pst/results/ContactCalendar-mails.csv"));
+        String mails=FileUtils.readFileToString(new File("target/tmpJUnit/testContactCalendarPstExtractor/mails.csv"),defaultCharset());
+        mails=mails.replaceAll("/","\\\\");
+        String resultMails=FileUtils.readFileToString(new File("src/test/resources/pst/results/ContactCalendar-mails.csv"), StandardCharsets.UTF_8);
+        resultMails=resultMails.replaceAll("/","\\\\");
+        assertThat(mails).isEqualToNormalizingNewlines(resultMails);
         assertThat(new File("target/tmpJUnit/testContactCalendarPstExtractor/contacts.csv")).
-                hasSameContentAs(new File("src/test/resources/pst/results/ContactCalendar-contacts.csv"));
+                hasSameContentAs(new File("src/test/resources/pst/results/ContactCalendar-contacts.csv"),StandardCharsets.UTF_8);
         assertThat(new File("target/tmpJUnit/testContactCalendarPstExtractor/contacts/ContactPicture#1/__BinaryMaster_1__ContactPicture.jpg")).
                 hasBinaryContent(FileUtils.readFileToByteArray(new File("src/test/resources/pst/results/ContactCalendar-ContactPicture.jpg")));
     }
