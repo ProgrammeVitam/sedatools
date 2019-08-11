@@ -237,6 +237,11 @@ public abstract class StoreMessage extends StoreElement {
     public ArchiveUnit messageNode;
 
     /**
+     * The line id in csv list.
+     */
+    protected int listLineId;
+
+    /**
      * Instantiates a new mail box message.
      *
      * @param storeFolder Mail box folder containing this message
@@ -661,6 +666,7 @@ public abstract class StoreMessage extends StoreElement {
     public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
         analyzeMessage();
         storeFolder.getDateRange().extendRange(sentDate);
+        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
         extractMessage(writeFlag);
         countMessage();
     }
@@ -668,6 +674,7 @@ public abstract class StoreMessage extends StoreElement {
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
         analyzeMessage();
+        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
         if (statsFlag)
             extractMessage(false);
         countMessage();
@@ -798,7 +805,7 @@ public abstract class StoreMessage extends StoreElement {
     }
 
     /**
-     * Gets contacts global list name used for the csv file name construction.
+     * Gets mails global list name used for the csv file name construction.
      *
      * @return the global list name
      */
@@ -812,40 +819,41 @@ public abstract class StoreMessage extends StoreElement {
      * @param ps the dedicated print stream
      */
     static public void printGlobalListCSVHeader(PrintStream ps) {
-        ps.println("SentDate|ReceivedDate|FromName|FromAddress|" +
-                "ToList|Subject|MessageID|" +
-                "AttachmentList|ReplyTo|Folder|Size|Attached|" +
-                "AppointmentLocation|AppointmentBeginDate|AppointmentEndDate");
+        ps.println("ID;SentDate;ReceivedDate;FromName;FromAddress;" +
+                "ToList;Subject;MessageID;" +
+                "AttachmentList;ReplyTo;Folder;Size;Attached;" +
+                "AppointmentLocation;AppointmentBeginDate;AppointmentEndDate");
     }
 
     private void writeToMailsList(boolean writeFlag) throws InterruptedException {
         if (writeFlag && getStoreExtractor().options.extractObjectsLists && getStoreExtractor().canExtractObjectsLists()) {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            PrintStream ps = storeFolder.getStoreExtractor().getInitializedGlobalListPS(this.getClass());
+            PrintStream ps = storeFolder.getStoreExtractor().getGlobalListPS(this.getClass());
             try {
-                ps.format("\"%s\"|",
+                ps.format("\"%d\";",listLineId);
+                ps.format("\"%s\";",
                         (sentDate == null ? "" : sdf.format(sentDate)));
-                ps.format("\"%s\"|",
+                ps.format("\"%s\";",
                         (receivedDate == null ? "" : sdf.format(receivedDate)));
                 if ((from != null) && !from.isEmpty()) {
                     MetadataPerson p = new MetadataPerson(from);
-                    ps.format("\"%s\"|\"%s\"|", filterHyphen(p.fullName),
+                    ps.format("\"%s\";\"%s\";", filterHyphen(p.fullName),
                             filterHyphen(p.identifier));
                 } else
-                    ps.print("\"\"|\"\"|");
-                ps.format("\"%s\"|",
+                    ps.print("\"\";\"\";");
+                ps.format("\"%s\";",
                         filterHyphen(personStringListToIndentifierString(recipientTo)));
-                ps.format("\"%s\"|", filterHyphen(subject));
-                ps.format("\"%s\"|", filterHyphen(messageID));
-                ps.format("\"%s\"|", filterHyphen(attachmentsNamesList()));
+                ps.format("\"%s\";", filterHyphen(subject));
+                ps.format("\"%s\";", filterHyphen(messageID));
+                ps.format("\"%s\";", filterHyphen(attachmentsNamesList()));
                 if ((replyTo == null) || replyTo.isEmpty())
-                    ps.format("\"\"|");
+                    ps.format("\"\";");
                 else {
                     MetadataPerson p = new MetadataPerson(replyTo.get(0));
-                    ps.format("\"%s\"|", filterHyphen(p.identifier));
+                    ps.format("\"%s\";", filterHyphen(p.identifier));
                 }
-                ps.format("\"%s\"|", filterHyphen(storeFolder.getFullName()));
-                ps.format("\"%d\"|", this.getMessageSize());
+                ps.format("\"%s\";", filterHyphen(storeFolder.getFullName()));
+                ps.format("\"%d\";", this.getMessageSize());
                 if (!storeFolder.getStoreExtractor().isRoot())
                     ps.format("\"Attached\"");
                 if (appointment != null) {
@@ -858,10 +866,10 @@ public abstract class StoreMessage extends StoreElement {
                         edString = DateTimeFormatter.ISO_DATE_TIME.format(appointment.endDate);
                     else
                         edString = "[Date/HeureInconnues]";
-                    ps.format("|\"%s\"|\"%s\"|\"%s\"",
+                    ps.format(";\"%s\";\"%s\";\"%s\"",
                             filterHyphen(appointment.location), bdString, edString);
                 } else {
-                    ps.format("|||");
+                    ps.format(";;;");
                 }
                 ps.println();
                 ps.flush();
