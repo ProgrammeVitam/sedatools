@@ -27,15 +27,22 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
+import com.pff.PSTAttachment;
 import com.pff.PSTContact;
+import com.pff.PSTException;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreContact;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.LinkedHashSet;
 
 /**
  * StoreMessage sub-class for mail boxes extracted through libpst library.
  */
-public class PstStoreContact {
+public class PstStoreContact extends StoreContact {
 
     /**
      * The containing PST folder
@@ -54,7 +61,7 @@ public class PstStoreContact {
      * @param contact        the contact
      */
     public PstStoreContact(PstStoreFolder pstStoreFolder, PSTContact contact) {
-        this.pstStoreFolder = pstStoreFolder;
+        super(pstStoreFolder);
         this.contact = contact;
     }
 
@@ -82,26 +89,11 @@ public class PstStoreContact {
         return result;
     }
 
-    private String getSMTPAddresses() {
-        LinkedHashSet<String> set = new LinkedHashSet<String>();
-        set.add(contact.getSMTPAddress());
-        if (contact.getEmail1AddressType().toLowerCase().equals("smtp"))
-            set.add(contact.getEmail1EmailAddress());
-        if (contact.getEmail2AddressType().toLowerCase().equals("smtp"))
-            set.add(contact.getEmail2EmailAddress());
-        if (contact.getEmail3AddressType().toLowerCase().equals("smtp"))
-            set.add(contact.getEmail3EmailAddress());
-        return getStringFromSet(set);
-    }
-
     private String getOtherMailAddresses() {
         LinkedHashSet<String> set = new LinkedHashSet<String>();
-        if (!contact.getEmail1AddressType().toLowerCase().equals("smtp"))
-            set.add(contact.getEmail1EmailAddress());
-        if (!contact.getEmail2AddressType().toLowerCase().equals("smtp"))
-            set.add(contact.getEmail2EmailAddress());
-        if (!contact.getEmail3AddressType().toLowerCase().equals("smtp"))
-            set.add(contact.getEmail3EmailAddress());
+        set.add(contact.getEmail1EmailAddress());
+        set.add(contact.getEmail2EmailAddress());
+        set.add(contact.getEmail3EmailAddress());
         return getStringFromSet(set);
     }
 
@@ -218,81 +210,73 @@ public class PstStoreContact {
         return result;
     }
 
-    // the global contacts list identifier
-    static public String EXTRACTED_CONTACTS_LIST = "contactsList";
+    @Override
+    public void analyzeAllContactInformations() throws MailExtractLibException, InterruptedException {
+        fullName = getFullName();
+        givenName = contact.getGivenName();
+        lastName = contact.getSurname();
+        miscNotes = contact.getBody();
+        companyName = contact.getCompanyName();
+        departmentName = contact.getDepartmentName();
+        title = getTitle();
+        postalAddress = contact.getPostalAddress();
+        smtpAddress = contact.getSMTPAddress();
+        primaryTelephoneNumber = contact.getPrimaryTelephoneNumber();
+        mobileTelephoneNumbers = getMobileTelephoneNumbers();
+        businessHomePage = contact.getBusinessHomePage();
+        businessLocation = contact.getOfficeLocation();
+        businessTelephoneNumbers = getBusinessTelephoneNumbers();
+        businessAddress = getBusinessAddress();
+        customerId = contact.getCustomerId();
+        otherMailAddresses = getOtherMailAddresses();
+        otherTelephoneNumbers = getOtherTelephoneNumbers();
+        assistantName = contact.getAssistant();
+        assistantTelephoneNumber = contact.getAssistantTelephoneNumber();
+        personalHomePage = contact.getPersonalHomePage();
+        homeLocation = contact.getLocation();
+        homeTelephoneNumbers = getHomeTelephoneNumbers();
+        homeAddress = getHomeAddress();
+        nickName = contact.getNickname();
 
-    /**
-     * Print the header for contacts list csv file
-     *
-     * @param ps the dedicated print stream
-     */
-    static public void printGlobalListCSVHeader(PrintStream ps) {
-        ps.println("Nom complet|Prénom|Nom|Notes|Organisation|Service|Titre|Adresse défaut|" +
-                "Adresse smtp|Tel défaut|Tel mobile|Site pro|Localisation pro|Tel pro|Adresse pro|RefID|" +
-                "Autres adresse messagerie|Autres tel|Nom secrétaire|Tel secrétaire|Site perso|" +
-                "Localisation|Tel perso|Adresse perso|Surnom");
+        // are not extracted the following values from java-libpst
+        // getCallbackTelephoneNumber, getInitials, getKeyword, getLanguage, getMhsCommonName,
+        // getOrganizationalIdNumber, getMiddleName, getDisplayNamePrefix, getPreferredByName,
+        // getSpouseName, getComputerNetworkName, getTtytddPhoneNumber, getChildrensNames,
+        // getTransmittableDisplayName, getTelexNumber, getHobbies, getOriginalDisplayName,
+        // getOtherAddressCity, getOtherAddressCountry, getOtherAddressStateOrProvince,
+        // getOtherAddressStreet, getOtherAddressPostOfficeBox, getOriginalDisplayName,
+        // getFtpSite, getManagerName
     }
 
-    /**
-     * Gets contacts global list name used for the csv file name construction.
-     *
-     * @return the global list name
-     */
-    static public String getGlobalListName() {
-        return "contacts";
-    }
+    @Override
+    public void analyzeContactPicture() throws MailExtractLibException, InterruptedException {
+        pictureFileName = null;
+        pictureData = null;
+        if (contact.getNumberOfAttachments() == 0)
+            return;
 
-    /**
-     * Write to the contacts list, after initialising it if first contact
-     *
-     * @param writeFlag the write flag
-     */
-    public void writeToContactsList(boolean writeFlag) {
-        if (writeFlag && pstStoreFolder.getStoreExtractor().getOptions().extractObjectsLists) {
-            PrintStream ps = pstStoreFolder.getStoreExtractor().getInitializedGlobalListPS(this.getClass());
-
-            ps.format("\"%s\"|", filterHyphen(getFullName()));
-            ps.format("\"%s\"|", filterHyphen(contact.getGivenName()));
-            ps.format("\"%s\"|", filterHyphen(contact.getSurname()));
-            ps.format("\"%s\"|", filterHyphen(contact.getBody()));
-            ps.format("\"%s\"|", filterHyphen(contact.getCompanyName()));
-            ps.format("\"%s\"|", filterHyphen(contact.getDepartmentName()));
-            ps.format("\"%s\"|", filterHyphen(getTitle()));
-            ps.format("\"%s\"|", filterHyphen(contact.getPostalAddress()));
-            ps.format("\"%s\"|", filterHyphen(getSMTPAddresses()));
-            ps.format("\"%s\"|", filterHyphen(contact.getPrimaryTelephoneNumber()));
-            ps.format("\"%s\"|", filterHyphen(getMobileTelephoneNumbers()));
-            ps.format("\"%s\"|", filterHyphen(contact.getBusinessHomePage()));
-            ps.format("\"%s\"|", filterHyphen(contact.getOfficeLocation()));
-            ps.format("\"%s\"|", filterHyphen(getBusinessTelephoneNumbers()));
-            ps.format("\"%s\"|", filterHyphen(getBusinessAddress()));
-            ps.format("\"%s\"|", filterHyphen(contact.getCustomerId()));
-            ps.format("\"%s\"|", filterHyphen(getOtherMailAddresses()));
-            ps.format("\"%s\"|", filterHyphen(getOtherTelephoneNumbers()));
-            ps.format("\"%s\"|", filterHyphen(contact.getAssistant()));
-            ps.format("\"%s\"|", filterHyphen(contact.getAssistantTelephoneNumber()));
-            ps.format("\"%s\"|", filterHyphen(contact.getPersonalHomePage()));
-            ps.format("\"%s\"|", filterHyphen(contact.getLocation()));
-            ps.format("\"%s\"|", filterHyphen(getHomeTelephoneNumbers()));
-            ps.format("\"%s\"|", filterHyphen(getHomeAddress()));
-            ps.format("\"%s\"|", filterHyphen(contact.getNickname()));
-
-            // are not extracted the following values from java-libpst
-            // getCallbackTelephoneNumber, getInitials, getKeyword, getLanguage, getMhsCommonName,
-            // getOrganizationalIdNumber, getMiddleName, getDisplayNamePrefix, getPreferredByName,
-            // getSpouseName, getComputerNetworkName, getTtytddPhoneNumber, getChildrensNames,
-            // getTransmittableDisplayName, getTelexNumber, getHobbies, getOriginalDisplayName,
-            // getOtherAddressCity, getOtherAddressCountry, getOtherAddressStateOrProvince,
-            // getOtherAddressStreet, getOtherAddressPostOfficeBox, getOriginalDisplayName,
-            // getFtpSite, getManagerName
-
-            ps.println();
-            ps.flush();
+        for (int i = 0; i < contact.getNumberOfAttachments(); i++) {
+            PSTAttachment attachment;
+            try {
+                attachment = contact.getAttachment(i);
+                if (attachment.isContactPhoto()) {
+                    pictureFileName = attachment.getLongFilename();
+                    try {
+                        InputStream is = attachment.getFileInputStream();
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        byte[] buf = new byte[4096];
+                        int bytesRead;
+                        while ((bytesRead = is.read(buf)) != -1) {
+                            baos.write(buf, 0, bytesRead);
+                        }
+                        pictureData = baos.toByteArray();
+                        break;
+                    } catch (PSTException | IOException e) {
+                        pictureFileName = null;
+                    }
+                }
+            } catch (PSTException | IOException ignored) {
+            }
         }
     }
-
-    private String filterHyphen(String s) {
-        return s.replace("\"", " ");
-    }
-
 }

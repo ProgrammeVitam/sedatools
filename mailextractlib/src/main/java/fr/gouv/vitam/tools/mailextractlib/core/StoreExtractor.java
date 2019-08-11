@@ -279,6 +279,13 @@ public abstract class StoreExtractor {
     protected Map<String, PrintStream> globalListsPSMap;
 
     /**
+     * The Global lists counters map.
+     * private map of counters for global lists extraction
+     * mails list, contacts, appointments...)
+     */
+    protected Map<String, Integer> globalListsCounterMap;
+
+    /**
      * Add mimetypes, scheme, isContainer, store extractor known relation.
      * <p>
      * This is used by store extractor sub classes to subscribe. When the
@@ -341,7 +348,7 @@ public abstract class StoreExtractor {
      * @param listClass the list class
      * @return the initialized global list ps
      */
-    public PrintStream getInitializedGlobalListPS(Class listClass) {
+    public PrintStream getGlobalListPS(Class listClass) {
         String globalListName = null;
         PrintStream result = null;
         try {
@@ -359,6 +366,55 @@ public abstract class StoreExtractor {
             doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list for [" + globalListName + "] csv file", e);
         } catch (InvocationTargetException te) {
             doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list for [" + globalListName + "] csv file", te.getTargetException());
+        }
+        return result;
+    }
+
+    /**
+     * Init the counter for a global list generated for a certain type of objects,
+     * if not already done, and return the counter
+     *
+     * @param listClass the list class
+     * @return the initialized global list counter
+     */
+    public int getGlobalListCounter(Class listClass) {
+        String globalListName = null;
+        Integer result = 0;
+        try {
+            globalListName = (String) listClass.getMethod("getGlobalListName").invoke(null);
+            result = globalListsCounterMap.get(globalListName);
+            if (result == null) {
+                globalListsCounterMap.put(globalListName, 0);
+                result=0;
+            }
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list counter for [" + globalListName + "] csv file", e);
+        } catch (InvocationTargetException te) {
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list counter for [" + globalListName + "] csv file", te.getTargetException());
+        }
+        return result;
+    }
+
+    /**
+     * Increment the counter for a global list generated for a certain type of objects, and return the value.
+     *
+     * @param listClass the list class
+     */
+    public int incGlobalListCounter(Class listClass) {
+        String globalListName = null;
+        Integer result = 0;
+        try {
+            globalListName = (String) listClass.getMethod("getGlobalListName").invoke(null);
+            result = globalListsCounterMap.get(globalListName);
+            if (result == null)
+                result=1;
+            else
+                result+=1;
+            globalListsCounterMap.put(globalListName, result);
+         } catch (NoSuchMethodException | IllegalAccessException e) {
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list counter for [" + globalListName + "] csv file", e);
+        } catch (InvocationTargetException te) {
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list counter for [" + globalListName + "] csv file", te.getTargetException());
         }
         return result;
     }
@@ -422,6 +478,7 @@ public abstract class StoreExtractor {
         this.description = ":p:" + scheme + ":u:" + user;
 
         globalListsPSMap = new HashMap<String, PrintStream>();
+        globalListsCounterMap = new HashMap<String, Integer>();
     }
 
     /**
@@ -754,12 +811,12 @@ public abstract class StoreExtractor {
 
         // title generation from context
         if ((user != null) && (!user.isEmpty()))
-            title = "Ensemble des messages électroniques envoyés et reçus par le compte " + user;
+            title = "Ensemble des messages électroniques et informations associées (contacts, rendez-vous...) envoyés et reçus par le compte " + user;
         else if ((path != null) && (!path.isEmpty()))
-            title = "Ensemble des messages électroniques du container " + path;
+            title = "Ensemble des messages électroniques et informations associées (contacts, rendez-vous...) du container " + path;
         else
-            title = "Ensemble de messages ";
-        if ((host != null) && (!host.isEmpty()))
+            title = "Ensemble de messages électroniques et informations associées (contacts, rendez-vous...)";
+        if ((host != null) && (!host.isEmpty()) && (!host.equals("localhost")))
             title += " sur le serveur " + host + (port == -1 ? "" : ":" + Integer.toString(port));
         title += " à la date du " + start;
         rootNode.addMetadata("Title", title, true);
@@ -896,16 +953,5 @@ public abstract class StoreExtractor {
      */
     public static String getVerifiedScheme(byte[] content) {
         return null;
-    }
-
-    /**
-     * Gets the print stream for any named global list
-     * (EXTRACTED_MAILS_LIST...), if any, or null.
-     *
-     * @param listName the list name
-     * @return the print stream
-     */
-    public PrintStream getGlobalListPS(String listName) {
-        return globalListsPSMap.get(listName);
     }
 }

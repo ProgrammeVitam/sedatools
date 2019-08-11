@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
 import com.pff.*;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreElement;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
@@ -131,13 +132,12 @@ public class PstStoreFolder extends StoreFolder {
             if (po == null)
                 break;
             message = (PSTMessage) po;
-            if (message instanceof PSTContact) {
-                PstStoreContact lPStoreContact = new PstStoreContact(this, (PSTContact) message);
-                lPStoreContact.writeToContactsList(writeFlag);
-            } else {
-                PstStoreMessage lPStoreMessage = new PstStoreMessage(this, message);
-                lPStoreMessage.processElement(writeFlag);
-            }
+            StoreElement extracted;
+            if (message instanceof PSTContact)
+                extracted = new PstStoreContact(this, (PSTContact) message);
+            else
+                extracted = new PstStoreMessage(this, message);
+            extracted.processElement(writeFlag);
         }
     }
 
