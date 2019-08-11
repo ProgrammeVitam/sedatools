@@ -27,14 +27,12 @@
 
 package fr.gouv.vitam.tools.mailextractlib.core;
 
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
+
 /**
- * StoreElement class for an element (file or message) that can be extracted
- * <p>
- * For the moment there's only one sub-type which is StoreMessage, but this
- * class could be used for creating StoreFile for extracting elements from zip, rar,
- * gz... containers
+ * StoreElement class for an element (fmessage, contact, appointment...) that can be extracted
  */
-public class StoreElement {
+public abstract class StoreElement {
 
     /**
      * Instantiates a new store leaf.
@@ -42,4 +40,21 @@ public class StoreElement {
     public StoreElement() {
     }
 
+    /**
+     * Whole process of extraction on one element (analysis, extraction, count...).
+     *
+     * @param writeFlag if true, extraction result is disk written
+     * @throws InterruptedException    the interrupted exception
+     * @throws MailExtractLibException the mail extract lib exception
+     */
+    abstract public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException;
+
+    /**
+     * Limited process of listing on one element (analysis, count...).
+     *
+     * @param statsFlag if true, collect also element data (like size for message)
+     * @throws InterruptedException    the interrupted exception
+     * @throws MailExtractLibException the mail extract lib exception
+     */
+    abstract public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException;
 }

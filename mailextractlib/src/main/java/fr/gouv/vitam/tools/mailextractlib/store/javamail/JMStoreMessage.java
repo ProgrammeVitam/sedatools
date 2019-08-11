@@ -368,14 +368,8 @@ public class JMStoreMessage extends StoreMessage {
         inReplyToUID = result;
     }
 
-    /**
-     * Gets the header value.
-     *
-     * @param line the line
-     * @return the header value
-     */
     // utility function to get the value part of an header string
-    public static String getHeaderValue(String line) {
+    private static String getHeaderValue(String line) {
         int i = line.indexOf(':');
         if (i < 0)
             return line;

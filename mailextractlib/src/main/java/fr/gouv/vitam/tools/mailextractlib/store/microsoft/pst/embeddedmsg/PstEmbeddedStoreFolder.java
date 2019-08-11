@@ -83,10 +83,7 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      */
     @Override
     protected void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
-        lpStoreMessage.analyzeMessage();
-        dateRange.extendRange(lpStoreMessage.getSentDate());
-        lpStoreMessage.extractMessage(writeFlag);
-        lpStoreMessage.countMessage();
+        lpStoreMessage.processElement(writeFlag);
 
         // return to attachment the binary form
         StoreMessageAttachment attachment = ((PstEmbeddedStoreExtractor) storeExtractor).getAttachment();
@@ -156,7 +153,7 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      */
     @Override
     protected void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
-        lpStoreMessage.countMessage();
+        lpStoreMessage.listElement(stats);
     }
 
     /*

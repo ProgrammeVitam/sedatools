@@ -101,10 +101,7 @@ public class MsgStoreFolder extends StoreFolder {
      */
     @Override
     protected void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
-        msgStoreMessage.analyzeMessage();
-        dateRange.extendRange(msgStoreMessage.getSentDate());
-        msgStoreMessage.extractMessage(writeFlag);
-        msgStoreMessage.countMessage();
+        msgStoreMessage.processElement(writeFlag);
 
         // return to attachment the binary form if exists
         StoreMessageAttachment attachment = ((MsgStoreExtractor) storeExtractor).getAttachment();
@@ -156,10 +153,7 @@ public class MsgStoreFolder extends StoreFolder {
      */
     @Override
     protected void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
-        msgStoreMessage.analyzeMessage();
-        dateRange.extendRange(msgStoreMessage.getSentDate());
-        msgStoreMessage.extractMessage(false);
-        msgStoreMessage.countMessage();
+        msgStoreMessage.listElement(stats);
     }
 
     /*

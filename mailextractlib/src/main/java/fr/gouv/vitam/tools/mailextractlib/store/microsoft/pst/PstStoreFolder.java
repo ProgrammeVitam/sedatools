@@ -135,12 +135,8 @@ public class PstStoreFolder extends StoreFolder {
                 PstStoreContact lPStoreContact = new PstStoreContact(this, (PSTContact) message);
                 lPStoreContact.writeToContactsList(writeFlag);
             } else {
-
                 PstStoreMessage lPStoreMessage = new PstStoreMessage(this, message);
-                lPStoreMessage.analyzeMessage();
-                dateRange.extendRange(lPStoreMessage.getSentDate());
-                lPStoreMessage.extractMessage(writeFlag);
-                lPStoreMessage.countMessage();
+                lPStoreMessage.processElement(writeFlag);
             }
         }
     }
@@ -231,7 +227,7 @@ public class PstStoreFolder extends StoreFolder {
             message = (PSTMessage) pstFolder.getNextChild();
             while (message != null) {
                 PstStoreMessage lPStoreMessage = new PstStoreMessage(this, message);
-                lPStoreMessage.countMessage();
+                lPStoreMessage.listElement(stats);
                 message = (PSTMessage) pstFolder.getNextChild();
             }
         } catch (IOException e) {

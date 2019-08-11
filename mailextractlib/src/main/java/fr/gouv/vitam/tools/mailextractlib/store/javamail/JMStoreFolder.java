@@ -105,10 +105,7 @@ public class JMStoreFolder extends StoreFolder {
                 message = folder.getMessage(i);
                 if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
                     JMStoreMessage jMStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
-                    jMStoreMessage.analyzeMessage();
-                    dateRange.extendRange(jMStoreMessage.getSentDate());
-                    jMStoreMessage.extractMessage(writeFlag);
-                    jMStoreMessage.countMessage();
+                    jMStoreMessage.processElement(writeFlag);
                 }
             }
             folder.close(false);
@@ -213,11 +210,7 @@ public class JMStoreFolder extends StoreFolder {
                 message = folder.getMessage(i);
                 if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
                     JMStoreMessage jMStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
-                    jMStoreMessage.analyzeMessage();
-                    if (stats)
-                        jMStoreMessage.extractMessage(false);
-                    jMStoreMessage.countMessage();
-
+                    jMStoreMessage.listElement(stats);
                 }
             }
             folder.close(false);

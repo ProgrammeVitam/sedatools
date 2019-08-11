@@ -331,9 +331,9 @@ public abstract class StoreMessage extends StoreElement {
         else
             msg += " for [no subject] message";
 
-        Exception ex=null;
+        Exception ex = null;
         if (t instanceof Exception)
-            ex=(Exception)t;
+            ex = (Exception) t;
 
         if (storeFolder.getStoreExtractor().options.warningMsgProblem)
             doProgressLog(getProgressLogger(), MailExtractProgressLogger.WARNING, msg, ex);
@@ -451,24 +451,24 @@ public abstract class StoreMessage extends StoreElement {
                         && ((a.mimeType.toLowerCase().equals("application/ms-tnef")
                         || (a.mimeType.toLowerCase().equals("application/vnd.ms-tnef"))))) {
                     try {
-                        ByteArrayInputStream bais=new ByteArrayInputStream((byte [])a.attachmentContent);
+                        ByteArrayInputStream bais = new ByteArrayInputStream((byte[]) a.attachmentContent);
                         HMEFMessage tnefPart = new HMEFMessage(bais);
 
-                        String rtfBody=tnefPart.getBody();
-                        List<Attachment> tnefAttachments=tnefPart.getAttachments();
+                        String rtfBody = tnefPart.getBody();
+                        List<Attachment> tnefAttachments = tnefPart.getAttachments();
 
                         attachments.remove(a);
-                        if ((bodyContent[RTF_BODY]==null) || bodyContent[RTF_BODY].isEmpty())
-                            bodyContent[RTF_BODY]=rtfBody;
+                        if ((bodyContent[RTF_BODY] == null) || bodyContent[RTF_BODY].isEmpty())
+                            bodyContent[RTF_BODY] = rtfBody;
                         else
                             logMessageWarning("mailextractlib: redondant rtf body extracted from winmail.dat droped", null);
 
-                        for (Attachment tnefAttachment:tnefAttachments) {
-                            StoreMessageAttachment smAttachment=new StoreMessageAttachment(tnefAttachment.getContents(),
-                                    "file",tnefAttachment.getLongFilename(),
+                        for (Attachment tnefAttachment : tnefAttachments) {
+                            StoreMessageAttachment smAttachment = new StoreMessageAttachment(tnefAttachment.getContents(),
+                                    "file", tnefAttachment.getLongFilename(),
                                     null, tnefAttachment.getModifiedDate(),
                                     TikaExtractor.getInstance().getMimeType(tnefAttachment.getContents()),
-                                    null,StoreMessageAttachment.FILE_ATTACHMENT);
+                                    null, StoreMessageAttachment.FILE_ATTACHMENT);
                             attachments.add(smAttachment);
                         }
                         break;
@@ -554,8 +554,8 @@ public abstract class StoreMessage extends StoreElement {
      * If needed a fake raw SMTP content (.eml) is generated with all the body
      * formats available but without the attachments, which are extracted too.
      *
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     public void analyzeMessage() throws MailExtractLibException, InterruptedException {
         // header metadata extraction
@@ -657,6 +657,22 @@ public abstract class StoreMessage extends StoreElement {
         return result;
     }
 
+    @Override
+    public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
+        analyzeMessage();
+        storeFolder.getDateRange().extendRange(sentDate);
+        extractMessage(writeFlag);
+        countMessage();
+    }
+
+    @Override
+    public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
+        analyzeMessage();
+        if (statsFlag)
+            extractMessage(false);
+        countMessage();
+    }
+
     /**
      * Create the Archive Unit structures with all content and metadata needed,
      * and then write them on disk if writeFlag is true.
@@ -666,8 +682,8 @@ public abstract class StoreMessage extends StoreElement {
      * {@link StoreExtractor#extractAllFolders StoreFolder.extractAllFolders}).
      *
      * @param writeFlag write or not flag (no write used for stats)
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     public final void extractMessage(boolean writeFlag) throws MailExtractLibException, InterruptedException {
         // String description = "[Vide]";
@@ -1023,7 +1039,7 @@ public abstract class StoreMessage extends StoreElement {
             // message identification
             if (a.attachmentType == StoreMessageAttachment.STORE_ATTACHMENT) {
                 // recursive extraction of a message in attachment...
-                    doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: attached message extraction", null);
+                doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: attached message extraction", null);
                 extractStoreAttachment(messageNode, attachedMessagedateRange, a, writeFlag);
                 attachedFlag = true;
             } else if (writeFlag) {
@@ -1042,8 +1058,8 @@ public abstract class StoreMessage extends StoreElement {
      * Add this message in the folder accumulators for number of messages and
      * total raw size of messages.
      *
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major                             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     public void countMessage() throws MailExtractLibException, InterruptedException {
         // accumulate in folder statistics
