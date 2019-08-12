@@ -344,6 +344,8 @@ public class StoreAttachment {
         Boolean isContainerScheme = false;
         StoreExtractor extractor;
 
+        doProgressLog(fatherExtractor.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS,
+                "mailextractlib: begin "+attachmentStoreScheme+" store content extraction from an attachment in " + fatherElement.getLogDescription(), null);
         Class storeExtractorClass = StoreExtractor.schemeStoreExtractorClassMap.get(attachmentStoreScheme);
         if (storeExtractorClass == null) {
             fatherElement.logMessageWarning("mailextractlib: unknown embedded store type=" + attachmentStoreScheme
@@ -364,8 +366,8 @@ public class StoreAttachment {
             try {
                 extractor = (StoreExtractor) storeExtractorClass
                         .getConstructor(StoreAttachment.class, ArchiveUnit.class, StoreExtractorOptions.class,
-                                StoreExtractor.class, MailExtractProgressLogger.class)
-                        .newInstance(this, node, fatherExtractor.options, fatherExtractor, fatherElement.getProgressLogger());
+                                StoreExtractor.class, StoreElement.class, MailExtractProgressLogger.class)
+                        .newInstance(this, node, fatherExtractor.options, fatherExtractor, fatherElement, fatherElement.getProgressLogger());
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException
                     | SecurityException e) {
                 fatherElement.logMessageWarning("mailextractlib: dysfonctional embedded store type=" + attachmentStoreScheme
@@ -392,6 +394,8 @@ public class StoreAttachment {
             }
             if (writeFlag)
                 node.write();
+            doProgressLog(fatherExtractor.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS,
+                    "mailextractlib: end "+attachmentStoreScheme+" store content extraction from an attachment in " + fatherElement.getLogDescription(), null);
         }
     }
 }

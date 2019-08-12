@@ -205,8 +205,8 @@ public abstract class StoreContact extends StoreElement {
 
     @Override
     public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
-        analyzeContact();
         listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
+        analyzeContact();
         extractContact(writeFlag);
     }
 

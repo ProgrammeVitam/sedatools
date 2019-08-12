@@ -82,12 +82,13 @@ public abstract class StoreElement {
      * @throws InterruptedException the interrupted exception
      */
     public void logMessageWarning(String msg, Throwable t) throws InterruptedException {
-//        if (subject != null)
-//            msg += " for message [" + subject + "]";
-//        else
-//            msg += " for [no subject] message";
-
         msg+= " for "+ getLogDescription();
+        StoreElement fatherElement=getStoreExtractor().getFatherElement();
+        while (fatherElement!=null) {
+            msg+=" in "+ fatherElement.getLogDescription();
+            fatherElement=fatherElement.getStoreExtractor().getFatherElement();
+        }
+
         Exception ex = null;
         if (t instanceof Exception)
             ex = (Exception) t;

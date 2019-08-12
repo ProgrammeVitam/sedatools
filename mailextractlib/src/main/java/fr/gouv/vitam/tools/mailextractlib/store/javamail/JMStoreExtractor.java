@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreElement;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
@@ -93,7 +94,7 @@ public class JMStoreExtractor extends StoreExtractor {
      */
     public JMStoreExtractor(String urlString, String folder, String destPathString, StoreExtractorOptions options,
                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
-        super(urlString, folder, destPathString, options, rootStoreExtractor, logger);
+        super(urlString, folder, destPathString, options, rootStoreExtractor, null, logger);
 
         String url;
 
@@ -151,24 +152,17 @@ public class JMStoreExtractor extends StoreExtractor {
     /**
      * Instantiates a new JavaMail StoreExtractor for embedded container.
      *
-     * @param attachment
-     *            the attachment
-     * @param rootNode
-     *            the root node
-     * @param options
-     *            Options
-     * @param rootStoreExtractor
-     *            the creating store extractor in nested extraction, or null if
-     *            root one
-     * @param logger
-     *            logger used
-     * @throws MailExtractLibException
-     *             Any unrecoverable extraction exception (access trouble, major
-     *             format problems...)
+     * @param attachment         the attachment
+     * @param rootNode           the root node
+     * @param options            Options
+     * @param rootStoreExtractor the creating store extractor in nested extraction, or null if root one
+     * @param fatherElement      the father element in nested extraction, or null if root one
+     * @param logger             logger used
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      */
     public JMStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
-                            StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
-        super(attachment.getScheme() + "://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, logger);
+                            StoreExtractor rootStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger) throws MailExtractLibException {
+        super(attachment.getScheme() + "://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, fatherElement, logger);
         String url;
 
         url = attachment.getScheme() + ":";

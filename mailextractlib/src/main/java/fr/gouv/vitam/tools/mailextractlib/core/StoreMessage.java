@@ -294,7 +294,7 @@ public abstract class StoreMessage extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "message n°"+getStoreExtractor().getGlobalListCounter(this.getClass());
+        String result = "message "+getStoreExtractor().getGlobalListCounter(this.getClass());
         if (subject != null)
             result += " [" + subject + "]";
         else
@@ -563,17 +563,17 @@ public abstract class StoreMessage extends StoreElement {
 
     @Override
     public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
+        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
         analyzeMessage();
         storeFolder.getDateRange().extendRange(sentDate);
-        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
         extractMessage(writeFlag);
         countMessage();
     }
 
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
-        analyzeMessage();
         listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
+        analyzeMessage();
         if (statsFlag)
             extractMessage(false);
         countMessage();
@@ -688,12 +688,15 @@ public abstract class StoreMessage extends StoreElement {
             messageNode.write();
 
         getStoreExtractor().incMessageCount();
+        int logLevel;
         if (getStoreExtractor().isRoot()) {
             doProgressLogIfStep(getProgressLogger(), MailExtractProgressLogger.MESSAGE_GROUP, getStoreExtractor().getMessageCount(), "mailextractlib: " + getStoreExtractor().getMessageCount() + " extracted messages");
-            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE, "mailextractlib: extracted message " + (subject == null ? "no subject" : subject), null);
+            logLevel=MailExtractProgressLogger.MESSAGE;
         } else
-            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: extracted message " + (subject == null ? "no subject" : subject), null);
-        doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "with SentDate=" + (sentDate == null ? "Unknown sent date" : sentDate.toString()), null);
+            logLevel=MailExtractProgressLogger.MESSAGE_DETAILS;
+
+        doProgressLog(getProgressLogger(), logLevel, "mailextractlib: extracted "+getLogDescription()+
+                        " with SentDate=" + (sentDate == null ? "Unknown sent date" : sentDate.toString()), null);
 
         // write in csv list if asked for
         writeToMailsList(writeFlag);

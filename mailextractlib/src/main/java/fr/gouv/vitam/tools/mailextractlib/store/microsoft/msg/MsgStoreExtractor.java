@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.msg;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreElement;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
@@ -72,7 +73,7 @@ public class MsgStoreExtractor extends StoreExtractor {
      */
     public MsgStoreExtractor(String urlString, String folder, String destPathString, StoreExtractorOptions options,
                              StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException, InterruptedException {
-        super(urlString, folder, destPathString, options, rootStoreExtractor, logger);
+        super(urlString, folder, destPathString, options, rootStoreExtractor, null, logger);
         MAPIMessage message;
         long size;
 
@@ -95,14 +96,15 @@ public class MsgStoreExtractor extends StoreExtractor {
      * @param attachment         the attachment
      * @param rootNode           the ArchiveUnit node representing this container
      * @param options            the options
-     * @param rootStoreExtractor the root store extractor
+     * @param rootStoreExtractor the root store extractor in nested extraction, or null if root one
+     * @param fatherElement      the father element in nested extraction, or null if root one
      * @param logger             the logger
-     * @throws MailExtractLibException  the extraction exception
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException the extraction exception
+     * @throws InterruptedException    the interrupted exception
      */
     public MsgStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException, InterruptedException {
-        super("msg.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, logger);
+                             StoreExtractor rootStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger) throws MailExtractLibException, InterruptedException {
+        super("msg.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, fatherElement, logger);
         MAPIMessage message;
 
         this.attachment = attachment;
