@@ -72,7 +72,7 @@ public abstract class StoreContact extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "contact n°" + getStoreExtractor().getGlobalListCounter(this.getClass());
+        String result = "contact " + getStoreExtractor().getGlobalListCounter(this.getClass());
         if (fullName != null)
             result += " [" + fullName + "]";
         else if ((givenName != null) || (lastName != null))

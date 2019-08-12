@@ -27,22 +27,26 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
-import com.pff.PSTAttachment;
-import com.pff.PSTContact;
-import com.pff.PSTException;
+import com.pff.*;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAppointment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreContact;
+import fr.gouv.vitam.tools.mailextractlib.formattools.rtf.HTMLFromRTFExtractor;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintStream;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.LinkedHashSet;
+import java.util.List;
 
 /**
  * StoreMessage sub-class for mail boxes extracted through libpst library.
  */
-public class PstStoreContact extends StoreContact {
+public class PstStoreAppointment extends StoreAppointment {
 
     /**
      * The containing PST folder
@@ -52,166 +56,93 @@ public class PstStoreContact extends StoreContact {
     /**
      * The contact.
      */
-    private PSTContact contact;
+    private PSTAppointment appointment;
 
     /**
-     * Instantiates a new pst store contact.
+     * Instantiates a new pst store appointment.
      *
      * @param pstStoreFolder the store folder containing the contact
-     * @param contact        the contact
+     * @param appointment    the appointment
      */
-    public PstStoreContact(PstStoreFolder pstStoreFolder, PSTContact contact) {
+    public PstStoreAppointment(PstStoreFolder pstStoreFolder, PSTAppointment appointment) {
         super(pstStoreFolder);
-        this.contact = contact;
+        this.appointment = appointment;
     }
 
-    private String getFullName() {
-        String tmp1, tmp2;
-        tmp1 = contact.getAccount();
-        tmp2 = contact.getDisplayName();
-        if ((tmp1 == null) || tmp1.isEmpty())
-            return tmp2;
-        if ((tmp2 == null) || tmp2.isEmpty())
-            return tmp1;
-        if (tmp1.toLowerCase().equals(tmp2.toLowerCase()))
-            return tmp1;
-        return tmp1 + "/" + tmp2;
+    private String getUniqId() {
+        String result = appointment.getCleanGlobalObjectId().toString();
+        if (result == null || result.isEmpty())
+            result = appointment.getGlobalObjectId().toString();
+        return result;
     }
 
-    private String getStringFromSet(LinkedHashSet<String> set) {
+    private String getFrom() {
+        String fromAddr = appointment.getSenderEmailAddress();
+        String fromName = appointment.getSenderName();
         String result = "";
-        for (String s : set) {
-            if ((s != null) && !s.isEmpty())
-                result += s + ";";
+        if ((fromName != null) && !fromName.isEmpty())
+            result = fromName + " ";
+        if ((fromAddr != null) && !fromAddr.isEmpty())
+            result +=<" + fromAddr + " > ";
+        return result.trim();
+    }
+
+    private ZonedDateTime getZonedDateTime(Date date, PSTTimeZone pstTimeZone) {
+        ZoneId zoneId;
+        if (pstTimeZone == null)
+            zoneId = ZoneId.of("UTC");
+        else
+            zoneId = pstTimeZone.getSimpleTimeZone().toZoneId();
+        return ZonedDateTime.ofInstant(date.toInstant(), zoneId);
+    }
+
+    private void analyzeMiscNotes() {
+        String text = appointment.getBody();
+        String html = appointment.getBodyHTML();
+        String rtf = appointment.getRTFBody();
+
+        if (!rtf.isEmpty()) {
+            HTMLFromRTFExtractor htmlExtractor = new HTMLFromRTFExtractor(rtf);
+            if (htmlExtractor.isEncapsulatedTEXTinRTF()) {
+                text = htmlExtractor.getDeEncapsulateHTMLFromRTF();
+                rtf=null;
+            } else if (htmlExtractor.isEncapsulatedHTMLinRTF())
+                html = htmlExtractor.getDeEncapsulateHTMLFromRTF();
+                rtf=null;
         }
-        if (!result.isEmpty())
-            result = result.substring(0, result.length() - 1);
-        return result;
-    }
-
-    private String getOtherMailAddresses() {
-        LinkedHashSet<String> set = new LinkedHashSet<String>();
-        set.add(contact.getEmail1EmailAddress());
-        set.add(contact.getEmail2EmailAddress());
-        set.add(contact.getEmail3EmailAddress());
-        return getStringFromSet(set);
-    }
-
-    private String getBusinessTelephoneNumbers() {
-        LinkedHashSet<String> set = new LinkedHashSet<String>();
-        set.add(contact.getBusinessTelephoneNumber());
-        set.add(contact.getBusiness2TelephoneNumber());
-        set.add(contact.getCompanyMainPhoneNumber());
-        return getStringFromSet(set);
-    }
-
-    private String getHomeTelephoneNumbers() {
-        LinkedHashSet<String> set = new LinkedHashSet<String>();
-        set.add(contact.getHomeTelephoneNumber());
-        set.add(contact.getHome2TelephoneNumber());
-        return getStringFromSet(set);
-    }
-
-    private String getMobileTelephoneNumbers() {
-        LinkedHashSet<String> set = new LinkedHashSet<String>();
-        set.add(contact.getMobileTelephoneNumber());
-        set.add(contact.getRadioTelephoneNumber());
-        return getStringFromSet(set);
-    }
-
-    private String getOtherTelephoneNumbers() {
-        LinkedHashSet<String> set = new LinkedHashSet<String>();
-        set.add(contact.getCarTelephoneNumber());
-        set.add(contact.getOtherTelephoneNumber());
-        set.add(contact.getPagerTelephoneNumber());
-        set.add(contact.getPrimaryFaxNumber());
-        set.add(contact.getBusinessFaxNumber());
-        set.add(contact.getHomeFaxNumber());
-        set.add(contact.getIsdnNumber());
-        return getStringFromSet(set);
-    }
-
-    private String getTitle() {
-        String tmp1, tmp2;
-        tmp1 = contact.getTitle();
-        tmp2 = contact.getProfession();
-        if ((tmp1 == null) || tmp1.isEmpty())
-            return tmp2;
-        if ((tmp2 == null) || tmp2.isEmpty())
-            return tmp1;
-        if (tmp1.toLowerCase().equals(tmp2.toLowerCase()))
-            return tmp1;
-        return tmp1 + "/" + tmp2;
-    }
-
-    private String getBusinessAddress() {
-        String tmp, line = "", result = "";
-        tmp = contact.getBusinessAddressStreet();
-        if (!tmp.isEmpty())
-            result = "L1:" + tmp + "\n";
-        tmp = contact.getBusinessPostalCode();
-        if (!tmp.isEmpty())
-            line = tmp + " ";
-        tmp = contact.getBusinessAddressCity();
-        if (!tmp.isEmpty())
-            line += tmp + " ";
-        tmp = contact.getBusinessPoBox();
-        if (!tmp.isEmpty())
-            line += "POB:" + tmp + " ";
-        if (!line.isEmpty()) {
-            result += "L2:" + line.substring(0, line.length() - 1) + "\n";
-            line = "";
-        }
-        tmp = contact.getBusinessAddressCountry();
-        if (!tmp.isEmpty())
-            line += tmp;
-        tmp = contact.getBusinessAddressStateOrProvince();
-        if (!tmp.isEmpty() && !tmp.toLowerCase().equals(line.toLowerCase())) {
-            if (line.isEmpty())
-                line = tmp;
-            else line += "/" + tmp;
-        }
-        if (!line.isEmpty()) {
-            result += "L3:" + line + "\n";
-        }
-        return result;
-    }
-
-    private String getHomeAddress() {
-        String tmp, line = "", result = "";
-        tmp = contact.getHomeAddressStreet();
-        if (!tmp.isEmpty())
-            result = "L1:" + tmp + "\n";
-        tmp = contact.getHomeAddressPostalCode();
-        if (!tmp.isEmpty())
-            line = tmp + " ";
-        tmp = contact.getHomeAddressCity();
-        if (!tmp.isEmpty())
-            line += tmp + " ";
-        if (!line.isEmpty()) {
-            result += "L2:" + line.substring(0, line.length() - 1) + "\n";
-            line = "";
-        }
-        tmp = contact.getHomeAddressPostOfficeBox();
-        if (!tmp.isEmpty())
-            line += "POB:" + tmp + " ";
-        tmp = contact.getHomeAddressCountry();
-        if (!tmp.isEmpty())
-            line += tmp;
-        tmp = contact.getHomeAddressStateOrProvince();
-        if (!tmp.isEmpty() && !tmp.toLowerCase().equals(line.toLowerCase())) {
-            if (line.isEmpty())
-                line = tmp;
-            else line += "/" + tmp;
-        }
-        if (!line.isEmpty()) {
-            result += "L3:" + line + "\n";
-        }
-        return result;
     }
 
     @Override
-    public void analyzeAllContactInformations() throws MailExtractLibException, InterruptedException {
+    public void analyzeAppointment() throws MailExtractLibException, InterruptedException {
+        uniqId = getUniqId();
+
+        subject = appointment.getSubject();
+        location = appointment.getLocation();
+        from = getFrom();
+        toAttendees = appointment.getToAttendees();
+        ccAttendees = appointment.getCCAttendees();
+        startTime = getZonedDateTime(appointment.getStartTime(), appointment.getStartTimeZone());
+        startTime = getZonedDateTime(appointment.getStartTime(), appointment.getEndTimeZone());
+        miscNotes = appointment.getBody();
+
+        protected boolean isBusy;
+
+        protected List<StoreAttachment> attachments;
+
+// for appointment organized with other people
+        protected int sequenceNumber;
+        protected int responseStatus;
+
+// for recurrent appointment
+        protected String recurencePattern;
+        protected ZonedDateTime startRecurrenceTime;
+        protected ZonedDateTime endRecurrenceTime;
+        protected List<StoreAppointment> exceptions;
+
+// for exceptions in recurring appointment
+        protected boolean isRecurrenceDeletion;
+
+
         fullName = getFullName();
         givenName = contact.getGivenName();
         lastName = contact.getSurname();
