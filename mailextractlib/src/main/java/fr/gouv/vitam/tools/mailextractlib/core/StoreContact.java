@@ -45,7 +45,6 @@ public abstract class StoreContact extends StoreElement {
     /**
      * All contact informations.
      */
-    protected int listLineId;
     protected String fullName, givenName, lastName, nickName;
     protected String postalAddress, homeAddress, homeLocation, businessAddress, businessLocation;
     protected String companyName, departmentName, title;
@@ -159,37 +158,33 @@ public abstract class StoreContact extends StoreElement {
     private void writeToContactsList() {
         PrintStream ps = storeFolder.getStoreExtractor().getGlobalListPS(this.getClass());
         ps.format("\"%d\";", listLineId);
-        ps.format("\"%s\";", filterHyphen(fullName));
-        ps.format("\"%s\";", filterHyphen(givenName));
-        ps.format("\"%s\";", filterHyphen(lastName));
-        ps.format("\"%s\";", filterHyphen(miscNotes));
-        ps.format("\"%s\";", filterHyphen(companyName));
-        ps.format("\"%s\";", filterHyphen(departmentName));
-        ps.format("\"%s\";", filterHyphen(title));
-        ps.format("\"%s\";", filterHyphen(postalAddress));
-        ps.format("\"%s\";", filterHyphen(smtpAddress));
-        ps.format("\"%s\";", filterHyphen(primaryTelephoneNumber));
-        ps.format("\"%s\";", filterHyphen(mobileTelephoneNumbers));
-        ps.format("\"%s\";", filterHyphen(businessHomePage));
-        ps.format("\"%s\";", filterHyphen(businessLocation));
-        ps.format("\"%s\";", filterHyphen(businessTelephoneNumbers));
-        ps.format("\"%s\";", filterHyphen(businessAddress));
-        ps.format("\"%s\";", filterHyphen(customerId));
-        ps.format("\"%s\";", filterHyphen(otherMailAddresses));
-        ps.format("\"%s\";", filterHyphen(otherTelephoneNumbers));
-        ps.format("\"%s\";", filterHyphen(assistantName));
-        ps.format("\"%s\";", filterHyphen(assistantTelephoneNumber));
-        ps.format("\"%s\";", filterHyphen(personalHomePage));
-        ps.format("\"%s\";", filterHyphen(homeLocation));
-        ps.format("\"%s\";", filterHyphen(homeTelephoneNumbers));
-        ps.format("\"%s\";", filterHyphen(homeAddress));
-        ps.format("\"%s\"", filterHyphen(nickName));
+        ps.format("\"%s\";", filterHyphenForCsv(fullName));
+        ps.format("\"%s\";", filterHyphenForCsv(givenName));
+        ps.format("\"%s\";", filterHyphenForCsv(lastName));
+        ps.format("\"%s\";", filterHyphenForCsv(miscNotes));
+        ps.format("\"%s\";", filterHyphenForCsv(companyName));
+        ps.format("\"%s\";", filterHyphenForCsv(departmentName));
+        ps.format("\"%s\";", filterHyphenForCsv(title));
+        ps.format("\"%s\";", filterHyphenForCsv(postalAddress));
+        ps.format("\"%s\";", filterHyphenForCsv(smtpAddress));
+        ps.format("\"%s\";", filterHyphenForCsv(primaryTelephoneNumber));
+        ps.format("\"%s\";", filterHyphenForCsv(mobileTelephoneNumbers));
+        ps.format("\"%s\";", filterHyphenForCsv(businessHomePage));
+        ps.format("\"%s\";", filterHyphenForCsv(businessLocation));
+        ps.format("\"%s\";", filterHyphenForCsv(businessTelephoneNumbers));
+        ps.format("\"%s\";", filterHyphenForCsv(businessAddress));
+        ps.format("\"%s\";", filterHyphenForCsv(customerId));
+        ps.format("\"%s\";", filterHyphenForCsv(otherMailAddresses));
+        ps.format("\"%s\";", filterHyphenForCsv(otherTelephoneNumbers));
+        ps.format("\"%s\";", filterHyphenForCsv(assistantName));
+        ps.format("\"%s\";", filterHyphenForCsv(assistantTelephoneNumber));
+        ps.format("\"%s\";", filterHyphenForCsv(personalHomePage));
+        ps.format("\"%s\";", filterHyphenForCsv(homeLocation));
+        ps.format("\"%s\";", filterHyphenForCsv(homeTelephoneNumbers));
+        ps.format("\"%s\";", filterHyphenForCsv(homeAddress));
+        ps.format("\"%s\"", filterHyphenForCsv(nickName));
         ps.println("");
         ps.flush();
-    }
-
-    private String filterHyphen(String s) {
-        return s.replace("\"", " ");
     }
 
     private void extractPicture() throws InterruptedException, MailExtractLibException {

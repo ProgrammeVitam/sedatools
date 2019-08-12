@@ -38,6 +38,11 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
 public abstract class StoreElement {
 
     /**
+     * The line id in csv list.
+     */
+    protected int listLineId;
+
+    /**
      * Store folder. containing this element.
      */
     protected StoreFolder storeFolder;
@@ -47,6 +52,7 @@ public abstract class StoreElement {
      */
     public StoreElement(StoreFolder storeFolder) {
         this.storeFolder = storeFolder;
+        this.listLineId=-1;
     }
 
     /**
@@ -121,4 +127,14 @@ public abstract class StoreElement {
      * @throws MailExtractLibException the mail extract lib exception
      */
     abstract public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException;
+
+    /**
+     * Filter hyphen for csv string.
+     *
+     * @param s the s
+     * @return the string
+     */
+    public String filterHyphenForCsv(String s) {
+        return s.replace("\"", " ");
+    }
 }

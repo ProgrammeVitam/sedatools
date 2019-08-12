@@ -231,11 +231,6 @@ public abstract class StoreMessage extends StoreElement {
     public ArchiveUnit messageNode;
 
     /**
-     * The line id in csv list.
-     */
-    protected int listLineId;
-
-    /**
      * Instantiates a new mail box message.
      *
      * @param storeFolder Mail box folder containing this message
@@ -737,22 +732,22 @@ public abstract class StoreMessage extends StoreElement {
                         (receivedDate == null ? "" : sdf.format(receivedDate)));
                 if ((from != null) && !from.isEmpty()) {
                     MetadataPerson p = new MetadataPerson(from);
-                    ps.format("\"%s\";\"%s\";", filterHyphen(p.fullName),
-                            filterHyphen(p.identifier));
+                    ps.format("\"%s\";\"%s\";", filterHyphenForCsv(p.fullName),
+                            filterHyphenForCsv(p.identifier));
                 } else
                     ps.print("\"\";\"\";");
                 ps.format("\"%s\";",
-                        filterHyphen(personStringListToIndentifierString(recipientTo)));
-                ps.format("\"%s\";", filterHyphen(subject));
-                ps.format("\"%s\";", filterHyphen(messageID));
-                ps.format("\"%s\";", filterHyphen(attachmentsNamesList()));
+                        filterHyphenForCsv(personStringListToIndentifierString(recipientTo)));
+                ps.format("\"%s\";", filterHyphenForCsv(subject));
+                ps.format("\"%s\";", filterHyphenForCsv(messageID));
+                ps.format("\"%s\";", filterHyphenForCsv(attachmentsNamesList()));
                 if ((replyTo == null) || replyTo.isEmpty())
                     ps.format("\"\";");
                 else {
                     MetadataPerson p = new MetadataPerson(replyTo.get(0));
-                    ps.format("\"%s\";", filterHyphen(p.identifier));
+                    ps.format("\"%s\";", filterHyphenForCsv(p.identifier));
                 }
-                ps.format("\"%s\";", filterHyphen(storeFolder.getFullName()));
+                ps.format("\"%s\";", filterHyphenForCsv(storeFolder.getFullName()));
                 ps.format("\"%d\";", this.getMessageSize());
                 if (!storeFolder.getStoreExtractor().isRoot())
                     ps.format("\"Attached\"");
@@ -767,7 +762,7 @@ public abstract class StoreMessage extends StoreElement {
                     else
                         edString = "[Date/HeureInconnues]";
                     ps.format(";\"%s\";\"%s\";\"%s\"",
-                            filterHyphen(appointment.location), bdString, edString);
+                            filterHyphenForCsv(appointment.location), bdString, edString);
                 } else {
                     ps.format(";;;");
                 }
@@ -811,10 +806,6 @@ public abstract class StoreMessage extends StoreElement {
             }
         }
         return result;
-    }
-
-    private String filterHyphen(String s) {
-        return s.replace("\"", " ");
     }
 
     /**
