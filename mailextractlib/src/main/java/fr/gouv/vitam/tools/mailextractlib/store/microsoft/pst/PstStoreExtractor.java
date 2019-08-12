@@ -32,7 +32,7 @@ import com.pff.PSTFile;
 import com.pff.PSTFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
@@ -58,7 +58,7 @@ public class PstStoreExtractor extends StoreExtractor {
     }
 
     // Attachment to complete with decoded form
-    private StoreMessageAttachment attachment;
+    private StoreAttachment attachment;
 
     /**
      * The store file.
@@ -156,7 +156,7 @@ public class PstStoreExtractor extends StoreExtractor {
     }
 
     // generate temporary file and create the url to it
-    static private String generateFileAndUrl(StoreMessageAttachment attachment, ArchiveUnit rootNode)
+    static private String generateFileAndUrl(StoreAttachment attachment, ArchiveUnit rootNode)
             throws MailExtractLibException {
         String result = null;
         File storeFile = writeStoreFile(rootNode.getFullName(), attachment.getRawAttachmentContent());
@@ -180,7 +180,7 @@ public class PstStoreExtractor extends StoreExtractor {
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major
      *                             format problems...)
      */
-    public PstStoreExtractor(StoreMessageAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
+    public PstStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
                              StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
         super(generateFileAndUrl(attachment, rootNode), "", rootNode.getFullName(), options, rootStoreExtractor, logger);
 
@@ -269,7 +269,7 @@ public class PstStoreExtractor extends StoreExtractor {
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor#getAttachment()
      */
     @Override
-    public StoreMessageAttachment getAttachment() {
+    public StoreAttachment getAttachment() {
         return attachment;
     }
 

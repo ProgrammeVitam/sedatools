@@ -28,7 +28,7 @@
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.msg;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import org.apache.poi.hsmf.MAPIMessage;
@@ -104,7 +104,7 @@ public class MsgStoreFolder extends StoreFolder {
         msgStoreMessage.processElement(writeFlag);
 
         // return to attachment the binary form if exists
-        StoreMessageAttachment attachment = ((MsgStoreExtractor) storeExtractor).getAttachment();
+        StoreAttachment attachment = ((MsgStoreExtractor) storeExtractor).getAttachment();
         if (attachment != null) {
             attachment.setStoreContent(msgStoreMessage.getMimeContent());
             attachment.setMimeType("message/rfc822");

@@ -27,9 +27,9 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.msg;
 
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
@@ -56,7 +56,7 @@ public class MsgStoreExtractor extends StoreExtractor {
     }
 
     // Attachment to complete with decoded form
-    private StoreMessageAttachment attachment;
+    private StoreAttachment attachment;
 
     /**
      * Instantiates a new msg store extractor.
@@ -100,7 +100,7 @@ public class MsgStoreExtractor extends StoreExtractor {
      * @throws MailExtractLibException  the extraction exception
      * @throws InterruptedException the interrupted exception
      */
-    public MsgStoreExtractor(StoreMessageAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
+    public MsgStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
                              StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException, InterruptedException {
         super("msg.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, logger);
         MAPIMessage message;
@@ -125,7 +125,7 @@ public class MsgStoreExtractor extends StoreExtractor {
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor#getAttachment()
      */
     @Override
-    public StoreMessageAttachment getAttachment() {
+    public StoreAttachment getAttachment() {
         return attachment;
     }
 

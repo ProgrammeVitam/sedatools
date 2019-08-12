@@ -192,6 +192,22 @@ public class ArchiveUnit {
     }
 
     /**
+     * Purify metadata text string.
+     *
+     * @param in the in
+     * @return the string
+     */
+    public static String purifyMetadataText(String in) {
+        String result;
+
+        result = in.replaceAll("[\\p{C}&&[^\\r\\n\\t]]", "");
+        // break HTML tags in metadata if any
+        result = result.replace("<", "< ");
+        result = result.replace("&lt;", "&lt; ");
+        return result;
+    }
+
+    /**
      * Adds a simple (key, value) metadata.
      * <p>
      * If value is null or empty, no metadata is added.

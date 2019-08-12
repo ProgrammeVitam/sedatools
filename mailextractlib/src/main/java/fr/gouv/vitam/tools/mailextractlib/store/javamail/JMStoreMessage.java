@@ -30,7 +30,7 @@ package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 import com.sun.mail.util.QPDecoderStream;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
@@ -487,7 +487,7 @@ public class JMStoreMessage extends StoreMessage {
     }
 
     // recursively search in MimeParts all attachments
-    private void getAttachments(List<StoreMessageAttachment> lStoreMessageAttachment, BodyPart p)
+    private void getAttachments(List<StoreAttachment> lStoreMessageAttachment, BodyPart p)
             throws MessagingException, IOException, InterruptedException {
 
         if ((p.isMimeType("text/plain") || p.isMimeType("text/html") || p.isMimeType("text/rtf"))
@@ -550,7 +550,7 @@ public class JMStoreMessage extends StoreMessage {
     }
 
     // add one attachment
-    private void addAttachment(List<StoreMessageAttachment> lStoreMessageAttachment, BodyPart bodyPart)
+    private void addAttachment(List<StoreAttachment> lStoreMessageAttachment, BodyPart bodyPart)
             throws IOException, MessagingException, ParseException, InterruptedException {
         String[] headers;
         ContentDisposition disposition;
@@ -566,14 +566,14 @@ public class JMStoreMessage extends StoreMessage {
         int aType;
 
         // by default is an attachment
-        aType = StoreMessageAttachment.FILE_ATTACHMENT;
+        aType = StoreAttachment.FILE_ATTACHMENT;
 
         // get all we can from disposition
         headers = bodyPart.getHeader("Content-Disposition");
         if ((headers != null) && (headers.length > 0)) {
             disposition = new ContentDisposition(headers[0]);
             if (Part.INLINE.equalsIgnoreCase(disposition.getDisposition()))
-                aType = StoreMessageAttachment.INLINE_ATTACHMENT;
+                aType = StoreAttachment.INLINE_ATTACHMENT;
             date = disposition.getParameter("creation-date");
             if ((date != null) && (!date.isEmpty()))
                 aCreationDate = mailDateFormat.parse(date);
@@ -590,7 +590,7 @@ public class JMStoreMessage extends StoreMessage {
             try {
                 contenttype = new ContentType(headers[0]);
                 if (contenttype.getSubType().equalsIgnoreCase("RFC822"))
-                    aType = StoreMessageAttachment.STORE_ATTACHMENT;
+                    aType = StoreAttachment.STORE_ATTACHMENT;
                 aMimeType = contenttype.getBaseType();
                 if (aName == null)
                     aName = contenttype.getParameter("name");
@@ -624,16 +624,16 @@ public class JMStoreMessage extends StoreMessage {
             }
         aName = sanitizeFilename(aName);
 
-        if (aType == StoreMessageAttachment.STORE_ATTACHMENT)
-            lStoreMessageAttachment.add(new StoreMessageAttachment(getPartRawContent(bodyPart), "eml",
+        if (aType == StoreAttachment.STORE_ATTACHMENT)
+            lStoreMessageAttachment.add(new StoreAttachment(this,getPartRawContent(bodyPart), "eml",
                     MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
         else {
             if (aMimeType.toLowerCase().equals("application/ms-tnef")
                     || aMimeType.toLowerCase().equals("application/vnd.ms-tnef"))
-                lStoreMessageAttachment.add(new StoreMessageAttachment(getPartLFFixedRawContent(bodyPart), "file",
+                lStoreMessageAttachment.add(new StoreAttachment(this,getPartLFFixedRawContent(bodyPart), "file",
                         MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
             else
-                lStoreMessageAttachment.add(new StoreMessageAttachment(getPartRawContent(bodyPart), "file",
+                lStoreMessageAttachment.add(new StoreAttachment(this,getPartRawContent(bodyPart), "file",
                         MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
         }
     }
@@ -646,7 +646,7 @@ public class JMStoreMessage extends StoreMessage {
      * )
      */
     protected void analyzeAttachments() throws InterruptedException {
-        List<StoreMessageAttachment> result = new ArrayList<StoreMessageAttachment>();
+        List<StoreAttachment> result = new ArrayList<StoreAttachment>();
 
         try {
             Object contentObject = message.getContent();

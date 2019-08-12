@@ -28,9 +28,9 @@
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.embeddedmsg;
 
 import com.pff.PSTMessage;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
@@ -51,7 +51,7 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
     }
 
     // Attachment to complete with decoded form
-    private StoreMessageAttachment attachment;
+    private StoreAttachment attachment;
 
     /**
      * Instantiates a new LP embedded message store extractor.
@@ -71,7 +71,7 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
      *             Any unrecoverable extraction exception (access trouble, major
      *             format problems...)
      */
-    public PstEmbeddedStoreExtractor(StoreMessageAttachment attachment, ArchiveUnit rootNode,
+    public PstEmbeddedStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode,
                                      StoreExtractorOptions options, StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger)
             throws MailExtractLibException {
         super("pst.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, logger);
@@ -84,7 +84,7 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor#getAttachment()
      */
     @Override
-    public StoreMessageAttachment getAttachment() {
+    public StoreAttachment getAttachment() {
         return attachment;
     }
 

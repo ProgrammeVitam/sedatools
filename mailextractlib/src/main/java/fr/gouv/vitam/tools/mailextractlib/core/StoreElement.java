@@ -28,6 +28,9 @@
 package fr.gouv.vitam.tools.mailextractlib.core;
 
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
+
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
 
 /**
  * StoreElement class for an element (fmessage, contact, appointment...) that can be extracted
@@ -35,10 +38,70 @@ import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 public abstract class StoreElement {
 
     /**
+     * Store folder. containing this element.
+     */
+    protected StoreFolder storeFolder;
+
+    /**
      * Instantiates a new store leaf.
      */
-    public StoreElement() {
+    public StoreElement(StoreFolder storeFolder) {
+        this.storeFolder = storeFolder;
     }
+
+    /**
+     * Gets the logger created during the store extractor construction, and used
+     * in all mailextract classes.
+     *
+     * <p>
+     * For convenience each class which may have some log actions has it's own
+     * getProgressLogger method always returning the store extractor logger.
+     *
+     * @return logger progress logger
+     */
+    public MailExtractProgressLogger getProgressLogger() {
+        return storeFolder.getProgressLogger();
+    }
+
+    /**
+     * Gets the current operation store extractor.
+     *
+     * @return storeExtractor store extractor
+     */
+    public StoreExtractor getStoreExtractor() {
+        return storeFolder.getStoreExtractor();
+    }
+
+    /**
+     * Log at warning or at finest level depending on store extractor options
+     * <p>
+     * To log a problem on a specific message.
+     *
+     * @param msg Message to log
+     * @param t   the throwable cause
+     * @throws InterruptedException the interrupted exception
+     */
+    public void logMessageWarning(String msg, Throwable t) throws InterruptedException {
+//        if (subject != null)
+//            msg += " for message [" + subject + "]";
+//        else
+//            msg += " for [no subject] message";
+
+        msg+= " for "+ getLogDescription();
+        Exception ex = null;
+        if (t instanceof Exception)
+            ex = (Exception) t;
+
+        if (storeFolder.getStoreExtractor().options.warningMsgProblem)
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.WARNING, msg, ex);
+        else
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, ex);
+    }
+
+    /**
+     * Give the best element description to use in logs
+     */
+    abstract public String getLogDescription();
 
     /**
      * Whole process of extraction on one element (analysis, extraction, count...).

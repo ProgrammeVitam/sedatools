@@ -937,7 +937,7 @@ public abstract class StoreExtractor {
      *
      * @return the attachment
      */
-    abstract public StoreMessageAttachment getAttachment();
+    abstract public StoreAttachment getAttachment();
 
     /**
      * Tests if this store extractor can generate objects lists

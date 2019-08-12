@@ -27,9 +27,9 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft;
 
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 
@@ -570,7 +570,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
      * )
      */
     protected void analyzeAttachments() throws InterruptedException {
-        List<StoreMessageAttachment> result = new ArrayList<StoreMessageAttachment>();
+        List<StoreAttachment> result = new ArrayList<StoreAttachment>();
         int attachmentNumber;
         try {
             attachmentNumber = nativeAttachments.length;
@@ -580,7 +580,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
         }
         for (int i = 0; i < attachmentNumber; i++) {
             try {
-                StoreMessageAttachment attachment;
+                StoreAttachment attachment;
 
                 switch (nativeAttachments[i].attachMethod) {
                     case ATTACHMENT_METHOD_NONE:
@@ -591,10 +591,10 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                         logMessageWarning("mailextractlib.microsoft: can't extract OLE attachment", null);
                         break;
                     case ATTACHMENT_METHOD_BY_VALUE:
-                        attachment = new StoreMessageAttachment(nativeAttachments[i].byteArray, "file",
+                        attachment = new StoreAttachment(this,nativeAttachments[i].byteArray, "file",
                                 getAttachementFilename(i), nativeAttachments[i].creationTime,
                                 nativeAttachments[i].modificationTime, nativeAttachments[i].mimeTag,
-                                nativeAttachments[i].contentId, StoreMessageAttachment.INLINE_ATTACHMENT);
+                                nativeAttachments[i].contentId, StoreAttachment.INLINE_ATTACHMENT);
                         result.add(attachment);
                         break;
                     case ATTACHMENT_METHOD_BY_REFERENCE:
@@ -604,10 +604,10 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
                         logMessageWarning("mailextractlib.microsoft: can't extract reference attachment", null);
                         break;
                     case ATTACHMENT_METHOD_EMBEDDED:
-                        attachment = new StoreMessageAttachment(nativeAttachments[i].embeddedMessage,
+                        attachment = new StoreAttachment(this,nativeAttachments[i].embeddedMessage,
                                 getEmbeddedMessageScheme(), getAttachementFilename(i), nativeAttachments[i].creationTime,
                                 nativeAttachments[i].modificationTime, nativeAttachments[i].mimeTag,
-                                nativeAttachments[i].contentId, StoreMessageAttachment.STORE_ATTACHMENT);
+                                nativeAttachments[i].contentId, StoreAttachment.STORE_ATTACHMENT);
                         result.add(attachment);
                         break;
                 }

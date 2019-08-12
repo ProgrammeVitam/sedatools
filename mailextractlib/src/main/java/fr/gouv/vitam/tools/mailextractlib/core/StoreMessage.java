@@ -47,7 +47,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 import java.io.*;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -98,11 +97,6 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  * this message.
  */
 public abstract class StoreMessage extends StoreElement {
-
-    /**
-     * Store folder. containing this message.
-     */
-    protected StoreFolder storeFolder;
 
     // /** Message nature (MESSAGE, CALENDAR). */
     // protected int nature;
@@ -157,7 +151,7 @@ public abstract class StoreMessage extends StoreElement {
     /**
      * Attachments list.
      */
-    protected List<StoreMessageAttachment> attachments;
+    protected List<StoreAttachment> attachments;
 
     /**
      * Appointment information.
@@ -247,7 +241,7 @@ public abstract class StoreMessage extends StoreElement {
      * @param storeFolder Mail box folder containing this message
      */
     protected StoreMessage(StoreFolder storeFolder) {
-        this.storeFolder = storeFolder;
+        super(storeFolder);
     }
 
     /**
@@ -298,52 +292,14 @@ public abstract class StoreMessage extends StoreElement {
         return mimeContent;
     }
 
-    /**
-     * Gets the logger created during the store extractor construction, and used
-     * in all mailextract classes.
-     *
-     * <p>
-     * For convenience each class which may have some log actions has it's own
-     * getProgressLogger method always returning the store extractor logger.
-     *
-     * @return logger progress logger
-     */
-    public MailExtractProgressLogger getProgressLogger() {
-        return storeFolder.getProgressLogger();
-    }
-
-    /**
-     * Gets the current operation store extractor.
-     *
-     * @return storeExtractor store extractor
-     */
-    public StoreExtractor getStoreExtractor() {
-        return storeFolder.getStoreExtractor();
-    }
-
-    /**
-     * Log at warning or at finest level depending on store extractor options
-     * <p>
-     * To log a problem on a specific message.
-     *
-     * @param msg Message to log
-     * @param t   the throwable cause
-     * @throws InterruptedException the interrupted exception
-     */
-    public void logMessageWarning(String msg, Throwable t) throws InterruptedException {
+    @Override
+    public String getLogDescription() {
+        String result = "message n°"+getStoreExtractor().getGlobalListCounter(this.getClass());
         if (subject != null)
-            msg += " for message [" + subject + "]";
+            result += " [" + subject + "]";
         else
-            msg += " for [no subject] message";
-
-        Exception ex = null;
-        if (t instanceof Exception)
-            ex = (Exception) t;
-
-        if (storeFolder.getStoreExtractor().options.warningMsgProblem)
-            doProgressLog(getProgressLogger(), MailExtractProgressLogger.WARNING, msg, ex);
-        else
-            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, ex);
+            result += " [no subject]";
+        return result;
     }
 
     /*
@@ -450,8 +406,8 @@ public abstract class StoreMessage extends StoreElement {
         String mimeType;
 
         if (attachments != null && !attachments.isEmpty()) {
-            for (StoreMessageAttachment a : attachments) {
-                if ((a.attachmentType != StoreMessageAttachment.STORE_ATTACHMENT)
+            for (StoreAttachment a : attachments) {
+                if ((a.attachmentType != StoreAttachment.STORE_ATTACHMENT)
                         && (a.attachmentContent instanceof byte[])
                         && ((a.mimeType.toLowerCase().equals("application/ms-tnef")
                         || (a.mimeType.toLowerCase().equals("application/vnd.ms-tnef"))))) {
@@ -469,61 +425,16 @@ public abstract class StoreMessage extends StoreElement {
                             logMessageWarning("mailextractlib: redondant rtf body extracted from winmail.dat droped", null);
 
                         for (Attachment tnefAttachment : tnefAttachments) {
-                            StoreMessageAttachment smAttachment = new StoreMessageAttachment(tnefAttachment.getContents(),
+                            StoreAttachment smAttachment = new StoreAttachment(this, tnefAttachment.getContents(),
                                     "file", tnefAttachment.getLongFilename(),
                                     null, tnefAttachment.getModifiedDate(),
                                     TikaExtractor.getInstance().getMimeType(tnefAttachment.getContents()),
-                                    null, StoreMessageAttachment.FILE_ATTACHMENT);
+                                    null, StoreAttachment.FILE_ATTACHMENT);
                             attachments.add(smAttachment);
                         }
                         break;
                     } catch (Exception e) {
                         logMessageWarning("mailextractlib: can't analyze winmail.dat content, it will be extracted as a file", e);
-                    }
-                }
-            }
-        }
-    }
-
-    // change attachement type to store with the good scheme
-    private void setStoreAttachment(StoreMessageAttachment a, String scheme) {
-        a.attachmentStoreScheme = scheme;
-        a.attachmentType = StoreMessageAttachment.STORE_ATTACHMENT;
-    }
-
-    /**
-     * Detect embedded store attachments not identified during parsing.
-     * <p>
-     * It use for this, the list of mimetypes that can be treated by known store
-     * extractors. This list is constructed using
-     * {@link StoreExtractor#addExtractionRelation
-     * StoreExtractor.addExtractionRelation}*, and a default one is set calling
-     * {@link StoreExtractor#initDefaultExtractors
-     * StoreExtractor.initDefaultExtractors}*
-     */
-    protected void detectStoreAttachments() {
-        String mimeType;
-
-        if (attachments != null && !attachments.isEmpty()) {
-            for (StoreMessageAttachment a : attachments) {
-                if ((a.attachmentType != StoreMessageAttachment.STORE_ATTACHMENT)
-                        && (a.attachmentContent instanceof byte[])
-                        // special case for ms-tnef attachments "winmail.dat" because tika can identify them as rfc822
-                        // when part of it is mail
-                        && (!a.mimeType.toLowerCase().equals("application/ms-tnef")
-                        && (!a.mimeType.toLowerCase().equals("application/vnd.ms-tnef")))) {
-                    try {
-                        mimeType = TikaExtractor.getInstance().getMimeType(a.getRawAttachmentContent());
-                        if (mimeType == null)
-                            continue;
-                        for (String mt : StoreExtractor.mimeTypeSchemeMap.keySet()) {
-                            if (mimeType.equals(mt)) {
-                                setStoreAttachment(a, StoreExtractor.mimeTypeSchemeMap.get(mt));
-                                break;
-                            }
-                        }
-                    } catch (MailExtractLibException e) {
-                        // forget it
                     }
                 }
             }
@@ -600,7 +511,7 @@ public abstract class StoreMessage extends StoreElement {
         analyzeAppointmentInformation();
 
         // detect embedded store attachments not determine during parsing
-        detectStoreAttachments();
+        StoreAttachment.detectStoreAttachments(attachments);
 
         // no raw content, will be constructed at StoreMessage level
         mimeContent = getNativeMimeContent();
@@ -648,18 +559,6 @@ public abstract class StoreMessage extends StoreElement {
         } catch (MailExtractLibException e) {
             // forget bodies optimisation
         }
-    }
-
-    // get the String rid of all characters that may cause problems in xml
-    // metadata
-    private static String purifyMetadataText(String in) {
-        String result;
-
-        result = in.replaceAll("[\\p{C}&&[^\\r\\n\\t]]", "");
-        // break HTML tags in metadata if any
-        result = result.replace("<", "< ");
-        result = result.replace("&lt;", "&lt; ");
-        return result;
     }
 
     @Override
@@ -759,16 +658,14 @@ public abstract class StoreMessage extends StoreElement {
                 messageNode.addObject(HTMLTextExtractor.getInstance().htmlStringtoString(textContent), messageID + ".txt",
                         "TextContent", 1);
             if (getStoreExtractor().options.extractMessageTextMetadata) {
-                messageNode.addLongMetadata("TextContent", purifyMetadataText(textContent), true);
+                messageNode.addLongMetadata("TextContent", ArchiveUnit.purifyMetadataText(textContent), true);
             }
         }
 
         // extract all attachment and generate mimecontent of theese attachments
-        // if needed
-        if (attachments != null && !attachments.isEmpty()) {
-            // create all attachments subunits/object groups
-            extractMessageAttachments(messageNode, writeFlag);
-        }
+
+        // create all attachments subunits/object groups
+        StoreAttachment.extractAttachments(attachments, messageNode, writeFlag);
 
         // generate mime fake if needed and associated mimeContent
         if (mimeContent == null) {
@@ -830,7 +727,7 @@ public abstract class StoreMessage extends StoreElement {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
             PrintStream ps = storeFolder.getStoreExtractor().getGlobalListPS(this.getClass());
             try {
-                ps.format("\"%d\";",listLineId);
+                ps.format("\"%d\";", listLineId);
                 ps.format("\"%s\";",
                         (sentDate == null ? "" : sdf.format(sentDate)));
                 ps.format("\"%s\";",
@@ -902,7 +799,7 @@ public abstract class StoreMessage extends StoreElement {
         boolean first = true;
 
         if (attachments != null) {
-            for (StoreMessageAttachment a : attachments) {
+            for (StoreAttachment a : attachments) {
                 if (first)
                     first = false;
                 else
@@ -915,151 +812,6 @@ public abstract class StoreMessage extends StoreElement {
 
     private String filterHyphen(String s) {
         return s.replace("\"", " ");
-    }
-
-    /**
-     * Extract a file or inline message attachment.
-     */
-    private final void extractFileOrInlineAttachment(ArchiveUnit messageNode, StoreMessageAttachment attachment,
-                                                     boolean writeFlag) throws MailExtractLibException, InterruptedException {
-        ArchiveUnit attachmentNode;
-
-        if ((attachment.name == null) || attachment.name.isEmpty())
-            attachment.name = "[Vide]";
-        attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, messageNode, "Attachment", attachment.name);
-        attachmentNode.addMetadata("DescriptionLevel", "Item", true);
-        attachmentNode.addMetadata("Title", attachment.name, true);
-        attachmentNode.addMetadata("Description", "Document \"" + attachment.name + " joint", true);
-
-        // get the max of creation and modification date which define the
-        // creation date of the present file
-        // (max for correcting a current confusion between theese two dates)
-        Date date = null;
-        if (attachment.creationDate != null) {
-            if (attachment.modificationDate != null)
-                date = (attachment.creationDate.compareTo(attachment.modificationDate) > 0 ? attachment.creationDate
-                        : attachment.modificationDate);
-            else
-                date = attachment.creationDate;
-        } else if (attachment.modificationDate != null)
-            date = attachment.modificationDate;
-        if (date != null)
-            attachmentNode.addMetadata("CreatedDate", DateRange.getISODateString(attachment.creationDate), true);
-
-        // Raw object extraction
-        attachmentNode.addObject(attachment.getRawAttachmentContent(), attachment.name, "BinaryMaster", 1);
-
-        // Text object extraction
-        String textExtract = null;
-        if (getStoreExtractor().options.extractFileTextFile || getStoreExtractor().options.extractFileTextMetadata)
-            try {
-                textExtract = TikaExtractor.getInstance().extractTextFromBinary(attachment.getRawAttachmentContent());
-            } catch (MailExtractLibException ee) {
-                doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS,
-                        "mailextractlib: can't extract text content from attachment " + attachment.name, ee);
-            }
-        // put in file
-        if (getStoreExtractor().options.extractFileTextFile && (!((textExtract == null) || textExtract.trim().isEmpty()))) {
-            attachmentNode.addObject(textExtract.getBytes(StandardCharsets.UTF_8), attachment.name + ".txt", "TextContent", 1);
-        }
-        // put in metadata
-        if (getStoreExtractor().options.extractFileTextMetadata
-                && (!((textExtract == null) || textExtract.isEmpty()))) {
-            attachmentNode.addLongMetadata("TextContent", purifyMetadataText(textExtract), true);
-        }
-
-        if (writeFlag)
-            attachmentNode.write();
-    }
-
-    /**
-     * Extract a store attachment
-     */
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private final void extractStoreAttachment(ArchiveUnit rootNode, DateRange attachedMessagedateRange,
-                                              StoreMessageAttachment a, boolean writeFlag) throws MailExtractLibException, InterruptedException {
-        StoreExtractor extractor;
-        Boolean isContainerScheme = false;
-
-        Class storeExtractorClass = StoreExtractor.schemeStoreExtractorClassMap.get(a.attachmentStoreScheme);
-        if (storeExtractorClass == null) {
-            logMessageWarning("mailextractlib: unknown embedded store type=" + a.attachmentStoreScheme
-                    + " , extracting unit in path " + rootNode.getFullName(), null);
-            extractor = null;
-        } else {
-            isContainerScheme = StoreExtractor.schemeContainerMap.get(a.attachmentStoreScheme);
-            if (isContainerScheme) {
-                rootNode = new ArchiveUnit(getStoreExtractor(), rootNode, "Container",
-                        (a.name == null ? "Infile" : a.name));
-                rootNode.addMetadata("DescriptionLevel", "Item", true);
-                rootNode.addMetadata("Title",
-                        "Conteneur " + a.attachmentStoreScheme + (a.name == null ? "" : " " + a.name), true);
-                rootNode.addMetadata("Description",
-                        "Extraction d'un conteneur " + a.attachmentStoreScheme + (a.name == null ? "" : " " + a.name),
-                        true);
-            }
-            try {
-                extractor = (StoreExtractor) storeExtractorClass
-                        .getConstructor(StoreMessageAttachment.class, ArchiveUnit.class, StoreExtractorOptions.class,
-                                StoreExtractor.class, MailExtractProgressLogger.class)
-                        .newInstance(a, rootNode, getStoreExtractor().options, getStoreExtractor(), getProgressLogger());
-            } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException
-                    | SecurityException e) {
-                logMessageWarning("mailextractlib: dysfonctional embedded store type=" + a.attachmentStoreScheme
-                        + " , extracting unit in path " + rootNode.getFullName(), e);
-                extractor = null;
-            } catch (InvocationTargetException e) {
-                Throwable te = e.getCause();
-                logMessageWarning("mailextractlib: dysfonctional embedded store type=" + a.attachmentStoreScheme
-                        + " , extracting unit in path " + rootNode.getFullName(), te);
-                extractor = null;
-            }
-        }
-        if (extractor != null) {
-            extractor.writeTargetLog();
-            extractor.getRootFolder().extractFolderAsRoot(writeFlag);
-            getStoreExtractor().addTotalAttachedMessagesCount(
-                    extractor.getTotalElementsCount() + extractor.getTotalAttachedMessagesCount());
-            attachedMessagedateRange.extendRange(extractor.getRootFolder().getDateRange());
-            extractor.endStoreExtractor();
-            if (extractor.getRootFolder().dateRange.isDefined() && isContainerScheme) {
-                rootNode.addMetadata("StartDate",
-                        DateRange.getISODateString(extractor.getRootFolder().dateRange.getStart()), true);
-                rootNode.addMetadata("EndDate",
-                        DateRange.getISODateString(extractor.getRootFolder().dateRange.getEnd()), true);
-            }
-            if (writeFlag)
-                rootNode.write();
-        }
-    }
-
-    /**
-     * Extract all message attachments.
-     */
-    private final void extractMessageAttachments(ArchiveUnit messageNode, boolean writeFlag)
-            throws MailExtractLibException, InterruptedException {
-        DateRange attachedMessagedateRange;
-        boolean attachedFlag = false;
-
-        attachedMessagedateRange = new DateRange();
-
-        for (StoreMessageAttachment a : attachments) {
-            // message identification
-            if (a.attachmentType == StoreMessageAttachment.STORE_ATTACHMENT) {
-                // recursive extraction of a message in attachment...
-                doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: attached message extraction", null);
-                extractStoreAttachment(messageNode, attachedMessagedateRange, a, writeFlag);
-                attachedFlag = true;
-            } else if (writeFlag) {
-                // standard attachment file
-                extractFileOrInlineAttachment(messageNode, a, writeFlag);
-                if (a.creationDate != null)
-                    attachedMessagedateRange.extendRange(a.creationDate);
-                if (a.modificationDate != null)
-                    attachedMessagedateRange.extendRange(a.modificationDate);
-                attachedFlag = true;
-            }
-        }
     }
 
     /**
@@ -1166,8 +918,8 @@ public abstract class StoreMessage extends StoreElement {
     private void addAttachmentPart(MimeMultipart root, boolean isInline) throws MailExtractLibException {
         try {
             // build attach part
-            for (StoreMessageAttachment a : attachments) {
-                boolean thisIsInline = (a.attachmentType == StoreMessageAttachment.INLINE_ATTACHMENT);
+            for (StoreAttachment a : attachments) {
+                boolean thisIsInline = (a.attachmentType == StoreAttachment.INLINE_ATTACHMENT);
 
                 if ((thisIsInline && isInline) || ((!thisIsInline) && (!isInline))) {
                     MimeBodyPart attachPart = new MimeBodyPart();
@@ -1209,7 +961,7 @@ public abstract class StoreMessage extends StoreElement {
                         }
                     }
                     // set Content-Disposition
-                    if (a.attachmentType == StoreMessageAttachment.INLINE_ATTACHMENT)
+                    if (a.attachmentType == StoreAttachment.INLINE_ATTACHMENT)
                         attachPart.setDisposition("inline; filename=\"" + attachmentFilename + "\"");
                     else
                         attachPart.setDisposition("attachment; filename=\"" + attachmentFilename + "\"");
@@ -1252,8 +1004,8 @@ public abstract class StoreMessage extends StoreElement {
         {
             try {
                 // search if there are inlines
-                for (StoreMessageAttachment a : attachments) {
-                    if (a.attachmentType == StoreMessageAttachment.INLINE_ATTACHMENT) {
+                for (StoreAttachment a : attachments) {
+                    if (a.attachmentType == StoreAttachment.INLINE_ATTACHMENT) {
                         hasInline = true;
                         break;
                     }

@@ -43,11 +43,6 @@ import java.io.PrintStream;
 public abstract class StoreContact extends StoreElement {
 
     /**
-     * Store folder. containing this message.
-     */
-    protected StoreFolder storeFolder;
-
-    /**
      * All contact informations.
      */
     protected int listLineId;
@@ -70,10 +65,22 @@ public abstract class StoreContact extends StoreElement {
     /**
      * Instantiates a new contact.
      *
-     * @param storeFolder Mail box folder containing this message
+     * @param storeFolder Mail box folder containing this contact
      */
     protected StoreContact(StoreFolder storeFolder) {
-        this.storeFolder = storeFolder;
+        super(storeFolder);
+    }
+
+    @Override
+    public String getLogDescription() {
+        String result = "contact n°" + getStoreExtractor().getGlobalListCounter(this.getClass());
+        if (fullName != null)
+            result += " [" + fullName + "]";
+        else if ((givenName != null) || (lastName != null))
+            result += " ["+(givenName!=null?givenName:"NoGivenName")+" "+(lastName!=null?lastName:"NoLastName")+"]";
+        else
+            result += " [no name]";
+        return result;
     }
 
     /**
@@ -144,7 +151,7 @@ public abstract class StoreContact extends StoreElement {
     public void extractContact(boolean writeFlag) throws InterruptedException, MailExtractLibException {
         if (writeFlag && storeFolder.getStoreExtractor().getOptions().extractObjectsLists) {
             writeToContactsList();
-            if (pictureData!=null)
+            if (pictureData != null)
                 extractPicture();
         }
     }
@@ -186,12 +193,12 @@ public abstract class StoreContact extends StoreElement {
     }
 
     private void extractPicture() throws InterruptedException, MailExtractLibException {
-        ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath+
-                File.separator+storeFolder.storeExtractor.destName+File.separator+"contacts", "ContactPicture#"+ listLineId);
+        ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
+                File.separator + storeFolder.storeExtractor.destName + File.separator + "contacts", "ContactPicture#" + listLineId);
         attachmentNode.addMetadata("DescriptionLevel", "Item", true);
-        attachmentNode.addMetadata("Title", "Contact Picture #"+ listLineId, true);
-        attachmentNode.addMetadata("Description", "Contact picture extracted for "+fullName, true);
-        attachmentNode.addPersonMetadata("Recipient", fullName+(smtpAddress.isEmpty()?"":"<"+smtpAddress+">"), false);
+        attachmentNode.addMetadata("Title", "Contact Picture #" + listLineId, true);
+        attachmentNode.addMetadata("Description", "Contact picture extracted for " + fullName, true);
+        attachmentNode.addPersonMetadata("Recipient", fullName + (smtpAddress.isEmpty() ? "" : "<" + smtpAddress + ">"), false);
         attachmentNode.addObject(pictureData, pictureFileName, "BinaryMaster", 1);
         attachmentNode.write();
     }
