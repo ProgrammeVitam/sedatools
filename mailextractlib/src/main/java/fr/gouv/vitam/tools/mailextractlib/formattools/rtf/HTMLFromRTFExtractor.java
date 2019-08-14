@@ -507,8 +507,8 @@ public class HTMLFromRTFExtractor {
                 case "sect":
                 case "sectd":
                 case "plain":
-                case "ltrch":
-                case "rtlch":
+                //case "ltrch":
+                //case "rtlch":
                     globalInHeader = false;
                 default:
                     // ignore others colortbl stylesheet fonttbl listtable
