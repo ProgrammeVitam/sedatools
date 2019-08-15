@@ -45,7 +45,7 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
 /**
  * StoreMessage sub-class for Microsoft message format, abstraction for pst and msg messages.
  */
-public abstract class MicrosoftStoreMessage extends StoreMessage {
+public abstract class MicrosoftStoreMessage extends StoreMessage implements MicrosoftStoreElement {
 
     /** The RFC822 headers if any. */
     protected RFC822Headers rfc822Headers;
@@ -142,8 +142,6 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
 
     // Native message attachment access functions
     abstract protected MicrosoftStoreMessageAttachment[] getNativeAttachments();
-
-    abstract protected String getEmbeddedMessageScheme();
 
     // General Headers function
 
@@ -541,27 +539,6 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
         bodyContent[RTF_BODY] = result;
     }
 
-    public static final int ATTACHMENT_METHOD_NONE = 0;
-    public static final int ATTACHMENT_METHOD_BY_VALUE = 1;
-    public static final int ATTACHMENT_METHOD_BY_REFERENCE = 2;
-    public static final int ATTACHMENT_METHOD_BY_REFERENCE_RESOLVE = 3;
-    public static final int ATTACHMENT_METHOD_BY_REFERENCE_ONLY = 4;
-    public static final int ATTACHMENT_METHOD_EMBEDDED = 5;
-    public static final int ATTACHMENT_METHOD_OLE = 6;
-
-    // try to get the best attachment name
-    private String getAttachementFilename(int attachmentNumber) {
-        String result;
-
-        result = nativeAttachments[attachmentNumber].longFilename;
-        if (result.isEmpty())
-            result = nativeAttachments[attachmentNumber].filename;
-        if (result.isEmpty())
-            result = nativeAttachments[attachmentNumber].displayName;
-
-        return result;
-    }
-
     /*
      * (non-Javadoc)
      *
@@ -569,56 +546,10 @@ public abstract class MicrosoftStoreMessage extends StoreMessage {
      * fr.gouv.vitam.tools.mailextractlib.core.StoreMessage#analyzeAttachments(
      * )
      */
+    @Override
     protected void analyzeAttachments() throws InterruptedException {
-        List<StoreAttachment> result = new ArrayList<StoreAttachment>();
-        int attachmentNumber;
-        try {
-            attachmentNumber = nativeAttachments.length;
-        } catch (Exception e) {
-            logMessageWarning("mailextractlib.microsoft: can't determine attachment list", e);
-            attachmentNumber = 0;
-        }
-        for (int i = 0; i < attachmentNumber; i++) {
-            try {
-                StoreAttachment attachment;
-
-                switch (nativeAttachments[i].attachMethod) {
-                    case ATTACHMENT_METHOD_NONE:
-                        break;
-                    // TODO OLE case you can access the IStorage object through
-                    // IAttach::OpenProperty(PR_ATTACH_DATA_OBJ, ...)
-                    case ATTACHMENT_METHOD_OLE:
-                        logMessageWarning("mailextractlib.microsoft: can't extract OLE attachment", null);
-                        break;
-                    case ATTACHMENT_METHOD_BY_VALUE:
-                        attachment = new StoreAttachment(this,nativeAttachments[i].byteArray, "file",
-                                getAttachementFilename(i), nativeAttachments[i].creationTime,
-                                nativeAttachments[i].modificationTime, nativeAttachments[i].mimeTag,
-                                nativeAttachments[i].contentId, StoreAttachment.INLINE_ATTACHMENT);
-                        result.add(attachment);
-                        break;
-                    case ATTACHMENT_METHOD_BY_REFERENCE:
-                    case ATTACHMENT_METHOD_BY_REFERENCE_RESOLVE:
-                    case ATTACHMENT_METHOD_BY_REFERENCE_ONLY:
-                        // TODO reference cases
-                        logMessageWarning("mailextractlib.microsoft: can't extract reference attachment", null);
-                        break;
-                    case ATTACHMENT_METHOD_EMBEDDED:
-                        attachment = new StoreAttachment(this,nativeAttachments[i].embeddedMessage,
-                                getEmbeddedMessageScheme(), getAttachementFilename(i), nativeAttachments[i].creationTime,
-                                nativeAttachments[i].modificationTime, nativeAttachments[i].mimeTag,
-                                nativeAttachments[i].contentId, StoreAttachment.STORE_ATTACHMENT);
-                        result.add(attachment);
-                        break;
-                }
-            } catch (Exception e) {
-                logMessageWarning("mailextractlib.microsoft: can't get attachment number " + Integer.toString(i), e);
-            }
-        }
-
-        attachments = result;
+        attachments= MicrosoftStoreElement.getAttachments(this,nativeAttachments);
     }
-
     // Global message
 
     /**

@@ -6,12 +6,27 @@ import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Formatter;
 import java.util.List;
 
+import static org.apache.commons.codec.digest.MessageDigestAlgorithms.MD5;
+
 public abstract class StoreAppointment extends StoreElement {
+
+    static final public int MESSAGE_STATUS_UNKNOWN=0;
+    static final public int MESSAGE_STATUS_LOCAL=1;
+    static final public int MESSAGE_STATUS_REQUEST=2;
+    static final public int MESSAGE_STATUS_RESPONSE_YES=3;
+    static final public int MESSAGE_STATUS_RESPONSE_MAY=4;
+    static final public int MESSAGE_STATUS_RESPONSE_NO=5;
+
+    static final public String[] MESSAGE_STATUS_TEXT={"Unknown","Local","Request","Resp.Yes","Resp.May","Resp.No"};
 
     protected String uniqId;
 
@@ -23,14 +38,13 @@ public abstract class StoreAppointment extends StoreElement {
     protected ZonedDateTime endTime;
     protected String miscNotes;
     protected String otherMiscNotes;
-
-    protected boolean isBusy;
+    protected ZonedDateTime modificationTime;
 
     protected List<StoreAttachment> attachments;
 
     // for appointment organized with other people
     protected int sequenceNumber;
-    protected int responseStatus;
+    protected int messageStatus;
 
     // for recurrent appointment
     protected String recurencePattern;
@@ -40,6 +54,7 @@ public abstract class StoreAppointment extends StoreElement {
 
     // for exceptions in recurring appointment
     protected boolean isRecurrenceDeletion;
+    protected ZonedDateTime exceptionDate;
 
     /**
      * Instantiates a new appointment.
@@ -89,8 +104,10 @@ public abstract class StoreAppointment extends StoreElement {
      * @param ps the dedicated print stream
      */
     static public void printGlobalListCSVHeader(PrintStream ps) {
-        ps.println("ID;Subject;Location;ToAttendees;CcAttendees;StartTime;EndTime;" +
-                "isBusy;MiscNotes;uniqID;isRecurrent;RecurrencePattern;StartRecurrenceTime;EndRecurrenceTime;isExceptionFrom;isDeletion;otherMiscNotes");
+        ps.println("ID;Subject;Location;From;ToAttendees;CcAttendees;StartTime;EndTime;" +
+                "MiscNotes;uniqID;SequenceNumber;ModificationTime;Folder;MessageStatus;" +
+                "isRecurrent;RecurrencePattern;StartRecurrenceTime;EndRecurrenceTime;" +
+                "ExceptionFromId;ExceptionDate;isDeletion;hasAttachment");
     }
 
     /**
@@ -102,7 +119,7 @@ public abstract class StoreAppointment extends StoreElement {
      */
     public void extractAppointment(boolean writeFlag, StoreAppointment father) throws InterruptedException, MailExtractLibException {
         if (writeFlag && storeFolder.getStoreExtractor().getOptions().extractObjectsLists) {
-            writeToAppointmentsList(null);
+            writeToAppointmentsList(father);
             if ((attachments!=null) && (!attachments.isEmpty())) {
                 ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
                         File.separator + storeFolder.storeExtractor.destName + File.separator + "appointments", "AppointmentAttachments#" + listLineId);
@@ -125,7 +142,7 @@ public abstract class StoreAppointment extends StoreElement {
         if (date != null)
             result = date.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_DATE_TIME);
         else
-            result = "Unknown";
+            result = "";
         return result;
     }
 
@@ -134,7 +151,25 @@ public abstract class StoreAppointment extends StoreElement {
         if (date != null)
             result = date.format(DateTimeFormatter.ISO_DATE_TIME);
         else
-            result = "Unknown";
+            result = "";
+        return result;
+    }
+
+    private String normalizeUniqId(String uniqId){
+        String result=uniqId;
+        byte[] hash;
+        MessageDigest md = null;
+        try {
+            md = MessageDigest.getInstance(MD5);
+            hash = md.digest(uniqId.getBytes(StandardCharsets.US_ASCII));
+            Formatter formatter = new Formatter();
+            for (final byte b : hash) {
+                formatter.format("%02x", b);
+            }
+            result= formatter.toString();
+            formatter.close();
+        } catch (NoSuchAlgorithmException ignored) {
+        }
         return result;
     }
 
@@ -143,20 +178,25 @@ public abstract class StoreAppointment extends StoreElement {
         ps.format("\"%d\";", listLineId);
         ps.format("\"%s\";", filterHyphenForCsv(subject));
         ps.format("\"%s\";", filterHyphenForCsv(location));
+        ps.format("\"%s\";", filterHyphenForCsv(from));
         ps.format("\"%s\";", filterHyphenForCsv(toAttendees));
         ps.format("\"%s\";", filterHyphenForCsv(ccAttendees));
         ps.format("\"%s\";", getDateInDefinedTimeZone(startTime));
         ps.format("\"%s\";", getDateInDefinedTimeZone(endTime));
-        ps.format("\"%s\";", (isBusy ? "X" : ""));
         ps.format("\"%s\";", filterHyphenForCsv(miscNotes));
-        ps.format("\"%s\";", filterHyphenForCsv(uniqId));
-        ps.format("\"%s\";", (recurencePattern != null ? "X" : ""));
+        ps.format("\"%s\";", normalizeUniqId(uniqId));
+        ps.format("\"%d\";", sequenceNumber);
+        ps.format("\"%s\";", getDateInDefinedTimeZone(modificationTime));
+        ps.format("\"%s\";", filterHyphenForCsv(storeFolder.getFullName()));
+        ps.format("\"%s\";", MESSAGE_STATUS_TEXT[messageStatus]);
+        ps.format("\"%s\";", ((recurencePattern != null) && (!recurencePattern.isEmpty()) ? "X" : ""));
         ps.format("\"%s\";", filterHyphenForCsv(recurencePattern));
         ps.format("\"%s\";", getDateInDefinedTimeZone(startRecurrenceTime));
         ps.format("\"%s\";", getDateInDefinedTimeZone(endRecurrenceTime));
-        ps.format("\"%s\";", (father != null ? Integer.toString(father.listLineId):""));
+        ps.format("\"%s\";", (father != null ? father.listLineId:""));
+        ps.format("\"%s\";", getDateInDefinedTimeZone(exceptionDate));
         ps.format("\"%s\";", (isRecurrenceDeletion ? "X" : ""));
-        ps.format("\"%s\"", filterHyphenForCsv(otherMiscNotes));
+        ps.format("\"%s\"", ((attachments!=null) && (!attachments.isEmpty())? Integer.toString(attachments.size()): ""));
         ps.println("");
         ps.flush();
     }

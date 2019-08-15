@@ -135,6 +135,8 @@ public class PstStoreFolder extends StoreFolder {
             StoreElement extracted;
             if (message instanceof PSTContact)
                 extracted = new PstStoreContact(this, (PSTContact) message);
+            else if (message instanceof PSTAppointment)
+                extracted = new PstStoreAppointment(this, (PSTAppointment) message);
             else
                 extracted = new PstStoreMessage(this, message);
             extracted.processElement(writeFlag);
