@@ -18,26 +18,48 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class TestPstStoreExtractor implements AllTests {
 
     @Test
-    public void testContactCalendarPstExtractor() throws MailExtractLibException, InterruptedException, IOException {
+    public void testGlobalPstExtractor() throws MailExtractLibException, InterruptedException, IOException {
         //given
         StoreExtractorOptions storeExtractorOptions = new StoreExtractorOptions(false,
                true, true, 12, "windows-1252",
                 true, true, true, true,
                 true,2);
-        MailExtractProgressLogger mepl= AllTests.initLogger("testContactCalendarPstExtractor");
+        MailExtractProgressLogger mepl= AllTests.initLogger("testGlobalPstExtractor");
         String urlString = StoreExtractor.composeStoreURL("pst", "", "", "",
-                "src/test/resources/pst/ContactCalendar-test.pst");
+                "src/test/resources/pst/Test.pst");
         StoreExtractor storeExtractor = StoreExtractor.createStoreExtractor(urlString, "",
-                "target/tmpJUnit/testContactCalendarPstExtractor", storeExtractorOptions, mepl);
+                "target/tmpJUnit/testGlobalPstExtractor", storeExtractorOptions, mepl);
 
         //when
         storeExtractor.extractAllFolders();
         storeExtractor.endStoreExtractor();
 
         //then
-        assertThat(storeExtractor.getFolderTotalCount()).isEqualTo(18);
-        assertThat(storeExtractor.getGlobalListCounter(StoreMessage.class)).isEqualTo(0);
-        assertThat(storeExtractor.getGlobalListCounter(StoreAppointment.class)).isEqualTo(45);
+
+        //global values
+        assertThat(storeExtractor.getFolderTotalCount()).isEqualTo(25);
+        assertThat(storeExtractor.getGlobalListCounter(StoreAppointment.class)).isEqualTo(25);
+        assertThat(storeExtractor.getGlobalListCounter(StoreMessage.class)).isEqualTo(5);
         assertThat(storeExtractor.getGlobalListCounter(StoreContact.class)).isEqualTo(1);
+
+        // mails extraction
+        String mails=FileUtils.readFileToString(new File("target/tmpJUnit/testGlobalPstExtractor/mails.csv"),defaultCharset());
+        mails=mails.replaceAll("/","\\\\");
+        String resultMails=FileUtils.readFileToString(new File("src/test/resources/pst/results/mails.csv"), StandardCharsets.UTF_8);
+        resultMails=resultMails.replaceAll("/","\\\\");
+        assertThat(mails).isEqualToNormalizingNewlines(resultMails);
+
+        // appointments extraction
+        String appointments=FileUtils.readFileToString(new File("target/tmpJUnit/testGlobalPstExtractor/appointments.csv"),defaultCharset());
+        appointments=appointments.replaceAll("/","\\\\");
+        String resultAppointments=FileUtils.readFileToString(new File("src/test/resources/pst/results/appointments.csv"), StandardCharsets.UTF_8);
+        resultAppointments=resultAppointments.replaceAll("/","\\\\");
+        assertThat(appointments).isEqualToNormalizingNewlines(resultAppointments);
+
+        // contacts extraction
+        assertThat(new File("target/tmpJUnit/testGlobalPstExtractor/contacts.csv")).
+                hasSameContentAs(new File("src/test/resources/pst/results/contacts.csv"),StandardCharsets.UTF_8);
+        assertThat(new File("target/tmpJUnit/testGlobalPstExtractor/contacts/ContactPicture#1/__BinaryMaster_1__ContactPicture.jpg")).
+                hasBinaryContent(FileUtils.readFileToByteArray(new File("src/test/resources/pst/results/ContactPicture.jpg")));
     }
 }
