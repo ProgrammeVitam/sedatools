@@ -47,6 +47,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
@@ -253,14 +254,11 @@ public abstract class StoreExtractor {
      */
     protected String description;
 
-    // message count
-    private int messageCount;
-
-    // private fields for global statictics
-    private int totalElementsCount;
-    private int totalAttachedMessagesCount;
-    private int totalFoldersCount;
+    // private field for global statictics
     private long totalRawSize;
+
+    // private field for time statistics
+    private Instant start, end;
 
     // private object extraction root folder in store
     private StoreFolder rootStoreFolder;
@@ -277,16 +275,23 @@ public abstract class StoreExtractor {
     /**
      * The Global lists ps map.
      * private map of printstreams for global lists extraction
-     * mails list, contacts, appointments...)
+     * (messages, contacts, appointments...)
      */
     protected Map<String, PrintStream> globalListsPSMap;
 
     /**
-     * The Global lists counters map.
-     * private map of counters for global lists extraction
-     * mails list, contacts, appointments...)
+     * The extracted elements counters map.
+     * private map of counters for extracted elements
+     * (messages, contacts, appointments...)
      */
-    protected Map<String, Integer> globalListsCounterMap;
+    protected Map<String, Integer> elementsCounterMap;
+
+    /**
+     * The sub-extracted elements counters map.
+     * private map of counters for extracted elements from inner containers
+     * (messages, contacts, appointments...)
+     */
+    protected Map<String, Integer> subElementsCounterMap;
 
     /**
      * Add mimetypes, scheme, isContainer, store extractor known relation.
@@ -345,8 +350,8 @@ public abstract class StoreExtractor {
     }
 
     /**
-     * Init the PrintStream for a global list generated for a certain type of objects, if not already done with the header in csv format,
-     * and return the printstream
+     * Init the PrintStream for a global list generated for a certain type of element (message, folder, appointment, contact...),
+     * if not already done with the header in csv format, and return the printstream
      *
      * @param listClass the list class
      * @return the initialized global list ps
@@ -356,13 +361,13 @@ public abstract class StoreExtractor {
         String globalListName = null;
         PrintStream result = null;
         try {
-            globalListName = (String) listClass.getMethod("getGlobalListName").invoke(null);
+            globalListName = (String) listClass.getMethod("getElementName").invoke(null);
             result = globalListsPSMap.get(globalListName);
             if (result == null) {
                 String dirname = this.destRootPath
                         + File.separator + this.destName + File.separator;
                 Files.createDirectories(Paths.get(dirname));
-                result = new PrintStream(dirname + listClass.getMethod("getGlobalListName").invoke(null) + ".csv");
+                result = new PrintStream(dirname + listClass.getMethod("getElementName").invoke(null) + ".csv");
                 globalListsPSMap.put(globalListName, result);
                 listClass.getMethod("printGlobalListCSVHeader", PrintStream.class).invoke(null, result);
             }
@@ -375,54 +380,90 @@ public abstract class StoreExtractor {
     }
 
     /**
-     * Init the counter for a global list generated for a certain type of objects,
-     * if not already done, and return the counter
+     * Return the counter for a certain type of extracted element (message, folder, appointment, contact...) if it exists.
+     * <p>If not init the counter to 0, and return the counter.
+     * <p>If subFlag is true, it actually act on the sub-extracted elements from inner containers counter.
      *
      * @param listClass the list class
+     * @param subFlag   the sub extracted flag
      * @return the initialized global list counter
      */
     @SuppressWarnings("unchecked")
-    public int getGlobalListCounter(Class listClass) {
-        String globalListName = null;
+    public int getElementCounter(Class listClass, boolean subFlag) {
+        String elementName = null;
         Integer result = 0;
         try {
-            globalListName = (String) listClass.getMethod("getGlobalListName").invoke(null);
-            result = globalListsCounterMap.get(globalListName);
+            elementName = (String) listClass.getMethod("getElementName").invoke(null);
+            result = (subFlag ? subElementsCounterMap : elementsCounterMap).get(elementName);
             if (result == null) {
-                globalListsCounterMap.put(globalListName, 0);
-                result=0;
+                (subFlag ? subElementsCounterMap : elementsCounterMap).put(elementName, 0);
+                result = 0;
             }
         } catch (NoSuchMethodException | IllegalAccessException e) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list counter for [" + globalListName + "] csv file", e);
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create counter for " + (subFlag ? "sub " : "") + "[" + elementName + "] csv file", e);
         } catch (InvocationTargetException te) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list counter for [" + globalListName + "] csv file", te.getTargetException());
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create counter for " + (subFlag ? "sub " : "") + "[" + elementName + "] csv file", te.getTargetException());
         }
         return result;
     }
 
     /**
-     * Increment the counter for a global list generated for a certain type of objects, and return the value.
+     * Add a value to the counter for a certain type of extracted element (message, folder, appointment, contact...), and return the counter if it exists.
+     * <p>If not init the counter to value, and return the counter.
+     * <p>If subFlag is true, it actually act on the sub-extracted elements from inner containers counter.
      *
+     * @param value     the value
      * @param listClass the list class
+     * @param subFlag   the sub flag
+     * @return the int
      */
     @SuppressWarnings("unchecked")
-    public int incGlobalListCounter(Class listClass) {
-        String globalListName = null;
+    public int addElementCounter(int value, Class listClass, boolean subFlag) {
+        String elementName = null;
         Integer result = 0;
         try {
-            globalListName = (String) listClass.getMethod("getGlobalListName").invoke(null);
-            result = globalListsCounterMap.get(globalListName);
+            elementName = (String) listClass.getMethod("getElementName").invoke(null);
+            result = (subFlag ? subElementsCounterMap : elementsCounterMap).get(elementName);
             if (result == null)
-                result=1;
+                result = value;
             else
-                result+=1;
-            globalListsCounterMap.put(globalListName, result);
-         } catch (NoSuchMethodException | IllegalAccessException e) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list counter for [" + globalListName + "] csv file", e);
+                result += value;
+            (subFlag ? subElementsCounterMap : elementsCounterMap).put(elementName, result);
+        } catch (NoSuchMethodException | IllegalAccessException e) {
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create counter for " + (subFlag ? "sub " : "") + "[" + elementName + "] csv file", e);
         } catch (InvocationTargetException te) {
-            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create global list counter for [" + globalListName + "] csv file", te.getTargetException());
+            doProgressLogWithoutInterruption(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: can't create counter for " + (subFlag ? "sub " : "") + "[" + elementName + "] csv file", te.getTargetException());
         }
         return result;
+    }
+
+    /**
+     * Increment the counter for a certain type of extracted element (message, folder, appointment, contact...), and return the counter if it exists.
+     * <p>If not init the counter to 1, and return the counter.
+     *
+     * @param listClass the list class
+     * @return the int
+     */
+    @SuppressWarnings("unchecked")
+    public int incElementCounter(Class listClass) {
+        return addElementCounter(1, listClass, false);
+    }
+
+    // sub elements accumulated
+    static Class[] accumulatedElements = {StoreFolder.class, StoreMessage.class, StoreAppointment.class, StoreContact.class};
+
+    /**
+     * Accumulate elements of a container extractor in sub element counters.
+     *
+     * @param subExtractor the sub extractor
+     */
+    public void accumulateSubElements(StoreExtractor subExtractor) {
+        for (Class c : accumulatedElements) {
+            int value = subExtractor.getElementCounter(c, false) +
+                    subExtractor.getElementCounter(c, true);
+            if (value > 0)
+                addElementCounter(value, c, true);
+        }
     }
 
     /**
@@ -473,20 +514,17 @@ public abstract class StoreExtractor {
         else
             this.options = options;
 
-        this.messageCount = 0;
-        this.totalFoldersCount = 0;
-        this.totalAttachedMessagesCount = 0;
-        this.totalElementsCount = 0;
         this.totalRawSize = 0;
 
         this.rootStoreExtractor = rootStoreExtractor;
-        this.fatherElement=fatherElement;
+        this.fatherElement = fatherElement;
         this.logger = logger;
 
         this.description = ":p:" + scheme + ":u:" + user;
 
         globalListsPSMap = new HashMap<String, PrintStream>();
-        globalListsCounterMap = new HashMap<String, Integer>();
+        elementsCounterMap = new HashMap<String, Integer>();
+        subElementsCounterMap = new HashMap<String, Integer>();
     }
 
     /**
@@ -582,74 +620,6 @@ public abstract class StoreExtractor {
     }
 
     /**
-     * Increment the count of messages directly in the store (not attached...).
-     */
-    public void incMessageCount() {
-        messageCount++;
-    }
-
-    /**
-     * Get the count of messages directly in the store (not attached...).
-     *
-     * @return the message count
-     */
-    public int getMessageCount() {
-        return messageCount;
-    }
-
-    /**
-     * Increment the elements total count.
-     *
-     * @param inc the increment
-     */
-    public void addTotalElementsCount(int inc) {
-        totalElementsCount += inc;
-    }
-
-    /**
-     * Gets the total count of all analyzed elements.
-     *
-     * @return the elements count
-     */
-    public int getTotalElementsCount() {
-        return totalElementsCount;
-    }
-
-    /**
-     * Increment the attached messages total count.
-     *
-     * @param inc the inc
-     */
-    public void addTotalAttachedMessagesCount(int inc) {
-        totalAttachedMessagesCount += inc;
-    }
-
-    /**
-     * Gets the total count of all analyzed attached messages.
-     *
-     * @return the message count
-     */
-    public int getTotalAttachedMessagesCount() {
-        return totalAttachedMessagesCount;
-    }
-
-    /**
-     * Increment the folders total count.
-     */
-    public void incTotalFoldersCount() {
-        totalFoldersCount++;
-    }
-
-    /**
-     * Gets the total count of all analyzed folders.
-     *
-     * @return the folder total count
-     */
-    public int getFolderTotalCount() {
-        return totalFoldersCount;
-    }
-
-    /**
      * Add to total raw size.
      *
      * @param elementSize the element size
@@ -740,11 +710,11 @@ public abstract class StoreExtractor {
      * Create a store extractor for the declared scheme in url as a factory
      * creator.
      *
-     * @param urlString      the url string
-     * @param rootStoreFolderName    Path of the extracted folder in the account mail box, can be                       null if default root folder
-     * @param destPathString the dest path string
-     * @param options        Options (flag composition of CONST_)
-     * @param logger         logger used
+     * @param urlString           the url string
+     * @param rootStoreFolderName Path of the extracted folder in the account mail box, can be                       null if default root folder
+     * @param destPathString      the dest path string
+     * @param options             Options (flag composition of CONST_)
+     * @param logger              logger used
      * @return the store extractor, constructed as a non abstract subclass
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
      */
@@ -796,6 +766,61 @@ public abstract class StoreExtractor {
 
     }
 
+    private static String readableFileSize(long size) {
+        if (size <= 0)
+            return "0";
+        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    }
+
+    /**
+     * Get summary string with time and statistics.
+     *
+     * @return the string
+     */
+    public String getSummary() {
+        String summary = "Terminated in " + Duration.between(start, end).toString();
+        String elementSummary = "";
+        for (Class elementClass : accumulatedElements) {
+            String elementName = null;
+            try {
+                elementName = (String) elementClass.getMethod("getElementName").invoke(null);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored) {
+            }
+            Integer count = elementsCounterMap.get(elementName);
+            if ((count != null) && (count > 0)) {
+                if (!elementSummary.isEmpty())
+                    elementSummary += ",";
+                elementSummary += " " + count + " " + elementName;
+            }
+        }
+        if (elementSummary.isEmpty())
+            summary += " empty extraction";
+        else
+            summary += " writing" + elementSummary;
+        String subElementSummary = "";
+        for (Class elementClass : accumulatedElements) {
+            String elementName = null;
+            try {
+                elementName = (String) elementClass.getMethod("getElementName").invoke(null);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored) {
+            }
+            Integer count = subElementsCounterMap.get(elementName);
+            if ((count != null) && (count > 0)) {
+                if (!subElementSummary.isEmpty())
+                    subElementSummary += ",";
+                subElementSummary += " " + count + " " + elementName;
+            }
+        }
+        if (subElementSummary.isEmpty())
+            summary += " without embedded elements";
+        else
+            summary += " with" + subElementSummary + " embedded";
+        summary += " for a total size of " + readableFileSize(getTotalRawSize());
+        return summary;
+    }
+
     /**
      * Extract all folders from the defined root folder (considering drop
      * options).
@@ -811,7 +836,7 @@ public abstract class StoreExtractor {
     public void extractAllFolders() throws MailExtractLibException, InterruptedException {
         String title;
 
-        Instant start = Instant.now();
+        start = Instant.now();
 
         writeTargetLog();
         doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: extraction begin", null);
@@ -839,24 +864,10 @@ public abstract class StoreExtractor {
         }
         rootNode.write();
 
-        Instant end = Instant.now();
-        String size = Double.toString(Math.round(((double) getTotalRawSize()) * 100.0 / (1024.0 * 1024.0)) / 100.0);
-        doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: terminated in " + Duration.between(start, end).toString() + " writing "
-                + Integer.toString(getFolderTotalCount()) + " folders and " + Integer.toString(getTotalElementsCount())
-                + " messages, for a total size of " + size + " MBytes and "
-                + Integer.toString(getTotalAttachedMessagesCount()) + " attached message", null);
-        String mes = "";
-        if (options.extractObjectsLists && canExtractObjectsLists()) {
-            mes = String.join(", ", globalListsPSMap.keySet());
-            if (!mes.isEmpty())
-                doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "With " + mes + " extraction", null);
-        }
-        System.out.println("Terminated in " + Duration.between(start, end).toString() + " writing "
-                + Integer.toString(getFolderTotalCount()) + " folders and " + Integer.toString(getTotalElementsCount())
-                + " messages, for a total size of " + size + " MBytes and "
-                + Integer.toString(getTotalAttachedMessagesCount()) + " attached message");
-        if (!mes.isEmpty())
-            System.out.println("With " + mes + " extraction");
+        end = Instant.now();
+        String summary = getSummary();
+        doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: " + summary, null);
+        System.out.println(summary);
     }
 
     /**
@@ -888,11 +899,10 @@ public abstract class StoreExtractor {
 
         d = Duration.between(start, end);
         time = String.format("%dm%02ds", d.toMinutes(), d.minusMinutes(d.toMinutes()).getSeconds());
-        tmp = String.format("mailextractlib: terminated in %s listing %d folders", time, getFolderTotalCount());
+        tmp = String.format("mailextractlib: terminated in %s listing %d folders", time, Integer.toString(getElementCounter(StoreFolder.class, false)));
         if (stats) {
-            tmp += String.format(" with %d messages, for %.2f MBytes, and %d attached messages",
-                    getTotalElementsCount(), ((double) getTotalRawSize()) / (1024.0 * 1024.0),
-                    getTotalAttachedMessagesCount());
+            tmp += String.format(" with %d messages, for %.2f MBytes",
+                    Integer.toString(getElementCounter(StoreMessage.class, false)), ((double) getTotalRawSize()) / (1024.0 * 1024.0));
         }
 
         doProgressLog(logger, MailExtractProgressLogger.GLOBAL, tmp, null);

@@ -37,14 +37,11 @@ import fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreElement;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.zone.ZoneRulesException;
 import java.util.*;
 
 /**
@@ -81,7 +78,22 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
     /**
      * Instantiates a new local non recurrent appointment, with forced values. Used for exceptions creations in recurrence analysis.
      *
-     * @param storeFolder Mail box folder containing this appointment
+     * @param storeFolder          Mail box folder containing this appointment
+     * @param uniqId               the uniq id
+     * @param sequenceNumber       the sequence number
+     * @param subject              the subject
+     * @param location             the location
+     * @param from                 the from
+     * @param toAttendees          the to attendees
+     * @param ccAttendees          the cc attendees
+     * @param startTime            the start time
+     * @param endTime              the end time
+     * @param miscNotes            the misc notes
+     * @param otherMiscNotes       the other misc notes
+     * @param messageStatus        the message status
+     * @param attachments          the attachments
+     * @param isRecurrenceDeletion the is recurrence deletion
+     * @param exceptionDate        the exception date
      */
     protected PstStoreAppointment(StoreFolder storeFolder, String uniqId,
                                   int sequenceNumber,
@@ -256,7 +268,7 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
                 uniqId, sequenceNumber, subject, location, from, toAttendees, ccAttendees,
                 null, null, "", "",messageStatus, null,
                 true, zdt);
-        result.listLineId=getStoreExtractor().incGlobalListCounter(this.getClass());
+        result.listLineId=getStoreExtractor().incElementCounter(this.getClass());
         return result;
     }
 
@@ -307,7 +319,7 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
             result.analyzeMiscNotes();
             result.attachments=getAttachments(result.appointment);
         }
-        result.listLineId=getStoreExtractor().incGlobalListCounter(this.getClass());
+        result.listLineId=getStoreExtractor().incElementCounter(this.getClass());
         return result;
     }
 

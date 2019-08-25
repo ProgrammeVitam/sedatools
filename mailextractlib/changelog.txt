@@ -1,4 +1,16 @@
+Evolutions/Corrections en 1.10.0
 
+- Evolution: ajout d'une fonction de construction d'un résumé
+- Evolution: amélioration des statistiques avec décompte des sous-éléments extraits d'éléments imbriqués
+- Fix: ajout de tests sur les extracteurs locaux (eml, mbox, msg, pst)
+- Fix: correction de l'extracteur de texte des rtf
+- Evolution: amélioration des informations présentées dans les logs, notamment dans les cas d'imbrication d'extraction
+- Evolution: extraction d'une liste des messages extraits
+- Evolution: extraction de l'agenda et des message de rendez-vous en liste et en collection d'éléments associés (pst)
+- Evolution: extraction des images des contacts (pst)
+- Evolution: extraction générique des listes CSV (rendez-vous, contacts...)
+
+============================================================================
 Evolutions/Corrections en 1.9.0
 
 - Evolution: amélioration du suivi des exceptions spécifiques par empilement des causes, et restitution récursive des causes dans les logs

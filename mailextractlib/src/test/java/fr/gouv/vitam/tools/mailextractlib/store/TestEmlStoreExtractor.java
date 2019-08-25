@@ -36,11 +36,17 @@ public class TestEmlStoreExtractor implements AllTests {
 
         //then
 
-        //global values
-        assertThat(storeExtractor.getFolderTotalCount()).isEqualTo(1);
-        assertThat(storeExtractor.getGlobalListCounter(StoreAppointment.class)).isEqualTo(0);
-        assertThat(storeExtractor.getGlobalListCounter(StoreMessage.class)).isEqualTo(1);
-        assertThat(storeExtractor.getGlobalListCounter(StoreContact.class)).isEqualTo(0);
+        // element counters
+        assertThat(storeExtractor.getElementCounter(StoreFolder.class,false)).isEqualTo(0);
+        assertThat(storeExtractor.getElementCounter(StoreMessage.class,false)).isEqualTo(1);
+        assertThat(storeExtractor.getElementCounter(StoreAppointment.class,false)).isEqualTo(0);
+        assertThat(storeExtractor.getElementCounter(StoreContact.class,false)).isEqualTo(0);
+
+        // sub element counters
+        assertThat(storeExtractor.getElementCounter(StoreFolder.class,true)).isEqualTo(0);
+        assertThat(storeExtractor.getElementCounter(StoreMessage.class,true)).isEqualTo(1);
+        assertThat(storeExtractor.getElementCounter(StoreAppointment.class,true)).isEqualTo(0);
+        assertThat(storeExtractor.getElementCounter(StoreContact.class,true)).isEqualTo(0);
 
         // embedded mail eml
         String mail=FileUtils.readFileToString(new File("target/tmpJUnit/testGlobalEmlExtractor/M#1-Test-message/M#2-Test-message/__BinaryMaster_1__-003e01d556d3-b3116ed0-19344c70-.eml"),defaultCharset());

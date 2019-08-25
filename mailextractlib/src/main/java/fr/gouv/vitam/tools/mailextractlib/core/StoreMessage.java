@@ -289,7 +289,7 @@ public abstract class StoreMessage extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "message "+getStoreExtractor().getGlobalListCounter(this.getClass());
+        String result = "message "+getStoreExtractor().getElementCounter(this.getClass(),false);
         if (subject != null)
             result += " [" + subject + "]";
         else
@@ -558,7 +558,7 @@ public abstract class StoreMessage extends StoreElement {
 
     @Override
     public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
+        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
         analyzeMessage();
         storeFolder.getDateRange().extendRange(sentDate);
         extractMessage(writeFlag);
@@ -567,7 +567,7 @@ public abstract class StoreMessage extends StoreElement {
 
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
+        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
         analyzeMessage();
         if (statsFlag)
             extractMessage(false);
@@ -682,10 +682,9 @@ public abstract class StoreMessage extends StoreElement {
         if (writeFlag)
             messageNode.write();
 
-        getStoreExtractor().incMessageCount();
         int logLevel;
         if (getStoreExtractor().isRoot()) {
-            doProgressLogIfStep(getProgressLogger(), MailExtractProgressLogger.MESSAGE_GROUP, getStoreExtractor().getMessageCount(), "mailextractlib: " + getStoreExtractor().getMessageCount() + " extracted messages");
+            doProgressLogIfStep(getProgressLogger(), MailExtractProgressLogger.MESSAGE_GROUP, getStoreExtractor().getElementCounter(this.getClass(),false), "mailextractlib: " + getStoreExtractor().getElementCounter(this.getClass(),false) + " extracted messages");
             logLevel=MailExtractProgressLogger.MESSAGE;
         } else
             logLevel=MailExtractProgressLogger.MESSAGE_DETAILS;
@@ -700,12 +699,12 @@ public abstract class StoreMessage extends StoreElement {
     }
 
     /**
-     * Gets mails global list name used for the csv file name construction.
+     * Gets element name used for the csv file name construction.
      *
-     * @return the global list name
+     * @return the element name
      */
-    static public String getGlobalListName() {
-        return "mails";
+    static public String getElementName() {
+        return "messages";
     }
 
     /**

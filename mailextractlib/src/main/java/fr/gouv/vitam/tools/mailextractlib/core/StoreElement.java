@@ -49,6 +49,8 @@ public abstract class StoreElement {
 
     /**
      * Instantiates a new store leaf.
+     *
+     * @param storeFolder the store folder
      */
     public StoreElement(StoreFolder storeFolder) {
         this.storeFolder = storeFolder;
@@ -107,6 +109,8 @@ public abstract class StoreElement {
 
     /**
      * Give the best element description to use in logs
+     *
+     * @return the log description
      */
     abstract public String getLogDescription();
 
