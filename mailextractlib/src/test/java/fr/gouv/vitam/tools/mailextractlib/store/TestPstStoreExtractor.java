@@ -1,4 +1,4 @@
-package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
+package fr.gouv.vitam.tools.mailextractlib.store;
 
 import fr.gouv.vitam.tools.mailextractlib.AllTests;
 import fr.gouv.vitam.tools.mailextractlib.core.*;
@@ -20,6 +20,7 @@ public class TestPstStoreExtractor implements AllTests {
     @Test
     public void testGlobalPstExtractor() throws MailExtractLibException, InterruptedException, IOException {
         //given
+        AllTests.initializeTests("testGlobalPstExtractor");
         StoreExtractorOptions storeExtractorOptions = new StoreExtractorOptions(false,
                true, true, 12, "windows-1252",
                 true, true, true, true,
@@ -61,5 +62,12 @@ public class TestPstStoreExtractor implements AllTests {
                 hasSameContentAs(new File("src/test/resources/pst/results/contacts.csv"),StandardCharsets.UTF_8);
         assertThat(new File("target/tmpJUnit/testGlobalPstExtractor/contacts/ContactPicture#1/__BinaryMaster_1__ContactPicture.jpg")).
                 hasBinaryContent(FileUtils.readFileToByteArray(new File("src/test/resources/pst/results/ContactPicture.jpg")));
+
+        // mail eml
+        String mail=FileUtils.readFileToString(new File("target/tmpJUnit/testGlobalPstExtractor/F#1-Début-du-fic/F#54-Éléments-env/M#58-Test-message/__BinaryMaster_1__-000c01d556d5-611cfc50-2356f4f0-.eml"),defaultCharset());
+        mail=mail.replaceAll("----=_Part.*","");
+        String resultMail=FileUtils.readFileToString(new File("src/test/resources/pst/results/mail.eml"), StandardCharsets.UTF_8);
+        resultMail=resultMail.replaceAll("----=_Part.*","");
+        assertThat(mail).isEqualToNormalizingNewlines(resultMail);
     }
 }

@@ -1,45 +1,30 @@
+Date: Mon, 19 Aug 2019 23:30:50 +0200 (CEST)
 From: "Test" <test@programmevitam.fr>
-To: <test-a@programmevitam.fr>,
-	<test-b@programmevitam.fr>
-Subject: Test message 2
-Date: Mon, 19 Aug 2019 23:30:50 +0200
+To: <test-a@programmevitam.fr>,<test-b@programmevitam.fr>
 Message-ID: <000c01d556d5$611cfc50$2356f4f0$@programmevitam.fr>
+Subject: Test message 2
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
-	boundary="----=_NextPart_000_0012_01D556E6.24AA6030"
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQIJwVcpboZbEgPox8DNUM4KYqesyA==
-Content-Language: fr
-X-OlkEid: 00000000BF51AFBB8A9E674685399D7827F17F900700D9539C2261A6BB45B9DAB62C7081B3C101002400FFFF0000ED0A47056E2CF2418619FC1919169131000000000C130000B2C11F2A20B02F4486195E9FF049C310
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_3_1660223291.1566738073062"
+X-Mailer:  Microsoft Outlook 15.0
+Thread-Index:  AQIJwVcpboZbEgPox8DNUM4KYqesyA==
+Content-Language:  fr
 
-This is a multipart message in MIME format.
+------=_Part_3_1660223291.1566738073062
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_4_379124840.1566738073062"
 
-------=_NextPart_000_0012_01D556E6.24AA6030
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_001_0013_01D556E6.24AA6030"
-
-
-------=_NextPart_001_0013_01D556E6.24AA6030
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-Content. Test message 1.msg
-
-
-------=_NextPart_001_0013_01D556E6.24AA6030
-Content-Type: text/html;
-	charset="us-ascii"
+------=_Part_4_379124840.1566738073062
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
+Content=E2=80=A6 Test message 1.msg
+------=_Part_4_379124840.1566738073062
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=Generator content="Microsoft Word 15 (filtered medium)"><style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><!--
 /* Font Definitions */
 @font-face
 	{font-family:"Cambria Math";
@@ -76,62 +61,48 @@ span.EmailStyle17
 div.WordSection1
 	{page:WordSection1;}
 --></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+<o:shapedefaults v:ext="edit" spidmax="1026" />
 </xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DFR =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal>Content&#8230; Test message =
-1.msg<o:p></o:p></p></div></body></html>
-------=_NextPart_001_0013_01D556E6.24AA6030--
+<o:shapelayout v:ext="edit">
+<o:idmap v:ext="edit" data="1" />
+</o:shapelayout></xml><![endif]--></head><body lang=FR link="#0563C1" vlink="#954F72"><div class=WordSection1><p class=MsoNormal>Content&#8230; Test message 1.msg<o:p></o:p></p></div></body></html>
+------=_Part_4_379124840.1566738073062--
 
-------=_NextPart_000_0012_01D556E6.24AA6030
-Content-Type: message/rfc822
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment
+------=_Part_3_1660223291.1566738073062
+Content-Type: message/rfc822; name="Test message 1.eml"
+Content-Disposition: attachment; filename="Test message 1.eml"
 
+Date: Mon, 19 Aug 2019 23:18:50 +0200 (CEST)
 From: "Test" <test@programmevitam.fr>
 To: <test-a@programmevitam.fr>
-Subject: Test message 1
-Date: Mon, 19 Aug 2019 23:18:50 +0200
 Message-ID: <003e01d556d3$b3116ed0$19344c70$@programmevitam.fr>
+Subject: Test message 1
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
-	boundary="----=_NextPart_000_000D_01D556E6.24A6DDC0"
-X-Mailer: Microsoft Outlook 15.0
-Thread-Index: AQEvqW8NRGu7FgyDNMDKj9ydqhehGA==
-Content-Language: fr
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_0_482307698.1566738073025"
+X-Mailer:  Microsoft Outlook 15.0
+Thread-Index:  AQEvqW8NRGu7FgyDNMDKj9ydqhehGA==
+Content-Language:  fr
 
-This is a multipart message in MIME format.
+------=_Part_0_482307698.1566738073025
+Content-Type: multipart/alternative; 
+	boundary="----=_Part_1_702500163.1566738073027"
 
-------=_NextPart_000_000D_01D556E6.24A6DDC0
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_001_000E_01D556E6.24A6DDC0"
-
-
-------=_NextPart_001_000E_01D556E6.24A6DDC0
-Content-Type: text/plain;
-	charset="us-ascii"
+------=_Part_1_702500163.1566738073027
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
 Content
+------=_Part_1_702500163.1566738073027
+Content-Type: multipart/related; 
+	boundary="----=_Part_2_1574509514.1566738073028"
 
+------=_Part_2_1574509514.1566738073028
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-------=_NextPart_001_000E_01D556E6.24A6DDC0
-Content-Type: text/html;
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head>
-<META HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
-charset=3Dus-ascii">
-<meta name=3DGenerator content=3D"Microsoft Word 15 (filtered =
-medium)"><style><!--
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http://www.w3.org/TR/REC-html40"><head><meta name=Generator content="Microsoft Word 15 (filtered medium)"><style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"><!--
 /* Font Definitions */
 @font-face
 	{font-family:"Cambria Math";
@@ -168,21 +139,16 @@ span.EmailStyle17
 div.WordSection1
 	{page:WordSection1;}
 --></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+<o:shapedefaults v:ext="edit" spidmax="1026" />
 </xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DFR =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal>Content<o:p></o:p></p></div></body></html>
-------=_NextPart_001_000E_01D556E6.24A6DDC0--
-
-------=_NextPart_000_000D_01D556E6.24A6DDC0
-Content-Type: application/pdf;
+<o:shapelayout v:ext="edit">
+<o:idmap v:ext="edit" data="1" />
+</o:shapelayout></xml><![endif]--></head><body lang=FR link="#0563C1" vlink="#954F72"><div class=WordSection1><p class=MsoNormal>Content<o:p></o:p></p></div></body></html>
+------=_Part_2_1574509514.1566738073028
+Content-Type: application/octet-stream; 
 	name="2019_Newsletter Vitam_n11_juin_2019.pdf"
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename="2019_Newsletter Vitam_n11_juin_2019.pdf"
+Content-Disposition: inline; filename="2019_Newsletter Vitam_n11_juin_2019.pdf"
 
 JVBERi0xLjQKJcOkw7zDtsOfCjIgMCBvYmoKPDwvTGVuZ3RoIDMgMCBSL0ZpbHRlci9GbGF0ZURl
 Y29kZT4+CnN0cmVhbQp4nLVdS4/rOnLen1/h9QDuEV+iBDQMtO3uINlN5gJZDLJKMgmCexLc2czf
@@ -7004,13 +6970,10 @@ MCBuIAp0cmFpbGVyCjw8L1NpemUgNTQvUm9vdCA1MiAwIFIKL0luZm8gNTMgMCBSCi9JRCBbIDw3
 NTIxOTQ3MTI1RkZDMEEwQzk3RDNCNEVCRDhCOTk1MT4KPDc1MjE5NDcxMjVGRkMwQTBDOTdEM0I0
 RUJEOEI5OTUxPiBdCi9Eb2NDaGVja3N1bSAvMkE3MDRDNUIzM0FDOUU5NUVBNjY1Qzk1REFDMUM2
 RTMKPj4Kc3RhcnR4cmVmCjM4NzQyNwolJUVPRgo=
-
-------=_NextPart_000_000D_01D556E6.24A6DDC0
-Content-Type: image/png;
-	name="logo_vitam.png"
+------=_Part_2_1574509514.1566738073028
+Content-Type: application/octet-stream; name=logo_vitam.png
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
-	filename="logo_vitam.png"
+Content-Disposition: inline; filename="logo_vitam.png"
 
 iVBORw0KGgoAAAANSUhEUgAAByYAAAKLCAYAAACzG+80AAAABGdBTUEAALGPC/xhBQAAAAZiS0dE
 AP8A/wD/oL2nkwAAAAlwSFlzAAAuIwAALiMBeKU/dgAAAAd0SU1FB+ICDBArCi3NS/YAAAAdaVRY
@@ -8603,7 +8566,10 @@ b2zwF4wkhBCGYcZzc3NfLi7eW4G7AgAAAAAAAADwdwhMAgAAAMC8MbmX4yaDwZDX09PzltVqyfD3
 99CQa+3w8HCcw+GICuR/p1arOZZlu1iW/VN0dPTxydSxAAAAADPy0ksv3vH0PxiGGd+2bfs2pIIH
 AACA+SwsbGKOOAKTAAAAAACTdLr6clp5YWHRUVwdAAAACBajsTHV5XL9xO1+EM+y7KsISgIAAMB8
 5wlM/n9jHPG7CxLMCgAAAABJRU5ErkJggg==
+------=_Part_2_1574509514.1566738073028--
 
-------=_NextPart_000_000D_01D556E6.24A6DDC0--
+------=_Part_1_702500163.1566738073027--
 
-------=_NextPart_000_0012_01D556E6.24AA6030--
+------=_Part_0_482307698.1566738073025--
+
+------=_Part_3_1660223291.1566738073062--
