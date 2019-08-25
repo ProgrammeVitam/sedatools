@@ -1,3 +1,15 @@
+Evolutions/Corrections en 1.10.0
+
+- Evolution: prise en compte des évolutions de mailextractlib
+
+ [Evolutions de mailextractlib en 1.10.0 ayant un impact sur ReSIP]
+  - Evolution: amélioration des statistiques avec décompte des sous-éléments extraits d'éléments imbriqués
+  - Evolution: amélioration des informations présentées dans les logs, notamment dans les cas d'imbrication d'extraction
+  - Evolution: extraction d'une liste des messages extraits
+  - Evolution: extraction de l'agenda et des message de rendez-vous en liste et en collection d'éléments associés (pst)
+  - Evolution: extraction des images des contacts (pst)
+
+============================================================================
 Evolutions/Corrections en 1.9.0
 
 - Evolution: ajout de boutons d'expansion et réduction de l'arbre qui s'applique soit à la sélection soit à tout l'arbre si aucune sélection n'est définie

@@ -340,8 +340,10 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
         modificationTime=getZonedDateTime(appointment.getLastModificationTime(),null);
         messageStatus = getMessageStatus();
         if (appointment.isRecurring()) {
-            PSTAppointmentRecurrence par = new PSTAppointmentRecurrence(appointment.getRecurrenceStructure(), appointment,
-                    appointment.getRecurrenceTimeZone());
+            PSTTimeZone tz=appointment.getRecurrenceTimeZone();
+            if (tz==null)
+                tz=new PSTTimeZone("Unknown", PSTTimeZone.utcTimeZone);
+            PSTAppointmentRecurrence par = new PSTAppointmentRecurrence(appointment.getRecurrenceStructure(), appointment,tz);
             recurencePattern = appointment.getRecurrencePattern();
             startRecurrenceTime = getZonedDateTime(par.getStartDate(), appointment.getRecurrenceTimeZone());
             endRecurrenceTime = getZonedDateTime(par.getEndDate(), appointment.getRecurrenceTimeZone());

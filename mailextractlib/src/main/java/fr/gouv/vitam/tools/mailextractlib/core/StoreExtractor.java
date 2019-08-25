@@ -780,7 +780,7 @@ public abstract class StoreExtractor {
      * @return the string
      */
     public String getSummary() {
-        String summary = "Terminated in " + Duration.between(start, end).toString();
+        String summary = Duration.between(start, end).toString();
         String elementSummary = "";
         for (Class elementClass : accumulatedElements) {
             String elementName = null;
@@ -865,7 +865,7 @@ public abstract class StoreExtractor {
         rootNode.write();
 
         end = Instant.now();
-        String summary = getSummary();
+        String summary = "Terminated in " + getSummary();
         doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: " + summary, null);
         System.out.println(summary);
     }

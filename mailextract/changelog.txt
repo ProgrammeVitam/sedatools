@@ -1,3 +1,8 @@
+Evolutions/Corrections en 1.10.0
+
+- Evolution: prise en compte des évolutions de mailextractlib, notamment sur les statistiques
+
+============================================================================
 Evolutions/Corrections en 1.4.0
 
 - Evolution: les log de progression se déclenche non seulement tous les 1000 obets mais aussi toutes les 2 secondes
