@@ -38,7 +38,6 @@ import java.io.PrintStream;
  * <p>
  * It defines all informations to collect from a contact. Each subclass has to
  * be able to collect these generic informations from a native contact format.
- * <p>
  */
 public abstract class StoreContact extends StoreElement {
 
@@ -72,7 +71,7 @@ public abstract class StoreContact extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "contact " + getStoreExtractor().getGlobalListCounter(this.getClass());
+        String result = "contact " + getStoreExtractor().getElementCounter(this.getClass(),false);
         if (fullName != null)
             result += " [" + fullName + "]";
         else if ((givenName != null) || (lastName != null))
@@ -109,7 +108,10 @@ public abstract class StoreContact extends StoreElement {
 
     /**
      * Analyze contact to collect contact information and optionally picture.
-     **/
+     *
+     * @throws MailExtractLibException the mail extract lib exception
+     * @throws InterruptedException    the interrupted exception
+     */
     public void analyzeContact() throws MailExtractLibException, InterruptedException {
         analyzeAllContactInformations();
         try {
@@ -119,11 +121,11 @@ public abstract class StoreContact extends StoreElement {
     }
 
     /**
-     * Gets contacts global list name used for the csv file name construction.
+     * Gets element name used for the csv file name construction.
      *
-     * @return the global list name
+     * @return the element name
      */
-    static public String getGlobalListName() {
+    static public String getElementName() {
         return "contacts";
     }
 
@@ -146,6 +148,8 @@ public abstract class StoreContact extends StoreElement {
      * listLineId as "contact_id".ext with the extension of the original file.******************************
      *
      * @param writeFlag the write flag
+     * @throws InterruptedException    the interrupted exception
+     * @throws MailExtractLibException the mail extract lib exception
      */
     public void extractContact(boolean writeFlag) throws InterruptedException, MailExtractLibException {
         if (writeFlag && storeFolder.getStoreExtractor().getOptions().extractObjectsLists) {
@@ -200,13 +204,13 @@ public abstract class StoreContact extends StoreElement {
 
     @Override
     public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
+        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
         analyzeContact();
         extractContact(writeFlag);
     }
 
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
+        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
     }
 }

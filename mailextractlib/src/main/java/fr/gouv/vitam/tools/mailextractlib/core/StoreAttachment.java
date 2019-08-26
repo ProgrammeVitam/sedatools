@@ -89,26 +89,16 @@ public class StoreAttachment {
      * The MimeType is normalized to application/* if type unknown and application/octet-stream if all unknown
      * </p>
      *
-     * @param storeContent
-     *            Object to be used by the store extractor or byte[] if simple
-     *            binary
-     * @param attachmentStoreScheme
-     *            Store scheme defining store extractor or "file" if simple
-     *            binary
-     * @param name
-     *            Name
-     * @param creationDate
-     *            Creation Date
-     * @param modificationDate
-     *            Last modification Date
-     * @param mimeType
-     *            MimeType
-     * @param contentID
-     *            Mime multipart content ID useful for inline
-     * @param attachmentType
-     *            Type of attachment (inline, simple file, another store...)
+     * @param fatherElement         the father element
+     * @param storeContent          Object to be used by the store extractor or byte[] if simple            binary
+     * @param attachmentStoreScheme Store scheme defining store extractor or "file" if simple            binary
+     * @param name                  Name
+     * @param creationDate          Creation Date
+     * @param modificationDate      Last modification Date
+     * @param mimeType              MimeType
+     * @param contentID             Mime multipart content ID useful for inline
+     * @param attachmentType        Type of attachment (inline, simple file, another store...)
      */
-
     public StoreAttachment(StoreElement fatherElement, Object storeContent, String attachmentStoreScheme, String name, Date creationDate,
                            Date modificationDate, String mimeType, String contentID, int attachmentType) {
         this.fatherElement=fatherElement;
@@ -219,9 +209,11 @@ public class StoreAttachment {
      * It use for this, the list of mimetypes that can be treated by known store
      * extractors. This list is constructed using
      * {@link StoreExtractor#addExtractionRelation
-     * StoreExtractor.addExtractionRelation}*, and a default one is set calling
+     * StoreExtractor.addExtractionRelation}**, and a default one is set calling
      * {@link StoreExtractor#initDefaultExtractors
-     * StoreExtractor.initDefaultExtractors}*
+     * StoreExtractor.initDefaultExtractors}**
+     *
+     * @param attachments the attachments
      */
     static protected void detectStoreAttachments(List<StoreAttachment> attachments) {
         String mimeType;
@@ -383,8 +375,7 @@ public class StoreAttachment {
         if (extractor != null) {
             extractor.writeTargetLog();
             extractor.getRootFolder().extractFolderAsRoot(writeFlag);
-            fatherExtractor.addTotalAttachedMessagesCount(
-                    extractor.getTotalElementsCount() + extractor.getTotalAttachedMessagesCount());
+            fatherExtractor.accumulateSubElements(extractor);
             extractor.endStoreExtractor();
             if (extractor.getRootFolder().dateRange.isDefined() && isContainerScheme) {
                 node.addMetadata("StartDate",

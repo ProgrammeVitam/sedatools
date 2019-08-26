@@ -36,16 +36,22 @@ public class TestMboxStoreExtractor implements AllTests {
 
         //then
 
-        //global values
-        assertThat(storeExtractor.getFolderTotalCount()).isEqualTo(1);
-        assertThat(storeExtractor.getGlobalListCounter(StoreAppointment.class)).isEqualTo(0);
-        assertThat(storeExtractor.getGlobalListCounter(StoreMessage.class)).isEqualTo(4);
-        assertThat(storeExtractor.getGlobalListCounter(StoreContact.class)).isEqualTo(0);
+        // element counters
+        assertThat(storeExtractor.getElementCounter(StoreFolder.class,false)).isEqualTo(1);
+        assertThat(storeExtractor.getElementCounter(StoreMessage.class,false)).isEqualTo(4);
+        assertThat(storeExtractor.getElementCounter(StoreAppointment.class,false)).isEqualTo(0);
+        assertThat(storeExtractor.getElementCounter(StoreContact.class,false)).isEqualTo(0);
+
+        // sub element counters
+        assertThat(storeExtractor.getElementCounter(StoreFolder.class,true)).isEqualTo(3);
+        assertThat(storeExtractor.getElementCounter(StoreMessage.class,true)).isEqualTo(5);
+        assertThat(storeExtractor.getElementCounter(StoreAppointment.class,true)).isEqualTo(14);
+        assertThat(storeExtractor.getElementCounter(StoreContact.class,true)).isEqualTo(1);
 
         // mails extraction
-        String mails=FileUtils.readFileToString(new File("target/tmpJUnit/testGlobalMboxExtractor/mails.csv"),defaultCharset());
+        String mails=FileUtils.readFileToString(new File("target/tmpJUnit/testGlobalMboxExtractor/messages.csv"),defaultCharset());
         mails=mails.replaceAll("/","\\\\");
-        String resultMails=FileUtils.readFileToString(new File("src/test/resources/mbox/results/mails.csv"), StandardCharsets.UTF_8);
+        String resultMails=FileUtils.readFileToString(new File("src/test/resources/mbox/results/messages.csv"), StandardCharsets.UTF_8);
         resultMails=resultMails.replaceAll("/","\\\\");
         assertThat(mails).isEqualToNormalizingNewlines(resultMails);
 

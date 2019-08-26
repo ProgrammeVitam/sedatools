@@ -92,6 +92,15 @@ public abstract class StoreFolder {
     }
 
     /**
+     * Gets element name used for the csv file name construction.
+     *
+     * @return the element name
+     */
+    static public String getElementName() {
+        return "folders";
+    }
+
+    /**
      * Finalize store folder.
      * <p>
      * Called at the end of the subclass StoreFolder construction to add the
@@ -262,10 +271,14 @@ public abstract class StoreFolder {
         extractFolderElements(writeFlag);
         // extract all subfolders in the folder to the unit directory
         extractSubFolders(0, writeFlag);
-        // accumulate in store extractor statistics out of recursion
-        storeExtractor.incTotalFoldersCount();
-        storeExtractor.addTotalElementsCount(getFolderElementsCount());
-        storeExtractor.addTotalRawSize(getFolderElementsRawSize());
+        if (folderElementsCount + folderSubFoldersCount != 0) {
+            // accumulate in store extractor statistics out of recursion
+            // if the scheme is not a container one but an embedded message folder counter is not used
+            if (StoreExtractor.schemeContainerMap.get(storeExtractor.scheme))
+                storeExtractor.incElementCounter(this.getClass());
+            storeExtractor.addTotalRawSize(getFolderElementsRawSize());
+        } else
+            logFolder("mailextractlib: empty extraction");
     }
 
     /**
@@ -309,12 +322,11 @@ public abstract class StoreFolder {
             if (writeFlag)
                 folderArchiveUnit.write();
             result = true;
+            storeExtractor.incElementCounter(this.getClass());
+            storeExtractor.addTotalRawSize(getFolderElementsRawSize());
         } else
             logFolder("mailextractlib: empty folder " + getFullName() + " is droped");
         // accumulate in store extractor statistics out of recursion
-        storeExtractor.incTotalFoldersCount();
-        storeExtractor.addTotalElementsCount(getFolderElementsCount());
-        storeExtractor.addTotalRawSize(getFolderElementsRawSize());
 
         return result;
     }
@@ -397,9 +409,8 @@ public abstract class StoreFolder {
         listSubFolders(stats);
 
         // accumulate in store extractor statistics out of recursion
-        storeExtractor.incTotalFoldersCount();
+        storeExtractor.incElementCounter(this.getClass());
         if (stats) {
-            storeExtractor.addTotalElementsCount(getFolderElementsCount());
             storeExtractor.addTotalRawSize(getFolderElementsRawSize());
         }
     }

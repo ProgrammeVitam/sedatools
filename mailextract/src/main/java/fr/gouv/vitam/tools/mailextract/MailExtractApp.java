@@ -28,6 +28,8 @@ package fr.gouv.vitam.tools.mailextract;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import joptsimple.OptionParser;
@@ -456,11 +458,10 @@ public class MailExtractApp {
             logger.log(GLOBAL, e.getMessage());
         logger.log(GLOBAL, getPrintStackTrace(e));
         if (storeExtractor == null
-                || storeExtractor.getFolderTotalCount() + storeExtractor.getTotalElementsCount() == 0)
+                || storeExtractor.getElementCounter(StoreFolder.class,false) + storeExtractor.getElementCounter(StoreMessage.class,false) == 0)
             logger.log(GLOBAL, "No writing done");
         else
-            logger.log(GLOBAL, "Partial writing done " + Integer.toString(storeExtractor.getFolderTotalCount())
-                    + " folders and " + Integer.toString(storeExtractor.getTotalElementsCount()) + " messages");
+            logger.log(GLOBAL, "Partial extraction done in " + storeExtractor.getSummary());
 
     }
 

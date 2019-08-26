@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 import static java.nio.charset.Charset.defaultCharset;
@@ -37,16 +36,22 @@ public class TestPstStoreExtractor implements AllTests {
 
         //then
 
-        //global values
-        assertThat(storeExtractor.getFolderTotalCount()).isEqualTo(25);
-        assertThat(storeExtractor.getGlobalListCounter(StoreAppointment.class)).isEqualTo(25);
-        assertThat(storeExtractor.getGlobalListCounter(StoreMessage.class)).isEqualTo(5);
-        assertThat(storeExtractor.getGlobalListCounter(StoreContact.class)).isEqualTo(1);
+        // element counters
+        assertThat(storeExtractor.getElementCounter(StoreFolder.class,false)).isEqualTo(4);
+        assertThat(storeExtractor.getElementCounter(StoreMessage.class,false)).isEqualTo(5);
+        assertThat(storeExtractor.getElementCounter(StoreAppointment.class,false)).isEqualTo(25);
+        assertThat(storeExtractor.getElementCounter(StoreContact.class,false)).isEqualTo(1);
+
+        // sub element counters
+        assertThat(storeExtractor.getElementCounter(StoreFolder.class,true)).isEqualTo(7);
+        assertThat(storeExtractor.getElementCounter(StoreMessage.class,true)).isEqualTo(14);
+        assertThat(storeExtractor.getElementCounter(StoreAppointment.class,true)).isEqualTo(28);
+        assertThat(storeExtractor.getElementCounter(StoreContact.class,true)).isEqualTo(2);
 
         // mails extraction
-        String mails=FileUtils.readFileToString(new File("target/tmpJUnit/testGlobalPstExtractor/mails.csv"),defaultCharset());
+        String mails=FileUtils.readFileToString(new File("target/tmpJUnit/testGlobalPstExtractor/messages.csv"),defaultCharset());
         mails=mails.replaceAll("/","\\\\");
-        String resultMails=FileUtils.readFileToString(new File("src/test/resources/pst/results/mails.csv"), StandardCharsets.UTF_8);
+        String resultMails=FileUtils.readFileToString(new File("src/test/resources/pst/results/messages.csv"), StandardCharsets.UTF_8);
         resultMails=resultMails.replaceAll("/","\\\\");
         assertThat(mails).isEqualToNormalizingNewlines(resultMails);
 

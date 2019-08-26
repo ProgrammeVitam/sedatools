@@ -126,10 +126,7 @@ public class MailImporter {
             storeExtractor = StoreExtractor.createStoreExtractor(urlString, mailfolder, target,
                     storeExtractorOptions, mailExtractProgressLogger);
             storeExtractor.extractAllFolders();
-            summary = "Extraction de " + storeExtractor.getFolderTotalCount() + " dossiers, "
-                    + storeExtractor.getTotalElementsCount() + " messages, pour un taille totale de "
-                    + readableFileSize(storeExtractor.getTotalRawSize()) + " et "
-                    + storeExtractor.getTotalAttachedMessagesCount() + " pièces jointes";
+            summary = "Extraction " + storeExtractor.getSummary();
             storeExtractor.endStoreExtractor();
             end = Instant.now();
             ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, getSummary());
@@ -155,10 +152,7 @@ public class MailImporter {
                 + (storeExtractorOptions.extractFileTextFile ? "oui" : "non") + "\n";
         result += "extraction des métadonnées texte des pièces jointes: "
                 + (storeExtractorOptions.extractFileTextMetadata ? "oui" : "non") + "\n";
-        result += "résultat: " + storeExtractor.getFolderTotalCount() + " dossiers, "
-                + storeExtractor.getTotalElementsCount() + " messages, pour un taille totale de "
-                + readableFileSize(storeExtractor.getTotalRawSize()) + " et "
-                + storeExtractor.getTotalAttachedMessagesCount() + " pièces jointes\n";
+        result += "résultat: " + storeExtractor.getSummary();
         if (start != null)
             result += "en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;

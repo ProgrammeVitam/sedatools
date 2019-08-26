@@ -1,7 +1,6 @@
 package fr.gouv.vitam.tools.mailextractlib.core;
 
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
-import fr.gouv.vitam.tools.mailextractlib.utils.DateRange;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
 import java.io.File;
@@ -67,7 +66,7 @@ public abstract class StoreAppointment extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "appointment " + getStoreExtractor().getGlobalListCounter(this.getClass());
+        String result = "appointment " + getStoreExtractor().getElementCounter(this.getClass(),false);
         if (subject != null)
             result += " [" + subject + "/";
         else
@@ -90,11 +89,11 @@ public abstract class StoreAppointment extends StoreElement {
     abstract public void analyzeAppointment() throws MailExtractLibException, InterruptedException;
 
     /**
-     * Gets appointments global list name used for the csv file name construction.
+     * Gets element name used for the csv file name construction.
      *
-     * @return the global list name
+     * @return the element name
      */
-    static public String getGlobalListName() {
+    static public String getElementName() {
         return "appointments";
     }
 
@@ -116,6 +115,9 @@ public abstract class StoreAppointment extends StoreElement {
      * listLineId as "contact_id".ext with the extension of the original file.******************************
      *
      * @param writeFlag the write flag
+     * @param father    the father
+     * @throws InterruptedException    the interrupted exception
+     * @throws MailExtractLibException the mail extract lib exception
      */
     public void extractAppointment(boolean writeFlag, StoreAppointment father) throws InterruptedException, MailExtractLibException {
         if (writeFlag && storeFolder.getStoreExtractor().getOptions().extractObjectsLists) {
@@ -203,7 +205,7 @@ public abstract class StoreAppointment extends StoreElement {
 
     @Override
     public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
+        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
         analyzeAppointment();
         StoreAttachment.detectStoreAttachments(attachments);
         extractAppointment(writeFlag, null);
@@ -211,7 +213,7 @@ public abstract class StoreAppointment extends StoreElement {
 
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incGlobalListCounter(this.getClass());
+        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
         analyzeAppointment();
         if (statsFlag)
             extractAppointment(false, null);
