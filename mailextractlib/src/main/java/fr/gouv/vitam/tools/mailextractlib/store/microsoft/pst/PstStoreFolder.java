@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
 import com.pff.*;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreElement;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
@@ -131,17 +132,14 @@ public class PstStoreFolder extends StoreFolder {
             if (po == null)
                 break;
             message = (PSTMessage) po;
-            if (message instanceof PSTContact) {
-                PstStoreContact lPStoreContact = new PstStoreContact(this, (PSTContact) message);
-                lPStoreContact.writeToContactsList(writeFlag);
-            } else {
-
-                PstStoreMessage lPStoreMessage = new PstStoreMessage(this, message);
-                lPStoreMessage.analyzeMessage();
-                dateRange.extendRange(lPStoreMessage.getSentDate());
-                lPStoreMessage.extractMessage(writeFlag);
-                lPStoreMessage.countMessage();
-            }
+            StoreElement extracted;
+            if (message instanceof PSTContact)
+                extracted = new PstStoreContact(this, (PSTContact) message);
+            else if (message instanceof PSTAppointment)
+                extracted = new PstStoreAppointment(this, (PSTAppointment) message);
+            else
+                extracted = new PstStoreMessage(this, message);
+            extracted.processElement(writeFlag);
         }
     }
 
@@ -231,7 +229,7 @@ public class PstStoreFolder extends StoreFolder {
             message = (PSTMessage) pstFolder.getNextChild();
             while (message != null) {
                 PstStoreMessage lPStoreMessage = new PstStoreMessage(this, message);
-                lPStoreMessage.countMessage();
+                lPStoreMessage.listElement(stats);
                 message = (PSTMessage) pstFolder.getNextChild();
             }
         } catch (IOException e) {

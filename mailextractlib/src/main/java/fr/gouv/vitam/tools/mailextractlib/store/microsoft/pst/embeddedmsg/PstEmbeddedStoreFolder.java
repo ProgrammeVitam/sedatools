@@ -30,7 +30,7 @@ package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.embeddedmsg;
 import com.pff.PSTMessage;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.PstStoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
@@ -83,13 +83,10 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      */
     @Override
     protected void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
-        lpStoreMessage.analyzeMessage();
-        dateRange.extendRange(lpStoreMessage.getSentDate());
-        lpStoreMessage.extractMessage(writeFlag);
-        lpStoreMessage.countMessage();
+        lpStoreMessage.processElement(writeFlag);
 
         // return to attachment the binary form
-        StoreMessageAttachment attachment = ((PstEmbeddedStoreExtractor) storeExtractor).getAttachment();
+        StoreAttachment attachment = ((PstEmbeddedStoreExtractor) storeExtractor).getAttachment();
         attachment.setStoreContent(lpStoreMessage.getMimeContent());
         attachment.setMimeType("message/rfc822");
         if ((attachment.getName() == null) || attachment.getName().isEmpty())
@@ -156,7 +153,7 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      */
     @Override
     protected void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
-        lpStoreMessage.countMessage();
+        lpStoreMessage.listElement(stats);
     }
 
     /*

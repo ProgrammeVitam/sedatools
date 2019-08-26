@@ -25,10 +25,9 @@ Avec un JDK 1.8, git, maven et gpg installés, la séquence de build est la suiv
 
     mkdir test-sedatools
     cd test-sedatools
-    git clone https://github.com/ProgrammeVitam/java-libpst.git
-    cd java-libpst/
-    # mvn parameters to skip javadoc errors in 1.8
-    mvn clean install -Dadditionalparam=-Xdoclint:none
+    git clone https://github.com/ProgrammeVitam/java-libpst-origin.git
+    cd java-libpst-origin/
+    mvn clean install
     cd ..
     git clone https://github.com/digital-preservation/droid.git
     cd droid

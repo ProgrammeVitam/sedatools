@@ -28,9 +28,10 @@
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.embeddedmsg;
 
 import com.pff.PSTMessage;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreElement;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
@@ -51,30 +52,23 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
     }
 
     // Attachment to complete with decoded form
-    private StoreMessageAttachment attachment;
+    private StoreAttachment attachment;
 
     /**
      * Instantiates a new LP embedded message store extractor.
      *
-     * @param attachment
-     *            the attachment
-     * @param rootNode
-     *            the ArchiveUnit node representing this container
-     * @param options
-     *            Options (flag composition of CONST_)
-     * @param rootStoreExtractor
-     *            the creating store extractor in nested extraction, or null if
-     *            root one
-     * @param logger
-     *            logger used
-     * @throws MailExtractLibException
-     *             Any unrecoverable extraction exception (access trouble, major
-     *             format problems...)
+     * @param attachment         the attachment
+     * @param rootNode           the ArchiveUnit node representing this container
+     * @param options            Options (flag composition of CONST_)
+     * @param rootStoreExtractor the creating store extractor in nested extraction, or null if root one
+     * @param fatherElement      the father element in nested extraction, or null if root one
+     * @param logger             logger used
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      */
-    public PstEmbeddedStoreExtractor(StoreMessageAttachment attachment, ArchiveUnit rootNode,
-                                     StoreExtractorOptions options, StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger)
+    public PstEmbeddedStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode,
+                                     StoreExtractorOptions options, StoreExtractor rootStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger)
             throws MailExtractLibException {
-        super("pst.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, logger);
+        super("pst.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, fatherElement, logger);
 
         this.attachment = attachment;
         setRootFolder(PstEmbeddedStoreFolder.createRootFolder((PSTMessage) attachment.getStoreContent(), this, rootNode));
@@ -84,7 +78,7 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor#getAttachment()
      */
     @Override
-    public StoreMessageAttachment getAttachment() {
+    public StoreAttachment getAttachment() {
         return attachment;
     }
 

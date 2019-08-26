@@ -30,9 +30,10 @@ package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 import com.pff.PSTException;
 import com.pff.PSTFile;
 import com.pff.PSTFolder;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreElement;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
@@ -42,11 +43,6 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Vector;
-
-import static fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.PstStoreContact.EXTRACTED_CONTACTS_LIST;
-import static fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.PstStoreContact.printContactCSVHeader;
-import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
-import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogWithoutInterruption;
 
 /**
  * StoreExtractor sub-class for mail boxes extracted through libpst library.
@@ -63,7 +59,7 @@ public class PstStoreExtractor extends StoreExtractor {
     }
 
     // Attachment to complete with decoded form
-    private StoreMessageAttachment attachment;
+    private StoreAttachment attachment;
 
     /**
      * The store file.
@@ -74,11 +70,6 @@ public class PstStoreExtractor extends StoreExtractor {
      * The PST File object.
      */
     private PSTFile pstFile;
-
-    /**
-     * The "contacts list initialised" flag.
-     */
-    private boolean contactsListInitialisedFlag;
 
     /**
      * Instantiates a new LP store extractor.
@@ -96,7 +87,7 @@ public class PstStoreExtractor extends StoreExtractor {
      */
     public PstStoreExtractor(String urlString, String storeFolder, String destPathString, StoreExtractorOptions options,
                              StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
-        super(urlString, storeFolder, destPathString, options, rootStoreExtractor, logger);
+        super(urlString, storeFolder, destPathString, options, rootStoreExtractor, null, logger);
 
         try {
             pstFile = new PSTFile(path);
@@ -166,7 +157,7 @@ public class PstStoreExtractor extends StoreExtractor {
     }
 
     // generate temporary file and create the url to it
-    static private String generateFileAndUrl(StoreMessageAttachment attachment, ArchiveUnit rootNode)
+    static private String generateFileAndUrl(StoreAttachment attachment, ArchiveUnit rootNode)
             throws MailExtractLibException {
         String result = null;
         File storeFile = writeStoreFile(rootNode.getFullName(), attachment.getRawAttachmentContent());
@@ -184,15 +175,14 @@ public class PstStoreExtractor extends StoreExtractor {
      * @param attachment         the attachment
      * @param rootNode           the ArchiveUnit node representing this container
      * @param options            Options (flag composition of CONST_)
-     * @param rootStoreExtractor the creating store extractor in nested extraction, or null if
-     *                           root one
+     * @param rootStoreExtractor the creating store extractor in nested extraction, or null if root one
+     * @param fatherElement      the father element in nested extraction, or null if root one
      * @param logger             logger used
-     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major
-     *                             format problems...)
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      */
-    public PstStoreExtractor(StoreMessageAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException {
-        super(generateFileAndUrl(attachment, rootNode), "", rootNode.getFullName(), options, rootStoreExtractor, logger);
+    public PstStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
+                             StoreExtractor rootStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger) throws MailExtractLibException {
+        super(generateFileAndUrl(attachment, rootNode), "", rootNode.getFullName(), options, rootStoreExtractor, fatherElement, logger);
 
         this.attachment = attachment;
         this.storeFile = new File(path);
@@ -207,11 +197,11 @@ public class PstStoreExtractor extends StoreExtractor {
         PstStoreFolder lPRootMailBoxFolder;
 
         try {
-            PSTFolder pstFolder = findChildFolder(pstFile.getRootFolder(), storeFolder);
+            PSTFolder pstFolder = findChildFolder(pstFile.getRootFolder(), "");
 
             if (pstFolder == null)
                 throw new MailExtractLibException(
-                        "mailextractlib.pst: Can't find the root folder " + storeFolder + " in pst file", null);
+                        "mailextractlib.pst: Can't find the root folder in pst file", null);
 
             lPRootMailBoxFolder = PstStoreFolder.createRootFolder(this, pstFolder, rootNode);
 
@@ -219,7 +209,7 @@ public class PstStoreExtractor extends StoreExtractor {
         } catch (IOException e) {
             throw new MailExtractLibException("mailextractlib.pst: Can't use " + path + " pst file", e);
         } catch (PSTException e) {
-            throw new MailExtractLibException("mailextractlib.pst: Can't find extraction root folder " + storeFolder, e);
+            throw new MailExtractLibException("mailextractlib.pst: Can't find extraction root folder", e);
         }
     }
 
@@ -279,24 +269,8 @@ public class PstStoreExtractor extends StoreExtractor {
      * @see fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor#getAttachment()
      */
     @Override
-    public StoreMessageAttachment getAttachment() {
+    public StoreAttachment getAttachment() {
         return attachment;
-    }
-
-    public void initContactsListIfNeeded() {
-        if (contactsListInitialisedFlag)
-            return;
-        contactsListInitialisedFlag = true;
-        try {
-            String dirname = this.destRootPath
-                    + File.separator + this.destName + File.separator;
-            Files.createDirectories(Paths.get(dirname));
-            PrintStream ps = new PrintStream(dirname + EXTRACTED_CONTACTS_LIST + ".csv");
-            globalListsPSMap.put(EXTRACTED_CONTACTS_LIST, ps);
-            printContactCSVHeader(ps);
-        } catch (IOException e) {
-            doProgressLogWithoutInterruption(getProgressLogger(), MailExtractProgressLogger.GLOBAL, "mailextractlib.pst: can't create contacts list csv file", null);
-        }
     }
 
     /* (non-Javadoc)
@@ -306,8 +280,6 @@ public class PstStoreExtractor extends StoreExtractor {
     public boolean canExtractObjectsLists() {
         return true;
     }
-
-    ;
 
     /**
      * The Constant PST_MN.

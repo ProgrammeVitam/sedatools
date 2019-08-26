@@ -360,7 +360,7 @@ public class PstStoreMessage extends MicrosoftStoreMessage {
      * @see fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessage#getEmbeddedMessageScheme()
      */
     @Override
-    protected String getEmbeddedMessageScheme() {
+    public String getEmbeddedMessageScheme() {
         return EMBEDDED_MESSAGE;
     }
 

@@ -37,7 +37,7 @@ public interface EmbeddedStoreExtractor {
      *
      * @return the attachment
      */
-    abstract StoreMessageAttachment getAttachment();
+    abstract StoreAttachment getAttachment();
 
     /**
      * Gets the scheme if this content can be managed by this StoreExtractor, or

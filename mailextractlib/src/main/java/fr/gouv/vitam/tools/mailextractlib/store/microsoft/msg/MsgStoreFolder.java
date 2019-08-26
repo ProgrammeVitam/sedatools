@@ -28,7 +28,7 @@
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.msg;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import org.apache.poi.hsmf.MAPIMessage;
@@ -101,13 +101,10 @@ public class MsgStoreFolder extends StoreFolder {
      */
     @Override
     protected void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
-        msgStoreMessage.analyzeMessage();
-        dateRange.extendRange(msgStoreMessage.getSentDate());
-        msgStoreMessage.extractMessage(writeFlag);
-        msgStoreMessage.countMessage();
+        msgStoreMessage.processElement(writeFlag);
 
         // return to attachment the binary form if exists
-        StoreMessageAttachment attachment = ((MsgStoreExtractor) storeExtractor).getAttachment();
+        StoreAttachment attachment = ((MsgStoreExtractor) storeExtractor).getAttachment();
         if (attachment != null) {
             attachment.setStoreContent(msgStoreMessage.getMimeContent());
             attachment.setMimeType("message/rfc822");
@@ -156,10 +153,7 @@ public class MsgStoreFolder extends StoreFolder {
      */
     @Override
     protected void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
-        msgStoreMessage.analyzeMessage();
-        dateRange.extendRange(msgStoreMessage.getSentDate());
-        msgStoreMessage.extractMessage(false);
-        msgStoreMessage.countMessage();
+        msgStoreMessage.listElement(stats);
     }
 
     /*

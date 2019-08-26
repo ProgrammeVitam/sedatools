@@ -199,7 +199,7 @@ public class MailExtractProgressLogger {
      * @param e the exception
      * @return the messages stack string
      */
-    static public String getMessagesStackString(Exception e) {
+    static public String getMessagesStackString(Throwable e) {
         String result;
         result = "-> " + e.getMessage();
         if (e.getCause() instanceof Exception)
@@ -207,7 +207,7 @@ public class MailExtractProgressLogger {
         return result;
     }
 
-    static private String getJavaStackString(Exception e) {
+    static private String getJavaStackString(Throwable e) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         e.printStackTrace(ps);
@@ -220,7 +220,7 @@ public class MailExtractProgressLogger {
      * @param e the exception
      * @return the all java stack string
      */
-    static public String getAllJavaStackString(Exception e) {
+    static public String getAllJavaStackString(Throwable e) {
         String result;
         result = getJavaStackString(e);
         if (e.getCause() instanceof Exception)
@@ -236,7 +236,7 @@ public class MailExtractProgressLogger {
      * @param log   the log
      * @param e     the exception
      */
-    static public void doProgressLogWithoutInterruption(MailExtractProgressLogger mepl, int level, String log, Exception e) {
+    static public void doProgressLogWithoutInterruption(MailExtractProgressLogger mepl, int level, String log, Throwable e) {
         if (mepl!=null) {
             if (level <= mepl.progressLogLevel) {
                 if (e != null)
@@ -260,7 +260,7 @@ public class MailExtractProgressLogger {
      * @param e     the exception
      * @throws InterruptedException the interrupted exception
      */
-    static public void doProgressLog(MailExtractProgressLogger mepl, int level, String log, Exception e) throws InterruptedException {
+    static public void doProgressLog(MailExtractProgressLogger mepl, int level, String log, Throwable e) throws InterruptedException {
         if (mepl != null) {
             doProgressLogWithoutInterruption(mepl, level, log, e);
             Thread.sleep(1);
