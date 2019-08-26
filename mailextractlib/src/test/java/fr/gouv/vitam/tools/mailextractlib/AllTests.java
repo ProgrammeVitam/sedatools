@@ -24,7 +24,7 @@ public interface AllTests {
      */
     @BeforeAll
     static void initializeTests() throws IOException {
-        FileUtils.deleteDirectory(new File("target/tmpJUnit"));
+        //FileUtils.deleteDirectory(new File("target/tmpJUnit"));
         StoreExtractor.initDefaultExtractors();
     }
 
