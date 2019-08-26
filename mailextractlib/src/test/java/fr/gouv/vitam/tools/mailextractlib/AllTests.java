@@ -19,12 +19,8 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
 
 public interface AllTests {
 
-    /**
-     * Initialize test context.
-     */
-    @BeforeAll
-    static void initializeTests() throws IOException {
-        //FileUtils.deleteDirectory(new File("target/tmpJUnit"));
+    static void initializeTests(String testName) throws IOException {
+        FileUtils.deleteDirectory(new File("target/tmpJUnit/"+testName));
         StoreExtractor.initDefaultExtractors();
     }
 

@@ -1,0 +1,10 @@
+ID;Full Name;Given Name;Last Name;Misc Notes;Company;Department;Title;Default Address;SMTP Mail Address;Default Telephone Number;Mobile Telephone Number;Business HomePage;Business Location;Business Telephone Number;Business Address;RefID;Other Mail Addresses;Other Telephone Numbers;Assistant Name;Assistant Telephone Number;Personal HomePage;Home Location;Home Telephone Number;Home Address;Nickname
+"1";"Mme FirstName SecondName LastName III";"FirstName";"LastName";"Test misc notes
+";"CompanyName";"DepartmentName";"Title";"BusinnessStreet
+BusinessZipCode  BusinessTown  BusinessDepartment";"Mail1@test.fr";"MainNumber";"MobileNumber;RadioNumber";"www.test.fr";"";"BusinessNumber;Business2Number;CompanyNumber";"L1:BusinnessStreet
+L2:BusinessZipCode BusinessTown
+L3:France/BusinessDepartment
+";"";"Mail1@test.fr;Mail2@test.fr;Mail3@test.fr";"CarNumber;OtherNumber;PagerNumber;OtherFaxNumber;BusinessFaxNumber;FaxHomeNumber;RNISNumber";"AssistantName";"AssistantNumber";"";"";"HomeNumber;Home2Number";"L1:HomeStreet
+L2:HomeZipCode HomeTown
+L3:France/HomeDepartment
+";"NickName"
