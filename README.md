@@ -27,6 +27,7 @@ Avec un JDK 1.8, git, maven et gpg installés, la séquence de build est la suiv
     cd test-sedatools
     git clone https://github.com/ProgrammeVitam/java-libpst-origin.git
     cd java-libpst-origin/
+    git checkout master
     mvn clean install
     cd ..
     git clone https://github.com/ProgrammeVitam/droid-origin.git
