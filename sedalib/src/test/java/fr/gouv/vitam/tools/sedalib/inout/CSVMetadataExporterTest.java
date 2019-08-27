@@ -5,11 +5,13 @@ import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadata
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.WindowsShortcut;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import org.codehaus.plexus.util.FileUtils;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -186,8 +188,8 @@ class CSVMetadataExporterTest {
         cme.doExportToCSVMetadataFile("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv");
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
-        String generatedFileContent= FileUtils.fileRead("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv").replaceAll("[\\\\/]","");
-        String expectedFileContent= FileUtils.fileRead("src/test/resources/ExpectedResults/ExportedMetadata.csv").replaceAll("[\\\\/]","");
+        String generatedFileContent= FileUtils.readFileToString(new File("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv"), "UTF8").replaceAll("[\\\\/]","");
+        String expectedFileContent= FileUtils.readFileToString(new File("src/test/resources/ExpectedResults/ExportedMetadata.csv"),"UTF8").replaceAll("[\\\\/]","");
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
     }
 

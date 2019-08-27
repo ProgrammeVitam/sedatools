@@ -29,10 +29,9 @@ Avec un JDK 1.8, git, maven et gpg installés, la séquence de build est la suiv
     cd java-libpst-origin/
     mvn clean install
     cd ..
-    git clone https://github.com/digital-preservation/droid.git
+    git clone https://github.com/ProgrammeVitam/droid-origin.git
     cd droid
-    # mvn parameters to skip a test failure in non english environement
-    mvn clean install -DskipTests
+    mvn clean install
     cd ..
     git clone https://github.com/ProgrammeVitam/sedatools.git
     cd sedatools/
