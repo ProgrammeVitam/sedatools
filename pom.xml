@@ -23,7 +23,6 @@
         <assertj-core.version>3.11.1</assertj-core.version>
         <commons-cli.version>1.4</commons-cli.version>
         <jackson.version>2.9.9</jackson.version>
-        <droid.version>6.5-SNAPSHOT</droid.version>
         <logback.version>1.2.3</logback.version>
         <woodstox-core.version>5.3.0</woodstox-core.version>
         <surefire.version>2.22.2</surefire.version>
@@ -45,6 +44,7 @@
         <xml-resolver.version>1.2</xml-resolver.version>
         <thaiopensource.version>20091111</thaiopensource.version>
         <apache.tika.version>1.22</apache.tika.version>
+        <droid.version>6.5-VITAM</droid.version>
         <java-libpst.version>0.9.5-VITAM</java-libpst.version>
     </properties>
     <profiles>
