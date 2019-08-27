@@ -31,7 +31,7 @@ With JDK 1.8, git, maven and gpg installed, the build sequence is:
     mvn clean install
     cd ..
     git clone https://github.com/ProgrammeVitam/droid-origin.git
-    cd droid
+    cd droid-origin
     mvn clean install
     cd ..
     git clone https://github.com/ProgrammeVitam/sedatools.git
