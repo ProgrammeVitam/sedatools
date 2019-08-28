@@ -36,15 +36,18 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import org.apache.commons.io.FileUtils;
 
 import java.io.*;
-import java.net.URI;
-import java.nio.file.FileSystem;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
@@ -136,14 +139,22 @@ public class DataObjectPackageToCSVMetadataExporter {
     private Instant start, end;
 
     /**
-     * The header row in csv metadata.
+     * The output operation defined context.
      */
-    private List<String> headerNames;
+    private String zipFileName;
+    private String csvMetadataFileName;
+    private Path rootPath;
+    private boolean fileExportFlag;
 
     /**
-     * The ArchiveUnit path string map, used to manage symbolic links.
+     * The output operation data.
      */
-    private HashMap<ArchiveUnit, Path> auPathStringMap;
+    private ZipOutputStream zipOS;
+    private HashMap<ArchiveUnit, Path> auRelativePathMap;
+    private HashSet<String> relativePathStringSet;
+    private List<String> headerNames;
+    private ByteArrayOutputStream csvBAOS;
+    private PrintStream csvPrintStream;
 
     /**
      * Instantiates a new DataObjectPackage to csv metadata exporter.
@@ -168,7 +179,7 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // compute the number of appearance of one type of metadata in all headers name
     // for example for Writer if there is Writer.0.FullName and Writer.1.Identifier this will be 2
-    // 0 is for no metadata present but without number derivation
+    // 0 is for metadata present but without number derivation
     // -1 is for not present metadata
     private int getMaxRank(Set<String> headerNames, String name) {
         if (headerNames.contains(name))
@@ -286,7 +297,8 @@ public class DataObjectPackageToCSVMetadataExporter {
         return sortedHeaderNames;
     }
 
-    // determine the csv header line by extracting metadata names from all ArchiveUnits and then sorting this set
+    // determine the csv header line by extracting metadata names from all ArchiveUnits, sorting this list in SEDA order
+    // and simplifying the unnecessary .0
     private void computeCsvHeader() throws SEDALibException {
         Set<String> headerNames = new HashSet<String>();
         List<String> sortedHeaderNames;
@@ -303,58 +315,63 @@ public class DataObjectPackageToCSVMetadataExporter {
         this.headerNames = sortedHeaderNames;
     }
 
-    // remove .0 after toSimplify in all header names
-    private void simplifyAllHeaders(List<String> simplifiedHeaderNames, String toSimplify) {
-        for (int i = 0; i < simplifiedHeaderNames.size(); i++) {
-            String header = simplifiedHeaderNames.get(i);
-            if (header.startsWith(toSimplify + ".")) {
-                header = toSimplify + header.substring(toSimplify.length() + 2);
-                simplifiedHeaderNames.set(i, header);
-            }
-        }
-    }
-
-    // generate header line in the csv, after simplifying header names (remove unnecessary .0)
-    private void generateHeader(List<String> headerNames, PrintStream csvPrintStream) {
-        csvPrintStream.print("Path");
-        List<String> simplifiedHeaderNames = new ArrayList<String>(headerNames);
+    // simplify header line in the csv removing unnecessary .0
+    private List<String> getSimplifiedHeaderNames() {
+        List<String> simplifiedHeaderNames=new ArrayList<String>(headerNames);
         for (int i = 0; i < simplifiedHeaderNames.size(); i++) {
             String header = simplifiedHeaderNames.get(i);
             int pos = 0;
+            String headerRoot="";
             while (header.indexOf(".0", pos) != -1) {
                 pos = header.indexOf(".0", pos);
-                boolean absent = true;
+                headerRoot=header.substring(0, pos);
+                boolean onlyZero = true;
+                //on each headerRoot.0 test if there's also a headerRoot.1.yyy
                 for (int j = i + 1; j < simplifiedHeaderNames.size(); j++) {
-                    if (simplifiedHeaderNames.get(j).startsWith(header.substring(0, pos) + ".1")) {
-                        absent = false;
+                    if (simplifiedHeaderNames.get(j).startsWith(headerRoot + ".1")) {
+                        onlyZero = false;
                         break;
                     }
                 }
-                if (absent)
-                    simplifyAllHeaders(simplifiedHeaderNames, header.substring(0, pos));
+                //if there is no headerRoot.1.yyy replace all headerRoot.0.yyy by headerRoot.yyy
+                if (onlyZero) {
+                    for (int k = i; k < simplifiedHeaderNames.size(); k++) {
+                        String toSimplifyheader = simplifiedHeaderNames.get(k);
+                        if (toSimplifyheader.startsWith(headerRoot + ".")) {
+                            toSimplifyheader = headerRoot + toSimplifyheader.substring(headerRoot.length() + 2);
+                            simplifiedHeaderNames.set(k, toSimplifyheader);
+                        }
+                    }
+                }
                 pos++;
             }
         }
+        return simplifiedHeaderNames;
+    }
 
+    // print header line in the csv, after simplifying header names (remove unnecessary .0)
+    private void printCsvHeader() {
+        List<String> simplifiedHeaderNames=getSimplifiedHeaderNames();
+        csvPrintStream.print("Path");
         for (String header : simplifiedHeaderNames)
             csvPrintStream.print(separator + header);
         csvPrintStream.println();
     }
 
-    // generate one ArchiveUnit line int the csv
-    private void generateCsvLine(ArchiveUnit au, Path auPath, Path rootPath, PrintStream csvPrintStream) throws SEDALibException {
-        LinkedHashMap<String, String> contentMetadataHashMap,managementMetadataHashMap=null;
+    // generate one ArchiveUnit line in the csv
+    private void generateCsvLine(ArchiveUnit au, Path auRelativePath) throws SEDALibException {
+        LinkedHashMap<String, String> contentMetadataHashMap, managementMetadataHashMap = null;
 
-        String value = "\"" + rootPath.relativize(auPath).toString().replace("\"", "\"\"") + "\"";
+        String value = "\"" + auRelativePath.toString().replace("\"", "\"\"") + "\"";
         csvPrintStream.print(value);
         contentMetadataHashMap = au.getContent().externToCsvList(dataObjectPackage.getExportMetadataList());
-        Management management=au.getManagement();
-        if (management!=null)
-            managementMetadataHashMap=management.externToCsvList();
+        Management management = au.getManagement();
+        if (management != null)
+            managementMetadataHashMap = management.externToCsvList();
         for (String header : headerNames) {
             value = contentMetadataHashMap.get(header);
-            if ((value==null) && (managementMetadataHashMap!=null))
-              value = managementMetadataHashMap.get(header);
+            if ((value == null) && (managementMetadataHashMap != null))
+                value = managementMetadataHashMap.get(header);
             if (value == null)
                 value = "";
             else
@@ -372,7 +389,7 @@ public class DataObjectPackageToCSVMetadataExporter {
         for (BinaryDataObject bdo : objectList) {
             if ((bdo.dataObjectVersion == null) || (bdo.dataObjectVersion.isEmpty())) {
                 doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS, "Un objet binaire n'a pas d'usage_version," +
-                        " il ne peut être choisi pour l'extraction",null);
+                        " il ne peut être choisi pour l'extraction", null);
                 continue;
             }
             String[] usageVersion = bdo.dataObjectVersion.split("_");
@@ -443,8 +460,13 @@ public class DataObjectPackageToCSVMetadataExporter {
         return fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
     }
 
+    // strip a String of all characters not allowed in a directory name.
+    private String stripDirName(String fileName) {
+        return fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,\\.]", "_");
+    }
+
     // Construct directory name for ArchiveUnit and insert id if already exists.
-    private String constructArchiveUnitDirectoryName(Path root, ArchiveUnit au) throws SEDALibException {
+    private String constructArchiveUnitDirectoryName(Path auRrelativePath, ArchiveUnit au) throws SEDALibException {
         String dirName = "";
         if (au.getContent() != null) {
             dirName = au.getContent().getSimpleMetadata("Title");
@@ -452,9 +474,9 @@ public class DataObjectPackageToCSVMetadataExporter {
                 dirName = "NoTitle";
             if ((maxNameSize > 0) && (dirName.length() > maxNameSize))
                 dirName = dirName.substring(0, maxNameSize);
-            dirName = stripFileName(dirName);
+            dirName = stripDirName(dirName);
             dirName = dirName.trim();
-            if (Files.exists(root.resolve(dirName))) {
+            if (fileExists(auRrelativePath.resolve(dirName))) {
                 String id = stripFileName("-" + au.getInDataObjectPackageId());
                 if (maxNameSize <= 0)
                     dirName += id;
@@ -472,7 +494,7 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // Construct file name for Object, either uniq or in a list of different usage_version and insert id if already
     // exists.
-    private String constructObjectFileName(Path root, BinaryDataObject bdo, boolean uniqFlag) {
+    private String constructObjectFileName(Path auRrelativePath, BinaryDataObject bdo, boolean uniqFlag) {
         String filename = bdo.fileInfo.filename, name, ext;
         int point = filename.lastIndexOf('.');
         if (point == -1) {
@@ -495,69 +517,115 @@ public class DataObjectPackageToCSVMetadataExporter {
         }
 
         filename = stripFileName(name + ext);
-        if (Files.exists(root.resolve(filename)))
+        if (fileExists(auRrelativePath.resolve(filename)))
             filename = stripFileName(name + "-" + bdo.getInDataObjectPackageId() + ext);
 
         return filename;
     }
 
-    // export in containerPath a link to au an already created ArchiveUnit export
-    private void exportLink(ArchiveUnit au, Path containerPath) throws SEDALibException, InterruptedException {
-        Path originAUPath = containerPath.relativize(auPathStringMap.get(au));
-        Path auPath = containerPath.resolve(originAUPath.getFileName());
-        try {
-            Files.createDirectories(containerPath);
-        } catch (IOException e) {
-            throw new SEDALibException(
-                    "Création du répertoire [" + containerPath + "] impossible\n->" + e.getMessage());
-        }
-        try {
-            Files.createSymbolicLink(auPath.toAbsolutePath(), originAUPath);
-        } catch (Exception e) {
-            doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_WARNINGS, "Lien vers [" + originAUPath + "] n'a pas pu être créé",e);
+    private boolean fileExists(Path relativePath) {
+        return relativePathStringSet.contains(relativePath.toString());
+    }
+
+    private void createDirectories(Path relativePath) throws SEDALibException {
+        if (zipOS == null)
             try {
-                Path linkFilePath = auPath.getFileSystem().getPath(auPath.toAbsolutePath().toAbsolutePath().toString() + ".link");
-                Files.write(linkFilePath,
-                        ("Link to " + originAUPath).getBytes("UTF-8"));
-            } catch (Exception ex) {
+                Files.createDirectories((relativePath == null ? rootPath : rootPath.resolve(relativePath)));
+            } catch (Exception e) {
                 throw new SEDALibException(
-                        "Création du faux lien  [" + auPath + ".link] impossible\n->" + e.getMessage());
+                        "Création du répertoire [" + (relativePath == null ? rootPath : rootPath.resolve(relativePath)) + "] impossible", e);
+            }
+        else if ((relativePath != null) && !relativePathStringSet.contains(relativePath.toString()))
+            try {
+                ZipEntry e = new ZipEntry((relativePath.toString() + File.separator).replace('\\', '/'));
+                zipOS.putNextEntry(e);
+                zipOS.closeEntry();
+                //       } catch (ZipException ignored) {
+            } catch (IOException e) {
+                throw new SEDALibException(
+                        "Création du répertoire [" + relativePath.toString() +
+                                "] dans le zip [" + rootPath.resolve(zipFileName).toString() + "] impossible", e);
+            }
+
+        if (relativePath != null)
+            relativePathStringSet.add(relativePath.toString());
+    }
+
+    private void writeFile(Path relativePath, byte[] content) throws SEDALibException {
+        if (zipOS == null)
+            try {
+                FileUtils.writeByteArrayToFile(rootPath.resolve(relativePath).toFile(), content);
+            } catch (IOException e) {
+                throw new SEDALibException(
+                        "Ecriture du fichier  [" + rootPath.resolve(relativePath).toString() + "] impossible", e);
+            }
+        else
+            try {
+                ZipEntry e = new ZipEntry(relativePath.toString().replace('\\', '/'));
+                zipOS.putNextEntry(e);
+                zipOS.write(content);
+                zipOS.closeEntry();
+            } catch (IOException e) {
+                throw new SEDALibException(
+                        "Ecriture du fichier [" + relativePath.toString() +
+                                "] dans le zip [" + rootPath.resolve(zipFileName).toString() + "] impossible", e);
+            }
+        relativePathStringSet.add(relativePath.toString());
+    }
+
+    // export in containerPath a link to au an already created ArchiveUnit export
+    private void exportLink(ArchiveUnit au, Path auRelativePath) throws SEDALibException, InterruptedException {
+        Path originAURelativePath = auRelativePathMap.get(au);
+        Path auPath = rootPath.resolve(auRelativePath).resolve(originAURelativePath.getFileName().toString() + ".link");
+        boolean linkFlag = false;
+        if (zipOS == null)
+            try {
+                createDirectories(auPath.getParent());
+                Files.createSymbolicLink(auPath.toAbsolutePath(),
+                        rootPath.resolve(originAURelativePath).relativize(auPath));
+                linkFlag = true;
+            } catch (IOException e) {
+                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS, "Lien vers [" +
+                        rootPath.resolve(originAURelativePath).toString() + "] n'a pas pu être créé", e);
+            }
+        if (!linkFlag) {
+            try {
+                writeFile(rootPath.toAbsolutePath().relativize(auPath),
+                        ("Link to " + originAURelativePath.toString()).getBytes("UTF-8"));
+            } catch (UnsupportedEncodingException ignored) {
             }
         }
     }
 
     // export all objects in auPath, return last used filename
-    private String exportObjectList(Path auPath, List<BinaryDataObject> objectList, boolean fileExportFlag) throws SEDALibException {
+    private String exportObjectList(Path auRelativePath, List<BinaryDataObject> objectList) throws SEDALibException {
         String filename = null;
-        try {
-            if (fileExportFlag) Files.createDirectories(auPath);
-        } catch (IOException e) {
-            throw new SEDALibException(
-                    "Création du répertoire [" + auPath + "] impossible\n->" + e.getMessage());
-        }
+
+        if (fileExportFlag)
+            createDirectories(auRelativePath);
+
         if ((objectList != null) && (objectList.size() > 0)) {
             try {
                 for (BinaryDataObject bdo : objectList) {
-                    filename = constructObjectFileName(auPath, bdo, objectList.size() == 1);
-                    if (fileExportFlag) Files.copy(bdo.getOnDiskPath(), auPath.resolve(filename));
+                    filename = constructObjectFileName(auRelativePath, bdo, objectList.size() == 1);
+                    if (fileExportFlag)
+                        writeFile(auRelativePath.resolve(filename), FileUtils.readFileToByteArray(bdo.getOnDiskPath().toFile()));
                 }
             } catch (IOException e) {
-                throw new SEDALibException("Le fichier [" + filename + "] n'a pas pu être recopié\n-> "
-                        + e.getMessage());
+                throw new SEDALibException("Le fichier [" + filename + "] n'a pas pu être recopié", e);
             }
         }
         return filename;
     }
 
     // Recursively export all ArchiveUnit files and metadata to disk.
-    private void exportArchiveUnit(ArchiveUnit au, Path containerPath, Path rootPath,
-                                   PrintStream csvPrintStream, boolean fileExportFlag)
+    private void exportArchiveUnit(ArchiveUnit au, Path relativePath)
             throws SEDALibException, InterruptedException {
-        Path auPath;
+        Path auRelativePath;
         String filename;
 
-        if (auPathStringMap.containsKey(au)) {
-            if (fileExportFlag) exportLink(au, containerPath);
+        if (auRelativePathMap.containsKey(au)) {
+            if (fileExportFlag) exportLink(au, relativePath);
             return;
         }
 
@@ -565,157 +633,181 @@ public class DataObjectPackageToCSVMetadataExporter {
         // if not only a file ArchiveUnit create a named directory with the ArchiveUnit Title
         if (((au.getChildrenAuList() != null) && (au.getChildrenAuList().getCount() != 0)) ||
                 ((objectList == null) || (objectList.size() > 1) || (objectList.size() == 0))) {
-            auPath = containerPath.resolve(constructArchiveUnitDirectoryName(containerPath, au));
-        } else auPath = containerPath;
-        filename = exportObjectList(auPath, objectList, fileExportFlag);
+            auRelativePath = relativePath.resolve(constructArchiveUnitDirectoryName(relativePath, au));
+        } else auRelativePath = relativePath;
+        filename = exportObjectList(auRelativePath, objectList);
         // if a file ArchiveUnit the kept path for links is the file path
-        if (auPath == containerPath)
-            auPath = auPath.resolve(filename);
-        auPathStringMap.put(au, auPath);
+        if (auRelativePath == relativePath)
+            auRelativePath = auRelativePath.resolve(filename);
+        auRelativePathMap.put(au, auRelativePath);
 
         // recursively export
         if ((au.getChildrenAuList() != null) && (au.getChildrenAuList().getCount() != 0)) {
             for (ArchiveUnit childAU : au.getChildrenAuList().getArchiveUnitList())
-                exportArchiveUnit(childAU, auPath, rootPath, csvPrintStream, fileExportFlag);
+                exportArchiveUnit(childAU, auRelativePath);
         }
 
-        generateCsvLine(au, auPath, rootPath, csvPrintStream);
+        generateCsvLine(au, auRelativePath);
 
         int counter = dataObjectPackage.getNextInOutCounter();
         doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                    Integer.toString(counter) + " ArchiveUnit exportées");
+                Integer.toString(counter) + " ArchiveUnit exportées");
     }
 
-    // define the export zip filesystem
-    private FileSystem getZipFileSystem(String zipFileName) throws SEDALibException {
-        FileSystem result = null;
+    private String getDescription(Date d) throws SEDALibException, InterruptedException {
+        String log = "Début de l'export csv simplifié";
+        if (!fileExportFlag)
+            log += " (csv seul)\n";
+        else
+            log += " (csv et fichiers)\n";
         if (zipFileName != null)
-            try {
-                final Path path = Paths.get(zipFileName);
-                final URI uri = URI.create("jar:file:" + path.toUri().getPath());
+            log += "dans le zip [" + rootPath.resolve(zipFileName).toString() + "]";
+        else
+            log += "dans le répertoire [" + rootPath.toString() + "]";
+        log += " date=" + DateFormat.getDateTimeInstance().format(d);
+        return log;
+    }
 
-                final Map<String, String> env = new HashMap<>();
-                env.put("create", "true");
-                env.put("encoding", "UTF-8");
-                result = FileSystems.newFileSystem(uri, env, null);
+    private void defineZipOutputStreamOrNull(Path rootPath, String zipFileName) throws SEDALibException {
+        if (zipFileName == null)
+            zipOS = null;
+        else
+            try {
+                zipOS = new ZipOutputStream(new FileOutputStream(rootPath.resolve(zipFileName).toFile()));
             } catch (IOException e) {
                 throw new SEDALibException(
-                        "Impossible de créer le fichier zip [" + zipFileName + "]\n->" + e.getMessage());
+                        "Création du conteneur zip [" + rootPath.resolve(zipFileName).toString() + "] impossible", e);
             }
-        return result;
+    }
+
+    private void createCsvBAOSPrintScream() throws SEDALibException {
+        try {
+            csvBAOS = new ByteArrayOutputStream();
+            csvPrintStream = new PrintStream(csvBAOS, true, encoding);
+        } catch (UnsupportedEncodingException e) {
+            throw new SEDALibException("Encodage [" + encoding + "] inconnu", e);
+        }
+    }
+
+    private void finaliseWithCsvMetadataFile() throws SEDALibException {
+        csvPrintStream.flush();
+        if (zipOS != null)
+            try {
+                ZipEntry e = new ZipEntry(csvMetadataFileName);
+                zipOS.putNextEntry(e);
+                zipOS.write(csvBAOS.toByteArray());
+                zipOS.closeEntry();
+                zipOS.close();
+                zipOS = null;
+            } catch (IOException e) {
+                throw new SEDALibException(
+                        "Finalisation du conteneur zip [" + rootPath.resolve(zipFileName).toString() +
+                                "] avec sauvegarde du fichier de métadonnées [" + csvMetadataFileName + "] impossible", e);
+            }
+        else {
+            try {
+                FileUtils.writeByteArrayToFile(rootPath.resolve(csvMetadataFileName).toFile(), csvBAOS.toByteArray());
+            } catch (IOException e) {
+                throw new SEDALibException(
+                        "Finalisation de l'export en [" + rootPath.toString() +
+                                "] avec sauvegarde du fichier de métadonnées [" + csvMetadataFileName + "] impossible", e);
+            }
+        }
+        csvPrintStream.close();
+        csvPrintStream = null;
+        csvBAOS = null;
     }
 
     // inner utility function to export all disk representation, optionnaly in zip form, or only csv file
     // csv and zip file has to be in same directory
-    private void exportAll(String csvMetadataFileName, boolean fileExportFlag, String zipFileName) throws SEDALibException, InterruptedException {
+    private void exportAll() throws SEDALibException, InterruptedException {
         Date d = new Date();
-        Path rootPath = Paths.get(csvMetadataFileName).toAbsolutePath().getParent();
         start = Instant.now();
-        String log = "Début de l'export csv simplifié\n";
-        if (zipFileName!=null)
-            log += "dans le zip [" + Paths.get(zipFileName).toAbsolutePath().toString() + "]";
-        else
-            log += "en [" + rootPath.toString() + "]";
-        log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, getDescription(d), null);
 
-        try {
-            Files.createDirectories(rootPath);
-        } catch (Exception e) {
-            throw new SEDALibException(
-                    "Création du répertoire de base [" + rootPath + "] impossible\n->" + e.getMessage());
-        }
+        auRelativePathMap = new HashMap<ArchiveUnit, Path>();
+        relativePathStringSet = new HashSet<String>();
+
+        createDirectories(null);
+        defineZipOutputStreamOrNull(rootPath, zipFileName);
+        createCsvBAOSPrintScream();
 
         computeCsvHeader();
-        PrintStream csvPrintStream;
-        try {
-            csvPrintStream = new PrintStream(csvMetadataFileName, encoding);
-        } catch (FileNotFoundException e) {
-            throw new SEDALibException(
-                    "Impossible de créer le fichier csv [" + csvMetadataFileName + "]\n->" + e.getMessage());
-        } catch (UnsupportedEncodingException e) {
-            throw new SEDALibException(
-                    "Encodage [" + encoding + "] inconnu\n->" + e.getMessage());
-        }
-        generateHeader(headerNames, csvPrintStream);
-
-        FileSystem zipFS = getZipFileSystem(zipFileName);
-        if (zipFS != null)
-            rootPath = zipFS.getPath("/");
+        printCsvHeader();
 
         dataObjectPackage.resetInOutCounter();
-        auPathStringMap = new HashMap<ArchiveUnit, Path>();
         for (ArchiveUnit au : dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList())
-            exportArchiveUnit(au, rootPath, rootPath, csvPrintStream, fileExportFlag);
-        csvPrintStream.close();
+            exportArchiveUnit(au, Paths.get(""));
 
-        if (zipFS != null) {
-            try {
-                Files.move(Paths.get(csvMetadataFileName), zipFS.getPath("metadata.csv"));
-            } catch (IOException e) {
-                throw new SEDALibException(
-                        "Impossible de mettre le fichier metadata.csv dans le zip [" + zipFileName + "]\n->" + e.getMessage());
-            } finally {
-                try {
-                    zipFS.close();
-                } catch (IOException ignored) {
-                }
-            }
-        }
+        finaliseWithCsvMetadataFile();
 
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "Export csv simplifié terminé", null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "Export csv simplifié terminé", null);
         end = Instant.now();
     }
 
     /**
      * Do export the DataObjectPackage metadata in a csv file.
      *
-     * @param csvMetadataFileName the csv metadata file name
+     * @param csvMetadataFilePathName the csv metadata file path name
      * @throws SEDALibException     if writing has failed
      * @throws InterruptedException if export process is interrupted
      */
-    public void doExportToCSVMetadataFile(String csvMetadataFileName) throws SEDALibException, InterruptedException {
-        exportAll(csvMetadataFileName, false, null);
+    public void doExportToCSVMetadataFile(String csvMetadataFilePathName) throws SEDALibException, InterruptedException {
+        this.rootPath = Paths.get(csvMetadataFilePathName).toAbsolutePath().getParent().normalize();
+        this.zipFileName = null;
+        this.csvMetadataFileName = Paths.get(csvMetadataFilePathName).getFileName().toString();
+        this.fileExportFlag = false;
+        exportAll();
         exportAction = METADATA_FILE_EXPORT;
     }
 
     /**
      * Do export the DataObjectPackage to a disk hierarchy with the metadata csv.
      * <p>
-     * It will export in the output directory, parent of csvMetadataFileName:
+     * It will export in the output directory at dirPathName:
      * <ul>
      * <li>csvMetadataFileName, the csv file with all descriptive metadata</li>
      * <li>each root ArchiveUnit as a sub directory, and recursively all the
      * DataObjectPackage structure in a simplified way as near as possible of original form if it was a disk
-     * hierarchy, optionnaly in a zip file</li>
+     * hierarchy</li>
      * </ul>
      *
-     * @param dirName the export directory name
+     * @param dirPathName         the dir path name
+     * @param csvMetadataFileName the csv metadata file name
      * @throws SEDALibException     if writing has failed
      * @throws InterruptedException if export process is interrupted
      */
-    public void doExportToCSVDiskHierarchy(String dirName) throws SEDALibException, InterruptedException {
-        exportAll(dirName + File.separator + "metadata.csv", true, null);
+    public void doExportToCSVDiskHierarchy(String dirPathName, String csvMetadataFileName) throws SEDALibException, InterruptedException {
+        this.rootPath = Paths.get(dirPathName).toAbsolutePath().normalize();
+        this.zipFileName = null;
+        this.csvMetadataFileName = csvMetadataFileName;
+        this.fileExportFlag = true;
+        exportAll();
         exportAction = ALL_DISK_EXPORT;
     }
 
     /**
-     * Do export the DataObjectPackage to zip file and metadata csv.
+     * Do export the DataObjectPackage to zip file with the metadata csv.
      * <p>
-     * It will export in the output directory, parent of csvMetadataFileName:
+     * It will export in the zip file at zipFilePathName:
      * <ul>
      * <li>csvMetadataFileName, the csv file with all descriptive metadata</li>
      * <li>each root ArchiveUnit as a sub directory, and recursively all the
      * DataObjectPackage structure in a simplified way as near as possible of original form if it was a disk
-     * hierarchy, optionnaly in a zip file</li>
+     * hierarchy</li>
      * </ul>
      *
-     * @param zipFileName the zip file name
+     * @param zipFilePathName     the zip file path name
+     * @param csvMetadataFileName the csv metadata file name
      * @throws SEDALibException     if writing has failed
      * @throws InterruptedException if export process is interrupted
      */
-    public void doExportToCSVZip(String zipFileName) throws SEDALibException, InterruptedException {
-        exportAll(Paths.get(zipFileName).toAbsolutePath().getParent().resolve("metadata.csv").toString(), true, zipFileName);
+    public void doExportToCSVZip(String zipFilePathName, String csvMetadataFileName) throws SEDALibException, InterruptedException {
+        this.rootPath = Paths.get(zipFilePathName).toAbsolutePath().getParent().normalize();
+        this.zipFileName = Paths.get(zipFilePathName).getFileName().toString();
+        this.csvMetadataFileName = csvMetadataFileName;
+        this.fileExportFlag = true;
+        exportAll();
         exportAction = ALL_ZIP_EXPORT;
     }
 

@@ -171,7 +171,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     DataObjectPackageToCSVMetadataExporter cme = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmic.getCsvCharsetName(), cmic.getDelimiter(),
                             work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
-                    cme.doExportToCSVDiskHierarchy(work.getExportContext().getOnDiskOutput());
+                    cme.doExportToCSVDiskHierarchy(work.getExportContext().getOnDiskOutput(),"metadata.csv");
                     summary = cme.getSummary();
                     break;
                 case CSV_ALL_ZIP_EXPORT:
@@ -180,7 +180,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     DataObjectPackageToCSVMetadataExporter cmez = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmicz.getCsvCharsetName(), cmicz.getDelimiter(),
                             work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
-                    cmez.doExportToCSVZip(work.getExportContext().getOnDiskOutput());
+                    cmez.doExportToCSVZip(work.getExportContext().getOnDiskOutput(),"metadata.csv");
                     summary = cmez.getSummary();
                     break;
                 case CSV_METADATA_FILE_EXPORT:

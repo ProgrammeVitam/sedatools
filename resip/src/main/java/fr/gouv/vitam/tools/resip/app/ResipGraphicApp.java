@@ -1250,7 +1250,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                             "Confirmation", UserInteractionDialog.WARNING_DIALOG,
                             null) != OK_DIALOG)
                         return;
-                    else if (Files.isDirectory(path) && UserInteractionDialog.getUserAnswer(mainWindow,
+                    else if (Files.isDirectory(path) && Files.list(path).findAny().isPresent() && UserInteractionDialog.getUserAnswer(mainWindow,
                             "Le répertoire [" + path.toString() + "] existe. Les fichiers exportés sur le disque vont " +
                                     "se mélanger avec ceux déjà existants. Voulez-vous continuer? ?",
                             "Confirmation", UserInteractionDialog.WARNING_DIALOG,
