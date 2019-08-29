@@ -580,7 +580,7 @@ public class DataObjectPackageToCSVMetadataExporter {
             try {
                 createDirectories(auPath.getParent());
                 Files.createSymbolicLink(auPath.toAbsolutePath(),
-                        rootPath.resolve(originAURelativePath).relativize(auPath));
+                        auPath.getParent().relativize(rootPath.resolve(originAURelativePath)));
                 linkFlag = true;
             } catch (IOException e) {
                 doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS, "Lien vers [" +
