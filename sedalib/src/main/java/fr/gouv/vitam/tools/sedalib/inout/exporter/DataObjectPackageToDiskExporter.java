@@ -214,7 +214,10 @@ public class DataObjectPackageToDiskExporter {
      */
     @SuppressWarnings("Annotator")
     private String stripFileName(String fileName) {
-        return fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
+        String filteredName= fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
+        while(filteredName.endsWith(".") || filteredName.endsWith(" "))
+            filteredName=filteredName.substring(0, filteredName.length() - 1);
+        return filteredName;
     }
 
     /**

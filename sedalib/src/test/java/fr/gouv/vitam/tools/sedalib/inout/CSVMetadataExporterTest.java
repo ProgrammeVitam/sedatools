@@ -163,7 +163,7 @@ class CSVMetadataExporterTest {
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterDisk");
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
-        cme.doExportToCSVDiskHierarchy("target/tmpJunit/CSVMetadataExporterDisk");
+        cme.doExportToCSVDiskHierarchy("target/tmpJunit/CSVMetadataExporterDisk","metadata.csv");
 
         // Then exported directory is equivalent to imported one
         assert (compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
@@ -208,7 +208,7 @@ class CSVMetadataExporterTest {
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterZIP");
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
-        cme.doExportToCSVZip("target/tmpJunit/CSVMetadataExporterZIP/export.zip");
+        cme.doExportToCSVZip("target/tmpJunit/CSVMetadataExporterZIP/export.zip","metadata.csv");
 
         FileSystem zipFS = getZipFileSystem("target/tmpJunit/CSVMetadataExporterZIP/export.zip");
         assertThat(zipFS).isNotNull();
