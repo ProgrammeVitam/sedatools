@@ -455,14 +455,12 @@ public class DataObjectPackageToCSVMetadataExporter {
             return Collections.singletonList(getBestUsageVersionObject(objectList, usageVersionSelectionMode == FIRST_DATAOBJECT));
     }
 
-    // strip a String of all characters not allowed in a file name.
+    // strip a String of all characters not allowed in a file name, and from ending points and space
     private String stripFileName(String fileName) {
-        return fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
-    }
-
-    // strip a String of all characters not allowed in a directory name.
-    private String stripDirName(String fileName) {
-        return fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,\\.]", "_");
+        String filteredName= fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
+        while(filteredName.endsWith(".") || filteredName.endsWith(" "))
+            filteredName=filteredName.substring(0, filteredName.length() - 1);
+        return filteredName;
     }
 
     // Construct directory name for ArchiveUnit and insert id if already exists.
@@ -474,7 +472,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                 dirName = "NoTitle";
             if ((maxNameSize > 0) && (dirName.length() > maxNameSize))
                 dirName = dirName.substring(0, maxNameSize);
-            dirName = stripDirName(dirName);
+            dirName = stripFileName(dirName);
             dirName = dirName.trim();
             if (fileExists(auRrelativePath.resolve(dirName))) {
                 String id = stripFileName("-" + au.getInDataObjectPackageId());
