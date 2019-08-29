@@ -39,9 +39,11 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.io.FileUtils;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
@@ -317,14 +319,14 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // simplify header line in the csv removing unnecessary .0
     private List<String> getSimplifiedHeaderNames() {
-        List<String> simplifiedHeaderNames=new ArrayList<String>(headerNames);
+        List<String> simplifiedHeaderNames = new ArrayList<String>(headerNames);
         for (int i = 0; i < simplifiedHeaderNames.size(); i++) {
             String header = simplifiedHeaderNames.get(i);
             int pos = 0;
-            String headerRoot="";
+            String headerRoot = "";
             while (header.indexOf(".0", pos) != -1) {
                 pos = header.indexOf(".0", pos);
-                headerRoot=header.substring(0, pos);
+                headerRoot = header.substring(0, pos);
                 boolean onlyZero = true;
                 //on each headerRoot.0 test if there's also a headerRoot.1.yyy
                 for (int j = i + 1; j < simplifiedHeaderNames.size(); j++) {
@@ -351,7 +353,7 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // print header line in the csv, after simplifying header names (remove unnecessary .0)
     private void printCsvHeader() {
-        List<String> simplifiedHeaderNames=getSimplifiedHeaderNames();
+        List<String> simplifiedHeaderNames = getSimplifiedHeaderNames();
         csvPrintStream.print("Path");
         for (String header : simplifiedHeaderNames)
             csvPrintStream.print(separator + header);
@@ -457,9 +459,9 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // strip a String of all characters not allowed in a file name, and from ending points and space
     private String stripFileName(String fileName) {
-        String filteredName= fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
-        while(filteredName.endsWith(".") || filteredName.endsWith(" "))
-            filteredName=filteredName.substring(0, filteredName.length() - 1);
+        String filteredName = fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
+        while (filteredName.endsWith(".") || filteredName.endsWith(" "))
+            filteredName = filteredName.substring(0, filteredName.length() - 1);
         return filteredName;
     }
 
@@ -549,10 +551,10 @@ public class DataObjectPackageToCSVMetadataExporter {
             relativePathStringSet.add(relativePath.toString());
     }
 
-    private void writeFile(Path relativePath, byte[] content) throws SEDALibException {
+    private void writeString(Path relativePath, String content) throws SEDALibException {
         if (zipOS == null)
             try {
-                FileUtils.writeByteArrayToFile(rootPath.resolve(relativePath).toFile(), content);
+                Files.write(rootPath.resolve(relativePath), content.getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
                 throw new SEDALibException(
                         "Ecriture du fichier  [" + rootPath.resolve(relativePath).toString() + "] impossible", e);
@@ -561,7 +563,33 @@ public class DataObjectPackageToCSVMetadataExporter {
             try {
                 ZipEntry e = new ZipEntry(relativePath.toString().replace('\\', '/'));
                 zipOS.putNextEntry(e);
-                zipOS.write(content);
+                zipOS.write(content.getBytes(StandardCharsets.UTF_8));
+                zipOS.closeEntry();
+            } catch (IOException e) {
+                throw new SEDALibException(
+                        "Ecriture du fichier [" + relativePath.toString() +
+                                "] dans le zip [" + rootPath.resolve(zipFileName).toString() + "] impossible", e);
+            }
+        relativePathStringSet.add(relativePath.toString());
+    }
+
+    private void copyFile(Path originPath, Path relativePath) throws SEDALibException {
+        if (zipOS == null)
+            try {
+                Files.copy(originPath, rootPath.resolve(relativePath), StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                throw new SEDALibException(
+                        "Ecriture du fichier  [" + rootPath.resolve(relativePath).toString() + "] impossible", e);
+            }
+        else
+            try {
+                ZipEntry e = new ZipEntry(relativePath.toString().replace('\\', '/'));
+                zipOS.putNextEntry(e);
+                FileInputStream fis = new FileInputStream(originPath.toFile());
+                int l;
+                byte[] buffer = new byte[65536];
+                while ((l = fis.read(buffer)) != -1)
+                    zipOS.write(buffer,0,l);
                 zipOS.closeEntry();
             } catch (IOException e) {
                 throw new SEDALibException(
@@ -587,11 +615,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                         rootPath.resolve(originAURelativePath).toString() + "] n'a pas pu être créé", e);
             }
         if (!linkFlag) {
-            try {
-                writeFile(rootPath.toAbsolutePath().relativize(auPath),
-                        ("Link to " + originAURelativePath.toString()).getBytes("UTF-8"));
-            } catch (UnsupportedEncodingException ignored) {
-            }
+            writeString(rootPath.toAbsolutePath().relativize(auPath), "Link to " + originAURelativePath.toString());
         }
     }
 
@@ -603,14 +627,10 @@ public class DataObjectPackageToCSVMetadataExporter {
             createDirectories(auRelativePath);
 
         if ((objectList != null) && (objectList.size() > 0)) {
-            try {
-                for (BinaryDataObject bdo : objectList) {
-                    filename = constructObjectFileName(auRelativePath, bdo, objectList.size() == 1);
-                    if (fileExportFlag)
-                        writeFile(auRelativePath.resolve(filename), FileUtils.readFileToByteArray(bdo.getOnDiskPath().toFile()));
-                }
-            } catch (IOException e) {
-                throw new SEDALibException("Le fichier [" + filename + "] n'a pas pu être recopié", e);
+            for (BinaryDataObject bdo : objectList) {
+                filename = constructObjectFileName(auRelativePath, bdo, objectList.size() == 1);
+                if (fileExportFlag)
+                    copyFile(bdo.getOnDiskPath(), auRelativePath.resolve(filename));
             }
         }
         return filename;
