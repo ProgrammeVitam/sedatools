@@ -899,7 +899,7 @@ public abstract class StoreExtractor {
 
         d = Duration.between(start, end);
         time = String.format("%dm%02ds", d.toMinutes(), d.minusMinutes(d.toMinutes()).getSeconds());
-        tmp = String.format("mailextractlib: terminated in %s listing %d folders", time, Integer.toString(getElementCounter(StoreFolder.class, false)));
+        tmp = String.format("mailextractlib: terminated in %s listing %d folders", time, getElementCounter(StoreFolder.class, false));
         if (stats) {
             tmp += String.format(" with %d messages, for %.2f MBytes",
                     Integer.toString(getElementCounter(StoreMessage.class, false)), ((double) getTotalRawSize()) / (1024.0 * 1024.0));
