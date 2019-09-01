@@ -157,6 +157,9 @@ public class Prefs {
             DiskImportContext dic = new DiskImportContext();
             dic.setDefaultPrefs();
             dic.toPrefs(this);
+            ZipImportContext zic = new ZipImportContext();
+            zic.setDefaultPrefs();
+            zic.toPrefs(this);
             MailImportContext mic = new MailImportContext();
             mic.setDefaultPrefs();
             mic.toPrefs(this);

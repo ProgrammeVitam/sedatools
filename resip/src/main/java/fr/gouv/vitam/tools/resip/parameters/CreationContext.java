@@ -40,6 +40,7 @@ import java.nio.file.Paths;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = DiskImportContext.class, name = "DiskImportContext"),
+		@JsonSubTypes.Type(value = ZipImportContext.class, name = "ZipImportContext"),
 		@JsonSubTypes.Type(value = CSVImportContext.class, name = "CSVImportContext"),
 		@JsonSubTypes.Type(value = CSVTreeImportContext.class, name = "CSVTreeImportContext"),
 		@JsonSubTypes.Type(value = CSVMetadataImportContext.class, name = "CSVMetadataImportContext"),

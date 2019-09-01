@@ -148,7 +148,18 @@ public class ImportThread extends SwingWorker<String, String> {
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
             }, 1000,2);
 
-            if (work.getCreationContext() instanceof DiskImportContext) {
+            if (work.getCreationContext() instanceof ZipImportContext) {
+                inOutDialog.extProgressTextArea.setText("Import depuis un fichier zip en " + work.getCreationContext().getOnDiskInput() + "\n");
+                ZipImportContext zic = (ZipImportContext) work.getCreationContext();
+                String target = getTmpDirTarget(zic.getWorkDir(), zic.getOnDiskInput());
+                ZipToArchiveTransferImporter zi = new ZipToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(), target,null,
+                        spl);
+                for (String ip : zic.getIgnorePatternList())
+                    zi.addIgnorePattern(ip);
+                zi.doImport();
+                setWorkFromArchiveTransfer(zi.getArchiveTransfer());
+                summary = zi.getSummary();
+            } else if (work.getCreationContext() instanceof DiskImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n");
                 DiskImportContext diskImportContext=(DiskImportContext) work.getCreationContext();
                 DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(),
