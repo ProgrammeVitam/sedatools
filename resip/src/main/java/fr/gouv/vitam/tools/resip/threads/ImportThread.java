@@ -40,11 +40,9 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -152,7 +150,7 @@ public class ImportThread extends SwingWorker<String, String> {
                 inOutDialog.extProgressTextArea.setText("Import depuis un fichier zip en " + work.getCreationContext().getOnDiskInput() + "\n");
                 ZipImportContext zic = (ZipImportContext) work.getCreationContext();
                 String target = getTmpDirTarget(zic.getWorkDir(), zic.getOnDiskInput());
-                ZipToArchiveTransferImporter zi = new ZipToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(), target,null,
+                CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(), target,null,
                         spl);
                 for (String ip : zic.getIgnorePatternList())
                     zi.addIgnorePattern(ip);

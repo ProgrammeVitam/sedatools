@@ -32,6 +32,7 @@ import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.threads.ExpandThread;
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -64,6 +65,11 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
     boolean longSipTreeItemName;
 
     /**
+     * The uncompress BinaryDataObject.
+     */
+    private BinaryDataObject uncompressedBdo;
+
+    /**
      * Instantiates a new data object list viewer.
      *
      * @param main      the main
@@ -84,14 +90,18 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
                         DataObject dataObject = list.getModel().getElementAt(index);
                         if (dataObject instanceof BinaryDataObject) {
                             BinaryDataObject bdo = (BinaryDataObject) dataObject;
-                            if (main.getApp().treatmentParameters.getCompressedFormatList().contains(bdo.formatIdentification.formatId)) {
-                                JPopupMenu popup = new JPopupMenu();
-                                JMenuItem mi;
-                                mi = new JMenuItem("Remplacer par le décompressé");
-                                mi.addActionListener(list);
-                                mi.setActionCommand("Expand-"+bdo.getInDataObjectPackageId());
-                                popup.add(mi);
-                                popup.show((Component) e.getSource(), e.getX(), e.getY());
+                            try {
+                                if (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.mimeType)) {
+                                    JPopupMenu popup = new JPopupMenu();
+                                    JMenuItem mi;
+                                    mi = new JMenuItem("Remplacer par le décompressé");
+                                    mi.addActionListener(list);
+                                    mi.setActionCommand("Expand");
+                                    list.setUncompressedBdo(bdo);
+                                    popup.add(mi);
+                                    popup.show((Component) e.getSource(), e.getX(), e.getY());
+                                }
+                            } catch (SEDALibException ignored) {
                             }
                         }
                     }
@@ -122,9 +132,8 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
      * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
      */
     public void actionPerformed(ActionEvent ae) {
-        if (ae.getActionCommand().startsWith("Expand")) {
-            String id = ae.getActionCommand().substring(7);
-            ExpandThread.launchExpandThread(main.dataObjectPackageTreeItemDisplayed,id);
+        if (ae.getActionCommand().equals("Expand")) {
+            ExpandThread.launchExpandThread(main.dataObjectPackageTreeItemDisplayed, uncompressedBdo);
         }
     }
 
@@ -137,6 +146,15 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
             return new Dimension(150, 128);
         else
             return super.getPreferredScrollableViewportSize();
+    }
+
+    /**
+     * Sets uncompressed BinaryDataObject.
+     *
+     * @param uncompressedBdo the uncompressed BinaryDataObject
+     */
+    public void setUncompressedBdo(BinaryDataObject uncompressedBdo) {
+        this.uncompressedBdo = uncompressedBdo;
     }
 
     /**

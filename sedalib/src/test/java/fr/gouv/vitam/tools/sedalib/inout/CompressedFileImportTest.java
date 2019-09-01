@@ -10,7 +10,7 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
-import fr.gouv.vitam.tools.sedalib.inout.importer.ZipToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +25,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ZipImportTest implements UseTestFiles {
+public class CompressedFileImportTest implements UseTestFiles {
 
     private void eraseAll(String dirOrFile) {
         try {
@@ -44,7 +44,7 @@ public class ZipImportTest implements UseTestFiles {
     public void TestZipImport() throws Exception {
 
         // do import of test directory
-        ZipToArchiveTransferImporter zi = new ZipToArchiveTransferImporter(
+        CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(
                 "src/test/resources/zip/TestImport.zip", "target/tmpJunit/TestImport.zip-tmpdir", null, null);
         zi.addIgnorePattern("Thumbs.db");
         zi.addIgnorePattern("pagefile.sys");

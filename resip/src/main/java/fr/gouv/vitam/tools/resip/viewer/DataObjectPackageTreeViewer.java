@@ -34,6 +34,8 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.threads.AddThread;
 import fr.gouv.vitam.tools.resip.threads.ExpandThread;
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import javax.swing.event.TreeExpansionListener;
@@ -69,9 +71,14 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
     /**
      * The popup STN.
      */
-    List<DataObjectPackageTreeNode> popupSTN;
+    private List<DataObjectPackageTreeNode> popupSTN;
 
-    private String getCompressedBinaryDataObjectInDataObjectPackageId(DataObjectPackageTreeNode treeNode) {
+    /**
+     * The uncompressed DataObjectGroup tree node.
+     */
+    private DataObjectPackageTreeNode uncompressedDogTreeNode;
+
+    private BinaryDataObject getCompressedBinaryDataObject(DataObjectPackageTreeNode treeNode) {
         DataObject dataObject = treeNode.getDataObject();
         if (dataObject != null) {
             if (dataObject instanceof DataObjectGroup) {
@@ -79,8 +86,11 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                 if ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty()) &&
                         (dog.getBinaryDataObjectList() != null) && (dog.getBinaryDataObjectList().size() == 1)) {
                     BinaryDataObject bdo = dog.getBinaryDataObjectList().get(0);
-                    if (main.getApp().treatmentParameters.getCompressedFormatList().contains(bdo.formatIdentification.formatId)) {
-                        return bdo.getInDataObjectPackageId();
+                    try {
+                        if (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.mimeType)) {
+                            return bdo;
+                        }
+                    } catch (SEDALibException ignored) {
                     }
                 }
             }
@@ -128,12 +138,13 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                         mi.addActionListener(thisSTV);
                         mi.setActionCommand("NewSubArchiveUnit");
                         popup.add(mi);
-                        String compressesId = getCompressedBinaryDataObjectInDataObjectPackageId(stn);
-                        if (compressesId != null){
+                        BinaryDataObject bdo = getCompressedBinaryDataObject(stn);
+                        if (bdo != null) {
                             popup.addSeparator();
                             mi = new JMenuItem("Remplacer par le décompressé");
                             mi.addActionListener(thisSTV);
-                            mi.setActionCommand("Expand-" + compressesId);
+                            mi.setActionCommand("Expand");
+                            thisSTV.setAffectedDogTreeNode(stn);
                             popup.add(mi);
                         }
                         popup.show((Component) e.getSource(), e.getX(), e.getY());
@@ -201,9 +212,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                     ((DefaultTreeModel) getModel()).getPathToRoot(popupSTN.get(0))));
         } else if (ae.getActionCommand().equals("NewRootArchiveUnit")) {
             addArchiveUnit(null);
-        } else if (ae.getActionCommand().startsWith("Expand")) {
-            String id = ae.getActionCommand().substring(7);
-            ExpandThread.launchExpandThread(main.dataObjectPackageTreeItemDisplayed, id);
+        } else if (ae.getActionCommand().equals("Expand")) {
+            ExpandThread.launchExpandThread((DataObjectPackageTreeNode) uncompressedDogTreeNode.getParent(),
+                    getCompressedBinaryDataObject(uncompressedDogTreeNode));
         }
     }
 
@@ -308,6 +319,15 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             return getPathString(path.getParentPath()) + "->DataObject "
                     + attn.getDataObject().getInDataObjectPackageId();
 
+    }
+
+    /**
+     * Sets affected DataObjectGroup tree node.
+     *
+     * @param affectedDogTreeNode the affected tree node
+     */
+    public void setAffectedDogTreeNode(DataObjectPackageTreeNode affectedDogTreeNode) {
+        this.uncompressedDogTreeNode = affectedDogTreeNode;
     }
 
     /**

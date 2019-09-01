@@ -32,7 +32,6 @@ import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.parameters.ZipImportContext;
@@ -41,11 +40,10 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.*;
-import fr.gouv.vitam.tools.sedalib.inout.importer.ZipToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import javax.swing.tree.TreePath;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -64,7 +62,7 @@ public class ExpandThread extends SwingWorker<String, String> {
     private BinaryDataObject bdoToExpand;
     private InOutDialog inOutDialog;
     //run output
-    private ZipToArchiveTransferImporter zi;
+    private CompressedFileToArchiveTransferImporter zi;
     private String summary;
     private Exception exitException;
     private int fileCounter;
@@ -74,15 +72,15 @@ public class ExpandThread extends SwingWorker<String, String> {
     /**
      * Expand a binary data object replacing it by the archive unit hierarchy, in a dedicated thread.
      *
-     * @param node           the displayed tree node
-     * @param bdoInPackageID the binary data object in package id
+     * @param node        the displayed tree node
+     * @param bdoToExpand the binary data object to expand
      */
-    public static void launchExpandThread(DataObjectPackageTreeNode node, String bdoInPackageID) {
+    public static void launchExpandThread(DataObjectPackageTreeNode node, BinaryDataObject bdoToExpand) {
         ExpandThread expandThread;
 
         try {
             InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.getTheApp().mainWindow, "Expansion");
-            expandThread = new ExpandThread(ResipGraphicApp.getTheApp().currentWork, node, bdoInPackageID, inOutDialog);
+            expandThread = new ExpandThread(ResipGraphicApp.getTheApp().currentWork, node, bdoToExpand, inOutDialog);
             expandThread.execute();
             inOutDialog.setVisible(true);
         } catch (Exception e) {
@@ -97,16 +95,16 @@ public class ExpandThread extends SwingWorker<String, String> {
     /**
      * Instantiates a new Add thread.
      *
-     * @param work                     the work
-     * @param targetNode               the target node (is null if tree as to be initialised before adding)
-     * @param bdoInDataObjectPackageID the binary data object id in data object package
-     * @param dialog                   the dialog
+     * @param work        the work
+     * @param targetNode  the target node (is null if tree as to be initialised before adding)
+     * @param bdoToExpand the binary data object to expand
+     * @param dialog      the dialog
      */
-    public ExpandThread(Work work, DataObjectPackageTreeNode targetNode, String bdoInDataObjectPackageID,
+    public ExpandThread(Work work, DataObjectPackageTreeNode targetNode, BinaryDataObject bdoToExpand,
                         InOutDialog dialog) {
         this.work = work;
         this.targetNode = targetNode;
-        this.bdoToExpand = work.getDataObjectPackage().getBdoInDataObjectPackageIdMap().get(bdoInDataObjectPackageID);
+        this.bdoToExpand = bdoToExpand;
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitException = null;
@@ -177,7 +175,7 @@ public class ExpandThread extends SwingWorker<String, String> {
 
             ZipImportContext zic = new ZipImportContext(Prefs.getInstance());
             String target = getTmpDirTarget(zic.getWorkDir(), bdoToExpand.getOnDiskPathToString(),bdoToExpand.getInDataObjectPackageId());
-            zi = new ZipToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, null, spl);
+            zi = new CompressedFileToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, null, spl);
             for (String ip : zic.getIgnorePatternList())
                 zi.addIgnorePattern(ip);
             zi.doImport();

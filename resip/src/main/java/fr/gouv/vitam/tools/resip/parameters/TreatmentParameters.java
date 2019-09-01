@@ -46,11 +46,6 @@ public class TreatmentParameters {
     LinkedHashMap<String, List<String>> formatByCategoryMap;
 
     /**
-     * The category for compressed formats.
-     */
-    String compressedCategory;
-
-    /**
      * The maximum duplicates aggregation number.
      */
     int dupMax;
@@ -86,7 +81,6 @@ public class TreatmentParameters {
                 formatByCategoryMap.put(category, formatList);
             }
         }
-        compressedCategory = prefs.getPrefProperties().getProperty("treatmentParameters.compressedCategory", "Compressé (zip,tar...)");
         try {
             dupMax=Integer.parseInt(prefs.getPrefProperties().getProperty("treatmentParameters.dupMax","1000"));
         }
@@ -105,7 +99,6 @@ public class TreatmentParameters {
         for (Map.Entry<String,List<String>> e:formatByCategoryMap.entrySet()) {
             prefs.getPrefProperties().setProperty("treatmentParameters.categories."+canonizeCategoryName(e.getKey()),String.join("|",e.getValue()));
         }
-        prefs.getPrefProperties().setProperty("treatmentParameters.compressedCategory", compressedCategory);
         prefs.getPrefProperties().setProperty("treatmentParameters.dupMax", Integer.toString(dupMax));
     }
 
@@ -113,14 +106,13 @@ public class TreatmentParameters {
      * Sets the default prefs.
      */
     public void setDefaultPrefs() {
-        compressedCategory="Compressé (zip,tar...)";
         formatByCategoryMap=new LinkedHashMap<String,List<String>>();
 
         formatByCategoryMap.put("Base de données (access,filemaker...)",Arrays.asList("fmt/161", "fmt/194", "fmt/275",
                 "fmt/995", "fmt/1196", "x-fmt/1", "x-fmt/8", "x-fmt/9", "x-fmt/10", "x-fmt/66", "x-fmt/238", "x-fmt/239",
                 "x-fmt/240", "x-fmt/241", "x-fmt/318", "x-fmt/319"));
         formatByCategoryMap.put("Chiffré",Arrays.asList("fmt/494", "fmt/754", "fmt/755"));
-        formatByCategoryMap.put(compressedCategory,Arrays.asList("fmt/484", "x-fmt/263", "x-fmt/265", "x-fmt/266",
+        formatByCategoryMap.put("Compressé (zip,tar...)",Arrays.asList("fmt/484", "x-fmt/263", "x-fmt/265", "x-fmt/266",
                 "x-fmt/268"));
         formatByCategoryMap.put("Dessin (svg,odg,autocad...)",Arrays.asList("fmt/21", "fmt/22", "fmt/23", "fmt/24",
                 "fmt/25", "fmt/26", "fmt/27", "fmt/28", "fmt/29", "fmt/30", "fmt/31", "fmt/32", "fmt/33", "fmt/34",
@@ -157,15 +149,6 @@ public class TreatmentParameters {
         formatByCategoryMap.put("Non connu",Arrays.asList("UNKNOWN"));
         formatByCategoryMap.put("Autres...",Arrays.asList("Other"));
         dupMax=1000;
-    }
-
-    /**
-     * Gets the compressed format list.
-     *
-     * @return the compressed format list
-     */
-    public List<String> getCompressedFormatList() {
-        return formatByCategoryMap.get(compressedCategory);
     }
 
     // Getters and setters
