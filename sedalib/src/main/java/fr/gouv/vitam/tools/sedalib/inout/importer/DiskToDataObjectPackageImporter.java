@@ -352,7 +352,7 @@ public class DiskToDataObjectPackageImporter {
             if (Files.isSymbolicLink(path)) {
                 lastAnalyzedLinkTarget = path.toRealPath();
                 return true;
-            } else if (isWindows && Files.isRegularFile(path)
+            } else if (Files.isRegularFile(path)
                     && path.getFileName().toString().toLowerCase().endsWith(".lnk")) {
                 WindowsShortcut ws = new WindowsShortcut(path.toFile());
                 lastAnalyzedLinkTarget = Paths.get(ws.getRealFilename());
