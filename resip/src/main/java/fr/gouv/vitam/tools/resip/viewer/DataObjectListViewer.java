@@ -30,7 +30,9 @@ package fr.gouv.vitam.tools.resip.viewer;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
+import fr.gouv.vitam.tools.resip.threads.ExpandThread;
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -45,9 +47,11 @@ import java.nio.file.Path;
 /**
  * The Class DataObjectListViewer.
  */
-public class DataObjectListViewer extends JList<DataObject> {
+public class DataObjectListViewer extends JList<DataObject> implements ActionListener {
 
-    /** The Constant serialVersionUID. */
+    /**
+     * The Constant serialVersionUID.
+     */
     private static final long serialVersionUID = 8610503305899021755L;
 
     /**
@@ -61,6 +65,11 @@ public class DataObjectListViewer extends JList<DataObject> {
     boolean longSipTreeItemName;
 
     /**
+     * The uncompress BinaryDataObject.
+     */
+    private BinaryDataObject uncompressedBdo;
+
+    /**
      * Instantiates a new data object list viewer.
      *
      * @param main      the main
@@ -69,13 +78,33 @@ public class DataObjectListViewer extends JList<DataObject> {
     public DataObjectListViewer(MainWindow main, DefaultListModel<DataObject> listModel) {
         super(listModel);
         this.main = main;
-        final DataObjectListViewer list = this;
+        DataObjectListViewer list = this;
 
         MouseListener ml = new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 int index = list.locationToIndex(e.getPoint());
                 if (index >= 0) {
-                    list.main.dataObjectListItemClick(list.getModel().getElementAt(index));
+                    if (SwingUtilities.isLeftMouseButton(e)) {
+                        list.main.dataObjectListItemClick(list.getModel().getElementAt(index));
+                    } else if (SwingUtilities.isRightMouseButton(e)) {
+                        DataObject dataObject = list.getModel().getElementAt(index);
+                        if (dataObject instanceof BinaryDataObject) {
+                            BinaryDataObject bdo = (BinaryDataObject) dataObject;
+                            try {
+                                if (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.mimeType)) {
+                                    JPopupMenu popup = new JPopupMenu();
+                                    JMenuItem mi;
+                                    mi = new JMenuItem("Remplacer par le décompressé");
+                                    mi.addActionListener(list);
+                                    mi.setActionCommand("Expand");
+                                    list.setUncompressedBdo(bdo);
+                                    popup.add(mi);
+                                    popup.show((Component) e.getSource(), e.getX(), e.getY());
+                                }
+                            } catch (SEDALibException ignored) {
+                            }
+                        }
+                    }
                 }
             }
         };
@@ -96,6 +125,18 @@ public class DataObjectListViewer extends JList<DataObject> {
         setTransferHandler(new DataObjectListTransferHandler(this));
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see
+     * java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+     */
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getActionCommand().equals("Expand")) {
+            ExpandThread.launchExpandThread(main.dataObjectPackageTreeItemDisplayed, uncompressedBdo);
+        }
+    }
+
     /* (non-Javadoc)
      * @see javax.swing.JList#getPreferredScrollableViewportSize()
      */
@@ -105,6 +146,15 @@ public class DataObjectListViewer extends JList<DataObject> {
             return new Dimension(150, 128);
         else
             return super.getPreferredScrollableViewportSize();
+    }
+
+    /**
+     * Sets uncompressed BinaryDataObject.
+     *
+     * @param uncompressedBdo the uncompressed BinaryDataObject
+     */
+    public void setUncompressedBdo(BinaryDataObject uncompressedBdo) {
+        this.uncompressedBdo = uncompressedBdo;
     }
 
     /**
@@ -179,14 +229,14 @@ public class DataObjectListViewer extends JList<DataObject> {
                 UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                         "Impossible d'ouvrir le fichier " + path.toString()
                                 + "\nLes données peuvent avoir été parteillement modifiées",
-                        "Erreur", UserInteractionDialog.ERROR_DIALOG,null);
+                        "Erreur", UserInteractionDialog.ERROR_DIALOG, null);
                 return;
             }
         } else {
             String dataObjectVersion;
             if (filename.matches("__\\w+__.+")) {
                 dataObjectVersion = DiskToDataObjectPackageImporter.extractDataObjectVersion(filename);
-                filename= filename.substring(dataObjectVersion.length()+4);
+                filename = filename.substring(dataObjectVersion.length() + 4);
             } else {
                 if (targetAU.getDataObjectRefList().getCount() == 0) {
                     dataObjectVersion = "BinaryMaster_1";
@@ -230,7 +280,7 @@ public class DataObjectListViewer extends JList<DataObject> {
      * @param dataObject the data object
      */
     public void selectDataObject(DataObject dataObject) {
-        for (int i=0;i<getModel().getSize();i++){
+        for (int i = 0; i < getModel().getSize(); i++) {
             if (getModel().getElementAt(i).equals(dataObject)) {
                 this.setSelectedIndex(i);
                 break;

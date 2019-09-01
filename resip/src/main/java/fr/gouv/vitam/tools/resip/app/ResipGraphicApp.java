@@ -364,6 +364,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "ImportFromDIP");
         importMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Importer depuis un zip...");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "ImportFromZip");
+        importMenu.add(menuItem);
+
         menuItem = new JMenuItem("Importer depuis un csv d'arbre de classement...");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "ImportFromCSVTree");
@@ -495,6 +500,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "ImportFromDisk":
                         importFromDisk();
+                        break;
+                    case "ImportFromZip":
+                        importFromZip();
                         break;
                     case "ImportFromCSVTree":
                         importFromCSVTree();
@@ -1096,6 +1104,32 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CreationContext oic = new DiskImportContext(Prefs.getInstance());
+                oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
+                importWork(oic);
+            }
+        } catch (Exception e) {
+            UserInteractionDialog.getUserAnswer(mainWindow,
+                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+        }
+    }
+
+    // MenuItem Import from zip
+
+    /**
+     * Import from zip.
+     */
+    void importFromZip() {
+        try {
+            if (isImportActionWrong())
+                return;
+
+            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+                CreationContext oic = new ZipImportContext(Prefs.getInstance());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(oic);
             }

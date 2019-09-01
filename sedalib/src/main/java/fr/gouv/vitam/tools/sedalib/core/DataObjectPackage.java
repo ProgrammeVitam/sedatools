@@ -763,7 +763,7 @@ public class DataObjectPackage {
         while (iteratorBdo.hasNext()) {
             Entry<String, BinaryDataObject> entry = iteratorBdo.next();
             if (!usedDataObjects.contains(entry.getValue())) {
-                iteratorDog.remove();
+                iteratorBdo.remove();
                 doProgressLog(spl, SEDALibProgressLogger.GLOBAL,"sedalib: un BinaryDataObject ["+entry.getKey()+"] déclaré n'est pas utilisé, il est déréférencé.",null);
             }
         }
@@ -772,7 +772,7 @@ public class DataObjectPackage {
         while (iteratorPdo.hasNext()) {
             Entry<String, PhysicalDataObject> entry = iteratorPdo.next();
             if (!usedDataObjects.contains(entry.getValue())) {
-                iteratorDog.remove();
+                iteratorPdo.remove();
                 doProgressLog(spl, SEDALibProgressLogger.GLOBAL,"sedalib: un PhysicalDataObject ["+entry.getKey()+"] déclaré n'est pas utilisé, il est déréférencé.",null);
             }
         }

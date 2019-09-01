@@ -53,12 +53,12 @@ public class DiskImportContext extends CreationContext {
 		this.noLinkFlag=noLinkFlag;
 	}
 
-    /**
-     * Instantiates a new disk import context.
-     *
-     * @param prefs the prefs
-     */
-    public DiskImportContext(Prefs prefs) {
+	/**
+	 * Instantiates a new disk import context.
+	 *
+	 * @param prefs the prefs
+	 */
+	public DiskImportContext(Prefs prefs) {
 		super(prefs);
 		String ignorePatternsString = prefs.getPrefProperties().getProperty("importContext.disk.ignorePatternList", "");
 		if (ignorePatternsString.isEmpty())

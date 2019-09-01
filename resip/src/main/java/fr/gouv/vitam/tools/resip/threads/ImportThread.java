@@ -40,11 +40,9 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import org.apache.commons.io.FileUtils;
 
 import javax.swing.*;
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -148,7 +146,18 @@ public class ImportThread extends SwingWorker<String, String> {
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
             }, 1000,2);
 
-            if (work.getCreationContext() instanceof DiskImportContext) {
+            if (work.getCreationContext() instanceof ZipImportContext) {
+                inOutDialog.extProgressTextArea.setText("Import depuis un fichier zip en " + work.getCreationContext().getOnDiskInput() + "\n");
+                ZipImportContext zic = (ZipImportContext) work.getCreationContext();
+                String target = getTmpDirTarget(zic.getWorkDir(), zic.getOnDiskInput());
+                CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(), target,null,
+                        spl);
+                for (String ip : zic.getIgnorePatternList())
+                    zi.addIgnorePattern(ip);
+                zi.doImport();
+                setWorkFromArchiveTransfer(zi.getArchiveTransfer());
+                summary = zi.getSummary();
+            } else if (work.getCreationContext() instanceof DiskImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n");
                 DiskImportContext diskImportContext=(DiskImportContext) work.getCreationContext();
                 DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(),

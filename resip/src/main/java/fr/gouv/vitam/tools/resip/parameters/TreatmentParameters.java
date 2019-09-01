@@ -41,7 +41,7 @@ public class TreatmentParameters {
 
     // general elements
     /**
-     * The work dir.
+     * The format by category map.
      */
     LinkedHashMap<String, List<String>> formatByCategoryMap;
 
@@ -156,7 +156,7 @@ public class TreatmentParameters {
     /**
      * Gets the format by category map.
      *
-     * @return the work dir
+     * @return the format by category map
      */
     public LinkedHashMap<String, List<String>> getFormatByCategoryMap() {
         return formatByCategoryMap;
