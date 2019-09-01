@@ -3,6 +3,7 @@
  */
 package fr.gouv.vitam.tools.resip.viewer;
 
+import fr.gouv.vitam.tools.resip.threads.AddThread;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 
 import javax.swing.*;
@@ -166,7 +167,7 @@ public class DataObjectPackageTreeTransferHandler extends TransferHandler {
 				}
 			} else if (t.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
 				files = (List<File>) t.getTransferData(DataFlavor.javaFileListFlavor);
-				tree.addNewFiles(files, target);
+				AddThread.launchAddThread(files, target);
 			}
 		} catch (UnsupportedFlavorException | java.io.IOException e) {
 			// forget it

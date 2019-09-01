@@ -29,14 +29,11 @@ package fr.gouv.vitam.tools.resip.viewer;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.DustbinItem;
-import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.threads.AddThread;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.resip.threads.ExpandThread;
+import fr.gouv.vitam.tools.sedalib.core.*;
 
 import javax.swing.*;
 import javax.swing.event.TreeExpansionListener;
@@ -46,7 +43,6 @@ import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.util.List;
 import java.util.*;
 
@@ -74,6 +70,23 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      * The popup STN.
      */
     List<DataObjectPackageTreeNode> popupSTN;
+
+    private String getCompressedBinaryDataObjectInDataObjectPackageId(DataObjectPackageTreeNode treeNode) {
+        DataObject dataObject = treeNode.getDataObject();
+        if (dataObject != null) {
+            if (dataObject instanceof DataObjectGroup) {
+                DataObjectGroup dog = (DataObjectGroup) dataObject;
+                if ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty()) &&
+                        (dog.getBinaryDataObjectList() != null) && (dog.getBinaryDataObjectList().size() == 1)) {
+                    BinaryDataObject bdo = dog.getBinaryDataObjectList().get(0);
+                    if (main.getApp().treatmentParameters.getCompressedFormatList().contains(bdo.formatIdentification.formatId)) {
+                        return bdo.getInDataObjectPackageId();
+                    }
+                }
+            }
+        }
+        return null;
+    }
 
     /**
      * Instantiates a new archive transfer tree viewer.
@@ -115,7 +128,14 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                         mi.addActionListener(thisSTV);
                         mi.setActionCommand("NewSubArchiveUnit");
                         popup.add(mi);
-
+                        String compressesId = getCompressedBinaryDataObjectInDataObjectPackageId(stn);
+                        if (compressesId != null){
+                            popup.addSeparator();
+                            mi = new JMenuItem("Remplacer par le décompressé");
+                            mi.addActionListener(thisSTV);
+                            mi.setActionCommand("Expand-" + compressesId);
+                            popup.add(mi);
+                        }
                         popup.show((Component) e.getSource(), e.getX(), e.getY());
                     }
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
@@ -181,6 +201,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                     ((DefaultTreeModel) getModel()).getPathToRoot(popupSTN.get(0))));
         } else if (ae.getActionCommand().equals("NewRootArchiveUnit")) {
             addArchiveUnit(null);
+        } else if (ae.getActionCommand().startsWith("Expand")) {
+            String id = ae.getActionCommand().substring(7);
+            ExpandThread.launchExpandThread(main.dataObjectPackageTreeItemDisplayed, id);
         }
     }
 
@@ -400,24 +423,21 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             }
         }
 
-        if (treePath.getParentPath()==null) {
+        if (treePath.getParentPath() == null) {
             for (int i = 0; i < node.getChildCount(); i++) {
                 if (state) {
                     collapsePath(treePath.pathByAddingChild(node.getChildAt(i)));
                     expandPath(treePath.pathByAddingChild(node.getChildAt(i)));
-                }
-                else {
+                } else {
                     expandPath(treePath.pathByAddingChild(node.getChildAt(i)));
                     collapsePath(treePath.pathByAddingChild(node.getChildAt(i)));
                 }
             }
-        }
-        else {
+        } else {
             if (state) {
                 collapsePath(treePath);
                 expandPath(treePath);
-            }
-            else {
+            } else {
                 expandPath(treePath);
                 collapsePath(treePath);
             }
@@ -486,30 +506,6 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         main.getApp().setContextLoaded(true);
         main.getApp().setModifiedContext(true);
         main.refreshInformations();
-    }
-
-    /**
-     * Adds the new files.
-     *
-     * @param files      the files
-     * @param targetPath the target path
-     */
-    public void addNewFiles(List<File> files, TreePath targetPath) {
-        ArchiveUnit targetAU;
-        AddThread addThread;
-
-        try {
-            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.getTheApp().mainWindow, "Import");
-            addThread = new AddThread(ResipGraphicApp.getTheApp().currentWork, (targetPath == null ? null :
-                    (DataObjectPackageTreeNode) targetPath.getLastPathComponent()), files, inOutDialog);
-            addThread.execute();
-            inOutDialog.setVisible(true);
-        } catch (Exception e) {
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
-                    "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
-                    UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
-        }
     }
 
     /**

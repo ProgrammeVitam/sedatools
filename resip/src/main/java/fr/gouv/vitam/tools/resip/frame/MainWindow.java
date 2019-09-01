@@ -883,6 +883,17 @@ public class MainWindow extends JFrame {
         }
     }
 
+    /**
+     * Get displayed archive unit, or null if none selected.
+     *
+     * @return the displayed archive unit
+     */
+    public ArchiveUnit getDisplayedArchiveUnit(){
+        if (dataObjectPackageTreeItemDisplayed==null)
+            return null;
+        return dataObjectPackageTreeItemDisplayed.getArchiveUnit();
+    }
+
     // load new information and refresh all panes
 
     /**
