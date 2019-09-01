@@ -58,7 +58,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * <li>GlobalMetadata XML fragments from the __GlobalMetadata.xml file</li>
  * <li>ManagementMetadata XML element at the end of DataObjectPackage from the
  * __ManagementMetadata.xml file</li>
- * <li>each root ArchiveUnit from a sub directory, and recursively all the
+ * <li>each root ArchiveUnit from a sub directory or other file, and recursively all the
  * DataObjectPackage structure (see {@link DiskToDataObjectPackageImporter} for
  * details)</li>
  * </ul>
@@ -66,22 +66,34 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
 
 public class DiskToArchiveTransferImporter {
 
-    /** The disk to DataObjectPackage importer. */
+    /**
+     * The disk to DataObjectPackage importer.
+     */
     private DiskToDataObjectPackageImporter diskToDataObjectPackageImporter;
 
-    /** The on disk root paths. */
+    /**
+     * The on disk root paths.
+     */
     private List<Path> onDiskRootPaths;
 
-    /** The GlobalMetaData file path . */
+    /**
+     * The GlobalMetaData file path .
+     */
     private Path onDiskGlobalMetadataPath;
 
-    /** The archive transfer. */
+    /**
+     * The archive transfer.
+     */
     private ArchiveTransfer archiveTransfer;
 
-    /** The start and end instants, for duration computation. */
+    /**
+     * The start and end instants, for duration computation.
+     */
     private Instant start, end;
 
-    /** The progress logger. */
+    /**
+     * The progress logger.
+     */
     private SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
@@ -96,7 +108,7 @@ public class DiskToArchiveTransferImporter {
      */
     public DiskToArchiveTransferImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException {
-        this(directory,false,simpleCopy,sedaLibProgressLogger);
+        this(directory, false, simpleCopy, sedaLibProgressLogger);
     }
 
     /**
@@ -121,7 +133,6 @@ public class DiskToArchiveTransferImporter {
                                          Function<String, String> extractTitleFromFileNameFunction,
                                          SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException {
-
         Path path;
         Iterator<Path> pi;
 
@@ -144,10 +155,10 @@ public class DiskToArchiveTransferImporter {
             }
         } catch (IOException e) {
             throw new SEDALibException(
-                    "Impossible de lister les fichiers du répertoire [" + directory + "]\n->" + e.getMessage());
+                    "Impossible de lister les fichiers du répertoire [" + directory + "]", e);
         }
 
-        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths,noLinkFlag,
+        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths, noLinkFlag,
                 extractTitleFromFileNameFunction,
                 sedaLibProgressLogger);
     }
@@ -158,11 +169,11 @@ public class DiskToArchiveTransferImporter {
      * It will consider each directory and each file in this list as a root
      * ArchiveUnit or a special metadata file
      *
-     * @param paths          the paths
+     * @param paths                 the paths
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      */
     public DiskToArchiveTransferImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
-        this(paths,false,simpleCopy,sedaLibProgressLogger);
+        this(paths, false, simpleCopy, sedaLibProgressLogger);
     }
 
     /**
@@ -198,7 +209,7 @@ public class DiskToArchiveTransferImporter {
                 this.onDiskRootPaths.add(path);
         }
 
-        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths,noLinkFlag,
+        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths, noLinkFlag,
                 extractTitleFromFileNameFunction,
                 sedaLibProgressLogger);
     }
@@ -263,15 +274,15 @@ public class DiskToArchiveTransferImporter {
         }
         log += "]\n";
         log += "date=" + DateFormat.getDateTimeInstance().format(d);
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         if (onDiskGlobalMetadataPath != null)
             archiveTransfer.setGlobalMetadata(processGlobalMetadata(onDiskGlobalMetadataPath));
         diskToDataObjectPackageImporter.doImport();
         archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
-        end = Instant.now();
 
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: import d'un ArchiveTransfer depuis une hiérarchie sur disque terminé", null);
+        end = Instant.now();
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: import d'un ArchiveTransfer depuis une hiérarchie sur disque terminé", null);
     }
 
     /**

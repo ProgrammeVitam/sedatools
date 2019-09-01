@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.ParseException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
@@ -55,14 +56,14 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * <p>
  * The general principles are:
  * <ul>
- * <li>the directory imported contains all the directories and files that
- * represent one root ArchiveUnit in the ArchiveTransfer</li>
+ * <li>each directory and file in the directory imported represents one root
+ * ArchiveUnit in the ArchiveTransfer</li>
  * <li>each sub-directory in the hierarchy represent an ArchiveUnit</li>
  * <li>each file represent an ArchiveUnit containing a BinaryDataObject for the
  * file itself, being the BinaryMaster_1 and with format identification
  * compliant to PRONOM register</li>
  * <li>the title of ArchiveUnit is the directory/file name, if no other metadata
- * is defined</li>
+ * is defined. A lambda function can also be defined to derive the title from directory/file name.</li>
  * </ul>
  * For example, if you import this disk hierarchy:
  * <p>
@@ -237,21 +238,6 @@ public class DiskToDataObjectPackageImporter {
      * <p>
      * It will consider each directory and each file in this directory as a root
      * ArchiveUnit or the management metadata file
-     *
-     * @param directory             the directory
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
-     * @throws SEDALibException if not a directory
-     */
-    public DiskToDataObjectPackageImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
-            throws SEDALibException {
-        this(directory, false, simpleCopy, sedaLibProgressLogger);
-    }
-
-    /**
-     * Instantiates a new DataObjectPackage importer from a single directory name.
-     * <p>
-     * It will consider each directory and each file in this directory as a root
-     * ArchiveUnit or the management metadata file
      * <p>
      * It will take into account two options:
      * <ul>
@@ -372,7 +358,7 @@ public class DiskToDataObjectPackageImporter {
                 lastAnalyzedLinkTarget = Paths.get(ws.getRealFilename());
                 return true;
             }
-        } catch (Exception ignored) {
+        } catch (IOException | ParseException ignored) {
         }
         lastAnalyzedLinkTarget = null;
         return false;
