@@ -111,20 +111,20 @@ public class ImportThread extends SwingWorker<String, String> {
         } else {
             inFile.delete();
             fileCounter++;
-            doProgressLogIfStep(spl,SEDALibProgressLogger.OBJECTS_GROUP,fileCounter,fileCounter+" fichiers effacés");
+            doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, fileCounter, fileCounter + " fichiers effacés");
         }
     }
 
     private String getTmpDirTarget(String workDir, String srcPathName) throws ResipException, InterruptedException {
-        String subDir=Paths.get(srcPathName).getFileName().toString() + "-tmpdir";
+        String subDir = Paths.get(srcPathName).getFileName().toString() + "-tmpdir";
         String target = workDir + File.separator + subDir;
         if (Files.exists(Paths.get(target))) {
-            UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.getTheApp().mainWindow, workDir,subDir);
+            UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.getTheApp().mainWindow, workDir, subDir);
             utdd.setVisible(true);
             if (utdd.getReturnValue() == STATUS_CLEAN) {
-                fileCounter=0;
+                fileCounter = 0;
                 recursiveDelete(new File(utdd.getResult()));
-                doProgressLog(spl,SEDALibProgressLogger.STEP,fileCounter+" fichiers effacés au total",null);
+                doProgressLog(spl, SEDALibProgressLogger.STEP, fileCounter + " fichiers effacés au total", null);
                 target = utdd.getResult();
             } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
                 target = utdd.getResult();
@@ -144,13 +144,20 @@ public class ImportThread extends SwingWorker<String, String> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 1000,2);
+            }, 1000, 2);
 
             if (work.getCreationContext() instanceof ZipImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis un fichier zip en " + work.getCreationContext().getOnDiskInput() + "\n");
                 ZipImportContext zic = (ZipImportContext) work.getCreationContext();
                 String target = getTmpDirTarget(zic.getWorkDir(), zic.getOnDiskInput());
-                CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(), target,null,
+
+                //TODO add preferences for compressed filename import
+                String encoding;
+                if (work.getCreationContext().getOnDiskInput().endsWith("zip"))
+                    encoding = "CP850";
+                else
+                    encoding = "UTF8";
+                CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(), target, encoding, null,
                         spl);
                 for (String ip : zic.getIgnorePatternList())
                     zi.addIgnorePattern(ip);
@@ -159,9 +166,9 @@ public class ImportThread extends SwingWorker<String, String> {
                 summary = zi.getSummary();
             } else if (work.getCreationContext() instanceof DiskImportContext) {
                 inOutDialog.extProgressTextArea.setText("Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n");
-                DiskImportContext diskImportContext=(DiskImportContext) work.getCreationContext();
+                DiskImportContext diskImportContext = (DiskImportContext) work.getCreationContext();
                 DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(work.getCreationContext().getOnDiskInput(),
-                        diskImportContext.isNoLinkFlag(),null,
+                        diskImportContext.isNoLinkFlag(), null,
                         spl);
                 for (String ip : diskImportContext.getIgnorePatternList())
                     di.addIgnorePattern(ip);
@@ -211,7 +218,7 @@ public class ImportThread extends SwingWorker<String, String> {
                     String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                     inOutDialog.extProgressTextArea.setText(newLog);
                     inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                }, 1000,2);
+                }, 1000, 2);
                 mepl.setDebugFlag(true);
                 MailImportContext mic = (MailImportContext) work.getCreationContext();
                 String target = getTmpDirTarget(mic.getWorkDir(), mic.getOnDiskInput());
@@ -249,9 +256,9 @@ public class ImportThread extends SwingWorker<String, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: import annulé, les données n'ont pas été modifiées", null);
-        else if (exitException!=null)
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant l'import, les données n'ont pas été modifiées",exitException);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: import annulé, les données n'ont pas été modifiées", null);
+        else if (exitException != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant l'import, les données n'ont pas été modifiées", exitException);
         else {
             work.getCreationContext().setSummary(summary);
             theApp.currentWork = work;
@@ -259,12 +266,12 @@ public class ImportThread extends SwingWorker<String, String> {
             theApp.setModifiedContext(true);
             theApp.setContextLoaded(true);
             theApp.mainWindow.load();
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: import terminé", null);
-            doProgressLogWithoutInterruption(spl, GLOBAL,summary, null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: import terminé", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
             try {
                 Prefs.getInstance().setPrefsImportDirFromChild(work.getCreationContext().getOnDiskInput());
             } catch (ResipException e) {
-                doProgressLogWithoutInterruption(spl, GLOBAL,"resip: la localisation d'import par défaut n'a pu être actualisée dans les préférences",e);
+                doProgressLogWithoutInterruption(spl, GLOBAL, "resip: la localisation d'import par défaut n'a pu être actualisée dans les préférences", e);
             }
         }
         theApp.importThreadRunning = false;

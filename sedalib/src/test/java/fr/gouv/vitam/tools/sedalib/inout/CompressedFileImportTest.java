@@ -45,7 +45,7 @@ public class CompressedFileImportTest implements UseTestFiles {
 
         // do import of test directory
         CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(
-                "src/test/resources/zip/TestImport.zip", "target/tmpJunit/TestImport.zip-tmpdir", null, null);
+                "src/test/resources/zip/TestImport.zip", "target/tmpJunit/TestImport.zip-tmpdir", "UTF8", null, null);
         zi.addIgnorePattern("Thumbs.db");
         zi.addIgnorePattern("pagefile.sys");
         zi.doImport();
