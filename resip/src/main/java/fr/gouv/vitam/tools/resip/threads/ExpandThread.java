@@ -173,9 +173,15 @@ public class ExpandThread extends SwingWorker<String, String> {
             }, 1000, 2);
             doProgressLog(spl, GLOBAL, "Expansion du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.fileInfo.filename + "]", null);
 
+            //TODO add preferences for compressed filename import
+            String encoding;
+            if (bdoToExpand.formatIdentification.mimeType.toLowerCase().equals("application/zip"))
+                encoding="CP850";
+            else
+                encoding="UTF8";
             ZipImportContext zic = new ZipImportContext(Prefs.getInstance());
             String target = getTmpDirTarget(zic.getWorkDir(), bdoToExpand.getOnDiskPathToString(),bdoToExpand.getInDataObjectPackageId());
-            zi = new CompressedFileToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, null, spl);
+            zi = new CompressedFileToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, encoding, null, spl);
             for (String ip : zic.getIgnorePatternList())
                 zi.addIgnorePattern(ip);
             zi.doImport();

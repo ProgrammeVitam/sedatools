@@ -79,6 +79,11 @@ public class CompressedFileToArchiveTransferImporter {
     private String unCompressDirectory;
 
     /**
+     * The encoding charset.
+     */
+    private String encoding;
+
+    /**
      * The lambda function to extract title from file name.
      */
     private Function<String, String> extractTitleFromFileNameFunction;
@@ -163,17 +168,17 @@ public class CompressedFileToArchiveTransferImporter {
             fis = new FileInputStream(filename);
             switch (mimeType) {
                 case ZIP:
-                    ais= new ZipArchiveInputStream(fis);
+                    ais= new ZipArchiveInputStream(fis,encoding);
                     break;
                 case TAR:
-                    ais= new TarArchiveInputStream(fis);
+                    ais= new TarArchiveInputStream(fis,encoding);
                     break;
                 case XGZIP:
                 case GZIP:
-                    ais= new TarArchiveInputStream(new GzipCompressorInputStream(fis));
+                    ais= new TarArchiveInputStream(new GzipCompressorInputStream(fis),encoding);
                     break;
                 case BZIP2:
-                    ais= new TarArchiveInputStream(new BZip2CompressorInputStream(fis));
+                    ais= new TarArchiveInputStream(new BZip2CompressorInputStream(fis),encoding);
                     break;
                 default:
                     throw new SEDALibException("Format " + mimeType + " de compression inconnu.");
@@ -197,7 +202,12 @@ public class CompressedFileToArchiveTransferImporter {
 
             while ((entry = archiveInputStream.getNextEntry()) != null) {
                 if (archiveInputStream.canReadEntryData(entry)) {
-                    final String entryName = entry.getName();
+                    String entryName = entry.getName();
+                    if (entryName.contains("?")) {
+                        entryName = entryName.replace("?", "_");
+                        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL,
+                                "Le nom du fichier [" + entryName + "] a un problème d'encodage, le(s) caratère(s) problématique à été rempalcé par _ ", null);
+                    }
                     final Path target = Paths.get(outputFolder, entryName);
                     final Path parent = target.getParent();
 
@@ -225,12 +235,14 @@ public class CompressedFileToArchiveTransferImporter {
     /**
      * Instantiates a new zip file importer.
      *
-     * @param zipFile               the zip file
-     * @param unCompressDirectory   the directory where the zipfile is uncompressed
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param zipFile                          the zip file
+     * @param unCompressDirectory              the directory where the zipfile is uncompressed
+     * @param encoding                         the encoding charset
+     * @param extractTitleFromFileNameFunction the extract title from file name function
+     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      * @throws SEDALibException if file or directory doesn't exist
      */
-    public CompressedFileToArchiveTransferImporter(String zipFile, String unCompressDirectory,
+    public CompressedFileToArchiveTransferImporter(String zipFile, String unCompressDirectory, String encoding,
                                                    Function<String, String> extractTitleFromFileNameFunction,
                                                    SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
         Path zipFilePath, unCompressDirectoryPath;
@@ -241,6 +253,7 @@ public class CompressedFileToArchiveTransferImporter {
         this.diskToDataObjectPackageImporter = null;
         this.archiveTransfer = null;
         this.zipFile = zipFile;
+        this.encoding=encoding;
         this.ignorePatternStrings = new ArrayList<String>();
         this.onDiskRootPaths = new ArrayList<Path>();
 
