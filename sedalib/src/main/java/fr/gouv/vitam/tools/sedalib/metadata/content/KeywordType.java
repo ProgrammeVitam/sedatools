@@ -151,6 +151,7 @@ public class KeywordType extends NamedTypeMetadata {
      * Sets value.
      *
      * @param value the value
+     * @throws SEDALibException the seda lib exception
      */
     public void setValue(String value) throws SEDALibException {
         if (enumValues.contains(value))

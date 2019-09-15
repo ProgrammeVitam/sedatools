@@ -116,22 +116,41 @@ public class CompressedFileToArchiveTransferImporter {
     /**
      * The start and end instants, for duration computation.
      */
-    Instant start, end;
+    Instant start, /**
+     * The End.
+     */
+    end;
 
     /**
      * The progress logger.
      */
     private SEDALibProgressLogger sedaLibProgressLogger;
 
+    /**
+     * The constant ZIP.
+     */
     public final static String ZIP = "application/zip";
+    /**
+     * The constant TAR.
+     */
     public final static String TAR = "application/x-tar";
+    /**
+     * The constant XGZIP.
+     */
     public final static String XGZIP = "application/x-gzip";
+    /**
+     * The constant GZIP.
+     */
     public final static String GZIP = "application/gzip";
+    /**
+     * The constant BZIP2.
+     */
     public static final String BZIP2 = "application/x-bzip2";
 
     /**
      * Test if mimetype is a known compressed format.
      *
+     * @param mimeType the mime type
      * @return the string
      * @throws SEDALibException the seda lib exception
      */
@@ -303,8 +322,7 @@ public class CompressedFileToArchiveTransferImporter {
     /**
      * Do import the zip file to ArchiveTransfer.
      *
-     * @throws SEDALibException     if the XML manifest can't be read or is not in expected
-     *                              form, or zip file can't be uncompressed
+     * @throws SEDALibException     if the XML manifest can't be read or is not in expected                              form, or zip file can't be uncompressed
      * @throws InterruptedException if export process is interrupted
      */
     public void doImport() throws SEDALibException, InterruptedException {

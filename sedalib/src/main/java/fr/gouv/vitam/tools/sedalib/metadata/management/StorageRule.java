@@ -60,7 +60,9 @@ public class StorageRule extends RuleType {
         metadataMap.put("FinalAction", new ComplexListMetadataKind(StringType.class, false));
     }
 
-    /** The final action list. */
+    /**
+     * The final action list.
+     */
     static protected List<String> finalActionList;
 
     static {
@@ -80,8 +82,9 @@ public class StorageRule extends RuleType {
     /**
      * Instantiates a new storage rule, with one rule and a date.
      *
-     * @param rule        the rule
-     * @param startDate   the start date
+     * @param rule      the rule
+     * @param startDate the start date
+     * @throws SEDALibException the seda lib exception
      */
     public StorageRule(String rule, LocalDate startDate) throws SEDALibException {
         super("StorageRule", rule , startDate);
@@ -93,8 +96,7 @@ public class StorageRule extends RuleType {
      * @param rule        the rule
      * @param startDate   the start date
      * @param finalAction the final action
-     * @throws SEDALibException if the FinalAction field or value is not expected in
-     *                          this kind of rule
+     * @throws SEDALibException if the FinalAction field or value is not expected in                          this kind of rule
      */
     public StorageRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
         super("StorageRule", rule, startDate);

@@ -68,8 +68,9 @@ public class ReuseRule extends RuleType {
     /**
      * Instantiates a new reuse rule, with one rule and a date.
      *
-     * @param rule        the rule
-     * @param startDate   the start date
+     * @param rule      the rule
+     * @param startDate the start date
+     * @throws SEDALibException the seda lib exception
      */
     public ReuseRule(String rule, LocalDate startDate) throws SEDALibException {
         super("ReuseRule", rule , startDate);

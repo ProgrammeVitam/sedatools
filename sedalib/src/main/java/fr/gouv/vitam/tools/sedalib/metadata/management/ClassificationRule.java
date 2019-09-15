@@ -75,6 +75,7 @@ public class ClassificationRule extends RuleType {
      *
      * @param classificationLevel the classification level
      * @param classificationOwner the classification owner
+     * @throws SEDALibException the seda lib exception
      */
     public ClassificationRule(String classificationLevel, String classificationOwner) throws SEDALibException {
         this();

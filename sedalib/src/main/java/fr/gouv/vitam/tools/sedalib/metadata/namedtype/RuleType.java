@@ -68,6 +68,7 @@ abstract public class RuleType extends ComplexListType {
      * Adds a rule element with only the rule identifier.
      *
      * @param rule the rule
+     * @throws SEDALibException the seda lib exception
      */
     public void addRule(String rule) throws SEDALibException {
         addNewMetadata("Rule",rule,null);
@@ -78,6 +79,7 @@ abstract public class RuleType extends ComplexListType {
      *
      * @param rule      the rule
      * @param startDate the start date
+     * @throws SEDALibException the seda lib exception
      */
     public void addRule(String rule, LocalDate startDate) throws SEDALibException {
         addNewMetadata("Rule",rule,startDate);
@@ -87,6 +89,7 @@ abstract public class RuleType extends ComplexListType {
      * Sets the prevent inheritance.
      *
      * @param preventInheritance the new prevent inheritance
+     * @throws SEDALibException the seda lib exception
      */
     public void setPreventInheritance(boolean preventInheritance) throws SEDALibException {
         addNewMetadata("PreventInheritance",preventInheritance);
@@ -96,6 +99,7 @@ abstract public class RuleType extends ComplexListType {
      * Adds the ref non rule id.
      *
      * @param rule the rule
+     * @throws SEDALibException the seda lib exception
      */
     public void addRefNonRuleId(String rule) throws SEDALibException {
         addNewMetadata("RefNonRuleId",rule);
@@ -105,8 +109,7 @@ abstract public class RuleType extends ComplexListType {
      * Set final action.
      *
      * @param finalAction the final action
-     * @throws SEDALibException if the FinalAction field or value is not expected in
-     *                          this kind of rule
+     * @throws SEDALibException if the FinalAction field or value is not expected in                          this kind of rule
      */
     public void setFinalAction(String finalAction) throws SEDALibException {
         List<String> finalValues = getFinalActionList();

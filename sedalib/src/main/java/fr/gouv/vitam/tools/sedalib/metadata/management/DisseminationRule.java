@@ -68,8 +68,9 @@ public class DisseminationRule extends RuleType {
     /**
      * Instantiates a new dissemination rule, with one rule and a date.
      *
-     * @param rule        the rule
-     * @param startDate   the start date
+     * @param rule      the rule
+     * @param startDate the start date
+     * @throws SEDALibException the seda lib exception
      */
     public DisseminationRule(String rule, LocalDate startDate) throws SEDALibException {
         super("DisseminationRule", rule , startDate);
