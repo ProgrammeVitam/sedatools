@@ -39,6 +39,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
@@ -635,6 +636,27 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         setArchiveUnitProfileXmlData(au.getArchiveUnitProfileXmlData());
         setManagementXmlData(au.getManagementXmlData());
         setContentXmlData(au.getContentXmlData());
+    }
+
+    /**
+     * Return the indented XML export form as the String representation.
+     *
+     * @return the indented XML form String
+     */
+    public String toString() {
+        String result = null;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+            toSedaXml(xmlWriter, true, null);
+            xmlWriter.flush();
+            result = baos.toString("UTF-8");
+            if (result.startsWith("\n"))
+                result = result.substring(1);
+        } catch (XMLStreamException | IOException | SEDALibException | InterruptedException e) {
+            if (result == null)
+                result = super.toString();
+        }
+        return result;
     }
 
     // Getters and setters
