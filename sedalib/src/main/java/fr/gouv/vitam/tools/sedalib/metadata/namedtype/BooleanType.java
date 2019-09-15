@@ -1,5 +1,5 @@
 /**
- * RegisteredDate * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
+ * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
  * <p>
  * contact.vitam@programmevitam.fr
  * <p>
@@ -36,40 +36,42 @@ import javax.xml.stream.events.XMLEvent;
 import java.util.LinkedHashMap;
 
 /**
- * The Class AnyXMLType.
+ * The Class StringType.
  * <p>
- * For abstract not determined SEDA metadata, take all the xml block
+ * For abstract Boolean formatted SEDA metadata
  */
-public class AnyXMLType extends NamedTypeMetadata {
-
-    /** The raw xml. */
-    private String rawXml;
+public class BooleanType extends NamedTypeMetadata {
 
     /**
-     * Instantiates a new XML block type.
+     * The value.
      */
-    public AnyXMLType() {
-        this("AnyXMLType", null);
+    private Boolean value;
+
+    /**
+     * Instantiates a new string.
+     */
+    public BooleanType() {
+        this(null, null);
     }
 
     /**
-     * Instantiates a new XML block type.
+     * Instantiates a new boolean.
      *
      * @param elementName the XML element name
      */
-    public AnyXMLType(String elementName) {
+    public BooleanType(String elementName) {
         this(elementName, null);
     }
 
     /**
-     * Instantiates a new XML block type.
+     * Instantiates a new boolean.
      *
      * @param elementName the XML element name
-     * @param rawXml       the raw Xml String
+     * @param value       the value
      */
-    public AnyXMLType(String elementName, String rawXml) {
-        super("AnyXMLType");
-        this.rawXml = rawXml;
+    public BooleanType(String elementName, Boolean value) {
+        super(elementName);
+        this.value = value;
     }
 
     /*
@@ -81,10 +83,13 @@ public class AnyXMLType extends NamedTypeMetadata {
      */
     @Override
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
+        String tmp = null;
         try {
-            xmlWriter.writeRawXMLBlockIfNotEmpty(rawXml);
+            if (value != null)
+                tmp = value.toString();
+            xmlWriter.writeElementValue(elementName, tmp);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type AnyXMLType ["+getXmlElementName()+"]", e);
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type BooleanType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -95,26 +100,47 @@ public class AnyXMLType extends NamedTypeMetadata {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
+        String tmp = null;
         LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
-        result.put("",rawXml);
+        if (value != null)
+            tmp = value.toString();
+        else
+            tmp = "";
+        result.put("", tmp);
         return result;
     }
 
     /**
      * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
      * @return true, if it finds something convenient, false if not
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
+        String tmp;
         try {
-            XMLEvent event = xmlReader.peekUsefullEvent();
-            elementName = event.asStartElement().getName().getLocalPart();
-            rawXml = xmlReader.nextBlockAsStringIfNamed(elementName);
-        } catch (XMLStreamException | IllegalArgumentException e) {
-            throw new SEDALibException(
-                    "Erreur de lecture XML dans un élément de type AnyXMLType", e);
+            if (xmlReader.peekBlockIfNamed(elementName)) {
+                xmlReader.nextUsefullEvent();
+                XMLEvent event = xmlReader.nextUsefullEvent();
+                if (event.isCharacters()) {
+                    tmp = event.asCharacters().getData();
+                    if (tmp.equals("true"))
+                        value = true;
+                    else if (tmp.equals("false"))
+                        value = false;
+                    else
+                        throw new SEDALibException(tmp + " n'est pas une valeur autorisée");
+                    event = xmlReader.nextUsefullEvent();
+                } else
+                    value = null;
+                if ((!event.isEndElement())
+                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
+                    throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else
+                return false;
+        } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type BooleanType", e);
         }
         return true;
     }
@@ -122,20 +148,20 @@ public class AnyXMLType extends NamedTypeMetadata {
     // Getters and setters
 
     /**
-     * Gets raw xml.
+     * Get the value
      *
-     * @return the raw xml
+     * @return the value
      */
-    public String getRawXml() {
-        return rawXml;
+    public Boolean getValue() {
+        return value;
     }
 
     /**
-     * Sets raw xml.
+     * Sets value.
      *
-     * @param rawXml the raw xml
+     * @param value the value
      */
-    public void setRawXml(String rawXml) {
-        this.rawXml = rawXml;
+    public void setValue(Boolean value) {
+        this.value = value;
     }
 }

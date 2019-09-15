@@ -1,11 +1,11 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import fr.gouv.vitam.tools.sedalib.metadata.management.*;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -61,24 +61,25 @@ class ManagementTest {
 		classificationRule.setPreventInheritance(true);
 		classificationRule.addRule("TestRule2");
 		classificationRule.addRefNonRuleId("TestRule3");
-		classificationRule.setClassificationLevel("TestCD");
-		classificationRule.setClassificationOwner("TestOwner");
-		classificationRule.setClassificationReassessingDate(LocalDate.of(1970,1,1));
-		classificationRule.setNeedReassessingAuthorization(true);
+		classificationRule.addNewMetadata("ClassificationLevel","TestCD");
+		classificationRule.addNewMetadata("ClassificationOwner","TestOwner");
+		classificationRule.addNewMetadata("ClassificationReassessingDate",LocalDate.of(1970,1,1));
+		classificationRule.addNewMetadata("NeedReassessingAuthorization",true);
 		m.addMetadata(classificationRule);
 
+		// Test LogBook
+		LogBook logBook=new LogBook();
+		logBook.addNewMetadata("Event","ID-00001","Request",LocalDateTime.of(2000,1,1,13,10),"OK");
+		m.addMetadata(logBook);
+
 		// Test GenerixXMLBlock
-		m.addNewMetadata("LogBook","<LogBook>TestLogBook</LogBook>");
+		m.addNewMetadata("RawXML","<Try>Here</Try>");
 
 		// Test UpdateOperation
 		UpdateOperation updateOperation = new UpdateOperation("TestSystemId");
 		m.addMetadata(updateOperation);
 		UpdateOperation updateOperation2 = new UpdateOperation("TestMetadataName", "TestMetadataValue"); // verify that uniq metadata is overwritten
 		m.addMetadata(updateOperation2);
-
-		// Test RuleType
-		RuleType ruleType = new RuleType("AnotherRule","TestRule1", LocalDate.of(1970,1,1));
-		m.addMetadata(ruleType);
 
 		String mOut = m.toString();
 
@@ -133,17 +134,21 @@ class ManagementTest {
 				"    <ClassificationReassessingDate>1970-01-01</ClassificationReassessingDate>\n" +
 				"    <NeedReassessingAuthorization>true</NeedReassessingAuthorization>\n" +
 				"  </ClassificationRule>\n" +
-				"  <LogBook>TestLogBook</LogBook>\n" +
+				"  <LogBook>\n" +
+				"    <Event>\n" +
+				"      <EventIdentifier>ID-00001</EventIdentifier>\n" +
+				"      <EventType>Request</EventType>\n" +
+				"      <EventDateTime>2000-01-01T13:10:00</EventDateTime>\n" +
+				"      <Outcome>OK</Outcome>\n" +
+				"    </Event>\n" +
+				"  </LogBook>\n" +
 				"  <UpdateOperation>\n" +
 				"    <ArchiveUnitIdentifierKey>\n" +
 				"      <MetadataName>TestMetadataName</MetadataName>\n" +
 				"      <MetadataValue>TestMetadataValue</MetadataValue>\n" +
 				"    </ArchiveUnitIdentifierKey>\n" +
 				"  </UpdateOperation>\n" +
-				"  <AnotherRule>\n" +
-				"    <Rule>TestRule1</Rule>\n" +
-				"    <StartDate>1970-01-01</StartDate>\n" +
-				"  </AnotherRule>\n" +
+				"  <Try>Here</Try>\n" +
 				"</Management>";
 		assertThat(mNextOut).isEqualTo(testOut);
 	}

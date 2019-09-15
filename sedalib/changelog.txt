@@ -1,3 +1,12 @@
+Evolutions/Corrections en 1.11.0
+
+- Refacto: les objets de type RuleType sont devenus des ComplexListType standards gràce à la création du type élémentaire Rule
+- Fix: BirthDate et DeathDate dans Signer ont maintenant le bon type DateType
+- Evolution: ajout d'une métadonnée élémentaire DescriptionLevel restreinte à l'enum de la norme SEDA
+- Evolution: ajout d'une métadonnée élémentaire BooleanType
+- Evolution: ajout d'une métadonnée LogBook pour les Events dans Management
+
+============================================================================
 Evolutions/Corrections en 1.9.0
 
 - Fix: suppression des DataObjects non utilisés dans des ArchiveUnit lors de la normalisation

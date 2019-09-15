@@ -57,7 +57,7 @@ public class Content extends ComplexListType {
 
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("DescriptionLevel", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("DescriptionLevel", new ComplexListMetadataKind(DescriptionLevel.class, false));
         metadataMap.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("SystemId", new ComplexListMetadataKind(StringType.class, true));

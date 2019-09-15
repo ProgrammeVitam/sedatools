@@ -29,7 +29,6 @@ package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
-import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
@@ -256,7 +255,14 @@ public class DataObjectPackageToCSVMetadataExporter {
                 else infix = ".0";
                 int i = 0;
                 do {
-                    if (ComplexListType.class.isAssignableFrom(metadataClass)) {
+                    // manage special RuleType with rule/startdata special order
+                    if (RuleType.class.isAssignableFrom(metadataClass)) {
+                        List<String> ruleHeaderNames;
+                        ruleHeaderNames = getRuleTypeHeaderNames(headerNames, currentName + infix);
+                        sortedHeaderNames.addAll(ruleHeaderNames);
+                        headerNames.removeAll(ruleHeaderNames);
+                    } else
+                        if (ComplexListType.class.isAssignableFrom(metadataClass)) {
                         for (Map.Entry<String, ComplexListMetadataKind> e : ComplexListType.getMetadataMap(metadataClass).entrySet()) {
                             getSortedHeaderNames(sortedHeaderNames, headerNames, currentName + infix,
                                     e.getKey(), e.getValue().metadataClass);
@@ -269,18 +275,6 @@ public class DataObjectPackageToCSVMetadataExporter {
                         }
                         headerNames.removeAll(extensions);
                         sortedHeaderNames.addAll(extensions);
-                    }
-                    // manage other composed types which can't be expressed as ComplexListType
-                    else if (RuleType.class.isAssignableFrom(metadataClass)) {
-                        List<String> ruleHeaderNames;
-                        ruleHeaderNames = getRuleTypeHeaderNames(headerNames, currentName + infix);
-                        sortedHeaderNames.addAll(ruleHeaderNames);
-                        headerNames.removeAll(ruleHeaderNames);
-                    } else if (ClassificationRule.class.isAssignableFrom(metadataClass)) {
-                        List<String> ruleHeaderNames;
-                        ruleHeaderNames = getClassificationRuleHeaderNames(headerNames, currentName + infix);
-                        sortedHeaderNames.addAll(ruleHeaderNames);
-                        headerNames.removeAll(ruleHeaderNames);
                     }
                     // at last simple types
                     else {

@@ -149,7 +149,7 @@ public abstract class SEDAMetadata {
             if (!event.isEndDocument())
                 throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture du " + target.getSimpleName(), e);
+            throw new SEDALibException("Erreur de lecture de " + target.getSimpleName(), e);
         }
 
         return result;

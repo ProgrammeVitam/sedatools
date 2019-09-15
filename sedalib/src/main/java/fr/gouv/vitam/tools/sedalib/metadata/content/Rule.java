@@ -33,50 +33,47 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
-import java.util.Arrays;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 /**
- * The Class KeywordType.
+ * The Class Rule.
  * <p>
- * For abstract String formatted SEDA metadata
+ * For Rule/StartDate couple in SEDA management rules.
+ * <p>
+ * WARNING: this class is unusual as it doesn't represent one XML element but one or two concatanated XML elements
  */
-public class KeywordType extends NamedTypeMetadata {
+public class Rule extends NamedTypeMetadata {
 
     /**
-     * Enum restricted values.
+     * The rule id.
      */
-    static public final List<String> enumValues = Arrays.asList("corpname", "famname", "geogname", "name",
-            "occupation", "persname", "subject", "genreform", "function");
+    private String ruleID;
 
     /**
-     * The value.
+     * The start date.
      */
-    private String value;
+    private LocalDate startDate;
 
     /**
-     * Instantiates a new code keyword.
+     * Instantiates a new rule element.
      */
-    public KeywordType() {
-        super("KeywordType");
+    public Rule() {
+        this(null, null);
     }
 
     /**
-     * Instantiates a new code keyword.
+     * Instantiates a new rule element.
      *
-     * @param value the value
-     * @throws SEDALibException the seda lib exception
+     * @param ruleID    the rule id
+     * @param startDate the start date
      */
-    public KeywordType(String value) throws SEDALibException {
-        this();
-        if (enumValues.contains(value))
-            this.value = value;
-        else
-            throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
+    public Rule(String ruleID, LocalDate startDate) {
+        super("Rule");
+        this.ruleID = ruleID;
+        this.startDate = startDate;
     }
-
 
     /*
      * (non-Javadoc)
@@ -85,24 +82,33 @@ public class KeywordType extends NamedTypeMetadata {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toSedaXml(fr.gouv.vitam.
      * tools.sedalib.xml.SEDAXMLStreamWriter)
      */
-    @Override
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
-            xmlWriter.writeElementValue(elementName, value);
+            xmlWriter.writeElementValue("Rule", ruleID);
+            if (startDate != null)
+                xmlWriter.writeElementValue("StartDate", SEDAXMLStreamWriter.getStringFromDate(startDate));
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type KeywordType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de règle dans RuleType", e);
         }
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
-     */
+    @Override
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
+        throw new SEDALibException("Méthode d'écriture des Csv inadaptée pour un RuleElement");
+    }
+
+    /**
+     * To csv list linked hash map, for a specific rule position.
+     *
+     * @param i the rule position
+     * @return the linked hash map
+     * @throws SEDALibException the seda lib exception
+     */
+    public LinkedHashMap<String, String> toCsvList(int i) throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
-        result.put("",value);
+        result.put("Rule." + i, ruleID);
+        if (startDate != null)
+            result.put("StartDate." + i, SEDAXMLStreamWriter.getStringFromDate(startDate));
         return result;
     }
 
@@ -114,48 +120,62 @@ public class KeywordType extends NamedTypeMetadata {
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
+        String tmp, tmpDate;
+        LocalDate startDate;
         try {
-            if (xmlReader.peekBlockIfNamed(elementName)) {
-                xmlReader.nextUsefullEvent();
-                XMLEvent event = xmlReader.nextUsefullEvent();
-                if (event.isCharacters()) {
-                    value = event.asCharacters().getData();
-                    if (!enumValues.contains(value))
-                        throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
-                    event = xmlReader.nextUsefullEvent();
-                } else
-                    value = "";
-                if ((!event.isEndElement())
-                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
+            tmp = xmlReader.nextValueIfNamed("Rule");
+            if (tmp != null) {
+                tmpDate = xmlReader.nextValueIfNamed("StartDate");
+                if (tmpDate == null)
+                    startDate = null;
+                else try {
+                    startDate = SEDAXMLEventReader.getDateFromString(tmpDate);
+                } catch (DateTimeParseException e) {
+                    throw new SEDALibException("La date est mal formatée", e);
+                }
+                this.ruleID = tmp;
+                this.startDate = startDate;
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type KeywordType", e);
+            throw new SEDALibException("Erreur de lecture XML dans un élément de règle dans RuleType", e);
         }
         return true;
     }
 
-    // Getters and setters
-
     /**
-     * Get the value
+     * Gets rule id.
      *
-     * @return the value
+     * @return the rule id
      */
-    public String getValue() {
-        return value;
+    public String getRuleID() {
+        return ruleID;
     }
 
     /**
-     * Sets value.
+     * Sets rule id.
      *
-     * @param value the value
+     * @param ruleID the rule id
      */
-    public void setValue(String value) throws SEDALibException {
-        if (enumValues.contains(value))
-            this.value = value;
-        else
-            throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
+    public void setRuleID(String ruleID) {
+        this.ruleID = ruleID;
+    }
+
+    /**
+     * Gets start date.
+     *
+     * @return the start date
+     */
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    /**
+     * Sets start date.
+     *
+     * @param startDate the start date
+     */
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 }

@@ -28,20 +28,35 @@
 
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 
 /**
- * The Class AccessRule.
+ * The Class DisseminationRule.
  * <p>
- * Class for SEDA element AccessRule
+ * Class for SEDA element DisseminationRule
  * <p>
  * A management ArchiveUnit metadata.
  * <p>
  * Standard quote: "Gestion de la diffusion"
  */
 public class DisseminationRule extends RuleType {
+
+    /**
+     * Init metadata map.
+     */
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("Rule", new ComplexListMetadataKind(Rule.class, true));
+        metadataMap.put("PreventInheritance", new ComplexListMetadataKind(BooleanType.class, false));
+        metadataMap.put("RefNonRuleId", new ComplexListMetadataKind(StringType.class, true));
+    }
 
     /**
      * Instantiates a new dissemination rule.
@@ -56,8 +71,7 @@ public class DisseminationRule extends RuleType {
      * @param rule        the rule
      * @param startDate   the start date
      */
-    public DisseminationRule(String rule, LocalDate startDate) {
-        super("DisseminationRule", rule, startDate);
+    public DisseminationRule(String rule, LocalDate startDate) throws SEDALibException {
+        super("DisseminationRule", rule , startDate);
     }
-
 }

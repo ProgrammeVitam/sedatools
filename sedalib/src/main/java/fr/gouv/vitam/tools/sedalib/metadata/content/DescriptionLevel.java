@@ -1,5 +1,5 @@
 /**
- * RegisteredDate * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
+ * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
  * <p>
  * contact.vitam@programmevitam.fr
  * <p>
@@ -25,52 +25,58 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
- * The Class AnyXMLType.
+ * The Class DescriptionLevel.
  * <p>
- * For abstract not determined SEDA metadata, take all the xml block
+ * For abstract String formatted SEDA metadata
  */
-public class AnyXMLType extends NamedTypeMetadata {
-
-    /** The raw xml. */
-    private String rawXml;
+public class DescriptionLevel extends NamedTypeMetadata {
 
     /**
-     * Instantiates a new XML block type.
+     * Enum restricted values.
      */
-    public AnyXMLType() {
-        this("AnyXMLType", null);
+    static public final List<String> enumValues = Arrays.asList("Fonds","Subfonds","Class","Collection",
+            "Series","Subseries","RecordGrp","SubGrp","File","Item","OtherLevel");
+
+    /**
+     * The value.
+     */
+    private String value;
+
+    /**
+     * Instantiates a new description level.
+     */
+    public DescriptionLevel() {
+        super("DescriptionLevel");
     }
 
     /**
-     * Instantiates a new XML block type.
+     * Instantiates a new description level.
      *
-     * @param elementName the XML element name
+     * @param value the value
+     * @throws SEDALibException the seda lib exception
      */
-    public AnyXMLType(String elementName) {
-        this(elementName, null);
+    public DescriptionLevel(String value) throws SEDALibException {
+        this();
+        if (enumValues.contains(value))
+            this.value = value;
+        else
+            throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
     }
 
-    /**
-     * Instantiates a new XML block type.
-     *
-     * @param elementName the XML element name
-     * @param rawXml       the raw Xml String
-     */
-    public AnyXMLType(String elementName, String rawXml) {
-        super("AnyXMLType");
-        this.rawXml = rawXml;
-    }
 
     /*
      * (non-Javadoc)
@@ -82,9 +88,9 @@ public class AnyXMLType extends NamedTypeMetadata {
     @Override
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
-            xmlWriter.writeRawXMLBlockIfNotEmpty(rawXml);
+            xmlWriter.writeElementValue(elementName, value);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type AnyXMLType ["+getXmlElementName()+"]", e);
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type KeywordType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -96,25 +102,36 @@ public class AnyXMLType extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
-        result.put("",rawXml);
+        result.put("",value);
         return result;
     }
 
     /**
      * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
      * @return true, if it finds something convenient, false if not
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
-            XMLEvent event = xmlReader.peekUsefullEvent();
-            elementName = event.asStartElement().getName().getLocalPart();
-            rawXml = xmlReader.nextBlockAsStringIfNamed(elementName);
-        } catch (XMLStreamException | IllegalArgumentException e) {
-            throw new SEDALibException(
-                    "Erreur de lecture XML dans un élément de type AnyXMLType", e);
+            if (xmlReader.peekBlockIfNamed(elementName)) {
+                xmlReader.nextUsefullEvent();
+                XMLEvent event = xmlReader.nextUsefullEvent();
+                if (event.isCharacters()) {
+                    value = event.asCharacters().getData();
+                    if (!enumValues.contains(value))
+                        throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
+                    event = xmlReader.nextUsefullEvent();
+                } else
+                    value = "";
+                if ((!event.isEndElement())
+                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
+                    throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else
+                return false;
+        } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type KeywordType", e);
         }
         return true;
     }
@@ -122,20 +139,23 @@ public class AnyXMLType extends NamedTypeMetadata {
     // Getters and setters
 
     /**
-     * Gets raw xml.
+     * Get the value
      *
-     * @return the raw xml
+     * @return the value
      */
-    public String getRawXml() {
-        return rawXml;
+    public String getValue() {
+        return value;
     }
 
     /**
-     * Sets raw xml.
+     * Sets value.
      *
-     * @param rawXml the raw xml
+     * @param value the value
      */
-    public void setRawXml(String rawXml) {
-        this.rawXml = rawXml;
+    public void setValue(String value) throws SEDALibException {
+        if (enumValues.contains(value))
+            this.value = value;
+        else
+            throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
     }
 }
