@@ -58,6 +58,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor.*;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getMessagesStackString;
 
 /**
@@ -82,7 +83,7 @@ public class XmlEditDialog extends JDialog {
     /**
      * The result.
      */
-    private String xmlDataString;
+    private Object xmlObjectResult;
 
     // Dialog test context
 
@@ -108,7 +109,7 @@ public class XmlEditDialog extends JDialog {
      * @throws SEDALibException the seda lib exception
      */
     public XmlEditDialog(JFrame owner) throws SEDALibException {
-        this(owner, new AddMetadataItem(AgentType.class, "Writer"));
+        this(owner, createMetadataSample("AgentType","Writer",false));
     }
 
     /**
@@ -163,6 +164,13 @@ public class XmlEditDialog extends JDialog {
                         + addMetadataItem.elementName + "]");
             }
 
+        } else if (xmlObject instanceof ArchiveUnit) {
+            ArchiveUnit au = (ArchiveUnit) xmlObject;
+            title = "Edition " + translate("ArchiveUnit");
+            presentationName = "xmlID:" + au.getInDataObjectPackageId();
+            //FIXME
+            presentationText = "";
+            xmlData = au.toSedaXmlFragments();
         } else {
             dispose();
             return;
@@ -284,7 +292,7 @@ public class XmlEditDialog extends JDialog {
         actionPanel.add(indentButton, gbc);
 
         int buttonPlace = 1;
-        if (xmlObject instanceof AddMetadataItem) {
+        if ((xmlObject instanceof AddMetadataItem)||(xmlObject instanceof SEDAMetadata)) {
             final JButton cleanButton = new JButton("Nettoyer");
             cleanButton.addActionListener(arg -> buttonClean());
             gbc = new GridBagConstraints();
@@ -304,7 +312,7 @@ public class XmlEditDialog extends JDialog {
         gbc.gridx = buttonPlace++;
         actionPanel.add(saveButton, gbc);
 
-        if (xmlObject instanceof DataObjectPackageTreeNode) {
+        if ((xmlObject instanceof DataObjectPackageTreeNode) || (xmlObject instanceof ArchiveUnit)) {
             final JButton canonizeButton = new JButton("Ordonner");
             canonizeButton.addActionListener(arg -> buttonCanonizeXmlEdit());
             gbc = new GridBagConstraints();
@@ -382,8 +390,8 @@ public class XmlEditDialog extends JDialog {
      * The Default values.
      */
     static ArrayList<String> defaultValues = new ArrayList<String>(Arrays.asList("Text",
-            "1970-01-01", "1970-01-01T01:00:00", "Rule1","Rule2","Rule3","Rule4",
-            "Level1","Owner1","Text1","Text2"));
+            "1970-01-01", "1970-01-01T01:00:00", "Rule1", "Rule2", "Rule3", "Rule4",
+            "Level1", "Owner1", "Text1", "Text2"));
 
     private String filterDefaultValues(SEDAXMLEventReader xmlReader) throws XMLStreamException {
         String result = "", tag, tmp, attrStr = "";
@@ -393,11 +401,11 @@ public class XmlEditDialog extends JDialog {
             return null;
         mainEvent = xmlReader.nextUsefullEvent();
         tag = mainEvent.asStartElement().getName().getLocalPart();
-        Iterator<Attribute>  attributes=mainEvent.asStartElement().getAttributes();
+        Iterator<Attribute> attributes = mainEvent.asStartElement().getAttributes();
         while (attributes.hasNext()) {
-            Attribute attribute=attributes.next();
-            attrStr+=" "+(attribute.getName().getPrefix().equals("xml")?"xml:":"")+
-                    attribute.getName().getLocalPart()+"=\""+attribute.getValue()+"\"";
+            Attribute attribute = attributes.next();
+            attrStr += " " + (attribute.getName().getPrefix().equals("xml") ? "xml:" : "") +
+                    attribute.getName().getLocalPart() + "=\"" + attribute.getValue() + "\"";
         }
         tmpEvent = xmlReader.peekUsefullEvent();
         if (tmpEvent.isCharacters()) {
@@ -425,10 +433,10 @@ public class XmlEditDialog extends JDialog {
      * Button clean.
      */
     public void buttonClean() {
-        String result="";
+        String result = "";
         try {
             // indent to verify XML format
-            xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
+            String xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
                     .indentString(xmlTextArea.getText());
             try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlDataString.getBytes(StandardCharsets.UTF_8));
                  SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
@@ -453,13 +461,12 @@ public class XmlEditDialog extends JDialog {
     }
 
     private void buttonCancel() {
-        xmlDataString = null;
         setVisible(false);
     }
 
     private void buttonSaveXmlEdit() {
         try {
-            xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
+            String xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
                     .indentString(xmlTextArea.getText());
             if (xmlObject instanceof DataObjectPackageTreeNode) {
                 DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) xmlObject;
@@ -467,13 +474,18 @@ public class XmlEditDialog extends JDialog {
                 au.fromSedaXmlFragments(xmlDataString);
                 node.setTitle(SEDAXMLEventReader.extractNamedElement("Title", xmlDataString));
                 ResipGraphicApp.getTheApp().mainWindow.updateAUMetadata(node);
+                xmlObjectResult=node;
             } else if (xmlObject instanceof DataObject) {
                 DataObject dataObject = (DataObject) xmlObject;
                 dataObject.fromSedaXmlFragments(xmlDataString);
-            } else if (xmlObject instanceof AddMetadataItem) {
-                AddMetadataItem addMetadataItem = (AddMetadataItem) xmlObject;
-                addMetadataItem.skeleton = SEDAMetadata.fromString(xmlDataString, addMetadataItem.skeleton.getClass());
-                xmlDataString = addMetadataItem.skeleton.toString();
+                xmlObjectResult = dataObject;
+            } else if (xmlObject instanceof SEDAMetadata) {
+                SEDAMetadata sm = (SEDAMetadata) xmlObject;
+                xmlObjectResult = SEDAMetadata.fromString(xmlDataString, sm.getClass());
+            } else if (xmlObject instanceof ArchiveUnit) {
+                ArchiveUnit au = (ArchiveUnit) xmlObject;
+                au.fromSedaXmlFragments(xmlDataString);
+                xmlObjectResult = au;
             }
             informationTextArea.setForeground(Color.BLACK);
             informationTextArea.setText("");
@@ -485,7 +497,7 @@ public class XmlEditDialog extends JDialog {
 
     private void buttonCanonizeXmlEdit() {
         try {
-            xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
+            String xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
                     .indentString(xmlTextArea.getText());
             ArchiveUnit au = new ArchiveUnit();
             au.fromSedaXmlFragments(xmlDataString);
@@ -506,10 +518,10 @@ public class XmlEditDialog extends JDialog {
     /**
      * Get the dialog result xml string.
      *
-     * @return the xml string
+     * @return the xml object
      */
-    public String getResult() {
-        return xmlDataString;
+    public Object getResult() {
+        return xmlObjectResult;
     }
 
     /**
@@ -518,6 +530,6 @@ public class XmlEditDialog extends JDialog {
      * @return the return value
      */
     public boolean getReturnValue() {
-        return !(xmlDataString == null);
+        return !(xmlObjectResult == null);
     }
 }

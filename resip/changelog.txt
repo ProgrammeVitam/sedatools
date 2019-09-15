@@ -5,6 +5,8 @@ Evolutions/Corrections en 1.11.0
 - Evolution: ajout d'une liste de tag XML à retenir lors la création des métadonnées SEDA par défaut
 - Evolution: ajout d'une liste de traduction des tag XML
 - Evolution: ajout d'une capacité de test manuel des classes d'édition structurée
+- Evolution: ajout de deux JPanels de haut niveau pour l'édition d'ArchiveUnit, l'un (XMLArchiveUnitEditorPanel) en mode texte XML standard, l'autre (StructuredArchiveUnitEditorPanel) pour une édition graphiquement structurée. Ce dernier ne peut éditer que des ArchiveUnit conforme au SEDA.
+- Evolution: ajout d'une capacité de test manuel des deux JPanels de haut niveau
 
 ============================================================================
 Evolutions/Corrections en 1.10.0
