@@ -28,17 +28,14 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.data.AddMetadataItem;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.ArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.StructuredArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.xmlcomponents.XMLArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.viewer.*;
 import fr.gouv.vitam.tools.sedalib.core.*;
-import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
-import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
-import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 
@@ -58,7 +55,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 
 import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
 
@@ -80,6 +76,10 @@ public class MainWindow extends JFrame {
     /**
      * The constant BOLD_LABEL_FONT.
      */
+    public static Font ITALIC_LABEL_FONT = LABEL_FONT.deriveFont(LABEL_FONT.getStyle() | Font.ITALIC);
+    /**
+     * The constant BOLD_LABEL_FONT.
+     */
     public static Font BOLD_LABEL_FONT = LABEL_FONT.deriveFont(LABEL_FONT.getStyle() | Font.BOLD);
     /**
      * The constant TREE_FONT.
@@ -89,6 +89,10 @@ public class MainWindow extends JFrame {
      * The constant DETAILS_FONT.
      */
     public static Font DETAILS_FONT = LABEL_FONT.deriveFont(LABEL_FONT.getSize() + (float) 2.0);
+    /**
+     * The constant DETAILS_FONT.
+     */
+    public static Font MINI_DETAILS_FONT = LABEL_FONT.deriveFont(LABEL_FONT.getSize() - (float) 2.0);
     /**
      * The constant GENERAL_BACKGROUND.
      */
@@ -110,9 +114,8 @@ public class MainWindow extends JFrame {
      */
     private JPanel dataObjectPackageTreePane;
     private JCheckBox longDataObjectPackageTreeItemNameCheckBox;
-    private JPanel auMetadataPane;
-    private JTextPane auMetadataText;
-    private JLabel auMetadataPaneLabel;
+    public JSplitPane itemPane;
+    public ArchiveUnitEditorPanel auMetadataPane;
     private JButton openSipItemButton;
     private JButton openObjectButton;
     private JTextPane dataObjectDetailText;
@@ -120,11 +123,8 @@ public class MainWindow extends JFrame {
     private JLabel dataObjectPackageTreePaneLabel;
     private DataObjectPackageTreeModel dataObjectPackageTreePaneModel;
     private DataObjectPackageTreeViewer dataObjectPackageTreePaneViewer;
-    private JButton editArchiveUnitButton;
     private JButton editObjectButton;
     private JButton changeObjectButton;
-    private JComboBox<String> metadataComboBox;
-    private JButton addMetadataButton;
 
     /**
      * The entry point of window test.
@@ -283,81 +283,29 @@ public class MainWindow extends JFrame {
         gbc_OpenSipItemButton.gridy = 3;
         getDataObjectPackageTreePane().add(openSipItemButton, gbc_OpenSipItemButton);
 
-        JSplitPane ItemPane = new JSplitPane();
-        ItemPane.setResizeWeight(0.5);
-        ItemPane.setMinimumSize(new Dimension(200, 200));
-        generalSplitPaneHoriz.setRightComponent(ItemPane);
-        ItemPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        itemPane = new JSplitPane();
+        itemPane.setResizeWeight(0.5);
+        itemPane.setPreferredSize(new Dimension(600, 800));
+        itemPane.setMinimumSize(new Dimension(200, 200));
+        generalSplitPaneHoriz.setRightComponent(itemPane);
+        itemPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        itemPane.setResizeWeight(0.9);
 
-        auMetadataPane = new JPanel();
-        ItemPane.setTopComponent(auMetadataPane);
-        GridBagLayout gbl_auMetadataPane = new GridBagLayout();
-        gbl_auMetadataPane.rowHeights = new int[]{15, 196, 30};
-        gbl_auMetadataPane.columnWeights = new double[]{0.5, 1.0, 0.0};
-        gbl_auMetadataPane.rowWeights = new double[]{0.0, 1.0, 0.0};
-        auMetadataPane.setLayout(gbl_auMetadataPane);
-
-        JScrollPane auMetadataPaneScrollPane = new JScrollPane();
-        GridBagConstraints gbc_auMetadataPaneScrollPane = new GridBagConstraints();
-        gbc_auMetadataPaneScrollPane.gridwidth = 3;
-        gbc_auMetadataPaneScrollPane.insets = new Insets(0, 0, 5, 0);
-        gbc_auMetadataPaneScrollPane.gridy = 1;
-        gbc_auMetadataPaneScrollPane.gridx = 0;
-        gbc_auMetadataPaneScrollPane.fill = GridBagConstraints.BOTH;
-        auMetadataPane.add(auMetadataPaneScrollPane, gbc_auMetadataPaneScrollPane);
-        auMetadataText = new JTextPane();
-        auMetadataText.setFont(DETAILS_FONT);
-        changeLineSpacing(auMetadataText, 0.10);
-        auMetadataText.setEditable(false);
-        auMetadataPaneScrollPane.setViewportView(auMetadataText);
-        auMetadataPaneLabel = new JLabel("AU Metadata");
-        auMetadataPaneLabel.setFont(BOLD_LABEL_FONT);
-        GridBagConstraints gbc_auMetadataPaneLabel = new GridBagConstraints();
-        gbc_auMetadataPaneLabel.gridwidth = 3;
-        gbc_auMetadataPaneLabel.insets = new Insets(5, 5, 5, 0);
-        gbc_auMetadataPaneLabel.anchor = GridBagConstraints.WEST;
-        gbc_auMetadataPaneLabel.gridx = 0;
-        gbc_auMetadataPaneLabel.gridy = 0;
-        auMetadataPane.add(auMetadataPaneLabel, gbc_auMetadataPaneLabel);
-
-        editArchiveUnitButton = new JButton("Editer l'ArchiveUnit");
-        editArchiveUnitButton.setFont(CLICK_FONT);
-        editArchiveUnitButton.setEnabled(false);
-        editArchiveUnitButton.addActionListener(e -> buttonEditArchiveUnit());
-        GridBagConstraints gbc_editArchiveUnitButton = new GridBagConstraints();
-        gbc_editArchiveUnitButton.weightx = 1.0;
-        gbc_editArchiveUnitButton.insets = new Insets(0, 0, 5, 5);
-        gbc_editArchiveUnitButton.gridx = 0;
-        gbc_editArchiveUnitButton.gridy = 2;
-        auMetadataPane.add(editArchiveUnitButton, gbc_editArchiveUnitButton);
+        if (ResipGraphicApp.getTheApp().interfaceParameters.isStructuredMetadataEditionFlag()) {
+            StructuredArchiveUnitEditorPanel structuredArchiveUnitEditorPanel = new StructuredArchiveUnitEditorPanel();
+            itemPane.setTopComponent(structuredArchiveUnitEditorPanel);
+            auMetadataPane = structuredArchiveUnitEditorPanel;
+        }
+        else {
+                XMLArchiveUnitEditorPanel xmlArchiveUnitEditorPanel = new XMLArchiveUnitEditorPanel();
+            itemPane.setTopComponent(xmlArchiveUnitEditorPanel);
+            auMetadataPane = xmlArchiveUnitEditorPanel;
+        }
 
         JPanel ogInformationPane = new JPanel();
-        ItemPane.setBottomComponent(ogInformationPane);
+        itemPane.setBottomComponent(ogInformationPane);
         GridBagLayout gbl_ogInformationPane = new GridBagLayout();
         ogInformationPane.setLayout(gbl_ogInformationPane);
-
-
-        metadataComboBox = new JComboBox<String>(AddMetadataItem.getAddContentMetadataArray());
-        metadataComboBox.setFont(CLICK_FONT);
-        metadataComboBox.setEnabled(false);
-        GridBagConstraints gbc_metadataComboBox = new GridBagConstraints();
-        gbc_metadataComboBox.fill = GridBagConstraints.HORIZONTAL;
-        gbc_metadataComboBox.weightx = 1.0;
-        gbc_metadataComboBox.insets = new Insets(0, 0, 5, 5);
-        gbc_metadataComboBox.gridx = 2;
-        gbc_metadataComboBox.gridy = 2;
-        auMetadataPane.add(metadataComboBox, gbc_metadataComboBox);
-
-        addMetadataButton = new JButton("Ajouter...");
-        addMetadataButton.setFont(CLICK_FONT);
-        addMetadataButton.setEnabled(false);
-        GridBagConstraints gbc_addMetadataButton = new GridBagConstraints();
-        gbc_addMetadataButton.anchor = GridBagConstraints.EAST;
-        gbc_addMetadataButton.insets = new Insets(0, 0, 5, 5);
-        gbc_addMetadataButton.gridx = 1;
-        gbc_addMetadataButton.gridy = 2;
-        auMetadataPane.add(addMetadataButton, gbc_addMetadataButton);
-        addMetadataButton.addActionListener(e -> buttonAddMetadata());
 
         JSplitPane ogInformationSplitPane = new JSplitPane();
         ogInformationSplitPane.setResizeWeight(0.2);
@@ -528,7 +476,7 @@ public class MainWindow extends JFrame {
 
             if ((nb > 10000) &&
                     (UserInteractionDialog.getUserAnswer(this,
-                            "Attention, quand il y a plus de 10000 ArchiveUnit et DataObjectGroup sélectionnés (en l'occurrence "+nb+"), " +
+                            "Attention, quand il y a plus de 10000 ArchiveUnit et DataObjectGroup sélectionnés (en l'occurrence " + nb + "), " +
                                     "l'ouverture ou la fermeture de tous ces noeuds de l'arbre peut prendre beaucoup de temps.\n"
                                     + "Voulez-vous continuer? ",
                             "Confirmation", UserInteractionDialog.WARNING_DIALOG,
@@ -686,89 +634,6 @@ public class MainWindow extends JFrame {
         }
     }
 
-    // edit AU
-
-    /**
-     * Button edit archive unit.
-     */
-    private void buttonEditArchiveUnit() {
-        XmlEditDialog xmlEditDialog = new XmlEditDialog(this, dataObjectPackageTreeItemDisplayed);
-        xmlEditDialog.setVisible(true);
-        if (xmlEditDialog.getReturnValue()) {
-            ((DataObjectPackageTreeModel) dataObjectPackageTreePaneViewer.getModel())
-                    .nodeChanged(dataObjectPackageTreeItemDisplayed);
-            getArchiveUnitMetadataText().setText(xmlEditDialog.getResult());
-            ResipGraphicApp.getTheApp().setModifiedContext(true);
-        }
-    }
-
-    private AddMetadataItem getAddMetadataItem(String definition) throws SEDALibException {
-        AddMetadataItem result;
-        String macroMetadata = definition.substring(0, 3);
-        String elementName = definition.substring(3, definition.indexOf(' '));
-        if (macroMetadata.equals("[A]")) {
-            result = new AddMetadataItem(ArchiveUnitProfile.class, "ArchiveUnitProfile");
-        } else {
-            HashMap<String, ComplexListMetadataKind> metadataMap;
-            if (macroMetadata.equals("[C]")) {
-                Content c = new Content();
-                metadataMap = c.getMetadataMap();
-            } else {
-                Management m = new Management();
-                metadataMap = m.getMetadataMap();
-            }
-            if (elementName.equals("AnyOtherMetadata"))
-                result = new AddMetadataItem(AnyXMLType.class, elementName);
-            else
-                result = new AddMetadataItem(metadataMap.get(elementName).metadataClass, elementName);
-        }
-        return result;
-    }
-
-    /**
-     * Button add metadata.
-     */
-    private void buttonAddMetadata() {
-        try {
-            AddMetadataItem ami = getAddMetadataItem((String) metadataComboBox.getSelectedItem());
-            XmlEditDialog xmlEditDialog = new XmlEditDialog(this, ami);
-            xmlEditDialog.setVisible(true);
-            if (xmlEditDialog.getReturnValue()) {
-                //noinspection ConstantConditions
-                String macroMetadata = ((String) metadataComboBox.getSelectedItem()).substring(0, 3);
-                switch (macroMetadata) {
-                    case "[A]":
-                        dataObjectPackageTreeItemDisplayed.getArchiveUnit().setArchiveUnitProfile((ArchiveUnitProfile) ami.skeleton);
-                        break;
-                    case "[C]":
-                        Content c = dataObjectPackageTreeItemDisplayed.getArchiveUnit().getContent();
-                        c.addMetadata(ami.skeleton);
-                        break;
-                    case "[M]":
-                        Management m = dataObjectPackageTreeItemDisplayed.getArchiveUnit().getManagement();
-                        if (m == null) {
-                            m = new Management();
-                            dataObjectPackageTreeItemDisplayed.getArchiveUnit().setManagement(m);
-                        }
-                        m.addMetadata(ami.skeleton);
-                        break;
-                }
-                ((DataObjectPackageTreeModel) dataObjectPackageTreePaneViewer.getModel())
-                        .nodeChanged(dataObjectPackageTreeItemDisplayed);
-                getArchiveUnitMetadataText().setText(IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
-                        .indentString(dataObjectPackageTreeItemDisplayed.getArchiveUnit().toSedaXmlFragments()));
-                ResipGraphicApp.getTheApp().setModifiedContext(true);
-            }
-        } catch (SEDALibException e) {
-            UserInteractionDialog.getUserAnswer(this,
-                    "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.\n->"
-                            + e.getMessage(),
-                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
-                    null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.\n->"
-                    + e.getMessage());
-        }
-    }
     // edit DataObject
 
     /**
@@ -797,19 +662,12 @@ public class MainWindow extends JFrame {
         DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) path.getLastPathComponent();
         if (node.getArchiveUnit() == null)
             node = (DataObjectPackageTreeNode) path.getParentPath().getLastPathComponent();
-        String tmp = null;
         try {
-            tmp = node.getArchiveUnit().toSedaXmlFragments();
-            tmp = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(tmp);
+            auMetadataPane.editArchiveUnit(node.getArchiveUnit());
         } catch (Exception e) {
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation de l'ArchiveUnit ["
                     + node.getArchiveUnit().getInDataObjectPackageId() + "]");
         }
-        getArchiveUnitMetadataText().setText(tmp);
-        getArchiveUnitMetadataText().setCaretPosition(0);
-        auMetadataPaneLabel.setText(
-                "Métadonnées AU: " + node.getArchiveUnit().getInDataObjectPackageId() + " - " + node.getTitle());
-        auMetadataPane.repaint();
         dataObjectPackageTreeItemDisplayed = node;
 
         DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectListViewer.getModel();
@@ -836,10 +694,6 @@ public class MainWindow extends JFrame {
             openSipItemButton.setEnabled(true);
         else
             openSipItemButton.setEnabled(false);
-
-        editArchiveUnitButton.setEnabled(true);
-        metadataComboBox.setEnabled(true);
-        addMetadataButton.setEnabled(true);
 
         editObjectButton.setEnabled(false);
     }
@@ -888,8 +742,8 @@ public class MainWindow extends JFrame {
      *
      * @return the displayed archive unit
      */
-    public ArchiveUnit getDisplayedArchiveUnit(){
-        if (dataObjectPackageTreeItemDisplayed==null)
+    public ArchiveUnit getDisplayedArchiveUnit() {
+        if (dataObjectPackageTreeItemDisplayed == null)
             return null;
         return dataObjectPackageTreeItemDisplayed.getArchiveUnit();
     }
@@ -901,45 +755,33 @@ public class MainWindow extends JFrame {
      */
     public void load() {
         DefaultTreeModel tmauRG = (DefaultTreeModel) getDataObjectPackageTreePaneViewer().getModel();
+        DataObjectPackageTreeNode top;
+
         if ((app.currentWork != null) && (app.currentWork.getDataObjectPackage() != null)) {
-            DataObjectPackageTreeNode top = ((DataObjectPackageTreeModel) tmauRG)
+            top = ((DataObjectPackageTreeModel) tmauRG)
                     .generateDataObjectPackageNodes(app.currentWork.getDataObjectPackage());
-            tmauRG.setRoot(top);
-            tmauRG.reload();
             dataObjectPackageTreePaneLabel
                     .setText("Arbre du SIP (" + app.currentWork.getDataObjectPackage().getArchiveUnitCount()
                             + " archiveUnit/" + app.currentWork.getDataObjectPackage().getDataObjectGroupCount()
                             + " dog/" + app.currentWork.getDataObjectPackage().getBinaryDataObjectCount() + " bdo/"
                             + app.currentWork.getDataObjectPackage().getPhysicalDataObjectCount() + " pdo)");
-            dataObjectPackageTreeItemDisplayed = null;
-            auMetadataPaneLabel.setText("Métadonnées AU");
-            auMetadataText.setText("");
-            DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectListViewer.getModel();
-            model.removeAllElements();
-            dataObjectListItemDisplayed = null;
-            dataObjectDetailText.setText("");
-            openObjectButton.setEnabled(false);
-            editArchiveUnitButton.setEnabled(false);
-            metadataComboBox.setEnabled(false);
-            addMetadataButton.setEnabled(false);
-            editObjectButton.setEnabled(false);
         } else {
-            tmauRG.setRoot(null);
-            tmauRG.reload();
+            top = null;
             dataObjectPackageTreePaneLabel.setText("Arbre du SIP");
-            dataObjectPackageTreeItemDisplayed = null;
-            auMetadataPaneLabel.setText("Métadonnées AU");
-            auMetadataText.setText("");
-            DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectListViewer.getModel();
-            model.removeAllElements();
-            dataObjectListItemDisplayed = null;
-            dataObjectDetailText.setText("");
-            openObjectButton.setEnabled(false);
-            editArchiveUnitButton.setEnabled(false);
-            metadataComboBox.setEnabled(false);
-            addMetadataButton.setEnabled(false);
-            editObjectButton.setEnabled(false);
         }
+        tmauRG.setRoot(top);
+        tmauRG.reload();
+        dataObjectPackageTreeItemDisplayed = null;
+        try {
+            auMetadataPane.editArchiveUnit(null);
+        } catch (SEDALibException ignored) {
+        }
+        DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectListViewer.getModel();
+        model.removeAllElements();
+        dataObjectListItemDisplayed = null;
+        dataObjectDetailText.setText("");
+        openObjectButton.setEnabled(false);
+        editObjectButton.setEnabled(false);
     }
 
     /**
@@ -947,10 +789,8 @@ public class MainWindow extends JFrame {
      *
      * @param node the node
      */
-    public void updateAUMetadata(DataObjectPackageTreeNode node) {
-        auMetadataPaneLabel.setText(
-                "Métadonnées AU: " + node.getArchiveUnit().getInDataObjectPackageId() + " - " + node.getTitle());
-        auMetadataPane.repaint();
+    public void updateAUMetadata(DataObjectPackageTreeNode node) throws SEDALibException {
+        auMetadataPane.editArchiveUnit(node.getArchiveUnit());
     }
 
     /**
@@ -963,16 +803,15 @@ public class MainWindow extends JFrame {
                         + " dog/" + app.currentWork.getDataObjectPackage().getBinaryDataObjectCount() + " bdo/"
                         + app.currentWork.getDataObjectPackage().getPhysicalDataObjectCount() + " pdo)");
         dataObjectPackageTreeItemDisplayed = null;
-        auMetadataPaneLabel.setText("Métadonnées AU");
-        auMetadataText.setText("");
+        try {
+            auMetadataPane.editArchiveUnit(null);
+        } catch (SEDALibException ignored) {
+        }
         DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) dataObjectListViewer.getModel();
         model.removeAllElements();
         dataObjectListItemDisplayed = null;
         dataObjectDetailText.setText("");
         openObjectButton.setEnabled(false);
-        editArchiveUnitButton.setEnabled(false);
-        metadataComboBox.setEnabled(false);
-        addMetadataButton.setEnabled(false);
         editObjectButton.setEnabled(false);
     }
 
@@ -1026,16 +865,6 @@ public class MainWindow extends JFrame {
         StyleConstants.setLineSpacing(set, (float) factor);
         pane.setParagraphAttributes(set, true);
     }
-
-    /**
-     * Gets the archive unit metadata text.
-     *
-     * @return the archive unit metadata text
-     */
-    public JTextPane getArchiveUnitMetadataText() {
-        return auMetadataText;
-    }
-
 
     /**
      * Gets the archive transfer tree pane.

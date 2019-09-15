@@ -7,6 +7,7 @@ Evolutions/Corrections en 1.11.0
 - Evolution: ajout d'une capacité de test manuel des classes d'édition structurée
 - Evolution: ajout de deux JPanels de haut niveau pour l'édition d'ArchiveUnit, l'un (XMLArchiveUnitEditorPanel) en mode texte XML standard, l'autre (StructuredArchiveUnitEditorPanel) pour une édition graphiquement structurée. Ce dernier ne peut éditer que des ArchiveUnit conforme au SEDA.
 - Evolution: ajout d'une capacité de test manuel des deux JPanels de haut niveau
+- Evolution: ajout dans l'application du choix d'éditeur d'ArchiveUnit structuré ou non, au travers d'un menu
 
 ============================================================================
 Evolutions/Corrections en 1.10.0

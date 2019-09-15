@@ -27,20 +27,18 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.data.AddMetadataItem;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
+import org.fife.ui.rsyntaxtextarea.Token;
 import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
@@ -124,21 +122,7 @@ public class XmlEditDialog extends JDialog {
         String title, presentationName, presentationText, xmlData = "";
         GridBagConstraints gbc;
 
-        if (xmlObject instanceof DataObjectPackageTreeNode) {
-            DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) xmlObject;
-            ArchiveUnit au = node.getArchiveUnit();
-            title = "Edition ArchiveUnit";
-            presentationName = "ArchiveUnit :";
-            presentationText = node.getTitle() + " - " + au.getInDataObjectPackageId();
-            try {
-                xmlData = au.toSedaXmlFragments();
-                xmlData = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
-                        .indentString(xmlData);
-            } catch (Exception e) {
-                ResipLogger.getGlobalLogger().log(ResipLogger.STEP,
-                        "Resip.InOut: Erreur à l'indentation de l'ArchiveUnit [" + au.getInDataObjectPackageId() + "]");
-            }
-        } else if (xmlObject instanceof DataObject) {
+        if (xmlObject instanceof DataObject) {
             DataObject dataObject = (DataObject) xmlObject;
             title = "Edition DataObject";
             presentationName = "DataObject :";
@@ -152,16 +136,17 @@ public class XmlEditDialog extends JDialog {
                         + dataObject.getInDataObjectPackageId() + "]");
             }
 
-        } else if (xmlObject instanceof AddMetadataItem) {
-            AddMetadataItem addMetadataItem = (AddMetadataItem) xmlObject;
+        } else if (xmlObject instanceof SEDAMetadata) {
+            SEDAMetadata sm = (SEDAMetadata) xmlObject;
             title = "Edition partielle de métadonnées";
-            presentationName = addMetadataItem.elementName + " :";
-            presentationText = addMetadataItem.extraInformation;
+            presentationName = sm.getXmlElementName() + " :";
+            //FIXME
+            presentationText = getExtraInformation(sm);
             try {
-                xmlData = addMetadataItem.skeleton.toString();
+                xmlData = sm.toString();
             } catch (Exception e) {
-                ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation de la métadonnée ["
-                        + addMetadataItem.elementName + "]");
+                ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à la génération XML de la métadonnée ["
+                        + sm.getXmlElementName() + "]");
             }
 
         } else if (xmlObject instanceof ArchiveUnit) {
@@ -218,6 +203,11 @@ public class XmlEditDialog extends JDialog {
 
         xmlTextArea = new RSyntaxTextArea(20, 120);
         xmlTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
+        SyntaxScheme scheme = xmlTextArea.getSyntaxScheme();
+        scheme.getStyle(Token.MARKUP_TAG_DELIMITER).foreground = COMPOSITE_LABEL_MARKUP_COLOR;
+        scheme.getStyle(Token.MARKUP_TAG_NAME).foreground = COMPOSITE_LABEL_COLOR;
+        scheme.getStyle(Token.MARKUP_TAG_ATTRIBUTE).foreground = COMPOSITE_LABEL_MARKUP_COLOR;
+        scheme.getStyle(Token.MARKUP_TAG_ATTRIBUTE_VALUE).foreground = COMPOSITE_LABEL_ATTRIBUTE_COLOR;
         xmlTextArea.setCodeFoldingEnabled(true);
         xmlTextArea.setFont(MainWindow.DETAILS_FONT);
         xmlTextArea.setText(xmlData);
@@ -292,7 +282,7 @@ public class XmlEditDialog extends JDialog {
         actionPanel.add(indentButton, gbc);
 
         int buttonPlace = 1;
-        if ((xmlObject instanceof AddMetadataItem)||(xmlObject instanceof SEDAMetadata)) {
+        if (xmlObject instanceof SEDAMetadata) {
             final JButton cleanButton = new JButton("Nettoyer");
             cleanButton.addActionListener(arg -> buttonClean());
             gbc = new GridBagConstraints();
@@ -312,7 +302,7 @@ public class XmlEditDialog extends JDialog {
         gbc.gridx = buttonPlace++;
         actionPanel.add(saveButton, gbc);
 
-        if ((xmlObject instanceof DataObjectPackageTreeNode) || (xmlObject instanceof ArchiveUnit)) {
+        if (xmlObject instanceof ArchiveUnit) {
             final JButton canonizeButton = new JButton("Ordonner");
             canonizeButton.addActionListener(arg -> buttonCanonizeXmlEdit());
             gbc = new GridBagConstraints();
@@ -468,14 +458,7 @@ public class XmlEditDialog extends JDialog {
         try {
             String xmlDataString = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT)
                     .indentString(xmlTextArea.getText());
-            if (xmlObject instanceof DataObjectPackageTreeNode) {
-                DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) xmlObject;
-                ArchiveUnit au = node.getArchiveUnit();
-                au.fromSedaXmlFragments(xmlDataString);
-                node.setTitle(SEDAXMLEventReader.extractNamedElement("Title", xmlDataString));
-                ResipGraphicApp.getTheApp().mainWindow.updateAUMetadata(node);
-                xmlObjectResult=node;
-            } else if (xmlObject instanceof DataObject) {
+            if (xmlObject instanceof DataObject) {
                 DataObject dataObject = (DataObject) xmlObject;
                 dataObject.fromSedaXmlFragments(xmlDataString);
                 xmlObjectResult = dataObject;
