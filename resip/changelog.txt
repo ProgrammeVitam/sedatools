@@ -1,3 +1,12 @@
+Evolutions/Corrections en 1.11.0
+
+- Evolution: création de classes permettant d'éditer de manière structurée chaque type de metadonnée SEDA élémentaire
+- Evolution: création de classes permettant d'éditer de manière structurée une ComplexListType, avec imbrication graphique
+- Evolution: ajout d'une liste de tag XML à retenir lors la création des métadonnées SEDA par défaut
+- Evolution: ajout d'une liste de traduction des tag XML
+- Evolution: ajout d'une capacité de test manuel des classes d'édition structurée
+
+============================================================================
 Evolutions/Corrections en 1.10.0
 
 - Evolution: prise en compte des évolutions de mailextractlib
