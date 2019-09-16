@@ -125,7 +125,7 @@ public abstract class StoreAppointment extends StoreElement {
             if ((attachments!=null) && (!attachments.isEmpty())) {
                 ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
                         File.separator + storeFolder.storeExtractor.destName + File.separator + "appointments", "AppointmentAttachments#" + listLineId);
-                attachmentNode.addMetadata("DescriptionLevel", "RecordGroup", true);
+                attachmentNode.addMetadata("DescriptionLevel", "RecordGrp", true);
                 attachmentNode.addMetadata("Title", "Appointment Attachments #" + listLineId, true);
                 attachmentNode.addMetadata("Description", "Appointment attachments extracted for " + subject + "[" + startTime + "-" + endTime + "]", true);
                 attachmentNode.addMetadata("StartDate", getDateInUTCTimeZone(startTime), true);
