@@ -213,8 +213,14 @@ abstract public class MetadataEditor {
     static SEDAMetadata getEmptySameMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
         Constructor<?> cons = null;
         try {
-            cons = sedaMetadata.getClass().getConstructor();
-            sedaMetadata = (SEDAMetadata) cons.newInstance();
+            if (sedaMetadata.getClass().getName().contains("namedtype")) {
+                cons = sedaMetadata.getClass().getConstructor(String.class);
+                sedaMetadata = (SEDAMetadata) cons.newInstance(sedaMetadata.getXmlElementName());
+            }
+            else {
+                cons = sedaMetadata.getClass().getConstructor();
+                sedaMetadata = (SEDAMetadata) cons.newInstance();
+            }
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
             throw new SEDALibException("Pas de constructeur vide pour la métadonnée de type [" + sedaMetadata.getClass() + "]", e);
         } catch (InvocationTargetException e) {

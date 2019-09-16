@@ -69,7 +69,7 @@ public class MetadataEditorConstants {
         minimalTagList.add("Identifier");
         minimalTagList.add("FirstName");
         minimalTagList.add("BirthName");
-        minimalTagList.add("Adress");
+        minimalTagList.add("Address");
         minimalTagList.add("PostalCode");
         minimalTagList.add("City");
         minimalTagList.add("Region");
