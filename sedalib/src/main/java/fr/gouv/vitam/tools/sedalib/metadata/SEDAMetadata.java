@@ -28,6 +28,13 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateTimeType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -47,6 +54,14 @@ import java.util.LinkedHashMap;
  * <p>
  * Abstract class for SEDA element metadata.
  */
+//used for only json saved SEDAMetadata
+//FileInfo
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({ @JsonSubTypes.Type(value = FileInfo.class, name = "FileInfo"),
+        @JsonSubTypes.Type(value = StringType.class, name = "StringType"),
+        @JsonSubTypes.Type(value = TextType.class, name = "TextType"),
+        @JsonSubTypes.Type(value = DateTimeType.class, name = "DateTimeType"),
+        @JsonSubTypes.Type(value = DateType.class, name = "DateType")})
 public abstract class SEDAMetadata {
 
     /**

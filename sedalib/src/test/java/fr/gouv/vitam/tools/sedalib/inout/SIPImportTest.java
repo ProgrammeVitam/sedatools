@@ -60,30 +60,40 @@ public class SIPImportTest implements UseTestFiles {
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
                 "    \"fileInfo\" : {\n" +
-                "      \"creatingApplicationName\" : \"CreatingApplicationName0\",\n" +
-                "      \"creatingApplicationVersion\" : \"CreatingApplicationVersion0\",\n" +
-                "      \"creatingOs\" : \"CreatingOs0\",\n" +
-                "      \"creatingOsVersion\" : \"CreatingOsVersion0\",\n" +
-                "      \"dateCreatedByApplication\" : {\n" +
-                "        \"chronology\" : {\n" +
-                "          \"calendarType\" : \"iso8601\",\n" +
-                "          \"id\" : \"ISO\"\n" +
-                "        },\n" +
-                "        \"dayOfMonth\" : 4,\n" +
-                "        \"dayOfWeek\" : \"THURSDAY\",\n" +
-                "        \"dayOfYear\" : 124,\n" +
-                "        \"hour\" : 18,\n" +
-                "        \"minute\" : 13,\n" +
-                "        \"month\" : \"MAY\",\n" +
-                "        \"monthValue\" : 5,\n" +
-                "        \"nano\" : 0,\n" +
-                "        \"second\" : 51,\n" +
-                "        \"year\" : 2006\n" +
-                "      },\n" +
-                "      \"filename\" : \"Montparnasse.txt\",\n" +
-                "      \"lastModified\" : 1491286026487\n" +
+                "      \"type\" : \"FileInfo\",\n" +
+                "      \"elementName\" : \"FileInfo\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"Filename\",\n" +
+                "        \"value\" : \"Montparnasse.txt\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"CreatingApplicationName\",\n" +
+                "        \"value\" : \"CreatingApplicationName0\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"CreatingApplicationVersion\",\n" +
+                "        \"value\" : \"CreatingApplicationVersion0\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"dateTimeString\" : \"2006-05-04T18:13:51Z\",\n" +
+                "        \"elementName\" : \"DateCreatedByApplication\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"CreatingOs\",\n" +
+                "        \"value\" : \"CreatingOs0\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"CreatingOsVersion\",\n" +
+                "        \"value\" : \"CreatingOsVersion0\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"dateTimeString\" : \"2017-04-04T08:07:06.487Z\",\n" +
+                "        \"elementName\" : \"LastModified\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"formatIdentification\" : {\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
                 "      \"encoding\" : null,\n" +
                 "      \"formatId\" : \"x-fmt/111\",\n" +
                 "      \"formatLitteral\" : \"Plain Text File\",\n" +
@@ -116,7 +126,7 @@ public class SIPImportTest implements UseTestFiles {
 
         DataObjectGroup og = si.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID12");
         String sog = mapper.writeValueAsString(og);
-        //System.out.println(sog);
+//        System.out.println(sog);
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*\"");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();

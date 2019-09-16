@@ -195,12 +195,18 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         if (filename == null) {
             if (path != null) {
                 this.fileInfo = new FileInfo();
-                this.fileInfo.filename = path.getFileName().toString();
+                try {
+                    this.fileInfo.addNewMetadata("Filename",path.getFileName().toString());
+                } catch (SEDALibException ignored) {
+                }
             } else
                 this.fileInfo = null;
         } else {
             this.fileInfo = new FileInfo();
-            this.fileInfo.filename = filename;
+            try {
+                this.fileInfo.addNewMetadata("Filename",filename);
+            } catch (SEDALibException ignored) {
+            }
         }
         this.metadataXmlData = null;
         this.otherMetadataXmlData = null;
@@ -319,8 +325,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         long lsize;
         FileTime llastModified;
 
-        if ((fileInfo != null) && (fileInfo.filename != null))
-            lfilename = fileInfo.filename;
+        if (fileInfo != null)
+            lfilename = fileInfo.getSimpleMetadata("Filename");
         try {
             lsize = Files.size(onDiskPath);
             if (lfilename == null)
@@ -348,9 +354,9 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
 
         if (fileInfo == null)
             fileInfo = new FileInfo();
-        if (fileInfo.filename == null)
-            fileInfo.filename = lfilename;
-        fileInfo.lastModified = llastModified;
+        if (fileInfo.getSimpleMetadata("Filename") == null)
+            fileInfo.addNewMetadata("Filename", lfilename);
+        fileInfo.addNewMetadata("LastModified", llastModified.toString());
     }
 
     /**
@@ -379,9 +385,9 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             if (fileInfo == null)
                 result += "\nPas d'éléments FileInfo";
             else {
-                result += "\nNom: " + undefined(fileInfo.filename);
-                if (fileInfo.lastModified != null)
-                    result += "\nModifié le:" + fileInfo.lastModified.toString();
+                result += "\nNom: " + undefined(fileInfo.getSimpleMetadata("Filename"));
+                if (fileInfo.getSimpleMetadata("LastModified") != null)
+                    result += "\nModifié le:" + fileInfo.getSimpleMetadata("LastModified");
             }
             if (size == -1)
                 result += "\nTaille inconnue";
@@ -432,9 +438,11 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
 //		dataObjectGroupReferenceId not used in 2.1 DataObjectGroup mode
 //		dataObjectGroupId not used in 2.1 DataObjectGroup mode
             xmlWriter.writeElementValueIfNotEmpty("DataObjectVersion", dataObjectVersion);
-            uri = "content/" + inDataPackageObjectId
-                    + (((fileInfo != null) && (fileInfo.filename != null)) ? "." + getExtension(fileInfo.filename)
-                    : "");
+            uri = "content/" + inDataPackageObjectId;
+            if (fileInfo!=null){
+                String tmp=fileInfo.getSimpleMetadata("Filename");
+                uri+= (tmp != null ? "."+ getExtension(tmp): "");
+            }
             xmlWriter.writeElementValueIfNotEmpty("Uri", uri);
             if (messageDigest != null) {
                 xmlWriter.writeStartElement("MessageDigest");

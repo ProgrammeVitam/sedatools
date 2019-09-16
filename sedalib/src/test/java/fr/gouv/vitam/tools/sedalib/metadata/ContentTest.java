@@ -923,7 +923,7 @@ class ContentTest {
                 .hasMessageContaining("Pas de constructeur"); // for GenericXMLBlock
         Event event=new Event();
         assertThatThrownBy(() -> event.addNewMetadata("EventDateTime", "Date"))
-                .hasMessageContaining("Pas de constructeur"); // for DateTimeType
+                .hasMessageContaining("Impossible de construire"); // for DateTimeType
         // Test Keyword metadata with wrong KeywordType
         assertThatThrownBy(()->c.addNewMetadata("Keyword", "TestKeywordContent", "TestKeywordReference", "notconvenient"))
                 .hasMessageContaining("Impossible de construire l'élément [Keyword]");

@@ -96,7 +96,7 @@ public class DuplicatesTableModel extends AbstractTableModel {
             case 3:
                 List<String> names = new ArrayList<String>();
                 for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
-                    names.add(bdo.fileInfo.filename);
+                    names.add(bdo.fileInfo.getSimpleMetadata("Filename"));
                 }
                 return String.join(", ", names);
             case 4:

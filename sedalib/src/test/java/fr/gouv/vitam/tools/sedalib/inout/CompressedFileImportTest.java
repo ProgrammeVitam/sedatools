@@ -77,19 +77,24 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "    \"size\" : 50651,\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
                 "      \"formatLitteral\" : \"OpenDocument Spreadsheet\",\n" +
                 "      \"mimeType\" : \"application/vnd.oasis.opendocument.spreadsheet\",\n" +
                 "      \"formatId\" : \"fmt/294\",\n" +
                 "      \"encoding\" : null\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
-                "      \"filename\" : \"201609-TdB-suivi-des-a.ods\",\n" +
-                "      \"creatingApplicationName\" : null,\n" +
-                "      \"creatingApplicationVersion\" : null,\n" +
-                "      \"dateCreatedByApplication\" : null,\n" +
-                "      \"creatingOs\" : null,\n" +
-                "      \"creatingOsVersion\" : null,\n" +
-                "      \"lastModified\" : 1567345379404\n" +
+                "      \"type\" : \"FileInfo\",\n" +
+                "      \"elementName\" : \"FileInfo\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"Filename\",\n" +
+                "        \"value\" : \"201609-TdB-suivi-des-a.ods\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"elementName\" : \"LastModified\",\n" +
+                "        \n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
                 "    \"otherMetadataXmlData\" : null,\n" +
@@ -108,19 +113,24 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "    \"size\" : 3307,\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
                 "      \"formatLitteral\" : \"Plain Text File\",\n" +
                 "      \"mimeType\" : \"text/plain\",\n" +
                 "      \"formatId\" : \"x-fmt/111\",\n" +
                 "      \"encoding\" : null\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
-                "      \"filename\" : \"201609-TdB-suivi-des-a.txt\",\n" +
-                "      \"creatingApplicationName\" : null,\n" +
-                "      \"creatingApplicationVersion\" : null,\n" +
-                "      \"dateCreatedByApplication\" : null,\n" +
-                "      \"creatingOs\" : null,\n" +
-                "      \"creatingOsVersion\" : null,\n" +
-                "      \"lastModified\" : 1567345379409\n" +
+                "      \"type\" : \"FileInfo\",\n" +
+                "      \"elementName\" : \"FileInfo\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"Filename\",\n" +
+                "        \"value\" : \"201609-TdB-suivi-des-a.txt\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"elementName\" : \"LastModified\",\n" +
+                "        \n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
                 "    \"otherMetadataXmlData\" : null,\n" +
@@ -140,22 +150,23 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "  \"logBookXmlData\" : null,\n" +
                 "  \"inDataObjectPackageId\" : \"ID16\",\n" +
                 "  \"onDiskPath\" : null\n" +
-                "}\n";
+                "}";
         DataObjectGroup og = zi.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID16");
 //		System.out.println(mapper.writeValueAsString(og));
-        String sog = mapper.writeValueAsString(og).replaceAll("\"lastModified\" : .*", "");
+        String sog = mapper.writeValueAsString(og);
+        sog = sog.replaceAll("\"dateTimeString\" : .*", "").trim();
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.1");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
         sog = TestUtilities.LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", "")).trim();
 
-        testog = testog.replaceAll("\"lastModified\" : .*", "").trim();
+        testog = testog.replaceAll("\"dateTimeString\" : .*", "").trim();
         Matcher mtestog = pog.matcher(testog);
         boolean testogpath = mtestog.find();
         testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(sogpath & testogpath);
-        assertEquals(sog, testog);
+        assertThat(sog).isEqualTo(testog);
 
         // assert one archiveUnit using serialization
         String testau = "{\n" +

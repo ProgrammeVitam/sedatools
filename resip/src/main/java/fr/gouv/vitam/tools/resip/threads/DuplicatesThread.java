@@ -148,7 +148,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                     if (binaryHash)
                         tmp += "|BDO=" + bdo.messageDigest;
                     if (binaryFilename)
-                        tmp += "|" + bdo.fileInfo.filename;
+                        tmp += "|" + bdo.fileInfo.getSimpleMetadata("Filename");
                 }
                 for (PhysicalDataObject pdo : dog.getPhysicalDataObjectList()) {
                     if (physicalAllMD)

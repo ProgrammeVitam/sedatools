@@ -489,7 +489,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     // Construct file name for Object, either uniq or in a list of different usage_version and insert id if already
     // exists.
     private String constructObjectFileName(Path auRrelativePath, BinaryDataObject bdo, boolean uniqFlag) {
-        String filename = bdo.fileInfo.filename, name, ext;
+        String filename = bdo.fileInfo.getSimpleMetadata("Filename"), name, ext;
         int point = filename.lastIndexOf('.');
         if (point == -1) {
             name = filename;

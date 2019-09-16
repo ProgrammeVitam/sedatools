@@ -53,24 +53,29 @@ class BinaryDataObjectTest {
                 "  \"size\" : 21232,\n" +
                 "  \"compressed\" : null,\n" +
                 "  \"formatIdentification\" : {\n" +
+                "    \"type\" : \"FormatIdentification\",\n" +
                 "    \"formatLitteral\" : \"Exchangeable Image File Format (Compressed)\",\n" +
                 "    \"mimeType\" : \"image/jpeg\",\n" +
                 "    \"formatId\" : \"fmt/645\",\n" +
                 "    \"encoding\" : null\n" +
                 "  },\n" +
                 "  \"fileInfo\" : {\n" +
-                "    \"filename\" : \"image001.jpg\",\n" +
-                "    \"creatingApplicationName\" : null,\n" +
-                "    \"creatingApplicationVersion\" : null,\n" +
-                "    \"dateCreatedByApplication\" : null,\n" +
-                "    \"creatingOs\" : null,\n" +
-                "    \"creatingOsVersion\" : null,\n" +
-                "    \"lastModified\" : 1535484139000\n" +
+                "    \"type\" : \"FileInfo\",\n" +
+                "    \"elementName\" : \"FileInfo\",\n" +
+                "    \"metadataList\" : [ {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"Filename\",\n" +
+                "      \"value\" : \"image001.jpg\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"DateTimeType\",\n" +
+                "      \"elementName\" : \"LastModified\",\n" +
+                "      \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
+                "    } ]\n" +
                 "  },\n" +
                 "  \"metadataXmlData\" : null,\n" +
                 "  \"otherMetadataXmlData\" : null,\n" +
                 "  \"inDataObjectPackageId\" : \"ID7\",\n" +
-                "  \"onDiskPath\" : \"C:\\\\Users\\\\jean-severin.lair\\\\intelliJGit\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSip.zip-tmpdir\\\\content\\\\ID7.jpg\"\n" +
+                "  \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSIP.zip-tmpdir\\\\content\\\\ID7.jpg\"\n" +
                 "}";
         testOut = LineEndNormalize(testOut.replaceAll("\"onDiskPath\" : .*\"", ""));
         bdoNextOut = LineEndNormalize(bdoNextOut.replaceAll("\"onDiskPath\" : .*\"", ""));
@@ -113,7 +118,7 @@ class BinaryDataObjectTest {
                 "  </FormatIdentification>\n" +
                 "  <FileInfo>\n" +
                 "    <Filename>image001.jpg</Filename>\n" +
-                "    <LastModified>2018-08-28T19:22:19Z</LastModified>\n" +
+                "    <LastModified>2018-08-28T19:22:19</LastModified>\n" +
                 "  </FileInfo>";
         testOut = LineEndNormalize(testOut);
         bdoNextOut = LineEndNormalize(bdoNextOut);

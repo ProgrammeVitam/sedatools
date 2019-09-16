@@ -892,7 +892,7 @@ public class DiskToDataObjectPackageImporter {
 
         inCounter = 0;
         for (Map.Entry<String, BinaryDataObject> pair : dataObjectPackage.getBdoInDataObjectPackageIdMap().entrySet()) {
-            if (pair.getValue().fileInfo.lastModified == null)
+            if (pair.getValue().fileInfo.getSimpleMetadata("LastModified") == null)
                 pair.getValue().extractTechnicalElements(sedaLibProgressLogger);
             inCounter++;
             doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, inCounter, "sedalib: " + inCounter +

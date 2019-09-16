@@ -1,9 +1,8 @@
 package fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents;
 
-import fr.gouv.vitam.tools.resip.metadataeditor.ComplexListTypeEditor;
+import fr.gouv.vitam.tools.resip.metadataeditor.composite.CompositeEditor;
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants;
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
@@ -16,7 +15,7 @@ import java.util.Map;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
-public class MetadataEditorCompositePanel extends MetadataEditorPanel {
+public class CompositeEditorPanel extends MetadataEditorPanel {
     int metadataPanelCount;
 
     JTextField summary;
@@ -27,9 +26,9 @@ public class MetadataEditorCompositePanel extends MetadataEditorPanel {
 
     HashMap<MetadataEditorPanel, GridBagConstraints> metadataEditorPanelConstraints;
 
-    public MetadataEditorCompositePanel(MetadataEditor metadataEditor) throws SEDALibException {
+    public CompositeEditorPanel(MetadataEditor metadataEditor) throws SEDALibException {
         super(metadataEditor);
-        final MetadataEditorCompositePanel thisPanel = this;
+        final CompositeEditorPanel thisPanel = this;
         this.metadataPanelCount = 2;
         this.metadataEditorPanelConstraints = new HashMap<MetadataEditorPanel, GridBagConstraints>();
         GridBagLayout gbl = new GridBagLayout();
@@ -106,7 +105,7 @@ public class MetadataEditorCompositePanel extends MetadataEditorPanel {
             }
 
             addMenu = new ExtensionButton(() -> {
-                return ((ComplexListTypeEditor) metadataEditor).getExtensionList();
+                return ((CompositeEditor) metadataEditor).getExtensionList();
             }, (ActionEvent arg) -> {
                 doExtend(metadataEditor, arg);
             });
@@ -222,9 +221,9 @@ public class MetadataEditorCompositePanel extends MetadataEditorPanel {
 
     public static void doExtend(MetadataEditor metadataEditor, ActionEvent event) {
         try {
-            ((ComplexListTypeEditor) metadataEditor).addChild(event.getActionCommand());
-            ((ComplexListTypeEditor) metadataEditor).getMetadataEditorPanelTopParent().revalidate();
-            ((ComplexListTypeEditor) metadataEditor).getMetadataEditorPanelTopParent().repaint();
+            ((CompositeEditor) metadataEditor).addChild(event.getActionCommand());
+            metadataEditor.getMetadataEditorPanelTopParent().revalidate();
+            metadataEditor.getMetadataEditorPanelTopParent().repaint();
         } catch (SEDALibException ignored) {
         }
     }

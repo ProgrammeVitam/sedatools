@@ -9,7 +9,7 @@
  * <p>
  * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
  * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
- * circulated by CEA, CNRS and INRIA archiveDeliveryRequestReply the following URL "http://www.cecill.info".
+ * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
  * <p>
  * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
  * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
@@ -25,32 +25,25 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
+package fr.gouv.vitam.tools.resip.metadataeditor.composite;
 
+import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.CompositeEditorPanel;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorPanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.apache.commons.lang3.tuple.Pair;
 
-public abstract class NamedTypeMetadata extends SEDAMetadata {
+import java.util.ArrayList;
+import java.util.List;
 
-    public String elementName;
+/**
+ * The composite metadata editor interface for CompositeEditorPanel.
+ */
+public interface CompositeEditor {
+    public List<Pair<String,String>> getExtensionList() throws SEDALibException;
 
-    /**
-     * Instantiates a named type SEDAMetadata (for json serialization).
-     */
-    public NamedTypeMetadata() {
-        this.elementName = null;
-    }
+    public void removeChild(MetadataEditor metadataEditor) throws SEDALibException;
 
-    /**
-     * Instantiates a named type SEDAMetadata.
-     *
-     * @param elementName the XML element name
-     */
-    public NamedTypeMetadata(String elementName) {
-        this.elementName = elementName;
-    }
-
-    @Override
-    public String getXmlElementName() {
-        return elementName;
-    }
+    public void addChild(String metadataName) throws SEDALibException;
 }

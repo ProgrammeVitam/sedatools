@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Gps;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -437,6 +438,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * @return the metadata ordered list
      * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
+    @JsonIgnore
     public List<String> getMetadataOrderedList() throws SEDALibException {
         List<String> metadataOrderedList = subTypeMetadataOrderedListMap.get(this.getClass());
         if (metadataOrderedList == null) {
@@ -453,6 +455,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * @return the metadata map
      * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
+    @JsonIgnore
     public HashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
         HashMap<String, ComplexListMetadataKind> metadataMap = subTypeMetadataMapMap.get(this.getClass());
         if (metadataMap == null) {
@@ -480,6 +483,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * @return true, if is not expendable
      * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
+    @JsonIgnore
     public boolean isNotExpendable() throws SEDALibException {
         Boolean isNotExpandable = subTypeNotExpandableMap.get(this.getClass());
         if (isNotExpandable == null) {

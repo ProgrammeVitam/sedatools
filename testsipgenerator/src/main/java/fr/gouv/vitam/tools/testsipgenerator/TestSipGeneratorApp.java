@@ -389,8 +389,8 @@ public class TestSipGeneratorApp {
             bdo.formatIdentification = new FormatIdentification("Unknown", null, null, null);
 
         bdo.fileInfo = new FileInfo();
-        bdo.fileInfo.filename = lfilename;
-        bdo.fileInfo.lastModified = llastModified;
+        bdo.fileInfo.addNewMetadata("Filename", lfilename);
+        bdo.fileInfo.addNewMetadata("LastModified", llastModified.toString());
     }
 
     /**

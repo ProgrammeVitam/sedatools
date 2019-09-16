@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
 import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorPanel;
+import fr.gouv.vitam.tools.resip.metadataeditor.composite.ComplexListTypeEditor;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -45,7 +46,7 @@ abstract public class MetadataEditor {
     /**
      * The metadata.
      */
-    protected SEDAMetadata metadata;
+    public SEDAMetadata metadata;
 
     /**
      * The metadata editor father if any.
@@ -210,7 +211,7 @@ abstract public class MetadataEditor {
         return createMetadataEditor(createMetadataSample(simpleMetadataType, elementName, minimal), father);
     }
 
-    static SEDAMetadata getEmptySameMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
+    static public SEDAMetadata getEmptySameMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
         Constructor<?> cons = null;
         try {
             if (sedaMetadata.getClass().getName().contains("namedtype")) {

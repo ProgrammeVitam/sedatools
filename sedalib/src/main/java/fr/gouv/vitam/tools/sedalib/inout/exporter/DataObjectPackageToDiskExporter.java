@@ -157,8 +157,8 @@ public class DataObjectPackageToDiskExporter {
      */
     private String constructFileName(BinaryDataObject binaryDataObject) {
         String result = "__" + binaryDataObject.dataObjectVersion + "__";
-        if ((binaryDataObject.fileInfo != null) && (binaryDataObject.fileInfo.filename != null)) {
-            result += binaryDataObject.fileInfo.filename;
+        if ((binaryDataObject.fileInfo != null) && (binaryDataObject.fileInfo.getSimpleMetadata("Filename") != null)) {
+            result += binaryDataObject.fileInfo.getSimpleMetadata("Filename");
         } else
             result += "NoName";
         return stripFileName(result);

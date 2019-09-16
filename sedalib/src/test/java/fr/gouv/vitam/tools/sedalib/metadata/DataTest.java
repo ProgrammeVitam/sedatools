@@ -36,7 +36,7 @@ class DataTest {
                 "  <DateCreatedByApplication>2006-05-04T18:13:51</DateCreatedByApplication>\n"+
                 "  <CreatingOs>TestCreatingOs</CreatingOs>\n" +
                 "  <CreatingOsVersion>TestCreatingOsVersion</CreatingOsVersion>\n" +
-                "  <LastModified>1970-01-01T00:00:00Z</LastModified>\n" +
+                "  <LastModified>1970-01-01T00:00:00</LastModified>\n" +
                 "</FileInfo>";
         assertThat(fiNextOut).isEqualTo(testOut);
     }

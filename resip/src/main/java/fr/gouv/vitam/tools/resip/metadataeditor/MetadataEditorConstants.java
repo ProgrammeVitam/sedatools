@@ -11,10 +11,10 @@ public class MetadataEditorConstants {
     /**
      * The Type extra information map.
      */
-    static HashMap<String, String> typeExtraInformationMap;
-    static List<String> minimalTagList;
-    static List<String> largeAreaTagList;
-    static HashMap<String, String> translateMap;
+    static public HashMap<String, String> typeExtraInformationMap;
+    static public List<String> minimalTagList;
+    static public List<String> largeAreaTagList;
+    static public HashMap<String, String> translateMap;
 
 
     static {

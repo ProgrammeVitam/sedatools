@@ -1,5 +1,7 @@
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
+import fr.gouv.vitam.tools.resip.metadataeditor.composite.ComplexListTypeEditor;
+
 import javax.swing.*;
 import java.awt.*;
 

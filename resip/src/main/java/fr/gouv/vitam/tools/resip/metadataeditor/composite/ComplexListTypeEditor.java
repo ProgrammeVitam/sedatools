@@ -25,17 +25,17 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.metadataeditor;
+package fr.gouv.vitam.tools.resip.metadataeditor.composite;
 
-import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorCompositePanel;
+import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
+import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.CompositeEditorPanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,7 @@ import java.util.List;
 /**
  * The StringType metadata editor class.
  */
-public class ComplexListTypeEditor extends MetadataEditor {
+public class ComplexListTypeEditor extends MetadataEditor implements CompositeEditor {
 
     /**
      * The metadata edition graphic component
@@ -112,11 +112,11 @@ public class ComplexListTypeEditor extends MetadataEditor {
 
     public void createMetadataEditorPanel() throws SEDALibException {
         this.metadataEditorList = new ArrayList<MetadataEditor>();
-        this.metadataEditorPanel = new MetadataEditorCompositePanel(this);
+        this.metadataEditorPanel = new CompositeEditorPanel(this);
         for (SEDAMetadata detail : getComplexListTypeMetadata().metadataList) {
             MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(detail, this);
             metadataEditorList.add(metadataEditor);
-            ((MetadataEditorCompositePanel) metadataEditorPanel).addMetadataEditorPanel(metadataEditor.getMetadataEditorPanel());
+            ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(metadataEditor.getMetadataEditorPanel());
         }
     }
 
@@ -137,7 +137,7 @@ public class ComplexListTypeEditor extends MetadataEditor {
         if (metadataEditorPanel == null)
             createMetadataEditorPanel();
         if (!inner)
-            ((MetadataEditorCompositePanel) metadataEditorPanel).setExtended(extended);
+            ((CompositeEditorPanel) metadataEditorPanel).setExtended(extended);
         for (MetadataEditor metadataEditor : metadataEditorList)
             if (metadataEditor instanceof ComplexListTypeEditor)
                 ((ComplexListTypeEditor) metadataEditor).setExtended(extended, inner);
@@ -164,7 +164,7 @@ public class ComplexListTypeEditor extends MetadataEditor {
 
     public void removeChild(MetadataEditor metadataEditor) throws SEDALibException {
         metadataEditorList.remove(metadataEditor);
-        ((MetadataEditorCompositePanel)getMetadataEditorPanel()).removeMetadataEditorPanel(metadataEditor.getMetadataEditorPanel());
+        ((CompositeEditorPanel)getMetadataEditorPanel()).removeMetadataEditorPanel(metadataEditor.getMetadataEditorPanel());
     }
 
     private int getInsertionMetadataEditorIndex(String metadataName) throws SEDALibException {
@@ -204,6 +204,6 @@ public class ComplexListTypeEditor extends MetadataEditor {
         MetadataEditor addedMetadataEditor = createMetadataEditor(sedaMetadata, this);
         metadataEditorList.add(insertionMetadataEditorIndex,
                 addedMetadataEditor);
-        ((MetadataEditorCompositePanel) metadataEditorPanel).addMetadataEditorPanel(insertionMetadataEditorIndex,addedMetadataEditor.getMetadataEditorPanel());
+        ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(insertionMetadataEditorIndex,addedMetadataEditor.getMetadataEditorPanel());
     }
 }
