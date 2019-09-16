@@ -66,7 +66,8 @@ public class RuleEditor extends MetadataEditor {
     }
 
     public String getSummary() throws SEDALibException {
-        return getRuleMetadata().getRuleID() + (getRuleMetadata().getStartDate() == null ? "" : ", " + getRuleMetadata().getStartDate());
+        LocalDate tmp=startDatePicker.getDate();
+        return ruleIDTextField.getText() + (tmp == null ? "" : ", " + tmp);
     }
 
     static public SEDAMetadata getSample(String elementName) throws SEDALibException {

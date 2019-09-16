@@ -35,6 +35,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -64,8 +65,9 @@ public class DateTimeTypeEditor extends MetadataEditor{
     }
 
     public String getSummary() throws SEDALibException {
-        if (getDateTimeTypeMetadata().getValue()!=null)
-        return getDateTimeTypeMetadata().getValue().toString();
+        LocalDateTime tmp=dateTimePicker.getDateTimeStrict();
+        if (tmp!=null)
+            return tmp.toString();
         return "";
     }
 

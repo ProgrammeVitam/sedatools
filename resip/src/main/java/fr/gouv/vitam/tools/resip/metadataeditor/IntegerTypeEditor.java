@@ -59,12 +59,12 @@ public class IntegerTypeEditor extends MetadataEditor{
 
 
     public SEDAMetadata extractMetadata() throws SEDALibException{
-        getIntegerTypeMetadata().setValue(Integer.parseInt(metadataTextField.getText()));
+        getIntegerTypeMetadata().setValue(Long.parseLong(metadataTextField.getText()));
         return metadata;
     }
 
     public String getSummary() throws SEDALibException {
-        return Long.toString(getIntegerTypeMetadata().getValue());
+        return metadataTextField.getText();
     }
 
     static public SEDAMetadata getSample(String elementName) throws SEDALibException {

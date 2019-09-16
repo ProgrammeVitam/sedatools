@@ -62,7 +62,7 @@ public class DescriptionLevelEditor extends MetadataEditor{
     }
 
     public String getSummary() throws SEDALibException {
-        return getDescriptionLevelMetadata().getValue();
+        return (String)(metadataComboBox.getSelectedItem());
     }
 
     static public SEDAMetadata getSample(String elementName) throws SEDALibException {

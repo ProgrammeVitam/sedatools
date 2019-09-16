@@ -62,7 +62,7 @@ public class AnyXMLTypeEditor extends MetadataEditor{
     }
 
     public String getSummary() throws SEDALibException {
-        return getAnyXMLTypeMetadata().getRawXml();
+        return metadataTextArea.getText();
     }
 
     static public SEDAMetadata getSample(String elementName) throws SEDALibException {

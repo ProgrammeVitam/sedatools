@@ -177,15 +177,12 @@ public class InnerStructuredArchiveUnitEditorPanel extends ScrollablePanel {
             MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(sedaMetadata, null);
             switch (event.getActionCommand()) {
                 case "Content":
-                    archiveUnit.setContent((Content) sedaMetadata);
                     addMetadataEditorPanel(metadataEditor.getMetadataEditorPanel(), 0);
                     break;
                 case "Management":
-                    archiveUnit.setManagement((Management) sedaMetadata);
                     addMetadataEditorPanel(metadataEditor.getMetadataEditorPanel(), 1);
                     break;
                 case "ArchiveUnitProfile":
-                    archiveUnit.setArchiveUnitProfile((ArchiveUnitProfile) sedaMetadata);
                     addMetadataEditorPanel(metadataEditor.getMetadataEditorPanel(), 2);
                     break;
             }

@@ -77,9 +77,9 @@ public class DigestTypeEditor extends MetadataEditor {
 
     public String getSummary() throws SEDALibException {
         String result="";
-        if ((getDigestTypeMetadata().getAlgorithm()!=null) && !getDigestTypeMetadata().getAlgorithm().isEmpty())
-            result="("+getDigestTypeMetadata().getAlgorithm()+")";
-        return result+getDigestTypeMetadata().getValue();
+        if ((metadataAttributeTextField.getText()!=null) && !metadataAttributeTextField.getText().isEmpty())
+            result="("+metadataAttributeTextField.getText()+")";
+        return result+metadataTextField.getText();
     }
 
     /**

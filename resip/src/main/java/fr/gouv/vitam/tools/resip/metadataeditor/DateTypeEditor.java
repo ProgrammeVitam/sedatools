@@ -40,7 +40,7 @@ import java.time.LocalDate;
 /**
  * The StringType metadata editor class.
  */
-public class DateTypeEditor extends MetadataEditor{
+public class DateTypeEditor extends MetadataEditor {
 
     /**
      * The metadata edition graphic component
@@ -58,14 +58,15 @@ public class DateTypeEditor extends MetadataEditor{
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException{
+    public SEDAMetadata extractMetadata() throws SEDALibException {
         getDateTypeMetadata().setValue(datePicker.getDate());
         return metadata;
     }
 
     public String getSummary() throws SEDALibException {
-        if (getDateTypeMetadata().getValue()!=null)
-        return getDateTypeMetadata().getValue().toString();
+        LocalDate tmp = getDateTypeMetadata().getValue();
+        if (tmp != null)
+            return tmp.toString();
         return "";
     }
 
@@ -78,7 +79,7 @@ public class DateTypeEditor extends MetadataEditor{
     }
 
     public void createMetadataEditorPanel() throws SEDALibException {
-        JPanel labelPanel= new JPanel();
+        JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         gbl.columnWidths = new int[]{0};
         gbl.rowHeights = new int[]{0};
@@ -86,7 +87,7 @@ public class DateTypeEditor extends MetadataEditor{
         gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(metadata.getXmlElementName())+" :");
+        JLabel label = new JLabel(translate(metadata.getXmlElementName()) + " :");
         label.setToolTipText(metadata.getXmlElementName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -96,7 +97,7 @@ public class DateTypeEditor extends MetadataEditor{
         gbc.gridy = 0;
         labelPanel.add(label, gbc);
 
-        JPanel editPanel= new JPanel();
+        JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
         gbl.columnWidths = new int[]{0};
         gbl.rowHeights = new int[]{0};
@@ -114,7 +115,7 @@ public class DateTypeEditor extends MetadataEditor{
         gbc.gridy = 0;
         editPanel.add(datePicker, gbc);
 
-        this.datePicker=datePicker;
-        this.metadataEditorPanel=new MetadataEditorSimplePanel(this,labelPanel,editPanel);
+        this.datePicker = datePicker;
+        this.metadataEditorPanel = new MetadataEditorSimplePanel(this, labelPanel, editPanel);
     }
 }

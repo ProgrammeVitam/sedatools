@@ -62,7 +62,7 @@ public class ArchiveUnitProfileEditor extends MetadataEditor{
     }
 
     public String getSummary() throws SEDALibException {
-        return getArchiveUnitProfileMetadata().getValue();
+        return metadataTextField.getText();
     }
 
     static public SEDAMetadata getSample(String elementName) throws SEDALibException {

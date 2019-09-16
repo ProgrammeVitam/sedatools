@@ -199,7 +199,6 @@ public class MetadataEditorCompositePanel extends MetadataEditorPanel {
             summary.setVisible(true);
             addMenu.setVisible(false);
             try {
-                SEDAMetadata metadata = metadataEditor.extractMetadata();
                 summary.setText(metadataEditor.getSummary());
             } catch (SEDALibException e) {
                 summary.setText("Extraction de la métadonnée impossible");

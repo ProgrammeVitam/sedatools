@@ -62,7 +62,7 @@ public class KeywordTypeEditor extends MetadataEditor{
     }
 
     public String getSummary() throws SEDALibException {
-        return getKeywordTypeMetadata().getValue();
+        return (String)(metadataComboBox.getSelectedItem());
     }
 
     static public SEDAMetadata getSample(String elementName) throws SEDALibException {

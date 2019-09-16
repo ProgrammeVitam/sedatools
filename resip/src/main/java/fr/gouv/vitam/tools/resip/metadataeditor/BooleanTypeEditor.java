@@ -57,13 +57,16 @@ public class BooleanTypeEditor extends MetadataEditor {
 
 
     public SEDAMetadata extractMetadata() throws SEDALibException {
-        getBooleanTypeMetadata().setValue(metadataCheckBox.isSelected());
+        if (metadataCheckBox.getModel().isArmed() && metadataCheckBox.getModel().isPressed())
+            getBooleanTypeMetadata().setValue(null);
+        else
+            getBooleanTypeMetadata().setValue(metadataCheckBox.isSelected());
         return metadata;
     }
 
     public String getSummary() throws SEDALibException {
-        Boolean tmp = getBooleanTypeMetadata().getValue();
-        if (tmp == null)
+        Boolean tmp = metadataCheckBox.isSelected();
+        if (metadataCheckBox.getModel().isArmed() && metadataCheckBox.getModel().isPressed())
             return "";
         return tmp.toString();
     }
@@ -105,11 +108,10 @@ public class BooleanTypeEditor extends MetadataEditor {
 
         JCheckBox checkBox = new JCheckBox();
         //indeterminate
-        if (getBooleanTypeMetadata().getValue()==null){
+        if (getBooleanTypeMetadata().getValue() == null) {
             checkBox.getModel().setPressed(true);
             checkBox.getModel().setArmed(true);
-        }
-        else
+        } else
             checkBox.setSelected(getBooleanTypeMetadata().getValue());
 
         gbc = new GridBagConstraints();

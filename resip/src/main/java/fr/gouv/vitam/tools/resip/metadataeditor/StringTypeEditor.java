@@ -66,7 +66,10 @@ public class StringTypeEditor extends MetadataEditor {
     }
 
     public String getSummary() throws SEDALibException {
-        return getStringTypeMetadata().getValue();
+        if (metadataTextField!=null)
+            return metadataTextField.getText();
+        else
+            return metadataTextArea.getText();
     }
 
     static public SEDAMetadata getSample(String elementName) throws SEDALibException {

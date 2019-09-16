@@ -80,10 +80,15 @@ public class TextTypeEditor extends MetadataEditor {
     }
 
     public String getSummary() throws SEDALibException {
+        String tmp;
         String result="";
-        if ((getTextTypeMetadata().getLang()!=null) && !getTextTypeMetadata().getLang().isEmpty())
-            result="("+getTextTypeMetadata().getLang()+")";
-        return result+getTextTypeMetadata().getValue();
+        if (metadataTextField!=null)
+            tmp= metadataTextField.getText();
+        else
+            tmp= metadataTextArea.getText();
+        if ((metadataAttributeTextField.getText()!=null) && !metadataAttributeTextField.getText().isEmpty())
+            result="("+metadataAttributeTextField.getText()+")";
+        return result+tmp;
     }
 
     /**
