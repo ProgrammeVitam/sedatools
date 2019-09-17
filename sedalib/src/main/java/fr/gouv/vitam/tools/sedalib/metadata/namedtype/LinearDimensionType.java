@@ -34,62 +34,72 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
- * The Class TextType.
+ * The Class LinearDimensionType.
  * <p>
- * For abstract String formatted with optional language SEDA metadata
+ * For abstract linear dimension with unit attribute
  */
-public class TextType extends NamedTypeMetadata {
+public class LinearDimensionType extends NamedTypeMetadata {
+
+    /**
+     * Enum restricted values.
+     */
+    static public final List<String> enumValues = Arrays.asList("micrometre","4H",
+            "millimetre","MMT","centimetre","CMT","metre","inch","INH","foot","FOT");
 
     /**
      * The value.
      */
-    private String value;
+    private Double value;
 
     /**
-     * The lang.
+     * The linear measure unit.
      */
-    private String lang;
+    private String unit;
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new linear dimension with unit attribute.
      */
-    public TextType() {
+    public LinearDimensionType() throws SEDALibException {
         this(null, null, null);
     }
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new linear dimension with unit attribute.
      *
      * @param elementName the XML element name
      */
-    public TextType(String elementName) {
+    public LinearDimensionType(String elementName) throws SEDALibException {
         this(elementName, null, null);
     }
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new linear dimension with unit attribute.
      *
      * @param elementName the XML element name
      * @param value       the value
      */
-    public TextType(String elementName, String value) {
+    public LinearDimensionType(String elementName, Double value) throws SEDALibException {
         this(elementName, value, null);
     }
 
     /**
-     * Instantiates a new string with language attribute.
+     * Instantiates a new linear dimension with unit attribute.
      *
      * @param elementName the XML element name
      * @param value       the value
-     * @param lang        the language
+     * @param unit        the unit
      */
-    public TextType(String elementName, String value, String lang) {
+    public LinearDimensionType(String elementName, Double value, String unit) throws SEDALibException {
         super(elementName);
         this.value = value;
-        this.lang = lang;
+        if ((unit!=null) && !enumValues.contains(unit))
+            throw new SEDALibException("["+unit+"] n'est pas une unité de mesure linéraire");
+        this.unit = unit;
     }
 
     /*
@@ -103,12 +113,12 @@ public class TextType extends NamedTypeMetadata {
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
             xmlWriter.writeStartElement(elementName);
-            if (lang != null)
-                xmlWriter.writeAttribute("xml:lang", lang);
-            xmlWriter.writeCharactersIfNotEmpty(value);
+            if (unit != null)
+                xmlWriter.writeAttribute("unit", unit);
+            xmlWriter.writeCharactersIfNotEmpty(Double.toString(value));
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type TextType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type LinearDimensionType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -121,9 +131,9 @@ public class TextType extends NamedTypeMetadata {
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
         if (value != null) {
-            result.put("", value);
-            if (lang != null)
-                result.put("attr", "xml:lang=\""+lang+"\"");
+            result.put("", value.toString());
+            if (unit != null)
+                result.put("attr", "unit=\"" + unit + "\"");
         }
         return result;
     }
@@ -138,20 +148,20 @@ public class TextType extends NamedTypeMetadata {
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
             if (xmlReader.peekBlockIfNamed(elementName)) {
-                lang = xmlReader.peekAttribute(XMLConstants.XML_NS_URI,"lang");
+                unit = xmlReader.peekAttribute("unit");
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
-                    value = event.asCharacters().getData();
+                    value = Double.parseDouble(event.asCharacters().getData());
                     event = xmlReader.nextUsefullEvent();
                 } else
-                    value = "";
+                    value = null;
                 if ((!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
                     throw new SEDALibException("Elément " + elementName + " mal terminé");
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type TextType", e);
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type LinearDimensionType", e);
         }
         return true;
     }
@@ -159,12 +169,12 @@ public class TextType extends NamedTypeMetadata {
     // Getters and setters
 
     /**
-     * Get the lang
+     * Get the unit
      *
-     * @return the lang
+     * @return the unit
      */
-    public String getLang() {
-        return lang;
+    public String getUnit() {
+        return unit;
     }
 
     /**
@@ -172,7 +182,7 @@ public class TextType extends NamedTypeMetadata {
      *
      * @return the value
      */
-    public String getValue() {
+    public Double getValue() {
         return value;
     }
 
@@ -181,18 +191,18 @@ public class TextType extends NamedTypeMetadata {
      *
      * @param value the value
      */
-    public void setValue(String value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 
     /**
-     * Sets lang.
+     * Sets unit.
      *
-     * @param lang the lang
+     * @param unit the unit
      */
-    public void setLang(String lang) {
-        this.lang = lang;
+    public void setUnit(String unit) throws SEDALibException {
+        if ((unit!=null) && !enumValues.contains(unit))
+            throw new SEDALibException("["+unit+"] n'est pas une unité de mesure linéraire");
+        this.unit = unit;
     }
-
-
 }

@@ -2,6 +2,7 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
@@ -62,5 +63,38 @@ class DataTest {
         assertThat(fiNextOut).isEqualTo(testOut);
     }
 
+    @Test
+    void testPhysicalDimensions() throws SEDALibException {
+        // Given
+        PhysicalDimensions pd = new PhysicalDimensions();
+        pd.addNewMetadata("Width",10.0,"metre");
+        pd.addNewMetadata("Height",20.0,"centimetre");
+        pd.addNewMetadata("Depth",1000.10,"millimetre");
+        pd.addNewMetadata("Shape","rectangle");
+        pd.addNewMetadata("Diameter",1.0,"metre");
+        pd.addNewMetadata("Length",40.5,"centimetre");
+        pd.addNewMetadata("Thickness",100.0,"millimetre");
+        pd.addNewMetadata("Weight",100.0,"gram");
+        pd.addNewMetadata("NumberOfPage",123);
 
+        String pdOut = pd.toString();
+
+        // When read write in XML string format
+        PhysicalDimensions pdNext = (PhysicalDimensions) SEDAMetadata.fromString(pdOut, PhysicalDimensions.class);
+        String pdNextOut = pdNext.toString();
+
+        //Then
+        String testOut = "<PhysicalDimensions>\n" +
+                "  <Width unit=\"metre\">10.0</Width>\n" +
+                "  <Height unit=\"centimetre\">20.0</Height>\n" +
+                "  <Depth unit=\"millimetre\">1000.1</Depth>\n" +
+                "  <Shape>rectangle</Shape>\n" +
+                "  <Diameter unit=\"metre\">1.0</Diameter>\n" +
+                "  <Length unit=\"centimetre\">40.5</Length>\n" +
+                "  <Thickness unit=\"millimetre\">100.0</Thickness>\n" +
+                "  <Weight unit=\"gram\">100.0</Weight>\n" +
+                "  <NumberOfPage>123</NumberOfPage>\n" +
+                "</PhysicalDimensions>";
+        assertThat(pdNextOut).isEqualTo(testOut);
+    }
 }
