@@ -58,7 +58,11 @@ public class SIPImportTest implements UseTestFiles {
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"BinaryMaster_1\"\n" +
+                "    },\n" +
                 "    \"fileInfo\" : {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
                 "      \"elementName\" : \"FileInfo\",\n" +
@@ -94,20 +98,42 @@ public class SIPImportTest implements UseTestFiles {
                 "    },\n" +
                 "    \"formatIdentification\" : {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
-                "      \"encoding\" : null,\n" +
-                "      \"formatId\" : \"x-fmt/111\",\n" +
-                "      \"formatLitteral\" : \"Plain Text File\",\n" +
-                "      \"mimeType\" : \"text/plain\"\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"Plain Text File\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"text/plain\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"x-fmt/111\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"inDataObjectPackageId\" : \"ID13\",\n" +
-                "    \"messageDigest\" : \"86c0bc701ef6b5dd21b080bc5bb2af38097baa6237275da83a52f092c9eae3e4e4b0247391620bd732fe824d18bd3bb6c37e62ec73a8cf3585c6a799399861b1\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"algorithm\" : \"SHA-512\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"86c0bc701ef6b5dd21b080bc5bb2af38097baa6237275da83a52f092c9eae3e4e4b0247391620bd732fe824d18bd3bb6c37e62ec73a8cf3585c6a799399861b1\"\n" +
+                "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\SipOK.zip-tmpdir\\\\Content\\\\ID13.txt\",\n" +
                 "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"size\" : 6,\n" +
-                "    \"uri\" : \"Content/ID13.txt\"\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 6\n" +
+                "    },\n" +
+                "    \"uri\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"Uri\",\n" +
+                "      \"value\" : \"Content/ID13.txt\"\n" +
+                "    }\n" +
                 "  } ],\n" +
                 "  \"inDataObjectPackageId\" : \"ID12\",\n" +
                 "  \"logBookXmlData\" : null,\n" +
@@ -126,7 +152,7 @@ public class SIPImportTest implements UseTestFiles {
 
         DataObjectGroup og = si.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID12");
         String sog = mapper.writeValueAsString(og);
-//        System.out.println(sog);
+        System.out.println("Value to verify="+sog);
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*\"");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
@@ -137,7 +163,7 @@ public class SIPImportTest implements UseTestFiles {
         testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(sogpath & testogpath);
-        assertEquals(sog, testog);
+        assertThat(sog).isEqualTo(testog);
 
         // assert one archiveUnit using serialization
         String testau = "{\n" +

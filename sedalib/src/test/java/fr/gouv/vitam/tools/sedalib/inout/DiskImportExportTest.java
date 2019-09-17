@@ -68,18 +68,40 @@ public class DiskImportExportTest implements UseTestFiles {
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"BinaryMaster_1\"\n" +
+                "    },\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"size\" : 50651,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 50651\n" +
+                "    },\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
-                "      \"formatLitteral\" : \"OpenDocument Spreadsheet\",\n" +
-                "      \"mimeType\" : \"application/vnd.oasis.opendocument.spreadsheet\",\n" +
-                "      \"formatId\" : \"fmt/294\",\n" +
-                "      \"encoding\" : null\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"OpenDocument Spreadsheet\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"application/vnd.oasis.opendocument.spreadsheet\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"fmt/294\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
@@ -104,18 +126,40 @@ public class DiskImportExportTest implements UseTestFiles {
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"TextContent_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"TextContent_1\"\n" +
+                "    },\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : \"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"size\" : 3307,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 3307\n" +
+                "    },\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
-                "      \"formatLitteral\" : \"Plain Text File\",\n" +
-                "      \"mimeType\" : \"text/plain\",\n" +
-                "      \"formatId\" : \"x-fmt/111\",\n" +
-                "      \"encoding\" : null\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"Plain Text File\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"text/plain\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"x-fmt/111\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
@@ -141,7 +185,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "  \"onDiskPath\" : null\n" +
                 "}";
         DataObjectGroup og = di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID13");
-//		System.out.println(mapper.writeValueAsString(og));
+		System.out.println("Value to verify="+mapper.writeValueAsString(og));
         String sog = mapper.writeValueAsString(og).replaceAll("\"dateTimeString\" : .*", "");
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.1");
         Matcher msog = pog.matcher(sog);
@@ -154,7 +198,7 @@ public class DiskImportExportTest implements UseTestFiles {
         testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(sogpath & testogpath);
-        assertEquals(sog, testog);
+        assertThat(sog).isEqualTo(testog);
 
         // assert one archiveUnit using serialization
         String testau = "{\n" +
@@ -218,18 +262,40 @@ public class DiskImportExportTest implements UseTestFiles {
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"BinaryMaster_1\"\n" +
+                "    },\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"size\" : 21232,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 21232\n" +
+                "    },\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
-                "      \"formatLitteral\" : \"Exchangeable Image File Format (Compressed)\",\n" +
-                "      \"mimeType\" : \"image/jpeg\",\n" +
-                "      \"formatId\" : \"fmt/645\",\n" +
-                "      \"encoding\" : null\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"Exchangeable Image File Format (Compressed)\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"image/jpeg\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"fmt/645\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
@@ -256,7 +322,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "}";
 
         DataObjectGroup og = di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID12");
-//		System.out.println(mapper.writeValueAsString(og));
+		System.out.println("Value to verify="+mapper.writeValueAsString(og));
         String sog = mapper.writeValueAsString(og);
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.2");
         Matcher msog = pog.matcher(sog);

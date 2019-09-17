@@ -477,10 +477,6 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
                 xmlWriter.writeEndElement();
             }
             xmlWriter.writeEndElement();
-
-            int counter = getDataObjectPackage().getNextInOutCounter();
-            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                    "sedalib: "+ counter + " ArchiveUnit exportés");
         } catch (XMLStreamException e) {
             throw new SEDALibException(
                     "Erreur d'écriture XML de l'ArchiveUnit [" + inDataPackageObjectId + "]", e);

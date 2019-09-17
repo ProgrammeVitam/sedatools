@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -540,8 +541,8 @@ public class DiskToDataObjectPackageImporter {
             try {
                 bdo = new BinaryDataObject(dataObjectPackage, new String(Files.readAllBytes(path), "UTF-8"));
                 if (bdo.dataObjectVersion == null)
-                    bdo.dataObjectVersion = dataObjectVersion;
-                else if (!bdo.dataObjectVersion.equals(dataObjectVersion))
+                    bdo.dataObjectVersion = new StringType("DataObjectVersion",dataObjectVersion);
+                else if (!bdo.dataObjectVersion.getValue().equals(dataObjectVersion))
                     throw new SEDALibException("usage_version incomptabible entre le contenu du fichier ["
                             + path.toString() + "] et son nom");
                 dog.addDataObject(bdo);

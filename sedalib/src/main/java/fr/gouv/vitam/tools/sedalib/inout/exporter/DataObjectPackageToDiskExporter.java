@@ -99,16 +99,24 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  */
 public class DataObjectPackageToDiskExporter {
 
-    /** The Constant emptyPath. */
+    /**
+     * The Constant emptyPath.
+     */
     static final Path emptyPath = Paths.get("");
 
-    /** The archive transfer. */
+    /**
+     * The archive transfer.
+     */
     private DataObjectPackage dataObjectPackage;
 
-    /** The is windows. */
+    /**
+     * The is windows.
+     */
     private boolean isWindows;
 
-    /** The progress logger. */
+    /**
+     * The progress logger.
+     */
     private SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
@@ -121,7 +129,9 @@ public class DataObjectPackageToDiskExporter {
      */
     private HashMap<DataObjectGroup, Path> dogPathStringMap;
 
-    /** The set of all generated files paths to detect collision. */
+    /**
+     * The set of all generated files paths to detect collision.
+     */
     private Set<Path> filesPathSet;
 
     /**
@@ -141,8 +151,8 @@ public class DataObjectPackageToDiskExporter {
     /**
      * Instantiates a new DataObjectPackage to disk exporter.
      *
-     * @param dataObjectPackage the archive transfer
-     * @param sedaLibProgressLogger    the progress logger
+     * @param dataObjectPackage     the archive transfer
+     * @param sedaLibProgressLogger the progress logger
      */
     public DataObjectPackageToDiskExporter(DataObjectPackage dataObjectPackage, SEDALibProgressLogger sedaLibProgressLogger) {
         this(sedaLibProgressLogger);
@@ -156,10 +166,14 @@ public class DataObjectPackageToDiskExporter {
      * @return the file name String
      */
     private String constructFileName(BinaryDataObject binaryDataObject) {
-        String result = "__" + binaryDataObject.dataObjectVersion + "__";
-        if ((binaryDataObject.fileInfo != null) && (binaryDataObject.fileInfo.getSimpleMetadata("Filename") != null)) {
+        String result;
+        if (binaryDataObject.dataObjectVersion == null)
+            result = "__undefined__";
+        else result = "__" + binaryDataObject.dataObjectVersion.getValue() + "__";
+        if ((binaryDataObject.fileInfo != null) &&
+                (binaryDataObject.fileInfo.getSimpleMetadata("Filename") != null))
             result += binaryDataObject.fileInfo.getSimpleMetadata("Filename");
-        } else
+        else
             result += "NoName";
         return stripFileName(result);
     }
@@ -171,7 +185,11 @@ public class DataObjectPackageToDiskExporter {
      * @return the file name
      */
     private String constructMetadataFileName(BinaryDataObject binaryDataObject) {
-        String result = "__" + binaryDataObject.dataObjectVersion + "__BinaryDataObjectMetadata.xml";
+        String result;
+        if (binaryDataObject.dataObjectVersion == null)
+            result = "__undefined__BinaryDataObjectMetadata.xml";
+        else
+            result = "__" + binaryDataObject.dataObjectVersion.getValue() + "__BinaryDataObjectMetadata.xml";
         return stripFileName(result);
     }
 
@@ -182,7 +200,11 @@ public class DataObjectPackageToDiskExporter {
      * @return the file name
      */
     private String constructMetadataFileName(PhysicalDataObject physicalDataObject) {
-        String result = "__" + physicalDataObject.dataObjectVersion + "__PhysicalDataObjectMetadata.xml";
+        String result;
+        if (physicalDataObject.dataObjectVersion == null)
+            result = "__undefined__PhysicalDataObjectMetadata.xml";
+        else
+            result = "__" + physicalDataObject.dataObjectVersion + "__PhysicalDataObjectMetadata.xml";
         return stripFileName(result);
     }
 
@@ -214,9 +236,9 @@ public class DataObjectPackageToDiskExporter {
      */
     @SuppressWarnings("Annotator")
     private String stripFileName(String fileName) {
-        String filteredName= fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
-        while(filteredName.endsWith(".") || filteredName.endsWith(" "))
-            filteredName=filteredName.substring(0, filteredName.length() - 1);
+        String filteredName = fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
+        while (filteredName.endsWith(".") || filteredName.endsWith(" "))
+            filteredName = filteredName.substring(0, filteredName.length() - 1);
         return filteredName;
     }
 
@@ -383,8 +405,8 @@ public class DataObjectPackageToDiskExporter {
      * @param target        the target file or directory name
      * @param containerPath the container path
      * @param newLink       the new link
-     * @throws SEDALibException if writing has failed, this can be because the user
-     *                          rights are not high enough.
+     * @throws SEDALibException     if writing has failed, this can be because the user
+     *                              rights are not high enough.
      * @throws InterruptedException if interrupted
      */
     private void exportLink(Path target, Path containerPath, String newLink) throws SEDALibException, InterruptedException {
@@ -402,7 +424,7 @@ public class DataObjectPackageToDiskExporter {
         } catch (Exception e) {
             if (isWindows) {
                 doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS,
-                        "sedalib: la création de lien n'a pas pu avoir lieu, essai de création de raccourci sous Windows",e);
+                        "sedalib: la création de lien n'a pas pu avoir lieu, essai de création de raccourci sous Windows", e);
                 ShellLink sl = new ShellLink();
                 sl.setTarget(target.toString());
                 try {
@@ -423,7 +445,7 @@ public class DataObjectPackageToDiskExporter {
      *
      * @param dorl   the DataObjectRefList
      * @param auPath the ArchiveUnit path
-     * @throws SEDALibException if writing has failed
+     * @throws SEDALibException     if writing has failed
      * @throws InterruptedException if interrupted
      */
     private void exportDataObjectRefList(DataObjectRefList dorl, Path auPath) throws SEDALibException, InterruptedException {
@@ -487,7 +509,7 @@ public class DataObjectPackageToDiskExporter {
                 exportArchiveUnit(childAu, auPath);
 
             int counter = dataObjectPackage.getNextInOutCounter();
-            doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
+            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
                     "sedalib: " + counter + " ArchiveUnit exportées");
         }
     }

@@ -175,7 +175,8 @@ public class ExpandThread extends SwingWorker<String, String> {
 
             //TODO add preferences for compressed filename import
             String encoding;
-            if (bdoToExpand.formatIdentification.mimeType.toLowerCase().equals("application/zip"))
+            if ((bdoToExpand.formatIdentification!=null) &&
+                    (bdoToExpand.formatIdentification.getSimpleMetadata("MimeType").toLowerCase().equals("application/zip")))
                 encoding="CP850";
             else
                 encoding="UTF8";

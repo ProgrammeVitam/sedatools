@@ -96,25 +96,25 @@ public class DuplicatesTableModel extends AbstractTableModel {
             case 3:
                 List<String> names = new ArrayList<String>();
                 for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
-                    names.add(bdo.fileInfo.getSimpleMetadata("Filename"));
+                    names.add((bdo.fileInfo==null?null:bdo.fileInfo.getSimpleMetadata("Filename")));
                 }
                 return String.join(", ", names);
             case 4:
                 List<String> sizes = new ArrayList<String>();
                 for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
-                    sizes.add(String.format("%,d", bdo.size));
+                    sizes.add(String.format("%,d", (bdo.size==null?0:bdo.size.getValue())));
                 }
                 return String.join(", ", sizes);
             case 5:
                 List<String> formats = new ArrayList<String>();
                 for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
-                    formats.add(bdo.formatIdentification.formatId);
+                    formats.add((bdo.formatIdentification==null?null:bdo.formatIdentification.getSimpleMetadata("FormatId")));
                 }
                 return String.join(", ", formats);
             case 6:
                 List<String> types = new ArrayList<String>();
                 for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
-                    types.add(bdo.formatIdentification.mimeType);
+                    types.add((bdo.formatIdentification==null?null:bdo.formatIdentification.getSimpleMetadata("MimeType")));
                 }
                 return String.join(", ", types);
             default:

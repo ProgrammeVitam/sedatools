@@ -33,7 +33,7 @@ class BinaryDataObjectTest {
                 .get("ID7");
 
         String bdoOut = mapper.writeValueAsString(bdo);
-//        System.out.println("Value to verify=" + bdoOut);
+        //System.out.println("Value to verify=" + bdoOut);
 
         // When test read write in Json string format
         BinaryDataObject bdoNext = mapper.readValue(bdoOut, BinaryDataObject.class);
@@ -46,18 +46,44 @@ class BinaryDataObjectTest {
                 "  \"relationshipsXmlData\" : [ ],\n" +
                 "  \"dataObjectGroupReferenceId\" : null,\n" +
                 "  \"dataObjectGroupId\" : null,\n" +
-                "  \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
-                "  \"uri\" : \"content/ID7.jpg\",\n" +
-                "  \"messageDigest\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
-                "  \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "  \"size\" : 21232,\n" +
+                "  \"dataObjectVersion\" : {\n" +
+                "    \"type\" : \"StringType\",\n" +
+                "    \"elementName\" : \"DataObjectVersion\",\n" +
+                "    \"value\" : \"BinaryMaster_1\"\n" +
+                "  },\n" +
+                "  \"uri\" : {\n" +
+                "    \"type\" : \"StringType\",\n" +
+                "    \"elementName\" : \"Uri\",\n" +
+                "    \"value\" : \"content/ID7.jpg\"\n" +
+                "  },\n" +
+                "  \"messageDigest\" : {\n" +
+                "    \"type\" : \"DigestType\",\n" +
+                "    \"elementName\" : \"MessageDigest\",\n" +
+                "    \"value\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
+                "    \"algorithm\" : \"SHA-512\"\n" +
+                "  },\n" +
+                "  \"size\" : {\n" +
+                "    \"type\" : \"IntegerType\",\n" +
+                "    \"elementName\" : \"Size\",\n" +
+                "    \"value\" : 21232\n" +
+                "  },\n" +
                 "  \"compressed\" : null,\n" +
                 "  \"formatIdentification\" : {\n" +
                 "    \"type\" : \"FormatIdentification\",\n" +
-                "    \"formatLitteral\" : \"Exchangeable Image File Format (Compressed)\",\n" +
-                "    \"mimeType\" : \"image/jpeg\",\n" +
-                "    \"formatId\" : \"fmt/645\",\n" +
-                "    \"encoding\" : null\n" +
+                "    \"elementName\" : \"FormatIdentification\",\n" +
+                "    \"metadataList\" : [ {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"FormatLitteral\",\n" +
+                "      \"value\" : \"Exchangeable Image File Format (Compressed)\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"MimeType\",\n" +
+                "      \"value\" : \"image/jpeg\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"FormatId\",\n" +
+                "      \"value\" : \"fmt/645\"\n" +
+                "    } ]\n" +
                 "  },\n" +
                 "  \"fileInfo\" : {\n" +
                 "    \"type\" : \"FileInfo\",\n" +

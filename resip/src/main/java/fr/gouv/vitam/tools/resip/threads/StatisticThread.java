@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.resip.frame.StatisticWindow;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -90,13 +91,18 @@ public class StatisticThread extends SwingWorker<String, String> {
             sizeByCategoryMap.put("Tous formats", new ArrayList<Long>());
             int counter = 0;
             for (BinaryDataObject bdo : dataObjectPackage.getBdoInDataObjectPackageIdMap().values()) {
-                String category = findCategory(bdo.formatIdentification.formatId, formatByCatgeoryMap);
+                String category = null;
+                FormatIdentification formatIdentification = bdo.formatIdentification;
+                if (formatIdentification != null)
+                    category = findCategory(formatIdentification.getSimpleMetadata("FormatId"), formatByCatgeoryMap);
                 if (category == null) category = otherCategory;
-                if (category != null)
-                    sizeByCategoryMap.get(category).add(bdo.size);
-                sizeByCategoryMap.get("Tous formats").add(bdo.size);
+                if (bdo.size != null) {
+                    if (category != null)
+                        sizeByCategoryMap.get(category).add(bdo.size.getValue());
+                    sizeByCategoryMap.get("Tous formats").add(bdo.size.getValue());
+                }
                 counter++;
-                doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, counter,"resip: "+
+                doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, counter, "resip: " +
                         counter + " objets pris en compte dans les statistiques");
             }
             statisticDataList = sizeByCategoryMap.entrySet().stream()

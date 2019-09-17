@@ -349,7 +349,6 @@ public abstract class ComplexListType extends NamedTypeMetadata {
         Class<?> metadataClass;
         try {
             if (xmlReader.nextBlockIfNamed(elementName)) {
-                xmlReader.peekUsefullEvent();
                 String tmp = xmlReader.peekName();
                 while (tmp != null) {
                     ComplexListMetadataKind mi = getMetadataMap().get(tmp);

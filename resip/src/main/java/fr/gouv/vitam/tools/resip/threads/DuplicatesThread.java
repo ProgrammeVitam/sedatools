@@ -146,9 +146,9 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                 tmp = dog.getLogBookXmlData();
                 for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
                     if (binaryHash)
-                        tmp += "|BDO=" + bdo.messageDigest;
+                        tmp += "|BDO=" + (bdo.messageDigest==null?null:bdo.messageDigest.getValue());
                     if (binaryFilename)
-                        tmp += "|" + bdo.fileInfo.getSimpleMetadata("Filename");
+                        tmp += "|" + (bdo.fileInfo==null?null:bdo.fileInfo.getSimpleMetadata("Filename"));
                 }
                 for (PhysicalDataObject pdo : dog.getPhysicalDataObjectList()) {
                     if (physicalAllMD)

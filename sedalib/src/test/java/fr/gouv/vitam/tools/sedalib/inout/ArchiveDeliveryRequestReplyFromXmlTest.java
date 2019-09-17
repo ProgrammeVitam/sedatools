@@ -38,18 +38,44 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 				"    \"relationshipsXmlData\" : [ ],\n" +
 				"    \"dataObjectGroupReferenceId\" : null,\n" +
 				"    \"dataObjectGroupId\" : null,\n" +
-				"    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
-				"    \"uri\" : \"Content/aeaaaaaaaahph73oaa4eealgbuxxariaaaaq.pdf\",\n" +
-				"    \"messageDigest\" : \"70ed5a707d8e7f421f7821131d40878de6d081d6961a0237dc7e1d18187d891fcc36abeeeed5b58a2caf249b1300d83b6bfd19afc462db3e4b152cf86bea545e\",\n" +
-				"    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-				"    \"size\" : 33553,\n" +
+				"    \"dataObjectVersion\" : {\n" +
+				"      \"type\" : \"StringType\",\n" +
+				"      \"elementName\" : \"DataObjectVersion\",\n" +
+				"      \"value\" : \"BinaryMaster_1\"\n" +
+				"    },\n" +
+				"    \"uri\" : {\n" +
+				"      \"type\" : \"StringType\",\n" +
+				"      \"elementName\" : \"Uri\",\n" +
+				"      \"value\" : \"Content/aeaaaaaaaahph73oaa4eealgbuxxariaaaaq.pdf\"\n" +
+				"    },\n" +
+				"    \"messageDigest\" : {\n" +
+				"      \"type\" : \"DigestType\",\n" +
+				"      \"elementName\" : \"MessageDigest\",\n" +
+				"      \"value\" : \"70ed5a707d8e7f421f7821131d40878de6d081d6961a0237dc7e1d18187d891fcc36abeeeed5b58a2caf249b1300d83b6bfd19afc462db3e4b152cf86bea545e\",\n" +
+				"      \"algorithm\" : \"SHA-512\"\n" +
+				"    },\n" +
+				"    \"size\" : {\n" +
+				"      \"type\" : \"IntegerType\",\n" +
+				"      \"elementName\" : \"Size\",\n" +
+				"      \"value\" : 33553\n" +
+				"    },\n" +
 				"    \"compressed\" : null,\n" +
 				"    \"formatIdentification\" : {\n" +
 				"      \"type\" : \"FormatIdentification\",\n" +
-				"      \"formatLitteral\" : \"Acrobat PDF/A - Portable Document Format\",\n" +
-				"      \"mimeType\" : \"application/pdf\",\n" +
-				"      \"formatId\" : \"fmt/354\",\n" +
-				"      \"encoding\" : null\n" +
+				"      \"elementName\" : \"FormatIdentification\",\n" +
+				"      \"metadataList\" : [ {\n" +
+				"        \"type\" : \"StringType\",\n" +
+				"        \"elementName\" : \"FormatLitteral\",\n" +
+				"        \"value\" : \"Acrobat PDF/A - Portable Document Format\"\n" +
+				"      }, {\n" +
+				"        \"type\" : \"StringType\",\n" +
+				"        \"elementName\" : \"MimeType\",\n" +
+				"        \"value\" : \"application/pdf\"\n" +
+				"      }, {\n" +
+				"        \"type\" : \"StringType\",\n" +
+				"        \"elementName\" : \"FormatId\",\n" +
+				"        \"value\" : \"fmt/354\"\n" +
+				"      } ]\n" +
 				"    },\n" +
 				"    \"fileInfo\" : {\n" +
 				"      \"type\" : \"FileInfo\",\n" +
@@ -75,7 +101,7 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 				"  \"onDiskPath\" : null\n" +
 				"}";
 		DataObjectGroup og = si.getArchiveDeliveryRequestReply().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("aebaaaaaa4hph73oaa4eealgbuxxariaaaba");
-//		System.out.println(mapper.writeValueAsString(og));
+		//System.out.println("Value to verify="+mapper.writeValueAsString(og));
 		String sog = mapper.writeValueAsString(og);
 		sog = sog.replaceAll("\"onDiskPath\" : .*\"", "");
 		testog = testog.replaceAll("\"onDiskPath\" : .*\"", "");

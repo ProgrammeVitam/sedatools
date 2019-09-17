@@ -70,18 +70,40 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"BinaryMaster_1\"\n" +
+                "    },\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"size\" : 50651,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 50651\n" +
+                "    },\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
-                "      \"formatLitteral\" : \"OpenDocument Spreadsheet\",\n" +
-                "      \"mimeType\" : \"application/vnd.oasis.opendocument.spreadsheet\",\n" +
-                "      \"formatId\" : \"fmt/294\",\n" +
-                "      \"encoding\" : null\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"OpenDocument Spreadsheet\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"application/vnd.oasis.opendocument.spreadsheet\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"fmt/294\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
@@ -93,7 +115,7 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \n" +
+                "        \"dateTimeString\" : \"2019-09-17T21:17:01.676529Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
@@ -106,18 +128,40 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"TextContent_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"TextContent_1\"\n" +
+                "    },\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : \"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"size\" : 3307,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 3307\n" +
+                "    },\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
-                "      \"formatLitteral\" : \"Plain Text File\",\n" +
-                "      \"mimeType\" : \"text/plain\",\n" +
-                "      \"formatId\" : \"x-fmt/111\",\n" +
-                "      \"encoding\" : null\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"Plain Text File\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"text/plain\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"x-fmt/111\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
@@ -129,7 +173,7 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \n" +
+                "        \"dateTimeString\" : \"2019-09-17T21:17:01.679521Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
@@ -152,7 +196,7 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "  \"onDiskPath\" : null\n" +
                 "}";
         DataObjectGroup og = zi.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID16");
-//		System.out.println(mapper.writeValueAsString(og));
+		System.out.println("Value to verify="+mapper.writeValueAsString(og));
         String sog = mapper.writeValueAsString(og);
         sog = sog.replaceAll("\"dateTimeString\" : .*", "").trim();
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.1");

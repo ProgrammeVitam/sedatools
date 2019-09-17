@@ -89,7 +89,7 @@ public class DigestTypeEditor extends MetadataEditor {
      * @return the string type
      */
     static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new DigestType(elementName, "Hash");
+        return new DigestType(elementName, "Hash","Algo");
     }
 
     static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {

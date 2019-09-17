@@ -72,7 +72,7 @@ public class DataObjectListCellRenderer extends JLabel implements ListCellRender
 		setFont(f.deriveFont(f.getStyle() & ~Font.BOLD));
 		if (value instanceof BinaryDataObject) {
 			BinaryDataObject bdo=(BinaryDataObject)value;
-			setText(bdo.getInDataObjectPackageId()+"-bin:"+bdo.dataObjectVersion);
+			setText(bdo.getInDataObjectPackageId()+"-bin:"+(bdo.dataObjectVersion==null?null:bdo.dataObjectVersion.getValue()));
 		}
 		else if (value instanceof PhysicalDataObject) {
 			PhysicalDataObject pdo=(PhysicalDataObject)value;

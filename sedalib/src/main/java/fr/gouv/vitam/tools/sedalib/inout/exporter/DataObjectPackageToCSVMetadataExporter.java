@@ -261,8 +261,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                         ruleHeaderNames = getRuleTypeHeaderNames(headerNames, currentName + infix);
                         sortedHeaderNames.addAll(ruleHeaderNames);
                         headerNames.removeAll(ruleHeaderNames);
-                    } else
-                        if (ComplexListType.class.isAssignableFrom(metadataClass)) {
+                    } else if (ComplexListType.class.isAssignableFrom(metadataClass)) {
                         for (Map.Entry<String, ComplexListMetadataKind> e : ComplexListType.getMetadataMap(metadataClass).entrySet()) {
                             getSortedHeaderNames(sortedHeaderNames, headerNames, currentName + infix,
                                     e.getKey(), e.getValue().metadataClass);
@@ -383,12 +382,12 @@ public class DataObjectPackageToCSVMetadataExporter {
         int rank, version;
         TreeMap<Integer, BinaryDataObject> rankMap = new TreeMap<Integer, BinaryDataObject>();
         for (BinaryDataObject bdo : objectList) {
-            if ((bdo.dataObjectVersion == null) || (bdo.dataObjectVersion.isEmpty())) {
+            if ((bdo.dataObjectVersion == null) || (bdo.dataObjectVersion.getValue().isEmpty())) {
                 doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS, "Un objet binaire n'a pas d'usage_version," +
                         " il ne peut être choisi pour l'extraction", null);
                 continue;
             }
-            String[] usageVersion = bdo.dataObjectVersion.split("_");
+            String[] usageVersion = bdo.dataObjectVersion.getValue().split("_");
             switch (usageVersion[0]) {
                 case "BinaryMaster":
                     rank = 0;
@@ -489,7 +488,11 @@ public class DataObjectPackageToCSVMetadataExporter {
     // Construct file name for Object, either uniq or in a list of different usage_version and insert id if already
     // exists.
     private String constructObjectFileName(Path auRrelativePath, BinaryDataObject bdo, boolean uniqFlag) {
-        String filename = bdo.fileInfo.getSimpleMetadata("Filename"), name, ext;
+        String filename = null, name, ext;
+        if (bdo.fileInfo != null)
+            filename = bdo.fileInfo.getSimpleMetadata("Filename");
+        if (filename == null)
+            filename = "undefined";
         int point = filename.lastIndexOf('.');
         if (point == -1) {
             name = filename;
@@ -500,7 +503,11 @@ public class DataObjectPackageToCSVMetadataExporter {
         }
 
         if (!uniqFlag) {
-            String[] usageVersion = bdo.dataObjectVersion.split("_");
+            String[] usageVersion;
+            if (bdo.dataObjectVersion == null)
+                usageVersion = "undefined".split("_");
+            else
+                usageVersion = bdo.dataObjectVersion.getValue().split("_");
             String shortUsageVersion;
             if (usageVersion[0].isEmpty())
                 shortUsageVersion = "Z";
@@ -583,7 +590,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                 int l;
                 byte[] buffer = new byte[65536];
                 while ((l = fis.read(buffer)) != -1)
-                    zipOS.write(buffer,0,l);
+                    zipOS.write(buffer, 0, l);
                 zipOS.closeEntry();
             } catch (IOException e) {
                 throw new SEDALibException(

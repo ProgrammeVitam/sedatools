@@ -91,7 +91,8 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
                         if (dataObject instanceof BinaryDataObject) {
                             BinaryDataObject bdo = (BinaryDataObject) dataObject;
                             try {
-                                if (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.mimeType)) {
+                                if ((bdo.formatIdentification!=null) &&
+                                        (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.getSimpleMetadata("MimeType")))) {
                                     JPopupMenu popup = new JPopupMenu();
                                     JMenuItem mi;
                                     mi = new JMenuItem("Remplacer par le décompressé");

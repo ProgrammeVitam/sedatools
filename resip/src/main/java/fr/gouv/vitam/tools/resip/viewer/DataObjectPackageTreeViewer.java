@@ -87,7 +87,8 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                         (dog.getBinaryDataObjectList() != null) && (dog.getBinaryDataObjectList().size() == 1)) {
                     BinaryDataObject bdo = dog.getBinaryDataObjectList().get(0);
                     try {
-                        if (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.mimeType)) {
+                        if ((bdo.formatIdentification!=null) &&
+                                (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.getSimpleMetadata("MimeType")))) {
                             return bdo;
                         }
                     } catch (SEDALibException ignored) {
