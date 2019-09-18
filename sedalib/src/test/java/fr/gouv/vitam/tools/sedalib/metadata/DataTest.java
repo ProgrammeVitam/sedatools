@@ -2,6 +2,7 @@ package fr.gouv.vitam.tools.sedalib.metadata;
 
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
@@ -97,4 +98,29 @@ class DataTest {
                 "</PhysicalDimensions>";
         assertThat(pdNextOut).isEqualTo(testOut);
     }
+
+    @Test
+    void testMetadata() throws SEDALibException {
+        // Given
+        Metadata m = new Metadata();
+        m.addNewMetadata("Audio","<Codec>mp3</Codec><Volume>98</Volume>");
+        m.addNewMetadata("Quality","<Quality>bad</Quality>");
+
+        String mOut = m.toString();
+
+        // When read write in XML string format
+        Metadata mNext = (Metadata) SEDAMetadata.fromString(mOut, Metadata.class);
+        String mNextOut = mNext.toString();
+
+        //Then
+        String testOut = "<Metadata>\n" +
+                "  <Audio>\n" +
+                "    <Codec>mp3</Codec>\n" +
+                "    <Volume>98</Volume>\n" +
+                "  </Audio>\n" +
+                "  <Quality>bad</Quality>\n" +
+                "</Metadata>";
+        assertThat(mNextOut).isEqualTo(testOut);
+    }
+
 }

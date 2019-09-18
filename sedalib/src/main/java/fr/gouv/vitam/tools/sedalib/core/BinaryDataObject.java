@@ -32,6 +32,7 @@ import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
@@ -130,9 +131,9 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     public FileInfo fileInfo;
 
     /**
-     * The metadata xml element in String form.
+     * The metadata.
      */
-    public AnyXMLType metadataXmlData;
+    public Metadata metadata;
 
     /**
      * The otherMetadata xml element not supported.
@@ -205,7 +206,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             } catch (SEDALibException ignored) {
             }
         }
-        this.metadataXmlData = null;
+        this.metadata = null;
 
         if (path == null)
             this.onDiskPath = null;
@@ -411,8 +412,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
                 result += "\nPath: non défini";
             else
                 result += "\nPath: " + undefined(onDiskPath.toString());
-            if (metadataXmlData != null)
-                result += "\nMetadata:\n" + metadataXmlData.getRawXml();
+            if (metadata != null)
+                result += "\nMetadata:\n" + metadata.toString();
         } catch (Exception e) {
             return "Can't give elements-" + super.toString();
         }
@@ -460,8 +461,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
                 formatIdentification.toSedaXml(xmlWriter);
             if (fileInfo != null)
                 fileInfo.toSedaXml(xmlWriter);
-            if (metadataXmlData != null)
-                metadataXmlData.toSedaXml(xmlWriter);
+            if (metadata != null)
+                metadata.toSedaXml(xmlWriter);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
@@ -569,7 +570,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
                 nextElementName = xmlReader.peekName();
             }
             if ((nextElementName != null) && (nextElementName.equals("Metadata"))) {
-                metadataXmlData = (AnyXMLType) SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class);
+                metadata = (Metadata) SEDAMetadata.fromSedaXml(xmlReader, Metadata.class);
             }
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML", e);
@@ -677,7 +678,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         this.compressed = bdo.compressed;
         this.fileInfo = bdo.fileInfo;
         this.formatIdentification = bdo.formatIdentification;
-        this.metadataXmlData = bdo.metadataXmlData;
+        this.metadata = bdo.metadata;
     }
 
     // Getters and setters

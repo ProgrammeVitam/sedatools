@@ -98,10 +98,38 @@ class BinaryDataObjectTest {
                 "      \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
                 "    } ]\n" +
                 "  },\n" +
-                "  \"metadataXmlData\":{\n" +
-                "    \"type\":\"AnyXMLType\",\n" +
-                "    \"elementName\":\"Metadata\",\n" +
-                "    \"rawXml\":\"<Metadata>          <Image>           <Dimensions>117x76</Dimensions>           <Width>117px</Width>           <Height>76px</Height>           <VerticalResolution>96ppp</VerticalResolution>           <HorizontalResolution>96ppp</HorizontalResolution>           <ColorDepth>24</ColorDepth>          </Image>        </Metadata>\"\n" +
+                "  \"metadata\" : {\n" +
+                "    \"type\" : \"Metadata\",\n" +
+                "    \"elementName\" : \"Metadata\",\n" +
+                "    \"metadataList\" : [ {\n" +
+                "      \"type\" : \"AnyXMLListType\",\n" +
+                "      \"elementName\" : \"Image\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"Dimensions\",\n" +
+                "        \"rawXml\" : \"<Dimensions>117x76</Dimensions>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"Width\",\n" +
+                "        \"rawXml\" : \"<Width>117px</Width>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"Height\",\n" +
+                "        \"rawXml\" : \"<Height>76px</Height>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"VerticalResolution\",\n" +
+                "        \"rawXml\" : \"<VerticalResolution>96ppp</VerticalResolution>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"HorizontalResolution\",\n" +
+                "        \"rawXml\" : \"<HorizontalResolution>96ppp</HorizontalResolution>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"ColorDepth\",\n" +
+                "        \"rawXml\" : \"<ColorDepth>24</ColorDepth>\"\n" +
+                "      } ]\n" +
+                "    } ]\n" +
                 "  },\n" +
                 "  \"inDataObjectPackageId\" : \"ID7\",\n" +
                 "  \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSIP.zip-tmpdir\\\\content\\\\ID7.jpg\"\n" +

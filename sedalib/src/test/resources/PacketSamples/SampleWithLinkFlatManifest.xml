@@ -444,22 +444,26 @@ modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent>
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>
           <Title>^@]}êë^$£ê%ùµ_§._,;_!œŒÊ</Title>
-        </Content></ArchiveUnit>
+        </Content>
+      </ArchiveUnit>
       <ArchiveUnit id="ID37">
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>
           <Title>Node 2.2.2-1234567890-a</Title>
-        </Content></ArchiveUnit>
+        </Content>
+      </ArchiveUnit>
       <ArchiveUnit id="ID38">
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>
           <Title>Node 2.2.3-ENMAJUSCULE</Title>
-        </Content></ArchiveUnit>
+        </Content>
+      </ArchiveUnit>
       <ArchiveUnit id="ID39">
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>
           <Title>Node 2.2.4-Un                                             espace</Title>
-        </Content></ArchiveUnit>
+        </Content>
+      </ArchiveUnit>
       <ArchiveUnit id="ID40">
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>

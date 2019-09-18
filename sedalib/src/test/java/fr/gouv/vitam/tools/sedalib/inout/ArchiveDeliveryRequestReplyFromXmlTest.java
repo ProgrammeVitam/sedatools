@@ -90,7 +90,7 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 				"        \"dateTimeString\" : \"2012-10-22T11:27:14Z\"\n" +
 				"      } ]\n" +
 				"    },\n" +
-				"    \"metadataXmlData\" : null,\n" +
+				"    \"metadata\" : null,\n" +
 				"    \"inDataObjectPackageId\" : \"aeaaaaaaaahph73oaa4eealgbuxxariaaaaq\",\n" +
 				"    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestDIP.zip-tmpdir\\\\Content\\\\aeaaaaaaaahph73oaa4eealgbuxxariaaaaq.pdf\"\n" +
 				"  } ],\n" +

@@ -120,7 +120,7 @@ public class SIPImportTest implements UseTestFiles {
                 "      \"elementName\" : \"MessageDigest\",\n" +
                 "      \"value\" : \"86c0bc701ef6b5dd21b080bc5bb2af38097baa6237275da83a52f092c9eae3e4e4b0247391620bd732fe824d18bd3bb6c37e62ec73a8cf3585c6a799399861b1\"\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\SipOK.zip-tmpdir\\\\Content\\\\ID13.txt\",\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"size\" : {\n" +

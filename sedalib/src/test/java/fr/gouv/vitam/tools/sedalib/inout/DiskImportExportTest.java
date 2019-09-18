@@ -116,7 +116,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "        \"dateTimeString\" : \"2019-01-16T20:03:35.841171Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID14\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1_201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
@@ -173,7 +173,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "        \"dateTimeString\" : \"2019-01-16T20:03:35.842169Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID15\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1_201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +
@@ -308,7 +308,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "        \"dateTimeString\" : \"2019-01-16T20:03:35.698553Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID13\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithLinksModelV2\\\\Root\\\\Node 1\\\\Node 1.2\\\\__BinaryMaster_1__image001.jpg\"\n" +
                 "  } ],\n" +

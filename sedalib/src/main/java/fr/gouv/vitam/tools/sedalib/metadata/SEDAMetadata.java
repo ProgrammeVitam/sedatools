@@ -57,6 +57,8 @@ import java.util.LinkedHashMap;
 //FileInfo
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = FileInfo.class, name = "FileInfo"),
+        @JsonSubTypes.Type(value = AnyXMLListType.class, name = "AnyXMLListType"),
+        @JsonSubTypes.Type(value = AnyXMLType.class, name = "AnyXMLType"),
         @JsonSubTypes.Type(value = StringType.class, name = "StringType"),
         @JsonSubTypes.Type(value = TextType.class, name = "TextType"),
         @JsonSubTypes.Type(value = DateTimeType.class, name = "DateTimeType"),

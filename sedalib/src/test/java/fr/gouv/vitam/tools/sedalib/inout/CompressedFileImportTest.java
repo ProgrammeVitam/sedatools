@@ -118,7 +118,7 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "        \"dateTimeString\" : \"2019-09-18T20:04:20.150050Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1__201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
@@ -175,7 +175,7 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "        \"dateTimeString\" : \"2019-09-18T20:04:20.154039Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID19\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1__201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +

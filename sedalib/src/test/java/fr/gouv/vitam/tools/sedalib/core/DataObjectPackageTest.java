@@ -175,7 +175,7 @@ class DataObjectPackageTest {
                 "        \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID17.ods\"\n" +
                 "  }, {\n" +
@@ -236,7 +236,7 @@ class DataObjectPackageTest {
                 "        \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID19\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID19.txt\"\n" +
                 "  }, {\n" +
@@ -297,7 +297,7 @@ class DataObjectPackageTest {
                 "        \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID23\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID23.pdf\"\n" +
                 "  }, {\n" +
@@ -358,7 +358,7 @@ class DataObjectPackageTest {
                 "        \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID24\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID24.txt\"\n" +
                 "  }, {\n" +
@@ -419,7 +419,7 @@ class DataObjectPackageTest {
                 "        \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID200\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID200.json\"\n" +
                 "  }, {\n" +
@@ -480,7 +480,7 @@ class DataObjectPackageTest {
                 "        \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID201\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID201.json\"\n" +
                 "  } ],\n" +
