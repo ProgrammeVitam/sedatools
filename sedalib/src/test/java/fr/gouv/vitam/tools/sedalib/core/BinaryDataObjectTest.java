@@ -98,8 +98,11 @@ class BinaryDataObjectTest {
                 "      \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
                 "    } ]\n" +
                 "  },\n" +
-                "  \"metadataXmlData\" : null,\n" +
-                "  \"otherMetadataXmlData\" : null,\n" +
+                "  \"metadataXmlData\":{\n" +
+                "    \"type\":\"AnyXMLType\",\n" +
+                "    \"elementName\":\"Metadata\",\n" +
+                "    \"rawXml\":\"<Metadata>          <Image>           <Dimensions>117x76</Dimensions>           <Width>117px</Width>           <Height>76px</Height>           <VerticalResolution>96ppp</VerticalResolution>           <HorizontalResolution>96ppp</HorizontalResolution>           <ColorDepth>24</ColorDepth>          </Image>        </Metadata>\"\n" +
+                "  },\n" +
                 "  \"inDataObjectPackageId\" : \"ID7\",\n" +
                 "  \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSIP.zip-tmpdir\\\\content\\\\ID7.jpg\"\n" +
                 "}";
@@ -145,7 +148,17 @@ class BinaryDataObjectTest {
                 "  <FileInfo>\n" +
                 "    <Filename>image001.jpg</Filename>\n" +
                 "    <LastModified>2018-08-28T19:22:19</LastModified>\n" +
-                "  </FileInfo>";
+                "  </FileInfo>\n" +
+                "  <Metadata>\n" +
+                "    <Image>\n" +
+                "      <Dimensions>117x76</Dimensions>\n" +
+                "      <Width>117px</Width>\n" +
+                "      <Height>76px</Height>\n" +
+                "      <VerticalResolution>96ppp</VerticalResolution>\n" +
+                "      <HorizontalResolution>96ppp</HorizontalResolution>\n" +
+                "      <ColorDepth>24</ColorDepth>\n" +
+                "    </Image>\n" +
+                "  </Metadata>";
         testOut = LineEndNormalize(testOut);
         bdoNextOut = LineEndNormalize(bdoNextOut);
         assertThat(bdoNextOut).isEqualTo(testOut);

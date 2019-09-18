@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 //import java.io.FileOutputStream;
@@ -93,7 +94,7 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
 		generatedFlatManifest = generatedFlatManifest.substring(generatedFlatManifest.indexOf("MessageIdentifier"));
 		fileManifest = fileManifest.substring(fileManifest.indexOf("MessageIdentifier"));
 //WARNING: if Git is not set to respect LF this test will fail
-		assertEquals(LineEndNormalize(generatedFlatManifest), LineEndNormalize(fileManifest));
+		assertThat(LineEndNormalize(generatedFlatManifest)).isEqualTo(LineEndNormalize(fileManifest));
 
 		fileManifest = readFileToString("src/test/resources/PacketSamples/SampleWithLinkHierarchicalManifest.xml");
 		generatedHierarchicalManifest = generatedHierarchicalManifest

@@ -117,7 +117,6 @@ public class DiskImportExportTest implements UseTestFiles {
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID14\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1_201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
@@ -175,7 +174,6 @@ public class DiskImportExportTest implements UseTestFiles {
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID15\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1_201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +
@@ -185,7 +183,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "  \"onDiskPath\" : null\n" +
                 "}";
         DataObjectGroup og = di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID13");
-		System.out.println("Value to verify="+mapper.writeValueAsString(og));
+		//System.out.println("Value to verify="+mapper.writeValueAsString(og));
         String sog = mapper.writeValueAsString(og).replaceAll("\"dateTimeString\" : .*", "");
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.1");
         Matcher msog = pog.matcher(sog);
@@ -311,7 +309,6 @@ public class DiskImportExportTest implements UseTestFiles {
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID13\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithLinksModelV2\\\\Root\\\\Node 1\\\\Node 1.2\\\\__BinaryMaster_1__image001.jpg\"\n" +
                 "  } ],\n" +
@@ -322,7 +319,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "}";
 
         DataObjectGroup og = di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID12");
-		System.out.println("Value to verify="+mapper.writeValueAsString(og));
+		//System.out.println("Value to verify="+mapper.writeValueAsString(og));
         String sog = mapper.writeValueAsString(og);
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.2");
         Matcher msog = pog.matcher(sog);

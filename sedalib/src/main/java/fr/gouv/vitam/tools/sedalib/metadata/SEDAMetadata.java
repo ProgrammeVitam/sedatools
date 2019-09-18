@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Weight;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -60,7 +61,9 @@ import java.util.LinkedHashMap;
         @JsonSubTypes.Type(value = DateTimeType.class, name = "DateTimeType"),
         @JsonSubTypes.Type(value = DateType.class, name = "DateType"),
         @JsonSubTypes.Type(value = DigestType.class, name = "DigestType"),
-        @JsonSubTypes.Type(value = IntegerType.class, name = "IntegerType")})
+        @JsonSubTypes.Type(value = IntegerType.class, name = "IntegerType"),
+        @JsonSubTypes.Type(value = LinearDimensionType.class, name = "LinearDimensionType"),
+        @JsonSubTypes.Type(value = Weight.class, name = "Weight")})
 public abstract class SEDAMetadata {
 
     /**

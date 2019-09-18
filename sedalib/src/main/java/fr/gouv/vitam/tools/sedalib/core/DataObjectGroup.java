@@ -148,7 +148,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             if ((bdo.dataObjectVersion != null) && (bdo.dataObjectVersion.getValue().equals(dataObjectVersion)))
                 return bdo;
         for (PhysicalDataObject pdo : physicalDataObjectList)
-            if ((pdo.dataObjectVersion != null) && (pdo.dataObjectVersion.equals(dataObjectVersion)))
+            if ((pdo.dataObjectVersion != null) && (pdo.dataObjectVersion.getValue().equals(dataObjectVersion)))
                 return pdo;
         return null;
     }
@@ -273,8 +273,8 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                         case "BinaryDataObject":
                             bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, rootDir, sedaLibProgressLogger);
                             //noinspection ConstantConditions
-                            if ((bdo.getDataObjectGroupId() != null) || (bdo.getDataObjectGroupReferenceId() != null))
-                                throw new SEDALibException("Le BinaryObjectGroup [" + bdo.inDataPackageObjectId
+                            if ((bdo.dataObjectGroupId != null) || (bdo.dataObjectGroupReferenceId != null))
+                                throw new SEDALibException("Le BinaryDataObject [" + bdo.inDataPackageObjectId
                                         + "] utilise un raccordement DataObjectGroup mode SEDA2.0 "
                                         + "dans un DataObjectGroup mode SEDA2.1");
                             bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.uri.getValue());
@@ -282,6 +282,10 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                             break;
                         case "PhysicalDataObject":
                             pdo = PhysicalDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
+                            if ((pdo.dataObjectGroupId != null) || (pdo.dataObjectGroupReferenceId != null))
+                                throw new SEDALibException("Le PhysicalDataObject [" + pdo.inDataPackageObjectId
+                                        + "] utilise un raccordement DataObjectGroup mode SEDA2.0 "
+                                        + "dans un DataObjectGroup mode SEDA2.1");
                             dog.addDataObject(pdo);
                             break;
                         default:

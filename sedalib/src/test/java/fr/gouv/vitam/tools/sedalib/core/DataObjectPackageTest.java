@@ -176,7 +176,6 @@ class DataObjectPackageTest {
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID17.ods\"\n" +
                 "  }, {\n" +
@@ -238,7 +237,6 @@ class DataObjectPackageTest {
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID19\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID19.txt\"\n" +
                 "  }, {\n" +
@@ -300,7 +298,6 @@ class DataObjectPackageTest {
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID23\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID23.pdf\"\n" +
                 "  }, {\n" +
@@ -362,7 +359,6 @@ class DataObjectPackageTest {
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID24\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID24.txt\"\n" +
                 "  }, {\n" +
@@ -424,7 +420,6 @@ class DataObjectPackageTest {
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID200\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID200.json\"\n" +
                 "  }, {\n" +
@@ -486,7 +481,6 @@ class DataObjectPackageTest {
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID201\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID201.json\"\n" +
                 "  } ],\n" +
@@ -494,9 +488,49 @@ class DataObjectPackageTest {
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectVersion\" : \"PhysicalMaster_1\",\n" +
-                "    \"physicalIdXmlData\" : \"<PhysicalId>940 W</PhysicalId>\",\n" +
-                "    \"physicalDimensionsXmlData\" : \"<PhysicalDimensions>\\n          <Width unit=\\\"centimetre\\\">10</Width>\\n          <Height unit=\\\"centimetre\\\">8</Height>\\n          <Depth unit=\\\"centimetre\\\">1</Depth>\\n          <Diameter unit=\\\"centimetre\\\">0</Diameter>\\n          <Weight unit=\\\"gram\\\">59</Weight>\\n        </PhysicalDimensions>\",\n" +
+                "    \"dataObjectGroupReferenceId\" : null,\n" +
+                "    \"dataObjectGroupId\" : null,\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"PhysicalMaster_1\"\n" +
+                "    },\n" +
+                "    \"physicalId\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"PhysicalId\",\n" +
+                "      \"value\" : \"940 W\"\n" +
+                "    },\n" +
+                "    \"physicalDimensions\" : {\n" +
+                "      \"type\" : \"PhysicalDimensions\",\n" +
+                "      \"elementName\" : \"PhysicalDimensions\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Width\",\n" +
+                "        \"value\" : 10.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Height\",\n" +
+                "        \"value\" : 8.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Depth\",\n" +
+                "        \"value\" : 1.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Diameter\",\n" +
+                "        \"value\" : 0.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"Weight\",\n" +
+                "        \"elementName\" : \"Weight\",\n" +
+                "        \"value\" : 59.0,\n" +
+                "        \"unit\" : \"gram\"\n" +
+                "      } ]\n" +
+                "    },\n" +
+                "    \"otherDimensionsAbstractXml\" : [ ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID18\",\n" +
                 "    \"onDiskPath\" : null\n" +
                 "  } ],\n" +

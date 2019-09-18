@@ -135,9 +135,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     public AnyXMLType metadataXmlData;
 
     /**
-     * The other metadata xml element in String form.
+     * The otherMetadata xml element not supported.
      */
-    public AnyXMLType otherMetadataXmlData;
 
     // Inner element
     /**
@@ -207,7 +206,6 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             }
         }
         this.metadataXmlData = null;
-        this.otherMetadataXmlData = null;
 
         if (path == null)
             this.onDiskPath = null;
@@ -415,8 +413,6 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
                 result += "\nPath: " + undefined(onDiskPath.toString());
             if (metadataXmlData != null)
                 result += "\nMetadata:\n" + metadataXmlData.getRawXml();
-            if (otherMetadataXmlData != null)
-                result += "\nOtherMetadata:\n" + otherMetadataXmlData.getRawXml();
         } catch (Exception e) {
             return "Can't give elements-" + super.toString();
         }
@@ -466,8 +462,6 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
                 fileInfo.toSedaXml(xmlWriter);
             if (metadataXmlData != null)
                 metadataXmlData.toSedaXml(xmlWriter);
-            if (otherMetadataXmlData != null)
-                otherMetadataXmlData.toSedaXml(xmlWriter);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
@@ -520,7 +514,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      */
     private void setFromXmlContent(SEDAXMLEventReader xmlReader)
             throws SEDALibException {
-        String tmp, nextElementName;
+        String nextElementName;
         try {
             nextElementName = xmlReader.peekName();
             if ((nextElementName != null) && (nextElementName.equals("DataObjectSystemId"))) {
@@ -533,7 +527,6 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             }
             relationshipsXmlData = new ArrayList<>();
             while ((nextElementName != null) && (nextElementName.equals("Relationship"))) {
-                tmp = xmlReader.nextValueIfNamed("Relationship");
                 relationshipsXmlData.add((AnyXMLType) SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class));
                 nextElementName = xmlReader.peekName();
             }
@@ -577,11 +570,6 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             }
             if ((nextElementName != null) && (nextElementName.equals("Metadata"))) {
                 metadataXmlData = (AnyXMLType) SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("OtherMetadata"))) {
-                otherMetadataXmlData = (AnyXMLType) SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class);
-                nextElementName = xmlReader.peekName();
             }
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML", e);
@@ -690,32 +678,9 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         this.fileInfo = bdo.fileInfo;
         this.formatIdentification = bdo.formatIdentification;
         this.metadataXmlData = bdo.metadataXmlData;
-        this.otherMetadataXmlData = bdo.otherMetadataXmlData;
     }
 
     // Getters and setters
-
-    /**
-     * Gets the DataObjectGroup reference id.
-     *
-     * @return the DataObjectGroup reference id
-     */
-    public String getDataObjectGroupReferenceId() {
-        if (dataObjectGroupReferenceId == null)
-            return null;
-        return dataObjectGroupReferenceId.getValue();
-    }
-
-    /**
-     * Gets the DataObjectGroup id.
-     *
-     * @return the DataObjectGroup id
-     */
-    public String getDataObjectGroupId() {
-        if (dataObjectGroupId == null)
-            return null;
-        return dataObjectGroupId.getValue();
-    }
 
     /*
      * (non-Javadoc)

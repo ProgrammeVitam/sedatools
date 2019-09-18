@@ -76,7 +76,7 @@ public class DataObjectListCellRenderer extends JLabel implements ListCellRender
 		}
 		else if (value instanceof PhysicalDataObject) {
 			PhysicalDataObject pdo=(PhysicalDataObject)value;
-			setText(pdo.getInDataObjectPackageId()+"-bin:"+pdo.dataObjectVersion);
+			setText(pdo.getInDataObjectPackageId()+"-bin:"+(pdo.dataObjectVersion==null?null:pdo.dataObjectVersion.getValue()));
 		}
 		return this;
 	}

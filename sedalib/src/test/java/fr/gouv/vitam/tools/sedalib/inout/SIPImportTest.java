@@ -122,7 +122,6 @@ public class SIPImportTest implements UseTestFiles {
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\SipOK.zip-tmpdir\\\\Content\\\\ID13.txt\",\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"size\" : {\n" +
                 "      \"type\" : \"IntegerType\",\n" +
@@ -139,20 +138,50 @@ public class SIPImportTest implements UseTestFiles {
                 "  \"logBookXmlData\" : null,\n" +
                 "  \"onDiskPath\" : null,\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
+                "    \"dataObjectGroupId\" : null,\n" +
+                "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"PhysicalMaster_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"PhysicalMaster_1\"\n" +
+                "    },\n" +
                 "    \"inDataObjectPackageId\" : \"ID1000\",\n" +
                 "    \"onDiskPath\" : null,\n" +
-                "    \"physicalDimensionsXmlData\" : \"<PhysicalDimensions>\\n\\t\\t        <Height unit=\\\"centimetre\\\">21</Height>\\n\\t\\t        <Length unit=\\\"centimetre\\\">29.7</Length>\\n\\t\\t        <Weight unit=\\\"kilogram\\\">1</Weight>\\n\\t\\t    </PhysicalDimensions>\",\n" +
-                "    \"physicalIdXmlData\" : \"<PhysicalId>12345</PhysicalId>\",\n" +
+                "    \"otherDimensionsAbstractXml\" : [ ],\n" +
+                "    \"physicalDimensions\" : {\n" +
+                "      \"type\" : \"PhysicalDimensions\",\n" +
+                "      \"elementName\" : \"PhysicalDimensions\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Height\",\n" +
+                "        \"unit\" : \"centimetre\",\n" +
+                "        \"value\" : 21.0\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Length\",\n" +
+                "        \"unit\" : \"centimetre\",\n" +
+                "        \"value\" : 29.7\n" +
+                "      }, {\n" +
+                "        \"type\" : \"Weight\",\n" +
+                "        \"elementName\" : \"Weight\",\n" +
+                "        \"unit\" : \"kilogram\",\n" +
+                "        \"value\" : 1.0\n" +
+                "      } ]\n" +
+                "    },\n" +
+                "    \"physicalId\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"PhysicalId\",\n" +
+                "      \"value\" : \"12345\"\n" +
+                "    },\n" +
                 "    \"relationshipsXmlData\" : [ ]\n" +
                 "  } ]\n" +
                 "}";
 
         DataObjectGroup og = si.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID12");
         String sog = mapper.writeValueAsString(og);
-        System.out.println("Value to verify="+sog);
+        //System.out.println("Value to verify="+sog);
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*\"");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();

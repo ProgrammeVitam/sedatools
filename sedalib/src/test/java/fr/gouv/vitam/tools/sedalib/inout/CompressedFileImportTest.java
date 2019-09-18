@@ -115,11 +115,10 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \"dateTimeString\" : \"2019-09-17T21:17:01.676529Z\"\n" +
+                "        \"dateTimeString\" : \"2019-09-18T20:04:20.150050Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1__201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
@@ -173,11 +172,10 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \"dateTimeString\" : \"2019-09-17T21:17:01.679521Z\"\n" +
+                "        \"dateTimeString\" : \"2019-09-18T20:04:20.154039Z\"\n" +
                 "      } ]\n" +
                 "    },\n" +
                 "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID19\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1__201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +
@@ -185,9 +183,49 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectVersion\" : \"PhysicalMaster_1\",\n" +
-                "    \"physicalIdXmlData\" : \"<PhysicalId>940 W</PhysicalId>\",\n" +
-                "    \"physicalDimensionsXmlData\" : \"<PhysicalDimensions>\\n<Width unit=\\\"centimetre\\\">10</Width>\\n<Height unit=\\\"centimetre\\\">8</Height>\\n<Depth unit=\\\"centimetre\\\">1</Depth>\\n<Diameter unit=\\\"centimetre\\\">0</Diameter>\\n<Weight unit=\\\"gram\\\">59</Weight>\\n</PhysicalDimensions>\",\n" +
+                "    \"dataObjectGroupReferenceId\" : null,\n" +
+                "    \"dataObjectGroupId\" : null,\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"PhysicalMaster_1\"\n" +
+                "    },\n" +
+                "    \"physicalId\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"PhysicalId\",\n" +
+                "      \"value\" : \"940 W\"\n" +
+                "    },\n" +
+                "    \"physicalDimensions\" : {\n" +
+                "      \"type\" : \"PhysicalDimensions\",\n" +
+                "      \"elementName\" : \"PhysicalDimensions\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Width\",\n" +
+                "        \"value\" : 10.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Height\",\n" +
+                "        \"value\" : 8.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Depth\",\n" +
+                "        \"value\" : 1.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Diameter\",\n" +
+                "        \"value\" : 0.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"Weight\",\n" +
+                "        \"elementName\" : \"Weight\",\n" +
+                "        \"value\" : 59.0,\n" +
+                "        \"unit\" : \"gram\"\n" +
+                "      } ]\n" +
+                "    },\n" +
+                "    \"otherDimensionsAbstractXml\" : [ ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID18\",\n" +
                 "    \"onDiskPath\" : null\n" +
                 "  } ],\n" +
@@ -196,7 +234,7 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "  \"onDiskPath\" : null\n" +
                 "}";
         DataObjectGroup og = zi.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID16");
-		System.out.println("Value to verify="+mapper.writeValueAsString(og));
+		//System.out.println("Value to verify="+mapper.writeValueAsString(og));
         String sog = mapper.writeValueAsString(og);
         sog = sog.replaceAll("\"dateTimeString\" : .*", "").trim();
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.1");

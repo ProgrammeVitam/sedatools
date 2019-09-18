@@ -91,7 +91,6 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 				"      } ]\n" +
 				"    },\n" +
 				"    \"metadataXmlData\" : null,\n" +
-				"    \"otherMetadataXmlData\" : null,\n" +
 				"    \"inDataObjectPackageId\" : \"aeaaaaaaaahph73oaa4eealgbuxxariaaaaq\",\n" +
 				"    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestDIP.zip-tmpdir\\\\Content\\\\aeaaaaaaaahph73oaa4eealgbuxxariaaaaq.pdf\"\n" +
 				"  } ],\n" +

@@ -33,7 +33,7 @@ class PhysicalDataObjectTest {
                 .get("ID18");
 
         String pdoOut = mapper.writeValueAsString(pdo);
-//        System.out.println("Value to verify=" + pdoOut);
+        //System.out.println("Value to verify=" + pdoOut);
 
         // When test read write in Json string format
         PhysicalDataObject pdoNext = mapper.readValue(pdoOut, PhysicalDataObject.class);
@@ -41,14 +41,74 @@ class PhysicalDataObjectTest {
 
         // Then
         String testOut = "{\n" +
-                "\"dataObjectSystemId\":null,\n" +
-                "\"dataObjectGroupSystemId\":null,\n" +
-                "\"relationshipsXmlData\":[],\n" +
-                "\"dataObjectVersion\":\"PhysicalMaster_1\",\n" +
-                "\"physicalIdXmlData\":\"<PhysicalId>940 W</PhysicalId>\",\n" +
-                "\"physicalDimensionsXmlData\":\"<PhysicalDimensions>          <Width unit=\"centimetre\">10</Width>          <Height unit=\"centimetre\">8</Height>          <Depth unit=\"centimetre\">1</Depth>          <Diameter unit=\"centimetre\">0</Diameter>          <Weight unit=\"gram\">59</Weight>        </PhysicalDimensions>\",\n" +
-                "\"inDataObjectPackageId\":\"ID18\",\n" +
-                "\"onDiskPath\":null\n" +
+                "  \"dataObjectSystemId\" : null,\n" +
+                "  \"dataObjectGroupSystemId\" : null,\n" +
+                "  \"relationshipsXmlData\" : [ ],\n" +
+                "  \"dataObjectGroupReferenceId\" : null,\n" +
+                "  \"dataObjectGroupId\" : null,\n" +
+                "  \"dataObjectVersion\" : {\n" +
+                "    \"type\" : \"StringType\",\n" +
+                "    \"elementName\" : \"DataObjectVersion\",\n" +
+                "    \"value\" : \"PhysicalMaster_1\"\n" +
+                "  },\n" +
+                "  \"physicalId\" : {\n" +
+                "    \"type\" : \"StringType\",\n" +
+                "    \"elementName\" : \"PhysicalId\",\n" +
+                "    \"value\" : \"940 W\"\n" +
+                "  },\n" +
+                "  \"physicalDimensions\" : {\n" +
+                "    \"type\" : \"PhysicalDimensions\",\n" +
+                "    \"elementName\" : \"PhysicalDimensions\",\n" +
+                "    \"metadataList\" : [ {\n" +
+                "      \"type\" : \"LinearDimensionType\",\n" +
+                "      \"elementName\" : \"Width\",\n" +
+                "      \"value\" : 10.0,\n" +
+                "      \"unit\" : \"centimetre\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"LinearDimensionType\",\n" +
+                "      \"elementName\" : \"Height\",\n" +
+                "      \"value\" : 8.0,\n" +
+                "      \"unit\" : \"centimetre\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"LinearDimensionType\",\n" +
+                "      \"elementName\" : \"Depth\",\n" +
+                "      \"value\" : 1.0,\n" +
+                "      \"unit\" : \"centimetre\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"LinearDimensionType\",\n" +
+                "      \"elementName\" : \"Diameter\",\n" +
+                "      \"value\" : 0.0,\n" +
+                "      \"unit\" : \"centimetre\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"Weight\",\n" +
+                "      \"elementName\" : \"Weight\",\n" +
+                "      \"value\" : 59.0,\n" +
+                "      \"unit\" : \"gram\"\n" +
+                "    } ]\n" +
+                "  },\n" +
+                "  \"otherDimensionsAbstractXml\":[{\n" +
+                "    \"type\":\"AnyXMLType\",\n" +
+                "    \"elementName\":\"Extent\",\n" +
+                "    \"rawXml\":\"<Extent>1 carte imprimée</Extent>\"\n" +
+                "    },{\n" +
+                "    \"type\":\"AnyXMLType\",\n" +
+                "    \"elementName\":\"Dimensions\",\n" +
+                "    \"rawXml\":\"<Dimensions>10,5cm x 14,8cm</Dimensions>\"\n" +
+                "    },{\n" +
+                "    \"type\":\"AnyXMLType\",\n" +
+                "    \"elementName\":\"Color\",\n" +
+                "    \"rawXml\":\"<Color>Noir et blanc</Color>\"\n" +
+                "    },{\n" +
+                "    \"type\":\"AnyXMLType\",\n" +
+                "    \"elementName\":\"Framing\",\n" +
+                "    \"rawXml\":\"<Framing>Paysage</Framing>\"\n" +
+                "    },{\n" +
+                "    \"type\":\"AnyXMLType\",\n" +
+                "    \"elementName\":\"Technique\",\n" +
+                "    \"rawXml\":\"<Technique>Phototypie</Technique>\"\n" +
+                "  }],\n" +
+                "  \"inDataObjectPackageId\" : \"ID18\",\n" +
+                "  \"onDiskPath\" : null\n" +
                 "}";
         testOut = LineEndNormalize(testOut.replaceAll("\"onDiskPath\" : .*\"", ""));
         pdoNextOut = LineEndNormalize(pdoNextOut.replaceAll("\"onDiskPath\" : .*\"", ""));
@@ -80,14 +140,19 @@ class PhysicalDataObjectTest {
 
         // Then
         String testOut = "<DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
-                "<PhysicalId>940W</PhysicalId>\n" +
+                "<PhysicalId>940 W</PhysicalId>\n" +
                 "<PhysicalDimensions>\n" +
-                "<Widthunit=\"centimetre\">10</Width>\n" +
-                "<Heightunit=\"centimetre\">8</Height>\n" +
-                "<Depthunit=\"centimetre\">1</Depth>\n" +
-                "<Diameterunit=\"centimetre\">0</Diameter>\n" +
-                "<Weightunit=\"gram\">59</Weight>\n" +
-                "</PhysicalDimensions>";
+                "  <Width unit=\"centimetre\">10.0</Width>\n" +
+                "  <Height unit=\"centimetre\">8.0</Height>\n" +
+                "  <Depth unit=\"centimetre\">1.0</Depth>\n" +
+                "  <Diameter unit=\"centimetre\">0.0</Diameter>\n" +
+                "  <Weight unit=\"gram\">59.0</Weight>\n" +
+                "</PhysicalDimensions>\n" +
+                "<Extent>1carteimprimée</Extent>\n" +
+                "<Dimensions>10,5cmx14,8cm</Dimensions>\n" +
+                "<Color>Noiretblanc</Color>\n" +
+                "<Framing>Paysage</Framing>\n" +
+                "<Technique>Phototypie</Technique>";
         testOut = LineEndNormalize(testOut);
         pdoNextOut = LineEndNormalize(pdoNextOut);
         assertThat(pdoNextOut).isEqualTo(testOut);

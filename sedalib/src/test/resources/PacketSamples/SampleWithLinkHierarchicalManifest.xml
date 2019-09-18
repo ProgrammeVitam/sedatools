@@ -118,11 +118,11 @@
         <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>
         <PhysicalId>940 W</PhysicalId>
         <PhysicalDimensions>
-          <Width unit="centimetre">10</Width>
-          <Height unit="centimetre">8</Height>
-          <Depth unit="centimetre">1</Depth>
-          <Diameter unit="centimetre">0</Diameter>
-          <Weight unit="gram">59</Weight>
+          <Width unit="centimetre">10.0</Width>
+          <Height unit="centimetre">8.0</Height>
+          <Depth unit="centimetre">1.0</Depth>
+          <Diameter unit="centimetre">0.0</Diameter>
+          <Weight unit="gram">59.0</Weight>
         </PhysicalDimensions>
       </PhysicalDataObject>
     </DataObjectGroup>

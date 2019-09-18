@@ -204,7 +204,7 @@ public class DataObjectPackageToDiskExporter {
         if (physicalDataObject.dataObjectVersion == null)
             result = "__undefined__PhysicalDataObjectMetadata.xml";
         else
-            result = "__" + physicalDataObject.dataObjectVersion + "__PhysicalDataObjectMetadata.xml";
+            result = "__" + physicalDataObject.dataObjectVersion.getValue() + "__PhysicalDataObjectMetadata.xml";
         return stripFileName(result);
     }
 
