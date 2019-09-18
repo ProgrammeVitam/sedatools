@@ -534,17 +534,44 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID18\",\n" +
                 "    \"onDiskPath\" : null\n" +
                 "  } ],\n" +
-                "  \"logBookXmlData\" : null,\n" +
+                "  \"logBook\" : {\n" +
+                "    \"type\" : \"LogBook\",\n" +
+                "    \"elementName\" : \"LogBook\",\n" +
+                "    \"metadataList\" : [ {\n" +
+                "      \"type\" : \"Event\",\n" +
+                "      \"elementName\" : \"Event\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"EventIdentifier\",\n" +
+                "        \"value\" : \"event0001\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"EventDetail\",\n" +
+                "        \"value\" : \"One event\"\n" +
+                "      } ]\n" +
+                "    }, {\n" +
+                "      \"type\" : \"Event\",\n" +
+                "      \"elementName\" : \"Event\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"EventIdentifier\",\n" +
+                "        \"value\" : \"event0002\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"EventDetail\",\n" +
+                "        \"value\" : \"Two event\"\n" +
+                "      } ]\n" +
+                "    } ]\n" +
+                "  },\n" +
                 "  \"inDataObjectPackageId\" : \"ID52\",\n" +
                 "  \"onDiskPath\" : null\n" +
                 "}";
         DataObjectGroup og = si.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap()
                 .get("ID52");
-		//System.out.println("Value to verify="+mapper.writeValueAsString(og));
-        String sog = mapper.writeValueAsString(og).replaceAll("\"lastModified\" : .*", "");
+		System.out.println("Value to verify="+mapper.writeValueAsString(og));
+        String sog = mapper.writeValueAsString(og);
         sog = LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
-        testog = testog.replaceAll("\"lastModified\" : .*", "");
         testog = LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertThat(sog).isEqualTo(testog);

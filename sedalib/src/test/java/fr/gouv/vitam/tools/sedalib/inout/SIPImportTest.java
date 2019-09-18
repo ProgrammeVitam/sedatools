@@ -135,7 +135,7 @@ public class SIPImportTest implements UseTestFiles {
                 "    }\n" +
                 "  } ],\n" +
                 "  \"inDataObjectPackageId\" : \"ID12\",\n" +
-                "  \"logBookXmlData\" : null,\n" +
+                "  \"logBook\" : null,\n" +
                 "  \"onDiskPath\" : null,\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
                 "    \"dataObjectGroupId\" : null,\n" +

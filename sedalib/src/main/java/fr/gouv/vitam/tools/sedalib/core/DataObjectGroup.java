@@ -28,6 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.management.LogBook;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -63,7 +65,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
     /**
      * The LogBook xml element in String form.
      */
-    private String logBookXmlData;
+    public LogBook logBook;
 
     // Constructors
 
@@ -88,7 +90,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
         super(dataObjectPackage);
         this.binaryDataObjectList = new ArrayList<BinaryDataObject>();
         this.physicalDataObjectList = new ArrayList<PhysicalDataObject>();
-        this.logBookXmlData = null;
+        this.logBook = null;
         if (path == null)
             this.onDiskPath = null;
         else
@@ -169,31 +171,12 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             addDataObject(pdo);
         }
         // merge logbooks
-        if (isBadlyFormedLogBookXmlData())
-            throw new SEDALibException(
-                    "LogBook mal formé dans le DataObjectGroup [" + getInDataObjectPackageId() + "]");
-        if (dataObjectGroup.isBadlyFormedLogBookXmlData())
-            throw new SEDALibException(
-                    "LogBook mal formé dans le DataObjectGroup [" + dataObjectGroup.getInDataObjectPackageId() + "]");
-        if (logBookXmlData == null)
-            logBookXmlData = dataObjectGroup.logBookXmlData;
-        else if (dataObjectGroup.logBookXmlData != null) {
-            logBookXmlData = logBookXmlData.trim().substring(0, logBookXmlData.trim().length() - 9)
-                    + dataObjectGroup.logBookXmlData.trim().substring(9);
+        if (logBook == null)
+            logBook = dataObjectGroup.logBook;
+        else if (dataObjectGroup.logBook != null) {
+            logBook= (LogBook) SEDAMetadata.fromString(logBook.toString().replace("</LogBook>","")+
+                    dataObjectGroup.logBook.toString().replace("<LogBook>",""),LogBook.class);
         }
-    }
-
-    /**
-     * Is well formed LogBook xml data.
-     *
-     * @return true, if well formed
-     */
-    @JsonIgnore
-    public boolean isBadlyFormedLogBookXmlData() {
-        if (logBookXmlData == null)
-            return false;
-        String tmp = logBookXmlData.trim();
-        return !(tmp.startsWith("<LogBook>") && tmp.endsWith("</LogBook>"));
     }
 
     // SEDA XML exporter
@@ -216,7 +199,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             for (PhysicalDataObject bo : physicalDataObjectList) {
                 bo.toSedaXml(xmlWriter, sedaLibProgressLogger);
             }
-            xmlWriter.writeRawXMLBlockIfNotEmpty(logBookXmlData);
+            if (logBook!=null) logBook.toSedaXml(xmlWriter);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
@@ -231,7 +214,9 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
      */
     @Override
     public String toSedaXmlFragments() {
-        return logBookXmlData;
+        if (logBook==null)
+            return "";
+        return logBook.toString();
     }
 
     // SEDA XML importer
@@ -292,7 +277,10 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                             loop = false;
                     }
                 }
-                dog.logBookXmlData = xmlReader.nextBlockAsStringIfNamed("LogBook");
+                String nextElementName = xmlReader.peekName();
+                if ((nextElementName != null) && (nextElementName.equals("LogBook"))) {
+                    dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(xmlReader, LogBook.class);
+                }
                 xmlReader.endBlockNamed("DataObjectGroup");
             }
         } catch (XMLStreamException | SEDALibException e) {
@@ -320,12 +308,15 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();
-            dog.logBookXmlData = xmlReader.nextBlockAsStringIfNamed("LogBook");
+            String nextElementName = xmlReader.peekName();
+            if ((nextElementName != null) && (nextElementName.equals("LogBook"))) {
+                dog.logBook = (LogBook) SEDAMetadata.fromSedaXml(xmlReader, LogBook.class);
+            }
         } catch (XMLStreamException | SEDALibException | IOException e) {
             throw new SEDALibException("Erreur de lecture du DataObjectGroup", e);
         }
 
-        this.logBookXmlData = dog.logBookXmlData;
+        this.logBook = dog.logBook;
     }
 
     // Getters and setters
@@ -375,23 +366,5 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
     @JsonIgnore
     public DataObjectGroup getDataObjectGroup() {
         return this;
-    }
-
-    /**
-     * Gets the LogBook xml data.
-     *
-     * @return the LogBook xml data
-     */
-    public String getLogBookXmlData() {
-        return logBookXmlData;
-    }
-
-    /**
-     * Sets the LogBook xml data.
-     *
-     * @param logBookXmlData the new LogBook xml data
-     */
-    public void setLogBookXmlData(String logBookXmlData) {
-        this.logBookXmlData = logBookXmlData;
     }
 }

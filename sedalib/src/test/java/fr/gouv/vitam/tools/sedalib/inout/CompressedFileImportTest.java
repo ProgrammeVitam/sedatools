@@ -229,7 +229,7 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "    \"inDataObjectPackageId\" : \"ID18\",\n" +
                 "    \"onDiskPath\" : null\n" +
                 "  } ],\n" +
-                "  \"logBookXmlData\" : null,\n" +
+                "  \"logBook\" : null,\n" +
                 "  \"inDataObjectPackageId\" : \"ID16\",\n" +
                 "  \"onDiskPath\" : null\n" +
                 "}";

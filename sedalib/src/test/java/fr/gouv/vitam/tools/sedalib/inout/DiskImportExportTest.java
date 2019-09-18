@@ -178,7 +178,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1_201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ ],\n" +
-                "  \"logBookXmlData\" : null,\n" +
+                "  \"logBook\" : null,\n" +
                 "  \"inDataObjectPackageId\" : \"ID13\",\n" +
                 "  \"onDiskPath\" : null\n" +
                 "}";
@@ -313,7 +313,7 @@ public class DiskImportExportTest implements UseTestFiles {
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithLinksModelV2\\\\Root\\\\Node 1\\\\Node 1.2\\\\__BinaryMaster_1__image001.jpg\"\n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ ],\n" +
-                "  \"logBookXmlData\" : null,\n" +
+                "  \"logBook\" : null,\n" +
                 "  \"inDataObjectPackageId\" : \"ID12\",\n" +
                 "  \"onDiskPath\" : null\n" +
                 "}";

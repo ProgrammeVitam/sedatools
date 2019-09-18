@@ -677,9 +677,6 @@ public class DataObjectPackage {
                 if (zdo instanceof DataObjectGroup) {
                     if (getTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId()) > 1)
                         referencedDog = true;
-                    if (((DataObjectGroup) zdo).isBadlyFormedLogBookXmlData())
-                        throw new SEDALibException(
-                                "LogBook mal formé dans le DataObjectGroup [" + zdo.getInDataObjectPackageId() + "]");
                 }
             }
             if (referencedDog && (dorl.getCount() > 1))
