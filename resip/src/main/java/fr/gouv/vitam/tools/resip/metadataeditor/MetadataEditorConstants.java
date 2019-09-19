@@ -258,10 +258,37 @@ public class MetadataEditorConstants {
         translateMap.put("MetadataName", "Nom de métadonnée");
         translateMap.put("MetadataValue", "Valeur de métadonnée");
 
-
+        //BinaryDataObject
+        translateMap.put("BinaryDataObject", "Objet numérique");
+        translateMap.put("DataObjectVersion", "Version");
+        translateMap.put("MessageDigest", "Empreinte");
+        translateMap.put("Size", "Taille");
+        translateMap.put("Uri", "Nom SIP");
+        translateMap.put("FormatIdentification", "Format");
+        translateMap.put("FormatLitteral", "Description");
+        translateMap.put("MimeType", "Type Mime");
+        translateMap.put("FormatId", "ID-Pronom");
+        translateMap.put("Encoding", "Encodage");
+        translateMap.put("FileInfo", "Fichier");
+        translateMap.put("Filename", "Nom de fichier");
+        translateMap.put("CreatingApplicationName", "Application d'origine");
+        translateMap.put("CreatingApplicationVersion", "Version d'application");
+        translateMap.put("DateCreatedByApplication", "Date de création");
+        translateMap.put("CreatingOs", "OS d'origine");
+        translateMap.put("CreatingOsVersion", "Version d'OS");
+        translateMap.put("LastModified", "Date de modification");
+        translateMap.put("Metadata", "Métadonnées");
+        translateMap.put("Audio", "Audio");
+        translateMap.put("Document", "Document");
+        translateMap.put("Image", "Image");
+        translateMap.put("Text", "Texte");
+        translateMap.put("Video", "Vidéo");
 
         //ArchiveUnitProfile
         translateMap.put("ArchiveUnitProfile", "Profil d'unité");
+
+        //Others
+        translateMap.put("Unknown","Non défini");
     }
 
     static int labelWidth=0;

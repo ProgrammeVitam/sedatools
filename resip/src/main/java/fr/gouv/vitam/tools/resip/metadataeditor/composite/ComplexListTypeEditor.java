@@ -43,12 +43,7 @@ import java.util.List;
 /**
  * The StringType metadata editor class.
  */
-public class ComplexListTypeEditor extends MetadataEditor implements CompositeEditor {
-
-    /**
-     * The metadata edition graphic component
-     */
-    List<MetadataEditor> metadataEditorList;
+public class ComplexListTypeEditor extends CompositeEditor {
 
     public ComplexListTypeEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
@@ -133,17 +128,6 @@ public class ComplexListTypeEditor extends MetadataEditor implements CompositeEd
         return String.join(", ", summaryList);
     }
 
-    public void setExtended(boolean extended, boolean inner) throws SEDALibException {
-        if (metadataEditorPanel == null)
-            createMetadataEditorPanel();
-        if (!inner)
-            ((CompositeEditorPanel) metadataEditorPanel).setExtended(extended);
-        for (MetadataEditor metadataEditor : metadataEditorList)
-            if (metadataEditor instanceof ComplexListTypeEditor)
-                ((ComplexListTypeEditor) metadataEditor).setExtended(extended, inner);
-    }
-
-
     public List<Pair<String,String>> getExtensionList() throws SEDALibException {
         List<String> used = new ArrayList<String>();
         List<Pair<String,String>> result = new ArrayList<Pair<String,String>>();
@@ -177,7 +161,7 @@ public class ComplexListTypeEditor extends MetadataEditor implements CompositeEd
         else {
             manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
             for (MetadataEditor me : metadataEditorList) {
-                curOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(me.getMetadata().getXmlElementName());
+                curOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(me.getName());
                 if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
                     break;
                 }
@@ -205,5 +189,11 @@ public class ComplexListTypeEditor extends MetadataEditor implements CompositeEd
         metadataEditorList.add(insertionMetadataEditorIndex,
                 addedMetadataEditor);
         ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(insertionMetadataEditorIndex,addedMetadataEditor.getMetadataEditorPanel());
+    }
+
+    public boolean containsMultiple(String metadataName) throws SEDALibException {
+        if (getComplexListTypeMetadata().getMetadataMap().get(metadataName) == null)
+            return true;
+        return getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
     }
 }

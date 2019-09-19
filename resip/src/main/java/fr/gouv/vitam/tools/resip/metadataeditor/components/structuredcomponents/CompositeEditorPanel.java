@@ -27,16 +27,20 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
     HashMap<MetadataEditorPanel, GridBagConstraints> metadataEditorPanelConstraints;
 
     public CompositeEditorPanel(MetadataEditor metadataEditor) throws SEDALibException {
+        this(metadataEditor, null);
+    }
+
+    public CompositeEditorPanel(MetadataEditor metadataEditor, JComponent moreMenuComponent) throws SEDALibException {
         super(metadataEditor);
         final CompositeEditorPanel thisPanel = this;
         this.metadataPanelCount = 2;
         this.metadataEditorPanelConstraints = new HashMap<MetadataEditorPanel, GridBagConstraints>();
         GridBagLayout gbl = new GridBagLayout();
         if (metadataEditor == null)
-            gbl.columnWidths = new int[]{0, 0, 0, 0, 0};
+            gbl.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
         else
-            gbl.columnWidths = new int[]{16, MetadataEditorConstants.computeLabelWidth() - 41, 10, 10, 0, 0};
-        gbl.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+            gbl.columnWidths = new int[]{16, MetadataEditorConstants.computeLabelWidth() - 41, 10, 10, 0, 0, 0};
+        gbl.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
         setLayout(gbl);
 
         if (metadataEditor != null) {
@@ -54,8 +58,8 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
             gbc.gridx = 0;
             gbc.gridy = 0;
             add(arrowCheckBox, gbc);
-            metadataLabel = new JLabel(MetadataEditor.translate(metadataEditor.getMetadata().getXmlElementName()) + " :");
-            metadataLabel.setToolTipText(metadataEditor.getMetadata().getXmlElementName());
+            metadataLabel = new JLabel(MetadataEditor.translate(metadataEditor.getName()) + " :");
+            metadataLabel.setToolTipText(metadataEditor.getName());
             metadataLabel.setFont(MetadataEditor.ITALIC_LABEL_FONT);
             metadataLabel.setForeground(MetadataEditor.COMPOSITE_LABEL_COLOR);
             gbc = new GridBagConstraints();
@@ -84,7 +88,8 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
             gbc.gridy = 0;
             add(lessButton, gbc);
 
-            if (metadataEditor.isMultiple()) {
+            if ((metadataEditor.getFather()!=null ) &&
+                    metadataEditor.getFather().containsMultiple(metadataEditor.getName())) {
                 JButton addButton = new JButton();
                 addButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-add-very-small.png")));
                 addButton.setText("");
@@ -116,29 +121,42 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
             addMenu.setFocusable(false);
             gbc = new GridBagConstraints();
             gbc.anchor = GridBagConstraints.LINE_END;
-            gbc.insets = new Insets(0, 0, 0, 0);
+            gbc.insets = new Insets(0, 0, 0, 5);
             gbc.gridx = 4;
             gbc.gridy = 0;
             add(addMenu, gbc);
 
-            summary = new JTextField("summary");
+            if (moreMenuComponent!=null){
+                gbc = new GridBagConstraints();
+                gbc.anchor = GridBagConstraints.LINE_END;
+                gbc.insets = new Insets(0, 0, 0, 5);
+                gbc.anchor = GridBagConstraints.LINE_START;
+                gbc.gridx = 5;
+                gbc.gridy = 0;
+                add(moreMenuComponent, gbc);
+            }
+
+            summary = new JTextField();
             summary.setEditable(false);
             summary.setVisible(false);
+            gbc = new GridBagConstraints();
             gbc.anchor = GridBagConstraints.LINE_START;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.insets = new Insets(0, 0, 0, 0);
-            gbc.gridx = 5;
+            gbc.gridx = 6;
             gbc.gridy = 0;
             add(summary, gbc);
+
             separator = new JSeparator(JSeparator.HORIZONTAL);
             separator.setBackground(MetadataEditor.COMPOSITE_LABEL_SEPARATOR_COLOR);
             separator.setForeground(MetadataEditor.GENERAL_BACKGROUND);
+            gbc = new GridBagConstraints();
             gbc.anchor = GridBagConstraints.LINE_START;
             gbc.fill = GridBagConstraints.HORIZONTAL;
             gbc.insets = new Insets(0, 0, 0, 0);
             gbc.gridx = 0;
             gbc.gridy = 1;
-            gbc.gridwidth = 6;
+            gbc.gridwidth = 7;
             add(separator, gbc);
         }
     }
@@ -150,7 +168,7 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.gridx = 1;
         gbc.gridy = metadataPanelCount++;
-        gbc.gridwidth = 5;
+        gbc.gridwidth = 6;
         metadataPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
                 MetadataEditor.COMPOSITE_LABEL_SEPARATOR_COLOR));
         add(metadataPanel, gbc);

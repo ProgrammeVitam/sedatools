@@ -230,6 +230,10 @@ abstract public class MetadataEditor {
         return sedaMetadata;
     }
 
+    public String getName(){
+        return metadata.getXmlElementName();
+    }
+
     abstract public SEDAMetadata extractMetadata() throws SEDALibException;
 
     public String getSummary() throws SEDALibException {
@@ -263,12 +267,8 @@ abstract public class MetadataEditor {
         return metadataEditorPanel;
     }
 
-    public boolean isMultiple() throws SEDALibException {
-        if (father == null)
-            return false;
-        if (((ComplexListType) (father.metadata)).getMetadataMap().get(metadata.getXmlElementName()) == null)
-            return true;
-        return ((ComplexListType) (father.metadata)).getMetadataMap().get(metadata.getXmlElementName()).many;
+    public boolean containsMultiple(String metadataName) throws SEDALibException {
+        return false;
     }
 
     /**
@@ -285,7 +285,7 @@ abstract public class MetadataEditor {
      *
      * @return the metadata
      */
-    public SEDAMetadata getMetadata() {
+    public SEDAMetadata getMetadata() throws SEDALibException {
         return metadata;
     }
 

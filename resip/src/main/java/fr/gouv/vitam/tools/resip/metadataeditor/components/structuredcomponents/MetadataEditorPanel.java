@@ -30,7 +30,7 @@ public class MetadataEditorPanel extends ScrollablePanel {
     public void addButton() {
         try {
             if (metadataEditor.getFather() != null) {
-                ((ComplexListTypeEditor) metadataEditor.getFather()).addChild(metadataEditor.getMetadata().getXmlElementName());
+                ((ComplexListTypeEditor) metadataEditor.getFather()).addChild(metadataEditor.getName());
                 ((ComplexListTypeEditor) metadataEditor.getFather()).getMetadataEditorPanelTopParent().validate();
             }
         } catch (SEDALibException ignored) {

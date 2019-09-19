@@ -130,7 +130,7 @@ public class DigestTypeEditor extends MetadataEditor {
         JTextField attrTextField = new JTextField();
         attrTextField.setText(getDigestTypeMetadata().getAlgorithm());
         attrTextField.setFont(MetadataEditor.MINI_EDIT_FONT);
-        attrTextField.setColumns(6);
+        attrTextField.setColumns(5);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.LINE_END;

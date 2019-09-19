@@ -40,10 +40,33 @@ import java.util.List;
 /**
  * The composite metadata editor interface for CompositeEditorPanel.
  */
-public interface CompositeEditor {
-    public List<Pair<String,String>> getExtensionList() throws SEDALibException;
+abstract public class CompositeEditor extends MetadataEditor{
 
-    public void removeChild(MetadataEditor metadataEditor) throws SEDALibException;
+    /**
+     * The metadata edition graphic component
+     */
+    List<MetadataEditor> metadataEditorList;
 
-    public void addChild(String metadataName) throws SEDALibException;
+    public CompositeEditor(SEDAMetadata metadata, MetadataEditor father) {
+        super (metadata,father);
+        this.metadataEditorList = null;
+    }
+
+    abstract public List<Pair<String,String>> getExtensionList() throws SEDALibException;
+
+    abstract public void addChild(String metadataName) throws SEDALibException;
+
+    public void setExtended(boolean extended, boolean inner) throws SEDALibException {
+        if (metadataEditorPanel == null)
+            createMetadataEditorPanel();
+        ((CompositeEditorPanel) metadataEditorPanel).setExtended(extended);
+        for (MetadataEditor metadataEditor : metadataEditorList)
+            if (metadataEditor instanceof CompositeEditor)
+                ((CompositeEditor) metadataEditor).setExtended(inner, inner);
+    }
+
+    public void removeChild(MetadataEditor metadataEditor) throws SEDALibException {
+        metadataEditorList.remove(metadataEditor);
+        ((CompositeEditorPanel)getMetadataEditorPanel()).removeMetadataEditorPanel(metadataEditor.getMetadataEditorPanel());
+    }
 }

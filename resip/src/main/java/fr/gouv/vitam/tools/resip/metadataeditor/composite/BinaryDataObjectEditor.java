@@ -1,0 +1,299 @@
+/**
+ * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
+ * <p>
+ * contact.vitam@programmevitam.fr
+ * <p>
+ * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
+ * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
+ * volumetry securely and efficiently.
+ * <p>
+ * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
+ * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
+ * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
+ * <p>
+ * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
+ * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
+ * successive licensors have only limited liability.
+ * <p>
+ * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
+ * developing or reproducing the software by the user in light of its specific status of free software, that may mean
+ * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
+ * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
+ * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
+ * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
+ * <p>
+ * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
+ * accept its terms.
+ */
+package fr.gouv.vitam.tools.resip.metadataeditor.composite;
+
+import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
+import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.CompositeEditorPanel;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorPanel;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.DataObject;
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.apache.commons.lang3.tuple.Pair;
+
+import javax.swing.*;
+import java.awt.*;
+import java.lang.reflect.InvocationTargetException;
+import java.nio.file.Path;
+import java.security.MessageDigest;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * The StringType metadata editor class.
+ */
+public class BinaryDataObjectEditor extends CompositeEditor {
+
+    /**
+     * The binary data object.
+     */
+    BinaryDataObject bdo;
+
+    public BinaryDataObjectEditor(BinaryDataObject bdo, MetadataEditor father) {
+        super(null, father);
+        this.bdo=bdo;
+    }
+
+    public String getName(){
+        return translate("BinaryDataObject")+" - "+bdo.getInDataObjectPackageId();
+    }
+
+    public SEDAMetadata extractMetadata() throws SEDALibException {
+        throw new SEDALibException("Cet éditeur spécial ne contient pas de SEDAMetadata mais un BinaryDataObject");
+    }
+
+    public SEDAMetadata getMetadata() throws SEDALibException {
+        throw new SEDALibException("Cet éditeur spécial ne contient pas de SEDAMetadata mais un BinaryDataObject");
+    }
+
+    public DataObject extractDataObject() throws SEDALibException {
+        metadata=getEmptySameMetadata(metadata);
+        BinaryDataObject tmpBdo=new BinaryDataObject();
+        for (MetadataEditor metadataEditor : metadataEditorList) {
+            SEDAMetadata subMetadata=metadataEditor.extractMetadata();
+            switch (subMetadata.getXmlElementName()){
+                case "DataObjectVersion":
+                    tmpBdo.dataObjectVersion=(StringType)subMetadata;
+                    break;
+                case "Uri":
+                    tmpBdo.uri=(StringType)subMetadata;
+                    break;
+                case "MessageDigest":
+                    tmpBdo.messageDigest=(DigestType) subMetadata;
+                    break;
+                case "Size":
+                    tmpBdo.size=(IntegerType) subMetadata;
+                    break;
+                case "Compressed":
+                    tmpBdo.compressed=(StringType)subMetadata;
+                    break;
+                case "FormatIdentification":
+                    tmpBdo.formatIdentification=(FormatIdentification) subMetadata;
+                    break;
+                case "FileInfo":
+                    tmpBdo.fileInfo=(FileInfo) subMetadata;
+                    break;
+                case "Metadata":
+                    tmpBdo.metadata=(Metadata) subMetadata;
+                    break;
+            }
+        }
+        bdo.dataObjectVersion=tmpBdo.dataObjectVersion;
+        bdo.uri=tmpBdo.uri;
+        bdo.messageDigest=tmpBdo.messageDigest;
+        bdo.size=tmpBdo.size;
+        bdo.compressed=tmpBdo.compressed;
+        bdo.formatIdentification=tmpBdo.formatIdentification;
+        bdo.fileInfo=tmpBdo.fileInfo;
+        bdo.metadata=tmpBdo.metadata;
+
+        return bdo;
+    }
+
+    static void openButton(Path path){
+        System.out.println(path);
+    }
+
+    public void createMetadataEditorPanel() throws SEDALibException {
+        this.metadataEditorList = new ArrayList<MetadataEditor>();
+
+        JButton openButton=new JButton();
+        openButton.setIcon(new ImageIcon(getClass().getResource("/icon/folder-open.png")));
+        openButton.setText("");
+        openButton.setMaximumSize(new Dimension(16, 16));
+        openButton.setMinimumSize(new Dimension(16, 16));
+        openButton.setPreferredSize(new Dimension(16, 16));
+        openButton.setBorderPainted(false);
+        openButton.setContentAreaFilled(false);
+        openButton.setFocusPainted(false);
+        openButton.setFocusable(false);
+        openButton.addActionListener(arg -> openButton(bdo.getOnDiskPath()));
+
+        this.metadataEditorPanel = new CompositeEditorPanel(this, openButton);
+        if (bdo.dataObjectVersion!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.dataObjectVersion, this);
+            metadataEditorList.add(metadataEditor);
+            ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(0,metadataEditor.getMetadataEditorPanel());
+        }
+        if (bdo.uri!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.uri, this);
+            metadataEditorList.add(metadataEditor);
+            ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(1,metadataEditor.getMetadataEditorPanel());
+        }
+        if (bdo.messageDigest!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.messageDigest, this);
+            metadataEditorList.add(metadataEditor);
+            ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(2,metadataEditor.getMetadataEditorPanel());
+        }
+        if (bdo.size!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.size, this);
+            metadataEditorList.add(metadataEditor);
+            ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(3,metadataEditor.getMetadataEditorPanel());
+        }
+        if (bdo.compressed!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.compressed, this);
+            metadataEditorList.add(metadataEditor);
+            ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(4,metadataEditor.getMetadataEditorPanel());
+        }
+        if (bdo.formatIdentification!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.formatIdentification, this);
+            metadataEditorList.add(metadataEditor);
+            ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(5,metadataEditor.getMetadataEditorPanel());
+        }
+        if (bdo.fileInfo!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.fileInfo, this);
+            metadataEditorList.add(metadataEditor);
+            ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(6,metadataEditor.getMetadataEditorPanel());
+        }
+        if (bdo.metadata!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.metadata, this);
+            metadataEditorList.add(metadataEditor);
+            ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(7,metadataEditor.getMetadataEditorPanel());
+        }
+    }
+
+    public String getSummary() throws SEDALibException {
+        List<String> summaryList = new ArrayList<String>(metadataEditorList.size());
+        String tmp;
+
+        if (bdo.dataObjectVersion!=null)
+            summaryList.add(bdo.dataObjectVersion.getValue());
+        else
+            summaryList.add(translate("Unknown"));
+
+        if (bdo.fileInfo!=null) {
+            tmp=bdo.fileInfo.getSimpleMetadata("Filename");
+            if (tmp==null)
+                tmp=translate("Unknown");
+        }
+        else
+            tmp=translate("Unknown");
+        summaryList.add(tmp);
+
+        if (bdo.formatIdentification!=null) {
+            tmp=bdo.formatIdentification.getSimpleMetadata("MimeType");
+            if (tmp==null)
+                tmp=translate("Unknown");
+        }
+        else
+            tmp=translate("Unknown");
+        summaryList.add(tmp);
+
+        if (bdo.formatIdentification!=null) {
+            tmp=bdo.formatIdentification.getSimpleMetadata("FormatId");
+            if (tmp==null)
+                tmp=translate("Unknown");
+        }
+        else
+            tmp=translate("Unknown");
+        summaryList.add(tmp);
+
+        if (bdo.fileInfo!=null) {
+            tmp=bdo.fileInfo.getSimpleMetadata("LastModified");
+            if (tmp==null)
+                tmp=translate("Unknown");
+        }
+        else
+            tmp=translate("Unknown");
+        summaryList.add(tmp);
+
+        return String.join(", ", summaryList);
+    }
+
+    public List<Pair<String,String>> getExtensionList() throws SEDALibException {
+        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
+                Pair.of("DataObjectVersion", translate("DataObjectVersion")),
+                Pair.of("Uri", translate("Uri")),
+                Pair.of("MessageDigest", translate("MessageDigest")),
+                Pair.of("Size", translate("Size")),
+                Pair.of("FormatIdentification", translate("FormatIdentification")),
+                Pair.of("FileInfo", translate("FileInfo")),
+                Pair.of("Metadata", translate("Metadata"))));
+
+        for (MetadataEditor me : metadataEditorList) {
+            String name=me.getName();
+            extensionList.remove(Pair.of(name,translate(name)));
+        }
+        return extensionList;
+    }
+
+    public boolean containsMultiple(String metadataName) throws SEDALibException {
+       return false;
+    }
+
+    public void addChild(String metadataName) throws SEDALibException {
+        SEDAMetadata sedaMetadata=null;
+        int insertionIndex=0;
+        switch(metadataName){
+            case "DataObjectVersion":
+                sedaMetadata = createMetadataSample("StringType", "DataObjectVersion", true);
+                insertionIndex=0;
+                break;
+            case "Uri":
+                sedaMetadata = createMetadataSample("StringType", "Uri", true);
+                insertionIndex=1;
+                break;
+            case "MessageDigest":
+                sedaMetadata = createMetadataSample("DigestType", "MessageDigest", true);
+                insertionIndex=1;
+                break;
+            case "Size":
+                sedaMetadata = createMetadataSample("IntegerType", "Size", true);
+                insertionIndex=1;
+                break;
+            case "Compressed":
+                sedaMetadata = createMetadataSample("StringType", "Compressed", true);
+                insertionIndex=1;
+                break;
+            case "FormatIdentification":
+                sedaMetadata = createMetadataSample("FormatIdentification", "FormatIdentification", true);
+                insertionIndex=1;
+                break;
+            case "FileInfo":
+                sedaMetadata = createMetadataSample("FileInfo", "FileInfo", true);
+                insertionIndex=1;
+                break;
+            case "Metadata":
+                sedaMetadata = createMetadataSample("Metadata", "Metadata", true);
+                insertionIndex=1;
+                break;
+        }
+        if (sedaMetadata==null)
+            throw new SEDALibException("La métadonnée ["+metadataName+"] n'existe pas dans un BinaryDataObject");
+        MetadataEditor addedMetadataEditor = createMetadataEditor(sedaMetadata, this);
+        metadataEditorList.add(insertionIndex,
+                addedMetadataEditor);
+        ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(insertionIndex,addedMetadataEditor.getMetadataEditorPanel());
+    }
+}

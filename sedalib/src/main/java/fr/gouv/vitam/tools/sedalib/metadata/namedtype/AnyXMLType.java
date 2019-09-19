@@ -49,7 +49,7 @@ public class AnyXMLType extends NamedTypeMetadata {
      * Instantiates a new XML block type.
      */
     public AnyXMLType() {
-        this("AnyXMLType", null);
+        this(null, null);
     }
 
     /**
@@ -68,7 +68,7 @@ public class AnyXMLType extends NamedTypeMetadata {
      * @param rawXml       the raw Xml String
      */
     public AnyXMLType(String elementName, String rawXml) {
-        super("AnyXMLType");
+        super(elementName);
         this.rawXml = rawXml;
     }
 

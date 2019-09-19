@@ -164,7 +164,7 @@ public class InnerStructuredArchiveUnitEditorPanel extends ScrollablePanel {
                 Pair.of("Management", translate("Management"))));
 
         for (MetadataEditorPanel mep : metadataEditorPanelConstraints.keySet()) {
-            String name=mep.metadataEditor.getMetadata().getXmlElementName();
+            String name=mep.metadataEditor.getName();
             extensionList.remove(Pair.of(name,translate(name)));
         }
         return extensionList;

@@ -13,7 +13,8 @@ public class MetadataEditorSimplePanel extends MetadataEditorPanel {
 
     public MetadataEditorSimplePanel(MetadataEditor metadataEditor, JPanel labelPanel, JPanel editPanel) throws SEDALibException {
         super(metadataEditor);
-        boolean multiple = metadataEditor.isMultiple();
+        boolean multiple = ((metadataEditor.getFather()!=null ) &&
+                metadataEditor.getFather().containsMultiple(metadataEditor.getName()));
         GridBagLayout gbl = new GridBagLayout();
         gbl.columnWidths = new int[]{MetadataEditorConstants.computeLabelWidth() - 20, 10, 10, 0};
         gbl.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0};

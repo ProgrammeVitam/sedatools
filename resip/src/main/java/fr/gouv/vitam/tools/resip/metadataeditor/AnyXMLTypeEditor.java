@@ -82,7 +82,7 @@ public class AnyXMLTypeEditor extends MetadataEditor{
         gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(metadata.getXmlElementName())+" :");
+        JLabel label = new JLabel(translate("AnyXMLType")+" :");
         label.setToolTipText(metadata.getXmlElementName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
