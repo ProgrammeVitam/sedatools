@@ -28,24 +28,21 @@
 package fr.gouv.vitam.tools.resip.metadataeditor.composite;
 
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
-import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants;
 import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.CompositeEditorPanel;
-import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorPanel;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.swing.*;
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Path;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,32 +52,23 @@ import java.util.List;
  */
 public class BinaryDataObjectEditor extends CompositeEditor {
 
-    /**
-     * The binary data object.
-     */
-    BinaryDataObject bdo;
-
     public BinaryDataObjectEditor(BinaryDataObject bdo, MetadataEditor father) {
         super(null, father);
-        this.bdo=bdo;
+        this.metadata=bdo;
     }
 
     public String getName(){
-        return translate("BinaryDataObject")+" - "+(bdo==null?translate("Unknown"):bdo.getInDataObjectPackageId());
+        return translate("BinaryDataObject")+" - "+(metadata==null?translate("Unknown"):getBinaryDataObjectMetadata().getInDataObjectPackageId());
     }
 
-    public SEDAMetadata extractMetadata() throws SEDALibException {
-        throw new SEDALibException("Cet éditeur spécial ne contient pas de SEDAMetadata mais un BinaryDataObject");
+    private BinaryDataObject getBinaryDataObjectMetadata() {
+        return (BinaryDataObject) metadata;
     }
 
-    public SEDAMetadata getMetadata() throws SEDALibException {
-        throw new SEDALibException("Cet éditeur spécial ne contient pas de SEDAMetadata mais un BinaryDataObject");
-    }
-
-    public DataObject extractDataObject() throws SEDALibException {
+    public BinaryDataObject extractEditedObject() throws SEDALibException {
         BinaryDataObject tmpBdo=new BinaryDataObject();
         for (MetadataEditor metadataEditor : metadataEditorList) {
-            SEDAMetadata subMetadata=metadataEditor.extractMetadata();
+            SEDAMetadata subMetadata=(SEDAMetadata)metadataEditor.extractEditedObject();
             switch (subMetadata.getXmlElementName()){
                 case "DataObjectVersion":
                     tmpBdo.dataObjectVersion=(StringType)subMetadata;
@@ -108,16 +96,16 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                     break;
             }
         }
-        bdo.dataObjectVersion=tmpBdo.dataObjectVersion;
-        bdo.uri=tmpBdo.uri;
-        bdo.messageDigest=tmpBdo.messageDigest;
-        bdo.size=tmpBdo.size;
-        bdo.compressed=tmpBdo.compressed;
-        bdo.formatIdentification=tmpBdo.formatIdentification;
-        bdo.fileInfo=tmpBdo.fileInfo;
-        bdo.metadata=tmpBdo.metadata;
+        getBinaryDataObjectMetadata().dataObjectVersion=tmpBdo.dataObjectVersion;
+        getBinaryDataObjectMetadata().uri=tmpBdo.uri;
+        getBinaryDataObjectMetadata().messageDigest=tmpBdo.messageDigest;
+        getBinaryDataObjectMetadata().size=tmpBdo.size;
+        getBinaryDataObjectMetadata().compressed=tmpBdo.compressed;
+        getBinaryDataObjectMetadata().formatIdentification=tmpBdo.formatIdentification;
+        getBinaryDataObjectMetadata().fileInfo=tmpBdo.fileInfo;
+        getBinaryDataObjectMetadata().metadata=tmpBdo.metadata;
 
-        return bdo;
+        return getBinaryDataObjectMetadata();
     }
 
     static void openButton(Path path){
@@ -137,46 +125,46 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         openButton.setContentAreaFilled(false);
         openButton.setFocusPainted(false);
         openButton.setFocusable(false);
-        openButton.addActionListener(arg -> openButton(bdo.getOnDiskPath()));
+        openButton.addActionListener(arg -> openButton(getBinaryDataObjectMetadata().getOnDiskPath()));
 
         this.metadataEditorPanel = new CompositeEditorPanel(this, openButton, false);
-        if (bdo.dataObjectVersion!=null) {
-            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.dataObjectVersion, this);
+        if (getBinaryDataObjectMetadata().dataObjectVersion!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getBinaryDataObjectMetadata().dataObjectVersion, this);
             metadataEditorList.add(metadataEditor);
             ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(0,metadataEditor.getMetadataEditorPanel());
         }
-        if (bdo.uri!=null) {
-            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.uri, this);
+        if (getBinaryDataObjectMetadata().uri!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getBinaryDataObjectMetadata().uri, this);
             metadataEditorList.add(metadataEditor);
             ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(1,metadataEditor.getMetadataEditorPanel());
         }
-        if (bdo.messageDigest!=null) {
-            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.messageDigest, this);
+        if (getBinaryDataObjectMetadata().messageDigest!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getBinaryDataObjectMetadata().messageDigest, this);
             metadataEditorList.add(metadataEditor);
             ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(2,metadataEditor.getMetadataEditorPanel());
         }
-        if (bdo.size!=null) {
-            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.size, this);
+        if (getBinaryDataObjectMetadata().size!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getBinaryDataObjectMetadata().size, this);
             metadataEditorList.add(metadataEditor);
             ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(3,metadataEditor.getMetadataEditorPanel());
         }
-        if (bdo.compressed!=null) {
-            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.compressed, this);
+        if (getBinaryDataObjectMetadata().compressed!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getBinaryDataObjectMetadata().compressed, this);
             metadataEditorList.add(metadataEditor);
             ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(4,metadataEditor.getMetadataEditorPanel());
         }
-        if (bdo.formatIdentification!=null) {
-            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.formatIdentification, this);
+        if (getBinaryDataObjectMetadata().formatIdentification!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getBinaryDataObjectMetadata().formatIdentification, this);
             metadataEditorList.add(metadataEditor);
             ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(5,metadataEditor.getMetadataEditorPanel());
         }
-        if (bdo.fileInfo!=null) {
-            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.fileInfo, this);
+        if (getBinaryDataObjectMetadata().fileInfo!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getBinaryDataObjectMetadata().fileInfo, this);
             metadataEditorList.add(metadataEditor);
             ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(6,metadataEditor.getMetadataEditorPanel());
         }
-        if (bdo.metadata!=null) {
-            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.metadata, this);
+        if (getBinaryDataObjectMetadata().metadata!=null) {
+            MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getBinaryDataObjectMetadata().metadata, this);
             metadataEditorList.add(metadataEditor);
             ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(7,metadataEditor.getMetadataEditorPanel());
         }
@@ -186,13 +174,13 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         List<String> summaryList = new ArrayList<String>(metadataEditorList.size());
         String tmp;
 
-        if (bdo.dataObjectVersion!=null)
-            summaryList.add(bdo.dataObjectVersion.getValue());
+        if (getBinaryDataObjectMetadata().dataObjectVersion!=null)
+            summaryList.add(getBinaryDataObjectMetadata().dataObjectVersion.getValue());
         else
             summaryList.add(translate("Unknown"));
 
-        if (bdo.fileInfo!=null) {
-            tmp=bdo.fileInfo.getSimpleMetadata("Filename");
+        if (getBinaryDataObjectMetadata().fileInfo!=null) {
+            tmp=getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("Filename");
             if (tmp==null)
                 tmp=translate("Unknown");
         }
@@ -200,8 +188,8 @@ public class BinaryDataObjectEditor extends CompositeEditor {
             tmp=translate("Unknown");
         summaryList.add(tmp);
 
-        if (bdo.formatIdentification!=null) {
-            tmp=bdo.formatIdentification.getSimpleMetadata("MimeType");
+        if (getBinaryDataObjectMetadata().formatIdentification!=null) {
+            tmp=getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("MimeType");
             if (tmp==null)
                 tmp=translate("Unknown");
         }
@@ -209,8 +197,8 @@ public class BinaryDataObjectEditor extends CompositeEditor {
             tmp=translate("Unknown");
         summaryList.add(tmp);
 
-        if (bdo.formatIdentification!=null) {
-            tmp=bdo.formatIdentification.getSimpleMetadata("FormatId");
+        if (getBinaryDataObjectMetadata().formatIdentification!=null) {
+            tmp=getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("FormatId");
             if (tmp==null)
                 tmp=translate("Unknown");
         }
@@ -218,8 +206,8 @@ public class BinaryDataObjectEditor extends CompositeEditor {
             tmp=translate("Unknown");
         summaryList.add(tmp);
 
-        if (bdo.fileInfo!=null) {
-            tmp=bdo.fileInfo.getSimpleMetadata("LastModified");
+        if (getBinaryDataObjectMetadata().fileInfo!=null) {
+            tmp=getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("LastModified");
             if (tmp==null)
                 tmp=translate("Unknown");
         }

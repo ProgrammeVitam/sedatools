@@ -57,12 +57,12 @@ public class StringTypeEditor extends MetadataEditor {
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException {
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
         if (metadataTextField!=null)
             getStringTypeMetadata().setValue(metadataTextField.getText());
         else
             getStringTypeMetadata().setValue(metadataTextArea.getText());
-        return metadata;
+        return getSEDAMetadata();
     }
 
     public String getSummary() throws SEDALibException {
@@ -89,8 +89,8 @@ public class StringTypeEditor extends MetadataEditor {
         gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(metadata.getXmlElementName()) + " :");
-        label.setToolTipText(metadata.getXmlElementName());
+        JLabel label = new JLabel(translate(getName()) + " :");
+        label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;
@@ -109,7 +109,7 @@ public class StringTypeEditor extends MetadataEditor {
 
         JTextArea textArea=null;
         JTextField textField=null;
-        if (MetadataEditorConstants.largeAreaTagList.contains(metadata.getXmlElementName())){
+        if (MetadataEditorConstants.largeAreaTagList.contains(getName())){
             gbl.rowHeights = new int[]{100};
             textArea = new JTextArea();
             textArea.setText(getStringTypeMetadata().getValue());

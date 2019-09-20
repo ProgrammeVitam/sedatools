@@ -46,7 +46,7 @@ abstract public class MetadataEditor {
     /**
      * The metadata.
      */
-    public SEDAMetadata metadata;
+    protected Object metadata;
 
     /**
      * The metadata editor father if any.
@@ -231,14 +231,14 @@ abstract public class MetadataEditor {
     }
 
     public String getName(){
-        return metadata.getXmlElementName();
-    }
-
-    abstract public SEDAMetadata extractMetadata() throws SEDALibException;
-
-    public String getSummary() throws SEDALibException {
+        if (metadata instanceof SEDAMetadata)
+            return ((SEDAMetadata)metadata).getXmlElementName();
         return "";
     }
+
+    abstract public Object extractEditedObject() throws SEDALibException;
+
+    abstract public String getSummary() throws SEDALibException;
 
     static public String getExtraInformation(SEDAMetadata sedaMetadata) {
         return MetadataEditorConstants.typeExtraInformationMap.get(sedaMetadata.getXmlElementName());
@@ -281,12 +281,32 @@ abstract public class MetadataEditor {
     }
 
     /**
-     * Gets metadata.
+     * Gets the edited object if it's a SEDAMetadata.
      *
      * @return the metadata
      */
-    public SEDAMetadata getMetadata() throws SEDALibException {
+    public SEDAMetadata getSEDAMetadata() throws SEDALibException {
+        if (metadata instanceof SEDAMetadata)
+            return (SEDAMetadata)metadata;
+        return null;
+    }
+
+    /**
+     * Gets the edited object.
+     *
+     * @return the edited object
+     */
+    public Object getEditedObject() throws SEDALibException {
         return metadata;
+    }
+
+    /**
+     * Set the edited object.
+     *
+     * @return the edited object
+     */
+    public void setEditedObject(Object metadata) throws SEDALibException {
+        this.metadata=metadata;
     }
 
     public Container getMetadataEditorPanelTopParent() {

@@ -111,14 +111,14 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
 
     private void revertButton(ActionEvent event) {
         try {
-            editArchiveUnit(archiveUnitEditor.au);
+            editArchiveUnit((ArchiveUnit)archiveUnitEditor.getEditedObject());
         } catch (SEDALibException ignored) {
         }
     }
 
     private void saveButton(ActionEvent event) {
         try {
-            ArchiveUnit archiveUnit = archiveUnitEditor.extractArchiveUnit();
+            ArchiveUnit archiveUnit = archiveUnitEditor.extractEditedObject();
             ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().getDataObjectPackageTreePaneViewer().getModel())
                     .nodeChanged(ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed);
             String title = null;
@@ -166,6 +166,6 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
     }
 
     public ArchiveUnit extractArchiveUnit() throws SEDALibException {
-        return archiveUnitEditor.extractArchiveUnit();
+        return (ArchiveUnit)archiveUnitEditor.extractEditedObject();
     }
 }

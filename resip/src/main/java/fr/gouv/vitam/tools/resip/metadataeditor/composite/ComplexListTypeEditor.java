@@ -56,13 +56,13 @@ public class ComplexListTypeEditor extends CompositeEditor {
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException {
-        metadata=getEmptySameMetadata(metadata);
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
+        setEditedObject(getEmptySameMetadata(getSEDAMetadata()));
         for (MetadataEditor metadataEditor : metadataEditorList) {
-            SEDAMetadata subMetadata=metadataEditor.extractMetadata();
+            SEDAMetadata subMetadata=(SEDAMetadata)metadataEditor.extractEditedObject();
             ((ComplexListType)metadata).addMetadata(subMetadata);
         }
-        return metadata;
+        return getSEDAMetadata();
     }
 
     static public SEDAMetadata getSample(Class complexListType, String elementName, boolean minimal) throws SEDALibException {
@@ -132,7 +132,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
         List<String> used = new ArrayList<String>();
         List<Pair<String,String>> result = new ArrayList<Pair<String,String>>();
         for (MetadataEditor detail : metadataEditorList) {
-            used.add(detail.metadata.getXmlElementName());
+            used.add(detail.getName());
         }
         for (String metadataName : getComplexListTypeMetadata().getMetadataOrderedList()) {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
@@ -180,7 +180,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
         else {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
             if (complexListMetadataKind == null)
-                throw new SEDALibException("La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + metadata.getXmlElementName() + "]");
+                throw new SEDALibException("La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getName() + "]");
             sedaMetadata = createMetadataSample(complexListMetadataKind.metadataClass.getSimpleName(), metadataName, true);
         }
 

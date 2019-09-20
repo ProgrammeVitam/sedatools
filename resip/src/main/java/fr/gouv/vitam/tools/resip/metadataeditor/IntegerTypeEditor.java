@@ -58,9 +58,9 @@ public class IntegerTypeEditor extends MetadataEditor{
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException{
+    public SEDAMetadata extractEditedObject() throws SEDALibException{
         getIntegerTypeMetadata().setValue(Long.parseLong(metadataTextField.getText()));
-        return metadata;
+        return getSEDAMetadata();
     }
 
     public String getSummary() throws SEDALibException {
@@ -84,8 +84,8 @@ public class IntegerTypeEditor extends MetadataEditor{
         gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(metadata.getXmlElementName())+" :");
-        label.setToolTipText(metadata.getXmlElementName());
+        JLabel label = new JLabel(translate(getName())+" :");
+        label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;

@@ -1,11 +1,9 @@
 package fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents;
 
-import fr.gouv.vitam.tools.resip.metadataeditor.composite.ComplexListTypeEditor;
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
+import fr.gouv.vitam.tools.resip.metadataeditor.composite.ComplexListTypeEditor;
 import fr.gouv.vitam.tools.resip.metadataeditor.composite.CompositeEditor;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-
-import javax.swing.*;
 
 public class MetadataEditorPanel extends ScrollablePanel {
 

@@ -67,12 +67,12 @@ public class DigestTypeEditor extends MetadataEditor {
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException {
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
         getDigestTypeMetadata().setValue(metadataTextField.getText());
         String attr = metadataAttributeTextField.getText();
         if (attr.isEmpty()) attr = null;
         getDigestTypeMetadata().setAlgorithm(attr);
-        return metadata;
+        return getSEDAMetadata();
     }
 
     public String getSummary() throws SEDALibException {
@@ -105,8 +105,8 @@ public class DigestTypeEditor extends MetadataEditor {
         gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel beforeLabel = new JLabel(translate(metadata.getXmlElementName()) + (getDigestTypeMetadata().getAlgorithm() == null ? "" : "("));
-        beforeLabel.setToolTipText(metadata.getXmlElementName());
+        JLabel beforeLabel = new JLabel(translate(getName()) + (getDigestTypeMetadata().getAlgorithm() == null ? "" : "("));
+        beforeLabel.setToolTipText(getName());
         beforeLabel.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;
@@ -146,7 +146,7 @@ public class DigestTypeEditor extends MetadataEditor {
         }
 
         JLabel innerLabel = new JLabel((getDigestTypeMetadata().getAlgorithm() == null ? ":" : ") :"));
-        innerLabel.setToolTipText(metadata.getXmlElementName());
+        innerLabel.setToolTipText(getName());
         innerLabel.setFont(MetadataEditor.LABEL_FONT);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;
@@ -186,7 +186,7 @@ public class DigestTypeEditor extends MetadataEditor {
     void algorithmActivate() {
         algorithmButton.setVisible(false);
         metadataAttributeTextField.setVisible(true);
-        beforeLabel.setText(translate(metadata.getXmlElementName()) + " (");
+        beforeLabel.setText(translate(getName()) + " (");
         innerLabel.setText(") :");
         metadataAttributeTextField.grabFocus();
     }

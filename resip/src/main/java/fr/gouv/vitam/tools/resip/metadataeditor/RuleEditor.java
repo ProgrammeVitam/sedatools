@@ -59,10 +59,10 @@ public class RuleEditor extends MetadataEditor {
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException {
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
         getRuleMetadata().setRuleID(ruleIDTextField.getText());
         getRuleMetadata().setStartDate(startDatePicker.getDate());
-        return metadata;
+        return getSEDAMetadata();
     }
 
     public String getSummary() throws SEDALibException {

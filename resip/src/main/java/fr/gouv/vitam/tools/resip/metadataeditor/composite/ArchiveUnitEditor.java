@@ -46,32 +46,23 @@ import java.util.List;
  */
 public class ArchiveUnitEditor extends CompositeEditor {
 
-    /**
-     * The archive unit.
-     */
-    public ArchiveUnit au;
-
     public ArchiveUnitEditor(ArchiveUnit au, MetadataEditor father) {
         super(null, father);
-        this.au = au;
+        this.metadata = au;
     }
 
     public String getName() {
-        return translate("ArchiveUnit") + " - " + (au == null ? translate("Unknown") : au.getInDataObjectPackageId());
+        return translate("ArchiveUnit") + " - " + (metadata == null ? translate("Unknown") : getArchiveUnitMetadata().getInDataObjectPackageId());
     }
 
-    public SEDAMetadata extractMetadata() throws SEDALibException {
-        throw new SEDALibException("Cet éditeur spécial ne contient pas de SEDAMetadata mais un ArchiveUnit");
+    private ArchiveUnit getArchiveUnitMetadata() {
+        return (ArchiveUnit) metadata;
     }
 
-    public SEDAMetadata getMetadata() throws SEDALibException {
-        throw new SEDALibException("Cet éditeur spécial ne contient pas de SEDAMetadata mais un ArchiveUnit");
-    }
-
-    public ArchiveUnit extractArchiveUnit() throws SEDALibException {
+    public ArchiveUnit extractEditedObject() throws SEDALibException {
         ArchiveUnit tmpAu = new ArchiveUnit();
         for (MetadataEditor me : metadataEditorList) {
-            SEDAMetadata sedaMetadata = me.extractMetadata();
+            SEDAMetadata sedaMetadata = (SEDAMetadata)me.extractEditedObject();
             switch (sedaMetadata.getXmlElementName()) {
                 case "ArchiveUnitProfile":
                     tmpAu.setArchiveUnitProfile((ArchiveUnitProfile) sedaMetadata);
@@ -85,11 +76,11 @@ public class ArchiveUnitEditor extends CompositeEditor {
             }
         }
 
-        au.setContent(tmpAu.getContent());
-        au.setManagement(tmpAu.getManagement());
-        au.setArchiveUnitProfile(tmpAu.getArchiveUnitProfile());
+        getArchiveUnitMetadata().setContent(tmpAu.getContent());
+        getArchiveUnitMetadata().setManagement(tmpAu.getManagement());
+        getArchiveUnitMetadata().setArchiveUnitProfile(tmpAu.getArchiveUnitProfile());
 
-        return au;
+        return getArchiveUnitMetadata();
     }
 
     private void renewMetadataEditorList() throws SEDALibException {
@@ -98,21 +89,21 @@ public class ArchiveUnitEditor extends CompositeEditor {
                 ((CompositeEditorPanel)getMetadataEditorPanel()).removeMetadataEditorPanel(me.getMetadataEditorPanel());
 
         this.metadataEditorList = new ArrayList<MetadataEditor>();
-        if (au != null) {
-            if (au.getContent() != null) {
-                MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(au.getContent(), this);
+        if (getArchiveUnitMetadata() != null) {
+            if (getArchiveUnitMetadata().getContent() != null) {
+                MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getArchiveUnitMetadata().getContent(), this);
                 metadataEditorList.add(metadataEditor);
                 ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(0, metadataEditor.getMetadataEditorPanel());
                 ((CompositeEditor)metadataEditor).setExtended(true,false);
             }
-            if (au.getManagement() != null) {
-                MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(au.getManagement(), this);
+            if (getArchiveUnitMetadata().getManagement() != null) {
+                MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getArchiveUnitMetadata().getManagement(), this);
                 metadataEditorList.add(metadataEditor);
                 ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(1, metadataEditor.getMetadataEditorPanel());
                 ((CompositeEditor)metadataEditor).setExtended(true,false);
             }
-            if (au.getArchiveUnitProfile() != null) {
-                MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(au.getArchiveUnitProfile(), this);
+            if (getArchiveUnitMetadata().getArchiveUnitProfile() != null) {
+                MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(getArchiveUnitMetadata().getArchiveUnitProfile(), this);
                 metadataEditorList.add(metadataEditor);
                 ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(2, metadataEditor.getMetadataEditorPanel());
                 ((CompositeEditor)metadataEditor).setExtended(true,false);
@@ -130,7 +121,7 @@ public class ArchiveUnitEditor extends CompositeEditor {
     }
 
     public List<Pair<String, String>> getExtensionList() {
-        if (au == null)
+        if (getArchiveUnitMetadata() == null)
             return new ArrayList<Pair<String, String>>();
 
         List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
@@ -175,8 +166,8 @@ public class ArchiveUnitEditor extends CompositeEditor {
     }
 
     public void editArchiveUnit(ArchiveUnit archiveUnit) throws SEDALibException {
-        this.au = archiveUnit;
+        this.metadata = archiveUnit;
         renewMetadataEditorList();
-        ((CompositeEditorPanel) getMetadataEditorPanel()).refreshLoad(au == null);
+        ((CompositeEditorPanel) getMetadataEditorPanel()).refreshLoad(metadata == null);
     }
 }

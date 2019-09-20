@@ -39,7 +39,7 @@ import java.awt.*;
 /**
  * The StringType metadata editor class.
  */
-public class SIPInternalIDTypeEditor extends MetadataEditor{
+public class SIPInternalIDTypeEditor extends MetadataEditor {
 
     /**
      * The metadata edition graphic component
@@ -57,9 +57,13 @@ public class SIPInternalIDTypeEditor extends MetadataEditor{
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException{
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
         getSIPInternalIDTypeMetadata().setValue(metadataTextField.getText());
-        return metadata;
+        return getSEDAMetadata();
+    }
+
+    public String getSummary() throws SEDALibException {
+        return metadataTextField.getText();
     }
 
     static public SEDAMetadata getSample(String elementName) throws SEDALibException {
@@ -71,7 +75,7 @@ public class SIPInternalIDTypeEditor extends MetadataEditor{
     }
 
     public void createMetadataEditorPanel() throws SEDALibException {
-        JPanel labelPanel= new JPanel();
+        JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         gbl.columnWidths = new int[]{0};
         gbl.rowHeights = new int[]{0};
@@ -79,8 +83,8 @@ public class SIPInternalIDTypeEditor extends MetadataEditor{
         gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(metadata.getXmlElementName())+" :");
-        label.setToolTipText(metadata.getXmlElementName());
+        JLabel label = new JLabel(translate(getName()) + " :");
+        label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;
@@ -89,7 +93,7 @@ public class SIPInternalIDTypeEditor extends MetadataEditor{
         gbc.gridy = 0;
         labelPanel.add(label, gbc);
 
-        JPanel editPanel= new JPanel();
+        JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
         gbl.columnWidths = new int[]{0};
         gbl.rowHeights = new int[]{0};
@@ -109,7 +113,7 @@ public class SIPInternalIDTypeEditor extends MetadataEditor{
         gbc.gridy = 0;
         editPanel.add(textField, gbc);
 
-        this.metadataTextField=textField;
-        this.metadataEditorPanel=new MetadataEditorSimplePanel(this,labelPanel,editPanel);
+        this.metadataTextField = textField;
+        this.metadataEditorPanel = new MetadataEditorSimplePanel(this, labelPanel, editPanel);
     }
 }

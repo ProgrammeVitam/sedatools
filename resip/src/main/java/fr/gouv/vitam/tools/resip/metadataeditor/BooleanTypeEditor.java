@@ -56,12 +56,12 @@ public class BooleanTypeEditor extends MetadataEditor {
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException {
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
         if (metadataCheckBox.getModel().isArmed() && metadataCheckBox.getModel().isPressed())
             getBooleanTypeMetadata().setValue(null);
         else
             getBooleanTypeMetadata().setValue(metadataCheckBox.isSelected());
-        return metadata;
+        return getSEDAMetadata();
     }
 
     public String getSummary() throws SEDALibException {
@@ -88,8 +88,8 @@ public class BooleanTypeEditor extends MetadataEditor {
         gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(metadata.getXmlElementName()) + " :");
-        label.setToolTipText(metadata.getXmlElementName());
+        JLabel label = new JLabel(translate(getName()) + " :");
+        label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;

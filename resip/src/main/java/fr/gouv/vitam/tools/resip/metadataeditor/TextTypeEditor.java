@@ -68,7 +68,7 @@ public class TextTypeEditor extends MetadataEditor {
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException {
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
         if (metadataTextField!=null)
             getTextTypeMetadata().setValue(metadataTextField.getText());
         else
@@ -76,7 +76,7 @@ public class TextTypeEditor extends MetadataEditor {
         String attr = metadataAttributeTextField.getText();
         if (attr.isEmpty()) attr = null;
         getTextTypeMetadata().setLang(attr);
-        return metadata;
+        return getSEDAMetadata();
     }
 
     public String getSummary() throws SEDALibException {
@@ -114,8 +114,8 @@ public class TextTypeEditor extends MetadataEditor {
         gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel beforeLabel = new JLabel(translate(metadata.getXmlElementName()) + (getTextTypeMetadata().getLang() == null ? "" : "("));
-        beforeLabel.setToolTipText(metadata.getXmlElementName());
+        JLabel beforeLabel = new JLabel(translate(getName()) + (getTextTypeMetadata().getLang() == null ? "" : "("));
+        beforeLabel.setToolTipText(getName());
         beforeLabel.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;
@@ -175,7 +175,7 @@ public class TextTypeEditor extends MetadataEditor {
 
         JTextArea textArea=null;
         JTextField textField=null;
-        if (MetadataEditorConstants.largeAreaTagList.contains(metadata.getXmlElementName())){
+        if (MetadataEditorConstants.largeAreaTagList.contains(getName())){
             gbl.rowHeights = new int[]{100};
             textArea = new JTextArea();
             textArea.setText(getTextTypeMetadata().getValue());
@@ -222,7 +222,7 @@ public class TextTypeEditor extends MetadataEditor {
     {
         langButton.setVisible(false);
         metadataAttributeTextField.setVisible(true);
-        beforeLabel.setText(translate(metadata.getXmlElementName()) + " (");
+        beforeLabel.setText(translate(getName()) + " (");
         innerLabel.setText(") :");
         metadataAttributeTextField.grabFocus();
     }

@@ -35,7 +35,6 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
@@ -59,9 +58,9 @@ public class DateTimeTypeEditor extends MetadataEditor{
     }
 
 
-    public SEDAMetadata extractMetadata() throws SEDALibException{
+    public SEDAMetadata extractEditedObject() throws SEDALibException{
         getDateTimeTypeMetadata().setValue(dateTimePicker.getDateTimeStrict());
-        return metadata;
+        return getSEDAMetadata();
     }
 
     public String getSummary() throws SEDALibException {
@@ -88,8 +87,8 @@ public class DateTimeTypeEditor extends MetadataEditor{
         gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(metadata.getXmlElementName())+" :");
-        label.setToolTipText(metadata.getXmlElementName());
+        JLabel label = new JLabel(translate(getName())+" :");
+        label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;

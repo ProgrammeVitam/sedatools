@@ -55,10 +55,9 @@ public class AnyXMLTypeEditor extends MetadataEditor{
         return (AnyXMLType) metadata;
     }
 
-
-    public SEDAMetadata extractMetadata() throws SEDALibException{
+    public SEDAMetadata extractEditedObject() throws SEDALibException{
         getAnyXMLTypeMetadata().setRawXml(metadataTextArea.getText());
-        return metadata;
+        return getSEDAMetadata();
     }
 
     public String getSummary() throws SEDALibException {
@@ -83,7 +82,7 @@ public class AnyXMLTypeEditor extends MetadataEditor{
         labelPanel.setLayout(gbl);
 
         JLabel label = new JLabel(translate("AnyXMLType")+" :");
-        label.setToolTipText(metadata.getXmlElementName());
+        label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;
