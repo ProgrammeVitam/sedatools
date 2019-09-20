@@ -37,17 +37,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The Rule metadata editor class.
  */
 public class RuleEditor extends MetadataEditor {
 
     /**
      * The metadata edition graphic component
      */
-    JTextField ruleIDTextField;
-    DatePicker startDatePicker;
+    private JTextField ruleIDTextField;
+    private DatePicker startDatePicker;
 
+    /**
+     * Instantiates a new Rule editor.
+     *
+     * @param metadata the Rule metadata
+     * @param father   the father
+     * @throws SEDALibException if not a Rule metadata
+     */
     public RuleEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
         if (!(metadata instanceof Rule))
@@ -58,69 +67,71 @@ public class RuleEditor extends MetadataEditor {
         return (Rule) metadata;
     }
 
+    /**
+     * Gets Rule sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal)
+            return new Rule("", null);
+        else
+            return new Rule("Text", LocalDate.of(2000, 1, 1));
+    }
 
+    @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
         getRuleMetadata().setRuleID(ruleIDTextField.getText());
         getRuleMetadata().setStartDate(startDatePicker.getDate());
         return getSEDAMetadata();
     }
 
+    @Override
     public String getSummary() throws SEDALibException {
         LocalDate tmp=startDatePicker.getDate();
         return ruleIDTextField.getText() + (tmp == null ? "" : ", " + tmp);
     }
 
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new Rule("Text", LocalDate.of(2000, 1, 1));
-    }
-
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        return new Rule("", null);
-    }
-
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         JPanel editPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{0.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        JTextField textField = new JTextField();
-        textField.setText(getRuleMetadata().getRuleID());
-        textField.setCaretPosition(0);
-        textField.setFont(MetadataEditor.EDIT_FONT);
+        ruleIDTextField = new JTextField();
+        ruleIDTextField.setText(getRuleMetadata().getRuleID());
+        ruleIDTextField.setCaretPosition(0);
+        ruleIDTextField.setFont(MetadataEditor.EDIT_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        editPanel.add(textField, gbc);
+        editPanel.add(ruleIDTextField, gbc);
         int height=MetadataEditor.EDIT_FONT.getSize();
-        if (textField.getBorder()!=null)
-            height+=textField.getBorder().getBorderInsets(textField).bottom+textField.getBorder().getBorderInsets(textField).top;
+        if (ruleIDTextField.getBorder()!=null)
+            height+=ruleIDTextField.getBorder().getBorderInsets(ruleIDTextField).bottom+ruleIDTextField.getBorder().getBorderInsets(ruleIDTextField).top;
 
-        DatePicker datePicker = new DatePicker();
-        datePicker.setDate(getRuleMetadata().getStartDate());
+        startDatePicker = new DatePicker();
+        startDatePicker.setDate(getRuleMetadata().getStartDate());
         gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.gridx = 0;
         gbc.gridy = 1;
-        editPanel.add(datePicker, gbc);
+        editPanel.add(startDatePicker, gbc);
 
         JPanel labelPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
         gbl.rowHeights = new int[]{height,height};
         gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{0.0,0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate("Rule")+" :");
+        JLabel label = new JLabel(translateMetadataName("Rule")+" :");
         label.setToolTipText("Rule");
         label.setFont(MetadataEditor.LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -130,7 +141,7 @@ public class RuleEditor extends MetadataEditor {
         gbc.gridy = 0;
         labelPanel.add(label, gbc);
 
-        JLabel dateLabel = new JLabel(translate("StartDate")+" :");
+        JLabel dateLabel = new JLabel(translateMetadataName("StartDate")+" :");
         dateLabel.setToolTipText("StartDate");
         dateLabel.setFont(MetadataEditor.LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -140,8 +151,6 @@ public class RuleEditor extends MetadataEditor {
         gbc.gridy = 1;
         labelPanel.add(dateLabel, gbc);
 
-        this.ruleIDTextField = textField;
-        this.startDatePicker = datePicker;
         this.metadataEditorPanel = new MetadataEditorSimplePanel(this, labelPanel, editPanel);
     }
 }

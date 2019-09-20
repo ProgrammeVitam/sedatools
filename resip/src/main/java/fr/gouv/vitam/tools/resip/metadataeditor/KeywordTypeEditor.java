@@ -35,16 +35,25 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import javax.swing.*;
 import java.awt.*;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The KeywordType metadata editor class.
  */
 public class KeywordTypeEditor extends MetadataEditor{
 
     /**
      * The metadata edition graphic component
      */
-    JComboBox metadataComboBox;
+    private JComboBox<String> valueComboBox;
 
+    /**
+     * Instantiates a new KeywordType editor.
+     *
+     * @param metadata the KeywordType metadata
+     * @param father   the father
+     * @throws SEDALibException if not a KeywordType metadata
+     */
     public KeywordTypeEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
         if (!(metadata instanceof KeywordType))
@@ -55,34 +64,37 @@ public class KeywordTypeEditor extends MetadataEditor{
         return (KeywordType) metadata;
     }
 
+    /**
+     * Gets KeywordType sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        return new KeywordType("subject");
+    }
 
+    @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException{
-        getKeywordTypeMetadata().setValue((String)(metadataComboBox.getSelectedItem()));
+        getKeywordTypeMetadata().setValue((String)(valueComboBox.getSelectedItem()));
         return getSEDAMetadata();
     }
 
+    @Override
     public String getSummary() throws SEDALibException {
-        return (String)(metadataComboBox.getSelectedItem());
+        return (String)(valueComboBox.getSelectedItem());
     }
 
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new KeywordType( "subject");
-    }
-
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        return new KeywordType( "subject");
-    }
-
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         JPanel labelPanel= new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
         gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(getName())+" :");
+        JLabel label = new JLabel(translateMetadataName(getName())+" :");
         label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -94,27 +106,21 @@ public class KeywordTypeEditor extends MetadataEditor{
 
         JPanel editPanel= new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{0.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        JComboBox comboBox=new JComboBox(KeywordType.enumValues.toArray());
-        comboBox.setEditable(true);
-        comboBox.getEditor().getEditorComponent().setFocusable(false);
-        comboBox.setFont(MetadataEditor.EDIT_FONT);
-        comboBox.setSelectedItem(getKeywordTypeMetadata().getValue());
-
+        valueComboBox=new JComboBox<String>((String[])KeywordType.enumValues.toArray());
+        valueComboBox.setEditable(true);
+        valueComboBox.getEditor().getEditorComponent().setFocusable(false);
+        valueComboBox.setFont(MetadataEditor.EDIT_FONT);
+        valueComboBox.setSelectedItem(getKeywordTypeMetadata().getValue());
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
-        editPanel.add(comboBox, gbc);
+        editPanel.add(valueComboBox, gbc);
 
-        this.metadataComboBox=comboBox;
         this.metadataEditorPanel=new MetadataEditorSimplePanel(this,labelPanel,editPanel);
     }
 }

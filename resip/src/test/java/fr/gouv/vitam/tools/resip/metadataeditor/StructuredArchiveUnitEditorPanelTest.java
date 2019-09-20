@@ -1,6 +1,6 @@
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
-import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.StructuredArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.highlevelcomponents.StructuredArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
@@ -28,11 +28,11 @@ public class StructuredArchiveUnitEditorPanelTest {
         SEDAMetadata sedaMetadata;
 
         archiveUnit.setInDataObjectPackageId("TestID");
-        sedaMetadata=MetadataEditor.createMetadataSample("ArchiveUnitProfile","ArchiveUnitProfile",true);
+        sedaMetadata=MetadataEditor.createSEDAMetadataSample("ArchiveUnitProfile","ArchiveUnitProfile",true);
         archiveUnit.setArchiveUnitProfile((ArchiveUnitProfile)sedaMetadata);
-        sedaMetadata=MetadataEditor.createMetadataSample("Content","Content",true);
+        sedaMetadata=MetadataEditor.createSEDAMetadataSample("Content","Content",true);
         archiveUnit.setContent((Content)sedaMetadata);
-        sedaMetadata=MetadataEditor.createMetadataSample("Management","Management",true);
+        sedaMetadata=MetadataEditor.createSEDAMetadataSample("Management","Management",true);
         archiveUnit.setManagement((Management)sedaMetadata);
         dop.addArchiveUnit(archiveUnit);
 

@@ -35,21 +35,23 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import javax.swing.*;
 import java.awt.*;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The TextType metadata editor class.
  */
 public class TextTypeEditor extends MetadataEditor {
 
     /**
      * The metadata attribute edition graphic component
      */
-    private JTextField metadataAttributeTextField;
+    private JTextField attributeTextField;
 
     /**
      * The metadata edition graphic component
      */
-    private JTextField metadataTextField;
-    private JTextArea metadataTextArea;
+    private JTextField valueTextField;
+    private JTextArea valueTextArea;
 
     /**
      * The graphic elements
@@ -57,6 +59,13 @@ public class TextTypeEditor extends MetadataEditor {
     private JLabel beforeLabel,innerLabel;
     private JButton langButton;
 
+    /**
+     * Instantiates a new TextType editor.
+     *
+     * @param metadata the TextType metadata
+     * @param father   the father
+     * @throws SEDALibException if not a TextType metadata
+     */
     public TextTypeEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
         if (!(metadata instanceof TextType))
@@ -67,54 +76,54 @@ public class TextTypeEditor extends MetadataEditor {
         return (TextType) metadata;
     }
 
-
-    public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (metadataTextField!=null)
-            getTextTypeMetadata().setValue(metadataTextField.getText());
+    /**
+     * Gets TextType sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal)
+            return new TextType(elementName, "");
         else
-            getTextTypeMetadata().setValue(metadataTextArea.getText());
-        String attr = metadataAttributeTextField.getText();
+            return new TextType(elementName, "Text");
+    }
+
+    @Override
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
+        if (valueTextField!=null)
+            getTextTypeMetadata().setValue(valueTextField.getText());
+        else
+            getTextTypeMetadata().setValue(valueTextArea.getText());
+        String attr = attributeTextField.getText();
         if (attr.isEmpty()) attr = null;
         getTextTypeMetadata().setLang(attr);
         return getSEDAMetadata();
     }
 
+    @Override
     public String getSummary() throws SEDALibException {
         String tmp;
         String result="";
-        if (metadataTextField!=null)
-            tmp= metadataTextField.getText();
+        if (valueTextField!=null)
+            tmp= valueTextField.getText();
         else
-            tmp= metadataTextArea.getText();
-        if ((metadataAttributeTextField.getText()!=null) && !metadataAttributeTextField.getText().isEmpty())
-            result="("+metadataAttributeTextField.getText()+")";
+            tmp= valueTextArea.getText();
+        if ((attributeTextField.getText()!=null) && !attributeTextField.getText().isEmpty())
+            result="("+ attributeTextField.getText()+")";
         return result+tmp;
     }
 
-    /**
-     * StringType sample.
-     *
-     * @param elementName the element name
-     * @return the string type
-     */
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new TextType(elementName, "Text");
-    }
-
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        return new TextType(elementName, "");
-    }
-
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0, 0, 0};
-        gbl.rowHeights = new int[]{0};
         gbl.columnWeights = new double[]{1.0, 0.0, 0.0};
-        gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel beforeLabel = new JLabel(translate(getName()) + (getTextTypeMetadata().getLang() == null ? "" : "("));
+        beforeLabel = new JLabel(translateMetadataName(getName()) + (getTextTypeMetadata().getLang() == null ? "" : "("));
         beforeLabel.setToolTipText(getName());
         beforeLabel.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -124,7 +133,7 @@ public class TextTypeEditor extends MetadataEditor {
         gbc.gridy = 0;
         labelPanel.add(beforeLabel, gbc);
 
-        JButton langButton = new JButton("+lang");
+        langButton = new JButton("+lang");
         langButton.setMargin(new Insets(0, 0, 0, 0));
         langButton.setFont(MetadataEditor.MINI_EDIT_FONT);
         langButton.setFocusable(false);
@@ -136,27 +145,27 @@ public class TextTypeEditor extends MetadataEditor {
         langButton.addActionListener(arg -> this.langActivate());
         labelPanel.add(langButton, gbc);
 
-        JTextField attrTextField = new JTextField();
-        attrTextField.setText(getTextTypeMetadata().getLang());
-        attrTextField.setFont(MetadataEditor.MINI_EDIT_FONT);
-        attrTextField.setColumns(2);
+        attributeTextField = new JTextField();
+        attributeTextField.setText(getTextTypeMetadata().getLang());
+        attributeTextField.setFont(MetadataEditor.MINI_EDIT_FONT);
+        attributeTextField.setColumns(2);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.LINE_END;
         gbc.gridx = 1;
         gbc.gridy = 0;
-        labelPanel.add(attrTextField, gbc);
+        labelPanel.add(attributeTextField, gbc);
         if (getTextTypeMetadata().getLang() == null) {
             langButton.setVisible(true);
-            attrTextField.setVisible(false);
+            attributeTextField.setVisible(false);
         }
         else{
             langButton.setVisible(false);
-            attrTextField.setVisible(true);
+            attributeTextField.setVisible(true);
         }
 
-        JLabel innerLabel = new JLabel((getTextTypeMetadata().getLang() == null ? ":" : ") :"));
-        innerLabel.setToolTipText(translate("Lang attribute"));
+        innerLabel = new JLabel((getTextTypeMetadata().getLang() == null ? ":" : ") :"));
+        innerLabel.setToolTipText(translateMetadataName("Lang attribute"));
         innerLabel.setFont(MetadataEditor.LABEL_FONT);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_END;
@@ -167,63 +176,49 @@ public class TextTypeEditor extends MetadataEditor {
 
         JPanel editPanel= new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{0.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        JTextArea textArea=null;
-        JTextField textField=null;
         if (MetadataEditorConstants.largeAreaTagList.contains(getName())){
             gbl.rowHeights = new int[]{100};
-            textArea = new JTextArea();
-            textArea.setText(getTextTypeMetadata().getValue());
-            textArea.setCaretPosition(0);
-            textArea.setFont(MetadataEditor.EDIT_FONT);
-            textArea.setRows(6);
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
-            JScrollPane scrollArea=new JScrollPane(textArea);
+            valueTextArea = new JTextArea();
+            valueTextArea.setText(getTextTypeMetadata().getValue());
+            valueTextArea.setCaretPosition(0);
+            valueTextArea.setFont(MetadataEditor.EDIT_FONT);
+            valueTextArea.setRows(6);
+            valueTextArea.setLineWrap(true);
+            valueTextArea.setWrapStyleWord(true);
+            JScrollPane scrollArea=new JScrollPane(valueTextArea);
             gbc = new GridBagConstraints();
-            gbc.weightx = 1.0;
-            //gbc.weighty = 1.0;
             gbc.insets = new Insets(0, 0, 0, 0);
             gbc.fill = GridBagConstraints.BOTH;
-            gbc.gridx = 1;
+            gbc.gridx = 0;
             gbc.gridy = 0;
             editPanel.add(scrollArea, gbc);
 
         }
         else {
-            textField = new JTextField();
-            textField.setText(getTextTypeMetadata().getValue());
-            textField.setCaretPosition(0);
-            textField.setFont(MetadataEditor.EDIT_FONT);
+            valueTextField = new JTextField();
+            valueTextField.setText(getTextTypeMetadata().getValue());
+            valueTextField.setCaretPosition(0);
+            valueTextField.setFont(MetadataEditor.EDIT_FONT);
             gbc = new GridBagConstraints();
-            gbc.weightx = 1.0;
             gbc.insets = new Insets(0, 0, 0, 0);
             gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.gridx = 3;
+            gbc.gridx = 0;
             gbc.gridy = 0;
-            editPanel.add(textField, gbc);
+            editPanel.add(valueTextField, gbc);
         }
 
-        this.metadataTextArea = textArea;
-        this.metadataTextField = textField;
-        this.beforeLabel=beforeLabel;
-        this.metadataAttributeTextField = attrTextField;
-        this.langButton=langButton;
-        this.innerLabel=innerLabel;
         this.metadataEditorPanel=new MetadataEditorSimplePanel(this,labelPanel,editPanel);
     }
 
-    void langActivate()
+    private void langActivate()
     {
         langButton.setVisible(false);
-        metadataAttributeTextField.setVisible(true);
-        beforeLabel.setText(translate(getName()) + " (");
+        attributeTextField.setVisible(true);
+        beforeLabel.setText(translateMetadataName(getName()) + " (");
         innerLabel.setText(") :");
-        metadataAttributeTextField.grabFocus();
+        attributeTextField.grabFocus();
     }
 }

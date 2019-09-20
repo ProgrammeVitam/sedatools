@@ -47,24 +47,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The BinaryDataObject metadata editor class.
  */
 public class BinaryDataObjectEditor extends CompositeEditor {
 
-    public BinaryDataObjectEditor(BinaryDataObject bdo, MetadataEditor father) {
-        super(null, father);
-        this.metadata=bdo;
-    }
-
-    public String getName(){
-        return translate("BinaryDataObject")+" - "+(metadata==null?translate("Unknown"):getBinaryDataObjectMetadata().getInDataObjectPackageId());
+    /**
+     * Instantiates a new BinaryDataObject editor.
+     *
+     * @param metadata the BinaryDataObject metadata
+     * @param father   the father
+     */
+    public BinaryDataObjectEditor(BinaryDataObject metadata, MetadataEditor father) {
+        super(metadata, father);
     }
 
     private BinaryDataObject getBinaryDataObjectMetadata() {
         return (BinaryDataObject) metadata;
     }
 
+    @Override
+    public String getName(){
+        return translateMetadataName("BinaryDataObject")+" - "+(metadata==null? translateMetadataName("Unknown"):getBinaryDataObjectMetadata().getInDataObjectPackageId());
+    }
+
+    @Override
     public BinaryDataObject extractEditedObject() throws SEDALibException {
         BinaryDataObject tmpBdo=new BinaryDataObject();
         for (MetadataEditor metadataEditor : metadataEditorList) {
@@ -108,10 +117,56 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         return getBinaryDataObjectMetadata();
     }
 
-    static void openButton(Path path){
-        System.out.println(path);
+    @Override
+    public String getSummary() throws SEDALibException {
+        List<String> summaryList = new ArrayList<String>(metadataEditorList.size());
+        String tmp;
+
+        if (getBinaryDataObjectMetadata().dataObjectVersion!=null)
+            summaryList.add(getBinaryDataObjectMetadata().dataObjectVersion.getValue());
+        else
+            summaryList.add(translateMetadataName("Unknown"));
+
+        if (getBinaryDataObjectMetadata().fileInfo!=null) {
+            tmp=getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("Filename");
+            if (tmp==null)
+                tmp= translateMetadataName("Unknown");
+        }
+        else
+            tmp= translateMetadataName("Unknown");
+        summaryList.add(tmp);
+
+        if (getBinaryDataObjectMetadata().formatIdentification!=null) {
+            tmp=getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("MimeType");
+            if (tmp==null)
+                tmp= translateMetadataName("Unknown");
+        }
+        else
+            tmp= translateMetadataName("Unknown");
+        summaryList.add(tmp);
+
+        if (getBinaryDataObjectMetadata().formatIdentification!=null) {
+            tmp=getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("FormatId");
+            if (tmp==null)
+                tmp= translateMetadataName("Unknown");
+        }
+        else
+            tmp= translateMetadataName("Unknown");
+        summaryList.add(tmp);
+
+        if (getBinaryDataObjectMetadata().fileInfo!=null) {
+            tmp=getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("LastModified");
+            if (tmp==null)
+                tmp= translateMetadataName("Unknown");
+        }
+        else
+            tmp= translateMetadataName("Unknown");
+        summaryList.add(tmp);
+
+        return String.join(", ", summaryList);
     }
 
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         this.metadataEditorList = new ArrayList<MetadataEditor>();
 
@@ -170,109 +225,63 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         }
     }
 
-    public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<String>(metadataEditorList.size());
-        String tmp;
-
-        if (getBinaryDataObjectMetadata().dataObjectVersion!=null)
-            summaryList.add(getBinaryDataObjectMetadata().dataObjectVersion.getValue());
-        else
-            summaryList.add(translate("Unknown"));
-
-        if (getBinaryDataObjectMetadata().fileInfo!=null) {
-            tmp=getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("Filename");
-            if (tmp==null)
-                tmp=translate("Unknown");
-        }
-        else
-            tmp=translate("Unknown");
-        summaryList.add(tmp);
-
-        if (getBinaryDataObjectMetadata().formatIdentification!=null) {
-            tmp=getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("MimeType");
-            if (tmp==null)
-                tmp=translate("Unknown");
-        }
-        else
-            tmp=translate("Unknown");
-        summaryList.add(tmp);
-
-        if (getBinaryDataObjectMetadata().formatIdentification!=null) {
-            tmp=getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("FormatId");
-            if (tmp==null)
-                tmp=translate("Unknown");
-        }
-        else
-            tmp=translate("Unknown");
-        summaryList.add(tmp);
-
-        if (getBinaryDataObjectMetadata().fileInfo!=null) {
-            tmp=getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("LastModified");
-            if (tmp==null)
-                tmp=translate("Unknown");
-        }
-        else
-            tmp=translate("Unknown");
-        summaryList.add(tmp);
-
-        return String.join(", ", summaryList);
+    static private void openButton(Path path){
+        System.out.println(path);
     }
 
+    @Override
     public List<Pair<String,String>> getExtensionList() throws SEDALibException {
         List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
-                Pair.of("DataObjectVersion", translate("DataObjectVersion")),
-                Pair.of("Uri", translate("Uri")),
-                Pair.of("MessageDigest", translate("MessageDigest")),
-                Pair.of("Size", translate("Size")),
-                Pair.of("FormatIdentification", translate("FormatIdentification")),
-                Pair.of("FileInfo", translate("FileInfo")),
-                Pair.of("Metadata", translate("Metadata"))));
+                Pair.of("DataObjectVersion", translateMetadataName("DataObjectVersion")),
+                Pair.of("Uri", translateMetadataName("Uri")),
+                Pair.of("MessageDigest", translateMetadataName("MessageDigest")),
+                Pair.of("Size", translateMetadataName("Size")),
+                Pair.of("FormatIdentification", translateMetadataName("FormatIdentification")),
+                Pair.of("FileInfo", translateMetadataName("FileInfo")),
+                Pair.of("Metadata", translateMetadataName("Metadata"))));
 
         for (MetadataEditor me : metadataEditorList) {
             String name=me.getName();
-            extensionList.remove(Pair.of(name,translate(name)));
+            extensionList.remove(Pair.of(name, translateMetadataName(name)));
         }
         return extensionList;
     }
 
-    public boolean containsMultiple(String metadataName) throws SEDALibException {
-       return false;
-    }
-
+    @Override
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata=null;
         int insertionIndex=0;
         switch(metadataName){
             case "DataObjectVersion":
-                sedaMetadata = createMetadataSample("StringType", "DataObjectVersion", true);
+                sedaMetadata = createSEDAMetadataSample("StringType", "DataObjectVersion", true);
                 insertionIndex=0;
                 break;
             case "Uri":
-                sedaMetadata = createMetadataSample("StringType", "Uri", true);
+                sedaMetadata = createSEDAMetadataSample("StringType", "Uri", true);
                 insertionIndex=1;
                 break;
             case "MessageDigest":
-                sedaMetadata = createMetadataSample("DigestType", "MessageDigest", true);
+                sedaMetadata = createSEDAMetadataSample("DigestType", "MessageDigest", true);
                 insertionIndex=2;
                 break;
             case "Size":
-                sedaMetadata = createMetadataSample("IntegerType", "Size", true);
+                sedaMetadata = createSEDAMetadataSample("IntegerType", "Size", true);
                 insertionIndex=3;
                 break;
             case "Compressed":
-                sedaMetadata = createMetadataSample("StringType", "Compressed", true);
+                sedaMetadata = createSEDAMetadataSample("StringType", "Compressed", true);
                 insertionIndex=4;
                 break;
             case "FormatIdentification":
-                sedaMetadata = createMetadataSample("FormatIdentification", "FormatIdentification", true);
+                sedaMetadata = createSEDAMetadataSample("FormatIdentification", "FormatIdentification", true);
                 insertionIndex=5;
                 break;
             case "FileInfo":
-                sedaMetadata = createMetadataSample("FileInfo", "FileInfo", true);
+                sedaMetadata = createSEDAMetadataSample("FileInfo", "FileInfo", true);
                 insertionIndex=6;
                 break;
             case "Metadata":
-                sedaMetadata = createMetadataSample("Metadata", "Metadata", true);
+                sedaMetadata = createSEDAMetadataSample("Metadata", "Metadata", true);
                 insertionIndex=7;
                 break;
         }
@@ -282,5 +291,10 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         metadataEditorList.add(insertionIndex,
                 addedMetadataEditor);
         ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(insertionIndex,addedMetadataEditor.getMetadataEditorPanel());
+    }
+
+    @Override
+    public boolean canContainsMultiple(String metadataName) throws SEDALibException {
+        return false;
     }
 }

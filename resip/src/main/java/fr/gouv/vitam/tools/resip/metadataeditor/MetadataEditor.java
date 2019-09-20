@@ -40,11 +40,16 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * The metadata editor class.
+ * <p>
+ * This is the controller class for structured edition of SEDAMetadata and high-level objects
+ * like BinaryDataObject, PhysicalDataObject, ArchiveUnit.
+ * <p>
+ * The data is in the SEDAMetadata... objects, and the visual is in MetadataEditorPanels.
  */
 abstract public class MetadataEditor {
 
     /**
-     * The metadata.
+     * The metadata object, either SEDAMetadata or high-level objects.
      */
     protected Object metadata;
 
@@ -107,9 +112,9 @@ abstract public class MetadataEditor {
      * The constant COMPOSITE_LABEL_COLOR.
      */
     public static Color COMPOSITE_LABEL_COLOR = new Color(
-            (int) Math.min(GENERAL_FOREGROUND.getRed() + 64, 255),
-            (int) Math.min(GENERAL_FOREGROUND.getGreen() + 64, 255),
-            (int) Math.min(GENERAL_FOREGROUND.getBlue() + 200, 255));
+            Math.min(GENERAL_FOREGROUND.getRed() + 64, 255),
+            Math.min(GENERAL_FOREGROUND.getGreen() + 64, 255),
+            Math.min(GENERAL_FOREGROUND.getBlue() + 200, 255));
 
     /**
      * The constant COMPOSITE_LABEL_SEPARATOR_COLOR.
@@ -135,11 +140,9 @@ abstract public class MetadataEditor {
             0,
             (int) (GENERAL_BACKGROUND.getBlue() * 0.7));
 
-    public MetadataEditor(SEDAMetadata metadata, MetadataEditor father) {
-        this.metadata = metadata;
-        this.father = father;
-        this.metadataEditorPanel = null;
-    }
+    //
+    // All static methods dealing with SEDAMetadata and SEDAMetadata editors
+    //
 
     private static Class getMetadataClass(String simpleMetadataType) throws SEDALibException {
         Class result;
@@ -155,20 +158,34 @@ abstract public class MetadataEditor {
                 try {
                     result = Class.forName(metadataType);
                 } catch (ClassNotFoundException e3) {
-                    throw new SEDALibException("Le type de métadonnée [" + simpleMetadataType + "] n'est pas connu");
+                    metadataType = "fr.gouv.vitam.tools.sedalib.metadata.data." + simpleMetadataType;
+                    try {
+                        result = Class.forName(metadataType);
+                    } catch (ClassNotFoundException e4) {
+                        throw new SEDALibException("Le type de métadonnée [" + simpleMetadataType + "] n'est pas connu");
+                    }
                 }
             }
         }
         return result;
     }
 
-    static public SEDAMetadata createMetadataSample(String simpleMetadataType, String elementName, boolean minimal) throws SEDALibException {
+    /**
+     * Create sample seda metadata.
+     *
+     * @param simpleMetadataType the simple metadata type, the SEDAMetadata type used for this metadata
+     * @param elementName        the element name, corresponding to the XML tag in SEDA
+     * @param minimal            the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata createSEDAMetadataSample(String simpleMetadataType, String elementName, boolean minimal) throws SEDALibException {
         SEDAMetadata result;
         try {
             String metadataEditorType = "fr.gouv.vitam.tools.resip.metadataeditor." + simpleMetadataType + "Editor";
-            Class metadataEditorClass = Class.forName(metadataEditorType);
+            Class<?> metadataEditorClass = Class.forName(metadataEditorType);
             try {
-                result = (SEDAMetadata) (metadataEditorClass.getMethod("get" + (minimal ? "Minimal" : "") + "Sample", String.class).invoke(null, elementName));
+                result = (SEDAMetadata) metadataEditorClass.getMethod("getSEDAMetadataSample", String.class, boolean.class).invoke(null, elementName,minimal);
             } catch (IllegalAccessException | NoSuchMethodException e) {
                 throw new SEDALibException("La création d'un exemple de la métadonnée de type [" + simpleMetadataType + "] n'est pas possible", e);
             } catch (InvocationTargetException te) {
@@ -178,25 +195,33 @@ abstract public class MetadataEditor {
             Class metadataClass = getMetadataClass(simpleMetadataType);
             if (!ComplexListType.class.isAssignableFrom(metadataClass))
                 throw new SEDALibException("L'éditeur de métadonnée [" + simpleMetadataType + "] n'existe pas");
-            result = (SEDAMetadata) ComplexListTypeEditor.getSample(metadataClass, elementName, minimal);
+            result = ComplexListTypeEditor.getSEDAMetadataSample(metadataClass, elementName, minimal);
         }
         return result;
     }
 
+    /**
+     * Create metadata editor metadata editor.
+     *
+     * @param metadata the SEDAMetadata to edit
+     * @param father   the father, the MetadataEditor of the object (SEDAMetadata or high-level objects) containing metadata
+     * @return the metadata editor
+     * @throws SEDALibException the seda lib exception
+     */
     static public MetadataEditor createMetadataEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         MetadataEditor result;
         if (metadata instanceof ComplexListType)
             result = new ComplexListTypeEditor(metadata, father);
         else {
             String metadataEditorType = "fr.gouv.vitam.tools.resip.metadataeditor." + metadata.getClass().getSimpleName() + "Editor";
-            Class metadataEditorClass;
+            Class<?> metadataEditorClass;
             try {
                 metadataEditorClass = Class.forName(metadataEditorType);
             } catch (ClassNotFoundException e) {
                 throw new SEDALibException("La métadonnée de type [" + metadata.getClass().getSimpleName() + "] n'a pas d'éditeur", e);
             }
             try {
-                result = (MetadataEditor) (metadataEditorClass.getConstructor(SEDAMetadata.class, MetadataEditor.class).newInstance(metadata, father));
+                result = (MetadataEditor) metadataEditorClass.getConstructor(SEDAMetadata.class, MetadataEditor.class).newInstance(metadata, father);
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e) {
                 throw new SEDALibException("La création d'un éditeur de la métadonnée de type [" + metadataEditorType + "] n'est pas possible", e);
             } catch (InvocationTargetException te) {
@@ -206,13 +231,30 @@ abstract public class MetadataEditor {
         return result;
     }
 
+    /**
+     * Create metadata editor metadata editor.
+     *
+     * @param simpleMetadataType the simple metadata type, the SEDAMetadata type used for this metadata
+     * @param elementName        the element name, corresponding to the XML tag in SEDA
+     * @param minimal            the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @param father             the father, the MetadataEditor of the object (SEDAMetadata or high-level objects) containing metadata
+     * @return the metadata editor
+     * @throws SEDALibException the seda lib exception
+     */
     static public MetadataEditor createMetadataEditor(String simpleMetadataType, String elementName, boolean minimal, MetadataEditor father) throws
             SEDALibException {
-        return createMetadataEditor(createMetadataSample(simpleMetadataType, elementName, minimal), father);
+        return createMetadataEditor(createSEDAMetadataSample(simpleMetadataType, elementName, minimal), father);
     }
 
-    static public SEDAMetadata getEmptySameMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
-        Constructor<?> cons = null;
+    /**
+     * Gets empty same metadata.
+     *
+     * @param sedaMetadata the SEDAMetadata
+     * @return an SEDAMetadata of same type but empty
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getEmptySameSEDAMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
+        Constructor<?> cons;
         try {
             if (sedaMetadata.getClass().getName().contains("namedtype")) {
                 cons = sedaMetadata.getClass().getConstructor(String.class);
@@ -230,46 +272,116 @@ abstract public class MetadataEditor {
         return sedaMetadata;
     }
 
+    /**
+     * Gets seda metadata sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        throw new SEDALibException("Métadonnée non implémentée pour [" + elementName + "]");
+    }
+
+    /**
+     * Gets SEDAMetadata information.
+     *
+     * @param sedaMetadata the seda metadata
+     * @return the extra information
+     */
+    static public String getSEDAMetadataInformation(SEDAMetadata sedaMetadata) {
+        return MetadataEditorConstants.sedaMetadataInformationMap.get(sedaMetadata.getXmlElementName());
+    }
+
+    //
+    // MetadataEditor methods
+    //
+
+    /**
+     * Instantiates a new metadata editor.
+     *
+     * @param metadata the metadata
+     * @param father   the father
+     */
+    public MetadataEditor(Object metadata, MetadataEditor father) {
+        this.metadata = metadata;
+        this.father = father;
+        this.metadataEditorPanel = null;
+    }
+
+    /**
+     * Get edited object name.
+     *
+     * @return the name string
+     */
     public String getName(){
+        // standard case made default
         if (metadata instanceof SEDAMetadata)
             return ((SEDAMetadata)metadata).getXmlElementName();
         return "";
     }
 
+    /**
+     * Extract edited object object.
+     *
+     * @return the edited object
+     * @throws SEDALibException the seda lib exception
+     */
     abstract public Object extractEditedObject() throws SEDALibException;
 
+    /**
+     * Gets edited object summary.
+     *
+     * @return the summary string
+     * @throws SEDALibException the seda lib exception
+     */
     abstract public String getSummary() throws SEDALibException;
 
-    static public String getExtraInformation(SEDAMetadata sedaMetadata) {
-        return MetadataEditorConstants.typeExtraInformationMap.get(sedaMetadata.getXmlElementName());
-    }
-
-    public static String translate(String tag) {
-        String result = MetadataEditorConstants.translateMap.get(tag);
-        if (result == null)
-            return tag;
-        return result;
-    }
-
+    /**
+     * Create metadata editor panel.
+     *
+     * @throws SEDALibException the seda lib exception
+     */
     abstract public void createMetadataEditorPanel() throws SEDALibException;
 
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        throw new SEDALibException("Métadonnée non implémentée pour [" + elementName + "]");
+    /**
+     * Test if the edited object can contain multiple objects with this name.
+     *
+     * @param metadataName the metadata name
+     * @return true if it can contain multiple, false if not
+     * @throws SEDALibException the seda lib exception
+     */
+    public boolean canContainsMultiple(String metadataName) throws SEDALibException {
+        return false;
     }
 
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        throw new SEDALibException("Métadonnée non implémentée pour [" + elementName + "]");
-    }
-
+    /**
+     * Gets metadata editor panel.
+     *
+     * @return the metadata editor panel
+     * @throws SEDALibException the seda lib exception
+     */
     public MetadataEditorPanel getMetadataEditorPanel() throws SEDALibException {
         if (metadataEditorPanel == null)
             createMetadataEditorPanel();
         return metadataEditorPanel;
     }
 
-    public boolean containsMultiple(String metadataName) throws SEDALibException {
-        return false;
+    /**
+     * Gets metadata editor panel top parent.
+     *
+     * @return the metadata editor panel top parent
+     */
+    public Container getMetadataEditorPanelTopParent() {
+        if (father == null)
+            return metadataEditorPanel.getParent();
+        return father.getMetadataEditorPanelTopParent();
     }
+
+    //
+    // Getters and setters
+    //
 
     /**
      * Gets father.
@@ -302,16 +414,8 @@ abstract public class MetadataEditor {
 
     /**
      * Set the edited object.
-     *
-     * @return the edited object
-     */
+      */
     public void setEditedObject(Object metadata) throws SEDALibException {
         this.metadata=metadata;
-    }
-
-    public Container getMetadataEditorPanelTopParent() {
-        if (father == null)
-            return metadataEditorPanel.getParent();
-        return father.getMetadataEditorPanelTopParent();
     }
 }

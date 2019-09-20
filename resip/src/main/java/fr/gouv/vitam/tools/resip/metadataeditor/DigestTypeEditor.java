@@ -35,20 +35,22 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import javax.swing.*;
 import java.awt.*;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The DigestType metadata editor class.
  */
 public class DigestTypeEditor extends MetadataEditor {
 
     /**
      * The metadata attribute edition graphic component
      */
-    private JTextField metadataAttributeTextField;
+    private JTextField attributeTextField;
 
     /**
      * The metadata edition graphic component
      */
-    private JTextField metadataTextField;
+    private JTextField valueTextField;
 
     /**
      * The graphic elements
@@ -56,6 +58,13 @@ public class DigestTypeEditor extends MetadataEditor {
     private JLabel beforeLabel, innerLabel;
     private JButton algorithmButton;
 
+    /**
+     * Instantiates a new DigestType editor.
+     *
+     * @param metadata the DigestType metadata
+     * @param father   the father
+     * @throws SEDALibException if not a DigestType metadata
+     */
     public DigestTypeEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
         if (!(metadata instanceof DigestType))
@@ -66,46 +75,46 @@ public class DigestTypeEditor extends MetadataEditor {
         return (DigestType) metadata;
     }
 
+    /**
+     * Gets DigestType sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal)
+            return new DigestType(elementName, "");
+        else
+            return new DigestType(elementName, "Hash","Algo");
+    }
 
+    @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        getDigestTypeMetadata().setValue(metadataTextField.getText());
-        String attr = metadataAttributeTextField.getText();
+        getDigestTypeMetadata().setValue(valueTextField.getText());
+        String attr = attributeTextField.getText();
         if (attr.isEmpty()) attr = null;
         getDigestTypeMetadata().setAlgorithm(attr);
         return getSEDAMetadata();
     }
 
+    @Override
     public String getSummary() throws SEDALibException {
         String result="";
-        if ((metadataAttributeTextField.getText()!=null) && !metadataAttributeTextField.getText().isEmpty())
-            result="("+metadataAttributeTextField.getText()+")";
-        return result+metadataTextField.getText();
+        if ((attributeTextField.getText()!=null) && !attributeTextField.getText().isEmpty())
+            result="("+ attributeTextField.getText()+")";
+        return result+valueTextField.getText();
     }
 
-    /**
-     * DigestType sample.
-     *
-     * @param elementName the element name
-     * @return the string type
-     */
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new DigestType(elementName, "Hash","Algo");
-    }
-
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        return new DigestType(elementName, "");
-    }
-
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0, 0, 0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{1.0, 1.0, 1.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.columnWeights = new double[]{1.0, 0.0, 0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel beforeLabel = new JLabel(translate(getName()) + (getDigestTypeMetadata().getAlgorithm() == null ? "" : "("));
+        beforeLabel = new JLabel(translateMetadataName(getName()) + (getDigestTypeMetadata().getAlgorithm() == null ? "" : "("));
         beforeLabel.setToolTipText(getName());
         beforeLabel.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -115,37 +124,37 @@ public class DigestTypeEditor extends MetadataEditor {
         gbc.gridy = 0;
         labelPanel.add(beforeLabel, gbc);
 
-        JButton algButton = new JButton("+alg");
-        algButton.setMargin(new Insets(0, 0, 0, 0));
-        algButton.setFont(MetadataEditor.MINI_EDIT_FONT);
-        algButton.setFocusable(false);
+        algorithmButton = new JButton("+alg");
+        algorithmButton.setMargin(new Insets(0, 0, 0, 0));
+        algorithmButton.setFont(MetadataEditor.MINI_EDIT_FONT);
+        algorithmButton.setFocusable(false);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.LINE_END;
         gbc.gridx = 1;
         gbc.gridy = 0;
-        algButton.addActionListener(arg -> this.algorithmActivate());
-        labelPanel.add(algButton, gbc);
+        algorithmButton.addActionListener(arg -> this.algorithmActivate());
+        labelPanel.add(algorithmButton, gbc);
 
-        JTextField attrTextField = new JTextField();
-        attrTextField.setText(getDigestTypeMetadata().getAlgorithm());
-        attrTextField.setFont(MetadataEditor.MINI_EDIT_FONT);
-        attrTextField.setColumns(5);
+        attributeTextField = new JTextField();
+        attributeTextField.setText(getDigestTypeMetadata().getAlgorithm());
+        attributeTextField.setFont(MetadataEditor.MINI_EDIT_FONT);
+        attributeTextField.setColumns(5);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.LINE_END;
         gbc.gridx = 1;
         gbc.gridy = 0;
-        labelPanel.add(attrTextField, gbc);
+        labelPanel.add(attributeTextField, gbc);
         if (getDigestTypeMetadata().getAlgorithm() == null) {
-            algButton.setVisible(true);
-            attrTextField.setVisible(false);
+            algorithmButton.setVisible(true);
+            attributeTextField.setVisible(false);
         } else {
-            algButton.setVisible(false);
-            attrTextField.setVisible(true);
+            algorithmButton.setVisible(false);
+            attributeTextField.setVisible(true);
         }
 
-        JLabel innerLabel = new JLabel((getDigestTypeMetadata().getAlgorithm() == null ? ":" : ") :"));
+        innerLabel = new JLabel((getDigestTypeMetadata().getAlgorithm() == null ? ":" : ") :"));
         innerLabel.setToolTipText(getName());
         innerLabel.setFont(MetadataEditor.LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -157,37 +166,28 @@ public class DigestTypeEditor extends MetadataEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{0.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        JTextField textField = new JTextField();
-        textField.setText(getDigestTypeMetadata().getValue());
-        textField.setCaretPosition(0);
-        textField.setFont(MetadataEditor.EDIT_FONT);
+        valueTextField = new JTextField();
+        valueTextField.setText(getDigestTypeMetadata().getValue());
+        valueTextField.setCaretPosition(0);
+        valueTextField.setFont(MetadataEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 3;
+        gbc.gridx = 0;
         gbc.gridy = 0;
-        editPanel.add(textField, gbc);
+        editPanel.add(valueTextField, gbc);
 
-        this.metadataTextField = textField;
-        this.beforeLabel = beforeLabel;
-        this.metadataAttributeTextField = attrTextField;
-        this.algorithmButton = algButton;
-        this.innerLabel = innerLabel;
         this.metadataEditorPanel = new MetadataEditorSimplePanel(this, labelPanel, editPanel);
     }
 
-    void algorithmActivate() {
+    private void algorithmActivate() {
         algorithmButton.setVisible(false);
-        metadataAttributeTextField.setVisible(true);
-        beforeLabel.setText(translate(getName()) + " (");
+        attributeTextField.setVisible(true);
+        beforeLabel.setText(translateMetadataName(getName()) + " (");
         innerLabel.setText(") :");
-        metadataAttributeTextField.grabFocus();
+        attributeTextField.grabFocus();
     }
 }

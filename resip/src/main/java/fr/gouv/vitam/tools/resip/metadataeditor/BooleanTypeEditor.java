@@ -35,16 +35,25 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import javax.swing.*;
 import java.awt.*;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The BooleanType metadata editor class.
  */
 public class BooleanTypeEditor extends MetadataEditor {
 
     /**
      * The metadata edition graphic component
      */
-    JCheckBox metadataCheckBox;
+    private JCheckBox valueCheckBox;
 
+    /**
+     * Instantiates a new BooleanType editor.
+     *
+     * @param metadata the BooleanType metadata
+     * @param father   the father
+     * @throws SEDALibException if not a BooleanType metadata
+     */
     public BooleanTypeEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
         if (!(metadata instanceof BooleanType))
@@ -55,40 +64,46 @@ public class BooleanTypeEditor extends MetadataEditor {
         return (BooleanType) metadata;
     }
 
+    /**
+     * Gets BooleanType sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal)
+            return new BooleanType(elementName, null);
+        else
+            return new BooleanType(elementName, false);
+    }
 
+    @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (metadataCheckBox.getModel().isArmed() && metadataCheckBox.getModel().isPressed())
+        if (valueCheckBox.getModel().isArmed() && valueCheckBox.getModel().isPressed())
             getBooleanTypeMetadata().setValue(null);
         else
-            getBooleanTypeMetadata().setValue(metadataCheckBox.isSelected());
+            getBooleanTypeMetadata().setValue(valueCheckBox.isSelected());
         return getSEDAMetadata();
     }
 
+    @Override
     public String getSummary() throws SEDALibException {
-        Boolean tmp = metadataCheckBox.isSelected();
-        if (metadataCheckBox.getModel().isArmed() && metadataCheckBox.getModel().isPressed())
+        Boolean tmp = valueCheckBox.isSelected();
+        if (valueCheckBox.getModel().isArmed() && valueCheckBox.getModel().isPressed())
             return "";
         return tmp.toString();
     }
 
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new BooleanType(elementName, false);
-    }
-
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        return new BooleanType(elementName, null);
-    }
-
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
         gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(getName()) + " :");
+        JLabel label = new JLabel(translateMetadataName(getName()) + " :");
         label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -100,29 +115,22 @@ public class BooleanTypeEditor extends MetadataEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{0.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
-
-        JCheckBox checkBox = new JCheckBox();
+        valueCheckBox = new JCheckBox();
         //indeterminate
         if (getBooleanTypeMetadata().getValue() == null) {
-            checkBox.getModel().setPressed(true);
-            checkBox.getModel().setArmed(true);
+            valueCheckBox.getModel().setPressed(true);
+            valueCheckBox.getModel().setArmed(true);
         } else
-            checkBox.setSelected(getBooleanTypeMetadata().getValue());
-
+            valueCheckBox.setSelected(getBooleanTypeMetadata().getValue());
         gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
-        editPanel.add(checkBox, gbc);
+        editPanel.add(valueCheckBox, gbc);
 
-        this.metadataCheckBox = checkBox;
         this.metadataEditorPanel = new MetadataEditorSimplePanel(this, labelPanel, editPanel);
     }
 }

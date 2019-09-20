@@ -29,42 +29,75 @@ package fr.gouv.vitam.tools.resip.metadataeditor.composite;
 
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
 import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.CompositeEditorPanel;
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
 /**
- * The composite metadata editor interface for CompositeEditorPanel.
+ * Abstract class for composite metadata editor for structured metadata list edition.
+ * <p>Used for CompositeEditorPanel.
  */
 abstract public class CompositeEditor extends MetadataEditor{
 
     /**
      * The metadata edition graphic component
      */
-    List<MetadataEditor> metadataEditorList;
+    protected List<MetadataEditor> metadataEditorList;
 
-    public CompositeEditor(SEDAMetadata metadata, MetadataEditor father) {
+    /**
+     * Instantiates a new Composite editor.
+     *
+     * @param metadata the composite metadata
+     * @param father   the father
+     */
+    public CompositeEditor(Object metadata, MetadataEditor father) {
         super (metadata,father);
         this.metadataEditorList = null;
     }
 
+    /**
+     * Gets the list of all metadata that can be added (one time metadata not present and all multiple metadata).
+     *
+     * @return the extension list
+     * @throws SEDALibException the seda lib exception
+     */
     abstract public List<Pair<String,String>> getExtensionList() throws SEDALibException;
 
+    /**
+     * Add a named metadata child editor.
+     *
+     * @param metadataName the metadata name
+     * @throws SEDALibException the seda lib exception
+     */
     abstract public void addChild(String metadataName) throws SEDALibException;
 
-    public void setExtended(boolean extended, boolean inner) throws SEDALibException {
-        if (metadataEditorPanel == null)
-            createMetadataEditorPanel();
-        ((CompositeEditorPanel) metadataEditorPanel).setExtended(extended);
-        for (MetadataEditor metadataEditor : metadataEditorList)
-            if (metadataEditor instanceof CompositeEditor)
-                ((CompositeEditor) metadataEditor).setExtended(inner, inner);
-    }
-
+    /**
+     * Remove a child editor.
+     *
+     * @param metadataEditor the metadata editor
+     * @throws SEDALibException the seda lib exception
+     */
     public void removeChild(MetadataEditor metadataEditor) throws SEDALibException {
         metadataEditorList.remove(metadataEditor);
         ((CompositeEditorPanel)getMetadataEditorPanel()).removeMetadataEditorPanel(metadataEditor.getMetadataEditorPanel());
+    }
+
+    /**
+     * Expand the imbricated structure:
+     * <p>- if extendedFlag true of the upper level
+     * <p>- if innerFlag true of all the innerFlag levels
+     *
+     * @param extendedFlag the extendedFlag
+     * @param innerFlag    the innerFlag
+     * @throws SEDALibException the seda lib exception
+     */
+    public void doExpand(boolean extendedFlag, boolean innerFlag) throws SEDALibException {
+        if (metadataEditorPanel == null)
+            createMetadataEditorPanel();
+        ((CompositeEditorPanel) metadataEditorPanel).setExpanded(extendedFlag);
+        for (MetadataEditor metadataEditor : metadataEditorList)
+            if (metadataEditor instanceof CompositeEditor)
+                ((CompositeEditor) metadataEditor).doExpand(innerFlag, innerFlag);
     }
 }

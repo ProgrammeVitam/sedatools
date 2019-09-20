@@ -57,6 +57,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor.*;
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getMessagesStackString;
 
 /**
@@ -107,7 +108,7 @@ public class XmlEditDialog extends JDialog {
      * @throws SEDALibException the seda lib exception
      */
     public XmlEditDialog(JFrame owner) throws SEDALibException {
-        this(owner, createMetadataSample("AgentType","Writer",false));
+        this(owner, createSEDAMetadataSample("AgentType","Writer",false));
     }
 
     /**
@@ -141,7 +142,7 @@ public class XmlEditDialog extends JDialog {
             title = "Edition partielle de métadonnées";
             presentationName = sm.getXmlElementName() + " :";
             //FIXME
-            presentationText = getExtraInformation(sm);
+            presentationText = getSEDAMetadataInformation(sm);
             try {
                 xmlData = sm.toString();
             } catch (Exception e) {
@@ -151,7 +152,7 @@ public class XmlEditDialog extends JDialog {
 
         } else if (xmlObject instanceof ArchiveUnit) {
             ArchiveUnit au = (ArchiveUnit) xmlObject;
-            title = "Edition " + translate("ArchiveUnit");
+            title = "Edition " + translateMetadataName("ArchiveUnit");
             presentationName = "xmlID:" + au.getInDataObjectPackageId();
             //FIXME
             presentationText = "";

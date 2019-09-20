@@ -25,60 +25,41 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents;
+package fr.gouv.vitam.tools.resip.metadataeditor;
 
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import org.apache.commons.lang3.tuple.Pair;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DocumentFilter;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
-
-public class ExtensionButton extends JButton implements ActionListener {
-
-
-    @FunctionalInterface
-    public interface GetExtensionList {
-        List<Pair<String,String>> getExtensionList() throws SEDALibException;
-    }
-
-    @FunctionalInterface
-    public interface DoExtend {
-        void doExtend(ActionEvent event);
-    }
-
-    private JPopupMenu popupMenu;
-    private GetExtensionList getExtensionList;
-    private DoExtend doExtend;
-
-    public ExtensionButton(GetExtensionList getExtensionList, DoExtend doExtend) {
-        super("...");
-        this.getExtensionList = getExtensionList;
-        this.doExtend = doExtend;
-        addActionListener(this);
-    }
-
-    public void actionPerformed(ActionEvent ev) {
-        if (ev.getActionCommand().equals("...")) {
-            popupMenu = new JPopupMenu("...");
-            List<Pair<String,String>> extensionList;
-            try {
-                extensionList = getExtensionList.getExtensionList();
-            } catch (SEDALibException e) {
-                extensionList = null;
-            }
-            if ((extensionList != null) && !extensionList.isEmpty()) {
-                for (Pair<String,String> names : extensionList) {
-                    JMenuItem mi = new JMenuItem(names.getValue());
-                    mi.addActionListener(this);
-                    mi.setActionCommand(names.getKey());
-                    popupMenu.add(mi);
-                }
-                popupMenu.show(this, 0, this.getBounds().height);
-            }
+/**
+ * The type Integer filter.
+ */
+public class IntegerFilter extends DocumentFilter {
+    @Override
+    public void replace(FilterBypass fb, int offs, int length,
+                        String str, AttributeSet a) throws BadLocationException {
+        String number=fb.getDocument().getText(0,fb.getDocument().getLength());
+        number=number.substring(0,offs)+str+number.substring(offs+length);
+        try {
+            Long.parseLong(number);
         }
-        else
-            doExtend.doExtend(ev);
+        catch (NumberFormatException e){
+            return;
+        }
+        super.replace(fb, offs, length, str, a);
+    }
+
+    @Override
+    public void insertString(FilterBypass fb, int offs, String str,
+                             AttributeSet a) throws BadLocationException {
+        String number=fb.getDocument().getText(0,fb.getDocument().getLength());
+        number=number.substring(0,offs)+str+number.substring(offs);
+        try {
+            Long.parseLong(number);
+        }
+        catch (NumberFormatException e){
+            return;
+        }
+        super.insertString(fb, offs, str, a);
     }
 }

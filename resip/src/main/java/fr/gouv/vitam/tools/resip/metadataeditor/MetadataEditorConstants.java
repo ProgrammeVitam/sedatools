@@ -1,3 +1,30 @@
+/**
+ * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
+ * <p>
+ * contact.vitam@programmevitam.fr
+ * <p>
+ * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
+ * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
+ * volumetry securely and efficiently.
+ * <p>
+ * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
+ * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
+ * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
+ * <p>
+ * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
+ * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
+ * successive licensors have only limited liability.
+ * <p>
+ * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
+ * developing or reproducing the software by the user in light of its specific status of free software, that may mean
+ * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
+ * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
+ * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
+ * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
+ * <p>
+ * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
+ * accept its terms.
+ */
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
 import java.awt.font.FontRenderContext;
@@ -9,56 +36,68 @@ import java.util.Map;
 
 public class MetadataEditorConstants {
     /**
-     * The Type extra information map.
+     * The SEDAMetadata filling information map.
      */
-    static public HashMap<String, String> typeExtraInformationMap;
+    static public HashMap<String, String> sedaMetadataInformationMap;
+
+    /**
+     * The list of tags selected in minimal SEDAMetadata generation.
+     */
     static public List<String> minimalTagList;
+
+    /**
+     * The list of tag for which the editor is a multilines text.
+     */
     static public List<String> largeAreaTagList;
+
+    /**
+     * The metadata tags translation map.
+     */
     static public HashMap<String, String> translateMap;
 
 
     static {
-        typeExtraInformationMap = new HashMap<String, String>();
-        typeExtraInformationMap.put("DateTimeType", "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z]" +
+        sedaMetadataInformationMap = new HashMap<String, String>();
+        sedaMetadataInformationMap.put("DateTimeType", "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z]" +
                 " ou YYYY-MM-DD'T'HH:MM:SS[Timezone ou Z]");
-        typeExtraInformationMap.put("DateType", "Date\n    YYYY-MM-DD");
-        typeExtraInformationMap.put("AnyXMLType", "Bloc XML de structure non connue par ReSIP");
-        typeExtraInformationMap.put("AgentType", "Metadonnée de type agent");
-        typeExtraInformationMap.put("AgencyType", "Metadonnée de type agence");
-        typeExtraInformationMap.put("PlaceType", "Metadonnée de type localisation");
-        typeExtraInformationMap.put("StringType", "Metadonnée de type chaîne de caractères");
-        typeExtraInformationMap.put("DescriptionLevel", "Metadonnée de type code de niveau de description, fait partie des valeurs: " +
+        sedaMetadataInformationMap.put("DateType", "Date\n    YYYY-MM-DD");
+        sedaMetadataInformationMap.put("AnyXMLType", "Bloc XML de structure non connue par ReSIP");
+        sedaMetadataInformationMap.put("AgentType", "Metadonnée de type agent");
+        sedaMetadataInformationMap.put("AgencyType", "Metadonnée de type agence");
+        sedaMetadataInformationMap.put("PlaceType", "Metadonnée de type localisation");
+        sedaMetadataInformationMap.put("StringType", "Metadonnée de type chaîne de caractères");
+        sedaMetadataInformationMap.put("DescriptionLevel", "Metadonnée de type code de niveau de description, fait partie des valeurs: " +
                         "Fonds, Subfonds, Class, Collection, Series, Subseries, RecordGrp, SubGrp, File, Item, OtherLevel");
-        typeExtraInformationMap.put("KeywordType", "Metadonnée de type code de mot-clef, fait partie des valeurs: " +
+        sedaMetadataInformationMap.put("KeywordType", "Metadonnée de type code de mot-clef, fait partie des valeurs: " +
                 "corpname, famname, geogname, name, occupation, persname, subject, genreform, function");
-        typeExtraInformationMap.put("IntegerType", "Metadonnée de type entier long");
-        typeExtraInformationMap.put("SIPInternalIDType", "Metadonnée de type ID de référence interne au SIP");
-        typeExtraInformationMap.put("DataObjectOrArchiveUnitReferenceType", "Metadonnée de type ID de référence ArchiveUnit ou DataObject interne au SIP ou externe ");
-        typeExtraInformationMap.put("DataObjectReference", "Metadonnée de type ID de référence DataObject interne au SIP");
-        typeExtraInformationMap.put("ReferencedObject", "Metadonnée de type référence à un objet signé");
-        typeExtraInformationMap.put("TextType", "Métadonnée de type chaîne de caractères. Il peut y avoir plusieurs occurrences " +
+        sedaMetadataInformationMap.put("IntegerType", "Metadonnée de type entier long");
+        sedaMetadataInformationMap.put("SIPInternalIDType", "Metadonnée de type ID de référence interne au SIP");
+        sedaMetadataInformationMap.put("DataObjectOrArchiveUnitReferenceType", "Metadonnée de type ID de référence ArchiveUnit ou DataObject interne au SIP ou externe ");
+        sedaMetadataInformationMap.put("DataObjectReference", "Metadonnée de type ID de référence DataObject interne au SIP");
+        sedaMetadataInformationMap.put("ReferencedObject", "Metadonnée de type référence à un objet signé");
+        sedaMetadataInformationMap.put("TextType", "Métadonnée de type chaîne de caractères. Il peut y avoir plusieurs occurrences " +
                 "de ce champ en plusieurs langues et il faut dans ce cas spécifier la langue dans un attribut xml. " +
                 "Par exemple pour définir la langue du texte comme anglaise on mettra l'attribut xml:lang=\"en\"");
-        typeExtraInformationMap.put("RelatedObjectReference", "Metadonnée de type relation ArchiveUnit ou DataObject externe ou interne au SIP");
-        typeExtraInformationMap.put("DigestType", "Metadonnée de type hachage avec un attribut d'algorithme");
-        typeExtraInformationMap.put("ArchiveUnitProfile", "Identifiant du profil d'unité archivistique");
-        typeExtraInformationMap.put("Coverage", "Métadonnées de couverture spatiale, temporelle ou juridictionnelle");
-        typeExtraInformationMap.put("CustodialHistory", "Métadonnées indiquant les changements successifs de propriété, " +
+        sedaMetadataInformationMap.put("RelatedObjectReference", "Metadonnée de type relation ArchiveUnit ou DataObject externe ou interne au SIP");
+        sedaMetadataInformationMap.put("DigestType", "Metadonnée de type hachage avec un attribut d'algorithme");
+        sedaMetadataInformationMap.put("ArchiveUnitProfile", "Identifiant du profil d'unité archivistique");
+        sedaMetadataInformationMap.put("Coverage", "Métadonnées de couverture spatiale, temporelle ou juridictionnelle");
+        sedaMetadataInformationMap.put("CustodialHistory", "Métadonnées indiquant les changements successifs de propriété, " +
                 "de responsabilité et de conservation avant leur entrée dans le lieu de conservation");
-        typeExtraInformationMap.put("Gps", "Métadonnées de coordonnées gps complétées ou vérifiées par un utilisateur");
-        typeExtraInformationMap.put("Keyword", "Métadonnées de mots-clef avec contexte inspiré du SEDA 1.0. KeywordType " +
+        sedaMetadataInformationMap.put("Gps", "Métadonnées de coordonnées gps complétées ou vérifiées par un utilisateur");
+        sedaMetadataInformationMap.put("Keyword", "Métadonnées de mots-clef avec contexte inspiré du SEDA 1.0. KeywordType " +
                 "doit faire partie des valeurs: corpname, famname, geogname, name, occupation, persname, subject, genreform, function");
-        typeExtraInformationMap.put("Signer", "Métadonnées d'un signataire de la transaction ou de l'objet");
-        typeExtraInformationMap.put("Validator", "Métadonnées du validateur de la signature");
-        typeExtraInformationMap.put("Signature", "Ensemble des métadonnées relatives à la signature.");
-        typeExtraInformationMap.put("AccessRule", "Règle de communicabilité");
-        typeExtraInformationMap.put("AppraisalRule", "Règle de durée d’utilité administrative (FinalAction possible Keep ou Destroy)");
-        typeExtraInformationMap.put("ClassificationRule", "Règle de classification\n    ClassificationLevel et ClassificationOwner obligatoires");
-        typeExtraInformationMap.put("DisseminationRule", "Règle de diffusion");
-        typeExtraInformationMap.put("ReuseRule", "Règle de réutilisation");
-        typeExtraInformationMap.put("StorageRule", "Règle de durée d’utilité courante (FinalAction possible RestrictAccess,Transfer ou Copy)");
-        typeExtraInformationMap.put("Event", "Evènement (EventDateTime obligatoire)");
-        typeExtraInformationMap.put("UpdateOperation", "Définition d'attachement à une AU existante\n    Accepte aussi la forme <UpdateOperation><SystemId>guid</SystemId><UpdateOperation>)");
+        sedaMetadataInformationMap.put("Signer", "Métadonnées d'un signataire de la transaction ou de l'objet");
+        sedaMetadataInformationMap.put("Validator", "Métadonnées du validateur de la signature");
+        sedaMetadataInformationMap.put("Signature", "Ensemble des métadonnées relatives à la signature.");
+        sedaMetadataInformationMap.put("AccessRule", "Règle de communicabilité");
+        sedaMetadataInformationMap.put("AppraisalRule", "Règle de durée d’utilité administrative (FinalAction possible Keep ou Destroy)");
+        sedaMetadataInformationMap.put("ClassificationRule", "Règle de classification\n    ClassificationLevel et ClassificationOwner obligatoires");
+        sedaMetadataInformationMap.put("DisseminationRule", "Règle de diffusion");
+        sedaMetadataInformationMap.put("ReuseRule", "Règle de réutilisation");
+        sedaMetadataInformationMap.put("StorageRule", "Règle de durée d’utilité courante (FinalAction possible RestrictAccess,Transfer ou Copy)");
+        sedaMetadataInformationMap.put("Event", "Evènement (EventDateTime obligatoire)");
+        sedaMetadataInformationMap.put("UpdateOperation", "Définition d'attachement à une AU existante\n    Accepte aussi la forme <UpdateOperation><SystemId>guid</SystemId><UpdateOperation>)");
 
         minimalTagList=new ArrayList<>();
         minimalTagList.add("DescriptionLevel");
@@ -135,7 +174,6 @@ public class MetadataEditorConstants {
         translateMap.put("SentDate", "Date d'envoi");
         translateMap.put("Signature", "Signature");
         translateMap.put("Source", "ID-papier");
-        translateMap.put("StartDate", "Date de début");
         translateMap.put("Status", "Etat");
         translateMap.put("SubmissionAgency", "Service versant");
         translateMap.put("SystemId", "ID-interne");
@@ -198,8 +236,10 @@ public class MetadataEditorConstants {
         translateMap.put("References", "Référence");
 
         // DataObjectOrArchiveUnitReferenceType subfields
-        translateMap.put("ArchiveUnitRefID", "ID-AU-interne");
+        translateMap.put("ArchiveUnitRefId", "ID-AU-interne");
         translateMap.put("DataObjectReference", "ID-Objet-interne");
+        translateMap.put("DataObjectReferenceId", "Objet");
+        translateMap.put("DataObjectGroupReferenceId", "Groupe d'objets");
         translateMap.put("RepositoryArchiveUnitPID", "ID-AU-SAE");
         translateMap.put("RepositoryObjectPID", "ID-Objet-SAE");
         translateMap.put("ExternalReference", "ID-externe");
@@ -235,7 +275,7 @@ public class MetadataEditorConstants {
 
         //Management all subfields
         translateMap.put("Management", "Gestion");
-        translateMap.put("AccessRule", "Règles communicabilité");
+        translateMap.put("AccessRule", "Règles comm.");
         translateMap.put("AppraisalRule", "Règles DUA");
         translateMap.put("ClassificationRule", "Règles classification");
         translateMap.put("DisseminationRule", "Règles diffusion");
@@ -291,11 +331,29 @@ public class MetadataEditorConstants {
         translateMap.put("Unknown","Non défini");
     }
 
-    static int labelWidth=0;
+    /**
+     * Translate metadata name.
+     *
+     * @param tag the tag
+     * @return the translated string, if known, if not the same
+     */
+    public static String translateMetadataName(String tag) {
+        String result = MetadataEditorConstants.translateMap.get(tag);
+        if (result == null)
+            return tag;
+        return result;
+    }
 
+    static private int labelWidth=0;
+
+    /**
+     * Compute max label width taking into account all metadata translations.
+     *
+     * @return the int
+     */
     static public int computeLabelWidth(){
         if (labelWidth!=0)
-            return (int)labelWidth;
+            return labelWidth;
 
         double result=0;
         AffineTransform affinetransform = new AffineTransform();

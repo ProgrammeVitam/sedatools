@@ -1,8 +1,35 @@
-package fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents;
+/**
+ * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
+ * <p>
+ * contact.vitam@programmevitam.fr
+ * <p>
+ * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
+ * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
+ * volumetry securely and efficiently.
+ * <p>
+ * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
+ * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
+ * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
+ * <p>
+ * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
+ * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
+ * successive licensors have only limited liability.
+ * <p>
+ * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
+ * developing or reproducing the software by the user in light of its specific status of free software, that may mean
+ * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
+ * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
+ * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
+ * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
+ * <p>
+ * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
+ * accept its terms.
+ */
+package fr.gouv.vitam.tools.resip.metadataeditor.components.highlevelcomponents;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
-import fr.gouv.vitam.tools.resip.metadataeditor.components.ArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorPanel;
 import fr.gouv.vitam.tools.resip.metadataeditor.composite.ArchiveUnitEditor;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
@@ -14,16 +41,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor.translate;
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
 
+/**
+ * The ArchiveUnit metadata editor class for structured edition.
+ */
 public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEditorPanel {
 
-    ArchiveUnitEditor archiveUnitEditor;
-    JButton revertButton, saveButton;
-    JScrollPane scrollPane;
-    JPanel warningPane;
-    JTextArea warningText;
+    /**
+     * The graphic elements
+     */
+    private ArchiveUnitEditor archiveUnitEditor;
+    private JButton revertButton, saveButton;
+    private JScrollPane scrollPane;
+    private JPanel warningPane;
+    private JTextArea warningText;
 
+    /**
+     * Instantiates a new structured ArchiveUnit editor panel.
+     */
     public StructuredArchiveUnitEditorPanel() {
         super();
         GridBagLayout gbl;
@@ -32,8 +68,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         this.archiveUnitEditor = new ArchiveUnitEditor(null, null);
 
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0, 1.0, 1.0};
-        gbl.rowHeights = new int[]{0, 0};
+        gbl.columnWeights = new double[]{0.0, 1.0, 0.0};
         gbl.rowWeights = new double[]{1.0, 0.0};
         setLayout(gbl);
 
@@ -121,7 +156,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
             ArchiveUnit archiveUnit = archiveUnitEditor.extractEditedObject();
             ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().getDataObjectPackageTreePaneViewer().getModel())
                     .nodeChanged(ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed);
-            String title = null;
+            String title;
             try {
                 title = archiveUnit.getContent().getSimpleMetadata("Title");
                 if (title == null)
@@ -137,9 +172,10 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         }
     }
 
+    @Override
     public void editArchiveUnit(ArchiveUnit archiveUnit) throws SEDALibException {
         if (archiveUnit == null) {
-            archiveUnitEditor.editArchiveUnit(archiveUnit);
+            archiveUnitEditor.editArchiveUnit(null);
             scrollPane.setVisible(true);
             saveButton.setEnabled(false);
             revertButton.setEnabled(false);
@@ -150,7 +186,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
                 archiveUnit.getArchiveUnitProfile();
             } catch (SEDALibException e) {
                 String title = SEDAXMLEventReader.extractNamedElement("Title", archiveUnit.getContentXmlData());
-                warningText.setText(translate("ArchiveUnit") + " - " + (title != null ? title + " - " : "") + archiveUnit.getInDataObjectPackageId()
+                warningText.setText(translateMetadataName("ArchiveUnit") + " - " + (title != null ? title + " - " : "") + archiveUnit.getInDataObjectPackageId()
                         + " a un problème de construction qui empêche de l'éditer de manière structurée.\n"
                         + SEDALibProgressLogger.getMessagesStackString(e));
                 scrollPane.setVisible(false);
@@ -165,7 +201,8 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         }
     }
 
+    @Override
     public ArchiveUnit extractArchiveUnit() throws SEDALibException {
-        return (ArchiveUnit)archiveUnitEditor.extractEditedObject();
+        return archiveUnitEditor.extractEditedObject();
     }
 }

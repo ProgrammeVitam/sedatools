@@ -37,16 +37,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDate;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The DateType metadata editor class.
  */
 public class DateTypeEditor extends MetadataEditor {
 
     /**
      * The metadata edition graphic component
      */
-    DatePicker datePicker;
+    private DatePicker valueDatePicker;
 
+    /**
+     * Instantiates a new DateType editor.
+     *
+     * @param metadata the DateType metadata
+     * @param father   the father
+     * @throws SEDALibException if not a DateType metadata
+     */
     public DateTypeEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
         if (!(metadata instanceof DateType))
@@ -57,12 +66,28 @@ public class DateTypeEditor extends MetadataEditor {
         return (DateType) metadata;
     }
 
+    /**
+     * Gets DateType sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal)
+            return new DateType(elementName);
+        else
+            return new DateType(elementName, LocalDate.of(2000, 1, 1));
+    }
 
+    @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        getDateTypeMetadata().setValue(datePicker.getDate());
+        getDateTypeMetadata().setValue(valueDatePicker.getDate());
         return getSEDAMetadata();
     }
 
+    @Override
     public String getSummary() throws SEDALibException {
         LocalDate tmp = getDateTypeMetadata().getValue();
         if (tmp != null)
@@ -70,24 +95,14 @@ public class DateTypeEditor extends MetadataEditor {
         return "";
     }
 
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new DateType(elementName, LocalDate.of(2000, 1, 1));
-    }
-
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        return new DateType(elementName);
-    }
-
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
         gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(getName()) + " :");
+        JLabel label = new JLabel(translateMetadataName(getName()) + " :");
         label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -99,23 +114,18 @@ public class DateTypeEditor extends MetadataEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{0.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        DatePicker datePicker = new DatePicker();
-        datePicker.setDate(getDateTypeMetadata().getValue());
+        valueDatePicker = new DatePicker();
+        valueDatePicker.setDate(getDateTypeMetadata().getValue());
         gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
-        editPanel.add(datePicker, gbc);
+        editPanel.add(valueDatePicker, gbc);
 
-        this.datePicker = datePicker;
         this.metadataEditorPanel = new MetadataEditorSimplePanel(this, labelPanel, editPanel);
     }
 }

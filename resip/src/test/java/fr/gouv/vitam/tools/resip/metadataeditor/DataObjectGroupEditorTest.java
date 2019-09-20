@@ -1,15 +1,8 @@
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
-import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.StructuredArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.metadataeditor.composite.BinaryDataObjectEditor;
-import fr.gouv.vitam.tools.resip.metadataeditor.composite.ComplexListTypeEditor;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
-import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 
 import javax.swing.*;
 import java.awt.*;
@@ -55,7 +48,7 @@ public class DataObjectGroupEditorTest {
         bdo.setInDataObjectPackageId("TestID");
 
         BinaryDataObjectEditor bdoe=new BinaryDataObjectEditor(bdo,null);
-        bdoe.setExtended(true, false);
+        bdoe.doExpand(true, false);
 
         JScrollPane scrollPane=new JScrollPane(bdoe.metadataEditorPanel);
         dialog.setContentPane(scrollPane);

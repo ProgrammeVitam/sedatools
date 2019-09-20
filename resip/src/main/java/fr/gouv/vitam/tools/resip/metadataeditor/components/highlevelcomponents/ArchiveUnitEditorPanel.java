@@ -25,60 +25,28 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents;
+package fr.gouv.vitam.tools.resip.metadataeditor.components.highlevelcomponents;
 
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import org.apache.commons.lang3.tuple.Pair;
 
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
+/**
+ * The ArchiveUnit metadata editor interface for structured and xml edition.
+ */
+public interface ArchiveUnitEditorPanel {
+    /**
+     * Edit a new archive unit.
+     *
+     * @param archiveUnit the archive unit
+     * @throws SEDALibException the seda lib exception
+     */
+    void editArchiveUnit(ArchiveUnit archiveUnit) throws SEDALibException;
 
-public class ExtensionButton extends JButton implements ActionListener {
-
-
-    @FunctionalInterface
-    public interface GetExtensionList {
-        List<Pair<String,String>> getExtensionList() throws SEDALibException;
-    }
-
-    @FunctionalInterface
-    public interface DoExtend {
-        void doExtend(ActionEvent event);
-    }
-
-    private JPopupMenu popupMenu;
-    private GetExtensionList getExtensionList;
-    private DoExtend doExtend;
-
-    public ExtensionButton(GetExtensionList getExtensionList, DoExtend doExtend) {
-        super("...");
-        this.getExtensionList = getExtensionList;
-        this.doExtend = doExtend;
-        addActionListener(this);
-    }
-
-    public void actionPerformed(ActionEvent ev) {
-        if (ev.getActionCommand().equals("...")) {
-            popupMenu = new JPopupMenu("...");
-            List<Pair<String,String>> extensionList;
-            try {
-                extensionList = getExtensionList.getExtensionList();
-            } catch (SEDALibException e) {
-                extensionList = null;
-            }
-            if ((extensionList != null) && !extensionList.isEmpty()) {
-                for (Pair<String,String> names : extensionList) {
-                    JMenuItem mi = new JMenuItem(names.getValue());
-                    mi.addActionListener(this);
-                    mi.setActionCommand(names.getKey());
-                    popupMenu.add(mi);
-                }
-                popupMenu.show(this, 0, this.getBounds().height);
-            }
-        }
-        else
-            doExtend.doExtend(ev);
-    }
+    /**
+     * Extract the archive unit content from metadata editors.
+     *
+     * @return the extracted archive unit
+     * @throws SEDALibException the seda lib exception
+     */
+    ArchiveUnit extractArchiveUnit() throws SEDALibException;
 }

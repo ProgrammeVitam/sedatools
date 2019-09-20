@@ -37,16 +37,25 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The DateTimeType metadata editor class.
  */
 public class DateTimeTypeEditor extends MetadataEditor{
 
     /**
      * The metadata edition graphic component
      */
-    DateTimePicker dateTimePicker;
+    private DateTimePicker valueDateTimePicker;
 
+    /**
+     * Instantiates a new DateTimeType editor.
+     *
+     * @param metadata the DateTimeType metadata
+     * @param father   the father
+     * @throws SEDALibException if not a DateTimeType metadata
+     */
     public DateTimeTypeEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
         if (!(metadata instanceof DateTimeType))
@@ -57,37 +66,43 @@ public class DateTimeTypeEditor extends MetadataEditor{
         return (DateTimeType) metadata;
     }
 
+    /**
+     * Gets DateTimeType sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal)
+            return new DateTimeType(elementName);
+        else
+            return new DateTimeType(elementName, LocalDateTime.of(1970, 1, 1, 1, 0, 0));
+    }
 
+    @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException{
-        getDateTimeTypeMetadata().setValue(dateTimePicker.getDateTimeStrict());
+        getDateTimeTypeMetadata().setValue(valueDateTimePicker.getDateTimeStrict());
         return getSEDAMetadata();
     }
 
+    @Override
     public String getSummary() throws SEDALibException {
-        LocalDateTime tmp=dateTimePicker.getDateTimeStrict();
+        LocalDateTime tmp= valueDateTimePicker.getDateTimeStrict();
         if (tmp!=null)
             return tmp.toString();
         return "";
     }
 
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new DateTimeType(elementName, LocalDateTime.of(1970, 1, 1, 1, 0, 0));
-    }
-
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        return new DateTimeType(elementName);
-    }
-
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         JPanel labelPanel= new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
         gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(getName())+" :");
+        JLabel label = new JLabel(translateMetadataName(getName())+" :");
         label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -99,23 +114,18 @@ public class DateTimeTypeEditor extends MetadataEditor{
 
         JPanel editPanel= new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{0.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        DateTimePicker dateTimePicker = new DateTimePicker();
-        dateTimePicker.setDateTimeStrict(getDateTimeTypeMetadata().getValue());
+        valueDateTimePicker = new DateTimePicker();
+        valueDateTimePicker.setDateTimeStrict(getDateTimeTypeMetadata().getValue());
         gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.LINE_START;
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
-        editPanel.add(dateTimePicker, gbc);
+        editPanel.add(valueDateTimePicker, gbc);
 
-        this.dateTimePicker=dateTimePicker;
         this.metadataEditorPanel=new MetadataEditorSimplePanel(this,labelPanel,editPanel);
     }
 }

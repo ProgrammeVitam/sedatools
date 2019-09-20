@@ -27,24 +27,40 @@
  */
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
+import com.sun.org.apache.bcel.internal.generic.TargetLostException;
 import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorSimplePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
+import org.fife.ui.rsyntaxtextarea.Token;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The AnyXMLType metadata editor class.
  */
 public class AnyXMLTypeEditor extends MetadataEditor{
 
     /**
      * The metadata edition graphic component
      */
-    JTextArea metadataTextArea;
+    private RSyntaxTextArea valueTextArea;
 
+    /**
+     * Instantiates a new AnyXMLType editor.
+     *
+     * @param metadata the AnyXMLType metadata
+     * @param father   the father
+     * @throws SEDALibException if not a AnyXMLType metadata
+     */
     public AnyXMLTypeEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
         if (!(metadata instanceof AnyXMLType))
@@ -55,33 +71,40 @@ public class AnyXMLTypeEditor extends MetadataEditor{
         return (AnyXMLType) metadata;
     }
 
+    /**
+     * Gets AnyXMLType sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal)
+            return new AnyXMLType("AnyXMLType", "");
+        else
+            return new AnyXMLType("AnyXMLType", "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2>Text2</BlockTag2></"+elementName+">");
+    }
+
+    @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException{
-        getAnyXMLTypeMetadata().setRawXml(metadataTextArea.getText());
+        getAnyXMLTypeMetadata().setRawXml(valueTextArea.getText());
         return getSEDAMetadata();
     }
 
+    @Override
     public String getSummary() throws SEDALibException {
-        return metadataTextArea.getText();
+        return valueTextArea.getText();
     }
 
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new AnyXMLType(elementName, "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2>Text2</BlockTag2></"+elementName+">");
-    }
-
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        return new AnyXMLType("AnyXMLType", "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2>Text2</BlockTag2></"+elementName+">");
-    }
-
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         JPanel labelPanel= new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
         gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate("AnyXMLType")+" :");
+        JLabel label = new JLabel(translateMetadataName("AnyXMLType")+" :");
         label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -93,29 +116,35 @@ public class AnyXMLTypeEditor extends MetadataEditor{
 
         JPanel editPanel= new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{0.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.rowHeights = new int[]{100};
+        gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        gbl.rowHeights = new int[]{100};
-        JTextArea textArea = new JTextArea();
-        textArea.setText(getAnyXMLTypeMetadata().getRawXml());
-        textArea.setCaretPosition(0);
-        textArea.setFont(MetadataEditor.EDIT_FONT);
-        textArea.setRows(5);
-        JScrollPane scrollArea=new JScrollPane(textArea);
+        valueTextArea = new RSyntaxTextArea(6, 80);
+        valueTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
+        SyntaxScheme scheme = valueTextArea.getSyntaxScheme();
+        scheme.getStyle(Token.MARKUP_TAG_DELIMITER).foreground = COMPOSITE_LABEL_MARKUP_COLOR;
+        scheme.getStyle(Token.MARKUP_TAG_NAME).foreground = COMPOSITE_LABEL_COLOR;
+        scheme.getStyle(Token.MARKUP_TAG_ATTRIBUTE).foreground = COMPOSITE_LABEL_MARKUP_COLOR;
+        scheme.getStyle(Token.MARKUP_TAG_ATTRIBUTE_VALUE).foreground = COMPOSITE_LABEL_ATTRIBUTE_COLOR;
+        valueTextArea.setCodeFoldingEnabled(true);
+        valueTextArea.setFont(MetadataEditor.EDIT_FONT);
+        JScrollPane scrollArea = new RTextScrollPane(valueTextArea);
+        String xmlData;
+        try {
+            xmlData  = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(getAnyXMLTypeMetadata().getRawXml());
+        } catch (SEDALibException e) {
+            xmlData=getAnyXMLTypeMetadata().getRawXml();
+        }
+        valueTextArea.setText(xmlData);
+        valueTextArea.setCaretPosition(0);
         gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
-        gbc.weighty = 0.0;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.fill = GridBagConstraints.BOTH;
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
         editPanel.add(scrollArea, gbc);
 
-        this.metadataTextArea=textArea;
         this.metadataEditorPanel=new MetadataEditorSimplePanel(this,labelPanel,editPanel);
     }
 }

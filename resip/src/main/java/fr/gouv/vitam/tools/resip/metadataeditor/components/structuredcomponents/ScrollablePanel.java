@@ -28,13 +28,13 @@ public class ScrollablePanel extends JPanel
     {
         NONE,
         FIT,
-        STRETCH;
+        STRETCH
     }
 
     public enum IncrementType
     {
         PERCENT,
-        PIXELS;
+        PIXELS
     }
 
     private ScrollableSizeHint scrollableHeight = ScrollableSizeHint.NONE;
@@ -146,7 +146,7 @@ public class ScrollablePanel extends JPanel
      *
      *  @param orientation  specify the scrolling orientation. Must be either:
      *      SwingContants.HORIZONTAL or SwingContants.VERTICAL.
-     *  @paran type  specify how the amount parameter in the calculation of
+     *  @param type  specify how the amount parameter in the calculation of
      *      the scrollable amount. Valid values are:
      *		IncrementType.PERCENT - treat the amount as a % of the viewport size
      *      IncrementType.PIXEL - treat the amount as the scrollable amount
@@ -197,7 +197,7 @@ public class ScrollablePanel extends JPanel
      *
      *  @param orientation  specify the scrolling orientation. Must be either:
      *      SwingContants.HORIZONTAL or SwingContants.VERTICAL.
-     *  @paran type  specify how the amount parameter in the calculation of
+     *  @param type  specify how the amount parameter in the calculation of
      *               the scrollable amount. Valid values are:
      *				 IncrementType.PERCENT - treat the amount as a % of the viewport size
      *               IncrementType.PIXEL - treat the amount as the scrollable amount
@@ -288,7 +288,7 @@ public class ScrollablePanel extends JPanel
 
         if (getParent() instanceof JViewport)
         {
-            return (((JViewport)getParent()).getWidth() > getPreferredSize().width);
+            return (getParent().getWidth() > getPreferredSize().width);
         }
 
         return false;
@@ -307,7 +307,7 @@ public class ScrollablePanel extends JPanel
 
         if (getParent() instanceof JViewport)
         {
-            return (((JViewport)getParent()).getHeight() > getPreferredSize().height);
+            return (getParent().getHeight() > getPreferredSize().height);
         }
 
         return false;

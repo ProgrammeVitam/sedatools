@@ -35,16 +35,25 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import javax.swing.*;
 import java.awt.*;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+
 /**
- * The StringType metadata editor class.
+ * The ArchiveUnitProfile metadata editor class.
  */
 public class ArchiveUnitProfileEditor extends MetadataEditor{
 
     /**
      * The metadata edition graphic component
      */
-    JTextField metadataTextField;
+    private JTextField valueTextField;
 
+    /**
+     * Instantiates a new ArchiveUnitProfile editor.
+     *
+     * @param metadata the ArchiveUnitProfile metadata
+     * @param father   the father
+     * @throws SEDALibException if not a ArchiveUnitProfile metadata
+     */
     public ArchiveUnitProfileEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
         if (!(metadata instanceof ArchiveUnitProfile))
@@ -55,34 +64,40 @@ public class ArchiveUnitProfileEditor extends MetadataEditor{
         return (ArchiveUnitProfile) metadata;
     }
 
+    /**
+     * Gets ArchiveUnitProfile sample.
+     *
+     * @param elementName the element name, corresponding to the XML tag in SEDA
+     * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
+     * @return the seda metadata sample
+     * @throws SEDALibException the seda lib exception
+     */
+    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal)
+            return new ArchiveUnitProfile( "");
+        else
+            return new ArchiveUnitProfile( "AUP-00001");
+    }
 
+    @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException{
-        getArchiveUnitProfileMetadata().setValue(metadataTextField.getText());
+        getArchiveUnitProfileMetadata().setValue(valueTextField.getText());
         return getSEDAMetadata();
     }
 
+    @Override
     public String getSummary() throws SEDALibException {
-        return metadataTextField.getText();
+        return valueTextField.getText();
     }
 
-    static public SEDAMetadata getSample(String elementName) throws SEDALibException {
-        return new ArchiveUnitProfile( "AUP-00001");
-    }
-
-    static public SEDAMetadata getMinimalSample(String elementName) throws SEDALibException {
-        return new ArchiveUnitProfile( "");
-    }
-
+    @Override
     public void createMetadataEditorPanel() throws SEDALibException {
         JPanel labelPanel= new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
         gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{0.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translate(getName())+" :");
+        JLabel label = new JLabel(translateMetadataName(getName())+" :");
         label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -94,25 +109,20 @@ public class ArchiveUnitProfileEditor extends MetadataEditor{
 
         JPanel editPanel= new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{0};
-        gbl.rowHeights = new int[]{0};
-        gbl.columnWeights = new double[]{0.0};
-        gbl.rowWeights = new double[]{0.0};
+        gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        JTextField textField = new JTextField();
-        textField.setText(getArchiveUnitProfileMetadata().getValue());
-        textField.setCaretPosition(0);
-        textField.setFont(MetadataEditor.EDIT_FONT);
+        valueTextField = new JTextField();
+        valueTextField.setText(getArchiveUnitProfileMetadata().getValue());
+        valueTextField.setCaretPosition(0);
+        valueTextField.setFont(MetadataEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.gridx = 1;
+        gbc.gridx = 0;
         gbc.gridy = 0;
-        editPanel.add(textField, gbc);
+        editPanel.add(valueTextField, gbc);
 
-        this.metadataTextField=textField;
         this.metadataEditorPanel=new MetadataEditorSimplePanel(this,labelPanel,editPanel);
     }
 }
