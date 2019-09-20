@@ -2,6 +2,7 @@ package fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents
 
 import fr.gouv.vitam.tools.resip.metadataeditor.composite.ComplexListTypeEditor;
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
+import fr.gouv.vitam.tools.resip.metadataeditor.composite.CompositeEditor;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
@@ -17,11 +18,8 @@ public class MetadataEditorPanel extends ScrollablePanel {
     public void lessButton() {
         try {
             if (metadataEditor.getFather() != null) {
-                ((ComplexListTypeEditor) metadataEditor.getFather()).removeChild(metadataEditor);
-                ((ComplexListTypeEditor) metadataEditor.getFather()).getMetadataEditorPanelTopParent().validate();
-            } else if (getParent() instanceof InnerStructuredArchiveUnitEditorPanel) {
-                InnerStructuredArchiveUnitEditorPanel auep=(InnerStructuredArchiveUnitEditorPanel)getParent();
-                auep.removeChild(this.metadataEditor);
+                ((CompositeEditor) metadataEditor.getFather()).removeChild(metadataEditor);
+                ((CompositeEditor) metadataEditor.getFather()).getMetadataEditorPanelTopParent().validate();
             }
         } catch (SEDALibException ignored) {
         }

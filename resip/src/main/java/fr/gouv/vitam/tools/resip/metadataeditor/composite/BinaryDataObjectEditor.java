@@ -66,7 +66,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     }
 
     public String getName(){
-        return translate("BinaryDataObject")+" - "+bdo.getInDataObjectPackageId();
+        return translate("BinaryDataObject")+" - "+(bdo==null?translate("Unknown"):bdo.getInDataObjectPackageId());
     }
 
     public SEDAMetadata extractMetadata() throws SEDALibException {
@@ -78,7 +78,6 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     }
 
     public DataObject extractDataObject() throws SEDALibException {
-        metadata=getEmptySameMetadata(metadata);
         BinaryDataObject tmpBdo=new BinaryDataObject();
         for (MetadataEditor metadataEditor : metadataEditorList) {
             SEDAMetadata subMetadata=metadataEditor.extractMetadata();
@@ -140,7 +139,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         openButton.setFocusable(false);
         openButton.addActionListener(arg -> openButton(bdo.getOnDiskPath()));
 
-        this.metadataEditorPanel = new CompositeEditorPanel(this, openButton);
+        this.metadataEditorPanel = new CompositeEditorPanel(this, openButton, false);
         if (bdo.dataObjectVersion!=null) {
             MetadataEditor metadataEditor = MetadataEditor.createMetadataEditor(bdo.dataObjectVersion, this);
             metadataEditorList.add(metadataEditor);
@@ -266,27 +265,27 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 break;
             case "MessageDigest":
                 sedaMetadata = createMetadataSample("DigestType", "MessageDigest", true);
-                insertionIndex=1;
+                insertionIndex=2;
                 break;
             case "Size":
                 sedaMetadata = createMetadataSample("IntegerType", "Size", true);
-                insertionIndex=1;
+                insertionIndex=3;
                 break;
             case "Compressed":
                 sedaMetadata = createMetadataSample("StringType", "Compressed", true);
-                insertionIndex=1;
+                insertionIndex=4;
                 break;
             case "FormatIdentification":
                 sedaMetadata = createMetadataSample("FormatIdentification", "FormatIdentification", true);
-                insertionIndex=1;
+                insertionIndex=5;
                 break;
             case "FileInfo":
                 sedaMetadata = createMetadataSample("FileInfo", "FileInfo", true);
-                insertionIndex=1;
+                insertionIndex=6;
                 break;
             case "Metadata":
                 sedaMetadata = createMetadataSample("Metadata", "Metadata", true);
-                insertionIndex=1;
+                insertionIndex=7;
                 break;
         }
         if (sedaMetadata==null)

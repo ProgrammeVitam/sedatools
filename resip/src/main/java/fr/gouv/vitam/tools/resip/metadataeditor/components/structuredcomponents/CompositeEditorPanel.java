@@ -1,8 +1,8 @@
 package fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents;
 
-import fr.gouv.vitam.tools.resip.metadataeditor.composite.CompositeEditor;
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants;
+import fr.gouv.vitam.tools.resip.metadataeditor.composite.CompositeEditor;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
@@ -12,6 +12,7 @@ import java.awt.event.ItemEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor.translate;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
@@ -27,49 +28,72 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
     HashMap<MetadataEditorPanel, GridBagConstraints> metadataEditorPanelConstraints;
 
     public CompositeEditorPanel(MetadataEditor metadataEditor) throws SEDALibException {
-        this(metadataEditor, null);
+        this(metadataEditor, null, false);
     }
 
-    public CompositeEditorPanel(MetadataEditor metadataEditor, JComponent moreMenuComponent) throws SEDALibException {
+    public CompositeEditorPanel(MetadataEditor metadataEditor, JComponent moreMenuComponent, boolean topPanel) throws SEDALibException {
         super(metadataEditor);
         final CompositeEditorPanel thisPanel = this;
         this.metadataPanelCount = 2;
         this.metadataEditorPanelConstraints = new HashMap<MetadataEditorPanel, GridBagConstraints>();
-        GridBagLayout gbl = new GridBagLayout();
-        if (metadataEditor == null)
+        GridBagLayout gbl;
+        GridBagConstraints gbc;
+
+        gbl = new GridBagLayout();
+        if (topPanel)
             gbl.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
         else
             gbl.columnWidths = new int[]{16, MetadataEditorConstants.computeLabelWidth() - 41, 10, 10, 0, 0, 0};
         gbl.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
+        gbl.rowHeights = new int[]{20,3};
+        gbl.rowWeights = new double[]{0.0 , 0.0};
         setLayout(gbl);
 
-        if (metadataEditor != null) {
+        setScrollableWidth(ScrollablePanel.ScrollableSizeHint.FIT);
+        setScrollableHeight(ScrollablePanel.ScrollableSizeHint.NONE);
+
+        if (!topPanel) {
             arrowCheckBox = new JCheckBox();
             arrowCheckBox.setEnabled(true);
             arrowCheckBox.setIcon(new ImageIcon(getClass().getResource("/icon/arrow-opened-small.png")));
             arrowCheckBox.setSelectedIcon(new ImageIcon(getClass().getResource("/icon/arrow-closed-small.png")));
             arrowCheckBox.setText("");
-            arrowCheckBox.setMargin(new Insets(0,0,0,0));
+            arrowCheckBox.setMargin(new Insets(0, 0, 0, 0));
             arrowCheckBox.setFocusable(false);
             arrowCheckBox.addItemListener(arg -> this.arrowEvent(arg));
-            GridBagConstraints gbc = new GridBagConstraints();
+            gbc = new GridBagConstraints();
             gbc.anchor = GridBagConstraints.LINE_END;
             gbc.insets = new Insets(0, 0, 0, 0);
             gbc.gridx = 0;
             gbc.gridy = 0;
             add(arrowCheckBox, gbc);
-            metadataLabel = new JLabel(MetadataEditor.translate(metadataEditor.getName()) + " :");
-            metadataLabel.setToolTipText(metadataEditor.getName());
+        } else {
+            JLabel placeHolder = new JLabel("  ");
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.LINE_END;
+            gbc.insets = new Insets(0, 0, 0, 0);
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            add(placeHolder, gbc);
+        }
+
+        metadataLabel = new JLabel(translate(metadataEditor.getName()) + " : ");
+        metadataLabel.setToolTipText(metadataEditor.getName());
+        if (topPanel)
+            metadataLabel.setFont(MetadataEditor.BOLD_LABEL_FONT);
+        else {
             metadataLabel.setFont(MetadataEditor.ITALIC_LABEL_FONT);
             metadataLabel.setForeground(MetadataEditor.COMPOSITE_LABEL_COLOR);
-            gbc = new GridBagConstraints();
-            gbc.anchor = GridBagConstraints.LINE_START;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.insets = new Insets(0, 0, 0, 0);
-            gbc.gridx = 1;
-            gbc.gridy = 0;
-            add(metadataLabel, gbc);
+        }
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        add(metadataLabel, gbc);
 
+        if (!topPanel) {
             JButton lessButton = new JButton();
             lessButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-remove-very-small.png")));
             lessButton.setText("");
@@ -87,78 +111,78 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
             gbc.gridx = 2;
             gbc.gridy = 0;
             add(lessButton, gbc);
+        }
 
-            if ((metadataEditor.getFather()!=null ) &&
-                    metadataEditor.getFather().containsMultiple(metadataEditor.getName())) {
-                JButton addButton = new JButton();
-                addButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-add-very-small.png")));
-                addButton.setText("");
-                addButton.setMaximumSize(new Dimension(8, 8));
-                addButton.setMinimumSize(new Dimension(8, 8));
-                addButton.setPreferredSize(new Dimension(8, 8));
-                addButton.setBorderPainted(false);
-                addButton.setContentAreaFilled(false);
-                addButton.setFocusPainted(false);
-                addButton.setFocusable(false);
-                addButton.addActionListener(arg -> addButton());
-                gbc = new GridBagConstraints();
-                gbc.anchor = GridBagConstraints.LINE_START;
-                gbc.insets = new Insets(0, 0, 0, 0);
-                gbc.gridx = 3;
-                gbc.gridy = 0;
-                add(addButton, gbc);
-            }
+        if ((metadataEditor.getFather() != null) &&
+                metadataEditor.getFather().containsMultiple(metadataEditor.getName())) {
+            JButton addButton = new JButton();
+            addButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-add-very-small.png")));
+            addButton.setText("");
+            addButton.setMaximumSize(new Dimension(8, 8));
+            addButton.setMinimumSize(new Dimension(8, 8));
+            addButton.setPreferredSize(new Dimension(8, 8));
+            addButton.setBorderPainted(false);
+            addButton.setContentAreaFilled(false);
+            addButton.setFocusPainted(false);
+            addButton.setFocusable(false);
+            addButton.addActionListener(arg -> addButton());
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.LINE_START;
+            gbc.insets = new Insets(0, 0, 0, 0);
+            gbc.gridx = 3;
+            gbc.gridy = 0;
+            add(addButton, gbc);
+        }
 
-            addMenu = new ExtensionButton(() -> {
-                return ((CompositeEditor) metadataEditor).getExtensionList();
-            }, (ActionEvent arg) -> {
-                doExtend(metadataEditor, arg);
-            });
-            addMenu.setMargin(new Insets(0, 0, 0, 0));
-            addMenu.setBorderPainted(false);
-            addMenu.setContentAreaFilled(false);
-            addMenu.setFocusPainted(false);
-            addMenu.setFocusable(false);
+        addMenu = new ExtensionButton(() -> {
+            return ((CompositeEditor) metadataEditor).getExtensionList();
+        }, (ActionEvent arg) -> {
+            doExtend(metadataEditor, arg);
+        });
+        addMenu.setMargin(new Insets(0, 0, 0, 0));
+        addMenu.setBorderPainted(false);
+        addMenu.setContentAreaFilled(false);
+        addMenu.setFocusPainted(false);
+        addMenu.setFocusable(false);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.LINE_END;
+        gbc.insets = new Insets(0, 0, 0, 5);
+        gbc.gridx = 4;
+        gbc.gridy = 0;
+        add(addMenu, gbc);
+
+        if (moreMenuComponent != null) {
             gbc = new GridBagConstraints();
             gbc.anchor = GridBagConstraints.LINE_END;
             gbc.insets = new Insets(0, 0, 0, 5);
-            gbc.gridx = 4;
-            gbc.gridy = 0;
-            add(addMenu, gbc);
-
-            if (moreMenuComponent!=null){
-                gbc = new GridBagConstraints();
-                gbc.anchor = GridBagConstraints.LINE_END;
-                gbc.insets = new Insets(0, 0, 0, 5);
-                gbc.anchor = GridBagConstraints.LINE_START;
-                gbc.gridx = 5;
-                gbc.gridy = 0;
-                add(moreMenuComponent, gbc);
-            }
-
-            summary = new JTextField();
-            summary.setEditable(false);
-            summary.setVisible(false);
-            gbc = new GridBagConstraints();
             gbc.anchor = GridBagConstraints.LINE_START;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.insets = new Insets(0, 0, 0, 0);
-            gbc.gridx = 6;
+            gbc.gridx = 5;
             gbc.gridy = 0;
-            add(summary, gbc);
-
-            separator = new JSeparator(JSeparator.HORIZONTAL);
-            separator.setBackground(MetadataEditor.COMPOSITE_LABEL_SEPARATOR_COLOR);
-            separator.setForeground(MetadataEditor.GENERAL_BACKGROUND);
-            gbc = new GridBagConstraints();
-            gbc.anchor = GridBagConstraints.LINE_START;
-            gbc.fill = GridBagConstraints.HORIZONTAL;
-            gbc.insets = new Insets(0, 0, 0, 0);
-            gbc.gridx = 0;
-            gbc.gridy = 1;
-            gbc.gridwidth = 7;
-            add(separator, gbc);
+            add(moreMenuComponent, gbc);
         }
+
+        summary = new JTextField();
+        summary.setEditable(false);
+        summary.setVisible(false);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.gridx = 6;
+        gbc.gridy = 0;
+        add(summary, gbc);
+
+        separator = new JSeparator(JSeparator.HORIZONTAL);
+        separator.setBackground(MetadataEditor.GENERAL_BACKGROUND);
+        separator.setForeground(MetadataEditor.COMPOSITE_LABEL_SEPARATOR_COLOR);
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.gridwidth = 7;
+        add(separator, gbc);
     }
 
     public void addMetadataEditorPanel(MetadataEditorPanel metadataPanel) {
@@ -166,6 +190,7 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.weighty=1.0;
         gbc.gridx = 1;
         gbc.gridy = metadataPanelCount++;
         gbc.gridwidth = 6;
@@ -175,8 +200,8 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
         metadataEditorPanelConstraints.put(metadataPanel, gbc);
     }
 
-    public void addMetadataEditorPanel(int insertionIndex,MetadataEditorPanel metadataPanel) {
-        int gridy = insertionIndex+1;
+    public void addMetadataEditorPanel(int insertionIndex, MetadataEditorPanel metadataPanel) {
+        int gridy = insertionIndex + 1;
         for (Map.Entry<MetadataEditorPanel, GridBagConstraints> e : metadataEditorPanelConstraints.entrySet()) {
             if (e.getValue().gridy > gridy) {
                 e.getValue().gridy++;
@@ -188,9 +213,10 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.weighty=1.0;
         gbc.gridx = 1;
         gbc.gridy = gridy + 1;
-        gbc.gridwidth = 5;
+        gbc.gridwidth = 6;
         metadataPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
                 MetadataEditor.COMPOSITE_LABEL_SEPARATOR_COLOR));
         add(metadataPanel, gbc);
@@ -201,6 +227,13 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
     public void removeMetadataEditorPanel(MetadataEditorPanel mep) throws SEDALibException {
         remove(mep);
         metadataEditorPanelConstraints.remove(mep);
+    }
+
+    public void refreshLoad(boolean emptyFlag) {
+        addMenu.setVisible(!emptyFlag);
+        metadataLabel.setText(metadataEditor.getName() + " ");
+        this.revalidate();
+        this.repaint();
     }
 
     public void setExtended(boolean extended) {

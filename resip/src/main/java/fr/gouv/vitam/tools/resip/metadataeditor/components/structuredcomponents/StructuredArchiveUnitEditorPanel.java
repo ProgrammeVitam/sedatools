@@ -3,6 +3,7 @@ package fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
 import fr.gouv.vitam.tools.resip.metadataeditor.components.ArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.metadataeditor.composite.ArchiveUnitEditor;
 import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -17,7 +18,7 @@ import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor.translate;
 
 public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEditorPanel {
 
-    InnerStructuredArchiveUnitEditorPanel innerStructuredArchiveUnitEditorPanel;
+    ArchiveUnitEditor archiveUnitEditor;
     JButton revertButton, saveButton;
     JScrollPane scrollPane;
     JPanel warningPane;
@@ -28,7 +29,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         GridBagLayout gbl;
         GridBagConstraints gbc;
 
-        this.innerStructuredArchiveUnitEditorPanel = new InnerStructuredArchiveUnitEditorPanel();
+        this.archiveUnitEditor = new ArchiveUnitEditor(null, null);
 
         gbl = new GridBagLayout();
         gbl.columnWeights = new double[]{1.0, 1.0, 1.0};
@@ -36,7 +37,13 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         gbl.rowWeights = new double[]{1.0, 0.0};
         setLayout(gbl);
 
-        scrollPane = new JScrollPane(innerStructuredArchiveUnitEditorPanel);
+        MetadataEditorPanel mep = null;
+        try {
+            mep = archiveUnitEditor.getMetadataEditorPanel();
+        } catch (SEDALibException ignored) {
+        }
+
+        scrollPane = new JScrollPane(mep);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.fill = GridBagConstraints.BOTH;
@@ -104,22 +111,21 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
 
     private void revertButton(ActionEvent event) {
         try {
-            editArchiveUnit(innerStructuredArchiveUnitEditorPanel.getArchivUnit());
+            editArchiveUnit(archiveUnitEditor.au);
         } catch (SEDALibException ignored) {
         }
     }
 
     private void saveButton(ActionEvent event) {
         try {
-            ArchiveUnit archiveUnit = extractArchiveUnit();
-            String xmlDataString = archiveUnit.toSedaXmlFragments();
+            ArchiveUnit archiveUnit = archiveUnitEditor.extractArchiveUnit();
             ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().getDataObjectPackageTreePaneViewer().getModel())
                     .nodeChanged(ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed);
             String title = null;
             try {
                 title = archiveUnit.getContent().getSimpleMetadata("Title");
                 if (title == null)
-                    title = SEDAXMLEventReader.extractNamedElement("Title", xmlDataString);
+                    title = SEDAXMLEventReader.extractNamedElement("Title", archiveUnit.toSedaXmlFragments());
                 if (title == null)
                     title = "Inconnu";
             } catch (SEDALibException e) {
@@ -133,7 +139,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
 
     public void editArchiveUnit(ArchiveUnit archiveUnit) throws SEDALibException {
         if (archiveUnit == null) {
-            innerStructuredArchiveUnitEditorPanel.editArchiveUnit(archiveUnit);
+            archiveUnitEditor.editArchiveUnit(archiveUnit);
             scrollPane.setVisible(true);
             saveButton.setEnabled(false);
             revertButton.setEnabled(false);
@@ -151,7 +157,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
                 warningPane.setVisible(true);
                 return;
             }
-            innerStructuredArchiveUnitEditorPanel.editArchiveUnit(archiveUnit);
+            archiveUnitEditor.editArchiveUnit(archiveUnit);
             scrollPane.setVisible(true);
             warningPane.setVisible(false);
             saveButton.setEnabled(true);
@@ -160,6 +166,6 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
     }
 
     public ArchiveUnit extractArchiveUnit() throws SEDALibException {
-        return innerStructuredArchiveUnitEditorPanel.extractArchiveUnit();
+        return archiveUnitEditor.extractArchiveUnit();
     }
 }
