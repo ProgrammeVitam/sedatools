@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
+import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.AutomaticGrowingTextArea;
 import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorSimplePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
@@ -46,7 +47,7 @@ public class StringTypeEditor extends MetadataEditor {
      * The metadata edition graphic component
      */
     private JTextField valueTextField;
-    private JTextArea valueTextArea;
+    private AutomaticGrowingTextArea valueTextArea;
 
     /**
      * Instantiates a new StringType editor.
@@ -117,24 +118,22 @@ public class StringTypeEditor extends MetadataEditor {
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
         gbl.columnWeights = new double[]{1.0};
+        gbl.rowWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
         if (MetadataEditorConstants.largeAreaTagList.contains(getName())){
-            gbl.rowHeights = new int[]{100};
-            valueTextArea = new JTextArea();
+            valueTextArea = new AutomaticGrowingTextArea(6);
             valueTextArea.setText(getStringTypeMetadata().getValue());
             valueTextArea.setCaretPosition(0);
             valueTextArea.setFont(MetadataEditor.EDIT_FONT);
-            valueTextArea.setRows(6);
             valueTextArea.setLineWrap(true);
             valueTextArea.setWrapStyleWord(true);
-            JScrollPane scrollArea=new JScrollPane(valueTextArea);
             gbc = new GridBagConstraints();
             gbc.insets = new Insets(0, 0, 0, 0);
             gbc.fill = GridBagConstraints.BOTH;
             gbc.gridx = 0;
             gbc.gridy = 0;
-            editPanel.add(scrollArea, gbc);
+            editPanel.add(valueTextArea.getScrollPane(), gbc);
         }
         else {
             valueTextField = new JTextField();
