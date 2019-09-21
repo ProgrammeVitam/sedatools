@@ -28,6 +28,9 @@
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
 import com.sun.org.apache.bcel.internal.generic.TargetLostException;
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.frame.BigTextEditDialog;
+import fr.gouv.vitam.tools.resip.frame.XmlEditDialog;
 import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorSimplePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
@@ -144,7 +147,31 @@ public class AnyXMLTypeEditor extends MetadataEditor{
         gbc.gridx = 0;
         gbc.gridy = 0;
         editPanel.add(scrollArea, gbc);
+        JButton editButton=new JButton();
+        editButton.setIcon(new ImageIcon(getClass().getResource("/icon/text.png")));
+        editButton.setText("");
+        editButton.setMaximumSize(new Dimension(16, 16));
+        editButton.setMinimumSize(new Dimension(16, 16));
+        editButton.setPreferredSize(new Dimension(16, 16));
+        editButton.setBorderPainted(false);
+        editButton.setContentAreaFilled(false);
+        editButton.setFocusPainted(false);
+        editButton.setFocusable(false);
+        editButton.addActionListener(arg -> editButton());
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(0, 5, 0, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        editPanel.add(editButton, gbc);
 
         this.metadataEditorPanel=new MetadataEditorSimplePanel(this,labelPanel,editPanel);
+    }
+
+    private void editButton()
+    {
+        XmlEditDialog xmlEditDialog = new XmlEditDialog(ResipGraphicApp.getTheWindow(), valueTextArea.getText());
+        xmlEditDialog.setVisible(true);
+        if (xmlEditDialog.getReturnValue())
+            valueTextArea.setText((String) xmlEditDialog.getResult());
     }
 }

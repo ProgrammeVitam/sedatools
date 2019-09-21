@@ -141,7 +141,6 @@ public class XmlEditDialog extends JDialog {
             SEDAMetadata sm = (SEDAMetadata) xmlObject;
             title = "Edition partielle de métadonnées";
             presentationName = sm.getXmlElementName() + " :";
-            //FIXME
             presentationText = getSEDAMetadataInformation(sm);
             try {
                 xmlData = sm.toString();
@@ -149,14 +148,17 @@ public class XmlEditDialog extends JDialog {
                 ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à la génération XML de la métadonnée ["
                         + sm.getXmlElementName() + "]");
             }
-
         } else if (xmlObject instanceof ArchiveUnit) {
             ArchiveUnit au = (ArchiveUnit) xmlObject;
             title = "Edition " + translateMetadataName("ArchiveUnit");
             presentationName = "xmlID:" + au.getInDataObjectPackageId();
-            //FIXME
             presentationText = "";
             xmlData = au.toSedaXmlFragments();
+        } else if (xmlObject instanceof String) {
+            title = "Edition XML";
+            presentationName = translateMetadataName("AnyXMLType");
+            presentationText = "";
+            xmlData = (String) xmlObject;
         } else {
             dispose();
             return;
@@ -167,7 +169,7 @@ public class XmlEditDialog extends JDialog {
 
         Container contentPane = getContentPane();
         contentPane.setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(500, 500));
+        setPreferredSize(new Dimension(800, 500));
 
         final JPanel presentationPanel = new JPanel();
         presentationPanel.setLayout(new GridBagLayout());
@@ -294,7 +296,7 @@ public class XmlEditDialog extends JDialog {
             actionPanel.add(cleanButton, gbc);
         }
 
-        final JButton saveButton = new JButton("Sauver");
+        final JButton saveButton = new JButton((xmlObject instanceof String?"Valider":"Sauver"));
         saveButton.addActionListener(arg -> buttonSaveXmlEdit());
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 5, 5);
@@ -470,6 +472,9 @@ public class XmlEditDialog extends JDialog {
                 ArchiveUnit au = (ArchiveUnit) xmlObject;
                 au.fromSedaXmlFragments(xmlDataString);
                 xmlObjectResult = au;
+            }
+            else if (xmlObject instanceof String) {
+                xmlObjectResult = xmlDataString;
             }
             informationTextArea.setForeground(Color.BLACK);
             informationTextArea.setText("");

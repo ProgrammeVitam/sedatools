@@ -27,6 +27,8 @@
  */
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.frame.BigTextEditDialog;
 import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.AutomaticGrowingTextArea;
 import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorSimplePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
@@ -134,6 +136,22 @@ public class StringTypeEditor extends MetadataEditor {
             gbc.gridx = 0;
             gbc.gridy = 0;
             editPanel.add(valueTextArea.getScrollPane(), gbc);
+            JButton editButton=new JButton();
+            editButton.setIcon(new ImageIcon(getClass().getResource("/icon/text.png")));
+            editButton.setText("");
+            editButton.setMaximumSize(new Dimension(16, 16));
+            editButton.setMinimumSize(new Dimension(16, 16));
+            editButton.setPreferredSize(new Dimension(16, 16));
+            editButton.setBorderPainted(false);
+            editButton.setContentAreaFilled(false);
+            editButton.setFocusPainted(false);
+            editButton.setFocusable(false);
+            editButton.addActionListener(arg -> editButton());
+            gbc = new GridBagConstraints();
+            gbc.insets = new Insets(0, 5, 0, 5);
+            gbc.gridx = 1;
+            gbc.gridy = 0;
+            editPanel.add(editButton, gbc);
         }
         else {
             valueTextField = new JTextField();
@@ -149,5 +167,13 @@ public class StringTypeEditor extends MetadataEditor {
         }
 
         this.metadataEditorPanel = new MetadataEditorSimplePanel(this, labelPanel, editPanel);
+    }
+
+    private void editButton()
+    {
+        BigTextEditDialog bigTextEditDialog = new BigTextEditDialog(ResipGraphicApp.getTheWindow(), valueTextArea.getText(),getName());
+        bigTextEditDialog.setVisible(true);
+        if (bigTextEditDialog.getReturnValue())
+            valueTextArea.setText(bigTextEditDialog.getResult());
     }
 }

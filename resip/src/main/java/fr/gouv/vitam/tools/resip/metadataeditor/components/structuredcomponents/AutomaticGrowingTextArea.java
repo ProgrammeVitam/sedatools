@@ -27,11 +27,18 @@
  */
 package fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents;
 
+import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.tree.TreePath;
 import java.awt.*;
-import java.time.Instant;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 /**
  * The automatic growing JTextArea class with a lines count limit (lines count take into account wrapping).
@@ -49,27 +56,29 @@ public class AutomaticGrowingTextArea extends JTextArea {
         this.currentLineNumber = 1;
         AutomaticGrowingTextArea inner = this;
 
-        //setPreferredSize(new Dimension());
         scrollPane = new JScrollPane(this);
 
         scrollPane.getViewport().addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                if (inner.getText().length() > 0) {
-                    JViewport viewport = (JViewport) e.getSource();
-                    int lineCount = viewport.getView().getMinimumSize().height / inner.getRowHeight();
-                    if (inner.currentLineNumber == Math.min(lineCount, maxLines))
-                        return;
-                    inner.currentLineNumber = Math.min(lineCount, maxLines);
-                    MetadataEditorSimplePanel mesp = (MetadataEditorSimplePanel) scrollPane.getParent().getParent();
-                    inner.setRows(inner.currentLineNumber);
-                    GridBagLayout gbl = (GridBagLayout) mesp.getLayout();
-                    gbl.rowHeights = new int[]{inner.currentLineNumber * inner.getRowHeight()+4};
-                    gbl.rowWeights = new double[]{0.0};
-                    mesp.revalidate();
-                }
+                inner.stateChanged(e);
             }
         });
+    }
+
+    public void stateChanged(ChangeEvent e) {
+        if (getText().length() > 0) {
+            JViewport viewport = (JViewport) e.getSource();
+            int lineCount = viewport.getView().getMinimumSize().height / getRowHeight();
+            if (currentLineNumber == Math.min(lineCount, maxLines))
+                return;
+            currentLineNumber = Math.min(lineCount, maxLines);
+            MetadataEditorSimplePanel mesp = (MetadataEditorSimplePanel) scrollPane.getParent().getParent();
+            setRows(currentLineNumber);
+            GridBagLayout gbl = (GridBagLayout) mesp.getLayout();
+            gbl.rowHeights = new int[]{currentLineNumber * getRowHeight() + 4};
+            mesp.revalidate();
+        }
     }
 
     public JScrollPane getScrollPane() {
