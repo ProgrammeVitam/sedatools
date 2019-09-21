@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class AllMetadataEditorTest {
 
-    static String[] demoMetadataTypes = {"ArchiveUnitProfile", "Management", "Content"};
+    static String[] demoMetadataTypes = {"ArchiveUnitProfile", "Management", "Content","PhysicalDimensions"};
 
     public static void main(String[] args) throws Exception {
         if (System.getProperty("os.name").toLowerCase().contains("win"))

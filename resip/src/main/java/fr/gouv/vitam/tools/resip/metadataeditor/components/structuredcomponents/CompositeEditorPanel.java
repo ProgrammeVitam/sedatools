@@ -53,12 +53,12 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
     /**
      * The Max index of MetadataEditor, equivalent to y-2 in gridbaglayout.
      */
-    int maxIndex;
+    protected int maxIndex;
 
     /**
      * The MetadataEditor panel to GridBagConstraints in father map.
      */
-    HashMap<MetadataEditorPanel, GridBagConstraints> metadataEditorPanelConstraints;
+    protected HashMap<MetadataEditorPanel, GridBagConstraints> metadataEditorPanelConstraints;
 
     /**
      * The graphic elements
@@ -243,32 +243,46 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
     /**
      * Add a child MetadataEditor panel before a specified place (begins at 0). All MetadataEditors with index equal
      * or bigger will be shifted.
+     * <p>
+     * If insertionIndex==Integer.MAX_VALUE it's added at the end of the list.
      *
      * @param insertionIndex the insertion index
      * @param metadataPanel  the metadata panel
      */
     public void addMetadataEditorPanel(int insertionIndex, MetadataEditorPanel metadataPanel) {
-        int gridy = insertionIndex + 1;
+        int gridy;
+        if (insertionIndex==Integer.MAX_VALUE)
+            insertionIndex=maxIndex+1;
+        gridy= insertionIndex + 2;
         if (insertionIndex <= maxIndex) {
+            boolean found = false;
             for (Map.Entry<MetadataEditorPanel, GridBagConstraints> e : metadataEditorPanelConstraints.entrySet()) {
-                if (e.getValue().gridy > gridy) {
-                    e.getValue().gridy++;
-                    remove(e.getKey());
-                    add(e.getKey(), e.getValue());
+                if (e.getValue().gridy == gridy) {
+                    found = true;
+                    break;
                 }
             }
-            maxIndex++;
-        }
-        else
-            maxIndex=insertionIndex;
+            if (found) {
+                for (Map.Entry<MetadataEditorPanel, GridBagConstraints> e : metadataEditorPanelConstraints.entrySet()) {
+                    if (e.getValue().gridy >= gridy) {
+                        e.getValue().gridy++;
+                        remove(e.getKey());
+                        add(e.getKey(), e.getValue());
+                    }
+                }
+                maxIndex++;
+            }
+        } else
+            maxIndex = insertionIndex;
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.weightx = 1.0;
         gbc.weighty = 1.0;
         gbc.gridx = 1;
-        gbc.gridy = gridy + 1;
+        gbc.gridy = gridy;
         gbc.gridwidth = 6;
         metadataPanel.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
                 MetadataEditor.COMPOSITE_LABEL_SEPARATOR_COLOR));
@@ -284,7 +298,7 @@ public class CompositeEditorPanel extends MetadataEditorPanel {
      * @throws SEDALibException the seda lib exception
      */
     public void removeMetadataEditorPanel(MetadataEditorPanel metadataEditorPanel) throws SEDALibException {
-        if (metadataEditorPanelConstraints.get(metadataEditorPanel).gridy-2==maxIndex)
+        if (metadataEditorPanelConstraints.get(metadataEditorPanel).gridy - 2 == maxIndex)
             maxIndex--;
         remove(metadataEditorPanel);
         metadataEditorPanelConstraints.remove(metadataEditorPanel);

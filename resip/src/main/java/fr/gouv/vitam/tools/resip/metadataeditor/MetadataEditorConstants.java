@@ -298,12 +298,15 @@ public class MetadataEditorConstants {
         translateMap.put("MetadataName", "Nom de métadonnée");
         translateMap.put("MetadataValue", "Valeur de métadonnée");
 
+        //ArchiveUnitProfile
+        translateMap.put("ArchiveUnitProfile", "Profil d'unité");
+
         //BinaryDataObject
         translateMap.put("BinaryDataObject", "Objet numérique");
         translateMap.put("DataObjectVersion", "Version");
         translateMap.put("MessageDigest", "Empreinte");
         translateMap.put("Size", "Taille");
-        translateMap.put("Uri", "Nom SIP");
+        translateMap.put("Uri", "Chemin dans le SIP");
         translateMap.put("FormatIdentification", "Format");
         translateMap.put("FormatLitteral", "Description");
         translateMap.put("MimeType", "Type Mime");
@@ -311,11 +314,11 @@ public class MetadataEditorConstants {
         translateMap.put("Encoding", "Encodage");
         translateMap.put("FileInfo", "Fichier");
         translateMap.put("Filename", "Nom de fichier");
-        translateMap.put("CreatingApplicationName", "Application d'origine");
-        translateMap.put("CreatingApplicationVersion", "Version d'application");
+        translateMap.put("CreatingApplicationName", "Application-Nom");
+        translateMap.put("CreatingApplicationVersion", "Application-Version");
         translateMap.put("DateCreatedByApplication", "Date de création");
-        translateMap.put("CreatingOs", "OS d'origine");
-        translateMap.put("CreatingOsVersion", "Version d'OS");
+        translateMap.put("CreatingOs", "OS-Nom");
+        translateMap.put("CreatingOsVersion", "OS-Version");
         translateMap.put("LastModified", "Date de modification");
         translateMap.put("Metadata", "Métadonnées");
         translateMap.put("Audio", "Audio");
@@ -324,8 +327,20 @@ public class MetadataEditorConstants {
         translateMap.put("Text", "Texte");
         translateMap.put("Video", "Vidéo");
 
-        //ArchiveUnitProfile
-        translateMap.put("ArchiveUnitProfile", "Profil d'unité");
+        //PhysicalDataObject
+        translateMap.put("PhysicalDataObject", "Objet physique");
+        translateMap.put("PhysicalId", "ID-Physique");
+        translateMap.put("PhysicalDimensions", "Dimensions");
+        translateMap.put("Width", "Largeur");
+        translateMap.put("Height", "Hauteur");
+        translateMap.put("Depth", "Profondeur");
+        translateMap.put("Shape", "Forme");
+        translateMap.put("Diameter", "Diamètre");
+        translateMap.put("Length", "Longueur");
+        translateMap.put("Thickness", "Epaisseur");
+        translateMap.put("Weight", "Poids");
+        translateMap.put("NumberOfPage", "Nombre de pages");
+
 
         //Others
         translateMap.put("Unknown","Non défini");

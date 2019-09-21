@@ -88,6 +88,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
         } catch (InvocationTargetException te) {
             throw new SEDALibException("La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur", te.getTargetException());
         }
+        result.elementName = elementName;
         for (String metadataName : result.getMetadataOrderedList()) {
             if (!minimal || (MetadataEditorConstants.minimalTagList.contains(metadataName))) {
                 ComplexListMetadataKind complexListMetadataKind = result.getMetadataMap().get(metadataName);
@@ -174,7 +175,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
         addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);
         i = 0;
         if (addOrderIndex == -1)
-            i = metadataEditorList.size();
+            i = Integer.MAX_VALUE;
         else {
             manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
             for (MetadataEditor me : metadataEditorList) {
@@ -204,8 +205,10 @@ public class ComplexListTypeEditor extends CompositeEditor {
 
         int insertionMetadataEditorIndex = getInsertionMetadataEditorIndex(metadataName);
         MetadataEditor addedMetadataEditor = createMetadataEditor(sedaMetadata, this);
-        metadataEditorList.add(insertionMetadataEditorIndex,
-                addedMetadataEditor);
+        if (insertionMetadataEditorIndex==Integer.MAX_VALUE)
+            metadataEditorList.add(addedMetadataEditor);
+        else
+            metadataEditorList.add(insertionMetadataEditorIndex, addedMetadataEditor);
         ((CompositeEditorPanel) metadataEditorPanel).addMetadataEditorPanel(insertionMetadataEditorIndex, addedMetadataEditor.getMetadataEditorPanel());
     }
 

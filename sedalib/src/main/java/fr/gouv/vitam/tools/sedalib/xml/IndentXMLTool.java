@@ -150,6 +150,10 @@ public class IndentXMLTool {
     public String indentString(String xml) throws SEDALibException {
         String result;
 
+        xml=xml.trim();
+        if (xml.isEmpty())
+            return "";
+
         if (appTransformer == null)
             return xml;
 

@@ -27,55 +27,50 @@
  */
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
-import com.sun.org.apache.bcel.internal.generic.TargetLostException;
-import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.frame.BigTextEditDialog;
-import fr.gouv.vitam.tools.resip.frame.XmlEditDialog;
 import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.MetadataEditorSimplePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
+import fr.gouv.vitam.tools.sedalib.metadata.content.KeywordType;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Weight;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.LinearDimensionType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
-import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
-import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
-import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
-import org.fife.ui.rsyntaxtextarea.Token;
-import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
+import javax.swing.text.AbstractDocument;
+import javax.swing.text.DocumentFilter;
 import java.awt.*;
 
 import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
 
 /**
- * The AnyXMLType metadata editor class.
+ * The Weight metadata editor class.
  */
-public class AnyXMLTypeEditor extends MetadataEditor{
+public class WeightEditor extends MetadataEditor {
 
     /**
      * The metadata edition graphic component
      */
-    private RSyntaxTextArea valueTextArea;
+    private JTextField valueTextField;
+    private JComboBox<String> unitComboBox;
 
     /**
-     * Instantiates a new AnyXMLType editor.
+     * Instantiates a new Weight editor.
      *
-     * @param metadata the AnyXMLType metadata
+     * @param metadata the Weight metadata
      * @param father   the father
-     * @throws SEDALibException if not a AnyXMLType metadata
+     * @throws SEDALibException if not a Weight metadata
      */
-    public AnyXMLTypeEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
+    public WeightEditor(SEDAMetadata metadata, MetadataEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof AnyXMLType))
+        if (!(metadata instanceof Weight))
             throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
     }
 
-    private AnyXMLType getAnyXMLTypeMetadata() {
-        return (AnyXMLType) metadata;
+    private Weight getWeightMetadata() {
+        return (Weight) metadata;
     }
 
     /**
-     * Gets AnyXMLType sample.
+     * Gets Weight sample.
      *
      * @param elementName the element name, corresponding to the XML tag in SEDA
      * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
@@ -84,30 +79,31 @@ public class AnyXMLTypeEditor extends MetadataEditor{
      */
     static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
         if (minimal)
-            return new AnyXMLType("AnyXMLType", "");
+            return new Weight();
         else
-            return new AnyXMLType("AnyXMLType", "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2>Text2</BlockTag2></"+elementName+">");
+            return new Weight(42.42,"gram");
     }
 
     @Override
-    public SEDAMetadata extractEditedObject() throws SEDALibException{
-        getAnyXMLTypeMetadata().setRawXml(valueTextArea.getText());
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
+        getWeightMetadata().setValue(Double.parseDouble(valueTextField.getText()));
+        getWeightMetadata().setUnit((String) (unitComboBox.getSelectedItem()));
         return getSEDAMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        return valueTextArea.getText();
+        return valueTextField.getText()+" "+unitComboBox.getSelectedItem();
     }
 
     @Override
     public void createMetadataEditorPanel() throws SEDALibException {
-        JPanel labelPanel= new JPanel();
+        JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         gbl.columnWeights = new double[]{1.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translateMetadataName("AnyXMLType")+" :");
+        JLabel label = new JLabel(translateMetadataName(getName()) + " :");
         label.setToolTipText(getName());
         label.setFont(MetadataEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -117,61 +113,36 @@ public class AnyXMLTypeEditor extends MetadataEditor{
         gbc.gridy = 0;
         labelPanel.add(label, gbc);
 
-        JPanel editPanel= new JPanel();
+        JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.rowHeights = new int[]{100};
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWidths = new int[]{100,0};
+        gbl.columnWeights = new double[]{0.0,1.0};
         editPanel.setLayout(gbl);
 
-        valueTextArea = new RSyntaxTextArea(4, 80);
-        valueTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
-        SyntaxScheme scheme = valueTextArea.getSyntaxScheme();
-        scheme.getStyle(Token.MARKUP_TAG_DELIMITER).foreground = COMPOSITE_LABEL_MARKUP_COLOR;
-        scheme.getStyle(Token.MARKUP_TAG_NAME).foreground = COMPOSITE_LABEL_COLOR;
-        scheme.getStyle(Token.MARKUP_TAG_ATTRIBUTE).foreground = COMPOSITE_LABEL_MARKUP_COLOR;
-        scheme.getStyle(Token.MARKUP_TAG_ATTRIBUTE_VALUE).foreground = COMPOSITE_LABEL_ATTRIBUTE_COLOR;
-        valueTextArea.setCodeFoldingEnabled(true);
-        valueTextArea.setFont(MetadataEditor.EDIT_FONT);
-        JScrollPane scrollArea = new RTextScrollPane(valueTextArea);
-        String xmlData;
-        try {
-            xmlData  = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(getAnyXMLTypeMetadata().getRawXml());
-        } catch (SEDALibException e) {
-            xmlData=getAnyXMLTypeMetadata().getRawXml();
-        }
-        valueTextArea.setText(xmlData);
-        valueTextArea.setCaretPosition(0);
+        valueTextField = new JTextField();
+        DocumentFilter filter = new DoubleFilter();
+        ((AbstractDocument) valueTextField.getDocument()).setDocumentFilter(filter);
+        valueTextField.setText(Double.toString(getWeightMetadata().getValue()));
+        valueTextField.setFont(MetadataEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.fill = GridBagConstraints.BOTH;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        editPanel.add(scrollArea, gbc);
-        JButton editButton=new JButton();
-        editButton.setIcon(new ImageIcon(getClass().getResource("/icon/text.png")));
-        editButton.setText("");
-        editButton.setMaximumSize(new Dimension(16, 16));
-        editButton.setMinimumSize(new Dimension(16, 16));
-        editButton.setPreferredSize(new Dimension(16, 16));
-        editButton.setBorderPainted(false);
-        editButton.setContentAreaFilled(false);
-        editButton.setFocusPainted(false);
-        editButton.setFocusable(false);
-        editButton.addActionListener(arg -> editButton());
+        editPanel.add(valueTextField, gbc);
+
+        unitComboBox = new JComboBox<String>((String[]) Weight.enumValues.toArray());
+        unitComboBox.setEditable(true);
+        unitComboBox.getEditor().getEditorComponent().setFocusable(false);
+        unitComboBox.setFont(MetadataEditor.EDIT_FONT);
+        unitComboBox.setSelectedItem(getWeightMetadata().getUnit());
         gbc = new GridBagConstraints();
-        gbc.insets = new Insets(0, 5, 0, 5);
+        gbc.anchor = GridBagConstraints.LINE_START;
+        gbc.insets = new Insets(0, 0, 0, 0);
         gbc.gridx = 1;
         gbc.gridy = 0;
-        editPanel.add(editButton, gbc);
+        editPanel.add(unitComboBox, gbc);
 
-        this.metadataEditorPanel=new MetadataEditorSimplePanel(this,labelPanel,editPanel);
-    }
-
-    private void editButton()
-    {
-        XmlEditDialog xmlEditDialog = new XmlEditDialog(ResipGraphicApp.getTheWindow(), valueTextArea.getText());
-        xmlEditDialog.setVisible(true);
-        if (xmlEditDialog.getReturnValue())
-            valueTextArea.setText((String) xmlEditDialog.getResult());
+        this.metadataEditorPanel = new MetadataEditorSimplePanel(this, labelPanel, editPanel);
     }
 }

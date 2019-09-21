@@ -1,8 +1,11 @@
 package fr.gouv.vitam.tools.resip.metadataeditor;
 
+import fr.gouv.vitam.tools.resip.metadataeditor.components.structuredcomponents.ScrollablePanel;
 import fr.gouv.vitam.tools.resip.metadataeditor.composite.BinaryDataObjectEditor;
+import fr.gouv.vitam.tools.resip.metadataeditor.composite.PhysicalDataObjectEditor;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +21,9 @@ public class DataObjectGroupEditorTest {
         JDialog dialog = new JDialog();
         dialog.setMinimumSize(new Dimension(600, 600));
         dialog.setPreferredSize(new Dimension(600, 600));
+
+        GridBagLayout gbl=new GridBagLayout();
+        ScrollablePanel content=new ScrollablePanel(gbl);
 
         DataObjectPackage dop=new DataObjectPackage();
         String bdoXML = "<DataObjectVersion>BinaryMaster_1</DataObjectVersion>\n" +
@@ -49,8 +55,39 @@ public class DataObjectGroupEditorTest {
 
         BinaryDataObjectEditor bdoe=new BinaryDataObjectEditor(bdo,null);
         bdoe.doExpand(true, false);
+        GridBagConstraints gbc=new GridBagConstraints();
+        gbc.fill=GridBagConstraints.HORIZONTAL;
+        gbc.gridx=0;
+        gbc.gridy=0;
+        content.add(bdoe.metadataEditorPanel,gbc);
 
-        JScrollPane scrollPane=new JScrollPane(bdoe.metadataEditorPanel);
+        String pdoXML = "<DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
+                "<PhysicalId>940 W</PhysicalId>\n" +
+                "<PhysicalDimensions>\n" +
+                "  <Width unit=\"centimetre\">10.0</Width>\n" +
+                "  <Height unit=\"centimetre\">8.0</Height>\n" +
+                "  <Depth unit=\"centimetre\">1.0</Depth>\n" +
+                "  <Diameter unit=\"centimetre\">0.0</Diameter>\n" +
+                "  <Weight unit=\"gram\">59.0</Weight>\n" +
+                "</PhysicalDimensions>\n" +
+                "<Extent>1carteimprimée</Extent>\n" +
+                "<Dimensions>10,5cmx14,8cm</Dimensions>\n" +
+                "<Color>Noiretblanc</Color>\n" +
+                "<Framing>Paysage</Framing>\n" +
+                "<Technique>Phototypie</Technique>";
+        PhysicalDataObject pdo=new PhysicalDataObject(dop);
+        pdo.fromSedaXmlFragments(pdoXML);
+        pdo.setInDataObjectPackageId("TestID");
+
+        PhysicalDataObjectEditor pdoe=new PhysicalDataObjectEditor(pdo,null);
+        pdoe.doExpand(true, false);
+        gbc=new GridBagConstraints();
+        gbc.fill=GridBagConstraints.HORIZONTAL;
+        gbc.gridx=0;
+        gbc.gridy=1;
+        content.add(pdoe.metadataEditorPanel,gbc);
+
+        JScrollPane scrollPane=new JScrollPane(content);
         dialog.setContentPane(scrollPane);
         dialog.setVisible(true);
     }
