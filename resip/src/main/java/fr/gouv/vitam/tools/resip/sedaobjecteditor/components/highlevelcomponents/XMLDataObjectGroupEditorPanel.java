@@ -297,7 +297,15 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
             dataObjectListViewer.selectDataObjectListItem(dataObject);
             if (dataObject instanceof BinaryDataObject) {
                 BinaryDataObject bdo = (BinaryDataObject) dataObject;
-                dataObjectDetailText.setText(bdo.toString());
+                String tmp = "";
+                try {
+                    tmp = bdo.toSedaXmlFragments();
+                    //tmp = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(tmp);
+                } catch (SEDALibException e) {
+                    ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation du BinaryDataObject ["
+                            + bdo.getInDataObjectPackageId() + "]");
+                }
+                dataObjectDetailText.setText(tmp);
                 openObjectButton.setEnabled(true);
                 changeObjectButton.setEnabled(true);
             } else {

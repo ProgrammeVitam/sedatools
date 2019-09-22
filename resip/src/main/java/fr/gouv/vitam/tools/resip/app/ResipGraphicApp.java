@@ -769,7 +769,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 prefsDialog.gmc.toPrefs(Prefs.getInstance());
                 prefsDialog.cic.toPrefs(Prefs.getInstance());
                 prefsDialog.tp.toPrefs(Prefs.getInstance());
-                interfaceParameters.toPrefs(Prefs.getInstance());
+                prefsDialog.ip.toPrefs(Prefs.getInstance());
                 Prefs.getInstance().save();
                 treatmentParameters = prefsDialog.tp;
                 ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",

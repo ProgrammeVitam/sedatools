@@ -94,6 +94,7 @@ public class PrefsDialog extends JDialog {
     private JCheckBox metadataFilterCheckBox;
 
     private JTextField dupMaxTextField;
+    private JRadioButton structuredInterfaceRadioButton;
 
     private JFrame owner;
 
@@ -121,6 +122,10 @@ public class PrefsDialog extends JDialog {
      * The Tp.
      */
     public TreatmentParameters tp;
+    /**
+     * The Ip.
+     */
+    public InterfaceParameters ip;
 
     /**
      * The return value.
@@ -172,6 +177,7 @@ public class PrefsDialog extends JDialog {
         gmc = new ExportContext(Prefs.getInstance());
         cic = new CSVImportContext(Prefs.getInstance());
         tp = new TreatmentParameters(Prefs.getInstance());
+        ip = new InterfaceParameters(Prefs.getInstance());
 
         this.owner = owner;
         this.setPreferredSize(new Dimension(800, 500));
@@ -940,11 +946,11 @@ public class PrefsDialog extends JDialog {
 
         // TreatmentParameters Panel
         JPanel treatmentParametersPanel = new JPanel();
-        tabbedPane.addTab("Traitement", new ImageIcon(getClass().getResource("/icon/edit-find-replace.png")),
+        tabbedPane.addTab("Traitement/Interface", new ImageIcon(getClass().getResource("/icon/edit-find-replace.png")),
                 treatmentParametersPanel, null);
         GridBagLayout gbl_treatmentParametersPanel = new GridBagLayout();
-        gbl_treatmentParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-        gbl_treatmentParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 1};
+        gbl_treatmentParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0,0};
+        gbl_treatmentParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0,0, 1.0};
         treatmentParametersPanel.setLayout(gbl_treatmentParametersPanel);
 
         JLabel workDirLabel = new JLabel("Répertoire de travail");
@@ -1020,6 +1026,51 @@ public class PrefsDialog extends JDialog {
         gbc.gridy = 3;
         gbc.anchor = GridBagConstraints.WEST;
         treatmentParametersPanel.add(dupMaxTextField, gbc);
+
+        JLabel interfaceLabel = new JLabel("Interface");
+        interfaceLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        treatmentParametersPanel.add(interfaceLabel, gbc);
+
+        JLabel interfaceTypeLabel = new JLabel("Interface par défaut:");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        treatmentParametersPanel.add(interfaceTypeLabel, gbc);
+
+        structuredInterfaceRadioButton = new JRadioButton("Structurée");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        treatmentParametersPanel.add(structuredInterfaceRadioButton, gbc);
+
+        JRadioButton classicInterfaceRadioButton = new JRadioButton("XML-expert");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 2;
+        gbc.gridy = 5;
+        treatmentParametersPanel.add(classicInterfaceRadioButton, gbc);
+
+        ButtonGroup interfaceTypeButtonGroup = new ButtonGroup();
+        interfaceTypeButtonGroup.add(classicInterfaceRadioButton);
+        interfaceTypeButtonGroup.add(structuredInterfaceRadioButton);
+        interfaceTypeButtonGroup.clearSelection();
+        if (ip.isStructuredMetadataEditionFlag())
+            structuredInterfaceRadioButton.setSelected(true);
+        else
+            classicInterfaceRadioButton.setSelected(true);
 
 
         // Buttons
@@ -1118,9 +1169,9 @@ public class PrefsDialog extends JDialog {
         gmc.setReindex(reindexYesRadioButton.isSelected());
         if (firstUsageButton.isSelected())
             gmc.setUsageVersionSelectionMode(FIRST_DATAOBJECT);
-        else  if (allUsageButton.isSelected())
+        else if (allUsageButton.isSelected())
             gmc.setUsageVersionSelectionMode(ALL_DATAOBJECTS);
-        else  if (lastUsageButton.isSelected())
+        else if (lastUsageButton.isSelected())
             gmc.setUsageVersionSelectionMode(LAST_DATAOBJECT);
         try {
             tmp = Integer.parseInt(nameMaxSizeTextField.getText());
@@ -1171,6 +1222,7 @@ public class PrefsDialog extends JDialog {
         }
         tp.setDupMax(tmp);
 
+        ip.setStructuredMetadataEditionFlag(structuredInterfaceRadioButton.isSelected());
         return true;
     }
 
