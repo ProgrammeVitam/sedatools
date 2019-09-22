@@ -1,7 +1,7 @@
 /*
  * 
  */
-package fr.gouv.vitam.tools.resip.viewer;
+package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
 import fr.gouv.vitam.tools.resip.threads.AddThread;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;

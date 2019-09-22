@@ -147,6 +147,7 @@ public class AnyXMLTypeEditor extends SEDAObjectEditor {
         editPanel.add(scrollArea, gbc);
         JButton editButton=new JButton();
         editButton.setIcon(new ImageIcon(getClass().getResource("/icon/text.png")));
+        editButton.setToolTipText("Ouvrir pour édition...");
         editButton.setText("");
         editButton.setMaximumSize(new Dimension(16, 16));
         editButton.setMinimumSize(new Dimension(16, 16));

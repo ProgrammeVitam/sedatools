@@ -1,4 +1,4 @@
-package fr.gouv.vitam.tools.resip.viewer;
+package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

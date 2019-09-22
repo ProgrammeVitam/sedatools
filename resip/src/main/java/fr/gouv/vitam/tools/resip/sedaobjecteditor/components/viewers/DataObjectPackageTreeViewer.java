@@ -25,12 +25,13 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.viewer;
+package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.DustbinItem;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
 import fr.gouv.vitam.tools.resip.threads.AddThread;
 import fr.gouv.vitam.tools.resip.threads.ExpandThread;
 import fr.gouv.vitam.tools.sedalib.core.*;
@@ -53,15 +54,7 @@ import java.util.*;
  */
 public class DataObjectPackageTreeViewer extends JTree implements ActionListener {
 
-    /**
-     * The Constant serialVersionUID.
-     */
-    private static final long serialVersionUID = 8610503305899021755L;
-
-    /**
-     * The main.
-     */
-    MainWindow main;
+    private TreeDataObjectPackageEditorPanel container;
 
     /**
      * The long archive transfer tree item name.
@@ -102,12 +95,12 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
     /**
      * Instantiates a new archive transfer tree viewer.
      *
-     * @param main      the main
+     * @param container the container
      * @param treeModel the tree model
      */
-    public DataObjectPackageTreeViewer(MainWindow main, DataObjectPackageTreeModel treeModel) {
+    public DataObjectPackageTreeViewer(TreeDataObjectPackageEditorPanel container, DataObjectPackageTreeModel treeModel) {
         super(treeModel);
-        this.main = main;
+        this.container = container;
         final DataObjectPackageTreeViewer tree = this;
         DataObjectPackageTreeViewer thisSTV = this;
 
@@ -117,7 +110,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                 if (selPath != null) {
                     DataObjectPackageTreeNode stn = (DataObjectPackageTreeNode) (selPath.getLastPathComponent());
                     if (SwingUtilities.isLeftMouseButton(e)) {
-                        tree.main.dataObjectPackageTreeItemClick(selPath);
+                        tree.container.selectTreePathItem(selPath);
                     } else if (SwingUtilities.isRightMouseButton(e) && (stn.getParents() != null)) {
 
                         JPopupMenu popup = new JPopupMenu();
@@ -152,7 +145,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                     }
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
                     clearSelection();
-                    main.refreshInformations();
+                    tree.container.refreshInformations();
                 } else if (SwingUtilities.isRightMouseButton(e)) {
                     JPopupMenu popup = new JPopupMenu();
                     JMenuItem mi;
@@ -354,8 +347,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         }
         targetNode.addChildrenNode(addNode);
         ((DataObjectPackageTreeModel) getModel()).nodeStructureChanged(targetNode);
-        main.getApp().currentWork.getCreationContext().setStructureChanged(true);
-        main.getApp().setContextLoaded(true);
+        //FIXME
+        ResipGraphicApp.getTheApp().currentWork.getCreationContext().setStructureChanged(true);
+        ResipGraphicApp.getTheApp().setContextLoaded(true);
     }
 
     private void resetTouchedFromNode(DataObjectPackageTreeNode node) {
@@ -499,7 +493,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             auCount++;
         if (childNode.getDataObject() != null)
             ogCount++;
-        if (confirmFlag && (UserInteractionDialog.getUserAnswer(main,
+        if (confirmFlag && (UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
                 "Vous allez effacer " +
                         (auCount == 0 ? "" : auCount + " ArchiveUnits ") +
                         (auCount != 0 && ogCount != 0 ? "et " : "") +
@@ -523,10 +517,10 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             fatherAU.removeDataObjectById(childDo.getInDataObjectPackageId());
         }
         ((DataObjectPackageTreeModel) getModel()).nodeStructureChanged(fatherNode);
-        main.getApp().currentWork.getCreationContext().setStructureChanged(true);
-        main.getApp().setContextLoaded(true);
-        main.getApp().setModifiedContext(true);
-        main.refreshInformations();
+        ResipGraphicApp.getTheApp().currentWork.getCreationContext().setStructureChanged(true);
+        ResipGraphicApp.getTheApp().setContextLoaded(true);
+        ResipGraphicApp.getTheApp().setModifiedContext(true);
+        container.refreshInformations();
     }
 
     /**
@@ -553,10 +547,11 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         targetNode.actualiseRecursivCounts(1, 0);
 
         treeModel.nodeStructureChanged(targetNode);
-        main.getApp().currentWork.getCreationContext().setStructureChanged(true);
+        //FIXME
+        ResipGraphicApp.getTheApp().currentWork.getCreationContext().setStructureChanged(true);
 
-        main.getApp().setContextLoaded(true);
-        main.getApp().setModifiedContext(true);
-        main.refreshInformations();
+        ResipGraphicApp.getTheApp().setContextLoaded(true);
+        ResipGraphicApp.getTheApp().setModifiedContext(true);
+        container.refreshInformations();
     }
 }

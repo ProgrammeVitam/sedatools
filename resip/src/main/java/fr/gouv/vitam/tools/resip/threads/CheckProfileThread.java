@@ -82,7 +82,7 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
             // first verify and reindex if neccesary
             if (work.getExportContext().isReindex()) {
                 work.getDataObjectPackage().regenerateContinuousIds();
-                ResipGraphicApp.getTheApp().mainWindow.allTreeChanged();
+                ResipGraphicApp.getTheApp().mainWindow.treePane.allTreeChanged();
             }
 
             ArchiveTransfer archiveTransfer = new ArchiveTransfer();

@@ -233,6 +233,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
 
         defineButton = new JButton();
         defineButton.setIcon(new ImageIcon(getClass().getResource("/icon/document-save-as.png")));
+        defineButton.setToolTipText("Changer le fichier associé...");
         defineButton.setText("");
         defineButton.setMaximumSize(new Dimension(16, 16));
         defineButton.setMinimumSize(new Dimension(16, 16));

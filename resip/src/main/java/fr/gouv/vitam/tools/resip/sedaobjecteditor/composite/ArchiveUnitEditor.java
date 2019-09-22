@@ -57,7 +57,7 @@ public class ArchiveUnitEditor extends CompositeEditor {
      * Instantiates a new ArchiveUnit editor.
      *
      * @param editedObject the ArchiveUnit editedObject
-     * @param father   the father
+     * @param father       the father
      */
     public ArchiveUnitEditor(ArchiveUnit editedObject, SEDAObjectEditor father) {
         super(editedObject, father);
@@ -118,6 +118,8 @@ public class ArchiveUnitEditor extends CompositeEditor {
     }
 
     private void renewObjectEditorList() throws SEDALibException {
+        for (int i = 0; i < 3; i++)
+            objectEditorArray[i] = null;
         if (getArchiveUnitMetadata() != null) {
             if (getArchiveUnitMetadata().getContent() != null) {
                 objectEditorArray[0] = SEDAObjectEditor.createSEDAObjectEditor(getArchiveUnitMetadata().getContent(), this);
@@ -128,9 +130,8 @@ public class ArchiveUnitEditor extends CompositeEditor {
                 ((CompositeEditor) objectEditorArray[1]).doExpand(true, false);
             }
             if (getArchiveUnitMetadata().getArchiveUnitProfile() != null)
-                objectEditorArray[0] = SEDAObjectEditor.createSEDAObjectEditor(getArchiveUnitMetadata().getArchiveUnitProfile(), this);
-         } else
-            for (int i = 0; i < 3; i++) objectEditorArray[i] = null;
+                objectEditorArray[2] = SEDAObjectEditor.createSEDAObjectEditor(getArchiveUnitMetadata().getArchiveUnitProfile(), this);
+        }
 
         updateObjectEditorList();
     }
@@ -164,15 +165,15 @@ public class ArchiveUnitEditor extends CompositeEditor {
         switch (metadataName) {
             case "Content":
                 sedaMetadata = createSEDAMetadataSample("Content", "Content", true);
-                objectEditorArray[0]= createSEDAObjectEditor(sedaMetadata, this);
-            break;
+                objectEditorArray[0] = createSEDAObjectEditor(sedaMetadata, this);
+                break;
             case "Management":
                 sedaMetadata = createSEDAMetadataSample("Management", "Management", true);
-                objectEditorArray[1]= createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[1] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "ArchiveUnitProfile":
                 sedaMetadata = createSEDAMetadataSample("ArchiveUnitProfile", "ArchiveUnitProfile", true);
-                objectEditorArray[2]= createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[2] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
         }
         if (sedaMetadata == null)

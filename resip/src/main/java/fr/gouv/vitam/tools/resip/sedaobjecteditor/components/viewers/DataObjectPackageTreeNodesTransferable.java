@@ -1,7 +1,7 @@
 /*
  * 
  */
-package fr.gouv.vitam.tools.resip.viewer;
+package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
 import org.jetbrains.annotations.NotNull;
 

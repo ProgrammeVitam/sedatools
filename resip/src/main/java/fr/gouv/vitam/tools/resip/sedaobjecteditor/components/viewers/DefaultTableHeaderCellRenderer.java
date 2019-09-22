@@ -1,4 +1,4 @@
-package fr.gouv.vitam.tools.resip.viewer;
+package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
 /**
  * @(#)DefaultTableHeaderCellRenderer.java	1.0 02/24/09

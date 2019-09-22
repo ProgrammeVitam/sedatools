@@ -65,6 +65,7 @@ public class SEDAObjectEditorSimplePanel extends SEDAObjectEditorPanel {
 
         JButton lessButton = new JButton();
         lessButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-remove-very-small.png")));
+        lessButton.setToolTipText("Supprimer cet élément...");
         lessButton.setText("");
         lessButton.setMaximumSize(new Dimension(8, 8));
         lessButton.setMinimumSize(new Dimension(8, 8));
@@ -84,6 +85,7 @@ public class SEDAObjectEditorSimplePanel extends SEDAObjectEditorPanel {
         if (multiple) {
             JButton addButton = new JButton();
             addButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-add-very-small.png")));
+            addButton.setToolTipText("Ajouter un élément de même type...");
             addButton.setText("");
             addButton.setMaximumSize(new Dimension(8, 8));
             addButton.setMinimumSize(new Dimension(8, 8));

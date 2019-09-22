@@ -27,7 +27,7 @@
  */
 package fr.gouv.vitam.tools.resip.data;
 
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.*;
 
 import java.util.ArrayList;

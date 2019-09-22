@@ -693,6 +693,21 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         this.dataObjectRefList = dataObjectRefList;
     }
 
+    /**
+     * Gets the data object group, if the ArchiveUnit is normalized, or null.
+     *
+     * @return the the data object group
+     */
+    @JsonIgnore
+    public DataObjectGroup getTheDataObjectGroup() {
+        if (dataObjectRefList.getCount()!=1)
+            return null;
+        DataObject tmp=dataObjectRefList.getDataObjectList().get(0);
+        if (tmp instanceof DataObjectGroup)
+            return (DataObjectGroup) tmp;
+        return null;
+    }
+
     /*
      * (non-Javadoc)
      *

@@ -35,7 +35,7 @@ public class StructuredDataObjectGroupEditorPanelTest {
                 .get("ID16");
 
         StructuredDataObjectGroupEditorPanel sdogep = new StructuredDataObjectGroupEditorPanel();
-        sdogep.editDataObjectGroup(null, au);
+        sdogep.editDataObjectGroup(au);
 
         dialog.setContentPane(sdogep);
         dialog.setVisible(true);

@@ -82,14 +82,17 @@ public class LinearDimensionTypeEditor extends SEDAObjectEditor {
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        getLinearDimensionTypeMetadata().setValue(Double.parseDouble(valueTextField.getText()));
+        if (valueTextField.getText().isEmpty())
+            getLinearDimensionTypeMetadata().setValue(null);
+        else
+            getLinearDimensionTypeMetadata().setValue(Double.parseDouble(valueTextField.getText()));
         getLinearDimensionTypeMetadata().setUnit((String) (unitComboBox.getSelectedItem()));
         return getLinearDimensionTypeMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        return valueTextField.getText()+" "+unitComboBox.getSelectedItem();
+        return valueTextField.getText() + " " + unitComboBox.getSelectedItem();
     }
 
     @Override
@@ -118,7 +121,7 @@ public class LinearDimensionTypeEditor extends SEDAObjectEditor {
         valueTextField = new JTextField();
         DocumentFilter filter = new DoubleFilter();
         ((AbstractDocument) valueTextField.getDocument()).setDocumentFilter(filter);
-        valueTextField.setText((getLinearDimensionTypeMetadata().getValue()==null?"":Double.toString(getLinearDimensionTypeMetadata().getValue())));
+        valueTextField.setText((getLinearDimensionTypeMetadata().getValue() == null ? "" : Double.toString(getLinearDimensionTypeMetadata().getValue())));
         valueTextField.setFont(SEDAObjectEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);

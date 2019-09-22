@@ -29,7 +29,7 @@ package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.SearchDialog;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -115,7 +115,7 @@ public class SearchThread extends SwingWorker<String, String> {
         if (searchDialog.isRegExpCheck()) searchPattern = Pattern.compile("[\\S\\s]*" + searchExp + "[\\S\\s]*");
         else if (!searchDialog.isCaseCheck()) searchExp = searchExp.toLowerCase();
         if (searchDialog.isIdCheck()) searchExp = "<"+searchExp+">";
-        dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
+        dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.treePane.dataObjectPackageTreeViewer.getModel();
         dataObjectPackage = mainWindow.getApp().currentWork.getDataObjectPackage();
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
         searchResult = new LinkedList<ArchiveUnit>();

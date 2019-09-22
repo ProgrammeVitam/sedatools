@@ -32,8 +32,9 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.CompositeEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.DataObjectGroupEditor;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -126,7 +127,7 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
         });
         addPane.add(addButton, gbc);
 
-        revertButton = new JButton("Recharger");
+        revertButton = new JButton("Recharger "+translateTag("DataObjectGroup").toLowerCase());
         revertButton.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -138,7 +139,7 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
         });
         add(revertButton, gbc);
 
-        saveButton = new JButton("Sauver");
+        saveButton = new JButton("Sauver "+translateTag("DataObjectGroup").toLowerCase());
         saveButton.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -153,25 +154,27 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
 
     private void revertButton(ActionEvent event) {
         try {
-            editDataObjectGroup(editedDataObjectGroup, editedArchiveUnit);
+            editDataObjectGroup(editedArchiveUnit);
         } catch (SEDALibException ignored) {
         }
     }
 
     private void saveButton(ActionEvent event) {
         try {
+            // when a new DataObjectGroup has been created
+            if ((dataObjectGroupEditor.getEditedObject()!=null) && (((DataObjectGroup)dataObjectGroupEditor.getEditedObject()).getInDataObjectPackageId() == null)) {
+                DataObjectPackageTreeModel model=(DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel();
+                editedDataObjectGroup = (DataObjectGroup)dataObjectGroupEditor.getEditedObject();
+                editedArchiveUnit.getDataObjectPackage().addDataObjectGroup((DataObjectGroup)dataObjectGroupEditor.getEditedObject());
+                editedArchiveUnit.addDataObjectById(((DataObjectGroup)dataObjectGroupEditor.getEditedObject()).getInDataObjectPackageId());
+                model.generateDataObjectNode(editedDataObjectGroup, ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
+                ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel())
+                        .nodeChanged(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
+                ((CompositeEditor) dataObjectGroupEditor).refreshEditedObjectLabel();
+            }
             DataObjectGroup dog = dataObjectGroupEditor.extractEditedObject();
             for (SEDAObjectEditor me : dataObjectGroupEditor.objectEditorList) {
                 ((CompositeEditor) me).refreshEditedObjectLabel();
-            }
-            // when DataObjectGroup has been created
-            if ((dog!=null) && (dog.getInDataObjectPackageId()) == null) {
-                editedArchiveUnit.getDataObjectPackage().addDataObjectGroup(dog);
-                editedArchiveUnit.addDataObjectById(dog.getInDataObjectPackageId());
-                ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().getDataObjectPackageTreePaneViewer().getModel())
-                        .nodeChanged(ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed);
-                editedDataObjectGroup = dog;
-                ((CompositeEditor) dataObjectGroupEditor).refreshEditedObjectLabel();
             }
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         } catch (SEDALibException e) {
@@ -193,10 +196,16 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
     }
 
     @Override
-    public void editDataObjectGroup(DataObjectGroup dataObjectGroup, ArchiveUnit archiveUnit) throws SEDALibException {
+    public void editDataObjectGroup(ArchiveUnit archiveUnit) throws SEDALibException {
         this.editedArchiveUnit = archiveUnit;
-        this.editedDataObjectGroup = dataObjectGroup;
-        if (dataObjectGroup == null) {
+        if (editedArchiveUnit==null){
+            dataObjectGroupEditor.editDataObjectGroup(null);
+            scrollPane.setVisible(true);
+            saveButton.setEnabled(false);
+            revertButton.setEnabled(false);
+            revalidate();
+            repaint();
+       } else if (editedArchiveUnit.getTheDataObjectGroup() == null) {
             dataObjectGroupEditor.editDataObjectGroup(null);
             scrollPane.setVisible(false);
             addPane.setVisible(true);
@@ -205,7 +214,7 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
             revalidate();
             repaint();
         } else {
-            dataObjectGroupEditor.editDataObjectGroup(dataObjectGroup);
+            dataObjectGroupEditor.editDataObjectGroup(editedArchiveUnit.getTheDataObjectGroup());
             scrollPane.setVisible(true);
             addPane.setVisible(false);
             saveButton.setEnabled(true);
@@ -216,5 +225,10 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
     @Override
     public DataObjectGroup extractDataObjectGroup() throws SEDALibException {
         return dataObjectGroupEditor.extractEditedObject();
+    }
+
+    @Override
+    public void selectDataObject(DataObject dataObject) throws SEDALibException{
+        //FIXME
     }
 }

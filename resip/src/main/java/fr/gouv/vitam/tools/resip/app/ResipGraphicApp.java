@@ -31,16 +31,18 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.*;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredDataObjectGroupEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.parameters.*;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLDataObjectGroupEditorPanel;
 import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 
@@ -925,7 +927,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     void doRegenerateContinuousIds() {
         if (currentWork != null) {
             currentWork.getDataObjectPackage().regenerateContinuousIds();
-            mainWindow.allTreeChanged();
+            mainWindow.treePane.allTreeChanged();
         }
     }
 
@@ -961,9 +963,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      */
     void doSortTreeViewer() {
         if (currentWork != null) {
-            DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
-            Map<TreePath, Boolean> expansionState = mainWindow.getDataObjectPackageTreePaneViewer().getExpansionState();
-            TreePath selectedPath = mainWindow.getDataObjectPackageTreePaneViewer().getSelectionPath();
+            DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.treePane.dataObjectPackageTreeViewer.getModel();
+            Map<TreePath, Boolean> expansionState = mainWindow.treePane.dataObjectPackageTreeViewer.getExpansionState();
+            TreePath selectedPath = mainWindow.treePane.dataObjectPackageTreeViewer.getSelectionPath();
             SortByTitle sortByTitle = new SortByTitle(treeModel);
             for (Map.Entry<String, ArchiveUnit> pair :
                     currentWork.getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet()) {
@@ -972,10 +974,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             Collections.sort(currentWork.getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList(),
                     sortByTitle);
             treeModel.reload();
-            mainWindow.getDataObjectPackageTreePaneViewer().setExpansionState(expansionState);
+            mainWindow.treePane.dataObjectPackageTreeViewer.setExpansionState(expansionState);
             if (selectedPath != null) {
-                mainWindow.getDataObjectPackageTreePaneViewer().setSelectionPath(selectedPath);
-                mainWindow.getDataObjectPackageTreePaneViewer().scrollPathToVisible(selectedPath);
+                mainWindow.treePane.dataObjectPackageTreeViewer.setSelectionPath(selectedPath);
+                mainWindow.treePane.dataObjectPackageTreeViewer.scrollPathToVisible(selectedPath);
             }
         }
     }
@@ -1363,12 +1365,18 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 StructuredArchiveUnitEditorPanel structuredArchiveUnitEditorPanel = new StructuredArchiveUnitEditorPanel();
                 ResipGraphicApp.getTheWindow().itemPane.setTopComponent(structuredArchiveUnitEditorPanel);
                 ResipGraphicApp.getTheWindow().auMetadataPane = structuredArchiveUnitEditorPanel;
+                StructuredDataObjectGroupEditorPanel structuredDataObjectGroupEditorPanel = new StructuredDataObjectGroupEditorPanel();
+                ResipGraphicApp.getTheWindow().itemPane.setBottomComponent(structuredDataObjectGroupEditorPanel);
+                ResipGraphicApp.getTheWindow().dogMetadataPane = structuredDataObjectGroupEditorPanel;
             } else {
                 XMLArchiveUnitEditorPanel xmlArchiveUnitEditorPanel = new XMLArchiveUnitEditorPanel();
                 ResipGraphicApp.getTheWindow().itemPane.setTopComponent(xmlArchiveUnitEditorPanel);
                 ResipGraphicApp.getTheWindow().auMetadataPane = xmlArchiveUnitEditorPanel;
+                XMLDataObjectGroupEditorPanel xmlDataObjectGroupEditorPanel = new XMLDataObjectGroupEditorPanel();
+                ResipGraphicApp.getTheWindow().itemPane.setBottomComponent(xmlDataObjectGroupEditorPanel);
+                ResipGraphicApp.getTheWindow().dogMetadataPane = xmlDataObjectGroupEditorPanel;
             }
-            DataObjectPackageTreeNode node=ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed;
+            DataObjectPackageTreeNode node=ResipGraphicApp.getTheWindow().treePane.displayedTreeNode;
             if (node!=null)
                 ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(node.getArchiveUnit());
         } catch (Exception e) {

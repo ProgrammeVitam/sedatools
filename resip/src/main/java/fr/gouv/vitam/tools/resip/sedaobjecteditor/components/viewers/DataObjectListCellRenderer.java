@@ -25,7 +25,7 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.resip.viewer;
+package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
@@ -34,15 +34,16 @@ import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import javax.swing.*;
 import java.awt.*;
 
+import static fr.gouv.vitam.tools.resip.frame.MainWindow.BOLD_LABEL_FONT;
+import static fr.gouv.vitam.tools.resip.frame.MainWindow.GENERAL_BACKGROUND;
+import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
+
 // TODO: Auto-generated Javadoc
 
 /**
  * The Class DataObjectListCellRenderer.
  */
 public class DataObjectListCellRenderer extends JLabel implements ListCellRenderer<DataObject> {
-
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -1381506562894409064L;
 
 	/**
 	 * Instantiates a new data object list cell renderer.
@@ -53,9 +54,6 @@ public class DataObjectListCellRenderer extends JLabel implements ListCellRender
 		setVerticalAlignment(CENTER);
 	}
 
-	/* (non-Javadoc)
-	 * @see javax.swing.ListCellRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.Object, int, boolean, boolean)
-	 */
 	@Override
 	public Component getListCellRendererComponent(JList<? extends DataObject> list, DataObject value, int index,
 			boolean isSelected, boolean cellHasFocus) {
@@ -68,15 +66,14 @@ public class DataObjectListCellRenderer extends JLabel implements ListCellRender
 			setForeground(list.getForeground());
 		}
 
-		Font f = UIManager.getFont("TextArea.font");
-		setFont(f.deriveFont(f.getStyle() & ~Font.BOLD));
+		setFont(BOLD_LABEL_FONT);
 		if (value instanceof BinaryDataObject) {
 			BinaryDataObject bdo=(BinaryDataObject)value;
-			setText(bdo.getInDataObjectPackageId()+"-bin:"+(bdo.dataObjectVersion==null?null:bdo.dataObjectVersion.getValue()));
+			setText(bdo.getInDataObjectPackageId()+"-"+(bdo.dataObjectVersion==null?translateTag("Unknown"):bdo.dataObjectVersion.getValue()));
 		}
 		else if (value instanceof PhysicalDataObject) {
 			PhysicalDataObject pdo=(PhysicalDataObject)value;
-			setText(pdo.getInDataObjectPackageId()+"-bin:"+(pdo.dataObjectVersion==null?null:pdo.dataObjectVersion.getValue()));
+			setText(pdo.getInDataObjectPackageId()+"-"+(pdo.dataObjectVersion==null?translateTag("Unknown"):pdo.dataObjectVersion.getValue()));
 		}
 		return this;
 	}

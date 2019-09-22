@@ -3,8 +3,8 @@ package fr.gouv.vitam.tools.resip.frame;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.threads.SearchThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeViewer;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeViewer;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 
 import javax.swing.*;
@@ -41,8 +41,6 @@ public class SearchDialog extends JDialog {
     /**
      * The data.
      */
-    private DataObjectPackageTreeViewer dataObjectPackageTreeViewer;
-    private DataObjectPackageTreeModel dataObjectPackageTreeModel;
     private List<ArchiveUnit> searchResult;
     private int searchResultPosition;
     private SearchThread searchThread;
@@ -86,8 +84,6 @@ public class SearchDialog extends JDialog {
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
         mainWindow=owner;
-        dataObjectPackageTreeViewer=mainWindow.getDataObjectPackageTreePaneViewer();
-        dataObjectPackageTreeModel=(DataObjectPackageTreeModel)(dataObjectPackageTreeViewer.getModel());
 
         setMinimumSize(new Dimension(500, 110));
         setPreferredSize(new Dimension(500, 110));
@@ -299,17 +295,8 @@ public class SearchDialog extends JDialog {
         }
     }
 
-    private void focusArchiveUnit(ArchiveUnit au) {
-        TreePath path = new TreePath(dataObjectPackageTreeModel.getPathToRoot(dataObjectPackageTreeModel.findTreeNode(au)));
-        dataObjectPackageTreeViewer.setExpandsSelectedPaths(true);
-        dataObjectPackageTreeViewer.setSelectionPath(path);
-        dataObjectPackageTreeViewer.scrollPathToVisible(path);
-        mainWindow.dataObjectPackageTreeItemClick(path);
-    }
-
     private void buttonSearch() {
         if (searchThread==null) {
-            dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
             searchThread = new SearchThread(this, mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu());
             searchThread.execute();
             searchResult=null;
@@ -321,7 +308,7 @@ public class SearchDialog extends JDialog {
         if (searchResult != null && searchResult.size() > 0) {
             searchResultPosition = Math.min(searchResultPosition + 1, searchResult.size() - 1);
                 resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size()+" trouvé"+(searchResult.size()>1?"s":""));
-            focusArchiveUnit(searchResult.get(searchResultPosition));
+            ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchResult.get(searchResultPosition));
         }
     }
 
@@ -329,7 +316,7 @@ public class SearchDialog extends JDialog {
         if (searchResult != null && searchResult.size() > 0) {
             searchResultPosition = Math.max(searchResultPosition - 1, 0);
             resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size()+" trouvé"+(searchResult.size()>1?"s":""));
-            focusArchiveUnit(searchResult.get(searchResultPosition));
+            ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchResult.get(searchResultPosition));
         }
     }
 
@@ -388,7 +375,7 @@ public class SearchDialog extends JDialog {
         searchResultPosition=0;
         if (searchResult.size()>0) {
             resultLabel.setText("1/"+searchResult.size()+" trouvé"+(searchResult.size()>1?"s":""));
-            focusArchiveUnit(searchResult.get(0));
+            ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchResult.get(0));
         }
         else
             resultLabel.setText("0 trouvé");

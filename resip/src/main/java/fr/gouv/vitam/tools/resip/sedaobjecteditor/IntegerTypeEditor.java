@@ -81,7 +81,10 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        getIntegerTypeMetadata().setValue(Long.parseLong(valueTextField.getText()));
+        if (valueTextField.getText().isEmpty())
+            getIntegerTypeMetadata().setValue(null);
+        else
+            getIntegerTypeMetadata().setValue(Long.parseLong(valueTextField.getText()));
         return getIntegerTypeMetadata();
     }
 
@@ -116,7 +119,7 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
         valueTextField = new JTextField();
         DocumentFilter filter = new IntegerFilter();
         ((AbstractDocument) valueTextField.getDocument()).setDocumentFilter(filter);
-        valueTextField.setText((getIntegerTypeMetadata().getValue()==null?"":Long.toString(getIntegerTypeMetadata().getValue())));
+        valueTextField.setText((getIntegerTypeMetadata().getValue() == null ? "" : Long.toString(getIntegerTypeMetadata().getValue())));
         valueTextField.setFont(SEDAObjectEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);

@@ -106,23 +106,19 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
     // Methods
 
     /**
-     * Adds a DataObject of BinaryDataObject nature.
+     * Adds a DataObject of BinaryDataObject or PhysicalDataObject nature.
      *
-     * @param bo the BinaryDataObject
+     * @param dataObject the DataObject
      */
-    public void addDataObject(BinaryDataObject bo) {
-        binaryDataObjectList.add(bo);
-        bo.setDataObjectGroup(this);
-    }
-
-    /**
-     * Adds the a DataObject of PhysicalDataObject nature.
-     *
-     * @param pdo the PhysicalDataObject
-     */
-    public void addDataObject(PhysicalDataObject pdo) {
-        physicalDataObjectList.add(pdo);
-        pdo.dataObjectGroup = this;
+    public void addDataObject(DataObject dataObject) {
+        if (dataObject instanceof BinaryDataObject) {
+            binaryDataObjectList.add((BinaryDataObject)dataObject);
+            ((BinaryDataObject)dataObject).setDataObjectGroup(this);
+        }
+        else if (dataObject instanceof PhysicalDataObject){
+            physicalDataObjectList.add((PhysicalDataObject)dataObject);
+            ((PhysicalDataObject)dataObject).setDataObjectGroup(this);
+        }
     }
 
     /**

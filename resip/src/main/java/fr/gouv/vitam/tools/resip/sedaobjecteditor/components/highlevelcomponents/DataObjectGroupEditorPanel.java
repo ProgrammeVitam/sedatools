@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -36,19 +37,28 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
  */
 public interface DataObjectGroupEditorPanel {
     /**
-     * Edit a new data object group in an archive unit.
+     * Edit the data object group of a given archive unit.
      *
-     * @param dataObjectGroup   the data object group
      * @param archiveUnit       the archive unit
      * @throws SEDALibException the seda lib exception
      */
-    public void editDataObjectGroup(DataObjectGroup dataObjectGroup, ArchiveUnit archiveUnit) throws SEDALibException;
+    public void editDataObjectGroup(ArchiveUnit archiveUnit) throws SEDALibException;
 
     /**
      * Extract the data object group content from editedObject editors.
+     * <p>
+     * if a new one has been created it will be linked to the ArchiveUnit.
      *
      * @return the extracted data object group
      * @throws SEDALibException the seda lib exception
      */
     public DataObjectGroup extractDataObjectGroup() throws SEDALibException;
+
+    /**
+     * Select and expand a data object.
+     *
+     * @param dataObject   the data object to select
+     * @throws SEDALibException the seda lib exception
+     */
+    public void selectDataObject(DataObject dataObject) throws SEDALibException;
 }

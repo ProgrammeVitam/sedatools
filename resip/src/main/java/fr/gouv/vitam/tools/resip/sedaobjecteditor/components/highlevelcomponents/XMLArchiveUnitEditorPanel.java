@@ -33,7 +33,7 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.frame.XmlEditDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
@@ -191,8 +191,8 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
         xmlEditDialog.setVisible(true);
         if (xmlEditDialog.getReturnValue()) {
             String xmlDataString = archiveUnit.toSedaXmlFragments();
-            ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().getDataObjectPackageTreePaneViewer().getModel())
-                    .nodeChanged(ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed);
+            ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel())
+                    .nodeChanged(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
             xmlTextArea.setText(xmlDataString);
             String title = null;
             try {
@@ -203,7 +203,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
                 title = SEDAXMLEventReader.extractNamedElement("Title", xmlDataString);
             if (title == null)
                 title = translateTag("Unknown");
-            ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed.setTitle(title);
+            ResipGraphicApp.getTheWindow().treePane.displayedTreeNode.setTitle(title);
             xmlTextArea.setCaretPosition(0);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         }
@@ -249,8 +249,8 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
                         archiveUnit.getManagement().addMetadata(sm);
                         break;
                 }
-                ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().getDataObjectPackageTreePaneViewer().getModel())
-                        .nodeChanged(ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed);
+                ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel())
+                        .nodeChanged(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
 
                 xmlTextArea.setText(archiveUnit.toSedaXmlFragments());
                 xmlTextArea.setCaretPosition(0);
@@ -276,12 +276,15 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
             choiceComboBox.setEnabled(false);
             xmlTextArea.setText("");
             globalLabel.setText(translateTag("ArchiveUnit") + " - pas de sélection");
+            ResipGraphicApp.getTheWindow().dogMetadataPane.editDataObjectGroup(null);
         } else {
             editButton.setEnabled(true);
             addButton.setEnabled(true);
             choiceComboBox.setEnabled(true);
             xmlTextArea.setText(archiveUnit.toSedaXmlFragments());
+            xmlTextArea.setCaretPosition(0);
             globalLabel.setText(translateTag("ArchiveUnit") + " - " + archiveUnit.getInDataObjectPackageId());
+            ResipGraphicApp.getTheWindow().dogMetadataPane.editDataObjectGroup(archiveUnit);
         }
     }
 

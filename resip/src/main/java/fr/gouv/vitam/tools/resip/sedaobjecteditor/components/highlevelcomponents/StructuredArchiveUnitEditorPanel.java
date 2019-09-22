@@ -31,7 +31,7 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.ArchiveUnitEditor;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -120,7 +120,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         gbc.gridy = 0;
         warningPane.add(warningText, gbc);
 
-        revertButton = new JButton("Recharger");
+        revertButton = new JButton("Recharger "+translateTag("ArchiveUnit").toLowerCase());
         revertButton.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -132,7 +132,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         });
         add(revertButton, gbc);
 
-        saveButton = new JButton("Sauver");
+        saveButton = new JButton("Sauver "+translateTag("ArchiveUnit").toLowerCase());
         saveButton.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -155,8 +155,8 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
     private void saveButton(ActionEvent event) {
         try {
             ArchiveUnit archiveUnit = archiveUnitEditor.extractEditedObject();
-            ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().getDataObjectPackageTreePaneViewer().getModel())
-                    .nodeChanged(ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed);
+            ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel())
+                    .nodeChanged(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
             String title;
             try {
                 title = archiveUnit.getContent().getSimpleMetadata("Title");
@@ -167,7 +167,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
             } catch (SEDALibException e) {
                 title = "Inconnu";
             }
-            ResipGraphicApp.getTheWindow().dataObjectPackageTreeItemDisplayed.setTitle(title);
+            ResipGraphicApp.getTheWindow().treePane.displayedTreeNode.setTitle(title);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         } catch (SEDALibException ignored) {
         }
@@ -180,6 +180,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
             scrollPane.setVisible(true);
             saveButton.setEnabled(false);
             revertButton.setEnabled(false);
+            ResipGraphicApp.getTheWindow().dogMetadataPane.editDataObjectGroup(null);
         } else {
             try {
                 archiveUnit.getContent();
@@ -199,6 +200,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
             warningPane.setVisible(false);
             saveButton.setEnabled(true);
             revertButton.setEnabled(true);
+            ResipGraphicApp.getTheWindow().dogMetadataPane.editDataObjectGroup(archiveUnit);
         }
     }
 

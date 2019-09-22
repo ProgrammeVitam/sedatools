@@ -111,6 +111,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
             arrowCheckBox.setEnabled(true);
             arrowCheckBox.setIcon(new ImageIcon(getClass().getResource("/icon/arrow-opened-small.png")));
             arrowCheckBox.setSelectedIcon(new ImageIcon(getClass().getResource("/icon/arrow-closed-small.png")));
+            arrowCheckBox.setToolTipText("Bascule entre Version éditable et Version résumé");
             arrowCheckBox.setText("");
             arrowCheckBox.setMargin(new Insets(0, 0, 0, 0));
             arrowCheckBox.setFocusable(false);
@@ -150,6 +151,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
         if (!topPanelFlag) {
             JButton lessButton = new JButton();
             lessButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-remove-very-small.png")));
+            lessButton.setToolTipText("Supprimer cet élément...");
             lessButton.setText("");
             lessButton.setMaximumSize(new Dimension(8, 8));
             lessButton.setMinimumSize(new Dimension(8, 8));
@@ -171,6 +173,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
                 objectEditor.getFather().canContainsMultiple(objectEditor.getTag())) {
             JButton addButton = new JButton();
             addButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-add-very-small.png")));
+            addButton.setToolTipText("Ajouter un élément de même type...");
             addButton.setText("");
             addButton.setMaximumSize(new Dimension(8, 8));
             addButton.setMinimumSize(new Dimension(8, 8));
@@ -193,6 +196,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
         }, (ActionEvent arg) -> {
             doExtend(objectEditor, arg);
         });
+        addMenu.setToolTipText("Ajouter un élément dans la liste du menu déroulant...");
         addMenu.setMargin(new Insets(0, 0, 0, 0));
         addMenu.setBorderPainted(false);
         addMenu.setContentAreaFilled(false);
