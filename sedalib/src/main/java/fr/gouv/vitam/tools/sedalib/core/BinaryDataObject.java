@@ -278,7 +278,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * @return the digest sha 512
      * @throws SEDALibException if unable to get digest
      */
-    private String getDigestSha512() throws SEDALibException {
+    static public String getDigestSha512(Path path) throws SEDALibException {
         MessageDigest messageDigest;
         try {
             messageDigest = MessageDigest.getInstance("SHA-512");
@@ -286,14 +286,14 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             throw new SEDALibException("Impossible de mobiliser l'algorithme de hashage SHA-512", e1);
         }
 
-        try (InputStream is = new BufferedInputStream(Files.newInputStream(onDiskPath))) {
+        try (InputStream is = new BufferedInputStream(Files.newInputStream(path))) {
             final byte[] buffer = new byte[4096];
             for (int read; (read = is.read(buffer)) != -1; ) {
                 messageDigest.update(buffer, 0, read);
             }
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Impossible de calculer le hash du fichier [" + onDiskPath.toString() + "]", e);
+                    "Impossible de calculer le hash du fichier [" + path.toString() + "]", e);
         }
 
         // Convert the byte to hex format
@@ -304,7 +304,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             return formatter.toString();
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Impossible d'encoder le hash du fichier [" + onDiskPath.toString() + "]", e);
+                    "Impossible d'encoder le hash du fichier [" + path.toString() + "]", e);
         }
     }
 
@@ -334,7 +334,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
                     + onDiskPath.toString() + "]", e);
         }
 
-        messageDigest = new DigestType("MessageDigest", getDigestSha512(), "SHA-512");
+        messageDigest = new DigestType("MessageDigest", getDigestSha512(onDiskPath), "SHA-512");
         size = new IntegerType("Size", lsize);
 
         try {

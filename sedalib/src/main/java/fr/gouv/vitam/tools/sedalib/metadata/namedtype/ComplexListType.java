@@ -520,7 +520,10 @@ public abstract class ComplexListType extends NamedTypeMetadata {
                 else if ((sm instanceof TextType) && (((TextType) sm).getLang().equals("fr")))
                     langText = ((TextType) sm).getValue();
                 else if (sm instanceof DateTimeType) {
-                    return SEDAXMLStreamWriter.getStringFromDateTime(((DateTimeType) sm).getValue());
+                    if (((DateTimeType) sm).getValue()==null)
+                        return "";
+                    else
+                        return SEDAXMLStreamWriter.getStringFromDateTime(((DateTimeType) sm).getValue());
                 }
             }
         }

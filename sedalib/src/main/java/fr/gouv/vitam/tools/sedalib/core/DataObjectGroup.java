@@ -174,8 +174,8 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
         if (logBook == null)
             logBook = dataObjectGroup.logBook;
         else if (dataObjectGroup.logBook != null) {
-            logBook= (LogBook) SEDAMetadata.fromString(logBook.toString().replace("</LogBook>","")+
-                    dataObjectGroup.logBook.toString().replace("<LogBook>",""),LogBook.class);
+            logBook = (LogBook) SEDAMetadata.fromString(logBook.toString().replace("</LogBook>", "") +
+                    dataObjectGroup.logBook.toString().replace("<LogBook>", ""), LogBook.class);
         }
     }
 
@@ -199,7 +199,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             for (PhysicalDataObject bo : physicalDataObjectList) {
                 bo.toSedaXml(xmlWriter, sedaLibProgressLogger);
             }
-            if (logBook!=null) logBook.toSedaXml(xmlWriter);
+            if (logBook != null) logBook.toSedaXml(xmlWriter);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
@@ -214,7 +214,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
      */
     @Override
     public String toSedaXmlFragments() {
-        if (logBook==null)
+        if (logBook == null)
             return "";
         return logBook.toString();
     }
@@ -366,5 +366,23 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
     @JsonIgnore
     public DataObjectGroup getDataObjectGroup() {
         return this;
+    }
+
+    /**
+     * Gets log book.
+     *
+     * @return the log book
+     */
+    public LogBook getLogBook() {
+        return logBook;
+    }
+
+    /**
+     * Sets log book.
+     *
+     * @param logBook the log book
+     */
+    public void setLogBook(LogBook logBook) {
+        this.logBook = logBook;
     }
 }

@@ -27,7 +27,7 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
-import fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.io.FileUtils;
 
@@ -107,7 +107,7 @@ public class BigTextEditDialog extends JDialog {
         editTextArea = new JTextArea();
         editTextArea.setText(text);
         editTextArea.setCaretPosition(0);
-        editTextArea.setFont(MetadataEditor.EDIT_FONT);
+        editTextArea.setFont(SEDAObjectEditor.EDIT_FONT);
         editTextArea.setLineWrap(true);
         editTextArea.setWrapStyleWord(true);
         gbc = new GridBagConstraints();

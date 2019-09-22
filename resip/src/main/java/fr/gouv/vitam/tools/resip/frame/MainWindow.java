@@ -28,9 +28,9 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.metadataeditor.components.highlevelcomponents.ArchiveUnitEditorPanel;
-import fr.gouv.vitam.tools.resip.metadataeditor.components.highlevelcomponents.StructuredArchiveUnitEditorPanel;
-import fr.gouv.vitam.tools.resip.metadataeditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.ArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;

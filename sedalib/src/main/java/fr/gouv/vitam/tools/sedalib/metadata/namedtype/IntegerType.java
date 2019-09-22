@@ -42,14 +42,16 @@ import java.util.LinkedHashMap;
  */
 public class IntegerType extends NamedTypeMetadata {
 
-    /** The value. */
-    private long value;
+    /**
+     * The value.
+     */
+    private Long value;
 
     /**
      * Instantiates a new integer.
      */
     public IntegerType() {
-        this(null, 0);
+        this(null, (Long)null);
     }
 
     /**
@@ -58,7 +60,7 @@ public class IntegerType extends NamedTypeMetadata {
      * @param elementName the XML element name
      */
     public IntegerType(String elementName) {
-        this(elementName, 0);
+        this(elementName, (Long)null);
     }
 
     /**
@@ -67,9 +69,20 @@ public class IntegerType extends NamedTypeMetadata {
      * @param elementName the XML element name
      * @param value       the value
      */
-    public IntegerType(String elementName, long value) {
+    public IntegerType(String elementName, Long value) {
         super(elementName);
         this.value = value;
+    }
+
+    /**
+     * Instantiates a new integer.
+     *
+     * @param elementName the XML element name
+     * @param value       the value
+     */
+    public IntegerType(String elementName, int value) {
+        super(elementName);
+        this.value = (Long)((long)value);
     }
 
     /**
@@ -82,9 +95,8 @@ public class IntegerType extends NamedTypeMetadata {
     public IntegerType(String elementName, Object[] args) throws SEDALibException {
         super(elementName);
         if ((args.length == 1) && (args[0] instanceof Integer)) {
-            this.value = (Integer)args[0];
-        }
-        else
+            this.value = (Long) args[0];
+        } else
             throw new SEDALibException("Mauvais constructeur de l'élément [" + elementName + "]");
     }
 
@@ -98,9 +110,9 @@ public class IntegerType extends NamedTypeMetadata {
     @Override
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
-            xmlWriter.writeElementValue(elementName, Long.toString(value));
+            xmlWriter.writeElementValue(elementName, (value==null?"":Long.toString(value)));
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type IntegerType ["+getXmlElementName()+"]", e);
+            throw new SEDALibException("Erreur d'écriture XML dans un élément de type IntegerType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -112,14 +124,14 @@ public class IntegerType extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
-        result.put("",Long.toString(value));
+        result.put("", (value==null?"":Long.toString(value)));
         return result;
     }
 
     /**
      * Import the metadata content in XML expected form from the SEDA Manifest.
      *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
+     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
      * @return true, if it finds something convenient, false if not
      * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
      */
@@ -130,7 +142,10 @@ public class IntegerType extends NamedTypeMetadata {
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
                     String tmp = event.asCharacters().getData();
-                    value = Long.parseLong(tmp);
+                    if ((tmp == null) || tmp.isEmpty())
+                        value = null;
+                    else
+                        value = Long.parseLong(tmp);
                     event = xmlReader.nextUsefullEvent();
                 } else
                     throw new SEDALibException("Erreur de lecture XML dans un élément de type IntegerType qui est vide");
@@ -152,7 +167,7 @@ public class IntegerType extends NamedTypeMetadata {
      *
      * @return the value
      */
-    public long getValue() {
+    public Long getValue() {
         return value;
     }
 
@@ -161,7 +176,7 @@ public class IntegerType extends NamedTypeMetadata {
      *
      * @param value the value
      */
-    public void setValue(long value) {
+    public void setValue(Long value) {
         this.value = value;
     }
 }

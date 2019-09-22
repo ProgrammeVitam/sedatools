@@ -56,8 +56,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
-import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditor.*;
-import static fr.gouv.vitam.tools.resip.metadataeditor.MetadataEditorConstants.translateMetadataName;
+import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor.*;
+import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getMessagesStackString;
 
 /**
@@ -150,13 +150,13 @@ public class XmlEditDialog extends JDialog {
             }
         } else if (xmlObject instanceof ArchiveUnit) {
             ArchiveUnit au = (ArchiveUnit) xmlObject;
-            title = "Edition " + translateMetadataName("ArchiveUnit");
+            title = "Edition " + translateTag("ArchiveUnit");
             presentationName = "xmlID:" + au.getInDataObjectPackageId();
             presentationText = "";
             xmlData = au.toSedaXmlFragments();
         } else if (xmlObject instanceof String) {
             title = "Edition XML";
-            presentationName = translateMetadataName("AnyXMLType");
+            presentationName = translateTag("AnyXMLType");
             presentationText = "";
             xmlData = (String) xmlObject;
         } else {
