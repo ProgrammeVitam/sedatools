@@ -160,11 +160,11 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
      * @param dataObject the data object
      */
     public void removeDataObject(DataObject dataObject) {
-        container.editedArchiveUnit.getTheDataObjectGroup().removeDataObject(dataObject);
+        container.getEditedArchiveUnit().getTheDataObjectGroup().removeDataObject(dataObject);
         if (dataObject instanceof BinaryDataObject) {
-            container.editedArchiveUnit.getDataObjectPackage().getBdoInDataObjectPackageIdMap().remove(dataObject.getInDataObjectPackageId());
+            container.getEditedArchiveUnit().getDataObjectPackage().getBdoInDataObjectPackageIdMap().remove(dataObject.getInDataObjectPackageId());
         } else if (dataObject instanceof PhysicalDataObject) {
-            container.editedArchiveUnit.getDataObjectPackage().getPdoInDataObjectPackageIdMap().remove(dataObject.getInDataObjectPackageId());
+            container.getEditedArchiveUnit().getDataObjectPackage().getPdoInDataObjectPackageIdMap().remove(dataObject.getInDataObjectPackageId());
         }
         ((DefaultListModel<DataObject>) getModel()).removeElement(dataObject);
         if (((DefaultListModel<DataObject>) getModel()).isEmpty())
@@ -178,7 +178,7 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getActionCommand().equals("Expand")) {
-            ExpandThread.launchExpandThread(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode, uncompressedBdo);
+            ExpandThread.launchExpandThread(ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(), uncompressedBdo);
         }
     }
 

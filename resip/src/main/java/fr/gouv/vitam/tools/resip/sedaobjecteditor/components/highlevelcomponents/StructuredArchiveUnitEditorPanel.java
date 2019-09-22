@@ -154,20 +154,8 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
 
     private void saveButton(ActionEvent event) {
         try {
-            ArchiveUnit archiveUnit = archiveUnitEditor.extractEditedObject();
-            ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel())
-                    .nodeChanged(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
-            String title;
-            try {
-                title = archiveUnit.getContent().getSimpleMetadata("Title");
-                if (title == null)
-                    title = SEDAXMLEventReader.extractNamedElement("Title", archiveUnit.toSedaXmlFragments());
-                if (title == null)
-                    title = "Inconnu";
-            } catch (SEDALibException e) {
-                title = "Inconnu";
-            }
-            ResipGraphicApp.getTheWindow().treePane.displayedTreeNode.setTitle(title);
+            archiveUnitEditor.extractEditedObject();
+            ResipGraphicApp.getTheWindow().treePane.resetDisplayedTreeNodeTitle();
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         } catch (SEDALibException ignored) {
         }

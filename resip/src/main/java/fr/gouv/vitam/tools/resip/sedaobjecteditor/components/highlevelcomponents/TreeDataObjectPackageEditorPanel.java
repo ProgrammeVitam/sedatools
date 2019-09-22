@@ -35,6 +35,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectP
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import javax.swing.*;
 import javax.swing.tree.TreePath;
@@ -42,24 +43,28 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Map;
 
 import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
 import static fr.gouv.vitam.tools.resip.frame.MainWindow.CLICK_FONT;
 import static fr.gouv.vitam.tools.resip.frame.MainWindow.TREE_FONT;
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor.*;
+import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 
 public class TreeDataObjectPackageEditorPanel extends JPanel {
     /**
      * The editedObject.
      */
     private DataObjectPackage editedDataObjectPackage;
-    public DataObjectPackageTreeNode displayedTreeNode;
+    private DataObjectPackageTreeNode displayedTreeNode;
 
     /**
      * The graphic elements
      */
     private JLabel dataObjectPackageTreeLabel;
-    public DataObjectPackageTreeViewer dataObjectPackageTreeViewer;
+    private DataObjectPackageTreeViewer dataObjectPackageTreeViewer;
     private JButton openSipItemButton;
 
     /**
@@ -224,6 +229,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
 
     // tree methods
 
+
    private void allChildNodesChanged(DataObjectPackageTreeNode attn) {
         int[] allChilds = new int[attn.getChildCount()];
         for (int i = 0; i < attn.getChildCount(); i++) {
@@ -243,6 +249,57 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
     }
 
     /**
+     * The displayed tree node changed.
+     */
+    public void displayedTreeNodeChanged() {
+        ((DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel()).nodeChanged(displayedTreeNode);
+    }
+
+    /**
+     * Add DataObjectGroup to displayed tree node.
+     */
+    public void addDataObjectGroupToDisplayedTreeNode(DataObjectGroup dataObjectGroup) {
+        ((DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel()).generateDataObjectNode(dataObjectGroup, ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
+        displayedTreeNodeChanged();
+    }
+
+    /**
+     * Reset displayed node title, after Content change.
+     */
+    public void resetDisplayedTreeNodeTitle() {
+        String title = null;
+        try {
+            title = displayedTreeNode.getArchiveUnit().getContent().getSimpleMetadata("Title");
+        } catch (SEDALibException ignored) {
+        }
+        if (title == null)
+            title = SEDAXMLEventReader.extractNamedElement("Title", displayedTreeNode.getArchiveUnit().getContentXmlData());
+        if (title == null)
+            title = translateTag("Unknown");
+        displayedTreeNode.setTitle(title);
+        displayedTreeNodeChanged();
+    }
+
+    /**
+     * Get the displayed tree node.
+     *
+     * @return the data object package tree node
+     */
+    public DataObjectPackageTreeNode getDisplayedTreeNode(){
+        return displayedTreeNode;
+    }
+
+    /**
+     * Get the ArchiveUnit title in the tree.
+     *
+     * @param archiveUnit the archive unit
+     * @return the data object package tree node
+     */
+    public String getTreeTitle(ArchiveUnit archiveUnit) {
+        return ((DataObjectPackageTreeModel)dataObjectPackageTreeViewer.getModel()).findTreeNode(archiveUnit).getTitle();
+    }
+
+    /**
      * Refresh TreePaneLabel informations.
      */
     public void refreshTreeLabel() {
@@ -254,41 +311,15 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
     }
 
     /**
-     * Refresh informations.
+     * Reset the information tree label and deselect any ArchiveUnit edition.
      */
-    public void refreshInformations() {
-        dataObjectPackageTreeLabel
-                .setText("Arbre du SIP (" + editedDataObjectPackage.getArchiveUnitCount()
-                        + " archiveUnit/" + editedDataObjectPackage.getDataObjectGroupCount()
-                        + " dog/" + editedDataObjectPackage.getBinaryDataObjectCount() + " bdo/"
-                        + editedDataObjectPackage.getPhysicalDataObjectCount() + " pdo)");
+    public void reset() {
+        refreshTreeLabel();
         displayedTreeNode = null;
         try {
             ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(null);
         } catch (SEDALibException ignored) {
         }
-    }
-
-    /**
-     * Edit a data object package.
-     *
-     * @param dataObjectPackage the data object package
-     */
-    public void editDataObjectPackage(DataObjectPackage dataObjectPackage){
-        DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
-        DataObjectPackageTreeNode top;
-
-        this.editedDataObjectPackage=dataObjectPackage;
-        if (dataObjectPackage!=null) {
-            top = model.generateDataObjectPackageNodes(dataObjectPackage);
-            refreshTreeLabel();
-         } else {
-            top = null;
-            dataObjectPackageTreeLabel.setText("Arbre du SIP");
-        }
-        model.setRoot(top);
-        model.reload();
-        displayedTreeNode = null;
     }
 
     /**
@@ -371,5 +402,97 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
         } catch (SEDALibException ignored) {
         }
         return focusNode;
+    }
+
+    // global tree methods
+
+    /**
+     * Edit a data object package.
+     *
+     * @param dataObjectPackage the data object package
+     */
+    public void editDataObjectPackage(DataObjectPackage dataObjectPackage){
+        DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
+        DataObjectPackageTreeNode top;
+
+        this.editedDataObjectPackage=dataObjectPackage;
+        if (dataObjectPackage!=null) {
+            top = model.generateDataObjectPackageNodes(dataObjectPackage);
+            refreshTreeLabel();
+        } else {
+            top = null;
+            dataObjectPackageTreeLabel.setText("Arbre du SIP");
+        }
+        model.setRoot(top);
+        model.reload();
+        displayedTreeNode = null;
+    }
+
+    /**
+     * The Sort by title tool.
+     */
+    class SortByTitle implements Comparator<ArchiveUnit> {
+        DataObjectPackageTreeModel treeModel;
+
+        public int compare(ArchiveUnit a, ArchiveUnit b) {
+            String titleA = treeModel.findTreeNode(a).getTitle().toLowerCase();
+            String titleB = treeModel.findTreeNode(b).getTitle().toLowerCase();
+            return titleA.compareTo(titleB);
+        }
+
+        SortByTitle(DataObjectPackageTreeModel treeModel) {
+            this.treeModel = treeModel;
+        }
+    }
+
+    /**
+     * Do sort tree.
+     * <p>
+     * Except order, change as little as possible graphic form, including expansion and selection.
+     */
+    public void doSortTree(){
+        if (editedDataObjectPackage!=null) {
+            DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
+            Map<TreePath, Boolean> expansionState = dataObjectPackageTreeViewer.getExpansionState();
+            TreePath selectedPath = dataObjectPackageTreeViewer.getSelectionPath();
+            TreeDataObjectPackageEditorPanel.SortByTitle sortByTitle = new TreeDataObjectPackageEditorPanel.SortByTitle(model);
+            for (Map.Entry<String, ArchiveUnit> pair :
+                    editedDataObjectPackage.getAuInDataObjectPackageIdMap().entrySet()) {
+                Collections.sort(pair.getValue().getChildrenAuList().getArchiveUnitList(), sortByTitle);
+            }
+            Collections.sort(editedDataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList(),
+                    sortByTitle);
+            model.reload();
+            dataObjectPackageTreeViewer.setExpansionState(expansionState);
+            if (selectedPath != null) {
+                dataObjectPackageTreeViewer.setSelectionPath(selectedPath);
+                dataObjectPackageTreeViewer.scrollPathToVisible(selectedPath);
+            }
+        }
+    }
+
+    /**
+     * Do refresh tree, from the DataObjectPackage information.
+     * <p>
+     * Regenerate all JTree nodes for a DataObjectPackage.
+     * Don't recreate nodes but recompute parents and au and og recursiv count,
+     * and drop nodes no more linked to DataObjectPackage structure.
+     * Change as little as possible graphic form, including expansion and selection.
+     */
+    public void doRefreshTree(){
+        if (editedDataObjectPackage!=null) {
+            DataObjectPackageTreeModel model = (DataObjectPackageTreeModel) dataObjectPackageTreeViewer.getModel();
+            Map<TreePath, Boolean> expansionState = dataObjectPackageTreeViewer.getExpansionState();
+            TreePath selectedPath = dataObjectPackageTreeViewer.getSelectionPath();
+            model.actualiseDataObjectPackageNodes();
+            model.reload();
+            dataObjectPackageTreeViewer.setExpansionState(expansionState);
+            if (selectedPath != null) {
+                dataObjectPackageTreeViewer.setSelectionPath(selectedPath);
+                dataObjectPackageTreeViewer.scrollPathToVisible(selectedPath);
+            }
+            reset();
+            dataObjectPackageTreeViewer.repaint();
+        }
     }
 }

@@ -33,7 +33,6 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.frame.XmlEditDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
@@ -191,20 +190,9 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
         xmlEditDialog.setVisible(true);
         if (xmlEditDialog.getReturnValue()) {
             String xmlDataString = archiveUnit.toSedaXmlFragments();
-            ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel())
-                    .nodeChanged(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
             xmlTextArea.setText(xmlDataString);
-            String title = null;
-            try {
-                title = archiveUnit.getContent().getSimpleMetadata("Title");
-            } catch (SEDALibException ignored) {
-            }
-            if (title == null)
-                title = SEDAXMLEventReader.extractNamedElement("Title", xmlDataString);
-            if (title == null)
-                title = translateTag("Unknown");
-            ResipGraphicApp.getTheWindow().treePane.displayedTreeNode.setTitle(title);
             xmlTextArea.setCaretPosition(0);
+            ResipGraphicApp.getTheWindow().treePane.resetDisplayedTreeNodeTitle();
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         }
     }
@@ -249,9 +237,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
                         archiveUnit.getManagement().addMetadata(sm);
                         break;
                 }
-                ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel())
-                        .nodeChanged(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
-
+                ResipGraphicApp.getTheWindow().treePane.displayedTreeNodeChanged();
                 xmlTextArea.setText(archiveUnit.toSedaXmlFragments());
                 xmlTextArea.setCaretPosition(0);
                 ResipGraphicApp.getTheApp().setModifiedContext(true);

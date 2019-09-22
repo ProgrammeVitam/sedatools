@@ -54,7 +54,7 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
     /**
      * The ArchiveUnit owning the original edited DataObjectGroup
      */
-    public ArchiveUnit editedArchiveUnit;
+    private ArchiveUnit editedArchiveUnit;
 
     /**
      * The displayed element
@@ -324,5 +324,14 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
             }
             dataObjectDetailText.setCaretPosition(0);
         }
+    }
+
+    /**
+     * Gets edited archive unit.
+     *
+     * @return the edited archive unit
+     */
+    public ArchiveUnit getEditedArchiveUnit() {
+        return editedArchiveUnit;
     }
 }

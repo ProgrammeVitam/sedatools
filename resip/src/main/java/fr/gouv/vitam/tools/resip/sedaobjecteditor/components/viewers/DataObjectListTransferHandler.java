@@ -45,7 +45,7 @@ class DataObjectListTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(TransferSupport ts) {
-        return ts.isDataFlavorSupported(DataFlavor.javaFileListFlavor) && (list.container.editedArchiveUnit != null);
+        return ts.isDataFlavorSupported(DataFlavor.javaFileListFlavor) && (list.container.getEditedArchiveUnit() != null);
     }
 
     @Override
@@ -78,26 +78,25 @@ class DataObjectListTransferHandler extends TransferHandler {
     }
 
     private void addToArchiveUnitDataObjectGroup(DataObject dataObject) {
-        DataObjectGroup dataObjectGroup = list.container.editedArchiveUnit.getTheDataObjectGroup();
+        DataObjectGroup dataObjectGroup = list.container.getEditedArchiveUnit().getTheDataObjectGroup();
 
         try {
             if (dataObjectGroup == null) {
                 dataObjectGroup = new DataObjectGroup();
-                list.container.editedArchiveUnit.getDataObjectPackage().addDataObjectGroup(dataObjectGroup);
-                list.container.editedArchiveUnit.addDataObjectById(dataObjectGroup.getInDataObjectPackageId());
-                ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel())
-                        .nodeChanged(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
+                list.container.getEditedArchiveUnit().getDataObjectPackage().addDataObjectGroup(dataObjectGroup);
+                list.container.getEditedArchiveUnit().addDataObjectById(dataObjectGroup.getInDataObjectPackageId());
+                ResipGraphicApp.getTheWindow().treePane.displayedTreeNodeChanged();
             }
             if (dataObject instanceof BinaryDataObject)
-                list.container.editedArchiveUnit.getDataObjectPackage().addBinaryDataObject((BinaryDataObject) dataObject);
+                list.container.getEditedArchiveUnit().getDataObjectPackage().addBinaryDataObject((BinaryDataObject) dataObject);
             else
-                list.container.editedArchiveUnit.getDataObjectPackage().addPhysicalDataObject((PhysicalDataObject) dataObject);
+                list.container.getEditedArchiveUnit().getDataObjectPackage().addPhysicalDataObject((PhysicalDataObject) dataObject);
             dataObjectGroup.addDataObject(dataObject);
         } catch (SEDALibException ignored) {}
     }
 
     private void addFileDataObject(Path path) {
-        ArchiveUnit archiveUnit = list.container.editedArchiveUnit;
+        ArchiveUnit archiveUnit = list.container.getEditedArchiveUnit();
 
         String filename = path.getFileName().toString();
         if (filename.matches("__\\w+(_[0-9]+)?__PhysicalDataObjectMetadata.xml")) {

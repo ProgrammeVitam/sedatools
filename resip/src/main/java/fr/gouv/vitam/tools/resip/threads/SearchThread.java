@@ -27,8 +27,10 @@
  */
 package fr.gouv.vitam.tools.resip.threads;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.SearchDialog;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -48,7 +50,6 @@ public class SearchThread extends SwingWorker<String, String> {
     private ArchiveUnit searchUnit;
     private String searchExp;
     private DataObjectPackage dataObjectPackage;
-    private DataObjectPackageTreeModel dataObjectPackageTreeModel;
     private List<ArchiveUnit> searchResult;
     private Pattern searchPattern;
 
@@ -70,6 +71,7 @@ public class SearchThread extends SwingWorker<String, String> {
      */
     void searchInArchiveUnit(ArchiveUnit au) {
         List<ArchiveUnit> auList = au.getChildrenAuList().getArchiveUnitList();
+        TreeDataObjectPackageEditorPanel treePane=ResipGraphicApp.getTheWindow().treePane;
 
         for (ArchiveUnit childUnit : auList) {
             if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId()))
@@ -90,7 +92,7 @@ public class SearchThread extends SwingWorker<String, String> {
                 } else if (searchDialog.isMetadataCheck()) {
                     tmp = childUnit.getContent().toString();
                 } else
-                    tmp = dataObjectPackageTreeModel.findTreeNode(childUnit).getTitle();
+                    tmp = treePane.getTreeTitle(childUnit);
                 if (searchDialog.isRegExpCheck()) {
                     Matcher matcher = searchPattern.matcher(tmp);
                     if (matcher.matches())
@@ -115,7 +117,6 @@ public class SearchThread extends SwingWorker<String, String> {
         if (searchDialog.isRegExpCheck()) searchPattern = Pattern.compile("[\\S\\s]*" + searchExp + "[\\S\\s]*");
         else if (!searchDialog.isCaseCheck()) searchExp = searchExp.toLowerCase();
         if (searchDialog.isIdCheck()) searchExp = "<"+searchExp+">";
-        dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.treePane.dataObjectPackageTreeViewer.getModel();
         dataObjectPackage = mainWindow.getApp().currentWork.getDataObjectPackage();
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
         searchResult = new LinkedList<ArchiveUnit>();

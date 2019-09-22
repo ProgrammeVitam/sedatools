@@ -934,51 +934,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MenuItem Sort tree viewer
 
     /**
-     * The type Sort by title.
-     */
-    class SortByTitle implements Comparator<ArchiveUnit> {
-        /**
-         * The Tree model.
-         */
-        DataObjectPackageTreeModel treeModel;
-
-        public int compare(ArchiveUnit a, ArchiveUnit b) {
-            String titleA = treeModel.findTreeNode(a).getTitle().toLowerCase();
-            String titleB = treeModel.findTreeNode(b).getTitle().toLowerCase();
-            return titleA.compareTo(titleB);
-        }
-
-        /**
-         * Instantiates a new Sort by title.
-         *
-         * @param treeModel the tree model
-         */
-        SortByTitle(DataObjectPackageTreeModel treeModel) {
-            this.treeModel = treeModel;
-        }
-    }
-
-    /**
      * Do sort tree viewer.
      */
     void doSortTreeViewer() {
         if (currentWork != null) {
-            DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.treePane.dataObjectPackageTreeViewer.getModel();
-            Map<TreePath, Boolean> expansionState = mainWindow.treePane.dataObjectPackageTreeViewer.getExpansionState();
-            TreePath selectedPath = mainWindow.treePane.dataObjectPackageTreeViewer.getSelectionPath();
-            SortByTitle sortByTitle = new SortByTitle(treeModel);
-            for (Map.Entry<String, ArchiveUnit> pair :
-                    currentWork.getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet()) {
-                Collections.sort(pair.getValue().getChildrenAuList().getArchiveUnitList(), sortByTitle);
-            }
-            Collections.sort(currentWork.getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList(),
-                    sortByTitle);
-            treeModel.reload();
-            mainWindow.treePane.dataObjectPackageTreeViewer.setExpansionState(expansionState);
-            if (selectedPath != null) {
-                mainWindow.treePane.dataObjectPackageTreeViewer.setSelectionPath(selectedPath);
-                mainWindow.treePane.dataObjectPackageTreeViewer.scrollPathToVisible(selectedPath);
-            }
+            mainWindow.treePane.doSortTree();
         }
     }
 
@@ -1376,7 +1336,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 ResipGraphicApp.getTheWindow().itemPane.setBottomComponent(xmlDataObjectGroupEditorPanel);
                 ResipGraphicApp.getTheWindow().dogMetadataPane = xmlDataObjectGroupEditorPanel;
             }
-            DataObjectPackageTreeNode node=ResipGraphicApp.getTheWindow().treePane.displayedTreeNode;
+            DataObjectPackageTreeNode node=ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode();
             if (node!=null)
                 ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(node.getArchiveUnit());
         } catch (Exception e) {

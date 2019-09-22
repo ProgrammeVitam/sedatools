@@ -524,17 +524,7 @@ public class DuplicatesWindow extends JFrame {
     }
 
     private void refreshGraphic() {
-        Map<TreePath, Boolean> expansionState = mainWindow.treePane.dataObjectPackageTreeViewer.getExpansionState();
-        TreePath selectedPath = mainWindow.treePane.dataObjectPackageTreeViewer.getSelectionPath();
-        DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.treePane.dataObjectPackageTreeViewer.getModel();
-        mainWindow.treePane.refreshInformations();
-        treeModel.actualiseDataObjectPackageNodes();
-        mainWindow.treePane.dataObjectPackageTreeViewer.setExpansionState(expansionState);
-        if (selectedPath != null) {
-            mainWindow.treePane.dataObjectPackageTreeViewer.setSelectionPath(selectedPath);
-            mainWindow.treePane.dataObjectPackageTreeViewer.scrollPathToVisible(selectedPath);
-        }
-        mainWindow.treePane.dataObjectPackageTreeViewer.repaint();
+        mainWindow.treePane.doRefreshTree();
         duplicatesTable.repaint();
         if (dogList != null)
             lineResultLabel.setText("rang " + (dogListPosition + 1) + "/" + dogList.size() + " DOG et "

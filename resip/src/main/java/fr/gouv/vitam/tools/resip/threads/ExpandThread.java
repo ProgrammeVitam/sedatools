@@ -229,7 +229,7 @@ public class ExpandThread extends SwingWorker<String, String> {
             treeModel.nodeStructureChanged(targetNode);
             work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
-            ResipGraphicApp.getTheApp().mainWindow.treePane.refreshInformations();
+            ResipGraphicApp.getTheApp().mainWindow.treePane.reset();
             doProgressLogWithoutInterruption(spl, GLOBAL, "Expansion et ajout terminés", null);
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
         }

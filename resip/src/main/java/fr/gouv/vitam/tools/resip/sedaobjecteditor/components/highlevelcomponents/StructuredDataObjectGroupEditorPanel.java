@@ -32,7 +32,6 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.CompositeEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.DataObjectGroupEditor;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
@@ -163,13 +162,10 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
         try {
             // when a new DataObjectGroup has been created
             if ((dataObjectGroupEditor.getEditedObject()!=null) && (((DataObjectGroup)dataObjectGroupEditor.getEditedObject()).getInDataObjectPackageId() == null)) {
-                DataObjectPackageTreeModel model=(DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel();
                 editedDataObjectGroup = (DataObjectGroup)dataObjectGroupEditor.getEditedObject();
                 editedArchiveUnit.getDataObjectPackage().addDataObjectGroup((DataObjectGroup)dataObjectGroupEditor.getEditedObject());
                 editedArchiveUnit.addDataObjectById(((DataObjectGroup)dataObjectGroupEditor.getEditedObject()).getInDataObjectPackageId());
-                model.generateDataObjectNode(editedDataObjectGroup, ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
-                ((DataObjectPackageTreeModel) ResipGraphicApp.getTheWindow().treePane.dataObjectPackageTreeViewer.getModel())
-                        .nodeChanged(ResipGraphicApp.getTheWindow().treePane.displayedTreeNode);
+                ResipGraphicApp.getTheWindow().treePane.addDataObjectGroupToDisplayedTreeNode(editedDataObjectGroup);
                 ((CompositeEditor) dataObjectGroupEditor).refreshEditedObjectLabel();
             }
             DataObjectGroup dog = dataObjectGroupEditor.extractEditedObject();
@@ -229,6 +225,8 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
 
     @Override
     public void selectDataObject(DataObject dataObject) throws SEDALibException{
-        //FIXME
+        for (SEDAObjectEditor soe:dataObjectGroupEditor.objectEditorList){
+                ((CompositeEditor)soe).doExpand((soe.getEditedObject()==dataObject),false);
+        }
     }
 }

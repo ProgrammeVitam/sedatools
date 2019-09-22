@@ -200,7 +200,7 @@ public class AddThread extends SwingWorker<String, String> {
             treeModel.nodeStructureChanged(targetNode);
             work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
-            ResipGraphicApp.getTheApp().mainWindow.treePane.refreshInformations();
+            ResipGraphicApp.getTheApp().mainWindow.treePane.reset();
             doProgressLogWithoutInterruption(spl, GLOBAL,"Ajout terminé", null);
             doProgressLogWithoutInterruption(spl, GLOBAL,summary, null);
         }

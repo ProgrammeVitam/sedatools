@@ -145,7 +145,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                     }
                 } else if (SwingUtilities.isLeftMouseButton(e)) {
                     clearSelection();
-                    tree.container.refreshInformations();
+                    tree.container.reset();
                 } else if (SwingUtilities.isRightMouseButton(e)) {
                     JPopupMenu popup = new JPopupMenu();
                     JMenuItem mi;
@@ -226,13 +226,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         }
     }
 
-    /**
-     * Node label structure changed.
-     *
-     * @param stm  the stm
-     * @param root the root
-     */
-    private void nodeLabelStructureChanged(DataObjectPackageTreeModel stm, TreeNode root) {
+     private void nodeLabelStructureChanged(DataObjectPackageTreeModel stm, TreeNode root) {
         if (root != null) {
             stm.nodeChanged(root);
             for (int i = 0; i < root.getChildCount(); i++)
@@ -259,12 +253,6 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         return longDataObjectPackageTreeItemName;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see javax.swing.JTree#convertValueToText(java.lang.Object, boolean, boolean,
-     * boolean, int, boolean)
-     */
     @Override
     public String convertValueToText(final Object value, final boolean selected, final boolean expanded,
                                      final boolean leaf, final int row, final boolean hasFocus) {
@@ -287,15 +275,6 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
     }
 
     // tree manipulation methods
-
-    /**
-     * Gets the archive transfer.
-     *
-     * @return the archive transfer
-     */
-    private DataObjectPackage getDataObjectPackage() {
-        return ((DataObjectPackageTreeNode) getModel().getRoot()).getArchiveUnit().getDataObjectPackage();
-    }
 
     /**
      * Gets the path string.
@@ -520,7 +499,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         ResipGraphicApp.getTheApp().currentWork.getCreationContext().setStructureChanged(true);
         ResipGraphicApp.getTheApp().setContextLoaded(true);
         ResipGraphicApp.getTheApp().setModifiedContext(true);
-        container.refreshInformations();
+        container.reset();
     }
 
     /**
@@ -552,6 +531,6 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
 
         ResipGraphicApp.getTheApp().setContextLoaded(true);
         ResipGraphicApp.getTheApp().setModifiedContext(true);
-        container.refreshInformations();
+        container.reset();
     }
 }
