@@ -92,7 +92,7 @@ public class LinearDimensionTypeEditor extends SEDAObjectEditor {
 
     @Override
     public String getSummary() throws SEDALibException {
-        return (valueTextField.getText() == null ? "" : valueTextField.getText() + " ") + unitComboBox.getSelectedItem();
+        return (valueTextField.getText() == null ? "" : valueTextField.getText() + " ") + (unitComboBox.getSelectedItem()==null?"":unitComboBox.getSelectedItem());
     }
 
     @Override

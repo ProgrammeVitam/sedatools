@@ -118,9 +118,12 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
         String tmp;
 
         if (getPhysicalDataObjectMetadata().dataObjectVersion != null)
-            summaryList.add(getPhysicalDataObjectMetadata().dataObjectVersion.getValue());
+            tmp=getPhysicalDataObjectMetadata().dataObjectVersion.getValue();
         else
-            summaryList.add(translateTag("Unknown"));
+            tmp=translateTag("Unknown");
+        tmp=tmp.trim();
+        if (!tmp.isEmpty())
+            summaryList.add(tmp);
 
         if (getPhysicalDataObjectMetadata().physicalId != null) {
             tmp = getPhysicalDataObjectMetadata().physicalId.getValue();
@@ -128,7 +131,9 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
                 tmp = translateTag("Unknown");
         } else
             tmp = translateTag("Unknown");
-        summaryList.add(tmp);
+        tmp=tmp.trim();
+        if (!tmp.isEmpty())
+            summaryList.add(tmp);
 
         return String.join(", ", summaryList);
     }

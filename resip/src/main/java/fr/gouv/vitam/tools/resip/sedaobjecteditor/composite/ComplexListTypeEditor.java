@@ -133,7 +133,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
     public String getSummary() throws SEDALibException {
         List<String> summaryList = new ArrayList<String>(objectEditorList.size());
         for (SEDAObjectEditor objectEditor : objectEditorList) {
-            String summary = objectEditor.getSummary();
+            String summary = objectEditor.getSummary().trim();
             if (!summary.isEmpty() && !summary.equals("{}")) {
                 if (objectEditor instanceof ComplexListTypeEditor)
                     summary = "{" + summary + "}";

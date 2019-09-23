@@ -172,7 +172,9 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 tmp = translateTag("Unknown");
         } else
             tmp = translateTag("Unknown");
-        summaryList.add(tmp);
+        tmp=tmp.trim();
+        if (!tmp.isEmpty())
+            summaryList.add(tmp);
 
         if (getBinaryDataObjectMetadata().formatIdentification != null) {
             tmp = getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("MimeType");
@@ -180,7 +182,9 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 tmp = translateTag("Unknown");
         } else
             tmp = translateTag("Unknown");
-        summaryList.add(tmp);
+        tmp=tmp.trim();
+        if (!tmp.isEmpty())
+            summaryList.add(tmp);
 
         if (getBinaryDataObjectMetadata().formatIdentification != null) {
             tmp = getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("FormatId");
@@ -188,7 +192,9 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 tmp = translateTag("Unknown");
         } else
             tmp = translateTag("Unknown");
-        summaryList.add(tmp);
+        tmp=tmp.trim();
+        if (!tmp.isEmpty())
+            summaryList.add(tmp);
 
         if (getBinaryDataObjectMetadata().fileInfo != null) {
             tmp = getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("LastModified");
@@ -196,7 +202,9 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 tmp = translateTag("Unknown");
         } else
             tmp = translateTag("Unknown");
-        summaryList.add(tmp);
+        tmp=tmp.trim();
+        if (!tmp.isEmpty())
+            summaryList.add(tmp);
 
         return String.join(", ", summaryList);
     }
