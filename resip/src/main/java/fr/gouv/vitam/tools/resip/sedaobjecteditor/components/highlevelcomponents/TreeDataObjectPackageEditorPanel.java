@@ -126,7 +126,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
         add(expandReducePanel, gbc);
 
         JButton expandButton = new JButton("");
-        expandButton.setIcon(new ImageIcon(Class.class.getResource("/icon/list-add-small.png")));
+        expandButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-add-small.png")));
         expandButton.setToolTipText("Développer tout l'arbre depuis le noeud sélectionné...");
         expandButton.setMargin(new Insets(0, 0, 0, 0));
         expandButton.addActionListener(e -> buttonExpandReduceTree(true));
@@ -138,7 +138,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
         expandReducePanel.add(expandButton, gbc);
 
         JButton reduceButton = new JButton("");
-        reduceButton.setIcon(new ImageIcon(Class.class.getResource("/icon/list-remove-small.png")));
+        reduceButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-remove-small.png")));
         reduceButton.setToolTipText("Réduire tout l'arbre depuis le noeud sélectionné...");
         reduceButton.setMargin(new Insets(0, 0, 0, 0));
         reduceButton.addActionListener(e -> buttonExpandReduceTree(false));

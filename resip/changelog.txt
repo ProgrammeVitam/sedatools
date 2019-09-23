@@ -6,14 +6,14 @@ Evolutions/Corrections en 2.0.0
     * définition d'éditeurs et de "Panels" d'édition pour les grands objets
     * création de "Panels" d'édition de haut niveau des ArchiveUnit et DataObjectGroup, en structuré et en XML
     * spécialisation des éditeurs selon la donnée
-    * adaption dynamique des champs édités
+    * adaptation dynamique des champs édités
     * capacité à basculer en résumé les champs complexes
     * capacité d'éditer dans une fenêtre les champs longs
     * ajout de boutons d'action (+/-/ajout de champs/ouvrir/changer de fichier...)
     * ...
 - Evolution: bascule entre édition structurée et non structurée en dynamique et en préférences
 - Evolution: ajout d'une fonction et fenêtre de visualisation du manifest, avec fonctions de recherche
-- Refacto: simplication de la MainWindow avec la mise en place de "Panels" de haut niveau pour l'arbre, l'édition de l'AU et l'édition du DOG
+- Refacto: simplification de la MainWindow avec la mise en place de "Panels" de haut niveau pour l'arbre, l'édition de l'AU et l'édition du DOG
 
 ============================================================================
 Evolutions/Corrections en 1.11.0

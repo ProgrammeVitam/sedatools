@@ -281,9 +281,9 @@ public class DroidIdentifier {
             ContainerSignatureSaxParser parser = new ContainerSignatureSaxParser();
             containerSignatureDefinitions = parser.parse(in);
         } catch (SignatureParseException e) {
-            throw new SEDALibException("Panic! Can't parse container signature file");
+            throw new SEDALibException("Panic! Can't parse container signature file",e);
         } catch (Exception e) {
-            throw new SEDALibException("Panic! Can't open container signature file");
+            throw new SEDALibException("Panic! Can't open container signature file",e);
         }
 
         containerContentIdentierMap = new HashMap<String, ContainerDroidIdentifier>();
