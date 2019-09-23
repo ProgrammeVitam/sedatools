@@ -37,6 +37,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getMessagesStackString;
+
 /**
  * The Class Prefs.
  * <p>
@@ -136,7 +138,7 @@ public class Prefs {
             }
         } catch (Exception e) {
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
-                    "Resip.GraphicApp: Erreur fatale, impossible de manipuler les préférences \n->" + e.getMessage());
+                    "Resip.GraphicApp: Erreur fatale, impossible de manipuler les préférences \n->" + getMessagesStackString(e));
             System.exit(1);
         }
     }

@@ -130,7 +130,7 @@ public class WeightEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         editPanel.add(valueTextField, gbc);
 
-        unitComboBox = new JComboBox<String>((String[]) Weight.enumValues.toArray());
+        unitComboBox = new JComboBox<String>(Weight.enumValues.toArray(new String[0]));
         unitComboBox.setEditable(true);
         unitComboBox.getEditor().getEditorComponent().setFocusable(false);
         unitComboBox.setFont(SEDAObjectEditor.EDIT_FONT);

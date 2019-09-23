@@ -16,6 +16,7 @@ import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
@@ -37,6 +38,8 @@ public class SearchDialog extends JDialog {
     private JLabel resultLabel;
     private MainWindow mainWindow;
     private JPanel optionalInfoPanel;
+    private JCheckBox withoutChildArchiveUnitCheckBox;
+    private JCheckBox withoutChildDataObjectCheckBox;
 
     /**
      * The data.
@@ -85,8 +88,8 @@ public class SearchDialog extends JDialog {
 
         mainWindow=owner;
 
-        setMinimumSize(new Dimension(500, 110));
-        setPreferredSize(new Dimension(500, 110));
+        setMinimumSize(new Dimension(500, 140));
+        setPreferredSize(new Dimension(500, 140));
         setResizable(false);
 
         Container contentPane = getContentPane();
@@ -195,8 +198,7 @@ public class SearchDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         contentPane.add(idCheckBox, gbc);
 
-        resultLabel = new JLabel();
-        resultLabel.setText("Aucune recherche");
+        resultLabel = new JLabel("Aucune recherche");
         gbc = new GridBagConstraints();
         gbc.gridx = 4;
         gbc.gridwidth = 3;
@@ -205,13 +207,41 @@ public class SearchDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         contentPane.add(resultLabel, gbc);
 
+        JLabel withoutChild=new JLabel("Sans descendant :");
+        withoutChild.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 0);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        contentPane.add(withoutChild, gbc);
+
+        withoutChildArchiveUnitCheckBox=new JCheckBox(translateTag("ArchiveUnit"));
+        gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 0);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        contentPane.add(withoutChildArchiveUnitCheckBox, gbc);
+
+        withoutChildDataObjectCheckBox=new JCheckBox(translateTag("DataObjectGroup"));
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc = new GridBagConstraints();
+        gbc.gridx = 2;
+        gbc.gridy = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        contentPane.add(withoutChildDataObjectCheckBox, gbc);
+
         optionalInfoPanel = new JPanel();
         optionalInfoPanel.setLayout(new GridBagLayout());
         optionalInfoPanel.setVisible(true);
         gbc = new GridBagConstraints();
         gbc.gridwidth = 7;
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         gbc.weightx = 1.0;
         gbc.weighty = 0.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -354,6 +384,24 @@ public class SearchDialog extends JDialog {
      */
     public boolean isCaseCheck(){
         return caseCheckBox.isSelected();
+    }
+
+    /**
+     * Is without child archive unit check boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isWithoutChildArchiveUnitCheck(){
+        return withoutChildArchiveUnitCheckBox.isSelected();
+    }
+
+    /**
+     * Is without data object group check boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isWithoutDataObjectGroupCheck(){
+        return withoutChildDataObjectCheckBox.isSelected();
     }
 
     /**
