@@ -79,9 +79,9 @@ public class FormatIdentification extends ComplexListType {
      */
     public FormatIdentification(String formatLitteral, String mimeType, String formatId, String encoding) throws SEDALibException {
         super("FormatIdentification");
-        if (formatLitteral!=null) addNewMetadata("FormatLitteral",formatLitteral);
-        if (mimeType!=null) addNewMetadata("MimeType", mimeType);
-        if (formatId!=null) addNewMetadata("FormatId", formatId);
-        if (encoding!=null) addNewMetadata("Encoding", encoding);
+        if ((formatLitteral!=null) && !formatLitteral.isEmpty()) addNewMetadata("FormatLitteral",formatLitteral);
+        if ((mimeType!=null) && !mimeType.isEmpty()) addNewMetadata("MimeType", mimeType);
+        if ((formatId!=null) && !formatId.isEmpty()) addNewMetadata("FormatId", formatId);
+        if ((encoding!=null) && !encoding.isEmpty()) addNewMetadata("Encoding", encoding);
     }
 }

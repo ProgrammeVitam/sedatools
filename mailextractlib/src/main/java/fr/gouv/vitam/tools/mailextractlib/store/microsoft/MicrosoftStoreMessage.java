@@ -40,6 +40,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor.ISO_8601;
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
 
 /**
@@ -245,7 +246,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                     if (hasNativeConversationIndex()) {
                         Instant inst = getNativeCIDeliveryTime().toInstant();
                         ZonedDateTime zdt = ZonedDateTime.ofInstant(inst, ZoneOffset.UTC);
-                        result = "<MIC:" + getNativeCIGuid() + "@" + zdt.format(DateTimeFormatter.ISO_DATE_TIME);
+                        result = "<MIC:" + getNativeCIGuid() + "@" + zdt.format(ISO_8601);
                         int responseLevelNumber = getNativeCINumberOfResponseLevels();
                         for (int i = 0; i < responseLevelNumber; i += 1) {
                             result += "+" + Integer.toHexString(getNativeCIResponseLevelDeltaCode(i));

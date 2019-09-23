@@ -54,6 +54,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
+import static fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor.ISO_8601;
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogIfStep;
 
@@ -621,11 +622,11 @@ public abstract class StoreMessage extends StoreElement {
                 appointment.location = "[LocalisationVide]";
             String bdString, edString;
             if (appointment.beginDate != null)
-                bdString = DateTimeFormatter.ISO_DATE_TIME.format(appointment.beginDate);
+                bdString = ISO_8601.format(appointment.beginDate);
             else
                 bdString = "[Date/HeureInconnues]";
             if (appointment.endDate != null)
-                edString = DateTimeFormatter.ISO_DATE_TIME.format(appointment.endDate);
+                edString = ISO_8601.format(appointment.endDate);
             else
                 edString = "[Date/HeureInconnues]";
 
@@ -753,11 +754,11 @@ public abstract class StoreMessage extends StoreElement {
                 if (appointment != null) {
                     String bdString, edString;
                     if (appointment.beginDate != null)
-                        bdString = DateTimeFormatter.ISO_DATE_TIME.format(appointment.beginDate);
+                        bdString = ISO_8601.format(appointment.beginDate);
                     else
                         bdString = "[Date/HeureInconnues]";
                     if (appointment.endDate != null)
-                        edString = DateTimeFormatter.ISO_DATE_TIME.format(appointment.endDate);
+                        edString = ISO_8601.format(appointment.endDate);
                     else
                         edString = "[Date/HeureInconnues]";
                     ps.format(";\"%s\";\"%s\";\"%s\"",

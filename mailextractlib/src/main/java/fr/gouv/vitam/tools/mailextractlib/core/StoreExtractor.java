@@ -50,11 +50,14 @@ import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogWithoutInterruption;
+import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 /**
  * Abstract factory class for operation context on a defined mailbox or mail
@@ -162,6 +165,17 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
 public abstract class StoreExtractor {
 
     // Map of StoreExtractor classes by scheme
+
+
+    /**
+     * The formatter used for zoned date conversion to String
+     */
+    static public final DateTimeFormatter ISO_8601 = new DateTimeFormatterBuilder()
+                .append(ISO_LOCAL_DATE_TIME)
+                .optionalStart()
+                .appendOffsetId()
+                .optionalStart()
+                .toFormatter();
 
     /**
      * The map of mimetypes/scheme known relations.
