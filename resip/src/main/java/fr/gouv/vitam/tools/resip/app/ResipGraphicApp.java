@@ -341,6 +341,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "Statistics");
         treatMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Voir le manifest...");
+        menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        actionByMenuItem.put(menuItem, "SeeManifest");
+        treatMenu.add(menuItem);
+
         menuItem = new JMenuItem("Vérifier la conformité SEDA 2.1...");
         menuItem.addActionListener(this);
         menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
@@ -489,6 +495,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "Statistics":
                         generateStatistics();
+                        break;
+                    case "SeeManifest":
+                        seeManifest();
                         break;
                     case "CheckSEDA21":
                         checkSEDA21();
@@ -879,6 +888,21 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     }
 
     // MenuItem Check SEDA 21 compliance
+
+    /**
+     * See the manifest.
+     */
+    void seeManifest() {
+        ManifestWindow manifestWindow=null;
+        try {
+            manifestWindow=new ManifestWindow();
+        } catch (InterruptedException e) {
+            if (manifestWindow!=null)
+                manifestWindow.dispose();
+            return;
+        }
+        manifestWindow.setVisible(true);
+    }
 
     /**
      * Check seda 21.

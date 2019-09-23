@@ -77,19 +77,22 @@ public class WeightEditor extends SEDAObjectEditor {
         if (minimal)
             return new Weight();
         else
-            return new Weight(42.42,"gram");
+            return new Weight(42.42, "gram");
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        getWeightMetadata().setValue(Double.parseDouble(valueTextField.getText()));
+        if (valueTextField.getText().isEmpty())
+            getWeightMetadata().setValue(null);
+        else
+            getWeightMetadata().setValue(Double.parseDouble(valueTextField.getText()));
         getWeightMetadata().setUnit((String) (unitComboBox.getSelectedItem()));
         return getWeightMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        return valueTextField.getText()+" "+unitComboBox.getSelectedItem();
+        return (valueTextField.getText() == null ? "" : valueTextField.getText() + " ") + unitComboBox.getSelectedItem();
     }
 
     @Override
@@ -111,14 +114,14 @@ public class WeightEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{100,0};
-        gbl.columnWeights = new double[]{0.0,1.0};
+        gbl.columnWidths = new int[]{100, 0};
+        gbl.columnWeights = new double[]{0.0, 1.0};
         editPanel.setLayout(gbl);
 
         valueTextField = new JTextField();
         DocumentFilter filter = new DoubleFilter();
         ((AbstractDocument) valueTextField.getDocument()).setDocumentFilter(filter);
-        valueTextField.setText((getWeightMetadata().getValue()==null?"":Double.toString(getWeightMetadata().getValue())));
+        valueTextField.setText((getWeightMetadata().getValue() == null ? "" : Double.toString(getWeightMetadata().getValue())));
         valueTextField.setFont(SEDAObjectEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);

@@ -31,7 +31,6 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
-import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.util.Arrays;
@@ -48,8 +47,8 @@ public class LinearDimensionType extends NamedTypeMetadata {
     /**
      * Enum restricted values.
      */
-    static public final List<String> enumValues = Arrays.asList("micrometre","4H",
-            "millimetre","MMT","centimetre","CMT","metre","inch","INH","foot","FOT");
+    static public final List<String> enumValues = Arrays.asList("micrometre", "4H",
+            "millimetre", "MMT", "centimetre", "CMT", "metre", "inch", "INH", "foot", "FOT");
 
     /**
      * The value.
@@ -97,8 +96,8 @@ public class LinearDimensionType extends NamedTypeMetadata {
     public LinearDimensionType(String elementName, Double value, String unit) throws SEDALibException {
         super(elementName);
         this.value = value;
-        if ((unit!=null) && !enumValues.contains(unit))
-            throw new SEDALibException("["+unit+"] n'est pas une unité de mesure linéraire");
+        if ((unit != null) && !enumValues.contains(unit))
+            throw new SEDALibException("[" + unit + "] n'est pas une unité de mesure linéraire");
         this.unit = unit;
     }
 
@@ -115,7 +114,8 @@ public class LinearDimensionType extends NamedTypeMetadata {
             xmlWriter.writeStartElement(elementName);
             if (unit != null)
                 xmlWriter.writeAttribute("unit", unit);
-            xmlWriter.writeCharactersIfNotEmpty(Double.toString(value));
+            if (value != null)
+                xmlWriter.writeCharactersIfNotEmpty(Double.toString(value));
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML dans un élément de type LinearDimensionType [" + getXmlElementName() + "]", e);
@@ -201,8 +201,8 @@ public class LinearDimensionType extends NamedTypeMetadata {
      * @param unit the unit
      */
     public void setUnit(String unit) throws SEDALibException {
-        if ((unit!=null) && !enumValues.contains(unit))
-            throw new SEDALibException("["+unit+"] n'est pas une unité de mesure linéraire");
+        if ((unit != null) && !enumValues.contains(unit))
+            throw new SEDALibException("[" + unit + "] n'est pas une unité de mesure linéraire");
         this.unit = unit;
     }
 }

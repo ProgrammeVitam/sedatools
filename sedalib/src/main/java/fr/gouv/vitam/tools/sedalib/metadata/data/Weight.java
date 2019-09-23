@@ -104,7 +104,8 @@ public class Weight extends NamedTypeMetadata {
             xmlWriter.writeStartElement(elementName);
             if (unit != null)
                 xmlWriter.writeAttribute("unit", unit);
-            xmlWriter.writeCharactersIfNotEmpty(Double.toString(value));
+            if (value!=null)
+                xmlWriter.writeCharactersIfNotEmpty(Double.toString(value));
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML dans un élément de type Weight", e);

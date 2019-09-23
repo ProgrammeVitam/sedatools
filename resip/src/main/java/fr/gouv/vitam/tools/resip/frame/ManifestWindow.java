@@ -27,9 +27,19 @@
  */
 package fr.gouv.vitam.tools.resip.frame;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.io.FileUtils;
+import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
+import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
+import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
+import org.fife.ui.rsyntaxtextarea.Token;
+import org.fife.ui.rtextarea.RTextScrollPane;
 
 import javax.swing.*;
 import java.awt.*;
@@ -39,12 +49,16 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor.*;
+import static fr.gouv.vitam.tools.resip.threads.ExportThread.readableFileSize;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
+
 /**
  * The Class BigTextEditDialog.
  * <p>
  * Class for text edition dialog used for long text metadata like Description or TextContent.
  */
-public class BigTextEditDialog extends JDialog {
+public class ManifestWindow extends JFrame {
 
     /**
      * The actions components.
@@ -69,33 +83,46 @@ public class BigTextEditDialog extends JDialog {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        TestDialogWindow window = new TestDialogWindow(BigTextEditDialog.class);
+    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
+        ResipGraphicApp rga = new ResipGraphicApp(null);
+        Thread.sleep(1000);
+        ManifestWindow mw=new ManifestWindow();
     }
 
-    /**
-     * Instantiates a new BigTextEditDialog for test.
-     *
-     * @param owner the owner
-     * @throws SEDALibException the seda lib exception
-     */
-    public BigTextEditDialog(JFrame owner) throws SEDALibException, IOException {
-        this(owner, FileUtils.readFileToString(new File("resip/src/main/java/fr/gouv/vitam/tools/resip/frame/BigTextEditDialog.java"),"UTF8"),"Code");
+    private String getCurrentManifest() throws InterruptedException {
+        String result;
+        Work currentWork=ResipGraphicApp.getTheApp().currentWork;
+        ArchiveTransfer archiveTransfer = new ArchiveTransfer();
+
+        try {
+            currentWork.getDataObjectPackage().setManagementMetadataXmlData(currentWork.getExportContext().getManagementMetadataXmlData());
+            archiveTransfer.setDataObjectPackage(currentWork.getDataObjectPackage());
+            archiveTransfer.setGlobalMetadata(currentWork.getExportContext().getArchiveTransferGlobalMetadata());
+            if (currentWork.getExportContext().isMetadataFilterFlag())
+                currentWork.getDataObjectPackage().setExportMetadataList(currentWork.getExportContext().getKeptMetadataList());
+            else
+                currentWork.getDataObjectPackage().setExportMetadataList(null);
+
+            ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, null);
+            result = sm.getSEDAXMLManifest(currentWork.getExportContext().isHierarchicalArchiveUnits(),
+                    currentWork.getExportContext().isIndented());
+        }
+        catch (SEDALibException e){
+            result="Erreur de génération de Manifest/n/n"+getMessagesStackString(e);
+        }
+        return result;
     }
 
+
     /**
-     * Create the dialog.
-     *
-     * @param owner the owner
-     * @param text  the text
-     */
-    public BigTextEditDialog(JFrame owner, String text, String title) {
-        super(owner, "", true);
+     * Instantiates a new XmlEditDialog for test.
+     **/
+    public ManifestWindow() throws InterruptedException {
         GridBagConstraints gbc;
         GridBagLayout gbl;
 
-        setTitle(title);
-        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        setTitle("Visualisation de manifest");
+
         setPreferredSize(new Dimension(1024, 600));
 
         gbl=new GridBagLayout();
@@ -104,72 +131,28 @@ public class BigTextEditDialog extends JDialog {
         Container contentPane = getContentPane();
         contentPane.setLayout(gbl);
 
-        editTextArea = new JTextArea();
-        editTextArea.setText(text);
-        editTextArea.setCaretPosition(0);
-        editTextArea.setFont(SEDAObjectEditor.EDIT_FONT);
-        editTextArea.setLineWrap(true);
-        editTextArea.setWrapStyleWord(true);
+        RSyntaxTextArea xmlTextArea = new RSyntaxTextArea(20, 120);
+        xmlTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
+        SyntaxScheme scheme = xmlTextArea.getSyntaxScheme();
+        scheme.getStyle(Token.MARKUP_TAG_DELIMITER).foreground = COMPOSITE_LABEL_MARKUP_COLOR;
+        scheme.getStyle(Token.MARKUP_TAG_NAME).foreground = COMPOSITE_LABEL_COLOR;
+        scheme.getStyle(Token.MARKUP_TAG_ATTRIBUTE).foreground = COMPOSITE_LABEL_MARKUP_COLOR;
+        scheme.getStyle(Token.MARKUP_TAG_ATTRIBUTE_VALUE).foreground = COMPOSITE_LABEL_ATTRIBUTE_COLOR;
+        xmlTextArea.setCodeFoldingEnabled(true);
+        xmlTextArea.setFont(MainWindow.DETAILS_FONT);
+        xmlTextArea.setText(getCurrentManifest());
+        xmlTextArea.setCaretPosition(0);
+        xmlTextArea.setEditable(false);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
         gbc.gridwidth=3;
         gbc.gridy = 0;
-        JScrollPane editScrollPane=new JScrollPane(editTextArea);
+        RTextScrollPane editScrollPane=new RTextScrollPane(xmlTextArea);
         contentPane.add(editScrollPane, gbc);
 
-        final JButton validateButton = new JButton("Valider");
-        validateButton.addActionListener(arg -> buttonValidate());
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        contentPane.add(validateButton, gbc);
-
-        final JButton cancelButton = new JButton("Annuler");
-        cancelButton.addActionListener(arg -> buttonCancel());
-        gbc = new GridBagConstraints();
-        gbc.insets = new Insets(5, 5, 5, 5);
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        contentPane.add(cancelButton, gbc);
-
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                cancelButton.doClick();
-            }
-        });
-
         pack();
-        setLocationRelativeTo(owner);
-    }
-
-    private void buttonCancel() {
-        setVisible(false);
-    }
-
-    private void buttonValidate() {
-            textResult=editTextArea.getText();
-             setVisible(false);
-    }
-
-    /**
-     * Get the dialog result xml string.
-     *
-     * @return the xml object
-     */
-    public String getResult() {
-        return textResult;
-    }
-
-    /**
-     * Get the dialog return value.
-     *
-     * @return the return value
-     */
-    public boolean getReturnValue() {
-        return !(textResult == null);
+        setLocationRelativeTo(ResipGraphicApp.getTheApp().mainWindow);
     }
 }

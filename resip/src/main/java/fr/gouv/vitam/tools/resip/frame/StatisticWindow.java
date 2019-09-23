@@ -113,7 +113,7 @@ public class StatisticWindow extends JFrame {
             ImageIcon icon = new ImageIcon(imageURL);
             setIconImage(icon.getImage());
         }
-        this.setTitle("Statistiques");
+        setTitle("Statistiques");
 
         setMinimumSize(new Dimension(600, 200));
         setPreferredSize(new Dimension(700, 400));
