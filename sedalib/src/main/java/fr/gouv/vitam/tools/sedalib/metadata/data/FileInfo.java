@@ -27,19 +27,11 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.data;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import com.fasterxml.jackson.annotation.JsonRawValue;
-import com.fasterxml.jackson.annotation.JsonSetter;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
-import javax.xml.bind.DatatypeConverter;
-import javax.xml.stream.XMLStreamException;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
-import java.util.Calendar;
 import java.util.LinkedHashMap;
 
 /**

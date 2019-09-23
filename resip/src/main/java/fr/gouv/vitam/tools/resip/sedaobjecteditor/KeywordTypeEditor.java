@@ -107,7 +107,7 @@ public class KeywordTypeEditor extends SEDAObjectEditor {
         gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        valueComboBox=new JComboBox<String>((String[])KeywordType.enumValues.toArray());
+        valueComboBox=new JComboBox<String>(KeywordType.enumValues.toArray(new String[0]));
         valueComboBox.setEditable(true);
         valueComboBox.getEditor().getEditorComponent().setFocusable(false);
         valueComboBox.setFont(SEDAObjectEditor.EDIT_FONT);

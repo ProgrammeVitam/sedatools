@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -39,8 +38,12 @@ class CSVMetadataExporterTest {
     public static boolean compareImportAndExportDirectories(Path first, Path second) throws IOException {
         Set<String> secondListNames = new HashSet<String>();
         for (Path inSecond : Files.list(second).collect(Collectors.toList())) {
-            if ((!inSecond.getFileName().startsWith("__")) && (!inSecond.getFileName().toString().equals("ExportedMetadata.csv")))
-                secondListNames.add(inSecond.getFileName().toString());
+            if ((!inSecond.getFileName().startsWith("__")) && (!inSecond.getFileName().toString().equals("ExportedMetadata.csv"))) {
+                String tmp = inSecond.getFileName().toString();
+                if (tmp.endsWith("/"))
+                    tmp = tmp.substring(0, tmp.length() - 1);
+                secondListNames.add(tmp);
+            }
         }
         for (Path firstPath : Files.list(first).collect(Collectors.toList())) {
             String filename = firstPath.getFileName().toString();
@@ -57,8 +60,9 @@ class CSVMetadataExporterTest {
                         + filename.substring(filename.lastIndexOf('.'));
             } else if (filename.startsWith("__"))
                 continue;
-            if ((Files.isDirectory(firstPath)) && (second.getFileSystem() != FileSystems.getDefault()))
-                filename += "/";
+//            if ((Files.isDirectory(firstPath)) && (second.getFileSystem() != FileSystems.getDefault()))
+//                filename += "/";
+
 
             Path secondPath = second.resolve(filename);
             if (filename.endsWith(".link")) {
@@ -119,7 +123,7 @@ class CSVMetadataExporterTest {
         }
 
         if (secondListNames.size() > 0) {
-            if ((secondListNames.size() == 1) && (secondListNames.toArray()[0].equals("ExportedMetadata.csv"))) {
+            if ((secondListNames.size() == 1) && (secondListNames.toArray(new String[0])[0].equals("ExportedMetadata.csv"))) {
                 System.out.println("ExportedMetadata.csv left in " + second);
             } else {
                 System.err.println(secondListNames.size() + " left in " + second);
@@ -163,7 +167,7 @@ class CSVMetadataExporterTest {
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterDisk");
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
-        cme.doExportToCSVDiskHierarchy("target/tmpJunit/CSVMetadataExporterDisk","metadata.csv");
+        cme.doExportToCSVDiskHierarchy("target/tmpJunit/CSVMetadataExporterDisk", "metadata.csv");
 
         // Then exported directory is equivalent to imported one
         assert (compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
@@ -188,8 +192,8 @@ class CSVMetadataExporterTest {
         cme.doExportToCSVMetadataFile("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv");
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
-        String generatedFileContent= FileUtils.readFileToString(new File("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv"), "UTF8").replaceAll("[\\\\/]","");
-        String expectedFileContent= FileUtils.readFileToString(new File("src/test/resources/ExpectedResults/ExportedMetadata.csv"),"UTF8").replaceAll("[\\\\/]","");
+        String generatedFileContent = FileUtils.readFileToString(new File("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv"), "UTF8").replaceAll("[\\\\/]", "");
+        String expectedFileContent = FileUtils.readFileToString(new File("src/test/resources/ExpectedResults/ExportedMetadata.csv"), "UTF8").replaceAll("[\\\\/]", "");
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
     }
 
@@ -208,13 +212,13 @@ class CSVMetadataExporterTest {
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterZIP");
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
-        cme.doExportToCSVZip("target/tmpJunit/CSVMetadataExporterZIP/export.zip","metadata.csv");
+        cme.doExportToCSVZip("target/tmpJunit/CSVMetadataExporterZIP/export.zip", "metadata.csv");
 
         FileSystem zipFS = getZipFileSystem("target/tmpJunit/CSVMetadataExporterZIP/export.zip");
         assertThat(zipFS).isNotNull();
 
         // Then exported directory in the zip is equivalent to imported one
-        assert (compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
+        assert(compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
                 zipFS.getPath("/")));
     }
 
