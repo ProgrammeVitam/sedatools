@@ -32,6 +32,8 @@ import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.cli.*;
@@ -380,17 +382,16 @@ public class TestSipGeneratorApp {
             throw new SEDALibException("Impossible de générer les infos techniques pour le fichier [" + bdo.getOnDiskPath().toString() + "]\n->" + e.getMessage());
         }
 
-        bdo.messageDigestAlgorithm = "SHA-512";
-        bdo.messageDigest = digest;
-        bdo.size = lsize;
+        bdo.messageDigest = new DigestType("MessageDigest",digest,"SHA-512");
+        bdo.size = new IntegerType("Size",lsize);
         if (contentType == TEXT_CONTENT)
             bdo.formatIdentification = new FormatIdentification("Plain Text File", "text/plain", "x-fmt/111", null);
         else
             bdo.formatIdentification = new FormatIdentification("Unknown", null, null, null);
 
         bdo.fileInfo = new FileInfo();
-        bdo.fileInfo.filename = lfilename;
-        bdo.fileInfo.lastModified = llastModified;
+        bdo.fileInfo.addNewMetadata("Filename", lfilename);
+        bdo.fileInfo.addNewMetadata("LastModified", llastModified.toString());
     }
 
     /**

@@ -1,3 +1,12 @@
+Evolutions/Corrections en 2.0.0
+
+- Fix: correction du DescriptionLevel dans l'extraction des "Appointments"
+- Fix: correction du format d'écriture des dates dans les métadonnées
+- Fix: élimination de guillemets autour des noms dans les métadonnées
+- Refacto: suppresion de code inutile
+- Fix: mise à niveau des tests
+
+============================================================================
 Evolutions/Corrections en 1.10.0
 
 - Evolution: ajout d'une fonction de construction d'un résumé

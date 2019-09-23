@@ -679,11 +679,6 @@ public class JMStoreMessage extends StoreMessage {
         attachments = result;
     }
 
-    @Override
-    protected void analyzeAppointmentInformation() {
-        // no normalized appointment information in messages
-    }
-
     /*
      * Global message
      */

@@ -33,7 +33,7 @@ class BinaryDataObjectTest {
                 .get("ID7");
 
         String bdoOut = mapper.writeValueAsString(bdo);
-//        System.out.println("Value to verify=" + bdoOut);
+        //System.out.println("Value to verify=" + bdoOut);
 
         // When test read write in Json string format
         BinaryDataObject bdoNext = mapper.readValue(bdoOut, BinaryDataObject.class);
@@ -46,31 +46,93 @@ class BinaryDataObjectTest {
                 "  \"relationshipsXmlData\" : [ ],\n" +
                 "  \"dataObjectGroupReferenceId\" : null,\n" +
                 "  \"dataObjectGroupId\" : null,\n" +
-                "  \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
-                "  \"uri\" : \"content/ID7.jpg\",\n" +
-                "  \"messageDigest\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
-                "  \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "  \"size\" : 21232,\n" +
+                "  \"dataObjectVersion\" : {\n" +
+                "    \"type\" : \"StringType\",\n" +
+                "    \"elementName\" : \"DataObjectVersion\",\n" +
+                "    \"value\" : \"BinaryMaster_1\"\n" +
+                "  },\n" +
+                "  \"uri\" : {\n" +
+                "    \"type\" : \"StringType\",\n" +
+                "    \"elementName\" : \"Uri\",\n" +
+                "    \"value\" : \"content/ID7.jpg\"\n" +
+                "  },\n" +
+                "  \"messageDigest\" : {\n" +
+                "    \"type\" : \"DigestType\",\n" +
+                "    \"elementName\" : \"MessageDigest\",\n" +
+                "    \"value\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
+                "    \"algorithm\" : \"SHA-512\"\n" +
+                "  },\n" +
+                "  \"size\" : {\n" +
+                "    \"type\" : \"IntegerType\",\n" +
+                "    \"elementName\" : \"Size\",\n" +
+                "    \"value\" : 21232\n" +
+                "  },\n" +
                 "  \"compressed\" : null,\n" +
                 "  \"formatIdentification\" : {\n" +
-                "    \"formatLitteral\" : \"Exchangeable Image File Format (Compressed)\",\n" +
-                "    \"mimeType\" : \"image/jpeg\",\n" +
-                "    \"formatId\" : \"fmt/645\",\n" +
-                "    \"encoding\" : null\n" +
+                "    \"type\" : \"FormatIdentification\",\n" +
+                "    \"elementName\" : \"FormatIdentification\",\n" +
+                "    \"metadataList\" : [ {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"FormatLitteral\",\n" +
+                "      \"value\" : \"Exchangeable Image File Format (Compressed)\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"MimeType\",\n" +
+                "      \"value\" : \"image/jpeg\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"FormatId\",\n" +
+                "      \"value\" : \"fmt/645\"\n" +
+                "    } ]\n" +
                 "  },\n" +
                 "  \"fileInfo\" : {\n" +
-                "    \"filename\" : \"image001.jpg\",\n" +
-                "    \"creatingApplicationName\" : null,\n" +
-                "    \"creatingApplicationVersion\" : null,\n" +
-                "    \"dateCreatedByApplication\" : null,\n" +
-                "    \"creatingOs\" : null,\n" +
-                "    \"creatingOsVersion\" : null,\n" +
-                "    \"lastModified\" : 1535484139000\n" +
+                "    \"type\" : \"FileInfo\",\n" +
+                "    \"elementName\" : \"FileInfo\",\n" +
+                "    \"metadataList\" : [ {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"Filename\",\n" +
+                "      \"value\" : \"image001.jpg\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"DateTimeType\",\n" +
+                "      \"elementName\" : \"LastModified\",\n" +
+                "      \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
+                "    } ]\n" +
                 "  },\n" +
-                "  \"metadataXmlData\" : null,\n" +
-                "  \"otherMetadataXmlData\" : null,\n" +
+                "  \"metadata\" : {\n" +
+                "    \"type\" : \"Metadata\",\n" +
+                "    \"elementName\" : \"Metadata\",\n" +
+                "    \"metadataList\" : [ {\n" +
+                "      \"type\" : \"AnyXMLListType\",\n" +
+                "      \"elementName\" : \"Image\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"Dimensions\",\n" +
+                "        \"rawXml\" : \"<Dimensions>117x76</Dimensions>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"Width\",\n" +
+                "        \"rawXml\" : \"<Width>117px</Width>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"Height\",\n" +
+                "        \"rawXml\" : \"<Height>76px</Height>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"VerticalResolution\",\n" +
+                "        \"rawXml\" : \"<VerticalResolution>96ppp</VerticalResolution>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"HorizontalResolution\",\n" +
+                "        \"rawXml\" : \"<HorizontalResolution>96ppp</HorizontalResolution>\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"AnyXMLType\",\n" +
+                "        \"elementName\" : \"ColorDepth\",\n" +
+                "        \"rawXml\" : \"<ColorDepth>24</ColorDepth>\"\n" +
+                "      } ]\n" +
+                "    } ]\n" +
+                "  },\n" +
                 "  \"inDataObjectPackageId\" : \"ID7\",\n" +
-                "  \"onDiskPath\" : \"C:\\\\Users\\\\jean-severin.lair\\\\intelliJGit\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSip.zip-tmpdir\\\\content\\\\ID7.jpg\"\n" +
+                "  \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSIP.zip-tmpdir\\\\content\\\\ID7.jpg\"\n" +
                 "}";
         testOut = LineEndNormalize(testOut.replaceAll("\"onDiskPath\" : .*\"", ""));
         bdoNextOut = LineEndNormalize(bdoNextOut.replaceAll("\"onDiskPath\" : .*\"", ""));
@@ -113,8 +175,18 @@ class BinaryDataObjectTest {
                 "  </FormatIdentification>\n" +
                 "  <FileInfo>\n" +
                 "    <Filename>image001.jpg</Filename>\n" +
-                "    <LastModified>2018-08-28T19:22:19Z</LastModified>\n" +
-                "  </FileInfo>";
+                "    <LastModified>2018-08-28T19:22:19</LastModified>\n" +
+                "  </FileInfo>\n" +
+                "  <Metadata>\n" +
+                "    <Image>\n" +
+                "      <Dimensions>117x76</Dimensions>\n" +
+                "      <Width>117px</Width>\n" +
+                "      <Height>76px</Height>\n" +
+                "      <VerticalResolution>96ppp</VerticalResolution>\n" +
+                "      <HorizontalResolution>96ppp</HorizontalResolution>\n" +
+                "      <ColorDepth>24</ColorDepth>\n" +
+                "    </Image>\n" +
+                "  </Metadata>";
         testOut = LineEndNormalize(testOut);
         bdoNextOut = LineEndNormalize(bdoNextOut);
         assertThat(bdoNextOut).isEqualTo(testOut);

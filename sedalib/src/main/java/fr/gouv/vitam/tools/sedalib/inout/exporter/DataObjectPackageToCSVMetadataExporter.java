@@ -29,7 +29,6 @@ package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
-import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
@@ -256,7 +255,13 @@ public class DataObjectPackageToCSVMetadataExporter {
                 else infix = ".0";
                 int i = 0;
                 do {
-                    if (ComplexListType.class.isAssignableFrom(metadataClass)) {
+                    // manage special RuleType with rule/startdata special order
+                    if (RuleType.class.isAssignableFrom(metadataClass)) {
+                        List<String> ruleHeaderNames;
+                        ruleHeaderNames = getRuleTypeHeaderNames(headerNames, currentName + infix);
+                        sortedHeaderNames.addAll(ruleHeaderNames);
+                        headerNames.removeAll(ruleHeaderNames);
+                    } else if (ComplexListType.class.isAssignableFrom(metadataClass)) {
                         for (Map.Entry<String, ComplexListMetadataKind> e : ComplexListType.getMetadataMap(metadataClass).entrySet()) {
                             getSortedHeaderNames(sortedHeaderNames, headerNames, currentName + infix,
                                     e.getKey(), e.getValue().metadataClass);
@@ -269,18 +274,6 @@ public class DataObjectPackageToCSVMetadataExporter {
                         }
                         headerNames.removeAll(extensions);
                         sortedHeaderNames.addAll(extensions);
-                    }
-                    // manage other composed types which can't be expressed as ComplexListType
-                    else if (RuleType.class.isAssignableFrom(metadataClass)) {
-                        List<String> ruleHeaderNames;
-                        ruleHeaderNames = getRuleTypeHeaderNames(headerNames, currentName + infix);
-                        sortedHeaderNames.addAll(ruleHeaderNames);
-                        headerNames.removeAll(ruleHeaderNames);
-                    } else if (ClassificationRule.class.isAssignableFrom(metadataClass)) {
-                        List<String> ruleHeaderNames;
-                        ruleHeaderNames = getClassificationRuleHeaderNames(headerNames, currentName + infix);
-                        sortedHeaderNames.addAll(ruleHeaderNames);
-                        headerNames.removeAll(ruleHeaderNames);
                     }
                     // at last simple types
                     else {
@@ -389,12 +382,12 @@ public class DataObjectPackageToCSVMetadataExporter {
         int rank, version;
         TreeMap<Integer, BinaryDataObject> rankMap = new TreeMap<Integer, BinaryDataObject>();
         for (BinaryDataObject bdo : objectList) {
-            if ((bdo.dataObjectVersion == null) || (bdo.dataObjectVersion.isEmpty())) {
+            if ((bdo.dataObjectVersion == null) || (bdo.dataObjectVersion.getValue().isEmpty())) {
                 doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS, "Un objet binaire n'a pas d'usage_version," +
                         " il ne peut être choisi pour l'extraction", null);
                 continue;
             }
-            String[] usageVersion = bdo.dataObjectVersion.split("_");
+            String[] usageVersion = bdo.dataObjectVersion.getValue().split("_");
             switch (usageVersion[0]) {
                 case "BinaryMaster":
                     rank = 0;
@@ -495,7 +488,11 @@ public class DataObjectPackageToCSVMetadataExporter {
     // Construct file name for Object, either uniq or in a list of different usage_version and insert id if already
     // exists.
     private String constructObjectFileName(Path auRrelativePath, BinaryDataObject bdo, boolean uniqFlag) {
-        String filename = bdo.fileInfo.filename, name, ext;
+        String filename = null, name, ext;
+        if (bdo.fileInfo != null)
+            filename = bdo.fileInfo.getSimpleMetadata("Filename");
+        if (filename == null)
+            filename = "undefined";
         int point = filename.lastIndexOf('.');
         if (point == -1) {
             name = filename;
@@ -506,7 +503,11 @@ public class DataObjectPackageToCSVMetadataExporter {
         }
 
         if (!uniqFlag) {
-            String[] usageVersion = bdo.dataObjectVersion.split("_");
+            String[] usageVersion;
+            if (bdo.dataObjectVersion == null)
+                usageVersion = "undefined".split("_");
+            else
+                usageVersion = bdo.dataObjectVersion.getValue().split("_");
             String shortUsageVersion;
             if (usageVersion[0].isEmpty())
                 shortUsageVersion = "Z";
@@ -589,7 +590,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                 int l;
                 byte[] buffer = new byte[65536];
                 while ((l = fis.read(buffer)) != -1)
-                    zipOS.write(buffer,0,l);
+                    zipOS.write(buffer, 0, l);
                 zipOS.closeEntry();
             } catch (IOException e) {
                 throw new SEDALibException(

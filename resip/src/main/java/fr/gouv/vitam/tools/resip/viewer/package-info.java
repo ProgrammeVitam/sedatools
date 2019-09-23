@@ -1,1 +1,0 @@
-package fr.gouv.vitam.tools.resip.viewer;

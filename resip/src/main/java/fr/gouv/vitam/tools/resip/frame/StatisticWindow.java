@@ -31,9 +31,9 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.StatisticData;
 import fr.gouv.vitam.tools.resip.threads.StatisticThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.viewer.DefaultTableHeaderCellRenderer;
-import fr.gouv.vitam.tools.resip.viewer.StatisticCellRenderer;
-import fr.gouv.vitam.tools.resip.viewer.StatisticTableModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DefaultTableHeaderCellRenderer;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.StatisticCellRenderer;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.StatisticTableModel;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -113,7 +113,7 @@ public class StatisticWindow extends JFrame {
             ImageIcon icon = new ImageIcon(imageURL);
             setIconImage(icon.getImage());
         }
-        this.setTitle("Statistiques");
+        setTitle("Statistiques");
 
         setMinimumSize(new Dimension(600, 200));
         setPreferredSize(new Dimension(700, 400));

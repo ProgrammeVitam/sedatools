@@ -3,8 +3,9 @@ package fr.gouv.vitam.tools.resip.frame;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.threads.DuplicatesThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.viewer.*;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.*;
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -41,9 +42,6 @@ public class DuplicatesWindow extends JFrame {
     /**
      * Data.
      */
-    private DataObjectPackageTreeViewer dataObjectPackageTreeViewer;
-    private DataObjectPackageTreeModel dataObjectPackageTreeModel;
-    private DataObjectListViewer dataObjectListViewer;
     private List<DataObjectGroup> dogList;
     private List<ArchiveUnit> auList;
     private int dogListPosition;
@@ -94,12 +92,9 @@ public class DuplicatesWindow extends JFrame {
         this.setTitle("Chercher des doublons");
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-        duplicatesThread=null;
+        duplicatesThread = null;
 
         mainWindow = ResipGraphicApp.getTheApp().mainWindow;
-        dataObjectPackageTreeViewer = mainWindow.getDataObjectPackageTreePaneViewer();
-        dataObjectPackageTreeModel = (DataObjectPackageTreeModel) (dataObjectPackageTreeViewer.getModel());
-        dataObjectListViewer = mainWindow.getDataObjectListViewer();
 
         setMinimumSize(new Dimension(600, 150));
         setPreferredSize(new Dimension(800, 500));
@@ -478,10 +473,10 @@ public class DuplicatesWindow extends JFrame {
 
     // actions
 
-    private void close(){
-        if (duplicatesThread!=null) {
+    private void close() {
+        if (duplicatesThread != null) {
             duplicatesThread.cancel(true);
-            duplicatesThread=null;
+            duplicatesThread = null;
         }
         setVisible(false);
     }
@@ -493,16 +488,19 @@ public class DuplicatesWindow extends JFrame {
         List<BinaryDataObject> originBdoList = dogList.get(0).getBinaryDataObjectList();
         // meld using existing DOGs
         List<DataObjectGroup> newDogList = new ArrayList<DataObjectGroup>();
-        int afterMeldDOGNumber= (int) Math.ceil((double)auList.size() / (double)ResipGraphicApp.getTheApp().treatmentParameters.getDupMax());
-        if (dogList.size()<=afterMeldDOGNumber)
+        int afterMeldDOGNumber = (int) Math.ceil((double) auList.size() / (double) ResipGraphicApp.getTheApp().treatmentParameters.getDupMax());
+        if (dogList.size() <= afterMeldDOGNumber)
             return;
         for (int i = 0; i < afterMeldDOGNumber; i++) {
             DataObjectGroup dog = dogList.get(i);
             newDogList.add(dog);
             List<BinaryDataObject> bdoList = dog.getBinaryDataObjectList();
             for (int j = 0; j < originBdoList.size(); j++) {
-                bdoList.get(j).fileInfo.filename = originBdoList.get(j).fileInfo.filename;
-                bdoList.get(j).fileInfo.lastModified = originBdoList.get(j).fileInfo.lastModified;
+                try {
+                    bdoList.get(j).fileInfo.addNewMetadata("Filename", originBdoList.get(j).fileInfo.getSimpleMetadata("Filename"));
+                    bdoList.get(j).fileInfo.addNewMetadata("LastModified", originBdoList.get(j).fileInfo.getSimpleMetadata("LastModified"));
+                } catch (SEDALibException ignored) {
+                }
             }
             for (int j = i * ResipGraphicApp.getTheApp().treatmentParameters.getDupMax(); j < Math.min((i + 1) * ResipGraphicApp.getTheApp().treatmentParameters.getDupMax(), auList.size()); j++) {
                 ArchiveUnit au = auList.get(j);
@@ -525,22 +523,12 @@ public class DuplicatesWindow extends JFrame {
         }
     }
 
-    private void refreshGraphic(){
-        Map<TreePath, Boolean> expansionState = mainWindow.getDataObjectPackageTreePaneViewer().getExpansionState();
-        TreePath selectedPath = mainWindow.getDataObjectPackageTreePaneViewer().getSelectionPath();
-        DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
-        mainWindow.refreshInformations();
-        treeModel.actualiseDataObjectPackageNodes();
-        mainWindow.getDataObjectPackageTreePaneViewer().setExpansionState(expansionState);
-        if (selectedPath != null) {
-            mainWindow.getDataObjectPackageTreePaneViewer().setSelectionPath(selectedPath);
-            mainWindow.getDataObjectPackageTreePaneViewer().scrollPathToVisible(selectedPath);
-        }
-        mainWindow.getDataObjectPackageTreePaneViewer().repaint();
+    private void refreshGraphic() {
+        mainWindow.treePane.doRefreshTree();
         duplicatesTable.repaint();
-        if (dogList!=null)
+        if (dogList != null)
             lineResultLabel.setText("rang " + (dogListPosition + 1) + "/" + dogList.size() + " DOG et "
-                + (auListPosition + 1) + "/" + auList.size() + " AU sur la ligne");
+                    + (auListPosition + 1) + "/" + auList.size() + " AU sur la ligne");
     }
 
     private void buttonLineMelt() {
@@ -570,11 +558,11 @@ public class DuplicatesWindow extends JFrame {
 
     private void buttonAllMelt() {
         DuplicatesTableModel dtm = ((DuplicatesTableModel) (duplicatesTable.getModel()));
-        int moreThanDuplicatesLimit=0;
-        int cantMeltMore=0;
+        int moreThanDuplicatesLimit = 0;
+        int cantMeltMore = 0;
         for (int i = 0; i < dtm.getRowCount(); i++) {
             List<ArchiveUnit> localAuList = dtm.getRowAuList(i);
-            List<DataObjectGroup> localDogList=dtm.getRowDogList(i);
+            List<DataObjectGroup> localDogList = dtm.getRowDogList(i);
             if (localAuList.size() > ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()) {
                 if ((localAuList.size() / ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()) + 1 >= localDogList.size())
                     cantMeltMore++;
@@ -582,18 +570,18 @@ public class DuplicatesWindow extends JFrame {
                     moreThanDuplicatesLimit++;
             }
         }
-        if ((moreThanDuplicatesLimit>0)||(cantMeltMore>0)){
-            String message="Dans l'ensemble:";
-            if (moreThanDuplicatesLimit>0)
-                message+="\n  - "+moreThanDuplicatesLimit+" ligne"+(moreThanDuplicatesLimit>1?"s ont":" a")
+        if ((moreThanDuplicatesLimit > 0) || (cantMeltMore > 0)) {
+            String message = "Dans l'ensemble:";
+            if (moreThanDuplicatesLimit > 0)
+                message += "\n  - " + moreThanDuplicatesLimit + " ligne" + (moreThanDuplicatesLimit > 1 ? "s ont" : " a")
                         + " plus de doublons que la taille maximale de fusion [" + ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()
                         + "]. La fusion sera donc faite en plusieurs lots.";
-            if (cantMeltMore>0)
-                message+="\n  - "+cantMeltMore+" ligne"+(cantMeltMore>1?"s ont":" a")
+            if (cantMeltMore > 0)
+                message += "\n  - " + cantMeltMore + " ligne" + (cantMeltMore > 1 ? "s ont" : " a")
                         + " plus de doublons que la taille maximale de fusion [" + ResipGraphicApp.getTheApp().treatmentParameters.getDupMax()
-                        + "], mais "+(cantMeltMore>1?"ont":"a")+" déjà été fusionnée"+(cantMeltMore>1?"s":"")
-                        +" au maximum.";
-            UserInteractionDialog.getUserAnswer(mainWindow,message,"Information", UserInteractionDialog.IMPORTANT_DIALOG,
+                        + "], mais " + (cantMeltMore > 1 ? "ont" : "a") + " déjà été fusionnée" + (cantMeltMore > 1 ? "s" : "")
+                        + " au maximum.";
+            UserInteractionDialog.getUserAnswer(mainWindow, message, "Information", UserInteractionDialog.IMPORTANT_DIALOG,
                     null);
         }
 
@@ -602,7 +590,7 @@ public class DuplicatesWindow extends JFrame {
         int selectedRow = -1;
         if (selectedindex >= 0)
             selectedRow = duplicatesTable.convertRowIndexToModel(selectedindex);
-        for (int i = 0; i <dtm.getRowCount(); i++)
+        for (int i = 0; i < dtm.getRowCount(); i++)
             meldLine(i);
         if (selectedRow >= 0)
             dogList = dtm.getRowDogList(selectedRow);
@@ -630,41 +618,47 @@ public class DuplicatesWindow extends JFrame {
         lineResultLabel.setText("rang " + (dogListPosition + 1) + "/" + dogList.size() + " DOG et "
                 + (auListPosition + 1) + "/" + auList.size() + " AU sur la ligne");
         lineDedupButton.setEnabled(true);
-        focusNode(dogList.get(dogListPosition));
+        mainWindow.treePane.focusDataObjectGroup(dogList.get(dogListPosition));
     }
 
-    private DataObjectPackageTreeNode focusNode(DataObjectGroup dog) {
+/*    private DataObjectPackageTreeNode focusNode(DataObjectGroup dog) {
         DataObjectPackageTreeNode focusNode = dataObjectPackageTreeModel.findTreeNode(dog);
         TreePath path = new TreePath(dataObjectPackageTreeModel.getPathToRoot(focusNode));
 
         dataObjectPackageTreeViewer.setExpandsSelectedPaths(true);
         dataObjectPackageTreeViewer.setSelectionPath(path);
         dataObjectPackageTreeViewer.scrollPathToVisible(path);
-        mainWindow.dataObjectPackageTreeItemClick(path);
+        mainWindow.treePane.selectTreePathItem(path);
         if (dog.getBinaryDataObjectList().size() >= 1) {
-            mainWindow.dataObjectListItemClick(dog.getBinaryDataObjectList().get(0));
-            dataObjectListViewer.selectDataObject(dog.getBinaryDataObjectList().get(0));
+            try {
+                mainWindow.dogMetadataPane.selectDataObject(dog.getBinaryDataObjectList().get(0));
+            } catch (SEDALibException e) {
+                e.printStackTrace();
+            }
         }
-        return (DataObjectPackageTreeNode)focusNode.getParent();
+        return (DataObjectPackageTreeNode) focusNode.getParent();
     }
 
     private void focusNode(ArchiveUnit au) {
         DataObjectPackageTreeNode focusNode = dataObjectPackageTreeModel.findTreeNode(au);
-        DataObjectGroup dog=getDog(au);
+        DataObjectGroup dog = getDog(au);
         TreePath path = new TreePath(dataObjectPackageTreeModel.getPathToRoot(focusNode));
 
         dataObjectPackageTreeViewer.setExpandsSelectedPaths(true);
         dataObjectPackageTreeViewer.setSelectionPath(path);
         dataObjectPackageTreeViewer.scrollPathToVisible(path);
-        mainWindow.dataObjectPackageTreeItemClick(path);
+        mainWindow.treePane.selectTreePathItem(path);
         if (dog.getBinaryDataObjectList().size() >= 1) {
-            mainWindow.dataObjectListItemClick(dog.getBinaryDataObjectList().get(0));
-            dataObjectListViewer.selectDataObject(dog.getBinaryDataObjectList().get(0));
+            try {
+                mainWindow.dogMetadataPane.selectDataObject(dog.getBinaryDataObjectList().get(0));
+            } catch (SEDALibException e) {
+                e.printStackTrace();
+            }
         }
-    }
+    }*/
 
     private void buttonSearch() {
-        if (duplicatesThread==null){
+        if (duplicatesThread == null) {
             emptyDialog();
             globalResultLabel.setText("En cours");
             duplicatesThread = new DuplicatesThread(this, binaryHashCheckBox.isSelected(),
@@ -674,8 +668,8 @@ public class DuplicatesWindow extends JFrame {
         }
     }
 
-    private DataObjectGroup getDog(ArchiveUnit au){
-        DataObject dataObject=au.getDataObjectRefList().getDataObjectList().get(0);
+    private DataObjectGroup getDog(ArchiveUnit au) {
+        DataObject dataObject = au.getDataObjectRefList().getDataObjectList().get(0);
         return (DataObjectGroup) dataObject;
     }
 
@@ -683,30 +677,30 @@ public class DuplicatesWindow extends JFrame {
     private void buttonNextAU() {
         if ((auList != null) && (auListPosition < auList.size() - 1)) {
             auListPosition++;
-            if(!getDog(auList.get(auListPosition-1)).equals(getDog(auList.get(auListPosition))))
-                dogListPosition=dogList.indexOf(getDog(auList.get(auListPosition)));
+            if (!getDog(auList.get(auListPosition - 1)).equals(getDog(auList.get(auListPosition))))
+                dogListPosition = dogList.indexOf(getDog(auList.get(auListPosition)));
             lineResultLabel.setText("rang " + (dogListPosition + 1) + "/" + dogList.size() + " DOG et "
                     + (auListPosition + 1) + "/" + auList.size() + " AU sur la ligne");
-            focusNode(auList.get(auListPosition));
+            mainWindow.treePane.focusArchiveUnit(auList.get(auListPosition));
         }
     }
 
     private void buttonPreviousAU() {
         if ((auList != null) && (auListPosition > 0)) {
             auListPosition--;
-            if(!getDog(auList.get(auListPosition+1)).equals(getDog(auList.get(auListPosition))))
-                dogListPosition=dogList.indexOf(getDog(auList.get(auListPosition)));
+            if (!getDog(auList.get(auListPosition + 1)).equals(getDog(auList.get(auListPosition))))
+                dogListPosition = dogList.indexOf(getDog(auList.get(auListPosition)));
             lineResultLabel.setText("rang " + (dogListPosition + 1) + "/" + dogList.size() + " DOG et "
                     + (auListPosition + 1) + "/" + auList.size() + " AU sur la ligne");
-            focusNode(auList.get(auListPosition));
+            mainWindow.treePane.focusArchiveUnit(auList.get(auListPosition));
         }
     }
 
     private void buttonNextDOG() {
         if ((dogList != null) && (dogListPosition < dogList.size() - 1)) {
             dogListPosition++;
-            DataObjectPackageTreeNode parentNode=focusNode(dogList.get(dogListPosition));
-            auListPosition=auList.indexOf(parentNode.getArchiveUnit());
+            DataObjectPackageTreeNode parentNode = mainWindow.treePane.focusDataObjectGroup(dogList.get(dogListPosition));
+            auListPosition = auList.indexOf(parentNode.getArchiveUnit());
             lineResultLabel.setText("rang " + (dogListPosition + 1) + "/" + dogList.size() + " DOG et "
                     + (auListPosition + 1) + "/" + auList.size() + " AU sur la ligne");
         }
@@ -715,8 +709,8 @@ public class DuplicatesWindow extends JFrame {
     private void buttonPreviousDOG() {
         if ((dogList != null) && (dogListPosition > 0)) {
             dogListPosition--;
-            DataObjectPackageTreeNode parentNode=focusNode(dogList.get(dogListPosition));
-            auListPosition=auList.indexOf(parentNode.getArchiveUnit());
+            DataObjectPackageTreeNode parentNode = mainWindow.treePane.focusDataObjectGroup(dogList.get(dogListPosition));
+            auListPosition = auList.indexOf(parentNode.getArchiveUnit());
             lineResultLabel.setText("rang " + (dogListPosition + 1) + "/" + dogList.size() + " DOG et "
                     + (auListPosition + 1) + "/" + auList.size() + " AU sur la ligne");
         }
@@ -752,7 +746,7 @@ public class DuplicatesWindow extends JFrame {
         auList = null;
         dogListPosition = 0;
         auListPosition = 0;
-        duplicatesThread=null;
+        duplicatesThread = null;
     }
 
     /**
@@ -765,7 +759,7 @@ public class DuplicatesWindow extends JFrame {
         auList = null;
         dogListPosition = 0;
         auListPosition = 0;
-        duplicatesThread=null;
+        duplicatesThread = null;
     }
 
     /**

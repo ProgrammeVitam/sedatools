@@ -485,12 +485,4 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
         }
         return msgAttachments;
     }
-
-    /* (non-Javadoc)
-     * @see fr.gouv.vitam.tools.mailextractlib.core.StoreMessage#analyzeAppointmentInformation()
-     */
-    @Override
-    protected void analyzeAppointmentInformation() {
-    }
-
 }

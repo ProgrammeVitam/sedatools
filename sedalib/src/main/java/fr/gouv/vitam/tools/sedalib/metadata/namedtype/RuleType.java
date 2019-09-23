@@ -27,14 +27,11 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
-import javax.xml.stream.XMLStreamException;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -43,39 +40,7 @@ import java.util.List;
  * <p>
  * For abstract Rule type SEDA metadata
  */
-public class RuleType extends NamedTypeMetadata {
-
-    /**
-     * The rules.
-     */
-    private List<String> rules;
-
-    /**
-     * The start dates.
-     */
-    private List<LocalDate> startDates;
-
-    /**
-     * The prevent inheritance.
-     */
-    private Boolean preventInheritance;
-
-    /**
-     * The ref non rule ids.
-     */
-    private List<String> refNonRuleIds;
-
-    /**
-     * The final action.
-     */
-    private String finalAction;
-
-    /**
-     * Instantiates a new rule Type.
-     */
-    public RuleType() {
-        this(null);
-    }
+abstract public class RuleType extends ComplexListType {
 
     /**
      * Instantiates a new rule Type.
@@ -84,87 +49,67 @@ public class RuleType extends NamedTypeMetadata {
      */
     public RuleType(String elementName) {
         super(elementName);
-        rules = new ArrayList<String>();
-        startDates = new ArrayList<LocalDate>();
-        preventInheritance = null;
-        refNonRuleIds = new ArrayList<String>();
     }
 
     /**
-     * Instantiates a new rule Type, with one rule and a date.
+     * Instantiates a new rule type, with one rule and a date.
      *
      * @param elementName the element name
      * @param rule        the rule
      * @param startDate   the start date
+     * @throws SEDALibException the seda lib exception
      */
-    public RuleType(String elementName, String rule, LocalDate startDate) {
-        this(elementName);
-        rules.add(rule);
-        startDates.add(startDate);
+    public RuleType(String elementName, String rule, LocalDate startDate) throws SEDALibException {
+        super(elementName);
+        addNewMetadata("Rule",rule,startDate);
     }
 
     /**
-     * Instantiates a new rule Type, with one rule and a date.
-     *
-     * @param elementName the element name
-     * @param rule        the rule
-     * @param startDate   the start date
-     * @param finalAction the final action
-     * @throws SEDALibException if the FinalAction field or value is not expected in
-     *                          this kind of rule
-     */
-    public RuleType(String elementName, String rule, LocalDate startDate, String finalAction) throws SEDALibException {
-        this(elementName);
-        rules.add(rule);
-        startDates.add(startDate);
-        setFinalAction(finalAction);
-    }
-
-    /**
-     * Adds the rule.
+     * Adds a rule element with only the rule identifier.
      *
      * @param rule the rule
+     * @throws SEDALibException the seda lib exception
      */
-    public void addRule(String rule) {
-        rules.add(rule);
-        startDates.add(null);
+    public void addRule(String rule) throws SEDALibException {
+        addNewMetadata("Rule",rule,null);
     }
 
     /**
-     * Adds the rule.
+     * Adds a rule element with only the rule identifier and start date.
      *
      * @param rule      the rule
      * @param startDate the start date
+     * @throws SEDALibException the seda lib exception
      */
-    public void addRule(String rule, LocalDate startDate) {
-        rules.add(rule);
-        startDates.add(startDate);
+    public void addRule(String rule, LocalDate startDate) throws SEDALibException {
+        addNewMetadata("Rule",rule,startDate);
     }
 
     /**
      * Sets the prevent inheritance.
      *
      * @param preventInheritance the new prevent inheritance
+     * @throws SEDALibException the seda lib exception
      */
-    public void setPreventInheritance(boolean preventInheritance) {
-        this.preventInheritance = preventInheritance;
+    public void setPreventInheritance(boolean preventInheritance) throws SEDALibException {
+        addNewMetadata("PreventInheritance",preventInheritance);
     }
 
     /**
      * Adds the ref non rule id.
      *
      * @param rule the rule
+     * @throws SEDALibException the seda lib exception
      */
-    public void addRefNonRuleId(String rule) {
-        refNonRuleIds.add(rule);
+    public void addRefNonRuleId(String rule) throws SEDALibException {
+        addNewMetadata("RefNonRuleId",rule);
     }
 
     /**
      * Set final action.
      *
      * @param finalAction the final action
-     * @throws SEDALibException if the FinalAction field or value is not expected in
-     *                          this kind of rule
+     * @throws SEDALibException if the FinalAction field or value is not expected in                          this kind of rule
      */
     public void setFinalAction(String finalAction) throws SEDALibException {
         List<String> finalValues = getFinalActionList();
@@ -173,34 +118,7 @@ public class RuleType extends NamedTypeMetadata {
         if (!finalValues.contains(finalAction))
             throw new SEDALibException(
                     "Le type de règle [" + elementName + "] n'accepte pas la FinalAction [" + finalAction + "]");
-        this.finalAction = finalAction;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toSedaXml(fr.gouv.vitam.
-     * tools.sedalib.xml.SEDAXMLStreamWriter)
-     */
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
-        try {
-            xmlWriter.writeStartElement(elementName);
-            for (int i = 0; i < rules.size(); i++) {
-                xmlWriter.writeElementValue("Rule", rules.get(i));
-                if (startDates.get(i) != null)
-                    xmlWriter.writeElementValue("StartDate", SEDAXMLStreamWriter.getStringFromDate(startDates.get(i)));
-            }
-            if (preventInheritance != null)
-                xmlWriter.writeElementValue("PreventInheritance", preventInheritance.toString());
-            for (String refNonRuleId : refNonRuleIds)
-                xmlWriter.writeElementValue("RefNonRuleId", refNonRuleId);
-            if ((getFinalActionList()!=null) && (finalAction!=null))
-                xmlWriter.writeElementValue("FinalAction", finalAction);
-            xmlWriter.writeEndElement();
-        } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément RuleType", e);
-        }
+        addNewMetadata("FinalAction",finalAction);
     }
 
     /*
@@ -211,63 +129,32 @@ public class RuleType extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
-        for (int i = 0; i < rules.size(); i++) {
-            result.put("Rule." + i, rules.get(i));
-            if (startDates.get(i) != null)
-                result.put("StartDate." + i, SEDAXMLStreamWriter.getStringFromDate(startDates.get(i)));
-        }
-        if (preventInheritance != null)
-            result.put("PreventInheritance", preventInheritance.toString());
+        LinkedHashMap<String, String> smCsvList;
+        String previousXMLElementName = null;
         int count = 0;
-        for (String refNonRuleId : refNonRuleIds) {
-            result.put("RefNonRuleId." + count, refNonRuleId);
-            count++;
+        int ruleElementCount=0;
+        for (SEDAMetadata sm : metadataList) {
+            if (sm instanceof Rule) {
+                smCsvList = ((Rule)sm).toCsvList(ruleElementCount++);
+                result.putAll(smCsvList);
+            }
+            else{
+                if (!sm.getXmlElementName().equals(previousXMLElementName)) {
+                    previousXMLElementName = sm.getXmlElementName();
+                    count = 0;
+                } else count++;
+                final String addedName;
+                if (isAMultiValuedMetadata(sm.getXmlElementName()))
+                    addedName = sm.getXmlElementName() + "." + count;
+                else
+                    addedName = sm.getXmlElementName();
+                smCsvList = sm.toCsvList();
+                smCsvList.entrySet().stream().forEach(e -> {
+                    result.put(addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue());
+                });
+            }
         }
-        if ((getFinalActionList()!=null) && (finalAction!=null))
-            result.put("FinalAction", finalAction);
         return result;
-    }
-
-    /**
-     * Import the metadata content in XML expected form from the SEDA Manifest.
-     *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
-     * @return true, if it finds something convenient, false if not
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
-     */
-    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        String tmp, tmpDate;
-        LocalDate startDate;
-        try {
-            if (xmlReader.nextBlockIfNamed(elementName)) {
-                tmp = xmlReader.nextValueIfNamed("Rule");
-                while (tmp != null) {
-                    tmpDate = xmlReader.nextValueIfNamed("StartDate");
-                    if (tmpDate == null)
-                        startDate = null;
-                    else try {
-                        startDate = SEDAXMLEventReader.getDateFromString(tmpDate);
-                    } catch (DateTimeParseException e) {
-                        throw new SEDALibException("La date est mal formatée", e);
-                    }
-                    addRule(tmp, startDate);
-                    tmp = xmlReader.nextValueIfNamed("Rule");
-                }
-                preventInheritance = xmlReader.nextBooleanValueIfNamed("PreventInheritance");
-                tmp = xmlReader.nextValueIfNamed("RefNonRuleId");
-                while (tmp != null) {
-                    addRefNonRuleId(tmp);
-                    tmp = xmlReader.nextValueIfNamed("RefNonRuleId");
-                }
-                if (getFinalActionList() != null)
-                    finalAction = xmlReader.nextValueIfNamed("FinalAction");
-                xmlReader.endBlockNamed(elementName);
-            } else
-                return false;
-        } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type RuleType", e);
-        }
-        return true;
     }
 
     /**

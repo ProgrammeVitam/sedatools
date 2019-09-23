@@ -1,3 +1,23 @@
+Evolutions/Corrections en 2.0.0
+
+- Evolution: ajout d'une fonction ArchiveUnit.toString() pour faciliter le debug
+- Evolution: implémentation complète du SEDA y compris dans les BinaryDataObject, PhysicalDataObject et ArchiveUnit, selon la logique des métadonnées élémentaires et ComplexListType (pour simplifier la logique MVC d'édition dans Resip)
+- Evolution: ajout des métadonnées manquantes:
+    * élémentaires: RuleType pour une paire RuleId/StartDate, BooleanType, DescriptionLevel, LinearDimensionType, Weight
+    * complexes: LogBook, PhysicalDimensions, AnyXMLListType, Metadata (dans BinaryObjectGroup)
+- Fix: mise à niveau des tests
+
+============================================================================
+Evolutions/Corrections en 1.11.0
+
+- Refacto: les objets de type RuleType sont devenus des ComplexListType standards gràce à la création du type élémentaire Rule
+- Fix: BirthDate et DeathDate dans Signer ont maintenant le bon type DateType
+- Evolution: ajout d'une métadonnée élémentaire DescriptionLevel restreinte à l'enum de la norme SEDA
+- Evolution: ajout d'une métadonnée élémentaire BooleanType
+- Evolution: ajout d'une métadonnée LogBook pour les Events dans Management
+- Evolution: ajout de la méthode toString à ArchiveUnit, qui restitue le contenu XML ou le pointeur Object à défaut (pour faciliter le debug)
+
+============================================================================
 Evolutions/Corrections en 1.9.0
 
 - Fix: suppression des DataObjects non utilisés dans des ArchiveUnit lors de la normalisation

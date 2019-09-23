@@ -118,11 +118,11 @@
         <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>
         <PhysicalId>940 W</PhysicalId>
         <PhysicalDimensions>
-          <Width unit="centimetre">10</Width>
-          <Height unit="centimetre">8</Height>
-          <Depth unit="centimetre">1</Depth>
-          <Diameter unit="centimetre">0</Diameter>
-          <Weight unit="gram">59</Weight>
+          <Width unit="centimetre">10.0</Width>
+          <Height unit="centimetre">8.0</Height>
+          <Depth unit="centimetre">1.0</Depth>
+          <Diameter unit="centimetre">0.0</Diameter>
+          <Weight unit="gram">59.0</Weight>
         </PhysicalDimensions>
       </PhysicalDataObject>
     </DataObjectGroup>
@@ -444,22 +444,26 @@ modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/&gt;</TextContent>
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>
           <Title>^@]}êë^$£ê%ùµ_§._,;_!œŒÊ</Title>
-        </Content></ArchiveUnit>
+        </Content>
+      </ArchiveUnit>
       <ArchiveUnit id="ID37">
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>
           <Title>Node 2.2.2-1234567890-a</Title>
-        </Content></ArchiveUnit>
+        </Content>
+      </ArchiveUnit>
       <ArchiveUnit id="ID38">
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>
           <Title>Node 2.2.3-ENMAJUSCULE</Title>
-        </Content></ArchiveUnit>
+        </Content>
+      </ArchiveUnit>
       <ArchiveUnit id="ID39">
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>
           <Title>Node 2.2.4-Un                                             espace</Title>
-        </Content></ArchiveUnit>
+        </Content>
+      </ArchiveUnit>
       <ArchiveUnit id="ID40">
         <Content>
           <DescriptionLevel>RecordGrp</DescriptionLevel>

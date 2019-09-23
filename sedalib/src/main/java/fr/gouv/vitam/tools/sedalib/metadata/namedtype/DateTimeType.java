@@ -27,14 +27,19 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeParseException;
 import java.util.LinkedHashMap;
 
@@ -48,6 +53,7 @@ public class DateTimeType extends NamedTypeMetadata {
     /**
      * The value.
      */
+    @JsonIgnore
     private LocalDateTime value;
 
     /**
@@ -67,7 +73,7 @@ public class DateTimeType extends NamedTypeMetadata {
     }
 
     /**
-     * Instantiates a new string.
+     * Instantiates a new date time from LocalDateTime.
      *
      * @param elementName the XML element name
      * @param value       the value
@@ -78,7 +84,7 @@ public class DateTimeType extends NamedTypeMetadata {
     }
 
     /**
-     * Instantiates a new string.
+     * Instantiates a new date time from LocalDate.
      *
      * @param elementName the XML element name
      * @param dateValue   the date (no time) value
@@ -86,6 +92,22 @@ public class DateTimeType extends NamedTypeMetadata {
     public DateTimeType(String elementName, LocalDate dateValue) {
         super(elementName);
         this.value = dateValue.atStartOfDay();
+    }
+
+    /**
+     * Instantiates  a new date time from String.
+     *
+     * @param elementName the XML element name
+     * @param dateString   the date string value
+     */
+    public DateTimeType(String elementName, String dateString) throws SEDALibException {
+        super(elementName);
+        try {
+            this.value = SEDAXMLEventReader.getDateTimeFromString(dateString);
+        }
+        catch( DateTimeParseException e) {
+            throw new SEDALibException("Problème de formatage de date/temps à la création d'un élément [" + elementName + "]");
+        }
     }
 
     /*
@@ -161,6 +183,7 @@ public class DateTimeType extends NamedTypeMetadata {
      *
      * @return the value
      */
+    @JsonIgnore
     public LocalDateTime getValue() {
         return value;
     }
@@ -170,7 +193,28 @@ public class DateTimeType extends NamedTypeMetadata {
      *
      * @param value the value
      */
+    @JsonIgnore
     public void setValue(LocalDateTime value) {
         this.value = value;
+    }
+
+    /**
+     * Get the value as an ISO8601 String
+     *
+     * @return the datetime string
+     */
+    @JsonGetter("dateTimeString")
+    public String getDateTimeString() {
+        return value.toInstant(ZoneOffset.UTC).toString();
+    }
+
+    /**
+     * Sets value from an ISO8601 String.
+     *
+     * @param dateTimeString the datetime string
+     */
+    @JsonSetter("dateTimeString")
+    public void setDateTimeString(String dateTimeString) {
+        this.value = LocalDateTime.ofInstant(Instant.parse(dateTimeString),ZoneOffset.UTC);
     }
 }

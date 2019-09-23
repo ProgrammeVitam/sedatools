@@ -28,8 +28,9 @@
 package fr.gouv.vitam.tools.sedalib.metadata.data;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonRawValue;
 import com.fasterxml.jackson.annotation.JsonSetter;
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -51,44 +52,24 @@ import java.util.LinkedHashMap;
  * Standard quote: "Propriétés techniques génériques du fichier (nom d’origine,
  * logiciel de création, système d’exploitation de création)"
  */
-public class FileInfo extends SEDAMetadata {
-
-    // SEDA elements
+public class FileInfo extends ComplexListType {
 
     /**
-     * The filename.
+     * Init metadata map.
      */
-    public String filename;
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
 
-    /**
-     * The creating application name.
-     */
-    public String creatingApplicationName;
-
-    /**
-     * The creating application version.
-     */
-    public String creatingApplicationVersion;
-
-    /**
-     * The creation date by application.
-     */
-    public LocalDateTime dateCreatedByApplication;
-
-    /**
-     * The creating os.
-     */
-    public String creatingOs;
-
-    /**
-     * The creating os version.
-     */
-    public String creatingOsVersion;
-
-    /**
-     * The last modified.
-     */
-    public FileTime lastModified;
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("Filename", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("CreatingApplicationName", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("CreatingApplicationVersion", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("DateCreatedByApplication", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap.put("CreatingOs", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("CreatingOsVersion", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("LastModified", new ComplexListMetadataKind(DateTimeType.class, false));
+    }
 
     // Constructors
 
@@ -96,7 +77,7 @@ public class FileInfo extends SEDAMetadata {
      * Instantiates a new file info.
      */
     public FileInfo() {
-        this(null, null, null, null, null, null, null);
+        super("FileInfo");
     }
 
     /**
@@ -111,110 +92,14 @@ public class FileInfo extends SEDAMetadata {
      * @param lastModified               the last modified
      */
     public FileInfo(String filename, String creatingApplicationName, String creatingApplicationVersion,
-                    LocalDateTime dateCreatedByApplication, String creatingOs, String creatingOsVersion, FileTime lastModified) {
-        this.filename = filename;
-        this.creatingApplicationName = creatingApplicationName;
-        this.creatingApplicationVersion = creatingApplicationVersion;
-        this.dateCreatedByApplication = dateCreatedByApplication;
-        this.creatingOs = creatingOs;
-        this.creatingOsVersion = creatingOsVersion;
-        this.lastModified = lastModified;
-    }
-
-    @Override
-    public String getXmlElementName() {
-        return "FileInfo";
-    }
-
-    /* (non-Javadoc)
-     * @see fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toSedaXml(fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter)
-     */
-    @Override
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
-        try {
-            xmlWriter.writeStartElement("FileInfo");
-            xmlWriter.writeElementValueIfNotEmpty("Filename", filename);
-            xmlWriter.writeElementValueIfNotEmpty("CreatingApplicationName", creatingApplicationName);
-            xmlWriter.writeElementValueIfNotEmpty("CreatingApplicationVersion", creatingApplicationVersion);
-            if (dateCreatedByApplication != null)
-                xmlWriter.writeElementValue("DateCreatedByApplication", SEDAXMLStreamWriter.getStringFromDateTime(dateCreatedByApplication));
-            xmlWriter.writeElementValueIfNotEmpty("CreatingOs", creatingOs);
-            xmlWriter.writeElementValueIfNotEmpty("CreatingOsVersion", creatingOsVersion);
-            if (lastModified != null)
-                xmlWriter.writeElementValueIfNotEmpty("LastModified", lastModified.toString());
-            xmlWriter.writeEndElement();
-        } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément FileInfo", e);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
-     */
-    public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        throw new SEDALibException("Not implemented");
-    }
-
-    /**
-     * Import the metadata content in XML expected form from the SEDA Manifest.
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @return true, if it finds something convenient, false if not
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
-     */
-    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        String tmp;
-        try {
-            if (xmlReader.nextBlockIfNamed("FileInfo")) {
-                filename = xmlReader.nextMandatoryValue("Filename");
-                creatingApplicationName = xmlReader.nextValueIfNamed("CreatingApplicationName");
-                creatingApplicationVersion = xmlReader.nextValueIfNamed("CreatingApplicationVersion");
-                tmp = xmlReader.nextValueIfNamed("DateCreatedByApplication");
-                if (tmp != null)
-                    dateCreatedByApplication = SEDAXMLEventReader.getDateTimeFromString(tmp);
-                creatingOs = xmlReader.nextValueIfNamed("CreatingOs");
-                creatingOsVersion = xmlReader.nextValueIfNamed("CreatingOsVersion");
-                tmp = xmlReader.nextValueIfNamed("LastModified");
-                if (tmp != null) {
-                    Calendar cal = DatatypeConverter.parseDateTime(tmp);
-                    lastModified = FileTime.fromMillis(cal.toInstant().toEpochMilli());
-                }
-                xmlReader.endBlockNamed("FileInfo");
-            } else return false;
-        } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type FileInfo", e);
-        }
-        return true;
-    }
-
-    // Getters and setters
-
-    /**
-     * Gets the last modified in long.
-     *
-     * @return the last modified in long
-     */
-    @JsonGetter("lastModified")
-    public long getLastModifiedInLong() {
-        if (lastModified != null)
-            return lastModified.toMillis();
-        else
-            return 0;
-    }
-
-    /**
-     * Sets the last modified from long.
-     *
-     * @param fileLastModifiedTimeLong the new last modified from long
-     */
-    @JsonSetter("lastModified")
-    public void setLastModifiedFromLong(long fileLastModifiedTimeLong) {
-        if (fileLastModifiedTimeLong == 0)
-            this.lastModified = null;
-        else
-            this.lastModified = FileTime.fromMillis(fileLastModifiedTimeLong);
+                     LocalDateTime dateCreatedByApplication, String creatingOs, String creatingOsVersion, FileTime lastModified) throws SEDALibException {
+        super("FileInfo");
+        if (filename!=null) addNewMetadata("Filename", filename);
+        if (creatingApplicationName!=null) addNewMetadata("CreatingApplicationName", creatingApplicationName);
+        if (creatingApplicationVersion!=null) addNewMetadata("CreatingApplicationVersion", creatingApplicationVersion);
+        if (dateCreatedByApplication!=null) addNewMetadata("DateCreatedByApplication", dateCreatedByApplication);
+        if (creatingOs!=null) addNewMetadata("CreatingOs", creatingOs);
+        if (creatingOsVersion!=null)  addNewMetadata("CreatingOsVersion", creatingOsVersion);
+        if (lastModified!=null) addNewMetadata("LastModified", lastModified.toString());
     }
 }

@@ -39,6 +39,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
@@ -476,10 +477,6 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
                 xmlWriter.writeEndElement();
             }
             xmlWriter.writeEndElement();
-
-            int counter = getDataObjectPackage().getNextInOutCounter();
-            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                    "sedalib: "+ counter + " ArchiveUnit exportés");
         } catch (XMLStreamException e) {
             throw new SEDALibException(
                     "Erreur d'écriture XML de l'ArchiveUnit [" + inDataPackageObjectId + "]", e);
@@ -637,6 +634,27 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         setContentXmlData(au.getContentXmlData());
     }
 
+    /**
+     * Return the indented XML export form as the String representation.
+     *
+     * @return the indented XML form String
+     */
+    public String toString() {
+        String result = null;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
+             SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+            toSedaXml(xmlWriter, true, null);
+            xmlWriter.flush();
+            result = baos.toString("UTF-8");
+            if (result.startsWith("\n"))
+                result = result.substring(1);
+        } catch (XMLStreamException | IOException | SEDALibException | InterruptedException e) {
+            if (result == null)
+                result = super.toString();
+        }
+        return result;
+    }
+
     // Getters and setters
 
     /**
@@ -673,6 +691,21 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      */
     public void setDataObjectRefList(DataObjectRefList dataObjectRefList) {
         this.dataObjectRefList = dataObjectRefList;
+    }
+
+    /**
+     * Gets the data object group, if the ArchiveUnit is normalized, or null.
+     *
+     * @return the the data object group
+     */
+    @JsonIgnore
+    public DataObjectGroup getTheDataObjectGroup() {
+        if (dataObjectRefList.getCount()!=1)
+            return null;
+        DataObject tmp=dataObjectRefList.getDataObjectList().get(0);
+        if (tmp instanceof DataObjectGroup)
+            return (DataObjectGroup) tmp;
+        return null;
     }
 
     /*

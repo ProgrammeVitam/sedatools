@@ -3,9 +3,6 @@ package fr.gouv.vitam.tools.resip.frame;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.threads.TechnicalSearchThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectListViewer;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeViewer;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 
@@ -13,7 +10,6 @@ import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.NumberFormatter;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
@@ -54,9 +50,6 @@ public class TechnicalSearchDialog extends JDialog {
     /**
      * The data.
      */
-    private DataObjectPackageTreeViewer dataObjectPackageTreeViewer;
-    private DataObjectPackageTreeModel dataObjectPackageTreeModel;
-    private DataObjectListViewer dataObjectListViewer;
     private LinkedHashMap<ArchiveUnit, List<BinaryDataObject>> searchResult;
     private ArrayList<ArchiveUnit> searchResultList;
     private int searchArchiveUnitPosition;
@@ -111,9 +104,6 @@ public class TechnicalSearchDialog extends JDialog {
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
         mainWindow = owner;
-        dataObjectPackageTreeViewer = mainWindow.getDataObjectPackageTreePaneViewer();
-        dataObjectPackageTreeModel = (DataObjectPackageTreeModel) (dataObjectPackageTreeViewer.getModel());
-        dataObjectListViewer = mainWindow.getDataObjectListViewer();
 
         setMinimumSize(new Dimension(700, 200));
         //setResizable(false);
@@ -509,21 +499,9 @@ public class TechnicalSearchDialog extends JDialog {
     }
 
 
-    private void focusObject() {
-        TreePath path = new TreePath(dataObjectPackageTreeModel.getPathToRoot(dataObjectPackageTreeModel
-                .findTreeNode(searchCurrentArchiveUnit)));
-        dataObjectPackageTreeViewer.setExpandsSelectedPaths(true);
-        dataObjectPackageTreeViewer.setSelectionPath(path);
-        dataObjectPackageTreeViewer.scrollPathToVisible(path);
-        mainWindow.dataObjectPackageTreeItemClick(path);
-        mainWindow.dataObjectListItemClick(searchResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
-        dataObjectListViewer.selectDataObject(searchResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
-    }
-
     private void buttonSearch() {
         showFormatList();
         if (technicalSearchThread==null) {
-            dataObjectPackageTreeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
             long min, max;
             if (minTextField.getText().isEmpty() || !sizeCheckBox.isSelected())
                 min = 0;
@@ -571,7 +549,7 @@ public class TechnicalSearchDialog extends JDialog {
             }
             resultArchiveUnitLabel.setText(stepArchiveUnitInfo());
             resultObjectLabel.setText(stepObjectInfo());
-            focusObject();
+            ResipGraphicApp.getTheWindow().treePane.focusDataObject(searchCurrentArchiveUnit,searchResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
         }
     }
 
@@ -591,7 +569,7 @@ public class TechnicalSearchDialog extends JDialog {
             }
             resultArchiveUnitLabel.setText(stepArchiveUnitInfo());
             resultObjectLabel.setText(stepObjectInfo());
-            focusObject();
+            ResipGraphicApp.getTheWindow().treePane.focusDataObject(searchCurrentArchiveUnit,searchResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
         }
     }
 
@@ -625,7 +603,7 @@ public class TechnicalSearchDialog extends JDialog {
             searchCurrentArchiveUnit = searchResultList.get(0);
             resultArchiveUnitLabel.setText(stepArchiveUnitInfo());
             resultObjectLabel.setText(stepObjectInfo());
-            focusObject();
+            ResipGraphicApp.getTheWindow().treePane.focusDataObject(searchCurrentArchiveUnit,searchResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
         } else {
             resultArchiveUnitLabel.setText("0 trouvé");
             resultObjectLabel.setText("");

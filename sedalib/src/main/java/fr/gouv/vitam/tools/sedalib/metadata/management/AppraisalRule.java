@@ -28,11 +28,13 @@
 
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -46,7 +48,22 @@ import java.util.List;
  */
 public class AppraisalRule extends RuleType {
 
-    /** The final action list. */
+    /**
+     * Init metadata map.
+     */
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("Rule", new ComplexListMetadataKind(Rule.class, true));
+        metadataMap.put("PreventInheritance", new ComplexListMetadataKind(BooleanType.class, false));
+        metadataMap.put("RefNonRuleId", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("FinalAction", new ComplexListMetadataKind(StringType.class, false));
+    }
+
+    /**
+     * The final action list.
+     */
     static protected List<String> finalActionList;
 
     static {
@@ -56,20 +73,21 @@ public class AppraisalRule extends RuleType {
     }
 
     /**
-     * Instantiates a new appraisal rule.
+     * Instantiates a new access rule.
      */
     public AppraisalRule() {
         super("AppraisalRule");
     }
 
     /**
-     * Instantiates a new appraisal rule, with one rule and a date.
+     * Instantiates a new access rule, with one rule and a date.
      *
-     * @param rule        the rule
-     * @param startDate   the start date
+     * @param rule      the rule
+     * @param startDate the start date
+     * @throws SEDALibException the seda lib exception
      */
-    public AppraisalRule(String rule, LocalDate startDate) {
-        super("AppraisalRule", rule, startDate);
+    public AppraisalRule(String rule, LocalDate startDate) throws SEDALibException {
+        super("AppraisalRule", rule , startDate);
     }
 
     /**
@@ -78,11 +96,11 @@ public class AppraisalRule extends RuleType {
      * @param rule        the rule
      * @param startDate   the start date
      * @param finalAction the final action
-     * @throws SEDALibException if the FinalAction field or value is not expected in
-     *                          this kind of rule
+     * @throws SEDALibException if the FinalAction field or value is not expected in                          this kind of rule
      */
     public AppraisalRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
-        super("AppraisalRule", rule, startDate, finalAction);
+        super("AppraisalRule", rule, startDate);
+        setFinalAction(finalAction);
     }
 
     @Override

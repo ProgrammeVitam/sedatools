@@ -70,29 +70,55 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"BinaryMaster_1\"\n" +
+                "    },\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"size\" : 50651,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 50651\n" +
+                "    },\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
-                "      \"formatLitteral\" : \"OpenDocument Spreadsheet\",\n" +
-                "      \"mimeType\" : \"application/vnd.oasis.opendocument.spreadsheet\",\n" +
-                "      \"formatId\" : \"fmt/294\",\n" +
-                "      \"encoding\" : null\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"OpenDocument Spreadsheet\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"application/vnd.oasis.opendocument.spreadsheet\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"fmt/294\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
-                "      \"filename\" : \"201609-TdB-suivi-des-a.ods\",\n" +
-                "      \"creatingApplicationName\" : null,\n" +
-                "      \"creatingApplicationVersion\" : null,\n" +
-                "      \"dateCreatedByApplication\" : null,\n" +
-                "      \"creatingOs\" : null,\n" +
-                "      \"creatingOsVersion\" : null,\n" +
-                "      \"lastModified\" : 1567345379404\n" +
+                "      \"type\" : \"FileInfo\",\n" +
+                "      \"elementName\" : \"FileInfo\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"Filename\",\n" +
+                "        \"value\" : \"201609-TdB-suivi-des-a.ods\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"elementName\" : \"LastModified\",\n" +
+                "        \"dateTimeString\" : \"2019-09-18T20:04:20.150050Z\"\n" +
+                "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1__201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
@@ -101,29 +127,55 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"TextContent_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"TextContent_1\"\n" +
+                "    },\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : \"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"size\" : 3307,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 3307\n" +
+                "    },\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
-                "      \"formatLitteral\" : \"Plain Text File\",\n" +
-                "      \"mimeType\" : \"text/plain\",\n" +
-                "      \"formatId\" : \"x-fmt/111\",\n" +
-                "      \"encoding\" : null\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"Plain Text File\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"text/plain\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"x-fmt/111\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
-                "      \"filename\" : \"201609-TdB-suivi-des-a.txt\",\n" +
-                "      \"creatingApplicationName\" : null,\n" +
-                "      \"creatingApplicationVersion\" : null,\n" +
-                "      \"dateCreatedByApplication\" : null,\n" +
-                "      \"creatingOs\" : null,\n" +
-                "      \"creatingOsVersion\" : null,\n" +
-                "      \"lastModified\" : 1567345379409\n" +
+                "      \"type\" : \"FileInfo\",\n" +
+                "      \"elementName\" : \"FileInfo\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"Filename\",\n" +
+                "        \"value\" : \"201609-TdB-suivi-des-a.txt\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"elementName\" : \"LastModified\",\n" +
+                "        \"dateTimeString\" : \"2019-09-18T20:04:20.154039Z\"\n" +
+                "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID19\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1__201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +
@@ -131,31 +183,72 @@ public class CompressedFileImportTest implements UseTestFiles {
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectVersion\" : \"PhysicalMaster_1\",\n" +
-                "    \"physicalIdXmlData\" : \"<PhysicalId>940 W</PhysicalId>\",\n" +
-                "    \"physicalDimensionsXmlData\" : \"<PhysicalDimensions>\\n<Width unit=\\\"centimetre\\\">10</Width>\\n<Height unit=\\\"centimetre\\\">8</Height>\\n<Depth unit=\\\"centimetre\\\">1</Depth>\\n<Diameter unit=\\\"centimetre\\\">0</Diameter>\\n<Weight unit=\\\"gram\\\">59</Weight>\\n</PhysicalDimensions>\",\n" +
+                "    \"dataObjectGroupReferenceId\" : null,\n" +
+                "    \"dataObjectGroupId\" : null,\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"PhysicalMaster_1\"\n" +
+                "    },\n" +
+                "    \"physicalId\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"PhysicalId\",\n" +
+                "      \"value\" : \"940 W\"\n" +
+                "    },\n" +
+                "    \"physicalDimensions\" : {\n" +
+                "      \"type\" : \"PhysicalDimensions\",\n" +
+                "      \"elementName\" : \"PhysicalDimensions\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Width\",\n" +
+                "        \"value\" : 10.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Height\",\n" +
+                "        \"value\" : 8.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Depth\",\n" +
+                "        \"value\" : 1.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Diameter\",\n" +
+                "        \"value\" : 0.0,\n" +
+                "        \"unit\" : \"centimetre\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"Weight\",\n" +
+                "        \"elementName\" : \"Weight\",\n" +
+                "        \"value\" : 59.0,\n" +
+                "        \"unit\" : \"gram\"\n" +
+                "      } ]\n" +
+                "    },\n" +
+                "    \"otherDimensionsAbstractXml\" : [ ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID18\",\n" +
                 "    \"onDiskPath\" : null\n" +
                 "  } ],\n" +
-                "  \"logBookXmlData\" : null,\n" +
+                "  \"logBook\" : null,\n" +
                 "  \"inDataObjectPackageId\" : \"ID16\",\n" +
                 "  \"onDiskPath\" : null\n" +
-                "}\n";
+                "}";
         DataObjectGroup og = zi.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID16");
-//		System.out.println(mapper.writeValueAsString(og));
-        String sog = mapper.writeValueAsString(og).replaceAll("\"lastModified\" : .*", "");
+		//System.out.println("Value to verify="+mapper.writeValueAsString(og));
+        String sog = mapper.writeValueAsString(og);
+        sog = sog.replaceAll("\"dateTimeString\" : .*", "").trim();
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.1");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
         sog = TestUtilities.LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", "")).trim();
 
-        testog = testog.replaceAll("\"lastModified\" : .*", "").trim();
+        testog = testog.replaceAll("\"dateTimeString\" : .*", "").trim();
         Matcher mtestog = pog.matcher(testog);
         boolean testogpath = mtestog.find();
         testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(sogpath & testogpath);
-        assertEquals(sog, testog);
+        assertThat(sog).isEqualTo(testog);
 
         // assert one archiveUnit using serialization
         String testau = "{\n" +

@@ -51,7 +51,7 @@ public class ReferencedObject extends ComplexListType {
 
     static {
         metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("SignedObjectId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("SignedObjectId", new ComplexListMetadataKind(SIPInternalIDType.class, false));
         metadataMap.put("SignedObjectDigest", new ComplexListMetadataKind(DigestType.class, false));
     }
 

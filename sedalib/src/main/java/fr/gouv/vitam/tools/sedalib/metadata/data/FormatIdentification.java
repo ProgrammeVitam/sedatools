@@ -27,10 +27,8 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.data;
 
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
 import java.util.LinkedHashMap;
@@ -46,21 +44,21 @@ import java.util.LinkedHashMap;
  * <p>
  * Standard quote: "Identification du format de l'objet-données"
  */
-public class FormatIdentification extends SEDAMetadata {
+public class FormatIdentification extends ComplexListType {
 
-    // SEDA elements
+    /**
+     * Init metadata map.
+     */
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
 
-    /** The format litteral. */
-    public String formatLitteral;
-
-    /** The mime type. */
-    public String mimeType;
-
-    /** The format id. */
-    public String formatId;
-
-    /** The encoding. */
-    public String encoding;
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("FormatLitteral", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("MimeType", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("FormatId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("Encoding", new ComplexListMetadataKind(StringType.class, false));
+    }
 
     // Constructors
 
@@ -68,7 +66,7 @@ public class FormatIdentification extends SEDAMetadata {
      * Instantiates a new FormatIdentification.
      */
     public FormatIdentification() {
-        this(null, null, null, null);
+        super("FormatIdentification");
     }
 
     /**
@@ -79,62 +77,11 @@ public class FormatIdentification extends SEDAMetadata {
      * @param formatId       the format id
      * @param encoding       the encoding
      */
-    public FormatIdentification(String formatLitteral, String mimeType, String formatId, String encoding) {
-        this.formatLitteral = formatLitteral;
-        this.mimeType = mimeType;
-        this.formatId = formatId;
-        this.encoding = encoding;
-    }
-
-    @Override
-    public String getXmlElementName() {
-        return "FormatIdentification";
-    }
-
-    @Override
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
-        try {
-            xmlWriter.writeStartElement("FormatIdentification");
-            xmlWriter.writeElementValueIfNotEmpty("FormatLitteral", formatLitteral);
-            xmlWriter.writeElementValueIfNotEmpty("MimeType", mimeType);
-            xmlWriter.writeElementValueIfNotEmpty("FormatId", formatId);
-            xmlWriter.writeElementValueIfNotEmpty("Encoding", encoding);
-            xmlWriter.writeEndElement();
-        } catch (XMLStreamException e) {
-            throw new SEDALibException(
-                    "Erreur d'écriture XML dans un élément FormatIdentification", e);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
-     */
-    public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        throw new SEDALibException("Not implemented");
-    }
-
-    /**
-     * Import the metadata content in XML expected form from the SEDA Manifest.
-     *
-     * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
-     * @return true, if it finds something convenient, false if not
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected, for example
-     */
-    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
-        try {
-            if (xmlReader.nextBlockIfNamed("FormatIdentification")) {
-                formatLitteral = xmlReader.nextValueIfNamed("FormatLitteral");
-                mimeType = xmlReader.nextValueIfNamed("MimeType");
-                formatId = xmlReader.nextValueIfNamed("FormatId");
-                encoding = xmlReader.nextValueIfNamed("Encoding");
-                xmlReader.endBlockNamed("FormatIdentification");
-            } else return false;
-        } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type FormatIdentification", e);
-        }
-        return true;
+    public FormatIdentification(String formatLitteral, String mimeType, String formatId, String encoding) throws SEDALibException {
+        super("FormatIdentification");
+        if ((formatLitteral!=null) && !formatLitteral.isEmpty()) addNewMetadata("FormatLitteral",formatLitteral);
+        if ((mimeType!=null) && !mimeType.isEmpty()) addNewMetadata("MimeType", mimeType);
+        if ((formatId!=null) && !formatId.isEmpty()) addNewMetadata("FormatId", formatId);
+        if ((encoding!=null) && !encoding.isEmpty()) addNewMetadata("Encoding", encoding);
     }
 }

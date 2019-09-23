@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Formatter;
 import java.util.List;
 
+import static fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor.ISO_8601;
 import static org.apache.commons.codec.digest.MessageDigestAlgorithms.MD5;
 
 public abstract class StoreAppointment extends StoreElement {
@@ -125,7 +126,7 @@ public abstract class StoreAppointment extends StoreElement {
             if ((attachments!=null) && (!attachments.isEmpty())) {
                 ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
                         File.separator + storeFolder.storeExtractor.destName + File.separator + "appointments", "AppointmentAttachments#" + listLineId);
-                attachmentNode.addMetadata("DescriptionLevel", "RecordGroup", true);
+                attachmentNode.addMetadata("DescriptionLevel", "RecordGrp", true);
                 attachmentNode.addMetadata("Title", "Appointment Attachments #" + listLineId, true);
                 attachmentNode.addMetadata("Description", "Appointment attachments extracted for " + subject + "[" + startTime + "-" + endTime + "]", true);
                 attachmentNode.addMetadata("StartDate", getDateInUTCTimeZone(startTime), true);
@@ -142,7 +143,7 @@ public abstract class StoreAppointment extends StoreElement {
     private String getDateInUTCTimeZone(ZonedDateTime date) {
         String result;
         if (date != null)
-            result = date.withZoneSameInstant(ZoneId.of("UTC")).format(DateTimeFormatter.ISO_DATE_TIME);
+            result = date.withZoneSameInstant(ZoneId.of("UTC")).format(ISO_8601);
         else
             result = "";
         return result;
@@ -151,7 +152,7 @@ public abstract class StoreAppointment extends StoreElement {
     private String getDateInDefinedTimeZone(ZonedDateTime date) {
         String result;
         if (date != null)
-            result = date.format(DateTimeFormatter.ISO_DATE_TIME);
+            result = date.format(ISO_8601);
         else
             result = "";
         return result;

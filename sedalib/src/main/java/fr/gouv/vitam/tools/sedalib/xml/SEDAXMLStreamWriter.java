@@ -356,8 +356,13 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 
                 rawWriter.write(identXml);
                 rawWriter.flush();
+                if (indentFlag) {
+                    if (depth > 0) {
+                        hasChildElement.put(depth - 1, true);
+                    }
+                }
             } catch (IOException e) {
-                throw new XMLStreamException("Erreur d'écriture d'un bloc Raw XML",e);
+                throw new XMLStreamException("Erreur d'écriture d'un bloc Raw XML", e);
             }
         }
     }
@@ -398,7 +403,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      * @throws XMLStreamException the XML stream exception
      */
     public void writeAttribute(String localName, String value) throws XMLStreamException {
-        xmlWriter.writeAttribute(XMLConstants.DEFAULT_NS_PREFIX, XMLConstants.NULL_NS_URI,localName, value);
+        xmlWriter.writeAttribute(XMLConstants.DEFAULT_NS_PREFIX, XMLConstants.NULL_NS_URI, localName, value);
     }
 
     /**

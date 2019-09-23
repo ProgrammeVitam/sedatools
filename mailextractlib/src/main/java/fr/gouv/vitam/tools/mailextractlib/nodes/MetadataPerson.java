@@ -35,10 +35,14 @@ import java.io.UnsupportedEncodingException;
  */
 public class MetadataPerson {
 
-    /** The full name. */
+    /**
+     * The full name.
+     */
     public String fullName;
 
-    /** The identifier. */
+    /**
+     * The identifier.
+     */
     public String identifier;
 
     /**
@@ -48,8 +52,7 @@ public class MetadataPerson {
      * FullName="TOTO John Do", Identifier="toto@sample.fr"
      * <p>
      *
-     * @param s
-     *            the address string
+     * @param s the address string
      */
     public MetadataPerson(String s) {
         int beg, end;
@@ -82,6 +85,9 @@ public class MetadataPerson {
             } catch (UnsupportedEncodingException e) {
                 // Don't care
             }
+
+        if ((name.charAt(0) == '"') && (name.charAt(name.length() - 1) == '"'))
+            name = name.substring(1, name.length() - 1);
 
         fullName = name.replaceAll("\\.", " ");
     }

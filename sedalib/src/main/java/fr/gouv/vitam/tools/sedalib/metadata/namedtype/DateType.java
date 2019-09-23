@@ -53,7 +53,7 @@ public class DateType extends NamedTypeMetadata {
      * Instantiates a new string.
      */
     public DateType() {
-        this(null, null);
+        this(null, (LocalDate)null);
     }
 
     /**
@@ -62,7 +62,7 @@ public class DateType extends NamedTypeMetadata {
      * @param elementName the XML element name
      */
     public DateType(String elementName) {
-        this(elementName, null);
+        this(elementName, (LocalDate)null);
     }
 
     /**
@@ -74,6 +74,22 @@ public class DateType extends NamedTypeMetadata {
     public DateType(String elementName, LocalDate value) {
         super(elementName);
         this.value = value;
+    }
+
+    /**
+     * Instantiates  a new date from String.
+     *
+     * @param elementName the XML element name
+     * @param dateString   the date string value
+     */
+    public DateType(String elementName, String dateString) throws SEDALibException {
+        super(elementName);
+        try {
+            this.value = SEDAXMLEventReader.getDateFromString(dateString);
+        }
+        catch( DateTimeParseException e) {
+            throw new SEDALibException("Problème de formatage de date à la création d'un élément [" + elementName + "]");
+        }
     }
 
     /*

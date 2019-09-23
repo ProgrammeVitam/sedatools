@@ -37,8 +37,8 @@ import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.parameters.ZipImportContext;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -171,11 +171,12 @@ public class ExpandThread extends SwingWorker<String, String> {
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
             }, 1000, 2);
-            doProgressLog(spl, GLOBAL, "Expansion du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.fileInfo.filename + "]", null);
+            doProgressLog(spl, GLOBAL, "Expansion du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.fileInfo.getSimpleMetadata("Filename") + "]", null);
 
             //TODO add preferences for compressed filename import
             String encoding;
-            if (bdoToExpand.formatIdentification.mimeType.toLowerCase().equals("application/zip"))
+            if ((bdoToExpand.formatIdentification!=null) &&
+                    (bdoToExpand.formatIdentification.getSimpleMetadata("MimeType").toLowerCase().equals("application/zip")))
                 encoding="CP850";
             else
                 encoding="UTF8";
@@ -228,7 +229,7 @@ public class ExpandThread extends SwingWorker<String, String> {
             treeModel.nodeStructureChanged(targetNode);
             work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
-            ResipGraphicApp.getTheApp().mainWindow.refreshInformations();
+            ResipGraphicApp.getTheApp().mainWindow.treePane.reset();
             doProgressLogWithoutInterruption(spl, GLOBAL, "Expansion et ajout terminés", null);
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
         }

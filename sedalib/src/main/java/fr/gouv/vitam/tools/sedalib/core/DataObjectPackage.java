@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -363,7 +364,9 @@ public class DataObjectPackage {
     public long getDataObjectsTotalSize() {
         long result = 0;
         for (Map.Entry<String, BinaryDataObject> pair : bdoInDataObjectPackageIdMap.entrySet()) {
-            result += pair.getValue().size;
+            IntegerType size = pair.getValue().size;
+            if (size != null)
+                result += size.getValue();
         }
         return result;
     }
@@ -532,7 +535,7 @@ public class DataObjectPackage {
             pair.getValue().setInDataObjectPackageId(null);
             try {
                 addArchiveUnit(pair.getValue());
-            } catch (SEDALibException e) {
+            } catch (SEDALibException ignored) {
                 // impossible
             }
         }
@@ -542,7 +545,7 @@ public class DataObjectPackage {
             pair.getValue().setInDataObjectPackageId(null);
             try {
                 addDataObjectGroup(pair.getValue());
-            } catch (SEDALibException e) {
+            } catch (SEDALibException ignored) {
                 // impossible
             }
         }
@@ -552,7 +555,7 @@ public class DataObjectPackage {
             pair.getValue().setInDataObjectPackageId(null);
             try {
                 addBinaryDataObject(pair.getValue());
-            } catch (SEDALibException e) {
+            } catch (SEDALibException ignored) {
                 // impossible
             }
         }
@@ -562,7 +565,7 @@ public class DataObjectPackage {
             pair.getValue().setInDataObjectPackageId(null);
             try {
                 addPhysicalDataObject(pair.getValue());
-            } catch (SEDALibException e) {
+            } catch (SEDALibException ignored) {
                 // impossible
             }
         }
@@ -674,9 +677,6 @@ public class DataObjectPackage {
                 if (zdo instanceof DataObjectGroup) {
                     if (getTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId()) > 1)
                         referencedDog = true;
-                    if (((DataObjectGroup) zdo).isBadlyFormedLogBookXmlData())
-                        throw new SEDALibException(
-                                "LogBook mal formé dans le DataObjectGroup [" + zdo.getInDataObjectPackageId() + "]");
                 }
             }
             if (referencedDog && (dorl.getCount() > 1))
@@ -755,7 +755,7 @@ public class DataObjectPackage {
             Entry<String, DataObjectGroup> entry = iteratorDog.next();
             if (!usedDataObjects.contains(entry.getValue())) {
                 iteratorDog.remove();
-                doProgressLog(spl, SEDALibProgressLogger.GLOBAL,"sedalib: un DataObjectGroup ["+entry.getKey()+"] déclaré n'est pas utilisé, il est déréférencé.",null);
+                doProgressLog(spl, SEDALibProgressLogger.GLOBAL, "sedalib: un DataObjectGroup [" + entry.getKey() + "] déclaré n'est pas utilisé, il est déréférencé.", null);
             }
         }
 
@@ -764,7 +764,7 @@ public class DataObjectPackage {
             Entry<String, BinaryDataObject> entry = iteratorBdo.next();
             if (!usedDataObjects.contains(entry.getValue())) {
                 iteratorBdo.remove();
-                doProgressLog(spl, SEDALibProgressLogger.GLOBAL,"sedalib: un BinaryDataObject ["+entry.getKey()+"] déclaré n'est pas utilisé, il est déréférencé.",null);
+                doProgressLog(spl, SEDALibProgressLogger.GLOBAL, "sedalib: un BinaryDataObject [" + entry.getKey() + "] déclaré n'est pas utilisé, il est déréférencé.", null);
             }
         }
 
@@ -773,7 +773,7 @@ public class DataObjectPackage {
             Entry<String, PhysicalDataObject> entry = iteratorPdo.next();
             if (!usedDataObjects.contains(entry.getValue())) {
                 iteratorPdo.remove();
-                doProgressLog(spl, SEDALibProgressLogger.GLOBAL,"sedalib: un PhysicalDataObject ["+entry.getKey()+"] déclaré n'est pas utilisé, il est déréférencé.",null);
+                doProgressLog(spl, SEDALibProgressLogger.GLOBAL, "sedalib: un PhysicalDataObject [" + entry.getKey() + "] déclaré n'est pas utilisé, il est déréférencé.", null);
             }
         }
     }
@@ -792,7 +792,7 @@ public class DataObjectPackage {
                 orderedDataObjectGroupList.add(dog);
             try {
                 addArchiveUnit(archiveUnit);
-            } catch (SEDALibException e) {
+            } catch (SEDALibException ignored) {
                 // impossible
             }
             for (ArchiveUnit childAu : archiveUnit.getChildrenAuList().getArchiveUnitList())
@@ -809,14 +809,14 @@ public class DataObjectPackage {
         if (dataObjectGroup.inDataPackageObjectId == null) {
             try {
                 addDataObjectGroup(dataObjectGroup);
-            } catch (SEDALibException e) {
+            } catch (SEDALibException ignored) {
                 // impossible
             }
             for (BinaryDataObject bdo : dataObjectGroup.getBinaryDataObjectList()) {
                 bdo.inDataPackageObjectId = null;
                 try {
                     addBinaryDataObject(bdo);
-                } catch (SEDALibException e) {
+                } catch (SEDALibException ignored) {
                     // impossible
                 }
             }
@@ -824,7 +824,7 @@ public class DataObjectPackage {
                 pdo.inDataPackageObjectId = null;
                 try {
                     addPhysicalDataObject(pdo);
-                } catch (SEDALibException e) {
+                } catch (SEDALibException ignored) {
                     // impossible
                 }
             }
@@ -901,9 +901,7 @@ public class DataObjectPackage {
                 num1 = Integer.parseInt(ID1.substring(2));
                 num2 = Integer.parseInt(ID2.substring(2));
                 return num1 - num2;
-            } catch (Exception e) {
-                // forget it
-            }
+            } catch(NumberFormatException ignored){}
         }
         return ID1.compareTo(ID2);
     };
@@ -959,10 +957,10 @@ public class DataObjectPackage {
                     pdo.toSedaXml(xmlWriter, sedaLibProgressLogger);
             }
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML des métadonnées des DataObjects",e);
+            throw new SEDALibException("Erreur d'écriture XML des métadonnées des DataObjects", e);
         }
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP,
-                    "sedalib: "+ getNextInOutCounter() + " métadonnées DataObject exportées dans le DataObjectPackage", null);
+                "sedalib: " + getNextInOutCounter() + " métadonnées DataObject exportées dans le DataObjectPackage", null);
     }
 
     /**
@@ -1002,10 +1000,10 @@ public class DataObjectPackage {
             xmlWriter.writeRawXMLBlockIfNotEmpty(managementMetadataXmlData);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur d'écriture XML des métadonnées des ArchiveUnits",e);
+            throw new SEDALibException("Erreur d'écriture XML des métadonnées des ArchiveUnits", e);
         }
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, "sedalib: "+ getNextInOutCounter() +
-                    " métadonnées ArchiveUnit exportées dans le DataObjectPackage", null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, "sedalib: " + getNextInOutCounter() +
+                " métadonnées ArchiveUnit exportées dans le DataObjectPackage", null);
     }
 
     /**
@@ -1034,7 +1032,7 @@ public class DataObjectPackage {
      * Import data object package, DataObjects part, of SEDA DataObjectPackage XML.
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
-     * @param dataObjectPackage       the DataObjectPackage to be completed
+     * @param dataObjectPackage     the DataObjectPackage to be completed
      * @param rootDir               the directory where the BinaryDataObject files are
      *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
@@ -1057,29 +1055,29 @@ public class DataObjectPackage {
                 switch (tmp) {
                     case "DataObjectGroup":
                         String dogId = DataObjectGroup.idFromSedaXml(xmlReader, dataObjectPackage, rootDir, sedaLibProgressLogger);
-                        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS, "sedalib: DataObjectGroup [" + dogId + "] " +
-                                    "importé",null);
+                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: DataObjectGroup [" + dogId + "] " +
+                                "importé", null);
                         break;
                     case "BinaryDataObject":
                         bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, rootDir, sedaLibProgressLogger);
                         //noinspection ConstantConditions
-                        bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.uri);
-                        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS, "sedalib: BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé", null);
+                        bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.uri.getValue());
+                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé", null);
                         break;
                     case "PhysicalDataObject":
                         pdo = PhysicalDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS, "sedalib: PhysicalDataObject [" + pdo.inDataPackageObjectId +
-                                    "] importé", null);
+                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: PhysicalDataObject [" + pdo.inDataPackageObjectId +
+                                "] importé", null);
                         break;
                     default:
                         inDataObjectObjects = false;
                 }
             }
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture des métadonnées des DataObjects",e);
+            throw new SEDALibException("Erreur de lecture des métadonnées des DataObjects", e);
         }
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP,
-                "sedalib: "+ dataObjectPackage.getNextInOutCounter() + " métadonnées DataObject importées depuis le DataObjectPackage",null);
+                "sedalib: " + dataObjectPackage.getNextInOutCounter() + " métadonnées DataObject importées depuis le DataObjectPackage", null);
     }
 
     /**
@@ -1109,7 +1107,7 @@ public class DataObjectPackage {
                 switch (tmp) {
                     case "ArchiveUnit":
                         String auId = ArchiveUnit.idFromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: ArchiveUnit [" + auId + "] importé",null);
+                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: ArchiveUnit [" + auId + "] importé", null);
                         break;
                     default:
                         inArchiveUnits = false;
@@ -1119,10 +1117,10 @@ public class DataObjectPackage {
             dataObjectPackage.managementMetadataXmlData = xmlReader.nextMandatoryBlockAsString("ManagementMetadata");
             xmlReader.endBlockNamed("DataObjectPackage");
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture des métadonnées des ArchiveUnits",e);
+            throw new SEDALibException("Erreur de lecture des métadonnées des ArchiveUnits", e);
         }
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP,
-                "sedalib: "+ dataObjectPackage.getNextInOutCounter() + " métadonnées ArchiveUnit importées depuis le DataObjectPackage",null);
+                "sedalib: " + dataObjectPackage.getNextInOutCounter() + " métadonnées ArchiveUnit importées depuis le DataObjectPackage", null);
     }
 
     /**
@@ -1163,7 +1161,7 @@ public class DataObjectPackage {
                 dataObjectPackage
                         .addRootAu(dataObjectPackage.getArchiveUnitById(pair.getValue().inDataPackageObjectId));
 
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.STEP, "sedalib: manifest importé",null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP, "sedalib: manifest importé", null);
 
         return dataObjectPackage;
     }

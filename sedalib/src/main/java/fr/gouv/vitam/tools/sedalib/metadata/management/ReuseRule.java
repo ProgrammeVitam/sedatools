@@ -28,9 +28,12 @@
 
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
+import java.util.LinkedHashMap;
 
 /**
  * The Class ReuseRule.
@@ -44,6 +47,18 @@ import java.time.LocalDate;
 public class ReuseRule extends RuleType {
 
     /**
+     * Init metadata map.
+     */
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("Rule", new ComplexListMetadataKind(Rule.class, true));
+        metadataMap.put("PreventInheritance", new ComplexListMetadataKind(BooleanType.class, false));
+        metadataMap.put("RefNonRuleId", new ComplexListMetadataKind(StringType.class, true));
+    }
+
+    /**
      * Instantiates a new reuse rule.
      */
     public ReuseRule() {
@@ -53,10 +68,11 @@ public class ReuseRule extends RuleType {
     /**
      * Instantiates a new reuse rule, with one rule and a date.
      *
-     * @param rule        the rule
-     * @param startDate   the start date
+     * @param rule      the rule
+     * @param startDate the start date
+     * @throws SEDALibException the seda lib exception
      */
-    public ReuseRule(String rule, LocalDate startDate) {
-        super("ReuseRule", rule, startDate);
+    public ReuseRule(String rule, LocalDate startDate) throws SEDALibException {
+        super("ReuseRule", rule , startDate);
     }
 }

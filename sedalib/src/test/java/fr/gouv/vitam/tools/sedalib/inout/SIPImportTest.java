@@ -58,65 +58,130 @@ public class SIPImportTest implements UseTestFiles {
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"BinaryMaster_1\"\n" +
+                "    },\n" +
                 "    \"fileInfo\" : {\n" +
-                "      \"creatingApplicationName\" : \"CreatingApplicationName0\",\n" +
-                "      \"creatingApplicationVersion\" : \"CreatingApplicationVersion0\",\n" +
-                "      \"creatingOs\" : \"CreatingOs0\",\n" +
-                "      \"creatingOsVersion\" : \"CreatingOsVersion0\",\n" +
-                "      \"dateCreatedByApplication\" : {\n" +
-                "        \"chronology\" : {\n" +
-                "          \"calendarType\" : \"iso8601\",\n" +
-                "          \"id\" : \"ISO\"\n" +
-                "        },\n" +
-                "        \"dayOfMonth\" : 4,\n" +
-                "        \"dayOfWeek\" : \"THURSDAY\",\n" +
-                "        \"dayOfYear\" : 124,\n" +
-                "        \"hour\" : 18,\n" +
-                "        \"minute\" : 13,\n" +
-                "        \"month\" : \"MAY\",\n" +
-                "        \"monthValue\" : 5,\n" +
-                "        \"nano\" : 0,\n" +
-                "        \"second\" : 51,\n" +
-                "        \"year\" : 2006\n" +
-                "      },\n" +
-                "      \"filename\" : \"Montparnasse.txt\",\n" +
-                "      \"lastModified\" : 1491286026487\n" +
+                "      \"type\" : \"FileInfo\",\n" +
+                "      \"elementName\" : \"FileInfo\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"Filename\",\n" +
+                "        \"value\" : \"Montparnasse.txt\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"CreatingApplicationName\",\n" +
+                "        \"value\" : \"CreatingApplicationName0\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"CreatingApplicationVersion\",\n" +
+                "        \"value\" : \"CreatingApplicationVersion0\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"dateTimeString\" : \"2006-05-04T18:13:51Z\",\n" +
+                "        \"elementName\" : \"DateCreatedByApplication\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"CreatingOs\",\n" +
+                "        \"value\" : \"CreatingOs0\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"CreatingOsVersion\",\n" +
+                "        \"value\" : \"CreatingOsVersion0\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"dateTimeString\" : \"2017-04-04T08:07:06.487Z\",\n" +
+                "        \"elementName\" : \"LastModified\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"formatIdentification\" : {\n" +
-                "      \"encoding\" : null,\n" +
-                "      \"formatId\" : \"x-fmt/111\",\n" +
-                "      \"formatLitteral\" : \"Plain Text File\",\n" +
-                "      \"mimeType\" : \"text/plain\"\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"Plain Text File\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"text/plain\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"x-fmt/111\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"inDataObjectPackageId\" : \"ID13\",\n" +
-                "    \"messageDigest\" : \"86c0bc701ef6b5dd21b080bc5bb2af38097baa6237275da83a52f092c9eae3e4e4b0247391620bd732fe824d18bd3bb6c37e62ec73a8cf3585c6a799399861b1\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"metadataXmlData\" : null,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"algorithm\" : \"SHA-512\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"86c0bc701ef6b5dd21b080bc5bb2af38097baa6237275da83a52f092c9eae3e4e4b0247391620bd732fe824d18bd3bb6c37e62ec73a8cf3585c6a799399861b1\"\n" +
+                "    },\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\SipOK.zip-tmpdir\\\\Content\\\\ID13.txt\",\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"size\" : 6,\n" +
-                "    \"uri\" : \"Content/ID13.txt\"\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 6\n" +
+                "    },\n" +
+                "    \"uri\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"Uri\",\n" +
+                "      \"value\" : \"Content/ID13.txt\"\n" +
+                "    }\n" +
                 "  } ],\n" +
                 "  \"inDataObjectPackageId\" : \"ID12\",\n" +
-                "  \"logBookXmlData\" : null,\n" +
+                "  \"logBook\" : null,\n" +
                 "  \"onDiskPath\" : null,\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
+                "    \"dataObjectGroupId\" : null,\n" +
+                "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"PhysicalMaster_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"PhysicalMaster_1\"\n" +
+                "    },\n" +
                 "    \"inDataObjectPackageId\" : \"ID1000\",\n" +
                 "    \"onDiskPath\" : null,\n" +
-                "    \"physicalDimensionsXmlData\" : \"<PhysicalDimensions>\\n\\t\\t        <Height unit=\\\"centimetre\\\">21</Height>\\n\\t\\t        <Length unit=\\\"centimetre\\\">29.7</Length>\\n\\t\\t        <Weight unit=\\\"kilogram\\\">1</Weight>\\n\\t\\t    </PhysicalDimensions>\",\n" +
-                "    \"physicalIdXmlData\" : \"<PhysicalId>12345</PhysicalId>\",\n" +
+                "    \"otherDimensionsAbstractXml\" : [ ],\n" +
+                "    \"physicalDimensions\" : {\n" +
+                "      \"type\" : \"PhysicalDimensions\",\n" +
+                "      \"elementName\" : \"PhysicalDimensions\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Height\",\n" +
+                "        \"unit\" : \"centimetre\",\n" +
+                "        \"value\" : 21.0\n" +
+                "      }, {\n" +
+                "        \"type\" : \"LinearDimensionType\",\n" +
+                "        \"elementName\" : \"Length\",\n" +
+                "        \"unit\" : \"centimetre\",\n" +
+                "        \"value\" : 29.7\n" +
+                "      }, {\n" +
+                "        \"type\" : \"Weight\",\n" +
+                "        \"elementName\" : \"Weight\",\n" +
+                "        \"unit\" : \"kilogram\",\n" +
+                "        \"value\" : 1.0\n" +
+                "      } ]\n" +
+                "    },\n" +
+                "    \"physicalId\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"PhysicalId\",\n" +
+                "      \"value\" : \"12345\"\n" +
+                "    },\n" +
                 "    \"relationshipsXmlData\" : [ ]\n" +
                 "  } ]\n" +
                 "}";
 
         DataObjectGroup og = si.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID12");
         String sog = mapper.writeValueAsString(og);
-        //System.out.println(sog);
+        //System.out.println("Value to verify="+sog);
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*\"");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
@@ -127,7 +192,7 @@ public class SIPImportTest implements UseTestFiles {
         testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(sogpath & testogpath);
-        assertEquals(sog, testog);
+        assertThat(sog).isEqualTo(testog);
 
         // assert one archiveUnit using serialization
         String testau = "{\n" +

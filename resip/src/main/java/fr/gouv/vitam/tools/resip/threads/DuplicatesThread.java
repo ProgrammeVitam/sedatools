@@ -143,16 +143,16 @@ public class DuplicatesThread extends SwingWorker<String, String> {
             HashMap<String, List<DataObjectGroup>> dogByDigestMap = new HashMap<String, List<DataObjectGroup>>();
             dogKeyMap = new HashMap<DataObjectGroup, String>();
             for (DataObjectGroup dog : dataObjectPackage.getDogInDataObjectPackageIdMap().values()) {
-                tmp = dog.getLogBookXmlData();
+                tmp = (dog.logBook==null?"":dog.logBook.toString());
                 for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
                     if (binaryHash)
-                        tmp += "|BDO=" + bdo.messageDigest;
+                        tmp += "|BDO=" + (bdo.messageDigest==null?null:bdo.messageDigest.getValue());
                     if (binaryFilename)
-                        tmp += "|" + bdo.fileInfo.filename;
+                        tmp += "|" + (bdo.fileInfo==null?null:bdo.fileInfo.getSimpleMetadata("Filename"));
                 }
                 for (PhysicalDataObject pdo : dog.getPhysicalDataObjectList()) {
                     if (physicalAllMD)
-                        tmp += "|PDO=" + pdo.toString();
+                        tmp += "|PDO=" + pdo.toSedaXmlFragments();
                 }
                 dogKeyMap.put(dog, tmp);
                 if (dogByDigestMap.get(tmp) == null) {

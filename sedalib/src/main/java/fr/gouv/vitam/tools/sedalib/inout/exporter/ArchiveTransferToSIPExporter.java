@@ -37,10 +37,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import org.apache.commons.io.IOUtils;
 
 import javax.xml.stream.XMLStreamException;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -148,6 +145,40 @@ public class ArchiveTransferToSIPExporter {
     }
 
     /**
+     * Get the ArchiveTransfer SEDA XML manifest as a String.
+     *
+     * @param hierarchicalFlag the hierarchical flag
+     * @param indentedFlag         the indentedFlag
+     * @throws SEDALibException     if writing has failed
+     * @throws InterruptedException if export process is interrupted
+     */
+    public String getSEDAXMLManifest(boolean hierarchicalFlag, boolean indentedFlag)
+            throws SEDALibException, InterruptedException {
+        String result;
+        Date d = new Date();
+        start = Instant.now();
+        String log = "sedalib: début de l'export d'un ArchiveTransfer dans un manifest SEDA\n";
+        log += "en chaîne de caractères interne";
+        log += " date=" + DateFormat.getDateTimeInstance().format(d);
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+
+        this.hierarchicalFlag = hierarchicalFlag;
+        this.indentedFlag = indentedFlag;
+        this.manifestOnly = true;
+
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            exportManifestOutputStream(baos, hierarchicalFlag, indentedFlag);
+            result=baos.toString("UTF8");
+        } catch (SEDALibException | IOException e) {
+            throw new SEDALibException("Echec de l'export du manifest", e);
+        }
+
+        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: export terminé", null);
+        end = Instant.now();
+        return result;
+    }
+
+    /**
      * Do export the ArchiveTransfer to SEDA Submission Information Packet (SIP).
      *
      * @param fileName         the file name
@@ -190,7 +221,7 @@ public class ArchiveTransferToSIPExporter {
                     DataObjectGroup og = pair.getValue();
                     if (og.getBinaryDataObjectList() != null) {
                         for (BinaryDataObject bo : og.getBinaryDataObjectList()) {
-                            e = new ZipEntry(bo.uri);
+                            e = new ZipEntry(bo.uri.getValue());
                             zipout.putNextEntry(e);
                             FileInputStream fis = new FileInputStream(bo.getOnDiskPath().toFile());
                             IOUtils.copy(fis, zipout);

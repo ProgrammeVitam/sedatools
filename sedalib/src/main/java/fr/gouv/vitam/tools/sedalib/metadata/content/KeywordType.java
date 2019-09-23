@@ -48,7 +48,7 @@ public class KeywordType extends NamedTypeMetadata {
     /**
      * Enum restricted values.
      */
-    static final List<String> enumValues = Arrays.asList("corpname", "famname", "geogname", "name",
+    static public final List<String> enumValues = Arrays.asList("corpname", "famname", "geogname", "name",
             "occupation", "persname", "subject", "genreform", "function");
 
     /**
@@ -134,5 +134,29 @@ public class KeywordType extends NamedTypeMetadata {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type KeywordType", e);
         }
         return true;
+    }
+
+    // Getters and setters
+
+    /**
+     * Get the value
+     *
+     * @return the value
+     */
+    public String getValue() {
+        return value;
+    }
+
+    /**
+     * Sets value.
+     *
+     * @param value the value
+     * @throws SEDALibException the seda lib exception
+     */
+    public void setValue(String value) throws SEDALibException {
+        if (enumValues.contains(value))
+            this.value = value;
+        else
+            throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
     }
 }

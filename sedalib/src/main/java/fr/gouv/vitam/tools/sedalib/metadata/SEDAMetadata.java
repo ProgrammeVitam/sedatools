@@ -28,6 +28,12 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Weight;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -47,6 +53,21 @@ import java.util.LinkedHashMap;
  * <p>
  * Abstract class for SEDA element metadata.
  */
+//used for only json saved SEDAMetadata
+//FileInfo
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({ @JsonSubTypes.Type(value = FileInfo.class, name = "FileInfo"),
+        @JsonSubTypes.Type(value = AnyXMLListType.class, name = "AnyXMLListType"),
+        @JsonSubTypes.Type(value = AnyXMLType.class, name = "AnyXMLType"),
+        @JsonSubTypes.Type(value = StringType.class, name = "StringType"),
+        @JsonSubTypes.Type(value = TextType.class, name = "TextType"),
+        @JsonSubTypes.Type(value = DateTimeType.class, name = "DateTimeType"),
+        @JsonSubTypes.Type(value = DateType.class, name = "DateType"),
+        @JsonSubTypes.Type(value = DigestType.class, name = "DigestType"),
+        @JsonSubTypes.Type(value = IntegerType.class, name = "IntegerType"),
+        @JsonSubTypes.Type(value = Event.class, name = "Event"),
+        @JsonSubTypes.Type(value = LinearDimensionType.class, name = "LinearDimensionType"),
+        @JsonSubTypes.Type(value = Weight.class, name = "Weight")})
 public abstract class SEDAMetadata {
 
     /**
@@ -149,7 +170,7 @@ public abstract class SEDAMetadata {
             if (!event.isEndDocument())
                 throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture du " + target.getSimpleName(), e);
+            throw new SEDALibException("Erreur de lecture de " + target.getSimpleName(), e);
         }
 
         return result;

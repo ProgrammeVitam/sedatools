@@ -151,7 +151,7 @@ public class TextType extends NamedTypeMetadata {
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type StringType", e);
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type TextType", e);
         }
         return true;
     }

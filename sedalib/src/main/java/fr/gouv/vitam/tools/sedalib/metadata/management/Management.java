@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -60,7 +61,7 @@ public class Management extends ComplexListType {
         metadataMap.put("ClassificationRule",
                 new ComplexListMetadataKind(ClassificationRule.class, false));
         metadataMap.put("LogBook",
-                new ComplexListMetadataKind(AnyXMLType.class, false));
+                new ComplexListMetadataKind(LogBook.class, false));
         metadataMap.put("NeedAuthorization",
                 new ComplexListMetadataKind(StringType.class, false));
         // Vitam extension

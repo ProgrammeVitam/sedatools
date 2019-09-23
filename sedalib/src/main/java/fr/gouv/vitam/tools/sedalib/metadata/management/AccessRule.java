@@ -28,10 +28,12 @@
 
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 /**
  * The Class AccessRule.
@@ -45,6 +47,18 @@ import java.util.List;
 public class AccessRule extends RuleType {
 
     /**
+     * Init metadata map.
+     */
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("Rule", new ComplexListMetadataKind(Rule.class, true));
+        metadataMap.put("PreventInheritance", new ComplexListMetadataKind(BooleanType.class, false));
+        metadataMap.put("RefNonRuleId", new ComplexListMetadataKind(StringType.class, true));
+    }
+
+    /**
      * Instantiates a new access rule.
      */
     public AccessRule() {
@@ -54,15 +68,11 @@ public class AccessRule extends RuleType {
     /**
      * Instantiates a new access rule, with one rule and a date.
      *
-     * @param rule        the rule
-     * @param startDate   the start date
+     * @param rule      the rule
+     * @param startDate the start date
+     * @throws SEDALibException the seda lib exception
      */
-    public AccessRule(String rule, LocalDate startDate) {
-        super("AccessRule", rule, startDate);
-    }
-
-    @Override
-    public List<String> getFinalActionList() {
-        return null;
+    public AccessRule(String rule, LocalDate startDate) throws SEDALibException {
+        super("AccessRule", rule , startDate);
     }
 }

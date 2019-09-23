@@ -35,8 +35,8 @@ import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
@@ -200,7 +200,7 @@ public class AddThread extends SwingWorker<String, String> {
             treeModel.nodeStructureChanged(targetNode);
             work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
-            ResipGraphicApp.getTheApp().mainWindow.refreshInformations();
+            ResipGraphicApp.getTheApp().mainWindow.treePane.reset();
             doProgressLogWithoutInterruption(spl, GLOBAL,"Ajout terminé", null);
             doProgressLogWithoutInterruption(spl, GLOBAL,summary, null);
         }

@@ -68,83 +68,135 @@ public class DiskImportExportTest implements UseTestFiles {
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"BinaryMaster_1\"\n" +
+                "    },\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
-                "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" +
-                "    \"size\" : 50651,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 50651\n" +
+                "    },\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
-                "      \"formatLitteral\" : \"OpenDocument Spreadsheet\",\n" +
-                "      \"mimeType\" : \"application/vnd.oasis.opendocument.spreadsheet\",\n" +
-                "      \"formatId\" : \"fmt/294\",\n" +
-                "      \"encoding\" : null\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"OpenDocument Spreadsheet\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"application/vnd.oasis.opendocument.spreadsheet\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"fmt/294\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
-                "      \"filename\" : \"201609-TdB-suivi-des-a.ods\",\n" +
-                "      \"creatingApplicationName\" : null,\n" +
-                "      \"creatingApplicationVersion\" : null,\n" +
-                "      \"dateCreatedByApplication\" : null,\n" +
-                "      \"creatingOs\" : null,\n" +
-                "      \"creatingOsVersion\" : null,\n" +
-                "      \n" +
+                "      \"type\" : \"FileInfo\",\n" +
+                "      \"elementName\" : \"FileInfo\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"Filename\",\n" +
+                "        \"value\" : \"201609-TdB-suivi-des-a.ods\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"elementName\" : \"LastModified\",\n" +
+                "        \"dateTimeString\" : \"2019-01-16T20:03:35.841171Z\"\n" +
+                "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID14\",\n" +
-                "    \"onDiskPath\" : \"C:\\\\Users\\\\jean-severin.lair\\\\intelliJGit\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1_201609-TdB-suivi-des-a.ods\"\n" +
+                "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1_201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : \"TextContent_1\",\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"TextContent_1\"\n" +
+                "    },\n" +
                 "    \"uri\" : null,\n" +
-                "    \"messageDigest\":\"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
-                "    \"messageDigestAlgorithm\":\"SHA-512\",\n" +
-                "    \"size\":3307,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 3307\n" +
+                "    },\n" +
                 "    \"compressed\" : null,\n" +
                 "    \"formatIdentification\" : {\n" +
-                "      \"formatLitteral\" : \"Plain Text File\",\n" +
-                "      \"mimeType\" : \"text/plain\",\n" +
-                "      \"formatId\" : \"x-fmt/111\",\n" +
-                "      \"encoding\" : null\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"Plain Text File\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"text/plain\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"x-fmt/111\"\n" +
+                "      } ]\n" +
                 "    },\n" +
                 "    \"fileInfo\" : {\n" +
-                "      \"filename\" : \"201609-TdB-suivi-des-a.txt\",\n" +
-                "      \"creatingApplicationName\" : null,\n" +
-                "      \"creatingApplicationVersion\" : null,\n" +
-                "      \"dateCreatedByApplication\" : null,\n" +
-                "      \"creatingOs\" : null,\n" +
-                "      \"creatingOsVersion\" : null,\n" +
-                "      \n" +
+                "      \"type\" : \"FileInfo\",\n" +
+                "      \"elementName\" : \"FileInfo\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"Filename\",\n" +
+                "        \"value\" : \"201609-TdB-suivi-des-a.txt\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"elementName\" : \"LastModified\",\n" +
+                "        \"dateTimeString\" : \"2019-01-16T20:03:35.842169Z\"\n" +
+                "      } ]\n" +
                 "    },\n" +
-                "    \"metadataXmlData\" : null,\n" +
-                "    \"otherMetadataXmlData\" : null,\n" +
+                "    \"metadata\" : null,\n" +
                 "    \"inDataObjectPackageId\" : \"ID15\",\n" +
-                "    \"onDiskPath\" : \"C:\\\\Users\\\\jean-severin.lair\\\\intelliJGit\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1_201609-TdB-suivi-des-a.txt\"\n" +
+                "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1_201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ ],\n" +
-                "  \"logBookXmlData\" : null,\n" +
+                "  \"logBook\" : null,\n" +
                 "  \"inDataObjectPackageId\" : \"ID13\",\n" +
                 "  \"onDiskPath\" : null\n" +
                 "}";
         DataObjectGroup og = di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID13");
-//		System.out.println(mapper.writeValueAsString(og));
-        String sog = mapper.writeValueAsString(og).replaceAll("\"lastModified\" : .*", "");
+		//System.out.println("Value to verify="+mapper.writeValueAsString(og));
+        String sog = mapper.writeValueAsString(og).replaceAll("\"dateTimeString\" : .*", "");
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.1");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
         sog = TestUtilities.LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
-        testog = testog.replaceAll("\"lastModified\" : .*", "");
+        testog = testog.replaceAll("\"dateTimeString\" : .*", "");
         Matcher mtestog = pog.matcher(testog);
         boolean testogpath = mtestog.find();
         testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
 
         assertTrue(sogpath & testogpath);
-        assertEquals(sog, testog);
+        assertThat(sog).isEqualTo(testog);
 
         // assert one archiveUnit using serialization
         String testau = "{\n" +
@@ -201,41 +253,86 @@ public class DiskImportExportTest implements UseTestFiles {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         // assert one dataObjectGroup using serialization
-        String testog = "{\n" + "  \"binaryDataObjectList\" : [ {\n" + "    \"dataObjectSystemId\" : null,\n"
-                + "    \"dataObjectGroupSystemId\" : null,\n" + "    \"relationshipsXmlData\" : [ ],\n"
-                + "    \"dataObjectGroupReferenceId\" : null,\n" + "    \"dataObjectGroupId\" : null,\n"
-                + "    \"dataObjectVersion\" : \"BinaryMaster_1\",\n" + "    \"uri\" : null,\n"
-                + "    \"messageDigest\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n"
-                + "    \"messageDigestAlgorithm\" : \"SHA-512\",\n" + "    \"size\" : 21232,\n"
-                + "    \"compressed\" : null,\n" + "    \"formatIdentification\" : {\n"
-                + "      \"formatLitteral\" : \"Exchangeable Image File Format (Compressed)\",\n"
-                + "      \"mimeType\" : \"image/jpeg\",\n" + "      \"formatId\" : \"fmt/645\",\n"
-                + "      \"encoding\" : null\n" + "    },\n" + "    \"fileInfo\" : {\n"
-                + "      \"filename\" : \"image001.jpg\",\n" + "      \"creatingApplicationName\" : null,\n"
-                + "      \"creatingApplicationVersion\" : null,\n"
-                + "      \"dateCreatedByApplication\" : null,\n"
-                + "      \"creatingOs\" : null,\n"
-                + "      \"creatingOsVersion\" : null,\n" + "      \"lastModified\" : 1535484139000\n" + "    },\n"
-                + "    \"metadataXmlData\" : null,\n" + "    \"otherMetadataXmlData\" : null,\n"
-                + "    \"inDataObjectPackageId\" : \"ID13\",\n"
-                + "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\git\\\\sedalib\\\\src\\\\test\\\\ressources\\\\PacketSamples\\\\SampleWithWindowsLinksAndShortcutsModelV2\\\\Root\\\\Node 1\\\\Node 1.2\\\\__BinaryMaster_1_image001.jpg\"\n"
-                + "  } ],\n" + "  \"physicalDataObjectList\" : [ ],\n" + "  \"logBookXmlData\" : null,\n"
-                + "  \"inDataObjectPackageId\" : \"ID12\",\n" + "  \"onDiskPath\" : null\n" + "}";
+        String testog = "{\n" +
+                "  \"binaryDataObjectList\" : [ {\n" +
+                "    \"dataObjectSystemId\" : null,\n" +
+                "    \"dataObjectGroupSystemId\" : null,\n" +
+                "    \"relationshipsXmlData\" : [ ],\n" +
+                "    \"dataObjectGroupReferenceId\" : null,\n" +
+                "    \"dataObjectGroupId\" : null,\n" +
+                "    \"dataObjectVersion\" : {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"DataObjectVersion\",\n" +
+                "      \"value\" : \"BinaryMaster_1\"\n" +
+                "    },\n" +
+                "    \"uri\" : null,\n" +
+                "    \"messageDigest\" : {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
+                "      \"algorithm\" : \"SHA-512\"\n" +
+                "    },\n" +
+                "    \"size\" : {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 21232\n" +
+                "    },\n" +
+                "    \"compressed\" : null,\n" +
+                "    \"formatIdentification\" : {\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"Exchangeable Image File Format (Compressed)\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"image/jpeg\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"fmt/645\"\n" +
+                "      } ]\n" +
+                "    },\n" +
+                "    \"fileInfo\" : {\n" +
+                "      \"type\" : \"FileInfo\",\n" +
+                "      \"elementName\" : \"FileInfo\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"Filename\",\n" +
+                "        \"value\" : \"image001.jpg\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"DateTimeType\",\n" +
+                "        \"elementName\" : \"LastModified\",\n" +
+                "        \"dateTimeString\" : \"2019-01-16T20:03:35.698553Z\"\n" +
+                "      } ]\n" +
+                "    },\n" +
+                "    \"metadata\" : null,\n" +
+                "    \"inDataObjectPackageId\" : \"ID13\",\n" +
+                "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithLinksModelV2\\\\Root\\\\Node 1\\\\Node 1.2\\\\__BinaryMaster_1__image001.jpg\"\n" +
+                "  } ],\n" +
+                "  \"physicalDataObjectList\" : [ ],\n" +
+                "  \"logBook\" : null,\n" +
+                "  \"inDataObjectPackageId\" : \"ID12\",\n" +
+                "  \"onDiskPath\" : null\n" +
+                "}";
 
         DataObjectGroup og = di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().get("ID12");
-//		System.out.println(mapper.writeValueAsString(og));
-        String sog = mapper.writeValueAsString(og).replaceAll("\"lastModified\" : .*", "");
+		//System.out.println("Value to verify="+mapper.writeValueAsString(og));
+        String sog = mapper.writeValueAsString(og);
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*Node 1.2");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
-        sog = TestUtilities.LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sog = sog.replaceAll("\"onDiskPath\" : .*", "");
+        sog = TestUtilities.LineEndNormalize(sog.replaceAll("\"dateTimeString\" : .*\"", ""));
 
-        testog = testog.replaceAll("\"lastModified\" : .*", "");
         Matcher mtestog = pog.matcher(testog);
         boolean testogpath = mtestog.find();
-        testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testog = testog.replaceAll("\"onDiskPath\" : .*", "");
+        testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"dateTimeString\" : .*\"", ""));
 
-        assertEquals(sog, testog);
+        assertThat(sog).isEqualTo(testog);
         assertTrue(sogpath & testogpath);
 
         // assert one archiveUnit using serialization

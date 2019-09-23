@@ -27,11 +27,13 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -45,7 +47,22 @@ import java.util.List;
  */
 public class StorageRule extends RuleType {
 
-    /** The final action list. */
+    /**
+     * Init metadata map.
+     */
+    @ComplexListMetadataMap
+    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static {
+        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap.put("Rule", new ComplexListMetadataKind(Rule.class, true));
+        metadataMap.put("PreventInheritance", new ComplexListMetadataKind(BooleanType.class, false));
+        metadataMap.put("RefNonRuleId", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("FinalAction", new ComplexListMetadataKind(StringType.class, false));
+    }
+
+    /**
+     * The final action list.
+     */
     static protected List<String> finalActionList;
 
     static {
@@ -56,7 +73,7 @@ public class StorageRule extends RuleType {
     }
 
     /**
-     * Instantiates a new appraisal rule.
+     * Instantiates a new access rule.
      */
     public StorageRule() {
         super("StorageRule");
@@ -67,9 +84,10 @@ public class StorageRule extends RuleType {
      *
      * @param rule      the rule
      * @param startDate the start date
+     * @throws SEDALibException the seda lib exception
      */
-    public StorageRule(String rule, LocalDate startDate) {
-        super("StorageRule", rule, startDate);
+    public StorageRule(String rule, LocalDate startDate) throws SEDALibException {
+        super("StorageRule", rule , startDate);
     }
 
     /**
@@ -78,11 +96,11 @@ public class StorageRule extends RuleType {
      * @param rule        the rule
      * @param startDate   the start date
      * @param finalAction the final action
-     * @throws SEDALibException if the FinalAction field or value is not expected in
-     *                          this kind of rule
+     * @throws SEDALibException if the FinalAction field or value is not expected in                          this kind of rule
      */
     public StorageRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
-        super("StorageRule", rule, startDate, finalAction);
+        super("StorageRule", rule, startDate);
+        setFinalAction(finalAction);
     }
 
     @Override

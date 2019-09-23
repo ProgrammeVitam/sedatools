@@ -30,14 +30,19 @@ package fr.gouv.vitam.tools.resip.app;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.*;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredArchiveUnitEditorPanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredDataObjectGroupEditorPanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.parameters.*;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLDataObjectGroupEditorPanel;
 import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.viewer.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 
@@ -53,6 +58,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+
+import static fr.gouv.vitam.tools.resip.threads.SeeManifestThread.launchSeeManifestThread;
 
 /**
  * The type Resip graphic app.
@@ -95,15 +102,20 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      * The Treatment parameters.
      */
     public TreatmentParameters treatmentParameters;
+    /**
+     * The Interface parameters.
+     */
+    public InterfaceParameters interfaceParameters;
 
     /**
      * The Main window.
      */
 // GUI elements. */
-    public MainWindow mainWindow;
+    static public MainWindow mainWindow;
 
     // MainWindow menu elements dis/enabled depending on work state and used by controller. */
     private JMenuItem saveMenuItem, saveAsMenuItem, closeMenuItem;
+    private JCheckBoxMenuItem structuredMenuItem;
     private JMenu treatMenu, contextMenu, exportMenu;
     private Map<JMenuItem, String> actionByMenuItem = new HashMap<JMenuItem, String>();
 
@@ -170,6 +182,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         // prefs init
         Prefs.getInstance();
+        this.interfaceParameters = new InterfaceParameters(Prefs.getInstance());
 
         // identification objects initialization
         try {
@@ -200,7 +213,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             StoreExtractor.initDefaultExtractors();
         } catch (Exception e) {
-            System.err.println("Resip.Graphic: Erreur fatale, exécution interrompue (" + e.getMessage() + ")");
+            System.err.println("Resip.Graphic: Erreur fatale, exécution interrompue");
+            e.printStackTrace();
             System.exit(1);
         }
 
@@ -234,27 +248,27 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Charger...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "LoadWork");
         fileMenu.add(menuItem);
 
         saveMenuItem = new JMenuItem("Sauver");
         saveMenuItem.addActionListener(this);
-        saveMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        saveMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         saveMenuItem.setEnabled(false);
         actionByMenuItem.put(saveMenuItem, "SaveWork");
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem = new JMenuItem("Sauver sous...");
         saveAsMenuItem.addActionListener(this);
-        saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.SHIFT_DOWN_MASK+Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         saveAsMenuItem.setEnabled(false);
         actionByMenuItem.put(saveAsMenuItem, "SaveAsWork");
         fileMenu.add(saveAsMenuItem);
 
         closeMenuItem = new JMenuItem("Fermer");
         closeMenuItem.addActionListener(this);
-        closeMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        closeMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         closeMenuItem.setEnabled(false);
         actionByMenuItem.put(closeMenuItem, "CloseWork");
         fileMenu.add(closeMenuItem);
@@ -289,7 +303,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Editer les informations d'export...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "EditExportContext");
         contextMenu.add(menuItem);
 
@@ -299,13 +313,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Chercher des unités d'archives...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "Search");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Chercher des objets...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', InputEvent.SHIFT_DOWN_MASK+Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "TechnicalSearch");
         treatMenu.add(menuItem);
 
@@ -313,31 +327,37 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Trier l'arbre de visualisation");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "SortTreeViewer");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Traiter les doublons...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "Duplicates");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Voir les statistiques...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "Statistics");
+        treatMenu.add(menuItem);
+
+        menuItem = new JMenuItem("Voir le manifest...");
+        menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        actionByMenuItem.put(menuItem, "SeeManifest");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Vérifier la conformité SEDA 2.1...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "CheckSEDA21");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Vérifier la conformité à un profil SEDA 2.1...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK+Toolkit.getDefaultToolkit ().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "CheckSpecificSEDA21Profile");
         treatMenu.add(menuItem);
 
@@ -425,6 +445,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "About");
         infoMenu.add(menuItem);
+
+        structuredMenuItem = new JCheckBoxMenuItem("Editeur structuré");
+        structuredMenuItem.setState(interfaceParameters.isStructuredMetadataEditionFlag());
+        structuredMenuItem.addActionListener(this);
+        actionByMenuItem.put(structuredMenuItem, "ToggleStructuredEdition");
+        infoMenu.add(structuredMenuItem);
         return menuBar;
     }
 
@@ -471,6 +497,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "Statistics":
                         generateStatistics();
+                        break;
+                    case "SeeManifest":
+                        seeManifest();
                         break;
                     case "CheckSEDA21":
                         checkSEDA21();
@@ -535,6 +564,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "About":
                         about();
                         break;
+                    case "ToggleStructuredEdition":
+                        toggleStructuredEdition();
+                        break;
                 }
         }
     }
@@ -544,10 +576,19 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     /**
      * Gets the app.
      *
-     * @return the the app
+     * @return the app
      */
     public static ResipGraphicApp getTheApp() {
         return theApp;
+    }
+
+    /**
+     * Gets the main window.
+     *
+     * @return the main window
+     */
+    public static MainWindow getTheWindow() {
+        return mainWindow;
     }
 
     /**
@@ -739,6 +780,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 prefsDialog.gmc.toPrefs(Prefs.getInstance());
                 prefsDialog.cic.toPrefs(Prefs.getInstance());
                 prefsDialog.tp.toPrefs(Prefs.getInstance());
+                prefsDialog.ip.toPrefs(Prefs.getInstance());
                 Prefs.getInstance().save();
                 treatmentParameters = prefsDialog.tp;
                 ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
@@ -850,6 +892,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MenuItem Check SEDA 21 compliance
 
     /**
+     * See the manifest.
+     */
+    void seeManifest() {
+        launchSeeManifestThread(currentWork);
+    }
+
+    /**
      * Check seda 21.
      */
     void checkSEDA21() {
@@ -896,58 +945,18 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     void doRegenerateContinuousIds() {
         if (currentWork != null) {
             currentWork.getDataObjectPackage().regenerateContinuousIds();
-            mainWindow.allTreeChanged();
+            mainWindow.treePane.allTreeChanged();
         }
     }
 
     // MenuItem Sort tree viewer
 
     /**
-     * The type Sort by title.
-     */
-    class SortByTitle implements Comparator<ArchiveUnit> {
-        /**
-         * The Tree model.
-         */
-        DataObjectPackageTreeModel treeModel;
-
-        public int compare(ArchiveUnit a, ArchiveUnit b) {
-            String titleA = treeModel.findTreeNode(a).getTitle().toLowerCase();
-            String titleB = treeModel.findTreeNode(b).getTitle().toLowerCase();
-            return titleA.compareTo(titleB);
-        }
-
-        /**
-         * Instantiates a new Sort by title.
-         *
-         * @param treeModel the tree model
-         */
-        SortByTitle(DataObjectPackageTreeModel treeModel) {
-            this.treeModel = treeModel;
-        }
-    }
-
-    /**
      * Do sort tree viewer.
      */
     void doSortTreeViewer() {
         if (currentWork != null) {
-            DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) mainWindow.getDataObjectPackageTreePaneViewer().getModel();
-            Map<TreePath, Boolean> expansionState = mainWindow.getDataObjectPackageTreePaneViewer().getExpansionState();
-            TreePath selectedPath = mainWindow.getDataObjectPackageTreePaneViewer().getSelectionPath();
-            SortByTitle sortByTitle = new SortByTitle(treeModel);
-            for (Map.Entry<String, ArchiveUnit> pair :
-                    currentWork.getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet()) {
-                Collections.sort(pair.getValue().getChildrenAuList().getArchiveUnitList(), sortByTitle);
-            }
-            Collections.sort(currentWork.getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList(),
-                    sortByTitle);
-            treeModel.reload();
-            mainWindow.getDataObjectPackageTreePaneViewer().setExpansionState(expansionState);
-            if (selectedPath != null) {
-                mainWindow.getDataObjectPackageTreePaneViewer().setSelectionPath(selectedPath);
-                mainWindow.getDataObjectPackageTreePaneViewer().scrollPathToVisible(selectedPath);
-            }
+            mainWindow.treePane.doSortTree();
         }
     }
 
@@ -1251,11 +1260,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             JFileChooser fileChooser;
             if (currentWork.getExportContext().getOnDiskOutput() != null) {
                 fileChooser = new JFileChooser(currentWork.getExportContext().getOnDiskOutput());
-                defaultFilename=currentWork.getExportContext().getOnDiskOutput()+File.separator;
-            }
-            else {
+                defaultFilename = currentWork.getExportContext().getOnDiskOutput() + File.separator;
+            } else {
                 fileChooser = new JFileChooser(Prefs.getInstance().getPrefsExportDir());
-                defaultFilename=Prefs.getInstance().getPrefsExportDir()+File.separator;
+                defaultFilename = Prefs.getInstance().getPrefsExportDir() + File.separator;
             }
             if ((exportType != ExportThread.DISK_EXPORT) && (exportType != ExportThread.CSV_ALL_DISK_EXPORT)) {
                 switch (exportType) {
@@ -1325,6 +1333,35 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             AboutDialog dialog = new AboutDialog(mainWindow, "Application Resip\n  - Version : " + version + "\n  - Date : " + builddate);
             dialog.setVisible(true);
         } catch (Exception ignored) {
+        }
+    }
+
+    private void toggleStructuredEdition() {
+        try {
+            interfaceParameters.setStructuredMetadataEditionFlag(structuredMenuItem.getState());
+            if (ResipGraphicApp.getTheApp().interfaceParameters.isStructuredMetadataEditionFlag()) {
+                StructuredArchiveUnitEditorPanel structuredArchiveUnitEditorPanel = new StructuredArchiveUnitEditorPanel();
+                ResipGraphicApp.getTheWindow().itemPane.setTopComponent(structuredArchiveUnitEditorPanel);
+                ResipGraphicApp.getTheWindow().auMetadataPane = structuredArchiveUnitEditorPanel;
+                StructuredDataObjectGroupEditorPanel structuredDataObjectGroupEditorPanel = new StructuredDataObjectGroupEditorPanel();
+                ResipGraphicApp.getTheWindow().itemPane.setBottomComponent(structuredDataObjectGroupEditorPanel);
+                ResipGraphicApp.getTheWindow().dogMetadataPane = structuredDataObjectGroupEditorPanel;
+            } else {
+                XMLArchiveUnitEditorPanel xmlArchiveUnitEditorPanel = new XMLArchiveUnitEditorPanel();
+                ResipGraphicApp.getTheWindow().itemPane.setTopComponent(xmlArchiveUnitEditorPanel);
+                ResipGraphicApp.getTheWindow().auMetadataPane = xmlArchiveUnitEditorPanel;
+                XMLDataObjectGroupEditorPanel xmlDataObjectGroupEditorPanel = new XMLDataObjectGroupEditorPanel();
+                ResipGraphicApp.getTheWindow().itemPane.setBottomComponent(xmlDataObjectGroupEditorPanel);
+                ResipGraphicApp.getTheWindow().dogMetadataPane = xmlDataObjectGroupEditorPanel;
+            }
+            DataObjectPackageTreeNode node=ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode();
+            if (node!=null)
+                ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(node.getArchiveUnit());
+        } catch (Exception e) {
+            UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de changer de type d'édition \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de changer de type d'édition \n->" + e.getMessage());
         }
     }
 }

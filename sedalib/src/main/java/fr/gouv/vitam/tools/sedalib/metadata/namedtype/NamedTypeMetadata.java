@@ -31,7 +31,14 @@ import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 
 public abstract class NamedTypeMetadata extends SEDAMetadata {
 
-    protected String elementName;
+    public String elementName;
+
+    /**
+     * Instantiates a named type SEDAMetadata (for json serialization).
+     */
+    public NamedTypeMetadata() {
+        this.elementName = null;
+    }
 
     /**
      * Instantiates a named type SEDAMetadata.
