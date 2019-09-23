@@ -31,7 +31,6 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.SearchDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -71,40 +70,44 @@ public class SearchThread extends SwingWorker<String, String> {
      */
     void searchInArchiveUnit(ArchiveUnit au) {
         List<ArchiveUnit> auList = au.getChildrenAuList().getArchiveUnitList();
-        TreeDataObjectPackageEditorPanel treePane=ResipGraphicApp.getTheWindow().treePane;
+        TreeDataObjectPackageEditorPanel treePane = ResipGraphicApp.getTheWindow().treePane;
 
         for (ArchiveUnit childUnit : auList) {
             if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId()))
                 continue;
             try {
                 String tmp;
-                if (searchDialog.isIdCheck()) {
-                    tmp = "<"+childUnit.getInDataObjectPackageId()+">";
-                    for (DataObject dataObject:childUnit.getDataObjectRefList().getDataObjectList()) {
-                        tmp += "<"+dataObject.getInDataObjectPackageId()+">";
-                        if (dataObject instanceof DataObjectGroup){
-                            for (BinaryDataObject bo:((DataObjectGroup) dataObject).getBinaryDataObjectList())
-                                tmp += "<"+ bo.getInDataObjectPackageId()+">";
-                            for (PhysicalDataObject po:((DataObjectGroup) dataObject).getPhysicalDataObjectList())
-                                tmp += "<"+ po.getInDataObjectPackageId()+">";
+                if (!(searchDialog.isWithoutChildArchiveUnitCheck() && (childUnit.getChildrenAuList().getCount() != 0)) &&
+                        !(searchDialog.isWithoutDataObjectGroupCheck() && (childUnit.getDataObjectRefList().getCount() != 0)))
+                {
+                    if (searchDialog.isIdCheck()) {
+                        tmp = "<" + childUnit.getInDataObjectPackageId() + ">";
+                        for (DataObject dataObject : childUnit.getDataObjectRefList().getDataObjectList()) {
+                            tmp += "<" + dataObject.getInDataObjectPackageId() + ">";
+                            if (dataObject instanceof DataObjectGroup) {
+                                for (BinaryDataObject bo : ((DataObjectGroup) dataObject).getBinaryDataObjectList())
+                                    tmp += "<" + bo.getInDataObjectPackageId() + ">";
+                                for (PhysicalDataObject po : ((DataObjectGroup) dataObject).getPhysicalDataObjectList())
+                                    tmp += "<" + po.getInDataObjectPackageId() + ">";
                             }
+                        }
+                    } else if (searchDialog.isMetadataCheck()) {
+                        tmp = childUnit.getContent().toString();
+                    } else
+                        tmp = treePane.getTreeTitle(childUnit);
+
+                    if (searchDialog.isRegExpCheck()) {
+                        Matcher matcher = searchPattern.matcher(tmp);
+                        if (matcher.matches())
+                            searchResult.add(childUnit);
+                    } else {
+                        if (!searchDialog.isCaseCheck()) tmp = tmp.toLowerCase();
+                        if (tmp.contains(searchExp))
+                            searchResult.add(childUnit);
                     }
-                } else if (searchDialog.isMetadataCheck()) {
-                    tmp = childUnit.getContent().toString();
-                } else
-                    tmp = treePane.getTreeTitle(childUnit);
-                if (searchDialog.isRegExpCheck()) {
-                    Matcher matcher = searchPattern.matcher(tmp);
-                    if (matcher.matches())
-                        searchResult.add(childUnit);
-                } else {
-                    if (!searchDialog.isCaseCheck()) tmp = tmp.toLowerCase();
-                    if (tmp.contains(searchExp))
-                        searchResult.add(childUnit);
                 }
                 dataObjectPackage.addTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId());
-            } catch (SEDALibException e) {
-                // ignored
+            } catch (SEDALibException ignored) {
             }
             searchInArchiveUnit(childUnit);
         }
@@ -116,7 +119,7 @@ public class SearchThread extends SwingWorker<String, String> {
         searchExp = searchDialog.getSearchText();
         if (searchDialog.isRegExpCheck()) searchPattern = Pattern.compile("[\\S\\s]*" + searchExp + "[\\S\\s]*");
         else if (!searchDialog.isCaseCheck()) searchExp = searchExp.toLowerCase();
-        if (searchDialog.isIdCheck()) searchExp = "<"+searchExp+">";
+        if (searchDialog.isIdCheck()) searchExp = "<" + searchExp + ">";
         dataObjectPackage = mainWindow.getApp().currentWork.getDataObjectPackage();
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
         searchResult = new LinkedList<ArchiveUnit>();

@@ -131,7 +131,7 @@ public class LinearDimensionTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         editPanel.add(valueTextField, gbc);
 
-        unitComboBox = new JComboBox<String>((String[]) LinearDimensionType.enumValues.toArray());
+        unitComboBox = new JComboBox<String>(LinearDimensionType.enumValues.toArray(new String[0]));
         unitComboBox.setEditable(true);
         unitComboBox.getEditor().getEditorComponent().setFocusable(false);
         unitComboBox.setFont(SEDAObjectEditor.EDIT_FONT);
