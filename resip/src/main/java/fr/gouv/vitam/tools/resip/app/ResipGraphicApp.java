@@ -59,6 +59,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
+import static fr.gouv.vitam.tools.resip.threads.SeeManifestThread.launchSeeManifestThread;
+
 /**
  * The type Resip graphic app.
  */
@@ -893,15 +895,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      * See the manifest.
      */
     void seeManifest() {
-        ManifestWindow manifestWindow=null;
-        try {
-            manifestWindow=new ManifestWindow();
-        } catch (InterruptedException e) {
-            if (manifestWindow!=null)
-                manifestWindow.dispose();
-            return;
-        }
-        manifestWindow.setVisible(true);
+        launchSeeManifestThread(currentWork);
     }
 
     /**

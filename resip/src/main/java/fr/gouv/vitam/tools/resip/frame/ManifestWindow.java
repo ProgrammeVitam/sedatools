@@ -48,6 +48,9 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor.*;
 import static fr.gouv.vitam.tools.resip.threads.ExportThread.readableFileSize;
@@ -63,12 +66,7 @@ public class ManifestWindow extends JFrame {
     /**
      * The actions components.
      */
-    private JTextArea editTextArea;
-
-    /**
-     * The result.
-     */
-    private String textResult;
+    private RSyntaxTextArea xmlTextArea;
 
     // Dialog test context
 
@@ -89,39 +87,14 @@ public class ManifestWindow extends JFrame {
         ManifestWindow mw=new ManifestWindow();
     }
 
-    private String getCurrentManifest() throws InterruptedException {
-        String result;
-        Work currentWork=ResipGraphicApp.getTheApp().currentWork;
-        ArchiveTransfer archiveTransfer = new ArchiveTransfer();
-
-        try {
-            currentWork.getDataObjectPackage().setManagementMetadataXmlData(currentWork.getExportContext().getManagementMetadataXmlData());
-            archiveTransfer.setDataObjectPackage(currentWork.getDataObjectPackage());
-            archiveTransfer.setGlobalMetadata(currentWork.getExportContext().getArchiveTransferGlobalMetadata());
-            if (currentWork.getExportContext().isMetadataFilterFlag())
-                currentWork.getDataObjectPackage().setExportMetadataList(currentWork.getExportContext().getKeptMetadataList());
-            else
-                currentWork.getDataObjectPackage().setExportMetadataList(null);
-
-            ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, null);
-            result = sm.getSEDAXMLManifest(currentWork.getExportContext().isHierarchicalArchiveUnits(),
-                    currentWork.getExportContext().isIndented());
-        }
-        catch (SEDALibException e){
-            result="Erreur de génération de Manifest/n/n"+getMessagesStackString(e);
-        }
-        return result;
-    }
-
-
     /**
-     * Instantiates a new XmlEditDialog for test.
+     * Instantiates a new ManifestWindow.
      **/
     public ManifestWindow() throws InterruptedException {
         GridBagConstraints gbc;
         GridBagLayout gbl;
 
-        setTitle("Visualisation de manifest");
+        setTitle("Visualisation du manifest généré le "+ LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()).toString());
 
         setPreferredSize(new Dimension(1024, 600));
 
@@ -131,7 +104,7 @@ public class ManifestWindow extends JFrame {
         Container contentPane = getContentPane();
         contentPane.setLayout(gbl);
 
-        RSyntaxTextArea xmlTextArea = new RSyntaxTextArea(20, 120);
+        xmlTextArea = new RSyntaxTextArea(20, 120);
         xmlTextArea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_XML);
         SyntaxScheme scheme = xmlTextArea.getSyntaxScheme();
         scheme.getStyle(Token.MARKUP_TAG_DELIMITER).foreground = COMPOSITE_LABEL_MARKUP_COLOR;
@@ -140,7 +113,7 @@ public class ManifestWindow extends JFrame {
         scheme.getStyle(Token.MARKUP_TAG_ATTRIBUTE_VALUE).foreground = COMPOSITE_LABEL_ATTRIBUTE_COLOR;
         xmlTextArea.setCodeFoldingEnabled(true);
         xmlTextArea.setFont(MainWindow.DETAILS_FONT);
-        xmlTextArea.setText(getCurrentManifest());
+        xmlTextArea.setText("En attente de génération du manifest...");
         xmlTextArea.setCaretPosition(0);
         xmlTextArea.setEditable(false);
         gbc = new GridBagConstraints();
@@ -154,5 +127,15 @@ public class ManifestWindow extends JFrame {
 
         pack();
         setLocationRelativeTo(ResipGraphicApp.getTheApp().mainWindow);
+        setVisible(true);
+    }
+
+    /**
+     * Set text.
+     *
+     * @param text the text
+     */
+    public void setText(String text){
+        xmlTextArea.setText(text);
     }
 }
