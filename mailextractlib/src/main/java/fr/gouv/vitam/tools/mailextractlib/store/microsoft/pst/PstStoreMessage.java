@@ -33,7 +33,6 @@ import com.pff.PSTException;
 import com.pff.PSTMessage;
 import com.pff.PSTRecipient;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreMessageAppointment;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessageAttachment;
 
@@ -377,39 +376,4 @@ public class PstStoreMessage extends MicrosoftStoreMessage {
         }
         return psmAttachment;
     }
-
-    /* (non-Javadoc)
-     * @see fr.gouv.vitam.tools.mailextractlib.core.StoreMessage#analyzeAppointmentInformation()
-     */
-    @Override
-    protected void analyzeAppointmentInformation() {
-        StoreMessageAppointment appointment = null;
-        if (message instanceof PSTAppointment) {
-            PSTAppointment pstAppointment = (PSTAppointment) message;
-
-            ZonedDateTime zdtBeg = null;
-            Date dBeg = pstAppointment.getStartTime();
-            if (dBeg != null) {
-                zdtBeg = ZonedDateTime.ofInstant(dBeg.toInstant().minusMillis(0), ZoneOffset.UTC);
-            }
-
-            ZonedDateTime zdtEnd = null;
-            Date dEnd = pstAppointment.getEndTime();
-            if (dEnd != null) {
-                zdtEnd = ZonedDateTime.ofInstant(dEnd.toInstant().minusMillis(0), ZoneOffset.UTC);
-            }
-
-            String appointmentID = null, appointmentLocation = null;
-            try {
-                appointmentID = pstAppointment.getCleanGlobalObjectId().toString();
-                appointmentLocation = pstAppointment.getLocation();
-            } catch (Exception e) {
-                // catch a null pointer exception when there's no ID or location
-            }
-
-            appointment = new StoreMessageAppointment(appointmentID, appointmentLocation, zdtBeg, zdtEnd);
-        }
-        this.appointment = appointment;
-    }
-
 }

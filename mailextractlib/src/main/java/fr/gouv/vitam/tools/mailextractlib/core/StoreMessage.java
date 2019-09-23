@@ -155,11 +155,6 @@ public abstract class StoreMessage extends StoreElement {
     protected List<StoreAttachment> attachments;
 
     /**
-     * Appointment information.
-     */
-    protected StoreMessageAppointment appointment;
-
-    /**
      * Subject.
      */
     protected String subject;
@@ -450,11 +445,6 @@ public abstract class StoreMessage extends StoreElement {
     protected abstract byte[] getNativeMimeContent() throws InterruptedException;
 
     /**
-     * Analyze the appointment information if any in the message, or null.
-     */
-    protected abstract void analyzeAppointmentInformation();
-
-    /**
      * Analyze message to collect metadata and content information (protocol
      * specific).
      *
@@ -502,9 +492,6 @@ public abstract class StoreMessage extends StoreElement {
         analyzeAttachments();
         detectTNEFAttachment();
         optimizeBodies();
-
-        // try to get appointment information if any
-        analyzeAppointmentInformation();
 
         // detect embedded store attachments not determine during parsing
         StoreAttachment.detectStoreAttachments(attachments);
@@ -602,39 +589,12 @@ public abstract class StoreMessage extends StoreElement {
         messageNode.addMetadata("Title", subject, true);
         messageNode.addMetadata("OriginatingSystemId", messageID, false);
 
-        // description = "Message extrait du compte " +
-        // mailBoxFolder.storeExtractor.user;
-        if (appointment != null) {
-            messageNode.addMetadata("Description", "Rendez-vous", true);
-        }
         messageNode.addPersonMetadata("Writer", from, false);
         messageNode.addPersonMetadataList("Addressee", recipientTo, false);
         messageNode.addPersonMetadataList("Recipient", recipientCc, false);
         messageNode.addPersonMetadataList("Recipient", recipientBcc, false);
         messageNode.addMetadata("SentDate", DateRange.getISODateString(sentDate), false);
         messageNode.addMetadata("ReceivedDate", DateRange.getISODateString(receivedDate), false);
-
-        // put appointment information in metadata if any
-        if (appointment != null) {
-            if (appointment.identifier == null)
-                appointment.identifier = "[IDVide]";
-            if (appointment.location == null)
-                appointment.location = "[LocalisationVide]";
-            String bdString, edString;
-            if (appointment.beginDate != null)
-                bdString = ISO_8601.format(appointment.beginDate);
-            else
-                bdString = "[Date/HeureInconnues]";
-            if (appointment.endDate != null)
-                edString = ISO_8601.format(appointment.endDate);
-            else
-                edString = "[Date/HeureInconnues]";
-
-            messageNode.addEventMetadata(appointment.identifier, "RDV Début", bdString,
-                    "Localisation : " + appointment.location);
-            messageNode.addEventMetadata(appointment.identifier, "RDV Fin", edString,
-                    "Localisation : " + appointment.location);
-        }
 
         // reply-to messageID
         if ((inReplyToUID != null) && !inReplyToUID.isEmpty())
@@ -716,8 +676,7 @@ public abstract class StoreMessage extends StoreElement {
     static public void printGlobalListCSVHeader(PrintStream ps) {
         ps.println("ID;SentDate;ReceivedDate;FromName;FromAddress;" +
                 "ToList;Subject;MessageID;" +
-                "AttachmentList;ReplyTo;Folder;Size;Attached;" +
-                "AppointmentLocation;AppointmentBeginDate;AppointmentEndDate");
+                "AttachmentList;ReplyTo;Folder;Size;Attached");
     }
 
     private void writeToMailsList(boolean writeFlag) throws InterruptedException {
@@ -751,21 +710,6 @@ public abstract class StoreMessage extends StoreElement {
                 ps.format("\"%d\";", this.getMessageSize());
                 if (!storeFolder.getStoreExtractor().isRoot())
                     ps.format("\"Attached\"");
-                if (appointment != null) {
-                    String bdString, edString;
-                    if (appointment.beginDate != null)
-                        bdString = ISO_8601.format(appointment.beginDate);
-                    else
-                        bdString = "[Date/HeureInconnues]";
-                    if (appointment.endDate != null)
-                        edString = ISO_8601.format(appointment.endDate);
-                    else
-                        edString = "[Date/HeureInconnues]";
-                    ps.format(";\"%s\";\"%s\";\"%s\"",
-                            filterHyphenForCsv(appointment.location), bdString, edString);
-                } else {
-                    ps.format(";;;");
-                }
                 ps.println();
                 ps.flush();
             } catch (Exception e) {
