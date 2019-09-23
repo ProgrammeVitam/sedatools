@@ -39,6 +39,7 @@
         <lgooddatepicker.version>10.3.1</lgooddatepicker.version>
         <!--Test libraries-->
         <rsyntaxtextarea.version>3.0.3</rsyntaxtextarea.version>
+        <rstaui.version>3.0.1</rstaui.version>
         <junit-jupiter-engine.version>5.5.1</junit-jupiter-engine.version>
         <assertj-core.version>3.13.2</assertj-core.version>
         <!--Maven modules-->
