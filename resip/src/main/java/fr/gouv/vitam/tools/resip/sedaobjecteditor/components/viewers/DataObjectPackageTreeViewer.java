@@ -361,8 +361,14 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      */
     public Map<TreePath, Boolean> getExpansionState() {
         Map<TreePath, Boolean> expansionState = new HashMap<TreePath, Boolean>();
+        TreePath treePath;
         for (int i = 0; i < getRowCount(); i++) {
-            TreePath treePath = getPathForRow(i);
+            try {
+                treePath = getPathForRow(i);
+            }
+            catch (NullPointerException e){
+                continue;
+            }
             expansionState.put(treePath, isExpanded(i));
         }
         return expansionState;

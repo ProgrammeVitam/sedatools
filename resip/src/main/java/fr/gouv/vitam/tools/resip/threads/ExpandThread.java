@@ -35,10 +35,10 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.parameters.ZipImportContext;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
+import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -128,7 +128,7 @@ public class ExpandThread extends SwingWorker<String, String> {
         } else {
             inFile.delete();
             fileCounter++;
-            doProgressLogIfStep(spl,SEDALibProgressLogger.OBJECTS_GROUP,fileCounter,fileCounter+" fichiers effacés");
+            doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, fileCounter, fileCounter + " fichiers effacés");
         }
     }
 
@@ -175,13 +175,13 @@ public class ExpandThread extends SwingWorker<String, String> {
 
             //TODO add preferences for compressed filename import
             String encoding;
-            if ((bdoToExpand.formatIdentification!=null) &&
+            if ((bdoToExpand.formatIdentification != null) &&
                     (bdoToExpand.formatIdentification.getSimpleMetadata("MimeType").toLowerCase().equals("application/zip")))
-                encoding="CP850";
+                encoding = "CP850";
             else
-                encoding="UTF8";
+                encoding = "UTF8";
             ZipImportContext zic = new ZipImportContext(Prefs.getInstance());
-            String target = getTmpDirTarget(zic.getWorkDir(), bdoToExpand.getOnDiskPathToString(),bdoToExpand.getInDataObjectPackageId());
+            String target = getTmpDirTarget(zic.getWorkDir(), bdoToExpand.getOnDiskPathToString(), bdoToExpand.getInDataObjectPackageId());
             zi = new CompressedFileToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, encoding, null, spl);
             for (String ip : zic.getIgnorePatternList())
                 zi.addIgnorePattern(ip);
@@ -207,17 +207,18 @@ public class ExpandThread extends SwingWorker<String, String> {
             List<ArchiveUnit> addedNodes = zi.getArchiveTransfer().getDataObjectPackage().getGhostRootAu().getChildrenAuList()
                     .getArchiveUnitList();
             targetNode.getArchiveUnit().getDataObjectPackage().moveContentFromDataObjectPackage(zi.getArchiveTransfer().getDataObjectPackage(), targetNode.getArchiveUnit());
-            DataObject dataObject=targetNode.getArchiveUnit().getDataObjectRefList().getDataObjectList().get(0);
-            if (dataObject instanceof DataObjectGroup){
-                DataObjectGroup dog=(DataObjectGroup) dataObject;
+            DataObject dataObject = targetNode.getArchiveUnit().getDataObjectRefList().getDataObjectList().get(0);
+            if (dataObject instanceof DataObjectGroup) {
+                DataObjectGroup dog = (DataObjectGroup) dataObject;
                 dog.removeDataObject(bdoToExpand);
-                if (((dog.getPhysicalDataObjectList()==null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
+                if (((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
                         dog.getBinaryDataObjectList().isEmpty())
-                targetNode.getArchiveUnit().removeDataObjectById(dog.getInDataObjectPackageId());
+                    targetNode.getArchiveUnit().removeTheDataObjectGroup();
             }
             try {
                 targetNode.getArchiveUnit().getDataObjectPackage().removeUnusedDataObjects(spl);
-            } catch (InterruptedException ignored) {}
+            } catch (InterruptedException ignored) {
+            }
             DataObjectPackageTreeModel treeModel = targetNode.getTreeModel();
             int auRecursivCount = 0, ogRecursivCount = 0;
             for (ArchiveUnit au : addedNodes) {

@@ -3,12 +3,9 @@ package fr.gouv.vitam.tools.resip.frame;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.threads.SearchThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeViewer;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 
 import javax.swing.*;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.WindowAdapter;
@@ -86,7 +83,7 @@ public class SearchDialog extends JDialog {
         searchThread = null;
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
-        mainWindow=owner;
+        mainWindow = owner;
 
         setMinimumSize(new Dimension(500, 140));
         setPreferredSize(new Dimension(500, 140));
@@ -207,7 +204,7 @@ public class SearchDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         contentPane.add(resultLabel, gbc);
 
-        JLabel withoutChild=new JLabel("Sans descendant :");
+        JLabel withoutChild = new JLabel("Sans descendant :");
         withoutChild.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 0);
@@ -217,7 +214,7 @@ public class SearchDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         contentPane.add(withoutChild, gbc);
 
-        withoutChildArchiveUnitCheckBox=new JCheckBox(translateTag("ArchiveUnit"));
+        withoutChildArchiveUnitCheckBox = new JCheckBox(translateTag("ArchiveUnit"));
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 0);
         gbc.gridx = 1;
@@ -226,7 +223,7 @@ public class SearchDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         contentPane.add(withoutChildArchiveUnitCheckBox, gbc);
 
-        withoutChildDataObjectCheckBox=new JCheckBox(translateTag("DataObject"));
+        withoutChildDataObjectCheckBox = new JCheckBox(translateTag("DataObject"));
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;
@@ -262,7 +259,7 @@ public class SearchDialog extends JDialog {
         gbc.gridx = 0;
         gbc.gridy = 1;
         optionalInfoPanel.add(informationLabel, gbc);
-        JTextArea informationTextArea = new JTextArea("Il s'agit d'une recherche par expression régulière de type java d'une partie quelconque de la chaine, avec les caractères spéciaux classiques .?+*[]^|\\\\s\\w...\n"+
+        JTextArea informationTextArea = new JTextArea("Il s'agit d'une recherche par expression régulière de type java d'une partie quelconque de la chaine, avec les caractères spéciaux classiques .?+*[]^|\\\\s\\w...\n" +
                 "Pour plus d'info chercher sur Internet \"Regexp java\"");
         informationTextArea.setFont(MainWindow.LABEL_FONT);
         informationTextArea.setEditable(false);
@@ -295,10 +292,10 @@ public class SearchDialog extends JDialog {
 
     // actions
 
-    private void close(){
-        if (searchThread!=null) {
+    private void close() {
+        if (searchThread != null) {
             searchThread.cancel(true);
-            searchThread=null;
+            searchThread = null;
             resultLabel.setText("Aucune recherche");
         }
         setVisible(false);
@@ -326,10 +323,13 @@ public class SearchDialog extends JDialog {
     }
 
     private void buttonSearch() {
-        if (searchThread==null) {
-            searchThread = new SearchThread(this, mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu());
+        if (searchThread == null) {
+            searchThread = new SearchThread(mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu(),
+                    withoutChildArchiveUnitCheckBox.isSelected(), withoutChildDataObjectCheckBox.isSelected(),
+                    idCheckBox.isSelected(), metadataCheckBox.isSelected(), regExpCheckBox.isSelected(), caseCheckBox.isSelected(),
+                    searchTextField.getText(), e -> setSearchResult(e));
             searchThread.execute();
-            searchResult=null;
+            searchResult = null;
             resultLabel.setText("En cours");
         }
     }
@@ -337,7 +337,7 @@ public class SearchDialog extends JDialog {
     private void buttonNext() {
         if (searchResult != null && searchResult.size() > 0) {
             searchResultPosition = Math.min(searchResultPosition + 1, searchResult.size() - 1);
-                resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size()+" trouvé"+(searchResult.size()>1?"s":""));
+            resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size() + " trouvé" + (searchResult.size() > 1 ? "s" : ""));
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchResult.get(searchResultPosition));
         }
     }
@@ -345,72 +345,9 @@ public class SearchDialog extends JDialog {
     private void buttonPrevious() {
         if (searchResult != null && searchResult.size() > 0) {
             searchResultPosition = Math.max(searchResultPosition - 1, 0);
-            resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size()+" trouvé"+(searchResult.size()>1?"s":""));
+            resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size() + " trouvé" + (searchResult.size() > 1 ? "s" : ""));
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchResult.get(searchResultPosition));
         }
-    }
-
-    /**
-     * Is regexp check boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isRegExpCheck(){
-        return regExpCheckBox.isSelected();
-    }
-
-    /**
-     * Is ID check boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isIdCheck(){
-        return idCheckBox.isSelected();
-    }
-
-    /**
-     * Is metadata check boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isMetadataCheck(){
-        return metadataCheckBox.isSelected();
-    }
-
-    /**
-     * Is case check boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isCaseCheck(){
-        return caseCheckBox.isSelected();
-    }
-
-    /**
-     * Is without child archive unit check boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isWithoutChildArchiveUnitCheck(){
-        return withoutChildArchiveUnitCheckBox.isSelected();
-    }
-
-    /**
-     * Is without data object group check boolean.
-     *
-     * @return the boolean
-     */
-    public boolean isWithoutDataObjectGroupCheck(){
-        return withoutChildDataObjectCheckBox.isSelected();
-    }
-
-    /**
-     * Get search text string.
-     *
-     * @return the string
-     */
-    public String getSearchText(){
-        return searchTextField.getText();
     }
 
     /**
@@ -418,22 +355,21 @@ public class SearchDialog extends JDialog {
      *
      * @param searchResult the search result
      */
-    public void setSearchResult(List<ArchiveUnit> searchResult){
-        this.searchResult=searchResult;
-        searchResultPosition=0;
-        if (searchResult.size()>0) {
-            resultLabel.setText("1/"+searchResult.size()+" trouvé"+(searchResult.size()>1?"s":""));
+    public void setSearchResult(List<ArchiveUnit> searchResult) {
+        this.searchResult = searchResult;
+        searchResultPosition = 0;
+        if (searchResult.size() > 0) {
+            resultLabel.setText("1/" + searchResult.size() + " trouvé" + (searchResult.size() > 1 ? "s" : ""));
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchResult.get(0));
-        }
-        else
+        } else
             resultLabel.setText("0 trouvé");
-        searchThread=null;
+        searchThread = null;
     }
 
     /**
      * Empty dialog. To be used when the context is changed.
      */
-    public void emptyDialog(){
+    public void emptyDialog() {
         searchTextField.setText("");
         regExpCheckBox.setSelected(false);
         metadataCheckBox.setSelected(false);

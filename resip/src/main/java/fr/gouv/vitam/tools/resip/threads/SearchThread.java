@@ -28,8 +28,6 @@
 package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.frame.MainWindow;
-import fr.gouv.vitam.tools.resip.frame.SearchDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -37,6 +35,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import javax.swing.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,22 +44,43 @@ import java.util.regex.Pattern;
  */
 public class SearchThread extends SwingWorker<String, String> {
 
-    private SearchDialog searchDialog;
+    // input
     private ArchiveUnit searchUnit;
+    private boolean isWithoutChildArchiveUnitCheck;
+    private boolean isWithoutDataObjectGroupCheck;
+    private boolean isIdCheck;
+    private boolean isMetadataCheck;
+    private boolean isRegExpCheck;
+    private boolean isCaseCheck;
+    private String searchText;
+    private Consumer<List<ArchiveUnit>> callBack;
+
+    // treatment
     private String searchExp;
     private DataObjectPackage dataObjectPackage;
-    private List<ArchiveUnit> searchResult;
     private Pattern searchPattern;
+    private List<ArchiveUnit> searchResult;
+
 
     /**
      * Instantiates a new Search thread.
      *
-     * @param searchDialog the search dialog
-     * @param au           the au
+     * @param au the au
      */
-    public SearchThread(SearchDialog searchDialog, ArchiveUnit au) {
-        this.searchDialog = searchDialog;
+    public SearchThread(ArchiveUnit au,
+                        boolean isWithoutChildArchiveUnitCheck, boolean isWithoutDataObjectGroupCheck,
+                        boolean isIdCheck, boolean isMetadataCheck, boolean isRegExpCheck, boolean isCaseCheck,
+                        String searchText,
+                        Consumer<List<ArchiveUnit>> callBack) {
         this.searchUnit = au;
+        this.isWithoutChildArchiveUnitCheck = isWithoutChildArchiveUnitCheck;
+        this.isWithoutDataObjectGroupCheck = isWithoutDataObjectGroupCheck;
+        this.isIdCheck = isIdCheck;
+        this.isMetadataCheck = isMetadataCheck;
+        this.isRegExpCheck = isRegExpCheck;
+        this.isCaseCheck = isCaseCheck;
+        this.searchText = searchText;
+        this.callBack = callBack;
     }
 
     /**
@@ -77,15 +97,14 @@ public class SearchThread extends SwingWorker<String, String> {
                 continue;
             try {
                 String tmp;
-                int dataObjectCount=0;
-                if (childUnit.getTheDataObjectGroup()!=null) {
-                    DataObjectGroup dataObjectGroup= childUnit.getTheDataObjectGroup();
-                    dataObjectCount = dataObjectGroup.getBinaryDataObjectList().size()+dataObjectGroup.getPhysicalDataObjectList().size();
+                int dataObjectCount = 0;
+                if (childUnit.getTheDataObjectGroup() != null) {
+                    DataObjectGroup dataObjectGroup = childUnit.getTheDataObjectGroup();
+                    dataObjectCount = dataObjectGroup.getBinaryDataObjectList().size() + dataObjectGroup.getPhysicalDataObjectList().size();
                 }
-                if (!(searchDialog.isWithoutChildArchiveUnitCheck() && (childUnit.getChildrenAuList().getCount() != 0)) &&
-                        !(searchDialog.isWithoutDataObjectGroupCheck() && (dataObjectCount != 0)))
-                {
-                    if (searchDialog.isIdCheck()) {
+                if (!(isWithoutChildArchiveUnitCheck && (childUnit.getChildrenAuList().getCount() != 0)) &&
+                        !(isWithoutDataObjectGroupCheck && (dataObjectCount != 0))) {
+                    if (isIdCheck) {
                         tmp = "<" + childUnit.getInDataObjectPackageId() + ">";
                         for (DataObject dataObject : childUnit.getDataObjectRefList().getDataObjectList()) {
                             tmp += "<" + dataObject.getInDataObjectPackageId() + ">";
@@ -96,17 +115,17 @@ public class SearchThread extends SwingWorker<String, String> {
                                     tmp += "<" + po.getInDataObjectPackageId() + ">";
                             }
                         }
-                    } else if (searchDialog.isMetadataCheck()) {
+                    } else if (isMetadataCheck) {
                         tmp = childUnit.getContent().toString();
                     } else
                         tmp = treePane.getTreeTitle(childUnit);
 
-                    if (searchDialog.isRegExpCheck()) {
+                    if (isRegExpCheck) {
                         Matcher matcher = searchPattern.matcher(tmp);
                         if (matcher.matches())
                             searchResult.add(childUnit);
                     } else {
-                        if (!searchDialog.isCaseCheck()) tmp = tmp.toLowerCase();
+                        if (!isCaseCheck) tmp = tmp.toLowerCase();
                         if (tmp.contains(searchExp))
                             searchResult.add(childUnit);
                     }
@@ -120,12 +139,11 @@ public class SearchThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        MainWindow mainWindow = (MainWindow) searchDialog.getParent();
-        searchExp = searchDialog.getSearchText();
-        if (searchDialog.isRegExpCheck()) searchPattern = Pattern.compile("[\\S\\s]*" + searchExp + "[\\S\\s]*");
-        else if (!searchDialog.isCaseCheck()) searchExp = searchExp.toLowerCase();
-        if (searchDialog.isIdCheck()) searchExp = "<" + searchExp + ">";
-        dataObjectPackage = mainWindow.getApp().currentWork.getDataObjectPackage();
+        searchExp = searchText;
+        if (isRegExpCheck) searchPattern = Pattern.compile("[\\S\\s]*" + searchExp + "[\\S\\s]*");
+        else if (!isCaseCheck) searchExp = searchExp.toLowerCase();
+        if (isIdCheck) searchExp = "<" + searchExp + ">";
+        dataObjectPackage=searchUnit.getDataObjectPackage();
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
         searchResult = new LinkedList<ArchiveUnit>();
 
@@ -135,6 +153,6 @@ public class SearchThread extends SwingWorker<String, String> {
 
     @Override
     protected void done() {
-        searchDialog.setSearchResult(searchResult);
+        callBack.accept(searchResult);
     }
 }

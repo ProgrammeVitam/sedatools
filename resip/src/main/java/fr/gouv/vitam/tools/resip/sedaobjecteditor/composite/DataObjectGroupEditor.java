@@ -78,11 +78,6 @@ public class DataObjectGroupEditor extends CompositeEditor {
 
     private void removeDataObject(DataObject dataObject) {
         getDataObjectGroupMetadata().removeDataObject(dataObject);
-        if (dataObject instanceof BinaryDataObject) {
-            getDataObjectGroupMetadata().getDataObjectPackage().getBdoInDataObjectPackageIdMap().remove(dataObject.getInDataObjectPackageId());
-        } else if (dataObject instanceof PhysicalDataObject) {
-            getDataObjectGroupMetadata().getDataObjectPackage().getPdoInDataObjectPackageIdMap().remove(dataObject.getInDataObjectPackageId());
-        }
     }
 
     private void addDataObject(DataObject dataObject) throws SEDALibException {

@@ -161,11 +161,6 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
      */
     public void removeDataObject(DataObject dataObject) {
         container.getEditedArchiveUnit().getTheDataObjectGroup().removeDataObject(dataObject);
-        if (dataObject instanceof BinaryDataObject) {
-            container.getEditedArchiveUnit().getDataObjectPackage().getBdoInDataObjectPackageIdMap().remove(dataObject.getInDataObjectPackageId());
-        } else if (dataObject instanceof PhysicalDataObject) {
-            container.getEditedArchiveUnit().getDataObjectPackage().getPdoInDataObjectPackageIdMap().remove(dataObject.getInDataObjectPackageId());
-        }
         ((DefaultListModel<DataObject>) getModel()).removeElement(dataObject);
         if (((DefaultListModel<DataObject>) getModel()).isEmpty())
             container.selectDataObject(null);

@@ -112,12 +112,11 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
      */
     public void addDataObject(DataObject dataObject) {
         if (dataObject instanceof BinaryDataObject) {
-            binaryDataObjectList.add((BinaryDataObject)dataObject);
-            ((BinaryDataObject)dataObject).setDataObjectGroup(this);
-        }
-        else if (dataObject instanceof PhysicalDataObject){
-            physicalDataObjectList.add((PhysicalDataObject)dataObject);
-            ((PhysicalDataObject)dataObject).setDataObjectGroup(this);
+            binaryDataObjectList.add((BinaryDataObject) dataObject);
+            ((BinaryDataObject) dataObject).setDataObjectGroup(this);
+        } else if (dataObject instanceof PhysicalDataObject) {
+            physicalDataObjectList.add((PhysicalDataObject) dataObject);
+            ((PhysicalDataObject) dataObject).setDataObjectGroup(this);
         }
     }
 
@@ -128,11 +127,15 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
      * @return true, if successful
      */
     public boolean removeDataObject(DataObject zdo) {
-        //noinspection SuspiciousMethodCalls
-        if (!binaryDataObjectList.remove(zdo))
-            //noinspection SuspiciousMethodCalls
-            return physicalDataObjectList.remove(zdo);
-        return true;
+        boolean result = false;
+        if (zdo instanceof BinaryDataObject) {
+            result = binaryDataObjectList.remove(zdo);
+            if (result) getDataObjectPackage().getBdoInDataObjectPackageIdMap().remove(zdo.getInDataObjectPackageId());
+        } else if (zdo instanceof PhysicalDataObject) {
+            result = physicalDataObjectList.remove(zdo);
+            if (result) getDataObjectPackage().getBdoInDataObjectPackageIdMap().remove(zdo.getInDataObjectPackageId());
+        }
+        return result;
     }
 
     /**

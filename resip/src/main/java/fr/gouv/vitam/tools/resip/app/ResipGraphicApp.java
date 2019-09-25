@@ -143,6 +143,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      */
     public TechnicalSearchDialog technicalSearchDialog;
     /**
+     * The Clean dialog.
+     */
+    public CleanDialog cleanDialog;
+    /**
      * The Statistic window.
      */
     public StatisticWindow statisticWindow;
@@ -200,6 +204,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             this.searchDialog = new SearchDialog(mainWindow);
             this.treatmentParameters = new TreatmentParameters(Prefs.getInstance());
             this.technicalSearchDialog = new TechnicalSearchDialog(mainWindow);
+            this.cleanDialog = new CleanDialog(mainWindow);
             this.statisticWindow = new StatisticWindow();
             this.duplicatesWindow = new DuplicatesWindow();
             mainWindow.setVisible(true);
@@ -335,6 +340,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         menuItem.addActionListener(this);
         menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
         actionByMenuItem.put(menuItem, "Duplicates");
+        treatMenu.add(menuItem);
+
+        menuItem = new JMenuItem("Nettoyer les inutiles...");
+        menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        actionByMenuItem.put(menuItem, "Clean");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Voir les statistiques...");
@@ -495,6 +506,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "Duplicates":
                         duplicates();
                         break;
+                    case "Clean":
+                        clean();
+                        break;
                     case "Statistics":
                         generateStatistics();
                         break;
@@ -617,6 +631,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         duplicatesWindow.setVisible(false);
         duplicatesWindow.emptyDialog();
+
+        cleanDialog.setVisible(false);
+        cleanDialog.emptyDialog();
 
         technicalSearchDialog.setVisible(false);
         technicalSearchDialog.emptyDialog();
@@ -889,7 +906,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         duplicatesWindow.setVisible(true);
     }
 
-    // MenuItem Check SEDA 21 compliance
+    /**
+     * Clean.
+     */
+    void clean() {
+        cleanDialog.setVisible(true);
+    }
 
     /**
      * See the manifest.
