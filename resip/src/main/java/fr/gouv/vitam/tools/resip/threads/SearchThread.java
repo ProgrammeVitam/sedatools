@@ -77,8 +77,13 @@ public class SearchThread extends SwingWorker<String, String> {
                 continue;
             try {
                 String tmp;
+                int dataObjectCount=0;
+                if (childUnit.getTheDataObjectGroup()!=null) {
+                    DataObjectGroup dataObjectGroup= childUnit.getTheDataObjectGroup();
+                    dataObjectCount = dataObjectGroup.getBinaryDataObjectList().size()+dataObjectGroup.getPhysicalDataObjectList().size();
+                }
                 if (!(searchDialog.isWithoutChildArchiveUnitCheck() && (childUnit.getChildrenAuList().getCount() != 0)) &&
-                        !(searchDialog.isWithoutDataObjectGroupCheck() && (childUnit.getDataObjectRefList().getCount() != 0)))
+                        !(searchDialog.isWithoutDataObjectGroupCheck() && (dataObjectCount != 0)))
                 {
                     if (searchDialog.isIdCheck()) {
                         tmp = "<" + childUnit.getInDataObjectPackageId() + ">";

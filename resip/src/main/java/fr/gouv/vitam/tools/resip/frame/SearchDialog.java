@@ -226,7 +226,7 @@ public class SearchDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         contentPane.add(withoutChildArchiveUnitCheckBox, gbc);
 
-        withoutChildDataObjectCheckBox=new JCheckBox(translateTag("DataObjectGroup"));
+        withoutChildDataObjectCheckBox=new JCheckBox(translateTag("DataObject"));
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc = new GridBagConstraints();
         gbc.gridx = 2;

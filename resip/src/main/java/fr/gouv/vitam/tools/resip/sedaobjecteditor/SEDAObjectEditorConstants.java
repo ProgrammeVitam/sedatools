@@ -348,6 +348,7 @@ public class SEDAObjectEditorConstants {
 
         //DataObjectGroup
         translateMap.put("DataObjectGroup", "Groupe d'objets");
+        translateMap.put("DataObject", "Objet numérique ou physique");
 
 
         //Others
