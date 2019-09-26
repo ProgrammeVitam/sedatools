@@ -213,7 +213,7 @@ public class ExpandThread extends SwingWorker<String, String> {
                 dog.removeDataObject(bdoToExpand);
                 if (((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
                         dog.getBinaryDataObjectList().isEmpty())
-                    targetNode.getArchiveUnit().removeTheDataObjectGroup();
+                    targetNode.getArchiveUnit().removeEmptyDataObjectGroup();
             }
             try {
                 targetNode.getArchiveUnit().getDataObjectPackage().removeUnusedDataObjects(spl);

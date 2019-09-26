@@ -709,23 +709,31 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         return null;
     }
 
-    private ArchiveUnit searchDOGArchiveUnit(DataObjectGroup dog) {
-        for (Map.Entry<String, ArchiveUnit> e : getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet())
-            if (e.getValue().getTheDataObjectGroup().equals(dog))
+    private ArchiveUnit searchDOGArchiveUnit(DataObjectGroup dataObjectGroup) {
+        DataObjectGroup dog;
+        for (Map.Entry<String, ArchiveUnit> e : getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet()) {
+            dog = e.getValue().getTheDataObjectGroup();
+            if ((dog != null) && (dog.equals(dataObjectGroup)))
                 return e.getValue();
+        }
         return null;
     }
 
     /**
      * Remove the data object group.
+     *
+     * @return true if done, false if not possible
      */
-    public void removeTheDataObjectGroup() {
+    public boolean removeEmptyDataObjectGroup() {
         DataObjectGroup dog = getTheDataObjectGroup();
+        if (dog.getPhysicalDataObjectList().size()+dog.getBinaryDataObjectList().size()!=0)
+            return false;
         if (dog != null) {
             removeDataObjectById(dog.getInDataObjectPackageId());
             if (searchDOGArchiveUnit(dog) == null)
                 getDataObjectPackage().getDogInDataObjectPackageIdMap().remove(dog.getInDataObjectPackageId());
         }
+        return true;
     }
 
     /*

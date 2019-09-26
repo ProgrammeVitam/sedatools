@@ -169,8 +169,19 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
                 ((CompositeEditor) dataObjectGroupEditor).refreshEditedObjectLabel();
             }
             DataObjectGroup dog = dataObjectGroupEditor.extractEditedObject();
-            for (SEDAObjectEditor me : dataObjectGroupEditor.objectEditorList) {
-                ((CompositeEditor) me).refreshEditedObjectLabel();
+            if (dog.getPhysicalDataObjectList().size()+dog.getPhysicalDataObjectList().size()==0) {
+                editedArchiveUnit.removeEmptyDataObjectGroup();
+                dataObjectGroupEditor.editDataObjectGroup(null);
+                scrollPane.setVisible(false);
+                addPane.setVisible(true);
+                saveButton.setEnabled(false);
+                revertButton.setEnabled(false);
+                ResipGraphicApp.getTheWindow().treePane.doRefreshTree();
+            }
+            else {
+                for (SEDAObjectEditor me : dataObjectGroupEditor.objectEditorList) {
+                    ((CompositeEditor) me).refreshEditedObjectLabel();
+                }
             }
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         } catch (SEDALibException e) {

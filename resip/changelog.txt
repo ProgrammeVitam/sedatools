@@ -15,6 +15,7 @@ Evolutions/Corrections en 2.0.0
 - Evolution: ajout d'une fonction et fenêtre de visualisation du manifest, avec fonctions de recherche
 - Refacto: simplification de la MainWindow avec la mise en place de "Panels" de haut niveau pour l'arbre, l'édition de l'AU et l'édition du DOG
 - Evolution: ajout des options d'absence de descendance dans le dialogue de recherche, pour chercher les archives sans sous-archives ou/et sans objets
+- Evolution: ajout de deux critères de recherche par absence de descendance en unités d'archive et en objets
 
 ============================================================================
 Evolutions/Corrections en 1.11.0
