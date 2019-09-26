@@ -201,13 +201,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public void run() {
         try {
             mainWindow = new MainWindow(this);
-            this.searchDialog = new SearchDialog(mainWindow);
             this.treatmentParameters = new TreatmentParameters(Prefs.getInstance());
+            mainWindow.setVisible(true);
+            this.searchDialog = new SearchDialog(mainWindow);
             this.technicalSearchDialog = new TechnicalSearchDialog(mainWindow);
             this.cleanDialog = new CleanDialog(mainWindow);
             this.statisticWindow = new StatisticWindow();
             this.duplicatesWindow = new DuplicatesWindow();
-            mainWindow.setVisible(true);
             currentWork = null;
 
             if ((launchCreationContext instanceof DiskImportContext) ||
