@@ -525,8 +525,8 @@ public class TechnicalSearchDialog extends JDialog {
                 max = min;
                 min = tmp;
             }
-            technicalSearchThread = new TechnicalSearchThread(this, mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu(),
-                    constructFormatList(), min, max);
+            technicalSearchThread = new TechnicalSearchThread( mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu(),
+                    constructFormatList(), min, max, e->setDataObjectSearchResult(e));
             technicalSearchThread.execute();
             resultArchiveUnitLabel.setText("En cours");
             resultObjectLabel.setText("");
@@ -591,7 +591,7 @@ public class TechnicalSearchDialog extends JDialog {
      *
      * @param searchResult the search result
      */
-    public void setSearchResult(LinkedHashMap<ArchiveUnit, List<BinaryDataObject>> searchResult) {
+    public void setDataObjectSearchResult(LinkedHashMap<ArchiveUnit, List<BinaryDataObject>> searchResult) {
         this.searchResult = searchResult;
         this.searchResultList = new ArrayList(searchResult.keySet());
         searchArchiveUnitPosition = 0;

@@ -28,8 +28,6 @@
 package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.frame.MainWindow;
-import fr.gouv.vitam.tools.resip.frame.TechnicalSearchDialog;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 
@@ -37,6 +35,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
@@ -44,29 +43,31 @@ import java.util.stream.Collectors;
  */
 public class TechnicalSearchThread extends SwingWorker<String, String> {
 
-    private TechnicalSearchDialog technicalSearchDialog;
+    // input
     private ArchiveUnit searchUnit;
-    private DataObjectPackage dataObjectPackage;
-    private LinkedHashMap<ArchiveUnit, List<BinaryDataObject>> searchResult;
     private List<String> formats;
-    private boolean searchOthers;
-    private List<String> otherFormats;
     private long min;
     private long max;
+    private Consumer<LinkedHashMap<ArchiveUnit, List<BinaryDataObject>>> callBack;
+
+    // treatment
+    private DataObjectPackage dataObjectPackage;
+    private LinkedHashMap<ArchiveUnit, List<BinaryDataObject>> searchDataObjectResult;
+    private boolean searchOthers;
+    private List<String> otherFormats;
     private boolean allFormatsFlag;
 
 
     /**
      * Instantiates a new Technical search thread.
      *
-     * @param technicalSearchDialog the technical search dialog
      * @param au                    the au
      * @param formats               the formats
      * @param min                   the min
      * @param max                   the max
      */
-    public TechnicalSearchThread(TechnicalSearchDialog technicalSearchDialog, ArchiveUnit au, List<String> formats, long min, long max) {
-        this.technicalSearchDialog = technicalSearchDialog;
+    public TechnicalSearchThread(ArchiveUnit au, List<String> formats, long min, long max,
+                                 Consumer<LinkedHashMap<ArchiveUnit, List<BinaryDataObject>>> callBack) {
         this.searchUnit = au;
         this.formats = formats;
         if (formats.contains("Other")) {
@@ -85,14 +86,15 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
         this.allFormatsFlag = ((formats.size() == 0) && !this.searchOthers);
         this.min = min;
         this.max = max;
+        this.callBack=callBack;
     }
 
     private void addBinaryDataObject(ArchiveUnit au, BinaryDataObject bdo) {
-        List<BinaryDataObject> bdos = searchResult.get(au);
+        List<BinaryDataObject> bdos = searchDataObjectResult.get(au);
         if (bdos == null)
             bdos = new ArrayList<BinaryDataObject>();
         bdos.add(bdo);
-        searchResult.put(au, bdos);
+        searchDataObjectResult.put(au, bdos);
     }
 
     private boolean testBinaryDataObject(BinaryDataObject bdo) {
@@ -141,10 +143,9 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        MainWindow mainWindow = (MainWindow) technicalSearchDialog.getParent();
-        dataObjectPackage = mainWindow.getApp().currentWork.getDataObjectPackage();
+        dataObjectPackage =searchUnit.getDataObjectPackage();
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
-        searchResult = new LinkedHashMap<ArchiveUnit, List<BinaryDataObject>>();
+        searchDataObjectResult = new LinkedHashMap<ArchiveUnit, List<BinaryDataObject>>();
 
         searchInArchiveUnit(searchUnit);
         return "OK";
@@ -152,6 +153,6 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
 
     @Override
     protected void done() {
-        technicalSearchDialog.setSearchResult(searchResult);
+        callBack.accept(searchDataObjectResult);
     }
 }

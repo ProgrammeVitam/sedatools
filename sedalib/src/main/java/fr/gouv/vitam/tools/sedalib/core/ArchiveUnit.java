@@ -41,6 +41,7 @@ import javax.xml.stream.events.XMLEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Map;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
@@ -483,8 +484,8 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         }
 
         int counter = getDataObjectPackage().getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                "sedalib: "+ counter + " métadonnées ArchiveUnit exportées");
+        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
+                "sedalib: " + counter + " métadonnées ArchiveUnit exportées");
     }
 
     /**
@@ -597,7 +598,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             return null;
 
         int counter = dataObjectPackage.getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter, "sedalib: "+ counter + " métadonnées ArchiveUnit importées");
+        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, "sedalib: " + counter + " métadonnées ArchiveUnit importées");
 
         return au.inDataPackageObjectId;
     }
@@ -700,12 +701,39 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      */
     @JsonIgnore
     public DataObjectGroup getTheDataObjectGroup() {
-        if (dataObjectRefList.getCount()!=1)
+        if (dataObjectRefList.getCount() != 1)
             return null;
-        DataObject tmp=dataObjectRefList.getDataObjectList().get(0);
+        DataObject tmp = dataObjectRefList.getDataObjectList().get(0);
         if (tmp instanceof DataObjectGroup)
             return (DataObjectGroup) tmp;
         return null;
+    }
+
+    private ArchiveUnit searchDOGArchiveUnit(DataObjectGroup dataObjectGroup) {
+        DataObjectGroup dog;
+        for (Map.Entry<String, ArchiveUnit> e : getDataObjectPackage().getAuInDataObjectPackageIdMap().entrySet()) {
+            dog = e.getValue().getTheDataObjectGroup();
+            if ((dog != null) && (dog.equals(dataObjectGroup)))
+                return e.getValue();
+        }
+        return null;
+    }
+
+    /**
+     * Remove the data object group.
+     *
+     * @return true if done, false if not possible
+     */
+    public boolean removeEmptyDataObjectGroup() {
+        DataObjectGroup dog = getTheDataObjectGroup();
+        if (dog.getPhysicalDataObjectList().size()+dog.getBinaryDataObjectList().size()!=0)
+            return false;
+        if (dog != null) {
+            removeDataObjectById(dog.getInDataObjectPackageId());
+            if (searchDOGArchiveUnit(dog) == null)
+                getDataObjectPackage().getDogInDataObjectPackageIdMap().remove(dog.getInDataObjectPackageId());
+        }
+        return true;
     }
 
     /*

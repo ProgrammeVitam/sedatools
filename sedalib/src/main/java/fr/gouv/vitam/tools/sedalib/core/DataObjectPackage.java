@@ -889,6 +889,24 @@ public class DataObjectPackage {
         vitamNormalizationStatus = NORMALIZATION_STATUS_OK;
     }
 
+
+    /**
+     * Remove empty (no child archive unit, no data object) archive unit from all it's fathers and from the data object package.
+     *
+     * @param archiveUnit the empty archive unit
+     * @return true if it's done, false if it's not possible (not empty or not found)
+     */
+    public boolean removeEmptyArchiveUnit(ArchiveUnit archiveUnit){
+        if (archiveUnit.getChildrenAuList().getCount()!=0)
+            return false;
+        if (archiveUnit.getDataObjectRefList().getCount()!=0)
+            return false;
+        for (Map.Entry<String,ArchiveUnit> e:auInDataObjectPackageIdMap.entrySet()){
+            e.getValue().getChildrenAuList().getArchiveUnitList().remove(archiveUnit);
+        }
+        return auInDataObjectPackageIdMap.remove(archiveUnit.inDataPackageObjectId)!=null;
+    }
+
     // SEDA XML exporter
 
     /**
