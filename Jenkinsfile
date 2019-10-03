@@ -58,7 +58,7 @@ pipeline {
             }
         }
 
-        stage ("Execute unit tests on Pull Request") {
+        stage ("Execute unit tests") {
             when {
                 not{
                     branch "PR*"
