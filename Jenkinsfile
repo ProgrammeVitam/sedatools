@@ -58,7 +58,7 @@ pipeline {
             }
         }
 
-        stage ("Execute unit tests") {
+        stage ("Execute unit tests on Pull Request") {
             when {
                 not{
                     branch "PR*"
@@ -90,13 +90,16 @@ pipeline {
                     githubNotify status: "SUCCESS", description: "Build successul", credentialsId: "vitam-prg-token"
                 }
                 failure {
-                    githubNotify status: "FAILURE", description: "Build failed", credentialsId: "vitam-prg-token"
+                    githubNotify status: "ERROR", description: "Build failed", credentialsId: "vitam-prg-token"
                 }
                 unstable {
-                    githubNotify status: "FAILURE", description: "Build unstable", credentialsId: "vitam-prg-token"
+                    githubNotify status: "ERROR", description: "Build unstable", credentialsId: "vitam-prg-token"
                 }
                 aborted {
-                    githubNotify status: "ERROR", description: "Build canceled", credentialsId: "vitam-prg-token"
+                    githubNotify status: "FAILURE", description: "Build canceled", credentialsId: "vitam-prg-token"
+                }
+                unsuccessful {
+                    githubNotify status: "ERROR", description: "Build unsuccessful", credentialsId: "vitam-prg-token"
                 }
             }
         }
