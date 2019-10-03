@@ -17,6 +17,7 @@ pipeline {
         SERVICE_PROXY_PORT = credentials("http-proxy-port")
         MAILEXTRACT_GIT_URL=credentials("mailextract-gitlab-url")
         SERVICE_NOPROXY = credentials("http_nonProxyHosts")
+        GITHUB_ACCOUNT_TOKEN = credentials("vitam-prg-token")
     }
 
     triggers {
@@ -58,8 +59,13 @@ pipeline {
         }
 
         stage ("Execute unit tests") {
+            when {
+                not{
+                    branch "PR*"
+                }
+            }
             steps {
-                sh '$MVN_COMMAND -f pom.xml clean test  '
+                sh '$MVN_COMMAND -f pom.xml clean test'
             }
             post {
                 always {
@@ -68,7 +74,42 @@ pipeline {
             }
         }
 
+        stage ("Execute unit tests when pull request") {
+            when {
+                branch "PR*"
+            }
+            steps {
+                githubNotify status: "PENDING", description: "Building & testing", credentialsId: "vitam-prg-token"
+                sh '$MVN_COMMAND -f pom.xml clean test'
+            }
+            post {
+                always {
+                    junit '**/target/surefire-reports/*.xml'
+                }
+                success {
+                    githubNotify status: "SUCCESS", description: "Build successul", credentialsId: "vitam-prg-token"
+                }
+                failure {
+                    githubNotify status: "ERROR", description: "Build failed", credentialsId: "vitam-prg-token"
+                }
+                unstable {
+                    githubNotify status: "ERROR", description: "Build unstable", credentialsId: "vitam-prg-token"
+                }
+                aborted {
+                    githubNotify status: "FAILURE", description: "Build canceled", credentialsId: "vitam-prg-token"
+                }
+                unsuccessful {
+                    githubNotify status: "ERROR", description: "Build unsuccessful", credentialsId: "vitam-prg-token"
+                }
+            }
+        }
+
         stage("Build") {
+            when {
+                not{
+                    branch "PR*"
+                }
+            }
             environment {
                 DEPLOY_GOAL = readFile("deploy_goal.txt")
             }
