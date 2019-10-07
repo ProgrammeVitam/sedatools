@@ -83,6 +83,11 @@ public class SIPToArchiveTransferImporter {
      * The progress logger.
      */
     private SEDALibProgressLogger sedaLibProgressLogger;
+    
+    /**
+     * The is windows.
+     */
+    private boolean isWindows;
 
     /**
      * Unzip file.
@@ -135,6 +140,16 @@ public class SIPToArchiveTransferImporter {
 
                     FileOutputStream fos = new FileOutputStream(newPath.toFile());
                     IOUtils.copy(zais, fos);
+                    // Fix for xls 97 2003 on windows
+                    if (isWindows) {
+                        // Set read-only
+                        try {
+                            Files.setAttribute(newPath, "dos:readonly", true);
+                        } catch (IOException e) {
+                            doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS,
+                                    "Impossible de passer le chemin [" + newPath.toString() + "] en lecture seule", e);
+                        }
+                    }
                     counter++;
                     doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) +
                             " fichiers extraits");
@@ -162,6 +177,8 @@ public class SIPToArchiveTransferImporter {
      */
     public SIPToArchiveTransferImporter(String zipFile, String unCompressDirectory, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
         Path zipFilePath, unCompressDirectoryPath;
+        
+        isWindows = System.getProperty("os.name").toLowerCase().contains("win");
 
         zipFilePath = Paths.get(zipFile);
         if (!Files.isRegularFile(zipFilePath, java.nio.file.LinkOption.NOFOLLOW_LINKS))

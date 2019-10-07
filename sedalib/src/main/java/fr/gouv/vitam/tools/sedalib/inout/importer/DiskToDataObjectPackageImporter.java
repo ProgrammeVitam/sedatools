@@ -784,6 +784,16 @@ public class DiskToDataObjectPackageImporter {
         inCounter++;
         doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, inCounter, "sedalib: " + inCounter +
                     " ArchiveUnits importées");
+        // Fix for xls 97 2003 on windows
+        if (isWindows) {
+            // Set read-only
+            try {
+                Files.setAttribute(path, "dos:readonly", true);
+            } catch (IOException e) {
+                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS,
+                        "Impossible de passer Le chemin [" + path.toString() + "] en lecture seule", e);
+            }
+        }
 
         dog = new DataObjectGroup(dataObjectPackage, path);
         bdo = new BinaryDataObject(dataObjectPackage, path, null, "BinaryMaster_1");

@@ -112,6 +112,11 @@ public class CompressedFileToArchiveTransferImporter {
      * The GlobalMetaData file path .
      */
     private Path onDiskGlobalMetadataPath;
+    
+    /**
+     * The is windows.
+     */
+    private boolean isWindows;
 
     /**
      * The start and end instants, for duration computation.
@@ -237,6 +242,16 @@ public class CompressedFileToArchiveTransferImporter {
                         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS,
                                 "Décompresse le fichier [" + entryName + "]", null);
                         Files.copy(archiveInputStream, target, StandardCopyOption.REPLACE_EXISTING);
+                        // Fix for xls 97 2003 on windows
+                        if (isWindows) {
+                            // Set read-only
+                            try {
+                                Files.setAttribute(target, "dos:readonly", true);
+                            } catch (IOException e) {
+                                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS,
+                                        "Impossible de passer Le chemin [" + target.toString() + "] en lecture seule", e);
+                            }
+                        }
                         counter++;
                         doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
                                 Integer.toString(counter) +
@@ -328,6 +343,8 @@ public class CompressedFileToArchiveTransferImporter {
     public void doImport() throws SEDALibException, InterruptedException {
         Path path;
         Iterator<Path> pi;
+        
+        isWindows = System.getProperty("os.name").toLowerCase().contains("win");
 
         Date d = new Date();
         start = Instant.now();

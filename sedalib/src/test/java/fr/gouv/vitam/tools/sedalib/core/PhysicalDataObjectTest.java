@@ -7,8 +7,12 @@ import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
@@ -157,5 +161,11 @@ class PhysicalDataObjectTest {
         pdoNextOut = LineEndNormalize(pdoNextOut);
         assertThat(pdoNextOut).isEqualTo(testOut);
 
+    }
+    
+    //Cleaning tmp folder
+    @AfterEach
+    public void deleteOutputFile() throws IOException, InterruptedException {
+        FileUtils.deleteQuietly(new File("target/tmpJunit/"));
     }
 }

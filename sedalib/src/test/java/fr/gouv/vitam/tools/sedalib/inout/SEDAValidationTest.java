@@ -7,9 +7,14 @@ import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.stream.XMLStreamException;
+
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -156,4 +161,10 @@ class SEDAValidationTest implements UseTestFiles {
 	}
 
 	// TODO testWithXSD
+	
+	//Cleaning tmp folder
+    @AfterEach
+    public void deleteOutputFile() throws IOException, InterruptedException {
+        FileUtils.deleteQuietly(new File("target/tmpJunit/"));
+    }
 }

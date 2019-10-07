@@ -16,6 +16,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
+
 class DataObjectPackageTest {
 
     @Test
@@ -611,5 +617,11 @@ class DataObjectPackageTest {
         String sau = mapper.writeValueAsString(au);
     //    System.out.println(sau);
         assertEquals(LineEndNormalize(testau), LineEndNormalize(sau));
+    }
+    
+    //Cleaning tmp folder
+    @AfterEach
+    public void deleteOutputFile() throws IOException, InterruptedException {
+        FileUtils.deleteQuietly(new File("target/tmpJunit/"));
     }
 }

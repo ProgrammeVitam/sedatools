@@ -15,6 +15,11 @@ import org.junit.jupiter.api.Test;
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.File;
+import java.io.IOException;
+
+import org.junit.jupiter.api.AfterEach;
+
 class ArchiveDeliveryRequestReplyFromXmlTest {
 
 	@Test
@@ -106,5 +111,20 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 		testog = testog.replaceAll("\"onDiskPath\" : .*\"", "");
 		assertEquals(LineEndNormalize(testog),LineEndNormalize(sog));
 	}
+	
+	@AfterEach
+    public void deleteOutputFile() throws IOException, InterruptedException {
+        recursiveDelete(new File("target/tmpJunit/"));
+    }
+    
+    private void recursiveDelete(File inFile) throws IOException, InterruptedException {
+        if (inFile.isDirectory()) {
+            for (File f : inFile.listFiles())
+                recursiveDelete(f);
+            inFile.delete();
+        } else {
+            inFile.delete();
+        }
+    }
 
 }

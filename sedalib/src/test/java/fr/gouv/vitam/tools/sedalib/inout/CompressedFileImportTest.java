@@ -12,9 +12,11 @@ import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.function.Function;
@@ -279,5 +281,20 @@ public class CompressedFileImportTest implements UseTestFiles {
 
         assertThat(saupath).isEqualTo(testaupath);
         assertThat(sau).isEqualTo(testau);
+    }
+    
+    @AfterEach
+    public void deleteOutputFile() throws IOException, InterruptedException {
+        recursiveDelete(new File("target/tmpJunit/"));
+    }
+    
+    private void recursiveDelete(File inFile) throws IOException, InterruptedException {
+        if (inFile.isDirectory()) {
+            for (File f : inFile.listFiles())
+                recursiveDelete(f);
+            inFile.delete();
+        } else {
+            inFile.delete();
+        }
     }
 }

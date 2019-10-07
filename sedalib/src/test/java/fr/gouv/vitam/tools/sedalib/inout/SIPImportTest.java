@@ -16,9 +16,11 @@ import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import org.apache.commons.io.FileUtils;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -691,5 +693,11 @@ public class SIPImportTest implements UseTestFiles {
         assertEquals(gm1, gm2);
 
         assertTrue(FileUtils.contentEquals(new File("target/tmpJunit/SWLMV2.1.xml"), new File("target/tmpJunit/SWLMV2.xml")));
+    }
+    
+    //Cleaning tmp folder
+    @AfterEach
+    public void deleteOutputFile() throws IOException, InterruptedException {
+        FileUtils.deleteQuietly(new File("target/tmpJunit/"));
     }
 }
