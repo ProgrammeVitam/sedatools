@@ -124,7 +124,7 @@ public class Prefs {
             } catch (ResipException e) {
                 ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,
                         "Resip.GraphicApp: Le fichier de préférences global \"" + prefPropertiesFilename + "\" n'a pas " +
-                                "été trouvé. Recherche de la version personnelle.\n->" + e.getMessage());
+                                "été trouvé. Recherche de la version personnelle.",e);
 
                 try {
                     prefPropertiesFilename=Prefs.getDefaultWorkDir()+File.separator+PREFERENCES_FILENAME;
@@ -132,13 +132,13 @@ public class Prefs {
                 } catch (ResipException ee) {
                     ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,
                             "Resip.GraphicApp: Le fichier de préférences personnel \"" + prefPropertiesFilename + "\" n'a pas non plus " +
-                                    "été trouvé. Ce fichier de préférences va être créé avec les valeurs par défaut.\n->" + ee.getMessage());
+                                    "été trouvé. Ce fichier de préférences va être créé avec les valeurs par défaut.",ee);
                     createDefaultPrefs();
                 }
             }
         } catch (Exception e) {
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
-                    "Resip.GraphicApp: Erreur fatale, impossible de manipuler les préférences \n->" + getMessagesStackString(e));
+                    "Resip.GraphicApp: Erreur fatale, impossible de manipuler les préférences.",e);
             System.exit(1);
         }
     }

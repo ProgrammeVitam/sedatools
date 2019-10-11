@@ -248,8 +248,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
                             + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.\n->"
-                    + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.",e);
         }
     }
 

@@ -134,8 +134,17 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         String tmp;
         int counter = 0;
         try {
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null,
-                    1000,2);
+            int localLogLevel, localLogStep;
+            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
+                localLogStep = 1;
+            } else {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
+                localLogStep = 1000;
+            }
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, null,
+                    localLogStep, 2);
+            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
 
             doProgressLog(spl, GLOBAL, "resip: recherche de doublons ( " + (binaryHash ? "hachage de fichier " : "") +
@@ -143,12 +152,12 @@ public class DuplicatesThread extends SwingWorker<String, String> {
             HashMap<String, List<DataObjectGroup>> dogByDigestMap = new HashMap<String, List<DataObjectGroup>>();
             dogKeyMap = new HashMap<DataObjectGroup, String>();
             for (DataObjectGroup dog : dataObjectPackage.getDogInDataObjectPackageIdMap().values()) {
-                tmp = (dog.logBook==null?"":dog.logBook.toString());
+                tmp = (dog.logBook == null ? "" : dog.logBook.toString());
                 for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
                     if (binaryHash)
-                        tmp += "|BDO=" + (bdo.messageDigest==null?null:bdo.messageDigest.getValue());
+                        tmp += "|BDO=" + (bdo.messageDigest == null ? null : bdo.messageDigest.getValue());
                     if (binaryFilename)
-                        tmp += "|" + (bdo.fileInfo==null?null:bdo.fileInfo.getSimpleMetadata("Filename"));
+                        tmp += "|" + (bdo.fileInfo == null ? null : bdo.fileInfo.getSimpleMetadata("Filename"));
                 }
                 for (PhysicalDataObject pdo : dog.getPhysicalDataObjectList()) {
                     if (physicalAllMD)
@@ -162,7 +171,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                 } else
                     dogByDigestMap.get(tmp).add(dog);
                 counter++;
-                doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS, counter,"resip: "+
+                doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS, counter, "resip: " +
                         counter + " groupes d'objets comparés");
             }
             dogByDigestMap = treeSort(dogByDigestMap);
@@ -174,9 +183,9 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                 }
             }
             doProgressLog(spl, GLOBAL,
-                    "resip: "+ dogByDigestMap.size() + " lots de groupes d'objets semblables", null);
+                    "resip: " + dogByDigestMap.size() + " lots de groupes d'objets semblables", null);
         } catch (Throwable e) {
-            exitThrowable=e;
+            exitThrowable = e;
             return "KO";
         }
         return "OK";
@@ -187,15 +196,13 @@ public class DuplicatesThread extends SwingWorker<String, String> {
         ResipGraphicApp theApp = ResipGraphicApp.getTheApp();
 
         if (isCancelled()) {
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: recherche de doublons annulée",null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: recherche de doublons annulée", null);
             duplicatesWindow.setBlankDuplicatesResult();
-        }
-        else if (exitThrowable!=null){
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant la recherche de doublons",exitThrowable);
+        } else if (exitThrowable != null) {
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant la recherche de doublons", exitThrowable);
             duplicatesWindow.setBlankDuplicatesResult();
-        }
-        else {
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: recherche de doublons terminée", null);
+        } else {
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: recherche de doublons terminée", null);
             duplicatesWindow.setDuplicatesResult(sortedDogByDogDigestMap, sortedAuByDogDigestMap);
         }
     }

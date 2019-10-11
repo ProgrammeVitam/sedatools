@@ -335,7 +335,7 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
             ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(node.getArchiveUnit());
         } catch (SEDALibException e) {
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation de l'ArchiveUnit ["
-                    + node.getArchiveUnit().getInDataObjectPackageId() + "]");
+                    + node.getArchiveUnit().getInDataObjectPackageId() + "]",e);
         }
 
         displayedTreeNode = node;

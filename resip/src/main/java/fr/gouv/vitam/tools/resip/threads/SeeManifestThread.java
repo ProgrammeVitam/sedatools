@@ -28,32 +28,19 @@
 package fr.gouv.vitam.tools.resip.threads;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.data.StatisticData;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.ManifestWindow;
-import fr.gouv.vitam.tools.resip.frame.StatisticWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
 
 /**
  * The type Statistic thread.
@@ -79,7 +66,7 @@ public class SeeManifestThread extends SwingWorker<String, String> {
         SeeManifestThread seeManifestThread;
 
         try {
-            ManifestWindow manifestWindow= new ManifestWindow();
+            ManifestWindow manifestWindow = new ManifestWindow();
 
             InOutDialog inOutDialog = new InOutDialog(manifestWindow, "Génération du manifest");
             seeManifestThread = new SeeManifestThread(manifestWindow, work, inOutDialog);
@@ -89,7 +76,7 @@ public class SeeManifestThread extends SwingWorker<String, String> {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                     "Erreur fatale, impossible de générer le manifest\n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de générer le manifest",e);
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de générer le manifest", e);
         }
     }
 
@@ -97,21 +84,30 @@ public class SeeManifestThread extends SwingWorker<String, String> {
      * Instantiates a new SeeManifest thread.
      */
     public SeeManifestThread(ManifestWindow manifestWindow, Work work, InOutDialog inOutDialog) {
-        this.manifestWindow=manifestWindow;
-        this.work=work;
-        this.inOutDialog=inOutDialog;
-        }
+        this.manifestWindow = manifestWindow;
+        this.work = work;
+        this.inOutDialog = inOutDialog;
+    }
 
 
     @Override
     public String doInBackground() {
         ArchiveTransfer archiveTransfer = new ArchiveTransfer();
         try {
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
+            int localLogLevel, localLogStep;
+            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
+                localLogStep = 1;
+            } else {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
+                localLogStep = 1000;
+            }
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 1000, 2);
+            }, localLogStep, 2);
+            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
             work.getDataObjectPackage().setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
             archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
@@ -139,8 +135,7 @@ public class SeeManifestThread extends SwingWorker<String, String> {
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: génération du manifest annulée", null);
             manifestWindow.setVisible(false);
             manifestWindow.dispose();
-        }
-        else if (exitThrowable != null)
+        } else if (exitThrowable != null)
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant la génération du manifest", exitThrowable);
         else {
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: manifest généré", null);

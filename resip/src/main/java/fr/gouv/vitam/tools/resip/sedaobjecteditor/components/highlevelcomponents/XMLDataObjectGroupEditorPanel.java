@@ -223,7 +223,7 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de choisir le fichier "
-                    + (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + "\n->" + e.getMessage());
+                    + (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + "",e);
             return null;
         }
     }
@@ -244,8 +244,7 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                             "Erreur", UserInteractionDialog.ERROR_DIALOG,
                             null);
                     ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Les informations techniques du fichier choisi [" + newBinary
-                            + "] n'ont pas pu être toutes extraites, la mise à jour est partielle.\n->"
-                            + e.getMessage());
+                            + "] n'ont pas pu être toutes extraites, la mise à jour est partielle.",e);
                 }
                 selectDataObject(displayedDataObject);
                 ResipGraphicApp.getTheApp().setModifiedContext(true);
@@ -303,7 +302,7 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                     //tmp = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(tmp);
                 } catch (SEDALibException e) {
                     ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation du BinaryDataObject ["
-                            + bdo.getInDataObjectPackageId() + "]");
+                            + bdo.getInDataObjectPackageId() + "]",e);
                 }
                 dataObjectDetailText.setText(tmp);
                 openObjectButton.setEnabled(true);
@@ -316,7 +315,7 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                     //tmp = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(tmp);
                 } catch (SEDALibException e) {
                     ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation du PhysicalDataObject ["
-                            + pdo.getInDataObjectPackageId() + "]");
+                            + pdo.getInDataObjectPackageId() + "]",e);
                 }
                 dataObjectDetailText.setText(tmp);
                 openObjectButton.setEnabled(false);
