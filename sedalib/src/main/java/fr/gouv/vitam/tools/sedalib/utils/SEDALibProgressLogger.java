@@ -116,6 +116,11 @@ public class SEDALibProgressLogger {
     private int progressLogLevel;
 
     /**
+     * The debugFlag flag
+     */
+    private boolean debugFlag;
+
+    /**
      * Instantiates a new SEDA lib progress logger.
      *
      * @param logger           the logger
@@ -128,6 +133,7 @@ public class SEDALibProgressLogger {
         this.progressLogLevel = progressLogLevel;
         this.stepDuration = Integer.MAX_VALUE;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
+        this.debugFlag = false;
     }
 
     /**
@@ -145,6 +151,7 @@ public class SEDALibProgressLogger {
         this.progressLogLevel = progressLogLevel;
         this.stepDuration = Integer.MAX_VALUE;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
+        this.debugFlag = false;
     }
 
     /**
@@ -163,6 +170,25 @@ public class SEDALibProgressLogger {
         this.progressLogLevel = progressLogLevel;
         this.stepDuration = stepDuration;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
+        this.debugFlag = false;
+    }
+
+    /**
+     * Set debug flag.
+     *
+     * @param debugFlag the debug flag
+     */
+    public void setDebugFlag(boolean debugFlag) {
+        this.debugFlag = debugFlag;
+    }
+
+    /**
+     * Gets debug flag.
+     *
+     * @return the debug flag
+     */
+    public boolean getDebugFlag() {
+        return debugFlag;
     }
 
     /**
@@ -171,7 +197,7 @@ public class SEDALibProgressLogger {
      * @param e the exception
      * @return the messages stack string
      */
-    static public String getMessagesStackString(Exception e) {
+    static public String getMessagesStackString(Throwable e) {
         String result;
         result = "-> " + e.getMessage();
         if (e.getCause() instanceof Exception)
@@ -179,7 +205,7 @@ public class SEDALibProgressLogger {
         return result;
     }
 
-    static private String getJavaStackString(Exception e) {
+    static private String getJavaStackString(Throwable e) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         e.printStackTrace(ps);
@@ -192,7 +218,7 @@ public class SEDALibProgressLogger {
      * @param e the exception
      * @return the all java stack string
      */
-    static public String getAllJavaStackString(Exception e) {
+    static public String getAllJavaStackString(Throwable e) {
         String result;
         result = getJavaStackString(e);
         if (e.getCause() instanceof Exception)
@@ -208,7 +234,7 @@ public class SEDALibProgressLogger {
      * @param log   the log
      * @param e     the exception
      */
-    static public void doProgressLogWithoutInterruption(SEDALibProgressLogger spl, int level, String log, Exception e) {
+    static public void doProgressLogWithoutInterruption(SEDALibProgressLogger spl, int level, String log, Throwable e) {
         if (spl!=null) {
             if (level <= spl.progressLogLevel) {
                 if (e != null)
@@ -216,10 +242,23 @@ public class SEDALibProgressLogger {
                 if (spl.progressLogFunc != null) {
                     spl.progressLogFunc.doProgressLog(-1, log);
                 }
-                if (e != null)
+                if ((e != null) && spl.debugFlag)
                     log += "\n" + getAllJavaStackString(e);
                 spl.log(level, log);
             }
+        }
+    }
+
+    /**
+     * Do progress log, and log with exception if debug flag set
+     *
+     * @param spl   the SEDALib progress logger
+     * @param log   the log
+     * @param e     the exception
+     */
+    static public void doProgressLogIfDebug(SEDALibProgressLogger spl, String log, Throwable e) {
+        if ((spl != null) && spl.debugFlag) {
+            doProgressLogWithoutInterruption(spl, GLOBAL, log, e);
         }
     }
 
