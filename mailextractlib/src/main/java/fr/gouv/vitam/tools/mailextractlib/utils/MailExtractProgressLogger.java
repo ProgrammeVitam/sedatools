@@ -252,6 +252,19 @@ public class MailExtractProgressLogger {
     }
 
     /**
+     * Do progress log, and log with exception if debug flag set
+     *
+     * @param mepl   the MailExtract progress logger
+     * @param log   the log
+     * @param e     the exception
+     */
+    static public void doProgressLogIfDebug(MailExtractProgressLogger mepl, String log, Throwable e) {
+        if ((mepl != null) && mepl.debugFlag) {
+            doProgressLogWithoutInterruption(mepl, GLOBAL, log, e);
+        }
+    }
+
+    /**
      * Do progress log, and log with exception detail if any, and wait 1ms to allow interruption
      *
      * @param mepl   the MailExtract progress logger

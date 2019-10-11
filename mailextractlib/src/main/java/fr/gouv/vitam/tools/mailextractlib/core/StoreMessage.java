@@ -55,8 +55,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor.ISO_8601;
-import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
-import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogIfStep;
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.*;
 
 /**
  * Abstract class for store element which is a mail box message.
@@ -540,7 +539,7 @@ public abstract class StoreMessage extends StoreElement {
 
             }
         } catch (MailExtractLibException e) {
-            // forget bodies optimisation
+            doProgressLogIfDebug(getProgressLogger(),"Bodies optimization error",e);
         }
     }
 

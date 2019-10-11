@@ -63,9 +63,7 @@ public class RFC822Headers extends InternetHeaders {
         ByteArrayInputStream bais = null;
         try {
             bais = new ByteArrayInputStream(headersString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } catch (UnsupportedEncodingException ignored) {
         }
         return bais;
     }
@@ -118,8 +116,7 @@ public class RFC822Headers extends InternetHeaders {
             for (String tmp : refList)
                 try {
                     result.add(MimeUtility.decodeText(tmp));
-                } catch (UnsupportedEncodingException uee) {
-                    // too bad
+                } catch (UnsupportedEncodingException ignored) {
                 }
         }
         return result;
@@ -190,8 +187,7 @@ public class RFC822Headers extends InternetHeaders {
                 try {
                     // try at least to Mime decode
                     addressHeaderString = MimeUtility.decodeText(addressHeaderString);
-                } catch (UnsupportedEncodingException uee) {
-                    // too bad
+                } catch (UnsupportedEncodingException ignored) {
                 }
                 message.logMessageWarning("mailextractlib.rfc822: wrongly formatted address " + addressHeaderString
                         + ", keep raw address list in metadata in header " + name, e);

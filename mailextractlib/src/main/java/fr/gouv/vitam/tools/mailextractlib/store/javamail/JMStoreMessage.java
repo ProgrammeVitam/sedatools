@@ -248,8 +248,7 @@ public class JMStoreMessage extends StoreMessage {
                 try {
                     // try at least to Mime decode
                     addressHeaderString = MimeUtility.decodeText(addressHeaderString);
-                } catch (UnsupportedEncodingException uee) {
-                    // too bad
+                } catch (UnsupportedEncodingException ignored) {
                 }
                 logMessageWarning("mailextractlib.javamail: wrongly formatted address " + addressHeaderString
                         + ", keep raw address list in metadata in header " + name, e);
@@ -400,8 +399,7 @@ public class JMStoreMessage extends StoreMessage {
                 for (String tmp : refList)
                     try {
                         result.add(MimeUtility.decodeText(tmp));
-                    } catch (UnsupportedEncodingException uee) {
-                        // too bad
+                    } catch (UnsupportedEncodingException ignored) {
                     }
             }
         } catch (MessagingException me) {
