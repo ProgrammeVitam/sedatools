@@ -47,7 +47,7 @@ public class CleanThread extends SwingWorker<String, String> {
     private InOutDialog inOutDialog;
     //run output
     private int fileCounter;
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -95,8 +95,8 @@ public class CleanThread extends SwingWorker<String, String> {
                     doProgressLog(spl, STEP, "    Terminé, "+fileCounter+" effacés", null);
                 }
             }
-        } catch (Exception e) {
-            exitException = e;
+        } catch (Throwable e) {
+            exitThrowable = e;
             return "KO";
         }
         return "OK";
@@ -109,9 +109,9 @@ public class CleanThread extends SwingWorker<String, String> {
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL,"Nettoyage annulé, les fichiers sont partiellement effacées", null);
-        else if (exitException != null)
+        else if (exitThrowable != null)
             doProgressLogWithoutInterruption(spl, GLOBAL,"Erreur durant le nettoyage du " +
-                    "répertoire de travail, les fichiers sont partiellement effacés", exitException);
+                    "répertoire de travail, les fichiers sont partiellement effacés", exitThrowable);
         else
             doProgressLogWithoutInterruption(spl, GLOBAL,"Nettoyage terminé", null);
     }

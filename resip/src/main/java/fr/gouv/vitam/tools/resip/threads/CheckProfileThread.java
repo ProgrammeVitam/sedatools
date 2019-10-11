@@ -48,7 +48,7 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
     private String profileFileName;
     private InOutDialog inOutDialog;
     //run output
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -61,7 +61,7 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
     public CheckProfileThread(String profileFileName, InOutDialog dialog) {
         this.profileFileName = profileFileName;
         this.inOutDialog = dialog;
-        this.exitException = null;
+        this.exitThrowable = null;
         this.spl = null;
         dialog.setThread(this);
     }
@@ -95,8 +95,8 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
             } else {
                 archiveTransfer.sedaProfileValidate(profileFileName, spl);
             }
-        } catch (Exception e) {
-            exitException = e;
+        } catch (Throwable e) {
+            exitThrowable = e;
         }
         return "OK";
     }
@@ -110,8 +110,8 @@ public class CheckProfileThread extends SwingWorker<String, InOutDialog> {
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL,"resip: validation annulée", null);
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant la validation", exitException);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant la validation", exitThrowable);
         else
             doProgressLogWithoutInterruption(spl, GLOBAL,"resip: validation OK", null);
     }

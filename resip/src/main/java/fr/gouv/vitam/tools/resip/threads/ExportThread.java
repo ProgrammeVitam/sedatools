@@ -82,7 +82,7 @@ public class ExportThread extends SwingWorker<String, String> {
     private int exportType;
     //run output
     private String summary;
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -99,7 +99,7 @@ public class ExportThread extends SwingWorker<String, String> {
         this.exportType = exportType;
         dialog.setThread(this);
         this.inOutDialog = dialog;
-        this.exitException = null;
+        this.exitThrowable = null;
     }
 
     /**
@@ -196,8 +196,8 @@ public class ExportThread extends SwingWorker<String, String> {
                 default:
                     throw new ResipException("Export attendu inconnu");
             }
-        } catch (Exception e) {
-            exitException=e;
+        } catch (Throwable e) {
+            exitThrowable=e;
             return "KO";
         }
         return "OK";
@@ -210,8 +210,8 @@ public class ExportThread extends SwingWorker<String, String> {
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL,"resip: export annulé, les données seront partiellement sur le disque",null);
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant l'export, les données seront partiellement sur le disque",exitException);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant l'export, les données seront partiellement sur le disque",exitThrowable);
         else {
             doProgressLogWithoutInterruption(spl, GLOBAL,"resip: export terminé",null);
             doProgressLogWithoutInterruption(spl, GLOBAL,summary,null);

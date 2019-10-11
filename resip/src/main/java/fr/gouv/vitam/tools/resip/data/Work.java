@@ -193,7 +193,7 @@ public class Work {
 			zos.closeEntry();
 			zos.close();
 		} catch (IOException e) {
-			ResipLogger.getGlobalLogger().log(ResipLogger.STEP,"Impossible de sauvegarder la session\n->" + e.getMessage());
+			ResipLogger.getGlobalLogger().log(ResipLogger.STEP,"Impossible de sauvegarder la session",e);
 		}
 
 	}

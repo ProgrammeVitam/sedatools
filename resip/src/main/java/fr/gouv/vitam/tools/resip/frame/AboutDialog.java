@@ -185,7 +185,7 @@ public class AboutDialog extends JDialog {
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Erreur fatale, réinitialisation des préférences impossible \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur fatale, réinitialisation des préférences impossible \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Erreur fatale, réinitialisation des préférences impossible",e);
         }
         this.setVisible(false);
     }
@@ -200,7 +200,7 @@ public class AboutDialog extends JDialog {
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Sauvegarde des préférences impossible \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Sauvegarde des préférences impossible \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Sauvegarde des préférences impossible",e);
         }
         this.setVisible(false);
     }
@@ -215,7 +215,7 @@ public class AboutDialog extends JDialog {
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Import des préférences impossible \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Import des préférences impossible \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Import des préférences impossible",e);
         }
         this.setVisible(false);
     }

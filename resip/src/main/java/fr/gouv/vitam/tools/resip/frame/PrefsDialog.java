@@ -1146,7 +1146,7 @@ public class PrefsDialog extends JDialog {
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
-                    "Resip.GraphicApp: Erreur fatale, impossible de sélectionner sur le disque \n->" + e.getMessage());
+                    "Resip.GraphicApp: Erreur fatale, impossible de sélectionner sur le disque",e);
         }
     }
 

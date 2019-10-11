@@ -65,7 +65,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
      * The Exit exception.
      */
 //run output
-    Exception exitException;
+    private Throwable exitThrowable;
 
     /**
      * Logger.
@@ -175,8 +175,8 @@ public class DuplicatesThread extends SwingWorker<String, String> {
             }
             doProgressLog(spl, GLOBAL,
                     "resip: "+ dogByDigestMap.size() + " lots de groupes d'objets semblables", null);
-        } catch (Exception e) {
-            exitException=e;
+        } catch (Throwable e) {
+            exitThrowable=e;
             return "KO";
         }
         return "OK";
@@ -190,8 +190,8 @@ public class DuplicatesThread extends SwingWorker<String, String> {
             doProgressLogWithoutInterruption(spl, GLOBAL,"resip: recherche de doublons annulée",null);
             duplicatesWindow.setBlankDuplicatesResult();
         }
-        else if (exitException!=null){
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant la recherche de doublons",exitException);
+        else if (exitThrowable!=null){
+            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant la recherche de doublons",exitThrowable);
             duplicatesWindow.setBlankDuplicatesResult();
         }
         else {

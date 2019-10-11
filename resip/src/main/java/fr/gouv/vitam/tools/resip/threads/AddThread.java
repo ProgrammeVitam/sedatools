@@ -64,7 +64,7 @@ public class AddThread extends SwingWorker<String, String> {
     //run output
     private DiskToDataObjectPackageImporter di;
     private String summary;
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -83,11 +83,11 @@ public class AddThread extends SwingWorker<String, String> {
                     (DataObjectPackageTreeNode) targetPath.getLastPathComponent()), files, inOutDialog);
             addThread.execute();
             inOutDialog.setVisible(true);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import",e);
         }
     }
 
@@ -114,7 +114,7 @@ public class AddThread extends SwingWorker<String, String> {
             lp.add(f.toPath());
         this.inOutDialog = dialog;
         this.summary = null;
-        this.exitException = null;
+        this.exitThrowable = null;
         dialog.setThread(this);
     }
 
@@ -133,7 +133,7 @@ public class AddThread extends SwingWorker<String, String> {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                exitException = e;
+                exitThrowable = e;
                 return "KO";
             }
         }
@@ -157,8 +157,8 @@ public class AddThread extends SwingWorker<String, String> {
                 di.addIgnorePattern(ip);
             di.doImport();
             summary = di.getSummary();
-        } catch (Exception e) {
-            exitException = e;
+        } catch (Throwable e) {
+            exitThrowable = e;
             return "KO";
         }
         return "OK";
@@ -170,8 +170,8 @@ public class AddThread extends SwingWorker<String, String> {
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL,"Ajout annulé, les données n'ont pas été modifiées", null);
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL,"Erreur durant l'ajout, les données n'ont pas été modifiées", exitException);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL,"Erreur durant l'ajout, les données n'ont pas été modifiées", exitThrowable);
         else if (targetNode == null) {
             ((DiskImportContext) work.getCreationContext()).setModelVersion(di.getModelVersion());
             setWorkFromDataObjectPackage(di.getDataObjectPackage());

@@ -62,7 +62,7 @@ public class ImportThread extends SwingWorker<String, String> {
     //run output
     private String summary;
     private int fileCounter;
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -76,7 +76,7 @@ public class ImportThread extends SwingWorker<String, String> {
         this.work = new Work(null, cc, null);
         this.inOutDialog = dialog;
         this.summary = null;
-        this.exitException = null;
+        this.exitThrowable = null;
         this.spl = null;
         dialog.setThread(this);
     }
@@ -240,8 +240,8 @@ public class ImportThread extends SwingWorker<String, String> {
             }
             if (work.getDataObjectPackage() != null)
                 summary += "\n" + work.doVitamNormalize(spl);
-        } catch (Exception e) {
-            exitException = e;
+        } catch (Throwable e) {
+            exitThrowable = e;
             work = null;
             return "KO";
         }
@@ -257,8 +257,8 @@ public class ImportThread extends SwingWorker<String, String> {
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: import annulé, les données n'ont pas été modifiées", null);
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant l'import, les données n'ont pas été modifiées", exitException);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant l'import, les données n'ont pas été modifiées", exitThrowable);
         else {
             work.getCreationContext().setSummary(summary);
             theApp.currentWork = work;

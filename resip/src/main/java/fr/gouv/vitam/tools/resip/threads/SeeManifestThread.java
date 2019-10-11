@@ -66,7 +66,7 @@ public class SeeManifestThread extends SwingWorker<String, String> {
     private InOutDialog inOutDialog;
     //run output
     private String manifestString;
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -85,11 +85,11 @@ public class SeeManifestThread extends SwingWorker<String, String> {
             seeManifestThread = new SeeManifestThread(manifestWindow, work, inOutDialog);
             seeManifestThread.execute();
             inOutDialog.setVisible(true);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                     "Erreur fatale, impossible de générer le manifest\n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de générer le manifest\n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de générer le manifest",e);
         }
     }
 
@@ -124,8 +124,8 @@ public class SeeManifestThread extends SwingWorker<String, String> {
             ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, spl);
             manifestString = sm.getSEDAXMLManifest(work.getExportContext().isHierarchicalArchiveUnits(),
                     work.getExportContext().isIndented());
-        } catch (Exception e) {
-            exitException = e;
+        } catch (Throwable e) {
+            exitThrowable = e;
             return "KO";
         }
         return "OK";
@@ -140,8 +140,8 @@ public class SeeManifestThread extends SwingWorker<String, String> {
             manifestWindow.setVisible(false);
             manifestWindow.dispose();
         }
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant la génération du manifest", exitException);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant la génération du manifest", exitThrowable);
         else {
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: manifest généré", null);
             manifestWindow.setText(manifestString);

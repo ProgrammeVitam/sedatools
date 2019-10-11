@@ -251,6 +251,15 @@ public class Prefs {
     }
 
     /**
+     * Gets pref properties filename.
+     *
+     * @return the pref properties filename
+     */
+    public String getPrefPropertiesFilename() {
+        return prefPropertiesFilename;
+    }
+
+    /**
      * Gets the prefProperties load dir.
      *
      * @return the prefProperties load dir
