@@ -116,7 +116,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MainWindow menu elements dis/enabled depending on work state and used by controller. */
     private JMenuItem saveMenuItem, saveAsMenuItem, closeMenuItem;
-    private JCheckBoxMenuItem structuredMenuItem;
+    private JCheckBoxMenuItem structuredMenuItem, debugMenuItem;
     private JMenu treatMenu, contextMenu, exportMenu;
     private Map<JMenuItem, String> actionByMenuItem = new HashMap<JMenuItem, String>();
 
@@ -468,6 +468,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         structuredMenuItem.addActionListener(this);
         actionByMenuItem.put(structuredMenuItem, "ToggleStructuredEdition");
         infoMenu.add(structuredMenuItem);
+
+        debugMenuItem = new JCheckBoxMenuItem("Mode débug");
+        debugMenuItem.setState(interfaceParameters.isDebugFlag());
+        debugMenuItem.addActionListener(this);
+        actionByMenuItem.put(debugMenuItem, "ToggleDebugMode");
+        infoMenu.add(debugMenuItem);
         return menuBar;
     }
 
@@ -586,6 +592,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "ToggleStructuredEdition":
                         toggleStructuredEdition();
+                        break;
+                    case "ToggleDebugMode":
+                        toggleDebugMode();
                         break;
                 }
         }
@@ -1389,6 +1398,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de changer de type d'édition",e);
+        }
+    }
+
+    private void toggleDebugMode() {
+        try {
+            interfaceParameters.setDebugFlag(debugMenuItem.getState());
+        } catch (Exception e) {
+            UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de changer de type de mode de débug \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
+            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de changer de type de mode de débug",e);
         }
     }
 }

@@ -95,6 +95,7 @@ public class PrefsDialog extends JDialog {
 
     private JTextField dupMaxTextField;
     private JRadioButton structuredInterfaceRadioButton;
+    private JCheckBox debugModeCheckBox;
 
     private JFrame owner;
 
@@ -1073,6 +1074,23 @@ public class PrefsDialog extends JDialog {
             classicInterfaceRadioButton.setSelected(true);
 
 
+        JLabel debugModeLabel = new JLabel("Mode débug actif:");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        treatmentParametersPanel.add(debugModeLabel, gbc);
+
+        debugModeCheckBox = new JCheckBox("");
+        debugModeCheckBox.setSelected(ip.isDebugFlag());
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 6;
+        treatmentParametersPanel.add(debugModeCheckBox, gbc);
+
         // Buttons
         JButton cancelButton = new JButton("Annuler");
         cancelButton.setFont(MainWindow.CLICK_FONT);
@@ -1223,6 +1241,7 @@ public class PrefsDialog extends JDialog {
         tp.setDupMax(tmp);
 
         ip.setStructuredMetadataEditionFlag(structuredInterfaceRadioButton.isSelected());
+        ip.setDebugFlag(debugModeCheckBox.isSelected());
         return true;
     }
 
