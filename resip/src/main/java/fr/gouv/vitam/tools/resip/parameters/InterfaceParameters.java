@@ -46,6 +46,11 @@ public class InterfaceParameters {
     boolean structuredMetadataEditionFlag;
 
     /**
+     * The debugFlag flag
+     */
+    private boolean debugFlag;
+
+    /**
      * Instantiates a new creation context.
      */
     public InterfaceParameters() {
@@ -60,6 +65,7 @@ public class InterfaceParameters {
      */
     public InterfaceParameters(Prefs prefs) {
         structuredMetadataEditionFlag=Boolean.parseBoolean(prefs.getPrefProperties().getProperty("interfaceParameters.structuredEdtionFlag", "true"));
+        debugFlag=Boolean.parseBoolean(prefs.getPrefProperties().getProperty("interfaceParameters.debugFlag", "false"));
     }
 
     /**
@@ -69,6 +75,7 @@ public class InterfaceParameters {
      */
     public void toPrefs(Prefs prefs) {
         prefs.getPrefProperties().setProperty("interfaceParameters.structuredEdtionFlag",Boolean.toString(structuredMetadataEditionFlag));
+        prefs.getPrefProperties().setProperty("interfaceParameters.debugFlag", Boolean.toString(debugFlag));
     }
 
     /**
@@ -76,6 +83,7 @@ public class InterfaceParameters {
      */
     public void setDefaultPrefs() {
         structuredMetadataEditionFlag=true;
+        debugFlag=false;
     }
 
     // Getters and setters
@@ -90,11 +98,29 @@ public class InterfaceParameters {
     }
 
     /**
-     * Sets structured metadata edition flag.
+     * Set structured metadata edition flag.
      *
      * @param structuredMetadataEditionFlag the structured metadata edition flag
      */
     public void setStructuredMetadataEditionFlag(boolean structuredMetadataEditionFlag) {
         this.structuredMetadataEditionFlag = structuredMetadataEditionFlag;
+    }
+
+    /**
+     * Is debug flag.
+     *
+     * @return the debug flag
+     */
+    public boolean isDebugFlag() {
+        return debugFlag;
+    }
+
+    /**
+     * Set debug flag.
+     *
+     * @param debugFlag the debug flag
+     */
+    public void setDebugFlag(boolean debugFlag) {
+        this.debugFlag = debugFlag;
     }
 }

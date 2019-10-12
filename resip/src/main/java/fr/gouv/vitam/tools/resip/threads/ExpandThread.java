@@ -64,7 +64,7 @@ public class ExpandThread extends SwingWorker<String, String> {
     //run output
     private CompressedFileToArchiveTransferImporter zi;
     private String summary;
-    private Exception exitException;
+    private Throwable exitThrowable;
     private int fileCounter;
     // logger
     private SEDALibProgressLogger spl;
@@ -83,11 +83,11 @@ public class ExpandThread extends SwingWorker<String, String> {
             expandThread = new ExpandThread(ResipGraphicApp.getTheApp().currentWork, node, bdoToExpand, inOutDialog);
             expandThread.execute();
             inOutDialog.setVisible(true);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                     "Erreur fatale, impossible de faire l'expansion \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'expansion \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'expansion", e);
         }
 
     }
@@ -107,7 +107,7 @@ public class ExpandThread extends SwingWorker<String, String> {
         this.bdoToExpand = bdoToExpand;
         this.inOutDialog = dialog;
         this.summary = null;
-        this.exitException = null;
+        this.exitThrowable = null;
         dialog.setThread(this);
     }
 
@@ -159,18 +159,28 @@ public class ExpandThread extends SwingWorker<String, String> {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                exitException = e;
+                exitThrowable = e;
                 return "KO";
             }
         }
         ResipGraphicApp.getTheApp().addThreadRunning = true;
         spl = null;
         try {
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
+            int localLogLevel, localLogStep;
+            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
+                localLogStep = 1;
+            } else {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
+                localLogStep = 1000;
+            }
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 1000, 2);
+            }, localLogStep, 2);
+            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
+
             doProgressLog(spl, GLOBAL, "Expansion du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.fileInfo.getSimpleMetadata("Filename") + "]", null);
 
             //TODO add preferences for compressed filename import
@@ -187,8 +197,8 @@ public class ExpandThread extends SwingWorker<String, String> {
                 zi.addIgnorePattern(ip);
             zi.doImport();
             summary = zi.getSummary();
-        } catch (Exception e) {
-            exitException = e;
+        } catch (Throwable e) {
+            exitThrowable = e;
             return "KO";
         }
         return "OK";
@@ -200,8 +210,8 @@ public class ExpandThread extends SwingWorker<String, String> {
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL, "Expansion annulée, les données n'ont pas été modifiées", null);
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant l'expansion, les données n'ont pas été modifiées", exitException);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant l'expansion, les données n'ont pas été modifiées", exitThrowable);
         else {
             ResipGraphicApp.getTheApp().currentWork = this.work;
             List<ArchiveUnit> addedNodes = zi.getArchiveTransfer().getDataObjectPackage().getGhostRootAu().getChildrenAuList()

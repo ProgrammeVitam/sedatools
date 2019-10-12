@@ -134,7 +134,7 @@ public class XmlEditDialog extends JDialog {
                         .indentString(xmlData);
             } catch (Exception e) {
                 ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation du DataObject ["
-                        + dataObject.getInDataObjectPackageId() + "]");
+                        + dataObject.getInDataObjectPackageId() + "]",e);
             }
 
         } else if (xmlObject instanceof SEDAMetadata) {
@@ -146,7 +146,7 @@ public class XmlEditDialog extends JDialog {
                 xmlData = sm.toString();
             } catch (Exception e) {
                 ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à la génération XML de la métadonnée ["
-                        + sm.getXmlElementName() + "]");
+                        + sm.getXmlElementName() + "]",e);
             }
         } else if (xmlObject instanceof ArchiveUnit) {
             ArchiveUnit au = (ArchiveUnit) xmlObject;

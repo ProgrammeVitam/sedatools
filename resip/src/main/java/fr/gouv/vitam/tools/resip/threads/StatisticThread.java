@@ -54,7 +54,7 @@ public class StatisticThread extends SwingWorker<String, String> {
     private StatisticWindow statisticWindow;
     private List<StatisticData> statisticDataList;
     //run output
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -78,7 +78,17 @@ public class StatisticThread extends SwingWorker<String, String> {
     @Override
     public String doInBackground() {
         try {
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, null, 1000, 2);
+            int localLogLevel, localLogStep;
+            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
+                localLogStep = 1;
+            } else {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
+                localLogStep = 1000;
+            }
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel,
+                    null, localLogStep, 2);
+            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             DataObjectPackage dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
             LinkedHashMap<String, List<Long>> sizeByCategoryMap = new LinkedHashMap<String, List<Long>>();
             LinkedHashMap<String, List<String>> formatByCatgeoryMap = ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap();
@@ -108,8 +118,8 @@ public class StatisticThread extends SwingWorker<String, String> {
             statisticDataList = sizeByCategoryMap.entrySet().stream()
                     .map(e -> new StatisticData(e.getKey(), e.getValue()))
                     .collect(Collectors.toList());
-        } catch (Exception e) {
-            exitException = e;
+        } catch (Throwable e) {
+            exitThrowable = e;
             return "KO";
         }
         return "OK";
@@ -121,8 +131,8 @@ public class StatisticThread extends SwingWorker<String, String> {
 
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: statistiques annulées", null);
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant les statistiques", exitException);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant les statistiques", exitThrowable);
         else {
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: statistiques terminées", null);
             statisticWindow.setStatisticDataList(statisticDataList);

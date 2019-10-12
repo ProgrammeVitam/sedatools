@@ -218,6 +218,8 @@ public class ResipApp {
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
             IllegalAccessException, UnsupportedLookAndFeelException, ResipException {
 
+        System.out.println("Resip launched");
+
         String workdirString;
         int logLevel;
         CreationContext creationContext;
@@ -317,7 +319,7 @@ public class ResipApp {
         // define the global logger
         ResipLogger.createGlobalLogger(workdirString + File.separator + "log.txt", logLevel);
         ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, "Début du journal au niveau=" +
-                ResipLogger.getMarker(ResipLogger.getGlobalLogger().getProgressLogLevel()).getName());
+                ResipLogger.getMarker(ResipLogger.getGlobalLogger().getProgressLogLevel()).getName(),null);
 
         // define the convenient import context
         if (cmd.hasOption("diskimport")) {
@@ -409,7 +411,7 @@ public class ResipApp {
                 }
 
                 end = Instant.now();
-                ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, " Toutes les opérations finies en =" + Duration.between(start, end).toString());
+                ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, " Toutes les opérations finies en =" + Duration.between(start, end).toString(),null);
             } catch (Exception e) {
                 System.err.println(
                         "Resip: Erreur fatale\n"+ SEDALibProgressLogger.getMessagesStackString(e));

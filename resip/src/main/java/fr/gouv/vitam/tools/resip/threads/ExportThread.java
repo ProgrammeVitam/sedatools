@@ -82,7 +82,7 @@ public class ExportThread extends SwingWorker<String, String> {
     private int exportType;
     //run output
     private String summary;
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -99,7 +99,7 @@ public class ExportThread extends SwingWorker<String, String> {
         this.exportType = exportType;
         dialog.setThread(this);
         this.inOutDialog = dialog;
-        this.exitException = null;
+        this.exitThrowable = null;
     }
 
     /**
@@ -120,11 +120,20 @@ public class ExportThread extends SwingWorker<String, String> {
     public String doInBackground() {
         spl = null;
         try {
-                spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
-                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                    inOutDialog.extProgressTextArea.setText(newLog);
-                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                }, 1000, 2);
+            int localLogLevel, localLogStep;
+            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
+                localLogStep = 1;
+            } else {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
+                localLogStep = 1000;
+            }
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
+                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                inOutDialog.extProgressTextArea.setText(newLog);
+                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+            }, localLogStep, 2);
+            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
             // first verify and reindex if neccesary
             if (work.getExportContext().isReindex()) {
@@ -171,7 +180,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     DataObjectPackageToCSVMetadataExporter cme = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmic.getCsvCharsetName(), cmic.getDelimiter(),
                             work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
-                    cme.doExportToCSVDiskHierarchy(work.getExportContext().getOnDiskOutput(),"metadata.csv");
+                    cme.doExportToCSVDiskHierarchy(work.getExportContext().getOnDiskOutput(), "metadata.csv");
                     summary = cme.getSummary();
                     break;
                 case CSV_ALL_ZIP_EXPORT:
@@ -180,7 +189,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     DataObjectPackageToCSVMetadataExporter cmez = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmicz.getCsvCharsetName(), cmicz.getDelimiter(),
                             work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
-                    cmez.doExportToCSVZip(work.getExportContext().getOnDiskOutput(),"metadata.csv");
+                    cmez.doExportToCSVZip(work.getExportContext().getOnDiskOutput(), "metadata.csv");
                     summary = cmez.getSummary();
                     break;
                 case CSV_METADATA_FILE_EXPORT:
@@ -196,8 +205,8 @@ public class ExportThread extends SwingWorker<String, String> {
                 default:
                     throw new ResipException("Export attendu inconnu");
             }
-        } catch (Exception e) {
-            exitException=e;
+        } catch (Throwable e) {
+            exitThrowable = e;
             return "KO";
         }
         return "OK";
@@ -209,16 +218,16 @@ public class ExportThread extends SwingWorker<String, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: export annulé, les données seront partiellement sur le disque",null);
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: erreur durant l'export, les données seront partiellement sur le disque",exitException);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: export annulé, les données seront partiellement sur le disque", null);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant l'export, les données seront partiellement sur le disque", exitThrowable);
         else {
-            doProgressLogWithoutInterruption(spl, GLOBAL,"resip: export terminé",null);
-            doProgressLogWithoutInterruption(spl, GLOBAL,summary,null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: export terminé", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
             try {
                 Prefs.getInstance().setPrefsExportDirFromChild(work.getExportContext().getOnDiskOutput());
             } catch (ResipException e) {
-                doProgressLogWithoutInterruption(spl, GLOBAL,"resip: la localisation d'export par défaut n'a pu être actualisée dans les préférences",e);
+                doProgressLogWithoutInterruption(spl, GLOBAL, "resip: la localisation d'export par défaut n'a pu être actualisée dans les préférences", e);
             }
         }
     }

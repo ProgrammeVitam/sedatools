@@ -34,9 +34,9 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
@@ -64,7 +64,7 @@ public class AddThread extends SwingWorker<String, String> {
     //run output
     private DiskToDataObjectPackageImporter di;
     private String summary;
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -83,11 +83,11 @@ public class AddThread extends SwingWorker<String, String> {
                     (DataObjectPackageTreeNode) targetPath.getLastPathComponent()), files, inOutDialog);
             addThread.execute();
             inOutDialog.setVisible(true);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import \n->" + e.getMessage());
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import", e);
         }
     }
 
@@ -114,7 +114,7 @@ public class AddThread extends SwingWorker<String, String> {
             lp.add(f.toPath());
         this.inOutDialog = dialog;
         this.summary = null;
-        this.exitException = null;
+        this.exitThrowable = null;
         dialog.setThread(this);
     }
 
@@ -133,7 +133,7 @@ public class AddThread extends SwingWorker<String, String> {
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
-                exitException = e;
+                exitThrowable = e;
                 return "KO";
             }
         }
@@ -141,11 +141,20 @@ public class AddThread extends SwingWorker<String, String> {
         ResipGraphicApp.getTheApp().addThreadRunning = true;
         spl = null;
         try {
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
+            int localLogLevel, localLogStep;
+            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
+                localLogStep = 1;
+            } else {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
+                localLogStep = 1;
+            }
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 1000, 2);
+            }, localLogStep, 2);
+            spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
             DiskImportContext dic;
             if (this.work.getCreationContext() instanceof DiskImportContext)
@@ -157,8 +166,8 @@ public class AddThread extends SwingWorker<String, String> {
                 di.addIgnorePattern(ip);
             di.doImport();
             summary = di.getSummary();
-        } catch (Exception e) {
-            exitException = e;
+        } catch (Throwable e) {
+            exitThrowable = e;
             return "KO";
         }
         return "OK";
@@ -169,9 +178,9 @@ public class AddThread extends SwingWorker<String, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL,"Ajout annulé, les données n'ont pas été modifiées", null);
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL,"Erreur durant l'ajout, les données n'ont pas été modifiées", exitException);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Ajout annulé, les données n'ont pas été modifiées", null);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant l'ajout, les données n'ont pas été modifiées", exitThrowable);
         else if (targetNode == null) {
             ((DiskImportContext) work.getCreationContext()).setModelVersion(di.getModelVersion());
             setWorkFromDataObjectPackage(di.getDataObjectPackage());
@@ -182,8 +191,8 @@ public class AddThread extends SwingWorker<String, String> {
             ResipGraphicApp.getTheApp().setModifiedContext(true);
             ResipGraphicApp.getTheApp().setContextLoaded(true);
             ResipGraphicApp.getTheApp().mainWindow.load();
-            doProgressLogWithoutInterruption(spl, GLOBAL,"Ajout terminé", null);
-            doProgressLogWithoutInterruption(spl, GLOBAL,summary, null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Ajout terminé", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
         } else {
             ResipGraphicApp.getTheApp().currentWork = this.work;
             List<ArchiveUnit> addedNodes = di.getDataObjectPackage().getGhostRootAu().getChildrenAuList()
@@ -201,8 +210,8 @@ public class AddThread extends SwingWorker<String, String> {
             work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
             ResipGraphicApp.getTheApp().mainWindow.treePane.reset();
-            doProgressLogWithoutInterruption(spl, GLOBAL,"Ajout terminé", null);
-            doProgressLogWithoutInterruption(spl, GLOBAL,summary, null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Ajout terminé", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
         }
         ResipGraphicApp.getTheApp().addThreadRunning = false;
     }

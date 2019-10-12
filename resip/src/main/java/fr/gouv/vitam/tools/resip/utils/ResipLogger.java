@@ -37,6 +37,8 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.nio.charset.Charset;
 
 /**
@@ -110,6 +112,11 @@ public class ResipLogger {
     private int progressLogLevel;
 
     /**
+     * The debugFlag flag
+     */
+    private boolean debugFlag;
+
+    /**
      * Gets the app logger.
      *
      * @return the app logger
@@ -130,7 +137,26 @@ public class ResipLogger {
     public ResipLogger(Logger logger, int progressLogLevel) {
         this.logger = logger;
         this.progressLogLevel = progressLogLevel;
-     }
+        this.debugFlag = false;
+    }
+
+    /**
+     * Set debug flag.
+     *
+     * @param debugFlag the debug flag
+     */
+    public void setDebugFlag(boolean debugFlag) {
+        this.debugFlag = debugFlag;
+    }
+
+    /**
+     * Gets debug flag.
+     *
+     * @return the debug flag
+     */
+    public boolean getDebugFlag() {
+        return debugFlag;
+    }
 
     /**
      * Create global logger.
@@ -143,7 +169,7 @@ public class ResipLogger {
 
         PatternLayoutEncoder consoleEncoder = new PatternLayoutEncoder();
         consoleEncoder.setContext(logCtx);
-        consoleEncoder.setPattern("%d{HH:mm:ss.SSS} ["+ResipApp.class.getSimpleName()+"] %-5level %marker - %msg%n");
+        consoleEncoder.setPattern("%d{HH:mm:ss.SSS} [" + ResipApp.class.getSimpleName() + "] %-5level %marker - %msg%n");
         if (System.getProperty("os.name").toLowerCase().contains("win"))
             consoleEncoder.setCharset(Charset.forName("cp850"));
         else
@@ -158,7 +184,7 @@ public class ResipLogger {
 
         PatternLayoutEncoder fileEncoder = new PatternLayoutEncoder();
         fileEncoder.setContext(logCtx);
-        fileEncoder.setPattern("%d{HH:mm:ss.SSS} ["+ResipApp.class.getSimpleName()+"] %-5level %marker - %msg%n");
+        fileEncoder.setPattern("%d{HH:mm:ss.SSS} [" + ResipApp.class.getSimpleName() + "] %-5level %marker - %msg%n");
         fileEncoder.setCharset(Charset.forName("UTF-8"));
         fileEncoder.start();
 
@@ -175,7 +201,7 @@ public class ResipLogger {
         log.addAppender(logConsoleAppender);
         log.addAppender(logFileAppender);
 
-        if (globalLogger!=null)
+        if (globalLogger != null)
             globalLogger.close();
         globalLogger = new ResipLogger(log, progressLogLevel);
     }
@@ -230,19 +256,77 @@ public class ResipLogger {
     }
 
     /**
+     * Gets messages from the exception, and recursively from all causes, in a string.
+     *
+     * @param e the exception
+     * @return the messages stack string
+     */
+    static public String getMessagesStackString(Throwable e) {
+        String result;
+        result = "-> " + e.getMessage();
+        if (e.getCause() instanceof Exception)
+            result += "\n" + getMessagesStackString((Exception) e.getCause());
+        return result;
+    }
+
+    static private String getJavaStackString(Throwable e) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        e.printStackTrace(ps);
+        return baos.toString();
+    }
+
+    /**
+     * Gets java stacks from the exception, and recursively from all causes, in a string.
+     *
+     * @param e the exception
+     * @return the all java stack string
+     */
+    static public String getAllJavaStackString(Throwable e) {
+        String result;
+        result = getJavaStackString(e);
+        if (e.getCause() instanceof Exception)
+            result += "\n------------------------------------\n" + getJavaStackString((Exception) e.getCause());
+        return result;
+    }
+
+    /**
      * Log.
      *
      * @param level   the level
      * @param message the message
+     * @param e       the exception
      */
-    public void log(int level, String message) {
+    public void log(int level, String message, Throwable e) {
         if (level <= progressLogLevel) {
             if (logger != null) {
                 if (level >= GLOBAL)
                     logger.info(getMarker(level), message);
-                else logger.error(message);
-
+                else {
+                    if (e != null) {
+                        message += "\n" + getMessagesStackString(e);
+                        message += "\n" + getAllJavaStackString(e);
+                    }
+                    logger.error(ERROR_MARKER, message);
+                }
             }
+        }
+    }
+
+    /**
+     * Log if debug flag set.
+     *
+     * @param message the message
+     * @param e       the exception
+     */
+    public void logIfDebug(String message, Throwable e) {
+        if (debugFlag) {
+            if (e != null) {
+                message += "\n" + getMessagesStackString(e);
+                message += "\n" + getAllJavaStackString(e);
+                logger.error(ERROR_MARKER, message);
+            } else
+                logger.info(message);
         }
     }
 
@@ -267,8 +351,8 @@ public class ResipLogger {
     /**
      * Close.
      */
-    public void close(){
+    public void close() {
         if (logger instanceof ch.qos.logback.classic.Logger)
-            ((ch.qos.logback.classic.Logger)logger).detachAndStopAllAppenders();
+            ((ch.qos.logback.classic.Logger) logger).detachAndStopAllAppenders();
     }
 }

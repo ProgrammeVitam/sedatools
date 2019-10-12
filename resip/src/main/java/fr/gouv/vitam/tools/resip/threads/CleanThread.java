@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.resip.threads;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -47,7 +48,7 @@ public class CleanThread extends SwingWorker<String, String> {
     private InOutDialog inOutDialog;
     //run output
     private int fileCounter;
-    private Exception exitException;
+    private Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
@@ -71,32 +72,40 @@ public class CleanThread extends SwingWorker<String, String> {
         } else {
             inFile.delete();
             fileCounter++;
-            doProgressLogIfStep(spl,OBJECTS_GROUP,fileCounter,fileCounter+" fichiers effacés");
+            doProgressLogIfStep(spl, OBJECTS_GROUP, fileCounter, fileCounter + " fichiers effacés");
         }
     }
 
     @Override
     public String doInBackground() {
         spl = null;
-        fileCounter=0;
+        fileCounter = 0;
         try {
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP, (count, log) -> {
+            int localLogLevel, localLogStep;
+            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
+                localLogStep = 1;
+            } else {
+                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
+                localLogStep = 1000;
+            }
+            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, 1000, 2);
+            }, localLogStep, 2);
 
             doProgressLog(spl, GLOBAL, "Nettoyage du répertoire: " + workDir, null);
             for (File f : new File(workDir).listFiles()) {
                 if (f.isDirectory() && f.toString().endsWith("-tmpdir")) {
-                    fileCounter=0;
+                    fileCounter = 0;
                     doProgressLog(spl, STEP, "  - Sous-répertoire pris en compte: " + f.toString(), null);
                     recursiveDelete(f);
-                    doProgressLog(spl, STEP, "    Terminé, "+fileCounter+" effacés", null);
+                    doProgressLog(spl, STEP, "    Terminé, " + fileCounter + " effacés", null);
                 }
             }
-        } catch (Exception e) {
-            exitException = e;
+        } catch (Throwable e) {
+            exitThrowable = e;
             return "KO";
         }
         return "OK";
@@ -108,11 +117,11 @@ public class CleanThread extends SwingWorker<String, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL,"Nettoyage annulé, les fichiers sont partiellement effacées", null);
-        else if (exitException != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL,"Erreur durant le nettoyage du " +
-                    "répertoire de travail, les fichiers sont partiellement effacés", exitException);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Nettoyage annulé, les fichiers sont partiellement effacées", null);
+        else if (exitThrowable != null)
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant le nettoyage du " +
+                    "répertoire de travail, les fichiers sont partiellement effacés", exitThrowable);
         else
-            doProgressLogWithoutInterruption(spl, GLOBAL,"Nettoyage terminé", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Nettoyage terminé", null);
     }
 }

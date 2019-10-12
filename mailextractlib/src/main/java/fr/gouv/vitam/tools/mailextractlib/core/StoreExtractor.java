@@ -55,8 +55,7 @@ import java.time.format.DateTimeFormatterBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
-import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLogWithoutInterruption;
+import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.*;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
 /**
@@ -539,6 +538,9 @@ public abstract class StoreExtractor {
         globalListsPSMap = new HashMap<String, PrintStream>();
         elementsCounterMap = new HashMap<String, Integer>();
         subElementsCounterMap = new HashMap<String, Integer>();
+
+        doProgressLogIfDebug(logger,"StoreExtractor ["+this+"] created with url="+urlString+
+                " rootFolder="+rootStoreFolderName+" destPath="+destPathString+" rootExtractor="+rootStoreExtractor,null);
     }
 
     /**
@@ -800,7 +802,8 @@ public abstract class StoreExtractor {
             String elementName = null;
             try {
                 elementName = (String) elementClass.getMethod("getElementName").invoke(null);
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored) {
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                doProgressLogIfDebug(logger,"GetSummary error",e);
             }
             Integer count = elementsCounterMap.get(elementName);
             if ((count != null) && (count > 0)) {
@@ -818,7 +821,8 @@ public abstract class StoreExtractor {
             String elementName = null;
             try {
                 elementName = (String) elementClass.getMethod("getElementName").invoke(null);
-            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ignored) {
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+                doProgressLogIfDebug(logger,"GetSummary error",e);
             }
             Integer count = subElementsCounterMap.get(elementName);
             if ((count != null) && (count > 0)) {

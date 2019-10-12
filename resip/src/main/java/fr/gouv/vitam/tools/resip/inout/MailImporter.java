@@ -129,7 +129,7 @@ public class MailImporter {
             summary = "Extraction " + storeExtractor.getSummary();
             storeExtractor.endStoreExtractor();
             end = Instant.now();
-            ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, getSummary());
+            ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, getSummary(),null);
         } catch (Exception e) {
             throw new ResipException("Erreur d'extraction", e);
         }
