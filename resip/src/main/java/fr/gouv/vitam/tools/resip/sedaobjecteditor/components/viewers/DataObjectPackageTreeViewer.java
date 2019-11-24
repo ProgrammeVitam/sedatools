@@ -117,6 +117,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                         popupSTN = new ArrayList<DataObjectPackageTreeNode>(5);
                         popupSTN.add(stn);
                         JMenuItem mi;
+                        boolean asParents=false;
                         if (stn.getParents().get(0) != getModel().getRoot()) {
                             int i = 0;
                             for (DataObjectPackageTreeNode pstn : stn.getParents()) {
@@ -126,12 +127,16 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                                 mi.setActionCommand("Link-" + (i++));
                                 popup.add(mi);
                             }
-                            popup.addSeparator();
+                            asParents=true;
                         }
-                        mi = new JMenuItem("Ajouter une sous-ArchiveUnit");
-                        mi.addActionListener(thisSTV);
-                        mi.setActionCommand("NewSubArchiveUnit");
-                        popup.add(mi);
+                        if (stn.getArchiveUnit()!=null) {
+                            if (asParents)
+                                popup.addSeparator();
+                            mi = new JMenuItem("Ajouter une sous-ArchiveUnit");
+                            mi.addActionListener(thisSTV);
+                            mi.setActionCommand("NewSubArchiveUnit");
+                            popup.add(mi);
+                        }
                         BinaryDataObject bdo = getCompressedBinaryDataObject(stn);
                         if (bdo != null) {
                             popup.addSeparator();

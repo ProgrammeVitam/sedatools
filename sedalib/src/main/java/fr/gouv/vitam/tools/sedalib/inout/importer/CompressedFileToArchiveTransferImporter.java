@@ -155,6 +155,8 @@ public class CompressedFileToArchiveTransferImporter {
      * @throws SEDALibException the seda lib exception
      */
     public static boolean isKnownCompressedMimeType(String mimeType) throws SEDALibException {
+        if (mimeType==null)
+            return false;
         switch (mimeType) {
             case ZIP:
             case TAR:
