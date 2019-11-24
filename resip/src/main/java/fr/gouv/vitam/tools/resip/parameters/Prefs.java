@@ -33,6 +33,8 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -64,7 +66,7 @@ public class Prefs {
     /**
      * The instance.
      */
-    static Prefs instance;
+    static private Prefs instance;
 
 
     /**
@@ -199,6 +201,12 @@ public class Prefs {
      * @throws ResipException the resip exception
      */
     public void save(String filename) throws ResipException {
+        try {
+            Files.createDirectories(Paths.get(filename).getParent());
+        } catch (IOException e) {
+            throw new ResipException("Impossible de créer le répertoire des préférences ["+
+                    Paths.get(filename).getParent().toString()+"]", e);
+        }
         try (FileOutputStream fos = new FileOutputStream(filename)) {
             prefProperties.store(fos, "Resip preferences");
         } catch (Exception e) {
