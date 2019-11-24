@@ -275,8 +275,21 @@ public class BinaryDataObjectEditor extends CompositeEditor {
 
     private void openButton() {
         try {
-            if (editedOnDiskPath != null)
+            if (editedOnDiskPath != null) {
+                try {
+                    // Office bug workaround
+                    // This is a special patch to prevent Office to change a file when opening it to see the content...
+                    if (System.getProperty("os.name").toLowerCase().contains("win"))
+                        Files.setAttribute(editedOnDiskPath, "dos:readonly", true);
+                } catch (IOException e) {
+                    UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
+                            "Impossible de passer le fichier à ouvrir ["+editedOnDiskPath.toString()+
+                                    "] en lecture seule \n->" + e.getMessage(),
+                            "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                            null);
+                }
                 Desktop.getDesktop().open(editedOnDiskPath.toFile());
+            }
         } catch (IOException ignored) {
         }
     }

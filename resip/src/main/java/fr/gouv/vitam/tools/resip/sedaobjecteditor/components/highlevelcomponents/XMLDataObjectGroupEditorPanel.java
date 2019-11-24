@@ -42,6 +42,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -197,8 +198,20 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
         try {
             if ((displayedDataObject instanceof BinaryDataObject)) {
                 path = ((BinaryDataObject) displayedDataObject).getOnDiskPath();
-                if (path != null)
+                if (path != null) {
+                    try {
+                        // Office bug workaround
+                        // This is a special patch to prevent Office to change a file when opening it to see the content...
+                        if (System.getProperty("os.name").toLowerCase().contains("win"))
+                            Files.setAttribute(path, "dos:readonly", true);
+                    } catch (IOException e) {
+                        UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
+                                "Impossible de passer le fichier à ouvrir ["+path.toString()+"] en lecture seule \n->" + e.getMessage(),
+                                "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                                null);
+                    }
                     Desktop.getDesktop().open(path.toFile());
+                }
             }
         } catch (IOException ignored) {
         }
