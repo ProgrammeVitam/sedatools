@@ -217,7 +217,7 @@ public class SEDAObjectEditorConstants {
         translateMap.put("DeathDate", "Date de décès");
         translateMap.put("DeathPlace", "Lieu de décès");
         translateMap.put("Nationality", "Nationalité");
-        translateMap.put("CorpName", "Nom d'entité");
+        translateMap.put("Corpname", "Nom d'entité");
         translateMap.put("Identifier", "Identifiant");
         translateMap.put("Function", "Fonction");
         translateMap.put("Activity", "Activité");
@@ -267,6 +267,8 @@ public class SEDAObjectEditorConstants {
         translateMap.put("ReferencedObject", "Objet signé");
         translateMap.put("SignedObjectId", "Identifiant");
         translateMap.put("SignedObjectDigest", "Hachage");
+        translateMap.put("Signer", "Signataire");
+        translateMap.put("Validator", "Valideur");
 
         // GPS subfields
         translateMap.put("GpsVersionID", "Identifiant version");
