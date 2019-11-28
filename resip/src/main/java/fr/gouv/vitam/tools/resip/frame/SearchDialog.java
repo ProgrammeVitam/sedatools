@@ -85,8 +85,8 @@ public class SearchDialog extends JDialog {
 
         mainWindow = owner;
 
-        setMinimumSize(new Dimension(500, 140));
-        setPreferredSize(new Dimension(500, 140));
+        setMinimumSize(new Dimension(600, 140));
+        setPreferredSize(new Dimension(600, 140));
         setResizable(false);
 
         Container contentPane = getContentPane();
