@@ -168,9 +168,17 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         KeyListener kl = new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 if ((e.getKeyCode() == KeyEvent.VK_DELETE) || (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)) {
-                    if (tree.getSelectionPaths() != null)
+                    if (tree.getSelectionPaths() != null) {
+                        if ((tree.getSelectionPaths().length>1)
+                                && (UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
+                                "Vous allez effacer " +
+                                        tree.getSelectionPaths().length + " ArchiveUnit(s) ",
+                                "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                                null) != ResipGraphicApp.OK_DIALOG))
+                            return;
                         for (TreePath path : tree.getSelectionPaths())
-                            removeSubTree(path, true);
+                            removeSubTree(path, (tree.getSelectionPaths().length==1));
+                    }
                 }
             }
         };
