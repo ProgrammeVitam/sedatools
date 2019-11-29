@@ -176,8 +176,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                                 "Confirmation", UserInteractionDialog.WARNING_DIALOG,
                                 null) != ResipGraphicApp.OK_DIALOG))
                             return;
+                        boolean confirmFlag=(tree.getSelectionPaths().length==1);
                         for (TreePath path : tree.getSelectionPaths())
-                            removeSubTree(path, (tree.getSelectionPaths().length==1));
+                            removeSubTree(path, confirmFlag);
                     }
                 }
             }
