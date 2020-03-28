@@ -21,7 +21,7 @@ et
 Build
 -----
 
-With JDK 1.8, git, maven and gpg installed, the build sequence is:
+With JDK 1.8 (or 11), git and maven installed, the build sequence is:
 
     mkdir test-sedatools
     cd test-sedatools
