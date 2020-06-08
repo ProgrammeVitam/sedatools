@@ -29,18 +29,31 @@ package fr.gouv.vitam.tools.resip.app;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.gouv.vitam.tools.resip.parameters.*;
+import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.parameters.CSVImportContext;
+import fr.gouv.vitam.tools.resip.parameters.CSVMetadataImportContext;
+import fr.gouv.vitam.tools.resip.parameters.CreationContext;
+import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
+import fr.gouv.vitam.tools.resip.parameters.ExportContext;
+import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
+import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -139,58 +152,58 @@ public class ResipApp {
         options.addOption(help);
 
         Option diskimport = new Option("d", "diskimport", true,
-                "importe une hiérarchie d'AU depuis une hiérarchie de répertoires et fichiers avec en " +
-                        "argument le répertoire racine");
+            "importe une hiérarchie d'AU depuis une hiérarchie de répertoires et fichiers avec en " +
+                "argument le répertoire racine");
         options.addOption(diskimport);
 
         Option exclude = new Option("e", "exclude", true, "de l'import par diskimport les fichiers" +
-                " les fichiers dont le nom sont conformes aux expressions régulières contenue sur chaque ligne du fichier");
+            " les fichiers dont le nom sont conformes aux expressions régulières contenue sur chaque ligne du fichier");
         options.addOption(exclude);
 
         Option listimport = new Option("l", "listimport", true,
-                "importe une hiérarchie d'AU depuis un ensemble de répertoires et de fichiers dont " +
-                        "la hiérarchie et les métadonnées sont décrits dans un csv");
+            "importe une hiérarchie d'AU depuis un ensemble de répertoires et de fichiers dont " +
+                "la hiérarchie et les métadonnées sont décrits dans un csv");
         options.addOption(listimport);
 
         Option sipimport = new Option("s", "sipimport", true,
-                "importe une hiérarchie d'AU depuis un SIP SEDA avec en argument le nom du fichier");
+            "importe une hiérarchie d'AU depuis un SIP SEDA avec en argument le nom du fichier");
         options.addOption(sipimport);
 
         Option context = new Option("c", "context", true,
-                "défini les informations globales utiles à la génération du SIP (MessageIdentifier...) dans le fichier indiqué");
+            "défini les informations globales utiles à la génération du SIP (MessageIdentifier...) dans le fichier indiqué");
         options.addOption(context);
 
         Option generatesip = new Option("g", "generatesip", true,
-                "génère un paquet SEDA SIP de la structure importée avec en argument le nom du fichier à " +
-                        "générer");
+            "génère un paquet SEDA SIP de la structure importée avec en argument le nom du fichier à " +
+                "générer");
         options.addOption(generatesip);
 
         Option manifest = new Option("m", "manifest", true,
-                "génère le manifest SEDA de la structure importée avec en argument le nom du fichier à " +
-                        "générer");
+            "génère le manifest SEDA de la structure importée avec en argument le nom du fichier à " +
+                "générer");
         options.addOption(manifest);
 
         Option nolink = new Option("n", "nolink", false,
-                "indique qu'il faut ignorer les liens symboliques et raccourcis");
+            "indique qu'il faut ignorer les liens symboliques et raccourcis");
         options.addOption(nolink);
 
         Option workdir = new Option("w", "workdir", true,
-                "désigne le répertoire de travail pour les logs, les répertoires d'extraction temporaire");
+            "désigne le répertoire de travail pour les logs, les répertoires d'extraction temporaire");
         options.addOption(workdir);
 
         Option command = new Option("x", "xcommand", false, "ne lance pas l'interface " +
-                "graphique");
+            "graphique");
         options.addOption(command);
 
         Option hierarchical = new Option("h", "hierarchical", false,
-                "génère les ArchiveUnits en mode hiérarchique dans le manifest SEDA");
+            "génère les ArchiveUnits en mode hiérarchique dans le manifest SEDA");
         options.addOption(hierarchical);
 
         Option indented = new Option("i", "indented", false, "génère le manifest SEDA en XML indenté");
         options.addOption(indented);
 
         Option verbatim = new Option("v", "verbatim", true,
-                "niveau de log (OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)");
+            "niveau de log (OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)");
         options.addOption(verbatim);
 
         return options;
@@ -209,14 +222,10 @@ public class ResipApp {
      * The main method for both command and graphic version.
      *
      * @param args the arguments
-     * @throws ClassNotFoundException          the class not found exception
-     * @throws InstantiationException          the instantiation exception
-     * @throws IllegalAccessException          the illegal access exception
-     * @throws UnsupportedLookAndFeelException the unsupported look and feel                                         exception
-     * @throws ResipException                  the resip exception
+     * @throws ResipException the resip exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, InstantiationException,
-            IllegalAccessException, UnsupportedLookAndFeelException, ResipException {
+    public static void main(String[] args) throws
+        ResipException {
 
         System.out.println("Resip launched");
 
@@ -253,27 +262,28 @@ public class ResipApp {
             System.exit(1);
         }
 
-        if ((cmd.hasOption("sipimport") ? 1 : 0) + (cmd.hasOption("diskimport") ? 1 : 0) + (cmd.hasOption("listimport") ? 1 : 0) > 1) {
+        if ((cmd.hasOption("sipimport") ? 1 : 0) + (cmd.hasOption("diskimport") ? 1 : 0) +
+            (cmd.hasOption("listimport") ? 1 : 0) > 1) {
             System.err.println("Resip: Ne peux pas importer selon deux modes en même temps");
             System.exit(1);
         }
 
         if (cmd.hasOption("generatesip") && !cmd.hasOption("diskimport") &&
-                !cmd.hasOption("listimport") && !cmd.hasOption("sipimport")) {
+            !cmd.hasOption("listimport") && !cmd.hasOption("sipimport")) {
             System.err.println(
-                    "Resip: Ne peux pas générer un SIP sans avoir importé une structure archiveUnit préalable");
+                "Resip: Ne peux pas générer un SIP sans avoir importé une structure archiveUnit préalable");
             System.exit(1);
         }
 
         if (cmd.hasOption("generatesip") && !cmd.hasOption("xcommand")) {
             System.err.println(
-                    "Resip: Ne peux pas générer en mode graphique, seulement en mode command (option --xcommand)");
+                "Resip: Ne peux pas générer en mode graphique, seulement en mode command (option --xcommand)");
             System.exit(1);
         }
 
         if (cmd.hasOption("context") && !cmd.hasOption("xcommand")) {
             System.err.println(
-                    "Resip: Ne prend en compte un fichier de contexte qu'en mode command (option --xcommand)");
+                "Resip: Ne prend en compte un fichier de contexte qu'en mode command (option --xcommand)");
             System.exit(1);
         }
 
@@ -297,7 +307,8 @@ public class ResipApp {
         try {
             Files.createDirectories(Paths.get(workdirString));
         } catch (Exception e) {
-            System.err.println("Resip: La création de l'arborescence en --workdir n'est pas possible\n->" + e.getMessage());
+            System.err
+                .println("Resip: La création de l'arborescence en --workdir n'est pas possible\n->" + e.getMessage());
             System.exit(1);
         }
 
@@ -310,8 +321,8 @@ public class ResipApp {
                 logLevel = ResipLogger.getLevel(cmd.getOptionValue("verbatim"));
             } catch (Exception e) {
                 System.err.println(
-                        "Resip: L'argument de niveau de log est non conforme, il doit être dans la liste " +
-                                "(OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)\n->" + e.getMessage());
+                    "Resip: L'argument de niveau de log est non conforme, il doit être dans la liste " +
+                        "(OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)\n->" + e.getMessage());
                 System.exit(1);
             }
         }
@@ -319,7 +330,7 @@ public class ResipApp {
         // define the global logger
         ResipLogger.createGlobalLogger(workdirString + File.separator + "log.txt", logLevel);
         ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, "Début du journal au niveau=" +
-                ResipLogger.getMarker(ResipLogger.getGlobalLogger().getProgressLogLevel()).getName(),null);
+            ResipLogger.getMarker(ResipLogger.getGlobalLogger().getProgressLogLevel()).getName(), null);
 
         // define the convenient import context
         if (cmd.hasOption("diskimport")) {
@@ -329,21 +340,24 @@ public class ResipApp {
                     excludePatterns = importStringArray(cmd.getOptionValue("exclude"));
                 } catch (Exception e) {
                     System.err.println(
-                            "Resip: Impossible de charger le fichier de configuration des exclusions d'import" +
-                                    " [" + cmd.getOptionValue("context") + "]\n->" + e.getMessage());
+                        "Resip: Impossible de charger le fichier de configuration des exclusions d'import" +
+                            " [" + cmd.getOptionValue("context") + "]\n->" + e.getMessage());
                     System.exit(1);
                 }
             }
-            creationContext = new DiskImportContext(Arrays.asList(excludePatterns), false, cmd.getOptionValue("diskimport"), workdirString);
+            creationContext =
+                new DiskImportContext(Arrays.asList(excludePatterns), false, cmd.getOptionValue("diskimport"),
+                    workdirString);
         } else if (cmd.hasOption("sipimport"))
             creationContext = new SIPImportContext(cmd.getOptionValue("sipimport"), workdirString);
         else if (cmd.hasOption("listimport")) {
             if (System.getProperty("os.name").toLowerCase().contains("win"))
-                creationContext = new CSVMetadataImportContext("windows-1252",';',cmd.getOptionValue("listimport"), workdirString);
+                creationContext =
+                    new CSVMetadataImportContext("windows-1252", ';', cmd.getOptionValue("listimport"), workdirString);
             else
-                creationContext = new CSVMetadataImportContext("UTF-8",';',cmd.getOptionValue("listimport"), workdirString);
-        }
-        else
+                creationContext =
+                    new CSVMetadataImportContext("UTF-8", ';', cmd.getOptionValue("listimport"), workdirString);
+        } else
             creationContext = null;
 
         // define export context
@@ -352,8 +366,8 @@ public class ResipApp {
                 exportContext = new ExportContext(cmd.getOptionValue("context"));
             } catch (Exception e) {
                 System.err.println(
-                        "Resip: Impossible de charger le fichier de configuration informations globales utiles à la " +
-                                "génération du SIP [" + cmd.getOptionValue("context") + "]\n->" + e.getMessage());
+                    "Resip: Impossible de charger le fichier de configuration informations globales utiles à la " +
+                        "génération du SIP [" + cmd.getOptionValue("context") + "]\n->" + e.getMessage());
                 System.exit(1);
                 return;
             }
@@ -377,11 +391,13 @@ public class ResipApp {
                 Instant start, end;
 
                 start = Instant.now();
-                SEDALibProgressLogger spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), logLevel);
+                SEDALibProgressLogger spl =
+                    new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), logLevel);
 
                 if (creationContext instanceof DiskImportContext) {
                     DiskImportContext diskImportContext = (DiskImportContext) creationContext;
-                    DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(diskImportContext.getOnDiskInput(), spl);
+                    DiskToArchiveTransferImporter di =
+                        new DiskToArchiveTransferImporter(diskImportContext.getOnDiskInput(), spl);
                     for (String ip : diskImportContext.getIgnorePatternList())
                         di.addIgnorePattern(ip);
                     di.doImport();
@@ -389,32 +405,50 @@ public class ResipApp {
                 } else //noinspection ConstantConditions
                     if (creationContext instanceof SIPImportContext) {
                         SIPImportContext sipImportContext = (SIPImportContext) creationContext;
-                        String target = sipImportContext.getWorkDir() + File.separator + Paths.get(sipImportContext.getOnDiskInput()).getFileName().toString() + "-tmpdir";
-                        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(sipImportContext.getOnDiskInput(), target, spl);
+                        String target = sipImportContext.getWorkDir() + File.separator +
+                            Paths.get(sipImportContext.getOnDiskInput()).getFileName().toString() + "-tmpdir";
+                        SIPToArchiveTransferImporter si =
+                            new SIPToArchiveTransferImporter(sipImportContext.getOnDiskInput(), target, spl);
                         si.doImport();
                         packet = si.getArchiveTransfer();
+                    } else if (creationContext instanceof CSVImportContext) {
+                        CSVMetadataImportContext cSVMetadataImportContext = (CSVMetadataImportContext) creationContext;
+                        CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+                            cSVMetadataImportContext.getOnDiskInput(), cSVMetadataImportContext.getCsvCharsetName(),
+                            cSVMetadataImportContext.getDelimiter(), spl);
+                        cmi.doImport();
+
+                        packet = new ArchiveTransfer();
+                        Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext,
+                            new ExportContext(Prefs.getInstance()));
+                        work.getDataObjectPackage()
+                            .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
+                        packet.setDataObjectPackage(work.getDataObjectPackage());
+                        packet.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
                     }
 
                 if (((cmd.hasOption("generatesip")) || (cmd.hasOption("manifest"))) && (packet != null)) {
                     if (packet.getGlobalMetadata() == null)
                         packet.setGlobalMetadata(exportContext.getArchiveTransferGlobalMetadata());
                     if (packet.getDataObjectPackage().getManagementMetadataXmlData() == null)
-                        packet.getDataObjectPackage().setManagementMetadataXmlData(exportContext.getManagementMetadataXmlData());
+                        packet.getDataObjectPackage()
+                            .setManagementMetadataXmlData(exportContext.getManagementMetadataXmlData());
                     ArchiveTransferToSIPExporter se = new ArchiveTransferToSIPExporter(packet, spl);
                     if (cmd.hasOption("generatesip")) {
                         se.doExportToSEDASIP(cmd.getOptionValue("generatesip"), cmd.hasOption("hierarchical"),
-                                cmd.hasOption("indented"));
+                            cmd.hasOption("indented"));
                     } else if (cmd.hasOption("manifest")) {
                         se.doExportToSEDAXMLManifest(cmd.getOptionValue("manifest"), cmd.hasOption("hierarchical"),
-                                cmd.hasOption("indented"));
+                            cmd.hasOption("indented"));
                     }
                 }
 
                 end = Instant.now();
-                ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, " Toutes les opérations finies en =" + Duration.between(start, end).toString(),null);
+                ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,
+                    " Toutes les opérations finies en =" + Duration.between(start, end).toString(), null);
             } catch (Exception e) {
                 System.err.println(
-                        "Resip: Erreur fatale\n"+ SEDALibProgressLogger.getMessagesStackString(e));
+                    "Resip: Erreur fatale\n" + SEDALibProgressLogger.getMessagesStackString(e));
                 e.printStackTrace();
                 System.exit(1);
             }
