@@ -419,8 +419,7 @@ public class ResipApp {
                         cmi.doImport();
 
                         packet = new ArchiveTransfer();
-                        Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext,
-                            new ExportContext(Prefs.getInstance()));
+                        Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext, exportContext);
                         work.getDataObjectPackage()
                             .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
                         packet.setDataObjectPackage(work.getDataObjectPackage());
