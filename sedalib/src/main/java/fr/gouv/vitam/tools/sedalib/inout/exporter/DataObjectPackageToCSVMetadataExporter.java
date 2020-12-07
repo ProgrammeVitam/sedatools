@@ -347,7 +347,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     // print header line in the csv, after simplifying header names (remove unnecessary .0)
     private void printCsvHeader() {
         List<String> simplifiedHeaderNames = getSimplifiedHeaderNames();
-        csvPrintStream.print("Path");
+        csvPrintStream.print("File");
         for (String header : simplifiedHeaderNames)
             csvPrintStream.print(separator + header);
         csvPrintStream.println();
