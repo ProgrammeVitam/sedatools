@@ -27,19 +27,6 @@
  */
 package fr.gouv.vitam.tools.testsipgenerator;
 
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import org.apache.commons.cli.*;
-import org.slf4j.LoggerFactory;
-import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,7 +35,34 @@ import java.nio.file.Paths;
 import java.nio.file.attribute.FileTime;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Formatter;
+import java.util.List;
+
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
+
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
 /**
  * TestSipGeneratorApp class for launching the command.
@@ -77,6 +91,7 @@ public class TestSipGeneratorApp {
     static int bigSize = 1024;
     static String out = "out.zip";
     static String word = "Titre";
+    static List<String> generatedMetadatas = new ArrayList<>();
 
     static Path onDiskStandardPath;
     static Path onDiskBigPath;
@@ -140,6 +155,13 @@ public class TestSipGeneratorApp {
                 "mot utilisé dans le titre des ArchiveUnits");
         word.setArgName("WORD");
         options.addOption(word);
+        
+        Option generatedMetadatas = new Option("gm", "generated-metadatas", true,
+                "listes de metadonnées par leur nom seda présentes à la racine de la balise <Content> "
+                + "des unités archivistiques à générer automatiquement, séparées par des virgules. "
+                + "Seules les métadonnées de type 'texte' sont prises en compte.");
+        generatedMetadatas.setArgName("gm");
+        options.addOption(generatedMetadatas);
 
         return options;
     }
@@ -232,6 +254,20 @@ public class TestSipGeneratorApp {
             contentType = TEXT_CONTENT;
         if (cmd.hasOption("random"))
             contentType = RANDOM_CONTENT;
+        
+        if (cmd.hasOption("gm")) {
+        	String gms = cmd.getOptionValue("gm");
+        	if(StringUtils.isNotBlank(gms)) {
+        		for(String metadata : StringUtils.split(gms, ",")) {
+        			if (Content.metadataMap.containsKey(metadata) 
+        					&& Content.metadataMap.get(metadata).metadataClass.getSimpleName().equals(StringType.class.getSimpleName())) {
+        				generatedMetadatas.add(metadata);	
+        			} else {
+        				System.out.println("Invalid metadata will not be generated: " + metadata);
+        			}
+        		}
+        	}
+        }
     }
 
     /**
@@ -317,15 +353,23 @@ public class TestSipGeneratorApp {
 
         if (depth == 0) {
             for (int i = 0; i < number; i++) {
-                childAuName = "Leaf" + Integer.toString(getUniqNodeID());
+            	String uniqueNodeId = Integer.toString(getUniqNodeID());
+                childAuName = "Leaf" + uniqueNodeId;
                 au = sb.addNewSubArchiveUnit(auName, childAuName, "Item", word + " " + childAuName,
                         "Description " + childAuName);
+                for (String metadataName: generatedMetadatas) {
+                	au.getContent().addNewMetadata(metadataName, metadataName +"_" + uniqueNodeId);
+                }
                 addKnownFileToArchiveUnit(au, onDiskStandardPath, standardFileDigest);
             }
             for (int i = 0; i < bigNumber; i++) {
-                childAuName = "BigLeaf" + Integer.toString(getUniqNodeID());
+            	String uniqueNodeId = Integer.toString(getUniqNodeID());
+                childAuName = "BigLeaf" + uniqueNodeId;
                 au = sb.addNewSubArchiveUnit(auName, childAuName, "Item", word + " " + childAuName,
                         "Description " + childAuName);
+                for (String metadataName: generatedMetadatas) {
+                	au.getContent().addNewMetadata(metadataName, metadataName +"_" + uniqueNodeId);
+                }
                 addKnownFileToArchiveUnit(au, onDiskBigPath, bigFileDigest);
             }
             return;
