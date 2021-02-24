@@ -35,6 +35,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLDataObjectGroupEditorPanel;
+import fr.gouv.vitam.tools.resip.threads.CheckEndDateThread;
 import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
@@ -378,6 +379,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "CheckSpecificSEDA21Profile");
         treatMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Vérifier EndDate > StartDate");
+        menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.ALT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        actionByMenuItem.put(menuItem, "CheckEndDate");
+        treatMenu.add(menuItem);
+
         menuItem = new JMenuItem("Régénérer des ID continus");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "RegenerateContinuousIds");
@@ -532,6 +539,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "CheckSpecificSEDA21Profile":
                         checkSpecificSEDA21Profile();
+                        break;
+                    case "CheckEndDate":
+                        checkEndDate();
                         break;
                     case "RegenerateContinuousIds":
                         doRegenerateContinuousIds();
@@ -972,6 +982,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire la " +
                     "vérification de confirmité au profil SEDA 2.1",e);
         }
+    }
+
+    /**
+     * Check end date > start date
+     */
+    void checkEndDate() {
+        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérifier EndDate > StartDate");
+        CheckEndDateThread checkEndDateThread = new CheckEndDateThread(null, inOutDialog);
+        completeResipWork();
+        checkEndDateThread.execute();
+        inOutDialog.setVisible(true);
     }
 
     // MenuItem Regenerate continuous ids
