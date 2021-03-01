@@ -35,20 +35,16 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLDataObjectGroupEditorPanel;
-import fr.gouv.vitam.tools.resip.threads.CheckEndDateThread;
 import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 
 import javax.swing.*;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -119,7 +115,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     private JMenuItem saveMenuItem, saveAsMenuItem, closeMenuItem;
     private JCheckBoxMenuItem structuredMenuItem, debugMenuItem;
     private JMenu treatMenu, contextMenu, exportMenu;
-    private Map<JMenuItem, String> actionByMenuItem = new HashMap<JMenuItem, String>();
+    private Map<JMenuItem, String> actionByMenuItem = new HashMap<>();
 
     /**
      * The Import thread running.
@@ -211,6 +207,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             mainWindow = new MainWindow(this);
             this.treatmentParameters = new TreatmentParameters(Prefs.getInstance());
             mainWindow.setVisible(true);
+            mainWindow.setLocationRelativeTo(null);
             this.searchDialog = new SearchDialog(mainWindow);
             this.technicalSearchDialog = new TechnicalSearchDialog(mainWindow);
             this.cleanDialog = new CleanDialog(mainWindow);
@@ -988,11 +985,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      * Check end date > start date
      */
     void checkEndDate() {
-        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérifier EndDate > StartDate");
-        CheckEndDateThread checkEndDateThread = new CheckEndDateThread(null, inOutDialog);
-        completeResipWork();
-        checkEndDateThread.execute();
-        inOutDialog.setVisible(true);
+        VerifyDateDialog verifyDateDialog = new VerifyDateDialog(mainWindow);
+        verifyDateDialog.setVisible(true);
     }
 
     // MenuItem Regenerate continuous ids
