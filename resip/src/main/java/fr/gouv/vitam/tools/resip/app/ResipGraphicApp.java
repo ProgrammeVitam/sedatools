@@ -41,13 +41,10 @@ import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 
 import javax.swing.*;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -118,7 +115,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     private JMenuItem saveMenuItem, saveAsMenuItem, closeMenuItem;
     private JCheckBoxMenuItem structuredMenuItem, debugMenuItem;
     private JMenu treatMenu, contextMenu, exportMenu;
-    private Map<JMenuItem, String> actionByMenuItem = new HashMap<JMenuItem, String>();
+    private Map<JMenuItem, String> actionByMenuItem = new HashMap<>();
 
     /**
      * The Import thread running.
@@ -210,6 +207,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             mainWindow = new MainWindow(this);
             this.treatmentParameters = new TreatmentParameters(Prefs.getInstance());
             mainWindow.setVisible(true);
+            mainWindow.setLocationRelativeTo(null);
             this.searchDialog = new SearchDialog(mainWindow);
             this.technicalSearchDialog = new TechnicalSearchDialog(mainWindow);
             this.cleanDialog = new CleanDialog(mainWindow);
@@ -378,6 +376,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "CheckSpecificSEDA21Profile");
         treatMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Vérifier EndDate > StartDate");
+        menuItem.addActionListener(this);
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.ALT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        actionByMenuItem.put(menuItem, "CheckEndDate");
+        treatMenu.add(menuItem);
+
         menuItem = new JMenuItem("Régénérer des ID continus");
         menuItem.addActionListener(this);
         actionByMenuItem.put(menuItem, "RegenerateContinuousIds");
@@ -532,6 +536,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "CheckSpecificSEDA21Profile":
                         checkSpecificSEDA21Profile();
+                        break;
+                    case "CheckEndDate":
+                        checkEndDate();
                         break;
                     case "RegenerateContinuousIds":
                         doRegenerateContinuousIds();
@@ -972,6 +979,14 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire la " +
                     "vérification de confirmité au profil SEDA 2.1",e);
         }
+    }
+
+    /**
+     * Check end date > start date
+     */
+    void checkEndDate() {
+        VerifyDateDialog verifyDateDialog = new VerifyDateDialog(mainWindow);
+        verifyDateDialog.setVisible(true);
     }
 
     // MenuItem Regenerate continuous ids
