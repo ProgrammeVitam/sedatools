@@ -68,12 +68,11 @@ public class MetadataPerson {
             identifier = s.substring(beg + 1, end).trim();
             if (identifier.isEmpty())
                 identifier = "[Vide]";
-            name = s.substring(0, beg).trim();
         } else
             identifier = s.trim();
 
         if ((name == null) || name.isEmpty()) {
-            if ((end = identifier.indexOf('@')) != -1)
+            if ((end = identifier.indexOf('@')) > 1)
                 name = identifier.substring(0, end);
             else
                 name = "[Vide]";
@@ -86,9 +85,9 @@ public class MetadataPerson {
                 // Don't care
             }
 
-        if ((name.charAt(0) == '"') && (name.charAt(name.length() - 1) == '"'))
+        if ((name.charAt(0) == '"') && (name.charAt(name.length() - 1) == '"') && name.length() > 1)
             name = name.substring(1, name.length() - 1);
-
+       
         fullName = name.replaceAll("\\.", " ");
     }
 }
