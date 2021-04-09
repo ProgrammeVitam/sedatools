@@ -71,12 +71,10 @@ public class MetadataPerson {
         } else
             identifier = s.trim();
 
-        if ((name == null) || name.isEmpty()) {
-            if ((end = identifier.indexOf('@')) > 1)
-                name = identifier.substring(0, end);
-            else
-                name = "[Vide]";
-        }
+        if ((end = identifier.indexOf('@')) > 1)
+            name = identifier.substring(0, end);
+        else
+            name = "[Vide]";
 
         if (name.startsWith("=?"))
             try {
