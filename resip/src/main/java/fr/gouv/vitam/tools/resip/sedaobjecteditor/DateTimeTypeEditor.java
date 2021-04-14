@@ -81,13 +81,13 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException{
-        getDateTimeTypeMetadata().setValue(valueDateTimePicker.getDateTimeStrict());
+        getDateTimeTypeMetadata().setValue(valueDateTimePicker.getDateTimePermissive());
         return getDateTimeTypeMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        LocalDateTime tmp= valueDateTimePicker.getDateTimeStrict();
+        LocalDateTime tmp= valueDateTimePicker.getDateTimePermissive();
         if (tmp!=null)
             return tmp.toString();
         return "";
@@ -116,7 +116,7 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
         editPanel.setLayout(gbl);
 
         valueDateTimePicker = new DateTimePicker();
-        valueDateTimePicker.setDateTimeStrict(getDateTimeTypeMetadata().getValue());
+        valueDateTimePicker.setDateTimePermissive(getDateTimeTypeMetadata().getValue());
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.LINE_START;
