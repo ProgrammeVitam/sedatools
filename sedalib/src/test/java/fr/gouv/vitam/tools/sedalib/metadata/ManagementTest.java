@@ -1,11 +1,21 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.metadata.management.*;
+import fr.gouv.vitam.tools.sedalib.metadata.management.AccessRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.DisseminationRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.HoldRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.LogBook;
+import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
+import fr.gouv.vitam.tools.sedalib.metadata.management.ReuseRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.StorageRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.UpdateOperation;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
@@ -66,6 +76,20 @@ class ManagementTest {
 		classificationRule.addNewMetadata("ClassificationReassessingDate",LocalDate.of(1970,1,1));
 		classificationRule.addNewMetadata("NeedReassessingAuthorization",true);
 		m.addMetadata(classificationRule);
+
+		// Test HoldRule and RuleType subclass metadata add
+		HoldRule holdRule = new HoldRule();
+		holdRule.addRule("TestHoldRule1", LocalDate.of(1970, 1, 1));
+		holdRule.addNewMetadata("HoldOwner", "TestHoldOwner1");
+		holdRule.setPreventInheritance(true);
+		holdRule.addRule("TestHoldRule2");
+		holdRule.addRefNonRuleId("TestHoldRule4");
+		holdRule.addNewMetadata("HoldEndDate", LocalDate.of(1970, 1, 1));
+		holdRule.addNewMetadata("HoldOwner", "TestHoldOwner2");
+		holdRule.addNewMetadata("HoldReassessingDate", LocalDate.of(1970, 1, 1));
+		holdRule.addNewMetadata("PreventRearrangement", false);
+		holdRule.addRule("TestHoldRule3");
+		m.addMetadata(holdRule);
 
 		// Test LogBook
 		LogBook logBook=new LogBook();
@@ -134,6 +158,19 @@ class ManagementTest {
 				"    <ClassificationReassessingDate>1970-01-01</ClassificationReassessingDate>\n" +
 				"    <NeedReassessingAuthorization>true</NeedReassessingAuthorization>\n" +
 				"  </ClassificationRule>\n" +
+				"  <HoldRule>\n" +
+				"    <Rule>TestHoldRule1</Rule>\n" +
+				"    <StartDate>1970-01-01</StartDate>\n" +
+				"    <HoldOwner>TestHoldOwner1</HoldOwner>\n" +
+				"    <Rule>TestHoldRule2</Rule>\n" +
+				"    <HoldEndDate>1970-01-01</HoldEndDate>\n" +
+				"    <HoldOwner>TestHoldOwner2</HoldOwner>\n" +
+				"    <HoldReassessingDate>1970-01-01</HoldReassessingDate>\n" +
+				"    <PreventRearrangement>false</PreventRearrangement>\n" +
+				"    <Rule>TestHoldRule3</Rule>\n" +
+				"    <PreventInheritance>true</PreventInheritance>\n" +
+				"    <RefNonRuleId>TestHoldRule4</RefNonRuleId>\n" +
+				"  </HoldRule>\n" +
 				"  <LogBook>\n" +
 				"    <Event>\n" +
 				"      <EventIdentifier>ID-00001</EventIdentifier>\n" +
@@ -168,6 +205,8 @@ class ManagementTest {
 		m.addNewMetadata("DisseminationRule","TestDisseminationRule",LocalDate.of(1970,1,1));
 		m.addNewMetadata("ReuseRule","TestReuseRule",LocalDate.of(1970,1,1));
 		m.addNewMetadata("StorageRule","TestStorageRule",LocalDate.of(1970,1,1),"Copy");
+		m.addNewMetadata("HoldRule", "TestHoldRule", LocalDate.of(1970, 1, 1),
+			Collections.singletonMap("HoldEndDate", LocalDate.of(1970, 1, 1)));
 
 		// Test UpdateOperation
 		m.addNewMetadata("UpdateOperation","TestMetadataName","TestMetadataValue");
@@ -206,6 +245,11 @@ class ManagementTest {
 				"    <ClassificationLevel>TestLevel</ClassificationLevel>\n" +
 				"    <ClassificationOwner>TestOwner</ClassificationOwner>\n" +
 				"  </ClassificationRule>\n" +
+				"  <HoldRule>\n" +
+				"    <Rule>TestHoldRule</Rule>\n" +
+				"    <StartDate>1970-01-01</StartDate>\n" +
+				"    <HoldEndDate>1970-01-01</HoldEndDate>\n" +
+				"  </HoldRule>\n" +
 				"  <UpdateOperation>\n" +
 				"    <ArchiveUnitIdentifierKey>\n" +
 				"      <MetadataName>TestMetadataName</MetadataName>\n" +

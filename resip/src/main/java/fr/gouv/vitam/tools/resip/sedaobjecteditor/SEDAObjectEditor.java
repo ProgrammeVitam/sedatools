@@ -29,8 +29,10 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.ComplexListTypeEditor;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.RuleTypeEditor;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
@@ -217,10 +219,13 @@ abstract public class SEDAObjectEditor {
      */
     static public SEDAObjectEditor createSEDAObjectEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         SEDAObjectEditor result;
-        if (metadata instanceof ComplexListType)
+        if (metadata instanceof RuleType) {
+            result = new RuleTypeEditor(metadata, father);
+        } else if (metadata instanceof ComplexListType) {
             result = new ComplexListTypeEditor(metadata, father);
-        else {
-            String objectEditorType = "fr.gouv.vitam.tools.resip.sedaobjecteditor." + metadata.getClass().getSimpleName() + "Editor";
+        } else {
+            String objectEditorType =
+                "fr.gouv.vitam.tools.resip.sedaobjecteditor." + metadata.getClass().getSimpleName() + "Editor";
             Class<?> objectEditorClass;
             try {
                 objectEditorClass = Class.forName(objectEditorType);

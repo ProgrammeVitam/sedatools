@@ -27,10 +27,26 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.metadata.management.*;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.metadata.management.AccessRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.DisseminationRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.HoldRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.ReuseRule;
+import fr.gouv.vitam.tools.sedalib.metadata.management.StorageRule;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleMetadataKind;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.IntStream;
 
 /**
  * The Class ManagementMetadata.
@@ -69,6 +85,8 @@ public class ManagementMetadata extends ComplexListType {
         metadataMap.put("ReuseRule", new ComplexListMetadataKind(ReuseRule.class, false));
         metadataMap.put("ClassificationRule",
                 new ComplexListMetadataKind(ClassificationRule.class, false));
+        metadataMap.put("HoldRule",
+                new ComplexListMetadataKind(HoldRule.class, false));
         metadataMap.put("LogBook", new ComplexListMetadataKind(AnyXMLType.class, false));
         metadataMap.put("NeedAuthorization",
                 new ComplexListMetadataKind(StringType.class, false));
@@ -79,5 +97,41 @@ public class ManagementMetadata extends ComplexListType {
      */
     public ManagementMetadata() {
         super("ManagementMetadata");
+    }
+
+
+    /**
+     * Adds a new metadata, or replace it if it exists and the metadata can't have
+     * many values. This is a flexible constructor used to simplify metadata management.
+     */
+    @Override
+    public void addNewMetadata(String elementName, Object... args) throws SEDALibException {
+        int ruleIndex = IntStream.range(0, metadataList.size())
+            .boxed()
+            .map(e -> new SimpleEntry<>(metadataList.get(e), e))
+            .filter(e -> e.getKey().getXmlElementName().equals(elementName)).map(Map.Entry::getValue)
+            .max(Integer::compareTo).orElse(0);
+        if (ruleIndex == 0) {
+            super.addNewMetadata(elementName, args);
+        } else {
+            ((RuleType) metadataList.get(ruleIndex)).addNewMetadata("Rule", args);
+        }
+    }
+
+    @Override
+    public void addMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
+        int ruleIndex = IntStream.range(0, metadataList.size())
+            .boxed()
+            .map(e -> new SimpleEntry<>(metadataList.get(e), e))
+            .filter(e -> e.getKey().getXmlElementName().equals(sedaMetadata.getXmlElementName())).map(Map.Entry::getValue)
+            .max(Integer::compareTo).orElse(0);
+        if (ruleIndex == 0) {
+            super.addMetadata(sedaMetadata);
+        }else {
+            RuleType ruleType = ((RuleType) metadataList.get(ruleIndex));
+            for (SEDAMetadata metadata : ((RuleType) sedaMetadata).metadataList) {
+                ruleType.addMetadata(metadata);
+            }
+        }
     }
 }

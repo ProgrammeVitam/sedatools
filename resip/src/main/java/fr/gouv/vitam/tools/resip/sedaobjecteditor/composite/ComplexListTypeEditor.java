@@ -174,7 +174,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
         return result;
     }
 
-    private int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
+    protected int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
         int addOrderIndex, curOrderIndex, i;
         boolean manyFlag, setFlag;
         addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);

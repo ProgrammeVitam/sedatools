@@ -158,6 +158,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
             ResipGraphicApp.getTheWindow().treePane.resetDisplayedTreeNodeTitle();
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         } catch (SEDALibException ignored) {
+            System.out.println("error : "+ ignored.getMessage());
         }
     }
 

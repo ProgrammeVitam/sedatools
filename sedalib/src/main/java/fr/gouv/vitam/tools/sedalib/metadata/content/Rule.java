@@ -35,7 +35,10 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * The Class Rule.
@@ -57,10 +60,15 @@ public class Rule extends NamedTypeMetadata {
     private LocalDate startDate;
 
     /**
+     *  Other Metdadata
+     */
+    private Map<String, Object> otherMetadata;
+
+    /**
      * Instantiates a new rule element.
      */
     public Rule() {
-        this(null, null);
+        this(null, null, new TreeMap<>());
     }
 
     /**
@@ -70,9 +78,21 @@ public class Rule extends NamedTypeMetadata {
      * @param startDate the start date
      */
     public Rule(String ruleID, LocalDate startDate) {
+        this(ruleID, startDate, new TreeMap<>());
+    }
+
+    /**
+     * Instantiates a new rule element.
+     *
+     * @param ruleID    the rule id
+     * @param startDate the start date
+     * @param otherMetadata the other metadata
+     */
+    public Rule(String ruleID, LocalDate startDate, Map<String, Object> otherMetadata) {
         super("Rule");
         this.ruleID = ruleID;
         this.startDate = startDate;
+        this.otherMetadata = otherMetadata;
     }
 
     /*
@@ -87,6 +107,13 @@ public class Rule extends NamedTypeMetadata {
             xmlWriter.writeElementValue("Rule", ruleID);
             if (startDate != null)
                 xmlWriter.writeElementValue("StartDate", SEDAXMLStreamWriter.getStringFromDate(startDate));
+            for(Map.Entry<String,Object> entry : otherMetadata.entrySet()) {
+               if(entry.getValue() instanceof LocalDate) {
+                   xmlWriter.writeElementValue(entry.getKey(), SEDAXMLStreamWriter.getStringFromDate((LocalDate) entry.getValue()));
+               }else  {
+                   xmlWriter.writeElementValue(entry.getKey(), entry.getValue().toString());
+               }
+            }
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML dans un élément de règle dans RuleType", e);
         }
@@ -177,5 +204,27 @@ public class Rule extends NamedTypeMetadata {
      */
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    /**
+     * Gets other metadata.
+     *
+     * @return the other metadata
+     */
+    public Map<String, Object> getOtherMetadata() {
+        return otherMetadata;
+    }
+
+    /**
+     * Sets other metadata.
+     *
+     * @param otherMetadata the other metadata
+     */
+    public void setOtherMetadata(Map<String, Object> otherMetadata) {
+        this.otherMetadata = otherMetadata;
+    }
+
+    public void addOtherMetadata(String metadata, Object value) {
+        this.otherMetadata.put(metadata, value);
     }
 }

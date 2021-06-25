@@ -32,8 +32,13 @@ import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * The Class RuleType.
@@ -41,6 +46,7 @@ import java.util.List;
  * For abstract Rule type SEDA metadata
  */
 abstract public class RuleType extends ComplexListType {
+    public static final String RULE_TAG = "Rule";
 
     /**
      * Instantiates a new rule Type.
@@ -61,7 +67,7 @@ abstract public class RuleType extends ComplexListType {
      */
     public RuleType(String elementName, String rule, LocalDate startDate) throws SEDALibException {
         super(elementName);
-        addNewMetadata("Rule",rule,startDate);
+        addNewMetadata(RULE_TAG,rule,startDate);
     }
 
     /**
@@ -71,7 +77,7 @@ abstract public class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void addRule(String rule) throws SEDALibException {
-        addNewMetadata("Rule",rule,null);
+        addNewMetadata(RULE_TAG,rule,null);
     }
 
     /**
@@ -82,7 +88,7 @@ abstract public class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void addRule(String rule, LocalDate startDate) throws SEDALibException {
-        addNewMetadata("Rule",rule,startDate);
+        addNewMetadata(RULE_TAG,rule,startDate);
     }
 
     /**
@@ -109,7 +115,7 @@ abstract public class RuleType extends ComplexListType {
      * Set final action.
      *
      * @param finalAction the final action
-     * @throws SEDALibException if the FinalAction field or value is not expected in                          this kind of rule
+     * @throws SEDALibException if the FinalAction field or value is not expected in this kind of rule
      */
     public void setFinalAction(String finalAction) throws SEDALibException {
         List<String> finalValues = getFinalActionList();
@@ -163,4 +169,86 @@ abstract public class RuleType extends ComplexListType {
      * @return the final action list
      */
     public List<String> getFinalActionList(){return null;}
+
+
+    @Override
+    public void addNewMetadata(String elementName, Object... args) throws SEDALibException {
+        if (getMetadataMap().get(elementName) instanceof RuleMetadataKind) {
+            int lastRuleIndex = IntStream.range(0, metadataList.size())
+                .boxed()
+                .map(e -> new SimpleEntry<>(metadataList.get(e), e))
+                .filter(e -> e.getKey().getXmlElementName().equals(RULE_TAG)).map(Entry::getValue)
+                .max(Integer::compareTo).orElse(0);
+            Arrays.stream(args).forEach(e -> ((Rule) metadataList.get(lastRuleIndex)).addOtherMetadata(elementName, e));
+        } else {
+            super.addNewMetadata(elementName, args);
+        }
+    }
+
+
+    @Override
+    public void addMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
+        if(sedaMetadata.getXmlElementName().equals(RULE_TAG)) {
+            metadataList.add(sedaMetadata);
+            return;
+        }
+        if (getMetadataMap().get(sedaMetadata.getXmlElementName()) instanceof RuleMetadataKind) {
+            addOtherMetadata(sedaMetadata);
+        } else {
+            super.addMetadata(sedaMetadata);
+        }
+    }
+
+    private void addOtherMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
+        int addOrderIndex, curOrderIndex, i;
+        boolean manyFlag, setFlag;
+        addOrderIndex = getMetadataOrderedList().indexOf(sedaMetadata.getXmlElementName());
+        i = 0;
+        setFlag = false;
+        if (addOrderIndex == -1) {
+            if (isNotExpendable())
+                throw new SEDALibException(
+                    "Impossible d'étendre le schéma avec des métadonnées non prévues ["
+                        + elementName + "]");
+            manyFlag = true;
+            boolean noBeforeEqual = true;
+            for (SEDAMetadata sm : metadataList) {
+                if ((sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && noBeforeEqual)
+                    noBeforeEqual = false;
+                if (!(sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && !noBeforeEqual)
+                    break;
+                i++;
+            }
+        } else {
+            manyFlag = getMetadataMap().get(sedaMetadata.getXmlElementName()).many;
+            int lastRuleIndex = IntStream.range(0, metadataList.size())
+                .boxed()
+                .map(e -> new SimpleEntry<>(metadataList.get(e), e))
+                .filter(e -> e.getKey().getXmlElementName().equals(RULE_TAG)).map(Entry::getValue)
+                .max(Integer::compareTo).orElse(0);
+            for (SEDAMetadata sm : metadataList) {
+                curOrderIndex = getMetadataOrderedList().indexOf(sm.getXmlElementName());
+                if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
+                    setFlag = true;
+                    break;
+                }
+                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex + lastRuleIndex))
+                    break;
+                i++;
+            }
+        }
+        if (manyFlag)
+            metadataList.add(i, sedaMetadata);
+        else {
+            if (setFlag)
+                metadataList.set(i, sedaMetadata);
+            else
+                metadataList.add(i, sedaMetadata);
+        }
+    }
+
+    public List<String> getRuleMetadataKindList() throws SEDALibException {
+        return this.getMetadataMap().entrySet().stream().filter(e -> e.getValue() instanceof RuleMetadataKind)
+            .map(Entry::getKey).collect(Collectors.toList());
+    }
 }
