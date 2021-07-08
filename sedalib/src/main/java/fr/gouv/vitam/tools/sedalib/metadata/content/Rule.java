@@ -105,7 +105,7 @@ public class Rule extends NamedTypeMetadata {
      * @throws SEDALibException the seda lib exception
      */
     public LinkedHashMap<String, String> toCsvList(int i) throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         result.put("Rule." + i, ruleID);
         if (startDate != null)
             result.put("StartDate." + i, SEDAXMLStreamWriter.getStringFromDate(startDate));
@@ -135,6 +135,8 @@ public class Rule extends NamedTypeMetadata {
                 }
                 this.ruleID = tmp;
                 this.startDate = startDate;
+
+
             } else
                 return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {

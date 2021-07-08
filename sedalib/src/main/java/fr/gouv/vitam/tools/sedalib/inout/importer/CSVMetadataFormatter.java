@@ -96,7 +96,7 @@ public class CSVMetadataFormatter {
 
 
     private void analyseFirstColumns(String[] headerRow) throws SEDALibException {
-        List<Integer> firsts = new ArrayList<Integer>();
+        List<Integer> firsts = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             if (!headerNames.contains(headerRow[i].toLowerCase()))
                 break;
@@ -138,7 +138,7 @@ public class CSVMetadataFormatter {
                     if (subTag.name.equals(name))
                         return subTag;
         } else
-            tag.subTags = new LinkedHashMap<Integer, List<MetadataTag>>();
+            tag.subTags = new LinkedHashMap<>();
         MetadataTag subTag = new MetadataTag(name, tag);
         if (tag.name == null) {
             if (name.equals("Content"))
@@ -148,13 +148,15 @@ public class CSVMetadataFormatter {
             else
                 throw new SEDALibException("Métadonnées [" + name + "] non conforme SEDA.");
         }
+
         List<MetadataTag> subTags = tag.subTags.get(rank);
         if (subTags == null) {
-            subTags = new ArrayList<MetadataTag>();
+            subTags = new ArrayList<>();
             subTags.add(subTag);
             tag.subTags.put(rank, subTags);
         } else
             subTags.add(subTag);
+
         return subTag;
     }
 
@@ -192,17 +194,17 @@ public class CSVMetadataFormatter {
             contentTag = rootTag;
         }
         managementTag = null;
-        tagHeaderColumnMapping = new LinkedHashMap<Integer, ValueAttrMetadataTag>();
+        tagHeaderColumnMapping = new LinkedHashMap<>();
         for (int i = firstIndex; i < headerRow.length; i++) {
             if (headerRow[i].toLowerCase().equals("attr")) {
                 if (currentTag == null)
                     throw new SEDALibException("Le header attr en colonne n°" + i + " ne peut pas s'appliquer.");
                 vamt = new ValueAttrMetadataTag(false, currentTag);
             } else if (headerRow[i].endsWith(".attr")) {
-                currentTag = getTag(rootTag, new ArrayList(Arrays.asList(headerRow[i].split("\\."))));
+                currentTag = getTag(rootTag, new ArrayList<>(Arrays.asList(headerRow[i].split("\\."))));
                 vamt = new ValueAttrMetadataTag(false, currentTag);
             } else {
-                currentTag = getTag(rootTag, new ArrayList(Arrays.asList(headerRow[i].split("\\."))));
+                currentTag = getTag(rootTag, new ArrayList<>(Arrays.asList(headerRow[i].split("\\."))));
                 vamt = new ValueAttrMetadataTag(true, currentTag);
             }
             tagHeaderColumnMapping.put(i, vamt);
@@ -288,6 +290,57 @@ public class CSVMetadataFormatter {
         return result;
     }
 
+    private String generateHoldRuleTagXML(MetadataTag tag) throws SEDALibException {
+        StringBuilder result = new StringBuilder();
+        for (List<MetadataTag> tagList : tag.subTags.values()) {
+            for (MetadataTag mt : tagList) {
+                if(!mt.value.isEmpty()) {
+                    switch (mt.name) {
+                        case "Rule":
+                            result.append("<Rule>").append(StringEscapeUtils.escapeXml10(mt.value)).append("</Rule>");
+                            break;
+                        case "StartDate":
+                            result.append("<StartDate>").append(StringEscapeUtils.escapeXml10(mt.value))
+                                .append("</StartDate>");
+                            break;
+                        case "HoldEndDate":
+                            result.append("<HoldEndDate>").append(StringEscapeUtils.escapeXml10(mt.value))
+                                .append("</HoldEndDate>");
+                            break;
+                        case "HoldOwner":
+                            result.append("<HoldOwner>").append(StringEscapeUtils.escapeXml10(mt.value))
+                                .append("</HoldOwner>");
+                            break;
+                        case "HoldReassessingDate":
+                            result.append("<HoldReassessingDate>").append(StringEscapeUtils.escapeXml10(mt.value))
+                                .append("</HoldReassessingDate>");
+                            break;
+                        case  "HoldReason":
+                            result.append("<HoldReason>").append(StringEscapeUtils.escapeXml10(mt.value))
+                                .append("</HoldReason>");
+                            break;
+                        case "PreventRearrangement":
+                            result.append("<PreventRearrangement>").append(StringEscapeUtils.escapeXml10(mt.value))
+                                .append("</PreventRearrangement>");
+                            break;
+                        default:
+                            continue;
+                    }
+                    mt.value = null;
+                }
+            }
+        }
+        result.append(getOneSubTagXML(tag, "PreventInheritance"));
+        result.append(getOneSubTagXML(tag, "RefNonRuleId"));
+
+        if (notEmptyValues(tag))
+            throw new SEDALibException("La règle [" + tag.name + "] contient des champs non conformes SEDA.");
+
+        if (result.length() > 0)
+            result = new StringBuilder("<" + tag.name + ">" + result + "</" + tag.name + ">");
+        return result.toString();
+    }
+
     private String generateClassificationRuleTagXML(MetadataTag tag) throws SEDALibException {
         String result ="";
         for (List<MetadataTag> tagList : tag.subTags.values()) {
@@ -322,11 +375,18 @@ public class CSVMetadataFormatter {
         String result, value = "";
 
         // specific cases for RuleType and ClassificationRule
-        if (tag.name.equals("AccessRule") || tag.name.equals("AppraisalRule") || tag.name.equals("DisseminationRule")
-                || tag.name.equals("ReuseRule") || tag.name.equals("StorageRule"))
-            return generateRuleTypeTagXML(tag);
-        else if (tag.name.equals("ClassificationRule"))
-            return generateClassificationRuleTagXML(tag);
+        switch (tag.name) {
+            case "AccessRule":
+            case "AppraisalRule":
+            case "DisseminationRule":
+            case "ReuseRule":
+            case "StorageRule":
+                return generateRuleTypeTagXML(tag);
+            case "ClassificationRule":
+                return generateClassificationRuleTagXML(tag);
+            case "HoldRule":
+                return generateHoldRuleTagXML(tag);
+        }
 
         if (tag.subTags != null) {
             for (List<MetadataTag> tagList : tag.subTags.values())
