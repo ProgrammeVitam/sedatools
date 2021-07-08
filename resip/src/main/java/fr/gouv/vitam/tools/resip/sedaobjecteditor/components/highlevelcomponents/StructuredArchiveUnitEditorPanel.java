@@ -31,7 +31,6 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.composite.ArchiveUnitEditor;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -158,7 +157,6 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
             ResipGraphicApp.getTheWindow().treePane.resetDisplayedTreeNodeTitle();
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         } catch (SEDALibException ignored) {
-            System.out.println("error : "+ ignored.getMessage());
         }
     }
 

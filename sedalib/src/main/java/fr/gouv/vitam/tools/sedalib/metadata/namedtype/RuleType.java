@@ -30,10 +30,11 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
+import javax.xml.stream.XMLStreamException;
 import java.time.LocalDate;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map.Entry;
@@ -134,30 +135,32 @@ abstract public class RuleType extends ComplexListType {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         LinkedHashMap<String, String> smCsvList;
         String previousXMLElementName = null;
         int count = 0;
-        int ruleElementCount=0;
+        int ruleElementCount = -1;
         for (SEDAMetadata sm : metadataList) {
             if (sm instanceof Rule) {
-                smCsvList = ((Rule)sm).toCsvList(ruleElementCount++);
+                smCsvList = ((Rule) sm).toCsvList(++ruleElementCount);
                 result.putAll(smCsvList);
-            }
-            else{
+            } else if (getRuleMetadataKindList().contains(sm.getXmlElementName())) {
+                smCsvList = sm.toCsvList();
+                String addedName = sm.getXmlElementName() + "." + ruleElementCount;
+                smCsvList.forEach((key, value) -> result.put(addedName + (key.isEmpty() ? "" : "." + key), value));
+            } else {
                 if (!sm.getXmlElementName().equals(previousXMLElementName)) {
                     previousXMLElementName = sm.getXmlElementName();
                     count = 0;
-                } else count++;
+                } else
+                    count++;
                 final String addedName;
                 if (isAMultiValuedMetadata(sm.getXmlElementName()))
                     addedName = sm.getXmlElementName() + "." + count;
                 else
                     addedName = sm.getXmlElementName();
                 smCsvList = sm.toCsvList();
-                smCsvList.entrySet().stream().forEach(e -> {
-                    result.put(addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue());
-                });
+                smCsvList.forEach((key, value) -> result.put(addedName + (key.isEmpty() ? "" : "." + key), value));
             }
         }
         return result;
@@ -173,14 +176,7 @@ abstract public class RuleType extends ComplexListType {
 
     @Override
     public void addNewMetadata(String elementName, Object... args) throws SEDALibException {
-        if (getMetadataMap().get(elementName) instanceof RuleMetadataKind) {
-            int lastRuleIndex = IntStream.range(0, metadataList.size())
-                .boxed()
-                .map(e -> new SimpleEntry<>(metadataList.get(e), e))
-                .filter(e -> e.getKey().getXmlElementName().equals(RULE_TAG)).map(Entry::getValue)
-                .max(Integer::compareTo).orElse(0);
-            Arrays.stream(args).forEach(e -> ((Rule) metadataList.get(lastRuleIndex)).addOtherMetadata(elementName, e));
-        } else {
+        if (!(getMetadataMap().get(elementName) instanceof RuleMetadataKind)) {
             super.addNewMetadata(elementName, args);
         }
     }
@@ -250,5 +246,35 @@ abstract public class RuleType extends ComplexListType {
     public List<String> getRuleMetadataKindList() throws SEDALibException {
         return this.getMetadataMap().entrySet().stream().filter(e -> e.getValue() instanceof RuleMetadataKind)
             .map(Entry::getKey).collect(Collectors.toList());
+    }
+
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader, Class<? extends SEDAMetadata> aClass)
+        throws SEDALibException {
+        Class<?> metadataClass;
+        try {
+            if (xmlReader.nextBlockIfNamed(elementName)) {
+                String tmp = xmlReader.peekName();
+                while (tmp != null) {
+                    ComplexListMetadataKind mi = getMetadataMap().get(tmp);
+                    if (mi == null) {
+                        if (isNotExpendable())
+                            throw new SEDALibException(
+                                "Impossible d'étendre le schéma avec des métadonnées non prévues ["
+                                    + tmp + "]");
+                        else
+                            metadataClass = AnyXMLType.class;
+                    } else
+                        metadataClass = mi.metadataClass;
+                    SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
+                    addMetadata(sm);
+                    tmp = xmlReader.peekName();
+                }
+                xmlReader.endBlockNamed(elementName);
+            } else
+                return false;
+        } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
+            throw new SEDALibException("Erreur de lecture XML dans un élément [" + elementName + "]", e);
+        }
+        return true;
     }
 }

@@ -38,7 +38,6 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataMap;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -66,7 +65,7 @@ public class ManagementMetadata extends ComplexListType {
     @ComplexListMetadataMap(isExpandable = true)
     static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("ArchivalProfile",
                 new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("ServiceLevel", new ComplexListMetadataKind(StringType.class, false));

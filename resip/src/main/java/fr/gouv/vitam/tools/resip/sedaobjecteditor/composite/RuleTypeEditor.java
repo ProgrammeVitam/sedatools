@@ -13,9 +13,12 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
+import static fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType.RULE_TAG;
+import static java.util.Map.Entry.comparingByValue;
 
 public class RuleTypeEditor extends ComplexListTypeEditor {
     public RuleTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
@@ -24,7 +27,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
 
     @Override
     protected int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
-        if(metadataName.equals(RuleType.RULE_TAG))
+        if(metadataName.equals(RULE_TAG))
             return getNewRuleIndex();
         int addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);
         int i = 0;
@@ -49,7 +52,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
         List<String> ruleMetadataKindList = ((RuleType) editedObject).getRuleMetadataKindList();
             for(int i = objectEditorList.size()-1; i >= 0; i--) {
                 String elementName = ((NamedTypeMetadata) objectEditorList.get(i).getEditedObject()).getXmlElementName();
-                if(elementName.equals(RuleType.RULE_TAG) || ruleMetadataKindList.contains(elementName))
+                if(elementName.equals(RULE_TAG) || ruleMetadataKindList.contains(elementName))
                     return i+1;
             }
         return 0;
@@ -78,7 +81,6 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
     }
 
     private int getInsertionSEDAObjectEditorIndex(String metadataName, Rule ruleParent) throws SEDALibException {
-        if(metadataName.equals("Rule")) return Integer.MAX_VALUE;
         int addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);
         int parentIndex = objectEditorList.stream().map(SEDAObjectEditor::getEditedObject).collect(Collectors.toList()).indexOf(ruleParent);
         if(parentIndex == -1)
@@ -105,11 +107,12 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
     @Override
     public List<Pair<String, String>> getExtensionList() throws SEDALibException {
         List<String> used = new ArrayList<>();
-        List<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
+        List<Pair<String, String>> result = new ArrayList<>();
         for (SEDAObjectEditor soe : objectEditorList) {
             used.add(soe.getTag());
         }
-        List<String> metadataOrderedList = getComplexListTypeMetadata().getMetadataMap().entrySet().stream().filter(e -> !(e.getValue() instanceof RuleMetadataKind)).map(e -> e.getKey()).collect(
+        List<String> metadataOrderedList = getComplexListTypeMetadata().getMetadataMap().entrySet().stream().filter(e -> !(e.getValue() instanceof RuleMetadataKind)).map(
+            Map.Entry::getKey).collect(
             Collectors.toList());
         for (String metadataName : metadataOrderedList) {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
@@ -119,7 +122,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
         if (!getComplexListTypeMetadata().isNotExpendable())
             result.add(Pair.of("AnyXMLType", translateTag("AnyXMLType")));
 
-        result.sort((p1, p2) -> p1.getValue().compareTo(p2.getValue()));
+        result.sort(comparingByValue());
         return result;
     }
 }
