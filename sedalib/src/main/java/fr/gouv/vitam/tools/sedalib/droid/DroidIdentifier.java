@@ -48,11 +48,19 @@ import uk.gov.nationalarchives.droid.core.signature.FileFormat;
 import uk.gov.nationalarchives.droid.core.signature.FileFormatCollection;
 import uk.gov.nationalarchives.droid.core.signature.droid6.FFSignatureFile;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getAllJavaStackString;
@@ -63,6 +71,10 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getAllJava
  * Singleton class for managing the DROID identifications
  */
 public class DroidIdentifier {
+
+    private static final String DROID_SIGNATURE_FILE = "DROID_SignatureFile_V97.xml";
+
+    private static final String CONTAINER_SIGNATURE_FILE = "container-signature-20201001.xml";
 
     /** Singleton. */
     private static DroidIdentifier instance = null;
@@ -160,17 +172,18 @@ public class DroidIdentifier {
         String[] fileList = dir.list(droidFilter);
         if ((fileList == null) || (fileList.length == 0)) {
             doProgressLogWithoutInterruption(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,
-                    "sedalib: can't find a DROID signature file, copy from ressource to file DROID_SignatureFile_V88.xml", null);
+                "sedalib: can't find a DROID signature file, copy from ressource to file " + DROID_SIGNATURE_FILE,
+                null);
             try (InputStream is = Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream("DROID_SignatureFile_V88.xml")) {
+                    .getResourceAsStream(DROID_SIGNATURE_FILE)) {
                 File targetFile = new File(
-                        "." + File.separator + "config" + File.separator + "DROID_SignatureFile_V88.xml");
+                        "." + File.separator + "config" + File.separator + DROID_SIGNATURE_FILE);
                 System.out.println("is=" + is + " toPath=" + targetFile.toPath());
                 java.nio.file.Files.copy(is, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new SEDALibException("Panic! Can't extract a DROID signature file, stop");
             }
-            result = "DROID_SignatureFile_V88.xml";
+            result = DROID_SIGNATURE_FILE;
         } else {
             int serialNum = -1;
             for (String name : fileList) {
@@ -238,16 +251,17 @@ public class DroidIdentifier {
         String[] fileList = dir.list(droidFilter);
         if ((fileList == null) || (fileList.length == 0)) {
             doProgressLogWithoutInterruption(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL,
-                    "sedalib: can't find a DROID container signature file, copy from ressource to file container-signature-20171130.xml",null);
+                "sedalib: can't find a DROID container signature file, copy from ressource to file " +
+                    CONTAINER_SIGNATURE_FILE, null);
             try (InputStream is = Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream("container-signature-20171130.xml")) {
+                    .getResourceAsStream(CONTAINER_SIGNATURE_FILE)) {
                 File targetFile = new File(
-                        "." + File.separator + "config" + File.separator + "container-signature-20171130.xml");
+                        "." + File.separator + "config" + File.separator + CONTAINER_SIGNATURE_FILE);
                 java.nio.file.Files.copy(is, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new SEDALibException("Panic! Can't extract a DROID signature file, stop");
             }
-            result = "container-signature-20171130.xml";
+            result = CONTAINER_SIGNATURE_FILE;
         } else {
             int serialNum = -1;
             for (String name : fileList) {
