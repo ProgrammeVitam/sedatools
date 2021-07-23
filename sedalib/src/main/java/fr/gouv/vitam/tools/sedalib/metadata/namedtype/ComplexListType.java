@@ -45,13 +45,10 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.IntStream;
 
 /**
  * The Class ComplexListType.
@@ -144,7 +141,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * @return the SEDA metadata
      * @throws SEDALibException if failed in construction
      */
-    private SEDAMetadata newSEDAMetadata(String elementName, Object[] args) throws SEDALibException {
+    protected SEDAMetadata newSEDAMetadata(String elementName, Object[] args) throws SEDALibException {
         ComplexListMetadataKind mi = getMetadataMap().get(elementName);
         Constructor<?> constructor;
         int i;
@@ -238,10 +235,6 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * @throws SEDALibException if try to add an unknown metadata in a not                          expandable type
      */
     public void addMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
-        if(sedaMetadata.getXmlElementName().equals("Rule")) {
-            metadataList.add(sedaMetadata);
-            return;
-        }
         int addOrderIndex, curOrderIndex, i;
         boolean manyFlag, setFlag;
         addOrderIndex = getMetadataOrderedList().indexOf(sedaMetadata.getXmlElementName());
@@ -263,18 +256,13 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             }
         } else {
             manyFlag = getMetadataMap().get(sedaMetadata.getXmlElementName()).many;
-            int lastRuleIndex = IntStream.range(0, metadataList.size())
-                .boxed()
-                .map(e -> new SimpleEntry<>(metadataList.get(e), e))
-                .filter(e -> e.getKey().getXmlElementName().equals("Rule")).map(Map.Entry::getValue)
-                .max(Integer::compareTo).orElse(0);
             for (SEDAMetadata sm : metadataList) {
                 curOrderIndex = getMetadataOrderedList().indexOf(sm.getXmlElementName());
                 if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
                     setFlag = true;
                     break;
                 }
-                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex + lastRuleIndex))
+                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex))
                     break;
                 i++;
             }

@@ -34,9 +34,11 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import javax.xml.stream.XMLStreamException;
 import java.time.LocalDate;
+import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -176,26 +178,58 @@ abstract public class RuleType extends ComplexListType {
 
     @Override
     public void addNewMetadata(String elementName, Object... args) throws SEDALibException {
-        if (!(getMetadataMap().get(elementName) instanceof RuleMetadataKind)) {
-            super.addNewMetadata(elementName, args);
+        int addOrderIndex, curOrderIndex, i;
+        boolean manyFlag, setFlag;
+        if (args.length > 0) {
+            addOrderIndex = getMetadataOrderedList().indexOf(elementName);
+            i = 0;
+            setFlag = false;
+            if (addOrderIndex == -1) {
+                if (isNotExpendable())
+                    throw new SEDALibException(
+                        "Impossible d'étendre le schéma avec des métadonnées non prévues ["
+                            + elementName + "]");
+                manyFlag = true;
+                boolean noBeforeEqual = true;
+                for (SEDAMetadata sm : metadataList) {
+                    if ((sm.getXmlElementName().equals(elementName)) && noBeforeEqual)
+                        noBeforeEqual = false;
+                    if (!(sm.getXmlElementName().equals(elementName)) && !noBeforeEqual)
+                        break;
+                    i++;
+                }
+            } else {
+                manyFlag = getMetadataMap().get(elementName).many;
+                int lastRuleIndex = findLastRuleIndex();
+                for (SEDAMetadata sm : metadataList.subList(lastRuleIndex, metadataList.size())) {
+                    if (getMetadataMap().get(sm.getXmlElementName()) instanceof RuleMetadataKind) {
+                        i++;
+                        continue;
+                    }
+                    curOrderIndex = getMetadataOrderedList().indexOf(sm.getXmlElementName());
+                    if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
+                        setFlag = true;
+                        break;
+                    }
+                    if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex))
+                        break;
+                    i++;
+                }
+                i += lastRuleIndex;
+            }
+            if (manyFlag)
+                metadataList.add(i, newSEDAMetadata(elementName, args));
+            else {
+                if (setFlag)
+                    metadataList.set(i, newSEDAMetadata(elementName, args));
+                else
+                    metadataList.add(i, newSEDAMetadata(elementName, args));
+            }
         }
     }
-
 
     @Override
     public void addMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
-        if(sedaMetadata.getXmlElementName().equals(RULE_TAG)) {
-            metadataList.add(sedaMetadata);
-            return;
-        }
-        if (getMetadataMap().get(sedaMetadata.getXmlElementName()) instanceof RuleMetadataKind) {
-            addOtherMetadata(sedaMetadata);
-        } else {
-            super.addMetadata(sedaMetadata);
-        }
-    }
-
-    private void addOtherMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
         int addOrderIndex, curOrderIndex, i;
         boolean manyFlag, setFlag;
         addOrderIndex = getMetadataOrderedList().indexOf(sedaMetadata.getXmlElementName());
@@ -217,21 +251,22 @@ abstract public class RuleType extends ComplexListType {
             }
         } else {
             manyFlag = getMetadataMap().get(sedaMetadata.getXmlElementName()).many;
-            int lastRuleIndex = IntStream.range(0, metadataList.size())
-                .boxed()
-                .map(e -> new SimpleEntry<>(metadataList.get(e), e))
-                .filter(e -> e.getKey().getXmlElementName().equals(RULE_TAG)).map(Entry::getValue)
-                .max(Integer::compareTo).orElse(0);
-            for (SEDAMetadata sm : metadataList) {
+            int lastRuleIndex = findLastRuleIndex();
+            for (SEDAMetadata sm : metadataList.subList(lastRuleIndex, metadataList.size())) {
+                if (getMetadataMap().get(sm.getXmlElementName()) instanceof RuleMetadataKind) {
+                    i++;
+                    continue;
+                }
                 curOrderIndex = getMetadataOrderedList().indexOf(sm.getXmlElementName());
                 if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
                     setFlag = true;
                     break;
                 }
-                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex + lastRuleIndex))
+                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex))
                     break;
                 i++;
             }
+            i += lastRuleIndex;
         }
         if (manyFlag)
             metadataList.add(i, sedaMetadata);
@@ -241,6 +276,14 @@ abstract public class RuleType extends ComplexListType {
             else
                 metadataList.add(i, sedaMetadata);
         }
+    }
+
+    private int findLastRuleIndex() {
+        return IntStream.range(0, metadataList.size())
+            .boxed()
+            .map(e -> new SimpleEntry<>(metadataList.get(e), e))
+            .filter(e -> e.getKey().getXmlElementName().equals(RULE_TAG)).map(Entry::getValue)
+            .max(Integer::compareTo).orElse(0);
     }
 
     public List<String> getRuleMetadataKindList() throws SEDALibException {
