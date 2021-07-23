@@ -229,14 +229,12 @@ public class DataObjectPackageToCSVMetadataExporter {
         List<String> ruleHeaderNames = new ArrayList<>();
         int rank = 0;
         while (headerNames.contains(ruleName + ".Rule." + rank)) {
-            ruleHeaderNames.add(ruleName + ".Rule." + Integer.toString(rank));
-            if (headerNames.contains(ruleName + ".StartDate." + rank))
-                ruleHeaderNames.add(ruleName + ".StartDate." + rank);
+            ruleHeaderNames.add(ruleName + ".Rule." + rank);
             List<String> ruleMetadataKindList =
-                Arrays.asList("HoldEndDate", "HoldOwner", "HoldReassessingDate", "HoldReason", "PreventRearrangement");
-            for (String x : ruleMetadataKindList) {
-                if (headerNames.contains(ruleName + "." + x + "." + rank))
-                    ruleHeaderNames.add(ruleName + "." + x + "." + rank);
+                Arrays.asList("StartDate","HoldEndDate", "HoldOwner", "HoldReassessingDate", "HoldReason", "PreventRearrangement");
+            for (String ruleHeaderName : ruleMetadataKindList) {
+                if (headerNames.contains(ruleName + "." + ruleHeaderName + "." + rank))
+                    ruleHeaderNames.add(ruleName + "." + ruleHeaderName + "." + rank);
             }
             rank++;
         }

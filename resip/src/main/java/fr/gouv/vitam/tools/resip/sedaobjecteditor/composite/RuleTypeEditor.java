@@ -32,7 +32,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
         int addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);
         int i = 0;
         if (addOrderIndex == -1)
-            i = Integer.MAX_VALUE;
+            return Integer.MAX_VALUE;
         else {
             boolean manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
             for (SEDAObjectEditor soe : objectEditorList) {
@@ -87,7 +87,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
             throw new IllegalStateException("Cannot find parent element");
         int i = 1; // first position for RuleId
         if (addOrderIndex == -1)
-            i = Integer.MAX_VALUE;
+            return Integer.MAX_VALUE;
         else {
             boolean manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
             for (SEDAObjectEditor soe : objectEditorList.subList(parentIndex + 1, objectEditorList.size())) {

@@ -34,14 +34,10 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 
 import javax.xml.stream.XMLStreamException;
 import java.time.LocalDate;
-import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * The Class RuleType.
@@ -279,11 +275,13 @@ abstract public class RuleType extends ComplexListType {
     }
 
     private int findLastRuleIndex() {
-        return IntStream.range(0, metadataList.size())
-            .boxed()
-            .map(e -> new SimpleEntry<>(metadataList.get(e), e))
-            .filter(e -> e.getKey().getXmlElementName().equals(RULE_TAG)).map(Entry::getValue)
-            .max(Integer::compareTo).orElse(0);
+        for (int i = metadataList.size(); i > 0; --i) {
+            SEDAMetadata item = metadataList.get(i - 1);
+            if (item.getXmlElementName().equals(RULE_TAG)) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     public List<String> getRuleMetadataKindList() throws SEDALibException {

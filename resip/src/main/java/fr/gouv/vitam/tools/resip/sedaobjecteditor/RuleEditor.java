@@ -48,6 +48,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getAllJavaStackString;
 
 /**
  * The Rule object editor class.
@@ -242,7 +243,7 @@ public class RuleEditor extends SEDAObjectEditor {
                                 ((RuleTypeEditor) objectEditor.getFather()).addChildTo(ev.getActionCommand(), (Rule) objectEditor.getEditedObject());
                                 objectEditor.getFather().getSEDAObjectEditorPanelTopParent().validate();
                             } catch (SEDALibException e) {
-                                e.printStackTrace();
+                                System.err.println(getAllJavaStackString(e));
                             }
                         }
                     });

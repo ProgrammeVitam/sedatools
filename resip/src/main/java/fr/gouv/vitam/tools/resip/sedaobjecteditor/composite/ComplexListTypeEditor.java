@@ -176,11 +176,11 @@ public class ComplexListTypeEditor extends CompositeEditor {
 
     protected int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
         int addOrderIndex, curOrderIndex, i;
-        boolean manyFlag, setFlag;
+        boolean manyFlag;
         addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);
         i = 0;
         if (addOrderIndex == -1)
-            i = Integer.MAX_VALUE;
+            return Integer.MAX_VALUE;
         else {
             manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
             for (SEDAObjectEditor soe : objectEditorList) {
