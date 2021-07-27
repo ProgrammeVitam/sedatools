@@ -28,7 +28,6 @@
 package fr.gouv.vitam.tools.sedalib.metadata.management;
 
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -52,7 +51,7 @@ public class Management extends ComplexListType {
     @ComplexListMetadataMap(isExpandable = true)
     static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("StorageRule", new ComplexListMetadataKind(StorageRule.class, false));
         metadataMap.put("AppraisalRule", new ComplexListMetadataKind(AppraisalRule.class, false));
         metadataMap.put("AccessRule", new ComplexListMetadataKind(AccessRule.class, false));
@@ -60,6 +59,7 @@ public class Management extends ComplexListType {
         metadataMap.put("ReuseRule", new ComplexListMetadataKind(ReuseRule.class, false));
         metadataMap.put("ClassificationRule",
                 new ComplexListMetadataKind(ClassificationRule.class, false));
+        metadataMap.put("HoldRule", new ComplexListMetadataKind(HoldRule.class, false));
         metadataMap.put("LogBook",
                 new ComplexListMetadataKind(LogBook.class, false));
         metadataMap.put("NeedAuthorization",
@@ -85,7 +85,7 @@ public class Management extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public LinkedHashMap<String, String> externToCsvList() throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         String previousXMLElementName = null;
         int count = 0;
         for (SEDAMetadata sm : metadataList) {

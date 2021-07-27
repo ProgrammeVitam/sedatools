@@ -27,7 +27,11 @@
  */
 package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
-import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.DataObject;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
@@ -37,7 +41,13 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.io.FileUtils;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -46,7 +56,18 @@ import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -205,19 +226,23 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // extract and sort headernames for RuleType metadata
     private List<String> getRuleTypeHeaderNames(Set<String> headerNames, String ruleName) {
-        List<String> ruleHeaderNames = new ArrayList<String>();
+        List<String> ruleHeaderNames = new ArrayList<>();
         int rank = 0;
-        while (headerNames.contains(ruleName + ".Rule." + Integer.toString(rank))) {
-            ruleHeaderNames.add(ruleName + ".Rule." + Integer.toString(rank));
-            if (headerNames.contains(ruleName + ".StartDate." + Integer.toString(rank)))
-                ruleHeaderNames.add(ruleName + ".StartDate." + Integer.toString(rank));
+        while (headerNames.contains(ruleName + ".Rule." + rank)) {
+            ruleHeaderNames.add(ruleName + ".Rule." + rank);
+            List<String> ruleMetadataKindList =
+                Arrays.asList("StartDate","HoldEndDate", "HoldOwner", "HoldReassessingDate", "HoldReason", "PreventRearrangement");
+            for (String ruleHeaderName : ruleMetadataKindList) {
+                if (headerNames.contains(ruleName + "." + ruleHeaderName + "." + rank))
+                    ruleHeaderNames.add(ruleName + "." + ruleHeaderName + "." + rank);
+            }
             rank++;
         }
         if (headerNames.contains(ruleName + ".PreventInheritance"))
             ruleHeaderNames.add(ruleName + ".PreventInheritance");
         rank = 0;
-        while (headerNames.contains(ruleName + ".RefNonRuleId." + Integer.toString(rank))) {
-            ruleHeaderNames.add(ruleName + ".RefNonRuleId." + Integer.toString(rank));
+        while (headerNames.contains(ruleName + ".RefNonRuleId." + rank)) {
+            ruleHeaderNames.add(ruleName + ".RefNonRuleId." + rank);
             rank++;
         }
         if (headerNames.contains(ruleName + ".FinalAction"))
@@ -244,7 +269,7 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // extract and sort headernames by there defined order in composed types
     private List<String> getSortedHeaderNames(List<String> sortedHeaderNames, Set<String> headerNames,
-                                              String prefixHeaderName, String xmlElementName, Class metadataClass) {
+                                              String prefixHeaderName, String xmlElementName, Class<?> metadataClass) {
         String currentName = prefixHeaderName + (prefixHeaderName.isEmpty() ? "" : ".") + xmlElementName;
         String infix;
         int maxRank = getMaxRank(headerNames, currentName);
@@ -267,7 +292,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                                     e.getKey(), e.getValue().metadataClass);
                         }
                         // add extensions if any
-                        TreeSet<String> extensions = new TreeSet<String>();
+                        TreeSet<String> extensions = new TreeSet<>();
                         for (String header : headerNames) {
                             if (header.startsWith(currentName + "."))
                                 extensions.add(header);
@@ -295,7 +320,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     // determine the csv header line by extracting metadata names from all ArchiveUnits, sorting this list in SEDA order
     // and simplifying the unnecessary .0
     private void computeCsvHeader() throws SEDALibException {
-        Set<String> headerNames = new HashSet<String>();
+        Set<String> headerNames = new HashSet<>();
         List<String> sortedHeaderNames;
         for (ArchiveUnit au : dataObjectPackage.getAuInDataObjectPackageIdMap().values()) {
             Management management = au.getManagement();
@@ -303,23 +328,22 @@ public class DataObjectPackageToCSVMetadataExporter {
                 headerNames.addAll(management.externToCsvList().keySet());
             headerNames.addAll(au.getContent().externToCsvList(dataObjectPackage.getExportMetadataList()).keySet());
         }
-        sortedHeaderNames = getSortedHeaderNames(new ArrayList<String>(), headerNames, "", "Content",
+        sortedHeaderNames = getSortedHeaderNames(new ArrayList<>(), headerNames, "", "Content",
                 Content.class);
-        sortedHeaderNames.addAll(getSortedHeaderNames(new ArrayList<String>(), headerNames, "", "Management",
+        sortedHeaderNames.addAll(getSortedHeaderNames(new ArrayList<>(), headerNames, "", "Management",
                 Management.class));
         this.headerNames = sortedHeaderNames;
     }
 
     // simplify header line in the csv removing unnecessary .0
     private List<String> getSimplifiedHeaderNames() {
-        List<String> simplifiedHeaderNames = new ArrayList<String>(headerNames);
+        List<String> simplifiedHeaderNames = new ArrayList<>(headerNames);
         for (int i = 0; i < simplifiedHeaderNames.size(); i++) {
             String header = simplifiedHeaderNames.get(i);
             int pos = 0;
-            String headerRoot = "";
             while (header.indexOf(".0", pos) != -1) {
                 pos = header.indexOf(".0", pos);
-                headerRoot = header.substring(0, pos);
+                String headerRoot = header.substring(0, pos);
                 boolean onlyZero = true;
                 //on each headerRoot.0 test if there's also a headerRoot.1.yyy
                 for (int j = i + 1; j < simplifiedHeaderNames.size(); j++) {
@@ -380,7 +404,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     // last version of this usage depending on firstFlag
     private BinaryDataObject getBestUsageVersionObject(List<BinaryDataObject> objectList, boolean firstFlag) throws InterruptedException {
         int rank, version;
-        TreeMap<Integer, BinaryDataObject> rankMap = new TreeMap<Integer, BinaryDataObject>();
+        TreeMap<Integer, BinaryDataObject> rankMap = new TreeMap<>();
         for (BinaryDataObject bdo : objectList) {
             if ((bdo.dataObjectVersion == null) || (bdo.dataObjectVersion.getValue().isEmpty())) {
                 doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS, "Un objet binaire n'a pas d'usage_version," +
@@ -437,7 +461,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     private List<BinaryDataObject> getArchiveUnitObjectList(ArchiveUnit au) throws InterruptedException {
         if ((au.getDataObjectRefList() == null) || (au.getDataObjectRefList().getCount() == 0))
             return null;
-        ArrayList<BinaryDataObject> objectList = new ArrayList<BinaryDataObject>();
+        ArrayList<BinaryDataObject> objectList = new ArrayList<>();
         for (DataObject dataObject : au.getDataObjectRefList().getDataObjectList()) {
             if (dataObject instanceof BinaryDataObject)
                 objectList.add((BinaryDataObject) dataObject);
@@ -651,7 +675,7 @@ public class DataObjectPackageToCSVMetadataExporter {
         List<BinaryDataObject> objectList = getArchiveUnitObjectList(au);
         // if not only a file ArchiveUnit create a named directory with the ArchiveUnit Title
         if (((au.getChildrenAuList() != null) && (au.getChildrenAuList().getCount() != 0)) ||
-                ((objectList == null) || (objectList.size() > 1) || (objectList.size() == 0))) {
+                ((objectList == null) || objectList.size() != 1)) {
             auRelativePath = relativePath.resolve(constructArchiveUnitDirectoryName(relativePath, au));
         } else auRelativePath = relativePath;
         filename = exportObjectList(auRelativePath, objectList);
@@ -744,8 +768,8 @@ public class DataObjectPackageToCSVMetadataExporter {
         start = Instant.now();
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, getDescription(d), null);
 
-        auRelativePathMap = new HashMap<ArchiveUnit, Path>();
-        relativePathStringSet = new HashSet<String>();
+        auRelativePathMap = new HashMap<>();
+        relativePathStringSet = new HashSet<>();
 
         createDirectories(null);
         defineZipOutputStreamOrNull(rootPath, zipFileName);

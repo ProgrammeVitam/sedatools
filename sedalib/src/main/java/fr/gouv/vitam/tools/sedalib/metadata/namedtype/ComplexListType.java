@@ -141,7 +141,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * @return the SEDA metadata
      * @throws SEDALibException if failed in construction
      */
-    private SEDAMetadata newSEDAMetadata(String elementName, Object[] args) throws SEDALibException {
+    protected SEDAMetadata newSEDAMetadata(String elementName, Object[] args) throws SEDALibException {
         ComplexListMetadataKind mi = getMetadataMap().get(elementName);
         Constructor<?> constructor;
         int i;
@@ -306,7 +306,8 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             }
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément d'un ComplexListType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément d'un ComplexListType [" + getXmlElementName() + "]", e);
         }
     }
 
