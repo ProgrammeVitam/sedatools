@@ -34,7 +34,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
         if (addOrderIndex == -1)
             return Integer.MAX_VALUE;
         else {
-            boolean manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
+            boolean manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
             for (SEDAObjectEditor soe : objectEditorList) {
                 int curOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(soe.getTag());
                 if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
@@ -66,7 +66,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
             if (complexListMetadataKind == null)
                 throw new SEDALibException("La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getTag() + "]");
-            sedaMetadata = createSEDAMetadataSample(complexListMetadataKind.metadataClass.getSimpleName(), metadataName, true);
+            sedaMetadata = createSEDAMetadataSample(complexListMetadataKind.getMetadataClass().getSimpleName(), metadataName, true);
         }
 
         if (sedaMetadata != null) {
@@ -89,7 +89,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
         if (addOrderIndex == -1)
             return Integer.MAX_VALUE;
         else {
-            boolean manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
+            boolean manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
             for (SEDAObjectEditor soe : objectEditorList.subList(parentIndex + 1, objectEditorList.size())) {
                 if(soe.getTag().equals("Rule")) break;
                 int curOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(soe.getTag());
@@ -116,7 +116,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
             Collectors.toList());
         for (String metadataName : metadataOrderedList) {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
-            if ((complexListMetadataKind.many) || (!used.contains(metadataName)))
+            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName)))
                 result.add(Pair.of(metadataName, translateTag(metadataName)));
         }
         if (!getComplexListTypeMetadata().isNotExpendable())

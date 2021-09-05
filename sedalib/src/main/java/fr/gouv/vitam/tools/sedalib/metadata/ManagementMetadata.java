@@ -63,7 +63,8 @@ public class ManagementMetadata extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap(isExpandable = true)
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
         metadataMap = new LinkedHashMap<>();
         metadataMap.put("ArchivalProfile",

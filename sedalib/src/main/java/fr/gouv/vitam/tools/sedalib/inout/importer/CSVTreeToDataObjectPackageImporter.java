@@ -157,7 +157,7 @@ public class CSVTreeToDataObjectPackageImporter {
     private void readCSVFile() throws SEDALibException, InterruptedException {
         Line line;
         int lineCount = 0;
-        linesMap = new HashMap<String, List<Line>>();
+        linesMap = new HashMap<>();
 
         CsvMapper mapper = new CsvMapper();
         CsvSchema schema = mapper.schemaFor(String[].class).withColumnSeparator(separator);
@@ -179,7 +179,7 @@ public class CSVTreeToDataObjectPackageImporter {
                     throw new SEDALibException("Le suffixe de la ligne " + lineCount + " ne doit pas être vide");
                 List<Line> value = linesMap.get(line.motherId);
                 if (value == null)
-                    value = new ArrayList<Line>();
+                    value = new ArrayList<>();
                 value.add(line);
                 linesMap.put(line.motherId, value);
                 doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, lineCount, "sedalib: " + lineCount + " lignes interprétées");
@@ -205,6 +205,7 @@ public class CSVTreeToDataObjectPackageImporter {
                 content.addNewMetadata("DescriptionLevel", "Subseries");
             content.addNewMetadata("OriginatingAgencyArchiveUnitIdentifier", line.motherId + line.suffix);
         } catch (Exception ignored) {
+            //ignored
         }
         au.setContent(content);
         List<Line> childLines = linesMap.get(line.motherId + line.suffix);
@@ -250,7 +251,7 @@ public class CSVTreeToDataObjectPackageImporter {
 
         if (linesMap.size() > 1) {
             String error = "Les lignes ayant les identifiants suivant n'appartiennent pas à une série  [";
-            Iterator it = linesMap.keySet().iterator();
+            Iterator<String> it = linesMap.keySet().iterator();
             while (it.hasNext()) {
                 for (Line line : linesMap.get(it.next()))
                     error += line.uniqId + ", ";

@@ -115,7 +115,7 @@ public class DroidIdentifier {
      * @return single instance of DroidIdentifier
      * @throws SEDALibException if the identifier can't be initialised, may be due to wrong signatures files
      */
-    static public DroidIdentifier init(SEDALibProgressLogger sedaLibProgressLogger, String configDir) throws SEDALibException {
+    public static DroidIdentifier init(SEDALibProgressLogger sedaLibProgressLogger, String configDir) throws SEDALibException {
         instance = new DroidIdentifier(sedaLibProgressLogger, configDir);
         return instance;
     }
@@ -125,7 +125,7 @@ public class DroidIdentifier {
      *
      * @return single instance of DroidIdentifier
      */
-    static public DroidIdentifier getInstance() {
+    public static DroidIdentifier getInstance() {
         if (instance == null)
             try {
                 instance = new DroidIdentifier(null, "./config");
@@ -290,8 +290,7 @@ public class DroidIdentifier {
     private void initContainerDroid(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
         // get container signature definitions
         String containerSigFileName = getContainerSignatureFileName(sedaLibProgressLogger);
-        try {
-            InputStream in = new FileInputStream(containerSigFileName);
+        try (InputStream in = new FileInputStream(containerSigFileName)) {
             ContainerSignatureSaxParser parser = new ContainerSignatureSaxParser();
             containerSignatureDefinitions = parser.parse(in);
         } catch (SignatureParseException e) {
@@ -300,7 +299,7 @@ public class DroidIdentifier {
             throw new SEDALibException("Panic! Can't open container signature file",e);
         }
 
-        containerContentIdentierMap = new HashMap<String, ContainerDroidIdentifier>();
+        containerContentIdentierMap = new HashMap<>();
 
         // create container content identifier for OLE2
         IdentificationRequestFactory ole2RequestFactory = new ContainerFileIdentificationRequestFactory();
@@ -360,7 +359,7 @@ public class DroidIdentifier {
     public IdentificationResult getIdentificationResult(Path path) throws SEDALibException {
         List<IdentificationResult> irl;
         String filename = path.normalize().toString();
-        FileSystemIdentificationRequest request;
+        FileSystemIdentificationRequest request=null;
 
         RequestMetaData metaData;
         try {
@@ -370,6 +369,12 @@ public class DroidIdentifier {
             request = new FileSystemIdentificationRequest(metaData, identifier);
             request.open(path);
         } catch (IOException e) {
+            if (request!=null)
+                try {
+                    request.close();
+                } catch (IOException e1) {
+                    //ignored
+                }
             throw new SEDALibException("Impossible d'accéder au fichier [" + filename + "]");
         }
 
@@ -383,7 +388,7 @@ public class DroidIdentifier {
             } catch (IOException e1) {
                 //ignored
             }
-            throw new SEDALibException("Erreur dans l'identification par container du fichier [" + filename + "]");
+             throw new SEDALibException("Erreur dans l'identification par container du fichier [" + filename + "]");
         }
 
         if ((resultsContainerCollection != null) && !resultsContainerCollection.getResults().isEmpty()) {
@@ -496,7 +501,7 @@ public class DroidIdentifier {
 
         // Build a set of format ids the results have priority over:
         FileFormatCollection allFormats = binarySignatureFile.getFileFormatCollection();
-        Set<Integer> lowerPriorityIDs = new HashSet<Integer>();
+        Set<Integer> lowerPriorityIDs = new HashSet<>();
         for (int i = 0; i < numResults; i++) {
             final IdentificationResult result = irl.get(i);
             final String resultPUID = result.getPuid();
@@ -505,7 +510,7 @@ public class DroidIdentifier {
         }
 
         // if a result has an id in this set, add it to the remove list
-        List<IdentificationResult> lowerPriorityResults = new ArrayList<IdentificationResult>();
+        List<IdentificationResult> lowerPriorityResults = new ArrayList<>();
         for (int i = 0; i < numResults; i++) {
             final IdentificationResult tmp = irl.get(i);
             final String resultPUID = tmp.getPuid();

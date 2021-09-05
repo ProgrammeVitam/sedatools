@@ -39,6 +39,7 @@ import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,8 +89,8 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
      */
     public DataObjectGroup(DataObjectPackage dataObjectPackage, Path path) {
         super(dataObjectPackage);
-        this.binaryDataObjectList = new ArrayList<BinaryDataObject>();
-        this.physicalDataObjectList = new ArrayList<PhysicalDataObject>();
+        this.binaryDataObjectList = new ArrayList<>();
+        this.physicalDataObjectList = new ArrayList<>();
         this.logBook = null;
         if (path == null)
             this.onDiskPath = null;
@@ -255,7 +256,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                         break;
                     switch (tmp) {
                         case "BinaryDataObject":
-                            bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, rootDir, sedaLibProgressLogger);
+                            bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
                             //noinspection ConstantConditions
                             if ((bdo.dataObjectGroupId != null) || (bdo.dataObjectGroupReferenceId != null))
                                 throw new SEDALibException("Le BinaryDataObject [" + bdo.inDataPackageObjectId
@@ -303,7 +304,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
     public void fromSedaXmlFragments(String fragments) throws SEDALibException {
         DataObjectGroup dog = new DataObjectGroup();
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes("UTF-8"));
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes(StandardCharsets.UTF_8));
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();

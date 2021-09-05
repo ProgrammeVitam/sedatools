@@ -187,7 +187,7 @@ public class CSVMetadataToDataObjectPackageImporter {
         CSVMetadataFormatter metadataFormatter = null;
         Line currentLine;
 
-        linesMap = new HashMap<String, Line>();
+        linesMap = new HashMap<>();
         CsvMapper mapper = new CsvMapper();
         CsvSchema schema = mapper.schemaFor(String[].class).withColumnSeparator(separator);
         mapper.enable(CsvParser.Feature.WRAP_AS_ARRAY);
@@ -202,7 +202,7 @@ public class CSVMetadataToDataObjectPackageImporter {
                     continue;
                 }
                 try {
-                    currentLine = new Line(metadataFormatter.getGUID(row), metadataFormatter.getParentGUID(row),
+                    currentLine = new Line(metadataFormatter.getGUID(row), metadataFormatter.getParentGUID(row), //NOSONAR
                             metadataFormatter.getFile(row), metadataFormatter.doFormatAndExtractContentXML(row), metadataFormatter.extractManagementXML());
                 } catch (SEDALibException e) {
                     throw new SEDALibException("Erreur sur la ligne "+lineCount, e);
@@ -213,10 +213,13 @@ public class CSVMetadataToDataObjectPackageImporter {
         } catch (IOException e) {
             throw new SEDALibException("Le fichier csv [" + csvMetadataFileName + "] n'est pas accessible");
         }
-        return metadataFormatter.needIdRegeneration();
+        if (metadataFormatter!=null)
+            return metadataFormatter.needIdRegeneration();
+        else //if file empty...
+            return false;
     }
 
-    private ArchiveUnit createLineAU(Line line) throws SEDALibException, InterruptedException {
+    private ArchiveUnit createLineAU(Line line) throws SEDALibException {
         ArchiveUnit au;
         BinaryDataObject bdo;
 

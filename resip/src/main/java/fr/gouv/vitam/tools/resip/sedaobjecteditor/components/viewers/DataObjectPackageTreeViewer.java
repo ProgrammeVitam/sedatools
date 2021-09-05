@@ -79,14 +79,11 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                 if ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty()) &&
                         (dog.getBinaryDataObjectList() != null) && (dog.getBinaryDataObjectList().size() == 1)) {
                     BinaryDataObject bdo = dog.getBinaryDataObjectList().get(0);
-                    try {
-                        if ((bdo.formatIdentification!=null) &&
-                                (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.getSimpleMetadata("MimeType")))) {
-                            return bdo;
-                        }
-                    } catch (SEDALibException ignored) {
+                    if ((bdo.formatIdentification!=null) &&
+                            (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.getSimpleMetadata("MimeType")))) {
+                        return bdo;
                     }
-                }
+                 }
             }
         }
         return null;
@@ -539,7 +536,11 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         DataObjectPackageTreeModel treeModel = (DataObjectPackageTreeModel) getModel();
 
         ArchiveUnit au = new ArchiveUnit(targetNode.getArchiveUnit().getDataObjectPackage());
-        au.setDefaultContent("Nouvelle ArchiveUnit", "RecordGrp");
+        try {
+            au.setDefaultContent("Nouvelle ArchiveUnit", "RecordGrp");
+        } catch (SEDALibException ignored) {
+            // ignored
+        }
         targetNode.getArchiveUnit().addChildArchiveUnit(au);
 
         treeModel.generateArchiveUnitNode(au, targetNode);

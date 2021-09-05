@@ -4,6 +4,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.content.DataObjectReference;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class AgencyType.
@@ -11,15 +12,19 @@ import java.util.LinkedHashMap;
  * For abstract reference to SIP internal or external reference type SEDA metadata
  */
 public class DataObjectOrArchiveUnitReferenceType extends ComplexListType {
+
+    static final String DATAOBJECTREFERENCE="DataObjectReference";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("ArchiveUnitRefId", new ComplexListMetadataKind(SIPInternalIDType.class, false));
-        metadataMap.put("DataObjectReference", new ComplexListMetadataKind(DataObjectReference.class, false));
+        metadataMap.put(DATAOBJECTREFERENCE, new ComplexListMetadataKind(DataObjectReference.class, false));
         metadataMap.put("RepositoryArchiveUnitPID", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("RepositoryObjectPID", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("ExternalReference", new ComplexListMetadataKind(StringType.class, false));
@@ -39,13 +44,11 @@ public class DataObjectOrArchiveUnitReferenceType extends ComplexListType {
      *
      * @param elementName       the element name
      * @param dataObjectGroupID the data object group id
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public DataObjectOrArchiveUnitReferenceType(String elementName, String dataObjectGroupID) {
+    public DataObjectOrArchiveUnitReferenceType(String elementName, String dataObjectGroupID) throws SEDALibException{
         super(elementName);
-        try {
-            addNewMetadata("DataObjectReference", null,dataObjectGroupID);
-        } catch (SEDALibException ignored) {
-        }
+            addNewMetadata(DATAOBJECTREFERENCE, null,dataObjectGroupID);
     }
 
 }

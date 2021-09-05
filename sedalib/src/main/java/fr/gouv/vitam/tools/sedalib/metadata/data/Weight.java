@@ -32,7 +32,6 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
-import javax.xml.XMLConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.util.Arrays;
@@ -49,7 +48,7 @@ public class Weight extends NamedTypeMetadata {
     /**
      * Enum restricted values.
      */
-    static public final List<String> enumValues = Arrays.asList("microgram","MC","milligram","MGM","gram","GRM","kilogram","KGM");
+    public static final List<String> enumValues = Arrays.asList("microgram","MC","milligram","MGM","gram","GRM","kilogram","KGM");
 
     /**
      * The value.
@@ -63,6 +62,8 @@ public class Weight extends NamedTypeMetadata {
 
     /**
      * Instantiates a new weight.
+     *
+     * @throws SEDALibException not supposed to occur but compliant with other init
      */
     public Weight() throws SEDALibException {
         this(null, null);
@@ -72,6 +73,7 @@ public class Weight extends NamedTypeMetadata {
      * Instantiates a new weight.
      *
      * @param value       the value
+     * @throws SEDALibException not supposed to occur but compliant with other init
      */
     public Weight(Double value) throws SEDALibException {
         this(value, null);
@@ -82,6 +84,7 @@ public class Weight extends NamedTypeMetadata {
      *
      * @param value       the value
      * @param unit        the unit
+     * @throws SEDALibException if unknown measure unit
      */
     public Weight(Double value, String unit) throws SEDALibException {
         super("Weight");
@@ -119,7 +122,7 @@ public class Weight extends NamedTypeMetadata {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         if (value != null) {
             result.put("", value.toString());
             if (unit != null)
@@ -189,6 +192,7 @@ public class Weight extends NamedTypeMetadata {
      * Sets unit.
      *
      * @param unit the unit
+     * @throws SEDALibException if unknown measure unit
      */
     public void setUnit(String unit) throws SEDALibException {
         if ((unit!=null) && !enumValues.contains(unit))

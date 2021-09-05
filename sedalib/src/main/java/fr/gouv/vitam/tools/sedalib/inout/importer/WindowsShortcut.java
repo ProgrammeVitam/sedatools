@@ -239,7 +239,6 @@ public class WindowsShortcut {
             final int file_location_info_flag = link[file_start + file_location_info_flag_offset_offset];
             isLocal = (file_location_info_flag & 1) == 1;
             // get the local volume and local system values
-            // final int localVolumeTable_offset_offset = 0x0C;
             final int basename_offset_offset = 0x10;
             final int networkVolumeTable_offset_offset = 0x14;
             final int finalname_offset_offset = 0x18;
@@ -292,7 +291,6 @@ public class WindowsShortcut {
             if ((flags & has_command_line_arguments) > 0) {
                 final int string_len = bytesToWord(link, next_string_start) * 2; // times 2 because UTF-16
                 command_line_arguments = getUTF16String(link, next_string_start + 2, string_len);
-                //next_string_start = next_string_start + string_len + 2;
             }
 
         } catch (final ArrayIndexOutOfBoundsException e) {

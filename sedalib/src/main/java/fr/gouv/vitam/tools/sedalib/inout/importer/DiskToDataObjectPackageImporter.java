@@ -36,6 +36,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -208,7 +209,7 @@ public class DiskToDataObjectPackageImporter {
     /**
      * The simpleCopy function used by default to extract Title from file name.
      */
-    static public Function<String, String> simpleCopy = s -> s;
+    public static Function<String, String> simpleCopy = s -> s;
 
     /**
      * The progress logger.
@@ -217,12 +218,12 @@ public class DiskToDataObjectPackageImporter {
 
     private DiskToDataObjectPackageImporter(boolean noLinkFlag, Function<String, String> extractTitleFromFileNameFunction,
                                             SEDALibProgressLogger sedaLibProgressLogger) {
-        this.onDiskRootPaths = new ArrayList<Path>();
+        this.onDiskRootPaths = new ArrayList<>();
         this.dataObjectPackage = null;
-        ignorePatterns = new ArrayList<Pattern>();
+        ignorePatterns = new ArrayList<>();
         isWindows = System.getProperty("os.name").toLowerCase().contains("win");
-        this.auPathStringMap = new HashMap<String, ArchiveUnit>();
-        this.dogPathStringMap = new HashMap<String, DataObjectGroup>();
+        this.auPathStringMap = new HashMap<>();
+        this.dogPathStringMap = new HashMap<>();
         this.modelVersion = 0;
         this.noLinkFlag = noLinkFlag;
         if (extractTitleFromFileNameFunction != null)
@@ -360,6 +361,7 @@ public class DiskToDataObjectPackageImporter {
                 return true;
             }
         } catch (IOException | ParseException ignored) {
+            //ignored
         }
         lastAnalyzedLinkTarget = null;
         return false;
@@ -502,7 +504,7 @@ public class DiskToDataObjectPackageImporter {
         }
         try {
             PhysicalDataObject pdo = new PhysicalDataObject(dataObjectPackage,
-                    new String(Files.readAllBytes(path), "UTF-8"));
+                    new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
             if (pdo.dataObjectVersion == null)
                 pdo.dataObjectVersion = new StringType("DataObjectVersion",dataObjectVersion);
             else if (!pdo.dataObjectVersion.getValue().equals(dataObjectVersion))
@@ -539,7 +541,7 @@ public class DiskToDataObjectPackageImporter {
         DataObject zdo = dog.findDataObjectByDataObjectVersion(dataObjectVersion);
         if (zdo == null) {
             try {
-                bdo = new BinaryDataObject(dataObjectPackage, new String(Files.readAllBytes(path), "UTF-8"));
+                bdo = new BinaryDataObject(dataObjectPackage, new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
                 if (bdo.dataObjectVersion == null)
                     bdo.dataObjectVersion = new StringType("DataObjectVersion",dataObjectVersion);
                 else if (!bdo.dataObjectVersion.getValue().equals(dataObjectVersion))
@@ -555,7 +557,7 @@ public class DiskToDataObjectPackageImporter {
         } else if (zdo instanceof BinaryDataObject) {
             bdo = (BinaryDataObject) zdo;
             try {
-                bdo.fromSedaXmlFragments(new String(Files.readAllBytes(path), "UTF-8"));
+                bdo.fromSedaXmlFragments(new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
             } catch (IOException e) {
                 throw new SEDALibException("Impossible d'accéder au fichier [" + path.toString() + "]");
             } catch (SEDALibException e) {
@@ -622,7 +624,6 @@ public class DiskToDataObjectPackageImporter {
         DataObjectGroup implicitDog = null;
         boolean auMetadataDefined = false;
         String fileName;
-        boolean doMatch;
 
         // test if already analyzed
         au = getArchiveUnit(path);
@@ -647,7 +648,7 @@ public class DiskToDataObjectPackageImporter {
         try (Stream<Path> sp = Files.list(path)) {
             // get sorted list of sub paths
             pi = sp.iterator();
-            ArrayList<String> subPathStringList = new ArrayList<String>(100);
+            ArrayList<String> subPathStringList = new ArrayList<>(100);
             while (pi.hasNext())
                 subPathStringList.add(pi.next().toString());
             Collections.sort(subPathStringList);
@@ -687,7 +688,7 @@ public class DiskToDataObjectPackageImporter {
                     if (fileName.equals("ArchiveUnitContent.xml")) {
                         modelVersion |= 1;
                         try {
-                            au.setContentXmlData(new String(Files.readAllBytes(curPath), "UTF-8"));
+                            au.setContentXmlData(new String(Files.readAllBytes(curPath), StandardCharsets.UTF_8));
                             if (!au.getContentXmlData().isEmpty())
                                 auMetadataDefined = true;
                         } catch (IOException e) {
@@ -697,7 +698,7 @@ public class DiskToDataObjectPackageImporter {
                     } else if (fileName.equals("ArchiveUnitManagement.xml")) {
                         modelVersion |= 1;
                         try {
-                            au.setManagementXmlData(new String(Files.readAllBytes(curPath), "UTF-8"));
+                            au.setManagementXmlData(new String(Files.readAllBytes(curPath), StandardCharsets.UTF_8));
                         } catch (IOException e) {
                             throw new SEDALibException("Impossible d'accéder au fichier [" + curPath.toString() + "]", e);
                         }
@@ -705,7 +706,7 @@ public class DiskToDataObjectPackageImporter {
                     } else if (fileName.equals("__ArchiveUnitMetadata.xml")) {
                         modelVersion |= 2;
                         try {
-                            au.fromSedaXmlFragments(new String(Files.readAllBytes(curPath), "UTF-8"));
+                            au.fromSedaXmlFragments(new String(Files.readAllBytes(curPath), StandardCharsets.UTF_8));
                             if ((au.getContentXmlData() != null) && !au.getContentXmlData().isEmpty())
                                 auMetadataDefined = true;
                         } catch (IOException e) {

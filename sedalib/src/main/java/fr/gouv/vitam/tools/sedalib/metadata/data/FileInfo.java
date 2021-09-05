@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class FileInfo.
@@ -50,10 +51,10 @@ public class FileInfo extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("Filename", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("CreatingApplicationName", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("CreatingApplicationVersion", new ComplexListMetadataKind(StringType.class, false));
@@ -82,6 +83,7 @@ public class FileInfo extends ComplexListType {
      * @param creatingOs                 the creating os
      * @param creatingOsVersion          the creating os version
      * @param lastModified               the last modified
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public FileInfo(String filename, String creatingApplicationName, String creatingApplicationVersion,
                      LocalDateTime dateCreatedByApplication, String creatingOs, String creatingOsVersion, FileTime lastModified) throws SEDALibException {

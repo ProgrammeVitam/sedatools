@@ -34,6 +34,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class ArchiveUnitIdentifierKey.
@@ -46,15 +47,19 @@ import java.util.LinkedHashMap;
  */
 public class ArchiveUnitIdentifierKey extends ComplexListType {
 
+    static final String METADATANAME="MetadataName";
+    static final String METADATAVALUE="MetadataValue";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("MetadataName", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("MetadataValue", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap = new LinkedHashMap<>();
+        metadataMap.put(METADATANAME, new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put(METADATAVALUE, new ComplexListMetadataKind(StringType.class, false));
     }
 
     /**
@@ -69,13 +74,11 @@ public class ArchiveUnitIdentifierKey extends ComplexListType {
      *
      * @param metadataName  the metadata name
      * @param metadataValue the metadata value
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public ArchiveUnitIdentifierKey(String metadataName, String metadataValue) {
+    public ArchiveUnitIdentifierKey(String metadataName, String metadataValue) throws SEDALibException {
         this();
-        try {
-            addNewMetadata("MetadataName", metadataName);
-            addNewMetadata("MetadataValue", metadataValue);
-        } catch (SEDALibException ignored) {
-        }
-    }
+            addNewMetadata(METADATANAME, metadataName);
+            addNewMetadata(METADATAVALUE, metadataValue);
+     }
 }

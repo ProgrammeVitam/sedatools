@@ -197,15 +197,15 @@ public class SEDALibProgressLogger {
      * @param e the exception
      * @return the messages stack string
      */
-    static public String getMessagesStackString(Throwable e) {
+    public static String getMessagesStackString(Throwable e) {
         String result;
         result = "-> " + e.getMessage();
         if (e.getCause() instanceof Exception)
-            result += "\n" + getMessagesStackString((Exception) e.getCause());
+            result += "\n" + getMessagesStackString(e.getCause());
         return result;
     }
 
-    static private String getJavaStackString(Throwable e) {
+    private static String getJavaStackString(Throwable e) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(baos);
         e.printStackTrace(ps);
@@ -218,11 +218,11 @@ public class SEDALibProgressLogger {
      * @param e the exception
      * @return the all java stack string
      */
-    static public String getAllJavaStackString(Throwable e) {
+    public static String getAllJavaStackString(Throwable e) {
         String result;
         result = getJavaStackString(e);
         if (e.getCause() instanceof Exception)
-            result += "\n------------------------------------\n" + getJavaStackString((Exception) e.getCause());
+            result += "\n------------------------------------\n" + getJavaStackString(e.getCause());
         return result;
     }
 
@@ -234,7 +234,7 @@ public class SEDALibProgressLogger {
      * @param log   the log
      * @param e     the exception
      */
-    static public void doProgressLogWithoutInterruption(SEDALibProgressLogger spl, int level, String log, Throwable e) {
+    public static void doProgressLogWithoutInterruption(SEDALibProgressLogger spl, int level, String log, Throwable e) {
         if (spl!=null) {
             if (level <= spl.progressLogLevel) {
                 if (e != null)
@@ -256,7 +256,7 @@ public class SEDALibProgressLogger {
      * @param log   the log
      * @param e     the exception
      */
-    static public void doProgressLogIfDebug(SEDALibProgressLogger spl, String log, Throwable e) {
+    public static void doProgressLogIfDebug(SEDALibProgressLogger spl, String log, Throwable e) {
         if ((spl != null) && spl.debugFlag) {
             doProgressLogWithoutInterruption(spl, GLOBAL, log, e);
         }
@@ -271,7 +271,7 @@ public class SEDALibProgressLogger {
      * @param e     the exception
      * @throws InterruptedException the interrupted exception
      */
-    static public void doProgressLog(SEDALibProgressLogger spl, int level, String log, Exception e) throws InterruptedException {
+    public static void doProgressLog(SEDALibProgressLogger spl, int level, String log, Exception e) throws InterruptedException {
         if (spl != null) {
             doProgressLogWithoutInterruption(spl, level, log, e);
             Thread.sleep(1);
@@ -287,7 +287,7 @@ public class SEDALibProgressLogger {
      * @param log   the log
      * @throws InterruptedException the interrupted exception
      */
-    static public void doProgressLogIfStep(SEDALibProgressLogger spl, int level, int count, String log) throws InterruptedException {
+    public static void doProgressLogIfStep(SEDALibProgressLogger spl, int level, int count, String log) throws InterruptedException {
         if (spl!=null) {
             if (level <= spl.progressLogLevel) {
                 long nowEpochSeconds = Instant.now().getEpochSecond();

@@ -143,16 +143,17 @@ public class DataObjectPackage {
      * Instantiates a new archive transfer. Used for json deserialization.
      */
     public DataObjectPackage() {
-        this.auInDataObjectPackageIdMap = new HashMap<String, ArchiveUnit>();
-        this.dogInDataObjectPackageIdMap = new HashMap<String, DataObjectGroup>();
+        this.auInDataObjectPackageIdMap = new HashMap<>();
+        this.dogInDataObjectPackageIdMap = new HashMap<>();
 
-        this.bdoInDataObjectPackageIdMap = new HashMap<String, BinaryDataObject>();
-        this.pdoInDataObjectPackageIdMap = new HashMap<String, PhysicalDataObject>();
+        this.bdoInDataObjectPackageIdMap = new HashMap<>();
+        this.pdoInDataObjectPackageIdMap = new HashMap<>();
         this.ghostRootAu = new ArchiveUnit();
         Content c = new Content();
         try {
             c.addNewMetadata("Title", "GhostRootAu");
         } catch (SEDALibException ignored) {
+            //ignored
         }
         this.ghostRootAu.setDataObjectPackage(this);
 
@@ -160,7 +161,7 @@ public class DataObjectPackage {
         this.resetIdCounter();
         this.resetRefIdCounter();
         this.resetInOutCounter();
-        this.touchedInDataObjectPackageIdMap = new HashMap<String, Integer>();
+        this.touchedInDataObjectPackageIdMap = new HashMap<>();
         this.vitamNormalizationStatus = NORMALIZATION_STATUS_UNKNOWN;
     }
 
@@ -180,9 +181,7 @@ public class DataObjectPackage {
         if (bdoInDataObjectPackageIdMap.containsKey(inDataPackageObjectId))
             return true;
         //noinspection RedundantIfStatement
-        if (pdoInDataObjectPackageIdMap.containsKey(inDataPackageObjectId))
-            return true;
-        return false;
+        return pdoInDataObjectPackageIdMap.containsKey(inDataPackageObjectId);
     }
 
     /**
@@ -573,15 +572,16 @@ public class DataObjectPackage {
         for (ArchiveUnit au : childDataObjectPackage.ghostRootAu.getChildrenAuList().getArchiveUnitList())
             targetAU.addChildArchiveUnit(au);
 
-        childDataObjectPackage.setAuInDataObjectPackageIdMap(new HashMap<String, ArchiveUnit>());
-        childDataObjectPackage.setDogInDataObjectPackageIdMap(new HashMap<String, DataObjectGroup>());
-        childDataObjectPackage.setBdoInDataObjectPackageIdMap(new HashMap<String, BinaryDataObject>());
-        childDataObjectPackage.setPdoInDataObjectPackageIdMap(new HashMap<String, PhysicalDataObject>());
+        childDataObjectPackage.setAuInDataObjectPackageIdMap(new HashMap<>());
+        childDataObjectPackage.setDogInDataObjectPackageIdMap(new HashMap<>());
+        childDataObjectPackage.setBdoInDataObjectPackageIdMap(new HashMap<>());
+        childDataObjectPackage.setPdoInDataObjectPackageIdMap(new HashMap<>());
         childDataObjectPackage.setGhostRootAu(new ArchiveUnit());
         Content c = new Content();
         try {
             c.addNewMetadata("Title", "GhostRootAu");
         } catch (SEDALibException ignored) {
+            //ignored
         }
         childDataObjectPackage.getGhostRootAu().setDataObjectPackage(this);
         childDataObjectPackage.getGhostRootAu().setContent(c);
@@ -631,7 +631,7 @@ public class DataObjectPackage {
      * @throws SEDALibException if the graph is cyclic
      */
     public void verifyAcyclic() throws SEDALibException {
-        List<ArchiveUnit> path = new ArrayList<ArchiveUnit>();
+        List<ArchiveUnit> path = new ArrayList<>();
         resetTouchedInDataObjectPackageIdMap();
         for (ArchiveUnit childAu : ghostRootAu.getChildrenAuList().getArchiveUnitList())
             verifyAcyclicArchiveUnit(childAu, path);
@@ -674,10 +674,9 @@ public class DataObjectPackage {
             DataObjectRefList dorl = pair.getValue().getDataObjectRefList();
             boolean referencedDog = false;
             for (DataObject zdo : dorl.getDataObjectList()) {
-                if (zdo instanceof DataObjectGroup) {
-                    if (getTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId()) > 1)
+                if ((zdo instanceof DataObjectGroup) &&
+                     (getTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId()) > 1))
                         referencedDog = true;
-                }
             }
             if (referencedDog && (dorl.getCount() > 1))
                 throw new SEDALibException("Regroupement des références de DataObject impossible sur l'ArchiveUnit ["
@@ -698,10 +697,8 @@ public class DataObjectPackage {
             if (zdo instanceof DataObjectGroup) {
                 dataObjectGroup.mergeDataObjectGroup((DataObjectGroup) zdo);
                 dogInDataObjectPackageIdMap.remove(zdo.getInDataObjectPackageId());
-            } else if (zdo instanceof BinaryDataObject)
-                dataObjectGroup.addDataObject((BinaryDataObject) zdo);
-            else if (zdo instanceof PhysicalDataObject)
-                dataObjectGroup.addDataObject((PhysicalDataObject) zdo);
+            } else if ((zdo instanceof BinaryDataObject) || (zdo instanceof PhysicalDataObject))
+                dataObjectGroup.addDataObject(zdo);
         }
     }
 
@@ -738,7 +735,7 @@ public class DataObjectPackage {
      * @throws InterruptedException the interrupted exception
      */
     public void removeUnusedDataObjects(SEDALibProgressLogger spl) throws InterruptedException {
-        HashSet<DataObject> usedDataObjects = new HashSet<DataObject>(1000);
+        HashSet<DataObject> usedDataObjects = new HashSet<>(1000);
         for (Entry<String, ArchiveUnit> pair : getAuInDataObjectPackageIdMap().entrySet()) {
             DataObjectRefList dorl = pair.getValue().getDataObjectRefList();
             for (DataObject dataObject : dorl.getDataObjectList()) {
@@ -850,13 +847,13 @@ public class DataObjectPackage {
         removeArchiveUnitAndDataObjectGroupId();
         resetIdCounter();
 
-        auInDataObjectPackageIdMap = new HashMap<String, ArchiveUnit>();
-        dogInDataObjectPackageIdMap = new HashMap<String, DataObjectGroup>();
-        bdoInDataObjectPackageIdMap = new HashMap<String, BinaryDataObject>();
-        pdoInDataObjectPackageIdMap = new HashMap<String, PhysicalDataObject>();
+        auInDataObjectPackageIdMap = new HashMap<>();
+        dogInDataObjectPackageIdMap = new HashMap<>();
+        bdoInDataObjectPackageIdMap = new HashMap<>();
+        pdoInDataObjectPackageIdMap = new HashMap<>();
 
         resetInOutCounter();
-        List<DataObjectGroup> orderedDataObjectGroupList = new ArrayList<DataObjectGroup>(
+        List<DataObjectGroup> orderedDataObjectGroupList = new ArrayList<>(
                 dogInDataObjectPackageIdMap.size());
         for (ArchiveUnit root : ghostRootAu.getChildrenAuList().getArchiveUnitList())
             regenerateArchiveUnitId(root, orderedDataObjectGroupList);
@@ -912,16 +909,18 @@ public class DataObjectPackage {
     /**
      * The ID comparator to sort elements by inDataPackageObjectId.
      */
-    private static Comparator<String> IDComparator = (ID1, ID2) -> {
+    private static Comparator<String> idComparator = (id1, id2) -> {
         int num1, num2;
-        if (ID1.toLowerCase().startsWith("id") && ID2.toLowerCase().startsWith("id")) {
+        if (id1.toLowerCase().startsWith("id") && id2.toLowerCase().startsWith("id")) {
             try {
-                num1 = Integer.parseInt(ID1.substring(2));
-                num2 = Integer.parseInt(ID2.substring(2));
+                num1 = Integer.parseInt(id1.substring(2));
+                num2 = Integer.parseInt(id2.substring(2));
                 return num1 - num2;
-            } catch(NumberFormatException ignored){}
+            } catch(NumberFormatException ignored){
+                //ignored
+            }
         }
-        return ID1.compareTo(ID2);
+        return id1.compareTo(id2);
     };
 
     /**
@@ -1001,14 +1000,14 @@ public class DataObjectPackage {
             if (!imbricateFlag) {
                 Set<String> auSet = auInDataObjectPackageIdMap.keySet();
                 String[] tempArray = auSet.toArray(new String[0]);
-                Arrays.sort(tempArray, IDComparator);
+                Arrays.sort(tempArray, idComparator);
                 for (String s : tempArray)
                     auInDataObjectPackageIdMap.get(s).toSedaXml(xmlWriter, false, sedaLibProgressLogger);
             } else {
                 List<String> roots = ghostRootAu.getChildrenAuList().getInDataObjectPackageIdList();
                 if (roots != null) {
                     String[] tempArray = roots.toArray(new String[0]);
-                    Arrays.sort(tempArray, IDComparator);
+                    Arrays.sort(tempArray, idComparator);
                     for (String s : tempArray) {
                         auInDataObjectPackageIdMap.get(s).toSedaXml(xmlWriter, true, sedaLibProgressLogger);
                     }
@@ -1077,7 +1076,7 @@ public class DataObjectPackage {
                                 "importé", null);
                         break;
                     case "BinaryDataObject":
-                        bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, rootDir, sedaLibProgressLogger);
+                        bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
                         //noinspection ConstantConditions
                         bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.uri.getValue());
                         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé", null);

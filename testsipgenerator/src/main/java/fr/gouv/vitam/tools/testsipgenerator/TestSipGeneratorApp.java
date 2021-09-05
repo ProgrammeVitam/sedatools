@@ -36,7 +36,6 @@ import java.nio.file.attribute.FileTime;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Formatter;
 import java.util.List;
 
@@ -47,7 +46,6 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
@@ -260,7 +258,7 @@ public class TestSipGeneratorApp {
         	if(StringUtils.isNotBlank(gms)) {
         		for(String metadata : StringUtils.split(gms, ",")) {
         			if (Content.metadataMap.containsKey(metadata) 
-        					&& Content.metadataMap.get(metadata).metadataClass.getSimpleName().equals(StringType.class.getSimpleName())) {
+        					&& Content.metadataMap.get(metadata).getMetadataClass().getSimpleName().equals(StringType.class.getSimpleName())) {
         				generatedMetadatas.add(metadata);	
         			} else {
         				System.out.println("Invalid metadata will not be generated: " + metadata);

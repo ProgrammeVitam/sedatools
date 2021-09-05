@@ -125,8 +125,8 @@ public class ArchiveTransferToSIPExporter {
         Date d = new Date();
         start = Instant.now();
         String log = "sedalib: début de l'export d'un ArchiveTransfer dans un manifest SEDA\n";
-        log += "en [" + fileName + "]";
-        log += " date=" + DateFormat.getDateTimeInstance().format(d);
+        log += "en [" + fileName + "] date=";
+        log += DateFormat.getDateTimeInstance().format(d);
         doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         this.exportPath = Paths.get(fileName);
@@ -149,6 +149,7 @@ public class ArchiveTransferToSIPExporter {
      *
      * @param hierarchicalFlag the hierarchical flag
      * @param indentedFlag         the indentedFlag
+     * @return the ArchiveTransfert XML string
      * @throws SEDALibException     if writing has failed
      * @throws InterruptedException if export process is interrupted
      */
@@ -158,8 +159,8 @@ public class ArchiveTransferToSIPExporter {
         Date d = new Date();
         start = Instant.now();
         String log = "sedalib: début de l'export d'un ArchiveTransfer dans un manifest SEDA\n";
-        log += "en chaîne de caractères interne";
-        log += " date=" + DateFormat.getDateTimeInstance().format(d);
+        log += "en chaîne de caractères interne date=";
+        log += DateFormat.getDateTimeInstance().format(d);
         doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         this.hierarchicalFlag = hierarchicalFlag;
@@ -193,8 +194,8 @@ public class ArchiveTransferToSIPExporter {
         Date d = new Date();
         start = Instant.now();
         String log = "sedalib: début de l'export d'un ArchiveTransfer dans un SIP\n";
-        log += "en [" + fileName + "]";
-        log += " date=" + DateFormat.getDateTimeInstance().format(d);
+        log += "en [" + fileName + "] date=";
+        log += DateFormat.getDateTimeInstance().format(d);
         doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
 
         this.exportPath = Paths.get(fileName);
@@ -223,9 +224,9 @@ public class ArchiveTransferToSIPExporter {
                         for (BinaryDataObject bo : og.getBinaryDataObjectList()) {
                             e = new ZipEntry(bo.uri.getValue());
                             zipout.putNextEntry(e);
-                            FileInputStream fis = new FileInputStream(bo.getOnDiskPath().toFile());
-                            IOUtils.copy(fis, zipout);
-                            fis.close();
+                            try (FileInputStream fis = new FileInputStream(bo.getOnDiskPath().toFile())) {
+                                IOUtils.copy(fis, zipout);
+                            }
                             zipout.closeEntry();
                             counter++;
                             doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,

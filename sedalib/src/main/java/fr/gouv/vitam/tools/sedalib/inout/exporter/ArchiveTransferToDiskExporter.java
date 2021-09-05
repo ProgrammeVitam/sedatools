@@ -35,6 +35,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -115,7 +116,7 @@ public class ArchiveTransferToDiskExporter {
         // write binary file
         targetOnDiskPath = containerPath.resolve("__GlobalMetadata.xml");
         try (FileOutputStream fos = new FileOutputStream(targetOnDiskPath.toFile());
-             Writer rawWriter = new OutputStreamWriter(fos, "UTF-8")) {
+             Writer rawWriter = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
             rawWriter.write(globalMetadata.toSedaXmlFragments());
         } catch (Exception e) {
             throw new SEDALibException(

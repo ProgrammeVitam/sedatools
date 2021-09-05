@@ -34,6 +34,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.SIPInternalIDType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class DataObjectReference.
@@ -50,9 +51,10 @@ public class DataObjectReference extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("DataObjectReferenceId", new ComplexListMetadataKind(SIPInternalIDType.class, false));
         metadataMap.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(SIPInternalIDType.class, false));
     }

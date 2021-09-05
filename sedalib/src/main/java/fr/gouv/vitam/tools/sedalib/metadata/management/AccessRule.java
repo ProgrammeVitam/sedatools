@@ -34,6 +34,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class AccessRule.
@@ -46,23 +47,25 @@ import java.util.LinkedHashMap;
  */
 public class AccessRule extends RuleType {
 
+    static final String ACCESSRULE_TAG="AccessRule";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Rule", new ComplexListMetadataKind(Rule.class, true));
-        metadataMap.put("PreventInheritance", new ComplexListMetadataKind(BooleanType.class, false));
-        metadataMap.put("RefNonRuleId", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap = new LinkedHashMap<>();
+        metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
+        metadataMap.put(PREVENTINHERITANCE_TAG, new ComplexListMetadataKind(BooleanType.class, false));
+        metadataMap.put(REFNONRULEID_TAG, new ComplexListMetadataKind(StringType.class, true));
     }
 
     /**
      * Instantiates a new access rule.
      */
     public AccessRule() {
-        super("AccessRule");
+        super(ACCESSRULE_TAG);
     }
 
     /**
@@ -73,6 +76,6 @@ public class AccessRule extends RuleType {
      * @throws SEDALibException the seda lib exception
      */
     public AccessRule(String rule, LocalDate startDate) throws SEDALibException {
-        super("AccessRule", rule , startDate);
+        super(ACCESSRULE_TAG, rule , startDate);
     }
 }

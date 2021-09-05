@@ -32,6 +32,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class Event.
@@ -50,10 +51,10 @@ public class Event extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap(isExpandable = true)
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("EventIdentifier",
                 new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));

@@ -25,7 +25,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DiskImportExportTest implements UseTestFiles {
+class DiskImportExportTest implements UseTestFiles {
 
     private void eraseAll(String dirOrFile) {
         try {
@@ -39,7 +39,7 @@ public class DiskImportExportTest implements UseTestFiles {
     }
 
     @Test
-    public void TestDiskImportWithoutLink() throws Exception {
+    void TestDiskImportWithoutLink() throws Exception {
 
         // do import of test directory
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
@@ -230,7 +230,7 @@ public class DiskImportExportTest implements UseTestFiles {
     }
 
     @Test
-    public void TestDiskImportWithLink() throws Exception {
+    void TestDiskImportWithLink() throws Exception {
 
         // do import of test directory
         DiskToArchiveTransferImporter di;
@@ -241,8 +241,8 @@ public class DiskImportExportTest implements UseTestFiles {
         di.doImport();
 
         // assert macro results
-        assertEquals(di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().size(), 22);
-        assertEquals(di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().size(), 11);
+        assertEquals(22,di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().size());
+        assertEquals(11,di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().size());
 
         // create jackson object mapper
         ObjectMapper mapper = new ObjectMapper();
@@ -364,7 +364,7 @@ public class DiskImportExportTest implements UseTestFiles {
     static Function<String,String> replaced = s->"Replaced";
 
     @Test
-    public void TestDiskImportWithLinkIgnoringLinksAndExtractingTitle() throws Exception {
+    void TestDiskImportWithLinkIgnoringLinksAndExtractingTitle() throws Exception {
 
         // do import of test directory
         DiskToArchiveTransferImporter di;
@@ -376,8 +376,8 @@ public class DiskImportExportTest implements UseTestFiles {
         di.doImport();
 
         // assert macro results
-        assertEquals(di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().size(), 22);
-        assertEquals(di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().size(), 11);
+        assertEquals(22, di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().size());
+        assertEquals(11, di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().size());
 
         // create jackson object mapper
         ObjectMapper mapper = new ObjectMapper();

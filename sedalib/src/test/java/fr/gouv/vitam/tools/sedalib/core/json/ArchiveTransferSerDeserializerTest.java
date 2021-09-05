@@ -29,8 +29,8 @@ class ArchiveTransferSerDeserializerTest implements UseTestFiles {
 		di.doImport();
 
 		// assert macro results
-		assertEquals(di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().size(), 22);
-		assertEquals(di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().size(), 11);
+		assertEquals(22,di.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().size());
+		assertEquals(11,di.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().size());
 
 		// create jackson object mapper
 		ObjectMapper mapper = new ObjectMapper();

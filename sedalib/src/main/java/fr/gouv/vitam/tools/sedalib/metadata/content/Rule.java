@@ -121,20 +121,20 @@ public class Rule extends NamedTypeMetadata {
      */
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         String tmp, tmpDate;
-        LocalDate startDate;
+        LocalDate curStartDate;
         try {
             tmp = xmlReader.nextValueIfNamed("Rule");
             if (tmp != null) {
                 tmpDate = xmlReader.nextValueIfNamed("StartDate");
                 if (tmpDate == null)
-                    startDate = null;
+                    curStartDate = null;
                 else try {
-                    startDate = SEDAXMLEventReader.getDateFromString(tmpDate);
+                    curStartDate = SEDAXMLEventReader.getDateFromString(tmpDate);
                 } catch (DateTimeParseException e) {
                     throw new SEDALibException("La date est mal formatée", e);
                 }
                 this.ruleID = tmp;
-                this.startDate = startDate;
+                this.startDate = curStartDate;
 
 
             } else

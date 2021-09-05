@@ -9,28 +9,14 @@ import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.stream.XMLStreamException;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-//import java.io.FileOutputStream;
-//import org.apache.commons.io.Charsets;
-//import org.apache.commons.io.IOUtils;
-
 class SEDAValidationTest implements UseTestFiles {
-
-	private static String readFileToString(String path) throws IOException {
-		byte[] encoded = Files.readAllBytes(Paths.get(path));
-		return new String(encoded, "UTF-8");
-	}
 
 	@Test
 	void testSedaXmlValidationOK()
-			throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
+			throws IllegalArgumentException, SEDALibException, InterruptedException {
 
 		// do import of test directory
 		DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
@@ -77,7 +63,7 @@ class SEDAValidationTest implements UseTestFiles {
 
 	@Test
 	void testSedaXmlValidationKO()
-			throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
+			throws IllegalArgumentException, SEDALibException, InterruptedException {
 
 		// do import of test directory
 		DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
@@ -128,7 +114,7 @@ class SEDAValidationTest implements UseTestFiles {
 
 	@Test
 	void testSedaRNGProfileValidationOK()
-			throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
+			throws IllegalArgumentException, SEDALibException, InterruptedException {
 		// given
 		TestUtilities.eraseAll("target/tmpJunit/OK_468.zip-tmpdir");
 		SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
@@ -142,7 +128,7 @@ class SEDAValidationTest implements UseTestFiles {
 
 	@Test
 	void testSedaRNGProfileValidationKO()
-			throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
+			throws IllegalArgumentException, SEDALibException, InterruptedException {
 		// given
 		TestUtilities.eraseAll("target/tmpJunit/KO_468.zip-tmpdir");
 		SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(

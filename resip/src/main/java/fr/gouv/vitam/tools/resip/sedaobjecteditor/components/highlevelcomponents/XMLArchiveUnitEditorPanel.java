@@ -40,7 +40,6 @@ import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
 import org.fife.ui.rsyntaxtextarea.SyntaxConstants;
 import org.fife.ui.rsyntaxtextarea.SyntaxScheme;
@@ -53,6 +52,7 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor.*;
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
@@ -92,7 +92,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
                 contentMetadataList.add("[C]AnyOtherMetadata ");
                 for (String metadataName : c.getMetadataOrderedList()) {
                     ComplexListMetadataKind complexListMetadataKind = c.getMetadataMap().get(metadataName);
-                    contentMetadataList.add("[C]" + metadataName + (complexListMetadataKind.many ? " *" : " "));
+                    contentMetadataList.add("[C]" + metadataName + (complexListMetadataKind.isMany() ? " *" : " "));
                 }
                 contentMetadataList.sort(String::compareTo);
                 tmp.addAll(contentMetadataList);
@@ -101,7 +101,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
                 managementMetadataList.add("[C]AnyOtherMetadata ");
                 for (String metadataName : m.getMetadataOrderedList()) {
                     ComplexListMetadataKind complexListMetadataKind = m.getMetadataMap().get(metadataName);
-                    managementMetadataList.add("[M]" + metadataName + (complexListMetadataKind.many ? " *" : " "));
+                    managementMetadataList.add("[M]" + metadataName + (complexListMetadataKind.isMany() ? " *" : " "));
                 }
                 managementMetadataList.sort(String::compareTo);
                 tmp.addAll(managementMetadataList);
@@ -204,7 +204,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
         if (macroMetadata.equals("[A]")) {
             result = SEDAObjectEditor.createSEDAMetadataSample("ArchiveUnitProfile", "ArchiveUnitProfile", false);
         } else {
-            HashMap<String, ComplexListMetadataKind> metadataMap;
+            Map<String, ComplexListMetadataKind> metadataMap;
             if (macroMetadata.equals("[C]")) {
                 metadataMap = Content.metadataMap;
             } else {
@@ -213,7 +213,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
             if (elementName.equals("AnyOtherMetadata"))
                 result = SEDAObjectEditor.createSEDAMetadataSample("AnyXMLType", elementName, false);
             else
-                result = SEDAObjectEditor.createSEDAMetadataSample(metadataMap.get(elementName).metadataClass.getSimpleName(), elementName, false);
+                result = SEDAObjectEditor.createSEDAMetadataSample(metadataMap.get(elementName).getMetadataClass().getSimpleName(), elementName, false);
         }
         return result;
     }

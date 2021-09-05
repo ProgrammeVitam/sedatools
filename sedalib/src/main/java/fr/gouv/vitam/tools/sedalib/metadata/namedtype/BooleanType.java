@@ -101,7 +101,7 @@ public class BooleanType extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         String tmp = null;
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         if (value != null)
             tmp = value.toString();
         else

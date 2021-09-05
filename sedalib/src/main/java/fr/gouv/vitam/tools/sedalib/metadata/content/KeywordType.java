@@ -48,7 +48,7 @@ public class KeywordType extends NamedTypeMetadata {
     /**
      * Enum restricted values.
      */
-    static public final List<String> enumValues = Arrays.asList("corpname", "famname", "geogname", "name",
+    public static final List<String> enumValues = Arrays.asList("corpname", "famname", "geogname", "name",
             "occupation", "persname", "subject", "genreform", "function");
 
     /**
@@ -101,7 +101,7 @@ public class KeywordType extends NamedTypeMetadata {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         result.put("",value);
         return result;
     }

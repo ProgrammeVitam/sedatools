@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class AgentType.
@@ -38,17 +39,22 @@ import java.util.LinkedHashMap;
  */
 public class AgentType extends ComplexListType {
 
+    static final String FIRSTNAME_TAG="FirstName";
+    static final String BIRTHNAME_TAG="BirthName";
+    static final String FULLNAME_TAG="FullName";
+    static final String IDENTIFIER_TAG="Identifier";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    static Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("FirstName", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("BirthName", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("FullName", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap = new LinkedHashMap<>();
+        metadataMap.put(FIRSTNAME_TAG, new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put(BIRTHNAME_TAG, new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put(FULLNAME_TAG, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("GivenName", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Gender", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("BirthDate", new ComplexListMetadataKind(DateType.class, false));
@@ -57,7 +63,7 @@ public class AgentType extends ComplexListType {
         metadataMap.put("DeathPlace", new ComplexListMetadataKind(PlaceType.class, false));
         metadataMap.put("Nationality", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Corpname", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put(IDENTIFIER_TAG, new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Function", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("Activity", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("Position", new ComplexListMetadataKind(TextType.class, true));
@@ -84,7 +90,7 @@ public class AgentType extends ComplexListType {
     public AgentType(String elementName, String fullName) throws SEDALibException {
         super(elementName);
 
-        addNewMetadata("FullName", fullName);
+        addNewMetadata(FULLNAME_TAG, fullName);
     }
 
     /**
@@ -98,8 +104,8 @@ public class AgentType extends ComplexListType {
     public AgentType(String elementName, String firstName, String birthName) throws SEDALibException {
         super(elementName);
 
-        addNewMetadata("FirstName", firstName);
-        addNewMetadata("BirthName", birthName);
+        addNewMetadata(FIRSTNAME_TAG, firstName);
+        addNewMetadata(BIRTHNAME_TAG, birthName);
     }
 
     /**
@@ -114,8 +120,8 @@ public class AgentType extends ComplexListType {
     public AgentType(String elementName, String firstName, String birthName, String identifier) throws SEDALibException {
         super(elementName);
 
-        addNewMetadata("FirstName", firstName);
-        addNewMetadata("BirthName", birthName);
-        addNewMetadata("Identifier", identifier);
+        addNewMetadata(FIRSTNAME_TAG, firstName);
+        addNewMetadata(BIRTHNAME_TAG, birthName);
+        addNewMetadata(IDENTIFIER_TAG, identifier);
     }
 }

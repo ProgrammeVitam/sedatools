@@ -134,12 +134,12 @@ public class DIPToArchiveDeliveryRequestReplyImporter {
                     if (!Files.exists(newPath.getParent()))
                         Files.createDirectories(newPath.getParent());
 
-                    FileOutputStream fos = new FileOutputStream(newPath.toFile());
-                    IOUtils.copy(zais, fos);
-                    counter++;
-                    doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, "sedalib: " + counter + " fichiers " +
+                    try (FileOutputStream fos = new FileOutputStream(newPath.toFile())) {
+                        IOUtils.copy(zais, fos);
+                        counter++;
+                        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, "sedalib: " + counter + " fichiers " +
                                 "extraits");
-                    fos.close();
+                    }
                 }
             }
         } catch (IOException ex) {

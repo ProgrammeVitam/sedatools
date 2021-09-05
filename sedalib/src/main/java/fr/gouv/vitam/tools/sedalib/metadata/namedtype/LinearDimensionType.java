@@ -47,7 +47,7 @@ public class LinearDimensionType extends NamedTypeMetadata {
     /**
      * Enum restricted values.
      */
-    static public final List<String> enumValues = Arrays.asList("micrometre", "4H",
+    public static final List<String> enumValues = Arrays.asList("micrometre", "4H",
             "millimetre", "MMT", "centimetre", "CMT", "metre", "inch", "INH", "foot", "FOT");
 
     /**
@@ -62,6 +62,8 @@ public class LinearDimensionType extends NamedTypeMetadata {
 
     /**
      * Instantiates a new linear dimension with unit attribute.
+     *
+     * @throws SEDALibException not supposed to occur but compliant with other init
      */
     public LinearDimensionType() throws SEDALibException {
         this(null, null, null);
@@ -71,6 +73,7 @@ public class LinearDimensionType extends NamedTypeMetadata {
      * Instantiates a new linear dimension with unit attribute.
      *
      * @param elementName the XML element name
+     * @throws SEDALibException not supposed to occur but compliant with other init
      */
     public LinearDimensionType(String elementName) throws SEDALibException {
         this(elementName, null, null);
@@ -81,6 +84,7 @@ public class LinearDimensionType extends NamedTypeMetadata {
      *
      * @param elementName the XML element name
      * @param value       the value
+     * @throws SEDALibException not supposed to occur but compliant with other init
      */
     public LinearDimensionType(String elementName, Double value) throws SEDALibException {
         this(elementName, value, null);
@@ -92,6 +96,7 @@ public class LinearDimensionType extends NamedTypeMetadata {
      * @param elementName the XML element name
      * @param value       the value
      * @param unit        the unit
+     * @throws SEDALibException if unknown measure unit
      */
     public LinearDimensionType(String elementName, Double value, String unit) throws SEDALibException {
         super(elementName);
@@ -129,7 +134,7 @@ public class LinearDimensionType extends NamedTypeMetadata {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         if (value != null) {
             result.put("", value.toString());
             if (unit != null)
@@ -199,6 +204,7 @@ public class LinearDimensionType extends NamedTypeMetadata {
      * Sets unit.
      *
      * @param unit the unit
+     * @throws SEDALibException if unknown measure unit
      */
     public void setUnit(String unit) throws SEDALibException {
         if ((unit != null) && !enumValues.contains(unit))

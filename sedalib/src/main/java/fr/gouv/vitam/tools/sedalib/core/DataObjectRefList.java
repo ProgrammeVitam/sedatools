@@ -83,9 +83,9 @@ public class DataObjectRefList extends DataObjectPackageElement {
         if (inDataObjectPackageIdList != null)
             return inDataObjectPackageIdList;
         if (dataObjectList == null)
-            inDataObjectPackageIdList = new ArrayList<String>(0);
+            inDataObjectPackageIdList = new ArrayList<>(0);
         else {
-            inDataObjectPackageIdList = new ArrayList<String>(dataObjectList.size());
+            inDataObjectPackageIdList = new ArrayList<>(dataObjectList.size());
             for (DataObject dataObject : dataObjectList)
                 inDataObjectPackageIdList.add(dataObject.getInDataObjectPackageId());
         }
@@ -112,9 +112,9 @@ public class DataObjectRefList extends DataObjectPackageElement {
         if (dataObjectList != null)
             return dataObjectList;
         if (inDataObjectPackageIdList == null)
-            dataObjectList = new ArrayList<DataObject>(0);
+            dataObjectList = new ArrayList<>(0);
         else {
-            dataObjectList = new ArrayList<DataObject>(inDataObjectPackageIdList.size());
+            dataObjectList = new ArrayList<>(inDataObjectPackageIdList.size());
             for (String inSipId : inDataObjectPackageIdList)
                 dataObjectList.add(getDataObjectPackage().getDataObjectById(inSipId));
         }

@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -139,7 +140,7 @@ public class DiskToArchiveTransferImporter {
         this.onDiskGlobalMetadataPath = null;
         this.archiveTransfer = new ArchiveTransfer();
         this.sedaLibProgressLogger = sedaLibProgressLogger;
-        this.onDiskRootPaths = new ArrayList<Path>();
+        this.onDiskRootPaths = new ArrayList<>();
 
         path = Paths.get(directory);
         if (!Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS))
@@ -200,7 +201,7 @@ public class DiskToArchiveTransferImporter {
         this.onDiskGlobalMetadataPath = null;
         this.archiveTransfer = new ArchiveTransfer();
         this.sedaLibProgressLogger = sedaLibProgressLogger;
-        this.onDiskRootPaths = new ArrayList<Path>();
+        this.onDiskRootPaths = new ArrayList<>();
 
         for (Path path : paths) {
             if (path.getFileName().toString().equals("__GlobalMetadata"))
@@ -233,7 +234,7 @@ public class DiskToArchiveTransferImporter {
     private GlobalMetadata processGlobalMetadata(Path path) throws SEDALibException {
         GlobalMetadata atgm = new GlobalMetadata();
         try {
-            atgm.fromSedaXmlFragments(new String(Files.readAllBytes(path), "UTF-8"));
+            atgm.fromSedaXmlFragments(new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
         } catch (SEDALibException | IOException e) {
             throw new SEDALibException("Lecture des métadonnées globales à partir du fichier [" + path
                     + "] impossible\n->" + e.getMessage());

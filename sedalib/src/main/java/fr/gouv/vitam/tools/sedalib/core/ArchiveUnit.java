@@ -29,6 +29,7 @@ package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -41,6 +42,7 @@ import javax.xml.stream.events.XMLEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
@@ -181,7 +183,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         }
         if (archiveUnitProfileXmlData == null)
             return null;
-        archiveUnitProfile = (ArchiveUnitProfile) ArchiveUnitProfile.fromString(archiveUnitProfileXmlData,
+        archiveUnitProfile = (ArchiveUnitProfile) SEDAMetadata.fromString(archiveUnitProfileXmlData,
                 ArchiveUnitProfile.class);
         // as fromString function normalise ArchiveUnitProfile had to destroy approximate version archiveUnitProfileXmlData
         archiveUnitProfileXmlData = null;
@@ -235,7 +237,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         }
         if (managementXmlData == null)
             return null;
-        management = (Management) Management.fromString(managementXmlData,
+        management = (Management) SEDAMetadata.fromString(managementXmlData,
                 Management.class);
         // as fromString function normalise Management had to destroy approximate version managementXmlData
         managementXmlData = null;
@@ -278,7 +280,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         if (contentXmlData == null)
             return false;
         try {
-            content = (Content) Content.fromString(contentXmlData,
+            content = (Content) SEDAMetadata.fromString(contentXmlData,
                     Content.class);
             contentXmlData = null;
         } catch (SEDALibException e) {
@@ -299,7 +301,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         if (content != null)
             return content.filteredToString(getDataObjectPackage().getExportMetadataList());
         try {
-            content = (Content) Content.fromString(contentXmlData,
+            content = (Content) SEDAMetadata.fromString(contentXmlData,
                     Content.class);
             contentXmlData = null;
         } catch (SEDALibException e) {
@@ -331,7 +333,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
         }
         if (contentXmlData == null)
             return null;
-        content = (Content) Content.fromString(contentXmlData,
+        content = (Content) SEDAMetadata.fromString(contentXmlData,
                 Content.class);
         // as fromString function normalise Content had to destroy approximate version contentXmlData
         contentXmlData = null;
@@ -355,14 +357,12 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
      *
      * @param title            the ArchiveUnit title
      * @param descriptionLevel the ArchiveUnit description level
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public void setDefaultContent(String title, String descriptionLevel) {
+    public void setDefaultContent(String title, String descriptionLevel) throws SEDALibException{
         Content c = new Content();
-        try {
-            c.addNewMetadata("DescriptionLevel", descriptionLevel);
-            c.addNewMetadata("Title", title);
-        } catch (SEDALibException ignored) {
-        }
+        c.addNewMetadata("DescriptionLevel", descriptionLevel);
+        c.addNewMetadata("Title", title);
         setContent(c);
     }
 
@@ -613,7 +613,7 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
     public void fromSedaXmlFragments(String fragments) throws SEDALibException {
         ArchiveUnit au = new ArchiveUnit();
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes("UTF-8"));
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes(StandardCharsets.UTF_8));
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();
@@ -649,9 +649,14 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
             result = baos.toString("UTF-8");
             if (result.startsWith("\n"))
                 result = result.substring(1);
-        } catch (XMLStreamException | IOException | SEDALibException | InterruptedException e) {
+        } catch (XMLStreamException | IOException | SEDALibException e) {
             if (result == null)
                 result = super.toString();
+        }
+        catch (InterruptedException e){
+            if (result == null)
+                result = super.toString();
+            Thread.currentThread().interrupt();
         }
         return result;
     }
@@ -720,15 +725,15 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
     }
 
     /**
-     * Remove the data object group.
+     * Remove the data object group if empty.
      *
      * @return true if done, false if not possible
      */
     public boolean removeEmptyDataObjectGroup() {
         DataObjectGroup dog = getTheDataObjectGroup();
-        if (dog.getPhysicalDataObjectList().size()+dog.getBinaryDataObjectList().size()!=0)
-            return false;
         if (dog != null) {
+            if (dog.getPhysicalDataObjectList().size()+dog.getBinaryDataObjectList().size()!=0)
+                return false;
             removeDataObjectById(dog.getInDataObjectPackageId());
             if (searchDOGArchiveUnit(dog) == null)
                 getDataObjectPackage().getDogInDataObjectPackageIdMap().remove(dog.getInDataObjectPackageId());

@@ -58,7 +58,7 @@ public class ContainerDroidIdentifier {
     private IdentifierEngine identifierEngine;
 
     /** The formats. */
-    private Map<Integer, List<FileFormatMapping>> formats = new HashMap<Integer, List<FileFormatMapping>>();
+    private Map<Integer, List<FileFormatMapping>> formats = new HashMap<>();
 
     // Contructors
 
@@ -89,9 +89,7 @@ public class ContainerDroidIdentifier {
     public IdentificationResultCollection getContainerIdentification(final InputStream inputStream,
                                                                      final IdentificationResultCollection identificationResults) throws IOException {
 
-        final IdentificationRequest<InputStream> request = new ContainerFileIdentificationRequest(null);
-
-        try {
+        try (IdentificationRequest<InputStream> request = new ContainerFileIdentificationRequest(null)){
             request.open(inputStream);
 
             int maxBytesToScan = -1;
@@ -101,7 +99,7 @@ public class ContainerDroidIdentifier {
 
             identifierEngine.process(request, matches);
 
-            final Map<String, String> puidMap = new HashMap<String, String>();
+            final Map<String, String> puidMap = new HashMap<>();
             for (ContainerSignatureMatch match : matches.getContainerSignatureMatches()) {
                 if (match.isMatch()) {
                     List<FileFormatMapping> mappings = getFormats().get(match.getSignature().getId());
@@ -122,7 +120,6 @@ public class ContainerDroidIdentifier {
                     }
                 }
             }
-            request.close();
         } finally {
             if (inputStream != null) {
                 inputStream.close();

@@ -26,10 +26,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SIPImportTest implements UseTestFiles {
+class SIPImportTest implements UseTestFiles {
 
     @Test
-    public void TestSIPOKImport() throws Exception {
+    void TestSIPOKImport() throws Exception {
 
         // do import of test directory
         TestUtilities.eraseAll("target/tmpJunit/SipOK.zip-tmpdir");
@@ -629,7 +629,7 @@ public class SIPImportTest implements UseTestFiles {
     }
 
     @Test
-    public void TestSipWrongDogReferences() throws Exception {
+    void TestSipWrongDogReferences() throws Exception {
 
         // create jackson object mapper
         ObjectMapper mapper = new ObjectMapper();
@@ -665,8 +665,8 @@ public class SIPImportTest implements UseTestFiles {
         attse.doExportToSEDAXMLManifest("target/tmpJunit/SWLMV2.xml", true, true);
 
         // assert macro results
-        assertEquals(dai1.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().size(), 22);
-        assertEquals(dai1.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().size(), 11);
+        assertEquals(22, dai1.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().size());
+        assertEquals(11, dai1.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap().size());
 
         // do export of test directory
         ArchiveTransferToDiskExporter adi;

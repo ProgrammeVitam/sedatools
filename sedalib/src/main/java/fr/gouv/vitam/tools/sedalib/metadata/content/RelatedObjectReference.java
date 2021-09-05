@@ -34,6 +34,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DataObjectOrArchiveUnitRef
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class RelatedObjectReference.
@@ -50,10 +51,10 @@ public class RelatedObjectReference extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("IsVersionOf", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
         metadataMap.put("Replaces", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));
         metadataMap.put("Requires", new ComplexListMetadataKind(DataObjectOrArchiveUnitReferenceType.class, true));

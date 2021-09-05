@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class AgencyType.
@@ -38,14 +39,17 @@ import java.util.LinkedHashMap;
  */
 public class AgencyType extends ComplexListType {
 
+    static final String IDENTIFIER_TAG="Identifier";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap = new LinkedHashMap<>();
+        metadataMap.put(IDENTIFIER_TAG, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("OrganisationDescriptiveMetadata", new ComplexListMetadataKind(AnyXMLType.class, false));
     }
 
@@ -63,12 +67,10 @@ public class AgencyType extends ComplexListType {
      *
      * @param elementName the element name
      * @param identifier  the identifier
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public AgencyType(String elementName, String identifier) {
+    public AgencyType(String elementName, String identifier) throws SEDALibException {
         super(elementName);
-        try {
-            addNewMetadata("Identifier", identifier);
-        } catch (SEDALibException ignored) {
-        }
+            addNewMetadata(IDENTIFIER_TAG, identifier);
     }
 }

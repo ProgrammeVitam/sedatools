@@ -39,7 +39,7 @@ public class SEDAXMLValidator {
 
     public Schema getSchemaFromXSDResource(URL xsdResource) throws SEDALibException {
         // Was XMLConstants.W3C_XML_SCHEMA_NS_URI
-        final SchemaFactory factory =
+        SchemaFactory factory =
                 SchemaFactory.newInstance(HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1);
         // Load catalog to resolve external schemas even offline.
         final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
@@ -61,6 +61,11 @@ public class SEDAXMLValidator {
      */
     public Schema getSchemaFromXSDFile(String xsdFile) throws SEDALibException {
         SchemaFactory factory = SchemaFactory.newInstance(HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1);
+        try {
+            factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
+        } catch (SAXException e) {
+            throw new SEDALibException("Impossible d'initialiser les outils XML");
+        }
 
         // Load catalog to resolve external schemas even offline.
         final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
@@ -146,6 +151,7 @@ public class SEDAXMLValidator {
                 try {
                     xmlStreamReader.close();
                 } catch (XMLStreamException ignored) {
+                    // ignored
                 }
             }
         }

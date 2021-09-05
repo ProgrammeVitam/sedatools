@@ -28,11 +28,9 @@
 package fr.gouv.vitam.tools.sedalib.metadata.data;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.nio.file.attribute.FileTime;
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class Metadata.
@@ -50,10 +48,10 @@ public class Metadata extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap(isExpandable = true)
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("Text", new ComplexListMetadataKind(AnyXMLListType.class, false));
         metadataMap.put("Document", new ComplexListMetadataKind(AnyXMLListType.class, false));
         metadataMap.put("Image", new ComplexListMetadataKind(AnyXMLListType.class, false));

@@ -72,15 +72,15 @@ public class CSVMetadataFormatter {
     /**
      * The first columns header names.
      */
-    static private List<String> headerNames = Arrays.asList("id", "file", "parentid", "parentfile");
+    private static List<String> headerNames = Arrays.asList("id", "file", "parentid", "parentfile");
 
     /**
      * The first columns types.
      */
-    static final private int ID_COLUMN = 0;
-    static final private int FILE_COLUMN = 1;
-    static final private int PARENTID_COLUMN = 2;
-    static final private int PARENTFILE_COLUMN = 3;
+    private static final int ID_COLUMN = 0;
+    private static final int FILE_COLUMN = 1;
+    private static final int PARENTID_COLUMN = 2;
+    private static final int PARENTFILE_COLUMN = 3;
 
     private MetadataTag rootTag, contentTag, managementTag;
     private LinkedHashMap<Integer, ValueAttrMetadataTag> tagHeaderColumnMapping;
@@ -116,11 +116,10 @@ public class CSVMetadataFormatter {
 
         } else if ((firstIndex == 3) && (firsts.contains(FILE_COLUMN) && firsts.contains(PARENTFILE_COLUMN) && firsts.contains(ID_COLUMN))) {
             isOnlyFile = false;
-            guidColumn = firsts.indexOf(FILE_COLUMN);
-            fileColumn = guidColumn;
+            guidColumn = firsts.indexOf(ID_COLUMN);
+            fileColumn = firsts.indexOf(FILE_COLUMN);
             parentGUIDColumn = firsts.indexOf(PARENTFILE_COLUMN);
-        } else if ((firstIndex == 3) &&
-                (firsts.contains(FILE_COLUMN) && firsts.contains(PARENTID_COLUMN) && firsts.contains(ID_COLUMN))) {
+        } else if ((firstIndex == 3) && (firsts.contains(FILE_COLUMN) && firsts.contains(PARENTID_COLUMN) && firsts.contains(ID_COLUMN))) {
             isOnlyFile = false;
             guidColumn = firsts.indexOf(ID_COLUMN);
             fileColumn = firsts.indexOf(FILE_COLUMN);
@@ -196,7 +195,7 @@ public class CSVMetadataFormatter {
         managementTag = null;
         tagHeaderColumnMapping = new LinkedHashMap<>();
         for (int i = firstIndex; i < headerRow.length; i++) {
-            if (headerRow[i].toLowerCase().equals("attr")) {
+            if (headerRow[i].equalsIgnoreCase("attr")) {
                 if (currentTag == null)
                     throw new SEDALibException("Le header attr en colonne n°" + i + " ne peut pas s'appliquer.");
                 vamt = new ValueAttrMetadataTag(false, currentTag);
@@ -386,6 +385,7 @@ public class CSVMetadataFormatter {
                 return generateClassificationRuleTagXML(tag);
             case "HoldRule":
                 return generateHoldRuleTagXML(tag);
+            default:
         }
 
         if (tag.subTags != null) {

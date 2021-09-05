@@ -163,6 +163,7 @@ public class SIPBuilder implements AutoCloseable {
             managementMetadata.addNewMetadata("OriginatingAgencyIdentifier", originatingAgencyIdentifier);
             managementMetadata.addNewMetadata("SubmissionAgencyIdentifier", submissionAgencyIdentifier);
         } catch (SEDALibException ignored) {
+            // ignored
         }
         archiveTransfer.getDataObjectPackage().setManagementMetadataXmlData(managementMetadata.toString());
     }
@@ -214,6 +215,7 @@ public class SIPBuilder implements AutoCloseable {
             c.addNewMetadata("Title", title);
             c.addNewMetadata("Description", description);
         } catch (SEDALibException ignored) {
+            // ignored
         }
         au.setContent(c);
 
@@ -427,6 +429,7 @@ public class SIPBuilder implements AutoCloseable {
         try {
             di.doImport();
         } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
         }
 
         parentAU.getDataObjectPackage().moveContentFromDataObjectPackage(di.getDataObjectPackage(), parentAU);
@@ -452,6 +455,7 @@ public class SIPBuilder implements AutoCloseable {
         try {
             cmi.doImport();
         } catch (InterruptedException ignored) {
+            Thread.currentThread().interrupt();
         }
 
         parentAU.getDataObjectPackage().moveContentFromDataObjectPackage(cmi.getDataObjectPackage(), parentAU);
@@ -666,7 +670,7 @@ public class SIPBuilder implements AutoCloseable {
         try {
             archiveTransfer.seda21Validate(sedaLibProgressLogger);
         } catch (InterruptedException e) {
-            // impossible
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -680,7 +684,7 @@ public class SIPBuilder implements AutoCloseable {
         try {
             archiveTransfer.sedaProfileValidate(profileFileName,sedaLibProgressLogger);
         } catch (InterruptedException e) {
-            // impossible
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -724,14 +728,18 @@ public class SIPBuilder implements AutoCloseable {
             archiveTransfer.getDataObjectPackage().vitamNormalize(sedaLibProgressLogger);
             verifyContext();
             archiveTransfer.getDataObjectPackage().regenerateContinuousIds();
-        } catch (SEDALibException | InterruptedException e) {
+        } catch (SEDALibException e) {
             throw new SEDALibException("Le paquet SIP n'est pas constructible", e);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new SEDALibException("La construction du paquet SIP est interrompue", e);
         }
+
         ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(archiveTransfer, sedaLibProgressLogger);
         try {
             sm.doExportToSEDASIP(sipPathString, hierarchicalArchiveUnitsFlag, indentedFlag);
         } catch (InterruptedException e) {
-            // impossible
+            Thread.currentThread().interrupt();
         }
         doProgressLogWithoutInterruption(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: fichier sauvegardé (" + SEDALibProgressLogger.readableFileSize(new File(sipPathString).length())
                     + ")", null);
@@ -744,6 +752,7 @@ public class SIPBuilder implements AutoCloseable {
      */
     @Override
     public void close() {
+        // mandatory for closable, can be used for extension
     }
 
 }
