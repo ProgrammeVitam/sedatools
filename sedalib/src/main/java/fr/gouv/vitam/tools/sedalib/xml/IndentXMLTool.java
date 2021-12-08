@@ -134,7 +134,7 @@ public class IndentXMLTool {
      * @param indentLength the indent length
      * @return single instance of IndentXMLTool
      */
-    static public IndentXMLTool getInstance(int indentLength) {
+    public static IndentXMLTool getInstance(int indentLength) {
         if ((instance == null) || (instance.indentLength != indentLength))
             instance = new IndentXMLTool(indentLength);
         return instance;

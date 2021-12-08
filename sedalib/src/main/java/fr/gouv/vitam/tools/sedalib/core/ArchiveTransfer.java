@@ -202,11 +202,10 @@ public class ArchiveTransfer {
      * Import start document of SEDA ArchiveTransfer XML.
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
 
-    private static void importStartDocument(SEDAXMLEventReader xmlReader, SEDALibProgressLogger sedaLibProgressLogger)
+    private static void importStartDocument(SEDAXMLEventReader xmlReader)
             throws SEDALibException {
         XMLEvent event;
         try {
@@ -226,12 +225,10 @@ public class ArchiveTransfer {
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @param archiveTransfer       the ArchiveTransfer to be completed
-     * @param sedaLibProgressLogger the progress logger
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
 
-    private static void importHeader(SEDAXMLEventReader xmlReader, ArchiveTransfer archiveTransfer,
-                                     SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
+    private static void importHeader(SEDAXMLEventReader xmlReader, ArchiveTransfer archiveTransfer) throws SEDALibException {
         try {
             archiveTransfer.globalMetadata.comment = xmlReader.nextValueIfNamed("Comment");
             archiveTransfer.globalMetadata.date = xmlReader.nextMandatoryValue("Date");
@@ -283,10 +280,9 @@ public class ArchiveTransfer {
      * Import end document.
      *
      * @param xmlReader       the SEDAXMLEventReader reading the SEDA manifest
-     * @param archiveTransfer the ArchiveTransfer to be completed
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
-    private static void importEndDocument(SEDAXMLEventReader xmlReader, ArchiveTransfer archiveTransfer)
+    private static void importEndDocument(SEDAXMLEventReader xmlReader)
             throws SEDALibException {
         XMLEvent event;
         try {
@@ -313,13 +309,13 @@ public class ArchiveTransfer {
     public static ArchiveTransfer fromSedaXml(SEDAXMLEventReader xmlReader, String rootDir,
                                               SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         ArchiveTransfer archiveTransfer;
-        importStartDocument(xmlReader, sedaLibProgressLogger);
+        importStartDocument(xmlReader);
         archiveTransfer = new ArchiveTransfer();
         archiveTransfer.setGlobalMetadata(new GlobalMetadata());
-        importHeader(xmlReader, archiveTransfer, sedaLibProgressLogger);
+        importHeader(xmlReader, archiveTransfer);
         archiveTransfer.setDataObjectPackage(DataObjectPackage.fromSedaXml(xmlReader, rootDir, sedaLibProgressLogger));
         importFooter(xmlReader, archiveTransfer);
-        importEndDocument(xmlReader, archiveTransfer);
+        importEndDocument(xmlReader);
 
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP,
                 "sedalib: ArchiveTransfer importé", null);

@@ -25,7 +25,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CompressedFileImportTest implements UseTestFiles {
+class CompressedFileImportTest implements UseTestFiles {
 
     private void eraseAll(String dirOrFile) {
         try {
@@ -41,7 +41,7 @@ public class CompressedFileImportTest implements UseTestFiles {
     static Function<String, String> replaced = s -> "Replaced";
 
     @Test
-    public void TestZipImport() throws Exception {
+    void TestZipImport() throws Exception {
 
         // do import of test directory
         CompressedFileToArchiveTransferImporter zi = new CompressedFileToArchiveTransferImporter(

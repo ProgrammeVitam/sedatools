@@ -37,6 +37,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -142,9 +143,9 @@ public class DataObjectPackageToDiskExporter {
     private DataObjectPackageToDiskExporter(SEDALibProgressLogger sedaLibProgressLogger) {
         this.dataObjectPackage = null;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
-        this.auPathStringMap = new HashMap<ArchiveUnit, Path>();
-        this.dogPathStringMap = new HashMap<DataObjectGroup, Path>();
-        this.filesPathSet = new HashSet<Path>();
+        this.auPathStringMap = new HashMap<>();
+        this.dogPathStringMap = new HashMap<>();
+        this.filesPathSet = new HashSet<>();
         isWindows = System.getProperty("os.name").toLowerCase().contains("win");
     }
 
@@ -256,7 +257,7 @@ public class DataObjectPackageToDiskExporter {
         targetOnDiskPath = containerPath.resolve("__ManagementMetadata.xml");
         filesPathSet.add(targetOnDiskPath);
         try (FileOutputStream fos = new FileOutputStream(targetOnDiskPath.toFile());
-             Writer rawWriter = new OutputStreamWriter(fos, "UTF-8")) {
+             Writer rawWriter = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
             try {
                 identXml = IndentXMLTool.getInstance(2).indentString(xmlData);
             } catch (Exception e) {
@@ -330,7 +331,7 @@ public class DataObjectPackageToDiskExporter {
                     + "] détectée sur le BinaryDataObject [" + bdo.getInDataObjectPackageId() + "]");
         filesPathSet.add(targetOnDiskPath);
         try {
-            Files.write(targetOnDiskPath, bdo.toSedaXmlFragments().getBytes("UTF-8"));
+            Files.write(targetOnDiskPath, bdo.toSedaXmlFragments().getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             throw new SEDALibException("Ecriture des métadonnées du BinaryDataObject [" + bdo.getInDataObjectPackageId()
                     + "] impossible\n->" + e.getMessage());
@@ -353,7 +354,7 @@ public class DataObjectPackageToDiskExporter {
                     + "] détectée sur le PhysicalDataObject [" + pdo.getInDataObjectPackageId() + "]");
         filesPathSet.add(targetOnDiskPath);
         try {
-            Files.write(targetOnDiskPath, pdo.toSedaXmlFragments().getBytes("UTF-8"));
+            Files.write(targetOnDiskPath, pdo.toSedaXmlFragments().getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
             throw new SEDALibException("Ecriture des métadonnées du PhysicalDataObject ["
                     + pdo.getInDataObjectPackageId() + "] impossible\n->" + e.getMessage());
@@ -495,7 +496,7 @@ public class DataObjectPackageToDiskExporter {
                         + "] détectée sur l'ArchiveUnit [" + au.getInDataObjectPackageId() + "]");
             filesPathSet.add(targetOnDiskPath);
             try {
-                Files.write(targetOnDiskPath, au.toSedaXmlFragments().getBytes("UTF-8"));
+                Files.write(targetOnDiskPath, au.toSedaXmlFragments().getBytes(StandardCharsets.UTF_8));
             } catch (Exception e) {
                 throw new SEDALibException("Ecriture des métadonnées de l'ArchiveUnit [" + au.getInDataObjectPackageId()
                         + "] impossible\n->" + e.getMessage());

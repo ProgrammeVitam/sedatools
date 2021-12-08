@@ -34,6 +34,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class Coverage.
@@ -50,10 +51,10 @@ public class Coverage extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("Spatial", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Temporal", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Juridictional", new ComplexListMetadataKind(StringType.class, true));

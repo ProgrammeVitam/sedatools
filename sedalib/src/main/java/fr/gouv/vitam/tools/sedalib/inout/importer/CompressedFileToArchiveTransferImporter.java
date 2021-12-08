@@ -42,6 +42,7 @@ import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -129,19 +130,19 @@ public class CompressedFileToArchiveTransferImporter {
     /**
      * The constant ZIP.
      */
-    public final static String ZIP = "application/zip";
+    public static final String ZIP = "application/zip";
     /**
      * The constant TAR.
      */
-    public final static String TAR = "application/x-tar";
+    public static final String TAR = "application/x-tar";
     /**
      * The constant XGZIP.
      */
-    public final static String XGZIP = "application/x-gzip";
+    public static final String XGZIP = "application/x-gzip";
     /**
      * The constant GZIP.
      */
-    public final static String GZIP = "application/gzip";
+    public static final String GZIP = "application/gzip";
     /**
      * The constant BZIP2.
      */
@@ -152,9 +153,8 @@ public class CompressedFileToArchiveTransferImporter {
      *
      * @param mimeType the mime type
      * @return the string
-     * @throws SEDALibException the seda lib exception
      */
-    public static boolean isKnownCompressedMimeType(String mimeType) throws SEDALibException {
+    public static boolean isKnownCompressedMimeType(String mimeType) {
         if (mimeType==null)
             return false;
         switch (mimeType) {
@@ -173,8 +173,8 @@ public class CompressedFileToArchiveTransferImporter {
             throws SEDALibException, InterruptedException {
         Path onDiskPath = null;
         String mimeType;
-        FileInputStream fis;
-        ArchiveInputStream ais;
+        FileInputStream fis=null;
+        ArchiveInputStream ais=null;
 
         try {
             onDiskPath = Paths.get(filename);
@@ -204,6 +204,8 @@ public class CompressedFileToArchiveTransferImporter {
                 default:
                     throw new SEDALibException("Format " + mimeType + " de compression inconnu.");
             }
+            if (ais==null)
+                    fis.close();
         } catch (IOException e) {
             throw new SEDALibException("Impossible d'ouvrir le fichier compressé ["
                     + onDiskPath.toString() + "]", e);
@@ -275,8 +277,8 @@ public class CompressedFileToArchiveTransferImporter {
         this.archiveTransfer = null;
         this.zipFile = zipFile;
         this.encoding=encoding;
-        this.ignorePatternStrings = new ArrayList<String>();
-        this.onDiskRootPaths = new ArrayList<Path>();
+        this.ignorePatternStrings = new ArrayList<>();
+        this.onDiskRootPaths = new ArrayList<>();
 
         zipFilePath = Paths.get(zipFile);
         if (!Files.isRegularFile(zipFilePath, java.nio.file.LinkOption.NOFOLLOW_LINKS))
@@ -313,7 +315,7 @@ public class CompressedFileToArchiveTransferImporter {
     private GlobalMetadata processGlobalMetadata(Path path) throws SEDALibException {
         GlobalMetadata atgm = new GlobalMetadata();
         try {
-            atgm.fromSedaXmlFragments(new String(Files.readAllBytes(path), "UTF-8"));
+            atgm.fromSedaXmlFragments(new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
         } catch (SEDALibException | IOException e) {
             throw new SEDALibException("Lecture des métadonnées globales à partir du fichier [" + path
                     + "] impossible", e);

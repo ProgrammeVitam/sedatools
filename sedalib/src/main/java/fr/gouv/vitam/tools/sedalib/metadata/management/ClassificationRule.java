@@ -32,6 +32,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class ClassificationRule.
@@ -44,18 +45,22 @@ import java.util.LinkedHashMap;
  */
 public class ClassificationRule extends RuleType {
 
+    static final String CLASSIFICATIONRULE_TAG="ClassificationRule";
+    static final String CLASSIFICATIONLEVEL_TAG="ClassificationLevel";
+    static final String CLASSIFICATIONOWNER_TAG="ClassificationOwner";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Rule", new ComplexListMetadataKind(Rule.class, true));
-        metadataMap.put("PreventInheritance", new ComplexListMetadataKind(BooleanType.class, false));
-        metadataMap.put("RefNonRuleId", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("ClassificationLevel", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("ClassificationOwner", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap = new LinkedHashMap<>();
+        metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
+        metadataMap.put(PREVENTINHERITANCE_TAG, new ComplexListMetadataKind(BooleanType.class, false));
+        metadataMap.put(REFNONRULEID_TAG, new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put(CLASSIFICATIONLEVEL_TAG, new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put(CLASSIFICATIONOWNER_TAG, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("ClassificationReassessingDate", new ComplexListMetadataKind(DateType.class, false));
         metadataMap.put("NeedReassessingAuthorization", new ComplexListMetadataKind(BooleanType.class, false));
     }
@@ -67,7 +72,7 @@ public class ClassificationRule extends RuleType {
      * Instantiates a new access rule.
      */
     public ClassificationRule() {
-        super("ClassificationRule");
+        super(CLASSIFICATIONRULE_TAG);
     }
 
     /**
@@ -79,7 +84,7 @@ public class ClassificationRule extends RuleType {
      */
     public ClassificationRule(String classificationLevel, String classificationOwner) throws SEDALibException {
         this();
-        addNewMetadata("ClassificationLevel",classificationLevel);
-        addNewMetadata("ClassificationOwner",classificationOwner);
+        addNewMetadata(CLASSIFICATIONLEVEL_TAG,classificationLevel);
+        addNewMetadata(CLASSIFICATIONOWNER_TAG,classificationOwner);
     }
 }

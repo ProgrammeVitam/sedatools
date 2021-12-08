@@ -93,10 +93,9 @@ public class ArchiveDeliveryRequestReply {
      * Import start document of SEDA ArchiveDeliveryRequestReply XML.
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
-    private static void importStartDocument(SEDAXMLEventReader xmlReader, SEDALibProgressLogger sedaLibProgressLogger)
+    private static void importStartDocument(SEDAXMLEventReader xmlReader)
             throws SEDALibException {
         XMLEvent event;
         try {
@@ -140,8 +139,6 @@ public class ArchiveDeliveryRequestReply {
             doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.STEP,
                     "sedalib: l'entête n'est pas conforme à un ArchiveDeliveryRequestReply, mais la tentative d'analyse continue",null);
             archiveDeliveryRequestReply.globalMetadata = null;
-            // throw new SEDALibException("Erreur de lecture XML d'entête du manifest\n->" +
-            // e.getMessage());
         }
     }
 
@@ -154,7 +151,8 @@ public class ArchiveDeliveryRequestReply {
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
     private static void importFooter(SEDAXMLEventReader xmlReader,
-                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply) throws SEDALibException {
+                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply) throws SEDALibException { //NOSONAR
+        // this parameter may be useful in future if this function is improved
         try {
             if (xmlReader.peekBlockIfNamed("ReplyCode"))
                 throw new SEDALibException(
@@ -192,7 +190,8 @@ public class ArchiveDeliveryRequestReply {
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
     private static void importEndDocument(SEDAXMLEventReader xmlReader,
-                                          ArchiveDeliveryRequestReply archiveDeliveryRequestReply) throws SEDALibException {
+                                          ArchiveDeliveryRequestReply archiveDeliveryRequestReply) throws SEDALibException { //NOSONAR
+        // this parameter may be useful in future if this function is improved
         XMLEvent event;
         try {
             xmlReader.endBlockNamed("ArchiveDeliveryRequestReply");
@@ -218,7 +217,7 @@ public class ArchiveDeliveryRequestReply {
     public static ArchiveDeliveryRequestReply fromSedaXml(SEDAXMLEventReader xmlReader, String rootDir,
                                                           SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         ArchiveDeliveryRequestReply archiveDeliveryRequestReply;
-        importStartDocument(xmlReader, sedaLibProgressLogger);
+        importStartDocument(xmlReader);
         archiveDeliveryRequestReply = new ArchiveDeliveryRequestReply();
         archiveDeliveryRequestReply.setGlobalMetadata(new GlobalMetadata());
         importHeader(xmlReader, archiveDeliveryRequestReply, sedaLibProgressLogger);

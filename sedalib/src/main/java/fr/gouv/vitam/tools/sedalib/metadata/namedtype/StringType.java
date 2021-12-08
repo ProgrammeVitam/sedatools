@@ -95,7 +95,7 @@ public class StringType extends NamedTypeMetadata {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         result.put("",value);
         return result;
     }

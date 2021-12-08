@@ -35,7 +35,9 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class AnyXMLListType.
@@ -48,10 +50,10 @@ public class AnyXMLListType extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap(isExpandable = true)
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
     }
 
     // Constructors
@@ -77,16 +79,17 @@ public class AnyXMLListType extends ComplexListType {
      *
      * @param elementName the XML element name
      * @param rawXmlList  the raw Xml list String
+     * @throws SEDALibException if the XML Block can't be read or is not compliant to the seda schema
      */
     public AnyXMLListType(String elementName, String rawXmlList) throws SEDALibException {
         super(elementName);
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(rawXmlList.getBytes("UTF-8"));
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(rawXmlList.getBytes(StandardCharsets.UTF_8));
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();
             String tmp = xmlReader.peekName();
             while (tmp != null) {
-                SEDAMetadata sm = (AnyXMLType) SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class);
+                SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class);
                 addMetadata(sm);
                 tmp = xmlReader.peekName();
             }

@@ -26,9 +26,9 @@ import java.util.StringTokenizer;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-public class SIPBuilderTest {
+class SIPBuilderTest {
 
-    static private String stripFileName(String fileName) {
+    private static String stripFileName(String fileName) {
         String tmp = fileName.substring(fileName.indexOf("-") + 1);
         if (tmp.lastIndexOf('.') >= 0)
             return (tmp.substring(0, tmp.lastIndexOf('.')));
@@ -71,7 +71,7 @@ public class SIPBuilderTest {
 //TODO Improve test quality
             assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip")).isFile();
             assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip").length()).isGreaterThan(10865000).isLessThan(10875000);
-            assertAll(()->sb.seda21Validate());
+            assertAll(sb::seda21Validate);
 
         } catch (Exception e) {
             throw new SEDALibException("SIPBuilder test KO");

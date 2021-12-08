@@ -181,7 +181,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         super(dataObjectPackage);
         this.dataObjectSystemId = null;
         this.dataObjectGroupSystemId = null;
-        this.relationshipsXmlData = new ArrayList<AnyXMLType>();
+        this.relationshipsXmlData = new ArrayList<>();
         this.dataObjectGroupReferenceId = null;
         this.dataObjectGroupId = null;
         this.dataObjectVersion = new StringType("DataObjectVersion", dataObjectVersion);
@@ -196,6 +196,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
                 try {
                     this.fileInfo.addNewMetadata("Filename", path.getFileName().toString());
                 } catch (SEDALibException ignored) {
+                    //ignored
                 }
             } else
                 this.fileInfo = null;
@@ -204,6 +205,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             try {
                 this.fileInfo.addNewMetadata("Filename", filename);
             } catch (SEDALibException ignored) {
+                //ignored
             }
         }
         this.metadata = null;
@@ -275,10 +277,11 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     /**
      * Gets the digest sha 512.
      *
+     * @param path the path of the file to hash
      * @return the digest sha 512
      * @throws SEDALibException if unable to get digest
      */
-    static public String getDigestSha512(Path path) throws SEDALibException {
+    public static String getDigestSha512(Path path) throws SEDALibException {
         MessageDigest messageDigest;
         try {
             messageDigest = MessageDigest.getInstance("SHA-512");
@@ -482,13 +485,17 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     @Override
     public String toSedaXmlFragments() throws SEDALibException {
         String result;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
-            toSedaXml(xmlWriter, null);
-            xmlWriter.close();
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()){
+            try(SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+                toSedaXml(xmlWriter, null);
+            }
             result = baos.toString("UTF-8");
-        } catch (SEDALibException | XMLStreamException | InterruptedException | IOException e) {
+        } catch (SEDALibException | XMLStreamException | IOException e) {
             throw new SEDALibException("Erreur interne", e);
+        }
+        catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new SEDALibException("Interruption du process", e);
         }
         if (result != null) {
             if (result.isEmpty())
@@ -583,8 +590,6 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @param dataObjectPackage     the DataObjectPackage to be completed
-     * @param rootDir               the directory where the BinaryDataObject files are
-     *                              exported
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @return the read BinaryDataObject, or null if not a BinaryDataObject
      * @throws SEDALibException     if the XML can't be read or the SEDA scheme is
@@ -592,7 +597,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * @throws InterruptedException if export process is interrupted
      */
     public static BinaryDataObject fromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
-                                               String rootDir, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+                                               SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         BinaryDataObject bdo = null;
         DataObjectGroup dog;
         String tmp;

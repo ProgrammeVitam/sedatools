@@ -32,6 +32,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class Management.
@@ -49,17 +50,18 @@ public class Management extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap(isExpandable = true)
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
         metadataMap = new LinkedHashMap<>();
-        metadataMap.put("StorageRule", new ComplexListMetadataKind(StorageRule.class, false));
-        metadataMap.put("AppraisalRule", new ComplexListMetadataKind(AppraisalRule.class, false));
-        metadataMap.put("AccessRule", new ComplexListMetadataKind(AccessRule.class, false));
-        metadataMap.put("DisseminationRule", new ComplexListMetadataKind(DisseminationRule.class, false));
-        metadataMap.put("ReuseRule", new ComplexListMetadataKind(ReuseRule.class, false));
-        metadataMap.put("ClassificationRule",
+        metadataMap.put(StorageRule.STORAGERULE_TAG, new ComplexListMetadataKind(StorageRule.class, false));
+        metadataMap.put(AppraisalRule.APPRAISALRULE_TAG, new ComplexListMetadataKind(AppraisalRule.class, false));
+        metadataMap.put(AccessRule.ACCESSRULE_TAG, new ComplexListMetadataKind(AccessRule.class, false));
+        metadataMap.put(DisseminationRule.DISSEMINATIONRULE_TAG, new ComplexListMetadataKind(DisseminationRule.class, false));
+        metadataMap.put(ReuseRule.REUSERULE_TAG, new ComplexListMetadataKind(ReuseRule.class, false));
+        metadataMap.put(ClassificationRule.CLASSIFICATIONRULE_TAG,
                 new ComplexListMetadataKind(ClassificationRule.class, false));
-        metadataMap.put("HoldRule", new ComplexListMetadataKind(HoldRule.class, false));
+        metadataMap.put(HoldRule.HOLDRULE_TAG, new ComplexListMetadataKind(HoldRule.class, false));
         metadataMap.put("LogBook",
                 new ComplexListMetadataKind(LogBook.class, false));
         metadataMap.put("NeedAuthorization",
@@ -99,9 +101,7 @@ public class Management extends ComplexListType {
             else
                 addedName = sm.getXmlElementName();
             LinkedHashMap<String, String> smCsvList = sm.toCsvList();
-            smCsvList.entrySet().stream().forEach(e -> {
-                result.put("Management."+addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue());
-            });
+            smCsvList.entrySet().stream().forEach(e -> result.put("Management."+addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue()));
         }
         return result;
     }

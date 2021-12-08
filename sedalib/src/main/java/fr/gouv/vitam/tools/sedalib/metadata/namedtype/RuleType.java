@@ -44,8 +44,12 @@ import java.util.stream.Collectors;
  * <p>
  * For abstract Rule type SEDA metadata
  */
-abstract public class RuleType extends ComplexListType {
+public abstract class RuleType extends ComplexListType {
+
     public static final String RULE_TAG = "Rule";
+    public static final String PREVENTINHERITANCE_TAG = "PreventInheritance";
+    public static final String REFNONRULEID_TAG = "RefNonRuleId";
+    public static final String FINALACTION_TAG = "FinalAction";
 
     /**
      * Instantiates a new rule Type.
@@ -97,7 +101,7 @@ abstract public class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void setPreventInheritance(boolean preventInheritance) throws SEDALibException {
-        addNewMetadata("PreventInheritance",preventInheritance);
+        addNewMetadata(PREVENTINHERITANCE_TAG,preventInheritance);
     }
 
     /**
@@ -107,7 +111,7 @@ abstract public class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void addRefNonRuleId(String rule) throws SEDALibException {
-        addNewMetadata("RefNonRuleId",rule);
+        addNewMetadata(REFNONRULEID_TAG,rule);
     }
 
     /**
@@ -123,7 +127,7 @@ abstract public class RuleType extends ComplexListType {
         if (!finalValues.contains(finalAction))
             throw new SEDALibException(
                     "Le type de règle [" + elementName + "] n'accepte pas la FinalAction [" + finalAction + "]");
-        addNewMetadata("FinalAction",finalAction);
+        addNewMetadata(FINALACTION_TAG,finalAction);
     }
 
     /*
@@ -132,6 +136,7 @@ abstract public class RuleType extends ComplexListType {
      * @see
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
+    @Override
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         LinkedHashMap<String, String> smCsvList;
@@ -195,7 +200,7 @@ abstract public class RuleType extends ComplexListType {
                     i++;
                 }
             } else {
-                manyFlag = getMetadataMap().get(elementName).many;
+                manyFlag = getMetadataMap().get(elementName).isMany();
                 int lastRuleIndex = findLastRuleIndex();
                 for (SEDAMetadata sm : metadataList.subList(lastRuleIndex, metadataList.size())) {
                     if (getMetadataMap().get(sm.getXmlElementName()) instanceof RuleMetadataKind) {
@@ -246,7 +251,7 @@ abstract public class RuleType extends ComplexListType {
                 i++;
             }
         } else {
-            manyFlag = getMetadataMap().get(sedaMetadata.getXmlElementName()).many;
+            manyFlag = getMetadataMap().get(sedaMetadata.getXmlElementName()).isMany();
             int lastRuleIndex = findLastRuleIndex();
             for (SEDAMetadata sm : metadataList.subList(lastRuleIndex, metadataList.size())) {
                 if (getMetadataMap().get(sm.getXmlElementName()) instanceof RuleMetadataKind) {
@@ -305,7 +310,7 @@ abstract public class RuleType extends ComplexListType {
                         else
                             metadataClass = AnyXMLType.class;
                     } else
-                        metadataClass = mi.metadataClass;
+                        metadataClass = mi.getMetadataClass();
                     SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
                     addMetadata(sm);
                     tmp = xmlReader.peekName();

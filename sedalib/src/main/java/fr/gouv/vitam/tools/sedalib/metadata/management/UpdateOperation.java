@@ -34,6 +34,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class UpdateOperation.
@@ -46,15 +47,18 @@ import java.util.LinkedHashMap;
  */
 public class UpdateOperation extends ComplexListType {
 
+    static final String SYSTEMID_TAG="SystemId";
+    static final String ARCHIVEUNITIDENTIFIERKEY_TAG="ArchiveUnitIdentifierKey";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("SystemId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("ArchiveUnitIdentifierKey", new ComplexListMetadataKind(ArchiveUnitIdentifierKey.class, false));
+        metadataMap = new LinkedHashMap<>();
+        metadataMap.put(SYSTEMID_TAG, new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put(ARCHIVEUNITIDENTIFIERKEY_TAG, new ComplexListMetadataKind(ArchiveUnitIdentifierKey.class, false));
     }
 
     /**
@@ -68,26 +72,22 @@ public class UpdateOperation extends ComplexListType {
      * Instantiates a new update operation with a systemId link.
      *
      * @param systemId the system id
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public UpdateOperation(String systemId) {
+    public UpdateOperation(String systemId) throws SEDALibException {
         this();
-        try {
-            addNewMetadata("SystemId", systemId);
-        } catch (SEDALibException ignored) {
-        }
-    }
+            addNewMetadata(SYSTEMID_TAG, systemId);
+     }
 
     /**
      * Instantiates a new update operation with a metadata name and value link.
      *
      * @param metadataName  the metadata name
      * @param metadataValue the metadata value
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public UpdateOperation(String metadataName, String metadataValue) {
+    public UpdateOperation(String metadataName, String metadataValue) throws SEDALibException {
         this();
-        try {
-            addNewMetadata("ArchiveUnitIdentifierKey", metadataName, metadataValue);
-        } catch (SEDALibException ignored) {
-        }
+            addNewMetadata(ARCHIVEUNITIDENTIFIERKEY_TAG, metadataName, metadataValue);
     }
 }

@@ -28,11 +28,9 @@
 package fr.gouv.vitam.tools.sedalib.metadata.data;
 
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import java.nio.file.attribute.FileTime;
-import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class PhysicalDimensions.
@@ -49,10 +47,10 @@ public class PhysicalDimensions extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("Width", new ComplexListMetadataKind(LinearDimensionType.class, false));
         metadataMap.put("Height", new ComplexListMetadataKind(LinearDimensionType.class, false));
         metadataMap.put("Depth", new ComplexListMetadataKind(LinearDimensionType.class, false));

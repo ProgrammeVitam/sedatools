@@ -133,12 +133,12 @@ public class SIPToArchiveTransferImporter {
                     if (!Files.exists(newPath.getParent()))
                         Files.createDirectories(newPath.getParent());
 
-                    FileOutputStream fos = new FileOutputStream(newPath.toFile());
-                    IOUtils.copy(zais, fos);
-                    counter++;
-                    doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) +
-                            " fichiers extraits");
-                    fos.close();
+                    try(FileOutputStream fos = new FileOutputStream(newPath.toFile())) {
+                        IOUtils.copy(zais, fos);
+                        counter++;
+                        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, Integer.toString(counter) +
+                                " fichiers extraits");
+                    }
                 }
             }
         } catch (IOException ex) {

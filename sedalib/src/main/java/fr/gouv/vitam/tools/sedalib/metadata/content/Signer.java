@@ -32,6 +32,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class Signer.
@@ -44,17 +45,23 @@ import java.util.LinkedHashMap;
  */
 public class Signer extends ComplexListType {
 
+    static final String FIRSTNAME_TAG="FirstName";
+    static final String BIRTHNAME_TAG="BirthName";
+    static final String FULLNAME_TAG="FullName";
+    static final String IDENTIFIER_TAG="Identifier";
+    static final String SIGNINGTIME_TAG="SigningTime";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("FirstName", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("BirthName", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("FullName", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap = new LinkedHashMap<>();
+        metadataMap.put(FIRSTNAME_TAG, new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put(BIRTHNAME_TAG, new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put(FULLNAME_TAG, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("GivenName", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Gender", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("BirthDate", new ComplexListMetadataKind(DateType.class, false));
@@ -63,8 +70,8 @@ public class Signer extends ComplexListType {
         metadataMap.put("DeathPlace", new ComplexListMetadataKind(PlaceType.class, false));
         metadataMap.put("Nationality", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Corpname", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("Identifier", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("SigningTime", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap.put(IDENTIFIER_TAG, new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put(SIGNINGTIME_TAG, new ComplexListMetadataKind(DateTimeType.class, false));
         metadataMap.put("Function", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("Activity", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("Position", new ComplexListMetadataKind(TextType.class, true));
@@ -89,8 +96,8 @@ public class Signer extends ComplexListType {
     public Signer(String fullName, LocalDateTime signingTime) throws SEDALibException {
         this();
 
-        addNewMetadata("FullName", fullName);
-        addNewMetadata("SigningTime", signingTime);
+        addNewMetadata(FULLNAME_TAG, fullName);
+        addNewMetadata(SIGNINGTIME_TAG, signingTime);
     }
 
     /**
@@ -104,9 +111,9 @@ public class Signer extends ComplexListType {
     public Signer(String firstName, String birthName, LocalDateTime signingTime) throws SEDALibException {
         this();
 
-        addNewMetadata("FirstName", firstName);
-        addNewMetadata("BirthName", birthName);
-        addNewMetadata("SigningTime", signingTime);
+        addNewMetadata(FIRSTNAME_TAG, firstName);
+        addNewMetadata(BIRTHNAME_TAG, birthName);
+        addNewMetadata(SIGNINGTIME_TAG, signingTime);
     }
 
     /**
@@ -121,9 +128,9 @@ public class Signer extends ComplexListType {
     public Signer(String firstName, String birthName, LocalDateTime signingTime, String identifier) throws SEDALibException {
         this();
 
-        addNewMetadata("FirstName", firstName);
-        addNewMetadata("BirthName", birthName);
-        addNewMetadata("Identifier", identifier);
-        addNewMetadata("SigningTime", signingTime);
+        addNewMetadata(FIRSTNAME_TAG, firstName);
+        addNewMetadata(BIRTHNAME_TAG, birthName);
+        addNewMetadata(IDENTIFIER_TAG, identifier);
+        addNewMetadata(SIGNINGTIME_TAG, signingTime);
     }
 }

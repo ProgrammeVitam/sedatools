@@ -37,6 +37,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The Class Content.
@@ -53,10 +54,10 @@ public class Content extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap(isExpandable = true)
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("DescriptionLevel", new ComplexListMetadataKind(DescriptionLevel.class, false));
         metadataMap.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
@@ -153,7 +154,7 @@ public class Content extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public LinkedHashMap<String, String> externToCsvList(List<String> keptMetadataList) throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         String previousXMLElementName = null;
         int count = 0;
         for (SEDAMetadata sm : metadataList) {
@@ -169,9 +170,7 @@ public class Content extends ComplexListType {
             else
                 addedName = sm.getXmlElementName();
             LinkedHashMap<String, String> smCsvList = sm.toCsvList();
-            smCsvList.entrySet().stream().forEach(e -> {
-                result.put("Content."+addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue());
-            });
+            smCsvList.entrySet().stream().forEach(e -> result.put("Content."+addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue()));
         }
         return result;
     }

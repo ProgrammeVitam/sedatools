@@ -103,6 +103,8 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
                         int status = parser.readValueAs(Integer.class);
                         dataObjectPackage.setVitamNormalizationStatus(status);
                         break;
+                    default:
+                        // ignore other fields
                 }
             }
         } catch (SEDALibException e) {

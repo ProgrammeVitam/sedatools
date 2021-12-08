@@ -97,13 +97,13 @@ public class ComplexListTypeEditor extends CompositeEditor {
         for (String metadataName : result.getMetadataOrderedList()) {
             if (!minimal || (SEDAObjectEditorConstants.minimalTagList.contains(metadataName))) {
                 ComplexListMetadataKind complexListMetadataKind = result.getMetadataMap().get(metadataName);
-                SEDAMetadata metadataObject = SEDAObjectEditor.createSEDAMetadataSample(complexListMetadataKind.metadataClass.getSimpleName(), metadataName, minimal);
+                SEDAMetadata metadataObject = SEDAObjectEditor.createSEDAMetadataSample(complexListMetadataKind.getMetadataClass().getSimpleName(), metadataName, minimal);
                 try {
                     result.addMetadata(metadataObject);
                 } catch (SEDALibException ignored) {
                 }
-                if ((complexListMetadataKind.many) && !minimal) {
-                    metadataObject = SEDAObjectEditor.createSEDAMetadataSample(complexListMetadataKind.metadataClass.getSimpleName(), metadataName, minimal);
+                if ((complexListMetadataKind.isMany()) && !minimal) {
+                    metadataObject = SEDAObjectEditor.createSEDAMetadataSample(complexListMetadataKind.getMetadataClass().getSimpleName(), metadataName, minimal);
                     try {
                         result.addMetadata(metadataObject);
                     } catch (SEDALibException ignored) {
@@ -164,7 +164,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
         }
         for (String metadataName : getComplexListTypeMetadata().getMetadataOrderedList()) {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
-            if ((complexListMetadataKind.many) || (!used.contains(metadataName)))
+            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName)))
                 result.add(Pair.of(metadataName, translateTag(metadataName)));
         }
         if (!getComplexListTypeMetadata().isNotExpendable())
@@ -182,7 +182,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
         if (addOrderIndex == -1)
             return Integer.MAX_VALUE;
         else {
-            manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
+            manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
             for (SEDAObjectEditor soe : objectEditorList) {
                 curOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(soe.getTag());
                 if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
@@ -205,7 +205,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
             if (complexListMetadataKind == null)
                 throw new SEDALibException("La sous-métadonnée [" + metadataName + "] n'existe pas dans la métadonnée [" + getTag() + "]");
-            sedaMetadata = createSEDAMetadataSample(complexListMetadataKind.metadataClass.getSimpleName(), metadataName, true);
+            sedaMetadata = createSEDAMetadataSample(complexListMetadataKind.getMetadataClass().getSimpleName(), metadataName, true);
         }
 
         if (sedaMetadata != null) {
@@ -223,6 +223,6 @@ public class ComplexListTypeEditor extends CompositeEditor {
     public boolean canContainsMultiple(String metadataName) throws SEDALibException {
         if (getComplexListTypeMetadata().getMetadataMap().get(metadataName) == null)
             return true;
-        return getComplexListTypeMetadata().getMetadataMap().get(metadataName).many;
+        return getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
     }
 }

@@ -14,77 +14,117 @@ import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * The type Hold rule.
+ */
 public class HoldRule extends RuleType {
+
+    static final String HOLDRULE_TAG="HoldRule";
+    static final String HOLDENDDATE_TAG="HoldEndDate";
+    static final String HOLDOWNER_TAG="HoldOwner";
+    static final String HOLDREASSESSINGDATE_TAG="HoldReassessingDate";
+    static final String HOLDREASON_TAG="HoldReason";
+    static final String HOLDPREVENTREARRANGEMENT_TAG="PreventRearrangement";
 
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap(isExpandable = true)
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
         metadataMap = new LinkedHashMap<>();
         metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
-        metadataMap.put("HoldEndDate", new RuleMetadataKind(DateType.class, true));
-        metadataMap.put("HoldOwner", new RuleMetadataKind(StringType.class, true));
-        metadataMap.put("HoldReassessingDate", new RuleMetadataKind(DateType.class, true));
-        metadataMap.put("HoldReason", new RuleMetadataKind(StringType.class, true));
-        metadataMap.put("PreventRearrangement", new RuleMetadataKind(BooleanType.class, true));
+        metadataMap.put(HOLDENDDATE_TAG, new RuleMetadataKind(DateType.class, true));
+        metadataMap.put(HOLDOWNER_TAG, new RuleMetadataKind(StringType.class, true));
+        metadataMap.put(HOLDREASSESSINGDATE_TAG, new RuleMetadataKind(DateType.class, true));
+        metadataMap.put(HOLDREASON_TAG, new RuleMetadataKind(StringType.class, true));
+        metadataMap.put(HOLDPREVENTREARRANGEMENT_TAG, new RuleMetadataKind(BooleanType.class, true));
 
-        metadataMap.put("PreventInheritance", new ComplexListMetadataKind(BooleanType.class, false));
-        metadataMap.put("RefNonRuleId", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put(PREVENTINHERITANCE_TAG, new ComplexListMetadataKind(BooleanType.class, false));
+        metadataMap.put(REFNONRULEID_TAG, new ComplexListMetadataKind(StringType.class, true));
     }
 
     /**
      * Instantiates a new hold rule.
      */
     public HoldRule() {
-        super("HoldRule");
+        super(HOLDRULE_TAG);
     }
 
     /**
      * Instantiates a new hold rule, with one rule and a date.
      *
-     * @param rule the rule
+     * @param rule      the rule
      * @param startDate the start date
      * @throws SEDALibException the seda lib exception
      */
     public HoldRule(String rule, LocalDate startDate) throws SEDALibException {
-        super("HoldRule", rule, startDate);
+        super(HOLDRULE_TAG, rule, startDate);
     }
 
     /**
      * Instantiates a new hold rule, with one rule, a date and other metadata.
      *
-     * @param rule the rule
-     * @param startDate the start date
+     * @param rule          the rule
+     * @param startDate     the start date
      * @param otherMetadata the other metadata
      * @throws SEDALibException the seda lib exception
      */
     public HoldRule(String rule, LocalDate startDate, Map<String, Object> otherMetadata) throws SEDALibException {
-        super("HoldRule", rule, startDate);
+        super(HOLDRULE_TAG, rule, startDate);
         for (Map.Entry<String, Object> entry : otherMetadata.entrySet()) {
             addNewMetadata(entry.getKey(), entry.getValue());
         }
     }
 
+    /**
+     * Add hold end date.
+     *
+     * @param holdEndDate the hold end date
+     * @throws SEDALibException the seda lib exception
+     */
     public void addHoldEndDate(LocalDate holdEndDate) throws SEDALibException {
-        addNewMetadata("HoldEndDate", holdEndDate);
+        addNewMetadata(HOLDENDDATE_TAG, holdEndDate);
     }
 
+    /**
+     * Add hold owner.
+     *
+     * @param holdOwner the hold owner
+     * @throws SEDALibException the seda lib exception
+     */
     public void addHoldOwner(String holdOwner) throws SEDALibException {
-        addNewMetadata("HoldOwner", holdOwner);
+        addNewMetadata(HOLDOWNER_TAG, holdOwner);
     }
 
+    /**
+     * Add hold reassessing date.
+     *
+     * @param holdReassessingDate the hold reassessing date
+     * @throws SEDALibException the seda lib exception
+     */
     public void addHoldReassessingDate(LocalDate holdReassessingDate) throws SEDALibException {
-        addNewMetadata("HoldReassessingDate", holdReassessingDate);
+        addNewMetadata(HOLDREASSESSINGDATE_TAG, holdReassessingDate);
     }
 
+    /**
+     * Add hold reason.
+     *
+     * @param holdReason the hold reason
+     * @throws SEDALibException the seda lib exception
+     */
     public void addHoldReason(String holdReason) throws SEDALibException {
-        addNewMetadata("HoldReason", holdReason);
+        addNewMetadata(HOLDREASON_TAG, holdReason);
     }
 
+    /**
+     * Add prevent rearrangement.
+     *
+     * @param preventRearrangement the prevent rearrangement
+     * @throws SEDALibException the seda lib exception
+     */
     public void addPreventRearrangement(boolean preventRearrangement) throws SEDALibException {
-        addNewMetadata("PreventRearrangement", preventRearrangement);
+        addNewMetadata(HOLDPREVENTREARRANGEMENT_TAG, preventRearrangement);
     }
 }

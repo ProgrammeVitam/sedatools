@@ -41,6 +41,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -120,7 +121,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
     static {
         try {
             xmlof = XMLOutputFactory.newInstance();
-            xmlofFragments = XMLOutputFactory2.newInstance();
+            xmlofFragments = XMLOutputFactory.newInstance();
             xmlofFragments.setProperty(WstxOutputProperties.P_OUTPUT_VALIDATE_STRUCTURE, false);
         } catch (TransformerFactoryConfigurationError e) {
             System.err.println("Erreur fatale, impossible de créer les outils de manipulation Xml et/ou Droid");
@@ -157,7 +158,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
     public SEDAXMLStreamWriter(OutputStream os, int indentLength, boolean isForElements) throws SEDALibException {
         try {
             // for xml raw writing
-            rawWriter = new OutputStreamWriter(os, "UTF-8");
+            rawWriter = new OutputStreamWriter(os, StandardCharsets.UTF_8);
             // for xml indentend structured writing
             if (isForElements)
                 xmlWriter = xmlofFragments.createXMLStreamWriter(rawWriter);
@@ -168,7 +169,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
         }
 
         this.depth = 0;
-        this.hasChildElement = new HashMap<Integer, Boolean>();
+        this.hasChildElement = new HashMap<>();
         this.indentElement = StringUtils.repeat(' ', indentLength);
         this.indentLength = indentLength;
         this.indentFlag = (indentLength > 0);
@@ -356,11 +357,9 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 
                 rawWriter.write(identXml);
                 rawWriter.flush();
-                if (indentFlag) {
-                    if (depth > 0) {
-                        hasChildElement.put(depth - 1, true);
-                    }
-                }
+                if ((indentFlag) &&
+                    (depth > 0))
+                    hasChildElement.put(depth - 1, true);
             } catch (IOException e) {
                 throw new XMLStreamException("Erreur d'écriture d'un bloc Raw XML", e);
             }

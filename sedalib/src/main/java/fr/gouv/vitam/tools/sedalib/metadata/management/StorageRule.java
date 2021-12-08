@@ -35,6 +35,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The Class StorageRule.
@@ -47,26 +48,30 @@ import java.util.List;
  */
 public class StorageRule extends RuleType {
 
+    static final String STORAGERULE_TAG="StorageRule";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Rule", new ComplexListMetadataKind(Rule.class, true));
-        metadataMap.put("PreventInheritance", new ComplexListMetadataKind(BooleanType.class, false));
-        metadataMap.put("RefNonRuleId", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("FinalAction", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap = new LinkedHashMap<>();
+        metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
+        metadataMap.put(PREVENTINHERITANCE_TAG, new ComplexListMetadataKind(BooleanType.class, false));
+        metadataMap.put(REFNONRULEID_TAG, new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put(FINALACTION_TAG, new ComplexListMetadataKind(StringType.class, false));
     }
 
     /**
      * The final action list.
      */
-    static protected List<String> finalActionList;
+    protected static 
+List<String> finalActionList;
 
     static {
-        finalActionList = new ArrayList<String>();
+        finalActionList = new ArrayList<>();
         finalActionList.add("RestrictAccess");
         finalActionList.add("Transfer");
         finalActionList.add("Copy");
@@ -76,7 +81,7 @@ public class StorageRule extends RuleType {
      * Instantiates a new access rule.
      */
     public StorageRule() {
-        super("StorageRule");
+        super(STORAGERULE_TAG);
     }
 
     /**
@@ -87,7 +92,7 @@ public class StorageRule extends RuleType {
      * @throws SEDALibException the seda lib exception
      */
     public StorageRule(String rule, LocalDate startDate) throws SEDALibException {
-        super("StorageRule", rule , startDate);
+        super(STORAGERULE_TAG, rule , startDate);
     }
 
     /**
@@ -99,7 +104,7 @@ public class StorageRule extends RuleType {
      * @throws SEDALibException if the FinalAction field or value is not expected in                          this kind of rule
      */
     public StorageRule(String rule, LocalDate startDate, String finalAction) throws SEDALibException {
-        super("StorageRule", rule, startDate);
+        super(STORAGERULE_TAG, rule, startDate);
         setFinalAction(finalAction);
     }
 

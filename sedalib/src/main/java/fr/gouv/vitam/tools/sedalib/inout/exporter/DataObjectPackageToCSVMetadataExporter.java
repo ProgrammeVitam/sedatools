@@ -126,15 +126,15 @@ public class DataObjectPackageToCSVMetadataExporter {
     /**
      * The First dataobject selection mode.
      */
-    static public final int FIRST_DATAOBJECT = 1;
+    public static final int FIRST_DATAOBJECT = 1;
     /**
      * The Last dataobject selection mode.
      */
-    static public final int LAST_DATAOBJECT = 2;
+    public static final int LAST_DATAOBJECT = 2;
     /**
      * The All dataobjects selection mode.
      */
-    static public final int ALL_DATAOBJECTS = 3;
+    public static final int ALL_DATAOBJECTS = 3;
 
     /**
      * The max name size used to limit directory names.
@@ -216,6 +216,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                     try {
                         maxRank = Math.max(maxRank, Integer.parseInt(splittedTmp[pos]) + 1);
                     } catch (NumberFormatException ignored) {
+                        //ignored
                     }
                 }
             }
@@ -240,6 +241,14 @@ public class DataObjectPackageToCSVMetadataExporter {
         }
         if (headerNames.contains(ruleName + ".PreventInheritance"))
             ruleHeaderNames.add(ruleName + ".PreventInheritance");
+        if (headerNames.contains(ruleName + ".ClassificationLevel"))
+            ruleHeaderNames.add(ruleName + ".ClassificationLevel");
+        if (headerNames.contains(ruleName + ".ClassificationOwner"))
+            ruleHeaderNames.add(ruleName + ".ClassificationOwner");
+        if (headerNames.contains(ruleName + ".ClassificationReassessingDate"))
+            ruleHeaderNames.add(ruleName + ".ClassificationReassessingDate");
+        if (headerNames.contains(ruleName + ".NeedReassessingAuthorization"))
+            ruleHeaderNames.add(ruleName + ".NeedReassessingAuthorization");
         rank = 0;
         while (headerNames.contains(ruleName + ".RefNonRuleId." + rank)) {
             ruleHeaderNames.add(ruleName + ".RefNonRuleId." + rank);
@@ -249,23 +258,6 @@ public class DataObjectPackageToCSVMetadataExporter {
             ruleHeaderNames.add(ruleName + ".FinalAction");
         return ruleHeaderNames;
     }
-
-    // extract and sort headernames for ClassificationRule metadata
-    private List<String> getClassificationRuleHeaderNames(Set<String> headerNames, String ruleName) {
-        List<String> ruleHeaderNames = getRuleTypeHeaderNames(headerNames, ruleName);
-
-        if (headerNames.contains(ruleName + ".ClassificationLevel"))
-            ruleHeaderNames.add(ruleName + ".ClassificationLevel");
-        if (headerNames.contains(ruleName + ".ClassificationOwner"))
-            ruleHeaderNames.add(ruleName + ".ClassificationOwner");
-        if (headerNames.contains(ruleName + ".ClassificationReassessingDate"))
-            ruleHeaderNames.add(ruleName + ".ClassificationReassessingDate");
-        if (headerNames.contains(ruleName + ".NeedReassessingAuthorization"))
-            ruleHeaderNames.add(ruleName + ".NeedReassessingAuthorization");
-
-        return ruleHeaderNames;
-    }
-
 
     // extract and sort headernames by there defined order in composed types
     private List<String> getSortedHeaderNames(List<String> sortedHeaderNames, Set<String> headerNames,
@@ -289,7 +281,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                     } else if (ComplexListType.class.isAssignableFrom(metadataClass)) {
                         for (Map.Entry<String, ComplexListMetadataKind> e : ComplexListType.getMetadataMap(metadataClass).entrySet()) {
                             getSortedHeaderNames(sortedHeaderNames, headerNames, currentName + infix,
-                                    e.getKey(), e.getValue().metadataClass);
+                                    e.getKey(), e.getValue().getMetadataClass());
                         }
                         // add extensions if any
                         TreeSet<String> extensions = new TreeSet<>();
@@ -320,17 +312,17 @@ public class DataObjectPackageToCSVMetadataExporter {
     // determine the csv header line by extracting metadata names from all ArchiveUnits, sorting this list in SEDA order
     // and simplifying the unnecessary .0
     private void computeCsvHeader() throws SEDALibException {
-        Set<String> headerNames = new HashSet<>();
+        Set<String> curHeaderNames = new HashSet<>();
         List<String> sortedHeaderNames;
         for (ArchiveUnit au : dataObjectPackage.getAuInDataObjectPackageIdMap().values()) {
             Management management = au.getManagement();
             if (management != null)
-                headerNames.addAll(management.externToCsvList().keySet());
-            headerNames.addAll(au.getContent().externToCsvList(dataObjectPackage.getExportMetadataList()).keySet());
+                curHeaderNames.addAll(management.externToCsvList().keySet());
+            curHeaderNames.addAll(au.getContent().externToCsvList(dataObjectPackage.getExportMetadataList()).keySet());
         }
-        sortedHeaderNames = getSortedHeaderNames(new ArrayList<>(), headerNames, "", "Content",
+        sortedHeaderNames = getSortedHeaderNames(new ArrayList<>(), curHeaderNames, "", "Content",
                 Content.class);
-        sortedHeaderNames.addAll(getSortedHeaderNames(new ArrayList<>(), headerNames, "", "Management",
+        sortedHeaderNames.addAll(getSortedHeaderNames(new ArrayList<>(), curHeaderNames, "", "Management",
                 Management.class));
         this.headerNames = sortedHeaderNames;
     }
@@ -565,7 +557,6 @@ public class DataObjectPackageToCSVMetadataExporter {
                 ZipEntry e = new ZipEntry((relativePath.toString() + File.separator).replace('\\', '/'));
                 zipOS.putNextEntry(e);
                 zipOS.closeEntry();
-                //       } catch (ZipException ignored) {
             } catch (IOException e) {
                 throw new SEDALibException(
                         "Création du répertoire [" + relativePath.toString() +
@@ -610,11 +601,12 @@ public class DataObjectPackageToCSVMetadataExporter {
             try {
                 ZipEntry e = new ZipEntry(relativePath.toString().replace('\\', '/'));
                 zipOS.putNextEntry(e);
-                FileInputStream fis = new FileInputStream(originPath.toFile());
-                int l;
-                byte[] buffer = new byte[65536];
-                while ((l = fis.read(buffer)) != -1)
-                    zipOS.write(buffer, 0, l);
+                try(FileInputStream fis = new FileInputStream(originPath.toFile())) {
+                    int l;
+                    byte[] buffer = new byte[65536];
+                    while ((l = fis.read(buffer)) != -1)
+                        zipOS.write(buffer, 0, l);
+                }
                 zipOS.closeEntry();
             } catch (IOException e) {
                 throw new SEDALibException(
@@ -651,7 +643,7 @@ public class DataObjectPackageToCSVMetadataExporter {
         if (fileExportFlag)
             createDirectories(auRelativePath);
 
-        if ((objectList != null) && (objectList.size() > 0)) {
+        if ((objectList != null) && !objectList.isEmpty()) {
             for (BinaryDataObject bdo : objectList) {
                 filename = constructObjectFileName(auRelativePath, bdo, objectList.size() == 1);
                 if (fileExportFlag)
@@ -697,7 +689,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                 Integer.toString(counter) + " ArchiveUnit exportées");
     }
 
-    private String getDescription(Date d) throws SEDALibException, InterruptedException {
+    private String getDescription(Date d) {
         String log = "Début de l'export csv simplifié";
         if (!fileExportFlag)
             log += " (csv seul)\n";

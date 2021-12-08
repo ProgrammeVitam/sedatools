@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class Signature.
@@ -49,9 +50,10 @@ public class Signature extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("Signer", new ComplexListMetadataKind(Signer.class, true));
         metadataMap.put("Validator", new ComplexListMetadataKind(Validator.class, false));
         metadataMap.put("Masterdata", new ComplexListMetadataKind(StringType.class, false));

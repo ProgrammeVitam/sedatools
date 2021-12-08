@@ -40,6 +40,7 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -95,10 +96,10 @@ public class SEDAXMLEventReader implements AutoCloseable {
      * @param xmlString   the xml string
      * @return the named element
      */
-    static public String extractNamedElement(String elementName, String xmlString) {
+    public static String extractNamedElement(String elementName, String xmlString) {
         String result = null;
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlString.getBytes("UTF-8"));
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlString.getBytes(StandardCharsets.UTF_8));
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
 
             XMLEvent event = xmlReader.nextUsefullEvent();
@@ -123,9 +124,9 @@ public class SEDAXMLEventReader implements AutoCloseable {
      * @param xmlData the XML data String
      * @return the fragments String
      */
-    static public String extractFragments(String elementName, String xmlData) {
+    public static String extractFragments(String elementName, String xmlData) {
         StringWriter sw = new StringWriter();
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes("UTF-8"));
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
             XMLEvent event = xmlReader.nextUsefullEvent();
             while (true) {
@@ -180,7 +181,7 @@ public class SEDAXMLEventReader implements AutoCloseable {
     public SEDAXMLEventReader(InputStream is, boolean isForElements) throws SEDALibException {
         InputStreamReader readerFIS = null;
         try {
-            readerFIS = new InputStreamReader(is, "UTF-8");
+            readerFIS = new InputStreamReader(is, StandardCharsets.UTF_8);
             if (isForElements)
                 xmlReader = xmlifFragments.createXMLEventReader(readerFIS);
             else

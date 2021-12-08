@@ -20,11 +20,11 @@
 *.properties    text
 *.sh            text
 *.tld           text
-# *.txt           text
 *.tag           text
 *.tagx          text
 *.xml           text
 *.yml           text
+**/test/resources/** -text
 
 # These files are binary and should be left untouched
 # (binary is a macro for -text -diff)

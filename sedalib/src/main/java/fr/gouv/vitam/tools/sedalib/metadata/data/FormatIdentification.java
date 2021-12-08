@@ -30,8 +30,8 @@ package fr.gouv.vitam.tools.sedalib.metadata.data;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
-import javax.xml.stream.XMLStreamException;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class FormatIdentification.
@@ -50,10 +50,10 @@ public class FormatIdentification extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
+        metadataMap = new LinkedHashMap<>();
         metadataMap.put("FormatLitteral", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("MimeType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("FormatId", new ComplexListMetadataKind(StringType.class, false));
@@ -76,6 +76,7 @@ public class FormatIdentification extends ComplexListType {
      * @param mimeType       the mime type
      * @param formatId       the format id
      * @param encoding       the encoding
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
     public FormatIdentification(String formatLitteral, String mimeType, String formatId, String encoding) throws SEDALibException {
         super("FormatIdentification");

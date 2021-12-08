@@ -81,6 +81,7 @@ public class DateType extends NamedTypeMetadata {
      *
      * @param elementName the XML element name
      * @param dateString   the date string value
+     * @throws SEDALibException if wrong date time format
      */
     public DateType(String elementName, String dateString) throws SEDALibException {
         super(elementName);
@@ -101,7 +102,6 @@ public class DateType extends NamedTypeMetadata {
      */
     @Override
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
-        String tmpDate;
         try {
             if (value == null)
                 xmlWriter.writeElementValue(elementName, null);
@@ -119,7 +119,7 @@ public class DateType extends NamedTypeMetadata {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         if (value != null)
             result.put("",SEDAXMLStreamWriter.getStringFromDate(value));
         return result;

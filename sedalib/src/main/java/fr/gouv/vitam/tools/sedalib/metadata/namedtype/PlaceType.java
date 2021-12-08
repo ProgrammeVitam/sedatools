@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class PlaceType.
@@ -38,14 +39,17 @@ import java.util.LinkedHashMap;
  */
 public class PlaceType extends ComplexListType {
 
+    static final String GEOGNAME="Geogname";
+
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
-    static final public LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
-        metadataMap = new LinkedHashMap<String, ComplexListMetadataKind>();
-        metadataMap.put("Geogname", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap = new LinkedHashMap<>();
+        metadataMap.put(GEOGNAME, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Address", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("PostalCode", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("City", new ComplexListMetadataKind(StringType.class, false));
@@ -67,12 +71,10 @@ public class PlaceType extends ComplexListType {
      *
      * @param elementName the element name
      * @param geogname    the geogname
+     * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public PlaceType(String elementName, String geogname) {
+    public PlaceType(String elementName, String geogname) throws SEDALibException{
         super(elementName);
-        try {
-            addNewMetadata("Geogname", geogname);
-        } catch (SEDALibException ignored) {
-        }
+            addNewMetadata(GEOGNAME, geogname);
     }
 }

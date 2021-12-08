@@ -48,7 +48,7 @@ public class DescriptionLevel extends NamedTypeMetadata {
     /**
      * Enum restricted values.
      */
-    static public final List<String> enumValues = Arrays.asList("Fonds","Subfonds","Class","Collection",
+    public static final List<String> enumValues = Arrays.asList("Fonds","Subfonds","Class","Collection",
             "Series","Subseries","RecordGrp","SubGrp","File","Item","OtherLevel");
 
     /**
@@ -101,7 +101,7 @@ public class DescriptionLevel extends NamedTypeMetadata {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         result.put("",value);
         return result;
     }

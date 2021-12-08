@@ -84,19 +84,16 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
                         DataObject dataObject = list.getModel().getElementAt(index);
                         if (dataObject instanceof BinaryDataObject) {
                             BinaryDataObject bdo = (BinaryDataObject) dataObject;
-                            try {
-                                if ((bdo.formatIdentification!=null) &&
-                                        (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.getSimpleMetadata("MimeType")))) {
-                                    JPopupMenu popup = new JPopupMenu();
-                                    JMenuItem mi;
-                                    mi = new JMenuItem("Remplacer par le décompressé");
-                                    mi.addActionListener(list);
-                                    mi.setActionCommand("Expand");
-                                    list.uncompressedBdo=bdo;
-                                    popup.add(mi);
-                                    popup.show((Component) e.getSource(), e.getX(), e.getY());
-                                }
-                            } catch (SEDALibException ignored) {
+                            if ((bdo.formatIdentification!=null) &&
+                                    (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.getSimpleMetadata("MimeType")))) {
+                                JPopupMenu popup = new JPopupMenu();
+                                JMenuItem mi;
+                                mi = new JMenuItem("Remplacer par le décompressé");
+                                mi.addActionListener(list);
+                                mi.setActionCommand("Expand");
+                                list.uncompressedBdo=bdo;
+                                popup.add(mi);
+                                popup.show((Component) e.getSource(), e.getX(), e.getY());
                             }
                         }
                     }

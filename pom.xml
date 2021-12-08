@@ -20,7 +20,7 @@
         <project.minorVersion>10</project.minorVersion>
         <!--Libraries-->
         <java-libpst.version>0.9.5-VITAM</java-libpst.version>
-        <droid.version>6.5-VITAM</droid.version>
+        <droid.version>6.5</droid.version>
         <commons-cli.version>1.4</commons-cli.version>
         <jackson.version>2.9.9</jackson.version>
         <xerces-xsd11.version>2.12-beta-r1667115</xerces-xsd11.version>

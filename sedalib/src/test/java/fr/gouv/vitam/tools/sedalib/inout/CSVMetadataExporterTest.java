@@ -36,7 +36,7 @@ class CSVMetadataExporterTest {
     }
 
     public static boolean compareImportAndExportDirectories(Path first, Path second) throws IOException {
-        Set<String> secondListNames = new HashSet<String>();
+        Set<String> secondListNames = new HashSet<>();
         for (Path inSecond : Files.list(second).collect(Collectors.toList())) {
             if ((!inSecond.getFileName().startsWith("__")) && (!inSecond.getFileName().toString().equals("ExportedMetadata.csv"))) {
                 String tmp = inSecond.getFileName().toString();
@@ -170,8 +170,8 @@ class CSVMetadataExporterTest {
         cme.doExportToCSVDiskHierarchy("target/tmpJunit/CSVMetadataExporterDisk", "metadata.csv");
 
         // Then exported directory is equivalent to imported one
-        assert (compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
-                Paths.get("target/tmpJunit/CSVMetadataExporterDisk")));
+        assertThat (compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
+                Paths.get("target/tmpJunit/CSVMetadataExporterDisk"))).isTrue();
     }
 
     @Test

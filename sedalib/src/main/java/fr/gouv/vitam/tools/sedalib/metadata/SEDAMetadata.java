@@ -46,6 +46,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 
 /**
@@ -127,7 +128,7 @@ public abstract class SEDAMetadata {
      * @return the read SEDAMetadata object
      * @throws SEDALibException if XML read exception or inappropriate sub-class
      */
-    static public SEDAMetadata fromSedaXml(SEDAXMLEventReader xmlReader, Class<?> target) throws SEDALibException {
+    public static SEDAMetadata fromSedaXml(SEDAXMLEventReader xmlReader, Class<?> target) throws SEDALibException {
         try {
             boolean needName = target.getName().contains(".namedtype.");
             SEDAMetadata sm;
@@ -158,10 +159,10 @@ public abstract class SEDAMetadata {
      * @return the SEDAMetadata object
      * @throws SEDALibException if XML read exception or inappropriate sub-class
      */
-    static public SEDAMetadata fromString(String xmlData, Class<?> target) throws SEDALibException {
+    public static SEDAMetadata fromString(String xmlData, Class<?> target) throws SEDALibException {
         SEDAMetadata result;
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes("UTF-8"));
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();
