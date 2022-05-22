@@ -1016,8 +1016,9 @@ public class DataObjectPackage {
             xmlWriter.writeEndElement();
             xmlWriter.writeRawXMLBlockIfNotEmpty(managementMetadataXmlData);
             xmlWriter.writeEndElement();
+            xmlWriter.flush();
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur d'écriture XML des métadonnées des ArchiveUnits", e);
+            throw new SEDALibException("Erreur d'écriture XML des métadonnées dans le DataObjectPackage", e);
         }
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, "sedalib: " + getNextInOutCounter() +
                 " métadonnées ArchiveUnit exportées dans le DataObjectPackage", null);
@@ -1050,8 +1051,7 @@ public class DataObjectPackage {
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @param dataObjectPackage     the DataObjectPackage to be completed
-     * @param rootDir               the directory where the BinaryDataObject files are
-     *                              exported
+     * @param rootDir               the directory of the BinaryDataObject files
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected

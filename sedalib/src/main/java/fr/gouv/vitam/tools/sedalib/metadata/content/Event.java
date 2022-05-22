@@ -51,22 +51,43 @@ public class Event extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap(isExpandable = true)
-    public static final Map<String, ComplexListMetadataKind> metadataMap;
+    public static final Map<String, ComplexListMetadataKind> metadataMap_default;
 
     static {
-        metadataMap = new LinkedHashMap<>();
-        metadataMap.put("EventIdentifier",
+        metadataMap_default = new LinkedHashMap<>();
+        metadataMap_default.put("EventIdentifier",
                 new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("EventType", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
-        metadataMap.put("EventDetail", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("OutcomeDetailMessage",
+        metadataMap_default.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default.put("EventType", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_default.put("EventDetail", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_default.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default.put("OutcomeDetailMessage",
                 new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("EventDetailData",
+        metadataMap_default.put("EventDetailData",
                 new ComplexListMetadataKind(StringType.class, false));
+    }
+
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = 2)
+    public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
+
+    static {
+        metadataMap_v2 = new LinkedHashMap<>();
+        metadataMap_v2.put("EventIdentifier",
+                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("EventType", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v2.put("EventDetail", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("OutcomeDetailMessage",
+                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("EventDetailData",
+                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("LinkingAgentIdentifier",
+                new ComplexListMetadataKind(LinkingAgentIdentifierType.class, true));
     }
 
     /**
