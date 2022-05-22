@@ -24,7 +24,7 @@
  * <p>
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
- */
+ **/
 package fr.gouv.vitam.tools.sedalib.xml;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -159,7 +159,7 @@ public class IndentXMLTool {
 
         DocumentBuilder appDocumentBuilder;
         try {
-            appDocumentBuilder = dbf.newDocumentBuilder();
+            appDocumentBuilder = dbf.newDocumentBuilder(); // NOSONAR no Doctype risk as all is encapsulated in a <INDENT> tag
             Document doc = appDocumentBuilder.parse(new InputSource(new StringReader("<INDENT>" + xml + "</INDENT>")));
             XPath xPath = xpf.newXPath();
             NodeList nodeList = (NodeList) xPath.evaluate("//text()[normalize-space()='']", doc, XPathConstants.NODESET);
@@ -180,16 +180,16 @@ public class IndentXMLTool {
             while (result.startsWith("\n"))
                 result = result.substring(1);
 
-            Scanner s = new Scanner(result);
             StringBuilder sb = new StringBuilder();
             String tmp;
-            while (s.hasNextLine()) {
-                tmp = s.nextLine();
-                if (tmp.startsWith(indentElement))
-                    tmp = tmp.substring(indentLength);
-                sb.append(tmp).append('\n');
+            try (Scanner s = new Scanner(result)) {
+                while (s.hasNextLine()) {
+                    tmp = s.nextLine();
+                    if (tmp.startsWith(indentElement) && tmp.trim().startsWith("<"))
+                        tmp = tmp.substring(indentLength);
+                    sb.append(tmp).append('\n');
+                }
             }
-            s.close();
             if (sb.length() > 1)
                 sb.setLength(sb.length() - 1);
             return sb.toString();
