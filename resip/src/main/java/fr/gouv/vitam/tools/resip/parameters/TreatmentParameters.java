@@ -51,6 +51,11 @@ public class TreatmentParameters {
     int dupMax;
 
     /**
+     * The SEDA2 subversion.
+     */
+    int seda2Version;
+
+    /**
      * Instantiates a new creation context.
      */
     public TreatmentParameters() {
@@ -87,6 +92,12 @@ public class TreatmentParameters {
         catch (NumberFormatException e){
             dupMax=1000;
         }
+        try {
+            seda2Version=Integer.parseInt(prefs.getPrefProperties().getProperty("treatmentParameters.seda2Version","1"));
+        }
+        catch (NumberFormatException e){
+            seda2Version=1;
+        }
     }
 
     /**
@@ -100,6 +111,7 @@ public class TreatmentParameters {
             prefs.getPrefProperties().setProperty("treatmentParameters.categories."+canonizeCategoryName(e.getKey()),String.join("|",e.getValue()));
         }
         prefs.getPrefProperties().setProperty("treatmentParameters.dupMax", Integer.toString(dupMax));
+        prefs.getPrefProperties().setProperty("treatmentParameters.seda2Version", Integer.toString(seda2Version));
     }
 
     /**
@@ -149,6 +161,7 @@ public class TreatmentParameters {
         formatByCategoryMap.put("Non connu",Arrays.asList("UNKNOWN"));
         formatByCategoryMap.put("Autres...",Arrays.asList("Other"));
         dupMax=1000;
+        seda2Version=1;
     }
 
     // Getters and setters
@@ -188,4 +201,24 @@ public class TreatmentParameters {
     public void setDupMax(int dupMax) {
         this.dupMax = dupMax;
     }
+
+    /**
+     * Gets seda version.
+     *
+     * @return the seda2 version
+     */
+    public int getSeda2Version() {
+        return seda2Version;
+    }
+
+    /**
+     * Sets seda2 version.
+     *
+     * @param sedaVersion the seda2 version
+     */
+    public void setSeda2Version(int sedaVersion) {
+        this.seda2Version = sedaVersion;
+    }
+
+
 }
