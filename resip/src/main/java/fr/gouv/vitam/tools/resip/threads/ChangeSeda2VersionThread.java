@@ -30,36 +30,45 @@ package fr.gouv.vitam.tools.resip.threads;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
+import fr.gouv.vitam.tools.resip.frame.PrefsDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.Seda2Version;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
+import javax.xml.crypto.Data;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
 
 /**
- * The type Check profile thread.
+ * The change SEDA2 version thread.
  */
-public class CheckProfileThread extends SwingWorker<String, String> {
+public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
     //input
-    private String profileFileName;
+    private int toSeda2Version;
+    private DataObjectPackage dop;
     private InOutDialog inOutDialog;
+    private PrefsDialog ownerDialog;
     //run output
-    private Throwable exitThrowable;
+    public DataObjectPackage convertedDop;
+    public Throwable exitThrowable;
     // logger
     private SEDALibProgressLogger spl;
 
     /**
      * Instantiates a new Check profile thread.
      *
-     * @param profileFileName the profile file name
-     * @param dialog          the dialog
+     * @param toSeda2Version the seda 2 version to change to
+     * @param dop            the data object package
+     * @param dialog         the dialog
      */
-    public CheckProfileThread(String profileFileName, InOutDialog dialog) {
-        this.profileFileName = profileFileName;
+    public ChangeSeda2VersionThread(int toSeda2Version, DataObjectPackage dop, InOutDialog dialog) {
+        this.toSeda2Version = toSeda2Version;
+        this.dop = dop;
         this.inOutDialog = dialog;
         this.exitThrowable = null;
         this.spl = null;
@@ -86,24 +95,9 @@ public class CheckProfileThread extends SwingWorker<String, String> {
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
             if (work == null)
-                throw new ResipException("Pas de contenu à valider");
+                throw new ResipException("Pas de contenu à transformer");
 
-            // first verify and reindex if neccesary
-            if (work.getExportContext().isReindex()) {
-                work.getDataObjectPackage().regenerateContinuousIds();
-                ResipGraphicApp.getTheApp().mainWindow.treePane.allTreeChanged();
-            }
-
-            ArchiveTransfer archiveTransfer = new ArchiveTransfer();
-            work.getDataObjectPackage().setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
-            archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
-            archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
-
-            if (profileFileName == null) {
-                archiveTransfer.seda21Validate(spl);
-            } else {
-                archiveTransfer.sedaProfileValidate(profileFileName, spl);
-            }
+            convertedDop = Seda2Version.convertToSeda2Version(work.getDataObjectPackage(), toSeda2Version, spl);
         } catch (Throwable e) {
             exitThrowable = e;
         }
@@ -117,11 +111,12 @@ public class CheckProfileThread extends SwingWorker<String, String> {
 
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
+
         if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation annulée", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: conversion annulée", null);
         else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant la validation", exitThrowable);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant la conversion", exitThrowable);
         else
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation OK", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: conversion OK", null);
     }
 }

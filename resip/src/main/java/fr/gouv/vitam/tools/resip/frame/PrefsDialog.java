@@ -28,13 +28,21 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.parameters.*;
+import fr.gouv.vitam.tools.resip.threads.ChangeSeda2VersionThread;
+import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.Seda2Version;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
+import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
@@ -42,7 +50,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
+import static fr.gouv.vitam.tools.resip.utils.ResipLogger.getGlobalLogger;
 import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.*;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
@@ -93,6 +105,7 @@ public class PrefsDialog extends JDialog {
     private JTextArea metadataFilterTextArea;
     private JCheckBox metadataFilterCheckBox;
 
+    private JRadioButton seda2Version1RadioButton;
     private JTextField dupMaxTextField;
     private JRadioButton structuredInterfaceRadioButton;
     private JCheckBox debugModeCheckBox;
@@ -950,8 +963,8 @@ public class PrefsDialog extends JDialog {
         tabbedPane.addTab("Traitement/Interface", new ImageIcon(getClass().getResource("/icon/edit-find-replace.png")),
                 treatmentParametersPanel, null);
         GridBagLayout gbl_treatmentParametersPanel = new GridBagLayout();
-        gbl_treatmentParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0,0};
-        gbl_treatmentParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0,0, 1.0};
+        gbl_treatmentParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gbl_treatmentParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 1.0};
         treatmentParametersPanel.setLayout(gbl_treatmentParametersPanel);
 
         JLabel workDirLabel = new JLabel("Répertoire de travail");
@@ -1028,6 +1041,44 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         treatmentParametersPanel.add(dupMaxTextField, gbc);
 
+        JLabel sedaVersionLabel = new JLabel("Version du Standard d'Echange utilisé (SEDA)");
+        sedaVersionLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+        gbc = new GridBagConstraints();
+        gbc.gridwidth = 3;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.weightx = 1.0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        treatmentParametersPanel.add(sedaVersionLabel, gbc);
+
+        seda2Version1RadioButton = new JRadioButton("SEDA 2.1");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 5;
+        treatmentParametersPanel.add(seda2Version1RadioButton, gbc);
+
+        JRadioButton seda2Version2RadioButton = new JRadioButton("SEDA 2.2");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 2;
+        gbc.gridy = 5;
+        treatmentParametersPanel.add(seda2Version2RadioButton, gbc);
+
+        ButtonGroup seda2VersionButtonGroup = new ButtonGroup();
+        seda2VersionButtonGroup.add(seda2Version1RadioButton);
+        seda2VersionButtonGroup.add(seda2Version2RadioButton);
+        seda2VersionButtonGroup.clearSelection();
+        if (tp.getSeda2Version() == 1)
+            seda2Version1RadioButton.setSelected(true);
+        else
+            seda2Version2RadioButton.setSelected(true);
+
+
         JLabel interfaceLabel = new JLabel("Interface");
         interfaceLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -1037,7 +1088,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 6;
         treatmentParametersPanel.add(interfaceLabel, gbc);
 
         JLabel interfaceTypeLabel = new JLabel("Interface par défaut:");
@@ -1045,7 +1096,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 7;
         treatmentParametersPanel.add(interfaceTypeLabel, gbc);
 
         structuredInterfaceRadioButton = new JRadioButton("Structurée");
@@ -1053,7 +1104,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 5;
+        gbc.gridy = 7;
         treatmentParametersPanel.add(structuredInterfaceRadioButton, gbc);
 
         JRadioButton classicInterfaceRadioButton = new JRadioButton("XML-expert");
@@ -1061,7 +1112,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 2;
-        gbc.gridy = 5;
+        gbc.gridy = 7;
         treatmentParametersPanel.add(classicInterfaceRadioButton, gbc);
 
         ButtonGroup interfaceTypeButtonGroup = new ButtonGroup();
@@ -1073,22 +1124,21 @@ public class PrefsDialog extends JDialog {
         else
             classicInterfaceRadioButton.setSelected(true);
 
-
         JLabel debugModeLabel = new JLabel("Mode débug actif:");
         gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.EAST;
+        gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 6;
+        gbc.gridy = 8;
         treatmentParametersPanel.add(debugModeLabel, gbc);
 
         debugModeCheckBox = new JCheckBox("");
         debugModeCheckBox.setSelected(ip.isDebugFlag());
         gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.WEST;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 6;
+        gbc.gridy = 8;
         treatmentParametersPanel.add(debugModeCheckBox, gbc);
 
         // Buttons
@@ -1135,7 +1185,7 @@ public class PrefsDialog extends JDialog {
     private void buttonOk() {
         if (!extractFromDialog())
             return;
-        returnValue = ResipGraphicApp.OK_DIALOG;
+        returnValue = OK_DIALOG;
         setVisible(false);
     }
 
@@ -1164,7 +1214,7 @@ public class PrefsDialog extends JDialog {
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
-                    "Resip.GraphicApp: Erreur fatale, impossible de sélectionner sur le disque",e);
+                    "Resip.GraphicApp: Erreur fatale, impossible de sélectionner sur le disque", e);
         }
     }
 
@@ -1239,6 +1289,55 @@ public class PrefsDialog extends JDialog {
             return false;
         }
         tp.setDupMax(tmp);
+
+        int toSeda2Version = (seda2Version1RadioButton.isSelected() ? 1 : 2);
+        if ((tp.getSeda2Version() != toSeda2Version) && (ResipGraphicApp.getTheApp().currentWork != null)) {
+            if (UserInteractionDialog.getUserAnswer(this.owner,
+                    "Attention, un SIP est ouvert et vous changez de version de SEDA2.x\n" +
+                            "Voulez-vous essayer de le convertir?",
+                    "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                    null) != OK_DIALOG)
+                return false;
+            else {
+                DataObjectPackage dop = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
+                InOutDialog inOutDialog = new InOutDialog(this.owner, "Conversion vers le schéma SEDA 2." + toSeda2Version);
+                ChangeSeda2VersionThread changeSeda2VersionThread = new ChangeSeda2VersionThread(toSeda2Version, dop, inOutDialog);
+                try {
+                    changeSeda2VersionThread.execute();
+                    inOutDialog.setVisible(true);
+                    while (!changeSeda2VersionThread.isDone()) Thread.sleep(100);
+                }
+                catch (Exception e) {
+                    UserInteractionDialog.getUserAnswer(this.owner,
+                            "Impossible de faire la conversion vers le schéma SEDA 2." +
+                                toSeda2Version +"\n->" + e.getMessage(),
+                            "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                            null);
+                    getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import",e);
+                    return false;
+                }
+                if (changeSeda2VersionThread.convertedDop == null) {
+                    inOutDialog.setVisible(true);
+                    UserInteractionDialog.getUserAnswer(this.owner,
+                            "Impossible de faire la conversion vers le schéma SEDA 2." +
+                                    toSeda2Version +"\n" +
+                                    "Fermez cet objet avant de changer le schéma SEDA utilisé\n->"
+                                    + changeSeda2VersionThread.exitThrowable,
+                            "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                            null);
+                    getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire la " +
+                            "conversion vers le schéma SEDA 2." + toSeda2Version, changeSeda2VersionThread.exitThrowable);
+                    return false;
+                }
+                ResipGraphicApp.getTheApp().currentWork.setDataObjectPackage(changeSeda2VersionThread.convertedDop);
+                ResipGraphicApp.getTheWindow().load();
+            }
+        }
+        tp.setSeda2Version((seda2Version1RadioButton.isSelected() ? 1 : 2));
+        try {
+            Seda2Version.setSeda2Version(tp.getSeda2Version());
+        } catch (SEDALibException ignored) {
+        }
 
         ip.setStructuredMetadataEditionFlag(structuredInterfaceRadioButton.isSelected());
         ip.setDebugFlag(debugModeCheckBox.isSelected());

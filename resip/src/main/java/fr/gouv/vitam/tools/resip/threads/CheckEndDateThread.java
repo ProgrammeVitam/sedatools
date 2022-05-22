@@ -20,7 +20,7 @@ import java.util.Map;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
 
-public class CheckEndDateThread  extends SwingWorker<String, InOutDialog> {
+public class CheckEndDateThread  extends SwingWorker<String, String> {
     private final VerifyDateDialog verifyDateDialog;
     //run output
     private Throwable exitThrowable;

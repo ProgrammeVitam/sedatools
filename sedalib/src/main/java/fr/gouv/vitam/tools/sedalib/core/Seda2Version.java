@@ -18,7 +18,8 @@ import java.util.Map;
  * <ul><li>only the ontology and a the xsd declaration are different, not the messages structure</li>
  * <li>the Seda2 version has not to be changed when previous version objects exist</li></ul>
  * The global Seda2 version is used in all SEDAMetadata class to adapt to ontology used.
- * <P>Warning: there is a very special function ({@link #convertToSeda2Version(DataObjectPackage, int, SedaLibProgressLogger) convertToSeda2Version}) implemented to convert a DataObjectPackage to another Seda2 version.
+ * <P>Warning: there is a very special method ({@link #convertToSeda2Version(DataObjectPackage, int, SEDALibProgressLogger)})
+ * implemented to convert a DataObjectPackage to another Seda2 version.
  * This is mostly done to be used in interactive program like Resip.</P>
  */
 public final class Seda2Version {
