@@ -170,6 +170,7 @@ public class ArchiveTransfer {
         try {
             xmlWriter.writeEndElement();
             xmlWriter.writeEndDocument();
+            xmlWriter.flush();
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML de la cloture du manifest", e);
         }

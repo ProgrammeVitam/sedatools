@@ -250,6 +250,11 @@ public class SEDAObjectEditorConstants {
         translateMap.put("RepositoryObjectPID", "ID-Objet-SAE");
         translateMap.put("ExternalReference", "ID-externe");
 
+        // LinkingAgentIdentifier subfields
+        translateMap.put("LinkingAgentIdentifierType", "Type d'indentifiant");
+        translateMap.put("LinkingAgentIdentifierValue", "Valeur d'identifiant");
+        translateMap.put("LinkingAgentRole", "Rôle");
+
         // Event subfields
         translateMap.put("EventIdentifier", "Identifiant");
         translateMap.put("EventTypeCode", "Code de type");
@@ -260,6 +265,7 @@ public class SEDAObjectEditorConstants {
         translateMap.put("OutcomeDetail", "Détail du résultat");
         translateMap.put("OutcomeDetailMessage", "Message de résultat");
         translateMap.put("EventDetailData", "Détail technique");
+        translateMap.put("LinkingAgentIdentifier", "Agent répertorié");
 
         // Signature all subfields
         translateMap.put("SigningTime", "Date de signature");
