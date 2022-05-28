@@ -18,6 +18,8 @@
     <properties>
         <project.majorVersion>1</project.majorVersion>
         <project.minorVersion>10</project.minorVersion>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <!--Libraries-->
         <java-libpst.version>0.9.5-VITAM</java-libpst.version>
         <droid.version>6.5</droid.version>
