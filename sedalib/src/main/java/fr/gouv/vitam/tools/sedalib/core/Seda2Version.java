@@ -26,21 +26,21 @@ public final class Seda2Version {
     /**
      * For Seda2.1 SEDA2_1=1
      */
-    public final static int SEDA2_1 = 1;
+    public static final int SEDA2_1 = 1;
     /**
      * For Seda2.2 SEDA2_2=2
      */
-    public final static int SEDA2_2 = 2;
+    public static final int SEDA2_2 = 2;
     /**
      * Max Seda2.x supported version MAX_SUPPORTED_VERSION=2
      */
-    public final static int MAX_SUPPORTED_VERSION = 2;
+    public static final int MAX_SUPPORTED_VERSION = 2;
 
     /**
      * SEDA2 convention used for all lib processing
      * Warning: usage for different SEDA2 versions is not possible in parallel process!
      */
-    private static int seda2Version = SEDA2_1;
+    private static int globalSeda2Version = SEDA2_1;
 
     /**
      * Gets Seda2 version.
@@ -48,7 +48,7 @@ public final class Seda2Version {
      * @return the Seda2 version
      */
     public static int getSeda2Version() {
-        return seda2Version;
+        return globalSeda2Version;
     }
 
     /**
@@ -57,7 +57,11 @@ public final class Seda2Version {
      * @return the Seda2 version string
      */
     public static String getSeda2VersionString() {
-        return "Seda2." + seda2Version;
+        return "Seda2." + globalSeda2Version;
+    }
+
+    private Seda2Version() {
+        throw new IllegalStateException("Utility class");
     }
 
     /**
@@ -67,7 +71,7 @@ public final class Seda2Version {
      * @return the boolean
      */
     public static boolean isSupportedSeda2Version(int newSeda2Version) {
-        switch (seda2Version) {
+        switch (newSeda2Version) {
             case SEDA2_1:
             case SEDA2_2:
                 return true;
@@ -84,7 +88,7 @@ public final class Seda2Version {
      */
     public static void setSeda2Version(int newSeda2Version) throws SEDALibException {
         if (isSupportedSeda2Version(newSeda2Version))
-            seda2Version = newSeda2Version;
+            globalSeda2Version = newSeda2Version;
         else
             throw new SEDALibException("Unknown Seda2." + newSeda2Version + " version");
     }
@@ -93,10 +97,12 @@ public final class Seda2Version {
      * Convert à DataObjectPackage to Seda2 version using XML as pivot format.
      * <P>Warning: this very special function is mostly done to be used in interactive program like Resip.</P>
      *
-     * @param dataObjectPackage the DataObjectPackage
-     * @param toSeda2Version    the destination Seda2 version
+     * @param dataObjectPackage     the DataObjectPackage
+     * @param toSeda2Version        the destination Seda2 version
+     * @param sedaLibProgressLogger the seda lib progress logger
      * @return the converted DataObjectPackage
-     * @throws SEDALibException if not supported version or if conversion through XML is not possible
+     * @throws SEDALibException     if not supported version or if conversion through XML is not possible
+     * @throws InterruptedException the interrupted exception
      */
     public static DataObjectPackage convertToSeda2Version(DataObjectPackage dataObjectPackage, int toSeda2Version, SEDALibProgressLogger sedaLibProgressLogger)
             throws SEDALibException, InterruptedException {
@@ -114,8 +120,8 @@ public final class Seda2Version {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              SEDAXMLStreamWriter oxsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
             dataObjectPackage.toSedaXml(oxsw, true, sedaLibProgressLogger);
-            xmlForm = baos.toString("UTF-8");
-        } catch (XMLStreamException | IOException | InterruptedException e) {
+            xmlForm = baos.toString(StandardCharsets.UTF_8);
+        } catch (XMLStreamException | IOException e) {
             throw new SEDALibException("Echec d'écriture XML du DataObjectPackage dans la version seda2." + originSeda2Version, e);
         }
         setSeda2Version(toSeda2Version);
@@ -125,7 +131,7 @@ public final class Seda2Version {
              SEDAXMLEventReader ixer = new SEDAXMLEventReader(bais, true)) {
             ixer.xmlReader.nextEvent(); // drop the StartDocument event
             result = DataObjectPackage.fromSedaXml(ixer, "unknown", sedaLibProgressLogger);
-        } catch (XMLStreamException | IOException | InterruptedException e) {
+        } catch (XMLStreamException | IOException e) {
             setSeda2Version(originSeda2Version);
             throw new SEDALibException("Echec de conversion à travers XML du DataObjectPackage dans la version seda2." + toSeda2Version, e);
         }
