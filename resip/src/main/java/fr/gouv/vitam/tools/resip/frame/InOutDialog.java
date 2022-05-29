@@ -56,7 +56,7 @@ public class InOutDialog extends JDialog {
     /**
      * The data.
      */
-    public SwingWorker<?, ?> thread;
+    private transient SwingWorker<?, ?> thread;
 
     // Dialog test context
 
@@ -72,7 +72,7 @@ public class InOutDialog extends JDialog {
      * @throws InvocationTargetException       the invocation target exception
      */
     public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        TestDialogWindow window = new TestDialogWindow(InOutDialog.class);
+        TestDialogWindow window = new TestDialogWindow(InOutDialog.class);//NOSONAR used for debug run
     }
 
     /**
@@ -93,7 +93,7 @@ public class InOutDialog extends JDialog {
     public InOutDialog(JFrame owner, String title) {
         super(owner, title, false);
         GridBagConstraints gbc;
-        setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
         setMinimumSize(new Dimension(300, 200));
         setPreferredSize(new Dimension(600, 300));
@@ -166,7 +166,10 @@ public class InOutDialog extends JDialog {
     // actions
 
     private void buttonCancel() {
-        thread.cancel(true);
+        if (thread != null)
+            thread.cancel(true);
+        else
+            setVisible(false);
     }
 
     private void buttonOk() {

@@ -40,11 +40,13 @@ import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -203,8 +205,12 @@ public class ResipApp {
         options.addOption(indented);
 
         Option verbatim = new Option("v", "verbatim", true,
-            "niveau de log (OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)");
+                "niveau de log (OFF|ERROR|GLOBAL|STEP|OBJECTS_GROUP|OBJECTS|OBJECTS_WARNINGS)");
         options.addOption(verbatim);
+
+        Option sedaversion = new Option("V", "sedaversion", true,
+                "sous-version du SEDA 2 (1|2), à 1 par défaut");
+        options.addOption(sedaversion);
 
         return options;
     }
@@ -327,6 +333,27 @@ public class ResipApp {
             }
         }
 
+        // define the SEDA 2 version
+        if (cmd.hasOption("sedaversion")){
+            try {
+                int tmp = Integer.parseInt(cmd.getOptionValue("sedaversion"));
+                switch (tmp){
+                    case 1:
+                    case 2:
+                        SEDA2Version.setSeda2Version(tmp);
+                        break;
+                    default:
+                        throw new NumberFormatException("Doit valoir 1 ou 2");
+                }
+            } catch (NumberFormatException e) {
+                System.err.println(
+                        "Resip: La sous-version du SEDA 2 est non conforme, elle doit être dans la liste (1|2)");
+                System.exit(1);
+            } catch (SEDALibException ignored) {
+                // no real case
+            }
+        }
+
         // define the global logger
         ResipLogger.createGlobalLogger(workdirString + File.separator + "log.txt", logLevel);
         ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, "Début du journal au niveau=" +
@@ -419,7 +446,7 @@ public class ResipApp {
                         cmi.doImport();
 
                         packet = new ArchiveTransfer();
-                        Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext, exportContext);
+                        Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext, exportContext, SEDA2Version.getSeda2Version());
                         work.getDataObjectPackage()
                             .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
                         packet.setDataObjectPackage(work.getDataObjectPackage());

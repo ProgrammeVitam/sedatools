@@ -39,6 +39,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectP
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
@@ -78,13 +79,13 @@ public class AddThread extends SwingWorker<String, String> {
         AddThread addThread;
 
         try {
-            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.getTheApp().mainWindow, "Import");
+            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.getTheWindow(), "Import");
             addThread = new AddThread(ResipGraphicApp.getTheApp().currentWork, (targetPath == null ? null :
                     (DataObjectPackageTreeNode) targetPath.getLastPathComponent()), files, inOutDialog);
             addThread.execute();
             inOutDialog.setVisible(true);
         } catch (Throwable e) {
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
+            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'import", e);
@@ -106,10 +107,10 @@ public class AddThread extends SwingWorker<String, String> {
         else
             this.work = new Work(null,
                     new DiskImportContext(Prefs.getInstance()),
-                    null);
+                    null, SEDA2Version.getSeda2Version());
 
         this.targetNode = targetNode;
-        this.lp = new ArrayList<Path>();
+        this.lp = new ArrayList<>();
         for (File f : files)
             lp.add(f.toPath());
         this.inOutDialog = dialog;
@@ -141,7 +142,8 @@ public class AddThread extends SwingWorker<String, String> {
         ResipGraphicApp.getTheApp().addThreadRunning = true;
         spl = null;
         try {
-            int localLogLevel, localLogStep;
+            int localLogLevel;
+            int localLogStep;
             if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
                 localLogStep = 1;
@@ -190,7 +192,7 @@ public class AddThread extends SwingWorker<String, String> {
             ResipGraphicApp.getTheApp().setFilenameWork(null);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
             ResipGraphicApp.getTheApp().setContextLoaded(true);
-            ResipGraphicApp.getTheApp().mainWindow.load();
+            ResipGraphicApp.getTheWindow().load();
             doProgressLogWithoutInterruption(spl, GLOBAL, "Ajout terminé", null);
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
         } else {
@@ -199,7 +201,8 @@ public class AddThread extends SwingWorker<String, String> {
                     .getArchiveUnitList();
             targetNode.getArchiveUnit().getDataObjectPackage().moveContentFromDataObjectPackage(di.getDataObjectPackage(), targetNode.getArchiveUnit());
             DataObjectPackageTreeModel treeModel = targetNode.getTreeModel();
-            int auRecursivCount = 0, ogRecursivCount = 0;
+            int auRecursivCount = 0;
+            int ogRecursivCount = 0;
             for (ArchiveUnit au : addedNodes) {
                 treeModel.generateArchiveUnitNode(au, targetNode);
                 auRecursivCount += treeModel.findTreeNode(au).getAuRecursivCount() + 1;
@@ -209,7 +212,7 @@ public class AddThread extends SwingWorker<String, String> {
             treeModel.nodeStructureChanged(targetNode);
             work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
-            ResipGraphicApp.getTheApp().mainWindow.treePane.reset();
+            ResipGraphicApp.getTheWindow().treePane.reset();
             doProgressLogWithoutInterruption(spl, GLOBAL, "Ajout terminé", null);
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
         }

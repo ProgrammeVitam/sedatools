@@ -42,7 +42,9 @@ import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -67,17 +69,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     /**
      * The Ok dialog.
      */
-    static public final int OK_DIALOG = 1;
+    public static final int OK_DIALOG = 1;
     /**
      * The Ko dialog.
      */
-    static public final int KO_DIALOG = 2;
+    public static final int KO_DIALOG = 2;
 
     /**
      * The constant theApp.
      */
 // Uniq instance. */
-    static ResipGraphicApp theApp = null;
+    private static ResipGraphicApp theApp = null;
 
     /**
      * The Launch creation context.
@@ -109,10 +111,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      * The Main window.
      */
 // GUI elements. */
-    static public MainWindow mainWindow;
+    public static MainWindow mainWindow;
 
     // MainWindow menu elements dis/enabled depending on work state and used by controller. */
     private JMenuItem saveMenuItem, saveAsMenuItem, closeMenuItem;
+    private JMenuItem sedaValidationMenuItem, sedaProfileValidationMenuItem;
     private JCheckBoxMenuItem structuredMenuItem, debugMenuItem;
     private JMenu treatMenu, contextMenu, exportMenu;
     private Map<JMenuItem, String> actionByMenuItem = new HashMap<>();
@@ -166,8 +169,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             else
                 UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (IllegalAccessException | InstantiationException |
-                UnsupportedLookAndFeelException | ClassNotFoundException e) {
-            getGlobalLogger().logIfDebug("Graphic env error",null);
+                 UnsupportedLookAndFeelException | ClassNotFoundException e) {
+            getGlobalLogger().logIfDebug("Graphic env error", null);
         }
 
         System.out.println("Resip GraphicApp launched");
@@ -190,13 +193,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         this.interfaceParameters = new InterfaceParameters(Prefs.getInstance());
 
         getGlobalLogger().setDebugFlag(interfaceParameters.isDebugFlag());
-        getGlobalLogger().logIfDebug("Resip prefs accessed from "+ Prefs.getInstance().getPrefPropertiesFilename(),null);
+        getGlobalLogger().logIfDebug("Resip prefs accessed from " + Prefs.getInstance().getPrefPropertiesFilename(), null);
 
         // identification objects initialization
         try {
             DroidIdentifier.getInstance();
         } catch (Exception e) {
-            getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de créer les outils Droid",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de créer les outils Droid", e);
             System.exit(1);
         }
         EventQueue.invokeLater(this);
@@ -204,8 +207,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     public void run() {
         try {
-            mainWindow = new MainWindow(this);
+            mainWindow = new MainWindow(this); //NOSONAR
             this.treatmentParameters = new TreatmentParameters(Prefs.getInstance());
+            useSeda2Version(treatmentParameters.getSeda2Version());
             mainWindow.setVisible(true);
             mainWindow.setLocationRelativeTo(null);
             this.searchDialog = new SearchDialog(mainWindow);
@@ -223,7 +227,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             StoreExtractor.initDefaultExtractors();
         } catch (Exception e) {
-            getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, exécution interrompue",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, exécution interrompue", e);
             System.exit(1);
         }
 
@@ -364,17 +368,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "SeeManifest");
         treatMenu.add(menuItem);
 
-        menuItem = new JMenuItem("Vérifier la conformité SEDA 2.1...");
-        menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        actionByMenuItem.put(menuItem, "CheckSEDA21");
-        treatMenu.add(menuItem);
+        sedaValidationMenuItem = new JMenuItem("Vérifier la conformité " + SEDA2Version.getSeda2VersionString() + "...");
+        sedaValidationMenuItem.addActionListener(this);
+        sedaValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        actionByMenuItem.put(sedaValidationMenuItem, "CheckSEDASchema");
+        treatMenu.add(sedaValidationMenuItem);
 
-        menuItem = new JMenuItem("Vérifier la conformité à un profil SEDA 2.1...");
-        menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        actionByMenuItem.put(menuItem, "CheckSpecificSEDA21Profile");
-        treatMenu.add(menuItem);
+        sedaProfileValidationMenuItem = new JMenuItem("Vérifier la conformité à un profil " + SEDA2Version.getSeda2VersionString() + "...");
+        sedaProfileValidationMenuItem.addActionListener(this);
+        sedaProfileValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        actionByMenuItem.put(sedaProfileValidationMenuItem, "CheckSpecificSEDASchemaProfile");
+        treatMenu.add(sedaProfileValidationMenuItem);
 
         menuItem = new JMenuItem("Vérifier EndDate > StartDate");
         menuItem.addActionListener(this);
@@ -531,11 +535,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "SeeManifest":
                         seeManifest();
                         break;
-                    case "CheckSEDA21":
-                        checkSEDA21();
+                    case "CheckSEDASchema":
+                        checkSEDASchema();
                         break;
-                    case "CheckSpecificSEDA21Profile":
-                        checkSpecificSEDA21Profile();
+                    case "CheckSpecificSEDASchemaProfile":
+                        checkSpecificSEDASchemaProfile();
                         break;
                     case "CheckEndDate":
                         checkEndDate();
@@ -602,6 +606,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "ToggleDebugMode":
                         toggleDebugMode();
+                        break;
+                    default:
                         break;
                 }
         }
@@ -701,10 +707,23 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
             if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
-                mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
+                int loadSeda2Version = Work.getSeda2VersionFromFile(filename);
+                if (loadSeda2Version != SEDA2Version.getSeda2Version()) {
+                    if (UserInteractionDialog.getUserAnswer(mainWindow,
+                            "Pour charger ce fichier il faut faire passer l'interface en " +
+                                    SEDA2Version.getSeda2VersionString(loadSeda2Version) + "\n" +
+                                    "Voulez-vous continuer?",
+                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                            null) != OK_DIALOG)
+                        return;
+                    treatmentParameters.setSeda2Version(loadSeda2Version);
+                    treatmentParameters.toPrefs(Prefs.getInstance());
+                    useSeda2Version(treatmentParameters.getSeda2Version());
+                }
+                mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 currentWork = Work.createFromFile(filename);
-                getGlobalLogger().log(ResipLogger.GLOBAL, "Fichier [" + filename + "] chargé",null);
+                getGlobalLogger().log(ResipLogger.GLOBAL, "Fichier [" + filename + "] chargé", null);
                 mainWindow.load();
                 mainWindow.setCursor(Cursor.getDefaultCursor());
                 setFilenameWork(filename);
@@ -717,7 +736,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur de chargement de [" + filename + "]\n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.STEP, "Erreur de chargement de [" + filename + "]",e);
+            getGlobalLogger().log(ResipLogger.STEP, "Erreur de chargement de [" + filename + "]", e);
             mainWindow.setCursor(Cursor.getDefaultCursor());
         }
     }
@@ -737,7 +756,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         "Erreur", UserInteractionDialog.ERROR_DIALOG,
                         null);
                 getGlobalLogger().log(ResipLogger.STEP,
-                        "Resip.Graphic: Erreur de sauvegarde de [" + filenameWork + "]",e);
+                        "Resip.Graphic: Erreur de sauvegarde de [" + filenameWork + "]", e);
                 mainWindow.setCursor(Cursor.getDefaultCursor());
             }
     }
@@ -752,17 +771,16 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             if (fileChooser.showSaveDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
-                if (new File(filename).exists()) {
-                    if (UserInteractionDialog.getUserAnswer(mainWindow,
-                            "Le fichier [" + filename + "] existe. Voulez-vous le remplacer ?",
-                            "Confirmation", UserInteractionDialog.WARNING_DIALOG,
-                            null) != OK_DIALOG)
-                        return;
-                }
+                if ((new File(filename).exists()) &&
+                        (UserInteractionDialog.getUserAnswer(mainWindow,
+                                "Le fichier [" + filename + "] existe. Voulez-vous le remplacer ?",
+                                "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                                null) != OK_DIALOG))
+                    return;
                 mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 currentWork.save(filename);
                 mainWindow.setCursor(Cursor.getDefaultCursor());
-                getGlobalLogger().log(ResipLogger.GLOBAL, "Resip.Graphic: Fichier [" + filename + "] sauvegardé",null);
+                getGlobalLogger().log(ResipLogger.GLOBAL, "Resip.Graphic: Fichier [" + filename + "] sauvegardé", null);
                 setModifiedContext(false);
                 filenameWork = filename;
                 Prefs.getInstance().setPrefsLoadDirFromChild(filename);
@@ -772,7 +790,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur de sauvegarde de [" + filename + "]\n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.STEP, "Erreur de sauvegarde de [" + filename + "]",e);
+            getGlobalLogger().log(ResipLogger.STEP, "Erreur de sauvegarde de [" + filename + "]", e);
             mainWindow.setCursor(Cursor.getDefaultCursor());
         }
     }
@@ -799,8 +817,16 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             getGlobalLogger().log(ResipLogger.STEP, "Resip.Graphic: Erreur de fermeture du contexte en cours ["
-                    + filenameWork + "]",e);
+                    + filenameWork + "]", e);
         }
+    }
+
+    private void useSeda2Version(int version) throws SEDALibException {
+        SEDA2Version.setSeda2Version(version);
+        if (currentWork != null)
+            currentWork.setSeda2Version(version);
+        sedaValidationMenuItem.setText("Vérifier la conformité " + SEDA2Version.getSeda2VersionString() + "...");
+        sedaProfileValidationMenuItem.setText("Vérifier la conformité à un profil " + SEDA2Version.getSeda2VersionString() + "...");
     }
 
     // MenuItem Edit Preferences
@@ -822,16 +848,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 prefsDialog.ip.toPrefs(Prefs.getInstance());
                 Prefs.getInstance().save();
                 treatmentParameters = prefsDialog.tp;
+                useSeda2Version(treatmentParameters.getSeda2Version());
                 ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
                         getGlobalLogger().getProgressLogLevel());
             }
-        } catch (ResipException e) {
+        } catch (ResipException | SEDALibException e) {
             UserInteractionDialog.getUserAnswer(mainWindow,
                     "Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             getGlobalLogger().log(ResipLogger.ERROR,
-                    "resip.graphicapp: erreur fatale, impossible d'éditer les préférences",e);
+                    "resip.graphicapp: erreur fatale, impossible d'éditer les préférences", e);
 
         }
     }
@@ -870,7 +897,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire le nettoyage \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire le nettoyage",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire le nettoyage", e);
         }
     }
 
@@ -895,7 +922,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur de fermeture de l'application\n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur de fermeture de l'application",e);
+            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur de fermeture de l'application", e);
         }
     }
 
@@ -943,27 +970,27 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     }
 
     /**
-     * Check seda 21.
+     * Check seda schema.
      */
-    void checkSEDA21() {
-        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification SEDA 2.1");
+    void checkSEDASchema() {
+        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification " + SEDA2Version.getSeda2VersionString());
         CheckProfileThread checkProfileThread = new CheckProfileThread(null, inOutDialog);
         completeResipWork();
         checkProfileThread.execute();
         inOutDialog.setVisible(true);
     }
 
-    // MenuItem Check specific SEDA 21 Profile compliance
+    // MenuItem Check specific SEDA Profile compliance
 
     /**
-     * Check specific seda 21 profile.
+     * Check specific seda schema profile.
      */
-    void checkSpecificSEDA21Profile() {
+    void checkSpecificSEDASchemaProfile() {
         try {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification Profil SEDA 2.1");
+            if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
+                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification Profil " + SEDA2Version.getSeda2VersionString());
                 CheckProfileThread checkProfileThread = new CheckProfileThread(fileChooser.getSelectedFile()
                         .getAbsolutePath(), inOutDialog);
                 completeResipWork();
@@ -972,12 +999,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             }
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(mainWindow,
-                    "Erreur fatale, impossible de faire la vérification de confirmité au profil SEDA 2.1 \n->"
+                    "Erreur fatale, impossible de faire la vérification de confirmité au profil " + SEDA2Version.getSeda2VersionString() + "\n->"
                             + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire la " +
-                    "vérification de confirmité au profil SEDA 2.1",e);
+                    "vérification de confirmité au profil " + SEDA2Version.getSeda2VersionString(), e);
         }
     }
 
@@ -1095,7 +1122,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import", e);
         }
     }
 
@@ -1111,7 +1138,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CreationContext oic = new SIPImportContext(Prefs.getInstance());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(oic);
@@ -1121,7 +1148,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import", e);
         }
     }
 
@@ -1137,7 +1164,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CreationContext oic = new DIPImportContext(Prefs.getInstance());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(oic);
@@ -1147,7 +1174,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import", e);
         }
     }
 
@@ -1163,7 +1190,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CreationContext oic = new DiskImportContext(Prefs.getInstance());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(oic);
@@ -1173,7 +1200,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import", e);
         }
     }
 
@@ -1189,7 +1216,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CreationContext oic = new ZipImportContext(Prefs.getInstance());
                 oic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(oic);
@@ -1199,7 +1226,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import", e);
         }
     }
 
@@ -1215,7 +1242,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 MailImportContext mic = new MailImportContext(Prefs.getInstance());
                 mic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 MailImportContextDialog micd = new MailImportContextDialog(mainWindow, mic);
@@ -1230,7 +1257,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import", e);
         }
     }
 
@@ -1246,7 +1273,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CSVTreeImportContext ctic = new CSVTreeImportContext(Prefs.getInstance());
                 ctic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(ctic);
@@ -1256,7 +1283,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import", e);
         }
     }
 
@@ -1272,7 +1299,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-            if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 CSVMetadataImportContext cmic = new CSVMetadataImportContext(Prefs.getInstance());
                 cmic.setOnDiskInput(fileChooser.getSelectedFile().toString());
                 importWork(cmic);
@@ -1282,7 +1309,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     "Erreur fatale, impossible de faire l'import \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import",e);
+            getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire l'import", e);
         }
     }
 
@@ -1336,16 +1363,16 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             } else
                 fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-            if (fileChooser.showSaveDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
+            if (fileChooser.showSaveDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 Path path = Paths.get(fileChooser.getSelectedFile().getAbsolutePath());
                 if (Files.exists(path)) {
                     if (!Files.isDirectory(path) && UserInteractionDialog.getUserAnswer(mainWindow,
-                            "Le fichier [" + path.toString() + "] existe. Voulez-vous le remplacer ?",
+                            "Le fichier [" + path + "] existe. Voulez-vous le remplacer ?",
                             "Confirmation", UserInteractionDialog.WARNING_DIALOG,
                             null) != OK_DIALOG)
                         return;
                     else if (Files.isDirectory(path) && Files.list(path).findAny().isPresent() && UserInteractionDialog.getUserAnswer(mainWindow,
-                            "Le répertoire [" + path.toString() + "] existe. Les fichiers exportés sur le disque vont " +
+                            "Le répertoire [" + path + "] existe. Les fichiers exportés sur le disque vont " +
                                     "se mélanger avec ceux déjà existants. Voulez-vous continuer? ?",
                             "Confirmation", UserInteractionDialog.WARNING_DIALOG,
                             null) != OK_DIALOG)
@@ -1361,7 +1388,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de faire l'export \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de faire l'export",e);
+            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de faire l'export", e);
         }
     }
 
@@ -1371,19 +1398,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         try {
             String version = "non définie";
             String builddate = "non définie";
-            try {
-                Properties p = new Properties();
-                InputStream is = getClass().getResourceAsStream("/buildinfo.txt");
-                if (is != null) {
-                    p.load(is);
-                    version = p.getProperty("version", "");
-                    builddate = p.getProperty("builddate", "");
-                }
-            } catch (Exception ignored) {
+            Properties p = new Properties();
+            InputStream is = getClass().getResourceAsStream("/buildinfo.txt");
+            if (is != null) {
+                p.load(is);
+                version = p.getProperty("version", "");
+                builddate = p.getProperty("builddate", "");
             }
             AboutDialog dialog = new AboutDialog(mainWindow, "Application Resip\n  - Version : " + version + "\n  - Date : " + builddate);
             dialog.setVisible(true);
         } catch (Exception ignored) {
+            //no real case
         }
     }
 
@@ -1405,14 +1430,14 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 ResipGraphicApp.getTheWindow().itemPane.setBottomComponent(xmlDataObjectGroupEditorPanel);
                 ResipGraphicApp.getTheWindow().dogMetadataPane = xmlDataObjectGroupEditorPanel;
             }
-            DataObjectPackageTreeNode node=ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode();
-            if (node!=null)
+            DataObjectPackageTreeNode node = ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode();
+            if (node != null)
                 ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(node.getArchiveUnit());
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de changer de type d'édition \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de changer de type d'édition",e);
+            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de changer de type d'édition", e);
         }
     }
 
@@ -1423,7 +1448,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de changer de type de mode de débug \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
-            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de changer de type de mode de débug",e);
+            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de changer de type de mode de débug", e);
         }
     }
 }
