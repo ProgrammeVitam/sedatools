@@ -28,21 +28,17 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.threads.ChangeSeda2VersionThread;
-import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.Seda2Version;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
-import javax.xml.crypto.Data;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.io.IOException;
@@ -53,8 +49,6 @@ import java.util.stream.Collectors;
 import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
 import static fr.gouv.vitam.tools.resip.utils.ResipLogger.getGlobalLogger;
 import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.*;
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
 import static java.awt.event.ItemEvent.DESELECTED;
 import static java.awt.event.ItemEvent.SELECTED;
 
@@ -1335,7 +1329,7 @@ public class PrefsDialog extends JDialog {
         }
         tp.setSeda2Version((seda2Version1RadioButton.isSelected() ? 1 : 2));
         try {
-            Seda2Version.setSeda2Version(tp.getSeda2Version());
+            SEDA2Version.setSeda2Version(tp.getSeda2Version());
         } catch (SEDALibException ignored) {
         }
 

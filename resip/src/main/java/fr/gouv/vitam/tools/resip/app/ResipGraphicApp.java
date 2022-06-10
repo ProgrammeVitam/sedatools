@@ -42,7 +42,9 @@ import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -113,6 +115,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     // MainWindow menu elements dis/enabled depending on work state and used by controller. */
     private JMenuItem saveMenuItem, saveAsMenuItem, closeMenuItem;
+    private JMenuItem sedaValidationMenuItem, sedaProfileValidationMenuItem;
     private JCheckBoxMenuItem structuredMenuItem, debugMenuItem;
     private JMenu treatMenu, contextMenu, exportMenu;
     private Map<JMenuItem, String> actionByMenuItem = new HashMap<>();
@@ -206,6 +209,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         try {
             mainWindow = new MainWindow(this);
             this.treatmentParameters = new TreatmentParameters(Prefs.getInstance());
+            useSeda2Version(treatmentParameters.getSeda2Version());
             mainWindow.setVisible(true);
             mainWindow.setLocationRelativeTo(null);
             this.searchDialog = new SearchDialog(mainWindow);
@@ -364,17 +368,17 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "SeeManifest");
         treatMenu.add(menuItem);
 
-        menuItem = new JMenuItem("Vérifier la conformité SEDA 2.1...");
-        menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        actionByMenuItem.put(menuItem, "CheckSEDA21");
-        treatMenu.add(menuItem);
+        sedaValidationMenuItem = new JMenuItem("Vérifier la conformité "+ SEDA2Version.getSeda2VersionString()+"...");
+        sedaValidationMenuItem.addActionListener(this);
+        sedaValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        actionByMenuItem.put(sedaValidationMenuItem, "CheckSEDASchema");
+        treatMenu.add(sedaValidationMenuItem);
 
-        menuItem = new JMenuItem("Vérifier la conformité à un profil SEDA 2.1...");
-        menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
-        actionByMenuItem.put(menuItem, "CheckSpecificSEDA21Profile");
-        treatMenu.add(menuItem);
+        sedaProfileValidationMenuItem = new JMenuItem("Vérifier la conformité à un profil "+ SEDA2Version.getSeda2VersionString()+"...");
+        sedaProfileValidationMenuItem.addActionListener(this);
+        sedaProfileValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        actionByMenuItem.put(sedaProfileValidationMenuItem, "CheckSpecificSEDASchemaProfile");
+        treatMenu.add(sedaProfileValidationMenuItem);
 
         menuItem = new JMenuItem("Vérifier EndDate > StartDate");
         menuItem.addActionListener(this);
@@ -531,11 +535,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case "SeeManifest":
                         seeManifest();
                         break;
-                    case "CheckSEDA21":
-                        checkSEDA21();
+                    case "CheckSEDASchema":
+                        checkSEDASchema();
                         break;
-                    case "CheckSpecificSEDA21Profile":
-                        checkSpecificSEDA21Profile();
+                    case "CheckSpecificSEDASchemaProfile":
+                        checkSpecificSEDASchemaProfile();
                         break;
                     case "CheckEndDate":
                         checkEndDate();
@@ -803,6 +807,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         }
     }
 
+    private void useSeda2Version(int version) throws SEDALibException {
+        SEDA2Version.setSeda2Version(version);
+        sedaValidationMenuItem.setText("Vérifier la conformité "+ SEDA2Version.getSeda2VersionString()+"...");
+        sedaProfileValidationMenuItem.setText("Vérifier la conformité à un profil "+ SEDA2Version.getSeda2VersionString()+"...");
+    }
+
     // MenuItem Edit Preferences
 
     /**
@@ -822,10 +832,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 prefsDialog.ip.toPrefs(Prefs.getInstance());
                 Prefs.getInstance().save();
                 treatmentParameters = prefsDialog.tp;
+                useSeda2Version(treatmentParameters.getSeda2Version());
                 ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
                         getGlobalLogger().getProgressLogLevel());
             }
-        } catch (ResipException e) {
+        } catch (ResipException | SEDALibException e) {
             UserInteractionDialog.getUserAnswer(mainWindow,
                     "Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
@@ -943,10 +954,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     }
 
     /**
-     * Check seda 21.
+     * Check seda schema.
      */
-    void checkSEDA21() {
-        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification SEDA 2.1");
+    void checkSEDASchema() {
+        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification SEDA "+ SEDA2Version.getSeda2VersionString());
         CheckProfileThread checkProfileThread = new CheckProfileThread(null, inOutDialog);
         completeResipWork();
         checkProfileThread.execute();
@@ -956,14 +967,14 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MenuItem Check specific SEDA 21 Profile compliance
 
     /**
-     * Check specific seda 21 profile.
+     * Check specific seda schema profile.
      */
-    void checkSpecificSEDA21Profile() {
+    void checkSpecificSEDASchemaProfile() {
         try {
             JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(this.mainWindow) == JFileChooser.APPROVE_OPTION) {
-                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification Profil SEDA 2.1");
+                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification Profil SEDA "+ SEDA2Version.getSeda2VersionString());
                 CheckProfileThread checkProfileThread = new CheckProfileThread(fileChooser.getSelectedFile()
                         .getAbsolutePath(), inOutDialog);
                 completeResipWork();
@@ -972,12 +983,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             }
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(mainWindow,
-                    "Erreur fatale, impossible de faire la vérification de confirmité au profil SEDA 2.1 \n->"
+                    "Erreur fatale, impossible de faire la vérification de confirmité au profil SEDA "+ SEDA2Version.getSeda2VersionString()+"\n->"
                             + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire la " +
-                    "vérification de confirmité au profil SEDA 2.1",e);
+                    "vérification de confirmité au profil SEDA  "+ SEDA2Version.getSeda2VersionString(),e);
         }
     }
 

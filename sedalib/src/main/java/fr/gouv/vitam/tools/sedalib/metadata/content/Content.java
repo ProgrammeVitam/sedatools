@@ -53,7 +53,7 @@ public class Content extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true)
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = 1)
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
@@ -108,6 +108,65 @@ public class Content extends ComplexListType {
         // Vitam extensions
         metadataMap.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
+    }
+
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = 2)
+    public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
+
+    static {
+        metadataMap_v2 = new LinkedHashMap<>();
+        metadataMap_v2.put("DescriptionLevel", new ComplexListMetadataKind(DescriptionLevel.class, false));
+        metadataMap_v2.put("Title", new ComplexListMetadataKind(TextType.class, true));
+        metadataMap_v2.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("SystemId", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("OriginatingSystemId", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("ArchivalAgencyArchiveUnitIdentifier",
+                new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("OriginatingAgencyArchiveUnitIdentifier",
+                new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("TransferringAgencyArchiveUnitIdentifier",
+                new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("Description", new ComplexListMetadataKind(TextType.class, true));
+        metadataMap_v2.put("CustodialHistory",
+                new ComplexListMetadataKind(CustodialHistory.class, false));
+        metadataMap_v2.put("Type", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("DocumentType", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("Language", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("DescriptionLanguage", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("Status", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("Version", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("Tag", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("Keyword", new ComplexListMetadataKind(Keyword.class, true));
+        metadataMap_v2.put("Coverage", new ComplexListMetadataKind(Coverage.class, false));
+        metadataMap_v2.put("OriginatingAgency",
+                new ComplexListMetadataKind(AgencyType.class, false));
+        metadataMap_v2.put("SubmissionAgency",
+                new ComplexListMetadataKind(AgencyType.class, false));
+        // specific in Seda 2.2
+        metadataMap_v2.put("Agent", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v2.put("AuthorizedAgent", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v2.put("Writer", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v2.put("Addressee", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v2.put("Recipient", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v2.put("Transmitter", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v2.put("Sender", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v2.put("Source", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("RelatedObjectReference", new ComplexListMetadataKind(RelatedObjectReference.class, false));
+        metadataMap_v2.put("CreatedDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v2.put("TransactedDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v2.put("AcquiredDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v2.put("SentDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v2.put("ReceivedDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v2.put("RegisteredDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v2.put("StartDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v2.put("EndDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v2.put("DateLitteral", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("Event", new ComplexListMetadataKind(Event.class, true));
+        metadataMap_v2.put("Signature", new ComplexListMetadataKind(Signature.class, true));
+        metadataMap_v2.put("Gps", new ComplexListMetadataKind(Gps.class, false));
+        // specific in Seda 2.2 (was in Vitam before)
+        metadataMap_v2.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
     }
 
     /**

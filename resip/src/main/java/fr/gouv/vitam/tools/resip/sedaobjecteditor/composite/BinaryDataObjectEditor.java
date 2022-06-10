@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
@@ -76,22 +77,27 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     /**
      * Ordered SEDAObjectEditor collection
      */
-    static final int MESSAGE_DIGEST = 2;
-    static final int SIZE = 3;
-    static final int FORMAT_IDENTIFICATION = 5;
-    static final int FILE_INFO = 6;
+    static final int DATA_OBJECT_PROFILE = 0;
+    static final int DATA_OBJECT_VERSION = 1;
+    static final int URI = 2;
+    static final int MESSAGE_DIGEST = 3;
+    static final int SIZE = 4;
+    static final int COMPRESSED = 5;
+    static final int FORMAT_IDENTIFICATION = 6;
+    static final int FILE_INFO = 7;
+    static final int METADATA = 8;
     private SEDAObjectEditor[] objectEditorArray;
 
     /**
      * Instantiates a new BinaryDataObject editor.
      *
      * @param editedObject the BinaryDataObject editedObject
-     * @param father   the father
+     * @param father       the father
      */
     public BinaryDataObjectEditor(BinaryDataObject editedObject, SEDAObjectEditor father) {
         super(editedObject, father);
         this.editedOnDiskPath = editedObject.getOnDiskPath();
-        this.objectEditorArray = new SEDAObjectEditor[8];
+        this.objectEditorArray = new SEDAObjectEditor[9];
     }
 
     private BinaryDataObject getBinaryDataObjectMetadata() {
@@ -117,6 +123,9 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         for (SEDAObjectEditor objectEditor : objectEditorList) {
             SEDAMetadata subMetadata = (SEDAMetadata) objectEditor.extractEditedObject();
             switch (subMetadata.getXmlElementName()) {
+                case "DataObjectProfile":
+                    tmpBdo.dataObjectProfile = (StringType) subMetadata;
+                    break;
                 case "DataObjectVersion":
                     tmpBdo.dataObjectVersion = (StringType) subMetadata;
                     break;
@@ -143,6 +152,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                     break;
             }
         }
+        getBinaryDataObjectMetadata().dataObjectProfile = tmpBdo.dataObjectProfile;
         getBinaryDataObjectMetadata().dataObjectVersion = tmpBdo.dataObjectVersion;
         getBinaryDataObjectMetadata().uri = tmpBdo.uri;
         getBinaryDataObjectMetadata().messageDigest = tmpBdo.messageDigest;
@@ -158,8 +168,11 @@ public class BinaryDataObjectEditor extends CompositeEditor {
 
     @Override
     public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<String>(objectEditorList.size());
+        List<String> summaryList = new ArrayList<>(objectEditorList.size());
         String tmp;
+
+        if (getBinaryDataObjectMetadata().dataObjectProfile != null)
+            summaryList.add(getBinaryDataObjectMetadata().dataObjectProfile.getValue());
 
         if (getBinaryDataObjectMetadata().dataObjectVersion != null)
             summaryList.add(getBinaryDataObjectMetadata().dataObjectVersion.getValue());
@@ -172,7 +185,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 tmp = translateTag("Unknown");
         } else
             tmp = translateTag("Unknown");
-        tmp=tmp.trim();
+        tmp = tmp.trim();
         if (!tmp.isEmpty())
             summaryList.add(tmp);
 
@@ -182,7 +195,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 tmp = translateTag("Unknown");
         } else
             tmp = translateTag("Unknown");
-        tmp=tmp.trim();
+        tmp = tmp.trim();
         if (!tmp.isEmpty())
             summaryList.add(tmp);
 
@@ -192,7 +205,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 tmp = translateTag("Unknown");
         } else
             tmp = translateTag("Unknown");
-        tmp=tmp.trim();
+        tmp = tmp.trim();
         if (!tmp.isEmpty())
             summaryList.add(tmp);
 
@@ -202,7 +215,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 tmp = translateTag("Unknown");
         } else
             tmp = translateTag("Unknown");
-        tmp=tmp.trim();
+        tmp = tmp.trim();
         if (!tmp.isEmpty())
             summaryList.add(tmp);
 
@@ -210,8 +223,8 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     }
 
     private void updateObjectEditorList() throws SEDALibException {
-        List<SEDAObjectEditor> result = new ArrayList<SEDAObjectEditor>();
-        for (int i = 0; i < 8; i++)
+        List<SEDAObjectEditor> result = new ArrayList<>();
+        for (int i = 0; i < objectEditorArray.length; i++)
             if (objectEditorArray[i] != null)
                 result.add(objectEditorArray[i]);
         objectEditorList = result;
@@ -254,22 +267,24 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         moreButtons.add(defineButton);
 
         this.sedaObjectEditorPanel = new SEDAObjectEditorCompositePanel(this, moreButtons, false);
+        if (getBinaryDataObjectMetadata().dataObjectProfile != null)
+            objectEditorArray[DATA_OBJECT_PROFILE]= SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectProfile, this);
         if (getBinaryDataObjectMetadata().dataObjectVersion != null)
-            objectEditorArray[0] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectVersion, this);
+            objectEditorArray[DATA_OBJECT_VERSION]= SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectVersion, this);
         if (getBinaryDataObjectMetadata().uri != null)
-            objectEditorArray[1] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().uri, this);
+            objectEditorArray[URI]= SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().uri, this);
         if (getBinaryDataObjectMetadata().messageDigest != null)
-            objectEditorArray[2] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().messageDigest, this);
+            objectEditorArray[MESSAGE_DIGEST]= SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().messageDigest, this);
         if (getBinaryDataObjectMetadata().size != null)
-            objectEditorArray[3] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().size, this);
+            objectEditorArray[SIZE]= SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().size, this);
         if (getBinaryDataObjectMetadata().compressed != null)
-            objectEditorArray[4] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().compressed, this);
+            objectEditorArray[COMPRESSED]= SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().compressed, this);
         if (getBinaryDataObjectMetadata().formatIdentification != null)
-            objectEditorArray[5] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().formatIdentification, this);
+            objectEditorArray[FORMAT_IDENTIFICATION]= SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().formatIdentification, this);
         if (getBinaryDataObjectMetadata().fileInfo != null)
-            objectEditorArray[6] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().fileInfo, this);
+            objectEditorArray[FILE_INFO]= SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().fileInfo, this);
         if (getBinaryDataObjectMetadata().metadata != null)
-            objectEditorArray[7] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().metadata, this);
+            objectEditorArray[METADATA]= SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().metadata, this);
         updateObjectEditorList();
     }
 
@@ -283,7 +298,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                         Files.setAttribute(editedOnDiskPath, "dos:readonly", true);
                 } catch (IOException e) {
                     UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                            "Impossible de passer le fichier à ouvrir ["+editedOnDiskPath.toString()+
+                            "Impossible de passer le fichier à ouvrir [" + editedOnDiskPath.toString() +
                                     "] en lecture seule \n->" + e.getMessage(),
                             "Erreur", UserInteractionDialog.ERROR_DIALOG,
                             null);
@@ -318,9 +333,9 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                                 "Voulez-vous extraire automatiquement les informations de ce fichier?",
                                 "Question", UserInteractionDialog.WARNING_DIALOG,
                                 null) == OK_DIALOG) {
-                    objectEditorArray[MESSAGE_DIGEST] = createSEDAObjectEditor(new DigestType("MessageDigest",
+                    objectEditorArray[MESSAGE_DIGEST] =createSEDAObjectEditor(new DigestType("MessageDigest",
                             getDigestSha512(editedOnDiskPath), "SHA-512"), this);
-                    objectEditorArray[SIZE] = createSEDAObjectEditor(new IntegerType("Size",
+                    objectEditorArray[SIZE] =createSEDAObjectEditor(new IntegerType("Size",
                             Files.size(editedOnDiskPath)), this);
 
                     boolean expanded = false;
@@ -334,7 +349,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                     else
                         formatIdentification = new FormatIdentification(translateTag("Unknown"), null,
                                 translateTag("Unknown"), null);
-                    objectEditorArray[FORMAT_IDENTIFICATION] = createSEDAObjectEditor(formatIdentification, this);
+                    objectEditorArray[FORMAT_IDENTIFICATION] =createSEDAObjectEditor(formatIdentification, this);
                     ((SEDAObjectEditorCompositePanel) objectEditorArray[FORMAT_IDENTIFICATION].getSEDAObjectEditorPanel()).setExpanded(expanded);
 
                     expanded = false;
@@ -343,7 +358,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                     FileInfo fileInfo = new FileInfo();
                     fileInfo.addNewMetadata("Filename", editedOnDiskPath.getFileName().toString());
                     fileInfo.addNewMetadata("LastModified", Files.getLastModifiedTime(editedOnDiskPath).toString());
-                    objectEditorArray[FILE_INFO] = createSEDAObjectEditor(fileInfo, this);
+                    objectEditorArray[FILE_INFO] =createSEDAObjectEditor(fileInfo, this);
                     ((SEDAObjectEditorCompositePanel) objectEditorArray[FILE_INFO].getSEDAObjectEditorPanel()).setExpanded(expanded);
 
                     updateObjectEditorList();
@@ -359,14 +374,33 @@ public class BinaryDataObjectEditor extends CompositeEditor {
 
     @Override
     public List<Pair<String, String>> getExtensionList() throws SEDALibException {
-        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
-                Pair.of("DataObjectVersion", translateTag("DataObjectVersion")),
-                Pair.of("Uri", translateTag("Uri")),
-                Pair.of("MessageDigest", translateTag("MessageDigest")),
-                Pair.of("Size", translateTag("Size")),
-                Pair.of("FormatIdentification", translateTag("FormatIdentification")),
-                Pair.of("FileInfo", translateTag("FileInfo")),
-                Pair.of("Metadata", translateTag("Metadata"))));
+        List<Pair<String, String>> extensionList;
+
+        switch (SEDA2Version.getSeda2Version()) {
+            case 1:
+                extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
+                        Pair.of("DataObjectVersion", translateTag("DataObjectVersion")),
+                        Pair.of("Uri", translateTag("Uri")),
+                        Pair.of("MessageDigest", translateTag("MessageDigest")),
+                        Pair.of("Size", translateTag("Size")),
+                        Pair.of("FormatIdentification", translateTag("FormatIdentification")),
+                        Pair.of("FileInfo", translateTag("FileInfo")),
+                        Pair.of("Metadata", translateTag("Metadata"))));
+                break;
+            case 2:
+                extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
+                        Pair.of("DataObjectProfile", translateTag("DataObjectProfile")),
+                        Pair.of("DataObjectVersion", translateTag("DataObjectVersion")),
+                        Pair.of("Uri", translateTag("Uri")),
+                        Pair.of("MessageDigest", translateTag("MessageDigest")),
+                        Pair.of("Size", translateTag("Size")),
+                        Pair.of("FormatIdentification", translateTag("FormatIdentification")),
+                        Pair.of("FileInfo", translateTag("FileInfo")),
+                        Pair.of("Metadata", translateTag("Metadata"))));
+                break;
+            default:
+                throw new SEDALibException("Version SEDA [" + SEDA2Version.getSeda2VersionString() + "] inconnue", null);
+        }
 
         for (SEDAObjectEditor me : objectEditorList) {
             String name = me.getTag();
@@ -379,37 +413,41 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata = null;
         switch (metadataName) {
+            case "DataObjectProfile":
+                sedaMetadata = createSEDAMetadataSample("StringType", "DataObjectProfile", true);
+                objectEditorArray[DATA_OBJECT_PROFILE] = createSEDAObjectEditor(sedaMetadata, this);
+                break;
             case "DataObjectVersion":
                 sedaMetadata = createSEDAMetadataSample("StringType", "DataObjectVersion", true);
-                objectEditorArray[0] = createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[DATA_OBJECT_VERSION] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "Uri":
                 sedaMetadata = createSEDAMetadataSample("StringType", "Uri", true);
-                objectEditorArray[1] = createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[URI] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "MessageDigest":
                 sedaMetadata = createSEDAMetadataSample("DigestType", "MessageDigest", true);
-                objectEditorArray[2] = createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[MESSAGE_DIGEST] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "Size":
                 sedaMetadata = createSEDAMetadataSample("IntegerType", "Size", true);
-                objectEditorArray[3] = createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[SIZE] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "Compressed":
                 sedaMetadata = createSEDAMetadataSample("StringType", "Compressed", true);
-                objectEditorArray[4] = createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[COMPRESSED] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "FormatIdentification":
                 sedaMetadata = createSEDAMetadataSample("FormatIdentification", "FormatIdentification", true);
-                objectEditorArray[5] = createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[FORMAT_IDENTIFICATION] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "FileInfo":
                 sedaMetadata = createSEDAMetadataSample("FileInfo", "FileInfo", true);
-                objectEditorArray[6] = createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[FILE_INFO] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "Metadata":
                 sedaMetadata = createSEDAMetadataSample("Metadata", "Metadata", true);
-                objectEditorArray[7] = createSEDAObjectEditor(sedaMetadata, this);
+                objectEditorArray[METADATA] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
         }
         if (sedaMetadata == null)
@@ -438,6 +476,8 @@ public class BinaryDataObjectEditor extends CompositeEditor {
      */
     static public BinaryDataObject createBinaryDataObjectSample(boolean minimal) throws SEDALibException {
         BinaryDataObject result = new BinaryDataObject();
+        if (SEDA2Version.getSeda2Version()>1)
+            result.dataObjectProfile = (StringType) createSEDAMetadataSample("StringType", "DataObjectProfile", minimal);
         result.dataObjectVersion = (StringType) createSEDAMetadataSample("StringType", "DataObjectVersion", minimal);
         result.messageDigest = (DigestType) createSEDAMetadataSample("DigestType", "MessageDigest", minimal);
         result.size = (IntegerType) createSEDAMetadataSample("IntegerType", "Size", minimal);

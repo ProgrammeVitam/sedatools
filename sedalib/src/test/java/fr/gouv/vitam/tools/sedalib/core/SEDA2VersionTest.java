@@ -9,21 +9,17 @@ import org.junit.jupiter.api.Test;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class Seda2VersionTest {
+public class SEDA2VersionTest {
     @Test
         // Test the SEDA2.1 and 2.2 construct from xml string (fromSedaXML)
     void testSeda2VersionComplianceTest() throws SEDALibException {
         // Given
-        Seda2Version.setSeda2Version(1);
+        SEDA2Version.setSeda2Version(1);
         Content c = new Content();
 
         String xmlFragments="  <Event>\n" +
@@ -53,7 +49,7 @@ public class Seda2VersionTest {
 
         // But in Seda2.2 version the LinkingAgentIdentifier is a recognized XML element and re-ordered before the
         // expansion field
-        Seda2Version.setSeda2Version(2);
+        SEDA2Version.setSeda2Version(2);
         c = new Content();
         c.addSedaXmlFragments(xmlFragments);
         cOut = c.toString();
@@ -64,7 +60,7 @@ public class Seda2VersionTest {
         // Test the SEDA2.1 to and from 2.2 conversion
     void testSeda2VersionConversionTest() throws SEDALibException {
         // Given
-        Seda2Version.setSeda2Version(1);
+        SEDA2Version.setSeda2Version(1);
         String xmlFragments="    <DataObjectPackage>\n" +
                 "    <DescriptiveMetadata>\n" +
                 "      <ArchiveUnit id=\"ID10\">\n" +
@@ -123,10 +119,10 @@ public class Seda2VersionTest {
         // Then the Event in ArchiveUnit has a LinkingAgentIdentifierType metadata
 
         try {
-            dop=Seda2Version.convertToSeda2Version(dop,2,null);
+            dop= SEDA2Version.convertToSeda2Version(dop,2,null);
         } catch (InterruptedException ignored) {
         }
-        Seda2Version.setSeda2Version(2);
+        SEDA2Version.setSeda2Version(2);
 
         c=dop.getArchiveUnitById("ID10").getContent();
         foundLinking=false;

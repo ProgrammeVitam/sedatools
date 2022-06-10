@@ -141,6 +141,8 @@ public class SEDAObjectEditorConstants {
         minimalTagList.add("FormatId");
         minimalTagList.add("Filename");
         minimalTagList.add("LastModified");
+        minimalTagList.add("LinkingAgentIdentifierType");
+        minimalTagList.add("LinkingAgentIdentifierValue");
 
         largeAreaTagList=new ArrayList<>();
         largeAreaTagList.add("Address");
@@ -158,6 +160,7 @@ public class SEDAObjectEditorConstants {
         translateMap.put("Coverage", "Couverture");
         translateMap.put("CreatedDate", "Date de création");
         translateMap.put("CustodialHistory", "Historique conservation");
+        translateMap.put("DateLitteral", "Date littérale");
         translateMap.put("Description", "Description");
         translateMap.put("DescriptionLanguage", "Langue de description");
         translateMap.put("DescriptionLevel", "Niveau de description");
@@ -323,6 +326,7 @@ public class SEDAObjectEditorConstants {
 
         //BinaryDataObject
         translateMap.put("BinaryDataObject", "Numérique");
+        translateMap.put("DataObjectProfile", "Profil d'objet");
         translateMap.put("DataObjectVersion", "Version");
         translateMap.put("MessageDigest", "Hachage");
         translateMap.put("Size", "Taille");

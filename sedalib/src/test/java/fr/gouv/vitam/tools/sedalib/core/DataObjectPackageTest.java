@@ -118,6 +118,7 @@ class DataObjectPackageTest {
 
         String testog = "{\n" +
                 "  \"binaryDataObjectList\" : [ {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -179,6 +180,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID17.ods\"\n" +
                 "  }, {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -240,6 +242,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID19\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID19.txt\"\n" +
                 "  }, {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -301,6 +304,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID23\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID23.pdf\"\n" +
                 "  }, {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -362,6 +366,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID24\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID24.txt\"\n" +
                 "  }, {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -423,6 +428,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID200\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID200.json\"\n" +
                 "  }, {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -485,6 +491,7 @@ class DataObjectPackageTest {
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID201.json\"\n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +

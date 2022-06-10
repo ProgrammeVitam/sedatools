@@ -105,10 +105,22 @@ public class ArchiveTransfer {
             xmlWriter.writeStartElement("ArchiveTransfer");
             xmlWriter.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
             xmlWriter.writeNamespace("pr", "info:lc/xmlns/premis-v2");
-            xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.1");
-            xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-            xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
-                    "fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd");
+            switch(SEDA2Version.getSeda2Version()){
+                case 1:
+                    xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.1");
+                    xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                    xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
+                            "fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd");
+                    break;
+                case 2:
+                    xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.2");
+                    xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                    xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
+                            "fr:gouv:culture:archivesdefrance:seda:v2.2 seda-2.2-main.xsd");
+                    break;
+                default:
+                    throw new SEDALibException("Version de SEDA sans schéma",null);
+            }
             xmlWriter.setXmlId(true);
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML du début du manifest", e);

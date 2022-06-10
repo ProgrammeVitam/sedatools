@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.xml;
 
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.xerces.util.XMLCatalogResolver;
 import org.xml.sax.SAXException;
@@ -23,7 +24,8 @@ import java.util.Scanner;
 
 public class SEDAXMLValidator {
 
-    private static final String SEDA_VITAM_VALIDATION_RESOURCE = "seda-vitam-2.1-main.xsd";
+    private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_1 = "seda-vitam-2.1-main.xsd";
+    private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_2 = "seda-2.2-main.xsd";
     private static final String HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1 = "http://www.w3.org/XML/XMLSchema/v1.1";
     private static final String CATALOG_FILENAME = "xsd_validation/catalog.xml";
     private static final String RNG_FACTORY = "com.thaiopensource.relaxng.jaxp.XMLSyntaxSchemaFactory";
@@ -31,9 +33,22 @@ public class SEDAXMLValidator {
 
     private static Schema sedaSchema = null;
 
+    public static void resetSEDASchema() {
+        sedaSchema = null;
+    }
+
     public Schema getSEDASchema() throws SEDALibException {
         if (sedaSchema == null)
-            sedaSchema = getSchemaFromXSDResource(getClass().getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE));
+            switch (SEDA2Version.getSeda2Version()) {
+                case 1:
+                    sedaSchema = getSchemaFromXSDResource(getClass().getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_1));
+                    break;
+                case 2:
+                    sedaSchema = getSchemaFromXSDResource(getClass().getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_2));
+                    break;
+                default:
+                    throw new SEDALibException("Version active du SEDA ["+ SEDA2Version.getSeda2VersionString()+"] sans schéma",null);
+            }
         return sedaSchema;
     }
 

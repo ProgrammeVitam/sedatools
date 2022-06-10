@@ -33,6 +33,7 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 		
 		String testog = "{\n" +
 				"  \"binaryDataObjectList\" : [ {\n" +
+				"    \"dataObjectProfile\":null,\n" +
 				"    \"dataObjectSystemId\" : null,\n" +
 				"    \"dataObjectGroupSystemId\" : null,\n" +
 				"    \"relationshipsXmlData\" : [ ],\n" +

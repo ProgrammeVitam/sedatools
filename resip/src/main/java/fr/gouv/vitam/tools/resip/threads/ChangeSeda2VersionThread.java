@@ -33,13 +33,11 @@ import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.PrefsDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.Seda2Version;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
-import javax.xml.crypto.Data;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
@@ -97,7 +95,7 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
             if (work == null)
                 throw new ResipException("Pas de contenu à transformer");
 
-            convertedDop = Seda2Version.convertToSeda2Version(work.getDataObjectPackage(), toSeda2Version, spl);
+            convertedDop = SEDA2Version.convertToSeda2Version(work.getDataObjectPackage(), toSeda2Version, spl);
         } catch (Throwable e) {
             exitThrowable = e;
         }

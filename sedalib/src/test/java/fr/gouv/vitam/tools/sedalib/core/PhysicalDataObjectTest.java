@@ -41,6 +41,7 @@ class PhysicalDataObjectTest {
 
         // Then
         String testOut = "{\n" +
+                "  \"dataObjectProfile\":null,\n" +
                 "  \"dataObjectSystemId\" : null,\n" +
                 "  \"dataObjectGroupSystemId\" : null,\n" +
                 "  \"relationshipsXmlData\" : [ ],\n" +

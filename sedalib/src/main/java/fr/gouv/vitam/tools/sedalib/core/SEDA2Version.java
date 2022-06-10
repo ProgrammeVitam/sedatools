@@ -5,6 +5,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
+import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLValidator;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
@@ -22,7 +23,7 @@ import java.util.Map;
  * implemented to convert a DataObjectPackage to another Seda2 version.
  * This is mostly done to be used in interactive program like Resip.</P>
  */
-public final class Seda2Version {
+public final class SEDA2Version {
     /**
      * For Seda2.1 SEDA2_1=1
      */
@@ -57,10 +58,10 @@ public final class Seda2Version {
      * @return the Seda2 version string
      */
     public static String getSeda2VersionString() {
-        return "Seda2." + globalSeda2Version;
+        return "SEDA 2." + globalSeda2Version;
     }
 
-    private Seda2Version() {
+    private SEDA2Version() {
         throw new IllegalStateException("Utility class");
     }
 
@@ -87,10 +88,12 @@ public final class Seda2Version {
      * @throws SEDALibException if this is not a supported version
      */
     public static void setSeda2Version(int newSeda2Version) throws SEDALibException {
-        if (isSupportedSeda2Version(newSeda2Version))
+        if (isSupportedSeda2Version(newSeda2Version)) {
             globalSeda2Version = newSeda2Version;
+            SEDAXMLValidator.resetSEDASchema();
+        }
         else
-            throw new SEDALibException("Unknown Seda2." + newSeda2Version + " version");
+            throw new SEDALibException("Unknown Seda 2." + newSeda2Version + " version");
     }
 
     /**

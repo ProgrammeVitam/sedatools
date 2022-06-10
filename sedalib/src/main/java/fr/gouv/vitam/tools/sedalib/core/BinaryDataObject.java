@@ -68,6 +68,11 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     // SEDA elements
 
     /**
+     * The data object profile (only in Seda 2.2).
+     */
+    public StringType dataObjectProfile;
+
+    /**
      * The data object system id.
      */
     public StringType dataObjectSystemId;
@@ -179,6 +184,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      */
     public BinaryDataObject(DataObjectPackage dataObjectPackage, Path path, String filename, String dataObjectVersion) {
         super(dataObjectPackage);
+        this.dataObjectProfile = null;
         this.dataObjectSystemId = null;
         this.dataObjectGroupSystemId = null;
         this.relationshipsXmlData = new ArrayList<>();
@@ -231,7 +237,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * uniqID in the structure.
      * <p>
      * Fragment sample: <code>
-     * &lt;DataObjectVersion&gt;BinaryMaster_1_DataObjectVersion&gt;
+     * &lt;DataObjectProfile&gt;DataObject1&lt;DataObjectProfile&gt;
+     * &lt;DataObjectVersion&gt;BinaryMaster_1&lt;DataObjectVersion&gt;
      * &lt;Uri&gt;content/ID37.zip&lt;/Uri&gt;
      * &lt;MessageDigest algorithm="SHA-512"&gt;
      * 4723e0f6f8d54cda8989ffa5809318b2369b4b0c7957deda8399c311c397c026cc1511a0494d6f8e7b474e20171c40a5d40435c95841820a08a92e844b960947
@@ -380,6 +387,12 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     public String toString() {
         String result;
         try {
+            if (SEDA2Version.getSeda2Version()>1) {
+                if (dataObjectProfile == null)
+                    result = "DataObjectProfile: non défini";
+                else
+                    result = "DataObjectProfile: " + undefined(dataObjectProfile.getValue());
+            }
             if (dataObjectVersion == null)
                 result = "DataObjectVersion: non défini";
             else
@@ -437,6 +450,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         try {
             xmlWriter.writeStartElement("BinaryDataObject");
             xmlWriter.writeAttributeIfNotEmpty("id", inDataPackageObjectId);
+            if ((SEDA2Version.getSeda2Version()>1) && (dataObjectProfile != null))
+                dataObjectProfile.toSedaXml(xmlWriter);
             if (dataObjectSystemId != null)
                 dataObjectSystemId.toSedaXml(xmlWriter);
             if (dataObjectGroupSystemId != null)
@@ -485,15 +500,14 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     @Override
     public String toSedaXmlFragments() throws SEDALibException {
         String result;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()){
-            try(SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            try (SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
                 toSedaXml(xmlWriter, null);
             }
             result = baos.toString("UTF-8");
         } catch (SEDALibException | XMLStreamException | IOException e) {
             throw new SEDALibException("Erreur interne", e);
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new SEDALibException("Interruption du process", e);
         }
@@ -525,6 +539,10 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         String nextElementName;
         try {
             nextElementName = xmlReader.peekName();
+            if ((SEDA2Version.getSeda2Version()>1) && (nextElementName != null) && (nextElementName.equals("DataObjectProfile"))) {
+                dataObjectProfile = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
+                nextElementName = xmlReader.peekName();
+            }
             if ((nextElementName != null) && (nextElementName.equals("DataObjectSystemId"))) {
                 dataObjectSystemId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
                 nextElementName = xmlReader.peekName();
@@ -674,6 +692,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         if ((bdo.dataObjectGroupId != null) || (bdo.dataObjectGroupReferenceId != null))
             throw new SEDALibException(
                     "La référence à un DataObjectGroup n'est pas modifiable par édition, il ne doit pas être défini");
+        this.dataObjectProfile = bdo.dataObjectProfile;
         this.dataObjectSystemId = bdo.dataObjectSystemId;
         this.dataObjectGroupSystemId = bdo.dataObjectGroupSystemId;
         this.relationshipsXmlData = bdo.relationshipsXmlData;
