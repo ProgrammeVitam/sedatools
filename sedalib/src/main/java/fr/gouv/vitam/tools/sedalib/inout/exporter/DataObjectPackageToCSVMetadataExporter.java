@@ -261,7 +261,7 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // extract and sort headernames by there defined order in composed types
     private List<String> getSortedHeaderNames(List<String> sortedHeaderNames, Set<String> headerNames,
-                                              String prefixHeaderName, String xmlElementName, Class<?> metadataClass) {
+                                              String prefixHeaderName, String xmlElementName, Class<?> metadataClass) throws SEDALibException {
         String currentName = prefixHeaderName + (prefixHeaderName.isEmpty() ? "" : ".") + xmlElementName;
         String infix;
         int maxRank = getMaxRank(headerNames, currentName);

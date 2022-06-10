@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.xml;
 
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.xerces.util.XMLCatalogResolver;
 import org.xml.sax.SAXException;
@@ -23,29 +24,42 @@ import java.util.Scanner;
 
 public class SEDAXMLValidator {
 
-    private static final String SEDA_VITAM_VALIDATION_RESOURCE = "seda-vitam-2.1-main.xsd";
+    private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_1 = "seda-vitam-2.1-main.xsd";
+    private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_2 = "seda-2.2-main.xsd";
     private static final String HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1 = "http://www.w3.org/XML/XMLSchema/v1.1";
     private static final String CATALOG_FILENAME = "xsd_validation/catalog.xml";
     private static final String RNG_FACTORY = "com.thaiopensource.relaxng.jaxp.XMLSyntaxSchemaFactory";
     private static final String RNG_PROPERTY_KEY = "javax.xml.validation.SchemaFactory:" + XMLConstants.RELAXNG_NS_URI;
 
     private static Schema sedaSchema = null;
+    private static int sedaVersion = 0;
 
-    public Schema getSEDASchema() throws SEDALibException {
-        if (sedaSchema == null)
-            sedaSchema = getSchemaFromXSDResource(getClass().getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE));
+    public static Schema getSEDASchema() throws SEDALibException {
+        if ((sedaSchema == null) || (sedaVersion != SEDA2Version.getSeda2Version())) {
+            switch (SEDA2Version.getSeda2Version()) {
+                case 1:
+                    sedaSchema = getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_1));
+                    break;
+                case 2:
+                    sedaSchema = getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_2));
+                    break;
+                default:
+                    throw new SEDALibException("Version du SEDA [" + SEDA2Version.getSeda2VersionString() + "] sans schéma", null);
+            }
+            sedaVersion = SEDA2Version.getSeda2Version();
+        }
         return sedaSchema;
     }
 
-    public Schema getSchemaFromXSDResource(URL xsdResource) throws SEDALibException {
+    public static Schema getSchemaFromXSDResource(URL xsdResource) throws SEDALibException {
         // Was XMLConstants.W3C_XML_SCHEMA_NS_URI
-        SchemaFactory factory =
-                SchemaFactory.newInstance(HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1);
-        // Load catalog to resolve external schemas even offline.
-        final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
-        factory.setResourceResolver(new XMLCatalogResolver(new String[]{catalogUrl.toString()}, false));
-
         try {
+            SchemaFactory factory =
+                    SchemaFactory.newInstance(HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1);
+            // Load catalog to resolve external schemas even offline.
+            final URL catalogUrl = SEDAXMLValidator.class.getClassLoader().getResource(CATALOG_FILENAME);
+            factory.setResourceResolver(new XMLCatalogResolver(new String[]{catalogUrl.toString()}, false));
+
             return factory.newSchema(xsdResource);
         } catch (SAXException e) {
             throw new SEDALibException("Impossible de charger le schéma " + xsdResource, e);
@@ -60,18 +74,13 @@ public class SEDAXMLValidator {
      * @throws SEDALibException the seda lib exception
      */
     public Schema getSchemaFromXSDFile(String xsdFile) throws SEDALibException {
-        SchemaFactory factory = SchemaFactory.newInstance(HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1);
         try {
-            factory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "");
-        } catch (SAXException e) {
-            throw new SEDALibException("Impossible d'initialiser les outils XML");
-        }
+            SchemaFactory factory = SchemaFactory.newInstance(HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1);
 
-        // Load catalog to resolve external schemas even offline.
-        final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
-        factory.setResourceResolver(new XMLCatalogResolver(new String[]{catalogUrl.toString()}, false));
+            // Load catalog to resolve external schemas even offline.
+            final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
+            factory.setResourceResolver(new XMLCatalogResolver(new String[]{catalogUrl.toString()}, false));
 
-        try {
             return factory.newSchema(new File(xsdFile));
         } catch (SAXException e) {
             throw new SEDALibException("Impossible de charger le schéma " + xsdFile, e);
@@ -87,13 +96,12 @@ public class SEDAXMLValidator {
      */
     public Schema getSchemaFromRNGFile(String rngFile) throws SEDALibException {
         System.setProperty(RNG_PROPERTY_KEY, RNG_FACTORY);
-        SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.RELAXNG_NS_URI);
-
-        // Load catalog to resolve external schemas even offline.
-        final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
-        factory.setResourceResolver(new XMLCatalogResolver(new String[]{catalogUrl.toString()}, false));
-
         try {
+            SchemaFactory factory = SchemaFactory.newInstance(XMLConstants.RELAXNG_NS_URI);
+            // Load catalog to resolve external schemas even offline.
+            final URL catalogUrl = getClass().getClassLoader().getResource(CATALOG_FILENAME);
+            factory.setResourceResolver(new XMLCatalogResolver(new String[]{catalogUrl.toString()}, false));
+
             return factory.newSchema(new File(rngFile));
         } catch (SAXException e) {
             throw new SEDALibException("Impossible de charger le schéma " + rngFile, e);
@@ -102,7 +110,7 @@ public class SEDAXMLValidator {
 
     private String getContextualErrorMessage(String manifest, SAXParseException e) {
         int i = 0;
-        String line="", inArchiveUnit = "", result;
+        String line = "", inArchiveUnit = "", result;
 
         Scanner scanner = new Scanner(manifest);
         while (scanner.hasNextLine() && (i < e.getLineNumber())) {
@@ -111,9 +119,9 @@ public class SEDAXMLValidator {
                 inArchiveUnit = line.trim();
             i++;
         }
-        result = "Contexte de l'erreur: " + (inArchiveUnit.isEmpty()?"hors AU":inArchiveUnit) + "\n" +
+        result = "Contexte de l'erreur: " + (inArchiveUnit.isEmpty() ? "hors AU" : inArchiveUnit) + "\n" +
                 "position de l'erreur identifiée: ligne " + e.getLineNumber() + ", colonne " + e.getColumnNumber() + "\n" +
-                "ligne: " + line+"\n" +
+                "ligne: " + line + "\n" +
                 "erreur brute: " + e.getMessage();
         scanner.close();
         return result;
@@ -132,6 +140,7 @@ public class SEDAXMLValidator {
         XMLStreamReader xmlStreamReader = null;
         try (ByteArrayInputStream bais = new ByteArrayInputStream(manifest.getBytes(StandardCharsets.UTF_8))) {
             xmlInputFactory = XMLInputFactory.newInstance();
+            xmlInputFactory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
             xmlStreamReader = xmlInputFactory.createXMLStreamReader(bais, "UTF-8");
 
             final Validator validator = xmlSchema.newValidator();

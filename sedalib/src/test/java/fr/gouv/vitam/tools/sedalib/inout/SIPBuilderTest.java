@@ -71,7 +71,7 @@ class SIPBuilderTest {
 //TODO Improve test quality
             assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip")).isFile();
             assertThat(new File("target/tmpJunit/SIPBuilder/SIPBuilderTest.zip").length()).isGreaterThan(10865000).isLessThan(10875000);
-            assertAll(sb::seda21Validate);
+            assertAll(sb::sedaSchemaValidate);
 
         } catch (Exception e) {
             throw new SEDALibException("SIPBuilder test KO");

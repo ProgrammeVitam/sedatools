@@ -596,7 +596,7 @@ public class DataObjectPackage {
      * @param path the ArchiveUnits path
      * @return the string representation
      */
-    private String ArchiveUnitPathToString(List<ArchiveUnit> path) {
+    private String archiveUnitPathToString(List<ArchiveUnit> path) {
         String result = "";
         if (path != null) {
             for (ArchiveUnit au : path)
@@ -615,7 +615,7 @@ public class DataObjectPackage {
     private void verifyAcyclicArchiveUnit(ArchiveUnit au, List<ArchiveUnit> path) throws SEDALibException {
         if (path.contains(au))
             throw new SEDALibException(
-                    "Cycle détecté " + ArchiveUnitPathToString(path) + au.getInDataObjectPackageId());
+                    "Cycle détecté " + archiveUnitPathToString(path) + au.getInDataObjectPackageId());
         if (isTouchedInDataObjectPackageId(au.getInDataObjectPackageId()))
             return;
         path.add(au);
@@ -1014,10 +1014,14 @@ public class DataObjectPackage {
                 }
             }
             xmlWriter.writeEndElement();
-            xmlWriter.writeRawXMLBlockIfNotEmpty(managementMetadataXmlData);
+            if (managementMetadataXmlData!=null)
+                xmlWriter.writeRawXMLBlockIfNotEmpty(managementMetadataXmlData);
+            else
+                xmlWriter.writeRawXMLBlockIfNotEmpty("<ManagementMetadata/>");
             xmlWriter.writeEndElement();
+            xmlWriter.flush();
         } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur d'écriture XML des métadonnées des ArchiveUnits", e);
+            throw new SEDALibException("Erreur d'écriture XML des métadonnées dans le DataObjectPackage", e);
         }
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, "sedalib: " + getNextInOutCounter() +
                 " métadonnées ArchiveUnit exportées dans le DataObjectPackage", null);
@@ -1050,8 +1054,7 @@ public class DataObjectPackage {
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @param dataObjectPackage     the DataObjectPackage to be completed
-     * @param rootDir               the directory where the BinaryDataObject files are
-     *                              exported
+     * @param rootDir               the directory of the BinaryDataObject files
      * @param sedaLibProgressLogger the progress logger or null if no progress log expected
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected

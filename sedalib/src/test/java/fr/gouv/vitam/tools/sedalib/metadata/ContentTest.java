@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.metadata.content.*;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -18,7 +19,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 class ContentTest {
 
     @Test
-    // Test Content and ComplexListType subclass
+        // Test Content and ComplexListType subclass
     void testConstructors() throws SEDALibException {
         // Given
         Content c = new Content();
@@ -44,76 +45,76 @@ class ContentTest {
         writer.addNewMetadata("Identifier", "ID1");
         writer.addNewMetadata("Identifier", "ID2");
         writer.addNewMetadata("Function", "F1");
-        writer.addNewMetadata("BirthDate", LocalDate.of(2019,7,14));
-        PlaceType birthPlace=new PlaceType("BirthPlace");
-        birthPlace.addNewMetadata("Geogname","Location1");
-        birthPlace.addNewMetadata("Country","Country1");
+        writer.addNewMetadata("BirthDate", LocalDate.of(2019, 7, 14));
+        PlaceType birthPlace = new PlaceType("BirthPlace");
+        birthPlace.addNewMetadata("Geogname", "Location1");
+        birthPlace.addNewMetadata("Country", "Country1");
         writer.addMetadata(birthPlace);
-        writer.addNewMetadata("DeathDate", LocalDate.of(2099,7,14));
+        writer.addNewMetadata("DeathDate", LocalDate.of(2099, 7, 14));
         c.addMetadata(writer);
 
         // Test AnyXMLType metadata
-        AnyXMLType anyXMLType=new AnyXMLType("XMLTest", "<XMLTest><TestTag>TestValue</TestTag></XMLTest>");
+        AnyXMLType anyXMLType = new AnyXMLType("XMLTest", "<XMLTest><TestTag>TestValue</TestTag></XMLTest>");
         c.addMetadata(anyXMLType);
 
         // Test IntegerType metadata and expandability
-        IntegerType integerType=new IntegerType("UniversalNumber",42);
+        IntegerType integerType = new IntegerType("UniversalNumber", 42);
         c.addMetadata(integerType);
 
         // Test Signe metadata
-        Signer signer=new Signer("Laura Tremoulet",LocalDateTime.of(1970,1,1,2,0));
-        signer.addNewMetadata("BirthPlace","TestLocation1");
+        Signer signer = new Signer("Laura Tremoulet", LocalDateTime.of(1970, 1, 1, 2, 0));
+        signer.addNewMetadata("BirthPlace", "TestLocation1");
 
         // Test Signature metadata
-        Signature signature=new Signature();
-        signature.addNewMetadata("Signer","Paul","Dupont",LocalDateTime.of(1970,1,1,1,0));
-        signature.addNewMetadata("Signer","Martin Durant",LocalDateTime.of(1970,1,2,1,0));
-        signature.addNewMetadata("Signer","Emilie","Martin",LocalDateTime.of(1970,1,2,1,0),"emilie.martin@corp.fr");
-        signature.addNewMetadata("Validator" ,"The corporation",LocalDateTime.of(1970,1,3,1,0));
-        signature.addNewMetadata("ReferencedObject","TestID1","TestDigest1","TestSHA");
+        Signature signature = new Signature();
+        signature.addNewMetadata("Signer", "Paul", "Dupont", LocalDateTime.of(1970, 1, 1, 1, 0));
+        signature.addNewMetadata("Signer", "Martin Durant", LocalDateTime.of(1970, 1, 2, 1, 0));
+        signature.addNewMetadata("Signer", "Emilie", "Martin", LocalDateTime.of(1970, 1, 2, 1, 0), "emilie.martin@corp.fr");
+        signature.addNewMetadata("Validator", "The corporation", LocalDateTime.of(1970, 1, 3, 1, 0));
+        signature.addNewMetadata("ReferencedObject", "TestID1", "TestDigest1", "TestSHA");
         signature.addMetadata(signer);
         c.addMetadata(signature);
 
         // Test Coverage metadata
-        Coverage coverage=new Coverage();
-        coverage.addNewMetadata("Spatial","TestSpatial1");
-        coverage.addNewMetadata("Spatial","TestSpatial2");
-        coverage.addNewMetadata("Spatial","TestSpatial3");
-        coverage.addNewMetadata("Temporal","TestTemporal1");
-        coverage.addNewMetadata("Temporal","TestTemporal2");
-        coverage.addNewMetadata("Juridictional","TestJuridictional1");
+        Coverage coverage = new Coverage();
+        coverage.addNewMetadata("Spatial", "TestSpatial1");
+        coverage.addNewMetadata("Spatial", "TestSpatial2");
+        coverage.addNewMetadata("Spatial", "TestSpatial3");
+        coverage.addNewMetadata("Temporal", "TestTemporal1");
+        coverage.addNewMetadata("Temporal", "TestTemporal2");
+        coverage.addNewMetadata("Juridictional", "TestJuridictional1");
         c.addMetadata(coverage);
 
         // Test CustodialHistory metadata
-        CustodialHistory custodialHistory=new CustodialHistory("TestItem1", "TestItem2", "TestItem3", "TestItem4");
+        CustodialHistory custodialHistory = new CustodialHistory("TestItem1", "TestItem2", "TestItem3", "TestItem4");
         c.addMetadata(custodialHistory);
 
         // Test Event metadata and expandability
-        Event event=new Event();
-        event.addNewMetadata("EventDateTime",LocalDateTime.of(1970,1,1,1,0));
-        event.addNewMetadata("Outcome","OK");
-        event.addNewMetadata("Information","<Information>OK</Information>");
+        Event event = new Event();
+        event.addNewMetadata("EventDateTime", LocalDateTime.of(1970, 1, 1, 1, 0));
+        event.addNewMetadata("Outcome", "OK");
+        event.addNewMetadata("Information", "<Information>OK</Information>");
         c.addMetadata(event);
 
         // Test Keyword and KeywordType metadata
-        Keyword keyword=new Keyword();
-        KeywordType keywordType =new KeywordType("subject");
+        Keyword keyword = new Keyword();
+        KeywordType keywordType = new KeywordType("subject");
         keyword.addMetadata(keywordType);
         c.addMetadata(keyword);
 
         // Test RelatedObjectReference
-        RelatedObjectReference relatedObjectReference= new RelatedObjectReference();
-        relatedObjectReference.addNewMetadata("IsVersionOf","DogRefId");
-        DataObjectOrArchiveUnitReferenceType isVersionOf=new DataObjectOrArchiveUnitReferenceType("IsVersionOf");
-        isVersionOf.addNewMetadata("ArchiveUnitRefId","AURefId");
-        DataObjectOrArchiveUnitReferenceType replaces=new DataObjectOrArchiveUnitReferenceType("Replaces");
-        replaces.addNewMetadata("DataObjectReference","DoRefId",null);
-        DataObjectOrArchiveUnitReferenceType requires=new DataObjectOrArchiveUnitReferenceType("Requires");
-        requires.addNewMetadata("RepositoryArchiveUnitPID","AuPid");
-        DataObjectOrArchiveUnitReferenceType isPartOf=new DataObjectOrArchiveUnitReferenceType("IsPartOf");
-        isPartOf.addNewMetadata("RepositoryObjectPID","DoPid");
-        DataObjectOrArchiveUnitReferenceType references=new DataObjectOrArchiveUnitReferenceType("References");
-        references.addNewMetadata("ExternalReference","ExtrenalRef");
+        RelatedObjectReference relatedObjectReference = new RelatedObjectReference();
+        relatedObjectReference.addNewMetadata("IsVersionOf", "DogRefId");
+        DataObjectOrArchiveUnitReferenceType isVersionOf = new DataObjectOrArchiveUnitReferenceType("IsVersionOf");
+        isVersionOf.addNewMetadata("ArchiveUnitRefId", "AURefId");
+        DataObjectOrArchiveUnitReferenceType replaces = new DataObjectOrArchiveUnitReferenceType("Replaces");
+        replaces.addNewMetadata("DataObjectReference", "DoRefId", null);
+        DataObjectOrArchiveUnitReferenceType requires = new DataObjectOrArchiveUnitReferenceType("Requires");
+        requires.addNewMetadata("RepositoryArchiveUnitPID", "AuPid");
+        DataObjectOrArchiveUnitReferenceType isPartOf = new DataObjectOrArchiveUnitReferenceType("IsPartOf");
+        isPartOf.addNewMetadata("RepositoryObjectPID", "DoPid");
+        DataObjectOrArchiveUnitReferenceType references = new DataObjectOrArchiveUnitReferenceType("References");
+        references.addNewMetadata("ExternalReference", "ExtrenalRef");
         relatedObjectReference.addMetadata(isVersionOf);
         relatedObjectReference.addMetadata(replaces);
         relatedObjectReference.addMetadata(requires);
@@ -122,7 +123,7 @@ class ContentTest {
         c.addMetadata(relatedObjectReference);
 
         // Test GPS metadata
-        c.addNewMetadata("Gps", "TestVersion",10000,"-TestLatitude","-TestLongitude","TestDateStamp");
+        c.addNewMetadata("Gps", "TestVersion", 10000, "-TestLatitude", "-TestLongitude", "TestDateStamp");
 
         // Test AnyXMLType metadata
         c.addNewMetadata("XMLTest", "<XMLTest><TestTag>TestValue</TestTag></XMLTest>");
@@ -185,12 +186,12 @@ class ContentTest {
                 "  <Writer>\n" +
                 "    <FirstName>TestPrenom</FirstName>\n" +
                 "    <BirthName>TestNom</BirthName>\n" +
-                "    <BirthDate>2019-07-14</BirthDate>\n"+
+                "    <BirthDate>2019-07-14</BirthDate>\n" +
                 "    <BirthPlace>\n" +
                 "      <Geogname>Location1</Geogname>\n" +
                 "      <Country>Country1</Country>\n" +
                 "    </BirthPlace>\n" +
-                "    <DeathDate>2099-07-14</DeathDate>\n"+
+                "    <DeathDate>2099-07-14</DeathDate>\n" +
                 "    <Identifier>ID1</Identifier>\n" +
                 "    <Identifier>ID2</Identifier>\n" +
                 "    <Function>F1</Function>\n" +
@@ -436,18 +437,18 @@ class ContentTest {
                 "  </Requirer>\n" +
                 "</Content>";
 
-        Content content= (Content) Content.fromString(contentXmlData,
+        Content content = (Content) Content.fromString(contentXmlData,
                 Content.class);
 
         // When the csv list is generated
-        LinkedHashMap<String,String> csvList=content.toCsvList();
-        String tmp="";
-        for (String header:csvList.keySet()){
-            tmp+=header+": "+csvList.get(header)+"\n";
+        LinkedHashMap<String, String> csvList = content.toCsvList();
+        String tmp = "";
+        for (String header : csvList.keySet()) {
+            tmp += header + ": " + csvList.get(header) + "\n";
         }
 
         // Then
-        String csvListString="DescriptionLevel: Series\n" +
+        String csvListString = "DescriptionLevel: Series\n" +
                 "OriginatingSystemId.0: Cerfa-1244771-ID10000\n" +
                 "Description.0: TestDescription EN\n" +
                 "Description.0.attr: xml:lang=\"en\"\n" +
@@ -529,7 +530,7 @@ class ContentTest {
                 "    <FirstName>Edouard</FirstName>\n" +
                 "    <BirthName>AFINA</BirthName>\n" +
                 "  </Requirer>\n";
-        assertThat(csvList.size()).isEqualTo(68);
+        assertThat(csvList).hasSize(68);
         assertThat(tmp).isEqualTo(csvListString);
     }
 
@@ -671,20 +672,20 @@ class ContentTest {
                 "  </Requirer>\n" +
                 "</Content>";
 
-        List<String> filter= Arrays.asList("Description","Title","Event","Frog");
+        List<String> filter = Arrays.asList("Description", "Title", "Event", "Frog");
 
-        Content content= (Content) Content.fromString(contentXmlData,
+        Content content = (Content) Content.fromString(contentXmlData,
                 Content.class);
 
         // When the csv list is generated
-        LinkedHashMap<String,String> csvList=content.externToCsvList(filter);
-        String tmp="";
-        for (String header:csvList.keySet()){
-            tmp+=header+": "+csvList.get(header)+"\n";
+        LinkedHashMap<String, String> csvList = content.externToCsvList(filter);
+        String tmp = "";
+        for (String header : csvList.keySet()) {
+            tmp += header + ": " + csvList.get(header) + "\n";
         }
 
         // Then
-        String csvListString="Content.Description.0: TestDescription EN\n" +
+        String csvListString = "Content.Description.0: TestDescription EN\n" +
                 "Content.Description.0.attr: xml:lang=\"en\"\n" +
                 "Content.Event.0.EventDateTime: 1970-01-01T01:00:00\n" +
                 "Content.Event.0.Outcome: OK\n" +
@@ -701,7 +702,7 @@ class ContentTest {
                 "    <CommonName>Verte à détente</CommonName>\n" +
                 "    <ScientificName>Viridi Rana Elasticis</ScientificName>\n" +
                 "  </Frog>\n";
-        assertThat(csvList.size()).isEqualTo(11);
+        assertThat(csvList).hasSize(11);
         assertThat(tmp).isEqualTo(csvListString);
     }
 
@@ -843,16 +844,16 @@ class ContentTest {
                 "  </Requirer>\n" +
                 "</Content>";
 
-        List<String> filter= Arrays.asList("Description","Title","Event","Frog");
+        List<String> filter = Arrays.asList("Description", "Title", "Event", "Frog");
 
-        Content content= (Content) Content.fromString(contentXmlData,
+        Content content = (Content) Content.fromString(contentXmlData,
                 Content.class);
 
         // When the csv list is generated
-        String tmp=content.filteredToString(filter);
+        String tmp = content.filteredToString(filter);
 
         // Then
-        String out="<Content>\n" +
+        String out = "<Content>\n" +
                 "  <Description xml:lang=\"en\">TestDescription EN</Description>\n" +
                 "  <Event>\n" +
                 "    <EventDateTime>1970-01-01T01:00:00</EventDateTime>\n" +
@@ -904,6 +905,43 @@ class ContentTest {
         assertThat(cOut).isEqualTo(testOut);
     }
 
+    @Test
+    void testSeda2Version() throws SEDALibException {
+        // Given
+        Content c = new Content();
+
+        // When loaded with all metadata with specific kind of creation
+        c.addNewMetadata("Gps", null, -100000, "TestLatitude", "TestLongitude", null);
+        c.addNewMetadata("Keyword", "TestKeywordContent", null, null);
+
+        // and add Agent in SEDA 2.1 version then
+        assertThatThrownBy(()->c.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier"))
+                .isInstanceOf(SEDALibException.class).hasMessageContaining("Pas de constructeur de l'élément [Agent]");
+
+        // and add Agent in SEDA 2.1 version then
+        SEDA2Version.setSeda2Version(2);
+        c.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier");
+        String cOut = c.toString();
+        String testOut = "<Content>\n" +
+                "  <Keyword>\n" +
+                "    <KeywordContent>TestKeywordContent</KeywordContent>\n" +
+                "  </Keyword>\n" +
+                "  <Agent>\n" +
+                "    <FirstName>TestFirstName</FirstName>\n" +
+                "    <BirthName>TestBirthName</BirthName>\n" +
+                "    <Identifier>TestIdentifier</Identifier>\n" +
+                "  </Agent>\n"+
+                "  <Gps>\n" +
+                "    <GpsLatitude>TestLatitude</GpsLatitude>\n" +
+                "    <GpsLatitudeRef>N</GpsLatitudeRef>\n" +
+                "    <GpsLongitude>TestLongitude</GpsLongitude>\n" +
+                "    <GpsLongitudeRef>E</GpsLongitudeRef>\n" +
+                "  </Gps>\n" +
+                "</Content>";
+        assertThat(cOut).isEqualTo(testOut);
+        SEDA2Version.setSeda2Version(1);
+    }
+
 
     @Test
     void testSomeExceptions() {
@@ -913,19 +951,19 @@ class ContentTest {
         // When loaded with all different kind of metadata
 
         //Test wrong args in addNewMetadata
-        assertThatThrownBy(() -> c.addNewMetadata("DescriptionLevel", "Test1","Test2"))
+        assertThatThrownBy(() -> c.addNewMetadata("DescriptionLevel", "Test1", "Test2"))
                 .hasMessageContaining("Pas de constructeur"); // for StringType
-        assertThatThrownBy(() -> c.addNewMetadata("Description", "Test1","Test2","Test3"))
+        assertThatThrownBy(() -> c.addNewMetadata("Description", "Test1", "Test2", "Test3"))
                 .hasMessageContaining("Pas de constructeur"); // for TextType
         assertThatThrownBy(() -> c.addNewMetadata("Recipient", "Test", 1))
                 .hasMessageContaining("Pas de constructeur"); // for AgentType
         assertThatThrownBy(() -> c.addNewMetadata("XMLTest", new Date(0)))
                 .hasMessageContaining("Pas de constructeur"); // for GenericXMLBlock
-        Event event=new Event();
+        Event event = new Event();
         assertThatThrownBy(() -> event.addNewMetadata("EventDateTime", "Date"))
                 .hasMessageContaining("Impossible de construire"); // for DateTimeType
         // Test Keyword metadata with wrong KeywordType
-        assertThatThrownBy(()->c.addNewMetadata("Keyword", "TestKeywordContent", "TestKeywordReference", "notconvenient"))
+        assertThatThrownBy(() -> c.addNewMetadata("Keyword", "TestKeywordContent", "TestKeywordReference", "notconvenient"))
                 .hasMessageContaining("Impossible de construire l'élément [Keyword]");
 
     }
@@ -938,58 +976,58 @@ class ContentTest {
         // When loaded with all different kind of metadata (in random order)
 
         // Test expandability
-        AgentType beneficiary=new AgentType("Beneficiary","TestFirstName","TestBirthName","TestIdentifier");
+        AgentType beneficiary = new AgentType("Beneficiary", "TestFirstName", "TestBirthName", "TestIdentifier");
         c.addMetadata(beneficiary);
 
         // Test Signer metadata
-        Signature signature=new Signature();
-        signature.addNewMetadata("Signer","TestFullName",LocalDateTime.of(1970,1,1,1,0));
-        signature.addNewMetadata("Signer","TestFirstName","TestBirthName",LocalDateTime.of(1970,1,1,1,0));
-        signature.addNewMetadata("Signer","TestFirstName","TestBirthName",LocalDateTime.of(1970,1,1,1,0),"TestIdentifier");
-        signature.addNewMetadata("Validator","TestFullName",LocalDateTime.of(1970,1,1,1,0));
-        signature.addNewMetadata("ReferencedObject","TestSystemID","TestDigest");
+        Signature signature = new Signature();
+        signature.addNewMetadata("Signer", "TestFullName", LocalDateTime.of(1970, 1, 1, 1, 0));
+        signature.addNewMetadata("Signer", "TestFirstName", "TestBirthName", LocalDateTime.of(1970, 1, 1, 1, 0));
+        signature.addNewMetadata("Signer", "TestFirstName", "TestBirthName", LocalDateTime.of(1970, 1, 1, 1, 0), "TestIdentifier");
+        signature.addNewMetadata("Validator", "TestFullName", LocalDateTime.of(1970, 1, 1, 1, 0));
+        signature.addNewMetadata("ReferencedObject", "TestSystemID", "TestDigest");
         c.addMetadata(signature);
 
         // Test Keyword metadata
-        c.addNewMetadata("Keyword","TestKeywordContent","TestKeywordReference","corpname");
+        c.addNewMetadata("Keyword", "TestKeywordContent", "TestKeywordReference", "corpname");
 
         // Test Keyword metadata
-        c.addNewMetadata("Keyword","TestKeywordContent2",null,null);
+        c.addNewMetadata("Keyword", "TestKeywordContent2", null, null);
 
         // Test GPS metadata
-        c.addNewMetadata("Gps", "TestVersion",10000,"-TestLatitude","-TestLongitude","TestDateStamp");
+        c.addNewMetadata("Gps", "TestVersion", 10000, "-TestLatitude", "-TestLongitude", "TestDateStamp");
 
         // Test Event metadata
-        c.addNewMetadata("Event","TestEventIdentifier2", null, null, null);
-        c.addNewMetadata("Event","TestEventIdentifier", "TestEventType",
-                LocalDateTime.of(1970,1,1,1,0), "TestOutcome");
+        c.addNewMetadata("Event", "TestEventIdentifier2", null, null, null);
+        c.addNewMetadata("Event", "TestEventIdentifier", "TestEventType",
+                LocalDateTime.of(1970, 1, 1, 1, 0), "TestOutcome");
 
         // Test CustodialHistory metadata
         c.addNewMetadata("CustodialHistory", "TestItem1", "TestItem2", "TestItem3", "TestItem4");
 
         // Test Coverage metadata
-        Coverage coverage=new Coverage();
-        coverage.addNewMetadata("Spatial","TestSpatial1");
-        coverage.addNewMetadata("Spatial","TestSpatial2");
-        coverage.addNewMetadata("Spatial","TestSpatial3");
-        coverage.addNewMetadata("Temporal","TestTemporal1");
-        coverage.addNewMetadata("Temporal","TestTemporal2");
-        coverage.addNewMetadata("Juridictional","TestJuridictional1");
+        Coverage coverage = new Coverage();
+        coverage.addNewMetadata("Spatial", "TestSpatial1");
+        coverage.addNewMetadata("Spatial", "TestSpatial2");
+        coverage.addNewMetadata("Spatial", "TestSpatial3");
+        coverage.addNewMetadata("Temporal", "TestTemporal1");
+        coverage.addNewMetadata("Temporal", "TestTemporal2");
+        coverage.addNewMetadata("Juridictional", "TestJuridictional1");
         c.addMetadata(coverage);
 
         // Test AgencyType metadata
-        c.addNewMetadata("OriginatingAgency","TestAgencyIdentifier");
+        c.addNewMetadata("OriginatingAgency", "TestAgencyIdentifier");
 
         // Test AgentType metadata
-        c.addNewMetadata("Writer","TestFullName");
-        c.addNewMetadata("Writer","TestFirstName","TestBirthName");
-        c.addNewMetadata("Writer","TestFirstName","TestBirthName","TestIdentifier");
-        AgentType writer=new AgentType("Writer","TestFullName");
-        writer.addNewMetadata("BirthPlace","TestGeogname");
+        c.addNewMetadata("Writer", "TestFullName");
+        c.addNewMetadata("Writer", "TestFirstName", "TestBirthName");
+        c.addNewMetadata("Writer", "TestFirstName", "TestBirthName", "TestIdentifier");
+        AgentType writer = new AgentType("Writer", "TestFullName");
+        writer.addNewMetadata("BirthPlace", "TestGeogname");
         c.addMetadata(writer);
 
         // Test DateTimeType metadata
-        c.addNewMetadata("CreatedDate",LocalDateTime.of(2019,1,1,1,0));
+        c.addNewMetadata("CreatedDate", LocalDateTime.of(2019, 1, 1, 1, 0));
 
         // Test TextType metadata
         c.addNewMetadata("Description", "TestDescription");

@@ -57,6 +57,7 @@ class SIPImportTest implements UseTestFiles {
                 "    \"dataObjectGroupId\" : null,\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
+                "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectVersion\" : {\n" +
                 "      \"type\" : \"StringType\",\n" +
@@ -141,6 +142,7 @@ class SIPImportTest implements UseTestFiles {
                 "    \"dataObjectGroupId\" : null,\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
+                "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectVersion\" : {\n" +
                 "      \"type\" : \"StringType\",\n" +
