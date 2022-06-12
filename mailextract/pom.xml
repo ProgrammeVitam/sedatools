@@ -10,7 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
 
-    <groupId>fr.gouv.vitam.tools</groupId>
     <artifactId>mailextract</artifactId>
 
     <name>mailextract</name>
@@ -18,8 +17,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -95,7 +92,7 @@
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
                 <artifactId>launch4j-maven-plugin</artifactId>
-                <version>1.7.15</version>
+                <version>${launch4j.version}</version>
                 <executions>
                     <execution>
                         <id>l4j-clui</id>
@@ -115,9 +112,8 @@
                             <jre>
                                 <path>.\jre</path>
                                 <bundledJre64Bit>false</bundledJre64Bit>
-                                <bundledJreAsFallback>false</bundledJreAsFallback>
-                                <minVersion>1.8.0</minVersion>
-                                <maxVersion></maxVersion>
+                                <bundledJreAsFallback>true</bundledJreAsFallback>
+                                <minVersion>11.0.0</minVersion>
                                 <jdkPreference>preferJre</jdkPreference>
                                 <runtimeBits>64</runtimeBits>
                                 <opts>
@@ -135,7 +131,6 @@
                                 <internalName>${project.name}</internalName>
                                 <originalFilename>MailExtract.exe</originalFilename>
                             </versionInfo>
-                            jar
                         </configuration>
                     </execution>
                 </executions>
