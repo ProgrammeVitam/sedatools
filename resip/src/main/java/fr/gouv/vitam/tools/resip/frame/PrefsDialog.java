@@ -63,55 +63,68 @@ public class PrefsDialog extends JDialog {
     /**
      * The actions components.
      */
-    private JTabbedPane tabbedPane;
+    private final JTabbedPane tabbedPane;
 
-    private JTextField messageIdentifierTextField;
-    private JTextField dateTextField;
-    private JCheckBox chckbxNowFlag;
-    private JTextArea commentTextArea;
-    private JTextField archivalAgreementTextField;
-    private JTextField archivalAgencyIdentifierTextField;
-    private JTextField transferringAgencyIdentifierTextField;
+    private final JTextField messageIdentifierTextField;
+    private final JTextField dateTextField;
+    private final JCheckBox chckbxNowFlag;
+    private final JTextArea commentTextArea;
+    private final JTextField archivalAgreementTextField;
+    private final JTextField archivalAgencyIdentifierTextField;
+    private final JTextField transferringAgencyIdentifierTextField;
 
-    private JTextArea clvTextArea;
-    private JTextArea managementMetadataTextArea;
-    private JTextField transferRequestReplyIdentifierTextField;
-    private JTextArea archivalAgencyOrganizationDescriptiveMetadataTextArea;
-    private JTextArea transferringAgencyOrganizationDescriptiveMetadataTextArea;
+    private final JTextArea clvTextArea;
+    private final JTextArea managementMetadataTextArea;
+    private final JTextField transferRequestReplyIdentifierTextField;
+    private final JTextArea archivalAgencyOrganizationDescriptiveMetadataTextArea;
+    private final JTextArea transferringAgencyOrganizationDescriptiveMetadataTextArea;
 
-    private JComboBox<String> defaultMailCharsetCombobox;
-    private JCheckBox messageFileCheckBox;
-    private JCheckBox attachementFileCheckBox;
-    private JCheckBox messageMetadataCheckBox;
-    private JCheckBox attachementMetadataCheckBox;
-    private JTextArea ignorePatternsTextArea;
-    private JCheckBox ignoreLinksChexBox;
-    private JComboBox<String> csvCharsetCombobox;
-    private JTextField csvDelimiterTextField;
+    private final JComboBox<String> defaultMailCharsetCombobox;
+    private final JCheckBox messageFileCheckBox;
+    private final JCheckBox attachementFileCheckBox;
+    private final JCheckBox messageMetadataCheckBox;
+    private final JCheckBox attachementMetadataCheckBox;
+    private final JTextArea ignorePatternsTextArea;
+    private final JCheckBox ignoreLinksChexBox;
+    private final JComboBox<String> csvCharsetCombobox;
+    private final JTextField csvDelimiterTextField;
 
-    private JTextField workDirTextField;
-    private JRadioButton hierarchicalRadioButton;
-    private JRadioButton indentedRadioButton;
-    private JRadioButton firstUsageButton;
-    private JRadioButton lastUsageButton;
-    private JRadioButton allUsageButton;
-    private JTextField nameMaxSizeTextField;
-    private JCheckBox csvExtendedFormatChexBox;
-    private JRadioButton reindexYesRadioButton;
-    private JTextArea metadataFilterTextArea;
-    private JCheckBox metadataFilterCheckBox;
+    private final JTextField workDirTextField;
+    private final JRadioButton hierarchicalRadioButton;
+    private final JRadioButton indentedRadioButton;
+    private final JRadioButton firstUsageButton;
+    private final JRadioButton lastUsageButton;
+    private final JRadioButton allUsageButton;
+    private final JTextField nameMaxSizeTextField;
+    private final JCheckBox csvExtendedFormatChexBox;
+    private final JRadioButton reindexYesRadioButton;
+    private final JTextArea metadataFilterTextArea;
+    private final JCheckBox metadataFilterCheckBox;
 
-    private JRadioButton seda2Version1RadioButton;
-    private JTextField dupMaxTextField;
-    private JRadioButton structuredInterfaceRadioButton;
-    private JCheckBox debugModeCheckBox;
+    private JTextField maxMetadataSizeTextField;
+    private JTextField maxDocumentNumberTextField;
+    private JRadioButton zipRadioButton;
+    private JCheckBox compactMetadataFilterCheckBox;
+    private JTextArea compactMetadataFilterTextArea;
+    private JTextArea compactDocumentDataObjectVersionFilterTextArea;
+    private JTextArea compactSubDocumentDataObjectVersionFilterTextArea;
 
-    private JFrame owner;
+    private final JRadioButton seda2Version1RadioButton;
+    private final JTextField dupMaxTextField;
+    private final JRadioButton structuredInterfaceRadioButton;
+    private final JCheckBox debugModeCheckBox;
+    private final JCheckBox experimentalModeCheckBox;
+
+    private final JFrame owner;
 
     /**
      * The data.
      */
     public final transient CreationContext cc;
+    /**
+     * The Coc.
+     */
+    public final transient CompactContext coc;
     /**
      * The Dic.
      */
@@ -145,7 +158,7 @@ public class PrefsDialog extends JDialog {
     /**
      * The proposed charsets.
      */
-    private static String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
+    private static final String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
             "IBM850", "IBM852", "IBM855", "IBM857", "IBM862", "IBM866", "ISO-8859-2", "ISO-8859-4", "ISO-8859-5",
             "ISO-8859-7", "ISO-8859-9", "ISO-8859-13", "ISO-8859-15", "KOI8-R", "KOI8-U", "US-ASCII", "UTF-16",
             "UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
@@ -182,6 +195,7 @@ public class PrefsDialog extends JDialog {
         GridBagConstraints gbc;
 
         cc = new CreationContext(Prefs.getInstance());
+        coc = new CompactContext(Prefs.getInstance());
         dic = new DiskImportContext(Prefs.getInstance());
         mic = new MailImportContext(Prefs.getInstance());
         gmc = new ExportContext(Prefs.getInstance());
@@ -522,7 +536,7 @@ public class PrefsDialog extends JDialog {
         GridBagLayout gblExportParametersPanel = new GridBagLayout();
         gblExportParametersPanel.columnWeights = new double[]{0, 0.5, 0.5, 0};
         gblExportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-        gblExportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
+        gblExportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
         exportParametersPanel.setLayout(gblExportParametersPanel);
 
         JLabel inSIPLabel = new JLabel("Options de formation du SIP");
@@ -971,6 +985,209 @@ public class PrefsDialog extends JDialog {
         importParametersPanel.add(csvDelimiterTextField, gbc);
         csvDelimiterTextField.setColumns(1);
 
+        if (ResipGraphicApp.getTheApp().interfaceParameters.isExperimentalFlag()) {
+            // CompactParameters Panel
+            JPanel compactParametersPanel = new JPanel();
+            tabbedPane.addTab("Compact", new ImageIcon(getClass().getResource("/icon/package-x-generic.png")), compactParametersPanel, null);
+            GridBagLayout gblCompactParametersPanel = new GridBagLayout();
+            gblCompactParametersPanel.columnWeights = new double[]{0.20, 0.15, 0.25, 0.15, 0.25};
+            gblCompactParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+            gblCompactParametersPanel.rowWeights = new double[]{0, 0, 0, 0.4, 0, 0, 0, 1};
+            compactParametersPanel.setLayout(gblCompactParametersPanel);
+
+            JLabel compactLabel = new JLabel("Limites des paquets de documents");
+            compactLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+            gbc = new GridBagConstraints();
+            gbc.gridwidth = 3;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            gbc.weightx = 1.0;
+            gbc.anchor = GridBagConstraints.NORTHWEST;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            compactParametersPanel.add(compactLabel, gbc);
+
+            compactLabel = new JLabel("Taille max des métadonnées :");
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.EAST;
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 0;
+            gbc.gridy = 1;
+            compactParametersPanel.add(compactLabel, gbc);
+
+            maxMetadataSizeTextField = new JTextField();
+            ((AbstractDocument) maxMetadataSizeTextField.getDocument()).setDocumentFilter(filter);
+            maxMetadataSizeTextField.setText(Integer.toString(coc.getMaxMetadataSize()));
+            maxMetadataSizeTextField.setFont(MainWindow.DETAILS_FONT);
+            maxMetadataSizeTextField.setColumns(10);
+            gbc = new GridBagConstraints();
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 1;
+            gbc.gridy = 1;
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            compactParametersPanel.add(maxMetadataSizeTextField, gbc);
+
+            compactLabel = new JLabel("Nombre max de documents :");
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.EAST;
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 2;
+            gbc.gridy = 1;
+            compactParametersPanel.add(compactLabel, gbc);
+
+            maxDocumentNumberTextField = new JTextField();
+            ((AbstractDocument) maxDocumentNumberTextField.getDocument()).setDocumentFilter(filter);
+            maxDocumentNumberTextField.setText(Integer.toString(coc.getMaxDocumentNumber()));
+            maxDocumentNumberTextField.setFont(MainWindow.DETAILS_FONT);
+            maxDocumentNumberTextField.setColumns(10);
+            gbc = new GridBagConstraints();
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 3;
+            gbc.gridy = 1;
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            compactParametersPanel.add(maxDocumentNumberTextField, gbc);
+
+            compactLabel = new JLabel("Filtrage des version d'objet");
+            compactLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+            gbc = new GridBagConstraints();
+            gbc.gridwidth = 3;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            gbc.weightx = 1.0;
+            gbc.anchor = GridBagConstraints.NORTHWEST;
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.gridx = 0;
+            gbc.gridy = 2;
+            compactParametersPanel.add(compactLabel, gbc);
+
+            compactLabel = new JLabel("Documents:");
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.NORTHEAST;
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 0;
+            gbc.gridy = 3;
+            compactParametersPanel.add(compactLabel, gbc);
+
+            scrollPane = new JScrollPane();
+            gbc = new GridBagConstraints();
+            gbc.weightx = 1.0;
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 1;
+            gbc.gridy = 3;
+            compactParametersPanel.add(scrollPane, gbc);
+
+            compactDocumentDataObjectVersionFilterTextArea = new JTextArea();
+            compactDocumentDataObjectVersionFilterTextArea.setFont(MainWindow.DETAILS_FONT);
+            scrollPane.setViewportView(compactDocumentDataObjectVersionFilterTextArea);
+            if (coc.getDocumentKeptDataObjectVersionList() != null)
+                compactDocumentDataObjectVersionFilterTextArea.setText(String.join("\n", String.join("\n", coc.getDocumentKeptDataObjectVersionList())));
+            compactDocumentDataObjectVersionFilterTextArea.setCaretPosition(0);
+
+            compactLabel = new JLabel("Sous-documents:");
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.NORTHEAST;
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 2;
+            gbc.gridy = 3;
+            compactParametersPanel.add(compactLabel, gbc);
+
+            scrollPane = new JScrollPane();
+            gbc = new GridBagConstraints();
+            gbc.weightx = 1.0;
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 3;
+            gbc.gridy = 3;
+            compactParametersPanel.add(scrollPane, gbc);
+
+            compactSubDocumentDataObjectVersionFilterTextArea = new JTextArea();
+            compactSubDocumentDataObjectVersionFilterTextArea.setFont(MainWindow.DETAILS_FONT);
+            scrollPane.setViewportView(compactSubDocumentDataObjectVersionFilterTextArea);
+            if (coc.getSubDocumentKeptDataObjectVersionList() != null)
+                compactSubDocumentDataObjectVersionFilterTextArea.setText(String.join("\n", String.join("\n", coc.getSubDocumentKeptDataObjectVersionList())));
+            compactSubDocumentDataObjectVersionFilterTextArea.setCaretPosition(0);
+
+            compactLabel = new JLabel("Mode de construction des paquets de documents");
+            compactLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+            gbc = new GridBagConstraints();
+            gbc.gridwidth = 3;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            gbc.anchor = GridBagConstraints.NORTHWEST;
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.gridx = 0;
+            gbc.gridy = 4;
+            compactParametersPanel.add(compactLabel, gbc);
+
+            zipRadioButton = new JRadioButton("Compressé(.zip)");
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.insets = new Insets(0, 0, 5, 5);
+            gbc.gridx = 1;
+            gbc.gridy = 5;
+            compactParametersPanel.add(zipRadioButton, gbc);
+
+            JRadioButton tarRadioButton = new JRadioButton("Sans compression(.tar)");
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.WEST;
+            gbc.insets = new Insets(0, 0, 5, 5);
+            gbc.gridx = 2;
+            gbc.gridy = 5;
+            compactParametersPanel.add(tarRadioButton, gbc);
+
+            ButtonGroup arcMethodButtonGroup = new ButtonGroup();
+            arcMethodButtonGroup.add(zipRadioButton);
+            arcMethodButtonGroup.add(tarRadioButton);
+            arcMethodButtonGroup.clearSelection();
+            if (coc.isDeflatedFlag())
+                zipRadioButton.setSelected(true);
+            else
+                tarRadioButton.setSelected(true);
+
+            compactLabel = new JLabel("Filtrage des métadonnées");
+            compactLabel.setFont(MainWindow.BOLD_LABEL_FONT);
+            gbc = new GridBagConstraints();
+            gbc.gridwidth = 3;
+            gbc.insets = new Insets(5, 5, 5, 5);
+            gbc.weightx = 1.0;
+            gbc.anchor = GridBagConstraints.NORTHWEST;
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.gridx = 0;
+            gbc.gridy = 6;
+            compactParametersPanel.add(compactLabel, gbc);
+
+            scrollPane = new JScrollPane();
+            gbc = new GridBagConstraints();
+            gbc.weightx = 1.0;
+            gbc.gridwidth = 3;
+            gbc.fill = GridBagConstraints.BOTH;
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 1;
+            gbc.gridy = 7;
+            compactParametersPanel.add(scrollPane, gbc);
+
+            compactMetadataFilterTextArea = new JTextArea();
+            compactMetadataFilterTextArea.setFont(MainWindow.DETAILS_FONT);
+            scrollPane.setViewportView(compactMetadataFilterTextArea);
+            if (coc.getKeptMetadataList() != null)
+                compactMetadataFilterTextArea.setText(String.join("\n", String.join("\n", coc.getKeptMetadataList())));
+            compactMetadataFilterTextArea.setCaretPosition(0);
+
+            compactMetadataFilterCheckBox = new JCheckBox("Seules métadonnées compactées :");
+            compactMetadataFilterCheckBox.setToolTipText("Liste des noms de métadonnées dans <Content>, utilisée comm filtre si coché ");
+            compactMetadataFilterCheckBox.setSelected(coc.isMetadataFilterFlag());
+            compactMetadataFilterTextArea.setEnabled(coc.isMetadataFilterFlag());
+            gbc = new GridBagConstraints();
+            gbc.anchor = GridBagConstraints.EAST;
+            gbc.insets = new Insets(0, 5, 5, 5);
+            gbc.gridx = 0;
+            gbc.gridy = 7;
+            gbc.weighty = 1.0;
+            compactParametersPanel.add(compactMetadataFilterCheckBox, gbc);
+            compactMetadataFilterCheckBox.addItemListener(this::compactMetadataFilterEvent);
+        }
+
         // TreatmentParameters Panel
         JPanel treatmentParametersPanel = new JPanel();
         tabbedPane.addTab("Traitement/Interface", new ImageIcon(getClass().getResource("/icon/edit-find-replace.png")),
@@ -1137,7 +1354,7 @@ public class PrefsDialog extends JDialog {
         else
             classicInterfaceRadioButton.setSelected(true);
 
-        JLabel debugModeLabel = new JLabel("Mode débug actif:");
+        JLabel debugModeLabel = new JLabel("Modes spécifiques:");
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTHEAST;
         gbc.insets = new Insets(0, 0, 5, 5);
@@ -1145,7 +1362,7 @@ public class PrefsDialog extends JDialog {
         gbc.gridy = 8;
         treatmentParametersPanel.add(debugModeLabel, gbc);
 
-        debugModeCheckBox = new JCheckBox("");
+        debugModeCheckBox = new JCheckBox("debug");
         debugModeCheckBox.setSelected(ip.isDebugFlag());
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.NORTHWEST;
@@ -1153,6 +1370,15 @@ public class PrefsDialog extends JDialog {
         gbc.gridx = 1;
         gbc.gridy = 8;
         treatmentParametersPanel.add(debugModeCheckBox, gbc);
+
+        experimentalModeCheckBox = new JCheckBox("experimental");
+        experimentalModeCheckBox.setSelected(ip.isExperimentalFlag());
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 2;
+        gbc.gridy = 8;
+        treatmentParametersPanel.add(experimentalModeCheckBox, gbc);
 
         // Buttons
         JButton cancelButton = new JButton("Annuler");
@@ -1187,6 +1413,14 @@ public class PrefsDialog extends JDialog {
             metadataFilterTextArea.setEnabled(true);
         } else if (event.getStateChange() == DESELECTED) {
             metadataFilterTextArea.setEnabled(false);
+        }
+    }
+
+    private void compactMetadataFilterEvent(ItemEvent event) {
+        if (event.getStateChange() == SELECTED) {
+            compactMetadataFilterTextArea.setEnabled(true);
+        } else if (event.getStateChange() == DESELECTED) {
+            compactMetadataFilterTextArea.setEnabled(false);
         }
     }
 
@@ -1330,6 +1564,43 @@ public class PrefsDialog extends JDialog {
         cic.setDelimiter((csvDelimiterTextField.getText().isEmpty() ? ';' : csvDelimiterTextField.getText().charAt(0)));
         cic.setCsvCharsetName((String) csvCharsetCombobox.getSelectedItem());
 
+        if (ResipGraphicApp.getTheApp().interfaceParameters.isExperimentalFlag()) {
+            try {
+                tmp = Integer.parseInt(maxMetadataSizeTextField.getText());
+                if (tmp < 0)
+                    throw new NumberFormatException("Number not strictly positive");
+            } catch (NumberFormatException e) {
+                tabbedPane.setSelectedIndex(3);
+                UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
+                        "La taille limite des métadonnées exportées doit être un nombre supérieur à 0. A noter, 0 veut dire sans limite.",
+                        "Information", UserInteractionDialog.IMPORTANT_DIALOG,
+                        null);
+                return false;
+            }
+            coc.setMaxMetadataSize(tmp);
+            try {
+                tmp = Integer.parseInt(maxDocumentNumberTextField.getText());
+                if (tmp < 0)
+                    throw new NumberFormatException("Number not strictly positive");
+            } catch (NumberFormatException e) {
+                tabbedPane.setSelectedIndex(3);
+                UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
+                        "Le nombre limite de documents dans un paquet doit être un nombre supérieur à 0. A noter, 0 veut dire sans limite.",
+                        "Information", UserInteractionDialog.IMPORTANT_DIALOG,
+                        null);
+                return false;
+            }
+            coc.setMaxDocumentNumber(tmp);
+            coc.setMetadataFilterFlag(compactMetadataFilterCheckBox.isSelected());
+            coc.setDocumentKeptDataObjectVersionList(Arrays.asList(compactDocumentDataObjectVersionFilterTextArea.getText().split("\\s*\n\\s*"))
+                    .stream().map(String::trim).collect(Collectors.toList()));
+            coc.setSubDocumentKeptDataObjectVersionList(Arrays.asList(compactSubDocumentDataObjectVersionFilterTextArea.getText().split("\\s*\n\\s*"))
+                    .stream().map(String::trim).collect(Collectors.toList()));
+            coc.setKeptMetadataList(Arrays.asList(compactMetadataFilterTextArea.getText().split("\\s*\n\\s*"))
+                    .stream().map(String::trim).collect(Collectors.toList()));
+            coc.setDeflatedFlag(zipRadioButton.isSelected());
+        }
+
         try {
             tmp = getPositiveInt(dupMaxTextField.getText());
         } catch (NumberFormatException e) {
@@ -1362,6 +1633,8 @@ public class PrefsDialog extends JDialog {
 
         ip.setStructuredMetadataEditionFlag(structuredInterfaceRadioButton.isSelected());
         ip.setDebugFlag(debugModeCheckBox.isSelected());
+
+        ip.setExperimentalFlag(experimentalModeCheckBox.isSelected());
         return true;
     }
 

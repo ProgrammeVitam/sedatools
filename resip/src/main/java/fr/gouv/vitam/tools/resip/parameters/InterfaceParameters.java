@@ -27,13 +27,6 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
-import org.apache.commons.lang3.StringUtils;
-
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
  * The Class InterfaceParameters.
  */
@@ -46,15 +39,22 @@ public class InterfaceParameters {
     boolean structuredMetadataEditionFlag;
 
     /**
-     * The debugFlag flag
+     * The debug flag
      */
     private boolean debugFlag;
+
+    /**
+     * The experimental flag
+     */
+    private boolean experimentalFlag;
 
     /**
      * Instantiates a new creation context.
      */
     public InterfaceParameters() {
         structuredMetadataEditionFlag = true;
+        debugFlag = false;
+        experimentalFlag = false;
     }
 
 
@@ -65,7 +65,8 @@ public class InterfaceParameters {
      */
     public InterfaceParameters(Prefs prefs) {
         structuredMetadataEditionFlag=Boolean.parseBoolean(prefs.getPrefProperties().getProperty("interfaceParameters.structuredEdtionFlag", "true"));
-        debugFlag=Boolean.parseBoolean(prefs.getPrefProperties().getProperty("interfaceParameters.debugFlag", "false"));
+        debugFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("interfaceParameters.debugFlag", "false"));
+        experimentalFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("interfaceParameters.experimentalFlag", "false"));
     }
 
     /**
@@ -76,6 +77,7 @@ public class InterfaceParameters {
     public void toPrefs(Prefs prefs) {
         prefs.getPrefProperties().setProperty("interfaceParameters.structuredEdtionFlag",Boolean.toString(structuredMetadataEditionFlag));
         prefs.getPrefProperties().setProperty("interfaceParameters.debugFlag", Boolean.toString(debugFlag));
+        prefs.getPrefProperties().setProperty("interfaceParameters.experimentalFlag", Boolean.toString(experimentalFlag));
     }
 
     /**
@@ -83,7 +85,8 @@ public class InterfaceParameters {
      */
     public void setDefaultPrefs() {
         structuredMetadataEditionFlag=true;
-        debugFlag=false;
+        debugFlag = false;
+        experimentalFlag = false;
     }
 
     // Getters and setters
@@ -116,11 +119,29 @@ public class InterfaceParameters {
     }
 
     /**
-     * Set debug flag.
+     * Set experimental flag.
      *
      * @param debugFlag the debug flag
      */
     public void setDebugFlag(boolean debugFlag) {
         this.debugFlag = debugFlag;
+    }
+
+    /**
+     * Is experimental flag.
+     *
+     * @return the debug flag
+     */
+    public boolean isExperimentalFlag() {
+        return experimentalFlag;
+    }
+
+    /**
+     * Set debug flag.
+     *
+     * @param experimentalFlag the experimental flag
+     */
+    public void setExperimentalFlag(boolean experimentalFlag) {
+        this.experimentalFlag = experimentalFlag;
     }
 }
