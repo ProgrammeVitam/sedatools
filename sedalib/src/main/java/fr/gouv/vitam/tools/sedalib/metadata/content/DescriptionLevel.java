@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -143,6 +144,8 @@ public class DescriptionLevel extends NamedTypeMetadata {
      *
      * @return the value
      */
+    @Override
+    @JsonIgnore(false)
     public String getValue() {
         return value;
     }

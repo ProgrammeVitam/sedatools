@@ -38,7 +38,7 @@ import java.util.List;
  * Abstract class for composite object editor for structured editedObject list edition.
  * <p>Used for SEDAObjectEditorCompositePanel.
  */
-abstract public class CompositeEditor extends SEDAObjectEditor {
+public abstract class CompositeEditor extends SEDAObjectEditor {
 
     /**
      * The editedObject edition graphic component
@@ -49,10 +49,10 @@ abstract public class CompositeEditor extends SEDAObjectEditor {
      * Instantiates a new Composite editor.
      *
      * @param editedObject the composite editedObject
-     * @param father   the father
+     * @param father       the father
      */
-    public CompositeEditor(Object editedObject, SEDAObjectEditor father) {
-        super (editedObject,father);
+    protected CompositeEditor(Object editedObject, SEDAObjectEditor father) {
+        super(editedObject, father);
         this.objectEditorList = null;
     }
 
@@ -62,7 +62,7 @@ abstract public class CompositeEditor extends SEDAObjectEditor {
      * @return the extension list
      * @throws SEDALibException the seda lib exception
      */
-    abstract public List<Pair<String,String>> getExtensionList() throws SEDALibException;
+    public abstract List<Pair<String, String>> getExtensionList() throws SEDALibException;
 
     /**
      * Add a named editedObject child editor.
@@ -70,7 +70,7 @@ abstract public class CompositeEditor extends SEDAObjectEditor {
      * @param metadataName the editedObject name
      * @throws SEDALibException the seda lib exception
      */
-    abstract public void addChild(String metadataName) throws SEDALibException;
+    public abstract void addChild(String metadataName) throws SEDALibException;
 
     /**
      * Remove a child SEDA object editor.
@@ -106,5 +106,18 @@ abstract public class CompositeEditor extends SEDAObjectEditor {
         for (SEDAObjectEditor objectEditor : objectEditorList)
             if (objectEditor instanceof CompositeEditor)
                 ((CompositeEditor) objectEditor).doExpand(innerFlag, innerFlag);
+    }
+
+    /**
+     * Get the create sub editors only when expanded flag, false by default.
+     */
+    public boolean hasSubeditorsCreatedWhenExpandedFlag() {
+        return false;
+    }
+
+    /**
+     * Create sub editors.
+     */
+    public void createSubEditors() {
     }
 }

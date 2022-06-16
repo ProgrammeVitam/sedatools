@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 
 public abstract class NamedTypeMetadata extends SEDAMetadata {
@@ -36,7 +37,7 @@ public abstract class NamedTypeMetadata extends SEDAMetadata {
     /**
      * Instantiates a named type SEDAMetadata (for json serialization).
      */
-    public NamedTypeMetadata() {
+    protected NamedTypeMetadata() {
         this.elementName = null;
     }
 
@@ -45,12 +46,22 @@ public abstract class NamedTypeMetadata extends SEDAMetadata {
      *
      * @param elementName the XML element name
      */
-    public NamedTypeMetadata(String elementName) {
+    protected NamedTypeMetadata(String elementName) {
         this.elementName = elementName;
     }
 
     @Override
     public String getXmlElementName() {
         return elementName;
+    }
+
+    /**
+     * Get the value object of this metadata, default null.
+     *
+     * @return the object
+     */
+    @JsonIgnore
+    public Object getValue() {
+        return null;
     }
 }
