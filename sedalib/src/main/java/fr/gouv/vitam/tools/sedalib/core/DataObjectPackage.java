@@ -115,7 +115,7 @@ public class DataObjectPackage {
      * all ArchiveUnits or DataObjects in the graph, or to count the time they are
      * touched.
      */
-    private HashMap<String, Integer> touchedInDataObjectPackageIdMap;
+    private final HashMap<String, Integer> touchedInDataObjectPackageIdMap;
 
     /**
      * The Constant NORMALIZATION_STATUS_UNKNOWN.
@@ -415,10 +415,7 @@ public class DataObjectPackage {
         if (dataObject != null)
             return dataObject;
         dataObject = this.pdoInDataObjectPackageIdMap.get(inDataObjectPackageId);
-        if (dataObject != null)
-            return dataObject;
-
-        return null;
+        return dataObject;
     }
 
     /**
@@ -430,10 +427,10 @@ public class DataObjectPackage {
      * @return the next ID in DataObjectPackage
      */
     public String getNextInDataObjectPackageID() {
-        String id = "ID" + Integer.toString(idCounter++);
+        String id = "ID" + idCounter++;
         while (auInDataObjectPackageIdMap.containsKey(id) || dogInDataObjectPackageIdMap.containsKey(id)
                 || bdoInDataObjectPackageIdMap.containsKey(id) || pdoInDataObjectPackageIdMap.containsKey(id))
-            id = "ID" + Integer.toString(idCounter++);
+            id = "ID" + idCounter++;
         return id;
     }
 
@@ -445,7 +442,7 @@ public class DataObjectPackage {
      * @return the next RefID in DataObjectPackage
      */
     public String getNextRefID() {
-        return "RefID" + Integer.toString(refIdCounter++);
+        return "RefID" + refIdCounter++;
     }
 
     /**
@@ -597,12 +594,12 @@ public class DataObjectPackage {
      * @return the string representation
      */
     private String archiveUnitPathToString(List<ArchiveUnit> path) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         if (path != null) {
             for (ArchiveUnit au : path)
-                result += au.getInDataObjectPackageId() + "->";
+                result.append(au.getInDataObjectPackageId()).append("->");
         }
-        return result;
+        return result.toString();
     }
 
     /**
@@ -864,6 +861,69 @@ public class DataObjectPackage {
     }
 
     /**
+     * Actualise DataObject id and all contained DataObjects in maps.
+     *
+     * @param dataObject the DataObject
+     */
+    private void actualiseDataObjectId(DataObject dataObject) {
+        if (!isTouchedInDataObjectPackageId(dataObject.getInDataObjectPackageId())) {
+            if (dataObject instanceof DataObjectGroup) {
+                DataObjectGroup dataObjectGroup = (DataObjectGroup) dataObject;
+                dogInDataObjectPackageIdMap.put(dataObjectGroup.inDataPackageObjectId, dataObjectGroup);
+                for (BinaryDataObject bdo : dataObjectGroup.getBinaryDataObjectList())
+                    bdoInDataObjectPackageIdMap.put(bdo.getInDataObjectPackageId(), bdo);
+                for (PhysicalDataObject pdo : dataObjectGroup.getPhysicalDataObjectList())
+                    pdoInDataObjectPackageIdMap.put(pdo.getInDataObjectPackageId(), pdo);
+            } else if (dataObject instanceof BinaryDataObject)
+                bdoInDataObjectPackageIdMap.put(dataObject.getInDataObjectPackageId(), (BinaryDataObject) dataObject);
+            else if (dataObject instanceof PhysicalDataObject)
+                pdoInDataObjectPackageIdMap.put(dataObject.getInDataObjectPackageId(), (PhysicalDataObject) dataObject);
+        }
+    }
+
+    /**
+     * Actualise ArchiveUnit in maps and maintain an ordered list of all DataObjects to
+     * reindex.
+     *
+     * @param archiveUnit           the archive unit
+     * @param orderedDataObjectList the ordered data object list
+     */
+    private void actualiseArchiveUnitId(ArchiveUnit archiveUnit, List<DataObject> orderedDataObjectList) {
+        if (!isTouchedInDataObjectPackageId(archiveUnit.inDataPackageObjectId)) {
+            addTouchedInDataObjectPackageId(archiveUnit.inDataPackageObjectId);
+            orderedDataObjectList.addAll(archiveUnit.getDataObjectRefList().getDataObjectList());
+            auInDataObjectPackageIdMap.put(archiveUnit.inDataPackageObjectId, archiveUnit);
+            for (ArchiveUnit childAu : archiveUnit.getChildrenAuList().getArchiveUnitList())
+                actualiseArchiveUnitId(childAu, orderedDataObjectList);
+        }
+    }
+
+    /**
+     * Actualise all maps used to reference oll ArchiveUnits, DataObjectGroup, BinaryDataObject and
+     * PhysicalDataObject IDs.
+     * <p>
+     * This is usefull when an ArchiveUnit is removed, as the non more usefull reference is kept in the maps,
+     * and so all ArchiveUnit defining the object can't be garbage collected.
+     */
+    public void actualiseIdMaps() {
+        List<DataObject> orderedDataObjectList = new ArrayList<>(
+                dogInDataObjectPackageIdMap.size() +
+                        bdoInDataObjectPackageIdMap.size() +
+                        pdoInDataObjectPackageIdMap.size());
+        setAllReferencesByObjects();
+        resetTouchedInDataObjectPackageIdMap();
+        auInDataObjectPackageIdMap = new HashMap<>();
+        dogInDataObjectPackageIdMap = new HashMap<>();
+        bdoInDataObjectPackageIdMap = new HashMap<>();
+        pdoInDataObjectPackageIdMap = new HashMap<>();
+
+        for (ArchiveUnit root : ghostRootAu.getChildrenAuList().getArchiveUnitList())
+            actualiseArchiveUnitId(root, orderedDataObjectList);
+        for (DataObject dataObject : orderedDataObjectList)
+            actualiseDataObjectId(dataObject);
+    }
+
+    /**
      * Normalize the structure in Vitam standard form:
      * <ul>
      * <li>verify that there's no cycle in the ArchiveUnit graph</li>
@@ -909,14 +969,15 @@ public class DataObjectPackage {
     /**
      * The ID comparator to sort elements by inDataPackageObjectId.
      */
-    private static Comparator<String> idComparator = (id1, id2) -> {
-        int num1, num2;
+    private static final Comparator<String> idComparator = (id1, id2) -> {
+        int num1;
+        int num2;
         if (id1.toLowerCase().startsWith("id") && id2.toLowerCase().startsWith("id")) {
             try {
                 num1 = Integer.parseInt(id1.substring(2));
                 num2 = Integer.parseInt(id2.substring(2));
                 return num1 - num2;
-            } catch(NumberFormatException ignored){
+            } catch (NumberFormatException ignored) {
                 //ignored
             }
         }
@@ -1124,13 +1185,11 @@ public class DataObjectPackage {
                 tmp = xmlReader.peekName();
                 if (tmp == null)
                     break;
-                switch (tmp) {
-                    case "ArchiveUnit":
-                        String auId = ArchiveUnit.idFromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: ArchiveUnit [" + auId + "] importé", null);
-                        break;
-                    default:
-                        inArchiveUnits = false;
+                if ("ArchiveUnit".equals(tmp)) {
+                    String auId = ArchiveUnit.idFromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
+                    doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: ArchiveUnit [" + auId + "] importé", null);
+                } else {
+                    inArchiveUnits = false;
                 }
             }
             xmlReader.endBlockNamed("DescriptiveMetadata");

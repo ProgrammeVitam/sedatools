@@ -28,6 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.compacted.DocumentContainer;
+import fr.gouv.vitam.tools.sedalib.metadata.compacted.DocumentPack;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -35,6 +37,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +60,7 @@ public class Content extends ComplexListType {
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<>();
+        metadataMap = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
         metadataMap.put("DescriptionLevel", new ComplexListMetadataKind(DescriptionLevel.class, false));
         metadataMap.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
@@ -108,13 +111,16 @@ public class Content extends ComplexListType {
         // Vitam extensions
         metadataMap.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
+        // Experimental Compact extensions
+        metadataMap.put("DocumentContainer", new ComplexListMetadataKind(DocumentContainer.class, false));
+        metadataMap.put("DocumentPack", new ComplexListMetadataKind(DocumentPack.class, false));
     }
 
     @ComplexListMetadataMap(isExpandable = true, seda2Version = 2)
     public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
 
     static {
-        metadataMap_v2 = new LinkedHashMap<>();
+        metadataMap_v2 = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
         metadataMap_v2.put("DescriptionLevel", new ComplexListMetadataKind(DescriptionLevel.class, false));
         metadataMap_v2.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap_v2.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
@@ -167,6 +173,9 @@ public class Content extends ComplexListType {
         // specific in Seda 2.2 (was in Vitam before)
         metadataMap_v2.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
+        // Experimental Compact extensions
+        metadataMap_v2.put("DocumentContainer", new ComplexListMetadataKind(DocumentContainer.class, false));
+        metadataMap_v2.put("DocumentPack", new ComplexListMetadataKind(DocumentPack.class, false));
     }
 
     /**
@@ -183,7 +192,7 @@ public class Content extends ComplexListType {
      * @return the indented XML form String
      */
     public String filteredToString(List<String> keptMetadataList) {
-        String result = null;
+        String result;
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
             xmlWriter.writeStartElement(elementName);
@@ -193,12 +202,11 @@ public class Content extends ComplexListType {
             }
             xmlWriter.writeEndElement();
             xmlWriter.flush();
-            result = baos.toString("UTF-8");
+            result = baos.toString(StandardCharsets.UTF_8);
             if (result.startsWith("\n"))
                 result = result.substring(1);
         } catch (XMLStreamException | IOException | SEDALibException e) {
-            if (result == null)
-                result = super.toString();
+            result = super.toString();
         }
         return result;
     }
@@ -217,7 +225,7 @@ public class Content extends ComplexListType {
         String previousXMLElementName = null;
         int count = 0;
         for (SEDAMetadata sm : metadataList) {
-            if ((keptMetadataList!=null) && (!keptMetadataList.contains(sm.getXmlElementName())))
+            if ((keptMetadataList != null) && (!keptMetadataList.contains(sm.getXmlElementName())))
                 continue;
             if (!sm.getXmlElementName().equals(previousXMLElementName)) {
                 previousXMLElementName = sm.getXmlElementName();
@@ -229,7 +237,7 @@ public class Content extends ComplexListType {
             else
                 addedName = sm.getXmlElementName();
             LinkedHashMap<String, String> smCsvList = sm.toCsvList();
-            smCsvList.entrySet().stream().forEach(e -> result.put("Content."+addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue()));
+            smCsvList.entrySet().stream().forEach(e -> result.put("Content." + addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue()));
         }
         return result;
     }
