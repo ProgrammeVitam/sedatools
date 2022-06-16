@@ -403,6 +403,16 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
     }
 
     /**
+     * Replace the child ArchiveUnit in the list kept in this ArchiveUnit.
+     *
+     * @param originAu    the origin ArchiveUnit
+     * @param newAu the new ArchiveUnit
+     */
+    public void replaceChildArchiveUnit(ArchiveUnit originAu, ArchiveUnit newAu) {
+        childrenAuList.replace(originAu,newAu);
+    }
+
+    /**
      * Adds one child ArchiveUnit, defined by id, in the list kept in this
      * ArchiveUnit.
      *
@@ -646,15 +656,13 @@ public class ArchiveUnit extends DataObjectPackageIdElement {
              SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
             toSedaXml(xmlWriter, true, null);
             xmlWriter.flush();
-            result = baos.toString("UTF-8");
+            result = baos.toString(StandardCharsets.UTF_8);
             if (result.startsWith("\n"))
                 result = result.substring(1);
         } catch (XMLStreamException | IOException | SEDALibException e) {
-            if (result == null)
                 result = super.toString();
         }
         catch (InterruptedException e){
-            if (result == null)
                 result = super.toString();
             Thread.currentThread().interrupt();
         }
