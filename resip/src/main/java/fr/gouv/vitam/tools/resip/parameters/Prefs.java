@@ -39,8 +39,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getMessagesStackString;
-
 /**
  * The Class Prefs.
  * <p>
@@ -55,7 +53,7 @@ public class Prefs {
     /**
      * The preferences file name.
      */
-    static public final String PREFERENCES_FILENAME = "ResipPreferences.properties";
+    public static final String PREFERENCES_FILENAME = "ResipPreferences.properties";
 
     /** The preferences properties. */
     private Properties prefProperties;
@@ -66,7 +64,7 @@ public class Prefs {
     /**
      * The instance.
      */
-    static private Prefs instance;
+    private static Prefs instance;
 
 
     /**
@@ -99,15 +97,10 @@ public class Prefs {
                 public Set<Map.Entry<Object, Object>> entrySet() {
 
                     Set<Map.Entry<Object, Object>> set1 = super.entrySet();
-                    Set<Map.Entry<Object, Object>> set2 = new LinkedHashSet<Map.Entry<Object, Object>>(set1.size());
+                    Set<Map.Entry<Object, Object>> set2 = new LinkedHashSet<>(set1.size());
 
-                    Iterator<Map.Entry<Object, Object>> iterator = set1.stream().sorted(new Comparator<Map.Entry<Object, Object>>() {
-
-                        @Override
-                        public int compare(java.util.Map.Entry<Object, Object> o1, java.util.Map.Entry<Object, Object> o2) {
-                            return o1.getKey().toString().compareTo(o2.getKey().toString());
-                        }
-                    }).iterator();
+                    Iterator<Map.Entry<Object, Object>> iterator = set1.stream()
+                            .sorted((o1, o2) -> o1.getKey().toString().compareTo(o2.getKey().toString())).iterator();
 
                     while (iterator.hasNext())
                         set2.add(iterator.next());
@@ -155,6 +148,9 @@ public class Prefs {
             CreationContext oic = new CreationContext();
             oic.setDefaultPrefs();
             oic.toPrefs(this);
+            CompactContext coc = new CompactContext();
+            coc.setDefaultPrefs();
+            coc.toPrefs(this);
             ExportContext gmc = new ExportContext();
             gmc.setDefaultPrefs();
             gmc.toPrefs(this);

@@ -69,12 +69,12 @@ public class DustbinItem {
      * @param node       the node
      */
     public DustbinItem(DataObjectPackageTreeNode parentNode, DataObjectPackageTreeNode node) {
-		this.node=node;
+		this.node = node;
 		this.formerRoot = parentNode;
-		this.removedArchiveUnitList = new ArrayList<ArchiveUnit>();
-		this.removedDataObjectGroupList = new ArrayList<DataObjectGroup>();
-		this.removedBinaryDataObjectList = new ArrayList<BinaryDataObject>();
-		this.removedPhysicalDataObjectList = new ArrayList<PhysicalDataObject>();
+		this.removedArchiveUnitList = new ArrayList<>();
+		this.removedDataObjectGroupList = new ArrayList<>();
+		this.removedBinaryDataObjectList = new ArrayList<>();
+		this.removedPhysicalDataObjectList = new ArrayList<>();
 	}
 
     /**
@@ -111,21 +111,5 @@ public class DustbinItem {
 		removedDataObjectGroupList.add(dataObjectGroup);
 		removedBinaryDataObjectList.addAll(dataObjectGroup.getBinaryDataObjectList());
 		removedPhysicalDataObjectList.addAll(dataObjectGroup.getPhysicalDataObjectList());
-	}
-
-    /**
-     * Remove content from data object package.
-     *
-     * @param at the at
-     */
-    public void removeContentFromDataObjectPackage(DataObjectPackage at) {
-		for (ArchiveUnit au:removedArchiveUnitList)
-			at.getAuInDataObjectPackageIdMap().remove(au.getInDataObjectPackageId());
-		for (DataObjectGroup dog:removedDataObjectGroupList)
-			at.getDogInDataObjectPackageIdMap().remove(dog.getInDataObjectPackageId());
-		for (BinaryDataObject bdo:removedBinaryDataObjectList)
-			at.getBdoInDataObjectPackageIdMap().remove(bdo.getInDataObjectPackageId());
-		for (PhysicalDataObject pdo:removedPhysicalDataObjectList)
-			at.getPdoInDataObjectPackageIdMap().remove(pdo.getInDataObjectPackageId());
 	}
 }
