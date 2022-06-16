@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -82,7 +83,7 @@ public class IntegerType extends NamedTypeMetadata {
      */
     public IntegerType(String elementName, int value) {
         super(elementName);
-        this.value = (Long)((long)value);
+        this.value = ((long)value);
     }
 
     /**
@@ -123,7 +124,7 @@ public class IntegerType extends NamedTypeMetadata {
      * fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata#toCsvList()
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
-        LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> result = new LinkedHashMap<>();
         result.put("", (value==null?"":Long.toString(value)));
         return result;
     }
@@ -167,6 +168,8 @@ public class IntegerType extends NamedTypeMetadata {
      *
      * @return the value
      */
+    @Override
+    @JsonIgnore(false)
     public Long getValue() {
         return value;
     }

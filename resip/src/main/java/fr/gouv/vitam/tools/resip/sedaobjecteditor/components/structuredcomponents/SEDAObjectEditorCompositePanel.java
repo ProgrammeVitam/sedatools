@@ -81,7 +81,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
     /**
      * Instantiates a new Composite editor panel.
      *
-     * @param objectEditor    the SEDA object editor
+     * @param objectEditor      the SEDA object editor
      * @param moreMenuComponent the more menu component, to add behaviors in the editedObject label bar
      * @param topPanelFlag      the top panel flag, which determine different adaptations as if true the impossibility
      *                          to close ou delete, and change label font
@@ -89,7 +89,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
      */
     public SEDAObjectEditorCompositePanel(SEDAObjectEditor objectEditor, JComponent moreMenuComponent, boolean topPanelFlag) throws SEDALibException {
         super(objectEditor);
-        this.objectEditorPanelGridBagConstraintsHashMap = new HashMap<SEDAObjectEditorPanel, GridBagConstraints>();
+        this.objectEditorPanelGridBagConstraintsHashMap = new HashMap<>();
         this.maxIndex = -1;
         GridBagLayout gbl;
         GridBagConstraints gbc;
@@ -115,7 +115,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
             arrowCheckBox.setText("");
             arrowCheckBox.setMargin(new Insets(0, 0, 0, 0));
             arrowCheckBox.setFocusable(false);
-            arrowCheckBox.addItemListener(arg -> this.arrowEvent(arg));
+            arrowCheckBox.addItemListener(this::arrowEvent);
             gbc = new GridBagConstraints();
             gbc.anchor = GridBagConstraints.LINE_END;
             gbc.insets = new Insets(0, 0, 0, 0);
@@ -193,9 +193,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
 
         addMenu = new ExtensionButton(() -> {
             return ((CompositeEditor) objectEditor).getExtensionList();
-        }, (ActionEvent arg) -> {
-            doExtend(objectEditor, arg);
-        });
+        }, (ActionEvent arg) -> doExtend(objectEditor, arg));
         addMenu.setToolTipText("Ajouter un élément dans la liste du menu déroulant...");
         addMenu.setMargin(new Insets(0, 0, 0, 0));
         addMenu.setBorderPainted(false);
@@ -230,7 +228,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
         gbc.gridy = 0;
         add(summary, gbc);
 
-        separator = new JSeparator(JSeparator.HORIZONTAL);
+        separator = new JSeparator(SwingConstants.HORIZONTAL);
         separator.setBackground(SEDAObjectEditor.GENERAL_BACKGROUND);
         separator.setForeground(SEDAObjectEditor.COMPOSITE_LABEL_SEPARATOR_COLOR);
         gbc = new GridBagConstraints();
@@ -281,7 +279,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
         Iterator<SEDAObjectEditorPanel> it = objectEditorPanelGridBagConstraintsHashMap.keySet().iterator();
         while (it.hasNext()) {
             SEDAObjectEditorPanel oep = it.next();
-            if (!(((CompositeEditor) objectEditor).objectEditorList).contains(oep.objectEditor)){
+            if (!(((CompositeEditor) objectEditor).objectEditorList).contains(oep.objectEditor)) {
                 remove(oep);
                 it.remove();
             }
@@ -313,11 +311,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
      * @param expandedFlag the expanded flag
      */
     public void setExpanded(boolean expandedFlag) {
-        if (expandedFlag) {
-            arrowCheckBox.setSelected(false);
-        } else {
-            arrowCheckBox.setSelected(true);
-        }
+        arrowCheckBox.setSelected(!expandedFlag);
     }
 
     /**
@@ -345,6 +339,8 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
             editedObjectLabel.setHorizontalAlignment(SwingConstants.TRAILING);
             this.validate();
         } else if (event.getStateChange() == DESELECTED) {
+            if (((CompositeEditor) objectEditor).hasSubeditorsCreatedWhenExpandedFlag())
+                ((CompositeEditor) objectEditor).createSubEditors();
             summary.setVisible(false);
             addMenu.setVisible(true);
             for (SEDAObjectEditorPanel mep : objectEditorPanelGridBagConstraintsHashMap.keySet())
@@ -359,7 +355,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
      * Do extend, adding an SEDAObjectEditor.
      *
      * @param objectEditor the SEDA object editor
-     * @param event          the event
+     * @param event        the event
      */
     public static void doExtend(SEDAObjectEditor objectEditor, ActionEvent event) {
         try {
@@ -367,6 +363,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
             objectEditor.getSEDAObjectEditorPanelTopParent().revalidate();
             objectEditor.getSEDAObjectEditorPanelTopParent().repaint();
         } catch (SEDALibException ignored) {
+            // no real case
         }
     }
 }
