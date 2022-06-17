@@ -2,7 +2,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="fr:gouv:culture:archivesdefrance:seda:v2.2"
     xmlns:pr="info:lc/xmlns/premis-v2" xmlns="fr:gouv:culture:archivesdefrance:seda:v2.2" elementFormDefault="qualified"
     attributeFormDefault="unqualified" version="1.0">
-    <xsd:include schemaLocation="seda-2.2-types.xsd"/>
+    <xsd:include schemaLocation="seda-vitam-2.2-types.xsd"/>
     
     <xsd:group name="ObjectGroup">
         <xsd:annotation>
@@ -14,7 +14,9 @@
         </xsd:annotation>
         <xsd:sequence>
             <xsd:group ref="BaseObjectGroup"/>
-            <xsd:element ref="ObjectGroupExtenstionAbstract" minOccurs="0" maxOccurs="unbounded"/>
+            <!-- Redefined by VITAM -->
+            <!--<xsd:element ref="ObjectGroupExtenstionAbstract" minOccurs="0" maxOccurs="unbounded"/>-->
+            <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:group>
     
@@ -662,11 +664,7 @@
                     <xsd:documentation>Permet de renseigner des agents répertoriés dans des évènements.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element ref="EventAbstract" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation>Permet d'étendre de nouveaux types d'évenéments.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
+            <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="LinkingAgentIdentifierType">
@@ -681,7 +679,7 @@
                     <xsd:documentation>Mention d'un agent répertorié dans des évènements.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="LinkingAgentRole"  type="NonEmptyTokenType" minOccurs="0">
+            <xsd:element name="LinkingAgentRole" type="NonEmptyTokenType" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation>Fonction d'un agent répertorié dans des évènements.</xsd:documentation>
                 </xsd:annotation>
@@ -812,8 +810,9 @@
         </xsd:sequence>
     </xsd:group>
    
-    <!-- Pour ajouter des agents génériques -->
+    <!-- Pour ajouter des extensions d'agents -->
     <xsd:group name="AgentGroup">
+      <!--Redefined by vitam-->
         <xsd:sequence>
             <xsd:element name="Agent" type="AgentType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
@@ -1045,14 +1044,14 @@
         <xsd:sequence>
             <xsd:element name="OriginatingSystemIdReplyTo" type="NonEmptyTokenType" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation>Référence du message auquel on répond.</xsd:documentation>
+                    <xsd:documentation>Réponse au système émetteur d'un message électronique.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
     </xsd:group>
     <xsd:group name="TextContentGroup">
         <xsd:sequence>
-            <xsd:element name="TextContent" type="NonEmptyTokenType" minOccurs="0">
+            <xsd:element name="TextContent" type="NonEmptyTokenType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>Contenu du message électronique.</xsd:documentation>
                 </xsd:annotation>

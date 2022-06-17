@@ -25,7 +25,7 @@ import java.util.Scanner;
 public class SEDAXMLValidator {
 
     private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_1 = "seda-vitam-2.1-main.xsd";
-    private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_2 = "seda-2.2-main.xsd";
+    private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_2 = "seda-vitam-2.2-main.xsd";
     private static final String HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1 = "http://www.w3.org/XML/XMLSchema/v1.1";
     private static final String CATALOG_FILENAME = "xsd_validation/catalog.xml";
     private static final String RNG_FACTORY = "com.thaiopensource.relaxng.jaxp.XMLSyntaxSchemaFactory";

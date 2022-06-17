@@ -3,8 +3,8 @@
     xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xlink="http://www.w3.org/1999/xlink"
     xmlns="fr:gouv:culture:archivesdefrance:seda:v2.2" elementFormDefault="qualified"
     attributeFormDefault="unqualified" version="1.0">
-    <xsd:include schemaLocation="seda-2.2-types.xsd"/>
-    <xsd:include schemaLocation="seda-2.2-ontology.xsd"/>
+    <xsd:include schemaLocation="seda-vitam-2.2-types.xsd"/>
+    <xsd:include schemaLocation="seda-vitam-2.2-ontology.xsd"/>
     <!--
                 *****************************
                 ***   Code List
@@ -168,12 +168,6 @@
         </xsd:attribute>
     </xsd:complexType>
     
-    <!-- Données liées -->
-    <xsd:complexType name="RelationshipType">
-        <xsd:attribute name="target" type="xsd:IDREF" use="required"/>
-        <xsd:attribute name="type" type="NonEmptyTokenType" use="required"/>
-    </xsd:complexType>
-    
     <xsd:group name="MinimalBinaryDataObjectGroup">
         <xsd:sequence>
             <xsd:choice minOccurs="0" maxOccurs="1">
@@ -195,16 +189,6 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:group>
-    
-    <!-- Contenu de données binaire -->
-    <xsd:complexType name="BinaryObjectType"> 
-        <xsd:simpleContent>
-            <xsd:extension base="xsd:base64Binary">
-                <xsd:attribute name="filename" type="xsd:string" use="optional"/>
-                <xsd:attribute name="uri" type="xsd:anyURI" use="optional"/>
-            </xsd:extension>
-        </xsd:simpleContent>
-    </xsd:complexType> 
 
     <!-- Objet de donnees numérique -->
     <xsd:complexType name="BinaryDataObjectType">
@@ -237,9 +221,6 @@
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
-    
-    
-    
     <xsd:complexType name="CompressedType">
         <xsd:simpleContent>
             <xsd:extension base="xsd:string">
@@ -363,7 +344,9 @@
                     <xsd:documentation>Dimensions d'un objet-données physique.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element ref="OtherDimensionsAbstract" minOccurs="0" maxOccurs="unbounded"/>
+            <!-- Redefined by VITAM -->
+            <!-- <xsd:element ref="OtherDimensionsAbstract" minOccurs="0" maxOccurs="unbounded"/>-->
+            <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:group>
     
@@ -414,11 +397,13 @@
                     <xsd:documentation>Métadonnées pour un objet-données de type vidéo.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element ref="OtherCoreTechnicalMetadataAbstract">
-                <xsd:annotation>
-                    <xsd:documentation>Métadonnées pour un objet-données d’un autre type (base de données, 3D, programmes, formats propriétaires, etc.).</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
+            <!-- Redefined by VITAM -->
+            <!--            <xsd:element ref="OtherCoreTechnicalMetadataAbstract">
+                            <xsd:annotation>
+                                <xsd:documentation>Métadonnées pour un objet-données d’un autre type (base de données, 3D, programmes, formats propriétaires, etc.).</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>-->
+            <xsd:any processContents="lax" minOccurs="0"/>
         </xsd:choice>
     </xsd:complexType>
 
