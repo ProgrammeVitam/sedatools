@@ -14,25 +14,25 @@
                 ***   Types de base
                 *****************************
         -->
-    <xsd:include schemaLocation="seda-2.2-types.xsd"/>
+    <xsd:include schemaLocation="seda-vitam-2.2-types.xsd"/>
     <!--
                 *****************************
                 ***   Base technique
                 *****************************
         -->
-    <xsd:include schemaLocation="seda-2.2-technical.xsd"/>
+    <xsd:include schemaLocation="seda-vitam-2.2-technical.xsd"/>
     <!--
                 *****************************
                 ***   Base de gestion
                 *****************************
         -->
-    <xsd:include schemaLocation="seda-2.2-management.xsd"/>
+    <xsd:include schemaLocation="seda-vitam-2.2-management.xsd"/>
     <!--
                 *****************************
                 ***   Base descriptive
                 *****************************
         -->
-    <xsd:include schemaLocation="seda-2.2-descriptive.xsd"/>
+    <xsd:include schemaLocation="seda-vitam-2.2-descriptive.xsd"/>
 
     <!--
                 *****************************
@@ -93,12 +93,14 @@
                         relations.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element ref="OtherCodeListAbstract" minOccurs="0" maxOccurs="unbounded">
+            <!-- Redefined by VITAM -->
+            <!--xsd:element ref="OtherCodeListAbstract" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>Permet d'ajouter de nouvelles listes de codes si l'ajout
                         d'autres métadonnées l'impose.</xsd:documentation>
                 </xsd:annotation>
-            </xsd:element>
+            </xsd:element-->
+            <xsd:any processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
         <xsd:attribute ref="xml:id" use="optional"/>
     </xsd:complexType>
@@ -333,7 +335,7 @@
                     <xsd:documentation>Date du message.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="MessageIdentifier" type="IdentifierType">
+            <xsd:element name="MessageIdentifier" type="NonEmptyTokenType">
                 <xsd:annotation>
                     <xsd:documentation>Identifiant du message.</xsd:documentation>
                 </xsd:annotation>
