@@ -33,12 +33,13 @@ import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.CompactContext;
+import fr.gouv.vitam.tools.resip.parameters.CreationContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.process.Compactor;
+import fr.gouv.vitam.tools.sedalib.process.DeCompactor;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -55,11 +56,11 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 /**
  * The type Compact thread.
  */
-public class CompactThread extends SwingWorker<String, String> {
+public class DeCompactThread extends SwingWorker<String, String> {
     //input
     private final Work work;
     private final DataObjectPackageTreeNode targetNode;
-    private ArchiveUnit compactedArchiveUnit;
+    private ArchiveUnit decompactedArchiveUnit;
     private final InOutDialog inOutDialog;
     private String summary;
     private Throwable exitThrowable;
@@ -72,19 +73,19 @@ public class CompactThread extends SwingWorker<String, String> {
      *
      * @param node the displayed tree node
      */
-    public static void launchCompactThread(DataObjectPackageTreeNode node) {
-        CompactThread compactThread;
+    public static void launchDeCompactThread(DataObjectPackageTreeNode node) {
+        DeCompactThread compactThread;
 
         try {
-            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.mainWindow, "Compactage");
-            compactThread = new CompactThread(ResipGraphicApp.getTheApp().currentWork, node, inOutDialog);
+            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.mainWindow, "Décompactage");
+            compactThread = new DeCompactThread(ResipGraphicApp.getTheApp().currentWork, node, inOutDialog);
             compactThread.execute();
             inOutDialog.setVisible(true);
         } catch (Throwable e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.mainWindow,
-                    "Erreur fatale, impossible de faire le compactage \n->" + e.getMessage(), "Erreur",
+                    "Erreur fatale, impossible de faire le décompactage \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire le compactage", e);
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire le décompactage", e);
         }
 
     }
@@ -96,7 +97,7 @@ public class CompactThread extends SwingWorker<String, String> {
      * @param targetNode the target node
      * @param dialog     the dialog
      */
-    public CompactThread(Work work, DataObjectPackageTreeNode targetNode, InOutDialog dialog) {
+    public DeCompactThread(Work work, DataObjectPackageTreeNode targetNode, InOutDialog dialog) {
         this.work = work;
         this.targetNode = targetNode;
         this.inOutDialog = dialog;
@@ -190,26 +191,17 @@ public class CompactThread extends SwingWorker<String, String> {
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
             ArchiveUnit targetArchiveUnit = targetNode.getArchiveUnit();
-            doProgressLog(spl, GLOBAL, "Compactage de l'ArchiveUnit [" + targetArchiveUnit.getInDataObjectPackageId() + "]=" +
+            doProgressLog(spl, GLOBAL, "Décompactage de l'ArchiveUnit [" + targetArchiveUnit.getInDataObjectPackageId() + "]=" +
                     targetArchiveUnit.getContent().getSimpleMetadata("Title"), null);
 
-            CompactContext coc = new CompactContext(Prefs.getInstance());
+            CreationContext cc = new CreationContext(Prefs.getInstance());
 
-            String target = getTmpDirTarget(coc.getWorkDir(), "Compact", targetArchiveUnit.getInDataObjectPackageId());
+            String target = getTmpDirTarget(cc.getWorkDir(), "DeCompact", targetArchiveUnit.getInDataObjectPackageId());
             //run output
-            Compactor compactor = new Compactor(targetArchiveUnit, target, spl);
-            compactor.setCompactedDocumentPackLimit(coc.getMaxMetadataSize(), coc.getMaxDocumentNumber());
-            compactor.setObjectVersionFilters(coc.getDocumentKeptDataObjectVersionList(), coc.getSubDocumentKeptDataObjectVersionList());
-            if (!coc.isMetadataFilterFlag())
-                compactor.setMetadataFilters(null, null);
-            else {
-                Map<String, Integer> contentMetadataFilter = getContentMetadataFilter(coc);
-                compactor.setMetadataFilters(contentMetadataFilter, contentMetadataFilter);
-            }
-            compactor.setDeflatedFlag(coc.isDeflatedFlag());
-            compactedArchiveUnit = compactor.doCompact();
+            DeCompactor decompactor = new DeCompactor(targetArchiveUnit, target, spl);
+            decompactedArchiveUnit = decompactor.doDeCompact();
 
-            summary = compactor.getSummary();
+            summary = decompactor.getSummary();
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";
@@ -222,9 +214,9 @@ public class CompactThread extends SwingWorker<String, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Compactage annulé, les données n'ont pas été modifiées", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Décompactage annulé, les données n'ont pas été modifiées", null);
         else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant le compactage, les données n'ont pas été modifiées", exitThrowable);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant le décompactage, les données n'ont pas été modifiées", exitThrowable);
         else {
             ResipGraphicApp.getTheApp().currentWork = this.work;
 
@@ -232,7 +224,7 @@ public class CompactThread extends SwingWorker<String, String> {
             List<DataObjectPackageTreeNode> parents = List.copyOf(targetNode.getParents());
             for (DataObjectPackageTreeNode targetNodeParent : parents) {
                 targetNodeParent.removeChildrenNode(targetNode);
-                newNode = targetNode.getTreeModel().generateArchiveUnitNode(compactedArchiveUnit, targetNodeParent);
+                newNode = targetNode.getTreeModel().generateArchiveUnitNode(decompactedArchiveUnit, targetNodeParent);
             }
 
             if (newNode!=null)
