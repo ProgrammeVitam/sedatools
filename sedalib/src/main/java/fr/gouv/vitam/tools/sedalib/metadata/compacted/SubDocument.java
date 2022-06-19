@@ -57,7 +57,7 @@ public class SubDocument extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true)
+    @ComplexListMetadataMap(isExpandable = false)
     public static final Map<String, ComplexListMetadataKind> metadataMap_default;
 
     static {

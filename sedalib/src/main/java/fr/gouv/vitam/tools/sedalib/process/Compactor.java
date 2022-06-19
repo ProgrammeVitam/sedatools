@@ -1,3 +1,30 @@
+/**
+ * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
+ * <p>
+ * contact.vitam@programmevitam.fr
+ * <p>
+ * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
+ * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
+ * volumetry securely and efficiently.
+ * <p>
+ * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
+ * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
+ * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
+ * <p>
+ * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
+ * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
+ * successive licensors have only limited liability.
+ * <p>
+ * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
+ * developing or reproducing the software by the user in light of its specific status of free software, that may mean
+ * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
+ * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
+ * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
+ * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
+ * <p>
+ * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
+ * accept its terms.
+ */
 package fr.gouv.vitam.tools.sedalib.process;
 
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
@@ -32,10 +59,21 @@ import java.util.zip.ZipOutputStream;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
 
+/**
+ * The Class Compactor.
+ * <p>
+ * Class for compacting an ArchiveUnit hierarchy.
+ * <p>
+ * The original ArchiveUnit hierarchy is replaced by another reduced hierarchy collecting all informations
+ * in the specific metadatas DocumentContainer, DocumentPack, RecordGrp, Document, SubDocument and FileObjects.
+ * This compacted format is reversible for the kept metadatas (To be noticed:
+ * ArchiveUnitProfiles in the original ArchiveUnit hierarchy, if any, are lost)
+ */
+
 public class Compactor {
 
     /**
-     * LOg and error string finals.
+     * Log and error string finals.
      */
     private static final String MODULE = "sedalib: ";
     private static final String EXPORTED_DOCUMENTS = " documents exportés";
@@ -120,12 +158,12 @@ public class Compactor {
     private int packCounter;
 
     /**
-     * The archive unit to campact
+     * The archive unit to compact
      */
     private ArchiveUnit archiveUnit;
 
     /**
-     * The work directory name where to campact
+     * The work directory name where to compact
      */
     private String workDirectoryName;
 
@@ -310,7 +348,7 @@ public class Compactor {
                 if (subDocumentObjectVersionFilter.contains(radical)) {
                     compactedFileURI = getExtendedCompactedFileName(auURI + "-" + bdo.dataObjectVersion.getValue(),
                             bdo.getOnDiskPath());
-                    subDocument.addMetadata(new FileObject(bdo, auURI));
+                    subDocument.addMetadata(new FileObject(bdo, compactedFileURI));
                     compactedFilesList.add(new CompactedFile(compactedFileURI,
                             bdo.getOnDiskPath()));
                 } else
@@ -359,8 +397,7 @@ public class Compactor {
     private RecordGrp addTreeNodeChild(ArchiveUnit au, RecordGrp parentRecordGrp) throws SEDALibException {
         RecordGrp curRecordGrp;
 
-        curRecordGrp = new RecordGrp("Node" + treenodeCounter,
-                copyAllSEDAMetadata(au.getContent(), new Content()));
+        curRecordGrp = new RecordGrp("Node" + treenodeCounter,au.getContent(),au.getManagement());
         if (parentRecordGrp == null)
             rootRecordGrp = curRecordGrp;
         else parentRecordGrp.addMetadata(curRecordGrp);
@@ -518,18 +555,7 @@ public class Compactor {
         addDocumentPackArchiveUnit(rootContainerAU, documentPack,
                 documentCount, compactedFileList, packCounter);
 
-        if (dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList().contains(archiveUnit)) {
-            dataObjectPackage.getGhostRootAu().removeChildArchiveUnit(archiveUnit);
-            dataObjectPackage.getGhostRootAu().addChildArchiveUnit(rootContainerAU);
-        }
-        for (ArchiveUnit au : dataObjectPackage.getAuInDataObjectPackageIdMap().values()) {
-            if (au.getChildrenAuList().getArchiveUnitList().contains(archiveUnit)) {
-                au.addChildArchiveUnit(rootContainerAU);
-                au.removeChildArchiveUnit(archiveUnit);
-            }
-        }
-        dataObjectPackage.actualiseIdMaps();
-
+        dataObjectPackage.replaceArchiveUnitBy(archiveUnit,rootContainerAU);
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,
                 MODULE + "compactage d'une ArchiveUnit terminée.", null);
         end = Instant.now();

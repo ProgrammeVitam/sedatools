@@ -294,7 +294,7 @@ class CompactorTest implements UseTestFiles {
                 "        </Content>\n" +
                 "        <FileObject>\n" +
                 "          <DataObjectVersion>BinaryMaster_1</DataObjectVersion>\n" +
-                "          <URI>Node1-Document0\\SubDocument1</URI>\n" +
+                "          <URI>Node1-Document0\\SubDocument1-BinaryMaster_1.ods</URI>\n" +
                 "          <MessageDigest algorithm=\"SHA-512\">ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e</MessageDigest>\n" +
                 "          <Size>50651</Size>\n" +
                 "          <FormatIdentification>\n" +
@@ -309,7 +309,7 @@ class CompactorTest implements UseTestFiles {
                 "        </FileObject>\n" +
                 "        <FileObject>\n" +
                 "          <DataObjectVersion>TextContent_1</DataObjectVersion>\n" +
-                "          <URI>Node1-Document0\\SubDocument1</URI>\n" +
+                "          <URI>Node1-Document0\\SubDocument1-TextContent_1.txt</URI>\n" +
                 "          <MessageDigest algorithm=\"SHA-512\">7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2</MessageDigest>\n" +
                 "          <Size>3307</Size>\n" +
                 "          <FormatIdentification>\n" +
@@ -332,7 +332,7 @@ class CompactorTest implements UseTestFiles {
                 "        </Content>\n" +
                 "        <FileObject>\n" +
                 "          <DataObjectVersion>BinaryMaster_1</DataObjectVersion>\n" +
-                "          <URI>Node1-Document0\\SubDocument2</URI>\n" +
+                "          <URI>Node1-Document0\\SubDocument2-BinaryMaster_1.jpg</URI>\n" +
                 "          <MessageDigest algorithm=\"SHA-512\">e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3</MessageDigest>\n" +
                 "          <Size>21232</Size>\n" +
                 "          <FormatIdentification>\n" +

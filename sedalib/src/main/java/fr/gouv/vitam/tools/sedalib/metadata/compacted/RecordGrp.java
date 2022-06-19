@@ -58,7 +58,7 @@ public class RecordGrp extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true)
+    @ComplexListMetadataMap(isExpandable = false)
     public static final Map<String, ComplexListMetadataKind> metadataMap_default;
 
     static {
@@ -84,10 +84,13 @@ public class RecordGrp extends ComplexListType {
      * @param content     the content
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public RecordGrp(String recordGrpID, Content content) throws SEDALibException {
+    public RecordGrp(String recordGrpID, Content content, Management management) throws SEDALibException {
         super(ELEMENT_NAME);
 
         addNewMetadata("RecordGrpID", recordGrpID);
-        addMetadata(content);
+        if (content != null)
+            addMetadata(content);
+        if (management != null)
+            addMetadata(management);
     }
 }
