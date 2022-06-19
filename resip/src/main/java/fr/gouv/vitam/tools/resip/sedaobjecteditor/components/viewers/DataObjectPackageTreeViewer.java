@@ -34,6 +34,7 @@ import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
 import fr.gouv.vitam.tools.resip.threads.CompactThread;
+import fr.gouv.vitam.tools.resip.threads.DeCompactThread;
 import fr.gouv.vitam.tools.resip.threads.ExpandThread;
 import fr.gouv.vitam.tools.resip.threads.MailExtractThread;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
@@ -160,10 +161,25 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                             mi.setActionCommand("NewSubArchiveUnit");
                             popup.add(mi);
                             if (ResipGraphicApp.getTheApp().interfaceParameters.isExperimentalFlag()) {
-                                mi = new JMenuItem("Compacter l'ArchiveUnit");
-                                mi.addActionListener(thisSTV);
-                                mi.setActionCommand("CompactArchiveUnit");
-                                popup.add(mi);
+                                boolean isDocumentContainer=false;
+                                try {
+                                    isDocumentContainer=(stn.getArchiveUnit() != null)
+                                            && (stn.getArchiveUnit().getContent() != null)
+                                            && (stn.getArchiveUnit().getContent().getFirstNamedMetadata("DocumentContainer") != null);
+                                } catch (SEDALibException ignored) {
+                                    // no real case
+                                }
+                                if (isDocumentContainer) {
+                                    mi = new JMenuItem("Décompacter l'ArchiveUnit");
+                                    mi.addActionListener(thisSTV);
+                                    mi.setActionCommand("DeCompactArchiveUnit");
+                                    popup.add(mi);
+                                } else {
+                                    mi = new JMenuItem("Compacter l'ArchiveUnit");
+                                    mi.addActionListener(thisSTV);
+                                    mi.setActionCommand("CompactArchiveUnit");
+                                    popup.add(mi);
+                                }
                             }
                         }
                         BinaryDataObject bdo = getCompressedBinaryDataObject(stn);
@@ -258,6 +274,8 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                     ((DefaultTreeModel) getModel()).getPathToRoot(popupSTN.get(0))));
         } else if (ae.getActionCommand().equals("CompactArchiveUnit")) {
             CompactThread.launchCompactThread(popupSTN.get(0));
+        } else if (ae.getActionCommand().equals("DeCompactArchiveUnit")) {
+            DeCompactThread.launchDeCompactThread(popupSTN.get(0));
         } else if (ae.getActionCommand().equals("NewRootArchiveUnit")) {
             addArchiveUnit(null);
         } else if (ae.getActionCommand().equals("Expand")) {
