@@ -64,24 +64,24 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     /**
      * The Sub type metadata ordered list map by versions.
      */
-    protected static HashMap<Class<?>, List<String>>[] subTypeMetadataOrderedListMap = new HashMap[SEDA2Version.MAX_SUPPORTED_VERSION+2];
+    protected static HashMap<Class<?>, List<String>>[] subTypeMetadataOrderedListMap = new HashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 2];
     /**
      * The Sub type metadata map map by versions.
      */
     protected static HashMap<Class<?>, LinkedHashMap<String, ComplexListMetadataKind>>[] subTypeMetadataMapMap =
-            new HashMap[SEDA2Version.MAX_SUPPORTED_VERSION+2];
+            new HashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 2];
     /**
      * The Sub type expandable map by versions.
      */
     protected static HashMap<Class<?>, Boolean>[] subTypeNotExpandableMap =
-            new HashMap[SEDA2Version.MAX_SUPPORTED_VERSION+2];
+            new HashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 2];
 
     // init empty maps for all versions (index=version+1) and non specific one (index=0)
     static {
-        for (int i = 0; i< SEDA2Version.MAX_SUPPORTED_VERSION+2; i++){
-            subTypeMetadataOrderedListMap[i]=new HashMap<>();
-            subTypeMetadataMapMap[i]=new HashMap<>();
-            subTypeNotExpandableMap[i]=new HashMap<>();
+        for (int i = 0; i < SEDA2Version.MAX_SUPPORTED_VERSION + 2; i++) {
+            subTypeMetadataOrderedListMap[i] = new HashMap<>();
+            subTypeMetadataMapMap[i] = new HashMap<>();
+            subTypeNotExpandableMap[i] = new HashMap<>();
         }
     }
 
@@ -167,7 +167,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
                 throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]");
             return sm;
         } catch (SecurityException | InstantiationException | IllegalAccessException
-                | IllegalArgumentException e) {
+                 | IllegalArgumentException e) {
             throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]", e);
         } catch (InvocationTargetException te) {
             throw new SEDALibException("Impossible de construire l'élément [" + elementName + "]", te.getTargetException());
@@ -296,7 +296,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     }
 
     /**
-     * Checks if metadata is lacking.
+     * Checks if named metadata is lacking.
      *
      * @param elementName the element name
      * @return true, if metadata is lacking
@@ -307,6 +307,20 @@ public abstract class ComplexListType extends NamedTypeMetadata {
                 return false;
         }
         return true;
+    }
+
+    /**
+     * Gets first named metadata.
+     *
+     * @param elementName the element name
+     * @return the first named metadata or null if no found metadata
+     */
+    public SEDAMetadata getFirstNamedMetadata(String elementName) {
+        for (SEDAMetadata sm : metadataList) {
+            if (elementName.equals(sm.getXmlElementName()))
+                return sm;
+        }
+        return null;
     }
 
     /*
@@ -325,7 +339,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
-                "Erreur d'écriture XML dans un élément d'un ComplexListType [" + getXmlElementName() + "]", e);
+                    "Erreur d'écriture XML dans un élément d'un ComplexListType [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -350,7 +364,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
             else
                 addedName = sm.getXmlElementName();
             LinkedHashMap<String, String> smCsvList = sm.toCsvList();
-            smCsvList.entrySet().stream().forEach(e -> result.put(addedName + (e.getKey().isEmpty()?"":"."+e.getKey()), e.getValue()));
+            smCsvList.entrySet().stream().forEach(e -> result.put(addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue()));
         }
         return result;
     }
@@ -469,7 +483,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     public List<String> getMetadataOrderedList() throws SEDALibException {
         if (!analyzedSubTypeMetadataSet.contains(this.getClass()))
             getNewComplexListSubType(this.getClass());
-        List<String> metadataOrderedList = subTypeMetadataOrderedListMap[SEDA2Version.getSeda2Version()+1].get(this.getClass());
+        List<String> metadataOrderedList = subTypeMetadataOrderedListMap[SEDA2Version.getSeda2Version() + 1].get(this.getClass());
         if (metadataOrderedList == null)
             metadataOrderedList = subTypeMetadataOrderedListMap[0].get(this.getClass());
         return metadataOrderedList;
@@ -519,10 +533,10 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     public boolean isNotExpendable() throws SEDALibException {
         if (!analyzedSubTypeMetadataSet.contains(this.getClass()))
             getNewComplexListSubType(this.getClass());
-        Boolean isNotExpandable = subTypeNotExpandableMap[SEDA2Version.getSeda2Version()+1].get(this.getClass());
+        Boolean isNotExpandable = subTypeNotExpandableMap[SEDA2Version.getSeda2Version() + 1].get(this.getClass());
         if (isNotExpandable == null)
             isNotExpandable = subTypeNotExpandableMap[0].get(this.getClass());
-         return isNotExpandable;
+        return isNotExpandable;
     }
 
     /**
@@ -535,7 +549,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     public static Boolean isNotExpendable(Class<?> complexListTypeMetadataClass) throws SEDALibException {
         if (!analyzedSubTypeMetadataSet.contains(complexListTypeMetadataClass))
             getNewComplexListSubType(complexListTypeMetadataClass);
-        Boolean isNotExpandable = subTypeNotExpandableMap[SEDA2Version.getSeda2Version()+1].get(complexListTypeMetadataClass);
+        Boolean isNotExpandable = subTypeNotExpandableMap[SEDA2Version.getSeda2Version() + 1].get(complexListTypeMetadataClass);
         if (isNotExpandable == null)
             isNotExpandable = subTypeNotExpandableMap[0].get(complexListTypeMetadataClass);
         return isNotExpandable;

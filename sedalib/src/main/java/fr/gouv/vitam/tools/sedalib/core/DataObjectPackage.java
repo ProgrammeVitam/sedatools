@@ -1361,6 +1361,25 @@ public class DataObjectPackage {
     }
 
     /**
+     * Replace an archive unit by another, everywhere possible in the DataObjectPackage
+     * and purge all archive units no more linked to root.
+     *
+     * @param originArchiveUnit the origin archive unit
+     * @param newArchiveUnit    the new archive unit
+     */
+    public void replaceArchiveUnitBy(ArchiveUnit originArchiveUnit,ArchiveUnit newArchiveUnit){
+        if (ghostRootAu.getChildrenAuList().getArchiveUnitList().contains(originArchiveUnit)) {
+            ghostRootAu.replaceChildArchiveUnit(originArchiveUnit,newArchiveUnit);
+        }
+        for (ArchiveUnit au : auInDataObjectPackageIdMap.values()) {
+            if (au.getChildrenAuList().getArchiveUnitList().contains(originArchiveUnit)) {
+                au.replaceChildArchiveUnit(originArchiveUnit,newArchiveUnit);
+            }
+        }
+        actualiseIdMaps();
+    }
+
+    /**
      * Gets the next special counter increment.
      *
      * @return the next special counter
