@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class PhysicalDataObjectTest {
 
@@ -41,6 +43,7 @@ class PhysicalDataObjectTest {
 
         // Then
         String testOut = "{\n" +
+                "  \"dataObjectProfile\":null,\n" +
                 "  \"dataObjectSystemId\" : null,\n" +
                 "  \"dataObjectGroupSystemId\" : null,\n" +
                 "  \"relationshipsXmlData\" : [ ],\n" +
@@ -132,6 +135,13 @@ class PhysicalDataObjectTest {
         PhysicalDataObject pdo = si.getArchiveTransfer().getDataObjectPackage().getPdoInDataObjectPackageIdMap()
                 .get("ID18");
 
+        // When dataObjectProfile defined in SEDA 2.1 can't generate XML
+        pdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
+        assertThatThrownBy(() -> pdo.toSedaXmlFragments()).isInstanceOf(SEDALibException.class)
+                .hasMessageContaining("Erreur interne");
+        pdo.dataObjectProfile = null;
+
+
         // When test read write fragments in XML string format
         String pdoOut = pdo.toSedaXmlFragments();
         PhysicalDataObject pdoNext = new PhysicalDataObject(si.getArchiveTransfer().getDataObjectPackage());
@@ -156,6 +166,51 @@ class PhysicalDataObjectTest {
         testOut = LineEndNormalize(testOut);
         pdoNextOut = LineEndNormalize(pdoNextOut);
         assertThat(pdoNextOut).isEqualTo(testOut);
+    }
 
+    @Test
+    void testXMLFragmentForSedaVersion2() throws SEDALibException, InterruptedException {
+        // Given
+        SEDA2Version.setSeda2Version(2);
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+        module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+        mapper.registerModule(module);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+        si.doImport();
+        PhysicalDataObject pdo = si.getArchiveTransfer().getDataObjectPackage().getPdoInDataObjectPackageIdMap()
+                .get("ID18");
+        pdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
+
+        // When test read write fragments in XML string format
+        String pdoOut = pdo.toSedaXmlFragments();
+        PhysicalDataObject pdoNext = new PhysicalDataObject(si.getArchiveTransfer().getDataObjectPackage());
+        pdoNext.fromSedaXmlFragments(pdoOut);
+        String pdoNextOut = pdoNext.toSedaXmlFragments();
+
+        // Then
+        String testOut = "<DataObjectProfile>Test</DataObjectProfile>\n" +
+                "<DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
+                "<PhysicalId>940 W</PhysicalId>\n" +
+                "<PhysicalDimensions>\n" +
+                "  <Width unit=\"centimetre\">10.0</Width>\n" +
+                "  <Height unit=\"centimetre\">8.0</Height>\n" +
+                "  <Depth unit=\"centimetre\">1.0</Depth>\n" +
+                "  <Diameter unit=\"centimetre\">0.0</Diameter>\n" +
+                "  <Weight unit=\"gram\">59.0</Weight>\n" +
+                "</PhysicalDimensions>\n" +
+                "<Extent>1carteimprimée</Extent>\n" +
+                "<Dimensions>10,5cmx14,8cm</Dimensions>\n" +
+                "<Color>Noiretblanc</Color>\n" +
+                "<Framing>Paysage</Framing>\n" +
+                "<Technique>Phototypie</Technique>";
+        testOut = LineEndNormalize(testOut);
+        pdoNextOut = LineEndNormalize(pdoNextOut);
+        assertThat(pdoNextOut).isEqualTo(testOut);
+        SEDA2Version.setSeda2Version(1);
     }
 }

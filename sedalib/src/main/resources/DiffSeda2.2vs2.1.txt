@@ -1,0 +1,62 @@
+Comparaison 2.1 vs 2.2
+
+- management
+	* ajout HoldRule (était dans Vitam)
+	doc :
+	        Gestion de la durée de gel des ArchiveUnits.
+            La date de fin de gel est calculée à partir d'une date de début de restriction (StardDate) et de la durée de validité de la règle de réference. Elle peut également être explicitement spécifiée (HoldEndDate) si la règle de référence ne spécifie pas de durée déterminée.
+            Si la règle ne possède pas de durée de fin (calculée ou explicite), alors la règle est réputée à durée indéterminée (restriction toujours effective)
+			La liste d'identifiants de règles à appliquer et à ignorer qui doit être appliquée à partir de cet ArchiveUnit.
+
+	<HoldRule>
+			(<Rule> ID <Rule>
+			<StartDate> date <StartDate>?
+			<HoldEndDate> date <HoldEndDate>?
+			<HoldOwner> string <HoldOwner>?
+			<HoldReassessingDate> date <HoldReassessingDate>?
+			<HoldReason> string <HoldReason>?
+			<PreventRearrangement> boolean <PreventRearrangement>?)*
+			<PreventInheritance>true</PreventInheritance>
+			<RefNonRuleId>a</RefNonRuleId>
+	</HoldRule>
+
+
+- ontology
+	* ajout DateLitteral
+	doc:
+			Champ date en texte libre.
+
+	<DateLitteral> string </DateLitteral>
+
+	* ajout dans Event de  LinkingAgentIdentifier
+	doc:
+		Permet de renseigner des agents répertoriés dans des évènements.
+
+
+	<LinkingAgentIdentifier>
+        <LinkingAgentIdentifierType> string </LinkingAgentIdentifier>
+		<LinkingAgentIdentifierValue> string </LinkingAgentIdentifierValue>
+		<LinkingAgentRole> string </LinkingAgentRole>
+
+	* ajout de la notion d'Agent générique et non abstrait qui était difficilement utilisable avant AuthorizedAgent
+	doc:
+		Agent générique.
+
+	<Agent> AgentType </Agent>
+
+	* ajout OriginatingSystemIdReplyToGroup optionnel avant TextContent(était dans Vitam)
+	doc:
+		Référence du message auquel on répond.
+	<OriginatingSystemIdReplyToGroup> string </OriginatingSystemIdReplyToGroup>
+
+
+	* ajout de TextContent optionnel avant l'extension brute
+	doc:
+		Contenu du message électronique.
+	<TextContent> string </TextContent>
+
+- technique
+	ajout de DataObjectProfile optionnel devant DataObjectSystemId
+	doc:
+		Référence à une partie d'un profil d’archivage applicable à un objet technique en particulier.
+	<DataObjectProfile> String </DataObjectProfile>

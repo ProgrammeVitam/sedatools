@@ -42,11 +42,11 @@ import javax.xml.stream.events.XMLEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
 /**
  * The Class PhysicalDataObject.
@@ -56,6 +56,11 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
 public class PhysicalDataObject extends DataObjectPackageIdElement implements DataObject {
 
     // SEDA elements
+
+    /**
+     * The data object profile (only in Seda 2.2).
+     */
+    public StringType dataObjectProfile;
 
     /**
      * The data object system id.
@@ -130,6 +135,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      */
     public PhysicalDataObject(DataObjectPackage dataObjectPackage) {
         super(dataObjectPackage);
+        this.dataObjectProfile = null;
         this.dataObjectSystemId = null;
         this.dataObjectGroupSystemId = null;
         this.relationshipsXmlData = new ArrayList<>();
@@ -154,6 +160,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      * uniqID in the structure.
      * <p>
      * Fragment sample: <code>
+     * &lt;DataObjectProfile&gt;DataObject1&lt;DataObjectProfile&gt; // only in SEDA 2.2
      * &lt;DataObjectVersion&gt;PhysicalMaster_1&lt;/DataObjectVersion&gt;
      * &lt;PhysicalId&gt;940 W&lt;/PhysicalId&gt;
      * &lt;PhysicalDimensions&gt;
@@ -191,6 +198,12 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             xmlWriter.writeStartElement("PhysicalDataObject");
             xmlWriter.writeAttribute("id", inDataPackageObjectId);
 
+            if (dataObjectProfile != null) {
+                if (SEDA2Version.getSeda2Version()>1)
+                    dataObjectProfile.toSedaXml(xmlWriter);
+                else
+                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] dans le PhysicalDataObject ["+inDataPackageObjectId+"]");
+            }
             if (dataObjectSystemId != null)
                 dataObjectSystemId.toSedaXml(xmlWriter);
             if (dataObjectGroupSystemId != null)
@@ -266,6 +279,14 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
         String nextElementName;
         try {
             nextElementName = xmlReader.peekName();
+            if ((nextElementName != null) && (nextElementName.equals("DataObjectProfile"))) {
+                if (SEDA2Version.getSeda2Version()>1) {
+                    dataObjectProfile = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
+                    nextElementName = xmlReader.peekName();
+                }
+                else
+                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] du PhysicalDataObject ["+inDataPackageObjectId+"]");
+            }
             if ((nextElementName != null) && (nextElementName.equals("DataObjectSystemId"))) {
                 dataObjectSystemId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
                 nextElementName = xmlReader.peekName();
@@ -379,7 +400,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
     public void fromSedaXmlFragments(String fragments) throws SEDALibException {
         PhysicalDataObject pdo = new PhysicalDataObject();
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes("UTF-8"));
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes(StandardCharsets.UTF_8));
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();
@@ -393,6 +414,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
 
         if ((pdo.dataObjectGroupId != null) || (pdo.dataObjectGroupReferenceId != null))
             throw new SEDALibException("La référence à un DataObjectGroup n'est pas modifiable par édition");
+        this.dataObjectProfile = pdo.dataObjectProfile;
         this.dataObjectSystemId = pdo.dataObjectSystemId;
         this.dataObjectGroupSystemId = pdo.dataObjectGroupSystemId;
         this.relationshipsXmlData = pdo.relationshipsXmlData;

@@ -21,17 +21,13 @@ et
 Build
 -----
 
-Avec un JDK 1.8 (ou 11), git et maven installés, la séquence de build est la suivante:
+Avec un JDK 11, git et maven installés, la séquence de build est la suivante:
 
     mkdir test-sedatools
     cd test-sedatools
     git clone https://github.com/ProgrammeVitam/java-libpst-origin.git
     cd java-libpst-origin/
     git checkout master
-    mvn clean install
-    cd ..
-    git clone https://github.com/ProgrammeVitam/droid-origin.git
-    cd droid-origin
     mvn clean install
     cd ..
     git clone https://github.com/ProgrammeVitam/sedatools.git
@@ -42,7 +38,7 @@ La bibliothèque sedalib et ses exemples
 =======================================
 
 Cette bibliothèque permet de manipuler les structures et métadonnées du
-standard SEDA (Standard d’échange de données pour l’archivage – SEDA – v. 2.1).
+standard SEDA (Standard d’échange de données pour l’archivage – SEDA – v. 2.1 et 2.2).
 
 Execution de l'application d'exemple
 ------------------------------------
@@ -135,31 +131,32 @@ Pour avoir toutes les possibilités d'options, il suffit d'utiliser l'argument -
 
 Pour information la syntaxe des arguments est:
 
-|Option|Description|
-|--------|----------|
-|*help*|aide|
-|*type TYPE*|type de conteneur local à extraire (thunderbird|pst|eml|mbox) ou protocole d'accès distant (imap|imaps|pop3...)|
-|*user USERNAME*|nom d'utilisateur de la boite (aussi utilisé pour générer le nom de l'extraction)|
-|*password PASSWORD*|mot de passe|
-|*server [HostName|IP](:port)*|serveur de messagerie [HostName|IP](:port)|
-|*container ONDISK*|localisation sur le disque du conteneur local à utiliser (répertoire Thunderbird, fichier pst, eml, mbox, msg...)|
-|*folder INMAIL*|répertoire particulier de la boite à partir duquel faire l'extraction ou l'édition de la structure|
-|*rootdir ONDISK*|répertoire de base sur le disque (par défaut répertoire courant de la console) pour l'extraction (extraction en root/username[-timestamp])|
-|*dropemptyfolders*|n'extrait pas les répertoires n'ayant aucun message en direct ou dans son arborescence|
-|*keeponlydeep*|garde les répertoires vides sauf ceux à la racine (il existe couramment des répertoires non utilisés à côté de INBOX)|
-|*verbatim LOGLEVEL*|niveau de log (OFF|GLOBAL|WARNING|FOLDER|MESSAGE_GROUP|MESSAGE|MESSAGE_DETAILS), valeur par défaut OFF.|
-|*nameslength NUMBER*|longueur limite des noms de répertoires et fichiers générés|
-|*setchar ENCODING*|jeu d'encodage de caratère par défaut, notamment utile pour l'extraction correct des pst, valeur par défaut jeu de caractère de l'OS.|
-|*extractlists*|génère les listes csv d'objets (messages, contacts, rendez-vous) le cas échéant|
-|*extractmessagetextfile*|extrait un fichier avec le texte du message|
-|*extractmessagetextmetadata*|inclus le texte du message dans les métadonnées|
-|*extractfiletextfile*|extrait un fichier avec le texte des fichiers attachés|
-|*extractfiletextmetadata*|inclus le texte du fichier attaché dans les métadonnées|
-|*model NUMBER*|modèle d'extraction sur disque 1 (generateurseda) ou 2 (sedalib), valeur par défaut 2|
-|*warning*|génère un avertissement quand il y a un problème d'extraction limité à un message en particulier (sinon cela est loggé au niveau FINE)|
-|*x*|fait l'extraction|
-|*l*|édite l'ensemble des répertoires de la messagerie (ne prend pas en compte les options -d et -k)|
-|*z*|édite l'ensemble des répertoires de la messagerie ainsi que le nombre et le poids des messages qu'ils contiennent (ne prend pas en compte les options -d et -k)|
+| Option                       | Description                                                                                                                                                     |
+|------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| *help*                       | aide                                                                                                                                                            |
+| *type TYPE*                  | type de conteneur local à extraire (thunderbird/pst/eml/mbox) ou protocole d'accès distant (imap                                                                |imaps|pop3...)|
+| *user USERNAME*              | nom d'utilisateur de la boite (aussi utilisé pour générer le nom de l'extraction)                                                                               |
+| *password PASSWORD*          | mot de passe                                                                                                                                                    |
+| *server HOSTNAME/IP(:port)*  | serveur de messagerie HostName/IP(:port)                                                                                                                        |
+| *container ONDISK*           | localisation sur le disque du conteneur local à utiliser (répertoire Thunderbird, fichier pst, eml, mbox, msg...)                                               |
+| *folder INMAIL*              | répertoire particulier de la boite à partir duquel faire l'extraction ou l'édition de la structure                                                              |
+| *rootdir ONDISK*             | répertoire de base sur le disque (par défaut répertoire courant de la console) pour l'extraction (extraction en root/username[-timestamp])                      |
+| *dropemptyfolders*           | n'extrait pas les répertoires n'ayant aucun message en direct ou dans son arborescence                                                                          |
+| *keeponlydeep*               | garde les répertoires vides sauf ceux à la racine (il existe couramment des répertoires non utilisés à côté de INBOX)                                           |
+| *verbatim LOGLEVEL*          | niveau de log (OFF/GLOBAL/WARNING/FOLDER/MESSAGE_GROUP/MESSAGE/MESSAGE_DETAILS), valeur par défaut OFF                                                          |
+| *sedaversion SUBVERSION*     | sous-version du SEDA 2 (1 pour 2.1/2 pour 2.2), à 2.1 par défaut                                                                                                |
+| *nameslength NUMBER*         | longueur limite des noms de répertoires et fichiers générés                                                                                                     |
+| *setchar ENCODING*           | jeu d'encodage de caractère par défaut, notamment utile pour l'extraction correct des pst, valeur par défaut jeu de caractère de l'OS.                          |
+| *extractlists*               | génère les listes csv d'objets (messages, contacts, rendez-vous) le cas échéant                                                                                 |
+| *extractmessagetextfile*     | extrait un fichier avec le texte du message                                                                                                                     |
+| *extractmessagetextmetadata* | inclus le texte du message dans les métadonnées                                                                                                                 |
+| *extractfiletextfile*        | extrait un fichier avec le texte des fichiers attachés                                                                                                          |
+| *extractfiletextmetadata*    | inclus le texte du fichier attaché dans les métadonnées                                                                                                         |
+| *model NUMBER*               | modèle d'extraction sur disque 1 (generateurseda) ou 2 (sedalib), valeur par défaut 2                                                                           |
+| *warning*                    | génère un avertissement quand il y a un problème d'extraction limité à un message en particulier (sinon cela est loggé au niveau FINE)                          |
+| *x*                          | fait l'extraction                                                                                                                                               |
+| *l*                          | édite l'ensemble des répertoires de la messagerie (ne prend pas en compte les options -d et -k)                                                                 |
+| *z*                          | édite l'ensemble des répertoires de la messagerie ainsi que le nombre et le poids des messages qu'ils contiennent (ne prend pas en compte les options -d et -k) |
 
 Si le niveau de log est autre chose que OFF l'opération, d'extraction ou d'édition, sera loggée sur la console et dans un fichier 
 (en rootdir/username.log).

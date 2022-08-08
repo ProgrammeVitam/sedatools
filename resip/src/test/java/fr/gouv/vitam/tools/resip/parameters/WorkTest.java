@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * The type Work test.
  */
-public class WorkTest implements UseTestFiles {
+class WorkTest implements UseTestFiles {
 
 	private void setWorkFromArchiveTransfer(Work work, ArchiveTransfer archiveTransfer) {
 		work.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
@@ -55,12 +55,12 @@ public class WorkTest implements UseTestFiles {
 
 		SEDALibProgressLogger spl= new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP);
 		
-		List<String> ignorePatternList=new ArrayList<String>(2);
+		List<String> ignorePatternList=new ArrayList<>(2);
 		ignorePatternList.add("Thumbs.db");
 		ignorePatternList.add("pagefile.sys");
 		ExportContext gmc=new ExportContext("src/test/resources/PacketSamples/ExportContext.config");
 		CreationContext oic=new DiskImportContext(ignorePatternList,false, "src/test/resources/PacketSamples/SampleWithoutLinksModelV2", destLog);
-		Work ow=new Work(null,oic,gmc);
+		Work ow=new Work(null,oic,gmc,1);
 
 		DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(ow.getCreationContext().getOnDiskInput(),
 				spl);
@@ -71,8 +71,8 @@ public class WorkTest implements UseTestFiles {
 		setWorkFromArchiveTransfer(ow,di.getArchiveTransfer());
 
 		// assert macro results
-		assertEquals(ow.getDataObjectPackage().getAuInDataObjectPackageIdMap().size(),22);
-		assertEquals(ow.getDataObjectPackage().getDogInDataObjectPackageIdMap().size(),11);
+		assertEquals(22,ow.getDataObjectPackage().getAuInDataObjectPackageIdMap().size());
+		assertEquals(11,ow.getDataObjectPackage().getDogInDataObjectPackageIdMap().size());
 
 		// create jackson object mapper
 		ObjectMapper mapper = new ObjectMapper();

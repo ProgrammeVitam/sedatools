@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
@@ -51,10 +52,15 @@ public class TreatmentParameters {
     int dupMax;
 
     /**
+     * The SEDA2 subversion.
+     */
+    int seda2Version;
+
+    /**
      * Instantiates a new creation context.
      */
     public TreatmentParameters() {
-        formatByCategoryMap = new LinkedHashMap<String, List<String>>();
+        formatByCategoryMap = new LinkedHashMap<>();
     }
 
 
@@ -69,11 +75,11 @@ public class TreatmentParameters {
      */
     public TreatmentParameters(Prefs prefs) {
         String categoriesString = prefs.getPrefProperties().getProperty("treatmentParameters.categoriesList", null);
-        formatByCategoryMap = new LinkedHashMap<String, List<String>>();
+        formatByCategoryMap = new LinkedHashMap<>();
         if (categoriesString != null) {
             List<String> categoryList = Arrays.asList(categoriesString.split("\\|"));
             categoryList.replaceAll(String::trim);
-            formatByCategoryMap = new LinkedHashMap<String, List<String>>();
+            formatByCategoryMap = new LinkedHashMap<>();
             for (String category : categoryList) {
                 String formatsString = prefs.getPrefProperties().getProperty("treatmentParameters.categories." + canonizeCategoryName(category), "");
                 List<String> formatList = Arrays.asList(formatsString.split("\\|"));
@@ -87,6 +93,14 @@ public class TreatmentParameters {
         catch (NumberFormatException e){
             dupMax=1000;
         }
+        try {
+            seda2Version=Integer.parseInt(prefs.getPrefProperties().getProperty("treatmentParameters.seda2Version","1"));
+        }
+        catch (NumberFormatException e){
+            seda2Version=1;
+        }
+        if (!SEDA2Version.isSupportedSeda2Version(seda2Version))
+            seda2Version=1;
     }
 
     /**
@@ -100,13 +114,14 @@ public class TreatmentParameters {
             prefs.getPrefProperties().setProperty("treatmentParameters.categories."+canonizeCategoryName(e.getKey()),String.join("|",e.getValue()));
         }
         prefs.getPrefProperties().setProperty("treatmentParameters.dupMax", Integer.toString(dupMax));
+        prefs.getPrefProperties().setProperty("treatmentParameters.seda2Version", Integer.toString(seda2Version));
     }
 
     /**
      * Sets the default prefs.
      */
     public void setDefaultPrefs() {
-        formatByCategoryMap=new LinkedHashMap<String,List<String>>();
+        formatByCategoryMap=new LinkedHashMap<>();
 
         formatByCategoryMap.put("Base de données (access,filemaker...)",Arrays.asList("fmt/161", "fmt/194", "fmt/275",
                 "fmt/995", "fmt/1196", "x-fmt/1", "x-fmt/8", "x-fmt/9", "x-fmt/10", "x-fmt/66", "x-fmt/238", "x-fmt/239",
@@ -149,6 +164,7 @@ public class TreatmentParameters {
         formatByCategoryMap.put("Non connu",Arrays.asList("UNKNOWN"));
         formatByCategoryMap.put("Autres...",Arrays.asList("Other"));
         dupMax=1000;
+        seda2Version=1;
     }
 
     // Getters and setters
@@ -188,4 +204,24 @@ public class TreatmentParameters {
     public void setDupMax(int dupMax) {
         this.dupMax = dupMax;
     }
+
+    /**
+     * Gets seda version.
+     *
+     * @return the seda2 version
+     */
+    public int getSeda2Version() {
+        return seda2Version;
+    }
+
+    /**
+     * Sets seda2 version.
+     *
+     * @param sedaVersion the seda2 version
+     */
+    public void setSeda2Version(int sedaVersion) {
+        this.seda2Version = sedaVersion;
+    }
+
+
 }

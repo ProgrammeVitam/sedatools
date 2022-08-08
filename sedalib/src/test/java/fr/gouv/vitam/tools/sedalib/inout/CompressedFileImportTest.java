@@ -65,6 +65,7 @@ class CompressedFileImportTest implements UseTestFiles {
         // assert one dataObjectGroup using serialization
         String testog = "{\n" +
                 "  \"binaryDataObjectList\" : [ {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -122,6 +123,7 @@ class CompressedFileImportTest implements UseTestFiles {
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1__201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -180,6 +182,7 @@ class CompressedFileImportTest implements UseTestFiles {
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1__201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +

@@ -63,6 +63,7 @@ class DiskImportExportTest implements UseTestFiles {
         // assert one dataObjectGroup using serialization
         String testog = "{\n" +
                 "  \"binaryDataObjectList\" : [ {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -120,6 +121,7 @@ class DiskImportExportTest implements UseTestFiles {
                 "    \"inDataObjectPackageId\" : \"ID14\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1_201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -255,6 +257,7 @@ class DiskImportExportTest implements UseTestFiles {
         // assert one dataObjectGroup using serialization
         String testog = "{\n" +
                 "  \"binaryDataObjectList\" : [ {\n" +
+                "    \"dataObjectProfile\":null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +

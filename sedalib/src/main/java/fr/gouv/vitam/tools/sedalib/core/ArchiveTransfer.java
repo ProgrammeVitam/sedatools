@@ -105,10 +105,22 @@ public class ArchiveTransfer {
             xmlWriter.writeStartElement("ArchiveTransfer");
             xmlWriter.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
             xmlWriter.writeNamespace("pr", "info:lc/xmlns/premis-v2");
-            xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.1");
-            xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
-            xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
-                    "fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd");
+            switch(SEDA2Version.getSeda2Version()){
+                case 1:
+                    xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.1");
+                    xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                    xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
+                            "fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd");
+                    break;
+                case 2:
+                    xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.2");
+                    xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                    xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
+                            "fr:gouv:culture:archivesdefrance:seda:v2.2 seda-2.2-main.xsd");
+                    break;
+                default:
+                    throw new SEDALibException("Version de SEDA ["+ SEDA2Version.getSeda2VersionString() +"] sans schéma",null);
+            }
             xmlWriter.setXmlId(true);
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML du début du manifest", e);
@@ -170,6 +182,7 @@ public class ArchiveTransfer {
         try {
             xmlWriter.writeEndElement();
             xmlWriter.writeEndDocument();
+            xmlWriter.flush();
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML de la cloture du manifest", e);
         }
@@ -193,7 +206,6 @@ public class ArchiveTransfer {
         dataObjectPackage.toSedaXml(xmlWriter, imbricateFlag, sedaLibProgressLogger);
         exportFooter(xmlWriter);
         exportEndDocument(xmlWriter);
-
     }
 
     // SEDA XML importer
@@ -325,7 +337,7 @@ public class ArchiveTransfer {
 
     // SEDA Validator
 
-    public void seda21Validate(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+    public void sedaSchemaValidate(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         String manifest;
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
@@ -335,7 +347,7 @@ public class ArchiveTransfer {
             throw new SEDALibException("Echec d'écriture XML du manifest", e);
         }
         SEDAXMLValidator sedaXMLvalidator = new SEDAXMLValidator();
-        Schema sedaSchema = sedaXMLvalidator.getSEDASchema();
+        Schema sedaSchema = SEDAXMLValidator.getSEDASchema();
         sedaXMLvalidator.checkWithXSDSchema(manifest, sedaSchema);
     }
 

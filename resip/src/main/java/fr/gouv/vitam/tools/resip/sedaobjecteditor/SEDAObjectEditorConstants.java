@@ -38,26 +38,26 @@ public class SEDAObjectEditorConstants {
     /**
      * The SEDAMetadata filling information map.
      */
-    static public HashMap<String, String> sedaMetadataInformationMap;
+    public static final Map<String, String> sedaMetadataInformationMap;
 
     /**
      * The list of tags selected in minimal SEDAMetadata generation.
      */
-    static public List<String> minimalTagList;
+    public static final List<String> minimalTagList;
 
     /**
      * The list of tag for which the editor is a multilines text.
      */
-    static public List<String> largeAreaTagList;
+    public static final List<String> largeAreaTagList;
 
     /**
      * The object tags translation map.
      */
-    static public HashMap<String, String> translateMap;
+    public static final Map<String, String> translateMap;
 
 
     static {
-        sedaMetadataInformationMap = new HashMap<String, String>();
+        sedaMetadataInformationMap = new HashMap<>();
         sedaMetadataInformationMap.put("DateTimeType", "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z]" +
                 " ou YYYY-MM-DD'T'HH:MM:SS[Timezone ou Z]");
         sedaMetadataInformationMap.put("DateType", "Date\n    YYYY-MM-DD");
@@ -141,6 +141,8 @@ public class SEDAObjectEditorConstants {
         minimalTagList.add("FormatId");
         minimalTagList.add("Filename");
         minimalTagList.add("LastModified");
+        minimalTagList.add("LinkingAgentIdentifierType");
+        minimalTagList.add("LinkingAgentIdentifierValue");
 
         largeAreaTagList=new ArrayList<>();
         largeAreaTagList.add("Address");
@@ -148,7 +150,7 @@ public class SEDAObjectEditorConstants {
         largeAreaTagList.add("Description");
         largeAreaTagList.add("TextContent");
 
-        translateMap = new HashMap<String, String>();
+        translateMap = new HashMap<>();
         translateMap.put("ArchiveUnit", "Unité d'archive");
         translateMap.put("Content", "Descriptif");
         translateMap.put("AcquiredDate", "Date de numérisation");
@@ -158,6 +160,7 @@ public class SEDAObjectEditorConstants {
         translateMap.put("Coverage", "Couverture");
         translateMap.put("CreatedDate", "Date de création");
         translateMap.put("CustodialHistory", "Historique conservation");
+        translateMap.put("DateLitteral", "Date littérale");
         translateMap.put("Description", "Description");
         translateMap.put("DescriptionLanguage", "Langue de description");
         translateMap.put("DescriptionLevel", "Niveau de description");
@@ -250,6 +253,11 @@ public class SEDAObjectEditorConstants {
         translateMap.put("RepositoryObjectPID", "ID-Objet-SAE");
         translateMap.put("ExternalReference", "ID-externe");
 
+        // LinkingAgentIdentifier subfields
+        translateMap.put("LinkingAgentIdentifierType", "Type d'indentifiant");
+        translateMap.put("LinkingAgentIdentifierValue", "Valeur d'identifiant");
+        translateMap.put("LinkingAgentRole", "Rôle");
+
         // Event subfields
         translateMap.put("EventIdentifier", "Identifiant");
         translateMap.put("EventTypeCode", "Code de type");
@@ -260,6 +268,7 @@ public class SEDAObjectEditorConstants {
         translateMap.put("OutcomeDetail", "Détail du résultat");
         translateMap.put("OutcomeDetailMessage", "Message de résultat");
         translateMap.put("EventDetailData", "Détail technique");
+        translateMap.put("LinkingAgentIdentifier", "Agent répertorié");
 
         // Signature all subfields
         translateMap.put("SigningTime", "Date de signature");
@@ -317,6 +326,7 @@ public class SEDAObjectEditorConstants {
 
         //BinaryDataObject
         translateMap.put("BinaryDataObject", "Numérique");
+        translateMap.put("DataObjectProfile", "Profil d'objet");
         translateMap.put("DataObjectVersion", "Version");
         translateMap.put("MessageDigest", "Hachage");
         translateMap.put("Size", "Taille");
@@ -364,6 +374,10 @@ public class SEDAObjectEditorConstants {
         translateMap.put("Unknown","Non défini");
     }
 
+    private SEDAObjectEditorConstants() {
+        throw new IllegalStateException("Utility class");
+    }
+
     /**
      * Translate object name.
      *
@@ -377,14 +391,14 @@ public class SEDAObjectEditorConstants {
         return result;
     }
 
-    static private int labelWidth=0;
+    private static int labelWidth=0;
 
     /**
      * Compute max label width taking into account all object translations.
      *
      * @return the int
      */
-    static public int computeLabelWidth(){
+    public static int computeLabelWidth(){
         if (labelWidth!=0)
             return labelWidth;
 

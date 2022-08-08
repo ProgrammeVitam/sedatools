@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
@@ -37,7 +38,6 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -56,15 +56,38 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
     private List<SEDAObjectEditor> otherObjectEditorList;
 
     /**
+     * Ordered SEDAObjectEditor collection order and metadata element name and classes
+     */
+    static final int DATA_OBJECT_PROFILE = 0;
+    static final String DATA_OBJECT_PROFILE_ELEMENT_NAME = "DataObjectProfile";
+    static final int DATA_OBJECT_VERSION = 1;
+    static final String DATA_OBJECT_VERSION_ELEMENT_NAME = "DataObjectVersion";
+    static final int PHYSICAL_ID = 2;
+    static final String PHYSICAL_ID_ELEMENT_NAME = "PhysicalId";
+    static final int PHYSICAL_DIMENSIONS = 3;
+    static final String PHYSICAL_DIMENSIONS_ELEMENT_NAME = "PhysicalDimensions";
+    static final String ANY_XML_TYPE_ELEMENT_NAME = "AnyXMLType";
+
+    static final String STRING_TYPE_CLASS = "StringType";
+    static final String PHYSICAL_DIMENSIONS_CLASS = "PhysicalDimensions";
+    static final String ANY_XML_TYPE_CLASS = "AnyXMLType";
+
+    /**
+     * Explicative texts
+     */
+    static final String UNKNOWN = "Unknown";
+    static final String TO_BE_DEFINED = "Tbd";
+
+    /**
      * Instantiates a new PhysicalDataObject editor.
      *
      * @param editedObject the PhysicalDataObject editedObject
-     * @param father   the father
+     * @param father       the father
      */
     public PhysicalDataObjectEditor(PhysicalDataObject editedObject, SEDAObjectEditor father) {
         super(editedObject, father);
-        objectEditorArray = new SEDAObjectEditor[3];
-        otherObjectEditorList = new ArrayList<SEDAObjectEditor>();
+        objectEditorArray = new SEDAObjectEditor[4];
+        otherObjectEditorList = new ArrayList<>();
     }
 
     private PhysicalDataObject getPhysicalDataObjectMetadata() {
@@ -78,10 +101,11 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
 
     @Override
     public String getName() {
-        return translateTag("PhysicalDataObject") + " - " +
-                (editedObject == null ? translateTag("Unknown") :
-                        (getPhysicalDataObjectMetadata().getInDataObjectPackageId() == null ? "Tbd" :
-                                getPhysicalDataObjectMetadata().getInDataObjectPackageId()));
+        if (editedObject == null)
+            return translateTag(getTag()) + " - " + translateTag(UNKNOWN);
+        return translateTag(getTag()) + " - " +
+                (getPhysicalDataObjectMetadata().getInDataObjectPackageId() == null ? TO_BE_DEFINED :
+                        getPhysicalDataObjectMetadata().getInDataObjectPackageId());
     }
 
     @Override
@@ -90,20 +114,27 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
         for (SEDAObjectEditor objectEditor : objectEditorList) {
             SEDAMetadata subMetadata = (SEDAMetadata) objectEditor.extractEditedObject();
             switch (subMetadata.getXmlElementName()) {
-                case "DataObjectVersion":
+                case DATA_OBJECT_PROFILE_ELEMENT_NAME:
+                    tmpPdo.dataObjectProfile = (StringType) subMetadata;
+                    break;
+                case DATA_OBJECT_VERSION_ELEMENT_NAME:
                     tmpPdo.dataObjectVersion = (StringType) subMetadata;
                     break;
-                case "PhysicalId":
+                case PHYSICAL_ID_ELEMENT_NAME:
                     tmpPdo.physicalId = (StringType) subMetadata;
                     break;
-                case "PhysicalDimensions":
+                case PHYSICAL_DIMENSIONS_ELEMENT_NAME:
                     tmpPdo.physicalDimensions = (PhysicalDimensions) subMetadata;
                     break;
-                case "AnyXMLType":
+                case ANY_XML_TYPE_ELEMENT_NAME:
                     tmpPdo.otherDimensionsAbstractXml.add((AnyXMLType) subMetadata);
+                    break;
+                default:
+                    // no other sub-editors metadata expected
                     break;
             }
         }
+        getPhysicalDataObjectMetadata().dataObjectProfile = tmpPdo.dataObjectProfile;
         getPhysicalDataObjectMetadata().dataObjectVersion = tmpPdo.dataObjectVersion;
         getPhysicalDataObjectMetadata().physicalId = tmpPdo.physicalId;
         getPhysicalDataObjectMetadata().physicalDimensions = tmpPdo.physicalDimensions;
@@ -114,24 +145,27 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
 
     @Override
     public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<String>(objectEditorList.size());
+        List<String> summaryList = new ArrayList<>(objectEditorList.size());
         String tmp;
 
+        if (getPhysicalDataObjectMetadata().dataObjectProfile != null)
+            summaryList.add(getPhysicalDataObjectMetadata().dataObjectProfile.getValue());
+
         if (getPhysicalDataObjectMetadata().dataObjectVersion != null)
-            tmp=getPhysicalDataObjectMetadata().dataObjectVersion.getValue();
+            tmp = getPhysicalDataObjectMetadata().dataObjectVersion.getValue();
         else
-            tmp=translateTag("Unknown");
-        tmp=tmp.trim();
+            tmp = translateTag(UNKNOWN);
+        tmp = tmp.trim();
         if (!tmp.isEmpty())
             summaryList.add(tmp);
 
         if (getPhysicalDataObjectMetadata().physicalId != null) {
             tmp = getPhysicalDataObjectMetadata().physicalId.getValue();
             if (tmp == null)
-                tmp = translateTag("Unknown");
+                tmp = translateTag(UNKNOWN);
         } else
-            tmp = translateTag("Unknown");
-        tmp=tmp.trim();
+            tmp = translateTag(UNKNOWN);
+        tmp = tmp.trim();
         if (!tmp.isEmpty())
             summaryList.add(tmp);
 
@@ -139,8 +173,8 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
     }
 
     private void updateObjectEditorList() throws SEDALibException {
-        List<SEDAObjectEditor> result = new ArrayList<SEDAObjectEditor>();
-        for (int i = 0; i < 3; i++)
+        List<SEDAObjectEditor> result = new ArrayList<>();
+        for (int i = 0; i < objectEditorArray.length; i++)
             if (objectEditorArray[i] != null)
                 result.add(objectEditorArray[i]);
         result.addAll(otherObjectEditorList);
@@ -150,15 +184,17 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
-        this.objectEditorList = new ArrayList<SEDAObjectEditor>();
+        this.objectEditorList = new ArrayList<>();
 
         this.sedaObjectEditorPanel = new SEDAObjectEditorCompositePanel(this);
+        if (getPhysicalDataObjectMetadata().dataObjectProfile != null)
+            objectEditorArray[DATA_OBJECT_PROFILE] = SEDAObjectEditor.createSEDAObjectEditor(getPhysicalDataObjectMetadata().dataObjectProfile, this);
         if (getPhysicalDataObjectMetadata().dataObjectVersion != null)
-            objectEditorArray[0] = SEDAObjectEditor.createSEDAObjectEditor(getPhysicalDataObjectMetadata().dataObjectVersion, this);
+            objectEditorArray[DATA_OBJECT_VERSION] = SEDAObjectEditor.createSEDAObjectEditor(getPhysicalDataObjectMetadata().dataObjectVersion, this);
         if (getPhysicalDataObjectMetadata().physicalId != null)
-            objectEditorArray[1] = SEDAObjectEditor.createSEDAObjectEditor(getPhysicalDataObjectMetadata().physicalId, this);
+            objectEditorArray[PHYSICAL_ID] = SEDAObjectEditor.createSEDAObjectEditor(getPhysicalDataObjectMetadata().physicalId, this);
         if (getPhysicalDataObjectMetadata().physicalDimensions != null)
-            objectEditorArray[2] = SEDAObjectEditor.createSEDAObjectEditor(getPhysicalDataObjectMetadata().physicalDimensions, this);
+            objectEditorArray[PHYSICAL_DIMENSIONS] = SEDAObjectEditor.createSEDAObjectEditor(getPhysicalDataObjectMetadata().physicalDimensions, this);
 
         for (AnyXMLType sub : getPhysicalDataObjectMetadata().otherDimensionsAbstractXml)
             otherObjectEditorList.add(SEDAObjectEditor.createSEDAObjectEditor(sub, this));
@@ -166,56 +202,83 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
         updateObjectEditorList();
     }
 
-    static private void openButton(Path path) {
-        System.out.println(path);
-    }
-
     @Override
     public List<Pair<String, String>> getExtensionList() throws SEDALibException {
-        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
-                Pair.of("DataObjectVersion", translateTag("DataObjectVersion")),
-                Pair.of("PhysicalId", translateTag("PhysicalId")),
-                Pair.of("PhysicalDimensions", translateTag("PhysicalDimensions"))));
+        List<Pair<String, String>> extensionList;
+
+        switch (SEDA2Version.getSeda2Version()) {
+            case 1:
+                extensionList = new ArrayList<>(Arrays.asList(
+                        Pair.of(DATA_OBJECT_VERSION_ELEMENT_NAME, translateTag(DATA_OBJECT_VERSION_ELEMENT_NAME)),
+                        Pair.of(PHYSICAL_ID_ELEMENT_NAME, translateTag(PHYSICAL_ID_ELEMENT_NAME)),
+                        Pair.of(PHYSICAL_DIMENSIONS_ELEMENT_NAME, translateTag(PHYSICAL_DIMENSIONS_ELEMENT_NAME))));
+                break;
+            case 2:
+                extensionList = new ArrayList<>(Arrays.asList(
+                        Pair.of(DATA_OBJECT_PROFILE_ELEMENT_NAME, translateTag(DATA_OBJECT_PROFILE_ELEMENT_NAME)),
+                        Pair.of(DATA_OBJECT_VERSION_ELEMENT_NAME, translateTag(DATA_OBJECT_VERSION_ELEMENT_NAME)),
+                        Pair.of(PHYSICAL_ID_ELEMENT_NAME, translateTag(PHYSICAL_ID_ELEMENT_NAME)),
+                        Pair.of(PHYSICAL_DIMENSIONS_ELEMENT_NAME, translateTag(PHYSICAL_DIMENSIONS_ELEMENT_NAME))));
+                break;
+            default:
+                throw new SEDALibException("Version SEDA [" + SEDA2Version.getSeda2VersionString() + "] inconnue", null);
+        }
 
         for (SEDAObjectEditor me : objectEditorList) {
             String name = me.getTag();
             extensionList.remove(Pair.of(name, translateTag(name)));
         }
 
-        extensionList.add(Pair.of("AnyXMLType", translateTag("AnyXMLType")));
+        extensionList.add(Pair.of(ANY_XML_TYPE_ELEMENT_NAME, translateTag(ANY_XML_TYPE_ELEMENT_NAME)));
         return extensionList;
     }
 
     @Override
     public void addChild(String metadataName) throws SEDALibException {
-        SEDAMetadata sedaMetadata = null;
+        SEDAMetadata sedaMetadata;
         switch (metadataName) {
-            case "DataObjectVersion":
-                sedaMetadata = createSEDAMetadataSample("StringType", "DataObjectVersion", true);
-                objectEditorArray[0] = createSEDAObjectEditor(sedaMetadata, this);
+            case DATA_OBJECT_PROFILE_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_PROFILE_ELEMENT_NAME, true);
+                objectEditorArray[DATA_OBJECT_PROFILE] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
-            case "PhysicalId":
-                sedaMetadata = createSEDAMetadataSample("StringType", "PhysicalId", true);
-                objectEditorArray[1] = createSEDAObjectEditor(sedaMetadata, this);
+            case DATA_OBJECT_VERSION_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_VERSION_ELEMENT_NAME, true);
+                objectEditorArray[DATA_OBJECT_VERSION] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
-            case "PhysicalDimensions":
-                sedaMetadata = createSEDAMetadataSample("PhysicalDimensions", "PhysicalDimensions", true);
-                objectEditorArray[2] = createSEDAObjectEditor(sedaMetadata, this);
+            case PHYSICAL_ID_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, PHYSICAL_ID_ELEMENT_NAME, true);
+                objectEditorArray[PHYSICAL_ID] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
-            case "AnyXMLType":
-                sedaMetadata = createSEDAMetadataSample("AnyXMLType", "AnyXMLType", true);
+            case PHYSICAL_DIMENSIONS_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(PHYSICAL_DIMENSIONS_CLASS, PHYSICAL_DIMENSIONS_ELEMENT_NAME, true);
+                objectEditorArray[PHYSICAL_DIMENSIONS] = createSEDAObjectEditor(sedaMetadata, this);
+                break;
+            case ANY_XML_TYPE_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(ANY_XML_TYPE_CLASS, ANY_XML_TYPE_ELEMENT_NAME, true);
                 otherObjectEditorList.add(createSEDAObjectEditor(sedaMetadata, this));
                 break;
+            default:
+                throw new SEDALibException("La métadonnée [" + metadataName + "] n'existe pas dans un PhysicalDataObject");
         }
-        if (sedaMetadata == null)
-            throw new SEDALibException("La métadonnée [" + metadataName + "] n'existe pas dans un PhysicalDataObject");
+        updateObjectEditorList();
+    }
 
+    @Override
+    public void removeChild(SEDAObjectEditor objectEditor) throws SEDALibException {
+        for (int i = 0; i < objectEditorArray.length; i++)
+            if (objectEditorArray[i] == objectEditor)
+                objectEditorArray[i] = null;
+        for (int i = 0; i < otherObjectEditorList.size(); i++)
+            if (otherObjectEditorList.get(i) == objectEditor) {
+                otherObjectEditorList.remove(i);
+                break;
+            }
         updateObjectEditorList();
     }
 
     @Override
     public boolean canContainsMultiple(String metadataName) throws SEDALibException {
-        return metadataName.equals("AnyXMLType");
+        return metadataName.equals(ANY_XML_TYPE_ELEMENT_NAME);
     }
 
     /**
@@ -225,13 +288,15 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
      * @return the physical data object
      * @throws SEDALibException the seda lib exception
      */
-    static public PhysicalDataObject createPhysicalDataObjectSample(boolean minimal) throws SEDALibException {
+    public static PhysicalDataObject createPhysicalDataObjectSample(boolean minimal) throws SEDALibException {
         PhysicalDataObject result = new PhysicalDataObject();
-        result.dataObjectVersion = (StringType) createSEDAMetadataSample("StringType", "DataObjectVersion", minimal);
-        result.physicalId = (StringType) createSEDAMetadataSample("StringType", "PhysicalId", minimal);
+        if (SEDA2Version.getSeda2Version() > 1)
+            result.dataObjectProfile = (StringType) createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_PROFILE_ELEMENT_NAME, minimal);
+        result.dataObjectVersion = (StringType) createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_VERSION_ELEMENT_NAME, minimal);
+        result.physicalId = (StringType) createSEDAMetadataSample(STRING_TYPE_CLASS, PHYSICAL_ID_ELEMENT_NAME, minimal);
         if (!minimal) {
-            result.physicalDimensions = (PhysicalDimensions) createSEDAMetadataSample("PhysicalDimensions", "PhysicalDimensions", minimal);
-            result.otherDimensionsAbstractXml.add((AnyXMLType) createSEDAMetadataSample("AnyXMLType", "AnyXMLType", minimal));
+            result.physicalDimensions = (PhysicalDimensions) createSEDAMetadataSample(PHYSICAL_DIMENSIONS_CLASS, PHYSICAL_DIMENSIONS_ELEMENT_NAME, minimal);
+            result.otherDimensionsAbstractXml.add((AnyXMLType) createSEDAMetadataSample(ANY_XML_TYPE_CLASS, ANY_XML_TYPE_ELEMENT_NAME, minimal));
         }
         return result;
     }

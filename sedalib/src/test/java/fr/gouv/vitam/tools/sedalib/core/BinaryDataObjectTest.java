@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 class BinaryDataObjectTest {
 
@@ -41,6 +43,7 @@ class BinaryDataObjectTest {
 
         // Then
         String testOut = "{\n" +
+                "  \"dataObjectProfile\":null,\n" +
                 "  \"dataObjectSystemId\" : null,\n" +
                 "  \"dataObjectGroupSystemId\" : null,\n" +
                 "  \"relationshipsXmlData\" : [ ],\n" +
@@ -156,6 +159,11 @@ class BinaryDataObjectTest {
         BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
                 .get("ID7");
 
+        // When dataObjectProfile defined in SEDA 2.1 can't generate XML
+        bdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
+        assertThatThrownBy(() -> bdo.toSedaXmlFragments()).isInstanceOf(SEDALibException.class)
+                .hasMessageContaining("Erreur interne");
+        bdo.dataObjectProfile = null;
 
         // When test read write fragments in XML string format
         String bdoOut = bdo.toSedaXmlFragments();
@@ -190,6 +198,61 @@ class BinaryDataObjectTest {
         testOut = LineEndNormalize(testOut);
         bdoNextOut = LineEndNormalize(bdoNextOut);
         assertThat(bdoNextOut).isEqualTo(testOut);
+    }
 
+    @Test
+    void testXMLFragmentForSedaVersion2() throws SEDALibException, InterruptedException {
+
+        // Given
+        SEDA2Version.setSeda2Version(2);
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+        module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+        mapper.registerModule(module);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+        si.doImport();
+        BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
+                .get("ID7");
+        bdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
+
+        // When test read write fragments in XML string format
+        String bdoOut = bdo.toSedaXmlFragments();
+        BinaryDataObject bdoNext = new BinaryDataObject(si.getArchiveTransfer().getDataObjectPackage());
+        bdoNext.fromSedaXmlFragments(bdoOut);
+        String bdoNextOut = bdoNext.toSedaXmlFragments();
+
+        // Then
+        String testOut = "<DataObjectProfile>Test</DataObjectProfile>\n" +
+                "<DataObjectVersion>BinaryMaster_1</DataObjectVersion>\n" +
+                "  <Uri>content/ID52.jpg</Uri>\n" +
+                "  <MessageDigest algorithm=\"SHA-512\">e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3</MessageDigest>\n" +
+                "  <Size>21232</Size>\n" +
+                "  <FormatIdentification>\n" +
+                "    <FormatLitteral>Exchangeable Image File Format (Compressed)</FormatLitteral>\n" +
+                "    <MimeType>image/jpeg</MimeType>\n" +
+                "    <FormatId>fmt/645</FormatId>\n" +
+                "  </FormatIdentification>\n" +
+                "  <FileInfo>\n" +
+                "    <Filename>image001.jpg</Filename>\n" +
+                "    <LastModified>2018-08-28T19:22:19</LastModified>\n" +
+                "  </FileInfo>\n" +
+                "  <Metadata>\n" +
+                "    <Image>\n" +
+                "      <Dimensions>117x76</Dimensions>\n" +
+                "      <Width>117px</Width>\n" +
+                "      <Height>76px</Height>\n" +
+                "      <VerticalResolution>96ppp</VerticalResolution>\n" +
+                "      <HorizontalResolution>96ppp</HorizontalResolution>\n" +
+                "      <ColorDepth>24</ColorDepth>\n" +
+                "    </Image>\n" +
+                "  </Metadata>";
+        testOut = LineEndNormalize(testOut);
+        bdoNextOut = LineEndNormalize(bdoNextOut);
+        assertThat(bdoNextOut).isEqualTo(testOut);
+        SEDA2Version.setSeda2Version(1);
     }
 }

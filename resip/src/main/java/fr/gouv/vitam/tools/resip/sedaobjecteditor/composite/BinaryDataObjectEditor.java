@@ -33,6 +33,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
@@ -71,27 +72,58 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     /**
      * The graphic elements.
      */
-    private JButton openButton, defineButton;
+    private JButton openButton;
 
     /**
      * Ordered SEDAObjectEditor collection
      */
-    static final int MESSAGE_DIGEST = 2;
-    static final int SIZE = 3;
-    static final int FORMAT_IDENTIFICATION = 5;
-    static final int FILE_INFO = 6;
     private SEDAObjectEditor[] objectEditorArray;
+
+    /**
+     * Ordered SEDAObjectEditor collection
+     */
+    static final int DATA_OBJECT_PROFILE = 0;
+    static final String DATA_OBJECT_PROFILE_ELEMENT_NAME = "DataObjectProfile";
+    static final int DATA_OBJECT_VERSION = 1;
+    static final String DATA_OBJECT_VERSION_ELEMENT_NAME = "DataObjectVersion";
+    static final int URI = 2;
+    static final String URI_ELEMENT_NAME = "Uri";
+    static final int MESSAGE_DIGEST = 3;
+    static final String MESSAGE_DIGEST_ELEMENT_NAME = "MessageDigest";
+    static final int SIZE = 4;
+    static final String SIZE_ELEMENT_NAME = "Size";
+    static final int COMPRESSED = 5;
+    static final String COMPRESSED_ELEMENT_NAME = "Compressed";
+    static final int FORMAT_IDENTIFICATION = 6;
+    static final String FORMAT_IDENTIFICATION_ELEMENT_NAME = "FormatIdentification";
+    static final int FILE_INFO = 7;
+    static final String FILE_INFO_ELEMENT_NAME = "FileInfo";
+    static final int METADATA = 8;
+    static final String METADATA_ELEMENT_NAME = "Metadata";
+
+    static final String STRING_TYPE_CLASS = "StringType";
+    static final String DIGEST_TYPE_CLASS = "DigestType";
+    static final String INTEGER_TYPE_CLASS = "IntegerType";
+    static final String FORMAT_IDENTIFICATION_CLASS = "FormatIdentification";
+    static final String FILE_INFO_CLASS = "FileInfo";
+    static final String METADATA_CLASS = "Metadata";
+
+    /**
+     * Explicative texts
+     */
+    static final String UNKNOWN = "Unknown";
+    static final String TO_BE_DEFINED = "Tbd";
 
     /**
      * Instantiates a new BinaryDataObject editor.
      *
      * @param editedObject the BinaryDataObject editedObject
-     * @param father   the father
+     * @param father       the father
      */
     public BinaryDataObjectEditor(BinaryDataObject editedObject, SEDAObjectEditor father) {
         super(editedObject, father);
         this.editedOnDiskPath = editedObject.getOnDiskPath();
-        this.objectEditorArray = new SEDAObjectEditor[8];
+        this.objectEditorArray = new SEDAObjectEditor[9];
     }
 
     private BinaryDataObject getBinaryDataObjectMetadata() {
@@ -105,10 +137,11 @@ public class BinaryDataObjectEditor extends CompositeEditor {
 
     @Override
     public String getName() {
-        return translateTag("BinaryDataObject") + " - " +
-                (editedObject == null ? translateTag("Unknown") :
-                        (getBinaryDataObjectMetadata().getInDataObjectPackageId() == null ? "Tbd" :
-                                getBinaryDataObjectMetadata().getInDataObjectPackageId()));
+        if (editedObject == null)
+            return translateTag(getTag()) + " - " + translateTag(UNKNOWN);
+        return translateTag(getTag()) + " - " +
+                (getBinaryDataObjectMetadata().getInDataObjectPackageId() == null ? TO_BE_DEFINED :
+                        getBinaryDataObjectMetadata().getInDataObjectPackageId());
     }
 
     @Override
@@ -117,32 +150,39 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         for (SEDAObjectEditor objectEditor : objectEditorList) {
             SEDAMetadata subMetadata = (SEDAMetadata) objectEditor.extractEditedObject();
             switch (subMetadata.getXmlElementName()) {
-                case "DataObjectVersion":
+                case DATA_OBJECT_PROFILE_ELEMENT_NAME:
+                    tmpBdo.dataObjectProfile = (StringType) subMetadata;
+                    break;
+                case DATA_OBJECT_VERSION_ELEMENT_NAME:
                     tmpBdo.dataObjectVersion = (StringType) subMetadata;
                     break;
                 case "Uri":
                     tmpBdo.uri = (StringType) subMetadata;
                     break;
-                case "MessageDigest":
+                case MESSAGE_DIGEST_ELEMENT_NAME:
                     tmpBdo.messageDigest = (DigestType) subMetadata;
                     break;
-                case "Size":
+                case SIZE_ELEMENT_NAME:
                     tmpBdo.size = (IntegerType) subMetadata;
                     break;
-                case "Compressed":
+                case COMPRESSED_ELEMENT_NAME:
                     tmpBdo.compressed = (StringType) subMetadata;
                     break;
-                case "FormatIdentification":
+                case FORMAT_IDENTIFICATION_ELEMENT_NAME:
                     tmpBdo.formatIdentification = (FormatIdentification) subMetadata;
                     break;
-                case "FileInfo":
+                case FILE_INFO_ELEMENT_NAME:
                     tmpBdo.fileInfo = (FileInfo) subMetadata;
                     break;
-                case "Metadata":
+                case METADATA_ELEMENT_NAME:
                     tmpBdo.metadata = (Metadata) subMetadata;
+                    break;
+                default:
+                    // no other sub-editors metadata expected
                     break;
             }
         }
+        getBinaryDataObjectMetadata().dataObjectProfile = tmpBdo.dataObjectProfile;
         getBinaryDataObjectMetadata().dataObjectVersion = tmpBdo.dataObjectVersion;
         getBinaryDataObjectMetadata().uri = tmpBdo.uri;
         getBinaryDataObjectMetadata().messageDigest = tmpBdo.messageDigest;
@@ -156,62 +196,55 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         return getBinaryDataObjectMetadata();
     }
 
+    private String getItOrUnknown(String str) {
+        if ((str == null) || (str.isEmpty()))
+            return translateTag(UNKNOWN);
+        return str;
+    }
+
     @Override
     public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<String>(objectEditorList.size());
+        List<String> summaryList = new ArrayList<>(objectEditorList.size());
         String tmp;
+
+        if (getBinaryDataObjectMetadata().dataObjectProfile != null)
+            summaryList.add(getBinaryDataObjectMetadata().dataObjectProfile.getValue());
 
         if (getBinaryDataObjectMetadata().dataObjectVersion != null)
             summaryList.add(getBinaryDataObjectMetadata().dataObjectVersion.getValue());
         else
-            summaryList.add(translateTag("Unknown"));
+            summaryList.add(translateTag(UNKNOWN));
 
         if (getBinaryDataObjectMetadata().fileInfo != null) {
-            tmp = getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("Filename");
-            if (tmp == null)
-                tmp = translateTag("Unknown");
+            tmp = getItOrUnknown(getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("Filename"));
         } else
-            tmp = translateTag("Unknown");
-        tmp=tmp.trim();
-        if (!tmp.isEmpty())
-            summaryList.add(tmp);
+            tmp = translateTag(UNKNOWN);
+        summaryList.add(tmp);
 
         if (getBinaryDataObjectMetadata().formatIdentification != null) {
-            tmp = getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("MimeType");
-            if (tmp == null)
-                tmp = translateTag("Unknown");
+            tmp = getItOrUnknown(getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("MimeType"));
         } else
-            tmp = translateTag("Unknown");
-        tmp=tmp.trim();
-        if (!tmp.isEmpty())
-            summaryList.add(tmp);
+            tmp = translateTag(UNKNOWN);
+        summaryList.add(tmp);
 
         if (getBinaryDataObjectMetadata().formatIdentification != null) {
-            tmp = getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("FormatId");
-            if (tmp == null)
-                tmp = translateTag("Unknown");
+            tmp = getItOrUnknown(getBinaryDataObjectMetadata().formatIdentification.getSimpleMetadata("FormatId"));
         } else
-            tmp = translateTag("Unknown");
-        tmp=tmp.trim();
-        if (!tmp.isEmpty())
-            summaryList.add(tmp);
+            tmp = translateTag(UNKNOWN);
+        summaryList.add(tmp);
 
         if (getBinaryDataObjectMetadata().fileInfo != null) {
-            tmp = getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("LastModified");
-            if (tmp == null)
-                tmp = translateTag("Unknown");
+            tmp = getItOrUnknown(getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("LastModified"));
         } else
-            tmp = translateTag("Unknown");
-        tmp=tmp.trim();
-        if (!tmp.isEmpty())
-            summaryList.add(tmp);
+            tmp = translateTag(UNKNOWN);
+        summaryList.add(tmp);
 
         return String.join(", ", summaryList);
     }
 
     private void updateObjectEditorList() throws SEDALibException {
-        List<SEDAObjectEditor> result = new ArrayList<SEDAObjectEditor>();
-        for (int i = 0; i < 8; i++)
+        List<SEDAObjectEditor> result = new ArrayList<>();
+        for (int i = 0; i < objectEditorArray.length; i++)
             if (objectEditorArray[i] != null)
                 result.add(objectEditorArray[i]);
         objectEditorList = result;
@@ -220,7 +253,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
-        this.objectEditorList = new ArrayList<SEDAObjectEditor>();
+        this.objectEditorList = new ArrayList<>();
 
         JPanel moreButtons = new JPanel();
 
@@ -239,7 +272,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         openButton.addActionListener(arg -> this.openButton());
         moreButtons.add(openButton);
 
-        defineButton = new JButton();
+        JButton defineButton = new JButton();
         defineButton.setIcon(new ImageIcon(getClass().getResource("/icon/document-save-as.png")));
         defineButton.setToolTipText("Changer le fichier associé...");
         defineButton.setText("");
@@ -254,43 +287,85 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         moreButtons.add(defineButton);
 
         this.sedaObjectEditorPanel = new SEDAObjectEditorCompositePanel(this, moreButtons, false);
+        if (getBinaryDataObjectMetadata().dataObjectProfile != null)
+            objectEditorArray[DATA_OBJECT_PROFILE] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectProfile, this);
         if (getBinaryDataObjectMetadata().dataObjectVersion != null)
-            objectEditorArray[0] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectVersion, this);
+            objectEditorArray[DATA_OBJECT_VERSION] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectVersion, this);
         if (getBinaryDataObjectMetadata().uri != null)
-            objectEditorArray[1] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().uri, this);
+            objectEditorArray[URI] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().uri, this);
         if (getBinaryDataObjectMetadata().messageDigest != null)
-            objectEditorArray[2] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().messageDigest, this);
+            objectEditorArray[MESSAGE_DIGEST] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().messageDigest, this);
         if (getBinaryDataObjectMetadata().size != null)
-            objectEditorArray[3] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().size, this);
+            objectEditorArray[SIZE] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().size, this);
         if (getBinaryDataObjectMetadata().compressed != null)
-            objectEditorArray[4] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().compressed, this);
+            objectEditorArray[COMPRESSED] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().compressed, this);
         if (getBinaryDataObjectMetadata().formatIdentification != null)
-            objectEditorArray[5] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().formatIdentification, this);
+            objectEditorArray[FORMAT_IDENTIFICATION] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().formatIdentification, this);
         if (getBinaryDataObjectMetadata().fileInfo != null)
-            objectEditorArray[6] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().fileInfo, this);
+            objectEditorArray[FILE_INFO] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().fileInfo, this);
         if (getBinaryDataObjectMetadata().metadata != null)
-            objectEditorArray[7] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().metadata, this);
+            objectEditorArray[METADATA] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().metadata, this);
         updateObjectEditorList();
     }
 
-    private void openButton() {
+    private boolean setReadOnly(Path path) {
         try {
-            if (editedOnDiskPath != null) {
-                try {
-                    // Office bug workaround
-                    // This is a special patch to prevent Office to change a file when opening it to see the content...
-                    if (System.getProperty("os.name").toLowerCase().contains("win"))
-                        Files.setAttribute(editedOnDiskPath, "dos:readonly", true);
-                } catch (IOException e) {
-                    UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                            "Impossible de passer le fichier à ouvrir ["+editedOnDiskPath.toString()+
-                                    "] en lecture seule \n->" + e.getMessage(),
-                            "Erreur", UserInteractionDialog.ERROR_DIALOG,
-                            null);
-                }
-                Desktop.getDesktop().open(editedOnDiskPath.toFile());
+            // Office bug workaround
+            // This is a special patch to prevent Office to change a file when opening it to see the content...
+            if (System.getProperty("os.name").toLowerCase().contains("win"))
+                Files.setAttribute(path, "dos:readonly", true);
+        } catch (IOException e) {
+            return UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
+                    "Impossible de passer le fichier à ouvrir [" + path +
+                            "] en lecture seule\nVoulez-vous tout de même l'ouvrir?",
+                    "Confirmation", UserInteractionDialog.WARNING_DIALOG,
+                    null) == OK_DIALOG;
+        }
+        return true;
+    }
+
+    private void openButton() {
+        if (editedOnDiskPath != null) {
+            try {
+                if (setReadOnly(editedOnDiskPath))
+                    Desktop.getDesktop().open(editedOnDiskPath.toFile());
+            } catch (IOException ignored) {//NOSONAR
             }
-        } catch (IOException ignored) {
+        }
+    }
+
+    private void extractFileMetadataInEditors() {
+        try {
+            objectEditorArray[MESSAGE_DIGEST] = createSEDAObjectEditor(new DigestType(MESSAGE_DIGEST_ELEMENT_NAME,
+                    getDigestSha512(editedOnDiskPath), "SHA-512"), this);
+            objectEditorArray[SIZE] = createSEDAObjectEditor(new IntegerType(SIZE_ELEMENT_NAME,
+                    Files.size(editedOnDiskPath)), this);
+
+            boolean expanded = false;
+            if (objectEditorArray[FORMAT_IDENTIFICATION] != null)
+                expanded = ((SEDAObjectEditorCompositePanel) objectEditorArray[FORMAT_IDENTIFICATION].getSEDAObjectEditorPanel()).isExpanded();
+            IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(editedOnDiskPath);
+            FormatIdentification formatIdentification;
+            if (ir != null)
+                formatIdentification = new FormatIdentification(ir.getName(), ir.getMimeType(),
+                        ir.getPuid(), null);
+            else
+                formatIdentification = new FormatIdentification(translateTag(UNKNOWN), null,
+                        translateTag(UNKNOWN), null);
+            objectEditorArray[FORMAT_IDENTIFICATION] = createSEDAObjectEditor(formatIdentification, this);
+            ((SEDAObjectEditorCompositePanel) objectEditorArray[FORMAT_IDENTIFICATION].getSEDAObjectEditorPanel()).setExpanded(expanded);
+
+            expanded = false;
+            if (objectEditorArray[FILE_INFO] != null)
+                expanded = ((SEDAObjectEditorCompositePanel) objectEditorArray[FILE_INFO].getSEDAObjectEditorPanel()).isExpanded();
+            FileInfo fileInfo = new FileInfo();
+            fileInfo.addNewMetadata("Filename", editedOnDiskPath.getFileName().toString());
+            fileInfo.addNewMetadata("LastModified", Files.getLastModifiedTime(editedOnDiskPath).toString());
+            objectEditorArray[FILE_INFO] = createSEDAObjectEditor(fileInfo, this);
+            ((SEDAObjectEditorCompositePanel) objectEditorArray[FILE_INFO].getSEDAObjectEditorPanel()).setExpanded(expanded);
+            updateObjectEditorList();
+        } catch (SEDALibException | IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -302,71 +377,56 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         if (fileChooser.showOpenDialog(ResipGraphicApp.getTheWindow()) == JFileChooser.APPROVE_OPTION) {
             editedOnDiskPath = fileChooser.getSelectedFile().toPath();
 
-            if (editedOnDiskPath != null) {
-                openButton.setVisible(true);
-                openButton.setToolTipText(editedOnDiskPath.toAbsolutePath().toString());
-            }
+            openButton.setVisible(true);
+            openButton.setToolTipText(editedOnDiskPath.toAbsolutePath().toString());
 
-            try {
-                String filename = null;
-                if (objectEditorArray[FILE_INFO] != null)
-                    filename = ((ComplexListTypeEditor) objectEditorArray[FILE_INFO]).getComplexListTypeMetadata().getSimpleMetadata("Filename");
-                if ((objectEditorArray[FILE_INFO] == null) ||
-                        (filename == null) ||
-                        filename.isEmpty() ||
-                        UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                                "Voulez-vous extraire automatiquement les informations de ce fichier?",
-                                "Question", UserInteractionDialog.WARNING_DIALOG,
-                                null) == OK_DIALOG) {
-                    objectEditorArray[MESSAGE_DIGEST] = createSEDAObjectEditor(new DigestType("MessageDigest",
-                            getDigestSha512(editedOnDiskPath), "SHA-512"), this);
-                    objectEditorArray[SIZE] = createSEDAObjectEditor(new IntegerType("Size",
-                            Files.size(editedOnDiskPath)), this);
+            String filename = null;
+            if (objectEditorArray[FILE_INFO] != null)
+                filename = ((ComplexListTypeEditor) objectEditorArray[FILE_INFO]).getComplexListTypeMetadata().getSimpleMetadata("Filename");
+            if ((objectEditorArray[FILE_INFO] == null) ||
+                    (filename == null) ||
+                    filename.isEmpty() ||
+                    UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
+                            "Voulez-vous extraire automatiquement les informations de ce fichier?",
+                            "Question", UserInteractionDialog.WARNING_DIALOG,
+                            null) == OK_DIALOG) {
+                extractFileMetadataInEditors();
 
-                    boolean expanded = false;
-                    if (objectEditorArray[FORMAT_IDENTIFICATION] != null)
-                        expanded = ((SEDAObjectEditorCompositePanel) objectEditorArray[FORMAT_IDENTIFICATION].getSEDAObjectEditorPanel()).isExpanded();
-                    IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(editedOnDiskPath);
-                    FormatIdentification formatIdentification;
-                    if (ir != null)
-                        formatIdentification = new FormatIdentification(ir.getName(), ir.getMimeType(),
-                                ir.getPuid(), null);
-                    else
-                        formatIdentification = new FormatIdentification(translateTag("Unknown"), null,
-                                translateTag("Unknown"), null);
-                    objectEditorArray[FORMAT_IDENTIFICATION] = createSEDAObjectEditor(formatIdentification, this);
-                    ((SEDAObjectEditorCompositePanel) objectEditorArray[FORMAT_IDENTIFICATION].getSEDAObjectEditorPanel()).setExpanded(expanded);
-
-                    expanded = false;
-                    if (objectEditorArray[FILE_INFO] != null)
-                        expanded = ((SEDAObjectEditorCompositePanel) objectEditorArray[FILE_INFO].getSEDAObjectEditorPanel()).isExpanded();
-                    FileInfo fileInfo = new FileInfo();
-                    fileInfo.addNewMetadata("Filename", editedOnDiskPath.getFileName().toString());
-                    fileInfo.addNewMetadata("LastModified", Files.getLastModifiedTime(editedOnDiskPath).toString());
-                    objectEditorArray[FILE_INFO] = createSEDAObjectEditor(fileInfo, this);
-                    ((SEDAObjectEditorCompositePanel) objectEditorArray[FILE_INFO].getSEDAObjectEditorPanel()).setExpanded(expanded);
-
-                    updateObjectEditorList();
-
-                    sedaObjectEditorPanel.revalidate();
-                    sedaObjectEditorPanel.repaint();
-                }
-            } catch (SEDALibException | IOException e) {
-                e.printStackTrace();
+                sedaObjectEditorPanel.revalidate();
+                sedaObjectEditorPanel.repaint();
             }
         }
     }
 
     @Override
     public List<Pair<String, String>> getExtensionList() throws SEDALibException {
-        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
-                Pair.of("DataObjectVersion", translateTag("DataObjectVersion")),
-                Pair.of("Uri", translateTag("Uri")),
-                Pair.of("MessageDigest", translateTag("MessageDigest")),
-                Pair.of("Size", translateTag("Size")),
-                Pair.of("FormatIdentification", translateTag("FormatIdentification")),
-                Pair.of("FileInfo", translateTag("FileInfo")),
-                Pair.of("Metadata", translateTag("Metadata"))));
+        List<Pair<String, String>> extensionList;
+
+        switch (SEDA2Version.getSeda2Version()) {
+            case 1:
+                extensionList = new ArrayList<>(Arrays.asList(
+                        Pair.of(DATA_OBJECT_VERSION_ELEMENT_NAME, translateTag(DATA_OBJECT_VERSION_ELEMENT_NAME)),
+                        Pair.of("Uri", translateTag("Uri")),
+                        Pair.of(MESSAGE_DIGEST_ELEMENT_NAME, translateTag(MESSAGE_DIGEST_ELEMENT_NAME)),
+                        Pair.of(SIZE_ELEMENT_NAME, translateTag(SIZE_ELEMENT_NAME)),
+                        Pair.of(FORMAT_IDENTIFICATION_ELEMENT_NAME, translateTag(FORMAT_IDENTIFICATION_ELEMENT_NAME)),
+                        Pair.of(FILE_INFO_ELEMENT_NAME, translateTag(FILE_INFO_ELEMENT_NAME)),
+                        Pair.of(METADATA_ELEMENT_NAME, translateTag(METADATA_ELEMENT_NAME))));
+                break;
+            case 2:
+                extensionList = new ArrayList<>(Arrays.asList(
+                        Pair.of(DATA_OBJECT_PROFILE_ELEMENT_NAME, translateTag(DATA_OBJECT_PROFILE_ELEMENT_NAME)),
+                        Pair.of(DATA_OBJECT_VERSION_ELEMENT_NAME, translateTag(DATA_OBJECT_VERSION_ELEMENT_NAME)),
+                        Pair.of("Uri", translateTag("Uri")),
+                        Pair.of(MESSAGE_DIGEST_ELEMENT_NAME, translateTag(MESSAGE_DIGEST_ELEMENT_NAME)),
+                        Pair.of(SIZE_ELEMENT_NAME, translateTag(SIZE_ELEMENT_NAME)),
+                        Pair.of(FORMAT_IDENTIFICATION_ELEMENT_NAME, translateTag(FORMAT_IDENTIFICATION_ELEMENT_NAME)),
+                        Pair.of(FILE_INFO_ELEMENT_NAME, translateTag(FILE_INFO_ELEMENT_NAME)),
+                        Pair.of(METADATA_ELEMENT_NAME, translateTag(METADATA_ELEMENT_NAME))));
+                break;
+            default:
+                throw new SEDALibException("Version SEDA [" + SEDA2Version.getSeda2VersionString() + "] inconnue", null);
+        }
 
         for (SEDAObjectEditor me : objectEditorList) {
             String name = me.getTag();
@@ -377,48 +437,53 @@ public class BinaryDataObjectEditor extends CompositeEditor {
 
     @Override
     public void addChild(String metadataName) throws SEDALibException {
-        SEDAMetadata sedaMetadata = null;
+        SEDAMetadata sedaMetadata;
         switch (metadataName) {
-            case "DataObjectVersion":
-                sedaMetadata = createSEDAMetadataSample("StringType", "DataObjectVersion", true);
-                objectEditorArray[0] = createSEDAObjectEditor(sedaMetadata, this);
+            case DATA_OBJECT_PROFILE_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_PROFILE_ELEMENT_NAME, true);
+                objectEditorArray[DATA_OBJECT_PROFILE] = createSEDAObjectEditor(sedaMetadata, this);
+                break;
+            case DATA_OBJECT_VERSION_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_VERSION_ELEMENT_NAME, true);
+                objectEditorArray[DATA_OBJECT_VERSION] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "Uri":
-                sedaMetadata = createSEDAMetadataSample("StringType", "Uri", true);
-                objectEditorArray[1] = createSEDAObjectEditor(sedaMetadata, this);
+                sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, "Uri", true);
+                objectEditorArray[URI] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
-            case "MessageDigest":
-                sedaMetadata = createSEDAMetadataSample("DigestType", "MessageDigest", true);
-                objectEditorArray[2] = createSEDAObjectEditor(sedaMetadata, this);
+            case MESSAGE_DIGEST_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(DIGEST_TYPE_CLASS, MESSAGE_DIGEST_ELEMENT_NAME, true);
+                objectEditorArray[MESSAGE_DIGEST] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
-            case "Size":
-                sedaMetadata = createSEDAMetadataSample("IntegerType", "Size", true);
-                objectEditorArray[3] = createSEDAObjectEditor(sedaMetadata, this);
+            case SIZE_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(INTEGER_TYPE_CLASS, SIZE_ELEMENT_NAME, true);
+                objectEditorArray[SIZE] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
-            case "Compressed":
-                sedaMetadata = createSEDAMetadataSample("StringType", "Compressed", true);
-                objectEditorArray[4] = createSEDAObjectEditor(sedaMetadata, this);
+            case COMPRESSED_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, COMPRESSED_ELEMENT_NAME, true);
+                objectEditorArray[COMPRESSED] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
-            case "FormatIdentification":
-                sedaMetadata = createSEDAMetadataSample("FormatIdentification", "FormatIdentification", true);
-                objectEditorArray[5] = createSEDAObjectEditor(sedaMetadata, this);
+            case FORMAT_IDENTIFICATION_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(FORMAT_IDENTIFICATION_CLASS, FORMAT_IDENTIFICATION_ELEMENT_NAME, true);
+                objectEditorArray[FORMAT_IDENTIFICATION] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
-            case "FileInfo":
-                sedaMetadata = createSEDAMetadataSample("FileInfo", "FileInfo", true);
-                objectEditorArray[6] = createSEDAObjectEditor(sedaMetadata, this);
+            case FILE_INFO_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(FILE_INFO_CLASS, FILE_INFO_ELEMENT_NAME, true);
+                objectEditorArray[FILE_INFO] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
-            case "Metadata":
-                sedaMetadata = createSEDAMetadataSample("Metadata", "Metadata", true);
-                objectEditorArray[7] = createSEDAObjectEditor(sedaMetadata, this);
+            case METADATA_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(METADATA_CLASS, METADATA_ELEMENT_NAME, true);
+                objectEditorArray[METADATA] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
+            default:
+                throw new SEDALibException("La métadonnée [" + metadataName + "] n'existe pas dans un BinaryDataObject");
         }
-        if (sedaMetadata == null)
-            throw new SEDALibException("La métadonnée [" + metadataName + "] n'existe pas dans un BinaryDataObject");
         updateObjectEditorList();
     }
 
+    @Override
     public void removeChild(SEDAObjectEditor objectEditor) throws SEDALibException {
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < objectEditorArray.length; i++)
             if (objectEditorArray[i] == objectEditor)
                 objectEditorArray[i] = null;
         updateObjectEditorList();
@@ -436,16 +501,18 @@ public class BinaryDataObjectEditor extends CompositeEditor {
      * @return the binary data object
      * @throws SEDALibException the seda lib exception
      */
-    static public BinaryDataObject createBinaryDataObjectSample(boolean minimal) throws SEDALibException {
+    public static BinaryDataObject createBinaryDataObjectSample(boolean minimal) throws SEDALibException {
         BinaryDataObject result = new BinaryDataObject();
-        result.dataObjectVersion = (StringType) createSEDAMetadataSample("StringType", "DataObjectVersion", minimal);
-        result.messageDigest = (DigestType) createSEDAMetadataSample("DigestType", "MessageDigest", minimal);
-        result.size = (IntegerType) createSEDAMetadataSample("IntegerType", "Size", minimal);
-        result.formatIdentification = (FormatIdentification) createSEDAMetadataSample("FormatIdentification", "FormatIdentification", minimal);
-        result.fileInfo = (FileInfo) createSEDAMetadataSample("FileInfo", "FileInfo", minimal);
+        if (SEDA2Version.getSeda2Version() > 1)
+            result.dataObjectProfile = (StringType) createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_PROFILE_ELEMENT_NAME, minimal);
+        result.dataObjectVersion = (StringType) createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_VERSION_ELEMENT_NAME, minimal);
+        result.messageDigest = (DigestType) createSEDAMetadataSample(DIGEST_TYPE_CLASS, MESSAGE_DIGEST_ELEMENT_NAME, minimal);
+        result.size = (IntegerType) createSEDAMetadataSample(INTEGER_TYPE_CLASS, SIZE_ELEMENT_NAME, minimal);
+        result.formatIdentification = (FormatIdentification) createSEDAMetadataSample(FORMAT_IDENTIFICATION_CLASS, FORMAT_IDENTIFICATION_ELEMENT_NAME, minimal);
+        result.fileInfo = (FileInfo) createSEDAMetadataSample(FILE_INFO_CLASS, FILE_INFO_ELEMENT_NAME, minimal);
         if (!minimal) {
-            result.uri = (StringType) createSEDAMetadataSample("StringType", "Uri", minimal);
-            result.metadata = (Metadata) createSEDAMetadataSample("Metadata", "Metadata", minimal);
+            result.uri = (StringType) createSEDAMetadataSample(STRING_TYPE_CLASS, "Uri", minimal);
+            result.metadata = (Metadata) createSEDAMetadataSample(METADATA_CLASS, METADATA_ELEMENT_NAME, minimal);
         }
         return result;
     }

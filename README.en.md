@@ -21,17 +21,13 @@ et
 Build
 -----
 
-With JDK 1.8 (or 11), git and maven installed, the build sequence is:
+With JDK 11, git and maven installed, the build sequence is:
 
     mkdir test-sedatools
     cd test-sedatools
     git clone https://github.com/ProgrammeVitam/java-libpst-origin.git
     cd java-libpst-origin/
     git checkout master
-    mvn clean install
-    cd ..
-    git clone https://github.com/ProgrammeVitam/droid-origin.git
-    cd droid-origin
     mvn clean install
     cd ..
     git clone https://github.com/ProgrammeVitam/sedatools.git

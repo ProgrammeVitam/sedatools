@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Gps;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -46,10 +47,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * The Class ComplexListType.
@@ -59,19 +57,32 @@ import java.util.List;
 public abstract class ComplexListType extends NamedTypeMetadata {
 
     /**
-     * The Sub type metadata ordered list map.
+     * The analyzed Sub type metadata set.
      */
-    protected static HashMap<Class<?>, List<String>> subTypeMetadataOrderedListMap = new HashMap<>();
+    protected static HashSet<Class<?>> analyzedSubTypeMetadataSet = new HashSet<>();
     /**
-     * The Sub type metadata map map.
+     * The Sub type metadata ordered list map by versions.
      */
-    protected static HashMap<Class<?>, LinkedHashMap<String, ComplexListMetadataKind>> subTypeMetadataMapMap =
-            new HashMap<>();
+    protected static HashMap<Class<?>, List<String>>[] subTypeMetadataOrderedListMap = new HashMap[SEDA2Version.MAX_SUPPORTED_VERSION+2];
     /**
-     * The Sub type expandable map.
+     * The Sub type metadata map map by versions.
      */
-    protected static HashMap<Class<?>, Boolean> subTypeNotExpandableMap =
-            new HashMap<>();
+    protected static HashMap<Class<?>, LinkedHashMap<String, ComplexListMetadataKind>>[] subTypeMetadataMapMap =
+            new HashMap[SEDA2Version.MAX_SUPPORTED_VERSION+2];
+    /**
+     * The Sub type expandable map by versions.
+     */
+    protected static HashMap<Class<?>, Boolean>[] subTypeNotExpandableMap =
+            new HashMap[SEDA2Version.MAX_SUPPORTED_VERSION+2];
+
+    // init empty maps for all versions (index=version+1) and non specific one (index=0)
+    static {
+        for (int i = 0; i< SEDA2Version.MAX_SUPPORTED_VERSION+2; i++){
+            subTypeMetadataOrderedListMap[i]=new HashMap<>();
+            subTypeMetadataMapMap[i]=new HashMap<>();
+            subTypeNotExpandableMap[i]=new HashMap<>();
+        }
+    }
 
     /**
      * The metadata list.
@@ -83,7 +94,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      *
      * @param elementName the element name
      */
-    public ComplexListType(String elementName) {
+    protected ComplexListType(String elementName) {
         super(elementName);
         this.metadataList = new ArrayList<>();
     }
@@ -144,7 +155,6 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      */
     protected SEDAMetadata newSEDAMetadata(String elementName, Object[] args) throws SEDALibException {
         ComplexListMetadataKind mi = getMetadataMap().get(elementName);
-        Constructor<?> constructor;
         try {
             Class<?> metadataClass;
             if (mi == null)
@@ -377,7 +387,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      * Add metadata from fragments in XML expected form for the SEDA Manifest.
      *
      * @param xmlData the xml data
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not                          respected
+     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not respected
      */
     public void addSedaXmlFragments(String xmlData) throws SEDALibException {
         Class<?> metadataClass;
@@ -409,25 +419,36 @@ public abstract class ComplexListType extends NamedTypeMetadata {
     private static void getNewComplexListSubType(Class<?> subClass) throws SEDALibException {
         List<Field> fields = FieldUtils.getFieldsListWithAnnotation(subClass, ComplexListMetadataMap.class);
         if (fields.isEmpty())
-            throw new SEDALibException("Le type " + subClass + " n'a pas de variable annotée @ComplexListMetadataMap accessible");
-        else if (fields.size() > 1)
-            throw new SEDALibException("Le type " + subClass + " a plusieurs variables annotées @ComplexListMetadataMap accessibles (classe ou parents)");
+            throw new SEDALibException("Le type " + subClass +
+                    " n'a pas de variable annotée @ComplexListMetadataMap accessible");
+        else if (fields.size() > SEDA2Version.MAX_SUPPORTED_VERSION)
+            throw new SEDALibException("Le type " + subClass +
+                    " a un trop grand nombre de variables annotées @ComplexListMetadataMap accessibles");
 
         Object object;
+        int seda2Version;
+        boolean isExpandable;
         LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
-        try {
-            object = fields.get(0).get(null);
-        } catch (IllegalAccessException e) {
-            throw new SEDALibException("La variable " + fields.get(0) + " annotée @ComplexListMetadataMap du type " + subClass + " ne peut être accédée", e);
+        for (int i = 0; i < fields.size();i++) {
+            try {
+                object = fields.get(i).get(null);
+                seda2Version= fields.get(i).getAnnotation(ComplexListMetadataMap.class).seda2Version();
+                isExpandable= fields.get(i).getAnnotation(ComplexListMetadataMap.class).isExpandable();
+            } catch (IllegalAccessException e) {
+                throw new SEDALibException("La variable " + fields.get(i) + " annotée @ComplexListMetadataMap du type " +
+                        subClass + " pour la version "+(i==-1?"par défaut":i)+" ne peut être accédée", e);
+            }
+            try {
+                metadataMap = (LinkedHashMap<String, ComplexListMetadataKind>) object;
+            } catch (ClassCastException e) {
+                throw new SEDALibException("La variable " + fields.get(i) + " annotée @ComplexListMetadataMap du type " +
+                        subClass + " n'est pas de type LinkedHashMap<String,ComplexListMetadataKind>", e);
+            }
+            subTypeMetadataMapMap[seda2Version+1].put(subClass, metadataMap);
+            subTypeMetadataOrderedListMap[seda2Version+1].put(subClass, new ArrayList<>(metadataMap.keySet()));
+            subTypeNotExpandableMap[seda2Version+1].put(subClass, !isExpandable);
         }
-        try {
-            metadataMap = (LinkedHashMap<String, ComplexListMetadataKind>) object;
-        } catch (ClassCastException e) {
-            throw new SEDALibException("La variable " + fields.get(0) + " annotée @ComplexListMetadataMap du type " + subClass + " n'est pas de type LinkedHashMap<String,ComplexListMetadataKind>", e);
-        }
-        subTypeMetadataMapMap.put(subClass, metadataMap);
-        subTypeMetadataOrderedListMap.put(subClass, new ArrayList<>(metadataMap.keySet()));
-        subTypeNotExpandableMap.put(subClass, !fields.get(0).getAnnotation(ComplexListMetadataMap.class).isExpandable());
+        analyzedSubTypeMetadataSet.add(subClass);
     }
 
     /**
@@ -438,11 +459,11 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      */
     @JsonIgnore
     public List<String> getMetadataOrderedList() throws SEDALibException {
-        List<String> metadataOrderedList = subTypeMetadataOrderedListMap.get(this.getClass());
-        if (metadataOrderedList == null) {
+        if (!analyzedSubTypeMetadataSet.contains(this.getClass()))
             getNewComplexListSubType(this.getClass());
-            metadataOrderedList = subTypeMetadataOrderedListMap.get(this.getClass());
-        }
+        List<String> metadataOrderedList = subTypeMetadataOrderedListMap[SEDA2Version.getSeda2Version()+1].get(this.getClass());
+        if (metadataOrderedList == null)
+            metadataOrderedList = subTypeMetadataOrderedListMap[0].get(this.getClass());
         return metadataOrderedList;
     }
 
@@ -455,11 +476,11 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      */
     @JsonIgnore
     public HashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
-        HashMap<String, ComplexListMetadataKind> metadataMap = subTypeMetadataMapMap.get(this.getClass());
-        if (metadataMap == null) {
+        if (!analyzedSubTypeMetadataSet.contains(this.getClass()))
             getNewComplexListSubType(this.getClass());
-            metadataMap = subTypeMetadataMapMap.get(this.getClass());
-        }
+        HashMap<String, ComplexListMetadataKind> metadataMap = subTypeMetadataMapMap[SEDA2Version.getSeda2Version()+1].get(this.getClass());
+        if (metadataMap == null)
+            metadataMap = subTypeMetadataMapMap[0].get(this.getClass());
         return metadataMap;
     }
 
@@ -469,9 +490,14 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      *
      * @param complexListTypeMetadataClass the complex list type metadata class
      * @return the metadata map
+     * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
-    public static HashMap<String, ComplexListMetadataKind> getMetadataMap(Class<?> complexListTypeMetadataClass) {
-        HashMap<String, ComplexListMetadataKind> metadataMap = subTypeMetadataMapMap.get(complexListTypeMetadataClass);
+    public static HashMap<String, ComplexListMetadataKind> getMetadataMap(Class<?> complexListTypeMetadataClass) throws SEDALibException {
+        if (!analyzedSubTypeMetadataSet.contains(complexListTypeMetadataClass))
+            getNewComplexListSubType(complexListTypeMetadataClass);
+        HashMap<String, ComplexListMetadataKind> metadataMap = subTypeMetadataMapMap[SEDA2Version.getSeda2Version()+1].get(complexListTypeMetadataClass);
+        if (metadataMap == null)
+            metadataMap = subTypeMetadataMapMap[0].get(complexListTypeMetadataClass);
         return metadataMap;
     }
 
@@ -483,12 +509,12 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      */
     @JsonIgnore
     public boolean isNotExpendable() throws SEDALibException {
-        Boolean isNotExpandable = subTypeNotExpandableMap.get(this.getClass());
-        if (isNotExpandable == null) {
+        if (!analyzedSubTypeMetadataSet.contains(this.getClass()))
             getNewComplexListSubType(this.getClass());
-            isNotExpandable = subTypeNotExpandableMap.get(this.getClass());
-        }
-        return isNotExpandable;
+        Boolean isNotExpandable = subTypeNotExpandableMap[SEDA2Version.getSeda2Version()+1].get(this.getClass());
+        if (isNotExpandable == null)
+            isNotExpandable = subTypeNotExpandableMap[0].get(this.getClass());
+         return isNotExpandable;
     }
 
     /**
@@ -496,9 +522,15 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      *
      * @param complexListTypeMetadataClass the complex list type metadata class
      * @return true, if is not expendable
+     * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
-    public static Boolean isNotExpendable(Class<?> complexListTypeMetadataClass) {
-        return subTypeNotExpandableMap.get(complexListTypeMetadataClass);
+    public static Boolean isNotExpendable(Class<?> complexListTypeMetadataClass) throws SEDALibException {
+        if (!analyzedSubTypeMetadataSet.contains(complexListTypeMetadataClass))
+            getNewComplexListSubType(complexListTypeMetadataClass);
+        Boolean isNotExpandable = subTypeNotExpandableMap[SEDA2Version.getSeda2Version()+1].get(complexListTypeMetadataClass);
+        if (isNotExpandable == null)
+            isNotExpandable = subTypeNotExpandableMap[0].get(complexListTypeMetadataClass);
+        return isNotExpandable;
     }
 
     /**
@@ -534,9 +566,10 @@ public abstract class ComplexListType extends NamedTypeMetadata {
      *
      * @param metadataName the metadata name
      * @return the boolean
+     * @throws SEDALibException if the @ComplexListMetadataMap annotated static variable doesn't exist or is badly formed
      */
-    public boolean isAMultiValuedMetadata(String metadataName) {
-        ComplexListMetadataKind clmk = subTypeMetadataMapMap.get(this.getClass()).get(metadataName);
+    public boolean isAMultiValuedMetadata(String metadataName) throws SEDALibException {
+        ComplexListMetadataKind clmk = getMetadataMap().get(metadataName);
         if (clmk == null)
             return true;
         return clmk.isMany();

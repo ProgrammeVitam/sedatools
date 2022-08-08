@@ -662,13 +662,13 @@ public class SIPBuilder implements AutoCloseable {
 
 
     /**
-     * Validate SEDA 2.1 conformity.
+     * Validate SEDA schema conformity for global SEDA2Version .
      *
      * @throws SEDALibException if any validation problem occurs with a descriptive message
      */
-    public void seda21Validate() throws SEDALibException {
+    public void sedaSchemaValidate() throws SEDALibException {
         try {
-            archiveTransfer.seda21Validate(sedaLibProgressLogger);
+            archiveTransfer.sedaSchemaValidate(sedaLibProgressLogger);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
