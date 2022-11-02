@@ -170,7 +170,13 @@ abstract public class SEDAObjectEditor {
                         try {
                             result = Class.forName(metadataType);
                         } catch (ClassNotFoundException e5) {
-                            throw new SEDALibException("Le type de métadonnée [" + simpleMetadataType + "] n'est pas connu");
+                            metadataType = "fr.gouv.vitam.tools.sedalib.metadata.compacted." + simpleMetadataType;
+                            try {
+                                result = Class.forName(metadataType);
+                            } catch (ClassNotFoundException e6) {
+                                throw new SEDALibException(
+                                    "Le type de métadonnée [" + simpleMetadataType + "] n'est pas connu");
+                            }
                         }
                     }
                 }
