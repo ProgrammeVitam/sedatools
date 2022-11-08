@@ -50,7 +50,7 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  * <p>
  * Main class of mailextract toolfor launching the command or the graphic
  * application.
- * <p>
+ * </p>
  * It performs extraction and structure listing of mail boxes from different
  * sources:
  * <ul>
@@ -66,6 +66,7 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  * SEDA archive packet (NF Z44-022). For detailed information see class
  * {@link StoreExtractor}.
  *
+ * </p>
  * <p>
  * The operation, extraction or listing, can be logged on console and file
  * (root/username[-timestamp].log - cf args). At the different levels you can
@@ -74,10 +75,12 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  * folders (FINE), list of treated messages (FINER), problems with some expected
  * metadata (FINEST). <br>
  * The default level of log is INFO for extracting and OFF for listing.
- *
+ * </p>
  * <p>
  * The arguments syntax is:
- * <table summary="command options">
+ * </p>
+ * <table>
+ * <caption>command options</caption>
  * <tr>
  * <td>--help</td>
  * <td>help</td>
@@ -175,17 +178,18 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  * options)</td>
  * </tr>
  * </table>
+ * <p>
  * Long options can be reduced to short ones (for example -h is equivalent to
  * --help)
- *
+ * </p>
  * <p>
  * <b>Warning:</b> Listing with detailed information is a potentially expensive
  * operation, especially when accessing distant account, as all messages are
  * inspected (in the case of a distant account that mean also downloaded...).
- *
+ * </p>
  * <p>
  * Note: For now it can't extract S/MIME (ciphered and/or signed) messages.
- * <p>
+ * </p>
  * It implements the operating class {@link StoreExtractor}
  *
  * @author JSL
