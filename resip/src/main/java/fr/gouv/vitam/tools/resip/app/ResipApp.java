@@ -83,7 +83,8 @@ import java.util.List;
  *
  * <p>
  * The arguments syntax is:
- * <table summary="command options">
+ * <table>
+ * <caption>command options</caption>
  * <tr>
  * <td>--help</td>
  * <td>help</td>

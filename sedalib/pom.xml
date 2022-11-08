@@ -171,6 +171,9 @@
                     <noqualifier>all</noqualifier>
                     <reportOutputDirectory>doc</reportOutputDirectory>
                     <destDir>doc</destDir>
+                    <doclint>none</doclint>
+                    <failOnError>false</failOnError>
+                    <quiet>true</quiet>
                 </configuration>
                 <executions>
                     <execution>
