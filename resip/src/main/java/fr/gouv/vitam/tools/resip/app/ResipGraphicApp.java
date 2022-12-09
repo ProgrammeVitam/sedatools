@@ -30,18 +30,18 @@ package fr.gouv.vitam.tools.resip.app;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.*;
+import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredDataObjectGroupEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLArchiveUnitEditorPanel;
-import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLDataObjectGroupEditorPanel;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -56,7 +56,9 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
 
 import static fr.gouv.vitam.tools.resip.threads.SeeManifestThread.launchSeeManifestThread;
 import static fr.gouv.vitam.tools.resip.utils.ResipLogger.getGlobalLogger;
@@ -116,9 +118,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // MainWindow menu elements dis/enabled depending on work state and used by controller. */
     private JMenuItem saveMenuItem, saveAsMenuItem, closeMenuItem;
     private JMenuItem sedaValidationMenuItem, sedaProfileValidationMenuItem;
-    private JCheckBoxMenuItem structuredMenuItem, debugMenuItem;
+    private JCheckBoxMenuItem structuredMenuItem, debugMenuItem, experimentalMenuItem;
     private JMenu treatMenu, contextMenu, exportMenu;
-    private Map<JMenuItem, String> actionByMenuItem = new HashMap<>();
+    private final Map<JMenuItem, String> actionByMenuItem = new HashMap<>();
 
     /**
      * The Import thread running.
@@ -261,27 +263,27 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Charger...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "LoadWork");
         fileMenu.add(menuItem);
 
         saveMenuItem = new JMenuItem("Sauver");
         saveMenuItem.addActionListener(this);
-        saveMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        saveMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         saveMenuItem.setEnabled(false);
         actionByMenuItem.put(saveMenuItem, "SaveWork");
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem = new JMenuItem("Sauver sous...");
         saveAsMenuItem.addActionListener(this);
-        saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         saveAsMenuItem.setEnabled(false);
         actionByMenuItem.put(saveAsMenuItem, "SaveAsWork");
         fileMenu.add(saveAsMenuItem);
 
         closeMenuItem = new JMenuItem("Fermer");
         closeMenuItem.addActionListener(this);
-        closeMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        closeMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         closeMenuItem.setEnabled(false);
         actionByMenuItem.put(closeMenuItem, "CloseWork");
         fileMenu.add(closeMenuItem);
@@ -316,7 +318,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Editer les informations d'export...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "EditExportContext");
         contextMenu.add(menuItem);
 
@@ -326,13 +328,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Chercher des unités d'archives...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "Search");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Chercher des objets...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "TechnicalSearch");
         treatMenu.add(menuItem);
 
@@ -340,49 +342,49 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Trier l'arbre de visualisation");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "SortTreeViewer");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Traiter les doublons...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "Duplicates");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Nettoyer les inutiles...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "Clean");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Voir les statistiques...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "Statistics");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Voir le manifest...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "SeeManifest");
         treatMenu.add(menuItem);
 
         sedaValidationMenuItem = new JMenuItem("Vérifier la conformité " + SEDA2Version.getSeda2VersionString() + "...");
         sedaValidationMenuItem.addActionListener(this);
-        sedaValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        sedaValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(sedaValidationMenuItem, "CheckSEDASchema");
         treatMenu.add(sedaValidationMenuItem);
 
         sedaProfileValidationMenuItem = new JMenuItem("Vérifier la conformité à un profil " + SEDA2Version.getSeda2VersionString() + "...");
         sedaProfileValidationMenuItem.addActionListener(this);
-        sedaProfileValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        sedaProfileValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(sedaProfileValidationMenuItem, "CheckSpecificSEDASchemaProfile");
         treatMenu.add(sedaProfileValidationMenuItem);
 
         menuItem = new JMenuItem("Vérifier EndDate > StartDate");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.ALT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.ALT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "CheckEndDate");
         treatMenu.add(menuItem);
 
@@ -482,6 +484,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         debugMenuItem.addActionListener(this);
         actionByMenuItem.put(debugMenuItem, "ToggleDebugMode");
         infoMenu.add(debugMenuItem);
+
+        experimentalMenuItem = new JCheckBoxMenuItem("Mode expérimental");
+        experimentalMenuItem.setState(interfaceParameters.isExperimentalFlag());
+        experimentalMenuItem.addActionListener(this);
+        actionByMenuItem.put(experimentalMenuItem, "ToggleExperimentalMode");
+        infoMenu.add(experimentalMenuItem);
         return menuBar;
     }
 
@@ -606,6 +614,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                         break;
                     case "ToggleDebugMode":
                         toggleDebugMode();
+                        break;
+                    case "ToggleExperimentalMode":
+                        toggleExperimentalMode();
                         break;
                     default:
                         break;
@@ -840,6 +851,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             prefsDialog.setVisible(true);
             if (prefsDialog.getReturnValue() == OK_DIALOG) {
                 prefsDialog.cc.toPrefs(Prefs.getInstance());
+                prefsDialog.coc.toPrefs(Prefs.getInstance());
                 prefsDialog.dic.toPrefs(Prefs.getInstance());
                 prefsDialog.mic.toPrefs(Prefs.getInstance());
                 prefsDialog.gmc.toPrefs(Prefs.getInstance());
@@ -849,6 +861,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 Prefs.getInstance().save();
                 treatmentParameters = prefsDialog.tp;
                 useSeda2Version(treatmentParameters.getSeda2Version());
+                interfaceParameters = prefsDialog.ip;
+                debugMenuItem.setState(interfaceParameters.isDebugFlag());
+                experimentalMenuItem.setState(interfaceParameters.isExperimentalFlag());
+                structuredMenuItem.setState(interfaceParameters.isStructuredMetadataEditionFlag());
+                toggleStructuredEdition();
                 ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
                         getGlobalLogger().getProgressLogLevel());
             }
@@ -1101,14 +1118,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             return true;
         }
 
-        if ((currentWork != null) && modifiedWork
+        return (currentWork != null) && modifiedWork
                 && (UserInteractionDialog.getUserAnswer(mainWindow,
                 "Vous avez un contexte en cours non sauvegardé, un import l'écrasera.\n"
                         + "Voulez-vous continuer?",
                 "Confirmation", UserInteractionDialog.WARNING_DIALOG,
-                null) != OK_DIALOG))
-            return true;
-        return false;
+                null) != OK_DIALOG);
     }
 
     private void importWork(CreationContext cc) {
@@ -1358,6 +1373,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     case ExportThread.CSV_METADATA_FILE_EXPORT:
                         defaultFilename += "metadata.csv";
                         break;
+                    default:
+                        throw new SEDALibException("type d'export ["+exportType+"] inconnu");
                 }
                 fileChooser.setSelectedFile(new File(defaultFilename));
                 fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -1445,7 +1462,18 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         try {
             interfaceParameters.setDebugFlag(debugMenuItem.getState());
         } catch (Exception e) {
-            UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de changer de type de mode de débug \n->" + e.getMessage(),
+            UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de passer en mode débug \n->" + e.getMessage(),
+                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
+                    null);
+            getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de passer en mode débug", e);
+        }
+    }
+
+    private void toggleExperimentalMode() {
+        try {
+            interfaceParameters.setExperimentalFlag(experimentalMenuItem.getState());
+        } catch (Exception e) {
+            UserInteractionDialog.getUserAnswer(mainWindow, "Erreur fatale, impossible de passer en mode expérimental \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             getGlobalLogger().log(ResipLogger.STEP, "resip.graphicapp: erreur fatale, impossible de changer de type de mode de débug", e);

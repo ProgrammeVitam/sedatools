@@ -27,12 +27,15 @@
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -46,6 +49,9 @@ import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstan
  * The ComplexListType object editor class.
  */
 public class ComplexListTypeEditor extends CompositeEditor {
+
+    // A flag to track when sub editors have been created on expansion
+    private boolean noSubEditors = true;
 
     /**
      * Instantiates a new ComplexListType editor.
@@ -78,7 +84,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(Class<?> complexListSubType, String elementName, boolean minimal) throws SEDALibException {
+    public static SEDAMetadata getSEDAMetadataSample(Class<?> complexListSubType, String elementName, boolean minimal) throws SEDALibException {
         ComplexListType result;
         try {
             result = (ComplexListType) complexListSubType.getConstructor().newInstance();
@@ -101,12 +107,14 @@ public class ComplexListTypeEditor extends CompositeEditor {
                 try {
                     result.addMetadata(metadataObject);
                 } catch (SEDALibException ignored) {
+                    // no real case
                 }
                 if ((complexListMetadataKind.isMany()) && !minimal) {
                     metadataObject = SEDAObjectEditor.createSEDAMetadataSample(complexListMetadataKind.getMetadataClass().getSimpleName(), metadataName, minimal);
                     try {
                         result.addMetadata(metadataObject);
                     } catch (SEDALibException ignored) {
+                        // no real case
                     }
                 }
             }
@@ -115,6 +123,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
             try {
                 result.addNewMetadata("AnyXMLType", "<AnyOtherMetadata><SubTag1>Text1</SubTag1><SubTag2>Text2</SubTag2></AnyOtherMetadata>");
             } catch (SEDALibException ignored) {
+                // no real case
             }
         return result;
     }
@@ -129,9 +138,37 @@ public class ComplexListTypeEditor extends CompositeEditor {
         return getComplexListTypeMetadata();
     }
 
+
+    // Cut length for SEDAMetadata summary generation before expansion
+    private static final int SUMMARY_CUT = 160;
+
+    // Create a summary not constructed from systematic sub editors extraction
+    // but from metadata original value before expansion
+    private String getSEDAMetadataSummary(SEDAMetadata sm, int depth, int length) {
+        String result;
+        if (sm instanceof ComplexListType) {
+            List<String> summaryList = new ArrayList<>(objectEditorList.size());
+            for (SEDAMetadata innerSM : ((ComplexListType) sm).metadataList) {
+                result = getSEDAMetadataSummary(innerSM, depth + 1, length);
+                length += result.length() + 2;
+                summaryList.add(result);
+                if (length > SUMMARY_CUT) break;
+            }
+            result = String.join(", ", summaryList) + (length > SUMMARY_CUT ? "..." : "");
+            if (depth > 0)
+                result = "{" + result + "}";
+        } else if ((sm instanceof NamedTypeMetadata)) {
+            result = ((NamedTypeMetadata) sm).getValue().toString();
+        } else
+            result = "?";
+        return result;
+    }
+
     @Override
     public String getSummary() throws SEDALibException {
-        List<String> summaryList = new ArrayList<String>(objectEditorList.size());
+        List<String> summaryList = new ArrayList<>(objectEditorList.size());
+        if (hasSubeditorsCreatedWhenExpandedFlag())
+            return getSEDAMetadataSummary((SEDAMetadata) editedObject, 0, 0);
         for (SEDAObjectEditor objectEditor : objectEditorList) {
             String summary = objectEditor.getSummary().trim();
             if (!summary.isEmpty() && !summary.equals("{}")) {
@@ -147,18 +184,20 @@ public class ComplexListTypeEditor extends CompositeEditor {
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         this.objectEditorList = new ArrayList<SEDAObjectEditor>();
         this.sedaObjectEditorPanel = new SEDAObjectEditorCompositePanel(this);
-        int position = 0;
-        for (SEDAMetadata detail : getComplexListTypeMetadata().metadataList) {
-            SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(detail, this);
-            objectEditorList.add(objectEditor);
+        if (!hasSubeditorsCreatedWhenExpandedFlag()) {
+            for (SEDAMetadata detail : getComplexListTypeMetadata().metadataList) {
+                SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(detail, this);
+                objectEditorList.add(objectEditor);
+            }
+            noSubEditors = false;
+            ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
         }
-        ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
     }
 
     @Override
     public List<Pair<String, String>> getExtensionList() throws SEDALibException {
-        List<String> used = new ArrayList<String>();
-        List<Pair<String, String>> result = new ArrayList<Pair<String, String>>();
+        List<String> used = new ArrayList<>();
+        List<Pair<String, String>> result = new ArrayList<>();
         for (SEDAObjectEditor soe : objectEditorList) {
             used.add(soe.getTag());
         }
@@ -175,7 +214,9 @@ public class ComplexListTypeEditor extends CompositeEditor {
     }
 
     protected int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
-        int addOrderIndex, curOrderIndex, i;
+        int addOrderIndex;
+        int curOrderIndex;
+        int i;
         boolean manyFlag;
         addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);
         i = 0;
@@ -185,11 +226,10 @@ public class ComplexListTypeEditor extends CompositeEditor {
             manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
             for (SEDAObjectEditor soe : objectEditorList) {
                 curOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(soe.getTag());
-                if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
+                if ((!manyFlag) && (curOrderIndex == addOrderIndex) ||
+                        (curOrderIndex == -1) || (curOrderIndex > addOrderIndex)) {
                     break;
                 }
-                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex))
-                    break;
                 i++;
             }
         }
@@ -224,5 +264,37 @@ public class ComplexListTypeEditor extends CompositeEditor {
         if (getComplexListTypeMetadata().getMetadataMap().get(metadataName) == null)
             return true;
         return getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
+    }
+
+    /**
+     * Get the create sub editors only when expanded flag, false by default.
+     */
+    @Override
+    public boolean hasSubeditorsCreatedWhenExpandedFlag() {
+        if (((SEDAMetadata) getEditedObject()).getXmlElementName().contains("Document"))
+            return noSubEditors;
+        return false;
+    }
+
+    /**
+     * Create sub editors.
+     */
+    @Override
+    public void createSubEditors() {
+        try {
+            for (SEDAMetadata detail : getComplexListTypeMetadata().metadataList) {
+                SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(detail, this);
+                objectEditorList.add(objectEditor);
+                if (objectEditor instanceof CompositeEditor)
+                    ((CompositeEditor) objectEditor).doExpand(false, false);
+            }
+            ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
+        } catch (SEDALibException e) {
+            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
+                    "Erreur fatale durant la création d'éditeur à la volée des structures\n" +
+                            " -> " + e.getMessage(), "Erreur",
+                    UserInteractionDialog.ERROR_DIALOG, null);
+        }
+        noSubEditors = false;
     }
 }
