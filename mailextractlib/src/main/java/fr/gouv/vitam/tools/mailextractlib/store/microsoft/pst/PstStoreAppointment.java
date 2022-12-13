@@ -143,13 +143,19 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
     }
 
     private String getUniqId() {
-        String result = appointment.getCleanGlobalObjectId().toString();
-        if (result == null || result.isEmpty())
+        String result;
+        PSTGlobalObjectId id = appointment.getCleanGlobalObjectId();
+        if (id == null)
             result = appointment.getGlobalObjectId().toString();
+        else {
+            result=id.toString();
+            if (result.isEmpty())
+                result = appointment.getGlobalObjectId().toString();
+        }
         return result;
     }
 
-    static private String getFrom(PSTAppointment appointment) {
+    private static String getFrom(PSTAppointment appointment) {
         String fromAddr = appointment.getSenderEmailAddress();
         String fromName = appointment.getSenderName();
         String result = "";
@@ -160,7 +166,7 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
         return result.trim();
     }
 
-    static HashMap<String,ZoneId> normalizedZoneIdMap=new HashMap<String,ZoneId>();
+    static HashMap<String,ZoneId> normalizedZoneIdMap=new HashMap<>();
     private ZoneId getNormalizedZoneId(Date date,PSTTimeZone pstTimeZone) throws InterruptedException {
         ZoneId result=normalizedZoneIdMap.get(pstTimeZone.getName());
         if (result!=null)
@@ -219,6 +225,7 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
                 }
             }
         } catch (PSTException | IOException | MailExtractLibException ignored) {
+            //ignore
         }
         test=HTMLTextExtractor.getInstance().act(html).trim();
         if (test.isEmpty())
@@ -232,18 +239,19 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
     }
 
     private List<StoreAttachment> getAttachments(PSTMessage message) throws InterruptedException {
-        ArrayList<MicrosoftStoreMessageAttachment> nativeAttachments = new ArrayList<MicrosoftStoreMessageAttachment>(10);
+        ArrayList<MicrosoftStoreMessageAttachment> nativeAttachments = new ArrayList<>(10);
         for (int i = 0; i < message.getNumberOfAttachments(); i++) {
             try {
                 final PSTMessage child = message.getAttachment(i).getEmbeddedPSTMessage();
                 if (child instanceof PSTAppointment)
                     continue;
             } catch (PSTException | IOException ignored) {
+                //ignore
             }
             nativeAttachments.add(new PstStoreMessageAttachment(message, i));
         }
-        if (nativeAttachments.size()==0)
-            return new ArrayList<StoreAttachment>(0);
+        if (nativeAttachments.isEmpty())
+            return new ArrayList<>(0);
         return MicrosoftStoreElement.getAttachments(this, nativeAttachments.toArray(new MicrosoftStoreMessageAttachment[0]));
     }
 
@@ -275,27 +283,23 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
     private String getChangedFrom(PSTAppointmentException exception) {
         if (exception.getEmbeddedMessage() == null)
             return this.from;
-        String result = getFrom(exception.getEmbeddedMessage());
-        return result;
+        return getFrom(exception.getEmbeddedMessage());
     }
 
     private String getChangedToAttendees(PSTAppointmentException exception) {
         if (exception.getEmbeddedMessage() == null)
             return this.toAttendees;
-        String result = exception.getEmbeddedMessage().getToAttendees();
-        return result;
+        return exception.getEmbeddedMessage().getToAttendees();
     }
 
     private String getChangedCCAttendees(PSTAppointmentException exception) {
         if (exception.getEmbeddedMessage() == null)
             return this.ccAttendees;
-        String result = exception.getEmbeddedMessage().getCCAttendees();
-        return result;
+        return exception.getEmbeddedMessage().getCCAttendees();
     }
 
     private ZonedDateTime getChangedZonedDateTime(ZonedDateTime zdt, Date d) {
-        ZonedDateTime result = ZonedDateTime.ofInstant(d.toInstant(), zdt.getZone());
-        return result;
+        return ZonedDateTime.ofInstant(d.toInstant(), zdt.getZone());
     }
 
     private StoreAppointment generateExceptionAppointment(ZonedDateTime zdt, PSTAppointmentException exception) throws InterruptedException {

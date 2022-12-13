@@ -10,7 +10,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Formatter;
 import java.util.List;
 
@@ -19,14 +18,14 @@ import static org.apache.commons.codec.digest.MessageDigestAlgorithms.MD5;
 
 public abstract class StoreAppointment extends StoreElement {
 
-    static final public int MESSAGE_STATUS_UNKNOWN=0;
-    static final public int MESSAGE_STATUS_LOCAL=1;
-    static final public int MESSAGE_STATUS_REQUEST=2;
-    static final public int MESSAGE_STATUS_RESPONSE_YES=3;
-    static final public int MESSAGE_STATUS_RESPONSE_MAY=4;
-    static final public int MESSAGE_STATUS_RESPONSE_NO=5;
+    public static final int MESSAGE_STATUS_UNKNOWN=0;
+    public static final int MESSAGE_STATUS_LOCAL=1;
+    public static final int MESSAGE_STATUS_REQUEST=2;
+    public static final int MESSAGE_STATUS_RESPONSE_YES=3;
+    public static final int MESSAGE_STATUS_RESPONSE_MAY=4;
+    public static final int MESSAGE_STATUS_RESPONSE_NO=5;
 
-    static final public String[] MESSAGE_STATUS_TEXT={"Unknown","Local","Request","Resp.Yes","Resp.May","Resp.No"};
+    public static final String[] MESSAGE_STATUS_TEXT={"Unknown","Local","Request","Resp.Yes","Resp.May","Resp.No"};
 
     protected String uniqId;
 
@@ -87,14 +86,14 @@ public abstract class StoreAppointment extends StoreElement {
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      * @throws InterruptedException    the interrupted exception
      */
-    abstract public void analyzeAppointment() throws MailExtractLibException, InterruptedException;
+    public abstract void analyzeAppointment() throws MailExtractLibException, InterruptedException;
 
     /**
      * Gets element name used for the csv file name construction.
      *
      * @return the element name
      */
-    static public String getElementName() {
+    public static String getElementName() {
         return "appointments";
     }
 
@@ -103,7 +102,7 @@ public abstract class StoreAppointment extends StoreElement {
      *
      * @param ps the dedicated print stream
      */
-    static public void printGlobalListCSVHeader(PrintStream ps) {
+    public static void printGlobalListCSVHeader(PrintStream ps) {
         ps.println("ID;Subject;Location;From;ToAttendees;CcAttendees;StartTime;EndTime;" +
                 "MiscNotes;uniqID;SequenceNumber;ModificationTime;Folder;MessageStatus;" +
                 "isRecurrent;RecurrencePattern;StartRecurrenceTime;EndRecurrenceTime;" +
@@ -111,9 +110,7 @@ public abstract class StoreAppointment extends StoreElement {
     }
 
     /**
-     * Extract to the contacts list, after initialising it if first contact, and to the contact picture file.
-     * <p>The picture file is saved in a directory called "Contacts Pictures" and is named using the line number
-     * listLineId as "contact_id".ext with the extension of the original file.******************************
+     * Extract to the appointments list and all associated attachements and exceptions
      *
      * @param writeFlag the write flag
      * @param father    the father
@@ -172,6 +169,7 @@ public abstract class StoreAppointment extends StoreElement {
             result= formatter.toString();
             formatter.close();
         } catch (NoSuchAlgorithmException ignored) {
+            //ignore
         }
         return result;
     }
