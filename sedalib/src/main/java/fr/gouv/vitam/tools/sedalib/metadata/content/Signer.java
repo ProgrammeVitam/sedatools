@@ -70,7 +70,7 @@ public class Signer extends ComplexListType {
         metadataMap.put("DeathPlace", new ComplexListMetadataKind(PlaceType.class, false));
         metadataMap.put("Nationality", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Corpname", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put(IDENTIFIER_TAG, new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put(IDENTIFIER_TAG, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put(SIGNINGTIME_TAG, new ComplexListMetadataKind(DateTimeType.class, false));
         metadataMap.put("Function", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("Activity", new ComplexListMetadataKind(TextType.class, true));

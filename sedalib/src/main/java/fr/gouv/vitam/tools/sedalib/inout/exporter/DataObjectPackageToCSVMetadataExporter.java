@@ -355,6 +355,7 @@ public class DataObjectPackageToCSVMetadataExporter {
                     }
                 }
                 pos++;
+                header = simplifiedHeaderNames.get(i);
             }
         }
         return simplifiedHeaderNames;
