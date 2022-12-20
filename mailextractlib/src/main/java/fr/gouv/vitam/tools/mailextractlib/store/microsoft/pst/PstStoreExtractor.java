@@ -54,8 +54,9 @@ public class PstStoreExtractor extends StoreExtractor {
      * <p>
      * This is in default list.
      */
-    static public void subscribeStoreExtractor() {
-        addExtractionRelation("application/vnd.ms-outlook-pst", "pst", true, PstStoreExtractor.class);
+    public static void subscribeStoreExtractor() {
+        addExtractionRelation("application/vnd.ms-outlook-pst", "x-fmt/248","pst", true, PstStoreExtractor.class);
+        addExtractionRelation("application/vnd.ms-outlook-pst", "x-fmt/249","pst", true, PstStoreExtractor.class);
     }
 
     // Attachment to complete with decoded form
@@ -152,12 +153,12 @@ public class PstStoreExtractor extends StoreExtractor {
     }
 
     // fix a store temporary file name
-    static private File getStoreTemporaryFile(String destPathString) {
+    private static File getStoreTemporaryFile(String destPathString) {
         return new File(destPathString + File.separator + "tmpStore");
     }
 
     // generate temporary file and create the url to it
-    static private String generateFileAndUrl(StoreAttachment attachment, ArchiveUnit rootNode)
+    private static String generateFileAndUrl(StoreAttachment attachment, ArchiveUnit rootNode)
             throws MailExtractLibException {
         String result = null;
         File storeFile = writeStoreFile(rootNode.getFullName(), attachment.getRawAttachmentContent());

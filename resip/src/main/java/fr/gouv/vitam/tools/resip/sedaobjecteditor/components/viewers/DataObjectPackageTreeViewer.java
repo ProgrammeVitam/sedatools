@@ -27,11 +27,13 @@
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
+import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.DustbinItem;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
 import fr.gouv.vitam.tools.resip.threads.ExpandThread;
+import fr.gouv.vitam.tools.resip.threads.MailExtractThread;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -81,7 +83,25 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                             (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(bdo.formatIdentification.getSimpleMetadata("FormatId")))) {
                         return bdo;
                     }
-                 }
+                }
+            }
+        }
+        return null;
+    }
+
+    private BinaryDataObject getMailBinaryDataObject(DataObjectPackageTreeNode treeNode) {
+        DataObject dataObject = treeNode.getDataObject();
+        if (dataObject != null) {
+            if (dataObject instanceof DataObjectGroup) {
+                DataObjectGroup dog = (DataObjectGroup) dataObject;
+                if ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty()) &&
+                        (dog.getBinaryDataObjectList() != null) && (dog.getBinaryDataObjectList().size() == 1)) {
+                    BinaryDataObject bdo = dog.getBinaryDataObjectList().get(0);
+                    if ((bdo.formatIdentification!=null) &&
+                            (StoreExtractor.getProtocolFromDroidFormat(bdo.formatIdentification.getSimpleMetadata("FormatId"))!=null)) {
+                        return bdo;
+                    }
+                }
             }
         }
         return null;
@@ -139,6 +159,15 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                             mi = new JMenuItem("Remplacer par le décompressé");
                             mi.addActionListener(thisSTV);
                             mi.setActionCommand("Expand");
+                            thisSTV.setAffectedDogTreeNode(stn);
+                            popup.add(mi);
+                        }
+                        bdo = getMailBinaryDataObject(stn);
+                        if (bdo != null) {
+                            popup.addSeparator();
+                            mi = new JMenuItem("Remplacer par l'extraction des messages");
+                            mi.addActionListener(thisSTV);
+                            mi.setActionCommand("MailExtract");
                             thisSTV.setAffectedDogTreeNode(stn);
                             popup.add(mi);
                         }
@@ -220,6 +249,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         } else if (ae.getActionCommand().equals("Expand")) {
             ExpandThread.launchExpandThread((DataObjectPackageTreeNode) uncompressedDogTreeNode.getParent(),
                     getCompressedBinaryDataObject(uncompressedDogTreeNode));
+        } else if (ae.getActionCommand().equals("MailExtract")) {
+            MailExtractThread.launchMailExtractThread((DataObjectPackageTreeNode) uncompressedDogTreeNode.getParent(),
+                    getMailBinaryDataObject(uncompressedDogTreeNode));
         }
     }
 

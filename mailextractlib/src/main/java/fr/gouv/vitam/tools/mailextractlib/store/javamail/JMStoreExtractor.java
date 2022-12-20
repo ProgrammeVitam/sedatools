@@ -57,14 +57,15 @@ public class JMStoreExtractor extends StoreExtractor {
      * <p>
      * This is in default list.
      */
-    static public void subscribeStoreExtractor() {
-        addExtractionRelation("message/rfc822", "eml", false, JMStoreExtractor.class);
-        addExtractionRelation("application/mbox", "mbox", true, JMStoreExtractor.class);
-        addExtractionRelation(null, "thunderbird", true, JMStoreExtractor.class);
-        addExtractionRelation(null, "imap", true, JMStoreExtractor.class);
-        addExtractionRelation(null, "imaps", true, JMStoreExtractor.class);
-        addExtractionRelation(null, "gimap", true, JMStoreExtractor.class);
-        addExtractionRelation(null, "pop3", true, JMStoreExtractor.class);
+    public static void subscribeStoreExtractor() {
+        addExtractionRelation("message/rfc822", "fmt/278","eml", false, JMStoreExtractor.class);
+        addExtractionRelation("message/rfc822", "fmt/950","eml", false, JMStoreExtractor.class);
+        addExtractionRelation("application/mbox", "fmt/720","mbox", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null,"thunderbird", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null,"imap", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null,"imaps", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null,"gimap", true, JMStoreExtractor.class);
+        addExtractionRelation(null, null,"pop3", true, JMStoreExtractor.class);
     }
 
     // Attachment to complete with decoded form
@@ -209,7 +210,7 @@ public class JMStoreExtractor extends StoreExtractor {
     }
 
     // decode URL encoding to UTF-8
-    static private String getDecodedURL(String url) {
+    private static String getDecodedURL(String url) {
         String decodedUrl = "";
         try {
             decodedUrl = URLDecoder.decode(url, "UTF-8");
@@ -231,8 +232,6 @@ public class JMStoreExtractor extends StoreExtractor {
         props.setProperty("mail.mime.parameters.strict", "false"); // not
         // default
         props.setProperty("mail.mime.windowsfilenames", "true"); // not default
-        // props.setProperty("mail.mime.ignoremultipartencoding", "false");
-        // //not default
     }
 
     /* (non-Javadoc)
@@ -249,11 +248,6 @@ public class JMStoreExtractor extends StoreExtractor {
      */
     @Override
     public boolean canExtractObjectsLists() {
-        if (this.scheme.equals("eml"))
-            return false;
-        else
-            return true;
+        return ! scheme.equals("eml");
     }
-
-    ;
 }
