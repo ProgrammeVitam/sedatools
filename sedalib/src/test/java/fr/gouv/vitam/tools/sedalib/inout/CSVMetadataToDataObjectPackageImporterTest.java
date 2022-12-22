@@ -102,10 +102,10 @@ class CSVMetadataToDataObjectPackageImporterTest {
 				"\"dataObjectRefList\":{\n" +
 				"\"inDataObjectPackageIdList\":[\"ID13\"]\n" +
 				"},\n" +
-				"\"inDataObjectPackageId\":\"6\",\n" +
+				"\"inDataObjectPackageId\":\"Import-6\",\n" +
 				"\"onDiskPath\":null\n" +
 				"}";
-		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("6");
+		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("Import-6");
 		String sau = mapper.writeValueAsString(au);
 		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
 	}
@@ -139,10 +139,10 @@ class CSVMetadataToDataObjectPackageImporterTest {
 				"\"dataObjectRefList\":{\n" +
 				"\"inDataObjectPackageIdList\":[\"ID13\"]\n" +
 				"},\n" +
-				"\"inDataObjectPackageId\":\"6\",\n" +
+				"\"inDataObjectPackageId\":\"Import-6\",\n" +
 				"\"onDiskPath\":null\n" +
 				"}";
-		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("6");
+		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("Import-6");
 		String sau = mapper.writeValueAsString(au);
 		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
 	}

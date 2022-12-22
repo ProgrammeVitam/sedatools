@@ -209,7 +209,7 @@ public class DiskToDataObjectPackageImporter {
     /**
      * The simpleCopy function used by default to extract Title from file name.
      */
-    public static Function<String, String> simpleCopy = s -> s;
+    public static final Function<String, String> simpleCopy = s -> s;
 
     /**
      * The progress logger.
@@ -373,7 +373,7 @@ public class DiskToDataObjectPackageImporter {
      * @param path the path
      * @return true, if is data object group directory
      */
-    private boolean isDataObjectGroupDirectory(Path path) {
+    public static boolean isDataObjectGroupDirectory(Path path) {
         return Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS)
                 && path.getFileName().toString().startsWith("##") && path.getFileName().toString().endsWith("##");
     }
@@ -580,7 +580,7 @@ public class DiskToDataObjectPackageImporter {
      * @return the data object group containing this DataObject
      * @throws SEDALibException if there's an access problem to binary file
      */
-    private DataObjectGroup addBinaryDataObject(Path path, String filename, ArchiveUnit au, DataObjectGroup dog)
+    public static DataObjectGroup addBinaryDataObject(DataObjectPackage dataObjectPackage, Path path, String filename, ArchiveUnit au, DataObjectGroup dog)
             throws SEDALibException {
         BinaryDataObject bdo;
         String dataObjectVersion = extractDataObjectVersion(filename);
@@ -620,7 +620,8 @@ public class DiskToDataObjectPackageImporter {
     private ArchiveUnit processDirectory(Path path) throws SEDALibException, InterruptedException {
         Path curPath;
         Iterator<Path> pi;
-        ArchiveUnit au, childAu;
+        ArchiveUnit au;
+        ArchiveUnit childAu;
         DataObjectGroup implicitDog = null;
         boolean auMetadataDefined = false;
         String fileName;
@@ -725,9 +726,9 @@ public class DiskToDataObjectPackageImporter {
                         // Model V1&V2 BinaryDataObject file
                     } else if (fileName.matches("__\\w+__.+")) {
                         modelVersion |= 2;
-                        implicitDog = addBinaryDataObject(curPath, fileName, au, implicitDog);
+                        implicitDog = addBinaryDataObject(dataObjectPackage, curPath, fileName, au, implicitDog);
                     } else if (fileName.matches("__\\w+_.+")) {
-                        implicitDog = addBinaryDataObject(curPath, fileName, au, implicitDog);
+                        implicitDog = addBinaryDataObject(dataObjectPackage, curPath, fileName, au, implicitDog);
                     }
                     // archive file except if conform to ignore patterns
                     else {
@@ -841,7 +842,7 @@ public class DiskToDataObjectPackageImporter {
                         addBinaryDataObjectMetadata(curPath, fileName, null, dog);
                         // Model V1&V2 BinaryDataObject file
                     } else if (fileName.matches("__\\w+__.+")) {
-                        addBinaryDataObject(curPath, fileName, null, dog);
+                        addBinaryDataObject(dataObjectPackage, curPath, fileName, null, dog);
                     } else
                         throw new SEDALibException("Le chemin [" + path.toString() + "] ne décrit pas un DataObject");
 

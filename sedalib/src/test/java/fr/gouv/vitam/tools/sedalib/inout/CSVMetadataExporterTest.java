@@ -8,12 +8,16 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.nio.file.*;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Stream;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.eraseAll;
 import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.ALL_DATAOBJECTS;
@@ -35,122 +39,126 @@ class CSVMetadataExporterTest {
         return false;
     }
 
-    public static boolean compareImportAndExportDirectories(Path first, Path second) throws IOException {
-        Set<String> secondListNames = new HashSet<>();
-        for (Path inSecond : Files.list(second).collect(Collectors.toList())) {
-            if ((!inSecond.getFileName().startsWith("__")) && (!inSecond.getFileName().toString().equals("ExportedMetadata.csv"))) {
-                String tmp = inSecond.getFileName().toString();
-                if (tmp.endsWith("/"))
-                    tmp = tmp.substring(0, tmp.length() - 1);
-                secondListNames.add(tmp);
+    private static boolean compareTwoPathString(Path pathA, Path pathB) {
+        if (Files.isDirectory(pathA) && Files.isDirectory(pathB))
+            return true;
+        else if (Files.isSymbolicLink(pathA) && Files.isSymbolicLink(pathB)) {
+            try {
+                if (!Files.readSymbolicLink(pathA).equals(Files.readSymbolicLink(pathB))) {
+                    System.err.println("Different symbolic links " + pathA + " and " + pathB);
+                    return false;
+                }
+                return true;
+            } catch (IOException e) {
+                System.err.println("Wrong symbolic link " + pathA + " or " + pathB);
+            }
+        } else if (Files.isRegularFile(pathA) && Files.isRegularFile(pathB)) {
+            try {
+                if (!FileUtils.contentEquals(pathA.toFile(), pathB.toFile())) {
+                    System.err.println("Different file content " + pathA + " and " + pathB);
+                    return false;
+                }
+                return true;
+            } catch (IOException e) {
+                System.err.println("Wrong files " + pathA + " or " + pathB);
             }
         }
-        for (Path firstPath : Files.list(first).collect(Collectors.toList())) {
-            String filename = firstPath.getFileName().toString();
-            if (filename.startsWith("__BinaryMaster") || filename.startsWith("__TextContent")) {
-                String[] usageVersion = filename.substring(2, filename.lastIndexOf("__")).split("_");
-                String shortUsageVersion;
-                if (usageVersion[0].isEmpty())
-                    shortUsageVersion = "Z";
-                else
-                    shortUsageVersion = usageVersion[0].substring(0, 1);
-                shortUsageVersion += usageVersion[1];
-                filename = filename.substring(filename.lastIndexOf("__") + 2);
-                filename = filename.substring(0, filename.lastIndexOf('.')) + "_" + shortUsageVersion
-                        + filename.substring(filename.lastIndexOf('.'));
-            } else if (filename.startsWith("__"))
-                continue;
-//            if ((Files.isDirectory(firstPath)) && (second.getFileSystem() != FileSystems.getDefault()))
-//                filename += "/";
+        return false;
+    }
 
+    public static boolean compareDirectories(Path first, Path second) throws IOException {
+        HashMap<String, Path> firstPathMap, secondPathMap;
 
-            Path secondPath = second.resolve(filename);
-            if (filename.endsWith(".link")) {
-                filename = filename.substring(0, filename.lastIndexOf(".link"));
-                if (!secondListNames.contains(filename)) {
-                    System.err.println("Can't find " + firstPath + " in second");
-                    return false;
-                }
-                if (!isLink(secondPath)) {
-                    System.err.println(firstPath + " in second is not a link");
-                    return false;
-                }
-                //TODO verify redirection content
-                secondListNames.remove(filename);
-                continue;
-            }
-            if (isLink(firstPath)) {
-                //TODO verify redirection content
-                filename = filename.replace(".lnk", "");
-                secondPath = second.resolve(filename);
-                String tmp;
-                if (filename.endsWith("/"))
-                    tmp = filename.substring(0, filename.length() - 1) + ".link";
-                else tmp = filename + ".link";
-                if (Files.exists(second.resolve(tmp))) {
-                    secondListNames.remove(tmp);
-                    continue;
-                }
-                if (!isLink(secondPath)) {
-                    System.err.println(firstPath + " in second is not a link");
-                    return false;
-                }
-                secondListNames.remove(filename);
-                continue;
-            }
-            if (!secondListNames.contains(filename)) {
+        firstPathMap = new HashMap<>();
+        secondPathMap = new HashMap<>();
+
+        try (Stream<Path> stream = Files.walk(first)) {
+            stream.forEach(p -> firstPathMap.put(first.relativize(p).toString(), p));
+        }
+        try (Stream<Path> stream = Files.walk(second)) {
+            stream.forEach(p -> secondPathMap.put(second.relativize(p).toString(), p));
+        }
+
+        for (String firstPathString : firstPathMap.keySet()) {
+            Path secondPath = secondPathMap.get(firstPathString);
+            Path firstPath = firstPathMap.get(firstPathString);
+            if (secondPath == null) {
                 System.err.println("Can't find " + firstPath + " in second");
                 return false;
             }
-            if (Files.isDirectory(firstPath)) {
-                if (!Files.isDirectory(secondPath)) {
-                    System.err.println(firstPath + " in second is not a directory");
-                    return false;
-                }
-                if (!compareImportAndExportDirectories(firstPath, secondPath))
-                    return false;
-            } else {
-                if (Files.size(firstPath) != Files.size(secondPath)) {
-                    System.err.println(firstPath + " in second has not same size");
-                    return false;
-                }
-                if (!Arrays.equals(Files.readAllBytes(firstPath), Files.readAllBytes(second.resolve(filename)))) {
-                    System.err.println(filename + " in second has not same content");
-                    return false;
-                }
+            if (!compareTwoPathString(firstPathMap.get(firstPathString), secondPath)) {
+                System.err.println(firstPath + " and " + secondPath + " are different");
             }
-            secondListNames.remove(filename);
         }
-
-        if (secondListNames.size() > 0) {
-            if ((secondListNames.size() == 1) && (secondListNames.toArray(new String[0])[0].equals("ExportedMetadata.csv"))) {
-                System.out.println("ExportedMetadata.csv left in " + second);
-            } else {
-                System.err.println(secondListNames.size() + " left in " + second);
-                for (String name : secondListNames)
-                    System.err.println("->" + name);
+        for (String secondPathString : secondPathMap.keySet()) {
+            Path firstPath = firstPathMap.get(secondPathString);
+            Path secondPath = secondPathMap.get(secondPathString);
+            if (firstPath == null) {
+                System.err.println("Can't find " + secondPath + " in first");
+                return false;
             }
         }
         return true;
     }
 
-    private FileSystem getZipFileSystem(String zipFileName) throws SEDALibException {
-        FileSystem result = null;
-        if (zipFileName != null)
-            try {
-                final Path path = Paths.get(zipFileName);
-                final URI uri = URI.create("jar:file:" + path.toUri().getPath());
+    private void unzip(String zipFile,String extractFolder)
+    {
+        try
+        {
+            int BUFFER = 2048;
+            File file = new File(zipFile);
 
-                final Map<String, String> env = new HashMap<>();
-                env.put("create", "true");
-                result = FileSystems.newFileSystem(uri, env);
-            } catch (IOException e) {
-                throw new SEDALibException(
-                        "Impossible de créer le fichier zip [" + zipFileName + "]\n->" + e.getMessage());
+            ZipFile zip = new ZipFile(file);
+
+            new File(extractFolder).mkdir();
+            Enumeration zipFileEntries = zip.entries();
+
+            // Process each entry
+            while (zipFileEntries.hasMoreElements())
+            {
+                // grab a zip file entry
+                ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
+                String currentEntry = entry.getName();
+
+                File destFile = new File(extractFolder, currentEntry);
+                //destFile = new File(newPath, destFile.getName());
+                File destinationParent = destFile.getParentFile();
+
+                // create the parent directory structure if needed
+                destinationParent.mkdirs();
+
+                if (entry.isDirectory())
+                    destFile.mkdirs();
+                else
+                {
+                    BufferedInputStream is = new BufferedInputStream(zip
+                            .getInputStream(entry));
+                    int currentByte;
+                    // establish buffer for writing file
+                    byte data[] = new byte[BUFFER];
+
+                    // write the current file to disk
+                    FileOutputStream fos = new FileOutputStream(destFile);
+                    BufferedOutputStream dest = new BufferedOutputStream(fos,
+                            BUFFER);
+
+                    // read and write until last byte is encountered
+                    while ((currentByte = is.read(data, 0, BUFFER)) != -1) {
+                        dest.write(data, 0, currentByte);
+                    }
+                    dest.flush();
+                    dest.close();
+                    is.close();
+                }
+
+
             }
-        return result;
+        }
+        catch (Exception e)
+        {
+            System.err.println("Can't unzip "+e.getMessage());
+        }
     }
-
 
     @Test
     void exportDiskOK() throws SEDALibException, InterruptedException, IOException {
@@ -166,11 +174,13 @@ class CSVMetadataExporterTest {
 
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterDisk");
-        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
+        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
         cme.doExportToCSVDiskHierarchy("target/tmpJunit/CSVMetadataExporterDisk", "metadata.csv");
 
+        unzip("src/test/resources/ExpectedResults/ExportedMetadata.zip","target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip");
+
         // Then exported directory is equivalent to imported one
-        assertThat (compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
+        assertThat(compareDirectories(Paths.get("target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"),
                 Paths.get("target/tmpJunit/CSVMetadataExporterDisk"))).isTrue();
     }
 
@@ -188,12 +198,35 @@ class CSVMetadataExporterTest {
 
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterCSV");
-        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
+        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
         cme.doExportToCSVMetadataFile("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv");
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
         String generatedFileContent = FileUtils.readFileToString(new File("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv"), "UTF8").replaceAll("[\\\\/]", "");
         String expectedFileContent = FileUtils.readFileToString(new File("src/test/resources/ExpectedResults/ExportedMetadata.csv"), "UTF8").replaceAll("[\\\\/]", "");
+        assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
+    }
+
+    @Test
+    void exportCSVWithExtendedFormat() throws SEDALibException, InterruptedException, IOException {
+        // do import of test directory
+        DiskToArchiveTransferImporter di;
+        di = new DiskToArchiveTransferImporter("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2", null);
+
+        di.addIgnorePattern("Thumbs.db");
+        di.addIgnorePattern("pagefile.sys");
+        di.doImport();
+
+        DataObjectPackageToCSVMetadataExporter cme;
+
+        // When loaded with the csv OK test file
+        eraseAll("target/tmpJunit/CSVMetadataExporterCSV");
+        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, true, 0, null);
+        cme.doExportToCSVMetadataFile("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadataWithExtendedFormat.csv");
+
+        // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
+        String generatedFileContent = FileUtils.readFileToString(new File("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadataWithExtendedFormat.csv"), "UTF8").replaceAll("[\\\\/]", "");
+        String expectedFileContent = FileUtils.readFileToString(new File("src/test/resources/ExpectedResults/ExportedMetadataWithExtendedFormat.csv"), "UTF8").replaceAll("[\\\\/]", "");
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
     }
 
@@ -211,15 +244,15 @@ class CSVMetadataExporterTest {
 
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterZIP");
-        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, 0, null);
-        cme.doExportToCSVZip("target/tmpJunit/CSVMetadataExporterZIP/export.zip", "metadata.csv");
+        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
+        cme.doExportToCSVZip("target/tmpJunit/CSVMetadataExporterZIP/ExportedMetadata.zip", "metadata.csv");
 
-        FileSystem zipFS = getZipFileSystem("target/tmpJunit/CSVMetadataExporterZIP/export.zip");
-        assertThat(zipFS).isNotNull();
+        unzip("target/tmpJunit/CSVMetadataExporterZIP/ExportedMetadata.zip","target/tmpJunit/CSVMetadataExporterZIP/unzip");
+        unzip("src/test/resources/ExpectedResults/ExportedMetadata.zip","target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip");
 
         // Then exported directory in the zip is equivalent to imported one
-        assert(compareImportAndExportDirectories(Paths.get("src/test/resources/PacketSamples/SampleWithTitleDirectoryNameModelV2"),
-                zipFS.getPath("/")));
+        assertThat (compareDirectories(Paths.get("target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"),
+                Paths.get("target/tmpJunit/CSVMetadataExporterZIP/unzip"))).isTrue();
     }
 
 }

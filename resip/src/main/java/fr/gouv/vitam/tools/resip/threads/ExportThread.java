@@ -54,7 +54,7 @@ public class ExportThread extends SwingWorker<String, String> {
     /**
      * The Sip all export.
      */
-    static public final int SIP_ALL_EXPORT = 1;
+    public static final int SIP_ALL_EXPORT = 1;
     /**
      * The Sip manifest export.
      */
@@ -62,19 +62,19 @@ public class ExportThread extends SwingWorker<String, String> {
     /**
      * The Disk export.
      */
-    static public final int DISK_EXPORT = 3;
+    public static final int DISK_EXPORT = 3;
     /**
      * The Csv all disk export.
      */
-    static public final int CSV_ALL_DISK_EXPORT = 4;
+    public static final int CSV_ALL_DISK_EXPORT = 4;
     /**
      * The Csv metadata file export.
      */
-    static public final int CSV_METADATA_FILE_EXPORT = 5;
+    public static final int CSV_METADATA_FILE_EXPORT = 5;
     /**
      * The Csv all zip export.
      */
-    static public final int CSV_ALL_ZIP_EXPORT = 6;
+    public static final int CSV_ALL_ZIP_EXPORT = 6;
 
     //input
     private Work work;
@@ -120,7 +120,8 @@ public class ExportThread extends SwingWorker<String, String> {
     public String doInBackground() {
         spl = null;
         try {
-            int localLogLevel, localLogStep;
+            int localLogLevel;
+            int localLogStep;
             if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
                 localLogStep = 1;
@@ -138,7 +139,7 @@ public class ExportThread extends SwingWorker<String, String> {
             // first verify and reindex if neccesary
             if (work.getExportContext().isReindex()) {
                 work.getDataObjectPackage().regenerateContinuousIds();
-                ResipGraphicApp.getTheApp().mainWindow.treePane.allTreeChanged();
+                ResipGraphicApp.mainWindow.treePane.allTreeChanged();
             }
 
             ArchiveTransfer archiveTransfer = new ArchiveTransfer();
@@ -179,16 +180,16 @@ public class ExportThread extends SwingWorker<String, String> {
                     CSVImportContext cmic = new CSVImportContext(Prefs.getInstance());
                     DataObjectPackageToCSVMetadataExporter cme = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmic.getCsvCharsetName(), cmic.getDelimiter(),
-                            work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
+                            work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().isCsvExtendedFormat(), work.getExportContext().getMaxNameSize(), spl);
                     cme.doExportToCSVDiskHierarchy(work.getExportContext().getOnDiskOutput(), "metadata.csv");
                     summary = cme.getSummary();
                     break;
                 case CSV_ALL_ZIP_EXPORT:
-                    inOutDialog.extProgressTextArea.setText("Export en hiérarchie disque simplifiée avec fichier csv des métadonnées " + work.getExportContext().getOnDiskOutput() + "\n");
+                    inOutDialog.extProgressTextArea.setText("Export en hiérarchie disque simplifiée dans un zip avec fichier csv des métadonnées " + work.getExportContext().getOnDiskOutput() + "\n");
                     CSVImportContext cmicz = new CSVImportContext(Prefs.getInstance());
                     DataObjectPackageToCSVMetadataExporter cmez = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmicz.getCsvCharsetName(), cmicz.getDelimiter(),
-                            work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
+                            work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().isCsvExtendedFormat(), work.getExportContext().getMaxNameSize(), spl);
                     cmez.doExportToCSVZip(work.getExportContext().getOnDiskOutput(), "metadata.csv");
                     summary = cmez.getSummary();
                     break;
@@ -197,7 +198,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     CSVImportContext cmicm = new CSVImportContext(Prefs.getInstance());
                     DataObjectPackageToCSVMetadataExporter cmem = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmicm.getCsvCharsetName(), cmicm.getDelimiter(),
-                            work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().getMaxNameSize(), spl);
+                            work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().isCsvExtendedFormat(), work.getExportContext().getMaxNameSize(), spl);
                     cmem.doExportToCSVMetadataFile(work.getExportContext().getOnDiskOutput());
                     summary = cmem.getSummary();
                     break;
@@ -214,7 +215,6 @@ public class ExportThread extends SwingWorker<String, String> {
 
     @Override
     protected void done() {
-        JTextArea loadText = inOutDialog.extProgressTextArea;
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
