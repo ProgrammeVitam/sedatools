@@ -41,6 +41,9 @@ public class ExportContext {
 	/** The csv export max name size for directories. */
 	private int maxNameSize;
 
+	/** The csv extended format flag. */
+	private boolean csvExtendedFormat;
+
 	/** The ManagementMetadata. */
 	private String managementMetadataXmlData;
 
@@ -65,11 +68,12 @@ public class ExportContext {
 		this.reindex = false;
 		this.usageVersionSelectionMode = LAST_DATAOBJECT;
 		this.maxNameSize = 32;
-		this.globalMetadata=new GlobalMetadata();
-		this.managementMetadataXmlData=null;
-		this.onDiskOutput=null;
-		this.metadataFilterFlag=false;
-		this.keptMetadataList=new ArrayList<String>();
+		this.csvExtendedFormat = true;
+		this.globalMetadata = new GlobalMetadata();
+		this.managementMetadataXmlData = null;
+		this.onDiskOutput = null;
+		this.metadataFilterFlag = false;
+		this.keptMetadataList = new ArrayList<>();
 	}
 
 	/**
@@ -88,19 +92,20 @@ public class ExportContext {
 	 */
 	public ExportContext(GlobalMetadata globalMetadata,
 			boolean hierarchicalArchiveUnits, boolean indented, boolean reindex, int usageVersionSelectionMode,
-						 int maxNameSize, String onDiskOutput, String managementMetadataXmlData,
+						 int maxNameSize, boolean csvExtendedFormat, String onDiskOutput, String managementMetadataXmlData,
 						 boolean metadataFilterFlag, List<String> keptMetadataList) {
 		this.hierarchicalArchiveUnits = hierarchicalArchiveUnits;
 		this.indented = indented;
 		this.reindex = indented;
 		this.usageVersionSelectionMode = usageVersionSelectionMode;
 		this.maxNameSize = maxNameSize;
+		this.csvExtendedFormat=csvExtendedFormat;
 		this.globalMetadata=globalMetadata;
 		this.managementMetadataXmlData=managementMetadataXmlData;
 		this.setOnDiskOutput(onDiskOutput);
 		this.metadataFilterFlag=metadataFilterFlag;
 		if (keptMetadataList == null)
-			this.keptMetadataList = new ArrayList<String>();
+			this.keptMetadataList = new ArrayList<>();
 		else
 			this.keptMetadataList = keptMetadataList;
 	}
@@ -123,6 +128,7 @@ public class ExportContext {
 			this.reindex = sec.reindex;
 			this.usageVersionSelectionMode = sec.usageVersionSelectionMode;
 			this.maxNameSize = sec.maxNameSize;
+			this.csvExtendedFormat= sec.csvExtendedFormat;
 			this.globalMetadata=sec.globalMetadata;
 			this.managementMetadataXmlData=sec.managementMetadataXmlData;
 			this.metadataFilterFlag=sec.metadataFilterFlag;
@@ -169,11 +175,12 @@ public class ExportContext {
 			maxNameSize=32;
 		}
 		if (maxNameSize<0) maxNameSize=0;
+		csvExtendedFormat = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.csvExport.csvExtendedFormat", "true"));
 		managementMetadataXmlData=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.general.managementMetadataXmlData", ""));
 		metadataFilterFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.metadataFilterFlag", "false"));
 		String keptMetadataString = prefs.getPrefProperties().getProperty("exportContext.general.keptMetadataList", "");
 		if (keptMetadataString.isEmpty())
-			keptMetadataList = new ArrayList<String>();
+			keptMetadataList = new ArrayList<>();
 		else
 			keptMetadataList = Arrays.asList(keptMetadataString.split("\\s*\n\\s*"))
 					.stream().map(String::trim).collect(Collectors.toList());
@@ -208,6 +215,7 @@ public class ExportContext {
 		prefs.getPrefProperties().setProperty("exportContext.general.reindex", Boolean.toString(reindex));
 		prefs.getPrefProperties().setProperty("exportContext.csvExport.usageVersionSelectionMode", Integer.toString(usageVersionSelectionMode));
 		prefs.getPrefProperties().setProperty("exportContext.csvExport.maxNameSize", Integer.toString(maxNameSize));
+		prefs.getPrefProperties().setProperty("exportContext.csvExport.csvExtendedFormat", Boolean.toString(csvExtendedFormat));
 		prefs.getPrefProperties().setProperty("exportContext.general.managementMetadataXmlData", (managementMetadataXmlData == null ? ""
 				: managementMetadataXmlData));
 		prefs.getPrefProperties().setProperty("exportContext.general.metadataFilterFlag", Boolean.toString(metadataFilterFlag));
@@ -251,6 +259,7 @@ public class ExportContext {
 		this.reindex = false;
 		this.usageVersionSelectionMode = LAST_DATAOBJECT;
 		this.maxNameSize = 32;
+		this.csvExtendedFormat = true;
 		this.managementMetadataXmlData="    <ManagementMetadata>\n"
 				+ "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n"
 				+ "      <LegalStatus>Public Archive</LegalStatus>\n"
@@ -403,6 +412,24 @@ public class ExportContext {
 	 */
 	public void setMaxNameSize(int maxNameSize) {
 		this.maxNameSize = maxNameSize;
+	}
+
+	/**
+	 * Is csv extended format boolean.
+	 *
+	 * @return the boolean
+	 */
+	public boolean isCsvExtendedFormat() {
+		return csvExtendedFormat;
+	}
+
+	/**
+	 * Sets csv extended format.
+	 *
+	 * @param csvExtendedFormat the csv extended format
+	 */
+	public void setCsvExtendedFormat(boolean csvExtendedFormat) {
+		this.csvExtendedFormat = csvExtendedFormat;
 	}
 
 	/**

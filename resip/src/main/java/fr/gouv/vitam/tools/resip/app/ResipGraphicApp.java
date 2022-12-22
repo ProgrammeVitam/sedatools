@@ -261,27 +261,27 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Charger...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "LoadWork");
         fileMenu.add(menuItem);
 
         saveMenuItem = new JMenuItem("Sauver");
         saveMenuItem.addActionListener(this);
-        saveMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        saveMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         saveMenuItem.setEnabled(false);
         actionByMenuItem.put(saveMenuItem, "SaveWork");
         fileMenu.add(saveMenuItem);
 
         saveAsMenuItem = new JMenuItem("Sauver sous...");
         saveAsMenuItem.addActionListener(this);
-        saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        saveAsMenuItem.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         saveAsMenuItem.setEnabled(false);
         actionByMenuItem.put(saveAsMenuItem, "SaveAsWork");
         fileMenu.add(saveAsMenuItem);
 
         closeMenuItem = new JMenuItem("Fermer");
         closeMenuItem.addActionListener(this);
-        closeMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        closeMenuItem.setAccelerator(KeyStroke.getKeyStroke('W', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         closeMenuItem.setEnabled(false);
         actionByMenuItem.put(closeMenuItem, "CloseWork");
         fileMenu.add(closeMenuItem);
@@ -316,7 +316,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Editer les informations d'export...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('E', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "EditExportContext");
         contextMenu.add(menuItem);
 
@@ -326,13 +326,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Chercher des unités d'archives...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "Search");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Chercher des objets...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('F', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "TechnicalSearch");
         treatMenu.add(menuItem);
 
@@ -340,49 +340,49 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
         menuItem = new JMenuItem("Trier l'arbre de visualisation");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('T', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "SortTreeViewer");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Traiter les doublons...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('U', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "Duplicates");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Nettoyer les inutiles...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "Clean");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Voir les statistiques...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('Y', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "Statistics");
         treatMenu.add(menuItem);
 
         menuItem = new JMenuItem("Voir le manifest...");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "SeeManifest");
         treatMenu.add(menuItem);
 
         sedaValidationMenuItem = new JMenuItem("Vérifier la conformité " + SEDA2Version.getSeda2VersionString() + "...");
         sedaValidationMenuItem.addActionListener(this);
-        sedaValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        sedaValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(sedaValidationMenuItem, "CheckSEDASchema");
         treatMenu.add(sedaValidationMenuItem);
 
         sedaProfileValidationMenuItem = new JMenuItem("Vérifier la conformité à un profil " + SEDA2Version.getSeda2VersionString() + "...");
         sedaProfileValidationMenuItem.addActionListener(this);
-        sedaProfileValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        sedaProfileValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(sedaProfileValidationMenuItem, "CheckSpecificSEDASchemaProfile");
         treatMenu.add(sedaProfileValidationMenuItem);
 
         menuItem = new JMenuItem("Vérifier EndDate > StartDate");
         menuItem.addActionListener(this);
-        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.ALT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMask()));
+        menuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.ALT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(menuItem, "CheckEndDate");
         treatMenu.add(menuItem);
 
@@ -1083,8 +1083,10 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             }
             ExportContextDialog exportContextDialog = new ExportContextDialog(mainWindow, currentWork.getExportContext());
             exportContextDialog.setVisible(true);
-            if (exportContextDialog.getReturnValue() == OK_DIALOG)
+            if (exportContextDialog.getReturnValue() == OK_DIALOG) {
                 currentWork.setExportContext(exportContextDialog.gmc);
+                setModifiedContext(true);
+            }
         } else
             UserInteractionDialog.getUserAnswer(mainWindow, "Pas de contexte ouvert", "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
