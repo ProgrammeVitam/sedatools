@@ -46,7 +46,9 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  */
 public class PstStoreFolder extends StoreFolder {
 
-    /** Native libpst folder **/
+    /**
+     * Native libpst folder
+     **/
     protected PSTFolder pstFolder;
 
     // name and fullName computed from constructors
@@ -78,12 +80,9 @@ public class PstStoreFolder extends StoreFolder {
     /**
      * Creates the root folder.
      *
-     * @param storeExtractor
-     *            Operation store extractor
-     * @param pstFolder
-     *            Root native libpst folder
-     * @param rootArchiveUnit
-     *            Root ArchiveUnit
+     * @param storeExtractor  Operation store extractor
+     * @param pstFolder       Root native libpst folder
+     * @param rootArchiveUnit Root ArchiveUnit
      * @return the LP store folder
      */
     public static PstStoreFolder createRootFolder(PstStoreExtractor storeExtractor, PSTFolder pstFolder,
@@ -124,22 +123,45 @@ public class PstStoreFolder extends StoreFolder {
                 } catch (PSTException e) {
                     throw new MailExtractLibException("mailextract.pst: can't get messages from folder " + getFullName(), e);
                 } catch (Exception e) {
-                    logMessageWarning("mailextract.pst: wrongly formatted message " + mes + " in folder " + this.getName(), e);
+                    if (e instanceof InterruptedException)
+                        throw e;
+                    logMessageWarning("mailextract.pst: end folder extraction at message " + mes + " in folder " + this.getName(), e);
                     error = true;
                 }
             }
             while (error);
+
             if (po == null)
                 break;
             message = (PSTMessage) po;
             StoreElement extracted;
             if (message instanceof PSTContact)
-                extracted = new PstStoreContact(this, (PSTContact) message);
+                try {
+                    extracted = new PstStoreContact(this, (PSTContact) message);
+                    extracted.processElement(writeFlag);
+                } catch (Exception e) {
+                    if (e instanceof InterruptedException)
+                        throw e;
+                    logMessageWarning("mailextract.pst: can't extract contact " + mes, e);
+                }
             else if (message instanceof PSTAppointment)
-                extracted = new PstStoreAppointment(this, (PSTAppointment) message);
+                try {
+                    extracted = new PstStoreAppointment(this, (PSTAppointment) message);
+                    extracted.processElement(writeFlag);
+                } catch (Exception e) {
+                    if (e instanceof InterruptedException)
+                        throw e;
+                    logMessageWarning("mailextract.pst: can't extract appointment " + mes, e);
+                }
             else
-                extracted = new PstStoreMessage(this, message);
-            extracted.processElement(writeFlag);
+                try {
+                    extracted = new PstStoreMessage(this, message);
+                    extracted.processElement(writeFlag);
+                } catch (Exception e) {
+                    if (e instanceof InterruptedException)
+                        throw e;
+                    logMessageWarning("mailextract.pst: can't extract message " + mes + " in folder " + this.getName(), e);
+                }
         }
     }
 
