@@ -78,13 +78,14 @@ public class ExportContextDialog extends JDialog {
 	private JRadioButton lastUsageButton;
 	private JRadioButton allUsageButton;
 	private JTextField nameMaxSizeTextField;
+	private JCheckBox csvExtendedFormatChexBox;
 	private JTextArea metadataFilterTextArea;
 	private JCheckBox metadataFilterCheckBox;
 
 	/**
 	 * The data.
 	 */
-	public ExportContext gmc;
+	public transient ExportContext gmc;
 
 	/**
 	 * The return value.
@@ -136,7 +137,7 @@ public class ExportContextDialog extends JDialog {
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0};
 		contentPane.setLayout(new GridBagLayout());
 
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.weightx=1.0;
@@ -150,12 +151,12 @@ public class ExportContextDialog extends JDialog {
 		// header and footer simple fields
 		JPanel headerFooterSimplePanel = new JPanel();
 		tabbedPane.addTab("Métadonnées globales",  new ImageIcon(getClass().getResource("/icon/document-properties.png")), headerFooterSimplePanel, null);
-		GridBagLayout gbl_headerFooterSimplePanel = new GridBagLayout();
-		gbl_headerFooterSimplePanel.columnWidths = new int[]{0, 0, 0};
-		gbl_headerFooterSimplePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_headerFooterSimplePanel.columnWeights = new double[]{0.0, 1.0, 0.0};
-		gbl_headerFooterSimplePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
-		headerFooterSimplePanel.setLayout(gbl_headerFooterSimplePanel);
+		GridBagLayout gblHeaderFooterSimplePanel = new GridBagLayout();
+		gblHeaderFooterSimplePanel.columnWidths = new int[]{0, 0, 0};
+		gblHeaderFooterSimplePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+		gblHeaderFooterSimplePanel.columnWeights = new double[]{0.0, 1.0, 0.0};
+		gblHeaderFooterSimplePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
+		headerFooterSimplePanel.setLayout(gblHeaderFooterSimplePanel);
 
 		JLabel presentationLabel = new JLabel("Champs globaux du SIP");
 		presentationLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -313,12 +314,12 @@ public class ExportContextDialog extends JDialog {
 		// Header and footer complex fields
 		JPanel headerFooterComplexPanel = new JPanel();
 		tabbedPane.addTab("Métadonnées globales étendues",   new ImageIcon(getClass().getResource("/icon/text-x-generic.png")), headerFooterComplexPanel, null);
-		GridBagLayout gbl_headerFooterComplexPanel = new GridBagLayout();
-		gbl_headerFooterComplexPanel.columnWidths = new int[]{0, 0, 0};
-		gbl_headerFooterComplexPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-		gbl_headerFooterComplexPanel.columnWeights = new double[]{0.0, 1.0, 0.0};
-		gbl_headerFooterComplexPanel.rowWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.5, 0.5, 0.0};
-		headerFooterComplexPanel.setLayout(gbl_headerFooterComplexPanel);
+		GridBagLayout gblHeaderFooterComplexPanel = new GridBagLayout();
+		gblHeaderFooterComplexPanel.columnWidths = new int[]{0, 0, 0};
+		gblHeaderFooterComplexPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gblHeaderFooterComplexPanel.columnWeights = new double[]{0.0, 1.0, 0.0};
+		gblHeaderFooterComplexPanel.rowWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.5, 0.5, 0.0};
+		headerFooterComplexPanel.setLayout(gblHeaderFooterComplexPanel);
 
 		JLabel presentationComplexLabel = new JLabel("Champs globaux étendus du SIP");
 		presentationComplexLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -341,18 +342,18 @@ public class ExportContextDialog extends JDialog {
 		gbc.gridy = 1;
 		headerFooterComplexPanel.add(clvLabel, gbc);
 
-		JScrollPane scrollPane_1 = new JScrollPane();
+		JScrollPane scrollPane1 = new JScrollPane();
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridwidth = 2;
 		gbc.insets = new Insets(0, 0, 5, 5);
 		gbc.gridx = 1;
 		gbc.gridy = 1;
-		headerFooterComplexPanel.add(scrollPane_1, gbc);
+		headerFooterComplexPanel.add(scrollPane1, gbc);
 
 		clvTextArea = new JTextArea();
 		clvTextArea.setFont(MainWindow.DETAILS_FONT);
-		scrollPane_1.setViewportView(clvTextArea);
+		scrollPane1.setViewportView(clvTextArea);
 		clvTextArea.setText(exportContext.getArchiveTransferGlobalMetadata().codeListVersionsXmlData);
 		clvTextArea.setCaretPosition(0);
 
@@ -365,18 +366,18 @@ public class ExportContextDialog extends JDialog {
 		gbc.gridy = 2;
 		headerFooterComplexPanel.add(managementMetadataLabel, gbc);
 
-		JScrollPane scrollPane_2 = new JScrollPane();
+		JScrollPane scrollPane2 = new JScrollPane();
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridwidth = 2;
 		gbc.insets = new Insets(0, 0, 5, 5);
 		gbc.gridx = 1;
 		gbc.gridy = 2;
-		headerFooterComplexPanel.add(scrollPane_2, gbc);
+		headerFooterComplexPanel.add(scrollPane2, gbc);
 
 		managementMetadataTextArea = new JTextArea();
 		managementMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
-		scrollPane_2.setViewportView(managementMetadataTextArea);
+		scrollPane2.setViewportView(managementMetadataTextArea);
 		managementMetadataTextArea.setText(exportContext.getManagementMetadataXmlData());
 		managementMetadataTextArea.setCaretPosition(0);
 
@@ -412,18 +413,18 @@ public class ExportContextDialog extends JDialog {
 		headerFooterComplexPanel.add(archivalAgencyOrganizationDescriptiveMetadataLabel,
 				gbc);
 
-		JScrollPane scrollPane_3 = new JScrollPane();
+		JScrollPane scrollPane3 = new JScrollPane();
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridwidth = 2;
 		gbc.insets = new Insets(0, 0, 5, 5);
 		gbc.gridx = 1;
 		gbc.gridy = 4;
-		headerFooterComplexPanel.add(scrollPane_3, gbc);
+		headerFooterComplexPanel.add(scrollPane3, gbc);
 
 		archivalAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
 		archivalAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
-		scrollPane_3.setViewportView(archivalAgencyOrganizationDescriptiveMetadataTextArea);
+		scrollPane3.setViewportView(archivalAgencyOrganizationDescriptiveMetadataTextArea);
 		archivalAgencyOrganizationDescriptiveMetadataTextArea
 				.setText(exportContext.getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData);
 		archivalAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
@@ -438,18 +439,18 @@ public class ExportContextDialog extends JDialog {
 		headerFooterComplexPanel.add(transferringAgencyOrganizationDescriptiveMetadataLabel,
 				gbc);
 
-		JScrollPane scrollPane_4 = new JScrollPane();
+		JScrollPane scrollPane4 = new JScrollPane();
 		gbc = new GridBagConstraints();
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridwidth = 2;
 		gbc.insets = new Insets(0, 0, 5, 5);
 		gbc.gridx = 1;
 		gbc.gridy = 5;
-		headerFooterComplexPanel.add(scrollPane_4, gbc);
+		headerFooterComplexPanel.add(scrollPane4, gbc);
 
 		transferringAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
 		transferringAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
-		scrollPane_4.setViewportView(transferringAgencyOrganizationDescriptiveMetadataTextArea);
+		scrollPane4.setViewportView(transferringAgencyOrganizationDescriptiveMetadataTextArea);
 		transferringAgencyOrganizationDescriptiveMetadataTextArea
 				.setText(exportContext.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData);
 		transferringAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
@@ -458,11 +459,11 @@ public class ExportContextDialog extends JDialog {
 
 		JPanel exportParametersPanel = new JPanel();
 		tabbedPane.addTab("Export", new ImageIcon(getClass().getResource("/icon/document-save.png")), exportParametersPanel, null);
-		GridBagLayout gbl_exportParametersPanel = new GridBagLayout();
-		gbl_exportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
-		gbl_exportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0,0,0,0,0,1};
-		exportParametersPanel.setLayout(gbl_exportParametersPanel);
+		GridBagLayout gblExportParametersPanel = new GridBagLayout();
+		gblExportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
+		gblExportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gblExportParametersPanel.rowWeights = new double[]{0, 0, 0, 0,0,0,0,0,0,1};
+		exportParametersPanel.setLayout(gblExportParametersPanel);
 
 		JLabel inSIPLabel = new JLabel("Options de formation du SIP");
 		inSIPLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -627,12 +628,12 @@ public class ExportContextDialog extends JDialog {
 			case FIRST_DATAOBJECT:
 				firstUsageButton.setSelected(true);
 				break;
+			case ALL_DATAOBJECTS:
+				allUsageButton.setSelected(true);
+				break;
 			case LAST_DATAOBJECT:
 			default:
 				lastUsageButton.setSelected(true);
-				break;
-			case ALL_DATAOBJECTS:
-				allUsageButton.setSelected(true);
 				break;
 		}
 
@@ -658,6 +659,24 @@ public class ExportContextDialog extends JDialog {
 		gbc.fill = GridBagConstraints.HORIZONTAL;
 		exportParametersPanel.add(nameMaxSizeTextField, gbc);
 
+		JLabel lblCsvExtendedFormat = new JLabel("Format csv :");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 5, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 7;
+		exportParametersPanel.add(lblCsvExtendedFormat, gbc);
+
+		csvExtendedFormatChexBox = new JCheckBox("étendu");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.fill = GridBagConstraints.HORIZONTAL;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 7;
+		exportParametersPanel.add(csvExtendedFormatChexBox, gbc);
+		csvExtendedFormatChexBox.setSelected(exportContext.isCsvExtendedFormat());
+
 		JLabel metadataFilterLabel = new JLabel("Filtrage des métadonnées");
 		metadataFilterLabel.setFont(MainWindow.BOLD_LABEL_FONT);
 		gbc = new GridBagConstraints();
@@ -668,7 +687,7 @@ public class ExportContextDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.NORTHWEST;
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.gridx = 0;
-		gbc.gridy = 7;
+		gbc.gridy = 8;
 		exportParametersPanel.add(metadataFilterLabel, gbc);
 
 		scrollPane = new JScrollPane();
@@ -679,7 +698,7 @@ public class ExportContextDialog extends JDialog {
 		gbc.fill = GridBagConstraints.BOTH;
 		gbc.insets = new Insets(0, 5, 5, 5);
 		gbc.gridx = 1;
-		gbc.gridy = 8;
+		gbc.gridy = 9;
 		exportParametersPanel.add(scrollPane, gbc);
 
 		metadataFilterTextArea = new JTextArea();
@@ -697,10 +716,10 @@ public class ExportContextDialog extends JDialog {
 		gbc.anchor = GridBagConstraints.EAST;
 		gbc.insets = new Insets(0, 5, 5, 5);
 		gbc.gridx = 0;
-		gbc.gridy = 8;
+		gbc.gridy = 9;
 		gbc.weighty = 1.0;
 		exportParametersPanel.add(metadataFilterCheckBox, gbc);
-		metadataFilterCheckBox.addItemListener(arg -> metadataFilterEvent(arg));
+		metadataFilterCheckBox.addItemListener(this::metadataFilterEvent);
 
 		// Buttons
 		JButton cancelButton = new JButton("Annuler");
@@ -775,13 +794,14 @@ public class ExportContextDialog extends JDialog {
 				throw new NumberFormatException("Number not strictly positive");
 		} catch (NumberFormatException e) {
 			tabbedPane.setSelectedIndex(3);
-			UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
+			UserInteractionDialog.getUserAnswer(ResipGraphicApp.mainWindow,
 					"La taille limite des noms de répertoires exportées doit être un nombre strictement supérieur à 0.",
 					"Information", UserInteractionDialog.IMPORTANT_DIALOG,
 					null);
 			return false;
 		}
 		gmc.setMaxNameSize(tmp);
+		gmc.setCsvExtendedFormat(csvExtendedFormatChexBox.isSelected());
 		gmc.setManagementMetadataXmlData(managementMetadataTextArea.getText());
 		gmc.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
 		gmc.setKeptMetadataList(Arrays.asList(metadataFilterTextArea.getText().split("\\s*\n\\s*"))

@@ -36,6 +36,7 @@ import javax.xml.stream.events.XMLEvent;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * The Class GlobalMetadata.
@@ -131,6 +132,23 @@ public class GlobalMetadata {
         this.transferringAgencyOrganizationDescriptiveMetadataXmlData = null;
     }
 
+    /**
+     * Instantiates a global metadata copy.
+     */
+    public GlobalMetadata(GlobalMetadata globalMetadata) {
+        this.comment = globalMetadata.comment;
+        this.date = globalMetadata.date;
+        this.nowFlag = globalMetadata.nowFlag;
+        this.messageIdentifier = globalMetadata.messageIdentifier;
+        this.archivalAgreement = globalMetadata.archivalAgreement;
+        this.codeListVersionsXmlData = globalMetadata.codeListVersionsXmlData;
+        this.transferRequestReplyIdentifier = globalMetadata.transferRequestReplyIdentifier;
+        this.archivalAgencyIdentifier = globalMetadata.archivalAgencyIdentifier;
+        this.archivalAgencyOrganizationDescriptiveMetadataXmlData = globalMetadata.archivalAgencyOrganizationDescriptiveMetadataXmlData;
+        this.transferringAgencyIdentifier = globalMetadata.transferringAgencyIdentifier;
+        this.transferringAgencyOrganizationDescriptiveMetadataXmlData = globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData;
+    }
+
     // Methods
 
     // SEDA XML exporter
@@ -162,7 +180,7 @@ public class GlobalMetadata {
             xmlWriter.writeRawXMLBlockIfNotEmpty(transferringAgencyOrganizationDescriptiveMetadataXmlData);
             xmlWriter.writeEndElement();
             xmlWriter.close();
-            result = baos.toString("UTF-8");
+            result = baos.toString(StandardCharsets.UTF_8);
         } catch (SEDALibException | XMLStreamException | IOException e) {
             throw new SEDALibException("Erreur interne", e);
         }
@@ -218,7 +236,7 @@ public class GlobalMetadata {
     public void fromSedaXmlFragments(String fragments) throws SEDALibException {
         GlobalMetadata gm = new GlobalMetadata();
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes("UTF-8"));
+        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes(StandardCharsets.UTF_8));
              SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();

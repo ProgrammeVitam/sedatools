@@ -72,7 +72,7 @@ public class CSVMetadataFormatter {
     /**
      * The first columns header names.
      */
-    private static List<String> headerNames = Arrays.asList("id", "file", "parentid", "parentfile");
+    private static List<String> headerNames = Arrays.asList("id", "file", "parentid", "parentfile","objectfiles");
 
     /**
      * The first columns types.
@@ -81,6 +81,7 @@ public class CSVMetadataFormatter {
     private static final int FILE_COLUMN = 1;
     private static final int PARENTID_COLUMN = 2;
     private static final int PARENTFILE_COLUMN = 3;
+    private static final int OBJECTFIlES_COLUMN = 4;
 
     private MetadataTag rootTag, contentTag, managementTag;
     private LinkedHashMap<Integer, ValueAttrMetadataTag> tagHeaderColumnMapping;
@@ -91,13 +92,14 @@ public class CSVMetadataFormatter {
 
     private int guidColumn;
     private int fileColumn;
+    private int objectfilesColumn;
     private int parentGUIDColumn;
     private boolean isOnlyFile;
 
 
     private void analyseFirstColumns(String[] headerRow) throws SEDALibException {
         List<Integer> firsts = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             if (!headerNames.contains(headerRow[i].toLowerCase()))
                 break;
             firsts.add(headerNames.indexOf(headerRow[i].toLowerCase()));
@@ -107,26 +109,43 @@ public class CSVMetadataFormatter {
             isOnlyFile = true;
             guidColumn = 0;
             fileColumn = 0;
+            objectfilesColumn=-1;
             parentGUIDColumn = -1;
         } else if ((firstIndex == 2) && firsts.contains(FILE_COLUMN) && firsts.contains(PARENTFILE_COLUMN)) {
             isOnlyFile = false;
             guidColumn = firsts.indexOf(FILE_COLUMN);
             fileColumn = guidColumn;
+            objectfilesColumn=-1;
             parentGUIDColumn = firsts.indexOf(PARENTFILE_COLUMN);
 
         } else if ((firstIndex == 3) && (firsts.contains(FILE_COLUMN) && firsts.contains(PARENTFILE_COLUMN) && firsts.contains(ID_COLUMN))) {
             isOnlyFile = false;
             guidColumn = firsts.indexOf(ID_COLUMN);
             fileColumn = firsts.indexOf(FILE_COLUMN);
+            objectfilesColumn=-1;
             parentGUIDColumn = firsts.indexOf(PARENTFILE_COLUMN);
         } else if ((firstIndex == 3) && (firsts.contains(FILE_COLUMN) && firsts.contains(PARENTID_COLUMN) && firsts.contains(ID_COLUMN))) {
             isOnlyFile = false;
             guidColumn = firsts.indexOf(ID_COLUMN);
             fileColumn = firsts.indexOf(FILE_COLUMN);
+            objectfilesColumn=-1;
+            parentGUIDColumn = firsts.indexOf(PARENTID_COLUMN);
+        } else if ((firstIndex == 3) && (firsts.contains(OBJECTFIlES_COLUMN) && firsts.contains(PARENTID_COLUMN) && firsts.contains(ID_COLUMN))) {
+            isOnlyFile = false;
+            guidColumn = firsts.indexOf(ID_COLUMN);
+            fileColumn = -1;
+            objectfilesColumn=firsts.indexOf(OBJECTFIlES_COLUMN);
+            parentGUIDColumn = firsts.indexOf(PARENTID_COLUMN);
+        } else if ((firstIndex == 4) && (firsts.contains(FILE_COLUMN) && firsts.contains(OBJECTFIlES_COLUMN) && firsts.contains(PARENTID_COLUMN) && firsts.contains(ID_COLUMN))) {
+            isOnlyFile = false;
+            guidColumn = firsts.indexOf(ID_COLUMN);
+            objectfilesColumn=firsts.indexOf(OBJECTFIlES_COLUMN);
+            fileColumn = firsts.indexOf(FILE_COLUMN);
             parentGUIDColumn = firsts.indexOf(PARENTID_COLUMN);
         } else
             throw new SEDALibException("Le header [" + String.join("|", headerRow) + "] est mal formatté. Il doit contenir au début soit une colonne File, " +
                     "soit deux colonnes File et ParentFile, soit trois colonnes ID, File et ParentFile ou ID, File " +
+                    ", soit quatre colonnes ID, ParentID, File, ObjectFiles " +
                     "et ParentID.");
     }
 
@@ -160,7 +179,7 @@ public class CSVMetadataFormatter {
     }
 
     private MetadataTag getTag(MetadataTag tag, List<String> splittedMetadataName) throws SEDALibException {
-        if (splittedMetadataName.size() == 0)
+        if (splittedMetadataName.isEmpty())
             return tag;
         String name = splittedMetadataName.get(0);
         if ((splittedMetadataName.size() == 1) && (name.equals("attr")))
@@ -371,7 +390,8 @@ public class CSVMetadataFormatter {
     }
 
     private String generateTagXML(MetadataTag tag) throws SEDALibException {
-        String result, value = "";
+        String result;
+        String value = "";
 
         // specific cases for RuleType and ClassificationRule
         switch (tag.name) {
@@ -479,11 +499,33 @@ public class CSVMetadataFormatter {
     }
 
     /**
+     * Gets object files list joined with the '|' character
+     *
+     * @param row the array of cell strings from the csv line
+     * @return the object files list
+     */
+    public String getObjectFiles(String[] row) {
+        if (objectfilesColumn==-1)
+            return "";
+        else
+            return row[objectfilesColumn];
+    }
+
+    /**
      * Need ID regeneration.
      *
      * @return the need ID regeneration boolean
      */
     public boolean needIdRegeneration() {
         return isOnlyFile;
+    }
+
+    /**
+     * Is extended format.
+     *
+     * @return is extended format boolean
+     */
+    public boolean isExtendedFormat() {
+        return objectfilesColumn!=-1;
     }
 }

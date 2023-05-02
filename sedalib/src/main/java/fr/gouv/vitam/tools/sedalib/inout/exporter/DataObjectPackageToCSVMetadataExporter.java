@@ -27,11 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObject;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
@@ -41,13 +37,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.io.FileUtils;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -56,18 +46,7 @@ import java.nio.file.StandardCopyOption;
 import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -77,8 +56,10 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
 /**
  * The Class DataObjectPackageToCSVMetadataExporter.
  * <p>
- * It will export a DataObjectPackage to a set of files, the disk hierarchy and all metadata defined in a csv file,
- * optionally gathered in a zip file. The disk hierarchy is organised as the DataObjectPackage ArchiveUnit tree.
+ * It will export from the DataObjectPackage all ArchiveUnits metadata in a csv file, and, if asked for, all
+ * binary objects, optionally gathered in a zip file. When exported the binary objects are copied and organised
+ * in a disk hierarchy similar to the DataObjectPackage ArchiveUnit tree.
+ * <p>
  * The export follows theese few rules:
  * <ul>
  * <li>An ArchiveUnit with child AUs is exported
@@ -92,15 +73,24 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * With theese rules in simple cases the disk hierarchy is very simple and very near from the original version if this
  * has been created from a disk hierarchy, but it's also possible to export any structure.
  * <p>
- * The csv has one header line at the beginning there is one column with 'File' which contains the file (or directory)
- * name which is also used as uniq ID and which defines the hierarchy as the file hierarchy.
+ * The csv has one header line. There are two types of organisation for this header line:
+ * <ul>
+ * <li>Normal format, at the beginning there is one column with 'File'
+ * which contains the exported file (or directory) path of the ArchiveUnit
+ * which is also used as uniq ID and which defines the hierarchy as the file hierarchy.</li>
+ * <li>Extended format, at the beginning
+ * there are four columns with 'Id', 'ParentId', 'File', 'ObjectFiles" which contains respectively the ArchiveUnit ID, the parent
+ * ArchiveUnit ID or nothing if it's a root one, both defining the hierarchy, the real on disk path of the ArchiveUnit or
+ * nothing if it's an only metadata ArchiveUnit (given for easy human reading but not used in import) and finally the concatenated
+ * binary data objects files path with '|' joiner (these are used to recover binary data objects)</li>
+ *  </ul>
+ * Paths, when possible, are relative from the metadata csv file directory.
+ * <p>
  * After that the columns defines metadata path, each tag being separeted by a dot, or an attribute ('attr' column) of the metadata in the previous colum.
  * <p>
  * For example: Writer.0.FullName|Description.0|Description.0.attr defines first colum of values to put in
  * &lt;Writer&gt;&lt;FullName&gt;VALUE&lt;/FullName&gt;&lt;/Writer&gt;, then values to put in &lt;Description&gt;VALUE&lt;/Description&gt;
- * and finally attributes to put in &lt;Description&gt; if any.
- * <p>
- * Many values of a tag can be defined in csv, for example 2 Writers, so it's written as Writer.0 and Writer.1, and FullName is Writer.0.FullName.
+ * and finally attributes to put in &lt;Description&gt; if any. Many values of a tag can be defined in csv, for example 2 Writers, so it's written as Writer.0 and Writer.1, and FullName is Writer.0.FullName.
  */
 public class DataObjectPackageToCSVMetadataExporter {
     /**
@@ -137,6 +127,11 @@ public class DataObjectPackageToCSVMetadataExporter {
     public static final int ALL_DATAOBJECTS = 3;
 
     /**
+     * The extended format flag
+     */
+    private boolean extendedFormatFlag;
+
+    /**
      * The max name size used to limit directory names.
      */
     private int maxNameSize;
@@ -158,7 +153,8 @@ public class DataObjectPackageToCSVMetadataExporter {
     /**
      * The start and end instants, for duration computation.
      */
-    private Instant start, end;
+    private Instant start;
+    private Instant end;
 
     /**
      * The output operation defined context.
@@ -182,20 +178,22 @@ public class DataObjectPackageToCSVMetadataExporter {
      * Instantiates a new DataObjectPackage to csv metadata exporter.
      *
      * @param dataObjectPackage         the data object package
-     * @param encoding                  the encoding
-     * @param separator                 the separator
-     * @param usageVersionSelectionMode the usage version selection mode
+     * @param encoding                  the csv encoding charset
+     * @param separator                 the csv separator
+     * @param usageVersionSelectionMode the usage version selection mode, can either keep the first usage version
+     *                                  in binary data objects (FIRST_DATAOBJECT), the last (LAST_DATAOBJECT) or all
+     *                                  (ALL_DATAOBJECTS)
+     * @param extendedFormatFlag        the extended format flag, if true export csv with ID and real on disk path
      * @param maxNameSize               the max name size
      * @param sedaLibProgressLogger     the progress logger or null if no progress log expected
      */
-    public DataObjectPackageToCSVMetadataExporter(DataObjectPackage dataObjectPackage, String encoding,
-                                                  char separator, int usageVersionSelectionMode, int maxNameSize,
-                                                  SEDALibProgressLogger sedaLibProgressLogger) {
+    public DataObjectPackageToCSVMetadataExporter(DataObjectPackage dataObjectPackage, String encoding, char separator, int usageVersionSelectionMode, boolean extendedFormatFlag, int maxNameSize, SEDALibProgressLogger sedaLibProgressLogger) {
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.dataObjectPackage = dataObjectPackage;
         this.encoding = encoding;
         this.separator = separator;
         this.usageVersionSelectionMode = usageVersionSelectionMode;
+        this.extendedFormatFlag = extendedFormatFlag;
         this.maxNameSize = maxNameSize;
     }
 
@@ -364,30 +362,74 @@ public class DataObjectPackageToCSVMetadataExporter {
     // print header line in the csv, after simplifying header names (remove unnecessary .0)
     private void printCsvHeader() {
         List<String> simplifiedHeaderNames = getSimplifiedHeaderNames();
+        if (extendedFormatFlag) {
+            csvPrintStream.print("Id" + separator);
+            csvPrintStream.print("ParentId" + separator);
+        }
         csvPrintStream.print("File");
+        if (extendedFormatFlag) csvPrintStream.print(separator + "ObjectFiles");
+
         for (String header : simplifiedHeaderNames)
             csvPrintStream.print(separator + header);
         csvPrintStream.println();
     }
 
-    // generate one ArchiveUnit line in the csv
-    private void generateCsvLine(ArchiveUnit au, Path auRelativePath) throws SEDALibException {
-        LinkedHashMap<String, String> contentMetadataHashMap, managementMetadataHashMap = null;
+    private String getSimplifiedPath(Path path) {
+        if (path == null) return "";
+        if (path.isAbsolute()) try {
+            path = rootPath.relativize(path);
+        } catch (Exception e) {
+            //ignore no relative path possible
+        }
+        return path.toString().replace("\"", "\"\"");
+    }
 
-        String value = "\"" + auRelativePath.toString().replace("\"", "\"\"") + "\"";
-        csvPrintStream.print(value);
+    // generate one ArchiveUnit line in the csv
+    private void generateCsvLine(ArchiveUnit au, ArchiveUnit parentAu, Path auRelativePath) throws SEDALibException {
+        LinkedHashMap<String, String> contentMetadataHashMap;
+        LinkedHashMap<String, String> managementMetadataHashMap = null;
+        String value;
+
+        if (extendedFormatFlag) {
+            csvPrintStream.print("\"" + au.getInDataObjectPackageId() + "\"" + separator);
+            if (parentAu == null) csvPrintStream.print("\"\"" + separator);
+            else csvPrintStream.print("\"" + parentAu.getInDataObjectPackageId() + "\"" + separator);
+        }
+        if (fileExportFlag) {
+            value = "\"" + auRelativePath.toString().replace("\"", "\"\"") + "\"";
+            csvPrintStream.print(value);
+        } else {
+            csvPrintStream.print("\"" + getSimplifiedPath(au.getOnDiskPath()) + "\"");
+        }
+        if (extendedFormatFlag) {
+            value = "";
+            DataObjectGroup dog = au.getTheDataObjectGroup();
+            if (dog != null) {
+                List<BinaryDataObject> bdoList = dog.getBinaryDataObjectList();
+                if ((au.getChildrenAuList().getArchiveUnitList().isEmpty()) && (bdoList.size() == 1)) {
+                    if (fileExportFlag) value = getSimplifiedPath(auRelativePath);
+                    else value = getSimplifiedPath(bdoList.get(0).getOnDiskPath());
+                } else {
+                    for (BinaryDataObject bdo : bdoList) {
+                        Path objectPath;
+                        if (fileExportFlag)
+                            objectPath = auRelativePath.resolve(constructObjectFileName(auRelativePath, bdo, bdoList.size() == 1, false));
+                        else objectPath = bdo.getOnDiskPath();
+                        value += "|" + getSimplifiedPath(objectPath);
+                    }
+                    if (!value.isEmpty()) value = value.substring(1);
+                }
+            }
+            csvPrintStream.print(separator + "\"" + value + "\"");
+        }
         contentMetadataHashMap = au.getContent().externToCsvList(dataObjectPackage.getExportMetadataList());
         Management management = au.getManagement();
-        if (management != null)
-            managementMetadataHashMap = management.externToCsvList();
+        if (management != null) managementMetadataHashMap = management.externToCsvList();
         for (String header : headerNames) {
             value = contentMetadataHashMap.get(header);
-            if ((value == null) && (managementMetadataHashMap != null))
-                value = managementMetadataHashMap.get(header);
-            if (value == null)
-                value = "";
-            else
-                value = "\"" + value.replace("\"", "\"\"") + "\"";
+            if ((value == null) && (managementMetadataHashMap != null)) value = managementMetadataHashMap.get(header);
+            if (value == null) value = "";
+            else value = "\"" + value.replace("\"", "\"\"") + "\"";
             csvPrintStream.print(separator + value);
         }
         csvPrintStream.println();
@@ -396,7 +438,8 @@ public class DataObjectPackageToCSVMetadataExporter {
     // get the best Usage_Version object in a list of objects. First find the best Usage and then find the first or
     // last version of this usage depending on firstFlag
     private BinaryDataObject getBestUsageVersionObject(List<BinaryDataObject> objectList, boolean firstFlag) throws InterruptedException {
-        int rank, version;
+        int rank;
+        int version;
         TreeMap<Integer, BinaryDataObject> rankMap = new TreeMap<>();
         for (BinaryDataObject bdo : objectList) {
             if ((bdo.dataObjectVersion == null) || (bdo.dataObjectVersion.getValue().isEmpty())) {
@@ -504,12 +547,12 @@ public class DataObjectPackageToCSVMetadataExporter {
 
     // Construct file name for Object, either uniq or in a list of different usage_version and insert id if already
     // exists.
-    private String constructObjectFileName(Path auRrelativePath, BinaryDataObject bdo, boolean uniqFlag) {
-        String filename = null, name, ext;
-        if (bdo.fileInfo != null)
-            filename = bdo.fileInfo.getSimpleMetadata("Filename");
-        if (filename == null)
-            filename = "undefined";
+    private String constructObjectFileName(Path auRrelativePath, BinaryDataObject bdo, boolean uniqFlag, boolean firstTime) {
+        String filename = null;
+        String name;
+        String ext;
+        if (bdo.fileInfo != null) filename = bdo.fileInfo.getSimpleMetadata("Filename");
+        if (filename == null) filename = "undefined";
         int point = filename.lastIndexOf('.');
         if (point == -1) {
             name = filename;
@@ -520,24 +563,20 @@ public class DataObjectPackageToCSVMetadataExporter {
         }
 
         if (!uniqFlag) {
-            String[] usageVersion;
-            if (bdo.dataObjectVersion == null)
-                usageVersion = "undefined".split("_");
-            else
-                usageVersion = bdo.dataObjectVersion.getValue().split("_");
-            String shortUsageVersion;
-            if (usageVersion[0].isEmpty())
-                shortUsageVersion = "Z";
-            else
-                shortUsageVersion = usageVersion[0].substring(0, 1);
-            shortUsageVersion += usageVersion[1];
-            ext = "_" + shortUsageVersion + ext;
+            String usageVersion;
+            if (bdo.dataObjectVersion == null) usageVersion = "undefined_1";
+            else usageVersion = bdo.dataObjectVersion.getValue();
+            name = "__" + usageVersion + "__" + name;
         }
 
-        filename = stripFileName(name + ext);
-        if (fileExists(auRrelativePath.resolve(filename)))
+        if (firstTime) {
+            filename = stripFileName(name + ext);
+            if (fileExists(auRrelativePath.resolve(filename)))
+                filename = stripFileName(name + "-" + bdo.getInDataObjectPackageId() + ext);
+        } else {
             filename = stripFileName(name + "-" + bdo.getInDataObjectPackageId() + ext);
-
+            if (!fileExists(auRrelativePath.resolve(filename))) filename = stripFileName(name + ext);
+        }
         return filename;
     }
 
@@ -602,11 +641,10 @@ public class DataObjectPackageToCSVMetadataExporter {
             try {
                 ZipEntry e = new ZipEntry(relativePath.toString().replace('\\', '/'));
                 zipOS.putNextEntry(e);
-                try(FileInputStream fis = new FileInputStream(originPath.toFile())) {
+                try (FileInputStream fis = new FileInputStream(originPath.toFile())) {
                     int l;
                     byte[] buffer = new byte[65536];
-                    while ((l = fis.read(buffer)) != -1)
-                        zipOS.write(buffer, 0, l);
+                    while ((l = fis.read(buffer)) != -1) zipOS.write(buffer, 0, l);
                 }
                 zipOS.closeEntry();
             } catch (IOException e) {
@@ -646,7 +684,7 @@ public class DataObjectPackageToCSVMetadataExporter {
 
         if ((objectList != null) && !objectList.isEmpty()) {
             for (BinaryDataObject bdo : objectList) {
-                filename = constructObjectFileName(auRelativePath, bdo, objectList.size() == 1);
+                filename = constructObjectFileName(auRelativePath, bdo, objectList.size() == 1, true);
                 if (fileExportFlag)
                     copyFile(bdo.getOnDiskPath(), auRelativePath.resolve(filename));
             }
@@ -655,8 +693,7 @@ public class DataObjectPackageToCSVMetadataExporter {
     }
 
     // Recursively export all ArchiveUnit files and metadata to disk.
-    private void exportArchiveUnit(ArchiveUnit au, Path relativePath)
-            throws SEDALibException, InterruptedException {
+    private void exportArchiveUnit(ArchiveUnit au, ArchiveUnit parentAu, Path relativePath) throws SEDALibException, InterruptedException {
         Path auRelativePath;
         String filename;
 
@@ -680,14 +717,13 @@ public class DataObjectPackageToCSVMetadataExporter {
         // recursively export
         if ((au.getChildrenAuList() != null) && (au.getChildrenAuList().getCount() != 0)) {
             for (ArchiveUnit childAU : au.getChildrenAuList().getArchiveUnitList())
-                exportArchiveUnit(childAU, auRelativePath);
+                exportArchiveUnit(childAU, au, auRelativePath);
         }
 
-        generateCsvLine(au, auRelativePath);
+        generateCsvLine(au, parentAu, auRelativePath);
 
         int counter = dataObjectPackage.getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                Integer.toString(counter) + " ArchiveUnit exportées");
+        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter, "sedalib: " + Integer.toString(counter) + " ArchiveUnit exportées");
     }
 
     private String getDescription(Date d) {
@@ -759,7 +795,10 @@ public class DataObjectPackageToCSVMetadataExporter {
     private void exportAll() throws SEDALibException, InterruptedException {
         Date d = new Date();
         start = Instant.now();
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, getDescription(d), null);
+        String log = "sedalib: début de l'export d'un csv " + (fileExportFlag ? "et de sa hiérarchie" : "") + (zipFileName == null ? " dans un zip" : "") + "\n";
+        log += "en [" + (fileExportFlag ? (zipFileName == null ? rootPath : rootPath.resolve(zipFileName)) : rootPath.resolve(csvMetadataFileName)) + "] date=";
+        log += DateFormat.getDateTimeInstance().format(d);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         auRelativePathMap = new HashMap<>();
         relativePathStringSet = new HashSet<>();
@@ -773,11 +812,12 @@ public class DataObjectPackageToCSVMetadataExporter {
 
         dataObjectPackage.resetInOutCounter();
         for (ArchiveUnit au : dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList())
-            exportArchiveUnit(au, Paths.get(""));
+            exportArchiveUnit(au, null, Paths.get(""));
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, "sedalib: " + dataObjectPackage.getInOutCounter() + " ArchiveUnit exportées", null);
 
         finaliseWithCsvMetadataFile();
 
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "Export csv simplifié terminé", null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: export csv simplifié terminé", null);
         end = Instant.now();
     }
 

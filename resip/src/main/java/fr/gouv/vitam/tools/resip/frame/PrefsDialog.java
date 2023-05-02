@@ -96,6 +96,7 @@ public class PrefsDialog extends JDialog {
     private JRadioButton lastUsageButton;
     private JRadioButton allUsageButton;
     private JTextField nameMaxSizeTextField;
+    private JCheckBox csvExtendedFormatChexBox;
     private JRadioButton reindexYesRadioButton;
     private JTextArea metadataFilterTextArea;
     private JCheckBox metadataFilterCheckBox;
@@ -110,31 +111,31 @@ public class PrefsDialog extends JDialog {
     /**
      * The data.
      */
-    public transient CreationContext cc;
+    public final transient CreationContext cc;
     /**
      * The Dic.
      */
-    public transient DiskImportContext dic;
+    public final transient DiskImportContext dic;
     /**
      * The Mic.
      */
-    public transient MailImportContext mic;
+    public final transient MailImportContext mic;
     /**
      * The Gmc.
      */
-    public transient ExportContext gmc;
+    public final transient ExportContext gmc;
     /**
      * The Cic.
      */
-    public transient CSVImportContext cic;
+    public final transient CSVImportContext cic;
     /**
      * The Tp.
      */
-    public transient TreatmentParameters tp;
+    public final transient TreatmentParameters tp;
     /**
      * The Ip.
      */
-    public transient InterfaceParameters ip;
+    public final transient InterfaceParameters ip;
 
     /**
      * The return value.
@@ -144,7 +145,7 @@ public class PrefsDialog extends JDialog {
     /**
      * The proposed charsets.
      */
-    static private String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
+    private static String[] charsetStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
             "IBM850", "IBM852", "IBM855", "IBM857", "IBM862", "IBM866", "ISO-8859-2", "ISO-8859-4", "ISO-8859-5",
             "ISO-8859-7", "ISO-8859-9", "ISO-8859-13", "ISO-8859-15", "KOI8-R", "KOI8-U", "US-ASCII", "UTF-16",
             "UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
@@ -212,12 +213,12 @@ public class PrefsDialog extends JDialog {
         // header and footer simple fields
         JPanel headerFooterSimplePanel = new JPanel();
         tabbedPane.addTab("Métadonnées globales", new ImageIcon(getClass().getResource("/icon/document-properties.png")), headerFooterSimplePanel, null);
-        GridBagLayout gbl_headerFooterSimplePanel = new GridBagLayout();
-        gbl_headerFooterSimplePanel.columnWidths = new int[]{0, 0, 0};
-        gbl_headerFooterSimplePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-        gbl_headerFooterSimplePanel.columnWeights = new double[]{0.0, 1.0, 0.0};
-        gbl_headerFooterSimplePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
-        headerFooterSimplePanel.setLayout(gbl_headerFooterSimplePanel);
+        GridBagLayout gblHeaderFooterSimplePanel = new GridBagLayout();
+        gblHeaderFooterSimplePanel.columnWidths = new int[]{0, 0, 0};
+        gblHeaderFooterSimplePanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+        gblHeaderFooterSimplePanel.columnWeights = new double[]{0.0, 1.0, 0.0};
+        gblHeaderFooterSimplePanel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0};
+        headerFooterSimplePanel.setLayout(gblHeaderFooterSimplePanel);
 
         JLabel presentationLabel = new JLabel("Champs globaux du SIP");
         presentationLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -374,12 +375,12 @@ public class PrefsDialog extends JDialog {
         // Header and footer complex fields
         JPanel headerFooterComplexPanel = new JPanel();
         tabbedPane.addTab("Métadonnées globales étendues", new ImageIcon(getClass().getResource("/icon/text-x-generic.png")), headerFooterComplexPanel, null);
-        GridBagLayout gbl_headerFooterComplexPanel = new GridBagLayout();
-        gbl_headerFooterComplexPanel.columnWidths = new int[]{0, 0, 0};
-        gbl_headerFooterComplexPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
-        gbl_headerFooterComplexPanel.columnWeights = new double[]{0.0, 1.0, 0.0};
-        gbl_headerFooterComplexPanel.rowWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.5, 0.5, 0.0};
-        headerFooterComplexPanel.setLayout(gbl_headerFooterComplexPanel);
+        GridBagLayout gblHeaderFooterComplexPanel = new GridBagLayout();
+        gblHeaderFooterComplexPanel.columnWidths = new int[]{0, 0, 0};
+        gblHeaderFooterComplexPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
+        gblHeaderFooterComplexPanel.columnWeights = new double[]{0.0, 1.0, 0.0};
+        gblHeaderFooterComplexPanel.rowWeights = new double[]{0.0, 1.0, 1.0, 0.0, 0.5, 0.5, 0.0};
+        headerFooterComplexPanel.setLayout(gblHeaderFooterComplexPanel);
 
         JLabel presentationComplexLabel = new JLabel("Champs globaux étendus du SIP");
         presentationComplexLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -402,18 +403,18 @@ public class PrefsDialog extends JDialog {
         gbc.gridy = 1;
         headerFooterComplexPanel.add(clvLabel, gbc);
 
-        JScrollPane scrollPane_1 = new JScrollPane();
+        JScrollPane scrollPane1 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
         gbc.gridy = 1;
-        headerFooterComplexPanel.add(scrollPane_1, gbc);
+        headerFooterComplexPanel.add(scrollPane1, gbc);
 
         clvTextArea = new JTextArea();
         clvTextArea.setFont(MainWindow.DETAILS_FONT);
-        scrollPane_1.setViewportView(clvTextArea);
+        scrollPane1.setViewportView(clvTextArea);
         clvTextArea.setText(gmc.getArchiveTransferGlobalMetadata().codeListVersionsXmlData);
         clvTextArea.setCaretPosition(0);
 
@@ -426,18 +427,18 @@ public class PrefsDialog extends JDialog {
         gbc.gridy = 2;
         headerFooterComplexPanel.add(managementMetadataLabel, gbc);
 
-        JScrollPane scrollPane_2 = new JScrollPane();
+        JScrollPane scrollPane2 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
         gbc.gridy = 2;
-        headerFooterComplexPanel.add(scrollPane_2, gbc);
+        headerFooterComplexPanel.add(scrollPane2, gbc);
 
         managementMetadataTextArea = new JTextArea();
         managementMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
-        scrollPane_2.setViewportView(managementMetadataTextArea);
+        scrollPane2.setViewportView(managementMetadataTextArea);
         managementMetadataTextArea.setText(gmc.getManagementMetadataXmlData());
         managementMetadataTextArea.setCaretPosition(0);
 
@@ -473,18 +474,18 @@ public class PrefsDialog extends JDialog {
         headerFooterComplexPanel.add(archivalAgencyOrganizationDescriptiveMetadataLabel,
                 gbc);
 
-        JScrollPane scrollPane_3 = new JScrollPane();
+        JScrollPane scrollPane3 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
         gbc.gridy = 4;
-        headerFooterComplexPanel.add(scrollPane_3, gbc);
+        headerFooterComplexPanel.add(scrollPane3, gbc);
 
         archivalAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
         archivalAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
-        scrollPane_3.setViewportView(archivalAgencyOrganizationDescriptiveMetadataTextArea);
+        scrollPane3.setViewportView(archivalAgencyOrganizationDescriptiveMetadataTextArea);
         archivalAgencyOrganizationDescriptiveMetadataTextArea
                 .setText(gmc.getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData);
         archivalAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
@@ -499,18 +500,18 @@ public class PrefsDialog extends JDialog {
         headerFooterComplexPanel.add(transferringAgencyOrganizationDescriptiveMetadataLabel,
                 gbc);
 
-        JScrollPane scrollPane_4 = new JScrollPane();
+        JScrollPane scrollPane4 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridwidth = 2;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 1;
         gbc.gridy = 5;
-        headerFooterComplexPanel.add(scrollPane_4, gbc);
+        headerFooterComplexPanel.add(scrollPane4, gbc);
 
         transferringAgencyOrganizationDescriptiveMetadataTextArea = new JTextArea();
         transferringAgencyOrganizationDescriptiveMetadataTextArea.setFont(MainWindow.DETAILS_FONT);
-        scrollPane_4.setViewportView(transferringAgencyOrganizationDescriptiveMetadataTextArea);
+        scrollPane4.setViewportView(transferringAgencyOrganizationDescriptiveMetadataTextArea);
         transferringAgencyOrganizationDescriptiveMetadataTextArea
                 .setText(gmc.getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData);
         transferringAgencyOrganizationDescriptiveMetadataTextArea.setCaretPosition(0);
@@ -518,11 +519,11 @@ public class PrefsDialog extends JDialog {
         // ExportParameters Panel
         JPanel exportParametersPanel = new JPanel();
         tabbedPane.addTab("Export", new ImageIcon(getClass().getResource("/icon/document-save.png")), exportParametersPanel, null);
-        GridBagLayout gbl_exportParametersPanel = new GridBagLayout();
-        gbl_exportParametersPanel.columnWeights = new double[]{0, 0.5, 0.5, 0};
-        gbl_exportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
-        gbl_exportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
-        exportParametersPanel.setLayout(gbl_exportParametersPanel);
+        GridBagLayout gblExportParametersPanel = new GridBagLayout();
+        gblExportParametersPanel.columnWeights = new double[]{0, 0.5, 0.5, 0};
+        gblExportParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
+        gblExportParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
+        exportParametersPanel.setLayout(gblExportParametersPanel);
 
         JLabel inSIPLabel = new JLabel("Options de formation du SIP");
         inSIPLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -718,6 +719,24 @@ public class PrefsDialog extends JDialog {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         exportParametersPanel.add(nameMaxSizeTextField, gbc);
 
+        JLabel lblCsvExtendedFormat = new JLabel("Format csv :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        exportParametersPanel.add(lblCsvExtendedFormat, gbc);
+
+        csvExtendedFormatChexBox = new JCheckBox("étendu");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 9;
+        exportParametersPanel.add(csvExtendedFormatChexBox, gbc);
+        csvExtendedFormatChexBox.setSelected(gmc.isCsvExtendedFormat());
+
         JLabel metadataFilterLabel = new JLabel("Filtrage des métadonnées");
         metadataFilterLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -726,9 +745,8 @@ public class PrefsDialog extends JDialog {
         gbc.weightx = 1.0;
         gbc.weighty = 0.0;
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx = 0;
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         exportParametersPanel.add(metadataFilterLabel, gbc);
 
         scrollPane = new JScrollPane();
@@ -739,7 +757,7 @@ public class PrefsDialog extends JDialog {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         exportParametersPanel.add(scrollPane, gbc);
 
         metadataFilterTextArea = new JTextArea();
@@ -757,17 +775,18 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
         gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.BOTH;
         exportParametersPanel.add(metadataFilterCheckBox, gbc);
         metadataFilterCheckBox.addItemListener(this::metadataFilterEvent);
 
         // ImportParameters Panel
         JPanel importParametersPanel = new JPanel();
         tabbedPane.addTab("Import", new ImageIcon(getClass().getResource("/icon/document-open.png")), importParametersPanel, null);
-        GridBagLayout gbl_importParametersPanel = new GridBagLayout();
-        gbl_importParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
-        importParametersPanel.setLayout(gbl_importParametersPanel);
+        GridBagLayout gblImportParametersPanel = new GridBagLayout();
+        gblImportParametersPanel.columnWeights = new double[]{0.1, 0.1, 0.5, 0.1};
+        importParametersPanel.setLayout(gblImportParametersPanel);
 
         JLabel mailImportLabel = new JLabel("Import des messageries");
         mailImportLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -863,7 +882,7 @@ public class PrefsDialog extends JDialog {
         gbc.gridy = 4;
         importParametersPanel.add(diskImportLabel, gbc);
 
-        JScrollPane scrollPane_5 = new JScrollPane();
+        JScrollPane scrollPane5 = new JScrollPane();
         gbc = new GridBagConstraints();
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
@@ -872,11 +891,11 @@ public class PrefsDialog extends JDialog {
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 1;
         gbc.gridy = 5;
-        importParametersPanel.add(scrollPane_5, gbc);
+        importParametersPanel.add(scrollPane5, gbc);
 
         ignorePatternsTextArea = new JTextArea();
         ignorePatternsTextArea.setFont(MainWindow.DETAILS_FONT);
-        scrollPane_5.setViewportView(ignorePatternsTextArea);
+        scrollPane5.setViewportView(ignorePatternsTextArea);
         if (dic.getIgnorePatternList() != null)
             ignorePatternsTextArea.setText(String.join("\n", String.join("\n", dic.getIgnorePatternList())));
 
@@ -956,10 +975,10 @@ public class PrefsDialog extends JDialog {
         JPanel treatmentParametersPanel = new JPanel();
         tabbedPane.addTab("Traitement/Interface", new ImageIcon(getClass().getResource("/icon/edit-find-replace.png")),
                 treatmentParametersPanel, null);
-        GridBagLayout gbl_treatmentParametersPanel = new GridBagLayout();
-        gbl_treatmentParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-        gbl_treatmentParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 1.0};
-        treatmentParametersPanel.setLayout(gbl_treatmentParametersPanel);
+        GridBagLayout gblTreatmentParametersPanel = new GridBagLayout();
+        gblTreatmentParametersPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gblTreatmentParametersPanel.rowWeights = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 1.0};
+        treatmentParametersPanel.setLayout(gblTreatmentParametersPanel);
 
         JLabel workDirLabel = new JLabel("Répertoire de travail");
         workDirLabel.setFont(MainWindow.BOLD_LABEL_FONT);
@@ -1288,6 +1307,7 @@ public class PrefsDialog extends JDialog {
             return false;
         }
         gmc.setMaxNameSize(tmp);
+        gmc.setCsvExtendedFormat(csvExtendedFormatChexBox.isSelected());
         gmc.setManagementMetadataXmlData(managementMetadataTextArea.getText());
         gmc.setMetadataFilterFlag(metadataFilterCheckBox.isSelected());
         gmc.setKeptMetadataList(Arrays.asList(metadataFilterTextArea.getText().split("\\s*\n\\s*"))
