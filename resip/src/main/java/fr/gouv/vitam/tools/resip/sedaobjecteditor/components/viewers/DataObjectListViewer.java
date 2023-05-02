@@ -28,22 +28,17 @@
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.frame.MainWindow;
-import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLDataObjectGroupEditorPanel;
 import fr.gouv.vitam.tools.resip.threads.ExpandThread;
-import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.DataObject;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
+import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 /**
  * The Class DataObjectListViewer.
@@ -73,6 +68,7 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
         DataObjectListViewer list = this;
 
         MouseListener ml = new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 int index = list.locationToIndex(e.getPoint());
                 if (index >= 0) {
@@ -85,7 +81,7 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
                         if (dataObject instanceof BinaryDataObject) {
                             BinaryDataObject bdo = (BinaryDataObject) dataObject;
                             if ((bdo.formatIdentification!=null) &&
-                                    (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.getSimpleMetadata("MimeType")))) {
+                                    (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(bdo.formatIdentification.getSimpleMetadata("FormatId")))) {
                                 JPopupMenu popup = new JPopupMenu();
                                 JMenuItem mi;
                                 mi = new JMenuItem("Remplacer par le décompressé");
@@ -103,6 +99,7 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
         this.addMouseListener(ml);
 
         KeyListener kl = new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if ((e.getKeyCode() == KeyEvent.VK_DELETE) || (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)) {
                     removeDataObject(list.getSelectedValue());

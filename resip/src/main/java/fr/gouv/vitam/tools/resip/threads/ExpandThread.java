@@ -32,7 +32,6 @@ import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.parameters.ZipImportContext;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
@@ -79,12 +78,12 @@ public class ExpandThread extends SwingWorker<String, String> {
         ExpandThread expandThread;
 
         try {
-            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.getTheApp().mainWindow, "Expansion");
+            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.mainWindow, "Expansion");
             expandThread = new ExpandThread(ResipGraphicApp.getTheApp().currentWork, node, bdoToExpand, inOutDialog);
             expandThread.execute();
             inOutDialog.setVisible(true);
         } catch (Throwable e) {
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
+            UserInteractionDialog.getUserAnswer(ResipGraphicApp.mainWindow,
                     "Erreur fatale, impossible de faire l'expansion \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'expansion", e);
@@ -111,15 +110,6 @@ public class ExpandThread extends SwingWorker<String, String> {
         dialog.setThread(this);
     }
 
-    private void setWorkFromDataObjectPackage(DataObjectPackage dataObjectPackage) {
-        work.setDataObjectPackage(dataObjectPackage);
-        ExportContext newExportContext = new ExportContext(Prefs.getInstance());
-        if (dataObjectPackage.getManagementMetadataXmlData() != null)
-            newExportContext.setManagementMetadataXmlData(
-                    dataObjectPackage.getManagementMetadataXmlData());
-        work.setExportContext(newExportContext);
-    }
-
     private void recursiveDelete(File inFile) throws InterruptedException {
         if (inFile.isDirectory()) {
             for (File f : inFile.listFiles())
@@ -136,7 +126,7 @@ public class ExpandThread extends SwingWorker<String, String> {
         String subDir = Paths.get(srcPathName).getFileName().toString() + "-" + id + "-tmpdir";
         String target = workDir + File.separator + subDir;
         if (Files.exists(Paths.get(target))) {
-            UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.getTheApp().mainWindow, workDir, subDir);
+            UsedTmpDirDialog utdd = new UsedTmpDirDialog(ResipGraphicApp.mainWindow, workDir, subDir);
             utdd.setVisible(true);
             if (utdd.getReturnValue() == STATUS_CLEAN) {
                 fileCounter = 0;
@@ -166,7 +156,8 @@ public class ExpandThread extends SwingWorker<String, String> {
         ResipGraphicApp.getTheApp().addThreadRunning = true;
         spl = null;
         try {
-            int localLogLevel, localLogStep;
+            int localLogLevel;
+            int localLogStep;
             if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
                 localLogStep = 1;
@@ -183,16 +174,9 @@ public class ExpandThread extends SwingWorker<String, String> {
 
             doProgressLog(spl, GLOBAL, "Expansion du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.fileInfo.getSimpleMetadata("Filename") + "]", null);
 
-            //TODO add preferences for compressed filename import
-            String encoding;
-            if ((bdoToExpand.formatIdentification != null) &&
-                    (bdoToExpand.formatIdentification.getSimpleMetadata("MimeType").toLowerCase().equals("application/zip")))
-                encoding = "CP850";
-            else
-                encoding = "UTF8";
             ZipImportContext zic = new ZipImportContext(Prefs.getInstance());
             String target = getTmpDirTarget(zic.getWorkDir(), bdoToExpand.getOnDiskPathToString(), bdoToExpand.getInDataObjectPackageId());
-            zi = new CompressedFileToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, encoding, null, spl);
+            zi = new CompressedFileToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, null, null, spl);
             for (String ip : zic.getIgnorePatternList())
                 zi.addIgnorePattern(ip);
             zi.doImport();
@@ -228,9 +212,11 @@ public class ExpandThread extends SwingWorker<String, String> {
             try {
                 targetNode.getArchiveUnit().getDataObjectPackage().removeUnusedDataObjects(spl);
             } catch (InterruptedException ignored) {
+                //ignore
             }
             DataObjectPackageTreeModel treeModel = targetNode.getTreeModel();
-            int auRecursivCount = 0, ogRecursivCount = 0;
+            int auRecursivCount = 0;
+            int ogRecursivCount = 0;
             for (ArchiveUnit au : addedNodes) {
                 treeModel.generateArchiveUnitNode(au, targetNode);
                 auRecursivCount += treeModel.findTreeNode(au).getAuRecursivCount() + 1;
@@ -240,7 +226,7 @@ public class ExpandThread extends SwingWorker<String, String> {
             treeModel.nodeStructureChanged(targetNode);
             work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
-            ResipGraphicApp.getTheApp().mainWindow.treePane.reset();
+            ResipGraphicApp.mainWindow.treePane.reset();
             doProgressLogWithoutInterruption(spl, GLOBAL, "Expansion et ajout terminés", null);
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
         }

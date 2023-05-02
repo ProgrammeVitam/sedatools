@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -179,7 +180,7 @@ public class DroidIdentifier {
                 File targetFile = new File(
                         "." + File.separator + "config" + File.separator + DROID_SIGNATURE_FILE);
                 System.out.println("is=" + is + " toPath=" + targetFile.toPath());
-                java.nio.file.Files.copy(is, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(is, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new SEDALibException("Panic! Can't extract a DROID signature file, stop");
             }
@@ -257,7 +258,7 @@ public class DroidIdentifier {
                     .getResourceAsStream(CONTAINER_SIGNATURE_FILE)) {
                 File targetFile = new File(
                         "." + File.separator + "config" + File.separator + CONTAINER_SIGNATURE_FILE);
-                java.nio.file.Files.copy(is, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                Files.copy(is, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new SEDALibException("Panic! Can't extract a DROID signature file, stop");
             }
@@ -543,5 +544,27 @@ public class DroidIdentifier {
             // if no matching extension choose the first in the list
             return irl.get(0);
         }
+    }
+
+    /**
+     * Select best identification result PUID.
+     *
+     * @param filename the file name
+     * @return the best identification result puid, or null if the list was empty
+     */
+    public static String getFileDroidFormat(String filename)
+            throws SEDALibException {
+        Path onDiskPath = null;
+        String droidFormat;
+
+        try {
+            onDiskPath = Paths.get(filename);
+            IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(onDiskPath);
+            droidFormat = ir.getPuid();
+        } catch (SEDALibException e) {
+            throw new SEDALibException("Impossible de faire l'identification de format Droid pour le fichier ["
+                    + onDiskPath + "]", e);
+        }
+        return droidFormat;
     }
 }

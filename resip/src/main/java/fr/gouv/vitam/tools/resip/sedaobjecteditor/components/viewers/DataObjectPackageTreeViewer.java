@@ -29,10 +29,8 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.DustbinItem;
-import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.TreeDataObjectPackageEditorPanel;
-import fr.gouv.vitam.tools.resip.threads.AddThread;
 import fr.gouv.vitam.tools.resip.threads.ExpandThread;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
@@ -80,7 +78,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                         (dog.getBinaryDataObjectList() != null) && (dog.getBinaryDataObjectList().size() == 1)) {
                     BinaryDataObject bdo = dog.getBinaryDataObjectList().get(0);
                     if ((bdo.formatIdentification!=null) &&
-                            (CompressedFileToArchiveTransferImporter.isKnownCompressedMimeType(bdo.formatIdentification.getSimpleMetadata("MimeType")))) {
+                            (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(bdo.formatIdentification.getSimpleMetadata("FormatId")))) {
                         return bdo;
                     }
                  }
@@ -102,6 +100,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         DataObjectPackageTreeViewer thisSTV = this;
 
         MouseListener ml = new MouseAdapter() {
+            @Override
             public void mousePressed(MouseEvent e) {
                 TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
                 if (selPath != null) {
@@ -111,7 +110,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
                     } else if (SwingUtilities.isRightMouseButton(e) && (stn.getParents() != null)) {
 
                         JPopupMenu popup = new JPopupMenu();
-                        popupSTN = new ArrayList<DataObjectPackageTreeNode>(5);
+                        popupSTN = new ArrayList<>(5);
                         popupSTN.add(stn);
                         JMenuItem mi;
                         boolean asParents=false;
@@ -163,6 +162,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         this.addMouseListener(ml);
 
         KeyListener kl = new KeyAdapter() {
+            @Override
             public void keyPressed(KeyEvent e) {
                 if ((e.getKeyCode() == KeyEvent.VK_DELETE) || (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)) {
                     if (tree.getSelectionPaths() != null) {
@@ -192,7 +192,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         setDragEnabled(true);
         setDropMode(DropMode.ON);
         setTransferHandler(new DataObjectPackageTreeTransferHandler(this));
-        getSelectionModel().setSelectionMode(TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);//.SINGLE_TREE_SELECTION);
+        getSelectionModel().setSelectionMode(TreeSelectionModel.CONTIGUOUS_TREE_SELECTION);
 
         this.longDataObjectPackageTreeItemName = false;
     }
@@ -321,9 +321,11 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      * @param targetPath the target path
      */
     public void addLink(TreePath addPath, TreePath targetPath) {
-        ArchiveUnit addAU, targetAU;
+        ArchiveUnit addAU;
+        ArchiveUnit targetAU;
         DataObject addDo;
-        DataObjectPackageTreeNode targetNode, addNode;
+        DataObjectPackageTreeNode targetNode;
+        DataObjectPackageTreeNode addNode;
         targetAU = ((DataObjectPackageTreeNode) targetPath.getLastPathComponent()).getArchiveUnit();
         targetNode = (DataObjectPackageTreeNode) targetPath.getLastPathComponent();
         addAU = ((DataObjectPackageTreeNode) addPath.getLastPathComponent()).getArchiveUnit();
@@ -371,7 +373,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      * @return the expansion state
      */
     public Map<TreePath, Boolean> getExpansionState() {
-        Map<TreePath, Boolean> expansionState = new HashMap<TreePath, Boolean>();
+        Map<TreePath, Boolean> expansionState = new HashMap<>();
         TreePath treePath;
         for (int i = 0; i < getRowCount(); i++) {
             try {
@@ -392,7 +394,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      */
     public void setExpansionState(Map<TreePath, Boolean> expansionState) {
         for (Map.Entry<TreePath, Boolean> e : expansionState.entrySet()) {
-            if (e.getValue())
+            if (Boolean.TRUE.equals(e.getValue()))
                 expandPath(e.getKey());
         }
     }
@@ -475,9 +477,11 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      * @param confirmFlag the confirm flag
      */
     public void removeSubTree(TreePath removePath, boolean confirmFlag) {
-        ArchiveUnit childAU, fatherAU;
+        ArchiveUnit childAU;
+        ArchiveUnit fatherAU;
         DataObject childDo;
-        DataObjectPackageTreeNode childNode, fatherNode;
+        DataObjectPackageTreeNode childNode;
+        DataObjectPackageTreeNode fatherNode;
         childNode = ((DataObjectPackageTreeNode) removePath.getLastPathComponent());
         fatherNode = ((DataObjectPackageTreeNode) removePath.getParentPath().getLastPathComponent());
         childAU = ((DataObjectPackageTreeNode) removePath.getLastPathComponent()).getArchiveUnit();
@@ -525,9 +529,6 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
      * @param targetPath the target path
      */
     public void addArchiveUnit(TreePath targetPath) {
-        ArchiveUnit targetAU;
-        AddThread addThread;
-
         DataObjectPackageTreeNode targetNode;
         if (targetPath == null)
             targetNode = (DataObjectPackageTreeNode) getModel().getRoot();

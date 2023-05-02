@@ -34,12 +34,13 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.sevenz.SevenZFile;
 import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.compressors.bzip2.BZip2CompressorInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
-import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -70,14 +71,55 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
 public class CompressedFileToArchiveTransferImporter {
 
     /**
-     * The zip file.
+     * Wrap org.apache.commons.compress SevenZFile to have same ArchiveInputStream behavior
      */
-    private String zipFile;
+    private static class SevenZWrapper extends ArchiveInputStream {
+        private SevenZFile file;
+
+        private SevenZWrapper(SevenZFile file) {
+            this.file = file;
+        }
+
+        @Override
+        public int read() throws IOException {
+            return file.read();
+        }
+
+        @Override
+        public int read(byte[] b) throws IOException {
+            return file.read(b);
+        }
+
+        @Override
+        public int read(byte[] b, int off, int len) throws IOException {
+            return file.read(b, off, len);
+        }
+
+        @Override
+        public ArchiveEntry getNextEntry() throws IOException {
+            return file.getNextEntry();
+        }
+
+        @Override
+        public void close() throws IOException {
+            file.close();
+        }
+    }
+
+    /**
+     * The compressed file.
+     */
+    private final String compressedFile;
 
     /**
      * The un compress directory.
      */
     private String unCompressDirectory;
+
+    /**
+     * The droidFormat.
+     */
+    private String droidFormat;
 
     /**
      * The encoding charset.
@@ -87,12 +129,12 @@ public class CompressedFileToArchiveTransferImporter {
     /**
      * The lambda function to extract title from file name.
      */
-    private Function<String, String> extractTitleFromFileNameFunction;
+    private final Function<String, String> extractTitleFromFileNameFunction;
 
     /**
      * The ignore patterns Strings.
      */
-    private List<String> ignorePatternStrings;
+    private final List<String> ignorePatternStrings;
 
     /**
      * The archive transfer.
@@ -107,7 +149,7 @@ public class CompressedFileToArchiveTransferImporter {
     /**
      * The on disk root paths.
      */
-    private List<Path> onDiskRootPaths;
+    private final List<Path> onDiskRootPaths;
 
     /**
      * The GlobalMetaData file path .
@@ -115,123 +157,124 @@ public class CompressedFileToArchiveTransferImporter {
     private Path onDiskGlobalMetadataPath;
 
     /**
-     * The start and end instants, for duration computation.
+     * The start instant, for duration computation.
      */
-    Instant start, /**
-     * The End.
+    Instant start;
+
+    /**
+     * The end instant, for duration computation.
      */
-    end;
+    Instant end;
 
     /**
      * The progress logger.
      */
-    private SEDALibProgressLogger sedaLibProgressLogger;
+    private final SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
      * The constant ZIP.
      */
-    public static final String ZIP = "application/zip";
+    public static final String ZIP = "x-fmt/263";
     /**
      * The constant TAR.
      */
-    public static final String TAR = "application/x-tar";
-    /**
-     * The constant XGZIP.
-     */
-    public static final String XGZIP = "application/x-gzip";
+    public static final String TAR = "x-fmt/265";
     /**
      * The constant GZIP.
      */
-    public static final String GZIP = "application/gzip";
+    public static final String GZIP = "x-fmt/266";
     /**
      * The constant BZIP2.
      */
-    public static final String BZIP2 = "application/x-bzip2";
+    public static final String BZIP2 = "x-fmt/268";
+    /**
+     * The constant SEVENZIP.
+     */
+    public static final String SEVENZIP = "fmt/484";
 
     /**
-     * Test if mimetype is a known compressed format.
+     * Test if droid format is of a known compressed format.
      *
-     * @param mimeType the mime type
-     * @return the string
+     * @param droidFormat the Droid format
+     * @return true or false
      */
-    public static boolean isKnownCompressedMimeType(String mimeType) {
-        if (mimeType==null)
-            return false;
-        switch (mimeType) {
-            case ZIP:
-            case TAR:
-            case XGZIP:
-            case GZIP:
-            case BZIP2:
-                return true;
-            default:
-                return false;
+    public static boolean isKnownCompressedDroidFormat(String droidFormat) {
+        if (droidFormat != null) {
+            switch (droidFormat) {
+                case ZIP:
+                case TAR:
+                case GZIP:
+                case BZIP2:
+                case SEVENZIP:
+                    return true;
+                default:
+                    return false;
+            }
         }
+        return false;
     }
 
-    private ArchiveInputStream createArchiveInputStream(String filename)
-            throws SEDALibException, InterruptedException {
+    private ArchiveInputStream createArchiveInputStream()
+            throws SEDALibException {
         Path onDiskPath = null;
-        String mimeType;
-        FileInputStream fis=null;
-        ArchiveInputStream ais=null;
+        FileInputStream fis = null;
+        ArchiveInputStream ais;
 
         try {
-            onDiskPath = Paths.get(filename);
-            IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(onDiskPath);
-            mimeType = ir.getMimeType();
-        } catch (SEDALibException e) {
-            throw new SEDALibException("Impossible de faire l'identification de format Droid pour le fichier compressé ["
-                    + onDiskPath.toString() + "]", e);
-        }
-
-        try {
-            fis = new FileInputStream(filename);
-            switch (mimeType) {
+            onDiskPath = Paths.get(compressedFile);
+            switch (droidFormat) {
                 case ZIP:
-                    ais= new ZipArchiveInputStream(fis,encoding);
+                    fis = new FileInputStream(compressedFile); // NOSONAR
+                    ais = new ZipArchiveInputStream(fis, encoding); // NOSONAR
                     break;
                 case TAR:
-                    ais= new TarArchiveInputStream(fis,encoding);
+                    fis = new FileInputStream(compressedFile); // NOSONAR
+                    ais = new TarArchiveInputStream(fis, encoding); // NOSONAR
                     break;
-                case XGZIP:
                 case GZIP:
-                    ais= new TarArchiveInputStream(new GzipCompressorInputStream(fis),encoding);
+                    fis = new FileInputStream(compressedFile); // NOSONAR
+                    ais = new TarArchiveInputStream(new GzipCompressorInputStream(fis), encoding); // NOSONAR
                     break;
                 case BZIP2:
-                    ais= new TarArchiveInputStream(new BZip2CompressorInputStream(fis),encoding);
+                    fis = new FileInputStream(compressedFile); // NOSONAR
+                    ais = new TarArchiveInputStream(new BZip2CompressorInputStream(fis), encoding); // NOSONAR
+                    break;
+                case SEVENZIP:
+                    ais = new SevenZWrapper(new SevenZFile(new File(compressedFile))); // NOSONAR
                     break;
                 default:
-                    throw new SEDALibException("Format " + mimeType + " de compression inconnu.");
+                    throw new SEDALibException("Format " + droidFormat + " de compression inconnu.");
             }
-            if (ais==null)
-                    fis.close();
         } catch (IOException e) {
+            if (fis != null) {
+                try {
+                    fis.close();
+                } catch (IOException ex) {
+                    //ignore
+                }
+            }
             throw new SEDALibException("Impossible d'ouvrir le fichier compressé ["
                     + onDiskPath.toString() + "]", e);
         }
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,"mimetype=" + mimeType, null);
         return ais;
     }
 
-    private void unCompressContainer(String containerFile, String outputFolder)
+    private void unCompressContainer()
             throws SEDALibException, InterruptedException {
         int counter = 0;
 
-        try (final ArchiveInputStream archiveInputStream = createArchiveInputStream(containerFile)) {
+        try (final ArchiveInputStream archiveInputStream = createArchiveInputStream()) {
             ArchiveEntry entry;
-
-            outputFolder = Paths.get(outputFolder).toAbsolutePath().normalize().toString();
 
             while ((entry = archiveInputStream.getNextEntry()) != null) {
                 if (archiveInputStream.canReadEntryData(entry)) {
                     String entryName = entry.getName();
                     if (entryName.contains("?")) {
                         entryName = entryName.replace("?", "_");
-                        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL,
-                                "Le nom du fichier [" + entryName + "] a un problème d'encodage, le(s) caratère(s) problématique à été rempalcé par _ ", null);
+                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,
+                                "Le nom du fichier [" + entryName + "] a un problème d'encodage, le(s) caractère(s) problématique à été rempalcé par _ ", null);
                     }
-                    final Path target = Paths.get(outputFolder, entryName);
+                    final Path target = Paths.get(unCompressDirectory, entryName);
                     final Path parent = target.getParent();
 
                     if (parent != null && !Files.exists(parent)) {
@@ -251,38 +294,41 @@ public class CompressedFileToArchiveTransferImporter {
                 }
             }
         } catch (final IOException e) {
-            throw new SEDALibException("Impossible d'extraire le fichier compressé [" + containerFile + "]", e);
+            throw new SEDALibException("Impossible d'extraire le fichier compressé [" + compressedFile + "]", e);
         }
     }
 
     /**
-     * Instantiates a new zip file importer.
+     * Instantiates a new compressed file importer.
      *
-     * @param zipFile                          the zip file
-     * @param unCompressDirectory              the directory where the zipfile is uncompressed
-     * @param encoding                         the encoding charset
+     * @param compressedFile                   the compressed file
+     * @param unCompressDirectory              the directory where the compressedfile is uncompressed
+     * @param encoding                         the filename encoding charset, if null will be determine considering
+     *                                         the compressed file format
      * @param extractTitleFromFileNameFunction the extract title from file name function
      * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      * @throws SEDALibException if file or directory doesn't exist
      */
-    public CompressedFileToArchiveTransferImporter(String zipFile, String unCompressDirectory, String encoding,
+    public CompressedFileToArchiveTransferImporter(String compressedFile, String unCompressDirectory, String encoding,
                                                    Function<String, String> extractTitleFromFileNameFunction,
                                                    SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
-        Path zipFilePath, unCompressDirectoryPath;
+        Path compressedFilePath;
+        Path unCompressDirectoryPath;
 
         this.onDiskGlobalMetadataPath = null;
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.extractTitleFromFileNameFunction = extractTitleFromFileNameFunction;
         this.diskToDataObjectPackageImporter = null;
         this.archiveTransfer = null;
-        this.zipFile = zipFile;
-        this.encoding=encoding;
+        this.compressedFile = compressedFile;
+        this.droidFormat = "";
+        this.encoding = encoding;
         this.ignorePatternStrings = new ArrayList<>();
         this.onDiskRootPaths = new ArrayList<>();
 
-        zipFilePath = Paths.get(zipFile);
-        if (!Files.isRegularFile(zipFilePath, java.nio.file.LinkOption.NOFOLLOW_LINKS))
-            throw new SEDALibException("Le chemin [" + zipFile + "] pointant vers le zip ne désigne pas un fichier");
+        compressedFilePath = Paths.get(compressedFile);
+        if (!Files.isRegularFile(compressedFilePath, java.nio.file.LinkOption.NOFOLLOW_LINKS))
+            throw new SEDALibException("Le chemin [" + compressedFile + "] pointant vers le fichier compressé ne désigne pas un fichier");
         unCompressDirectoryPath = Paths.get(unCompressDirectory).toAbsolutePath();
         this.unCompressDirectory = unCompressDirectoryPath.normalize().toString();
         if (!Files.exists(unCompressDirectoryPath))
@@ -324,9 +370,10 @@ public class CompressedFileToArchiveTransferImporter {
     }
 
     /**
-     * Do import the zip file to ArchiveTransfer.
+     * Do import the compressed file to ArchiveTransfer.
      *
-     * @throws SEDALibException     if the XML manifest can't be read or is not in expected                              form, or zip file can't be uncompressed
+     * @throws SEDALibException     if the XML manifest can't be read or is not in expected
+     * form, or compressed file can't be uncompressed
      * @throws InterruptedException if export process is interrupted
      */
     public void doImport() throws SEDALibException, InterruptedException {
@@ -336,11 +383,22 @@ public class CompressedFileToArchiveTransferImporter {
         Date d = new Date();
         start = Instant.now();
         String log = "sedalib: début de l'import du fichier compressé\n";
-        log += "en [" + zipFile + "]\n";
+        log += "en [" + compressedFile + "]\n";
         log += " date=" + DateFormat.getDateTimeInstance().format(d);
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
-        unCompressContainer(zipFile, unCompressDirectory);
+        droidFormat = DroidIdentifier.getFileDroidFormat(compressedFile);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: droidFormat=" + droidFormat, null);
+
+        // determine encoding from the compressed format
+        if (encoding == null) {
+            if (ZIP.equals(droidFormat))
+                encoding = "CP850";
+            else
+                encoding = "UTF8";
+        }
+
+        unCompressContainer();
 
         path = Paths.get(unCompressDirectory);
         try (Stream<Path> sp = Files.list(path)) {
@@ -370,7 +428,7 @@ public class CompressedFileToArchiveTransferImporter {
         archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
 
         end = Instant.now();
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: import d'un ArchiveTransfer depuis un fichier zip sur disque terminé", null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: import d'un ArchiveTransfer depuis un fichier compressé sur disque terminé", null);
     }
 
     /**
