@@ -28,6 +28,10 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedalib.metadata.Operation;
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.InnerIdentifierType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -35,6 +39,7 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 
 /**
@@ -61,6 +66,41 @@ public class ArchiveDeliveryRequestReply {
      * The inner DataObjects and ArchiveUnit structure.
      */
     private DataObjectPackage dataObjectPackage;
+
+    /**
+     * The Reply Code.
+     */
+    private StringType replyCode;
+
+    /**
+     * The Operation.
+     */
+    private Operation operation;
+
+    /**
+     * The Message Request Identifier.
+     */
+    private StringType messageRequestIdentifier;
+
+    /**
+     * The Authorization Request Reply Identifier.
+     */
+    private StringType authorizationRequestReplyIdentifier;
+
+    /**
+     * The Unit Identifier.
+     */
+    private StringType unitIdentifier;
+
+    /**
+     * The Archival Agency Identifier.
+     */
+    private InnerIdentifierType archivalAgency;
+
+    /**
+     * The Requester Identifier.
+     */
+    private InnerIdentifierType requester;
 
     // Constructors
 
@@ -122,7 +162,8 @@ public class ArchiveDeliveryRequestReply {
      */
 
     private static void importHeader(SEDAXMLEventReader xmlReader,
-                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply, SEDALibProgressLogger sedaLibProgressLogger) throws InterruptedException {
+                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply,
+                                     SEDALibProgressLogger sedaLibProgressLogger) throws InterruptedException {
         try {
             archiveDeliveryRequestReply.globalMetadata.comment = xmlReader.nextValueIfNamed("Comment");
             archiveDeliveryRequestReply.globalMetadata.date = xmlReader.nextMandatoryValue("Date");
@@ -135,7 +176,6 @@ public class ArchiveDeliveryRequestReply {
             archiveDeliveryRequestReply.globalMetadata
                     .codeListVersionsXmlData = xmlReader.nextMandatoryBlockAsString("CodeListVersions");
         } catch (XMLStreamException | SEDALibException e) {
-            // TODO to correct when VITAM DIP will use more elements
             doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.STEP,
                     "sedalib: l'entête n'est pas conforme à un ArchiveDeliveryRequestReply, mais la tentative d'analyse continue",null);
             archiveDeliveryRequestReply.globalMetadata = null;
@@ -151,30 +191,48 @@ public class ArchiveDeliveryRequestReply {
      * @throws SEDALibException if the XML can't be read or is not in expected form
      */
     private static void importFooter(SEDAXMLEventReader xmlReader,
-                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply) throws SEDALibException { //NOSONAR
-        // this parameter may be useful in future if this function is improved
+                                     ArchiveDeliveryRequestReply archiveDeliveryRequestReply,
+                                     SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException { //NOSONAR
         try {
-            if (xmlReader.peekBlockIfNamed("ReplyCode"))
-                throw new SEDALibException(
-                        "L'élément ReplyCode dans ArchiveDeliveryRequestReply n'est pas supporté à ce stade");
-            if (xmlReader.peekBlockIfNamed("Operation"))
-                throw new SEDALibException(
-                        "L'élément Operation dans ArchiveDeliveryRequestReply n'est pas supporté à ce stade");
-            if (xmlReader.peekBlockIfNamed("MessageRequestIdentifier"))
-                throw new SEDALibException(
-                        "L'élément MessageRequestIdentifier dans ArchiveDeliveryRequestReply n'est pas supporté à ce stade");
-            if (xmlReader.peekBlockIfNamed("AuthorizationRequestReplyIdentifier"))
-                throw new SEDALibException(
-                        "L'élément AuthorizationRequestReplyIdentifier dans ArchiveDeliveryRequestReply n'est pas supporté à ce stade");
-            if (xmlReader.peekBlockIfNamed("UnitIdentifier"))
-                throw new SEDALibException(
-                        "L'élément UnitIdentifier dans ArchiveDeliveryRequestReply n'est pas supporté à ce stade");
-            if (xmlReader.peekBlockIfNamed("ArchivalAgency"))
-                throw new SEDALibException(
-                        "L'élément ArchivalAgency dans ArchiveDeliveryRequestReply n'est pas supporté à ce stade");
-            if (xmlReader.peekBlockIfNamed("Requester"))
-                throw new SEDALibException(
-                        "L'élément Requester dans ArchiveDeliveryRequestReply n'est pas supporté à ce stade");
+            SEDALibProgressLogger.doProgressLog(sedaLibProgressLogger, GLOBAL,
+                    "sedalib: début du bloc de fin spécifique du DIP", null);
+            if (xmlReader.peekBlockIfNamed("ReplyCode")) {
+                archiveDeliveryRequestReply.replyCode = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
+                SEDALibProgressLogger.doProgressLog(sedaLibProgressLogger, GLOBAL,
+                        archiveDeliveryRequestReply.replyCode.toString(), null);
+            }
+            if (xmlReader.peekBlockIfNamed("Operation")) {
+                archiveDeliveryRequestReply.operation = (Operation) SEDAMetadata.fromSedaXml(xmlReader, Operation.class);
+                SEDALibProgressLogger.doProgressLog(sedaLibProgressLogger, GLOBAL,
+                        archiveDeliveryRequestReply.operation.toString(), null);
+            }
+            if (xmlReader.peekBlockIfNamed("MessageRequestIdentifier")) {
+                archiveDeliveryRequestReply.messageRequestIdentifier = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
+                SEDALibProgressLogger.doProgressLog(sedaLibProgressLogger, GLOBAL,
+                        archiveDeliveryRequestReply.messageRequestIdentifier.toString(), null);
+            }
+            if (xmlReader.peekBlockIfNamed("AuthorizationRequestReplyIdentifier")) {
+                archiveDeliveryRequestReply.authorizationRequestReplyIdentifier = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
+                SEDALibProgressLogger.doProgressLog(sedaLibProgressLogger, GLOBAL,
+                        archiveDeliveryRequestReply.authorizationRequestReplyIdentifier.toString(), null);
+            }
+            if (xmlReader.peekBlockIfNamed("UnitIdentifier")) {
+                archiveDeliveryRequestReply.unitIdentifier = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
+                SEDALibProgressLogger.doProgressLog(sedaLibProgressLogger, GLOBAL,
+                        archiveDeliveryRequestReply.unitIdentifier.toString(), null);
+            }
+            if (xmlReader.peekBlockIfNamed("ArchivalAgency")) {
+                archiveDeliveryRequestReply.archivalAgency = (InnerIdentifierType) SEDAMetadata.fromSedaXml(xmlReader, InnerIdentifierType.class);
+                SEDALibProgressLogger.doProgressLog(sedaLibProgressLogger, GLOBAL,
+                        archiveDeliveryRequestReply.archivalAgency.toString(), null);
+            }
+            if (xmlReader.peekBlockIfNamed("Requester")) {
+                archiveDeliveryRequestReply.requester = (InnerIdentifierType) SEDAMetadata.fromSedaXml(xmlReader, InnerIdentifierType.class);
+                SEDALibProgressLogger.doProgressLog(sedaLibProgressLogger, GLOBAL,
+                        archiveDeliveryRequestReply.requester.toString(), null);
+            }
+            SEDALibProgressLogger.doProgressLog(sedaLibProgressLogger, GLOBAL,
+                    "sedalib: fin du bloc de fin spécifique du DIP", null);
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture de la fin du manifest", e);
         }
@@ -221,13 +279,12 @@ public class ArchiveDeliveryRequestReply {
         archiveDeliveryRequestReply = new ArchiveDeliveryRequestReply();
         archiveDeliveryRequestReply.setGlobalMetadata(new GlobalMetadata());
         importHeader(xmlReader, archiveDeliveryRequestReply, sedaLibProgressLogger);
-        archiveDeliveryRequestReply
-                .setDataObjectPackage(DataObjectPackage.fromSedaXml(xmlReader, rootDir, sedaLibProgressLogger));
-        importFooter(xmlReader, archiveDeliveryRequestReply);
+        archiveDeliveryRequestReply.setDataObjectPackage(DataObjectPackage.fromSedaXml(xmlReader, rootDir, sedaLibProgressLogger));
+        importFooter(xmlReader, archiveDeliveryRequestReply, sedaLibProgressLogger);
         importEndDocument(xmlReader, archiveDeliveryRequestReply);
 
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.STEP,
-                "sedalib: archiveDeliveryRequestReply importé",null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP,
+                "sedalib: archiveDeliveryRequestReply importé", null);
 
         return archiveDeliveryRequestReply;
     }
