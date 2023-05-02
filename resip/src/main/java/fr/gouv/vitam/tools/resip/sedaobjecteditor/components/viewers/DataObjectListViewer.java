@@ -27,9 +27,11 @@
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
+import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.XMLDataObjectGroupEditorPanel;
 import fr.gouv.vitam.tools.resip.threads.ExpandThread;
+import fr.gouv.vitam.tools.resip.threads.MailExtractThread;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
@@ -51,9 +53,9 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
     protected XMLDataObjectGroupEditorPanel container;
 
     /**
-     * The uncompress BinaryDataObject.
+     * The uncompress or extract BinaryDataObject.
      */
-    private BinaryDataObject uncompressedBdo;
+    private BinaryDataObject actionBdo;
 
 
     /**
@@ -87,7 +89,18 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
                                 mi = new JMenuItem("Remplacer par le décompressé");
                                 mi.addActionListener(list);
                                 mi.setActionCommand("Expand");
-                                list.uncompressedBdo=bdo;
+                                list.actionBdo =bdo;
+                                popup.add(mi);
+                                popup.show((Component) e.getSource(), e.getX(), e.getY());
+                            }
+                            if ((bdo.formatIdentification!=null) &&
+                                    (StoreExtractor.getProtocolFromDroidFormat(bdo.formatIdentification.getSimpleMetadata("FormatId"))!=null)) {
+                                JPopupMenu popup = new JPopupMenu();
+                                JMenuItem mi;
+                                mi = new JMenuItem("Remplacer par l'extraction des messages");
+                                mi.addActionListener(list);
+                                mi.setActionCommand("MailExtract");
+                                list.actionBdo =bdo;
                                 popup.add(mi);
                                 popup.show((Component) e.getSource(), e.getX(), e.getY());
                             }
@@ -167,7 +180,10 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
     @Override
     public void actionPerformed(ActionEvent ae) {
         if (ae.getActionCommand().equals("Expand")) {
-            ExpandThread.launchExpandThread(ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(), uncompressedBdo);
+            ExpandThread.launchExpandThread(ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(), actionBdo);
+        }
+        else if (ae.getActionCommand().equals("MailExtract")) {
+            MailExtractThread.launchMailExtractThread(ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(), actionBdo);
         }
     }
 

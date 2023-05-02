@@ -47,8 +47,8 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
      * <p>
      * This is in default list.
      */
-    static public void subscribeStoreExtractor() {
-        addExtractionRelation(null, "pst.embeddedmsg", false, PstEmbeddedStoreExtractor.class);
+    public static void subscribeStoreExtractor() {
+        addExtractionRelation(null, null,"pst.embeddedmsg", false, PstEmbeddedStoreExtractor.class);
     }
 
     // Attachment to complete with decoded form
@@ -89,6 +89,4 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
     public boolean canExtractObjectsLists() {
         return false;
     }
-
-    ;
 }

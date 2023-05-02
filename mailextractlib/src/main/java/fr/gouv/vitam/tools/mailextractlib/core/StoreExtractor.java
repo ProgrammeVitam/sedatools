@@ -169,7 +169,7 @@ public abstract class StoreExtractor {
     /**
      * The formatter used for zoned date conversion to String
      */
-    static public final DateTimeFormatter ISO_8601 = new DateTimeFormatterBuilder()
+    public static final DateTimeFormatter ISO_8601 = new DateTimeFormatterBuilder()
                 .append(ISO_LOCAL_DATE_TIME)
                 .optionalStart()
                 .appendOffsetId()
@@ -179,19 +179,24 @@ public abstract class StoreExtractor {
     /**
      * The map of mimetypes/scheme known relations.
      */
-    static HashMap<String, String> mimeTypeSchemeMap = new HashMap<String, String>();
+    static HashMap<String, String> mimeTypeSchemeMap = new HashMap<>();
+
+    /**
+     * The map of droidformat/scheme known relations.
+     */
+    static HashMap<String, String> droidFormatSchemeMap = new HashMap<>();
 
     /**
      * The map of scheme/extractor class known relations.
      */
     @SuppressWarnings("rawtypes")
-    static HashMap<String, Class> schemeStoreExtractorClassMap = new HashMap<String, Class>();
+    static HashMap<String, Class> schemeStoreExtractorClassMap = new HashMap<>();
 
     /**
      * The map of scheme/container extraction (vs single file extraction) known
      * relations.
      */
-    static HashMap<String, Boolean> schemeContainerMap = new HashMap<String, Boolean>();
+    static HashMap<String, Boolean> schemeContainerMap = new HashMap<>();
 
     /**
      * Subscribes all defaults store extractor.
@@ -271,7 +276,8 @@ public abstract class StoreExtractor {
     private long totalRawSize;
 
     // private field for time statistics
-    private Instant start, end;
+    private Instant start;
+    private Instant end;
 
     // private object extraction root folder in store
     private StoreFolder rootStoreFolder;
@@ -321,12 +327,24 @@ public abstract class StoreExtractor {
      * @param extractor   the extractor
      */
     @SuppressWarnings("rawtypes")
-    public static void addExtractionRelation(String mimeType, String scheme, boolean isContainer, Class extractor) {
+    public static void addExtractionRelation(String mimeType, String droidFormat, String scheme, boolean isContainer, Class extractor) {
         // if there is a file mimetype for this scheme
         if (mimeType != null)
             mimeTypeSchemeMap.put(mimeType, scheme);
+        if (droidFormat != null)
+            droidFormatSchemeMap.put(droidFormat, scheme);
         schemeStoreExtractorClassMap.put(scheme, extractor);
         schemeContainerMap.put(scheme, isContainer);
+    }
+
+    /**
+     * Get protocol if droid format is a mail format ready for extraction.
+     *
+     * @param droidFormat the Droid format
+     * @return the protocol
+     */
+    public static String getProtocolFromDroidFormat(String droidFormat) {
+        return droidFormatSchemeMap.get(droidFormat);
     }
 
     /**
@@ -339,7 +357,7 @@ public abstract class StoreExtractor {
      * @param path      Path to the ressource
      * @return the string
      */
-    static public String composeStoreURL(String scheme, String authority, String user, String password, String path) {
+    public static String composeStoreURL(String scheme, String authority, String user, String password, String path) {
         String result = null;
 
         try {
@@ -535,9 +553,9 @@ public abstract class StoreExtractor {
 
         this.description = ":p:" + scheme + ":u:" + user;
 
-        globalListsPSMap = new HashMap<String, PrintStream>();
-        elementsCounterMap = new HashMap<String, Integer>();
-        subElementsCounterMap = new HashMap<String, Integer>();
+        globalListsPSMap = new HashMap<>();
+        elementsCounterMap = new HashMap<>();
+        subElementsCounterMap = new HashMap<>();
 
         doProgressLogIfDebug(logger,"StoreExtractor ["+this+"] created with url="+urlString+
                 " rootFolder="+rootStoreFolderName+" destPath="+destPathString+" rootExtractor="+rootStoreExtractor,null);
@@ -655,18 +673,6 @@ public abstract class StoreExtractor {
     public long getTotalRawSize() {
         return totalRawSize;
     }
-
-    // /**
-    // * Checks for options.
-    // *
-    // * @param flags
-    // * constant values (CONST_...) |/+ composition
-    // * @return true, if successful
-    // */
-    // public boolean hasOptions(int flags) {
-    // return (options & flags) != 0;
-    // }
-    //
 
     /**
      * Gets the extraction context description.
@@ -902,24 +908,25 @@ public abstract class StoreExtractor {
      * @throws InterruptedException    the interrupted exception
      */
     public void listAllFolders(boolean stats) throws MailExtractLibException, InterruptedException {
-        String time, tmp;
+        String time;
+        String tmp;
         Duration d;
 
-        Instant start = Instant.now();
+        start = Instant.now();
 
         writeTargetLog();
         doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: listing begin", null);
 
         rootStoreFolder.listFolder(stats);
 
-        Instant end = Instant.now();
+        end = Instant.now();
         System.out.println("--------------------------------------------------------------------------------");
 
         d = Duration.between(start, end);
         time = String.format("%dm%02ds", d.toMinutes(), d.minusMinutes(d.toMinutes()).getSeconds());
         tmp = String.format("mailextractlib: terminated in %s listing %d folders", time, getElementCounter(StoreFolder.class, false));
         if (stats) {
-            tmp += String.format(" with %d messages, for %.2f MBytes",
+            tmp += String.format(" with %s messages, for %.2f MBytes",
                     Integer.toString(getElementCounter(StoreMessage.class, false)), ((double) getTotalRawSize()) / (1024.0 * 1024.0));
         }
 
@@ -974,7 +981,7 @@ public abstract class StoreExtractor {
      *
      * @return the attachment
      */
-    abstract public StoreAttachment getAttachment();
+    public abstract StoreAttachment getAttachment();
 
     /**
      * Tests if this store extractor can generate objects lists
@@ -982,7 +989,7 @@ public abstract class StoreExtractor {
      *
      * @return the flag true or false
      */
-    abstract public boolean canExtractObjectsLists();
+    public abstract boolean canExtractObjectsLists();
 
     /**
      * Gets the scheme if this content can be managed by this StoreExtractor, or

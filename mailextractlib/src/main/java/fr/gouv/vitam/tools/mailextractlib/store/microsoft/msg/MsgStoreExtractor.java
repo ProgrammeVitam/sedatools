@@ -51,9 +51,9 @@ public class MsgStoreExtractor extends StoreExtractor {
      * <p>
      * This is in default list.
      */
-    static public void subscribeStoreExtractor() {
-        addExtractionRelation("application/vnd.ms-outlook", "msg", false, MsgStoreExtractor.class);
-        addExtractionRelation(null, "msg.embeddedmsg", false, MsgStoreExtractor.class);
+    public static void subscribeStoreExtractor() {
+        addExtractionRelation("application/vnd.ms-outlook", "x-fmt/430","msg", false, MsgStoreExtractor.class);
+        addExtractionRelation(null, null,"msg.embeddedmsg", false, MsgStoreExtractor.class);
     }
 
     // Attachment to complete with decoded form
@@ -138,8 +138,6 @@ public class MsgStoreExtractor extends StoreExtractor {
     public boolean canExtractObjectsLists() {
         return false;
     }
-
-    ;
 
     /**
      * The Constant MSG_MN.
