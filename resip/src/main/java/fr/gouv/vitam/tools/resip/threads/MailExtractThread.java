@@ -47,6 +47,7 @@ import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -237,8 +238,14 @@ public class MailExtractThread extends SwingWorker<String, String> {
                 DataObjectGroup dog = (DataObjectGroup) dataObject;
                 dog.removeDataObject(bdoToExpand);
                 if (((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
-                        dog.getBinaryDataObjectList().isEmpty())
+                        dog.getBinaryDataObjectList().isEmpty()){
                     targetNode.getArchiveUnit().removeEmptyDataObjectGroup();
+                    try {
+                        targetNode.getArchiveUnit().getContent().addNewMetadata("DescriptionLevel", "RecordGrp");
+                    } catch (SEDALibException e) {
+                        //ignored
+                    }
+                }
             }
             try {
                 targetNode.getArchiveUnit().getDataObjectPackage().removeUnusedDataObjects(spl);

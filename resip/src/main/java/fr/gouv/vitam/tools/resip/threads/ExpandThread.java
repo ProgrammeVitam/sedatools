@@ -40,6 +40,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -206,8 +207,14 @@ public class ExpandThread extends SwingWorker<String, String> {
                 DataObjectGroup dog = (DataObjectGroup) dataObject;
                 dog.removeDataObject(bdoToExpand);
                 if (((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
-                        dog.getBinaryDataObjectList().isEmpty())
+                        dog.getBinaryDataObjectList().isEmpty()) {
                     targetNode.getArchiveUnit().removeEmptyDataObjectGroup();
+                    try {
+                        targetNode.getArchiveUnit().getContent().addNewMetadata("DescriptionLevel", "RecordGrp");
+                    } catch (SEDALibException e) {
+                        //ignored
+                    }
+                }
             }
             try {
                 targetNode.getArchiveUnit().getDataObjectPackage().removeUnusedDataObjects(spl);
