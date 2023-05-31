@@ -32,37 +32,35 @@ import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
+import fr.gouv.vitam.tools.resip.parameters.CompactContext;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
-import fr.gouv.vitam.tools.resip.parameters.ZipImportContext;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.*;
-import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.process.Compactor;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog.*;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
 /**
- * The type Add thread.
+ * The type Compact thread.
  */
-public class ExpandThread extends SwingWorker<String, String> {
+public class CompactThread extends SwingWorker<String, String> {
     //input
-    private Work work;
-    private DataObjectPackageTreeNode targetNode;
-    private BinaryDataObject bdoToExpand;
-    private InOutDialog inOutDialog;
-    //run output
-    private CompressedFileToArchiveTransferImporter zi;
+    private final Work work;
+    private final DataObjectPackageTreeNode targetNode;
+    private ArchiveUnit compactedArchiveUnit;
+    private final InOutDialog inOutDialog;
     private String summary;
     private Throwable exitThrowable;
     private int fileCounter;
@@ -70,41 +68,37 @@ public class ExpandThread extends SwingWorker<String, String> {
     private SEDALibProgressLogger spl;
 
     /**
-     * Expand a binary data object replacing it by the archive unit hierarchy, in a dedicated thread.
+     * Compact an archive unit hierarchy, in a dedicated thread.
      *
-     * @param node        the displayed tree node
-     * @param bdoToExpand the binary data object to expand
+     * @param node the displayed tree node
      */
-    public static void launchExpandThread(DataObjectPackageTreeNode node, BinaryDataObject bdoToExpand) {
-        ExpandThread expandThread;
+    public static void launchCompactThread(DataObjectPackageTreeNode node) {
+        CompactThread compactThread;
 
         try {
-            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.mainWindow, "Expansion");
-            expandThread = new ExpandThread(ResipGraphicApp.getTheApp().currentWork, node, bdoToExpand, inOutDialog);
-            expandThread.execute();
+            InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.mainWindow, "Compactage");
+            compactThread = new CompactThread(ResipGraphicApp.getTheApp().currentWork, node, inOutDialog);
+            compactThread.execute();
             inOutDialog.setVisible(true);
         } catch (Throwable e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.mainWindow,
-                    "Erreur fatale, impossible de faire l'expansion \n->" + e.getMessage(), "Erreur",
+                    "Erreur fatale, impossible de faire le compactage \n->" + e.getMessage(), "Erreur",
                     UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'expansion", e);
+            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire le compactage", e);
         }
 
     }
 
     /**
-     * Instantiates a new Add thread.
+     * Instantiates a new Compact thread.
      *
-     * @param work        the work
-     * @param targetNode  the target node (is null if tree as to be initialised before adding)
-     * @param bdoToExpand the binary data object to expand
-     * @param dialog      the dialog
+     * @param work       the work
+     * @param targetNode the target node
+     * @param dialog     the dialog
      */
-    public ExpandThread(Work work, DataObjectPackageTreeNode targetNode, BinaryDataObject bdoToExpand,
-                        InOutDialog dialog) {
+    public CompactThread(Work work, DataObjectPackageTreeNode targetNode, InOutDialog dialog) {
         this.work = work;
         this.targetNode = targetNode;
-        this.bdoToExpand = bdoToExpand;
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitThrowable = null;
@@ -144,6 +138,28 @@ public class ExpandThread extends SwingWorker<String, String> {
         return target;
     }
 
+    private Map<String, Integer> getContentMetadataFilter(CompactContext coc) {
+        Map<String, Integer> contentMetadataFilter = new HashMap<>();
+        for (String m : coc.getKeptMetadataList()) {
+            if (m.trim().isEmpty())
+                continue;
+            else if (!m.contains(":"))
+                contentMetadataFilter.put(m.trim(), 0);
+            else {
+                int tmp = 0;
+                try {
+                    tmp = Integer.parseInt(m.substring(m.indexOf(":") + 1));
+                } catch (NumberFormatException ignored) {
+                    // no real case
+                }
+                if (tmp < 0)
+                    tmp = 0;
+                contentMetadataFilter.put(m.substring(0, m.indexOf(":")).trim(), tmp);
+            }
+        }
+        return contentMetadataFilter;
+    }
+
     @Override
     public String doInBackground() {
         while (ResipGraphicApp.getTheApp().addThreadRunning) {
@@ -173,15 +189,27 @@ public class ExpandThread extends SwingWorker<String, String> {
             }, localLogStep, 2);
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            doProgressLog(spl, GLOBAL, "Expansion du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.fileInfo.getSimpleMetadata("Filename") + "]", null);
+            ArchiveUnit targetArchiveUnit = targetNode.getArchiveUnit();
+            doProgressLog(spl, GLOBAL, "Compactage de l'ArchiveUnit [" + targetArchiveUnit.getInDataObjectPackageId() + "]=" +
+                    targetArchiveUnit.getContent().getSimpleMetadata("Title"), null);
 
-            ZipImportContext zic = new ZipImportContext(Prefs.getInstance());
-            String target = getTmpDirTarget(zic.getWorkDir(), bdoToExpand.getOnDiskPathToString(), bdoToExpand.getInDataObjectPackageId());
-            zi = new CompressedFileToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, null, null, spl);
-            for (String ip : zic.getIgnorePatternList())
-                zi.addIgnorePattern(ip);
-            zi.doImport();
-            summary = zi.getSummary();
+            CompactContext coc = new CompactContext(Prefs.getInstance());
+
+            String target = getTmpDirTarget(coc.getWorkDir(), "Compact", targetArchiveUnit.getInDataObjectPackageId());
+            //run output
+            Compactor compactor = new Compactor(targetArchiveUnit, target, spl);
+            compactor.setCompactedDocumentPackLimit(coc.getMaxMetadataSize(), coc.getMaxDocumentNumber());
+            compactor.setObjectVersionFilters(coc.getDocumentKeptDataObjectVersionList(), coc.getSubDocumentKeptDataObjectVersionList());
+            if (!coc.isMetadataFilterFlag())
+                compactor.setMetadataFilters(null, null);
+            else {
+                Map<String, Integer> contentMetadataFilter = getContentMetadataFilter(coc);
+                compactor.setMetadataFilters(contentMetadataFilter, contentMetadataFilter);
+            }
+            compactor.setDeflatedFlag(coc.isDeflatedFlag());
+            compactedArchiveUnit = compactor.doCompact();
+
+            summary = compactor.getSummary();
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";
@@ -194,47 +222,24 @@ public class ExpandThread extends SwingWorker<String, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Expansion annulée, les données n'ont pas été modifiées", null);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Compactage annulé, les données n'ont pas été modifiées", null);
         else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant l'expansion, les données n'ont pas été modifiées", exitThrowable);
+            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant le compactage, les données n'ont pas été modifiées", exitThrowable);
         else {
             ResipGraphicApp.getTheApp().currentWork = this.work;
-            List<ArchiveUnit> addedNodes = zi.getArchiveTransfer().getDataObjectPackage().getGhostRootAu().getChildrenAuList()
-                    .getArchiveUnitList();
-            targetNode.getArchiveUnit().getDataObjectPackage().moveContentFromDataObjectPackage(zi.getArchiveTransfer().getDataObjectPackage(), targetNode.getArchiveUnit());
-            DataObject dataObject = targetNode.getArchiveUnit().getDataObjectRefList().getDataObjectList().get(0);
-            if (dataObject instanceof DataObjectGroup) {
-                DataObjectGroup dog = (DataObjectGroup) dataObject;
-                dog.removeDataObject(bdoToExpand);
-                if (((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
-                        dog.getBinaryDataObjectList().isEmpty()) {
-                    targetNode.getArchiveUnit().removeEmptyDataObjectGroup();
-                    try {
-                        targetNode.getArchiveUnit().getContent().addNewMetadata("DescriptionLevel", "RecordGrp");
-                    } catch (SEDALibException e) {
-                        //ignored
-                    }
-                }
+
+            DataObjectPackageTreeNode newNode = null;
+            List<DataObjectPackageTreeNode> parents = List.copyOf(targetNode.getParents());
+            for (DataObjectPackageTreeNode targetNodeParent : parents) {
+                targetNodeParent.removeChildrenNode(targetNode);
+                newNode = targetNode.getTreeModel().generateArchiveUnitNode(compactedArchiveUnit, targetNodeParent);
             }
-            try {
-                targetNode.getArchiveUnit().getDataObjectPackage().removeUnusedDataObjects(spl);
-            } catch (InterruptedException ignored) {
-                //ignore
-            }
-            DataObjectPackageTreeModel treeModel = targetNode.getTreeModel();
-            int auRecursivCount = 0;
-            int ogRecursivCount = 0;
-            for (ArchiveUnit au : addedNodes) {
-                treeModel.generateArchiveUnitNode(au, targetNode);
-                auRecursivCount += treeModel.findTreeNode(au).getAuRecursivCount() + 1;
-                ogRecursivCount += treeModel.findTreeNode(au).getOgRecursivCount();
-            }
-            targetNode.actualiseRecursivCounts(auRecursivCount, ogRecursivCount);
-            treeModel.nodeStructureChanged(targetNode);
+
+            if (newNode!=null)
+                newNode.getTreeModel().nodeStructureChanged(newNode.getParent());
             work.getCreationContext().setStructureChanged(true);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
             ResipGraphicApp.mainWindow.treePane.reset();
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Expansion et ajout terminés", null);
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
         }
         ResipGraphicApp.getTheApp().addThreadRunning = false;

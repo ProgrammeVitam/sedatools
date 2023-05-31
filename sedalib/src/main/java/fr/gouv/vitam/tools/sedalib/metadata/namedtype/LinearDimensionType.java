@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -187,6 +188,8 @@ public class LinearDimensionType extends NamedTypeMetadata {
      *
      * @return the value
      */
+    @Override
+     @JsonIgnore(false)
     public Double getValue() {
         return value;
     }

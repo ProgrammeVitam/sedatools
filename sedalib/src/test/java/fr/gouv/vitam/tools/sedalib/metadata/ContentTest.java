@@ -492,7 +492,7 @@ class ContentTest {
                 "Signature.0.Signer.1.SigningTime: 1970-01-02T01:00:00\n" +
                 "Signature.0.Signer.2.FirstName: Emilie\n" +
                 "Signature.0.Signer.2.BirthName: Martin\n" +
-                "Signature.0.Signer.2.Identifier.0: emilie.martin@corp.fr\n" +
+                "Signature.0.Signer.2.Identifier: emilie.martin@corp.fr\n" +
                 "Signature.0.Signer.2.SigningTime: 1970-01-02T01:00:00\n" +
                 "Signature.0.Signer.3.FullName: Laura Tremoulet\n" +
                 "Signature.0.Signer.3.BirthPlace.Geogname: TestLocation1\n" +

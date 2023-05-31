@@ -55,7 +55,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
     /**
      * The DataObjectPackageIdElement Treenode map.
      */
-    private HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> idElementTreeNodeMap;
+    private transient HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> idElementTreeNodeMap;
 
     /**
      * Instantiates a new archive transfer tree model.
@@ -64,7 +64,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      */
     public DataObjectPackageTreeModel(TreeNode root) {
         super(root, false);
-        idElementTreeNodeMap = new HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode>();
+        idElementTreeNodeMap = new HashMap<>();
     }
 
     /*
@@ -116,18 +116,19 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * @return the archive transfer tree node
      */
     public DataObjectPackageTreeNode generateDataObjectPackageNodes(DataObjectPackage archiveTransfer) {
-        DataObjectPackageTreeNode top, node;
+        DataObjectPackageTreeNode top;
+        DataObjectPackageTreeNode node;
 
         int auRecursivCount = 0;
         int ogRecursivCount = 0;
         top = new DataObjectPackageTreeNode(this, archiveTransfer.getGhostRootAu(), null);
-        idElementTreeNodeMap = new HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode>();
+        idElementTreeNodeMap = new HashMap<>();
         idElementTreeNodeMap.put(archiveTransfer.getGhostRootAu(), top);
 
         for (ArchiveUnit au : archiveTransfer.getGhostRootAu().getChildrenAuList().getArchiveUnitList()) {
             node = generateArchiveUnitNode(au, top);
             auRecursivCount += node.getAuRecursivCount() + 1;
-            ogRecursivCount += node.getOgRecursivCount() + au.getDataObjectRefList().getCount();
+            ogRecursivCount += node.getOgRecursivCount() + (au.getDataObjectRefList().getCount() == 0 ? 0 : 1);
         }
         top.setAuRecursivCount(auRecursivCount);
         top.setOgRecursivCount(ogRecursivCount);
@@ -144,7 +145,8 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      */
     public DataObjectPackageTreeNode generateArchiveUnitNode(ArchiveUnit archiveUnit,
                                                              DataObjectPackageTreeNode parent) {
-        DataObjectPackageTreeNode node, childNode;
+        DataObjectPackageTreeNode node;
+        DataObjectPackageTreeNode childNode;
         int auRecursivCount = 0;
         int ogRecursivCount = 0;
 
@@ -152,7 +154,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
         if (node != null) {
             node.addParent(parent);
             parent.actualiseRecursivCounts(node.getAuRecursivCount() + 1,
-                    node.getOgRecursivCount() + archiveUnit.getDataObjectRefList().getCount());
+                    node.getOgRecursivCount() + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1));
         } else {
             node = new DataObjectPackageTreeNode(this, archiveUnit, parent);
             idElementTreeNodeMap.put(archiveUnit, node);
@@ -160,16 +162,15 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
                 for (ArchiveUnit au : archiveUnit.getChildrenAuList().getArchiveUnitList()) {
                     childNode = generateArchiveUnitNode(au, node);
                     auRecursivCount += childNode.getAuRecursivCount() + 1;
-                    ogRecursivCount += childNode.getOgRecursivCount() + au.getDataObjectRefList().getCount();
+                    ogRecursivCount += childNode.getOgRecursivCount() + (au.getDataObjectRefList().getCount() == 0 ? 0 : 1);
                 }
             }
             node.setAuRecursivCount(auRecursivCount);
-            node.setOgRecursivCount(ogRecursivCount + archiveUnit.getDataObjectRefList().getCount());
+            node.setOgRecursivCount(ogRecursivCount + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1));
             for (DataObject dataObject : archiveUnit.getDataObjectRefList().getDataObjectList())
                 generateDataObjectNode(dataObject, node);
             if (archiveUnit.getContentXmlData() != null)
                 node.setTitle(SEDAXMLEventReader.extractNamedElement("Title", archiveUnit.getContentXmlData()));
-            //  node.setTitle(archiveUnit.getContent().getSimpleMetadata("Title"));
             if (node.getTitle() == null)
                 node.setTitle("Can't find Title");
         }
@@ -202,17 +203,18 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * and drop nodes no more linked to DataObjectPackage structure.
      */
     public void actualiseDataObjectPackageNodes() {
-        DataObjectPackageTreeNode top, node;
+        DataObjectPackageTreeNode top;
+        DataObjectPackageTreeNode node;
 
         int auRecursivCount = 0;
         int ogRecursivCount = 0;
         top = (DataObjectPackageTreeNode) this.root;
-        HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap = new HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode>();
+        HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap = new HashMap<>();
         newIdElementTreeNodeMap.put(top.getArchiveUnit(), top);
 
         //remove all parents and counts
         for (DataObjectPackageTreeNode cleanNode:idElementTreeNodeMap.values()){
-            cleanNode.setParents(new ArrayList<DataObjectPackageTreeNode>());
+            cleanNode.setParents(new ArrayList<>());
             cleanNode.setAuRecursivCount(0);
             cleanNode.setOgRecursivCount(0);
         }
@@ -220,7 +222,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
         for (ArchiveUnit au : top.getArchiveUnit().getChildrenAuList().getArchiveUnitList()) {
             node = actualiseArchiveUnitNode(au, top, newIdElementTreeNodeMap);
             auRecursivCount += node.getAuRecursivCount() + 1;
-            ogRecursivCount += node.getOgRecursivCount() + au.getDataObjectRefList().getCount();
+            ogRecursivCount += node.getOgRecursivCount() + (au.getDataObjectRefList().getCount() == 0 ? 0 : 1);
         }
         top.setAuRecursivCount(auRecursivCount);
         top.setOgRecursivCount(ogRecursivCount);
@@ -240,27 +242,28 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
     public DataObjectPackageTreeNode actualiseArchiveUnitNode(ArchiveUnit archiveUnit,
                                                               DataObjectPackageTreeNode parent,
                                                               HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode> newIdElementTreeNodeMap) {
-        DataObjectPackageTreeNode node, childNode;
+        DataObjectPackageTreeNode node;
+        DataObjectPackageTreeNode childNode;
         int auRecursivCount = 0;
         int ogRecursivCount = 0;
 
         node = findTreeNode(archiveUnit);
-        if (node.getParents().size() != 0) {
+        if (!node.getParents().isEmpty()) {
             node.addParent(parent);
             parent.actualiseRecursivCounts(node.getAuRecursivCount() + 1,
-                    node.getOgRecursivCount() + archiveUnit.getDataObjectRefList().getCount());
+                    node.getOgRecursivCount() + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1));
         } else {
             node.addParent(parent);
             newIdElementTreeNodeMap.put(archiveUnit, node);
             if (archiveUnit.getChildrenAuList() != null) {
                 for (ArchiveUnit au : archiveUnit.getChildrenAuList().getArchiveUnitList()) {
-                    childNode = actualiseArchiveUnitNode(au, node,newIdElementTreeNodeMap);
+                    childNode = actualiseArchiveUnitNode(au, node, newIdElementTreeNodeMap);
                     auRecursivCount += childNode.getAuRecursivCount() + 1;
-                    ogRecursivCount += childNode.getOgRecursivCount() + au.getDataObjectRefList().getCount();
+                    ogRecursivCount += childNode.getOgRecursivCount() + (au.getDataObjectRefList().getCount() == 0 ? 0 : 1);
                 }
             }
             node.setAuRecursivCount(auRecursivCount);
-            node.setOgRecursivCount(ogRecursivCount + archiveUnit.getDataObjectRefList().getCount());
+            node.setOgRecursivCount(ogRecursivCount + (archiveUnit.getDataObjectRefList().getCount() == 0 ? 0 : 1));
             for (DataObject dataObject : archiveUnit.getDataObjectRefList().getDataObjectList())
                 actualiseDataObjectNode(dataObject, node,newIdElementTreeNodeMap);
         }
@@ -281,7 +284,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
 
         //noinspection SuspiciousMethodCalls
         node = idElementTreeNodeMap.get(dataObject);
-        if (node.getParents().size() != 0) {
+        if (!node.getParents().isEmpty()) {
             node.addParent(parent);
         } else {
             node.addParent(parent);
@@ -307,8 +310,8 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
     }
 
     private List<DataObjectPackageTreeNode[]> getAllPathsToRoot(DataObjectPackageTreeNode node) {
-        List<DataObjectPackageTreeNode[]> result = new ArrayList<DataObjectPackageTreeNode[]>();
-        List<DataObjectPackageTreeNode> subPath = new ArrayList<DataObjectPackageTreeNode>();
+        List<DataObjectPackageTreeNode[]> result = new ArrayList<>();
+        List<DataObjectPackageTreeNode> subPath = new ArrayList<>();
         oneStepBeyond(node, subPath, result);
 
         return result;
@@ -333,7 +336,7 @@ public class DataObjectPackageTreeModel extends DefaultTreeModel {
      * Reset in DataObjectPackage ID tree node map.
      */
     public void resetInDataObjectPackageIDTreeNodeMap() {
-        idElementTreeNodeMap = new HashMap<DataObjectPackageIdElement, DataObjectPackageTreeNode>();
+        idElementTreeNodeMap = new HashMap<>();
     }
 
     /**

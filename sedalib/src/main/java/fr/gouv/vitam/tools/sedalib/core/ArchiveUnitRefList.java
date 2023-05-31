@@ -162,6 +162,22 @@ public class ArchiveUnitRefList extends DataObjectPackageElement {
     }
 
     /**
+     * Replaces the ArchiveUnit by another.
+     *
+     * @param originArchiveUnit the origin ArchiveUnit
+     * @param newArchiveUnit     the new ArchiveUnit
+     */
+    public void replace(ArchiveUnit originArchiveUnit, ArchiveUnit newArchiveUnit) {
+        List<ArchiveUnit> listAu=getArchiveUnitList();
+        for (int i=0;i<listAu.size();i++){
+            if (listAu.get(i)==originArchiveUnit) {
+                listAu.set(i, newArchiveUnit);
+                return;
+            }
+        }
+    }
+
+    /**
      * Removes the ArchiveUnit by inDataPackageObjectId.
      *
      * @param inDataObjectPackageId inDataPackageObjectId
