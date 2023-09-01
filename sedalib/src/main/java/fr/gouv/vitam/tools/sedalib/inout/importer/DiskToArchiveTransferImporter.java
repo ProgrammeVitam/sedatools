@@ -41,6 +41,7 @@ import java.text.DateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -145,7 +146,7 @@ public class DiskToArchiveTransferImporter {
         path = Paths.get(directory);
         if (!Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS))
             throw new SEDALibException("[" + directory + "] n'est pas un répertoire");
-        try (Stream<Path> sp = Files.list(path)) {
+        try (Stream<Path> sp = Files.list(path).sorted(Comparator.comparing(Path::getFileName))) {
             pi = sp.iterator();
             while (pi.hasNext()) {
                 path = pi.next();

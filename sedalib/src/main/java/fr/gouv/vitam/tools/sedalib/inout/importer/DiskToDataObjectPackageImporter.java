@@ -264,7 +264,7 @@ public class DiskToDataObjectPackageImporter {
         path = Paths.get(directory).toAbsolutePath();
         if (!Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS))
             throw new SEDALibException("[" + directory + "] n'est pas un répertoire");
-        try (Stream<Path> sp = Files.list(path)) {
+        try (Stream<Path> sp = Files.list(path).sorted(Comparator.comparing(Path::getFileName))) {
             pi = sp.iterator();
             while (pi.hasNext())
                 this.onDiskRootPaths.add(pi.next());
@@ -646,7 +646,7 @@ public class DiskToDataObjectPackageImporter {
         au.setOnDiskPath(path);
         auPathStringMap.put(au.getOnDiskPath().toString(), au);
 
-        try (Stream<Path> sp = Files.list(path)) {
+        try (Stream<Path> sp = Files.list(path).sorted(Comparator.comparing(Path::getFileName))) {
             // get sorted list of sub paths
             pi = sp.iterator();
             ArrayList<String> subPathStringList = new ArrayList<>(100);
@@ -820,7 +820,7 @@ public class DiskToDataObjectPackageImporter {
         dog = new DataObjectGroup(dataObjectPackage, path);
         dogPathStringMap.put(dog.getOnDiskPath().toString(), dog);
 
-        try (Stream<Path> sp = Files.list(path)) {
+        try (Stream<Path> sp = Files.list(path).sorted(Comparator.comparing(Path::getFileName))) {
             pi = sp.iterator();
             while (pi.hasNext()) {
                 curPath = pi.next();
