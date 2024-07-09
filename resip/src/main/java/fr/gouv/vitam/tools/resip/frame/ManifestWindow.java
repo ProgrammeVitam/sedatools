@@ -28,9 +28,8 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
+import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
-import org.fife.rsta.ui.search.FindToolBar;
 import org.fife.rsta.ui.search.SearchEvent;
 import org.fife.rsta.ui.search.SearchListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -45,9 +44,7 @@ import org.fife.ui.rtextarea.SearchResult;
 import javax.swing.*;
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor.*;
 
@@ -90,14 +87,14 @@ public class ManifestWindow extends JFrame implements SearchListener {
         GridBagConstraints gbc;
         GridBagLayout gbl;
 
-        setTitle("Visualisation du manifest généré le " + LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()).toString());
+        setTitle("Visualisation du manifest généré le " + LocalDateTimeUtil.getFormattedDateTime(LocalDateTime.now()));
 
         setPreferredSize(new Dimension(1024, 600));
         setMinimumSize(new Dimension(700, 300));
 
         gbl = new GridBagLayout();
         gbl.rowWeights = new double[]{1.0, 0.0};
-        gbl.columnWeights = new double[]{1.0, 0,0, 0.0};
+        gbl.columnWeights = new double[]{1.0, 0, 0, 0.0};
         gbl.columnWidths = new int[]{400, 0, 200};
         Container contentPane = getContentPane();
         contentPane.setLayout(gbl);
@@ -131,7 +128,7 @@ public class ManifestWindow extends JFrame implements SearchListener {
         gbc.gridy = 1;
         contentPane.add(findToolBar, gbc);
 
-        JSeparator separator=new JSeparator(SwingConstants.VERTICAL);
+        JSeparator separator = new JSeparator(SwingConstants.VERTICAL);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.BOTH;

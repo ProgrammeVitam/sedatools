@@ -258,8 +258,8 @@
                             <jre>
                                 <path>jdk-11</path>
                                 <minVersion>11</minVersion>
-                                <requires64Bit />
-                                <requiresJdk />
+                                <requires64Bit/>
+                                <requiresJdk/>
                             </jre>
                             <versionInfo>
                                 <fileVersion>${project.majorVersion}.${project.minorVersion}.0.0

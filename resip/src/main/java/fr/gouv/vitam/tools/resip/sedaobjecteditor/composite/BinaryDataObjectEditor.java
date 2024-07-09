@@ -29,9 +29,10 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
+import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
@@ -87,7 +88,6 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     static final int DATA_OBJECT_VERSION = 1;
     static final String DATA_OBJECT_VERSION_ELEMENT_NAME = "DataObjectVersion";
     static final int URI = 2;
-    static final String URI_ELEMENT_NAME = "Uri";
     static final int MESSAGE_DIGEST = 3;
     static final String MESSAGE_DIGEST_ELEMENT_NAME = "MessageDigest";
     static final int SIZE = 4;
@@ -244,9 +244,9 @@ public class BinaryDataObjectEditor extends CompositeEditor {
 
     private void updateObjectEditorList() throws SEDALibException {
         List<SEDAObjectEditor> result = new ArrayList<>();
-        for (int i = 0; i < objectEditorArray.length; i++)
-            if (objectEditorArray[i] != null)
-                result.add(objectEditorArray[i]);
+        for (SEDAObjectEditor sedaObjectEditor : objectEditorArray)
+            if (sedaObjectEditor != null)
+                result.add(sedaObjectEditor);
         objectEditorList = result;
         ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
     }
@@ -360,7 +360,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 expanded = ((SEDAObjectEditorCompositePanel) objectEditorArray[FILE_INFO].getSEDAObjectEditorPanel()).isExpanded();
             FileInfo fileInfo = new FileInfo();
             fileInfo.addNewMetadata("Filename", editedOnDiskPath.getFileName().toString());
-            fileInfo.addNewMetadata("LastModified", Files.getLastModifiedTime(editedOnDiskPath).toString());
+            fileInfo.addNewMetadata("LastModified", LocalDateTimeUtil.getFormattedDateTime(Files.getLastModifiedTime(editedOnDiskPath)));
             objectEditorArray[FILE_INFO] = createSEDAObjectEditor(fileInfo, this);
             ((SEDAObjectEditorCompositePanel) objectEditorArray[FILE_INFO].getSEDAObjectEditorPanel()).setExpanded(expanded);
             updateObjectEditorList();
@@ -490,7 +490,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     }
 
     @Override
-    public boolean canContainsMultiple(String metadataName) throws SEDALibException {
+    public boolean canContainsMultiple(String metadataName) {
         return false;
     }
 
