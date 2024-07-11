@@ -29,6 +29,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorSimplePanel;
+import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateTimeType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -80,27 +81,27 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
     }
 
     @Override
-    public SEDAMetadata extractEditedObject() throws SEDALibException{
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
         getDateTimeTypeMetadata().setValue(valueDateTimePicker.getDateTimePermissive());
         return getDateTimeTypeMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        LocalDateTime tmp= valueDateTimePicker.getDateTimePermissive();
-        if (tmp!=null)
-            return tmp.toString();
+        LocalDateTime tmp = valueDateTimePicker.getDateTimePermissive();
+        if (tmp != null)
+            return LocalDateTimeUtil.getFormattedDateTime(tmp);
         return "";
     }
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
-        JPanel labelPanel= new JPanel();
+        JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
         gbl.columnWeights = new double[]{1.0};
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(getName()+" :");
+        JLabel label = new JLabel(getName() + " :");
         label.setToolTipText(getTag());
         label.setFont(SEDAObjectEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -110,7 +111,7 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         labelPanel.add(label, gbc);
 
-        JPanel editPanel= new JPanel();
+        JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
         gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
@@ -124,6 +125,6 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         editPanel.add(valueDateTimePicker, gbc);
 
-        this.sedaObjectEditorPanel =new SEDAObjectEditorSimplePanel(this,labelPanel,editPanel);
+        this.sedaObjectEditorPanel = new SEDAObjectEditorSimplePanel(this, labelPanel, editPanel);
     }
 }

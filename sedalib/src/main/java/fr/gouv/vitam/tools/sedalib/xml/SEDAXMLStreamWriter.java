@@ -28,9 +28,9 @@
 package fr.gouv.vitam.tools.sedalib.xml;
 
 import com.ctc.wstx.api.WstxOutputProperties;
+import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.stax2.XMLOutputFactory2;
 
 import javax.xml.XMLConstants;
 import javax.xml.stream.XMLOutputFactory;
@@ -49,7 +49,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import static java.time.format.DateTimeFormatter.ISO_DATE;
-import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 
 /**
  * The Class SEDAXMLStreamWriter.
@@ -292,13 +291,10 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
      */
 
     public static String getStringFromDateTime(LocalDateTime dateTime) {
-        LocalDateTime d;
         if (dateTime == null) {
-            d = LocalDateTime.now();
-        } else {
-            d = dateTime;
+            dateTime = LocalDateTime.now();
         }
-        return d.format(ISO_DATE_TIME);
+        return LocalDateTimeUtil.getFormattedDateTime(dateTime);
     }
 
     /**
@@ -357,8 +353,7 @@ public class SEDAXMLStreamWriter implements AutoCloseable {
 
                 rawWriter.write(identXml);
                 rawWriter.flush();
-                if ((indentFlag) &&
-                    (depth > 0))
+                if ((indentFlag) && (depth > 0))
                     hasChildElement.put(depth - 1, true);
             } catch (IOException e) {
                 throw new XMLStreamException("Erreur d'écriture d'un bloc Raw XML", e);
