@@ -33,3 +33,5 @@ build
 /mailextractlib/doc/
 sedalib/doc/
 **/*.exe
+
+.DS_Store

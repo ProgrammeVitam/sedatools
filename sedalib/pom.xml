@@ -121,6 +121,12 @@
             <version>${jaxb.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-jupiter-engine.version}</version>
@@ -157,18 +163,18 @@
             <!-- for tests -->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-		        <dependencies>
-	                    <dependency>
-	                        <groupId>org.junit.platform</groupId>
-	                        <artifactId>junit-platform-surefire-provider</artifactId>
-	                        <version>${junit-platform-surefire-provider.version}</version>
-	                    </dependency>
-	                    <dependency>
-	                        <groupId>org.junit.jupiter</groupId>
-	                        <artifactId>junit-jupiter-engine</artifactId>
-	                        <version>${junit-jupiter-engine.version}</version>
-	                    </dependency>
-	                </dependencies>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.platform</groupId>
+                        <artifactId>junit-platform-surefire-provider</artifactId>
+                        <version>${junit-platform-surefire-provider.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit-jupiter-engine.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <!-- for javadoc creation -->
             <plugin>

@@ -1,0 +1,4 @@
+Id;ParentId;File;ObjectFiles;Content.DescriptionLevel;Content.Title;Content.Description;Content.TransactedDate;Content.StartDate
+id-01;parent-id-01;SIP-01.pdf;SIP-01.pdf;Item;SIP-01-title.pdf;;;
+id-02;parent-id-02;SIP-02.pdf;SIP-02.pdf;Item;SIP-02-title.pdf;description 02;;
+id-03;;SIP-03.pdf;;RecordGrp;SIP-03-title.pdf;description 02;2024-05-23T00:00:00;2024-05-23T00:00:00
