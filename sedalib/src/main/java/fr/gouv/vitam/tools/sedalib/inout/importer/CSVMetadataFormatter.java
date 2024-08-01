@@ -34,8 +34,9 @@ public class CSVMetadataFormatter {
          * @param parent the parent
          */
         protected MetadataTag(String name, MetadataTag parent) throws SEDALibException {
-            if ((name != null) && (!name.matches("[a-zA-Z0-9_-]+")))
+            if ((name != null) && (!name.matches("[a-zA-Z0-9_-]+"))) {
                 throw new SEDALibException("Caractère interdit dans le tag XML [" + name + "]");
+            }
             this.name = name;
             this.value = null;
             this.attr = null;
@@ -45,10 +46,11 @@ public class CSVMetadataFormatter {
 
         @Override
         public String toString() {
-            if (parent == null)
+            if (parent == null) {
                 return name;
-            else
+            } else {
                 return parent.toString() + "." + name;
+            }
         }
     }
 
@@ -69,23 +71,20 @@ public class CSVMetadataFormatter {
         }
     }
 
+    private static final String ID = "id";
+    private static final String FILE = "file";
+    private static final String PARENTID = "parentid";
+    private static final String PARENTFILE = "parentfile";
+    private static final String OBJECTFILES = "objectfiles";
     /**
      * The first columns header names.
      */
-    private static List<String> headerNames = Arrays.asList("id", "file", "parentid", "parentfile","objectfiles");
-
-    /**
-     * The first columns types.
-     */
-    private static final int ID_COLUMN = 0;
-    private static final int FILE_COLUMN = 1;
-    private static final int PARENTID_COLUMN = 2;
-    private static final int PARENTFILE_COLUMN = 3;
-    private static final int OBJECTFIlES_COLUMN = 4;
-
+    private static final List<String> MANDATORY_TRAILING_HEADERS = Arrays.asList(
+            ID, FILE, PARENTID, PARENTFILE, OBJECTFILES
+    );
     private MetadataTag rootTag, contentTag, managementTag;
     private LinkedHashMap<Integer, ValueAttrMetadataTag> tagHeaderColumnMapping;
-    private int firstIndex;
+    private int numberOfMandatoryHeaderFound;
     private int columnCount;
 
     private Path baseDir;
@@ -98,73 +97,79 @@ public class CSVMetadataFormatter {
 
 
     private void analyseFirstColumns(String[] headerRow) throws SEDALibException {
-        List<Integer> firsts = new ArrayList<>();
+        List<String> firstsMandatoryHeadersFound = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            if (!headerNames.contains(headerRow[i].toLowerCase()))
+            String header = headerRow[i].toLowerCase();
+            if (!MANDATORY_TRAILING_HEADERS.contains(header)) {
                 break;
-            firsts.add(headerNames.indexOf(headerRow[i].toLowerCase()));
+            }
+            firstsMandatoryHeadersFound.add(header);
         }
-        firstIndex = firsts.size();
-        if (((firstIndex == 1) && firsts.contains(FILE_COLUMN))) {
+        numberOfMandatoryHeaderFound = firstsMandatoryHeadersFound.size();
+        if (numberOfMandatoryHeaderFound == 1 && firstsMandatoryHeadersFound.contains(FILE)) {
             isOnlyFile = true;
             guidColumn = 0;
             fileColumn = 0;
-            objectfilesColumn=-1;
+            objectfilesColumn = -1;
             parentGUIDColumn = -1;
-        } else if ((firstIndex == 2) && firsts.contains(FILE_COLUMN) && firsts.contains(PARENTFILE_COLUMN)) {
+        } else if (numberOfMandatoryHeaderFound == 2 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTFILE))) {
             isOnlyFile = false;
-            guidColumn = firsts.indexOf(FILE_COLUMN);
+            guidColumn = firstsMandatoryHeadersFound.indexOf(FILE);
             fileColumn = guidColumn;
-            objectfilesColumn=-1;
-            parentGUIDColumn = firsts.indexOf(PARENTFILE_COLUMN);
-
-        } else if ((firstIndex == 3) && (firsts.contains(FILE_COLUMN) && firsts.contains(PARENTFILE_COLUMN) && firsts.contains(ID_COLUMN))) {
+            objectfilesColumn = -1;
+            parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTFILE);
+        } else if (numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTFILE, ID))) {
             isOnlyFile = false;
-            guidColumn = firsts.indexOf(ID_COLUMN);
-            fileColumn = firsts.indexOf(FILE_COLUMN);
-            objectfilesColumn=-1;
-            parentGUIDColumn = firsts.indexOf(PARENTFILE_COLUMN);
-        } else if ((firstIndex == 3) && (firsts.contains(FILE_COLUMN) && firsts.contains(PARENTID_COLUMN) && firsts.contains(ID_COLUMN))) {
+            guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
+            fileColumn = firstsMandatoryHeadersFound.indexOf(FILE);
+            objectfilesColumn = -1;
+            parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTFILE);
+        } else if (numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTID, ID))) {
             isOnlyFile = false;
-            guidColumn = firsts.indexOf(ID_COLUMN);
-            fileColumn = firsts.indexOf(FILE_COLUMN);
-            objectfilesColumn=-1;
-            parentGUIDColumn = firsts.indexOf(PARENTID_COLUMN);
-        } else if ((firstIndex == 3) && (firsts.contains(OBJECTFIlES_COLUMN) && firsts.contains(PARENTID_COLUMN) && firsts.contains(ID_COLUMN))) {
+            guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
+            fileColumn = firstsMandatoryHeadersFound.indexOf(FILE);
+            objectfilesColumn = -1;
+            parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTID);
+        } else if (numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(OBJECTFILES, PARENTID, ID))) {
             isOnlyFile = false;
-            guidColumn = firsts.indexOf(ID_COLUMN);
+            guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
             fileColumn = -1;
-            objectfilesColumn=firsts.indexOf(OBJECTFIlES_COLUMN);
-            parentGUIDColumn = firsts.indexOf(PARENTID_COLUMN);
-        } else if ((firstIndex == 4) && (firsts.contains(FILE_COLUMN) && firsts.contains(OBJECTFIlES_COLUMN) && firsts.contains(PARENTID_COLUMN) && firsts.contains(ID_COLUMN))) {
+            objectfilesColumn = firstsMandatoryHeadersFound.indexOf(OBJECTFILES);
+            parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTID);
+        } else if (numberOfMandatoryHeaderFound == 4 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, OBJECTFILES, PARENTID, ID))) {
             isOnlyFile = false;
-            guidColumn = firsts.indexOf(ID_COLUMN);
-            objectfilesColumn=firsts.indexOf(OBJECTFIlES_COLUMN);
-            fileColumn = firsts.indexOf(FILE_COLUMN);
-            parentGUIDColumn = firsts.indexOf(PARENTID_COLUMN);
-        } else
+            guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
+            objectfilesColumn = firstsMandatoryHeadersFound.indexOf(OBJECTFILES);
+            fileColumn = firstsMandatoryHeadersFound.indexOf(FILE);
+            parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTID);
+        } else {
             throw new SEDALibException("Le header [" + String.join("|", headerRow) + "] est mal formatté. Il doit contenir au début soit une colonne File, " +
                     "soit deux colonnes File et ParentFile, soit trois colonnes ID, File et ParentFile ou ID, File " +
                     ", soit quatre colonnes ID, ParentID, File, ObjectFiles " +
                     "et ParentID.");
+        }
     }
 
     private MetadataTag getInSubTagsMap(MetadataTag tag, String name, int rank) throws SEDALibException {
-        if (tag.subTags != null) {
-            if (tag.subTags.get(rank) != null)
-                for (MetadataTag subTag : tag.subTags.get(rank))
-                    if (subTag.name.equals(name))
-                        return subTag;
-        } else
+        if (tag.subTags == null) {
             tag.subTags = new LinkedHashMap<>();
+        } else if (tag.subTags.get(rank) != null) {
+            for (MetadataTag subTag : tag.subTags.get(rank)) {
+                if (subTag.name.equals(name)) {
+                    return subTag;
+                }
+            }
+        }
+
         MetadataTag subTag = new MetadataTag(name, tag);
         if (tag.name == null) {
-            if (name.equals("Content"))
+            if (name.equals("Content")) {
                 contentTag = subTag;
-            else if (name.equals("Management"))
+            } else if (name.equals("Management")) {
                 managementTag = subTag;
-            else
+            } else {
                 throw new SEDALibException("Métadonnées [" + name + "] non conforme SEDA.");
+            }
         }
 
         List<MetadataTag> subTags = tag.subTags.get(rank);
@@ -172,18 +177,21 @@ public class CSVMetadataFormatter {
             subTags = new ArrayList<>();
             subTags.add(subTag);
             tag.subTags.put(rank, subTags);
-        } else
+        } else {
             subTags.add(subTag);
+        }
 
         return subTag;
     }
 
     private MetadataTag getTag(MetadataTag tag, List<String> splittedMetadataName) throws SEDALibException {
-        if (splittedMetadataName.isEmpty())
+        if (splittedMetadataName.isEmpty()) {
             return tag;
+        }
         String name = splittedMetadataName.get(0);
-        if ((splittedMetadataName.size() == 1) && (name.equals("attr")))
+        if ((splittedMetadataName.size() == 1) && (name.equals("attr"))) {
             return tag;
+        }
         int rank = 0;
         if (splittedMetadataName.size() > 1) {
             try {
@@ -202,9 +210,10 @@ public class CSVMetadataFormatter {
         MetadataTag currentTag = null;
         ValueAttrMetadataTag vamt;
 
-        if (headerRow.length <= firstIndex)
+        if (headerRow.length <= numberOfMandatoryHeaderFound) {
             throw new SEDALibException("Pas de colonne de métadonnées.");
-        if (headerRow[firstIndex].startsWith("Content.") || headerRow[firstIndex].startsWith("Management.")) {
+        }
+        if (headerRow[numberOfMandatoryHeaderFound].startsWith("Content.") || headerRow[numberOfMandatoryHeaderFound].startsWith("Management.")) {
             rootTag = new MetadataTag(null, null);
             contentTag = null;
         } else {
@@ -213,10 +222,11 @@ public class CSVMetadataFormatter {
         }
         managementTag = null;
         tagHeaderColumnMapping = new LinkedHashMap<>();
-        for (int i = firstIndex; i < headerRow.length; i++) {
+        for (int i = numberOfMandatoryHeaderFound; i < headerRow.length; i++) {
             if (headerRow[i].equalsIgnoreCase("attr")) {
-                if (currentTag == null)
+                if (currentTag == null) {
                     throw new SEDALibException("Le header attr en colonne n°" + i + " ne peut pas s'appliquer.");
+                }
                 vamt = new ValueAttrMetadataTag(false, currentTag);
             } else if (headerRow[i].endsWith(".attr")) {
                 currentTag = getTag(rootTag, new ArrayList<>(Arrays.asList(headerRow[i].split("\\."))));
@@ -227,8 +237,9 @@ public class CSVMetadataFormatter {
             }
             tagHeaderColumnMapping.put(i, vamt);
         }
-        if (contentTag == null)
+        if (contentTag == null) {
             throw new SEDALibException("Pas de colonne de métadonnées Content.");
+        }
     }
 
     /**
@@ -254,57 +265,66 @@ public class CSVMetadataFormatter {
 
     private void defineColumnValue(int headerColumn, String cell) {
         ValueAttrMetadataTag vamt = tagHeaderColumnMapping.get(headerColumn);
-        if (vamt.isValue)
+        if (vamt.isValue) {
             vamt.tag.value = cell;
-        else
+        } else {
             vamt.tag.attr = cell;
+        }
     }
 
     private String getOneSubTagXML(MetadataTag tag, String subTagName) {
         String result = "";
         for (List<MetadataTag> tagList : tag.subTags.values()) {
-            for (MetadataTag mt : tagList)
+            for (MetadataTag mt : tagList) {
                 if (mt.name.equals(subTagName) && !mt.value.isEmpty()) {
                     result += "<" + subTagName + ">" + StringEscapeUtils.escapeXml10(mt.value) + "</" + subTagName + ">";
                     mt.value = null;
                 }
+            }
         }
         return result;
     }
 
     private boolean notEmptyValues(MetadataTag tag) {
         boolean result = false;
-        if (tag.subTags == null)
-            return !((tag.value == null)|| tag.value.isEmpty());
-        for (List<MetadataTag> tagList : tag.subTags.values())
-            for (MetadataTag subTag : tagList)
+        if (tag.subTags == null) {
+            return !((tag.value == null) || tag.value.isEmpty());
+        }
+        for (List<MetadataTag> tagList : tag.subTags.values()) {
+            for (MetadataTag subTag : tagList) {
                 result = result || notEmptyValues(subTag);
+            }
+        }
         return result;
     }
 
     private String generateRuleTypeTagXML(MetadataTag tag) throws SEDALibException {
-        String result ="";
+        String result = "";
         for (List<MetadataTag> tagList : tag.subTags.values()) {
-            for (MetadataTag mt : tagList)
+            for (MetadataTag mt : tagList) {
                 if (mt.name.equals("Rule") && !mt.value.isEmpty()) {
                     result += "<Rule>" + StringEscapeUtils.escapeXml10(mt.value) + "</Rule>";
                     mt.value = null;
                 }
-            for (MetadataTag mt : tagList)
+            }
+            for (MetadataTag mt : tagList) {
                 if (mt.name.equals("StartDate") && !mt.value.isEmpty()) {
                     result += "<StartDate>" + StringEscapeUtils.escapeXml10(mt.value) + "</StartDate>";
                     mt.value = null;
                 }
+            }
         }
         result += getOneSubTagXML(tag, "PreventInheritance");
         result += getOneSubTagXML(tag, "RefNonRuleId");
         result += getOneSubTagXML(tag, "FinalAction");
 
-        if (notEmptyValues(tag))
+        if (notEmptyValues(tag)) {
             throw new SEDALibException("La règle [" + tag.name + "] contient des champs non conformes SEDA.");
+        }
 
-        if (!result.isEmpty())
-            result = "<" + tag.name + ">"+result+"</" + tag.name + ">";
+        if (!result.isEmpty()) {
+            result = "<" + tag.name + ">" + result + "</" + tag.name + ">";
+        }
         return result;
     }
 
@@ -312,34 +332,34 @@ public class CSVMetadataFormatter {
         StringBuilder result = new StringBuilder();
         for (List<MetadataTag> tagList : tag.subTags.values()) {
             for (MetadataTag mt : tagList) {
-                if(!mt.value.isEmpty()) {
+                if (!mt.value.isEmpty()) {
                     switch (mt.name) {
                         case "Rule":
                             result.append("<Rule>").append(StringEscapeUtils.escapeXml10(mt.value)).append("</Rule>");
                             break;
                         case "StartDate":
                             result.append("<StartDate>").append(StringEscapeUtils.escapeXml10(mt.value))
-                                .append("</StartDate>");
+                                    .append("</StartDate>");
                             break;
                         case "HoldEndDate":
                             result.append("<HoldEndDate>").append(StringEscapeUtils.escapeXml10(mt.value))
-                                .append("</HoldEndDate>");
+                                    .append("</HoldEndDate>");
                             break;
                         case "HoldOwner":
                             result.append("<HoldOwner>").append(StringEscapeUtils.escapeXml10(mt.value))
-                                .append("</HoldOwner>");
+                                    .append("</HoldOwner>");
                             break;
                         case "HoldReassessingDate":
                             result.append("<HoldReassessingDate>").append(StringEscapeUtils.escapeXml10(mt.value))
-                                .append("</HoldReassessingDate>");
+                                    .append("</HoldReassessingDate>");
                             break;
-                        case  "HoldReason":
+                        case "HoldReason":
                             result.append("<HoldReason>").append(StringEscapeUtils.escapeXml10(mt.value))
-                                .append("</HoldReason>");
+                                    .append("</HoldReason>");
                             break;
                         case "PreventRearrangement":
                             result.append("<PreventRearrangement>").append(StringEscapeUtils.escapeXml10(mt.value))
-                                .append("</PreventRearrangement>");
+                                    .append("</PreventRearrangement>");
                             break;
                         default:
                             continue;
@@ -351,27 +371,31 @@ public class CSVMetadataFormatter {
         result.append(getOneSubTagXML(tag, "PreventInheritance"));
         result.append(getOneSubTagXML(tag, "RefNonRuleId"));
 
-        if (notEmptyValues(tag))
+        if (notEmptyValues(tag)) {
             throw new SEDALibException("La règle [" + tag.name + "] contient des champs non conformes SEDA.");
+        }
 
-        if (result.length() > 0)
+        if (result.length() > 0) {
             result = new StringBuilder("<" + tag.name + ">" + result + "</" + tag.name + ">");
+        }
         return result.toString();
     }
 
     private String generateClassificationRuleTagXML(MetadataTag tag) throws SEDALibException {
-        String result ="";
+        String result = "";
         for (List<MetadataTag> tagList : tag.subTags.values()) {
-            for (MetadataTag mt : tagList)
+            for (MetadataTag mt : tagList) {
                 if (mt.name.equals("Rule") && !mt.value.isEmpty()) {
                     result += "<Rule>" + StringEscapeUtils.escapeXml10(mt.value) + "</Rule>";
                     mt.value = null;
                 }
-            for (MetadataTag mt : tagList)
+            }
+            for (MetadataTag mt : tagList) {
                 if (mt.name.equals("StartDate") && !mt.value.isEmpty()) {
                     result += "<StartDate>" + StringEscapeUtils.escapeXml10(mt.value) + "</StartDate>";
                     mt.value = null;
                 }
+            }
         }
         result += getOneSubTagXML(tag, "PreventInheritance");
         result += getOneSubTagXML(tag, "RefNonRuleId");
@@ -381,11 +405,13 @@ public class CSVMetadataFormatter {
         result += getOneSubTagXML(tag, "ClassificationReassessingDate");
         result += getOneSubTagXML(tag, "NeedReassessingAuthorization");
 
-        if (notEmptyValues(tag))
+        if (notEmptyValues(tag)) {
             throw new SEDALibException("La règle [" + tag.name + "] contient des champs non conformes SEDA.");
+        }
 
-        if (!result.isEmpty())
-            result = "<" + tag.name + ">"+result+"</" + tag.name + ">";
+        if (!result.isEmpty()) {
+            result = "<" + tag.name + ">" + result + "</" + tag.name + ">";
+        }
         return result;
     }
 
@@ -409,29 +435,36 @@ public class CSVMetadataFormatter {
         }
 
         if (tag.subTags != null) {
-            for (List<MetadataTag> tagList : tag.subTags.values())
-                for (MetadataTag subTag : tagList)
+            for (List<MetadataTag> tagList : tag.subTags.values()) {
+                for (MetadataTag subTag : tagList) {
                     value += generateTagXML(subTag);
+                }
+            }
         }
 
         if (value.isEmpty()
                 && ((tag.value == null) || tag.value.isEmpty())
-                && ((tag.attr == null) || tag.attr.isEmpty()))
+                && ((tag.attr == null) || tag.attr.isEmpty())) {
             return "";
-        if (!value.isEmpty() && (tag.value != null) && !tag.value.isEmpty())
+        }
+        if (!value.isEmpty() && (tag.value != null) && !tag.value.isEmpty()) {
             throw new SEDALibException("Il ne peut y avoir une valeur et des sous-éléments dans un élément SEDA [" + tag + "].");
+        }
         if (tag.name != null) {
             result = "<" + tag.name;
-            if ((tag.attr != null) && !tag.attr.isEmpty())
+            if ((tag.attr != null) && !tag.attr.isEmpty()) {
                 result += " " + tag.attr;
+            }
             result += ">";
-            if (!value.isEmpty())
+            if (!value.isEmpty()) {
                 result += value;
-            else
+            } else {
                 result += StringEscapeUtils.escapeXml10(tag.value);
+            }
             result += "</" + tag.name + ">";
-        } else
+        } else {
             result = value;
+        }
         return result;
     }
 
@@ -443,11 +476,13 @@ public class CSVMetadataFormatter {
      * @throws SEDALibException the seda lib exception
      */
     public String doFormatAndExtractContentXML(String[] row) throws SEDALibException {
-        if (row.length != columnCount)
+        if (row.length != columnCount) {
             throw new SEDALibException("Il n'y a pas le bon nombre d'éléments sur la ligne.");
+        }
         resetValues();
-        for (int i = firstIndex; i < row.length; i++)
+        for (int i = numberOfMandatoryHeaderFound; i < row.length; i++) {
             defineColumnValue(i, row[i]);
+        }
         return generateTagXML(contentTag);
     }
 
@@ -458,8 +493,9 @@ public class CSVMetadataFormatter {
      * @throws SEDALibException the seda lib exception
      */
     public String extractManagementXML() throws SEDALibException {
-        if (managementTag == null)
+        if (managementTag == null) {
             return "";
+        }
         return generateTagXML(managementTag);
     }
 
@@ -471,8 +507,9 @@ public class CSVMetadataFormatter {
      * @return the guid
      */
     public String getGUID(String[] row) {
-        if (guidColumn == fileColumn)
+        if (guidColumn == fileColumn) {
             return getFile(row);
+        }
         return row[guidColumn];
     }
 
@@ -483,8 +520,9 @@ public class CSVMetadataFormatter {
      * @return the parent guid
      */
     public String getParentGUID(String[] row) {
-        if (isOnlyFile)
+        if (isOnlyFile) {
             return Paths.get(getFile(row)).getParent().toString();
+        }
         return row[parentGUIDColumn];
     }
 
@@ -505,10 +543,11 @@ public class CSVMetadataFormatter {
      * @return the object files list
      */
     public String getObjectFiles(String[] row) {
-        if (objectfilesColumn==-1)
+        if (objectfilesColumn == -1) {
             return "";
-        else
+        } else {
             return row[objectfilesColumn];
+        }
     }
 
     /**
@@ -526,6 +565,6 @@ public class CSVMetadataFormatter {
      * @return is extended format boolean
      */
     public boolean isExtendedFormat() {
-        return objectfilesColumn!=-1;
+        return objectfilesColumn != -1;
     }
 }

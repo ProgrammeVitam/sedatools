@@ -42,6 +42,7 @@ import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.io.File;
@@ -57,6 +58,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 /**
  * The type Import thread.
  */
+@Slf4j
 public class ImportThread extends SwingWorker<String, String> {
     //input
     private Work work;
@@ -304,9 +306,10 @@ public class ImportThread extends SwingWorker<String, String> {
         inOutDialog.cancelButton.setEnabled(false);
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: import annulé, les données n'ont pas été modifiées", null);
-        else if (exitThrowable != null)
+        else if (exitThrowable != null) {
+            log.error("error:", exitThrowable);
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant l'import, les données n'ont pas été modifiées", exitThrowable);
-        else {
+        } else {
             work.getCreationContext().setSummary(summary);
             theApp.currentWork = work;
             theApp.setFilenameWork(null);
