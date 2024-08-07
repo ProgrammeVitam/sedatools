@@ -7,9 +7,11 @@ import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
@@ -144,7 +146,7 @@ class BinaryDataObjectTest {
     }
 
     @Test
-    void testXMLFragment() throws SEDALibException, InterruptedException {
+    void testXMLFragment() throws SEDALibException, InterruptedException, FileNotFoundException {
         // Given
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
@@ -161,7 +163,7 @@ class BinaryDataObjectTest {
 
         // When dataObjectProfile defined in SEDA 2.1 can't generate XML
         bdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
-        assertThatThrownBy(() -> bdo.toSedaXmlFragments()).isInstanceOf(SEDALibException.class)
+        assertThatThrownBy(bdo::toSedaXmlFragments).isInstanceOf(SEDALibException.class)
                 .hasMessageContaining("Erreur interne");
         bdo.dataObjectProfile = null;
 
@@ -172,36 +174,11 @@ class BinaryDataObjectTest {
         String bdoNextOut = bdoNext.toSedaXmlFragments();
 
         // Then
-        String testOut = "<DataObjectVersion>BinaryMaster_1</DataObjectVersion>\n" +
-                "  <Uri>content/ID52.jpg</Uri>\n" +
-                "  <MessageDigest algorithm=\"SHA-512\">e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3</MessageDigest>\n" +
-                "  <Size>21232</Size>\n" +
-                "  <FormatIdentification>\n" +
-                "    <FormatLitteral>Exchangeable Image File Format (Compressed)</FormatLitteral>\n" +
-                "    <MimeType>image/jpeg</MimeType>\n" +
-                "    <FormatId>fmt/645</FormatId>\n" +
-                "  </FormatIdentification>\n" +
-                "  <FileInfo>\n" +
-                "    <Filename>image001.jpg</Filename>\n" +
-                "    <LastModified>2018-08-28T19:22:19</LastModified>\n" +
-                "  </FileInfo>\n" +
-                "  <Metadata>\n" +
-                "    <Image>\n" +
-                "      <Dimensions>117x76</Dimensions>\n" +
-                "      <Width>117px</Width>\n" +
-                "      <Height>76px</Height>\n" +
-                "      <VerticalResolution>96ppp</VerticalResolution>\n" +
-                "      <HorizontalResolution>96ppp</HorizontalResolution>\n" +
-                "      <ColorDepth>24</ColorDepth>\n" +
-                "    </Image>\n" +
-                "  </Metadata>";
-        testOut = LineEndNormalize(testOut);
-        bdoNextOut = LineEndNormalize(bdoNextOut);
-        assertThat(bdoNextOut).isEqualTo(testOut);
+        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7.xml"));
     }
 
     @Test
-    void testXMLFragmentForSedaVersion2() throws SEDALibException, InterruptedException {
+    void testXMLFragmentForSedaVersion2() throws SEDALibException, InterruptedException, FileNotFoundException {
 
         // Given
         SEDA2Version.setSeda2Version(2);
@@ -226,33 +203,7 @@ class BinaryDataObjectTest {
         String bdoNextOut = bdoNext.toSedaXmlFragments();
 
         // Then
-        String testOut = "<DataObjectProfile>Test</DataObjectProfile>\n" +
-                "<DataObjectVersion>BinaryMaster_1</DataObjectVersion>\n" +
-                "  <Uri>content/ID52.jpg</Uri>\n" +
-                "  <MessageDigest algorithm=\"SHA-512\">e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3</MessageDigest>\n" +
-                "  <Size>21232</Size>\n" +
-                "  <FormatIdentification>\n" +
-                "    <FormatLitteral>Exchangeable Image File Format (Compressed)</FormatLitteral>\n" +
-                "    <MimeType>image/jpeg</MimeType>\n" +
-                "    <FormatId>fmt/645</FormatId>\n" +
-                "  </FormatIdentification>\n" +
-                "  <FileInfo>\n" +
-                "    <Filename>image001.jpg</Filename>\n" +
-                "    <LastModified>2018-08-28T19:22:19</LastModified>\n" +
-                "  </FileInfo>\n" +
-                "  <Metadata>\n" +
-                "    <Image>\n" +
-                "      <Dimensions>117x76</Dimensions>\n" +
-                "      <Width>117px</Width>\n" +
-                "      <Height>76px</Height>\n" +
-                "      <VerticalResolution>96ppp</VerticalResolution>\n" +
-                "      <HorizontalResolution>96ppp</HorizontalResolution>\n" +
-                "      <ColorDepth>24</ColorDepth>\n" +
-                "    </Image>\n" +
-                "  </Metadata>";
-        testOut = LineEndNormalize(testOut);
-        bdoNextOut = LineEndNormalize(bdoNextOut);
-        assertThat(bdoNextOut).isEqualTo(testOut);
+        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7_with_profile.xml"));
         SEDA2Version.setSeda2Version(1);
     }
 }

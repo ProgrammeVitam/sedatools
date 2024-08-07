@@ -3,6 +3,8 @@ package fr.gouv.vitam.tools.sedalib;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import mslinks.ShellLink;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +14,7 @@ import java.nio.file.Paths;
 
 public class TestUtilities {
 
+    private static final Logger log = LoggerFactory.getLogger(TestUtilities.class);
     public static boolean isPrepared = false;
 
     private static void createSymbolicLink(String link, String target) throws SEDALibException {
@@ -22,7 +25,7 @@ public class TestUtilities {
         } catch (Exception ignored) {
         }
         try {
-            Files.delete(Paths.get(linkpath.toString() + ".lnk"));
+            Files.delete(Paths.get(linkpath + ".lnk"));
         } catch (Exception ignored) {
         }
         try {
@@ -135,14 +138,16 @@ public class TestUtilities {
         try {
             Files.delete(Paths.get(dirOrFile));
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
         try {
             FileUtils.deleteDirectory(new File(dirOrFile));
         } catch (Exception e) {
+            log.error(e.getMessage());
         }
     }
 
-    public static boolean isWindowsOS(){
-        return 	System.getProperty("os.name").toLowerCase().contains("win");
+    public static boolean isWindowsOS() {
+        return System.getProperty("os.name").toLowerCase().contains("win");
     }
 }

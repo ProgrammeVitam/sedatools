@@ -1,0 +1,22 @@
+<Content>
+  <Description xml:lang="en">TestDescription EN</Description>
+  <Event>
+    <EventDateTime>1970-01-01T01:00:00.000</EventDateTime>
+    <Outcome>OK</Outcome>
+    <Information>OK</Information>
+  </Event>
+  <Event>
+    <EventIdentifier>AUT-234452</EventIdentifier>
+    <EventTypeCode>Autorisation</EventTypeCode>
+    <EventDateTime>2104-05-31T01:00:00.000</EventDateTime>
+    <Outcome>OK</Outcome>
+  </Event>
+  <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+  <Frog>
+    <CommonName>Verte à détente</CommonName>
+    <ScientificName>Viridi Rana Elasticis</ScientificName>
+  </Frog>
+</Content>

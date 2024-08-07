@@ -1,0 +1,82 @@
+DescriptionLevel: Series
+OriginatingSystemId.0: Cerfa-1244771-ID10000
+Description.0: TestDescription EN
+Description.0.attr: xml:lang="en"
+CustodialHistory.CustodialHistoryItem.0: TestItem1
+CustodialHistory.CustodialHistoryItem.1: TestItem2
+CustodialHistory.CustodialHistoryItem.2: TestItem3
+CustodialHistory.CustodialHistoryItem.3: TestItem4
+Keyword.0.KeywordType: subject
+Coverage.Spatial.0: TestSpatial1
+Coverage.Spatial.1: TestSpatial2
+Coverage.Spatial.2: TestSpatial3
+Coverage.Temporal.0: TestTemporal1
+Coverage.Temporal.1: TestTemporal2
+Coverage.Juridictional.0: TestJuridictional1
+OriginatingAgency.Identifier: Agency1
+Writer.0.FirstName: TestPrenom
+Writer.0.BirthName: TestNom
+Writer.0.BirthPlace.Geogname: Location1
+Writer.0.BirthPlace.Country: Country1
+Writer.0.Identifier.0: ID1
+Writer.0.Identifier.1: ID2
+Writer.0.Function.0: F1
+RelatedObjectReference.IsVersionOf.0.DataObjectReference.DataObjectGroupReferenceId: DogRefId
+RelatedObjectReference.IsVersionOf.1.ArchiveUnitRefId: AURefId
+RelatedObjectReference.Replaces.0.DataObjectReference.DataObjectReferenceId: DoRefId
+RelatedObjectReference.Requires.0.RepositoryArchiveUnitPID: AuPid
+RelatedObjectReference.IsPartOf.0.RepositoryObjectPID: DoPid
+RelatedObjectReference.References.0.ExternalReference: ExtrenalRef
+RegisteredDate: 2104-05-13T00:00:00.000
+Event.0.EventDateTime: 1970-01-01T01:00:00.000
+Event.0.Outcome: OK
+Event.0.Information.0: <Information>OK</Information>
+Event.1.EventIdentifier: AUT-234452
+Event.1.EventTypeCode: Autorisation
+Event.1.EventDateTime: 2104-05-31T01:00:00.000
+Event.1.Outcome: OK
+Signature.0.Signer.0.FirstName: Paul
+Signature.0.Signer.0.BirthName: Dupont
+Signature.0.Signer.0.SigningTime: 1970-01-01T01:00:00.000
+Signature.0.Signer.1.FullName: Martin Durant
+Signature.0.Signer.1.SigningTime: 1970-01-02T01:00:00.000
+Signature.0.Signer.2.FirstName: Emilie
+Signature.0.Signer.2.BirthName: Martin
+Signature.0.Signer.2.Identifier: emilie.martin@corp.fr
+Signature.0.Signer.2.SigningTime: 1970-01-02T01:00:00.000
+Signature.0.Signer.3.FullName: Laura Tremoulet
+Signature.0.Signer.3.BirthPlace.Geogname: TestLocation1
+Signature.0.Signer.3.SigningTime: 1970-01-01T02:00:00.000
+Signature.0.Validator.Corpname: The corporation
+Signature.0.Validator.ValidationTime: 1970-01-03T01:00:00.000
+Signature.0.ReferencedObject.SignedObjectId: TestID1
+Signature.0.ReferencedObject.SignedObjectDigest: TestDigest1
+Signature.0.ReferencedObject.SignedObjectDigest.attr: algorithm="TestSHA"
+Gps.GpsVersionID: TestVersion
+Gps.GpsAltitude: 10000
+Gps.GpsAltitudeRef: 0
+Gps.GpsLatitude: TestLatitude
+Gps.GpsLatitudeRef: S
+Gps.GpsLongitude: TestLongitude
+Gps.GpsLongitudeRef: O
+Gps.GpsDateStamp: TestDateStamp
+XMLTest.0: <XMLTest>
+    <TestTag>TestValue</TestTag>
+  </XMLTest>
+XMLTest.1: <XMLTest>
+    <TestTag>TestValue</TestTag>
+  </XMLTest>
+UniversalNumber.0: <UniversalNumber>42</UniversalNumber>
+Frog.0: <Frog>
+    <CommonName>Rouge à laser</CommonName>
+    <ScientificName>Rubra Rana Laseri</ScientificName>
+  </Frog>
+Frog.1: <Frog>
+    <CommonName>Verte à détente</CommonName>
+    <ScientificName>Viridi Rana Elasticis</ScientificName>
+  </Frog>
+Requirer.0: <Requirer>
+    <Identifier>REF-16F14A19BF22</Identifier>
+    <FirstName>Edouard</FirstName>
+    <BirthName>AFINA</BirthName>
+  </Requirer>
