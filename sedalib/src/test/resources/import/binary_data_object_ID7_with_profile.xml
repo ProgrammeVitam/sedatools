@@ -1,0 +1,24 @@
+<DataObjectProfile>Test</DataObjectProfile>
+<DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+<Uri>content/ID52.jpg</Uri>
+<MessageDigest algorithm="SHA-512">e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3</MessageDigest>
+<Size>21232</Size>
+<FormatIdentification>
+  <FormatLitteral>Exchangeable Image File Format (Compressed)</FormatLitteral>
+  <MimeType>image/jpeg</MimeType>
+  <FormatId>fmt/645</FormatId>
+</FormatIdentification>
+<FileInfo>
+  <Filename>image001.jpg</Filename>
+  <LastModified>2018-08-28T19:22:19.000</LastModified>
+</FileInfo>
+<Metadata>
+  <Image>
+    <Dimensions>117x76</Dimensions>
+    <Width>117px</Width>
+    <Height>76px</Height>
+    <VerticalResolution>96ppp</VerticalResolution>
+    <HorizontalResolution>96ppp</HorizontalResolution>
+    <ColorDepth>24</ColorDepth>
+  </Image>
+</Metadata>

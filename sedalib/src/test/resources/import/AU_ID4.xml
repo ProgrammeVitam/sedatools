@@ -1,0 +1,371 @@
+<Content>
+  <DescriptionLevel>RecordGrp</DescriptionLevel>
+  <Title>1_Saint Denis Université (ligne 13)</Title>
+  <FilePlanPosition>13.1.</FilePlanPosition>
+  <FilePlanPosition>RATP.13.1.</FilePlanPosition>
+  <OriginatingSystemId>123456</OriginatingSystemId>
+  <OriginatingSystemId>AZERTY</OriginatingSystemId>
+  <ArchivalAgencyArchiveUnitIdentifier>20170045/1</ArchivalAgencyArchiveUnitIdentifier>
+  <ArchivalAgencyArchiveUnitIdentifier>AMN.X/12</ArchivalAgencyArchiveUnitIdentifier>
+  <OriginatingAgencyArchiveUnitIdentifier>7890</OriginatingAgencyArchiveUnitIdentifier>
+  <OriginatingAgencyArchiveUnitIdentifier>QWERTY</OriginatingAgencyArchiveUnitIdentifier>
+  <TransferringAgencyArchiveUnitIdentifier>Toto1</TransferringAgencyArchiveUnitIdentifier>
+  <TransferringAgencyArchiveUnitIdentifier>1Otot</TransferringAgencyArchiveUnitIdentifier>
+  <Description>Cette ArchiveUnit n'a aucune règle propre, mais récupère du ManagementMetadata du SIP un NeedAuthorization à true, une StorageRule avec un FinalAction à Copy, une AppraisalRule avec un FinalAction à Keep, une AccessRule avec la Rule ACC-00002 dont la StartDate est 01/01/2000 et une ClassificationRule dont la Rule est CLASS-00001 avec pour StartDate 03/06/2015, Confidentiel Défense pour ClassificationLevel, ClassificationOwner0 pour ClassificationOwner, ClassificationAudience0 pour ClassificationAudience, 03/06/2016 comme ClassificationReassasingDate et un NeedReassessingAuthorization à true</Description>
+  <CustodialHistory>
+    <CustodialHistoryItem>Saint-Denis - Université est une station de la ligne 13 du métro de Paris, située au nord de la commune de Saint-Denis, en limite de celle de Pierrefitte-sur-Seine, dans le département de la Seine-Saint-Denis. C'est le terminus de la ligne 13 sur sa branche nord-est</CustodialHistoryItem>
+    <CustodialHistoryItem>La station est ouverte le 25 mai 1998. Son nom vient de sa proximité immédiate de l'université de Paris VIII à Saint-Denis.</CustodialHistoryItem>
+  </CustodialHistory>
+  <Type>Information de représentation</Type>
+  <DocumentType>Plan</DocumentType>
+  <Language>fr</Language>
+  <DescriptionLanguage>fr</DescriptionLanguage>
+  <Status>Original</Status>
+  <Version>2</Version>
+  <Tag>station</Tag>
+  <Tag>métropolitain</Tag>
+  <Keyword>
+    <KeywordContent>Transport en commun</KeywordContent>
+    <KeywordReference>ark:/67717/T1-1273</KeywordReference>
+    <KeywordType>subject</KeywordType>
+  </Keyword>
+  <Keyword>
+    <KeywordContent>Saint-Denis</KeywordContent>
+    <KeywordReference>93066</KeywordReference>
+    <KeywordType>geogname</KeywordType>
+  </Keyword>
+  <Coverage>
+    <Spatial>Saint-Denis</Spatial>
+    <Temporal>20e siècle</Temporal>
+    <Juridictional>Communauté de communes de Plaine Commune</Juridictional>
+  </Coverage>
+  <OriginatingAgency>
+    <Identifier>RATP</Identifier>
+  </OriginatingAgency>
+  <SubmissionAgency>
+    <Identifier>RATP</Identifier>
+  </SubmissionAgency>
+  <AuthorizedAgent>
+    <FirstName>Fulgence Marie Auguste</FirstName>
+    <BirthName>Bienvenüe</BirthName>
+    <FullName>Fulgence Marie Auguste Bienvenüe</FullName>
+    <GivenName>Le père du métro</GivenName>
+    <Gender>M</Gender>
+    <BirthDate>1852-01-27</BirthDate>
+    <BirthPlace>
+      <Geogname>Uzel</Geogname>
+      <Address>Place de la Mairie</Address>
+      <PostalCode>22460</PostalCode>
+      <City>Uzel</City>
+      <Region>Bretagne</Region>
+      <Country>France</Country>
+    </BirthPlace>
+    <DeathDate>1936-08-03</DeathDate>
+    <DeathPlace>
+      <Geogname>Paris</Geogname>
+      <Address>Hôpital Boucicaut</Address>
+      <PostalCode>75015</PostalCode>
+      <City>Paris</City>
+      <Region>Ile de France</Region>
+      <Country>France</Country>
+    </DeathPlace>
+    <Nationality>Française</Nationality>
+    <Identifier>0000 0000 5488 9547</Identifier>
+    <Function>Ingénierie</Function>
+    <Activity>Conception de lignes de métro</Activity>
+    <Position>Chef de l'inspection des Ponts et Chaussées</Position>
+    <Role>Directeur des travaux</Role>
+    <Mandate>Loi du 30 mars 1898</Mandate>
+  </AuthorizedAgent>
+  <AuthorizedAgent>
+    <Corpname>Compagnie du chemin de fer métropolitain de Paris</Corpname>
+    <Identifier>CMP</Identifier>
+    <Function>Transport</Function>
+    <Activity>Transport en commun</Activity>
+    <Position>Direction</Position>
+    <Role>Direction</Role>
+    <Mandate>Statuts de 1899</Mandate>
+  </AuthorizedAgent>
+  <Writer>
+    <FirstName>Fulgence Marie Auguste</FirstName>
+    <BirthName>Bienvenüe</BirthName>
+    <FullName>Fulgence Marie Auguste Bienvenüe</FullName>
+    <GivenName>Le père du métro</GivenName>
+    <Gender>M</Gender>
+    <BirthDate>1852-01-27</BirthDate>
+    <BirthPlace>
+      <Geogname>Uzel</Geogname>
+      <Address>Place de la Mairie</Address>
+      <PostalCode>22460</PostalCode>
+      <City>Uzel</City>
+      <Region>Bretagne</Region>
+      <Country>France</Country>
+    </BirthPlace>
+    <DeathDate>1936-08-03</DeathDate>
+    <DeathPlace>
+      <Geogname>Paris</Geogname>
+      <Address>Hôpital Boucicaut</Address>
+      <PostalCode>75015</PostalCode>
+      <City>Paris</City>
+      <Region>Ile de France</Region>
+      <Country>France</Country>
+    </DeathPlace>
+    <Nationality>Française</Nationality>
+    <Identifier>0000 0000 5488 9547</Identifier>
+    <Function>Ingénierie</Function>
+    <Activity>Conception de lignes de métro</Activity>
+    <Position>Chef de l'inspection des Ponts et Chaussées</Position>
+    <Role>Directeur des travaux</Role>
+    <Mandate>Loi du 30 mars 1898</Mandate>
+  </Writer>
+  <Addressee>
+    <FirstName>Fulgence Marie Auguste</FirstName>
+    <BirthName>Bienvenüe</BirthName>
+    <FullName>Fulgence Marie Auguste Bienvenüe</FullName>
+    <GivenName>Le père du métro</GivenName>
+    <Gender>M</Gender>
+    <BirthDate>1852-01-27</BirthDate>
+    <BirthPlace>
+      <Geogname>Uzel</Geogname>
+      <Address>Place de la Mairie</Address>
+      <PostalCode>22460</PostalCode>
+      <City>Uzel</City>
+      <Region>Bretagne</Region>
+      <Country>France</Country>
+    </BirthPlace>
+    <DeathDate>1936-08-03</DeathDate>
+    <DeathPlace>
+      <Geogname>Paris</Geogname>
+      <Address>Hôpital Boucicaut</Address>
+      <PostalCode>75015</PostalCode>
+      <City>Paris</City>
+      <Region>Ile de France</Region>
+      <Country>France</Country>
+    </DeathPlace>
+    <Nationality>Française</Nationality>
+    <Identifier>0000 0000 5488 9547</Identifier>
+    <Function>Ingénierie</Function>
+    <Activity>Conception de lignes de métro</Activity>
+    <Position>Chef de l'inspection des Ponts et Chaussées</Position>
+    <Role>Directeur des travaux</Role>
+    <Mandate>Loi du 30 mars 1898</Mandate>
+  </Addressee>
+  <Recipient>
+    <FirstName>Fulgence Marie Auguste</FirstName>
+    <BirthName>Bienvenüe</BirthName>
+    <FullName>Fulgence Marie Auguste Bienvenüe</FullName>
+    <GivenName>Le père du métro</GivenName>
+    <Gender>M</Gender>
+    <BirthDate>1852-01-27</BirthDate>
+    <BirthPlace>
+      <Geogname>Uzel</Geogname>
+      <Address>Place de la Mairie</Address>
+      <PostalCode>22460</PostalCode>
+      <City>Uzel</City>
+      <Region>Bretagne</Region>
+      <Country>France</Country>
+    </BirthPlace>
+    <DeathDate>1936-08-03</DeathDate>
+    <DeathPlace>
+      <Geogname>Paris</Geogname>
+      <Address>Hôpital Boucicaut</Address>
+      <PostalCode>75015</PostalCode>
+      <City>Paris</City>
+      <Region>Ile de France</Region>
+      <Country>France</Country>
+    </DeathPlace>
+    <Nationality>Française</Nationality>
+    <Identifier>0000 0000 5488 9547</Identifier>
+    <Function>Ingénierie</Function>
+    <Activity>Conception de lignes de métro</Activity>
+    <Position>Chef de l'inspection des Ponts et Chaussées</Position>
+    <Role>Directeur des travaux</Role>
+    <Mandate>Loi du 30 mars 1898</Mandate>
+  </Recipient>
+  <Transmitter>
+    <FirstName>Fulgence Marie Auguste</FirstName>
+    <BirthName>Bienvenüe</BirthName>
+    <FullName>Fulgence Marie Auguste Bienvenüe</FullName>
+    <GivenName>Le père du métro</GivenName>
+    <Gender>M</Gender>
+    <BirthDate>1852-01-27</BirthDate>
+    <BirthPlace>
+      <Geogname>Uzel</Geogname>
+      <Address>Place de la Mairie</Address>
+      <PostalCode>22460</PostalCode>
+      <City>Uzel</City>
+      <Region>Bretagne</Region>
+      <Country>France</Country>
+    </BirthPlace>
+    <DeathDate>1936-08-03</DeathDate>
+    <DeathPlace>
+      <Geogname>Paris</Geogname>
+      <Address>Hôpital Boucicaut</Address>
+      <PostalCode>75015</PostalCode>
+      <City>Paris</City>
+      <Region>Ile de France</Region>
+      <Country>France</Country>
+    </DeathPlace>
+    <Nationality>Française</Nationality>
+    <Identifier>0000 0000 5488 9547</Identifier>
+    <Function>Ingénierie</Function>
+    <Activity>Conception de lignes de métro</Activity>
+    <Position>Chef de l'inspection des Ponts et Chaussées</Position>
+    <Role>Directeur des travaux</Role>
+    <Mandate>Loi du 30 mars 1898</Mandate>
+  </Transmitter>
+  <Sender>
+    <FirstName>Fulgence Marie Auguste</FirstName>
+    <BirthName>Bienvenüe</BirthName>
+    <FullName>Fulgence Marie Auguste Bienvenüe</FullName>
+    <GivenName>Le père du métro</GivenName>
+    <Gender>M</Gender>
+    <BirthDate>1852-01-27</BirthDate>
+    <BirthPlace>
+      <Geogname>Uzel</Geogname>
+      <Address>Place de la Mairie</Address>
+      <PostalCode>22460</PostalCode>
+      <City>Uzel</City>
+      <Region>Bretagne</Region>
+      <Country>France</Country>
+    </BirthPlace>
+    <DeathDate>1936-08-03</DeathDate>
+    <DeathPlace>
+      <Geogname>Paris</Geogname>
+      <Address>Hôpital Boucicaut</Address>
+      <PostalCode>75015</PostalCode>
+      <City>Paris</City>
+      <Region>Ile de France</Region>
+      <Country>France</Country>
+    </DeathPlace>
+    <Nationality>Française</Nationality>
+    <Identifier>0000 0000 5488 9547</Identifier>
+    <Function>Ingénierie</Function>
+    <Activity>Conception de lignes de métro</Activity>
+    <Position>Chef de l'inspection des Ponts et Chaussées</Position>
+    <Role>Directeur des travaux</Role>
+    <Mandate>Loi du 30 mars 1898</Mandate>
+  </Sender>
+  <Source>Wikipedia</Source>
+  <RelatedObjectReference>
+    <IsVersionOf>
+      <ArchiveUnitRefId>ID14</ArchiveUnitRefId>
+    </IsVersionOf>
+    <Replaces>
+      <DataObjectReference>
+        <DataObjectGroupReferenceId>ID12</DataObjectGroupReferenceId>
+      </DataObjectReference>
+    </Replaces>
+    <Requires>
+      <RepositoryArchiveUnitPID>19850526/6</RepositoryArchiveUnitPID>
+    </Requires>
+    <IsPartOf>
+      <RepositoryObjectPID>12345676890</RepositoryObjectPID>
+    </IsPartOf>
+    <References>
+      <ExternalReference>4-LK18-3389</ExternalReference>
+    </References>
+  </RelatedObjectReference>
+  <CreatedDate>2017-01-01T00:00:00.000</CreatedDate>
+  <TransactedDate>2017-01-01T00:00:00.000</TransactedDate>
+  <AcquiredDate>2017-01-01T00:00:00.000</AcquiredDate>
+  <SentDate>2017-01-01T00:00:00.000</SentDate>
+  <ReceivedDate>2017-01-01T00:00:00.000</ReceivedDate>
+  <RegisteredDate>2017-01-01T00:00:00.000</RegisteredDate>
+  <StartDate>2017-04-04T08:07:06.000</StartDate>
+  <EndDate>2017-04-04T08:07:06.000</EndDate>
+  <Event>
+    <EventIdentifier>123456</EventIdentifier>
+    <EventTypeCode>Ligne_ouverture</EventTypeCode>
+    <EventType>Ouverture</EventType>
+    <EventDateTime>1998-05-25T08:07:06.000</EventDateTime>
+    <EventDetail>Ouverture de la station à l'exploitation</EventDetail>
+    <Outcome>OK</Outcome>
+    <OutcomeDetail>Ligne_Ouverture_OK</OutcomeDetail>
+    <OutcomeDetailMessage>Ouverture de la station effectuée avec succès</OutcomeDetailMessage>
+    <EventDetailData>500 personnes présentes</EventDetailData>
+  </Event>
+  <Signature>
+    <Signer>
+      <FirstName>Fulgence Marie Auguste</FirstName>
+      <BirthName>Bienvenüe</BirthName>
+      <FullName>Fulgence Marie Auguste Bienvenüe</FullName>
+      <GivenName>Le père du métro</GivenName>
+      <Gender>M</Gender>
+      <BirthDate>1852-01-27</BirthDate>
+      <BirthPlace>
+        <Geogname>Uzel</Geogname>
+        <Address>Place de la Mairie</Address>
+        <PostalCode>22460</PostalCode>
+        <City>Uzel</City>
+        <Region>Bretagne</Region>
+        <Country>France</Country>
+      </BirthPlace>
+      <DeathDate>1936-08-03</DeathDate>
+      <DeathPlace>
+        <Geogname>Paris</Geogname>
+        <Address>Hôpital Boucicaut</Address>
+        <PostalCode>75015</PostalCode>
+        <City>Paris</City>
+        <Region>Ile de France</Region>
+        <Country>France</Country>
+      </DeathPlace>
+      <Nationality>Française</Nationality>
+      <Identifier>0000 0000 5488 9547</Identifier>
+      <SigningTime>1998-04-04T08:07:06.000</SigningTime>
+      <Function>Ingénierie</Function>
+      <Activity>Conception de lignes de métro</Activity>
+      <Position>Chef de l'inspection des Ponts et Chaussées</Position>
+      <Role>Directeur des travaux</Role>
+      <Mandate>Loi du 30 mars 1898</Mandate>
+    </Signer>
+    <Validator>
+      <FirstName>Fulgence Marie Auguste</FirstName>
+      <BirthName>Bienvenüe</BirthName>
+      <FullName>Fulgence Marie Auguste Bienvenüe</FullName>
+      <GivenName>Le père du métro</GivenName>
+      <Gender>M</Gender>
+      <BirthDate>1852-01-27</BirthDate>
+      <BirthPlace>
+        <Geogname>Uzel</Geogname>
+        <Address>Place de la Mairie</Address>
+        <PostalCode>22460</PostalCode>
+        <City>Uzel</City>
+        <Region>Bretagne</Region>
+        <Country>France</Country>
+      </BirthPlace>
+      <DeathDate>1936-08-03</DeathDate>
+      <DeathPlace>
+        <Geogname>Paris</Geogname>
+        <Address>Hôpital Boucicaut</Address>
+        <PostalCode>75015</PostalCode>
+        <City>Paris</City>
+        <Region>Ile de France</Region>
+        <Country>France</Country>
+      </DeathPlace>
+      <Nationality>Française</Nationality>
+      <Identifier>0000 0000 5488 9547</Identifier>
+      <ValidationTime>1998-04-04T08:07:06.000</ValidationTime>
+      <Function>Ingénierie</Function>
+      <Activity>Conception de lignes de métro</Activity>
+      <Position>Chef de l'inspection des Ponts et Chaussées</Position>
+      <Role>Directeur des travaux</Role>
+      <Mandate>Loi du 30 mars 1898</Mandate>
+    </Validator>
+    <ReferencedObject>
+      <SignedObjectId>ID13</SignedObjectId>
+      <SignedObjectDigest algorithm="SHA-512">86c0bc701ef6b5dd21b080bc5bb2af38097baa6237275da83a52f092c9eae3e4e4b0247391620bd732fe824d18bd3bb6c37e62ec73a8cf3585c6a799399861b1</SignedObjectDigest>
+    </ReferencedObject>
+  </Signature>
+  <Gps>
+    <GpsVersionID>Système géodésique WGS 84</GpsVersionID>
+    <GpsAltitude>36</GpsAltitude>
+    <GpsAltitudeRef>0</GpsAltitudeRef>
+    <GpsLatitude>48 56 45.395</GpsLatitude>
+    <GpsLatitudeRef>N</GpsLatitudeRef>
+    <GpsLongitude>2 21 49.964</GpsLongitude>
+    <GpsLongitudeRef>E</GpsLongitudeRef>
+    <GpsDateStamp>2018-03-01T11:04:00</GpsDateStamp>
+  </Gps>
+  <Arrangement>Hiérarchique</Arrangement>
+</Content>

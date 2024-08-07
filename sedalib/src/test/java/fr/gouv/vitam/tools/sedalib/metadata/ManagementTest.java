@@ -1,18 +1,11 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.metadata.management.AccessRule;
-import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
-import fr.gouv.vitam.tools.sedalib.metadata.management.ClassificationRule;
-import fr.gouv.vitam.tools.sedalib.metadata.management.DisseminationRule;
-import fr.gouv.vitam.tools.sedalib.metadata.management.HoldRule;
-import fr.gouv.vitam.tools.sedalib.metadata.management.LogBook;
-import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
-import fr.gouv.vitam.tools.sedalib.metadata.management.ReuseRule;
-import fr.gouv.vitam.tools.sedalib.metadata.management.StorageRule;
-import fr.gouv.vitam.tools.sedalib.metadata.management.UpdateOperation;
+import fr.gouv.vitam.tools.sedalib.metadata.management.*;
+import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
@@ -22,7 +15,7 @@ import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 class ManagementTest {
 
 	@Test
-	void testConstructors() throws SEDALibException {
+	void testConstructors() throws SEDALibException, FileNotFoundException {
 		// Given
 		Management m = new Management();
 
@@ -112,82 +105,8 @@ class ManagementTest {
 		String mNextOut = mNext.toString();
 
 		// Then
-		String testOut = "<Management>\n" +
-				"  <StorageRule>\n" +
-				"    <Rule>TestStoRule1</Rule>\n" +
-				"    <StartDate>1970-01-01</StartDate>\n" +
-				"    <FinalAction>Transfer</FinalAction>\n" +
-				"  </StorageRule>\n" +
-				"  <AppraisalRule>\n" +
-				"    <Rule>TestAppRule1</Rule>\n" +
-				"    <StartDate>1970-01-01</StartDate>\n" +
-				"    <Rule>TestAppRule2</Rule>\n" +
-				"    <PreventInheritance>true</PreventInheritance>\n" +
-				"    <RefNonRuleId>TestAppRule3</RefNonRuleId>\n" +
-				"    <FinalAction>Keep</FinalAction>\n" +
-				"  </AppraisalRule>\n" +
-				"  <AccessRule>\n" +
-				"    <Rule>TestAccRule1</Rule>\n" +
-				"    <StartDate>1970-01-01</StartDate>\n" +
-				"    <Rule>TestAccRule2</Rule>\n" +
-				"    <PreventInheritance>true</PreventInheritance>\n" +
-				"    <RefNonRuleId>TestAccRule3</RefNonRuleId>\n" +
-				"  </AccessRule>\n" +
-				"  <DisseminationRule>\n" +
-				"    <Rule>TestDisRule1</Rule>\n" +
-				"    <StartDate>1970-01-01</StartDate>\n" +
-				"    <Rule>TestDisRule2</Rule>\n" +
-				"    <PreventInheritance>true</PreventInheritance>\n" +
-				"    <RefNonRuleId>TestDisRule3</RefNonRuleId>\n" +
-				"  </DisseminationRule>\n" +
-				"  <ReuseRule>\n" +
-				"    <Rule>TestReuRule1</Rule>\n" +
-				"    <StartDate>1970-01-01</StartDate>\n" +
-				"    <Rule>TestReuRule2</Rule>\n" +
-				"    <PreventInheritance>true</PreventInheritance>\n" +
-				"    <RefNonRuleId>TestReuRule3</RefNonRuleId>\n" +
-				"  </ReuseRule>\n" +
-				"  <ClassificationRule>\n" +
-				"    <Rule>TestRule1</Rule>\n" +
-				"    <StartDate>1970-01-01</StartDate>\n" +
-				"    <Rule>TestRule2</Rule>\n" +
-				"    <PreventInheritance>true</PreventInheritance>\n" +
-				"    <RefNonRuleId>TestRule3</RefNonRuleId>\n" +
-				"    <ClassificationLevel>TestCD</ClassificationLevel>\n" +
-				"    <ClassificationOwner>TestOwner</ClassificationOwner>\n" +
-				"    <ClassificationReassessingDate>1970-01-01</ClassificationReassessingDate>\n" +
-				"    <NeedReassessingAuthorization>true</NeedReassessingAuthorization>\n" +
-				"  </ClassificationRule>\n" +
-				"  <HoldRule>\n" +
-				"    <Rule>TestHoldRule1</Rule>\n" +
-				"    <StartDate>1970-01-01</StartDate>\n" +
-				"    <HoldOwner>TestHoldOwner1</HoldOwner>\n" +
-				"    <Rule>TestHoldRule2</Rule>\n" +
-				"    <HoldEndDate>1970-01-01</HoldEndDate>\n" +
-				"    <HoldOwner>TestHoldOwner2</HoldOwner>\n" +
-				"    <HoldReassessingDate>1970-01-01</HoldReassessingDate>\n" +
-				"    <PreventRearrangement>false</PreventRearrangement>\n" +
-				"    <Rule>TestHoldRule3</Rule>\n" +
-				"    <PreventInheritance>true</PreventInheritance>\n" +
-				"    <RefNonRuleId>TestHoldRule4</RefNonRuleId>\n" +
-				"  </HoldRule>\n" +
-				"  <LogBook>\n" +
-				"    <Event>\n" +
-				"      <EventIdentifier>ID-00001</EventIdentifier>\n" +
-				"      <EventType>Request</EventType>\n" +
-				"      <EventDateTime>2000-01-01T13:10:00</EventDateTime>\n" +
-				"      <Outcome>OK</Outcome>\n" +
-				"    </Event>\n" +
-				"  </LogBook>\n" +
-				"  <UpdateOperation>\n" +
-				"    <ArchiveUnitIdentifierKey>\n" +
-				"      <MetadataName>TestMetadataName</MetadataName>\n" +
-				"      <MetadataValue>TestMetadataValue</MetadataValue>\n" +
-				"    </ArchiveUnitIdentifierKey>\n" +
-				"  </UpdateOperation>\n" +
-				"  <Try>Here</Try>\n" +
-				"</Management>";
-		assertThat(mNextOut).isEqualTo(testOut);
+        String testOut = ResourceUtils.getResourceAsString("metadata/metadate_out.xml");
+		assertThat(mNextOut).isEqualToIgnoringWhitespace(testOut);
 	}
 
 	@Test

@@ -1,0 +1,85 @@
+<Content>
+  <DescriptionLevel>RecordGrp</DescriptionLevel>
+  <Title>Root</Title>
+  <DocumentContainer>
+    <DocumentsCount>9</DocumentsCount>
+    <FileObjectsCount>12</FileObjectsCount>
+    <RecordGrp>
+      <RecordGrpID>Node1</RecordGrpID>
+      <Content>
+        <DescriptionLevel>RecordGrp</DescriptionLevel>
+        <Title>Root</Title>
+      </Content>
+      <RecordGrp>
+        <RecordGrpID>Node2</RecordGrpID>
+        <Content>
+          <DescriptionLevel>RecordGrp</DescriptionLevel>
+          <Title>Node 2</Title>
+        </Content>
+        <RecordGrp>
+          <RecordGrpID>Node3</RecordGrpID>
+          <Content>
+            <DescriptionLevel>RecordGrp</DescriptionLevel>
+            <Title>Node 2.2 - Title cases</Title>
+          </Content>
+          <RecordGrp>
+            <RecordGrpID>Node4</RecordGrpID>
+            <Content>
+              <DescriptionLevel>RecordGrp</DescriptionLevel>
+              <Title>Node 2.2.1-^@]}êë^$£ê%ùµ_§._,;_!œŒÊ</Title>
+            </Content>
+            <RecordGrp>
+              <RecordGrpID>Node5</RecordGrpID>
+              <Content>
+                <DescriptionLevel>RecordGrp</DescriptionLevel>
+                <Title>^@]}êë^$£ê%ùµ_§._,;_!œŒÊ</Title>
+              </Content>
+            </RecordGrp>
+          </RecordGrp>
+          <RecordGrp>
+            <RecordGrpID>Node6</RecordGrpID>
+            <Content>
+              <DescriptionLevel>RecordGrp</DescriptionLevel>
+              <Title>Node 2.2.2-1234567890-a</Title>
+            </Content>
+          </RecordGrp>
+          <RecordGrp>
+            <RecordGrpID>Node7</RecordGrpID>
+            <Content>
+              <DescriptionLevel>RecordGrp</DescriptionLevel>
+              <Title>Node 2.2.3-ENMAJUSCULE</Title>
+            </Content>
+          </RecordGrp>
+          <RecordGrp>
+            <RecordGrpID>Node8</RecordGrpID>
+            <Content>
+              <DescriptionLevel>RecordGrp</DescriptionLevel>
+              <Title>Node 2.2.4-Un                                             espace</Title>
+            </Content>
+          </RecordGrp>
+        </RecordGrp>
+        <RecordGrp>
+          <RecordGrpID>Node9</RecordGrpID>
+          <Content>
+            <DescriptionLevel>RecordGrp</DescriptionLevel>
+            <Title>Node 2.3 - Many</Title>
+          </Content>
+        </RecordGrp>
+        <RecordGrp>
+          <RecordGrpID>Node10</RecordGrpID>
+          <Content>
+            <DescriptionLevel>RecordGrp</DescriptionLevel>
+            <Title>Node 2.4</Title>
+          </Content>
+        </RecordGrp>
+        <RecordGrp>
+          <RecordGrpID>Node11</RecordGrpID>
+          <Content>
+            <DescriptionLevel>RecordGrp</DescriptionLevel>
+            <Title>Node 2.5</Title>
+          </Content>
+        </RecordGrp>
+      </RecordGrp>
+    </RecordGrp>
+  </DocumentContainer>
+</Content>

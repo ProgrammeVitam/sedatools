@@ -1,0 +1,11 @@
+<PhysicalDimensions>
+  <Width unit="metre">10.0</Width>
+  <Height unit="centimetre">20.0</Height>
+  <Depth unit="millimetre">1000.1</Depth>
+  <Shape>rectangle</Shape>
+  <Diameter unit="metre">1.0</Diameter>
+  <Length unit="centimetre">40.5</Length>
+  <Thickness unit="millimetre">100.0</Thickness>
+  <Weight unit="gram">100.0</Weight>
+  <NumberOfPage>123</NumberOfPage>
+</PhysicalDimensions>

@@ -4,26 +4,28 @@ import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.WindowsShortcut;
+import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.net.URI;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.eraseAll;
 import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.ALL_DATAOBJECTS;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class CSVMetadataExporterTest {
+
+    private static final String TEMPORARY_FILE = "target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv";
 
     private static boolean isLink(Path path) {
         try {
@@ -101,10 +103,8 @@ class CSVMetadataExporterTest {
         return true;
     }
 
-    private void unzip(String zipFile,String extractFolder)
-    {
-        try
-        {
+    private void unzip(String zipFile, String extractFolder) {
+        try {
             int BUFFER = 2048;
             File file = new File(zipFile);
 
@@ -114,8 +114,7 @@ class CSVMetadataExporterTest {
             Enumeration zipFileEntries = zip.entries();
 
             // Process each entry
-            while (zipFileEntries.hasMoreElements())
-            {
+            while (zipFileEntries.hasMoreElements()) {
                 // grab a zip file entry
                 ZipEntry entry = (ZipEntry) zipFileEntries.nextElement();
                 String currentEntry = entry.getName();
@@ -129,8 +128,7 @@ class CSVMetadataExporterTest {
 
                 if (entry.isDirectory())
                     destFile.mkdirs();
-                else
-                {
+                else {
                     BufferedInputStream is = new BufferedInputStream(zip
                             .getInputStream(entry));
                     int currentByte;
@@ -153,10 +151,8 @@ class CSVMetadataExporterTest {
 
 
             }
-        }
-        catch (Exception e)
-        {
-            System.err.println("Can't unzip "+e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Can't unzip " + e.getMessage());
         }
     }
 
@@ -177,7 +173,7 @@ class CSVMetadataExporterTest {
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
         cme.doExportToCSVDiskHierarchy("target/tmpJunit/CSVMetadataExporterDisk", "metadata.csv");
 
-        unzip("src/test/resources/ExpectedResults/ExportedMetadata.zip","target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip");
+        unzip("src/test/resources/ExpectedResults/ExportedMetadata.zip", "target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip");
 
         // Then exported directory is equivalent to imported one
         assertThat(compareDirectories(Paths.get("target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"),
@@ -194,16 +190,17 @@ class CSVMetadataExporterTest {
         di.addIgnorePattern("pagefile.sys");
         di.doImport();
 
-        DataObjectPackageToCSVMetadataExporter cme;
+        DataObjectPackageToCSVMetadataExporter csvMetadataExporter;
 
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterCSV");
-        cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
-        cme.doExportToCSVMetadataFile("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv");
+        csvMetadataExporter = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
+        csvMetadataExporter.doExportToCSVMetadataFile(TEMPORARY_FILE);
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
-        String generatedFileContent = FileUtils.readFileToString(new File("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv"), "UTF8").replaceAll("[\\\\/]", "");
-        String expectedFileContent = FileUtils.readFileToString(new File("src/test/resources/ExpectedResults/ExportedMetadata.csv"), "UTF8").replaceAll("[\\\\/]", "");
+        String generatedFileContent = FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8");
+        String expectedFileContent = ResourceUtils.getResourceAsString("ExpectedResults/ExportedMetadata.csv");
+
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
     }
 
@@ -222,11 +219,11 @@ class CSVMetadataExporterTest {
         // When loaded with the csv OK test file
         eraseAll("target/tmpJunit/CSVMetadataExporterCSV");
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, true, 0, null);
-        cme.doExportToCSVMetadataFile("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadataWithExtendedFormat.csv");
+        cme.doExportToCSVMetadataFile(TEMPORARY_FILE);
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
-        String generatedFileContent = FileUtils.readFileToString(new File("target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadataWithExtendedFormat.csv"), "UTF8").replaceAll("[\\\\/]", "");
-        String expectedFileContent = FileUtils.readFileToString(new File("src/test/resources/ExpectedResults/ExportedMetadataWithExtendedFormat.csv"), "UTF8").replaceAll("[\\\\/]", "");
+        String generatedFileContent = FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8");
+        String expectedFileContent = ResourceUtils.getResourceAsString("ExpectedResults/ExportedMetadataWithExtendedFormat.csv");
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
     }
 
@@ -247,11 +244,11 @@ class CSVMetadataExporterTest {
         cme = new DataObjectPackageToCSVMetadataExporter(di.getArchiveTransfer().getDataObjectPackage(), "UTF8", ';', ALL_DATAOBJECTS, false, 0, null);
         cme.doExportToCSVZip("target/tmpJunit/CSVMetadataExporterZIP/ExportedMetadata.zip", "metadata.csv");
 
-        unzip("target/tmpJunit/CSVMetadataExporterZIP/ExportedMetadata.zip","target/tmpJunit/CSVMetadataExporterZIP/unzip");
-        unzip("src/test/resources/ExpectedResults/ExportedMetadata.zip","target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip");
+        unzip("target/tmpJunit/CSVMetadataExporterZIP/ExportedMetadata.zip", "target/tmpJunit/CSVMetadataExporterZIP/unzip");
+        unzip("src/test/resources/ExpectedResults/ExportedMetadata.zip", "target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip");
 
         // Then exported directory in the zip is equivalent to imported one
-        assertThat (compareDirectories(Paths.get("target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"),
+        assertThat(compareDirectories(Paths.get("target/tmpJunit/CSVMetadataExporterZIP/expectedUnzip"),
                 Paths.get("target/tmpJunit/CSVMetadataExporterZIP/unzip"))).isTrue();
     }
 

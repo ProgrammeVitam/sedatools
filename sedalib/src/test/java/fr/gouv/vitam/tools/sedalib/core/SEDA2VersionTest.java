@@ -25,7 +25,7 @@ class SEDA2VersionTest {
         String xmlFragments="  <Event>\n" +
                 "    <EventIdentifier>AUT-234452</EventIdentifier>\n" +
                 "    <EventTypeCode>Autorisation</EventTypeCode>\n" +
-                "    <EventDateTime>2104-05-31T01:00:00</EventDateTime>\n" +
+                "    <EventDateTime>2104-05-31T01:00:00.000</EventDateTime>\n" +
                 "    <Outcome>OK</Outcome>\n" +
                 "    <AnyThing>OK</AnyThing>\n" +
                 "    <LinkingAgentIdentifier>\n" +
@@ -72,7 +72,7 @@ class SEDA2VersionTest {
                 "                  après 20 espaces</Description>\n" +
                 "          <Event>\n" +
                 "            <EventType>TyE</EventType>\n" +
-                "            <EventDateTime>2022-05-10T00:00:00</EventDateTime>\n" +
+                "            <EventDateTime>2022-05-10T00:00:00.000</EventDateTime>\n" +
                 "            <EventDetail>DetE</EventDetail>\n" +
                 "            <LinkingAgentIdentifier>\n" +
                 "              <LinkingAgentIdentifierType>ty</LinkingAgentIdentifierType>\n" +
@@ -109,8 +109,10 @@ class SEDA2VersionTest {
             if (sm.getXmlElementName().equals("Event")){
                 Event event=(Event) sm;
                 for (SEDAMetadata osm : event.metadataList){
-                    if (osm instanceof LinkingAgentIdentifierType)
-                        foundLinking=true;
+                    if (osm instanceof LinkingAgentIdentifierType) {
+                        foundLinking = true;
+                        break;
+                    }
                 }
             }
         }
@@ -131,8 +133,10 @@ class SEDA2VersionTest {
             if (sm.getXmlElementName().equals("Event")){
                 Event event=(Event) sm;
                 for (SEDAMetadata osm : event.metadataList){
-                    if (osm instanceof LinkingAgentIdentifierType)
-                        foundLinking=true;
+                    if (osm instanceof LinkingAgentIdentifierType) {
+                        foundLinking = true;
+                        break;
+                    }
                 }
             }
         }

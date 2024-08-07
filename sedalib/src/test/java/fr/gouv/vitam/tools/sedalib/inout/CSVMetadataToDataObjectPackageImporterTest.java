@@ -10,8 +10,11 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackageImporter;
+import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
+
+import java.io.FileNotFoundException;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -75,7 +78,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 	}
 
 	@Test
-	void importOKCSV3column() throws SEDALibException, InterruptedException, JsonProcessingException {
+	void importOKCSV3column() throws SEDALibException, InterruptedException, JsonProcessingException, FileNotFoundException {
 		// Given
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
@@ -92,26 +95,13 @@ class CSVMetadataToDataObjectPackageImporterTest {
 		cmi.doImport();
 
 		// Then
-		String testAu = "{\n" +
-				"\"archiveUnitProfileXmlData\":null,\n" +
-				"\"managementXmlData\":null,\n" +
-				"\"contentXmlData\":\"<Content>  <DescriptionLevel>Item</DescriptionLevel>  <Title>image001.jpg</Title>  <Description xml:lang=\"fr\">Document \"image001.jpg\" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>  <CreatedDate>2016-08-30T10:14:17</CreatedDate></Content>\",\n" +
-				"\"childrenAuList\":{\n" +
-				"\"inDataObjectPackageIdList\":[]\n" +
-				"},\n" +
-				"\"dataObjectRefList\":{\n" +
-				"\"inDataObjectPackageIdList\":[\"ID13\"]\n" +
-				"},\n" +
-				"\"inDataObjectPackageId\":\"Import-6\",\n" +
-				"\"onDiskPath\":null\n" +
-				"}";
 		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("Import-6");
 		String sau = mapper.writeValueAsString(au);
-		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
+		assertThat(sau).isEqualTo(ResourceUtils.getResourceAsString("import/AU_Import_02.json"));
 	}
 
 	@Test
-	void importOKCSV3columnWithManagement() throws SEDALibException, InterruptedException, JsonProcessingException {
+	void importOKCSV3columnWithManagement() throws SEDALibException, InterruptedException, JsonProcessingException, FileNotFoundException {
 		// Given
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
@@ -127,28 +117,13 @@ class CSVMetadataToDataObjectPackageImporterTest {
 				"src/test/resources/PacketSamples/MetadataTestManagementOK3col.csv", "windows-1252",';',null);
 		cmi.doImport();
 
-		// Then
-		String testAu = "{\n" +
-				"\"archiveUnitProfileXmlData\":null,\n" +
-				"\"managementXmlData\":\"<Management>  <AccessRule>    <Rule>ACC-00001</Rule>    <StartDate>2015-11-19</StartDate>    <Rule>ACC-00002</Rule>    <PreventInheritance>true</PreventInheritance>    <RefNonRuleId>ACC-00003</RefNonRuleId>    <RefNonRuleId>ACC-00004</RefNonRuleId>  </AccessRule>  " +
-				"<ClassificationRule>    <Rule>CLAS-00001</Rule>    <StartDate>2015-11-19</StartDate>    <ClassificationOwner>Autorité</ClassificationOwner>    <NeedReassessingAuthorization>true</NeedReassessingAuthorization>  </ClassificationRule></Management>\",\n" +
-				"\"contentXmlData\":\"<Content>  <DescriptionLevel>Item</DescriptionLevel>  <Title>image001.jpg</Title>  <Description xml:lang=\"fr\">Document \"image001.jpg\" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>  <CreatedDate>2016-08-30T10:14:17</CreatedDate></Content>\",\n" +
-				"\"childrenAuList\":{\n" +
-				"\"inDataObjectPackageIdList\":[]\n" +
-				"},\n" +
-				"\"dataObjectRefList\":{\n" +
-				"\"inDataObjectPackageIdList\":[\"ID13\"]\n" +
-				"},\n" +
-				"\"inDataObjectPackageId\":\"Import-6\",\n" +
-				"\"onDiskPath\":null\n" +
-				"}";
 		ArchiveUnit au = cmi.getDataObjectPackage().getArchiveUnitById("Import-6");
 		String sau = mapper.writeValueAsString(au);
-		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
+		assertThat(sau).isEqualTo(ResourceUtils.getResourceAsString("import/AU_Import_01.json"));
 	}
 
 	@Test
-	void importTagKOCSV() throws SEDALibException, InterruptedException, JsonProcessingException {
+	void importTagKOCSV() throws SEDALibException {
 		// Given
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
@@ -163,12 +138,12 @@ class CSVMetadataToDataObjectPackageImporterTest {
 		cmi= new CSVMetadataToDataObjectPackageImporter(
 				"src/test/resources/PacketSamples/MetadataTestTagKO.csv", "windows-1252",';',null);
 
-		assertThatThrownBy(() -> cmi.doImport())
+		assertThatThrownBy(cmi::doImport)
 				.hasMessageContaining("Caractère interdit"); // for StringType;
 	}
 
 	@Test
-	void importLineKOCSV() throws SEDALibException, InterruptedException, JsonProcessingException {
+	void importLineKOCSV() throws SEDALibException {
 		// Given
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
@@ -183,7 +158,7 @@ class CSVMetadataToDataObjectPackageImporterTest {
 		cmi= new CSVMetadataToDataObjectPackageImporter(
 				"src/test/resources/PacketSamples/MetadataTestLineKO.csv", "windows-1252",';',null);
 
-		assertThatThrownBy(() -> cmi.doImport())
+		assertThatThrownBy(cmi::doImport)
 				.hasMessageContaining("ligne 4"); // for StringType;
 	}
 }
