@@ -1,0 +1,26 @@
+name: Build & Tests
+run-name: Build launched by ${{ github.actor }} 🚀
+on:
+  pull_request: # run on every pull request
+  push:
+    branches: # run only on protected branches
+      - master
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: szenius/set-timezone@v2.0
+        with:
+          timezoneLinux: "Europe/Paris" # we set the timezone for Unit Tests to pass (we shouldn't need to, but it's currently required)
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "17"
+
+      - name: Build and Run Tests
+        run: mvn --settings .ci/github-actions-settings.xml verify
+        env:
+          SERVICE_NEXUS_URL: ${{ secrets.SERVICE_NEXUS_URL }}
+          CI_USR: ${{ secrets.CI_USR }}
+          CI_PSW: ${{ secrets.CI_PSW }}
