@@ -35,6 +35,7 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.inout.importer.model.Line;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
@@ -93,60 +94,6 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * {@link  fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter} (filename formatted __Usage_Version__originalfilename or by default considered as BinaryMaster_1). If the file doesn't exist, this is only logged (no import fail) and the object is not imported.
  */
 public class CSVMetadataToDataObjectPackageImporter {
-
-    private class Line {
-        /**
-         * The Guid.
-         */
-        String guid;
-        /**
-         * The Parent guid.
-         */
-        String parentGUID;
-        /**
-         * The File.
-         */
-        String file;
-
-        /**
-         * The Object Files.
-         */
-        List<String> objectFiles;
-
-        /**
-         * The Content xml metadata.
-         */
-        String contentXMLMetadata;
-        /**
-         * The Management xml metadata.
-         */
-        String managementXMLMetadata;
-        /**
-         * The Au.
-         */
-        ArchiveUnit au;
-
-        /**
-         * Instantiates a new Line.
-         *
-         * @param guid               the guid
-         * @param parentGUID         the parent guid
-         * @param file               the file
-         * @param contentXMLMetadata the content xml metadata
-         */
-        public Line(String guid, String parentGUID, String file, String objectFiles, String contentXMLMetadata, String managementXMLMetadata) {
-            this.guid = guid;
-            this.parentGUID = parentGUID;
-            this.file = file;
-            if (objectFiles.trim().isEmpty())
-                this.objectFiles = Arrays.asList();
-            else
-                this.objectFiles = Arrays.asList(objectFiles.split("\\|"));
-            this.contentXMLMetadata = contentXMLMetadata;
-            this.managementXMLMetadata = managementXMLMetadata;
-            this.au = null;
-        }
-    }
 
     /**
      * The csv metadata file name .
@@ -241,8 +188,12 @@ public class CSVMetadataToDataObjectPackageImporter {
                     continue;
                 }
                 try {
-                    currentLine = new Line(metadataFormatter.getGUID(row), metadataFormatter.getParentGUID(row), //NOSONAR
-                            metadataFormatter.getFile(row), metadataFormatter.getObjectFiles(row), metadataFormatter.doFormatAndExtractContentXML(row), metadataFormatter.extractManagementXML());
+                    currentLine = new Line(metadataFormatter.getGUID(row),
+                            metadataFormatter.getParentGUID(row), //NOSONAR
+                            metadataFormatter.getFile(row),
+                            metadataFormatter.getObjectFiles(row),
+                            metadataFormatter.doFormatAndExtractContentXML(row),
+                            metadataFormatter.extractManagementXML());
                 } catch (SEDALibException e) {
                     throw new SEDALibException("Erreur sur la ligne "+lineCount, e);
                 }

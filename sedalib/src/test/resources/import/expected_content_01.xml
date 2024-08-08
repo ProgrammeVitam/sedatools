@@ -1,0 +1,22 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>whatever</Title>
+    <SigningInformation>
+        <SigningRole>SignedDocument</SigningRole>
+        <DetachedSigningRole>AdditionalProof</DetachedSigningRole>
+        <SignatureDescription>
+            <Signer>
+                <FullName>Alexandre PARIS</FullName>
+                <SigningTime>2024-12-25T12:34:56</SigningTime>
+            </Signer>
+        </SignatureDescription>
+        <TimestampingInformation>
+            <TimeStamp>2023-06-22T11:36:49</TimeStamp>
+        </TimestampingInformation>
+        <AdditionalProof>
+            <AdditionalProofInformation>AdditionalProofInformation</AdditionalProofInformation>
+        </AdditionalProof>
+        <SigningRole>Signature</SigningRole>
+        <SigningRole>Timestamp</SigningRole>
+    </SigningInformation>
+</Content>
