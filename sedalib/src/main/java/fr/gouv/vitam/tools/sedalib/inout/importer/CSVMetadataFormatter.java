@@ -1,6 +1,9 @@
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
+import fr.gouv.vitam.tools.sedalib.inout.importer.model.MetadataTag;
+import fr.gouv.vitam.tools.sedalib.inout.importer.model.ValueAttrMetadataTag;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.nio.file.Path;
@@ -16,60 +19,7 @@ import java.util.List;
  * It's a utility class for {@link CSVMetadataToDataObjectPackageImporter} to analyse header line, and then interpret other lines through the formatter.
  */
 public class CSVMetadataFormatter {
-    /**
-     * Utility class for metadata formatter.
-     */
-    private class MetadataTag {
 
-        String name;
-        String value;
-        String attr;
-        MetadataTag parent;
-        LinkedHashMap<Integer, List<MetadataTag>> subTags;
-
-        /**
-         * Instantiates a new Metadata tag.
-         *
-         * @param name   the name
-         * @param parent the parent
-         */
-        protected MetadataTag(String name, MetadataTag parent) throws SEDALibException {
-            if ((name != null) && (!name.matches("[a-zA-Z0-9_-]+"))) {
-                throw new SEDALibException("Caractère interdit dans le tag XML [" + name + "]");
-            }
-            this.name = name;
-            this.value = null;
-            this.attr = null;
-            this.subTags = null;
-            this.parent = parent;
-        }
-
-        @Override
-        public String toString() {
-            if (parent == null) {
-                return name;
-            } else {
-                return parent.toString() + "." + name;
-            }
-        }
-    }
-
-
-    private class ValueAttrMetadataTag {
-        boolean isValue;
-        MetadataTag tag;
-
-        /**
-         * Instantiates a new Value attr metadata tag.
-         *
-         * @param isValue the is value
-         * @param tag     the tag
-         */
-        public ValueAttrMetadataTag(boolean isValue, MetadataTag tag) {
-            this.isValue = isValue;
-            this.tag = tag;
-        }
-    }
 
     private static final String ID = "id";
     private static final String FILE = "file";
@@ -83,7 +33,7 @@ public class CSVMetadataFormatter {
             ID, FILE, PARENTID, PARENTFILE, OBJECTFILES
     );
     private MetadataTag rootTag, contentTag, managementTag;
-    private LinkedHashMap<Integer, ValueAttrMetadataTag> tagHeaderColumnMapping;
+    private List<ValueAttrMetadataTag> tagHeaderColumnMapping;
     private int numberOfMandatoryHeaderFound;
     private int columnCount;
 
@@ -93,7 +43,7 @@ public class CSVMetadataFormatter {
     private int fileColumn;
     private int objectfilesColumn;
     private int parentGUIDColumn;
-    private boolean isOnlyFile;
+    private boolean isOnlyFile = false;
 
 
     private void analyseFirstColumns(String[] headerRow) throws SEDALibException {
@@ -113,31 +63,26 @@ public class CSVMetadataFormatter {
             objectfilesColumn = -1;
             parentGUIDColumn = -1;
         } else if (numberOfMandatoryHeaderFound == 2 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTFILE))) {
-            isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(FILE);
             fileColumn = guidColumn;
             objectfilesColumn = -1;
             parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTFILE);
         } else if (numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTFILE, ID))) {
-            isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
             fileColumn = firstsMandatoryHeadersFound.indexOf(FILE);
             objectfilesColumn = -1;
             parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTFILE);
         } else if (numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, PARENTID, ID))) {
-            isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
             fileColumn = firstsMandatoryHeadersFound.indexOf(FILE);
             objectfilesColumn = -1;
             parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTID);
         } else if (numberOfMandatoryHeaderFound == 3 && firstsMandatoryHeadersFound.containsAll(List.of(OBJECTFILES, PARENTID, ID))) {
-            isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
             fileColumn = -1;
             objectfilesColumn = firstsMandatoryHeadersFound.indexOf(OBJECTFILES);
             parentGUIDColumn = firstsMandatoryHeadersFound.indexOf(PARENTID);
         } else if (numberOfMandatoryHeaderFound == 4 && firstsMandatoryHeadersFound.containsAll(List.of(FILE, OBJECTFILES, PARENTID, ID))) {
-            isOnlyFile = false;
             guidColumn = firstsMandatoryHeadersFound.indexOf(ID);
             objectfilesColumn = firstsMandatoryHeadersFound.indexOf(OBJECTFILES);
             fileColumn = firstsMandatoryHeadersFound.indexOf(FILE);
@@ -208,7 +153,7 @@ public class CSVMetadataFormatter {
 
     private void analyseTags(String[] headerRow) throws SEDALibException {
         MetadataTag currentTag = null;
-        ValueAttrMetadataTag vamt;
+        ValueAttrMetadataTag valueAttrMetadataTag;
 
         if (headerRow.length <= numberOfMandatoryHeaderFound) {
             throw new SEDALibException("Pas de colonne de métadonnées.");
@@ -221,21 +166,23 @@ public class CSVMetadataFormatter {
             contentTag = rootTag;
         }
         managementTag = null;
-        tagHeaderColumnMapping = new LinkedHashMap<>();
+        tagHeaderColumnMapping = new ArrayList<>();
         for (int i = numberOfMandatoryHeaderFound; i < headerRow.length; i++) {
-            if (headerRow[i].equalsIgnoreCase("attr")) {
+            String value = headerRow[i];
+            if (value.equalsIgnoreCase("attr")) {
                 if (currentTag == null) {
                     throw new SEDALibException("Le header attr en colonne n°" + i + " ne peut pas s'appliquer.");
                 }
-                vamt = new ValueAttrMetadataTag(false, currentTag);
-            } else if (headerRow[i].endsWith(".attr")) {
-                currentTag = getTag(rootTag, new ArrayList<>(Arrays.asList(headerRow[i].split("\\."))));
-                vamt = new ValueAttrMetadataTag(false, currentTag);
+                valueAttrMetadataTag = new ValueAttrMetadataTag(false, currentTag);
+            } else if (value.endsWith(".attr")) {
+                currentTag = getTag(rootTag, new ArrayList<>(Arrays.asList(value.split("\\."))));
+                valueAttrMetadataTag = new ValueAttrMetadataTag(false, currentTag);
             } else {
-                currentTag = getTag(rootTag, new ArrayList<>(Arrays.asList(headerRow[i].split("\\."))));
-                vamt = new ValueAttrMetadataTag(true, currentTag);
+                currentTag = getTag(rootTag, new ArrayList<>(Arrays.asList(value.split("\\."))));
+
+                valueAttrMetadataTag = new ValueAttrMetadataTag(true, currentTag);
             }
-            tagHeaderColumnMapping.put(i, vamt);
+            tagHeaderColumnMapping.add(valueAttrMetadataTag);
         }
         if (contentTag == null) {
             throw new SEDALibException("Pas de colonne de métadonnées Content.");
@@ -257,14 +204,14 @@ public class CSVMetadataFormatter {
     }
 
     private void resetValues() {
-        tagHeaderColumnMapping.values().stream().forEach(valueAttr -> {
+        tagHeaderColumnMapping.forEach(valueAttr -> {
             valueAttr.tag.value = null;
             valueAttr.tag.attr = null;
         });
     }
 
     private void defineColumnValue(int headerColumn, String cell) {
-        ValueAttrMetadataTag vamt = tagHeaderColumnMapping.get(headerColumn);
+        ValueAttrMetadataTag vamt = tagHeaderColumnMapping.get(headerColumn - 1);
         if (vamt.isValue) {
             vamt.tag.value = cell;
         } else {
@@ -286,46 +233,47 @@ public class CSVMetadataFormatter {
     }
 
     private boolean notEmptyValues(MetadataTag tag) {
-        boolean result = false;
         if (tag.subTags == null) {
-            return !((tag.value == null) || tag.value.isEmpty());
+            return StringUtils.isNotEmpty(tag.value);
         }
         for (List<MetadataTag> tagList : tag.subTags.values()) {
             for (MetadataTag subTag : tagList) {
-                result = result || notEmptyValues(subTag);
+                if (notEmptyValues(subTag)) {
+                    return true;
+                }
             }
         }
-        return result;
+        return false;
     }
 
     private String generateRuleTypeTagXML(MetadataTag tag) throws SEDALibException {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         for (List<MetadataTag> tagList : tag.subTags.values()) {
             for (MetadataTag mt : tagList) {
                 if (mt.name.equals("Rule") && !mt.value.isEmpty()) {
-                    result += "<Rule>" + StringEscapeUtils.escapeXml10(mt.value) + "</Rule>";
+                    result.append("<Rule>").append(StringEscapeUtils.escapeXml10(mt.value)).append("</Rule>");
                     mt.value = null;
                 }
             }
             for (MetadataTag mt : tagList) {
                 if (mt.name.equals("StartDate") && !mt.value.isEmpty()) {
-                    result += "<StartDate>" + StringEscapeUtils.escapeXml10(mt.value) + "</StartDate>";
+                    result.append("<StartDate>").append(StringEscapeUtils.escapeXml10(mt.value)).append("</StartDate>");
                     mt.value = null;
                 }
             }
         }
-        result += getOneSubTagXML(tag, "PreventInheritance");
-        result += getOneSubTagXML(tag, "RefNonRuleId");
-        result += getOneSubTagXML(tag, "FinalAction");
+        result.append(getOneSubTagXML(tag, "PreventInheritance"));
+        result.append(getOneSubTagXML(tag, "RefNonRuleId"));
+        result.append(getOneSubTagXML(tag, "FinalAction"));
 
         if (notEmptyValues(tag)) {
             throw new SEDALibException("La règle [" + tag.name + "] contient des champs non conformes SEDA.");
         }
 
-        if (!result.isEmpty()) {
-            result = "<" + tag.name + ">" + result + "</" + tag.name + ">";
+        if (result.length() > 0) {
+            result = new StringBuilder("<" + tag.name + ">" + result + "</" + tag.name + ">");
         }
-        return result;
+        return result.toString();
     }
 
     private String generateHoldRuleTagXML(MetadataTag tag) throws SEDALibException {
