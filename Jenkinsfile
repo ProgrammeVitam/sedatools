@@ -24,7 +24,6 @@ pipeline {
         upstream(upstreamProjects: 'build-mailextractor', threshold: hudson.model.Result.SUCCESS)
     }
 
-
    stages {
 
        stage("Tools configuration") {
@@ -41,7 +40,7 @@ pipeline {
             when {
                 anyOf {
                     branch "master"
-                    tag pattern: "^[1-9]+\\.[0-9]+\\.[0-9]+-?[0-9]*\$", comparator: "REGEXP"                    
+                    tag pattern: "^[1-9]+\\.[0-9]+\\.[0-9]+-?[0-9]*\$", comparator: "REGEXP"
                 }
             }
             environment {
@@ -116,6 +115,12 @@ pipeline {
             steps {
                 sh '$MVN_COMMAND -f pom.xml -Dmaven.test.skip=true -DskipTests=true clean package javadoc:aggregate-jar $DEPLOY_GOAL'
             }
+        }
+    }
+
+    post {
+        always {
+            cleanWs()
         }
     }
 }
