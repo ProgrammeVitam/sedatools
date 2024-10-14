@@ -393,7 +393,7 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
      */
     @Override
     protected String getNativeRecipientsSmtpAddress(int recipientNumber) {
-        return message.getRecipientDetailsChunks()[recipientNumber].recipientSMTPChunk.getValue();
+        return message.getRecipientDetailsChunks()[recipientNumber].getRecipientSMTPChunk().getValue();
     }
 
     /* (non-Javadoc)
@@ -401,7 +401,7 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
      */
     @Override
     protected String getNativeRecipientsEmailAddress(int recipientNumber) {
-        return message.getRecipientDetailsChunks()[recipientNumber].recipientEmailChunk.getValue();
+        return message.getRecipientDetailsChunks()[recipientNumber].getRecipientEmailChunk().getValue();
     }
 
     /* (non-Javadoc)
@@ -409,7 +409,7 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
      */
     @Override
     protected String getNativeRecipientsDisplayName(int recipientNumber) {
-        return message.getRecipientDetailsChunks()[recipientNumber].recipientNameChunk.getValue();
+        return message.getRecipientDetailsChunks()[recipientNumber].getRecipientNameChunk().getValue();
     }
 
     /* (non-Javadoc)
