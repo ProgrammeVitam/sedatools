@@ -307,7 +307,6 @@ public class ImportThread extends SwingWorker<String, String> {
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: import annulé, les données n'ont pas été modifiées", null);
         else if (exitThrowable != null) {
-            log.error("error:", exitThrowable);
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant l'import, les données n'ont pas été modifiées", exitThrowable);
         } else {
             work.getCreationContext().setSummary(summary);
