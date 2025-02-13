@@ -29,6 +29,9 @@ package fr.gouv.vitam.tools.mailextract;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import java.awt.*;
+import java.net.URL;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 /**
  * MailExtractMainWindow class for the main window with all parameters field and
@@ -216,6 +219,22 @@ public class MailExtractMainWindow extends JFrame {
      */
     JCheckBox debugCheckBox;
 
+
+    /**
+     * The english check box.
+     */
+    JCheckBox englishCheckBox;
+
+    /**
+     *  Other labels
+     */
+    JLabel lblNewLabel, loglevelLabel, namesLengthLabel, savedirLabel, folderLabel, charsetLabel;
+
+    /**
+     *  Other buttons
+     */
+    JButton extractButton, listButton, statButton, emptyButton, savedirButton;
+
     /**
      * The proposed log level.
      */
@@ -232,6 +251,8 @@ public class MailExtractMainWindow extends JFrame {
             "windows-1250", "windows-1251", "windows-1253", "windows-1254", "windows-1257"};
 
     private JPanel panel;
+
+    private final ResourceBundle MESSAGES, MESSAGES_EN;
 
     /**
      * Gets the global graphic app.
@@ -250,18 +271,21 @@ public class MailExtractMainWindow extends JFrame {
     public MailExtractMainWindow(MailExtractGraphicApp app) {
         super();
         this.app = app;
+        MESSAGES = ResourceBundle.getBundle("Labels",Locale.FRENCH);;
+        MESSAGES_EN = ResourceBundle.getBundle("Labels", Locale.ENGLISH);;
         initialize();
     }
 
     // Initialize the contents of the frame.
     @SuppressWarnings({"unchecked", "rawtypes"})
     private void initialize() {
-        java.net.URL imageURL = getClass().getClassLoader().getResource("VitamIcon96.png");
+        URL imageURL = getClass().getClassLoader().getResource("VitamIcon96.png");
         if (imageURL != null) {
             ImageIcon icon = new ImageIcon(imageURL);
             setIconImage(icon.getImage());
         }
-        this.setTitle("MailExtract");
+
+        this.setTitle(MESSAGES.getString("mainWindow.title"));
 
         getContentPane().setPreferredSize(new Dimension(800, 800));
         setBounds(0, 0, 800, 800);
@@ -271,6 +295,7 @@ public class MailExtractMainWindow extends JFrame {
         gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         getContentPane().setLayout(gridBagLayout);
 
+        // Panel d'extraction du texte
         JPanel extractTextPanel = new JPanel();
         extractTextPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
         GridBagConstraints gbc_extractTextPanel = new GridBagConstraints();
@@ -287,35 +312,35 @@ public class MailExtractMainWindow extends JFrame {
         gbl_extractTextPanel.columnWeights = new double[]{1.0, 1, 1};
         extractTextPanel.setLayout(gbl_extractTextPanel);
 
-        JLabel lblNewLabel = new JLabel("Extraire le texte");
+        lblNewLabel = new JLabel(MESSAGES.getString("label.extractText"));
         GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
         gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
         gbc_lblNewLabel.gridx = 0;
         gbc_lblNewLabel.gridy = 0;
         extractTextPanel.add(lblNewLabel, gbc_lblNewLabel);
 
-        extractmessagetextfileCheckBox = new JCheckBox("Message -> Fichier");
+        extractmessagetextfileCheckBox = new JCheckBox(MESSAGES.getString("checkbox.extractMessageToFile"));
         GridBagConstraints gbc_chckbxMessageTextFileBox = new GridBagConstraints();
         gbc_chckbxMessageTextFileBox.anchor = GridBagConstraints.WEST;
         gbc_chckbxMessageTextFileBox.gridx = 1;
         gbc_chckbxMessageTextFileBox.gridy = 0;
         extractTextPanel.add(extractmessagetextfileCheckBox, gbc_chckbxMessageTextFileBox);
 
-        extractmessagetextmetadataCheckBox = new JCheckBox("Message -> Metadonnée");
+        extractmessagetextmetadataCheckBox = new JCheckBox(MESSAGES.getString("checkbox.extractMessageToMetadata"));
         GridBagConstraints gbc_chckbxMessageTextMetadata = new GridBagConstraints();
         gbc_chckbxMessageTextMetadata.anchor = GridBagConstraints.WEST;
         gbc_chckbxMessageTextMetadata.gridx = 1;
         gbc_chckbxMessageTextMetadata.gridy = 1;
         extractTextPanel.add(extractmessagetextmetadataCheckBox, gbc_chckbxMessageTextMetadata);
 
-        extractfiletextfileCheckBox = new JCheckBox("Pièces jointes -> Fichier");
+        extractfiletextfileCheckBox = new JCheckBox(MESSAGES.getString("checkbox.extractAttachmentToFile"));
         GridBagConstraints gbc_chckbxFileTextFileBox = new GridBagConstraints();
         gbc_chckbxFileTextFileBox.anchor = GridBagConstraints.WEST;
         gbc_chckbxFileTextFileBox.gridx = 2;
         gbc_chckbxFileTextFileBox.gridy = 0;
         extractTextPanel.add(extractfiletextfileCheckBox, gbc_chckbxFileTextFileBox);
 
-        extractfiletextmetadataCheckBox = new JCheckBox("Pièces jointes -> Metadonnée");
+        extractfiletextmetadataCheckBox = new JCheckBox(MESSAGES.getString("checkbox.extractAttachmentToMetadata"));
         GridBagConstraints gbc_chckbxFileTextMetadata = new GridBagConstraints();
         gbc_chckbxFileTextMetadata.anchor = GridBagConstraints.WEST;
         gbc_chckbxFileTextMetadata.gridx = 2;
@@ -349,7 +374,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_scrollPane.gridy = 13;
         getContentPane().add(scrollPane, gbc_scrollPane);
 
-        JButton extractButton = new JButton("Extraire messages");
+        extractButton = new JButton(MESSAGES.getString("button.extract"));
         GridBagConstraints gbc_extractButton = new GridBagConstraints();
         gbc_extractButton.gridwidth = 1;
         gbc_extractButton.insets = new Insets(0, 0, 10, 10);
@@ -359,7 +384,7 @@ public class MailExtractMainWindow extends JFrame {
         extractButton.setActionCommand("extract");
         extractButton.addActionListener(app);
 
-        JButton listButton = new JButton("Lister dossiers");
+        listButton = new JButton(MESSAGES.getString("button.listFolders"));
         GridBagConstraints gbc_listButton = new GridBagConstraints();
         gbc_listButton.anchor = GridBagConstraints.EAST;
         gbc_listButton.insets = new Insets(0, 0, 10, 10);
@@ -369,7 +394,7 @@ public class MailExtractMainWindow extends JFrame {
         listButton.setActionCommand("list");
         listButton.addActionListener(app);
 
-        JButton statButton = new JButton("Lister stats dossiers");
+        statButton = new JButton(MESSAGES.getString("button.listStats"));
         GridBagConstraints gbc_statButton = new GridBagConstraints();
         gbc_statButton.insets = new Insets(0, 0, 10, 10);
         gbc_statButton.gridx = 2;
@@ -378,7 +403,7 @@ public class MailExtractMainWindow extends JFrame {
         statButton.setActionCommand("stat");
         statButton.addActionListener(app);
 
-        JButton emptyButton = new JButton("Vider log");
+        emptyButton = new JButton(MESSAGES.getString("button.clearLog"));
         GridBagConstraints gbc_emptyButton = new GridBagConstraints();
         gbc_emptyButton.insets = new Insets(0, 0, 10, 10);
         gbc_emptyButton.gridx = 3;
@@ -387,7 +412,7 @@ public class MailExtractMainWindow extends JFrame {
         emptyButton.setActionCommand("empty");
         emptyButton.addActionListener(app);
 
-        warningCheckBox = new JCheckBox("Remonte les pbs sur les messages");
+        warningCheckBox = new JCheckBox(MESSAGES.getString("checkbox.warning"));
         GridBagConstraints gbc_warningCheckBox = new GridBagConstraints();
         gbc_warningCheckBox.anchor = GridBagConstraints.WEST;
         gbc_warningCheckBox.insets = new Insets(0, 0, 5, 5);
@@ -403,7 +428,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_loglevelComboBox.gridy = 10;
         getContentPane().add(loglevelComboBox, gbc_loglevelComboBox);
 
-        JLabel loglevelLabel = new JLabel("Niveau de log");
+        loglevelLabel = new JLabel(MESSAGES.getString("label.logLevel"));
         GridBagConstraints gbc_loglevelLabel = new GridBagConstraints();
         gbc_loglevelLabel.anchor = GridBagConstraints.EAST;
         gbc_loglevelLabel.insets = new Insets(0, 0, 5, 5);
@@ -411,14 +436,14 @@ public class MailExtractMainWindow extends JFrame {
         gbc_loglevelLabel.gridy = 10;
         getContentPane().add(loglevelLabel, gbc_loglevelLabel);
 
-        keeponlydeepCheckBox = new JCheckBox("Garder dossier 1er niv");
+        keeponlydeepCheckBox = new JCheckBox(MESSAGES.getString("checkbox.keepOnlyDeep"));
         GridBagConstraints gbc_keeponlydeepRadioButton = new GridBagConstraints();
         gbc_keeponlydeepRadioButton.insets = new Insets(0, 0, 5, 5);
         gbc_keeponlydeepRadioButton.gridx = 1;
         gbc_keeponlydeepRadioButton.gridy = 6;
         getContentPane().add(keeponlydeepCheckBox, gbc_keeponlydeepRadioButton);
 
-        JLabel namesLengthLabel = new JLabel("Longueur gardée noms");
+        namesLengthLabel = new JLabel(MESSAGES.getString("label.namesLength"));
         GridBagConstraints gbc_namesLengthLabel = new GridBagConstraints();
         gbc_namesLengthLabel.anchor = GridBagConstraints.EAST;
         gbc_namesLengthLabel.insets = new Insets(0, 0, 5, 5);
@@ -436,7 +461,7 @@ public class MailExtractMainWindow extends JFrame {
         getContentPane().add(namesLengthField, gbc_namesLengthField);
         namesLengthField.setColumns(128);
 
-        extractlistCheckBox = new JCheckBox("Génère les listes csv d'extraction");
+        extractlistCheckBox = new JCheckBox(MESSAGES.getString("checkbox.extractList"));
         GridBagConstraints gbc_extractlistCheckBox = new GridBagConstraints();
         gbc_extractlistCheckBox.anchor = GridBagConstraints.WEST;
         gbc_extractlistCheckBox.insets = new Insets(0, 0, 5, 5);
@@ -444,7 +469,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_extractlistCheckBox.gridy = 8;
         getContentPane().add(extractlistCheckBox, gbc_extractlistCheckBox);
 
-        JButton savedirButton = new JButton("Répertoire...");
+        savedirButton = new JButton(MESSAGES.getString("button.savedir"));
         GridBagConstraints gbc_savedirButton = new GridBagConstraints();
         gbc_savedirButton.insets = new Insets(0, 0, 5, 0);
         gbc_savedirButton.gridx = 3;
@@ -463,14 +488,14 @@ public class MailExtractMainWindow extends JFrame {
         gbc_savedirField.weightx = 0.5;
         getContentPane().add(savedirField, gbc_savedirField);
 
-        dropemptyfoldersCheckBox = new JCheckBox("Eliminer dossiers vides");
+        dropemptyfoldersCheckBox = new JCheckBox(MESSAGES.getString("checkbox.dropEmptyFolders"));
         GridBagConstraints gbc_dropemptyfoldersCheckBox = new GridBagConstraints();
         gbc_dropemptyfoldersCheckBox.insets = new Insets(0, 0, 5, 5);
         gbc_dropemptyfoldersCheckBox.gridx = 0;
         gbc_dropemptyfoldersCheckBox.gridy = 6;
         getContentPane().add(dropemptyfoldersCheckBox, gbc_dropemptyfoldersCheckBox);
 
-        JLabel savedirLabel = new JLabel("Répertoire d'extraction");
+        savedirLabel = new JLabel(MESSAGES.getString("label.savedir"));
         GridBagConstraints gbc_savedirLabel = new GridBagConstraints();
         gbc_savedirLabel.anchor = GridBagConstraints.EAST;
         gbc_savedirLabel.insets = new Insets(0, 0, 5, 5);
@@ -489,7 +514,7 @@ public class MailExtractMainWindow extends JFrame {
         getContentPane().add(folderField, gbc_folderField);
         folderField.setColumns(128);
 
-        JLabel folderLabel = new JLabel("Dossier Racine");
+        folderLabel = new JLabel(MESSAGES.getString("label.folderRoot"));
         GridBagConstraints gbc_folderLabel = new GridBagConstraints();
         gbc_folderLabel.anchor = GridBagConstraints.EAST;
         gbc_folderLabel.insets = new Insets(0, 0, 5, 5);
@@ -505,7 +530,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_charsetComboBox.gridy = 5;
         getContentPane().add(charsetComboBox, gbc_charsetComboBox);
 
-        JLabel charsetLabel = new JLabel("Encodage");
+        charsetLabel = new JLabel(MESSAGES.getString("label.charset"));
         GridBagConstraints gbc_charsetLabel = new GridBagConstraints();
         gbc_charsetLabel.anchor = GridBagConstraints.EAST;
         gbc_charsetLabel.insets = new Insets(0, 0, 5, 5);
@@ -513,7 +538,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_charsetLabel.gridy = 5;
         getContentPane().add(charsetLabel, gbc_charsetLabel);
 
-        localRadioButton = new JRadioButton("Extraction locale");
+        localRadioButton = new JRadioButton(MESSAGES.getString("radio.localExtraction"));
         localRadioButton.setSelected(true);
         GridBagConstraints gbc_localRadioButton = new GridBagConstraints();
         gbc_localRadioButton.gridwidth = 2;
@@ -527,7 +552,7 @@ public class MailExtractMainWindow extends JFrame {
         localRadioButton.setActionCommand("local");
         localRadioButton.addActionListener(app);
 
-        protocoleRadioButton = new JRadioButton("Extraction serveur");
+        protocoleRadioButton = new JRadioButton(MESSAGES.getString("radio.serverExtraction"));
         GridBagConstraints gbc_protocoleRadioButton = new GridBagConstraints();
         gbc_protocoleRadioButton.gridwidth = 2;
         gbc_protocoleRadioButton.weightx = 0.5;
@@ -572,7 +597,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_imapsRadioButton.gridy = 0;
         serverPanel.add(imapsRadioButton, gbc_imapsRadioButton);
 
-        serverLabel = new JLabel("Serveur");
+        serverLabel = new JLabel(MESSAGES.getString("label.server"));
         serverLabel.setEnabled(false);
         GridBagConstraints gbc_serverLabel = new GridBagConstraints();
         gbc_serverLabel.anchor = GridBagConstraints.EAST;
@@ -581,7 +606,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_serverLabel.gridy = 3;
         serverPanel.add(serverLabel, gbc_serverLabel);
 
-        userLabel = new JLabel("ID");
+        userLabel = new JLabel(MESSAGES.getString("label.user"));
         userLabel.setEnabled(false);
         GridBagConstraints gbc_userLabel = new GridBagConstraints();
         gbc_userLabel.anchor = GridBagConstraints.EAST;
@@ -603,7 +628,7 @@ public class MailExtractMainWindow extends JFrame {
         serverPanel.add(userField, gbc_userField);
         userField.setColumns(128);
 
-        passwordLabel = new JLabel("Mot de passe");
+        passwordLabel = new JLabel(MESSAGES.getString("label.password"));
         passwordLabel.setEnabled(false);
         GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
         gbc_passwordLabel.anchor = GridBagConstraints.EAST;
@@ -652,7 +677,7 @@ public class MailExtractMainWindow extends JFrame {
         GridBagLayout gbl_containerPanel = new GridBagLayout();
         localPanel.setLayout(gbl_containerPanel);
 
-        pstRadioButton = new JRadioButton("Outlook Pst");
+        pstRadioButton = new JRadioButton("Outlook PST");
         pstRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
         pstRadioButton.setSelected(true);
         GridBagConstraints gbc_pstRadioButton = new GridBagConstraints();
@@ -671,7 +696,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_thunderbirdRadioButton.gridy = 0;
         localPanel.add(thunderbirdRadioButton, gbc_thunderbirdRadioButton);
 
-        nameLabel = new JLabel("Nom de l'extraction");
+        nameLabel = new JLabel(MESSAGES.getString("label.nameExtraction"));
         GridBagConstraints gbc_nameLabel = new GridBagConstraints();
         gbc_nameLabel.anchor = GridBagConstraints.EAST;
         gbc_nameLabel.insets = new Insets(0, 0, 5, 5);
@@ -701,7 +726,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_mboxRadioButton.gridy = 0;
         localPanel.add(mboxRadioButton, gbc_mboxRadioButton);
 
-        emlRadioButton = new JRadioButton("Eml");
+        emlRadioButton = new JRadioButton("EML");
         emlRadioButton.setHorizontalAlignment(SwingConstants.CENTER);
         GridBagConstraints gbc_emlRadioButton = new GridBagConstraints();
         gbc_emlRadioButton.weightx = 0.5;
@@ -721,7 +746,7 @@ public class MailExtractMainWindow extends JFrame {
         gbc_msgRadioButton.gridy = 0;
         localPanel.add(msgRadioButton, gbc_msgRadioButton);
 
-        containerLabel = new JLabel("Chemin");
+        containerLabel = new JLabel(MESSAGES.getString("label.path"));
         GridBagConstraints gbc_containerLabel = new GridBagConstraints();
         gbc_containerLabel.anchor = GridBagConstraints.EAST;
         gbc_containerLabel.insets = new Insets(0, 0, 0, 5);
@@ -742,7 +767,7 @@ public class MailExtractMainWindow extends JFrame {
         localPanel.add(containerField, gbc_containerField);
         containerField.setColumns(128);
 
-        containerButton = new JButton("Chemin...");
+        containerButton = new JButton(MESSAGES.getString("button.path"));
         GridBagConstraints gbc_containerButton = new GridBagConstraints();
         gbc_containerButton.gridx = 4;
         gbc_containerButton.gridy = 1;
@@ -750,13 +775,26 @@ public class MailExtractMainWindow extends JFrame {
         containerButton.setActionCommand("container");
         containerButton.addActionListener(app);
 
-        debugCheckBox = new JCheckBox("Debug");
+        // Case à cocher debug, avec gestion via un lambda
+        debugCheckBox = new JCheckBox(MESSAGES.getString("checkbox.debug"));
         GridBagConstraints gbc_debugCheckBox = new GridBagConstraints();
         gbc_debugCheckBox.anchor = GridBagConstraints.WEST;
         gbc_debugCheckBox.insets = new Insets(0, 0, 5, 5);
         gbc_debugCheckBox.gridx = 3;
         gbc_debugCheckBox.gridy = 14;
         getContentPane().add(debugCheckBox, gbc_debugCheckBox);
+
+        englishCheckBox = new JCheckBox("English");
+        GridBagConstraints gbc_englishCheckBox = new GridBagConstraints();
+        gbc_englishCheckBox.anchor = GridBagConstraints.WEST;
+        gbc_englishCheckBox.insets = new Insets(0, 0, 5, 5);
+        gbc_englishCheckBox.gridx = 0;
+        gbc_englishCheckBox.gridy = 14;
+        getContentPane().add(englishCheckBox, gbc_englishCheckBox);
+        englishCheckBox.addActionListener(e -> {
+            if (englishCheckBox.isSelected()) SetLabels(MESSAGES_EN);
+            else SetLabels(MESSAGES);
+        });
 
         // RadioButtons
         ButtonGroup groupLocalProtocol = new ButtonGroup();
@@ -775,5 +813,41 @@ public class MailExtractMainWindow extends JFrame {
         groupProtocol.add(imapsRadioButton);
 
         pack();
+    }
+
+    private void SetLabels(ResourceBundle messages)
+    {
+        this.setTitle(messages.getString("mainWindow.title"));
+        lblNewLabel.setText(messages.getString("label.extractText"));
+        extractmessagetextfileCheckBox.setText(messages.getString("checkbox.extractMessageToFile"));
+        extractmessagetextmetadataCheckBox.setText(messages.getString("checkbox.extractMessageToMetadata"));
+        extractfiletextfileCheckBox.setText(messages.getString("checkbox.extractAttachmentToFile"));
+        extractfiletextmetadataCheckBox.setText(messages.getString("checkbox.extractAttachmentToMetadata"));
+        extractButton.setText(messages.getString("button.extract"));
+        listButton.setText(messages.getString("button.listFolders"));
+        statButton.setText(messages.getString("button.listStats"));
+        emptyButton.setText(messages.getString("button.clearLog"));
+        warningCheckBox.setText(messages.getString("checkbox.warning"));
+        loglevelLabel.setText(messages.getString("label.logLevel"));
+        keeponlydeepCheckBox.setText(messages.getString("checkbox.keepOnlyDeep"));
+        namesLengthLabel.setText(messages.getString("label.namesLength"));
+        extractlistCheckBox.setText(messages.getString("checkbox.extractList"));
+        savedirButton.setText(messages.getString("button.savedir"));
+        dropemptyfoldersCheckBox.setText(messages.getString("checkbox.dropEmptyFolders"));
+        savedirLabel.setText(messages.getString("label.savedir"));
+        folderLabel.setText(messages.getString("label.folderRoot"));
+        charsetLabel.setText(messages.getString("label.charset"));
+        localRadioButton.setText(messages.getString("radio.localExtraction"));
+        protocoleRadioButton.setText(messages.getString("radio.serverExtraction"));
+        serverLabel.setText(messages.getString("label.server"));
+        userLabel.setText(messages.getString("label.user"));
+        passwordLabel.setText(messages.getString("label.password"));
+        nameLabel.setText(messages.getString("label.nameExtraction"));
+        containerLabel.setText(messages.getString("label.path"));
+        containerButton.setText(messages.getString("button.path"));
+        debugCheckBox.setText(messages.getString("checkbox.debug"));
+        pack();
+        revalidate();
+        repaint();
     }
 }
