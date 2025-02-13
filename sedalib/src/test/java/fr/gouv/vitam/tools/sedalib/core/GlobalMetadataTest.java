@@ -3,7 +3,6 @@ package fr.gouv.vitam.tools.sedalib.core;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
-import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class GlobalMetadataTest {
@@ -13,34 +12,34 @@ class GlobalMetadataTest {
 
 		// Given
 		GlobalMetadata gm;
-		String gmFragments = "  <Comment>Avec valeurs utilisables sur environnement de démo Vitam V2</Comment>\r\n" +
-				"  <Date>2018-09-15T01:38:56</Date>\r\n" + 
-				"  <MessageIdentifier>SIP SEDA de test V2</MessageIdentifier>\r\n" + 
-				"  <ArchivalAgreement>ArchivalAgreement0</ArchivalAgreement>\r\n" +
-				"  <CodeListVersions>\r\n" +
-				"    <ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion>\r\n" + 
-				"    <MessageDigestAlgorithmCodeListVersion>MessageDigestAlgorithmCodeListVersion0</MessageDigestAlgorithmCodeListVersion>\r\n" + 
-				"    <MimeTypeCodeListVersion>MimeTypeCodeListVersion0</MimeTypeCodeListVersion>\r\n" + 
-				"    <EncodingCodeListVersion>EncodingCodeListVersion0</EncodingCodeListVersion>\r\n" + 
-				"    <FileFormatCodeListVersion>FileFormatCodeListVersion0</FileFormatCodeListVersion>\r\n" + 
-				"    <CompressionAlgorithmCodeListVersion>CompressionAlgorithmCodeListVersion0</CompressionAlgorithmCodeListVersion>\r\n" + 
-				"    <DataObjectVersionCodeListVersion>DataObjectVersionCodeListVersion0</DataObjectVersionCodeListVersion>\r\n" + 
-				"    <StorageRuleCodeListVersion>StorageRuleCodeListVersion0</StorageRuleCodeListVersion>\r\n" + 
-				"    <AppraisalRuleCodeListVersion>AppraisalRuleCodeListVersion0</AppraisalRuleCodeListVersion>\r\n" + 
-				"    <AccessRuleCodeListVersion>AccessRuleCodeListVersion0</AccessRuleCodeListVersion>\r\n" + 
-				"    <DisseminationRuleCodeListVersion>DisseminationRuleCodeListVersion0</DisseminationRuleCodeListVersion>\r\n" + 
-				"    <ReuseRuleCodeListVersion>ReuseRuleCodeListVersion0</ReuseRuleCodeListVersion>\r\n" + 
-				"    <ClassificationRuleCodeListVersion>ClassificationRuleCodeListVersion0</ClassificationRuleCodeListVersion>\r\n" + 
-				"    <AuthorizationReasonCodeListVersion>AuthorizationReasonCodeListVersion0</AuthorizationReasonCodeListVersion>\r\n" + 
-				"    <RelationshipCodeListVersion>RelationshipCodeListVersion0</RelationshipCodeListVersion>\r\n" + 
-				"  </CodeListVersions>\r\n" + 
-				"  <TransferRequestReplyIdentifier>Identifier3</TransferRequestReplyIdentifier>\r\n" + 
-				"  <ArchivalAgency>\r\n" + 
-				"    <Identifier>Identifier4</Identifier>\r\n" + 
-				"  </ArchivalAgency>\r\n" + 
-				"  <TransferringAgency>\r\n" + 
-				"    <Identifier>Identifier5</Identifier>\r\n" + 
-				"  </TransferringAgency>";
+		String gmFragments = "<Comment>Avec valeurs utilisables sur environnement de démo Vitam V2</Comment>\n" +
+				"<Date>2018-09-15T01:38:56</Date>\n" +
+				"<MessageIdentifier>SIP SEDA de test V2</MessageIdentifier>\n" +
+				"<ArchivalAgreement>ArchivalAgreement0</ArchivalAgreement>\n" +
+				"<CodeListVersions>\n" +
+				"  <ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion>\n" +
+				"  <MessageDigestAlgorithmCodeListVersion>MessageDigestAlgorithmCodeListVersion0</MessageDigestAlgorithmCodeListVersion>\n" +
+				"  <MimeTypeCodeListVersion>MimeTypeCodeListVersion0</MimeTypeCodeListVersion>\n" +
+				"  <EncodingCodeListVersion>EncodingCodeListVersion0</EncodingCodeListVersion>\n" +
+				"  <FileFormatCodeListVersion>FileFormatCodeListVersion0</FileFormatCodeListVersion>\n" +
+				"  <CompressionAlgorithmCodeListVersion>CompressionAlgorithmCodeListVersion0</CompressionAlgorithmCodeListVersion>\n" +
+				"  <DataObjectVersionCodeListVersion>DataObjectVersionCodeListVersion0</DataObjectVersionCodeListVersion>\n" +
+				"  <StorageRuleCodeListVersion>StorageRuleCodeListVersion0</StorageRuleCodeListVersion>\n" +
+				"  <AppraisalRuleCodeListVersion>AppraisalRuleCodeListVersion0</AppraisalRuleCodeListVersion>\n" +
+				"  <AccessRuleCodeListVersion>AccessRuleCodeListVersion0</AccessRuleCodeListVersion>\n" +
+				"  <DisseminationRuleCodeListVersion>DisseminationRuleCodeListVersion0</DisseminationRuleCodeListVersion>\n" +
+				"  <ReuseRuleCodeListVersion>ReuseRuleCodeListVersion0</ReuseRuleCodeListVersion>\n" +
+				"  <ClassificationRuleCodeListVersion>ClassificationRuleCodeListVersion0</ClassificationRuleCodeListVersion>\n" +
+				"  <AuthorizationReasonCodeListVersion>AuthorizationReasonCodeListVersion0</AuthorizationReasonCodeListVersion>\n" +
+				"  <RelationshipCodeListVersion>RelationshipCodeListVersion0</RelationshipCodeListVersion>\n" +
+				"</CodeListVersions>\n" +
+				"<TransferRequestReplyIdentifier>Identifier3</TransferRequestReplyIdentifier>\n" +
+				"<ArchivalAgency>\n" +
+				"  <Identifier>Identifier4</Identifier>\n" +
+				"</ArchivalAgency>\n" +
+				"<TransferringAgency>\n" +
+				"  <Identifier>Identifier5</Identifier>\n" +
+				"</TransferringAgency>";
 
 		gm=new GlobalMetadata();
 
@@ -49,6 +48,6 @@ class GlobalMetadataTest {
 		String gmOut = gm.toSedaXmlFragments();
 
 		// Then
-		assertThat(LineEndNormalize(gmOut)).isEqualTo(LineEndNormalize(gmFragments));
+		assertThat(gmOut).isEqualToNormalizingNewlines(gmFragments);
 	}
 }

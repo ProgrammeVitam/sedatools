@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
@@ -51,11 +50,11 @@ class CSVTreeToDataObjectPackageImporterTest {
 				"}";
 		ArchiveUnit au = cti.getDataObjectPackage().getArchiveUnitById("ID35");
 		String sau = mapper.writeValueAsString(au);
-		assertThat(TestUtilities.LineEndNormalize(sau)).isEqualTo(TestUtilities.LineEndNormalize(testAu));
+		assertThat(sau).isEqualToNormalizingNewlines(testAu);
 	}
 
 	@Test
-	void importKOCSV() throws SEDALibException, InterruptedException, JsonProcessingException {
+	void importKOCSV() throws SEDALibException {
 		// Given
 		ObjectMapper mapper = new ObjectMapper();
 		SimpleModule module = new SimpleModule();
@@ -71,7 +70,7 @@ class CSVTreeToDataObjectPackageImporterTest {
 				"src/test/resources/PacketSamples/TestKO1.csv", "Cp1252",';',null);
 
 		// Test message identify the wrong line
-		assertThatThrownBy(() -> cti.doImport())
+		assertThatThrownBy(cti::doImport)
 				.hasMessageContaining("2b"); // for StringType;
 	}
 }

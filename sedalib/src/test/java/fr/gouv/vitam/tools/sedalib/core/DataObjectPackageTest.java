@@ -10,10 +10,8 @@ import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
-import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
 class DataObjectPackageTest {
@@ -85,7 +83,7 @@ class DataObjectPackageTest {
 
         ArchiveUnit au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID21");
         String sau = mapper.writeValueAsString(au);
-        assertEquals(LineEndNormalize(testau), LineEndNormalize(sau));
+        assertThat(testau).isEqualToNormalizingNewlines(sau);
 
         si.getArchiveTransfer().getDataObjectPackage().normalizeUniqDataObjectGroup();
 
@@ -113,12 +111,12 @@ class DataObjectPackageTest {
         au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID21");
         sau = mapper.writeValueAsString(au);
 //		System.out.println(sau);
-        assertEquals(LineEndNormalize(testau), LineEndNormalize(sau));
+        assertThat(testau).isEqualToNormalizingNewlines(sau);
         System.err.println("La fusion des DOG a bien eue lieu");
 
         String testog = "{\n" +
                 "  \"binaryDataObjectList\" : [ {\n" +
-                "    \"dataObjectProfile\":null,\n" +
+                "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -180,7 +178,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID17.ods\"\n" +
                 "  }, {\n" +
-                "    \"dataObjectProfile\":null,\n" +
+                "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -242,7 +240,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID19\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID19.txt\"\n" +
                 "  }, {\n" +
-                "    \"dataObjectProfile\":null,\n" +
+                "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -304,7 +302,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID23\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID23.pdf\"\n" +
                 "  }, {\n" +
-                "    \"dataObjectProfile\":null,\n" +
+                "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -366,7 +364,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID24\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID24.txt\"\n" +
                 "  }, {\n" +
-                "    \"dataObjectProfile\":null,\n" +
+                "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -428,7 +426,7 @@ class DataObjectPackageTest {
                 "    \"inDataObjectPackageId\" : \"ID200\",\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID200.json\"\n" +
                 "  }, {\n" +
-                "    \"dataObjectProfile\":null,\n" +
+                "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -491,7 +489,7 @@ class DataObjectPackageTest {
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSipDogMerge.zip-tmpdir\\\\content\\\\ID201.json\"\n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
-                "    \"dataObjectProfile\":null,\n" +
+                "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
@@ -577,11 +575,11 @@ class DataObjectPackageTest {
                 .get("ID52");
 		System.out.println("Value to verify="+mapper.writeValueAsString(og));
         String sog = mapper.writeValueAsString(og);
-        sog = LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sog = sog.replaceAll("\"onDiskPath\" : .*\"", "");
 
-        testog = LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testog = testog.replaceAll("\"onDiskPath\" : .*\"", "");
 
-        assertThat(sog).isEqualTo(testog);
+        assertThat(sog).isEqualToNormalizingNewlines(testog);
         System.err.println("La fusion des DOG a bien eue lieu");
     }
 
@@ -616,7 +614,6 @@ class DataObjectPackageTest {
 
         ArchiveUnit au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID19");
         String sau = mapper.writeValueAsString(au);
-    //    System.out.println(sau);
-        assertEquals(LineEndNormalize(testau), LineEndNormalize(sau));
+        assertThat(sau).isEqualToNormalizingNewlines(testau);
     }
 }

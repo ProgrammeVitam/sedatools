@@ -17,6 +17,7 @@ import java.nio.file.Path;
 public class ResourceUtils {
 
     private static final String FILE_NOT_FOUND_IN_RESOURCES = "File not found in Resources: ";
+    private static final String SECURITY_IN_RESOURCES = "Security violation in Resources: ";
 
     /**
      * Get the InputStream representation from the Resources directory
@@ -33,13 +34,13 @@ public class ResourceUtils {
         try {
             stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(resourcesFile);
         } catch (final SecurityException e) {
-            log.error("error:", e);
+            throw new FileNotFoundException( SECURITY_IN_RESOURCES + resourcesFile);
         }
         if (stream == null) {
             try {
                 stream = ResourceUtils.class.getClassLoader().getResourceAsStream(resourcesFile);
             } catch (final SecurityException e) {
-                log.error("error:", e);
+                throw new FileNotFoundException( SECURITY_IN_RESOURCES + resourcesFile);
             }
         }
         if (stream == null) {
@@ -64,8 +65,7 @@ public class ResourceUtils {
         try {
             url = ResourceUtils.class.getClassLoader().getResource(resourcesFile);
         } catch (final SecurityException e) {
-            log.error("error:", e);
-            throw new FileNotFoundException(FILE_NOT_FOUND_IN_RESOURCES + resourcesFile);
+            throw new FileNotFoundException(SECURITY_IN_RESOURCES + resourcesFile);
         }
         if (url == null) {
             url = Thread.currentThread().getContextClassLoader().getResource(resourcesFile);
@@ -77,7 +77,6 @@ public class ResourceUtils {
         try {
             file = new File(url.toURI());
         } catch (final URISyntaxException e) {
-            log.error("error:", e);
             file = new File(URLDecoder.decode(url.getFile(), StandardCharsets.UTF_8));
         }
         if (file.exists()) {
@@ -112,7 +111,7 @@ public class ResourceUtils {
         try {
             fileAsString = new String(Files.readAllBytes(getResourcePath(resourcesFile)));
         } catch (final SecurityException e) {
-            log.error("error:", e);
+            throw new FileNotFoundException( SECURITY_IN_RESOURCES + resourcesFile);
         } catch (final IOException e) {
             throw new FileNotFoundException(FILE_NOT_FOUND_IN_RESOURCES + resourcesFile);
         }

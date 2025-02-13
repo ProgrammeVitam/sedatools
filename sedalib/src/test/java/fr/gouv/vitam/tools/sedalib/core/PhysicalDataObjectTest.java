@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -43,7 +42,7 @@ class PhysicalDataObjectTest {
 
         // Then
         String testOut = "{\n" +
-                "  \"dataObjectProfile\":null,\n" +
+                "  \"dataObjectProfile\" : null,\n" +
                 "  \"dataObjectSystemId\" : null,\n" +
                 "  \"dataObjectGroupSystemId\" : null,\n" +
                 "  \"relationshipsXmlData\" : [ ],\n" +
@@ -89,33 +88,33 @@ class PhysicalDataObjectTest {
                 "      \"unit\" : \"gram\"\n" +
                 "    } ]\n" +
                 "  },\n" +
-                "  \"otherDimensionsAbstractXml\":[{\n" +
-                "    \"type\":\"AnyXMLType\",\n" +
-                "    \"elementName\":\"Extent\",\n" +
-                "    \"rawXml\":\"<Extent>1 carte imprimée</Extent>\"\n" +
-                "    },{\n" +
-                "    \"type\":\"AnyXMLType\",\n" +
-                "    \"elementName\":\"Dimensions\",\n" +
-                "    \"rawXml\":\"<Dimensions>10,5cm x 14,8cm</Dimensions>\"\n" +
-                "    },{\n" +
-                "    \"type\":\"AnyXMLType\",\n" +
-                "    \"elementName\":\"Color\",\n" +
-                "    \"rawXml\":\"<Color>Noir et blanc</Color>\"\n" +
-                "    },{\n" +
-                "    \"type\":\"AnyXMLType\",\n" +
-                "    \"elementName\":\"Framing\",\n" +
-                "    \"rawXml\":\"<Framing>Paysage</Framing>\"\n" +
-                "    },{\n" +
-                "    \"type\":\"AnyXMLType\",\n" +
-                "    \"elementName\":\"Technique\",\n" +
-                "    \"rawXml\":\"<Technique>Phototypie</Technique>\"\n" +
-                "  }],\n" +
+                "  \"otherDimensionsAbstractXml\" : [ {\n" +
+                "    \"type\" : \"AnyXMLType\",\n" +
+                "    \"elementName\" : \"Extent\",\n" +
+                "    \"rawXml\" : \"<Extent>1 carte imprimée</Extent>\"\n" +
+                "  }, {\n" +
+                "    \"type\" : \"AnyXMLType\",\n" +
+                "    \"elementName\" : \"Dimensions\",\n" +
+                "    \"rawXml\" : \"<Dimensions>10,5cm x 14,8cm</Dimensions>\"\n" +
+                "  }, {\n" +
+                "    \"type\" : \"AnyXMLType\",\n" +
+                "    \"elementName\" : \"Color\",\n" +
+                "    \"rawXml\" : \"<Color>Noir et blanc</Color>\"\n" +
+                "  }, {\n" +
+                "    \"type\" : \"AnyXMLType\",\n" +
+                "    \"elementName\" : \"Framing\",\n" +
+                "    \"rawXml\" : \"<Framing>Paysage</Framing>\"\n" +
+                "  }, {\n" +
+                "    \"type\" : \"AnyXMLType\",\n" +
+                "    \"elementName\" : \"Technique\",\n" +
+                "    \"rawXml\" : \"<Technique>Phototypie</Technique>\"\n" +
+                "  } ],\n" +
                 "  \"inDataObjectPackageId\" : \"ID18\",\n" +
                 "  \"onDiskPath\" : null\n" +
                 "}";
-        testOut = LineEndNormalize(testOut.replaceAll("\"onDiskPath\" : .*\"", ""));
-        pdoNextOut = LineEndNormalize(pdoNextOut.replaceAll("\"onDiskPath\" : .*\"", ""));
-        assertThat(pdoNextOut).isEqualTo(testOut);
+        testOut = testOut.replaceAll("\"onDiskPath\" : .*\"", "");
+        pdoNextOut = pdoNextOut.replaceAll("\"onDiskPath\" : .*\"", "");
+        assertThat(testOut).isEqualToNormalizingNewlines(pdoNextOut);
 
     }
 
@@ -137,7 +136,7 @@ class PhysicalDataObjectTest {
 
         // When dataObjectProfile defined in SEDA 2.1 can't generate XML
         pdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
-        assertThatThrownBy(() -> pdo.toSedaXmlFragments()).isInstanceOf(SEDALibException.class)
+        assertThatThrownBy(pdo::toSedaXmlFragments).isInstanceOf(SEDALibException.class)
                 .hasMessageContaining("Erreur interne");
         pdo.dataObjectProfile = null;
 
@@ -150,22 +149,20 @@ class PhysicalDataObjectTest {
 
         // Then
         String testOut = "<DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
-                "<PhysicalId>940 W</PhysicalId>\n" +
-                "<PhysicalDimensions>\n" +
-                "  <Width unit=\"centimetre\">10.0</Width>\n" +
-                "  <Height unit=\"centimetre\">8.0</Height>\n" +
-                "  <Depth unit=\"centimetre\">1.0</Depth>\n" +
-                "  <Diameter unit=\"centimetre\">0.0</Diameter>\n" +
-                "  <Weight unit=\"gram\">59.0</Weight>\n" +
-                "</PhysicalDimensions>\n" +
-                "<Extent>1carteimprimée</Extent>\n" +
-                "<Dimensions>10,5cmx14,8cm</Dimensions>\n" +
-                "<Color>Noiretblanc</Color>\n" +
-                "<Framing>Paysage</Framing>\n" +
-                "<Technique>Phototypie</Technique>";
-        testOut = LineEndNormalize(testOut);
-        pdoNextOut = LineEndNormalize(pdoNextOut);
-        assertThat(pdoNextOut).isEqualTo(testOut);
+                "  <PhysicalId>940 W</PhysicalId>\n" +
+                "  <PhysicalDimensions>\n" +
+                "    <Width unit=\"centimetre\">10.0</Width>\n" +
+                "    <Height unit=\"centimetre\">8.0</Height>\n" +
+                "    <Depth unit=\"centimetre\">1.0</Depth>\n" +
+                "    <Diameter unit=\"centimetre\">0.0</Diameter>\n" +
+                "    <Weight unit=\"gram\">59.0</Weight>\n" +
+                "  </PhysicalDimensions>\n" +
+                "  <Extent>1 carte imprimée</Extent>\n" +
+                "  <Dimensions>10,5cm x 14,8cm</Dimensions>\n" +
+                "  <Color>Noir et blanc</Color>\n" +
+                "  <Framing>Paysage</Framing>\n" +
+                "  <Technique>Phototypie</Technique>";
+        assertThat(testOut).isEqualToNormalizingNewlines(pdoNextOut);
     }
 
     @Test
@@ -194,23 +191,21 @@ class PhysicalDataObjectTest {
 
         // Then
         String testOut = "<DataObjectProfile>Test</DataObjectProfile>\n" +
-                "<DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
-                "<PhysicalId>940 W</PhysicalId>\n" +
-                "<PhysicalDimensions>\n" +
-                "  <Width unit=\"centimetre\">10.0</Width>\n" +
-                "  <Height unit=\"centimetre\">8.0</Height>\n" +
-                "  <Depth unit=\"centimetre\">1.0</Depth>\n" +
-                "  <Diameter unit=\"centimetre\">0.0</Diameter>\n" +
-                "  <Weight unit=\"gram\">59.0</Weight>\n" +
-                "</PhysicalDimensions>\n" +
-                "<Extent>1carteimprimée</Extent>\n" +
-                "<Dimensions>10,5cmx14,8cm</Dimensions>\n" +
-                "<Color>Noiretblanc</Color>\n" +
-                "<Framing>Paysage</Framing>\n" +
-                "<Technique>Phototypie</Technique>";
-        testOut = LineEndNormalize(testOut);
-        pdoNextOut = LineEndNormalize(pdoNextOut);
-        assertThat(pdoNextOut).isEqualTo(testOut);
+                "  <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
+                "  <PhysicalId>940 W</PhysicalId>\n" +
+                "  <PhysicalDimensions>\n" +
+                "    <Width unit=\"centimetre\">10.0</Width>\n" +
+                "    <Height unit=\"centimetre\">8.0</Height>\n" +
+                "    <Depth unit=\"centimetre\">1.0</Depth>\n" +
+                "    <Diameter unit=\"centimetre\">0.0</Diameter>\n" +
+                "    <Weight unit=\"gram\">59.0</Weight>\n" +
+                "  </PhysicalDimensions>\n" +
+                "  <Extent>1 carte imprimée</Extent>\n" +
+                "  <Dimensions>10,5cm x 14,8cm</Dimensions>\n" +
+                "  <Color>Noir et blanc</Color>\n" +
+                "  <Framing>Paysage</Framing>\n" +
+                "  <Technique>Phototypie</Technique>";
+        assertThat(pdoNextOut).isEqualToNormalizingNewlines(testOut);
         SEDA2Version.setSeda2Version(1);
     }
 }

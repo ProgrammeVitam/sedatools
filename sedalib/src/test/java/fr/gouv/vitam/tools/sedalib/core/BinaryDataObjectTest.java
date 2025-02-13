@@ -3,6 +3,7 @@ package fr.gouv.vitam.tools.sedalib.core;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
@@ -14,7 +15,6 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
@@ -45,7 +45,7 @@ class BinaryDataObjectTest {
 
         // Then
         String testOut = "{\n" +
-                "  \"dataObjectProfile\":null,\n" +
+                "  \"dataObjectProfile\" : null,\n" +
                 "  \"dataObjectSystemId\" : null,\n" +
                 "  \"dataObjectGroupSystemId\" : null,\n" +
                 "  \"relationshipsXmlData\" : [ ],\n" +
@@ -139,9 +139,9 @@ class BinaryDataObjectTest {
                 "  \"inDataObjectPackageId\" : \"ID7\",\n" +
                 "  \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSIP.zip-tmpdir\\\\content\\\\ID7.jpg\"\n" +
                 "}";
-        testOut = LineEndNormalize(testOut.replaceAll("\"onDiskPath\" : .*\"", ""));
-        bdoNextOut = LineEndNormalize(bdoNextOut.replaceAll("\"onDiskPath\" : .*\"", ""));
-        assertThat(bdoNextOut).isEqualTo(testOut);
+        testOut = TestUtilities.SlackNormalize(testOut.replaceAll("\"onDiskPath\" : .*\"", ""));
+        bdoNextOut = TestUtilities.SlackNormalize(bdoNextOut.replaceAll("\"onDiskPath\" : .*\"", ""));
+        assertThat(bdoNextOut).isEqualToNormalizingNewlines(testOut);
 
     }
 

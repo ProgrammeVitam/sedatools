@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.process;
 
+import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
@@ -57,8 +58,8 @@ class CompactorTest implements UseTestFiles {
         // And assert the first DocumentPack AU content
         ArchiveUnit packAU = compactedAU.getChildrenAuList().getArchiveUnitList().get(0);
 
-        assertThat(packAU.getContentXmlData().replaceAll("<LastModified>.+<\\/LastModified>",
-            "<LastModified>###TIMESTAMP###<\\/LastModified>"))
+        assertThat(TestUtilities.SlackNormalize(packAU.getContentXmlData().replaceAll("<LastModified>.+<\\/LastModified>",
+            "<LastModified>###TIMESTAMP###<\\/LastModified>")))
                 .isEqualTo(ResourceUtils.getResourceAsString("import/AU_ID2.xml"));
 
         // And assert created files

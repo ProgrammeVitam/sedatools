@@ -188,14 +188,14 @@ class SIPImportTest implements UseTestFiles {
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*\"");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
-        sog = TestUtilities.LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sog = sog.replaceAll("\"onDiskPath\" : .*\"", "");
 
         Matcher mtestog = pog.matcher(testog);
         boolean testogpath = mtestog.find();
-        testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testog = testog.replaceAll("\"onDiskPath\" : .*\"", "");
 
         assertTrue(sogpath & testogpath);
-        assertThat(sog).isEqualTo(testog);
+        assertThat(sog).isEqualToNormalizingNewlines(testog);
 
         // assert one archiveUnit using serialization
         String testau = "{\n" +
@@ -215,22 +215,22 @@ class SIPImportTest implements UseTestFiles {
         Pattern pau = Pattern.compile("\"onDiskPath\" : .*\"");
         Matcher mtestau = pau.matcher(testau);
         boolean testaupath = mtestau.find();
-        testau = TestUtilities.LineEndNormalize(testau.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testau = testau.replaceAll("\"onDiskPath\" : .*\"", "");
 
         ArchiveUnit au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID4");
         String sau = mapper.writeValueAsString(au);
         //System.out.println(sau);
         Matcher msau = pau.matcher(sau);
         boolean saupath = msau.find();
-        sau = TestUtilities.LineEndNormalize(sau.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sau = sau.replaceAll("\"onDiskPath\" : .*\"", "");
 
         assertThat(saupath).isEqualTo(testaupath);
-        assertThat(sau).isEqualTo(testau);
+        assertThat(sau).isEqualToNormalizingNewlines(testau);
 
         // test decoding of complex content metadata on this ArchiveUnit
         String content = au.getContent().toString();
 
-        assertThat(content).isEqualTo(ResourceUtils.getResourceAsString("import/AU_ID4.xml"));
+        assertThat(content).isEqualToNormalizingNewlines(ResourceUtils.getResourceAsString("import/AU_ID4.xml"));
 
         // test decoding of complex management metadata on this ArchiveUnit
         au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID8");
@@ -256,7 +256,7 @@ class SIPImportTest implements UseTestFiles {
                 "</Management>";
         String management = au.getManagement().toString();
 
-        assertThat(management).isEqualTo(testManagement);
+        assertThat(management).isEqualToNormalizingNewlines(testManagement);
 
     }
 

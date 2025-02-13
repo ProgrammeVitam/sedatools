@@ -12,8 +12,7 @@ import fr.gouv.vitam.tools.sedalib.inout.importer.DIPToArchiveDeliveryRequestRep
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 
-import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class ArchiveDeliveryRequestReplyFromXmlTest {
 
@@ -33,7 +32,7 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 		
 		String testog = "{\n" +
 				"  \"binaryDataObjectList\" : [ {\n" +
-				"    \"dataObjectProfile\":null,\n" +
+				"    \"dataObjectProfile\" : null,\n" +
 				"    \"dataObjectSystemId\" : null,\n" +
 				"    \"dataObjectGroupSystemId\" : null,\n" +
 				"    \"relationshipsXmlData\" : [ ],\n" +
@@ -105,7 +104,7 @@ class ArchiveDeliveryRequestReplyFromXmlTest {
 		String sog = mapper.writeValueAsString(og);
 		sog = sog.replaceAll("\"onDiskPath\" : .*\"", "");
 		testog = testog.replaceAll("\"onDiskPath\" : .*\"", "");
-		assertEquals(LineEndNormalize(testog),LineEndNormalize(sog));
+		assertThat(sog).isEqualToNormalizingNewlines(testog);
 	}
 
 }
