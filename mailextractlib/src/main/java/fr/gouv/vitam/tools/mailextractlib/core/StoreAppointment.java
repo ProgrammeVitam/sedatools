@@ -18,14 +18,14 @@ import static org.apache.commons.codec.digest.MessageDigestAlgorithms.MD5;
 
 public abstract class StoreAppointment extends StoreElement {
 
-    public static final int MESSAGE_STATUS_UNKNOWN=0;
-    public static final int MESSAGE_STATUS_LOCAL=1;
-    public static final int MESSAGE_STATUS_REQUEST=2;
-    public static final int MESSAGE_STATUS_RESPONSE_YES=3;
-    public static final int MESSAGE_STATUS_RESPONSE_MAY=4;
-    public static final int MESSAGE_STATUS_RESPONSE_NO=5;
+    public static final int MESSAGE_STATUS_UNKNOWN = 0;
+    public static final int MESSAGE_STATUS_LOCAL = 1;
+    public static final int MESSAGE_STATUS_REQUEST = 2;
+    public static final int MESSAGE_STATUS_RESPONSE_YES = 3;
+    public static final int MESSAGE_STATUS_RESPONSE_MAY = 4;
+    public static final int MESSAGE_STATUS_RESPONSE_NO = 5;
 
-    public static final String[] MESSAGE_STATUS_TEXT={"Unknown","Local","Request","Resp.Yes","Resp.May","Resp.No"};
+    public static final String[] MESSAGE_STATUS_TEXT = {"Unknown", "Local", "Request", "Resp.Yes", "Resp.May", "Resp.No"};
 
     protected String uniqId;
 
@@ -66,12 +66,12 @@ public abstract class StoreAppointment extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "appointment " + getStoreExtractor().getElementCounter(this.getClass(),false);
+        String result = "appointment " + getStoreExtractor().getElementCounter(this.getClass(), false);
         if (subject != null)
             result += " [" + subject + "/";
         else
             result += " [no subject/";
-        result+=getDateInDefinedTimeZone(startTime)+" - "+getDateInDefinedTimeZone(endTime)+"]";
+        result += getDateInDefinedTimeZone(startTime) + " - " + getDateInDefinedTimeZone(endTime) + "]";
         return result;
     }
 
@@ -118,18 +118,21 @@ public abstract class StoreAppointment extends StoreElement {
      * @throws MailExtractLibException the mail extract lib exception
      */
     public void extractAppointment(boolean writeFlag, StoreAppointment father) throws InterruptedException, MailExtractLibException {
-        if (writeFlag && storeFolder.getStoreExtractor().getOptions().extractObjectsLists) {
-            writeToAppointmentsList(father);
-            if ((attachments!=null) && (!attachments.isEmpty())) {
-                ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
-                        File.separator + storeFolder.storeExtractor.destName + File.separator + "appointments", "AppointmentAttachments#" + listLineId);
-                attachmentNode.addMetadata("DescriptionLevel", "RecordGrp", true);
-                attachmentNode.addMetadata("Title", "Appointment Attachments #" + listLineId, true);
-                attachmentNode.addMetadata("Description", "Appointment attachments extracted for " + subject + "[" + startTime + "-" + endTime + "]", true);
-                attachmentNode.addMetadata("StartDate", getDateInUTCTimeZone(startTime), true);
-                attachmentNode.addMetadata("EndDate", getDateInUTCTimeZone(endTime), true);
-                attachmentNode.write();
-                StoreAttachment.extractAttachments(attachments, attachmentNode, writeFlag);
+        if (writeFlag) {
+            if (storeFolder.getStoreExtractor().getOptions().extractElementsList)
+                writeToAppointmentsList(father);
+            if (storeFolder.getStoreExtractor().getOptions().extractElementsContent) {
+                if ((attachments != null) && (!attachments.isEmpty())) {
+                    ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
+                            File.separator + storeFolder.storeExtractor.destName + File.separator + "appointments", "AppointmentAttachments#" + listLineId);
+                    attachmentNode.addMetadata("DescriptionLevel", "RecordGrp", true);
+                    attachmentNode.addMetadata("Title", "Appointment Attachments #" + listLineId, true);
+                    attachmentNode.addMetadata("Description", "Appointment attachments extracted for " + subject + "[" + startTime + "-" + endTime + "]", true);
+                    attachmentNode.addMetadata("StartDate", getDateInUTCTimeZone(startTime), true);
+                    attachmentNode.addMetadata("EndDate", getDateInUTCTimeZone(endTime), true);
+                    attachmentNode.write();
+                    StoreAttachment.extractAttachments(attachments, attachmentNode, writeFlag);
+                }
             }
             if (exceptions != null)
                 for (StoreAppointment a : exceptions)
@@ -155,8 +158,8 @@ public abstract class StoreAppointment extends StoreElement {
         return result;
     }
 
-    private String normalizeUniqId(String uniqId){
-        String result=uniqId;
+    private String normalizeUniqId(String uniqId) {
+        String result = uniqId;
         byte[] hash;
         MessageDigest md = null;
         try {
@@ -166,7 +169,7 @@ public abstract class StoreAppointment extends StoreElement {
             for (final byte b : hash) {
                 formatter.format("%02x", b);
             }
-            result= formatter.toString();
+            result = formatter.toString();
             formatter.close();
         } catch (NoSuchAlgorithmException ignored) {
             //ignore
@@ -194,27 +197,31 @@ public abstract class StoreAppointment extends StoreElement {
         ps.format("\"%s\";", filterHyphenForCsv(recurencePattern));
         ps.format("\"%s\";", getDateInDefinedTimeZone(startRecurrenceTime));
         ps.format("\"%s\";", getDateInDefinedTimeZone(endRecurrenceTime));
-        ps.format("\"%s\";", (father != null ? father.listLineId:""));
+        ps.format("\"%s\";", (father != null ? father.listLineId : ""));
         ps.format("\"%s\";", getDateInDefinedTimeZone(exceptionDate));
         ps.format("\"%s\";", (isRecurrenceDeletion ? "X" : ""));
-        ps.format("\"%s\"", ((attachments!=null) && (!attachments.isEmpty())? Integer.toString(attachments.size()): ""));
+        ps.format("\"%s\"", ((attachments != null) && (!attachments.isEmpty()) ? Integer.toString(attachments.size()) : ""));
         ps.println("");
         ps.flush();
     }
 
     @Override
     public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
-        analyzeAppointment();
-        StoreAttachment.detectStoreAttachments(attachments);
-        extractAppointment(writeFlag, null);
+        if (storeFolder.getStoreExtractor().getOptions().extractAppointments) {
+            listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
+            analyzeAppointment();
+            StoreAttachment.detectStoreAttachments(attachments);
+            extractAppointment(writeFlag, null);
+        }
     }
 
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
-        analyzeAppointment();
-        if (statsFlag)
-            extractAppointment(false, null);
+        if (storeFolder.getStoreExtractor().getOptions().extractAppointments) {
+            listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
+            analyzeAppointment();
+            if (statsFlag)
+                extractAppointment(false, null);
+        }
     }
 }

@@ -71,11 +71,11 @@ public abstract class StoreContact extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "contact " + getStoreExtractor().getElementCounter(this.getClass(),false);
+        String result = "contact " + getStoreExtractor().getElementCounter(this.getClass(), false);
         if (fullName != null)
             result += " [" + fullName + "]";
         else if ((givenName != null) || (lastName != null))
-            result += " ["+(givenName!=null?givenName:"NoGivenName")+" "+(lastName!=null?lastName:"NoLastName")+"]";
+            result += " [" + (givenName != null ? givenName : "NoGivenName") + " " + (lastName != null ? lastName : "NoLastName") + "]";
         else
             result += " [no name]";
         return result;
@@ -152,9 +152,11 @@ public abstract class StoreContact extends StoreElement {
      * @throws MailExtractLibException the mail extract lib exception
      */
     public void extractContact(boolean writeFlag) throws InterruptedException, MailExtractLibException {
-        if (writeFlag && storeFolder.getStoreExtractor().getOptions().extractObjectsLists) {
-            writeToContactsList();
-            if (pictureData != null)
+        if (writeFlag) {
+            if (storeFolder.getStoreExtractor().getOptions().extractElementsList)
+                writeToContactsList();
+            if ((pictureData != null)
+                    && storeFolder.getStoreExtractor().getOptions().extractElementsContent)
                 extractPicture();
         }
     }
@@ -204,13 +206,16 @@ public abstract class StoreContact extends StoreElement {
 
     @Override
     public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
-        analyzeContact();
-        extractContact(writeFlag);
+        if (storeFolder.getStoreExtractor().getOptions().extractContacts) {
+            listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
+            analyzeContact();
+            extractContact(writeFlag);
+        }
     }
 
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
+        if (storeFolder.getStoreExtractor().getOptions().extractContacts)
+            listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
     }
 }
