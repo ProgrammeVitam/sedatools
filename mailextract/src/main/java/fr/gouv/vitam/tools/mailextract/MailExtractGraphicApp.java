@@ -140,29 +140,18 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
         mainWindow.savedirField.setText(destRootPath);
         mainWindow.nameField.setText(destName);
 
-        if (storeExtractorOptions.keepOnlyDeepEmptyFolders)
-            mainWindow.keeponlydeepCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.dropEmptyFolders)
-            mainWindow.dropemptyfoldersCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.warningMsgProblem)
-            mainWindow.warningCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractObjectsLists)
-            mainWindow.extractlistCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractMessageTextFile)
-            mainWindow.extractmessagetextfileCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractMessageTextMetadata)
-            mainWindow.extractmessagetextmetadataCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractFileTextFile)
-            mainWindow.extractfiletextfileCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractFileTextMetadata)
-            mainWindow.extractfiletextmetadataCheckBox.setSelected(true);
+        mainWindow.keeponlydeepCheckBox.setSelected(storeExtractorOptions.keepOnlyDeepEmptyFolders);
+        mainWindow.dropemptyfoldersCheckBox.setSelected(storeExtractorOptions.dropEmptyFolders);
+        mainWindow.warningCheckBox.setSelected(storeExtractorOptions.warningMsgProblem);
+        mainWindow.extractMessageCheckBox.setSelected(storeExtractorOptions.extractMessages);
+        mainWindow.extractContactCheckBox.setSelected(storeExtractorOptions.extractContacts);
+        mainWindow.extractAppointmentCheckBox.setSelected(storeExtractorOptions.extractAppointments);
+        mainWindow.extractContentCheckBox.setSelected(storeExtractorOptions.extractElementsContent);
+        mainWindow.extractListCheckBox.setSelected(storeExtractorOptions.extractElementsList);
+        mainWindow.extractmessagetextfileCheckBox.setSelected(storeExtractorOptions.extractMessageTextFile);
+        mainWindow.extractmessagetextmetadataCheckBox.setSelected(storeExtractorOptions.extractMessageTextMetadata);
+        mainWindow.extractfiletextfileCheckBox.setSelected(storeExtractorOptions.extractFileTextFile);
+        mainWindow.extractfiletextmetadataCheckBox.setSelected(storeExtractorOptions.extractFileTextMetadata);
 
         mainWindow.debugCheckBox.setSelected(debugFlag);
 
@@ -346,29 +335,18 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
         destRootPath = mainWindow.savedirField.getText();
         destName = mainWindow.nameField.getText();
 
-        if (mainWindow.keeponlydeepCheckBox.isSelected())
-            storeExtractorOptions.keepOnlyDeepEmptyFolders = true;
-
-        if (mainWindow.dropemptyfoldersCheckBox.isSelected())
-            storeExtractorOptions.dropEmptyFolders = true;
-
-        if (mainWindow.warningCheckBox.isSelected())
-            storeExtractorOptions.warningMsgProblem = true;
-
-        if (mainWindow.extractlistCheckBox.isSelected())
-            storeExtractorOptions.extractObjectsLists = true;
-
-        if (mainWindow.extractmessagetextfileCheckBox.isSelected())
-            storeExtractorOptions.extractMessageTextFile = true;
-
-        if (mainWindow.extractmessagetextmetadataCheckBox.isSelected())
-            storeExtractorOptions.extractMessageTextMetadata = true;
-
-        if (mainWindow.extractfiletextfileCheckBox.isSelected())
-            storeExtractorOptions.extractFileTextFile = true;
-
-        if (mainWindow.extractfiletextmetadataCheckBox.isSelected())
-            storeExtractorOptions.extractFileTextMetadata = true;
+        storeExtractorOptions.keepOnlyDeepEmptyFolders = mainWindow.keeponlydeepCheckBox.isSelected();
+        storeExtractorOptions.dropEmptyFolders = mainWindow.dropemptyfoldersCheckBox.isSelected();
+        storeExtractorOptions.warningMsgProblem = mainWindow.warningCheckBox.isSelected();
+        storeExtractorOptions.extractMessages = mainWindow.extractMessageCheckBox.isSelected();
+        storeExtractorOptions.extractContacts = mainWindow.extractContactCheckBox.isSelected();
+        storeExtractorOptions.extractAppointments = mainWindow.extractAppointmentCheckBox.isSelected();
+        storeExtractorOptions.extractElementsContent = mainWindow.extractContentCheckBox.isSelected();
+        storeExtractorOptions.extractElementsList = mainWindow.extractListCheckBox.isSelected();
+        storeExtractorOptions.extractMessageTextFile = mainWindow.extractmessagetextfileCheckBox.isSelected();
+        storeExtractorOptions.extractMessageTextMetadata = mainWindow.extractmessagetextmetadataCheckBox.isSelected();
+        storeExtractorOptions.extractFileTextFile = mainWindow.extractfiletextfileCheckBox.isSelected();
+        storeExtractorOptions.extractFileTextMetadata = mainWindow.extractfiletextmetadataCheckBox.isSelected();
 
         debugFlag = mainWindow.debugCheckBox.isSelected();
 
