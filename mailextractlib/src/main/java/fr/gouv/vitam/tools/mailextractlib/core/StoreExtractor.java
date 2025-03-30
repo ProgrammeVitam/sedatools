@@ -37,7 +37,7 @@ import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import org.apache.poi.util.IOUtils;
 
-import javax.mail.URLName;
+import jakarta.mail.URLName;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;

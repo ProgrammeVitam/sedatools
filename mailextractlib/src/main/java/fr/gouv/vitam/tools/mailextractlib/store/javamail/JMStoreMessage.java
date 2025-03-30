@@ -27,7 +27,6 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 
-import com.sun.mail.util.QPDecoderStream;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
@@ -35,9 +34,10 @@ import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 
-import javax.activation.DataHandler;
-import javax.mail.*;
-import javax.mail.internet.*;
+import jakarta.activation.DataHandler;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+import org.eclipse.angus.mail.util.QPDecoderStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

@@ -33,7 +33,7 @@ import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;

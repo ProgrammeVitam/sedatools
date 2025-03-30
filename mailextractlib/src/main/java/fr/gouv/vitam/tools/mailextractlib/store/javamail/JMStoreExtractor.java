@@ -38,7 +38,7 @@ import fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird.Thunderbird
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
-import javax.mail.*;
+import jakarta.mail.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Properties;

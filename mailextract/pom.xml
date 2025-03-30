@@ -64,9 +64,17 @@
                             </filters>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
                             <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <!-- Point d’entrée -->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>fr.gouv.vitam.tools.mailextract.MailExtractApp</mainClass>
+                                </transformer>
+
+                                <!-- ⚠️ Add Jakarta Mail : handlers MIME to prevent mailextractlib disfunction-->
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mailcap</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/mimetypes.default</resource>
                                 </transformer>
                             </transformers>
                         </configuration>

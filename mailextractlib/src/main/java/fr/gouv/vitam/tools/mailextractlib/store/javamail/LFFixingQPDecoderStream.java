@@ -26,7 +26,7 @@
  */
 package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 
-import com.sun.mail.util.ASCIIUtility;
+import org.eclipse.angus.mail.util.ASCIIUtility;
 
 import java.io.FilterInputStream;
 import java.io.IOException;

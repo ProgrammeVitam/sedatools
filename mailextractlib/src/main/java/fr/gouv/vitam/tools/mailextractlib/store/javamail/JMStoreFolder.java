@@ -34,11 +34,11 @@ import fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox.MboxFolder;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird.ThunderbirdFolder;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
-import javax.mail.Flags;
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Flags;
+import jakarta.mail.Folder;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 
 /**
  * StoreFolder sub-class for mail boxes extracted through JavaMail library.

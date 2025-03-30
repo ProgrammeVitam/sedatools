@@ -27,9 +27,9 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 
-import javax.mail.Folder;
-import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Folder;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import java.io.InputStream;
 
 /**
