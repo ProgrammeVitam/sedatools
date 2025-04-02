@@ -62,10 +62,6 @@ public abstract class MetadataXML {
      * @return Generated string
      */
     protected static String depthTabs(int depth) {
-        String result = "";
-        for (int i = 0; i < depth; i++)
-            result += "  ";
-        return result;
+        return "  ".repeat(depth);
     }
-
 }

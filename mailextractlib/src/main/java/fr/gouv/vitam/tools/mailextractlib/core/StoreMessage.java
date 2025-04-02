@@ -615,7 +615,7 @@ public abstract class StoreMessage extends StoreElement {
                 messageNode.addObject(HTMLTextExtractor.getInstance().htmlStringtoString(textContent), messageID + ".txt",
                         "TextContent", 1);
             if (getStoreExtractor().options.extractMessageTextMetadata) {
-                messageNode.addLongMetadata("TextContent", ArchiveUnit.purifyMetadataText(textContent), true);
+                messageNode.addLongMetadata("TextContent", textContent, true);
             }
         }
 

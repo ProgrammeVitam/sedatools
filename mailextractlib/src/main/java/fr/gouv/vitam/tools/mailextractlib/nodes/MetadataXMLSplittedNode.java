@@ -31,6 +31,7 @@ import org.apache.commons.text.StringEscapeUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Class for XML node with only one long String value that has to be splitted
@@ -43,7 +44,47 @@ import java.util.regex.Matcher;
  */
 public class MetadataXMLSplittedNode extends MetadataXMLNode {
 
-    public static final int MAX_TEXT_LENGTH = 32765;
+    public static final int MAX_TEXT_LENGTH = 32000;
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see fr.gouv.vitam.tools.mailextract.core.MetaData#isEmpty()
+     */
+    public boolean isEmpty() {
+        return (value == null) || value.isEmpty();
+    }
+
+    private static final Pattern FORBIDDEN_PATTERN = Pattern.compile("[\\p{C}&&[^\\r\\n\\t]]");
+    private static final Pattern HTML_ENTITY_PATTERN = Pattern.compile("&([a-zA-Z][a-zA-Z0-9]+;)");
+
+    /**
+     * Normalise long string to prevent XML misinterpretation.
+     * <p>
+     * First unescape all HMTL4 entities, then still existing HTML structures are broken,
+     * to be accepted by Vitam sanitizer, if any is detected a space is inserted after the
+     * first character, either "&gt;" or "&amp;".
+     * Then the String is UTF-8 encoded with linefeed, carriagereturn and tabulation escaped and
+     * &lt;,&amp;,&gt;,' and " XML encoded, and stripped from illegal characters.
+     * It's a little bit less accurate than the MetadataXMLString one but more efficient and resilient
+     * to strange content
+     *
+     * @param value string to be normalised
+     * @return the string
+     */
+    private static String normaliseXMLLongString(String value) {
+        // remove all forbidden and invisible characters
+        String normalized = FORBIDDEN_PATTERN.matcher(value).replaceAll("");
+        // unescape all HMTL characters
+        normalized=StringEscapeUtils.unescapeHtml4(normalized);
+        // break HTML tags in metadata if any
+        normalized = normalized.replace("<", "< ");
+        // break left HTML escape after unescape
+        normalized = HTML_ENTITY_PATTERN.matcher(normalized).replaceAll("& $1");
+
+        // suppress and escape all non XML compliance
+        return StringEscapeUtils.escapeXml10(normalized);
+    }
 
     /*
      * (non-Javadoc)
@@ -51,68 +92,50 @@ public class MetadataXMLSplittedNode extends MetadataXMLNode {
      * @see fr.gouv.vitam.tools.mailextract.nodes.MetaDataXML#writeXML(int)
      */
     protected String writeXML(int depth) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         String tabs = depthTabs(depth);
 
-        //first normalise value String
+        // 1) Retrieve and "normalize" the value
         String normalisedValue;
-        normalisedValue = ((MetadataXMLString) value).getValue();
-        normalisedValue = StringEscapeUtils.unescapeHtml4(normalisedValue);
-        Matcher m = MetadataXMLString.HTML_PATTERN.matcher(normalisedValue);
-        int iter = 0;
-        if (m.find()) {
-            StringBuffer sb = new StringBuffer();
-            do {
-                iter++;
-                m.appendReplacement(sb, m.group().substring(0, 1) + " " + m.group().substring(1));
-            } while (m.find());
-            m.appendTail(sb);
-            normalisedValue = sb.toString();
-        }
-        normalisedValue = StringEscapeUtils.escapeXml10(normalisedValue);
+        normalisedValue = normaliseXMLLongString(((MetadataXMLString) value).getValue());
 
-        // then write by 32765
-        try {
-            int i,imax;
-            char c;
-            while (normalisedValue.getBytes("UTF-8").length > MAX_TEXT_LENGTH) {
-                int whiteSpaceSplitPlace;
-                String subValue;
-                imax = Math.min(MAX_TEXT_LENGTH,normalisedValue.length()-1);
-                // try first to split on line, if not possible split on whitespace, and try to reduce till < 32766
-                while (true) {
-                    whiteSpaceSplitPlace = 0;
-                    for (i = imax; i > imax-1000; i--) {
-                        c = normalisedValue.charAt(i);
-                        if ((c == '\r') || (c == '\n'))
-                            break;
-                        if ((whiteSpaceSplitPlace == 0) && Character.isWhitespace(c))
-                            whiteSpaceSplitPlace = i;
-                    }
-                    if (i == imax-1000) {
-                        if (whiteSpaceSplitPlace != 0)
-                            i = whiteSpaceSplitPlace;
-                        else i = imax;
-                    }
-                    subValue = normalisedValue.substring(0, i+1);
-                    int encodedLength = subValue.getBytes("UTF-8").length;
-                    if (encodedLength < 32766)
-                        break;
-                    imax = i - (encodedLength - 32766)-2;
-                }
-                result += tabs + "<" + tag;
-                if (attributename != null)
-                    result += " " + attributename + "=\"" + attributevalue + "\"";
-                result += ">" + subValue + "</" + tag + ">\n";
-                normalisedValue = normalisedValue.substring(i+1);
+        // 2) Write in chunks of up to MAX_TEXT_LENGTH
+        int chunkBeg = 0;
+        while (chunkBeg < normalisedValue.length()) {
+            // findCutPosition should return a cutting point > chunkBeg
+            int chunkEnd = findCutPosition(normalisedValue, chunkBeg, MAX_TEXT_LENGTH);
+
+            // If findCutPosition fails to advance, we must avoid infinite loop.
+            // As a fallback, we take the rest of the string in one shot.
+            if (chunkEnd <= chunkBeg) {
+                chunkEnd = normalisedValue.length();
             }
-            result += tabs + "<" + tag;
-            if (attributename != null)
-                result += " " + attributename + "=\"" + attributevalue + "\"";
-            result += ">" + normalisedValue + "</" + tag + ">";
-        } catch (UnsupportedEncodingException ignored) {
+
+            // Extract substring
+            String subValue = normalisedValue.substring(chunkBeg, chunkEnd);
+
+            // Build the XML output for this chunk
+            result.append(tabs)
+                    .append('<').append(tag);
+            if (attributename != null) {
+                result.append(' ')
+                        .append(attributename)
+                        .append("=\"")
+                        .append(attributevalue)
+                        .append("\"");
+            }
+            result.append('>')
+                    .append(subValue)
+                    .append("</")
+                    .append(tag)
+                    .append(">\n");
+
+            // Advance to the next segment
+            chunkBeg = chunkEnd;
         }
-        return result;
+
+        return result.toString();
+
     }
 
     /**
@@ -141,5 +164,81 @@ public class MetadataXMLSplittedNode extends MetadataXMLNode {
      */
     public MetadataXMLSplittedNode(String tag, String attributename, String attributevalue, String value) {
         super(tag, attributename, attributevalue, value);
+    }
+
+    /**
+     * Finds a position to cut the string so that the resulting UTF-8 fragment
+     * from 'beg' does not exceed 'maxBytesLength' bytes.
+     * Priority for newline, then space, then immediate cut.
+     *
+     * @param s              the source string
+     * @param beg            the beginning index in the string from which to start counting
+     * @param maxBytesLength the maximum number of UTF-8 bytes allowed
+     * @return the index at which to cut
+     */
+    private static int findCutPosition(String s, int beg, int maxBytesLength) {
+        final int length = s.length();
+        int i = beg;
+        int bytesCount = 0;
+
+        // Store -1 to indicate "not encountered yet"
+        int lastSpace = -1;
+        int lastReturn = -1;
+
+        if ((length - beg) * 3 < maxBytesLength)
+            return s.length();
+
+        while (i < length) {
+            char c = s.charAt(i);
+
+            // Inline UTF-8 length calculation
+            int utf8len;
+            if (c <= 0x7F) {
+                utf8len = 1;
+            } else if (c <= 0x7FF) {
+                utf8len = 2;
+            } else if (Character.isHighSurrogate(c)) {
+                // We assume there's a valid Low Surrogate next if needed
+                // Otherwise it's a more complex scenario
+                utf8len = 4;
+            } else {
+                utf8len = 3;
+            }
+
+            bytesCount += utf8len;
+
+            // Check if adding this character would exceed maxBytesLength
+            if (bytesCount > maxBytesLength) {
+                break;
+            }
+
+            // Accept this character
+
+            // Remember positions of space or newline
+            if (c == '\r' || c == '\n') {
+                lastReturn = i + 1;
+            } else if (Character.isSpaceChar(c)) {
+                lastSpace = i + 1;
+            }
+            i++;
+        }
+
+        // If we haven't exceeded the limit, return the position we reached
+        if (bytesCount < maxBytesLength) {
+            return i;
+        }
+
+        // If a newline was encountered, prioritize cutting there
+        if (lastReturn != -1) {
+            return lastReturn;
+        }
+
+        // Otherwise, if a space was encountered, cut there
+        if (lastSpace != -1) {
+            return lastSpace;
+        }
+
+        // Fallback: cut exactly where we stopped
+        return i;
     }
 }

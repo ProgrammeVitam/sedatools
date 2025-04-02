@@ -55,20 +55,36 @@ public class MetadataXMLNode extends MetadataXML {
      * @see fr.gouv.vitam.tools.mailextract.core.MetaData#writeJSON(int)
      */
     protected String writeXML(int depth) {
-        String result = "";
+        StringBuilder sb = new StringBuilder();
         String tabs = depthTabs(depth);
 
-        result += tabs;
-        result += "<" + tag;
-        if (attributename != null)
-            result += " " + attributename + "=\"" + attributevalue + "\"";
-        result += ">";
-        if (value instanceof MetadataXMLString)
-            result += value.writeXML(depth + 1);
-        else
-            result += "\n" + value.writeXML(depth + 1) + "\n" + tabs;
-        result += "</" + tag + ">";
-        return result;
+        sb.append(tabs)
+                .append('<').append(tag);
+
+        if (attributename != null) {
+            sb.append(' ')
+                    .append(attributename)
+                    .append("=\"")
+                    .append(attributevalue)
+                    .append('"');
+        }
+
+        sb.append('>');
+
+        if (value instanceof MetadataXMLString) {
+            sb.append(value.writeXML(depth + 1));
+        } else {
+            sb.append('\n')
+                    .append(value.writeXML(depth + 1))
+                    .append('\n')
+                    .append(tabs);
+        }
+
+        sb.append("</")
+                .append(tag)
+                .append('>');
+
+        return sb.toString();
     }
 
     /**

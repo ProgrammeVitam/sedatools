@@ -320,7 +320,7 @@ public class StoreAttachment {
         // put in metadata
         if (fatherExtractor.options.extractFileTextMetadata
                 && (!((textExtract == null) || textExtract.isEmpty()))) {
-            attachmentNode.addLongMetadata("TextContent", ArchiveUnit.purifyMetadataText(textExtract), true);
+            attachmentNode.addLongMetadata("TextContent", textExtract, true);
         }
 
         if (writeFlag)

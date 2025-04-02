@@ -63,17 +63,19 @@ public class MetadataXMLList extends MetadataXML {
      * @see fr.gouv.vitam.tools.mailextract.core.MetaData#writeJSON(int)
      */
     protected String writeXML(int depth) {
-        String result = "";
+        StringBuilder sb = new StringBuilder();
         boolean first = true;
 
         for (MetadataXMLNode node : nodelist) {
-            if (first) {
+            if (!first) {
+                sb.append('\n');
+            } else {
                 first = false;
-            } else
-                result += "\n";
-            result += node.writeXML(depth + 1);
+            }
+            sb.append(node.writeXML(depth + 1));
         }
-        return result;
+
+        return sb.toString();
     }
 
     /**
