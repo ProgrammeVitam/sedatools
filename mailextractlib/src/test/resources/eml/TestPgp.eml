@@ -1,0 +1,127 @@
+X-UIDL: 1107812001.1310
+X-Mozilla-Status: 0001
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+Return-Path: <srs0=jntv=tq=x-internet.polytechnique.org=membres-bounces@bounces.m4x.org>
+Received: from mwinf5103.me-wanadoo.net (mwinf5103.me-wanadoo.net)
+	by mwinb1203 (SMTP Server) with LMTP; Mon, 09 May 2005 23:04:25 +0200
+X-Sieve: Server Sieve 2.2
+Received: from me-wanadoo.net (localhost [127.0.0.1])
+	by mwinf5103.me-wanadoo.net (SMTP Server) with ESMTP id 5DFA26000088
+	for <wfr33fb41b8000000250000700b@back12-mail01-02.me-wanadoo.net>; Mon,  9 May 2005 23:04:25 +0200 (CEST)
+Received: from smtp4.wanadoo.fr (mwinf0406 [172.22.135.34])
+	by mwinf5103.me-wanadoo.net (SMTP Server) with ESMTP id 512286000087
+	for <wfr33fb41b8000000250000700b@0100.back12-mail01-02.me-wanadoo.net>; Mon,  9 May 2005 23:04:25 +0200 (CEST)
+Received: from me-wanadoo.net (unknown [127.0.0.1])
+	by mwinf0406.wanadoo.fr (SMTP Server) with ESMTP id 4687C7400427
+	for <wfr33fb41b8000000250000700b@0100.back12-mail01-02.me-wanadoo.net>; Mon,  9 May 2005 23:04:25 +0200 (CEST)
+Received: from mx1.polytechnique.org (mx1.polytechnique.org [129.104.30.34])
+	by mwinf0406.wanadoo.fr (SMTP Server) with ESMTP id 3FB5B7400421
+	for <js.lair@wanadoo.fr>; Mon,  9 May 2005 23:04:21 +0200 (CEST)
+X-ME-UUID: 20050509210425261.3FB5B7400421@mwinf0406.wanadoo.fr
+X-Original-To: jean-severin.lair.1987@polytechnique.org
+Delivered-To: jean-severin.lair.1987@polytechnique.org
+Received: from djali.polytechnique.org (localhost [127.0.0.1])
+	by djali.polytechnique.org (Postfix) with ESMTP id A4A713319A;
+	Mon,  9 May 2005 23:04:07 +0200 (CEST)
+Received: from hades.madism.org (olympe.madism.org [82.225.205.10])
+	(using TLSv1 with cipher RC4-MD5 (128/128 bits))
+	(No client certificate requested)
+	by ssl.polytechnique.org (Postfix) with ESMTP id 9D62A33184
+	for <membres@x-internet.polytechnique.org>;
+	Mon,  9 May 2005 21:24:38 +0200 (CEST)
+From: Pierre Habouzit <pierre.habouzit@m4x.org>
+Organization: Polytechnique.org
+To: membres@x-internet.polytechnique.org
+Date: Mon, 9 May 2005 21:27:23 +0200
+User-Agent: KMail/1.8
+X-Face: $(^e[V4D-[`f2EmMGz@fgWK!e.B~2g.{08lKPU(nc1J~z\4B>*JEVq:E]7G-\6$Ycr4<;
+	Z!|VY6Grt]+RsS$IMV)f>2)M="tY:ZPcU;
+	&%it2D81X^kNya0=L]"vZmLP+UmKhgq+u*\.dJ8G!N&=EvlD
+MIME-Version: 1.0
+Message-Id: <200505092127.23834.pierre.habouzit@m4x.org>
+X-Virus-Scanned: by amavisd-new-20030616-p10 at Polytechnique.org
+X-Spam-Flag: No, tests=bogofilter, spamicity=0.000000
+X-DCC--Metrics: djali 32702; Body=1 Fuz1=1 Fuz2=1
+X-Org-Mail: pierre.habouzit.2000@polytechnique.org
+X-Mailman-Approved-At: Mon, 09 May 2005 23:04:06 +0200
+Subject: [membres] Nouvelle version de x.org ...
+X-BeenThere: x-internet.polytechnique.org_membres@listes.polytechnique.org
+X-Mailman-Version: 2.1.5
+Precedence: list
+Reply-To: groupes <groupes@m4x.org>
+Content-Type: multipart/mixed; boundary="===============1373997146=="
+Mime-version: 1.0
+Sender: membres-bounces@x-internet.polytechnique.org
+Errors-To: membres-bounces@x-internet.polytechnique.org
+X-me-spamlevel: not-spam
+X-me-spamrating: 0.000000
+
+--===============1373997146==
+Content-Type: multipart/signed; boundary="nextPart2379284.AhrAf8OROc";
+	protocol="application/pgp-signature"; micalg=pgp-sha1
+Content-Transfer-Encoding: 7bit
+
+--nextPart2379284.AhrAf8OROc
+Content-Type: text/plain;
+  charset="iso-8859-15"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+Une nouvelle version de plat/al (le site polytechnique.org) vient de=20
+sortir et est d=E9sormais en ligne. La grande nouveaut=E9 de cette sortie=20
+est que d=E9sormais polytechnique.net partage son code source avec celui=20
+de polytechnique.org.
+
+Cette r=E9criture effectu=E9e en un temps record (moins d'un mois) est une=
+=20
+illustration parfaite que les buts poursuivis lors de la r=E9criture de=20
+x.org ont =E9t=E9 atteints : il est possible de d=E9velopper tr=E8s rapidem=
+ent=20
+des fonctionnalit=E9s nouvelles. C'est donc une double r=E9ussite.
+
+J'engage tout le monde =E0 se rendre sur http://www.polytechnique.net/=20
+pour se rendre compte par lui m=EAme. Notament, la connexion par=20
+redirection sur x.org a =E9t=E9 r=E9tablie, et l'ergonomie de certaines pag=
+es=20
+(listes et annuaires) revues.
+
+La suite de la discussion se d=E9roulera sur groupes@polytechnique.org, ce=
+=20
+sujet ne concernant x-internet qu'indirectement.
+
+Cordialement,
+=2D-=20
+=B7O=B7  Pierre Habouzit
+=B7=B7O
+OOO                                                http://www.madism.org
+
+--nextPart2379284.AhrAf8OROc
+Content-Type: application/pgp-signature
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1.4.0 (GNU/Linux)
+
+iD8DBQBCf7mbvGr7W6HudhwRAqGCAKCPCuyfGP45YwaXndKvOAJjAFGqMQCeIxO5
+J2PD5gQ2SixxXu7bzlwgAVw=
+=TvaW
+-----END PGP SIGNATURE-----
+
+--nextPart2379284.AhrAf8OROc--
+
+
+
+
+--===============1373997146==
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+_______________________________________________
+Liste de diffusion membres
+
+--===============1373997146==--
+
+
+

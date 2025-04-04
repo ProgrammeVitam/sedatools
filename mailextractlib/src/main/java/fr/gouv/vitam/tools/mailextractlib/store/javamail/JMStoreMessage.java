@@ -34,19 +34,21 @@ import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 
+import jakarta.activation.CommandMap;
 import jakarta.activation.DataHandler;
+import jakarta.activation.MailcapCommandMap;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
 import org.eclipse.angus.mail.util.QPDecoderStream;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
 
@@ -57,6 +59,28 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  * could also be used for POP3 and Gmail, via StoreExtractor (not tested).
  */
 public class JMStoreMessage extends StoreMessage {
+
+    /**
+     * Define Mime DataContentHandler to be able to extract signed and encrypted messages (but not decrypting them!)
+     */
+    static {
+        final MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
+
+        mc.addMailcap("application/pgp-signature;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.pgp");
+        mc.addMailcap("application/pkcs7-signature;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.pkcs7_signature");
+        mc.addMailcap("application/pkcs7-mime;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.pkcs7_mime");
+        mc.addMailcap("application/x-pkcs7-signature;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.x_pkcs7_signature");
+        mc.addMailcap("application/x-pkcs7-mime;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.x_pkcs7_mime");
+        mc.addMailcap("multipart/signed;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.multipart_signed");
+
+        AccessController.doPrivileged(new PrivilegedAction() {
+            public Object run() {
+                CommandMap.setDefaultCommandMap(mc);
+
+                return null;
+            }
+        });
+    }
 
     /**
      * Native JavaMail message.
@@ -72,7 +96,7 @@ public class JMStoreMessage extends StoreMessage {
      * @param mBFolder Containing MailBoxFolder
      * @param message  Native JavaMail message
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major
-     *                             format problems...)
+     *                                 format problems...)
      */
     public JMStoreMessage(StoreFolder mBFolder, MimeMessage message) throws MailExtractLibException {
         super(mBFolder);
@@ -479,8 +503,8 @@ public class JMStoreMessage extends StoreMessage {
     protected void analyzeBodies() throws InterruptedException {
         try {
             getPartBodyContents(message);
-        } catch (Exception e) {
-            logMessageWarning("mailextractlib.javamail: badly formatted mime message, can't extract body contents", e);
+        } catch (Exception | NoClassDefFoundError e) {
+            logMessageWarning("mailextractlib.javamail: badly formatted mime message, may not extract all body contents", e);
         }
     }
 
@@ -490,10 +514,9 @@ public class JMStoreMessage extends StoreMessage {
 
         if ((p.isMimeType("text/plain") || p.isMimeType("text/html") || p.isMimeType("text/rtf"))
                 && ((p.getDisposition() == null) || Part.INLINE.equalsIgnoreCase(p.getDisposition())))
-            // test if it's a bodyContent then not an attachment
+        // test if it's a bodyContent then not an attachment
         {
-        }
-        else if (!p.isMimeType("multipart/*")) {
+        } else if (!p.isMimeType("multipart/*")) {
             // any other non multipart is an attachment
 
             try {
@@ -623,15 +646,15 @@ public class JMStoreMessage extends StoreMessage {
         aName = sanitizeFilename(aName);
 
         if (aType == StoreAttachment.STORE_ATTACHMENT)
-            lStoreMessageAttachment.add(new StoreAttachment(this,getPartRawContent(bodyPart), "eml",
+            lStoreMessageAttachment.add(new StoreAttachment(this, getPartRawContent(bodyPart), "eml",
                     MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
         else {
             if (aMimeType.toLowerCase().equals("application/ms-tnef")
                     || aMimeType.toLowerCase().equals("application/vnd.ms-tnef"))
-                lStoreMessageAttachment.add(new StoreAttachment(this,getPartLFFixedRawContent(bodyPart), "file",
+                lStoreMessageAttachment.add(new StoreAttachment(this, getPartLFFixedRawContent(bodyPart), "file",
                         MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
             else
-                lStoreMessageAttachment.add(new StoreAttachment(this,getPartRawContent(bodyPart), "file",
+                lStoreMessageAttachment.add(new StoreAttachment(this, getPartRawContent(bodyPart), "file",
                         MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
         }
     }
