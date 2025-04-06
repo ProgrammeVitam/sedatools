@@ -46,9 +46,11 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.MimeUtility;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -391,10 +393,12 @@ public abstract class StoreMessage extends StoreElement {
      * @throws InterruptedException the interrupted exception
      */
     protected void detectTNEFAttachment() throws InterruptedException {
-        String mimeType;
+        boolean partialExtraction;
 
         if (attachments != null && !attachments.isEmpty()) {
+            List<StoreAttachment> newAttachments = new ArrayList<>();
             for (StoreAttachment a : attachments) {
+                partialExtraction = false;
                 if ((a.attachmentType != StoreAttachment.STORE_ATTACHMENT)
                         && (a.attachmentContent instanceof byte[])
                         && ((a.mimeType.toLowerCase().equals("application/ms-tnef")
@@ -406,26 +410,33 @@ public abstract class StoreMessage extends StoreElement {
                         String rtfBody = tnefPart.getBody();
                         List<Attachment> tnefAttachments = tnefPart.getAttachments();
 
-                        attachments.remove(a);
                         if ((bodyContent[RTF_BODY] == null) || bodyContent[RTF_BODY].isEmpty())
                             bodyContent[RTF_BODY] = rtfBody;
                         else
                             logMessageWarning("mailextractlib: redondant rtf body extracted from winmail.dat droped", null);
 
                         for (Attachment tnefAttachment : tnefAttachments) {
-                            StoreAttachment smAttachment = new StoreAttachment(this, tnefAttachment.getContents(),
-                                    "file", tnefAttachment.getLongFilename(),
-                                    null, tnefAttachment.getModifiedDate(),
-                                    TikaExtractor.getInstance().getMimeType(tnefAttachment.getContents()),
-                                    null, StoreAttachment.FILE_ATTACHMENT);
-                            attachments.add(smAttachment);
+                            try {
+                                StoreAttachment smAttachment = new StoreAttachment(this, tnefAttachment.getContents(),
+                                        "file", tnefAttachment.getLongFilename(),
+                                        null, tnefAttachment.getModifiedDate(),
+                                        TikaExtractor.getInstance().getMimeType(tnefAttachment.getContents()),
+                                        null, StoreAttachment.FILE_ATTACHMENT);
+                                newAttachments.add(smAttachment);
+                            } catch (Exception e) {
+                                logMessageWarning("mailextractlib: can't extract all informations from winmail.dat content, " +
+                                        "it will be extracted partially and it will be extracted as a file", e);
+                                partialExtraction = true;
+                            }
                         }
-                        break;
+                        if (partialExtraction) newAttachments.add(a);
                     } catch (Exception e) {
                         logMessageWarning("mailextractlib: can't analyze winmail.dat content, it will be extracted as a file", e);
+                        newAttachments.add(a);
                     }
-                }
+                } else newAttachments.add(a);
             }
+            attachments = newAttachments;
         }
     }
 
