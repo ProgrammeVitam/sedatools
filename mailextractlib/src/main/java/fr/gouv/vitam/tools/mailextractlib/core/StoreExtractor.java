@@ -211,6 +211,24 @@ public abstract class StoreExtractor {
         // this change the limit to Integer.MAX_VALUE that is to say 2Go
         // This is also a bypass to a bug in POI 4.0 and 4.1 version when opening msg
         IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
+
+        /*
+         * Enable fallback for unknown Content-Transfer-Encoding values.
+         *
+         * Some malformed MIME messages incorrectly specify a charset name (e.g., "iso-8859-1")
+         * as the Content-Transfer-Encoding value instead of using valid encodings like "7bit",
+         * "8bit", "base64" or "quoted-printable".
+         *
+         * By setting the "mail.mime.ignoreunknownencoding" system property to true,
+         * Jakarta Mail will silently ignore unknown encodings and treat the content as "8bit".
+         * This avoids exceptions (e.g., IOException: Unknown encoding) during message parsing.
+         *
+         * Limitations:
+         * - If the actual encoding is "base64" or "quoted-printable" but declared incorrectly,
+         *   the message content may not be decoded properly and appear corrupted or unreadable.
+         * - This is a best-effort fallback intended for resilience, not full correctness.
+         */
+        System.setProperty("mail.mime.ignoreunknownencoding", "true");
     }
 
     // StoreExtractor definition parameters
