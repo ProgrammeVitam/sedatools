@@ -34,10 +34,15 @@ import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.InternetHeaders;
 import jakarta.mail.internet.MimeUtility;
+
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * RFC822Headers class for extending JavaMail InternetHeaders with common
@@ -173,31 +178,122 @@ public class RFC822Headers extends InternetHeaders {
      * @throws InterruptedException the interrupted exception
      */
     public List<String> getAddressHeader(String name) throws InterruptedException {
-        List<String> result = null;
         String addressHeaderString;
 
         addressHeaderString = getHeader(name, ", ");
+        return treatAddressHeaderString(name, message, addressHeaderString);
+    }
+
+
+    /**
+     * Processes a raw address header string and returns a list of email addresses.
+     * <p>
+     * If the header is well-formed, it extracts and cleans the individual addresses.
+     * If the header is malformed, it attempts to decode it and logs a warning,
+     * then returns the original header as a single entry.
+     * </p>
+     *
+     * @param name                the header name (e.g., "To", "Cc")
+     * @param message             the message object used for logging warnings
+     * @param addressHeaderString the raw address header string to process
+     * @return a list of processed email address strings
+     */
+    public static List<String> treatAddressHeaderString(String name, StoreMessage message, String addressHeaderString) throws InterruptedException {
+        List<String> result = new ArrayList<String>();
 
         if (addressHeaderString != null) {
-            result = new ArrayList<String>();
             InternetAddress[] iAddressArray;
             try {
                 iAddressArray = InternetAddress.parseHeader(addressHeaderString, false);
             } catch (AddressException e) {
-                try {
-                    // try at least to Mime decode
-                    addressHeaderString = MimeUtility.decodeText(addressHeaderString);
-                } catch (UnsupportedEncodingException ignored) {
-                }
+                // try at least to Mime decode
+                addressHeaderString = decodeRfc2047Flexible(addressHeaderString);
                 message.logMessageWarning("mailextractlib.rfc822: wrongly formatted address " + addressHeaderString
                         + ", keep raw address list in metadata in header " + name, e);
                 result.add(addressHeaderString);
                 return result;
             }
             for (InternetAddress ia : iAddressArray) {
-                result.add(getStringAddress(ia));
+                String address = getStringAddress(ia);
+                if (address.contains("?="))
+                    address = decodeRfc2047Flexible(address);
+                result.add(address);
             }
         }
         return result;
+    }
+
+    // RFC 2047 block patterns
+    private static final Pattern ENCODED_WORD_PATTERN = Pattern.compile(
+            "(=\\?[^?]+\\?[BbQq]\\?[^?]+\\?=)");
+    private static final Pattern Q_ENCODING_PATTERN = Pattern.compile(
+            "=\\?[^?]+\\?[Qq]\\?[^?]+\\?=");
+    private static final Pattern BASE64_BLOCK_PATTERN = Pattern.compile(
+            "=\\?([^?]+)\\?[Bb]\\?([^?]+)\\?=");
+
+    /**
+     * Decodes a string containing RFC 2047 encoded words,
+     * even if they are
+     * <li> folded
+     * <li> embedded without space before or after
+     * <li> with spaces in Q-blocs
+     * <li> with wrong lenght B-blocs.
+     *
+     * @param input raw header value possibly containing folded encoded words
+     * @return the decoded string
+     */
+    public static String decodeRfc2047Flexible(String input) {
+        if (input == null || input.isEmpty()) return input;
+
+        // unfold
+        input = input.replaceAll("\\r?\\n[ \t]*", "");
+
+        // Split the encoded blocs even without spaces
+        Matcher matcher = ENCODED_WORD_PATTERN.matcher(input);
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) {
+            String encoded = matcher.group(1);
+            try {
+                // Encode space and remove tab in quote-encoded bloc
+                if (Q_ENCODING_PATTERN.matcher(encoded).matches()) {
+                    encoded = encoded.replace(" ", "_");
+                    encoded = encoded.replace("\t", "");
+                } else {
+                    // Pad the Base64 encoded string with '=' characters so that its length is a multiple of 4.
+                    Matcher base64matcher = BASE64_BLOCK_PATTERN.matcher(encoded);
+                    if (base64matcher.matches()) {
+                        String charset = base64matcher.group(1);
+                        String encodedText = base64matcher.group(2);
+                        int mod = encodedText.length() % 4;
+                        if (mod != 0) {
+                            int missing = 4 - mod;
+                            encodedText = encodedText + "=".repeat(missing);
+                        }
+                        encoded = "=?" + charset + "?B?" + encodedText + "?=";
+                    }
+                }
+                String decoded = MimeUtility.decodeText(encoded);
+                matcher.appendReplacement(result, Matcher.quoteReplacement(decoded));
+            } catch (UnsupportedEncodingException e) {
+                // Fallback: keep the original block if decoding fails
+                matcher.appendReplacement(result, Matcher.quoteReplacement(encoded));
+            }
+        }
+
+        matcher.appendTail(result);
+        return result.toString();
+    }
+
+    /**
+     * Remove duplicates from a list of string, usefull for adresses duplicates in from and return-path.
+     *
+     * @param input
+     * @return a list without duplicates
+     */
+    public static List<String> removeDuplicatesFromList(List<String> input) {
+        if (input == null) return Collections.emptyList();
+        if (input.size()==1) return input;
+        return new ArrayList<>(new LinkedHashSet<>(input));
     }
 }

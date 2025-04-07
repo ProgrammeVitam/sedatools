@@ -229,6 +229,23 @@ public abstract class StoreExtractor {
          * - This is a best-effort fallback intended for resilience, not full correctness.
          */
         System.setProperty("mail.mime.ignoreunknownencoding", "true");
+
+        /*
+         * Disable strict decoding of MIME-encoded headers (RFC 2047).
+         *
+         * By default, Jakarta Mail enforces strict parsing of encoded words
+         * (=?charset?encoding?encoded-text?=) in headers such as "Subject" or "From".
+         * If a header is malformed — for example, using an invalid charset name or
+         * broken Base64/Quoted-Printable content — it throws an exception.
+         *
+         * Setting "mail.mime.decodetext.strict" to "false" allows Jakarta Mail
+         * to tolerate such malformed headers by skipping the faulty encoding and
+         * returning the raw, undecoded text instead.
+         *
+         * ⚠ Note: this does not fix the content — it just avoids an exception and
+         * preserves the original text block for manual or partial decoding if needed.
+         */
+        System.setProperty("mail.mime.decodetext.strict", "false");
     }
 
     // StoreExtractor definition parameters

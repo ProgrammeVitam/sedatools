@@ -42,6 +42,7 @@ import java.util.*;
 
 import static fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor.ISO_8601;
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers.decodeRfc2047Flexible;
 
 /**
  * StoreMessage sub-class for Microsoft message format, abstraction for pst and msg messages.
@@ -194,6 +195,8 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                 if (sList.length > 1)
                     logMessageWarning("mailextractlib.microsoft: multiple subjects, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(sList[0]);
+                if ((result!=null) && (result.contains("=?")))
+                    result=decodeRfc2047Flexible(result);
             }
         } else {
             // pst file value
@@ -319,6 +322,8 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                 if (fromList.length > 1)
                     logMessageWarning("mailextractlib.microsoft: multiple From addresses, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(fromList[0]);
+                if ((result!=null) && (result.contains("=?")))
+                    result=decodeRfc2047Flexible(result);
             }
         } else {
             // pst file value
@@ -434,6 +439,8 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                     logMessageWarning(
                             "mailextractlib.microsoft: multiple Return-Path addresses, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(rpList[0]);
+                if ((result!=null) && (result.contains("=?")))
+                    result=decodeRfc2047Flexible(result);
             }
         }
         // if not in the SMTP header there's no microsoft version

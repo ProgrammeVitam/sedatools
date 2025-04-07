@@ -51,6 +51,7 @@ import java.text.ParseException;
 import java.util.*;
 
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers.decodeRfc2047Flexible;
 
 /**
  * StoreMessage sub-class for mail boxes extracted through JavaMail library.
@@ -210,6 +211,8 @@ public class JMStoreMessage extends StoreMessage {
 
         try {
             result = message.getSubject();
+            if ((result != null) && (result.contains("=?")))
+                result = decodeRfc2047Flexible(message.getHeader("Subject", (String) null));
         } catch (MessagingException e) {
             doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib.javamail: can't get message subject", e);
         }
@@ -246,15 +249,16 @@ public class JMStoreMessage extends StoreMessage {
             logMessageWarning("mailextractlib.javamail: no From address in header", null);
         } else {
             if (aList.size() > 1)
-                logMessageWarning("mailextractlib.javamail: multiple From addresses, keep the first one in header", null);
+                logMessageWarning("mailextractlib.javamail: multiple From addresses ["+String.join("|",aList)+"] keep the first one in header", null);
             result = aList.get(0);
+            if ((result!=null) && (result.contains("=?")))
+                result=decodeRfc2047Flexible(result);
         }
         from = result;
     }
 
     // get addresses in header with parsing control relaxed
     private List<String> getAddressHeader(String name) throws InterruptedException {
-        List<String> result = null;
         String addressHeaderString = null;
 
         try {
@@ -262,29 +266,7 @@ public class JMStoreMessage extends StoreMessage {
         } catch (MessagingException me) {
             logMessageWarning("mailextractlib.javamail: can't access to [" + name + "] address header", me);
         }
-
-        if (addressHeaderString != null) {
-            result = new ArrayList<String>();
-            InternetAddress[] iAddressArray;
-            try {
-                iAddressArray = InternetAddress.parseHeader(addressHeaderString, false);
-            } catch (AddressException e) {
-                try {
-                    // try at least to Mime decode
-                    addressHeaderString = MimeUtility.decodeText(addressHeaderString);
-                } catch (UnsupportedEncodingException ignored) {
-                }
-                logMessageWarning("mailextractlib.javamail: wrongly formatted address " + addressHeaderString
-                        + ", keep raw address list in metadata in header " + name, e);
-                result.add(addressHeaderString);
-                return result;
-            }
-            for (InternetAddress ia : iAddressArray) {
-                result.add(getStringAddress(ia));
-            }
-        }
-
-        return result;
+        return RFC822Headers.treatAddressHeaderString(name,this,addressHeaderString);
     }
 
     /*
@@ -321,8 +303,10 @@ public class JMStoreMessage extends StoreMessage {
 
         if (!((aList == null) || (aList.size() == 0))) {
             if (aList.size() > 1)
-                logMessageWarning("mailextractlib.javamail: multiple Return-Path, keep the first one addresses in header", null);
+                logMessageWarning("mailextractlib.javamail: multiple Return-Path ["+String.join("|",aList)+"] keep the first one addresses in header", null);
             result = aList.get(0);
+            if ((result!=null) && (result.contains("=?")))
+                result=decodeRfc2047Flexible(result);
         }
 
         returnPath = result;
@@ -381,7 +365,7 @@ public class JMStoreMessage extends StoreMessage {
             if (irtList != null) {
                 if (irtList.length > 1)
                     logMessageWarning(
-                            "mailextractlib.javamail: multiple In-Reply-To identifiers, keep the first one in header", null);
+                            "mailextractlib.javamail: multiple In-Reply-To identifiers ["+String.join("|",irtList)+"] keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(irtList[0]);
             }
         } catch (MessagingException me) {
