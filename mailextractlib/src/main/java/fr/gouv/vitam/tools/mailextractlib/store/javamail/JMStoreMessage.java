@@ -248,11 +248,14 @@ public class JMStoreMessage extends StoreMessage {
         if ((aList == null) || (aList.size() == 0)) {
             logMessageWarning("mailextractlib.javamail: no From address in header", null);
         } else {
-            if (aList.size() > 1)
-                logMessageWarning("mailextractlib.javamail: multiple From addresses ["+String.join("|",aList)+"] keep the first one in header", null);
-            result = aList.get(0);
-            if ((result!=null) && (result.contains("=?")))
-                result=decodeRfc2047Flexible(result);
+            aList = RFC822Headers.removeDuplicatesFromList(aList);
+            if (aList.size() > 1) {
+                result = String.join(", ", aList);
+                logMessageWarning("mailextractlib.javamail: multiple From addresses [" + result + "]", null);
+            } else
+                result = aList.get(0);
+            if ((result != null) && (result.contains("=?")))
+                result = decodeRfc2047Flexible(result);
         }
         from = result;
     }
@@ -302,11 +305,14 @@ public class JMStoreMessage extends StoreMessage {
         List<String> aList = getAddressHeader("Return-Path");
 
         if (!((aList == null) || (aList.size() == 0))) {
-            if (aList.size() > 1)
-                logMessageWarning("mailextractlib.javamail: multiple Return-Path ["+String.join("|",aList)+"] keep the first one addresses in header", null);
-            result = aList.get(0);
-            if ((result!=null) && (result.contains("=?")))
-                result=decodeRfc2047Flexible(result);
+            aList = RFC822Headers.removeDuplicatesFromList(aList);
+            if (aList.size() > 1) {
+                result = String.join(", ", aList);
+                logMessageWarning("mailextractlib.javamail: multiple Return-Path addresses [" + result + "]", null);
+            } else
+                result = aList.get(0);
+            if ((result != null) && (result.contains("=?")))
+                result = decodeRfc2047Flexible(result);
         }
 
         returnPath = result;
@@ -365,7 +371,7 @@ public class JMStoreMessage extends StoreMessage {
             if (irtList != null) {
                 if (irtList.length > 1)
                     logMessageWarning(
-                            "mailextractlib.javamail: multiple In-Reply-To identifiers ["+String.join("|",irtList)+"] keep the first one in header", null);
+                            "mailextractlib.javamail: multiple In-Reply-To identifiers [" + String.join(", ", irtList) + "] keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(irtList[0]);
             }
         } catch (MessagingException me) {
