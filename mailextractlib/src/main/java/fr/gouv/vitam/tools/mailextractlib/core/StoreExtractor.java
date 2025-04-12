@@ -38,6 +38,7 @@ import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import org.apache.poi.util.IOUtils;
 
 import jakarta.mail.URLName;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -246,6 +247,23 @@ public abstract class StoreExtractor {
          * preserves the original text block for manual or partial decoding if needed.
          */
         System.setProperty("mail.mime.decodetext.strict", "false");
+
+        /*
+         * Enable lenient Base64 decoding of MIME parts.
+         *
+         * By default, Jakarta Mail enforces strict Base64 decoding and will throw an exception
+         * if it encounters errors (e.g., malformed or corrupted Base64 encoded data). By setting
+         * "mail.mime.base64.ignoreerrors" to "true", you instruct Jakarta Mail to ignore such
+         * errors and continue processing the data.
+         *
+         * This configuration is particularly useful in scenarios where you expect non-standard
+         * or imperfectly encoded data and prefer to bypass decoding exceptions in favor of
+         * processing the available content, albeit with a potential risk of data corruption.
+         *
+         * ⚠ Note: While lenient decoding prevents your application from stopping due to decoding
+         * errors, it could lead to silent data loss or misinterpretation if the encoded data is critical.
+         */
+        System.setProperty("mail.mime.base64.ignoreerrors", "true");
     }
 
     // StoreExtractor definition parameters
@@ -820,7 +838,6 @@ public abstract class StoreExtractor {
             }
         }
         return store;
-
     }
 
     private static String readableFileSize(long size) {
@@ -844,7 +861,7 @@ public abstract class StoreExtractor {
             try {
                 elementName = (String) elementClass.getMethod("getElementName").invoke(null);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                doProgressLogIfDebug(logger,"GetSummary error",e);
+                doProgressLogIfDebug(logger, "GetSummary error", e);
             }
             Integer count = elementsCounterMap.get(elementName);
             if ((count != null) && (count > 0)) {
@@ -863,7 +880,7 @@ public abstract class StoreExtractor {
             try {
                 elementName = (String) elementClass.getMethod("getElementName").invoke(null);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                doProgressLogIfDebug(logger,"GetSummary error",e);
+                doProgressLogIfDebug(logger, "GetSummary error", e);
             }
             Integer count = subElementsCounterMap.get(elementName);
             if ((count != null) && (count > 0)) {
@@ -979,28 +996,24 @@ public abstract class StoreExtractor {
     }
 
     /**
-     * Checks for magic number.
+     * Utility function to detect if the four first bytes are a defined magic number.
      *
      * @param content     the content
      * @param magicNumber the magic number
      * @return true, if successful
      */
-// Utility function to detect if the four bytes is a defined magic number
     public static boolean hasMagicNumber(byte[] content, byte[] magicNumber) {
         return hasMagicNumber(content, magicNumber, 0);
     }
 
-    // Utility function to detect if the bytes at offset is a defined magic
-
     /**
-     * Checks for magic number.
+     * Utility function to detect if the bytes at offset are a defined magic number.
      *
      * @param content     the content
      * @param magicNumber the magic number
      * @param offset      the offset
      * @return true, if successful
      */
-// number
     public static boolean hasMagicNumber(byte[] content, byte[] magicNumber, int offset) {
         if (content.length < magicNumber.length + offset)
             return false;
