@@ -33,9 +33,9 @@ import org.slf4j.MarkerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.time.Instant;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * The Class MailExtractProgressLogger.
@@ -113,6 +113,11 @@ public class MailExtractProgressLogger {
     private long previousStepEpochSeconds;
 
     /**
+     * The last "counter".
+     */
+    AtomicInteger counter;
+
+    /**
      * The progressLogLevel.
      */
     private int progressLogLevel;
@@ -135,6 +140,7 @@ public class MailExtractProgressLogger {
         this.progressLogLevel = progressLogLevel;
         this.stepDuration = Integer.MAX_VALUE;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
+        this.counter = new AtomicInteger(0);
         this.debugFlag = false;
     }
 
@@ -153,6 +159,7 @@ public class MailExtractProgressLogger {
         this.progressLogLevel = progressLogLevel;
         this.stepDuration = Integer.MAX_VALUE;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
+        this.counter = new AtomicInteger(0);
         this.debugFlag = false;
     }
 
@@ -165,13 +172,14 @@ public class MailExtractProgressLogger {
      * @param step             the step value
      * @param stepDuration     the step duration
      */
-    public MailExtractProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer, int step,int stepDuration) {
+    public MailExtractProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer, int step, int stepDuration) {
         this.progressLogFunc = progressConsumer;
         this.logger = logger;
         this.step = step;
         this.progressLogLevel = progressLogLevel;
         this.stepDuration = stepDuration;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
+        this.counter = new AtomicInteger(0);
         this.debugFlag = false;
     }
 
@@ -230,33 +238,39 @@ public class MailExtractProgressLogger {
 
     /**
      * Do progress log, and log with exception detail if any.
+     * <p>This method is thread-safe, allowing concurrent logging by
+     * multiple threads.
      *
-     * @param mepl   the SEDALib progress logger
+     * @param mepl  the SEDALib progress logger
      * @param level the level
      * @param log   the log
      * @param e     the exception
      */
     static public void doProgressLogWithoutInterruption(MailExtractProgressLogger mepl, int level, String log, Throwable e) {
-        if (mepl!=null) {
-            if (level <= mepl.progressLogLevel) {
-                if (e != null)
-                    log += "\n" + getMessagesStackString(e);
-                if (mepl.progressLogFunc != null) {
-                    mepl.progressLogFunc.doProgressLog(-1, log);
+        if (mepl != null) {
+            synchronized (mepl) {
+                if (level <= mepl.progressLogLevel) {
+                    if (e != null)
+                        log += "\n" + getMessagesStackString(e);
+                    if (mepl.progressLogFunc != null) {
+                        mepl.progressLogFunc.doProgressLog(-1, log);
+                    }
+                    if ((e != null) && mepl.debugFlag)
+                        log += "\n" + getAllJavaStackString(e);
+                    mepl.log(level, log);
                 }
-                if ((e != null) && mepl.debugFlag)
-                    log += "\n" + getAllJavaStackString(e);
-                mepl.log(level, log);
             }
         }
     }
 
     /**
      * Do progress log, and log with exception if debug flag set
+     * <p>This method is thread-safe, allowing concurrent logging by
+     * multiple threads.
      *
-     * @param mepl   the MailExtract progress logger
-     * @param log   the log
-     * @param e     the exception
+     * @param mepl the MailExtract progress logger
+     * @param log  the log
+     * @param e    the exception
      */
     static public void doProgressLogIfDebug(MailExtractProgressLogger mepl, String log, Throwable e) {
         if ((mepl != null) && mepl.debugFlag) {
@@ -266,8 +280,10 @@ public class MailExtractProgressLogger {
 
     /**
      * Do progress log, and log with exception detail if any, and wait 1ms to allow interruption
+     * <p>This method is thread-safe, allowing concurrent logging by
+     * multiple threads.
      *
-     * @param mepl   the MailExtract progress logger
+     * @param mepl  the MailExtract progress logger
      * @param level the level
      * @param log   the log
      * @param e     the exception
@@ -281,30 +297,34 @@ public class MailExtractProgressLogger {
     }
 
     /**
-     * Do progress log if the counter is a step multiple.
+     * Do progress log with counter increment and if it's a step multiple or the duration since
+     * previous log is more than step duration.
      *
      * @param mepl  the MailExtract progress logger
      * @param level the level
-     * @param count the count
-     * @param log   the log
+     * @param log   the log that can contain %count key replaced by the number
      * @throws InterruptedException the interrupted exception
      */
-    static public void doProgressLogIfStep(MailExtractProgressLogger mepl, int level, int count, String log) throws InterruptedException {
-        if (mepl!=null) {
-            if (level <= mepl.progressLogLevel) {
-                long nowEpochSeconds = Instant.now().getEpochSecond();
-                int mod = count % mepl.step;
-                if ((mod == 0) || (mepl.stepDuration < nowEpochSeconds - mepl.previousStepEpochSeconds)) {
-                    if (mepl.progressLogFunc != null)
-                        mepl.progressLogFunc.doProgressLog(count, (mod == 0 ? "" : "* ") + log);
-                    mepl.log(level, log);
-                    Thread.sleep(1);
-                    mepl.previousStepEpochSeconds = nowEpochSeconds;
+    static public void doProgressLogOneMoreCountedObject(MailExtractProgressLogger mepl, int level, String log) throws InterruptedException {
+        if (mepl != null) {
+            synchronized (mepl) {
+                if (level <= mepl.progressLogLevel) {
+                    long nowEpochSeconds = Instant.now().getEpochSecond();
+                    int rank = mepl.counter.addAndGet(1);
+                    int mod = rank % mepl.step;
+                    if ((mod == 0) || (mepl.stepDuration < nowEpochSeconds - mepl.previousStepEpochSeconds)) {
+                        log = log.replace("%count", Integer.toString(rank));
+                        if (mepl.progressLogFunc != null)
+                            mepl.progressLogFunc.doProgressLog(rank, (mod == 0 ? "" : "* ") + log);
+                        mepl.log(level, log);
+                        Thread.sleep(1);
+                        mepl.previousStepEpochSeconds = nowEpochSeconds;
+                    }
                 }
             }
         }
     }
-    
+
     /**
      * Readable file size.
      *

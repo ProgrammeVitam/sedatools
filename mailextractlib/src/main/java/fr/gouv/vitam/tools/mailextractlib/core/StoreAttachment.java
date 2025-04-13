@@ -255,7 +255,7 @@ public class StoreAttachment {
      * @throws MailExtractLibException the mail extract lib exception
      * @throws InterruptedException    the interrupted exception
      */
-    static public final void extractAttachments(List<StoreAttachment> attachments, ArchiveUnit messageNode, boolean writeFlag)
+    static public void extractAttachments(List<StoreAttachment> attachments, ArchiveUnit messageNode, boolean writeFlag)
             throws MailExtractLibException, InterruptedException {
         if (attachments!=null) {
             for (StoreAttachment a : attachments) {
@@ -275,7 +275,7 @@ public class StoreAttachment {
     /**
      * Extract a file or inline message attachment.
      */
-    private final void extractAsFileOrInlineAttachment(ArchiveUnit node, boolean writeFlag) throws MailExtractLibException, InterruptedException {
+    private void extractAsFileOrInlineAttachment(ArchiveUnit node, boolean writeFlag) throws MailExtractLibException, InterruptedException {
         ArchiveUnit attachmentNode;
         StoreExtractor fatherExtractor=fatherElement.getStoreExtractor();
 
@@ -331,7 +331,7 @@ public class StoreAttachment {
      * Extract a store attachment
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private final void extractAsStoreAttachment(ArchiveUnit node, boolean writeFlag) throws MailExtractLibException, InterruptedException {
+    private void extractAsStoreAttachment(ArchiveUnit node, boolean writeFlag) throws MailExtractLibException, InterruptedException {
         StoreExtractor fatherExtractor=fatherElement.getStoreExtractor();
         Boolean isContainerScheme = false;
         StoreExtractor extractor;
@@ -377,11 +377,11 @@ public class StoreAttachment {
             extractor.getRootFolder().extractFolderAsRoot(writeFlag);
             fatherExtractor.accumulateSubElements(extractor);
             extractor.endStoreExtractor();
-            if (extractor.getRootFolder().dateRange.isDefined() && isContainerScheme) {
+            if (extractor.getRootFolder().getDateRange().isDefined() && isContainerScheme) {
                 node.addMetadata("StartDate",
-                        DateRange.getISODateString(extractor.getRootFolder().dateRange.getStart()), true);
+                        DateRange.getISODateString(extractor.getRootFolder().getDateRange().getStart()), true);
                 node.addMetadata("EndDate",
-                        DateRange.getISODateString(extractor.getRootFolder().dateRange.getEnd()), true);
+                        DateRange.getISODateString(extractor.getRootFolder().getDateRange().getEnd()), true);
             }
             if (writeFlag)
                 node.write();

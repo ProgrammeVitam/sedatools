@@ -34,10 +34,30 @@ import java.io.File;
 import java.io.PrintStream;
 
 /**
- * Abstract class for store element which is a contact.
+ * Abstract class for a store element representing a contact.
  * <p>
- * It defines all informations to collect from a contact. Each subclass has to
- * be able to collect these generic informations from a native contact format.
+ * This class defines all the metadata to be collected from a contact and provides a base
+ * for format-specific implementations. A contact typically contains personal or professional
+ * information, such as names, addresses, email addresses, phone numbers, and optional details
+ * like profile pictures or notes.
+ * <p>
+ * Subclasses of this class are responsible for extracting contact information from specific
+ * native formats and mapping it to the standardized representation defined here.
+ * <p>
+ * Metadata to collect:
+ * <ul>
+ *     <li>Full name, first name, last name, and nickname,</li>
+ *     <li>Home and business addresses with location details,</li>
+ *     <li>Email addresses and phone numbers (personal, business, mobile, etc.),</li>
+ *     <li>Professional details (company name, department, title),</li>
+ *     <li>Optional profile picture and personal or business notes.</li>
+ * </ul>
+ * <p>
+ * Subclasses must implement methods for:
+ * <ul>
+ *     <li>Analyzing and extracting contact information specific to the native format,</li>
+ *     <li>Processing and exporting metadata for archival or reporting purposes.</li>
+ * </ul>
  */
 public abstract class StoreContact extends StoreElement {
 
@@ -71,7 +91,7 @@ public abstract class StoreContact extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "contact " + getStoreExtractor().getElementCounter(this.getClass(), false);
+        String result = "contact " + listLineId;
         if (fullName != null)
             result += " [" + fullName + "]";
         else if ((givenName != null) || (lastName != null))
@@ -135,11 +155,13 @@ public abstract class StoreContact extends StoreElement {
      * @param ps the dedicated print stream
      */
     static public void printGlobalListCSVHeader(PrintStream ps) {
-        ps.println("ID;Full Name;Given Name;Last Name;Misc Notes;Company;Department;Title;Default Address;" +
-                "SMTP Mail Address;Default Telephone Number;Mobile Telephone Number;Business HomePage;Business Location;" +
-                "Business Telephone Number;Business Address;RefID;" +
-                "Other Mail Addresses;Other Telephone Numbers;Assistant Name;Assistant Telephone Number;Personal HomePage;" +
-                "Home Location;Home Telephone Number;Home Address;Nickname");
+        synchronized (ps) {
+            ps.println("ID;Full Name;Given Name;Last Name;Misc Notes;Company;Department;Title;Default Address;" +
+                    "SMTP Mail Address;Default Telephone Number;Mobile Telephone Number;Business HomePage;Business Location;" +
+                    "Business Telephone Number;Business Address;RefID;" +
+                    "Other Mail Addresses;Other Telephone Numbers;Assistant Name;Assistant Telephone Number;Personal HomePage;" +
+                    "Home Location;Home Telephone Number;Home Address;Nickname");
+        }
     }
 
     /**
@@ -163,34 +185,36 @@ public abstract class StoreContact extends StoreElement {
 
     private void writeToContactsList() {
         PrintStream ps = storeFolder.getStoreExtractor().getGlobalListPS(this.getClass());
-        ps.format("\"%d\";", listLineId);
-        ps.format("\"%s\";", filterHyphenForCsv(fullName));
-        ps.format("\"%s\";", filterHyphenForCsv(givenName));
-        ps.format("\"%s\";", filterHyphenForCsv(lastName));
-        ps.format("\"%s\";", filterHyphenForCsv(miscNotes));
-        ps.format("\"%s\";", filterHyphenForCsv(companyName));
-        ps.format("\"%s\";", filterHyphenForCsv(departmentName));
-        ps.format("\"%s\";", filterHyphenForCsv(title));
-        ps.format("\"%s\";", filterHyphenForCsv(postalAddress));
-        ps.format("\"%s\";", filterHyphenForCsv(smtpAddress));
-        ps.format("\"%s\";", filterHyphenForCsv(primaryTelephoneNumber));
-        ps.format("\"%s\";", filterHyphenForCsv(mobileTelephoneNumbers));
-        ps.format("\"%s\";", filterHyphenForCsv(businessHomePage));
-        ps.format("\"%s\";", filterHyphenForCsv(businessLocation));
-        ps.format("\"%s\";", filterHyphenForCsv(businessTelephoneNumbers));
-        ps.format("\"%s\";", filterHyphenForCsv(businessAddress));
-        ps.format("\"%s\";", filterHyphenForCsv(customerId));
-        ps.format("\"%s\";", filterHyphenForCsv(otherMailAddresses));
-        ps.format("\"%s\";", filterHyphenForCsv(otherTelephoneNumbers));
-        ps.format("\"%s\";", filterHyphenForCsv(assistantName));
-        ps.format("\"%s\";", filterHyphenForCsv(assistantTelephoneNumber));
-        ps.format("\"%s\";", filterHyphenForCsv(personalHomePage));
-        ps.format("\"%s\";", filterHyphenForCsv(homeLocation));
-        ps.format("\"%s\";", filterHyphenForCsv(homeTelephoneNumbers));
-        ps.format("\"%s\";", filterHyphenForCsv(homeAddress));
-        ps.format("\"%s\"", filterHyphenForCsv(nickName));
-        ps.println("");
-        ps.flush();
+        synchronized (ps) {
+            ps.format("\"%d\";", listLineId);
+            ps.format("\"%s\";", filterHyphenForCsv(fullName));
+            ps.format("\"%s\";", filterHyphenForCsv(givenName));
+            ps.format("\"%s\";", filterHyphenForCsv(lastName));
+            ps.format("\"%s\";", filterHyphenForCsv(miscNotes));
+            ps.format("\"%s\";", filterHyphenForCsv(companyName));
+            ps.format("\"%s\";", filterHyphenForCsv(departmentName));
+            ps.format("\"%s\";", filterHyphenForCsv(title));
+            ps.format("\"%s\";", filterHyphenForCsv(postalAddress));
+            ps.format("\"%s\";", filterHyphenForCsv(smtpAddress));
+            ps.format("\"%s\";", filterHyphenForCsv(primaryTelephoneNumber));
+            ps.format("\"%s\";", filterHyphenForCsv(mobileTelephoneNumbers));
+            ps.format("\"%s\";", filterHyphenForCsv(businessHomePage));
+            ps.format("\"%s\";", filterHyphenForCsv(businessLocation));
+            ps.format("\"%s\";", filterHyphenForCsv(businessTelephoneNumbers));
+            ps.format("\"%s\";", filterHyphenForCsv(businessAddress));
+            ps.format("\"%s\";", filterHyphenForCsv(customerId));
+            ps.format("\"%s\";", filterHyphenForCsv(otherMailAddresses));
+            ps.format("\"%s\";", filterHyphenForCsv(otherTelephoneNumbers));
+            ps.format("\"%s\";", filterHyphenForCsv(assistantName));
+            ps.format("\"%s\";", filterHyphenForCsv(assistantTelephoneNumber));
+            ps.format("\"%s\";", filterHyphenForCsv(personalHomePage));
+            ps.format("\"%s\";", filterHyphenForCsv(homeLocation));
+            ps.format("\"%s\";", filterHyphenForCsv(homeTelephoneNumbers));
+            ps.format("\"%s\";", filterHyphenForCsv(homeAddress));
+            ps.format("\"%s\"", filterHyphenForCsv(nickName));
+            ps.println("");
+            ps.flush();
+        }
     }
 
     private void extractPicture() throws InterruptedException, MailExtractLibException {

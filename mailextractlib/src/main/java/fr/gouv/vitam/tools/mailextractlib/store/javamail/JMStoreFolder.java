@@ -48,7 +48,9 @@ import jakarta.mail.internet.MimeMessage;
  */
 public class JMStoreFolder extends StoreFolder {
 
-    /** Native JavaMail folder. */
+    /**
+     * Native JavaMail folder.
+     */
     protected Folder folder;
 
     // for the root folder
@@ -71,12 +73,9 @@ public class JMStoreFolder extends StoreFolder {
     /**
      * Creates the root folder from which all extraction or listing is done.
      *
-     * @param storeExtractor
-     *            Operation store extractor
-     * @param folder
-     *            Root native JavaMail folder
-     * @param rootArchiveUnit
-     *            Root ArchiveUnit
+     * @param storeExtractor  Operation store extractor
+     * @param folder          Root native JavaMail folder
+     * @param rootArchiveUnit Root ArchiveUnit
      * @return the JM store folder
      */
     public static JMStoreFolder createRootFolder(StoreExtractor storeExtractor, final Folder folder,
@@ -95,13 +94,13 @@ public class JMStoreFolder extends StoreFolder {
      */
     @Override
     protected void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
-        int msgtotal;
+        int msgTotal;
         Message message;
 
         try {
             folder.open(Folder.READ_ONLY);
-            msgtotal = folder.getMessageCount();
-            for (int i = 1; i <= msgtotal; i++) {
+            msgTotal = folder.getMessageCount();
+            for (int i = 1; i <= msgTotal; i++) {
                 message = folder.getMessage(i);
                 if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
                     JMStoreMessage jMStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
@@ -112,9 +111,6 @@ public class JMStoreFolder extends StoreFolder {
         } catch (MessagingException e) {
             throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
         }
-
-        // no need to return to attachment the binary form if embedded as it's
-        // already the extraction source
     }
 
     /*
@@ -127,7 +123,6 @@ public class JMStoreFolder extends StoreFolder {
     @Override
     protected void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException, InterruptedException {
         JMStoreFolder mBSubFolder;
-
         try {
             final Folder[] subfolders = folder.list();
 
@@ -136,7 +131,7 @@ public class JMStoreFolder extends StoreFolder {
                 mBSubFolder = new JMStoreFolder(storeExtractor, subfolder, this);
                 if (mBSubFolder.extractFolder(level + 1, writeFlag))
                     incFolderSubFoldersCount();
-                dateRange.extendRange(mBSubFolder.getDateRange());
+                extendDateRange(mBSubFolder.getDateRange());
             }
         } catch (MessagingException e) {
             throw new MailExtractLibException("mailextractlib.javamail: can't get sub folders from folder " + getFullName(), e);
@@ -200,13 +195,13 @@ public class JMStoreFolder extends StoreFolder {
      */
     @Override
     protected void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
-        int msgtotal;
+        int msgTotal;
         Message message;
 
         try {
             folder.open(Folder.READ_ONLY);
-            msgtotal = folder.getMessageCount();
-            for (int i = 1; i <= msgtotal; i++) {
+            msgTotal = folder.getMessageCount();
+            for (int i = 1; i <= msgTotal; i++) {
                 message = folder.getMessage(i);
                 if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
                     JMStoreMessage jMStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
@@ -217,7 +212,6 @@ public class JMStoreFolder extends StoreFolder {
         } catch (MessagingException e) {
             throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
         }
-
     }
 
     /*

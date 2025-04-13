@@ -182,7 +182,7 @@ public class PstStoreFolder extends StoreFolder {
                 lPMailBoxSubFolder = new PstStoreFolder(storeExtractor, subfolder, this);
                 if (lPMailBoxSubFolder.extractFolder(level + 1, writeFlag))
                     incFolderSubFoldersCount();
-                dateRange.extendRange(lPMailBoxSubFolder.getDateRange());
+                extendDateRange(lPMailBoxSubFolder.getDateRange());
             }
         } catch (IOException e) {
             throw new MailExtractLibException("mailextract.pst: can't use pst file", e);

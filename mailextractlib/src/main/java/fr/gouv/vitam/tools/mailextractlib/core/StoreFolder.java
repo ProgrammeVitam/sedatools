@@ -32,6 +32,10 @@ import fr.gouv.vitam.tools.mailextractlib.utils.DateRange;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
+
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
 
 /**
@@ -73,12 +77,12 @@ public abstract class StoreFolder {
      * It is computed as the min and max of all the dates of leafs in the folder
      * sub-hierarchy.
      */
-    protected DateRange dateRange;
+    private final DateRange dateRange;
 
     // private fields for folder statistics
-    private int folderElementsCount;
-    private int folderSubFoldersCount;
-    private long folderElementsRawSize;
+    private final AtomicInteger folderElementsCount;
+    private final AtomicInteger folderSubFoldersCount;
+    private final AtomicLong folderElementsRawSize;
 
     /**
      * Instantiates a new store folder.
@@ -89,6 +93,9 @@ public abstract class StoreFolder {
         this.storeExtractor = storeExtractor;
         this.folderArchiveUnit = null;
         this.dateRange = new DateRange();
+        this.folderElementsCount = new AtomicInteger(0);
+        this.folderSubFoldersCount = new AtomicInteger(0);
+        this.folderElementsRawSize = new AtomicLong(0);
     }
 
     /**
@@ -146,11 +153,28 @@ public abstract class StoreFolder {
     }
 
     /**
+     * Extends the date range with the extra date range.
+     * <p>This method is thread-safe, enabling non-abstract Folders and Elements to work on dateRange in parallel.
+     **/
+    synchronized public void extendDateRange(DateRange extraDateRange) {
+        dateRange.extendRange(extraDateRange);
+    }
+
+    /**
+     * Extends the date range with the extra date.
+     * <p>This method is thread-safe, enabling non-abstract Folders and Elements to work on dateRange in parallel.
+     */
+    synchronized public void extendDateRange(Date extraDate) {
+        dateRange.extendRange(extraDate);
+    }
+
+    /**
      * Gets the date range.
+     * <p>This method is thread-safe, enabling non-abstract Folders and Elements to work on dateRange in parallel.
      *
      * @return the date range
      */
-    public DateRange getDateRange() {
+    synchronized public DateRange getDateRange() {
         return dateRange;
     }
 
@@ -187,7 +211,7 @@ public abstract class StoreFolder {
      * Increment folder elements count.
      */
     public void incFolderElementsCount() {
-        folderElementsCount++;
+        folderElementsCount.incrementAndGet();
     }
 
     /**
@@ -196,14 +220,14 @@ public abstract class StoreFolder {
      * @return the folder elements count
      */
     public int getFolderElementsCount() {
-        return folderElementsCount;
+        return folderElementsCount.get();
     }
 
     /**
      * Increment the folder subfolders count.
      */
     public void incFolderSubFoldersCount() {
-        folderSubFoldersCount++;
+        folderSubFoldersCount.incrementAndGet();
     }
 
     /**
@@ -212,7 +236,7 @@ public abstract class StoreFolder {
      * @return the folder sub folders count
      */
     public int getFolderSubFoldersCount() {
-        return folderSubFoldersCount;
+        return folderSubFoldersCount.get();
     }
 
     /**
@@ -221,7 +245,7 @@ public abstract class StoreFolder {
      * @param rawSize the elements raw size
      */
     public void addFolderElementsRawSize(long rawSize) {
-        folderElementsRawSize += rawSize;
+        folderElementsRawSize.addAndGet(rawSize);
     }
 
     /**
@@ -233,7 +257,7 @@ public abstract class StoreFolder {
      * @return the folder elements raw size
      */
     public long getFolderElementsRawSize() {
-        return folderElementsRawSize;
+        return folderElementsRawSize.get();
     }
 
     /**
@@ -271,7 +295,7 @@ public abstract class StoreFolder {
         extractFolderElements(writeFlag);
         // extract all subfolders in the folder to the unit directory
         extractSubFolders(0, writeFlag);
-        if (folderElementsCount + folderSubFoldersCount != 0) {
+        if (folderElementsCount.get() + folderSubFoldersCount.get() != 0) {
             // accumulate in store extractor statistics out of recursion
             // if the scheme is not a container one but an embedded message folder counter is not used
             if (StoreExtractor.schemeContainerMap.get(storeExtractor.scheme))
@@ -308,7 +332,7 @@ public abstract class StoreFolder {
         extractFolderElements(writeFlag);
         // extract all subfolders in the folder to the unit directory
         extractSubFolders(level, writeFlag);
-        if ((folderElementsCount + folderSubFoldersCount != 0) || ((!storeExtractor.options.dropEmptyFolders)
+        if ((folderElementsCount.get() + folderSubFoldersCount.get() != 0) || ((!storeExtractor.options.dropEmptyFolders)
                 && !(level == 1 && storeExtractor.options.keepOnlyDeepEmptyFolders))) {
             // get specific folder metadata to the unit
             // compute and add to the folder ArchiveUnit the expected folder
@@ -333,8 +357,8 @@ public abstract class StoreFolder {
 
     // encapsulate the subclasses real processing method
     private void extractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
-        folderElementsCount = 0;
-        folderElementsRawSize = 0;
+        folderElementsCount.set(0);
+        folderElementsRawSize.set(0);
         if (hasElements())
             doExtractFolderElements(writeFlag);
     }
@@ -347,14 +371,14 @@ public abstract class StoreFolder {
      * raw size with {@link #addFolderElementsRawSize addFolderElementsRawSize}.
      *
      * @param writeFlag the write flag
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     protected abstract void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException;
 
     // encapsulate the subclasses real processing method
     private void extractSubFolders(int level, boolean writeFlag) throws MailExtractLibException, InterruptedException {
-        folderSubFoldersCount = 0;
+        folderSubFoldersCount.set(0);
         if (hasSubfolders())
             doExtractSubFolders(level, writeFlag);
     }
@@ -398,8 +422,8 @@ public abstract class StoreFolder {
             // inspect all elements in the folder for statistics
             listFolderElements(stats);
             // expose this folder statistics
-            tmp = String.format("%5d éléments   %7.2f MBytes    /%s", folderElementsCount,
-                    ((double) folderElementsRawSize) / (1024.0 * 1024.0), fullName);
+            tmp = String.format("%5d éléments   %7.2f MBytes    /%s", folderElementsCount.get(),
+                    ((double) folderElementsRawSize.get()) / (1024.0 * 1024.0), fullName);
             System.out.println(tmp);
             logFolder("mailextractlib: " + tmp);
         } else {
@@ -417,8 +441,8 @@ public abstract class StoreFolder {
 
     // encapsulate the subclasses real processing method
     private void listFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
-        folderElementsCount = 0;
-        folderElementsRawSize = 0;
+        folderElementsCount.set(0);
+        folderElementsRawSize.set(0);
         if (hasElements())
             doListFolderElements(stats);
     }
@@ -439,11 +463,10 @@ public abstract class StoreFolder {
 
     // encapsulate the subclasses real processing method
     private void listSubFolders(boolean stats) throws MailExtractLibException, InterruptedException {
-        folderSubFoldersCount = 0;
+        folderSubFoldersCount.set(0);
         if (hasSubfolders())
             doListSubFolders(stats);
     }
-
     /**
      * List subfolders (protocol specific).
      * <p>

@@ -98,15 +98,6 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  */
 public abstract class StoreMessage extends StoreElement {
 
-    // /** Message nature (MESSAGE, CALENDAR). */
-    // protected int nature;
-    //
-    // /** The Constant MESSAGE. */
-    // static public final int MESSAGE = 0;
-    //
-    // /** The Constant CALENDAR. */
-    // static public final int CALENDAR = 1;
-    //
     /**
      * Raw binary content of the message for mime sources, or of the mime fake
      * for others.
@@ -284,7 +275,7 @@ public abstract class StoreMessage extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "message " + getStoreExtractor().getElementCounter(this.getClass(), false);
+        String result = "message " + listLineId;
         if (subject != null)
             result += " [" + subject + "]";
         else
@@ -557,8 +548,8 @@ public abstract class StoreMessage extends StoreElement {
         if (storeFolder.getStoreExtractor().getOptions().extractMessages) {
             listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
             analyzeMessage();
-            storeFolder.getDateRange().extendRange(sentDate);
             extractMessage(writeFlag);
+            storeFolder.extendDateRange(sentDate);
             countMessage();
         }
     }
@@ -571,6 +562,7 @@ public abstract class StoreMessage extends StoreElement {
             if (statsFlag)
                 extractMessage(false);
             countMessage();
+
         }
     }
 
@@ -658,7 +650,7 @@ public abstract class StoreMessage extends StoreElement {
 
         int logLevel;
         if (getStoreExtractor().isRoot()) {
-            doProgressLogIfStep(getProgressLogger(), MailExtractProgressLogger.MESSAGE_GROUP, getStoreExtractor().getElementCounter(this.getClass(), false), "mailextractlib: " + getStoreExtractor().getElementCounter(this.getClass(), false) + " extracted messages");
+            doProgressLogOneMoreCountedObject(getProgressLogger(), MailExtractProgressLogger.MESSAGE_GROUP, "mailextractlib: %count extracted messages");
             logLevel = MailExtractProgressLogger.MESSAGE;
         } else
             logLevel = MailExtractProgressLogger.MESSAGE_DETAILS;
@@ -690,45 +682,49 @@ public abstract class StoreMessage extends StoreElement {
      * @param ps the dedicated print stream
      */
     static public void printGlobalListCSVHeader(PrintStream ps) {
-        ps.println("ID;SentDate;ReceivedDate;FromName;FromAddress;" +
-                "ToList;Subject;MessageID;" +
-                "AttachmentList;ReplyTo;Folder;Size;Attached");
+        synchronized (ps) {
+            ps.println("ID;SentDate;ReceivedDate;FromName;FromAddress;" +
+                    "ToList;Subject;MessageID;" +
+                    "AttachmentList;ReplyTo;Folder;Size;Attached");
+        }
     }
 
     private void writeToMailsList() throws InterruptedException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         PrintStream ps = storeFolder.getStoreExtractor().getGlobalListPS(this.getClass());
-        try {
-            ps.format("\"%d\";", listLineId);
-            ps.format("\"%s\";",
-                    (sentDate == null ? "" : sdf.format(sentDate)));
-            ps.format("\"%s\";",
-                    (receivedDate == null ? "" : sdf.format(receivedDate)));
-            if ((from != null) && !from.isEmpty()) {
-                MetadataPerson p = new MetadataPerson(from);
-                ps.format("\"%s\";\"%s\";", filterHyphenForCsv(p.fullName),
-                        filterHyphenForCsv(p.identifier));
-            } else
-                ps.print("\"\";\"\";");
-            ps.format("\"%s\";",
-                    filterHyphenForCsv(personStringListToIndentifierString(recipientTo)));
-            ps.format("\"%s\";", filterHyphenForCsv(subject));
-            ps.format("\"%s\";", filterHyphenForCsv(messageID));
-            ps.format("\"%s\";", filterHyphenForCsv(attachmentsNamesList()));
-            if ((replyTo == null) || replyTo.isEmpty())
-                ps.format("\"\";");
-            else {
-                MetadataPerson p = new MetadataPerson(replyTo.get(0));
-                ps.format("\"%s\";", filterHyphenForCsv(p.identifier));
+        synchronized (ps) {
+            try {
+                ps.format("\"%d\";", listLineId);
+                ps.format("\"%s\";",
+                        (sentDate == null ? "" : sdf.format(sentDate)));
+                ps.format("\"%s\";",
+                        (receivedDate == null ? "" : sdf.format(receivedDate)));
+                if ((from != null) && !from.isEmpty()) {
+                    MetadataPerson p = new MetadataPerson(from);
+                    ps.format("\"%s\";\"%s\";", filterHyphenForCsv(p.fullName),
+                            filterHyphenForCsv(p.identifier));
+                } else
+                    ps.print("\"\";\"\";");
+                ps.format("\"%s\";",
+                        filterHyphenForCsv(personStringListToIndentifierString(recipientTo)));
+                ps.format("\"%s\";", filterHyphenForCsv(subject));
+                ps.format("\"%s\";", filterHyphenForCsv(messageID));
+                ps.format("\"%s\";", filterHyphenForCsv(attachmentsNamesList()));
+                if ((replyTo == null) || replyTo.isEmpty())
+                    ps.format("\"\";");
+                else {
+                    MetadataPerson p = new MetadataPerson(replyTo.get(0));
+                    ps.format("\"%s\";", filterHyphenForCsv(p.identifier));
+                }
+                ps.format("\"%s\";", filterHyphenForCsv(storeFolder.getFullName()));
+                ps.format("\"%d\";", this.getMessageSize());
+                if (!storeFolder.getStoreExtractor().isRoot())
+                    ps.format("\"Attached\"");
+                ps.println();
+                ps.flush();
+            } catch (Exception e) {
+                logMessageWarning("mailextractlib: can't write in mails csv list", e);
             }
-            ps.format("\"%s\";", filterHyphenForCsv(storeFolder.getFullName()));
-            ps.format("\"%d\";", this.getMessageSize());
-            if (!storeFolder.getStoreExtractor().isRoot())
-                ps.format("\"Attached\"");
-            ps.println();
-            ps.flush();
-        } catch (Exception e) {
-            logMessageWarning("mailextractlib: can't write in mails csv list", e);
         }
     }
 
