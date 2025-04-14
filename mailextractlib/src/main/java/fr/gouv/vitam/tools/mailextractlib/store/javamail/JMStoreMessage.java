@@ -248,7 +248,7 @@ public class JMStoreMessage extends StoreMessage {
         if ((aList == null) || (aList.size() == 0)) {
             logMessageWarning("mailextractlib.javamail: no From address in header", null);
         } else {
-            aList = RFC822Headers.removeDuplicatesFromList(aList);
+            aList = RFC822Headers.removeInvalidAndDuplicatesFromAddressesList(aList);
             if (aList.size() > 1) {
                 result = String.join(", ", aList);
                 logMessageWarning("mailextractlib.javamail: multiple From addresses [" + result + "]", null);
@@ -305,7 +305,7 @@ public class JMStoreMessage extends StoreMessage {
         List<String> aList = getAddressHeader("Return-Path");
 
         if (!((aList == null) || (aList.size() == 0))) {
-            aList = RFC822Headers.removeDuplicatesFromList(aList);
+            aList = RFC822Headers.removeInvalidAndDuplicatesFromAddressesList(aList);
             if (aList.size() > 1) {
                 result = String.join(", ", aList);
                 logMessageWarning("mailextractlib.javamail: multiple Return-Path addresses [" + result + "]", null);

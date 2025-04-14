@@ -27,7 +27,6 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft;
 
-import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
@@ -38,7 +37,6 @@ import jakarta.mail.MessagingException;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor.ISO_8601;
@@ -330,7 +328,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                     for (String header : fromArray) {
                         fromList.add(RFC822Headers.getHeaderValue(header));
                     }
-                    fromList = RFC822Headers.removeDuplicatesFromList(fromList);
+                    fromList = RFC822Headers.removeInvalidAndDuplicatesFromAddressesList(fromList);
                     if (fromList.size() > 1) {
                         result = String.join(", ", fromList);
                         logMessageWarning(
@@ -459,7 +457,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                     for (String header : rpArray) {
                         rpList.add(RFC822Headers.getHeaderValue(header));
                     }
-                    rpList = RFC822Headers.removeDuplicatesFromList(rpList);
+                    rpList = RFC822Headers.removeInvalidAndDuplicatesFromAddressesList(rpList);
                     if (rpList.size() > 1) {
                         result = String.join(", ", rpList);
                         logMessageWarning(

@@ -133,12 +133,12 @@ public class RFC822Headers extends InternetHeaders {
 
         if (address != null) {
             s = address.getPersonal();
-            if (s != null)
+            if ((s != null) && !s.isEmpty())
                 result = s + " ";
             else
                 result = "";
             s = address.getAddress();
-            if (s != null)
+            if ((s != null) && !s.isEmpty())
                 result += "<" + s + ">";
         } else
             result = "";
@@ -215,7 +215,7 @@ public class RFC822Headers extends InternetHeaders {
             }
             for (InternetAddress ia : iAddressArray) {
                 String address = getStringAddress(ia);
-                if (address.contains("?="))
+                if (address.contains("=?"))
                     address = decodeRfc2047Flexible(address);
                 result.add(address);
             }
@@ -224,6 +224,8 @@ public class RFC822Headers extends InternetHeaders {
     }
 
     // RFC 2047 block patterns
+    private static final Pattern ENCODED_WORD_PATTERN_BEGIN = Pattern.compile(
+            "(=\\?[^?]+\\?[BbQq]\\?[^?]+)");
     private static final Pattern ENCODED_WORD_PATTERN = Pattern.compile(
             "(=\\?[^?]+\\?[BbQq]\\?[^?]+\\?=)");
     private static final Pattern Q_ENCODING_PATTERN = Pattern.compile(
@@ -247,6 +249,10 @@ public class RFC822Headers extends InternetHeaders {
 
         // unfold
         input = input.replaceAll("\\r?\\n[ \t]*", "");
+
+        // add encoded bloc end if needed
+        if (ENCODED_WORD_PATTERN_BEGIN.matcher(input).find() && !input.trim().endsWith("?="))
+            input+="?=";
 
         // Split the encoded blocs even without spaces
         Matcher matcher = ENCODED_WORD_PATTERN.matcher(input);
@@ -285,15 +291,33 @@ public class RFC822Headers extends InternetHeaders {
         return result.toString();
     }
 
+    public static final Pattern SIMPLE_EMAIL_WITH_NAME_PATTERN = Pattern.compile(
+            "^\\s*.*?<\\s*[a-zA-Z0-9](?:[a-zA-Z0-9._%+-]{0,62}[a-zA-Z0-9])?@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}\\s*>\\s*$"
+    );
+
     /**
-     * Remove duplicates from a list of string, usefull for adresses duplicates in from and return-path.
+     * Removes invalid email addresses and duplicates from a given list of email addresses.
      *
-     * @param input
-     * @return a list without duplicates
+     * Filters out email addresses that do not match a pre-defined valid pattern and removes duplicate email
+     * addresses while preserving the original order of the list.
+     *
+     * @param addressList the input list of email addresses to process; may be null
+     * @return a new list of valid and unique email addresses. If the input list is null,
+     *         an empty list is returned. If no valid email addresses are found, the original list is returned.
      */
-    public static List<String> removeDuplicatesFromList(List<String> input) {
-        if (input == null) return Collections.emptyList();
-        if (input.size()==1) return input;
-        return new ArrayList<>(new LinkedHashSet<>(input));
+    public static List<String> removeInvalidAndDuplicatesFromAddressesList(List<String> addressList) {
+        if (addressList == null) return Collections.emptyList();
+        if (addressList.size() <= 1) return addressList;
+
+        List<String> decodedList = new ArrayList<>();
+        for (String address : addressList) {
+            if (SIMPLE_EMAIL_WITH_NAME_PATTERN.matcher(address).matches())
+                decodedList.add(address.toLowerCase().trim());
+        }
+
+        if (decodedList.isEmpty())
+            decodedList=addressList;
+
+        return new ArrayList<>(new LinkedHashSet<>(decodedList));
     }
 }
