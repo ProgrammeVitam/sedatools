@@ -34,11 +34,14 @@ import fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox.MboxFolder;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird.ThunderbirdFolder;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 
+import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import jakarta.mail.Flags;
 import jakarta.mail.Folder;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
+import java.util.concurrent.*;
 
 /**
  * StoreFolder sub-class for mail boxes extracted through JavaMail library.
@@ -97,19 +100,64 @@ public class JMStoreFolder extends StoreFolder {
         int msgTotal;
         Message message;
 
-        try {
-            folder.open(Folder.READ_ONLY);
-            msgTotal = folder.getMessageCount();
-            for (int i = 1; i <= msgTotal; i++) {
-                message = folder.getMessage(i);
-                if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
-                    JMStoreMessage jMStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
-                    jMStoreMessage.processElement(writeFlag);
+        // only root storeExtractor can distibute
+        if (storeExtractor.isRoot()) {
+            ExecutorService pool = Executors.newFixedThreadPool(storeExtractor.getMaxParallelThreads());
+            CompletionService<Void> completionService = new ExecutorCompletionService<>(pool);
+            int submittedTasks = 0;
+
+            try {
+                folder.open(Folder.READ_ONLY);
+                msgTotal = folder.getMessageCount();
+                for (int i = 1; i <= msgTotal; i++) {
+                    message = folder.getMessage(i);
+                    if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
+                        // Encapsulate the instance in an AtomicReference to capture it
+                        final JMStoreMessage jmStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
+                        completionService.submit(() -> {
+                            jmStoreMessage.processElement(writeFlag);
+                            return null;
+                        });
+                        submittedTasks++;
+                    }
                 }
+                folder.close(false);
+
+                // Retrieve the results with a maximum wait of 60 seconds per task
+                for (int i = 0; i < submittedTasks; i++) {
+                    Future<Void> future = completionService.poll(60, TimeUnit.SECONDS);
+                    if (future == null) {
+                        throw new MailExtractLibException("mailextractlib.javamail: Timeout: no message extracted within 60 seconds, folder extraction aborted.", null);
+                    }
+                    try {
+                        future.get();  // Retrieve the task result or propagate any exception
+                    } catch (ExecutionException e) {
+                        MailExtractProgressLogger.doProgressLogWithoutInterruption(getStoreExtractor().getProgressLogger(),
+                                MailExtractProgressLogger.MESSAGE,
+                                "mailextractlib.javamail: Error during a message processing, it's dropped.", e);
+                    }
+                }
+            } catch (MessagingException e) {
+                throw new MailExtractLibException("mailextractlib.javamail: cannot retrieve messages from folder "
+                        + getFullName() + ", folder extraction aborted", e);
+            } finally {
+                pool.shutdownNow();
             }
-            folder.close(false);
-        } catch (MessagingException e) {
-            throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
+        } else {
+            try {
+                folder.open(Folder.READ_ONLY);
+                msgTotal = folder.getMessageCount();
+                for (int i = 1; i <= msgTotal; i++) {
+                    message = folder.getMessage(i);
+                    if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
+                        JMStoreMessage jMStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
+                        jMStoreMessage.processElement(writeFlag);
+                    }
+                }
+                folder.close(false);
+            } catch (MessagingException e) {
+                throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
+            }
         }
     }
 
@@ -198,19 +246,64 @@ public class JMStoreFolder extends StoreFolder {
         int msgTotal;
         Message message;
 
-        try {
-            folder.open(Folder.READ_ONLY);
-            msgTotal = folder.getMessageCount();
-            for (int i = 1; i <= msgTotal; i++) {
-                message = folder.getMessage(i);
-                if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
-                    JMStoreMessage jMStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
-                    jMStoreMessage.listElement(stats);
+        // only root storeExtractor can distribute
+        if (storeExtractor.isRoot()) {
+            ExecutorService pool = Executors.newFixedThreadPool(storeExtractor.getMaxParallelThreads());
+            CompletionService<Void> completionService = new ExecutorCompletionService<>(pool);
+            int submittedTasks = 0;
+
+            try {
+                folder.open(Folder.READ_ONLY);
+                msgTotal = folder.getMessageCount();
+                for (int i = 1; i <= msgTotal; i++) {
+                    message = folder.getMessage(i);
+                    if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
+                        // Encapsulate the instance in an AtomicReference to capture it
+                        final JMStoreMessage jmStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
+                        completionService.submit(() -> {
+                            jmStoreMessage.listElement(stats);
+                            return null;
+                        });
+                        submittedTasks++;
+                    }
                 }
+                folder.close(false);
+
+                // Retrieve the results with a maximum wait of 60 seconds per task
+                for (int i = 0; i < submittedTasks; i++) {
+                    Future<Void> future = completionService.poll(60, TimeUnit.SECONDS);
+                    if (future == null) {
+                        throw new MailExtractLibException("mailextractlib.javamail: Timeout: no message extracted within 60 seconds, folder extrcation aborted.", null);
+                    }
+                    try {
+                        future.get();  // Retrieve the task result or propagate any exception
+                    } catch (ExecutionException e) {
+                        MailExtractProgressLogger.doProgressLogWithoutInterruption(getStoreExtractor().getProgressLogger(),
+                                MailExtractProgressLogger.MESSAGE,
+                                "mailextractlib.javamail: Error during a message processing, it's dropped.", e);
+                    }
+                }
+            } catch (MessagingException e) {
+                throw new MailExtractLibException("mailextractlib.javamail: cannot retrieve messages from folder "
+                        + getFullName() + ", folder listing aborted", e);
+            } finally {
+                pool.shutdownNow();
             }
-            folder.close(false);
-        } catch (MessagingException e) {
-            throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
+        } else {
+            try {
+                folder.open(Folder.READ_ONLY);
+                msgTotal = folder.getMessageCount();
+                for (int i = 1; i <= msgTotal; i++) {
+                    message = folder.getMessage(i);
+                    if (!((MimeMessage) message).isSet(Flags.Flag.DELETED)) {
+                        JMStoreMessage jMStoreMessage = new JMStoreMessage(this, (MimeMessage) message);
+                        jMStoreMessage.listElement(stats);
+                    }
+                }
+                folder.close(false);
+            } catch (MessagingException e) {
+                throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
+            }
         }
     }
 
