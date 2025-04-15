@@ -167,12 +167,12 @@ public class MailExtractMainWindow extends JFrame {
     /**
      * The keeponlydeep check box.
      */
-    JCheckBox keeponlydeepCheckBox;
+    JCheckBox keepOnlyDeepCheckBox;
 
     /**
      * The dropemptyfolders check box.
      */
-    JCheckBox dropemptyfoldersCheckBox;
+    JCheckBox dropEmptyFoldersCheckBox;
 
     /**
      * The names length field.
@@ -541,12 +541,12 @@ public class MailExtractMainWindow extends JFrame {
         gbc_loglevelLabel.gridy = 11;
         getContentPane().add(loglevelLabel, gbc_loglevelLabel);
 
-        keeponlydeepCheckBox = new JCheckBox(MESSAGES.getString("checkbox.keepOnlyDeep"));
+        keepOnlyDeepCheckBox = new JCheckBox(MESSAGES.getString("checkbox.keepOnlyDeep"));
         GridBagConstraints gbc_keeponlydeepRadioButton = new GridBagConstraints();
         gbc_keeponlydeepRadioButton.insets = new Insets(0, 0, 5, 5);
         gbc_keeponlydeepRadioButton.gridx = 2;
         gbc_keeponlydeepRadioButton.gridy = 6;
-        getContentPane().add(keeponlydeepCheckBox, gbc_keeponlydeepRadioButton);
+        getContentPane().add(keepOnlyDeepCheckBox, gbc_keeponlydeepRadioButton);
 
         namesLengthLabel = new JLabel(MESSAGES.getString("label.namesLength"));
         GridBagConstraints gbc_namesLengthLabel = new GridBagConstraints();
@@ -585,12 +585,12 @@ public class MailExtractMainWindow extends JFrame {
         gbc_savedirField.weightx = 0.5;
         getContentPane().add(savedirField, gbc_savedirField);
 
-        dropemptyfoldersCheckBox = new JCheckBox(MESSAGES.getString("checkbox.dropEmptyFolders"));
+        dropEmptyFoldersCheckBox = new JCheckBox(MESSAGES.getString("checkbox.dropEmptyFolders"));
         GridBagConstraints gbc_dropemptyfoldersCheckBox = new GridBagConstraints();
         gbc_dropemptyfoldersCheckBox.insets = new Insets(0, 0, 5, 5);
         gbc_dropemptyfoldersCheckBox.gridx = 1;
         gbc_dropemptyfoldersCheckBox.gridy = 6;
-        getContentPane().add(dropemptyfoldersCheckBox, gbc_dropemptyfoldersCheckBox);
+        getContentPane().add(dropEmptyFoldersCheckBox, gbc_dropemptyfoldersCheckBox);
 
         savedirLabel = new JLabel(MESSAGES.getString("label.savedir"));
         GridBagConstraints gbc_savedirLabel = new GridBagConstraints();
@@ -942,10 +942,10 @@ public class MailExtractMainWindow extends JFrame {
         emptyButton.setText(messages.getString("button.clearLog"));
         warningCheckBox.setText(messages.getString("checkbox.warning"));
         loglevelLabel.setText(messages.getString("label.logLevel"));
-        keeponlydeepCheckBox.setText(messages.getString("checkbox.keepOnlyDeep"));
+        keepOnlyDeepCheckBox.setText(messages.getString("checkbox.keepOnlyDeep"));
         namesLengthLabel.setText(messages.getString("label.namesLength"));
         savedirButton.setText(messages.getString("button.savedir"));
-        dropemptyfoldersCheckBox.setText(messages.getString("checkbox.dropEmptyFolders"));
+        dropEmptyFoldersCheckBox.setText(messages.getString("checkbox.dropEmptyFolders"));
         savedirLabel.setText(messages.getString("label.savedir"));
         folderLabel.setText(messages.getString("label.folderRoot"));
         charsetLabel.setText(messages.getString("label.charset"));
