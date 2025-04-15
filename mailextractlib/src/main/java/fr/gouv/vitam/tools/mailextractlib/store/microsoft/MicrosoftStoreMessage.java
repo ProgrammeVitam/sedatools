@@ -309,6 +309,21 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         return result;
     }
 
+    static String getFormattedAddress(String name, String smtpAddress) {
+        String result=null;
+
+        if (name != null){
+            if (smtpAddress != null)
+                result = name + " <" + smtpAddress + ">";
+            else
+                result = name;
+        }
+        else {
+            result = smtpAddress;
+        }
+        return result;
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -333,23 +348,17 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                         result = String.join(", ", fromList);
                         logMessageWarning(
                                 "mailextractlib.microsoft: multiple From addresses [" + result + "]", null);
-                    }
-                    else
-                        result=fromList.get(0);
+                    } else
+                        result = fromList.get(0);
                 }
                 if ((result != null) && (result.contains("=?")))
                     result = decodeRfc2047Flexible(result);
             }
         } else {
             // pst file value
-            String fromAddr = getSenderEmailAddress();
-            if (fromAddr != null) {
-                String fromName = getSenderName();
-                if (fromName != null)
-                    result = fromName + " <" + fromAddr + ">";
-                else
-                    result = fromAddr;
-            }
+            String fromName = getSenderName();
+            String fromAddress = getSenderEmailAddress();
+            result=getFormattedAddress(fromName,fromAddress);
         }
 
         if (result == null)
@@ -396,7 +405,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                     String emailAddress = getNativeRecipientsSmtpAddress(i);
                     if ((emailAddress == null) || (emailAddress.isEmpty()))
                         emailAddress = getNativeRecipientsEmailAddress(i);
-                    normAddress = getNativeRecipientsDisplayName(i) + " <" + emailAddress + ">";
+                    normAddress = getFormattedAddress(getNativeRecipientsDisplayName(i),emailAddress);
                     switch (getNativeRecipientsType(i)) {
                         case MAPI_TO:
                             recipientTo.add(normAddress);
@@ -415,7 +424,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         }
     }
 
-    // ReplyTo specific functions
+// ReplyTo specific functions
 
     /*
      * (non-Javadoc)
@@ -435,7 +444,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         replyTo = result;
     }
 
-    // Return-Path specific functions
+// Return-Path specific functions
 
     /*
      * (non-Javadoc)
@@ -462,9 +471,8 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                         result = String.join(", ", rpList);
                         logMessageWarning(
                                 "mailextractlib.microsoft: multiple Return-Path addresses [" + result + "]", null);
-                    }
-                    else
-                        result=rpList.get(0);
+                    } else
+                        result = rpList.get(0);
                 }
                 if ((result != null) && (result.contains("=?")))
                     result = decodeRfc2047Flexible(result);
@@ -475,7 +483,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         returnPath = result;
     }
 
-    // Dates specific functions
+// Dates specific functions
 
     /*
      * (non-Javadoc)
@@ -487,7 +495,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         sentDate = getNativeClientSubmitTime();
     }
 
-    // In-reply-to and References specific functions
+// In-reply-to and References specific functions
 
     /*
      * (non-Javadoc)
@@ -544,7 +552,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         references = result;
     }
 
-    // Content analysis methods
+// Content analysis methods
 
     /*
      * (non-Javadoc)
