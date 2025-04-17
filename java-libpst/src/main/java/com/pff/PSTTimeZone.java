@@ -45,6 +45,11 @@ import java.util.SimpleTimeZone;
  */
 
 public class PSTTimeZone {
+
+    private String name;
+    private TZRule rule;
+    private SimpleTimeZone simpleTimeZone = null;
+
     PSTTimeZone(final byte[] timeZoneData) {
         this.rule = null;
         this.name = "";
@@ -87,6 +92,12 @@ public class PSTTimeZone {
             this.rule = null;
             name = "";
         }
+    }
+
+    public PSTTimeZone(String name, SimpleTimeZone simpleTimeZone) {
+        this.name = name;
+        this.rule = null;
+        this.simpleTimeZone=simpleTimeZone;
     }
 
     public String getName() {
@@ -256,8 +267,4 @@ public class PSTTimeZone {
         SYSTEMTIME startStandard;
         SYSTEMTIME startDaylight;
     }
-
-    private String name;
-    private TZRule rule;
-    private SimpleTimeZone simpleTimeZone = null;
 }
