@@ -165,6 +165,7 @@
     <modules>
         <module>sedalib</module>
         <module>sedalib-samples</module>
+        <module>java-libpst</module>
         <module>mailextractlib</module>
         <module>mailextract</module>
         <module>resip</module>
