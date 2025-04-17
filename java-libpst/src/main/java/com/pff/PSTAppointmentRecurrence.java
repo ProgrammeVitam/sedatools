@@ -168,7 +168,11 @@ public class PSTAppointmentRecurrence {
 
     public PSTAppointmentRecurrence(final byte[] recurrencePattern, final PSTAppointment appt, final PSTTimeZone tz) {
         this.RecurrenceTimeZone = tz;
-        final SimpleTimeZone stz = this.RecurrenceTimeZone.getSimpleTimeZone();
+        final SimpleTimeZone stz;
+        if (tz==null)
+            stz=PSTTimeZone.utcTimeZone;
+        else
+            stz=this.RecurrenceTimeZone.getSimpleTimeZone();
 
         // Read the structure
         this.RecurFrequency = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 4, 6);

@@ -97,13 +97,13 @@ public class PSTAppointment extends PSTMessage {
     }
 
     public PSTTimeZone getRecurrenceTimeZone() {
-        final String desc = this.getStringItem(this.pstFile.getNameToIdMapItem(0x00008234, PSTFile.PSETID_Appointment));
-        if (desc != null && desc.length() != 0) {
-            final byte[] tzData = this
-                    .getBinaryItem(this.pstFile.getNameToIdMapItem(0x00008233, PSTFile.PSETID_Appointment));
-            if (tzData != null && tzData.length != 0) {
-                return new PSTTimeZone(desc, tzData);
-            }
+        String desc = this.getStringItem(this.pstFile.getNameToIdMapItem(0x00008234, PSTFile.PSETID_Appointment));
+        final byte[] tzData = this
+                .getBinaryItem(this.pstFile.getNameToIdMapItem(0x00008233, PSTFile.PSETID_Appointment));
+        if ((desc == null) || desc.isEmpty())
+            desc = "Unknown";
+        if (tzData != null && tzData.length != 0) {
+            return new PSTTimeZone(desc, tzData);
         }
         return null;
     }
@@ -276,7 +276,7 @@ public class PSTAppointment extends PSTMessage {
                 "\n  To attendees: " + getToAttendees() + "\n  CC attendees: " + getCCAttendees() + "\n";
         result += "Flags:\n  Busy:" + getShowAsBusy() + "\n  MeetingStatus: " + getMeetingStatus() + "\n  ResponseStatus: " + getResponseStatus() + "\n  " +
                 "isRecursed: " + isRecurring() + "\n";
-        result += "Time:\n  Start: " + getStartTime() + " [TZ=" + getStartTimeZone().getSimpleTimeZone() + "]\n  End: " + getEndTime() + " [TZ=" + getEndTimeZone().getSimpleTimeZone() + "]\n  " +
+        result += "Time:\n  Start: " + getStartTime() + " [TZ=" + (getStartTimeZone()==null?"Unknown":getStartTimeZone().getSimpleTimeZone()) + "]\n  End: " + getEndTime() + " [TZ=" + (getEndTimeZone()==null?"Unknown":getEndTimeZone().getSimpleTimeZone()) + "]\n  " +
                 "Duration: " + getDuration() + "\n";
         result += "Recurrence:\n  Base: " + getRecurrenceBase() + "\n  Type: " + getRecurrenceType() + "\n  Pattern: " + getRecurrencePattern() + "\n";
         if (isRecurring()) {
