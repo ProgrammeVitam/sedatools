@@ -236,7 +236,7 @@ public class PSTFile {
      * read the name-to-id map from the file and load it in
      *
      * @param in the pst file content
-     * @throws IOException IOException
+     * @throws IOException  IOException
      * @throws PSTException PSTException
      */
     private void processNameToIdMap(final PSTFileContent in) throws IOException, PSTException {
@@ -339,12 +339,14 @@ public class PSTFile {
                 // in which the string name of the property is stored.
                 final int len = (int) PSTObject.convertLittleEndianBytesToLong(stringNameToIdByte, dwPropertyId,
                         dwPropertyId + 4);
-                final byte[] keyByteValue = new byte[len];
-                System.arraycopy(stringNameToIdByte, dwPropertyId + 4, keyByteValue, 0, keyByteValue.length);
-                wPropIdx += 0x8000;
-                final String key = new String(keyByteValue, "UTF-16LE");
-                this.stringToId.put(key, wPropIdx);
-                this.idToString.put(wPropIdx, key);
+                if (len > 0 && len < stringNameToIdByte.length) {
+                    final byte[] keyByteValue = new byte[len];
+                    System.arraycopy(stringNameToIdByte, dwPropertyId + 4, keyByteValue, 0, keyByteValue.length);
+                    wPropIdx += 0x8000;
+                    final String key = new String(keyByteValue, "UTF-16LE");
+                    this.stringToId.put(key, wPropIdx);
+                    this.idToString.put(wPropIdx, key);
+                }
             }
         }
     }
@@ -636,11 +638,11 @@ public class PSTFile {
      * Generic function used by getOffsetIndexNode and getDescriptorIndexNode
      * for navigating the PST B-Trees
      *
-     * @param in the pst file content
-     * @param index the index
+     * @param in       the pst file content
+     * @param index    the index
      * @param descTree desc flag
      * @return BTree item
-     * @throws IOException the io exception
+     * @throws IOException  the io exception
      * @throws PSTException the pst exception
      */
     private byte[] findBtreeItem(final PSTFileContent in, final long index, final boolean descTree)
@@ -928,7 +930,7 @@ public class PSTFile {
      * buildDescriptorTree
      *
      * @param btreeStartOffset the BTree start offset
-     * @throws IOException the io exception
+     * @throws IOException  the io exception
      * @throws PSTException the pst exception
      */
     private void processDescriptorBTree(final long btreeStartOffset) throws IOException, PSTException {
