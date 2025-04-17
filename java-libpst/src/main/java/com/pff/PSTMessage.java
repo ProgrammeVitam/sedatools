@@ -124,6 +124,24 @@ public class PSTMessage extends PSTObject {
     }
 
     /**
+
+     * Get string item based on hexvalue passed in
+     *
+     * @return empty string if not found
+     */
+    public String getStringBasedOnHexValue(int hexValue) {
+        return this.getStringItem(hexValue);
+    }
+
+    /**
+     * Get int item based on hexvalue passed in
+     *
+     * @return empty string if not found
+     */
+    public int getIntBasedOnHexValue(int hexValue) {
+        return this.getIntItem(hexValue);
+    }
+    /**
      * get the message class for the email
      * 
      * @return empty string if unknown
@@ -206,6 +224,15 @@ public class PSTMessage extends PSTObject {
     }
 
     /**
+     * Sent representing SMTP address
+     *
+     * @return empty string if not found
+     */
+    public String getSentRepresentingSMTPAddress() {
+        return this.getStringItem(0x5d02);
+    }
+
+    /**
      * Conversation topic
      * This is basically the subject from which Fwd:, Re, etc. has been removed
      *
@@ -232,6 +259,24 @@ public class PSTMessage extends PSTObject {
      */
     public String getReceivedByAddress() {
         return this.getStringItem(0x0076);
+    }
+
+    /**
+     * Received representing SMTP address
+     *
+     * @return empty string if not found
+     */
+    public String getReceivedRepresentingSMTPAddress() {
+        return this.getStringItem(0x5d08);
+    }
+
+    /**
+     * Received By SMTP address
+     *
+     * @return empty string if not found
+     */
+    public String getReceivedBySMTPAddress() {
+        return this.getStringItem(0x5d07);
     }
 
     /**
