@@ -21,6 +21,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>fr.gouv.vitam.tools</groupId>
+            <artifactId>java-libpst</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
@@ -56,11 +61,6 @@
             <groupId>com.github.jai-imageio</groupId>
             <artifactId>jai-imageio-jpeg2000</artifactId>
             <version>${jai-imageio-jpeg2000.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.pff</groupId>
-            <artifactId>java-libpst</artifactId>
-            <version>${java-libpst.version}</version>
         </dependency>
         <dependency>
             <groupId>jakarta.mail</groupId>
