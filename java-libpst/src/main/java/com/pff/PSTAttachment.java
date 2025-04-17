@@ -33,12 +33,11 @@
  */
 package com.pff;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.HashMap;
-
-import java.io.ByteArrayInputStream;
 
 /**
  * Class containing attachment information.
@@ -55,7 +54,7 @@ public class PSTAttachment extends PSTObject {
      * @param localDescriptorItems the local descriptor items
      */
     PSTAttachment(final PSTFile theFile, final PSTTableBC table,
-        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+                  final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
         super(theFile, null, table, localDescriptorItems);
     }
 
@@ -359,6 +358,15 @@ public class PSTAttachment extends PSTObject {
      */
     public String getAttachmentContentDisposition() {
         return this.getStringItem(0x3716);
+    }
+
+    /**
+     * Attachment is a contact photo
+     *
+     * @return the boolean
+     */
+    public boolean isContactPhoto() {
+        return this.getBooleanItem(0x7FFF,false);
     }
 
 }
