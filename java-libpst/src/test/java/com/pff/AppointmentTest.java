@@ -1,15 +1,16 @@
 package com.pff;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.Calendar;
-import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * Tests for {@link PSTAppointment}.
@@ -45,22 +46,24 @@ public class AppointmentTest {
         String d = r.getException(0).getDescription().trim();
         Assert.assertEquals("correct app desc", "This is the appointment at 9", d);
 
-        Calendar c = PSTObject.apptTimeToCalendar(
-                r.getException(0).getStartDateTime());
+        LocalDateTime ldt = LocalDateTime.ofInstant(
+                r.getException(0).getStartDate().toInstant(),
+                ZoneId.of("US/Pacific"));
         Assert.assertEquals(
                 "First exception correct hour",
                 9,
-                c.get(Calendar.HOUR));
+                ldt.getHour());
 
         d = r.getException(1).getDescription().trim();
         Assert.assertEquals("correct app desc", "This is the one at 10", d);
 
-        c = PSTObject.apptTimeToCalendar(
-                r.getException(1).getStartDateTime());
+        ldt = LocalDateTime.ofInstant(
+                r.getException(1).getStartDate().toInstant(),
+                ZoneId.of("US/Pacific"));
         Assert.assertEquals(
                 "Second exception correct hour",
                 10,
-                c.get(Calendar.HOUR));
+                ldt.getHour());
 
         //System.out.println(r.getExceptionCount());
         //System.out.println(r.getException(0).getDTStamp());

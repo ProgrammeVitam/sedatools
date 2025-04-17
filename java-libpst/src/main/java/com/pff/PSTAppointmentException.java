@@ -35,27 +35,62 @@
 package com.pff;
 
 import java.io.UnsupportedEncodingException;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.pff.PSTAppointment.apptTimeToUTCDate;
 
 /**
  * Class containing information on exceptions to a recurring appointment
  * 
  * @author Orin Eman
  *
- *
+ * Improved using Microsoft document [MS-OXOCAL]: Appointment and Meeting Object Protocol
+ * https://docs.microsoft.com/en-us/openspecs/exchange_server_protocols/ms-oxocal/09861fde-c8e4-4028-9346-e7c214cfdba1
+ * @author Jean-Severin Lair
  */
 public class PSTAppointmentException {
+
+    // Override flags
+    static final short ARO_SUBJECT = 0x0001;
+    static final short ARO_MEETINGTYPE = 0x0002;
+    static final short ARO_REMINDERDELTA = 0x0004;
+    static final short ARO_REMINDER = 0x0008;
+    static final short ARO_LOCATION = 0x0010;
+    static final short ARO_BUSYSTATUS = 0x0020;
+    static final short ARO_ATTACHMENT = 0x0040;
+    static final short ARO_SUBTYPE = 0x0080;
+    static final short ARO_APPTCOLOR = 0x0100;
+
+    private final short OverrideFlags;
+
+    private String Subject;
+    private int MeetingType;
+    private int ReminderDelta;
+    private boolean ReminderSet;
+    private String Location;
+    private int BusyStatus;
+    private int Attachment;
+    private boolean SubType;
+    private int AppointmentColor;
+
+    private final int writerVersion2;
+    private Date StartDate;
+    private Date EndDate;
+    private Date OriginalStartDate;
+
+    private int ChangeHighlightValue=-1;
+    private PSTAppointment embeddedMessage = null;
+    private final PSTAppointment appt;
+    private final int length;
+    private int extendedLength;
 
     // Access methods - return the value from the exception if
     // OverrideFlags say it's present, otherwise the value from the appointment.
     public String getSubject() {
         if ((this.OverrideFlags & 0x0001) != 0) {
-            try {
-                return new String(this.WideCharSubject, "UTF-16LE");
-            } catch (final UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            return Subject;
         }
 
         return this.appt.getSubject();
@@ -87,11 +122,7 @@ public class PSTAppointmentException {
 
     public String getLocation() {
         if ((this.OverrideFlags & 0x0010) != 0) {
-            try {
-                return new String(this.WideCharLocation, "UTF-16LE");
-            } catch (final UnsupportedEncodingException e) {
-                e.printStackTrace();
-            }
+            return Location;
         }
 
         return this.appt.getLocation();
@@ -105,12 +136,32 @@ public class PSTAppointmentException {
         return this.appt.getBusyStatus();
     }
 
+    public boolean isAttachmentsPresent() {
+        if ((this.OverrideFlags & 0x0040) != 0 && this.Attachment == 0x00000001) {
+            return true;
+        }
+
+        return false;
+    }
+
     public boolean getSubType() {
         if ((this.OverrideFlags & 0x0080) != 0) {
             return this.SubType;
         }
 
         return this.appt.getSubType();
+    }
+
+    public int getColor() {
+        if ((this.OverrideFlags & ARO_APPTCOLOR) != 0) {
+            return this.AppointmentColor;
+        }
+
+        return this.appt.getColor();
+    }
+
+    public int getChangeHighlightValue() {
+        return ChangeHighlightValue;
     }
 
     public String getDescription() {
@@ -136,57 +187,19 @@ public class PSTAppointmentException {
         return ret;
     }
 
-    public int getStartDateTime() {
-        return this.StartDateTime;
+    public Date getStartDate() {
+        return this.StartDate;
     }
 
-    public int getEndDateTime() {
-        return this.EndDateTime;
+    public Date getEndDate() {
+        return this.EndDate;
     }
 
-    public int getOriginalStartDate() {
+    public Date getOriginalStartDate() {
         return this.OriginalStartDate;
     }
 
-    public int getAppointmentSequence(final int def) {
-        if (this.embeddedMessage == null) {
-            return def;
-        }
-        return this.embeddedMessage.getAppointmentSequence();
-    }
-
-    public int getImportance(final int def) {
-        if (this.embeddedMessage == null) {
-            return def;
-        }
-        return this.embeddedMessage.getImportance();
-    }
-
-    public byte[] getSubjectBytes() {
-        if ((this.OverrideFlags & 0x0010) != 0) {
-            return this.Subject;
-        }
-
-        return null;
-    }
-
-    public byte[] getLocationBytes() {
-        if ((this.OverrideFlags & 0x0010) != 0) {
-            return this.Location;
-        }
-
-        return null;
-    }
-
-    public boolean attachmentsPresent() {
-        if ((this.OverrideFlags & 0x0040) != 0 && this.Attachment == 0x00000001) {
-            return true;
-        }
-
-        return false;
-    }
-
-    public boolean embeddedMessagePresent() {
+    public boolean isEmbeddedMessagePresent() {
         return this.embeddedMessage != null;
     }
 
@@ -205,26 +218,30 @@ public class PSTAppointmentException {
         this.appt = appt;
         this.embeddedMessage = null;
 
-        this.StartDateTime = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
+        PSTTimeZone tz=appt.getRecurrenceTimeZone();
+        // time in minutes from 1/1/1601 but local, converted to UTC time zone reference of the original appointment start
+        this.StartDate = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),tz);
         offset += 4;
-        this.EndDateTime = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
+        // time in minutes from 1/1/1601, converted to UTC time zone reference of the original appointment end
+        this.EndDate = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),tz);
         offset += 4;
-        this.OriginalStartDate = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
+        // time in minutes from 1/1/1601 but local, converted to UTC time zone reference of the original appointment start
+        this.OriginalStartDate=apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),tz);
         offset += 4;
         this.OverrideFlags = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 2);
         offset += 2;
 
         if ((this.OverrideFlags & ARO_SUBJECT) != 0) {
-            // @SuppressWarnings("unused")
-            // short SubjectLength =
-            // (short)PSTObject.convertLittleEndianBytesToLong(recurrencePattern,
-            // offset, offset+2);
             offset += 2;
             final short SubjectLength2 = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
                 offset + 2);
             offset += 2;
-            this.Subject = new byte[SubjectLength2];
-            System.arraycopy(recurrencePattern, offset, this.Subject, 0, SubjectLength2);
+            byte [] tmp = new byte[SubjectLength2];
+            System.arraycopy(recurrencePattern, offset, tmp, 0, SubjectLength2);
+            try {
+                Subject=new String(tmp, "UTF-16LE");
+            } catch (UnsupportedEncodingException ignored) {
+            }
             offset += SubjectLength2;
         }
 
@@ -245,16 +262,16 @@ public class PSTAppointmentException {
         }
 
         if ((this.OverrideFlags & ARO_LOCATION) != 0) {
-            // @SuppressWarnings("unused")
-            // short LocationLength =
-            // (short)PSTObject.convertLittleEndianBytesToLong(recurrencePattern,
-            // offset, offset+2);
             offset += 2;
             final short LocationLength2 = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
                 offset + 2);
             offset += 2;
-            this.Location = new byte[LocationLength2];
-            System.arraycopy(recurrencePattern, offset, this.Location, 0, LocationLength2);
+            byte [] tmp = new byte[LocationLength2];
+            System.arraycopy(recurrencePattern, offset, tmp, 0, LocationLength2);
+            try {
+                Location=new String(tmp, "UTF-16LE");
+            } catch (UnsupportedEncodingException ignored) {
+            }
             offset += LocationLength2;
         }
 
@@ -270,6 +287,11 @@ public class PSTAppointmentException {
 
         if ((this.OverrideFlags & ARO_SUBTYPE) != 0) {
             this.SubType = ((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4) != 0);
+            offset += 4;
+        }
+
+        if ((this.OverrideFlags & ARO_APPTCOLOR) != 0) {
+            this.AppointmentColor = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
             offset += 4;
         }
 
@@ -293,41 +315,43 @@ public class PSTAppointmentException {
 
         // See http://msdn.microsoft.com/en-us/library/cc979209(office.12).aspx
         if ((this.OverrideFlags & (ARO_SUBJECT | ARO_LOCATION)) != 0) {
-            // Same as regular Exception structure?
-            this.StartDateTime = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
+            long tzoffset;
+            PSTTimeZone tz=appt.getRecurrenceTimeZone();
+            // time in minutes from 1/1/1601 but local, converted to same time zone reference than the original appointment start
+            this.StartDate = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),tz);
             offset += 4;
-            this.EndDateTime = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
+            // time in minutes from 1/1/1601, converted to same time zone reference than the original appointment end
+            this.EndDate = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),tz);
             offset += 4;
-            this.OriginalStartDate = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                offset + 4);
+            // time in minutes from 1/1/1601 but local, converted to same time zone reference than the original appointment start
+            this.OriginalStartDate=apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),tz);
             offset += 4;
         }
 
         if ((this.OverrideFlags & ARO_SUBJECT) != 0) {
-            this.WideCharSubjectLength = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
+            int WideCharSubjectCharLength = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
                 offset + 2);
             offset += 2;
-            this.WideCharSubject = new byte[this.WideCharSubjectLength * 2];
-            System.arraycopy(recurrencePattern, offset, this.WideCharSubject, 0, this.WideCharSubject.length);
-            offset += this.WideCharSubject.length;
-            /*
-             * try {
-             * String subject = new String(WideCharSubject, "UTF-16LE");
-             * System.out.printf("Exception Subject: %s\n", subject);
-             * } catch (UnsupportedEncodingException e) {
-             * e.printStackTrace();
-             * }
-             * /
-             **/
+            byte [] WideCharSubject = new byte[WideCharSubjectCharLength * 2];
+            System.arraycopy(recurrencePattern, offset, WideCharSubject, 0, WideCharSubject.length);
+            try {
+                Subject=new String(WideCharSubject, "UTF-16LE");
+            } catch (UnsupportedEncodingException ignored) {
+            }
+            offset += WideCharSubject.length;
         }
 
         if ((this.OverrideFlags & ARO_LOCATION) != 0) {
-            this.WideCharLocationLength = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
+            int WideCharLocationCharLength = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
                 offset + 2);
             offset += 2;
-            this.WideCharLocation = new byte[this.WideCharLocationLength * 2];
-            System.arraycopy(recurrencePattern, offset, this.WideCharLocation, 0, this.WideCharLocation.length);
-            offset += this.WideCharLocation.length;
+            byte [] WideCharLocation = new byte[WideCharLocationCharLength * 2];
+            System.arraycopy(recurrencePattern, offset, WideCharLocation, 0, WideCharLocation.length);
+            try {
+                Location=new String(WideCharLocation, "UTF-16LE");
+            } catch (UnsupportedEncodingException ignored) {
+            }
+            offset += WideCharLocation.length;
         }
 
         // See http://msdn.microsoft.com/en-us/library/cc979209(office.12).aspx
@@ -343,31 +367,6 @@ public class PSTAppointmentException {
         this.embeddedMessage = embeddedMessage;
     }
 
-    private final int writerVersion2;
-    private int StartDateTime;
-    private int EndDateTime;
-    private int OriginalStartDate;
-    private final short OverrideFlags;
-    private byte[] Subject = null;
-    private int MeetingType;
-    private int ReminderDelta;
-    private boolean ReminderSet;
-    private byte[] Location = null;
-    private int BusyStatus;
-    private int Attachment;
-    private boolean SubType;
-    // private int AppointmentColor; // Reserved - don't read from the PST file
-    @SuppressWarnings("unused")
-    private int ChangeHighlightValue;
-    private int WideCharSubjectLength = 0;
-    private byte[] WideCharSubject = null;
-    private int WideCharLocationLength = 0;
-    private byte[] WideCharLocation = null;
-    private PSTAppointment embeddedMessage = null;
-    private final PSTAppointment appt;
-    private final int length;
-    private int extendedLength;
-
     // Length of this ExceptionInfo structure in the PST file
     int getLength() {
         return this.length;
@@ -378,12 +377,33 @@ public class PSTAppointmentException {
         return this.extendedLength;
     }
 
-    static final short ARO_SUBJECT = 0x0001;
-    static final short ARO_MEETINGTYPE = 0x0002;
-    static final short ARO_REMINDERDELTA = 0x0004;
-    static final short ARO_REMINDER = 0x0008;
-    static final short ARO_LOCATION = 0x0010;
-    static final short ARO_BUSYSTATUS = 0x0020;
-    static final short ARO_ATTACHMENT = 0x0040;
-    static final short ARO_SUBTYPE = 0x0080;
+    static DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+
+    @Override
+    public String toString(){
+        String result="      OverrideFlags:"+Integer.toHexString(OverrideFlags)+"\n";
+
+        if ((OverrideFlags & ARO_SUBJECT)!=0)
+            result+="      Changed Subject: "+getSubject()+"\n";
+        if ((OverrideFlags & ARO_MEETINGTYPE)!=0)
+            result+="      Changed MeetingType: "+getMeetingType()+"\n";
+        if ((OverrideFlags & ARO_REMINDER)!=0)
+            result+="      Changed Reminder: "+getReminderSet()+"\n";
+        if ((OverrideFlags & ARO_REMINDERDELTA)!=0)
+            result+="      Changed ReminderDelta: "+getReminderDelta()+"\n";
+        if ((OverrideFlags & ARO_LOCATION)!=0)
+            result+="      Changed Location: "+getLocation()+"\n";
+        if ((OverrideFlags & ARO_BUSYSTATUS)!=0)
+            result+="      Changed BusyStatus: "+getBusyStatus()+"\n";
+        if ((OverrideFlags & ARO_SUBTYPE)!=0)
+            result+="      Changed SubType: "+getSubType()+"\n";
+        if ((OverrideFlags & ARO_APPTCOLOR)!=0)
+            result+="      Changed ApptColor: "+getColor()+"\n";
+        result+="      StartDate: "+getStartDate()+"\n";
+        result+="      EndDate: "+getEndDate()+"\n";
+        result+="      StartOriginalDate: "+getOriginalStartDate()+"\n";
+        if (isEmbeddedMessagePresent())
+            result+="      ChangedAppointment:\n        "+getEmbeddedMessage().toString().replaceAll("\\n","\n        ");
+        return result;
+    }
 }

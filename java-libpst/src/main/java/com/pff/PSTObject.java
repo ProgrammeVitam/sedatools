@@ -34,12 +34,7 @@
 package com.pff;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Set;
+import java.util.*;
 
 /**
  * PST Object is the root class of all PST Items.
@@ -1111,7 +1106,7 @@ public class PSTObject {
      * operating system is the modern one? :-))
      * </p>
      */
-    private static final long EPOCH_DIFF = 11644473600000L;
+    protected static final long EPOCH_DIFF = 11644473600000L;
 
     /**
      * <p>
@@ -1133,52 +1128,5 @@ public class PSTObject {
         final long ms_since_16010101 = filetime / (1000 * 10);
         final long ms_since_19700101 = ms_since_16010101 - EPOCH_DIFF;
         return new Date(ms_since_19700101);
-    }
-
-    /**
-     * Appt time to calendar calendar.
-     *
-     * @param minutes the minutes
-     * @return the calendar
-     */
-    public static Calendar apptTimeToCalendar(final int minutes) {
-        final long ms_since_16010101 = minutes * (60 * 1000L);
-        final long ms_since_19700101 = ms_since_16010101 - EPOCH_DIFF;
-        final Calendar c = Calendar.getInstance(PSTTimeZone.utcTimeZone);
-        c.setTimeInMillis(ms_since_19700101);
-        return c;
-    }
-
-    /**
-     * Appt time to utc calendar.
-     *
-     * @param minutes the minutes
-     * @param tz      the tz
-     * @return the calendar
-     */
-    public static Calendar apptTimeToUTC(final int minutes, final PSTTimeZone tz) {
-        // Must convert minutes since 1/1/1601 in local time to UTC
-        // There's got to be a better way of doing this...
-        // First get a UTC calendar object that contains _local time_
-        final Calendar cUTC = PSTObject.apptTimeToCalendar(minutes);
-        if (tz != null) {
-            // Create an empty Calendar object with the required time zone
-            final Calendar cLocal = Calendar.getInstance(tz.getSimpleTimeZone());
-            cLocal.clear();
-
-            // Now transfer the local date/time from the UTC calendar object
-            // to the object that knows about the time zone...
-            cLocal.set(cUTC.get(Calendar.YEAR), cUTC.get(Calendar.MONTH), cUTC.get(Calendar.DATE),
-                cUTC.get(Calendar.HOUR_OF_DAY), cUTC.get(Calendar.MINUTE), cUTC.get(Calendar.SECOND));
-
-            // Get the true UTC from the local time calendar object.
-            // Drop any milliseconds, they won't be printed anyway!
-            final long utcs = cLocal.getTimeInMillis() / 1000;
-
-            // Finally, set the true UTC in the UTC calendar object
-            cUTC.setTimeInMillis(utcs * 1000);
-        } // else hope for the best!
-
-        return cUTC;
     }
 }
