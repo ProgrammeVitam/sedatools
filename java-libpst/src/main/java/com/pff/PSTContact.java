@@ -1,35 +1,34 @@
 /**
  * Copyright 2010 Richard Johnson & Orin Eman
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
+ * <p>
  * ---
- *
+ * <p>
  * This file is part of java-libpst.
- *
+ * <p>
  * java-libpst is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * <p>
  * java-libpst is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Lesser General Public License for more details.
- *
+ * <p>
  * You should have received a copy of the GNU Lesser General Public License
  * along with java-libpst. If not, see <http://www.gnu.org/licenses/>.
- *
  */
 package com.pff;
 
@@ -53,7 +52,7 @@ public class PSTContact extends PSTMessage {
      * @throws IOException  the io exception
      */
     public PSTContact(final PSTFile theFile, final DescriptorIndexNode descriptorIndexNode)
-        throws PSTException, IOException {
+            throws PSTException, IOException {
         super(theFile, descriptorIndexNode);
     }
 
@@ -66,7 +65,7 @@ public class PSTContact extends PSTMessage {
      * @param localDescriptorItems the local descriptor items
      */
     public PSTContact(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+                      final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -1081,55 +1080,99 @@ public class PSTContact extends PSTMessage {
     @Override
     public String toString() {
 
-        return "Contact's Account name: " + this.getAccount() + "\n" + "Display Name: " + this.getGivenName() + " "
-            + this.getSurname() + " (" + this.getSMTPAddress() + ")\n" + "Email1 Address Type: "
-            + this.getEmail1AddressType() + "\n" + "Email1 Address: " + this.getEmail1EmailAddress() + "\n"
-            + "Callback telephone number: " + this.getCallbackTelephoneNumber() + "\n"
-            + "Contact's generational abbreviation (name suffix): " + this.getGeneration() + "\n"
-            + "Contacts given name: " + this.getGivenName() + "\n" + "Contacts Government ID Number: "
-            + this.getGovernmentIdNumber() + "\n" + "Business/Office Telephone Number: "
-            + this.getBusinessTelephoneNumber() + "\n" + "Home Telephone Number: " + this.getHomeTelephoneNumber()
-            + "\n" + "Contacts initials: " + this.getInitials() + "\n" + "Keyword: " + this.getKeyword() + "\n"
-            + "Contact's language: " + this.getLanguage() + "\n" + "Contact's location: " + this.getLocation() + "\n"
-            + "MHS Common Name: " + this.getMhsCommonName() + "\n" + "Organizational identification number: "
-            + this.getOrganizationalIdNumber() + "\n" + "Contact's surname  (Last name): " + this.getSurname() + "\n"
-            + "Original display name: " + this.getOriginalDisplayName() + "\n" + "Default Postal Address: "
-            + this.getPostalAddress() + "\n" + "Contact's company name: " + this.getCompanyName() + "\n"
-            + "Contact's job title (Profession): " + this.getTitle() + "\n"
-            + "Contact's department name  Used in contact ite: " + this.getDepartmentName() + "\n"
-            + "Contact's office location: " + this.getOfficeLocation() + "\n" + "Primary Telephone: "
-            + this.getPrimaryTelephoneNumber() + "\n" + "Contact's secondary office (business) phone number: "
-            + this.getBusiness2TelephoneNumber() + "\n" + "Mobile Phone Number: " + this.getMobileTelephoneNumber()
-            + "\n" + "Radio Phone Number: " + this.getRadioTelephoneNumber() + "\n" + "Car Phone Number: "
-            + this.getCarTelephoneNumber() + "\n" + "Other Phone Number: " + this.getOtherTelephoneNumber() + "\n"
-            + "Transmittable display name: " + this.getTransmittableDisplayName() + "\n" + "Pager Phone Number: "
-            + this.getPagerTelephoneNumber() + "\n" + "Primary Fax Number: " + this.getPrimaryFaxNumber() + "\n"
-            + "Contact's office (business) fax numbe: " + this.getBusinessFaxNumber() + "\n"
-            + "Contact's home fax number: " + this.getHomeFaxNumber() + "\n" + "Business Address Country: "
-            + this.getBusinessAddressCountry() + "\n" + "Business Address City: " + this.getBusinessAddressCity() + "\n"
-            + "Business Address State: " + this.getBusinessAddressStateOrProvince() + "\n" + "Business Address Street: "
-            + this.getBusinessAddressStreet() + "\n" + "Business Postal Code: " + this.getBusinessPostalCode() + "\n"
-            + "Business PO Box: " + this.getBusinessPoBox() + "\n" + "Telex Number: " + this.getTelexNumber() + "\n"
-            + "ISDN Number: " + this.getIsdnNumber() + "\n" + "Assistant Phone Number: "
-            + this.getAssistantTelephoneNumber() + "\n" + "Home Phone 2: " + this.getHome2TelephoneNumber() + "\n"
-            + "Assistant's Name: " + this.getAssistant() + "\n" + "Hobbies: " + this.getHobbies() + "\n"
-            + "Middle Name: " + this.getMiddleName() + "\n" + "Display Name Prefix (Contact Title): "
-            + this.getDisplayNamePrefix() + "\n" + "Profession: " + this.getProfession() + "\n" + "Preferred By Name: "
-            + this.getPreferredByName() + "\n" + "Spouse's Name: " + this.getSpouseName() + "\n"
-            + "Computer Network Name: " + this.getComputerNetworkName() + "\n" + "Customer ID: " + this.getCustomerId()
-            + "\n" + "TTY/TDD Phone: " + this.getTtytddPhoneNumber() + "\n" + "Ftp Site: " + this.getFtpSite() + "\n"
-            + "Manager's Name: " + this.getManagerName() + "\n" + "Nickname: " + this.getNickname() + "\n"
-            + "Personal Home Page: " + this.getPersonalHomePage() + "\n" + "Business Home Page: "
-            + this.getBusinessHomePage() + "\n" + "Company Main Phone: " + this.getCompanyMainPhoneNumber() + "\n"
-            + "Childrens names: " + this.getChildrensNames() + "\n" + "Home Address City: " + this.getHomeAddressCity()
-            + "\n" + "Home Address Country: " + this.getHomeAddressCountry() + "\n" + "Home Address Postal Code: "
-            + this.getHomeAddressPostalCode() + "\n" + "Home Address State or Province: "
-            + this.getHomeAddressStateOrProvince() + "\n" + "Home Address Street: " + this.getHomeAddressStreet() + "\n"
-            + "Home Address Post Office Box: " + this.getHomeAddressPostOfficeBox() + "\n" + "Other Address City: "
-            + this.getOtherAddressCity() + "\n" + "Other Address Country: " + this.getOtherAddressCountry() + "\n"
-            + "Other Address Postal Code: " + this.getOtherAddressPostalCode() + "\n" + "Other Address State: "
-            + this.getOtherAddressStateOrProvince() + "\n" + "Other Address Street: " + this.getOtherAddressStreet()
-            + "\n" + "Other Address Post Office box: " + this.getOtherAddressPostOfficeBox() + "\n" + "\n"
-            + this.getBody();
+        String result = "Name:\n  Account name: " + this.getAccount()
+                + "\n  Display Name: " + this.getDisplayName()
+                + "\n  Display Name Prefix (Contact Title): " + this.getDisplayNamePrefix()
+                + "\n  Given name (First name): " + this.getGivenName()
+                + "\n  Middle Name: " + this.getMiddleName() + "\n  Surname  (Last name): " + this.getSurname()
+                + "\n  Generational abbreviation (name suffix): " + this.getGeneration()
+                + "\n  Initials: " + this.getInitials()
+                + "\n  Original display name: " + this.getOriginalDisplayName()
+                + "\n  Transmittable display name: " + this.getTransmittableDisplayName()
+                + "\n  Nickname: " + this.getNickname() + "\n";
+
+        result += "Elecronic Addresses:\n  SMTP: " + this.getSMTPAddress()
+                + "\n  Email1:\n    Address Type: " + this.getEmail1AddressType()
+                + "\n    Original Display Name: " + this.getEmail1OriginalDisplayName()
+                + "\n    Address: " + this.getEmail1EmailAddress()
+                + "\n  Email2:\n    Address Type: " + this.getEmail2AddressType()
+                + "\n    Original Display Name: " + this.getEmail2OriginalDisplayName()
+                + "\n    Address: " + this.getEmail2EmailAddress()
+                + "\n  Email3:\n    Address Type: " + this.getEmail3AddressType()
+                + "\n    Original Display Name: " + this.getEmail3OriginalDisplayName()
+                + "\n    Address: " + this.getEmail3EmailAddress() + "\n";
+
+        result += "Business:\n  Company Name: " + this.getCompanyName()
+                + "\n  Job title: " + this.getTitle()
+                + "\n  Department name: " + this.getDepartmentName()
+                + "\n  Profession: " + this.getProfession()
+                + "\n  Assistant's Name: " + this.getAssistant()
+                + "\n  Assistant Phone Number: " + this.getAssistantTelephoneNumber()
+                + "\n  Manager's Name: " + this.getManagerName() + "\n";
+
+        result += "Call numbers:\n  Primary Telephone: " + this.getPrimaryTelephoneNumber()
+                + "\n  Business/Office Telephone Number: " + this.getBusinessTelephoneNumber()
+                + "\n  Company Main Phone Number: " + this.getCompanyMainPhoneNumber()
+                + "\n  Home Telephone Number: " + this.getHomeTelephoneNumber()
+                + "\n  Home Telephone Number 2: " + this.getHome2TelephoneNumber()
+                + "\n  Secondary office (business) Telephone number: " + this.getBusiness2TelephoneNumber()
+                + "\n  Mobile Telephone Number: " + this.getMobileTelephoneNumber()
+                + "\n  Callback Telephone Number: " + this.getCallbackTelephoneNumber()
+                + "\n  Radio Telephone Number: " + this.getRadioTelephoneNumber()
+                + "\n  Car Telephone Number: " + this.getCarTelephoneNumber()
+                + "\n  Pager Telephone Number: " + this.getPagerTelephoneNumber()
+                + "\n  Primary Fax Number: " + this.getPrimaryFaxNumber()
+                + "\n  Office (business) fax number: " + this.getBusinessFaxNumber()
+                + "\n  Home fax number: " + this.getHomeFaxNumber()
+                + "\n  Telex Number: " + this.getTelexNumber()
+                + "\n  ISDN Number: " + this.getIsdnNumber()
+                + "\n  TTY/TDD Phone: " + this.getTtytddPhoneNumber()
+                + "\n  Other Telephone Number: " + this.getOtherTelephoneNumber() + "\n";
+
+        result += "Addresses:\n  Default: " + this.getPostalAddress()
+                + "\n  Business:"
+                + "\n    Office location: " + this.getOfficeLocation()
+                + "\n    Business Address Street: " + this.getBusinessAddressStreet()
+                + "\n    Business Postal Code: " + this.getBusinessPostalCode()
+                + "\n    Business Address City: " + this.getBusinessAddressCity()
+                + "\n    Business Address State: " + this.getBusinessAddressStateOrProvince()
+                + "\n    Business Address Country: " + this.getBusinessAddressCountry()
+                + "\n    Business PO Box: " + this.getBusinessPoBox()
+                + "\n  Home:"
+                + "\n    Location: " + this.getLocation()
+                + "\n    Home Address Street: " + this.getHomeAddressStreet()
+                + "\n    Home Postal Code: " + this.getHomeAddressPostalCode()
+                + "\n    Home Address City: " + this.getHomeAddressCity()
+                + "\n    Home Address State: " + this.getHomeAddressStateOrProvince()
+                + "\n    Home Address Country: " + this.getHomeAddressCountry()
+                + "\n    Home PO Box: " + this.getHomeAddressPostOfficeBox()
+                + "\n  Other:"
+                + "\n    Other Address Street: " + this.getOtherAddressStreet()
+                + "\n    Other Postal Code: " + this.getOtherAddressPostalCode()
+                + "\n    Other Address City: " + this.getOtherAddressCity()
+                + "\n    Other Address State: " + this.getOtherAddressStateOrProvince()
+                + "\n    Other Address Country: " + this.getOtherAddressCountry()
+                + "\n    Other PO Box: " + this.getOtherAddressPostOfficeBox() + "\n";
+
+        result += "IDs:\n  Government ID Number: " + this.getGovernmentIdNumber()
+                + "\n  Organizational ID number: " + this.getOrganizationalIdNumber()
+                + "\n  Customer ID: " + this.getCustomerId() + "\n";
+
+        result += "Misc\n  Keyword: " + this.getKeyword()
+                + "\n  Contact's language: " + this.getLanguage()
+                + "\n  MHS Common Name: " + this.getMhsCommonName()
+                + "\n  Hobbies: " + this.getHobbies()
+                + "\n  Preferred By Name: " + this.getPreferredByName()
+                + "\n  Spouse's Name: " + this.getSpouseName()
+                + "\n  Childrens names: " + this.getChildrensNames()
+                + "\n  Computer Network Name: " + this.getComputerNetworkName()
+                + "\n  Ftp Site: " + this.getFtpSite()
+                + "\n  Personal Home Page: " + this.getPersonalHomePage()
+                + "\n  Business Home Page: " + this.getBusinessHomePage() + "\n";
+
+        if ((this.getBody() != null) && !(this.getBody().isEmpty()))
+            result += "Body:\n" + this.getBody();
+
+        return result;
     }
 }
