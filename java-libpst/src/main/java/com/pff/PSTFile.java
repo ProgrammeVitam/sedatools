@@ -1032,4 +1032,13 @@ public class PSTFile {
         this.in.close();
     }
 
+    static private boolean printErrors=true;
+
+    static public boolean isPrintErrors() {
+        return printErrors;
+    }
+
+    static public void setPrintErrors(boolean printErrors) {
+        PSTFile.printErrors=printErrors;
+    }
 }

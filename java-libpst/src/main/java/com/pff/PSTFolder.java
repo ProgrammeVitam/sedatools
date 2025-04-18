@@ -203,7 +203,8 @@ public class PSTFolder extends PSTObject {
                 }
             }
 
-            System.err.println("Can't get children for folder " + this.getDisplayName() + "("
+            if (PSTFile.isPrintErrors())
+                System.err.println("Can't get children for folder " + this.getDisplayName() + "("
                 + this.getDescriptorNodeId() + ") child count: " + this.getContentCount() + " - " + err.toString()
                 + ", using alternate child tree with " + this.fallbackEmailsTable.size() + " items");
         }

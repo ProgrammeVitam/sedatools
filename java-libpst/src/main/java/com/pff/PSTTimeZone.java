@@ -73,7 +73,8 @@ public class PSTTimeZone {
                 ruleOffset += 66;
             }
         } catch (final Exception e) {
-            System.err.printf("Exception reading timezone: %s\n", e.toString());
+            if (PSTFile.isPrintErrors())
+                System.err.printf("Exception reading timezone: %s\n", e.toString());
             e.printStackTrace();
             this.rule = null;
             this.name = "";
@@ -87,7 +88,8 @@ public class PSTTimeZone {
         try {
             this.rule = new TZRule(new SYSTEMTIME(), timeZoneData, 0);
         } catch (final Exception e) {
-            System.err.printf("Exception reading timezone: %s\n", e.toString());
+            if (PSTFile.isPrintErrors())
+                System.err.printf("Exception reading timezone: %s\n", e.toString());
             e.printStackTrace();
             this.rule = null;
             name = "";
@@ -145,7 +147,8 @@ public class PSTTimeZone {
                 return true;
             }
 
-            System.err.printf("Warning: different timezones with the same name: %s\n", this.name);
+            if (PSTFile.isPrintErrors())
+                System.err.printf("Warning: different timezones with the same name: %s\n", this.name);
         }
         return false;
     }

@@ -98,6 +98,7 @@ public class PstStoreExtractor extends StoreExtractor {
         }
 
         pstFile.setGlobalCodepage(options.defaultCharsetName);
+        PSTFile.setPrintErrors(logger.getDebugFlag());
 
         ArchiveUnit rootNode = new ArchiveUnit(this, destRootPath, destName);
         PstStoreFolder lPRootMailBoxFolder;
