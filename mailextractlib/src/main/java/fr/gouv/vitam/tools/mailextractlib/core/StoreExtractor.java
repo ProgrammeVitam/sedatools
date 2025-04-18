@@ -1006,24 +1006,18 @@ public abstract class StoreExtractor {
 
         start = Instant.now();
 
+        int memProgressLogLevel=logger.getProgressLogLevel();
+        logger.setProgressLogLevel(GLOBAL);
         writeTargetLog();
         doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: listing begin", null);
 
         rootStoreFolder.listFolder(stats);
 
         end = Instant.now();
-        System.out.println("--------------------------------------------------------------------------------");
-
-        d = Duration.between(start, end);
-        time = String.format("%dm%02ds", d.toMinutes(), d.minusMinutes(d.toMinutes()).getSeconds());
-        tmp = String.format("mailextractlib: terminated in %s listing %d folders", time, getElementCounter(StoreFolder.class, false));
-        if (stats) {
-            tmp += String.format(" with %s messages, for %.2f MBytes",
-                    Integer.toString(getElementCounter(StoreMessage.class, false)), ((double) getTotalRawSize()) / (1024.0 * 1024.0));
-        }
-
-        doProgressLog(logger, MailExtractProgressLogger.GLOBAL, tmp, null);
-        System.out.println(tmp);
+        String summary = "Terminated in " + getSummary();
+        doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: " + summary, null);
+        System.out.println(summary);
+        logger.setProgressLogLevel(memProgressLogLevel);
     }
 
     /**

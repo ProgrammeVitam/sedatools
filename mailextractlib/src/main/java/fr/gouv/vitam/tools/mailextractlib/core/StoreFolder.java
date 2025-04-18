@@ -32,6 +32,7 @@ import fr.gouv.vitam.tools.mailextractlib.utils.DateRange;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
+import java.nio.file.FileSystems;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -285,12 +286,12 @@ public abstract class StoreFolder {
      * never dropped, .
      *
      * @param writeFlag the write flag
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     public void extractFolderAsRoot(boolean writeFlag) throws MailExtractLibException, InterruptedException {
         // log process on folder
-        logFolder("mailextractlib: extract folder /");
+        logFolder("mailextractlib: extract folder " + FileSystems.getDefault().getSeparator());
         // extract all elements in the folder to the unit directory
         extractFolderElements(writeFlag);
         // extract all subfolders in the folder to the unit directory
@@ -319,14 +320,14 @@ public abstract class StoreFolder {
      * @param level     distance from the root folder (used for drop options)
      * @param writeFlag the write flag
      * @return true, if not empty
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     public boolean extractFolder(int level, boolean writeFlag) throws MailExtractLibException, InterruptedException {
         boolean result = false;
 
         // log process on folder
-        logFolder("mailextractlib: extract folder /" + getFullName());
+        logFolder("mailextractlib: extract folder " + FileSystems.getDefault().getSeparator() + getFullName());
 
         // extract all elements in the folder to the unit directory
         extractFolderElements(writeFlag);
@@ -349,7 +350,7 @@ public abstract class StoreFolder {
             storeExtractor.incElementCounter(this.getClass());
             storeExtractor.addTotalRawSize(getFolderElementsRawSize());
         } else
-            logFolder("mailextractlib: empty folder " + getFullName() + " is droped");
+            logFolder("mailextractlib: empty folder " + FileSystems.getDefault().getSeparator() + getFullName() + " is droped");
         // accumulate in store extractor statistics out of recursion
 
         return result;
@@ -392,8 +393,8 @@ public abstract class StoreFolder {
      *
      * @param level     distance from the root folder (used for drop options)
      * @param writeFlag the write flag
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     protected abstract void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException, InterruptedException;
 
@@ -406,8 +407,8 @@ public abstract class StoreFolder {
      * the folder and the raw size of theese elements.
      *
      * @param stats if true, add folder statistics
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     public void listFolder(boolean stats) throws MailExtractLibException, InterruptedException {
         // define a specific name "/" for the root folder
@@ -417,17 +418,15 @@ public abstract class StoreFolder {
         if (fullName == null || fullName.isEmpty())
             fullName = "";
         // log process on folder
-        logFolder("mailextractlib: list folder /" + fullName);
         if (stats) {
             // inspect all elements in the folder for statistics
             listFolderElements(stats);
             // expose this folder statistics
-            tmp = String.format("%5d éléments   %7.2f MBytes    /%s", folderElementsCount.get(),
+            tmp = String.format("%5d éléments   %7.2f MBytes    " + FileSystems.getDefault().getSeparator() + "%s", folderElementsCount.get(),
                     ((double) folderElementsRawSize.get()) / (1024.0 * 1024.0), fullName);
-            System.out.println(tmp);
-            logFolder("mailextractlib: " + tmp);
+            doProgressLog(storeExtractor.getProgressLogger(), MailExtractProgressLogger.GLOBAL, tmp, null);
         } else {
-            System.out.println("/" + fullName);
+            doProgressLog(storeExtractor.getProgressLogger(), MailExtractProgressLogger.GLOBAL, FileSystems.getDefault().getSeparator() + fullName, null);
         }
         // extract all subfolders in the folder to the unit directory
         listSubFolders(stats);
@@ -456,8 +455,8 @@ public abstract class StoreFolder {
      * addFolderElementsRawSize}**.
      *
      * @param stats the stats
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     protected abstract void doListFolderElements(boolean stats) throws MailExtractLibException, InterruptedException;
 
@@ -467,6 +466,7 @@ public abstract class StoreFolder {
         if (hasSubfolders())
             doListSubFolders(stats);
     }
+
     /**
      * List subfolders (protocol specific).
      * <p>
@@ -474,8 +474,8 @@ public abstract class StoreFolder {
      * with {@link #incFolderSubFoldersCount incFolderSubFoldersCount}.
      *
      * @param stats the stats
-     * @throws MailExtractLibException  Any unrecoverable extraction exception (access trouble, major             format problems...)
-     * @throws InterruptedException the interrupted exception
+     * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major             format problems...)
+     * @throws InterruptedException    the interrupted exception
      */
     protected abstract void doListSubFolders(boolean stats) throws MailExtractLibException, InterruptedException;
 

@@ -90,22 +90,22 @@ public class MailExtractProgressLogger {
     /**
      * The progress log func.
      */
-    private ProgressLogFunc progressLogFunc;
+    final private ProgressLogFunc progressLogFunc;
 
     /**
      * The logger.
      */
-    private Logger logger;
+    final private Logger logger;
 
     /**
      * The number used to determine if an accumulation as to be a progress log or not.
      */
-    private int step;
+    final private int step;
 
     /**
      * The number of seconds expected between to "step" log publication.
      */
-    private int stepDuration;
+    final private int stepDuration;
 
     /**
      * The last "step" log epoch seconds.
@@ -248,6 +248,7 @@ public class MailExtractProgressLogger {
      */
     static public void doProgressLogWithoutInterruption(MailExtractProgressLogger mepl, int level, String log, Throwable e) {
         if (mepl != null) {
+            //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (mepl) {
                 if (level <= mepl.progressLogLevel) {
                     if (e != null)
@@ -307,6 +308,7 @@ public class MailExtractProgressLogger {
      */
     static public void doProgressLogOneMoreCountedObject(MailExtractProgressLogger mepl, int level, String log) throws InterruptedException {
         if (mepl != null) {
+            //noinspection SynchronizationOnLocalVariableOrMethodParameter
             synchronized (mepl) {
                 if (level <= mepl.progressLogLevel) {
                     long nowEpochSeconds = Instant.now().getEpochSecond();
@@ -366,6 +368,25 @@ public class MailExtractProgressLogger {
         return getMarker(progressLogLevel).getName();
     }
 
+
+    /**
+     * Gets the current progress log level.
+     *
+     * @return the progress log level
+     */
+    public int getProgressLogLevel() {
+        return progressLogLevel;
+    }
+
+    /**
+     * Sets the progress log level.
+     *
+     * @param progressLogLevel the new progress log level
+     */
+    public void setProgressLogLevel(int progressLogLevel) {
+        this.progressLogLevel = progressLogLevel;
+    }
+    
     private void log(int level, String message) {
         if (level <= progressLogLevel) {
             if (logger != null)
