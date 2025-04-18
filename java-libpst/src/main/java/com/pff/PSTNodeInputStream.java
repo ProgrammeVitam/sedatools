@@ -44,7 +44,7 @@ import java.util.zip.InflaterOutputStream;
 /**
  * this input stream basically "maps" an input stream on top of the random
  * access file
- * 
+ *
  * @author richard
  */
 public class PSTNodeInputStream extends InputStream {
@@ -63,6 +63,8 @@ public class PSTNodeInputStream extends InputStream {
     private boolean encrypted = false;
 
     PSTNodeInputStream(final PSTFile pstFile, final byte[] attachmentData) throws PSTException {
+        this.in = pstFile.getContentHandle();
+        this.pstFile = pstFile;
         this.allData = attachmentData;
         this.length = this.allData.length;
         this.encrypted = pstFile.getEncryptionType() == PSTFile.ENCRYPTION_TYPE_COMPRESSIBLE;
@@ -72,7 +74,9 @@ public class PSTNodeInputStream extends InputStream {
     }
 
     PSTNodeInputStream(final PSTFile pstFile, final byte[] attachmentData, final boolean encrypted)
-        throws PSTException {
+            throws PSTException {
+        this.in = pstFile.getContentHandle();
+        this.pstFile = pstFile;
         this.allData = attachmentData;
         this.encrypted = encrypted;
         this.length = this.allData.length;
@@ -114,77 +118,80 @@ public class PSTNodeInputStream extends InputStream {
         if (this.length < 4) {
             return;
         }
-        try {
-            if (this.read() == 0x78 && this.read() == 0x9c) {
-                boolean multiStreams = false;
-                if (this.indexItems.size() > 1) {
-                    final OffsetIndexItem i = this.indexItems.get(1);
-                    this.in.seek(i.fileOffset);
-                    multiStreams = (this.in.read() == 0x78 && this.in.read() == 0x9c);
-                }
-                // we are a compressed block, decompress the whole thing into a
-                // buffer
-                // and replace our contents with that.
-                // firstly, if we have blocks, use that as the length
-                final ByteArrayOutputStream outputStream = new ByteArrayOutputStream((int) this.length);
-                if (multiStreams) {
-                    int y = 0;
-                    for (final OffsetIndexItem i : this.indexItems) {
-                        final byte[] inData = new byte[i.size];
+        synchronized (in) {
+            try {
+                if (this.read() == 0x78 && this.read() == 0x9c) {
+                    boolean multiStreams = false;
+                    if (this.indexItems.size() > 1) {
+                        final OffsetIndexItem i = this.indexItems.get(1);
                         this.in.seek(i.fileOffset);
-                        this.in.readCompletely(inData);
-                        final InflaterOutputStream inflaterStream = new InflaterOutputStream(outputStream);
-                        //try {
+                        multiStreams = (this.in.read() == 0x78 && this.in.read() == 0x9c);
+                    }
+                    // we are a compressed block, decompress the whole thing into a
+                    // buffer
+                    // and replace our contents with that.
+                    // firstly, if we have blocks, use that as the length
+                    final ByteArrayOutputStream outputStream = new ByteArrayOutputStream((int) this.length);
+                    if (multiStreams) {
+                        int y = 0;
+                        for (final OffsetIndexItem i : this.indexItems) {
+                            final byte[] inData = new byte[i.size];
+                            this.in.seek(i.fileOffset);
+                            this.in.readCompletely(inData);
+                            final InflaterOutputStream inflaterStream = new InflaterOutputStream(outputStream);
+                            //try {
                             inflaterStream.write(inData);
                             inflaterStream.close();
-                        //} catch (Exception err) {
-                        //    System.out.println("Y: " + y);
-                        //    System.out.println(err);
-                        //    PSTObject.printHexFormatted(inData, true);
-                        //    System.exit(0);
-                        //}
-                        y++;
-                    }
-                    this.indexItems.clear();
-                    this.skipPoints.clear();
-                } else {
-                    int compressedLength = (int) this.length;
-                    if (this.indexItems.size() > 0) {
-                        compressedLength = 0;
-                        for (final OffsetIndexItem i : this.indexItems) {
-                            //System.out.println(i);
-                            compressedLength += i.size;
+                            //} catch (Exception err) {
+                            //    System.out.println("Y: " + y);
+                            //    System.out.println(err);
+                            //    PSTObject.printHexFormatted(inData, true);
+                            //    System.exit(0);
+                            //}
+                            y++;
                         }
-                    }
-                    final byte[] inData = new byte[compressedLength];
-                    this.seek(0);
-                    this.readCompletely(inData);
+                        this.indexItems.clear();
+                        this.skipPoints.clear();
+                    } else {
+                        int compressedLength = (int) this.length;
+                        if (this.indexItems.size() > 0) {
+                            compressedLength = 0;
+                            for (final OffsetIndexItem i : this.indexItems) {
+                                //System.out.println(i);
+                                compressedLength += i.size;
+                            }
+                        }
+                        final byte[] inData = new byte[compressedLength];
+                        this.seek(0);
+                        this.readCompletely(inData);
 
-                    final InflaterOutputStream inflaterStream = new InflaterOutputStream(outputStream);
-                    inflaterStream.write(inData);
-                    inflaterStream.close();
+                        final InflaterOutputStream inflaterStream = new InflaterOutputStream(outputStream);
+                        inflaterStream.write(inData);
+                        inflaterStream.close();
+                    }
+                    outputStream.close();
+                    final byte[] output = outputStream.toByteArray();
+                    this.allData = output;
+                    this.currentLocation = 0;
+                    this.currentBlock = 0;
+                    this.length = this.allData.length;
                 }
-                outputStream.close();
-                final byte[] output = outputStream.toByteArray();
-                this.allData = output;
-                this.currentLocation = 0;
-                this.currentBlock = 0;
-                this.length = this.allData.length;
+                this.seek(0);
+            } catch (final IOException err) {
+                throw new PSTException("Unable to decompress reportedly compressed block", err);
             }
-            this.seek(0);
-        } catch (final IOException err) {
-            throw new PSTException("Unable to decompress reportedly compressed block", err);
         }
     }
 
     private void loadFromOffsetItem(final OffsetIndexItem offsetItem) throws IOException, PSTException {
         boolean bInternal = (offsetItem.indexIdentifier & 0x02) != 0;
 
-        this.in.seek(offsetItem.fileOffset);
         final byte[] data = new byte[offsetItem.size];
-        this.in.readCompletely(data);
-        // PSTObject.printHexFormatted(data, true);
-
+        synchronized (in) {
+            this.in.seek(offsetItem.fileOffset);
+            this.in.readCompletely(data);
+            // PSTObject.printHexFormatted(data, true);
+        }
         if (bInternal) {
             // All internal blocks are at least 8 bytes long...
             if (offsetItem.size < 8) {
@@ -233,9 +240,11 @@ public class PSTNodeInputStream extends InputStream {
                 bid &= 0xfffffffe;
                 // get the details in this block and
                 final OffsetIndexItem offsetItem = this.pstFile.getOffsetIndexNode(bid);
-                this.in.seek(offsetItem.fileOffset);
                 final byte[] blockData = new byte[offsetItem.size];
-                this.in.readCompletely(blockData);
+                synchronized (in) {
+                    this.in.seek(offsetItem.fileOffset);
+                    this.in.readCompletely(blockData);
+                }
                 this.getBlockSkipPoints(blockData);
                 offset += arraySize;
             }
@@ -276,6 +285,7 @@ public class PSTNodeInputStream extends InputStream {
             return value;
         }
 
+        int output;
         OffsetIndexItem item = this.indexItems.get(this.currentBlock);
         long skipPoint = this.skipPoints.get(this.currentBlock);
         if (this.currentLocation + 1 > skipPoint + item.size) {
@@ -292,11 +302,12 @@ public class PSTNodeInputStream extends InputStream {
 
         // get the next byte.
         final long pos = (item.fileOffset + (this.currentLocation - skipPoint));
-        if (this.in.getFilePointer() != pos) {
-            this.in.seek(pos);
+        synchronized (in) {
+            if (this.in.getFilePointer() != pos) {
+                this.in.seek(pos);
+            }
+            output = this.in.read();
         }
-
-        int output = this.in.read();
         if (output < 0) {
             return -1;
         }
@@ -308,8 +319,6 @@ public class PSTNodeInputStream extends InputStream {
 
         return output;
     }
-
-    private int totalLoopCount = 0;
 
     /**
      * Read a block from the input stream, ensuring buffer is completely filled.
@@ -333,7 +342,7 @@ public class PSTNodeInputStream extends InputStream {
     /**
      * Read a block from the input stream.
      * Recommended block size = 8176 (size used internally by PSTs)
-     * 
+     *
      * @param output array to get data
      * @return read size, or -1 if end
      * @throws IOException the io exception
@@ -373,45 +382,46 @@ public class PSTNodeInputStream extends InputStream {
         boolean filled = false;
         int totalBytesFilled = 0;
         // while we still need to fill the array
-        while (!filled) {
+        synchronized (in) {
+            while (!filled) {
 
-            // fill up the output from where we are
-            // get the current block, either to the end, or until the length of
-            // the output
-            final OffsetIndexItem offset = this.indexItems.get(this.currentBlock);
-            final long skipPoint = this.skipPoints.get(this.currentBlock);
-            final int currentPosInBlock = (int) (this.currentLocation - skipPoint);
-            this.in.seek(offset.fileOffset + currentPosInBlock);
+                // fill up the output from where we are
+                // get the current block, either to the end, or until the length of
+                // the output
+                final OffsetIndexItem offset = this.indexItems.get(this.currentBlock);
+                final long skipPoint = this.skipPoints.get(this.currentBlock);
+                final int currentPosInBlock = (int) (this.currentLocation - skipPoint);
+                this.in.seek(offset.fileOffset + currentPosInBlock);
 
-            final long nextSkipPoint = skipPoint + offset.size;
-            int bytesRemaining = (output.length - totalBytesFilled);
-            // if the total bytes remaining if going to take us past our size
-            if (bytesRemaining > ((int) (this.length - this.currentLocation))) {
-                // we only have so much to give
-                bytesRemaining = (int) (this.length - this.currentLocation);
+                final long nextSkipPoint = skipPoint + offset.size;
+                int bytesRemaining = (output.length - totalBytesFilled);
+                // if the total bytes remaining if going to take us past our size
+                if (bytesRemaining > ((int) (this.length - this.currentLocation))) {
+                    // we only have so much to give
+                    bytesRemaining = (int) (this.length - this.currentLocation);
+                }
+
+                if (nextSkipPoint >= this.currentLocation + bytesRemaining) {
+                    // we can fill the output with the rest of our current block!
+                    final byte[] chunk = new byte[bytesRemaining];
+                    this.in.readCompletely(chunk);
+
+                    System.arraycopy(chunk, 0, output, totalBytesFilled, bytesRemaining);
+                    totalBytesFilled += bytesRemaining;
+                    // we are done!
+                    filled = true;
+                    this.currentLocation += bytesRemaining;
+                } else {
+                    // we need to read out a whole chunk and keep going
+                    final int bytesToRead = offset.size - currentPosInBlock;
+                    final byte[] chunk = new byte[bytesToRead];
+                    this.in.readCompletely(chunk);
+                    System.arraycopy(chunk, 0, output, totalBytesFilled, bytesToRead);
+                    totalBytesFilled += bytesToRead;
+                    this.currentBlock++;
+                    this.currentLocation += bytesToRead;
+                }
             }
-
-            if (nextSkipPoint >= this.currentLocation + bytesRemaining) {
-                // we can fill the output with the rest of our current block!
-                final byte[] chunk = new byte[bytesRemaining];
-                this.in.readCompletely(chunk);
-
-                System.arraycopy(chunk, 0, output, totalBytesFilled, bytesRemaining);
-                totalBytesFilled += bytesRemaining;
-                // we are done!
-                filled = true;
-                this.currentLocation += bytesRemaining;
-            } else {
-                // we need to read out a whole chunk and keep going
-                final int bytesToRead = offset.size - currentPosInBlock;
-                final byte[] chunk = new byte[bytesToRead];
-                this.in.readCompletely(chunk);
-                System.arraycopy(chunk, 0, output, totalBytesFilled, bytesToRead);
-                totalBytesFilled += bytesToRead;
-                this.currentBlock++;
-                this.currentLocation += bytesToRead;
-            }
-            this.totalLoopCount++;
         }
 
         // decode the array if required
@@ -456,7 +466,7 @@ public class PSTNodeInputStream extends InputStream {
 
     /**
      * Get the offsets (block positions) used in the array
-     * 
+     *
      * @return offsets (block positions)
      */
     public Long[] getBlockOffsets() {
@@ -473,22 +483,11 @@ public class PSTNodeInputStream extends InputStream {
         }
     }
 
-    /*
-     * public int[] getBlockOffsetsInts() {
-     * int[] out = new int[this.skipPoints.size()];
-     * for (int x = 0; x < this.skipPoints.size(); x++) {
-     * out[x] = this.skipPoints.get(x).intValue();
-     * }
-     * return out;
-     * }
-     *
-     */
-
     public void seek(final long location) throws IOException, PSTException {
         // not past the end!
         if (location > this.length) {
             throw new PSTException(
-                "Unable to seek past end of item! size = " + this.length + ", seeking to:" + location);
+                    "Unable to seek past end of item! size = " + this.length + ", seeking to:" + location);
         }
 
         // are we already there?
@@ -516,11 +515,12 @@ public class PSTNodeInputStream extends InputStream {
         // now move us to the right position in there
         this.currentLocation = location;
 
-        if (this.allData == null) {
-            long blockStart = this.indexItems.get(this.currentBlock).fileOffset;
-            final long newFilePos = blockStart + (location - skipPoint);
-            this.in.seek(newFilePos);
-        }
+//        Not needed as all PSTNodeInputStream read begin by a PSTFileContent.seek using currentLocation
+//        if (this.allData == null) {
+//            long blockStart = this.indexItems.get(this.currentBlock).fileOffset;
+//            final long newFilePos = blockStart + (location - skipPoint);
+//            this.in.seek(newFilePos);
+//        }
 
     }
 

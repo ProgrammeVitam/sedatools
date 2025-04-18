@@ -23,6 +23,7 @@ public class PSTRAFileContent extends PSTFileContent {
 
     @Override
     public void seek(final long index) throws IOException {
+    //    collectCallStack(); cf PSTFileContent
         this.file.seek(index);
     }
 
@@ -33,21 +34,25 @@ public class PSTRAFileContent extends PSTFileContent {
 
     @Override
     public int read() throws IOException {
+    //    collectCallStack(); cf PSTFileContent
         return this.file.read();
     }
 
     @Override
     public int read(final byte[] target) throws IOException {
+    //    collectCallStack(); cf PSTFileContent
         return this.file.read(target);
     }
 
     @Override
     public byte readByte() throws IOException {
+   //     collectCallStack(); cf PSTFileContent
         return this.file.readByte();
     }
 
     @Override
     public void close() throws IOException {
+    //    systemOutTraceLines(); cf PSTFileContent
         this.file.close();
     }
 
