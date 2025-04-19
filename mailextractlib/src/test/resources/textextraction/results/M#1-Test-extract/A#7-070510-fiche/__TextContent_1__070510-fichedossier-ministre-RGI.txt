@@ -1,0 +1,76 @@
+
+Fiche dossier ministre mai 2007
+
+N° …. 
+
+Version du 10/05/07
+
+
+Référentiel général d’interopérabilité
+
+~
+
+Choisir les standards, normes et procédures communes pour organiser la cohérence et permettre l’interopérabilité des échanges. 
+
+I) Enjeux
+
+La mise en place du référentiel général d'interopérabilité est une évolution logique et inscrite dans le paysage européen et international 
+
+· Une dynamique européenne  
+
+Dès la fin des années 90, les gouvernements européens ont investi dans le développement de la société d’information. Face à l’hétérogénéité des différentes actions menées au niveau national dans chacun des pays, l’Union Européenne a lancé successivement plusieurs plans d’action afin de mettre à la disposition des pays des ressources pour développer ce mouvement. De cette initiative est né l’« European Interoperability Framework » (EIF) qui a pour objectif de promouvoir l’interopérabilité des administrations électroniques européennes.
+
+· Une dynamique internationale
+
+Outre les états membres de l’union européenne, d’autres pays sont déjà impliqués dans la démarche engagée par la France : le Canada, l’Australie, l’Inde… d’autres se rapproche de la France, la Chine principalement sur des volets couverts par le RGI. 
+
+· Assurer l’interopérabilité entre les applications et les différentes administrations
+
+· Faciliter la collaboration entre les différents niveaux de pouvoirs publics 
+
+· Permettre la restructuration massive du service public avec ouverture d’une espace web personnel pour échanger avec l’administration 24h/24 et 7j/7 
+
+II) Objectifs & résultats DGME 
+
+Le projet de RGI a été rédigé par le pôle référentiels généraux de la DGME au premier trimestre 2006. Cette version préparatoire a fait l’objet d’une publication électronique avec appel à commentaires publics qui a duré 4 mois au total et dont les ministères et autres autorités administratives ont été prévenus soit directement soit par l’intermédiaire de leurs associations (collectivités territoriales) soit de leurs syndicats (industriels et éditeurs de logiciels). Les modalités habituelles de collecte (courrier et courriels) ont été complétées sur le site de la DGME, par un dispositif de rédaction collaborative ou « wiki » très actif (34 000 consultations d’avril à juillet mais un total de 74000 au 31 décembre réalisées par 1200 visiteurs dont 800 se sont inscrits pendant les 4 premiers mois, 1000 pages de contributions), mieux adapté pour collecter les réactions et observer les discussions à propos de chacune des 170 règles. 
+
+L’audience du projet RGI ne s’est pas limitée à la sphère administrative, au contraire. La presse spécialisée mais aussi quotidienne, s’est saisie du projet et de ses enjeux et son audience s’est élargie notamment à l’étranger grâce aux médias électroniques (5800 téléchargements pendant l’appel à commentaires, suivis de 2300 autres au cours du dernier trimestre 2006).
+
+Les partenaires ministériels ou institutionnels privés n’ont pas répondu systématiquement par une contribution officielle. Parmi les réponses des acteurs industriels de l’administration électronique, il faut citer celle de Microsoft (110 pages).
+
+La prise en compte des diverses positions
+
+L’analyse de l’ensemble des points de vue et contributions a été longue et beaucoup plus complexe que pour d’autres appels à commentaires. Elle a été complétée par plusieurs réunions et restitutions de travail avec des groupes organisés en collèges d’experts auxquels les versions intermédiaires ont été soumises. Des sessions particulières ont été organisées avec des représentants de collectivités locales ou du secteur de la santé.
+
+La procédure de validation
+
+La version préparatoire finalisée a été envoyée le 20 avril aux membres du comité du RGI désignés selon les modalités du décret du 2 mars, en vue des réunions prévues début mai et début juin. Selon ce calendrier, le texte définitif de l’arrêté de publication du RGI version 1 pourrait être présenté à la signature du premier ministre en novembre 2007, après le délai de 5 mois imposé par la consultation des autres états européens en raison de la directive 98-34 sur les normes. 
+
+III) Perspectives & propositions 2007-2010 
+
+La première action à faire au plus vite est de terminer la constitution du comité consultatif RGI, par la désignation des personnalités qualifiées par le ministre en charge de la réforme de l'Etat, et de le réunir pour obtenir la première version publiée du RGI. Ce référentiel est attendu 
+
+Pour la suite il est nécessaire d’approfondir les besoins des administrations dans les domaines sémantiques et organisationnels notamment en adéquation avec l’évolution de la dématérialisation des processus administratifs.
+
+La DGME doit être en capacité de Soutenir la stratégie de la modernisation de l’état en fournissant des services pour faciliter l’interopérabilité des services aussi bien entre administrations qu’entre administrations et usagers (Entreprises et Citoyens) au niveau national et paneuropéen. 
+
+A cet effet il est nécessaire de :
+
+· Compléter le cadre national du RGI sur les sujets/secteurs qui ne peuvent être appréhendés que dans une démarche purement nationale
+
+· Aider à réaliser l’interopérabilité dans des secteurs différents et transversalement à ces secteurs  dans le cadre de la DGME et des instances relevant de la communauté européenne et de la normalisation.
+
+Encart : points de vigilance cabinet (échéances clés, partenariats, opportunités de visibilité, adéquation moyens/ambition)
+
+· Il faut rapidement désigner les 4 personnalités qualifiées au sein du comité consultatif RGI pour pouvoir continuer le processus d'élaboration.
+
+· Il faut publier une première version des référentiels, et donc tenir le plus rapidement possible le comité consultatif RGI issu du décret no 2007-284 du 2 mars 2007, ainsi que veiller à sortir les décrets des autres.
+
+· L’organisation de la concertation-coopération avec les acteurs publics et privés de l’administration électronique est particulièrement importante, surtout vers les collectivités soucieuses de leur autonomie d'administration.
+
+· Un point emblématique à relever dans le RGI est le choix d'un format bureautique privilégié ouvert qui n'est pas celui de Microsoft. Il a été l'occasion de nombreux échanges et publications sur Internet, et de pressions de la part de Microsoft.
+
+
+/2
+
+

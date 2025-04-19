@@ -1,0 +1,652 @@
+*
+
+
+Les réferentiels généraux et la sécurité
+
+Conférence HIT
+
+Jean-Séverin LAIR - DGME
+adjoint chef de Service du Développement de l'Administration Electronique (SDAE)
+
+24  mai 2007
+
+
+
+
+
+
+
+*
+
+L'ordonnance « téléservices » du 8 décembre 2005
+	Objectifs:
+	Renforcer le dispositif juridique indispensable au développement de l’administration électronique et sa généralisation à brève échéance;
+	Permettre d'appliquer les règles à toutes les administrations (Etat et collectivités territoriales) et à tout organisme chargé de la gestion d’un service public administratif. 
+	Points clés:
+	L’administration peut utiliser, et doit être en mesure d'accepter, la voie électronique au même titre que la voie papier;
+	Elle peut plus simplement mettre en place des téléservices;
+	Lorsqu’un usager doit produire à une administration une information émanant d’une autre administration, celle-ci peut être transmise directement entre ces administrations, avec l’accord exprès de l’usager ou à l'aide de l'espace de stockage, service public porteur de données déclaratives et de documents administratifs;
+	Des référentiels généraux d'interopérabilité et de sécurité définissent les règles à respecter dans le développement des systèmes d'informations publics.
+
+
+
+Aller plus loin: http://synergies.modernisation.gouv.fr/article.php3?id_article=163
+
+
+
+
+
+*
+
+Les référentiels généraux : un cadre normatif (1/2)
+	Ils spécifient les règles à respecter dans le développement des systèmes d’information pour en garantir : 
+	l’interopérabilité (entre systèmes administratifs, entre systèmes administratifs et outils usagers et dans le temps) pour le RGI
+	la sécurité pour le RGS
+	L'accessibilité pour le RGAA (issu de la loi 2005-102 du 11 Février 2005 pour l'égalité des droits et des chances, la participation et la citoyenneté des personnes handicapées)
+
+
+	Par règle il faut comprendre la recommandation ou l’injonction à utiliser tels répertoires, s’appuyer sur telle référence ou norme, standard, suivre telle politique... 
+
+
+	Exemple du RGI, règles sur 3 volets: 
+	Organisationnel (d'archivage, gestion de l'identité...) env 49 règles
+	Technique (formats de présentation, formats de documents, protocoles d'échanges...) env 117 règles,
+	Sémantique (modèle de données en cohérence avec l'international, sources référentielles...) env 16 règles
+
+
+
+
+
+
+*
+
+Les référentiels généraux : un cadre normatif (2/2)
+	Le RGI
+	Pilotage et gestion par la DGME
+	Appel à commentaires et réunions de concertation depuis mars 2006
+	Décret n° 2007-284 du 2 mars 2007donnant les modalités de définition et de gestion, et instaurant un comité consultatif, avec 11 ministères, 3 OPS, 3 niveaux collectivités, CNIL, DCSSI, 4 personnalités qualifiées
+	Réunion du comité et publication de l'ensemble de règles par arrêté du premier ministre à venir
+	Le RGS
+	Pilotage et gestion conjointe DGME/DCSSI
+	Décret sur les modalités de définition et gestion, et première version soumise à consultation à venir
+	Le RGAA
+	Pilotage et gestion DGME
+	Décret sur les modalités de définition et gestion à venir
+	Appel à commentaires ouvert au public du 11 mai au 25 juin
+	Ensemble de règles venant à l'issue de l'appel à commentaires remplacer la version informelle de 2004
+
+
+Aller plus loin: http://synergies.modernisation.gouv.fr/rubrique.php3?id_rubrique=1
+
+
+
+
+
+*
+
+Le RGS : ses objectifs
+	Eclairer sur la marche à suivre en sécurité dans la mise en place d'applications
+	Définir des fonctions de sécurité et des niveaux standard associés
+	Préconiser des règles minimales de sécurité sur certains services transverses
+	Préciser les procédures de qualification et de référencement des offres et des produits correspondant
+
+
+
+
+
+
+*
+
+Le RGS : les points traités (1/2)
+	Gestion de la sécurité
+	 Principes de gestion dans le développement des SI (gestion des risques, organisation interne, politique SSI,...)
+	 La sécurité dans un projet (analyse de risques type EBIOS, FEROS types,...)
+	Fonctions de sécurité
+	 Authentification (certificats, OTP, mdp)
+	 Signature
+	 Confidentialité
+	 Horodatage
+
+
+
+
+
+
+*
+
+Le RGS : les points traités (2/2)
+	Services de confiance
+	Services d'accusés de réception
+	Procédures de qualification 
+	 des prestataires de services de confiance (schéma type Cofrac)
+	 des produits de sécurité (type Critères Communs)
+	Procédure de référencement
+
+
+
+
+
+
+*
+
+Le RGS : le rôle de la PRIS v2.1
+	PRIS V2.1 ensemble documentaire publié sur le site web Synergies http://synergies.modernisation.gouv.fr/rubrique.php3?id_rubrique=285
+	Résultat d’un comité de relecture composé d’acteurs des secteurs privés et publics
+
+
+
+
+
+
+
+PRISv2.1
+-
+Présentation Service
+Horodatage
+-
+Politique Horodatage
+
+
+
+
+
+
+PRISv2.1
+-
+Présentation Service Cachet 
+Serveur
+-
+PC Type
+Cachet
+Serveur
+
+
+
+
+
+
+
+
+
+
+PRISv2.1
+-
+Présentation 
+Service 
+Confidentialité
+-
+PC Type
+Confidentialité
+
+
+
+
+
+
+
+
+PRISv2.1
+-
+Présentation 
+Service Authentification
+-
+PC Type
+Authentification 
+
+
+PRISv2.1
+-
+Présentation Service
+Authentification
+Serveur
+-
+PC Type 
+Authentification
+Serveur
+
+
+
+
+
+PRISv2.1
+-
+Présentation
+Service
+Signature
+-
+PC Type
+Signature 
+
+
+Confidentialité
+
+
+Identification/Authentification
+
+
+Signature
+
+
+Authentification
+
+
+Particulier/Entreprise/Administration
+
+
+Entreprise/Administration
+
+
+***
+Renforcé
+
+
+**
+Fort/Standard
+
+
+*
+Moyen
+
+
+Niveau de
+sécurité
+
+
+Périmètre
+d’usage
+
+
+Services
+de sécurité
+
+
+Chaque PC Type couvre les exigences relatives à l’aspect spécifié (Authentification, Signature…) pour chacune des entités concernées (entreprises, administrations et particuliers) et détaille les mesures nécessaires à la conformité au niveau visé (*, ** ou ***).
+
+
+Horodatage
+
+
+Profils de Certificats, LCR et OCSP
+
+
+Variables de temps
+
+
+Autres documents référencés
+
+
+Cachet
+
+
+Préambule, Note de cadrage
+
+
+PRISv2.1
+-
+PC Type
+Authentification et Signature *,**
+
+
+
+Référentiel des versions des documents
+
+
+Identification/Authentification
+Et Signature
+
+
+
+*
+
+Le RGI : ses liens avec les fonctions de sécurité 
+	Les principaux sujets d'adhérence sont:
+	La gestion d'identité (vecteur d'identité, gestion des identifiants, fédération d'identité...)
+	Le format de signature
+	Les standards de cartes IAS
+
+
+
+
+
+
+*
+
+Le dispositif collaboratif : les outils d'ADELE
+	Synergies – les ressources d'ADELE
+	http://synergies.modernisation.gouv.fr/ 
+	Espace de mutualisation des acteurs de l'administration électronique support des communautés de pratiques sur les des référentiels et les Initiatives du Schéma directeur
+
+
+
+
+
+
+PRISv2.1
+
+-
+
+Présentation Service
+
+Horodatage
+
+-
+
+Politique Horodatage
+
+PRISv2.1
+
+-
+
+Présentation Service 
+
+Cachet 
+
+Serveur
+
+-
+
+PC Type
+
+Cachet
+
+Serveur
+
+PRISv2.1
+
+-
+
+Présentation 
+
+Service 
+
+Confidentialité
+
+-
+
+PC Type
+
+Confidentialité
+
+PRISv2.1
+
+-
+
+Présentation 
+
+Service 
+
+Authentification
+
+-
+
+PC Type
+
+Authentification 
+
+PRISv2.1
+
+-
+
+Présentation Service
+
+Authentification
+
+Serveur
+
+-
+
+PC Type 
+
+Authentification
+
+Serveur
+
+PRISv2.1
+
+-
+
+Présentation
+
+Service
+
+Signature
+
+-
+
+PC Type
+
+Signature 
+
+Confidentialité
+
+Identification/
+
+Authentification
+
+SignatureAuthentification
+
+Particulier/Entreprise/AdministrationEntreprise/Administration
+
+***
+
+Renforcé
+
+**
+
+Fort/Standard
+
+*
+
+Moyen
+
+Niveau de
+
+sécurité
+
+Périmètre
+
+d’usage
+
+Services
+
+de sécurité
+
+Chaque PC Type couvre les exigences relatives à l’aspect spécifié (Authentification, Signature…) pour chacune des entités concernées (entreprises, administrations et particuliers) et détaille les 
+
+mesures nécessaires à la conformité au niveau visé (*, ** ou ***).
+
+Horodatage
+
+Profils de Certificats, LCR et OCSP
+
+Variables de temps
+
+Autres documents référencés
+
+Cachet
+
+Préambule, Note de cadrage
+
+PRISv2.1
+
+-
+
+PC Type
+
+Authentification et 
+
+Signature *,**
+
+Identification/
+
+Authentification
+
+Et Signature
+
+Référentiel des versions des documents
+
+PRISv2.1
+
+-
+
+Présentation Service
+
+Horodatage
+
+-
+
+Politique Horodatage
+
+PRISv2.1
+
+-
+
+Présentation Service 
+
+Cachet 
+
+Serveur
+
+-
+
+PC Type
+
+Cachet
+
+Serveur
+
+PRISv2.1
+
+-
+
+Présentation 
+
+Service 
+
+Confidentialité
+
+-
+
+PC Type
+
+Confidentialité
+
+PRISv2.1
+
+-
+
+Présentation 
+
+Service 
+
+Authentification
+
+-
+
+PC Type
+
+Authentification 
+
+PRISv2.1
+
+-
+
+Présentation Service
+
+Authentification
+
+Serveur
+
+-
+
+PC Type 
+
+Authentification
+
+Serveur
+
+PRISv2.1
+
+-
+
+Présentation
+
+Service
+
+Signature
+
+-
+
+PC Type
+
+Signature 
+
+Confidentialité
+
+Identification/
+
+Authentification
+
+SignatureAuthentification
+
+Particulier/Entreprise/AdministrationEntreprise/Administration
+
+***
+
+Renforcé
+
+**
+
+Fort/Standard
+
+*
+
+Moyen
+
+Niveau de
+
+sécurité
+
+Périmètre
+
+d’usage
+
+Services
+
+de sécurité
+
+Chaque PC Type couvre les exigences relatives à l’aspect spécifié (Authentification, Signature…) pour chacune des entités concernées (entreprises, administrations et particuliers) et détaille les 
+
+mesures nécessaires à la conformité au niveau visé (*, ** ou ***).
+
+Horodatage
+
+Profils de Certificats, LCR et OCSP
+
+Variables de temps
+
+Autres documents référencés
+
+Cachet
+
+Préambule, Note de cadrage
+
+PRISv2.1
+
+-
+
+PC Type
+
+Authentification et 
+
+Signature *,**
+
+Identification/
+
+Authentification
+
+Et Signature
+
+Référentiel des versions des documents
+
+
