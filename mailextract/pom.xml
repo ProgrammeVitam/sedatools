@@ -126,12 +126,12 @@
                                 </opts>
                             </jre>
                             <versionInfo>
-                                <fileVersion>${project.majorVersion}.${project.minorVersion}.0.0</fileVersion>
-                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0</fileVersion>
+                                <txtFileVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0}</txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
                                 <copyright>Programme Vitam</copyright>
-                                <productVersion>${project.majorVersion}.${project.minorVersion}.0.0</productVersion>
-                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0</productVersion>
+                                <txtProductVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0</txtProductVersion>
                                 <productName>${project.name}</productName>
                                 <internalName>${project.name}</internalName>
                                 <originalFilename>MailExtract.exe</originalFilename>
@@ -162,12 +162,12 @@
                                 </opts>
                             </jre>
                             <versionInfo>
-                                <fileVersion>${project.majorVersion}.${project.minorVersion}.0.0</fileVersion>
-                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <fileVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0</fileVersion>
+                                <txtFileVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0</txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
                                 <copyright>Programme Vitam</copyright>
-                                <productVersion>${project.majorVersion}.${project.minorVersion}.0.0</productVersion>
-                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <productVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0</productVersion>
+                                <txtProductVersion>${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0</txtProductVersion>
                                 <productName>${project.name}</productName>
                                 <internalName>${project.name}</internalName>
                                 <originalFilename>MailExtract.exe</originalFilename>

@@ -13,8 +13,6 @@
         <name>Vitam</name>
     </organization>
     <properties>
-        <project.majorVersion>1</project.majorVersion>
-        <project.minorVersion>10</project.minorVersion>
         <!--Libraries-->
         <droid.version>6.5.2</droid.version>
         <commons-cli.version>1.4</commons-cli.version>
@@ -97,7 +95,6 @@
                     </snapshots>
                 </pluginRepository>
             </pluginRepositories>
-
         </profile>
     </profiles>
     <build>
