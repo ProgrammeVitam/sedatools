@@ -68,6 +68,21 @@ public interface AllTests {
     }
 
     /**
+     * Reads the content of a file into a String using the specified character set.
+     *
+     * @param file the file to be read
+     * @param charset the character set to use for decoding the file
+     * @return the file content as a String
+     * @throws IOException if an I/O error occurs while reading the file
+     */
+    public static String readFileToString(File file, Charset charset) throws IOException {
+        if (file == null) {
+            throw new IllegalArgumentException("File must not be null");
+        }
+        return Files.readString(file.toPath(), charset);
+    }
+
+    /**
      * Sorts the lines in the given input string in alphabetical order after removing the specified columns
      * from each line.
      * <p>This is particularly useful for comparing CSV lists generated in parallel, where some columns with IDs

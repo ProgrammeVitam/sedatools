@@ -27,7 +27,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.nodes;
 
-import org.apache.commons.text.StringEscapeUtils;
+import fr.gouv.vitam.tools.mailextractlib.utils.HtmlAndXmlEscape;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -95,7 +95,7 @@ public class MetadataXMLString extends MetadataXML {
         // remove all forbidden and invisible characters
         String normalized = FORBIDDEN_PATTERN.matcher(value).replaceAll("");
         // unescape all HMTL characters
-        normalized=StringEscapeUtils.unescapeHtml4(normalized);
+        normalized= HtmlAndXmlEscape.unescapeHtmlAndXMLEntities(normalized);
         // break XML tags in metadata if any, based on Vitam sanity check
         Matcher m = HTML_PATTERN.matcher(normalized);
        if (m.find()) {
@@ -111,7 +111,7 @@ public class MetadataXMLString extends MetadataXML {
         }
 
         // suppress and escape all non XML compliance
-        return StringEscapeUtils.escapeXml10(normalized);
+        return HtmlAndXmlEscape.escapeXml(normalized);
     }
 
     /**

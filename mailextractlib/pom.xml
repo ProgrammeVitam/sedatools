@@ -20,46 +20,31 @@
     </properties>
 
     <dependencies>
+        <!--Other project modules-->
         <dependency>
             <groupId>fr.gouv.vitam.tools</groupId>
             <artifactId>javalibpst</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>${slf4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.jsoup</groupId>
-            <artifactId>jsoup</artifactId>
-            <version>${jsoup.version}</version>
-        </dependency>
+
+
+        <!--High level processing libraries-->
+        <!--    For text extraction-->
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
             <version>${tika.version}</version>
         </dependency>
-        <!--    For MIME type mail treatment-->
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-parsers-standard-package</artifactId>
             <version>${tika.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.pdfbox</groupId>
-            <artifactId>jbig2-imageio</artifactId>
-            <version>${jbig2-imageio.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.jai-imageio</groupId>
-            <artifactId>jai-imageio-jpeg2000</artifactId>
-            <version>${jai-imageio-jpeg2000.version}</version>
-        </dependency>
+        <!--    For MIME type mail treatment-->
         <dependency>
             <groupId>jakarta.mail</groupId>
             <artifactId>jakarta.mail-api</artifactId>
-             <version>${jakarta.mail-api.version}</version>
+            <version>${jakarta.mail-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.angus</groupId>
@@ -75,23 +60,23 @@
             <groupId>org.eclipse.angus</groupId>
             <artifactId>angus-activation</artifactId>
             <version>${angus-activation.version}</version>
-        </dependency>       <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>${apache.commons-text.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>${junit-jupiter-engine.version}</version>
-            <scope>test</scope>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>${jsoup.version}</version>
         </dependency>
+
+
+
+       <!--Log libraries-->
         <dependency>
-            <groupId>org.assertj</groupId>
-            <artifactId>assertj-core</artifactId>
-            <version>${assertj-core.version}</version>
-            <scope>test</scope>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
         </dependency>
+        <!--   Only for tests log-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -102,6 +87,19 @@
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-core</artifactId>
             <version>${logback.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!--Test libraries-->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-jupiter-engine.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>${assertj-core.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

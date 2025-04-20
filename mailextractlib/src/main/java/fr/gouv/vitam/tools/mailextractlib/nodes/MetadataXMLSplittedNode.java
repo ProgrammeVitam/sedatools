@@ -27,10 +27,9 @@
 
 package fr.gouv.vitam.tools.mailextractlib.nodes;
 
-import org.apache.commons.text.StringEscapeUtils;
 
-import java.io.UnsupportedEncodingException;
-import java.util.regex.Matcher;
+import fr.gouv.vitam.tools.mailextractlib.utils.HtmlAndXmlEscape;
+
 import java.util.regex.Pattern;
 
 /**
@@ -76,14 +75,14 @@ public class MetadataXMLSplittedNode extends MetadataXMLNode {
         // remove all forbidden and invisible characters
         String normalized = FORBIDDEN_PATTERN.matcher(value).replaceAll("");
         // unescape all HMTL characters
-        normalized=StringEscapeUtils.unescapeHtml4(normalized);
+        normalized= HtmlAndXmlEscape.unescapeHtmlAndXMLEntities(normalized);
         // break HTML tags in metadata if any
         normalized = normalized.replace("<", "< ");
         // break left HTML escape after unescape
         normalized = HTML_ENTITY_PATTERN.matcher(normalized).replaceAll("& $1");
 
         // suppress and escape all non XML compliance
-        return StringEscapeUtils.escapeXml10(normalized);
+        return HtmlAndXmlEscape.escapeXml(normalized);
     }
 
     /*
