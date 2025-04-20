@@ -26,9 +26,10 @@
         <angus-activation.version>2.0.2</angus-activation.version>
         <!--    For HTML manipulation-->
         <jsoup.version>1.19.1</jsoup.version>
+        <!--    For format identification (DROID from the UK National Archives)-->
+        <droid.version>6.8.0</droid.version>
 
         <!--Libraries-->
-        <droid.version>6.5.2</droid.version>
         <commons-cli.version>1.4</commons-cli.version>
         <jackson.version>2.13.5</jackson.version>
         <xerces-xsd11.version>2.12-beta-r1667115</xerces-xsd11.version>

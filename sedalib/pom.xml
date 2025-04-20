@@ -87,11 +87,23 @@
             <groupId>uk.gov.nationalarchives</groupId>
             <artifactId>droid-core</artifactId>
             <version>${droid.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j2-impl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>uk.gov.nationalarchives</groupId>
             <artifactId>droid-core-interfaces</artifactId>
             <version>${droid.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j2-impl</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>uk.gov.nationalarchives</groupId>
@@ -102,6 +114,10 @@
                     <!-- Exclude old xerces not compatible with 1.8 for xsd control-->
                     <groupId>xerces</groupId>
                     <artifactId>xercesImpl</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.logging.log4j</groupId>
+                    <artifactId>log4j-slf4j2-impl</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
