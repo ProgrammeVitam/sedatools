@@ -38,19 +38,13 @@
         <dependency>
             <groupId>org.apache.tika</groupId>
             <artifactId>tika-core</artifactId>
-            <version>${apache.tika.version}</version>
+            <version>${tika.version}</version>
         </dependency>
+        <!--    For MIME type mail treatment-->
         <dependency>
             <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers</artifactId>
-            <version>${apache.tika.version}</version>
-            <exclusions>
-                <exclusion>
-                    <!--Excluded as it would take precedence on the version required by commons-text (which would make commons-text fail otherwise)-->
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>commons-lang3</artifactId>
-                </exclusion>
-            </exclusions>
+            <artifactId>tika-parsers-standard-package</artifactId>
+            <version>${tika.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.pdfbox</groupId>

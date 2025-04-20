@@ -416,12 +416,61 @@ TITRE DE LA PRÉSENTATION
 
 20
 
+image112.png
+
+image211.svg
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+
+
+image310.png
+
+image49.svg
                                                                                                                                                                                      
+
+
+image2713.jpeg
+
+image56.png
+
+image65.svg
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+
+
+image72.png
+
+image8.svg
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+
+
+image28.png
+
+image2917.png
+
+image3016.png
+
+image3115.png
+
+image3221.png
+
+image3323.png
+
+image3422.png
+
+image98.png
+
+image107.svg
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+
+
+image113.png
+
+image122.svg
                                                                                                                                                                                                                                               
+
+
+image3518.png
+
+image3616.svg
   
 .MsftOfcThm_Accent6_Fill_v2 {
  fill:#0BE1FF; 
@@ -431,22 +480,93 @@ TITRE DE LA PRÉSENTATION
 }
 
   
+
+
+image3720.png
+
+image3815.svg
   
 .MsftOfcThm_Accent6_Fill_v2 {
  fill:#0BE1FF; 
 }
 
        
+
+
+image3919.png
+
+image4014.svg
   
 .MsftOfcThm_Accent6_Fill_v2 {
  fill:#0BE1FF; 
 }
 
   
+
+
+image1314.png
+
+image1413.svg
                                                                                                                                                                 
+
+
+image1513.png
+
+image1612.svg
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+
+
+image179.png
+
+image188.svg
                                                                                                                                                                                                                                                                                 
+
+
+image194.png
+
+image203.svg
                                                                                                                                                                                                                                                                                                         
+
+
+image215.png
+
+image224.svg
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+
+
+image419.jpg
+
+image4212.jpeg
+
+image4311.jpg
+
+image4410.jpeg
+
+image526.jpeg
+
+image452.jpg
+
+image467.jpeg
+
+image475.jpeg
+
+image484.jpg
+
+image493.jpeg
+
+image50.jpeg
+
+image518.jpeg
+
+image2311.png
+
+image2410.svg
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           
+
+
+image257.png
+
+image266.svg
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
+
