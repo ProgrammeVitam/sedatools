@@ -27,11 +27,11 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
-import com.pff.PSTAppointment;
-import com.pff.PSTConversationIndex.ResponseLevel;
-import com.pff.PSTException;
-import com.pff.PSTMessage;
-import com.pff.PSTRecipient;
+import fr.gouv.vitam.tools.javalibpst.PSTAppointment;
+import fr.gouv.vitam.tools.javalibpst.PSTConversationIndex.ResponseLevel;
+import fr.gouv.vitam.tools.javalibpst.PSTException;
+import fr.gouv.vitam.tools.javalibpst.PSTMessage;
+import fr.gouv.vitam.tools.javalibpst.PSTRecipient;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessageAttachment;

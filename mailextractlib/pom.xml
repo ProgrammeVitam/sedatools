@@ -22,7 +22,7 @@
     <dependencies>
         <dependency>
             <groupId>fr.gouv.vitam.tools</groupId>
-            <artifactId>java-libpst</artifactId>
+            <artifactId>javalibpst</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
