@@ -40,12 +40,14 @@
 
         <apache.commons-text.version>1.12.0</apache.commons-text.version>
         <mslinks.version>1.0.5</mslinks.version>
-        <logback.version>1.2.13</logback.version>
-        <slf4j.version>1.7.28</slf4j.version>
         <lgooddatepicker.version>10.3.1</lgooddatepicker.version>
         <rsyntaxtextarea.version>3.0.3</rsyntaxtextarea.version>
         <rstaui.version>3.0.1</rstaui.version>
         <jaxb.version>2.3.1</jaxb.version>
+
+        <!--Log libraries-->
+        <slf4j.version>2.0.17</slf4j.version>
+        <logback.version>1.5.18</logback.version>
 
         <!--Test libraries-->
         <junit-jupiter-engine.version>5.5.1</junit-jupiter-engine.version>
