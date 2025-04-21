@@ -42,8 +42,6 @@
         <!--Libraries-->
         <commons-cli.version>1.4</commons-cli.version>
 
-        <!--to prevent version collision between droid and tika-->
-        <apache.commons-io.version>2.18.0</apache.commons-io.version>
 
         <mslinks.version>1.0.5</mslinks.version>
         <lgooddatepicker.version>10.3.1</lgooddatepicker.version>
