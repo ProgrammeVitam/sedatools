@@ -20,16 +20,22 @@
     </properties>
 
     <dependencies>
+        <!--Other project modules-->
         <dependency>
             <groupId>fr.gouv.vitam.tools</groupId>
             <artifactId>mailextractlib</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!--Utility libraries-->
+        <!--    For command line parsing-->
         <dependency>
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
             <version>${commons-cli.version}</version>
         </dependency>
+
+        <!--Log libraries-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
