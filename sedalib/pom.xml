@@ -79,11 +79,6 @@
             <version>${woodstox-core.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-text</artifactId>
-            <version>${apache.commons-text.version}</version>
-        </dependency>
-        <dependency>
             <groupId>uk.gov.nationalarchives</groupId>
             <artifactId>droid-core</artifactId>
             <version>${droid.version}</version>

@@ -1,7 +1,7 @@
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import org.apache.commons.text.StringEscapeUtils;
+import fr.gouv.vitam.tools.sedalib.xml.HtmlAndXmlEscape;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -277,7 +277,7 @@ public class CSVMetadataFormatter {
         for (List<MetadataTag> tagList : tag.subTags.values()) {
             for (MetadataTag mt : tagList) {
                 if (mt.name.equals(subTagName) && !mt.value.isEmpty()) {
-                    result += "<" + subTagName + ">" + StringEscapeUtils.escapeXml10(mt.value) + "</" + subTagName + ">";
+                    result += "<" + subTagName + ">" + HtmlAndXmlEscape.escapeXml(mt.value) + "</" + subTagName + ">";
                     mt.value = null;
                 }
             }
@@ -303,13 +303,13 @@ public class CSVMetadataFormatter {
         for (List<MetadataTag> tagList : tag.subTags.values()) {
             for (MetadataTag mt : tagList) {
                 if (mt.name.equals("Rule") && !mt.value.isEmpty()) {
-                    result += "<Rule>" + StringEscapeUtils.escapeXml10(mt.value) + "</Rule>";
+                    result += "<Rule>" + HtmlAndXmlEscape.escapeXml(mt.value) + "</Rule>";
                     mt.value = null;
                 }
             }
             for (MetadataTag mt : tagList) {
                 if (mt.name.equals("StartDate") && !mt.value.isEmpty()) {
-                    result += "<StartDate>" + StringEscapeUtils.escapeXml10(mt.value) + "</StartDate>";
+                    result += "<StartDate>" + HtmlAndXmlEscape.escapeXml(mt.value) + "</StartDate>";
                     mt.value = null;
                 }
             }
@@ -335,30 +335,30 @@ public class CSVMetadataFormatter {
                 if (!mt.value.isEmpty()) {
                     switch (mt.name) {
                         case "Rule":
-                            result.append("<Rule>").append(StringEscapeUtils.escapeXml10(mt.value)).append("</Rule>");
+                            result.append("<Rule>").append(HtmlAndXmlEscape.escapeXml(mt.value)).append("</Rule>");
                             break;
                         case "StartDate":
-                            result.append("<StartDate>").append(StringEscapeUtils.escapeXml10(mt.value))
+                            result.append("<StartDate>").append(HtmlAndXmlEscape.escapeXml(mt.value))
                                     .append("</StartDate>");
                             break;
                         case "HoldEndDate":
-                            result.append("<HoldEndDate>").append(StringEscapeUtils.escapeXml10(mt.value))
+                            result.append("<HoldEndDate>").append(HtmlAndXmlEscape.escapeXml(mt.value))
                                     .append("</HoldEndDate>");
                             break;
                         case "HoldOwner":
-                            result.append("<HoldOwner>").append(StringEscapeUtils.escapeXml10(mt.value))
+                            result.append("<HoldOwner>").append(HtmlAndXmlEscape.escapeXml(mt.value))
                                     .append("</HoldOwner>");
                             break;
                         case "HoldReassessingDate":
-                            result.append("<HoldReassessingDate>").append(StringEscapeUtils.escapeXml10(mt.value))
+                            result.append("<HoldReassessingDate>").append(HtmlAndXmlEscape.escapeXml(mt.value))
                                     .append("</HoldReassessingDate>");
                             break;
                         case "HoldReason":
-                            result.append("<HoldReason>").append(StringEscapeUtils.escapeXml10(mt.value))
+                            result.append("<HoldReason>").append(HtmlAndXmlEscape.escapeXml(mt.value))
                                     .append("</HoldReason>");
                             break;
                         case "PreventRearrangement":
-                            result.append("<PreventRearrangement>").append(StringEscapeUtils.escapeXml10(mt.value))
+                            result.append("<PreventRearrangement>").append(HtmlAndXmlEscape.escapeXml(mt.value))
                                     .append("</PreventRearrangement>");
                             break;
                         default:
@@ -386,13 +386,13 @@ public class CSVMetadataFormatter {
         for (List<MetadataTag> tagList : tag.subTags.values()) {
             for (MetadataTag mt : tagList) {
                 if (mt.name.equals("Rule") && !mt.value.isEmpty()) {
-                    result += "<Rule>" + StringEscapeUtils.escapeXml10(mt.value) + "</Rule>";
+                    result += "<Rule>" + HtmlAndXmlEscape.escapeXml(mt.value) + "</Rule>";
                     mt.value = null;
                 }
             }
             for (MetadataTag mt : tagList) {
                 if (mt.name.equals("StartDate") && !mt.value.isEmpty()) {
-                    result += "<StartDate>" + StringEscapeUtils.escapeXml10(mt.value) + "</StartDate>";
+                    result += "<StartDate>" + HtmlAndXmlEscape.escapeXml(mt.value) + "</StartDate>";
                     mt.value = null;
                 }
             }
@@ -459,7 +459,7 @@ public class CSVMetadataFormatter {
             if (!value.isEmpty()) {
                 result += value;
             } else {
-                result += StringEscapeUtils.escapeXml10(tag.value);
+                result += HtmlAndXmlEscape.escapeXml(tag.value);
             }
             result += "</" + tag.name + ">";
         } else {
