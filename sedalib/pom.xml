@@ -41,8 +41,8 @@
             <version>${jackson.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.opengis.cite.xerces</groupId>
-            <artifactId>xercesImpl-xsd11</artifactId>
+            <groupId>org.ibissource</groupId>
+            <artifactId>ibis-xerces</artifactId>
             <version>${xerces-xsd11.version}</version>
         </dependency>
         <dependency>
@@ -116,20 +116,26 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!--   For old jaxb 2.3.1 compatibility in droid-->
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>${droidjaxb-impl.version}</version>
+        </dependency>
         <dependency>
             <groupId>com.github.vatbub</groupId>
             <artifactId>mslinks</artifactId>
             <version>${mslinks.version}</version>
         </dependency>
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>${jaxb.version}</version>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>${jaxb-api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>${jaxb.version}</version>
+            <version>${jaxb-runtime.version}</version>
         </dependency>
 
         <dependency>

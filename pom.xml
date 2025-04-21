@@ -28,14 +28,20 @@
         <jsoup.version>1.19.1</jsoup.version>
         <!--    For format identification (DROID from the UK National Archives)-->
         <droid.version>6.8.0</droid.version>
+        <droidjaxb-impl.version>2.3.8</droidjaxb-impl.version>
+
+        <!--Formatting (XML, NG, json and csv) librairies TODO: are they all needed?-->
+        <jackson.version>2.18.3</jackson.version>
+        <xerces-xsd11.version>2.12.2-xml-schema-1.1</xerces-xsd11.version>
+        <woodstox-core.version>7.1.0</woodstox-core.version>
+        <xml-resolver.version>1.2</xml-resolver.version>
+        <jing.version>20241231</jing.version>
+        <jaxb-api.version>4.0.2</jaxb-api.version>
+        <jaxb-runtime.version>4.0.5</jaxb-runtime.version>
 
         <!--Libraries-->
         <commons-cli.version>1.4</commons-cli.version>
-        <jackson.version>2.13.5</jackson.version>
-        <xerces-xsd11.version>2.12-beta-r1667115</xerces-xsd11.version>
-        <woodstox-core.version>5.4.0</woodstox-core.version>
-        <xml-resolver.version>1.2</xml-resolver.version>
-        <jing.version>20181222</jing.version>
+
         <!--to prevent version collision between droid and tika-->
         <apache.commons-io.version>2.18.0</apache.commons-io.version>
 
@@ -43,7 +49,6 @@
         <lgooddatepicker.version>10.3.1</lgooddatepicker.version>
         <rsyntaxtextarea.version>3.0.3</rsyntaxtextarea.version>
         <rstaui.version>3.0.1</rstaui.version>
-        <jaxb.version>2.3.1</jaxb.version>
 
         <!--Log libraries-->
         <slf4j.version>2.0.17</slf4j.version>
