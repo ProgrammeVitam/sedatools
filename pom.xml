@@ -45,18 +45,19 @@
         <!--    For command line parsing-->
         <commons-cli.version>1.9.0</commons-cli.version>
 
-
-        <lgooddatepicker.version>10.3.1</lgooddatepicker.version>
-        <rsyntaxtextarea.version>3.0.3</rsyntaxtextarea.version>
-        <rstaui.version>3.0.1</rstaui.version>
+        <!--SWING graphic libraries-->
+        <lgooddatepicker.version>11.2.1</lgooddatepicker.version>
+        <rsyntaxtextarea.version>3.6.0</rsyntaxtextarea.version>
+        <rstaui.version>3.3.1</rstaui.version>
 
         <!--Log libraries-->
         <slf4j.version>2.0.17</slf4j.version>
         <logback.version>1.5.18</logback.version>
 
         <!--Test libraries-->
-        <junit-jupiter-engine.version>5.5.1</junit-jupiter-engine.version>
-        <assertj-core.version>3.13.2</assertj-core.version>
+        <junit-jupiter-engine.version>5.12.2</junit-jupiter-engine.version>
+        <assertj-core.version>3.27.3</assertj-core.version>
+        <archunit.version>1.4.0</archunit.version>
 
         <!--Maven modules-->
         <surefire.version>2.22.2</surefire.version>
