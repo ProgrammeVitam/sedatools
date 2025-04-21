@@ -223,6 +223,7 @@ public class DataObjectPackageToDiskExporter {
                 result = "NoTitle";
             else if (result.length() > 12)
                 result = result.substring(0, 11);
+            result = result.replaceAll("[^\\p{IsAlphabetic}\\p{Digit}]", "-");
             result += "_";
         }
         result += au.getInDataObjectPackageId();
