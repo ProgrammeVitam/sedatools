@@ -132,7 +132,7 @@ public class PSTFile {
      * @throws IOException           the io exception
      */
     public PSTFile(final File file) throws FileNotFoundException, PSTException, IOException {
-        this(new PSTRAFileContent(file));
+        this(new PSTRAFileContent(file), true);
     }
 
     /**
@@ -144,7 +144,7 @@ public class PSTFile {
      * @throws IOException           the io exception
      */
     public PSTFile(final byte[] bytes) throws FileNotFoundException, PSTException, IOException {
-        this(new PSTByteFileContent(bytes));
+        this(new PSTByteFileContent(bytes), true);
     }
 
     /**
@@ -156,6 +156,10 @@ public class PSTFile {
      * @throws IOException           the io exception
      */
     public PSTFile(final PSTFileContent content) throws FileNotFoundException, PSTException, IOException {
+         this(content, false);
+    }
+
+    private  PSTFile(final PSTFileContent content, boolean closeFileContant) throws FileNotFoundException, PSTException, IOException {
         // attempt to open the file.
         this.in = content;
 
@@ -201,7 +205,14 @@ public class PSTFile {
                 // get the default codepage
                 globalCodepage = inferGlobalCodepage();
             } catch (final IOException err) {
+                if (closeFileContant)
+                    this.in.close();
                 throw new PSTException("Unable to read PST Sig", err);
+            }
+            catch (Exception overException) {
+                if (closeFileContant)
+                    this.in.close();
+                throw overException;
             }
         }
     }
