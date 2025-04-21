@@ -143,7 +143,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                 localLogStep = 1000;
             }
             spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, null,
-                    localLogStep, 2);
+                    localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
 

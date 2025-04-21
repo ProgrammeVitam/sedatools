@@ -232,7 +232,7 @@ public class ImportThread extends SwingWorker<String, String> {
             String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
             inOutDialog.extProgressTextArea.setText(newLog);
             inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-        }, localLogStep, 2);
+        }, localLogStep, 2,MailExtractProgressLogger.MESSAGE_GROUP,1000);
         mepl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
         MailImportContext mic = (MailImportContext) work.getCreationContext();
         String target = getTmpDirTarget(mic.getWorkDir(), mic.getOnDiskInput());
@@ -270,7 +270,7 @@ public class ImportThread extends SwingWorker<String, String> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2);
+            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             if (work.getCreationContext() instanceof ZipImportContext)
                 doZipImport();

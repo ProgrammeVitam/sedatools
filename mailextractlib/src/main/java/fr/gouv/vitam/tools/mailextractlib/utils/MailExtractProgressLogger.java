@@ -123,6 +123,16 @@ public class MailExtractProgressLogger {
     private int progressLogLevel;
 
     /**
+     * The progressLogLevel for progressFunc
+     */
+    private int progressFuncLogLevel;
+
+    /**
+     * The number used to determine if an accumulation as to be a progress log or not in progressFunc
+     */
+    private int progressFuncStep;
+
+    /**
      * The debugFlag flag
      */
     private boolean debugFlag;
@@ -138,6 +148,8 @@ public class MailExtractProgressLogger {
         this.logger = logger;
         this.step = Integer.MAX_VALUE;
         this.progressLogLevel = progressLogLevel;
+        this.progressFuncLogLevel = progressLogLevel;
+        this.progressFuncStep = step;
         this.stepDuration = Integer.MAX_VALUE;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
         this.counter = new AtomicInteger(0);
@@ -157,6 +169,8 @@ public class MailExtractProgressLogger {
         this.logger = logger;
         this.step = step;
         this.progressLogLevel = progressLogLevel;
+        this.progressFuncLogLevel = progressLogLevel;
+        this.progressFuncStep = step;
         this.stepDuration = Integer.MAX_VALUE;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
         this.counter = new AtomicInteger(0);
@@ -177,6 +191,32 @@ public class MailExtractProgressLogger {
         this.logger = logger;
         this.step = step;
         this.progressLogLevel = progressLogLevel;
+        this.progressFuncLogLevel = progressLogLevel;
+        this.progressFuncStep = step;
+        this.stepDuration = stepDuration;
+        this.previousStepEpochSeconds = Instant.now().getEpochSecond();
+        this.counter = new AtomicInteger(0);
+        this.debugFlag = false;
+    }
+
+    /**
+     * Instantiates a new MailExtract progress logger.
+     *
+     * @param logger               the standard logger
+     * @param progressLogLevel     the progress log level
+     * @param progressConsumer     the lambda function called to follow the progress
+     * @param step                 the step value to determine the interval of progress updates
+     * @param stepDuration         the maximum time duration in seconds between progress updates
+     * @param progressFuncLogLevel the progress log level specifically for the progress function
+     */
+    public MailExtractProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer,
+                                     int step, int stepDuration, int progressFuncLogLevel, int progressFuncStep) {
+        this.progressLogFunc = progressConsumer;
+        this.logger = logger;
+        this.step = step;
+        this.progressLogLevel = progressLogLevel;
+        this.progressFuncLogLevel = progressFuncLogLevel;
+        this.progressFuncStep = progressFuncStep;
         this.stepDuration = stepDuration;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
         this.counter = new AtomicInteger(0);
@@ -253,7 +293,7 @@ public class MailExtractProgressLogger {
                 if (level <= mepl.progressLogLevel) {
                     if (e != null)
                         log += "\n" + getMessagesStackString(e);
-                    if (mepl.progressLogFunc != null) {
+                    if ((mepl.progressLogFunc != null) && (level <= mepl.progressFuncLogLevel)) {
                         mepl.progressLogFunc.doProgressLog(-1, log);
                     }
                     if ((e != null) && mepl.debugFlag)
@@ -313,14 +353,25 @@ public class MailExtractProgressLogger {
                 if (level <= mepl.progressLogLevel) {
                     long nowEpochSeconds = Instant.now().getEpochSecond();
                     int rank = mepl.counter.addAndGet(1);
-                    int mod = rank % mepl.step;
-                    if ((mod == 0) || (mepl.stepDuration < nowEpochSeconds - mepl.previousStepEpochSeconds)) {
+                    if (mepl.stepDuration < nowEpochSeconds - mepl.previousStepEpochSeconds) {
                         log = log.replace("%count", Integer.toString(rank));
-                        if (mepl.progressLogFunc != null)
-                            mepl.progressLogFunc.doProgressLog(rank, (mod == 0 ? "" : "* ") + log);
+                        if ((mepl.progressLogFunc != null) && (level <= mepl.progressFuncLogLevel))
+                            mepl.progressLogFunc.doProgressLog(rank, (rank % mepl.progressFuncStep == 0 ? "" : "* ") + log);
                         mepl.log(level, log);
                         Thread.sleep(1);
                         mepl.previousStepEpochSeconds = nowEpochSeconds;
+                        return;
+                    }
+                    String countLog = null;
+                    if ((rank % mepl.step) == 0) {
+                        countLog = log.replace("%count", Integer.toString(rank));
+                        mepl.log(level, countLog);
+                    }
+                    if ((rank % mepl.progressFuncStep) == 0) {
+                        if (countLog == null)
+                            countLog = log.replace("%count", Integer.toString(rank));
+                        mepl.progressLogFunc.doProgressLog(rank, countLog);
+                        Thread.sleep(1);
                     }
                 }
             }
@@ -386,7 +437,7 @@ public class MailExtractProgressLogger {
     public void setProgressLogLevel(int progressLogLevel) {
         this.progressLogLevel = progressLogLevel;
     }
-    
+
     private void log(int level, String message) {
         if (level <= progressLogLevel) {
             if (logger != null)

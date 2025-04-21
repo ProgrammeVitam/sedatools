@@ -180,7 +180,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2);
+            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
             doProgressLog(spl, GLOBAL, "Extraction de massages du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.fileInfo.getSimpleMetadata("Filename") + "]", null);
@@ -190,7 +190,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2);
+            }, localLogStep, 2,MailExtractProgressLogger.MESSAGE_GROUP,1000);
             mepl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             MailImportContext mic = new MailImportContext(Prefs.getInstance());
             String target = getTmpDirTarget(mic.getWorkDir(), bdoToExpand.getOnDiskPathToString(), bdoToExpand.getInDataObjectPackageId());

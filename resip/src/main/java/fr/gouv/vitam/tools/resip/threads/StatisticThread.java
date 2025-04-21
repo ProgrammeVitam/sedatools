@@ -87,7 +87,7 @@ public class StatisticThread extends SwingWorker<String, String> {
                 localLogStep = 1000;
             }
             spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel,
-                    null, localLogStep, 2);
+                    null, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             DataObjectPackage dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
             LinkedHashMap<String, List<Long>> sizeByCategoryMap = new LinkedHashMap<String, List<Long>>();

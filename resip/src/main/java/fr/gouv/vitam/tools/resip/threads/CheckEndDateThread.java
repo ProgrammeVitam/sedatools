@@ -57,7 +57,7 @@ public class CheckEndDateThread  extends SwingWorker<String, InOutDialog> {
                 String newLog = verifyDateDialog.getExtProgressTextArea().getText() + "\n" + log;
                 verifyDateDialog.getExtProgressTextArea().setText(newLog);
                 verifyDateDialog.getExtProgressTextArea().setCaretPosition(newLog.length());
-            }, localLogStep, 2);
+            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
             if (work == null)

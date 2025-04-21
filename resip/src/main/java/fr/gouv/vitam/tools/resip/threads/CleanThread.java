@@ -93,7 +93,7 @@ public class CleanThread extends SwingWorker<String, String> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2);
+            }, localLogStep, 2, SEDALibProgressLogger.OBJECTS_GROUP,1000);
 
             doProgressLog(spl, GLOBAL, "Nettoyage du répertoire: " + workDir, null);
             for (File f : new File(workDir).listFiles()) {

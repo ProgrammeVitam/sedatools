@@ -186,15 +186,7 @@ public class VerifyDateDialog extends JDialog {
                 String newLog = extProgressTextArea.getText() + "\n" + log;
                 extProgressTextArea.setText(newLog);
                 extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2);
-        spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
-
-
-        spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
-            String newLog = extProgressTextArea.getText() + "\n" + log;
-            extProgressTextArea.setText(newLog);
-            extProgressTextArea.setCaretPosition(newLog.length());
-        }, localLogStep, 2);
+            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
         spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
     }
 
