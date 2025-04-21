@@ -1,7 +1,5 @@
 package fr.gouv.vitam.tools.sedalib.utils;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -13,7 +11,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Slf4j
 public class ResourceUtils {
 
     private static final String FILE_NOT_FOUND_IN_RESOURCES = "File not found in Resources: ";
