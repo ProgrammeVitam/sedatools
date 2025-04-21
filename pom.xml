@@ -29,6 +29,8 @@
         <!--    For format identification (DROID from the UK National Archives)-->
         <droid.version>6.8.0</droid.version>
         <droidjaxb-impl.version>2.3.8</droidjaxb-impl.version>
+        <!--    For Windows shortcut manipulation TODO: exotic library to replace-->
+        <mslinks.version>1.0.6.2</mslinks.version>
 
         <!--Formatting (XML, NG, json and csv) librairies TODO: are they all needed?-->
         <jackson.version>2.18.3</jackson.version>
@@ -43,7 +45,6 @@
         <commons-cli.version>1.4</commons-cli.version>
 
 
-        <mslinks.version>1.0.5</mslinks.version>
         <lgooddatepicker.version>10.3.1</lgooddatepicker.version>
         <rsyntaxtextarea.version>3.0.3</rsyntaxtextarea.version>
         <rstaui.version>3.0.1</rstaui.version>
