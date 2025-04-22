@@ -322,6 +322,8 @@ public class StoreAttachment {
             attachmentNode.addMetadata("CreatedDate", DateRange.getISODateString(creationDate), true);
 
         // Raw object extraction
+        if (name.endsWith(".lnk"))
+            name=name+".txt"; // break windows shortcuts
         attachmentNode.addObject(getRawAttachmentContent(), name, "BinaryMaster", 1);
 
         // Text object extraction
