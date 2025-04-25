@@ -29,41 +29,43 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorSimplePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.KeywordType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.EnumType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.EnumTypeConstants;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 /**
- * The KeywordType object editor class.
+ * The EnumType object editor class.
  */
-public class KeywordTypeEditor extends SEDAObjectEditor {
+public class EnumTypeEditor extends SEDAObjectEditor {
 
     /**
      * The editedObject edition graphic component
      */
     private JComboBox<String> valueComboBox;
 
-    /**
-     * Instantiates a new KeywordType editor.
+     /**
+     * Instantiates a new EnumType editor.
      *
-     * @param metadata the KeywordType editedObject
+     * @param metadata the EnumType editedObject
      * @param father   the father
-     * @throws SEDALibException if not a KeywordType editedObject
+     * @throws SEDALibException if not a EnumType editedObject
      */
-    public KeywordTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
+    public EnumTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof KeywordType))
+        if (!(metadata instanceof EnumType))
             throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
     }
 
-    private KeywordType getKeywordTypeMetadata() {
-        return (KeywordType) editedObject;
+    private EnumType getEnumTypeMetadata() {
+        return (EnumType) editedObject;
     }
 
     /**
-     * Gets KeywordType sample.
+     * Gets EnumType sample.
      *
      * @param elementName the element name, corresponding to the XML tag in SEDA
      * @param minimal     the minimal flag, if true subfields are selected and values are empty, if false all subfields are added and values are default values
@@ -71,13 +73,16 @@ public class KeywordTypeEditor extends SEDAObjectEditor {
      * @throws SEDALibException the seda lib exception
      */
     static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        return new KeywordType("subject");
+        List<String> enumValues= EnumTypeConstants.enumListMap.get(elementName);
+        if (enumValues==null)
+            throw new SEDALibException("Type Enuméré ["+elementName+"] inconnu");
+        return new EnumType(elementName,enumValues.get(0));
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException{
-        getKeywordTypeMetadata().setValue((String)(valueComboBox.getSelectedItem()));
-        return getKeywordTypeMetadata();
+        getEnumTypeMetadata().setValue((String)(valueComboBox.getSelectedItem()));
+        return getEnumTypeMetadata();
     }
 
     @Override
@@ -107,11 +112,14 @@ public class KeywordTypeEditor extends SEDAObjectEditor {
         gbl.columnWeights = new double[]{1.0};
         editPanel.setLayout(gbl);
 
-        valueComboBox=new JComboBox<String>(KeywordType.enumValues.toArray(new String[0]));
+        List<String> enumValues= EnumTypeConstants.enumListMap.get(getEnumTypeMetadata().elementName);
+        if (enumValues==null)
+            throw new SEDALibException("Type Enuméré ["+getEnumTypeMetadata().elementName+"] inconnu");
+        valueComboBox=new JComboBox<String>(enumValues.toArray(new String[0]));
         valueComboBox.setEditable(true);
         valueComboBox.getEditor().getEditorComponent().setFocusable(false);
         valueComboBox.setFont(SEDAObjectEditor.EDIT_FONT);
-        valueComboBox.setSelectedItem(getKeywordTypeMetadata().getValue());
+        valueComboBox.setSelectedItem(getEnumTypeMetadata().getValue());
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(0, 0, 0, 0);

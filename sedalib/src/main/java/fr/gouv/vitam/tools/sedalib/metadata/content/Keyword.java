@@ -55,7 +55,7 @@ public class Keyword extends ComplexListType {
         metadataMap = new LinkedHashMap<>();
         metadataMap.put("KeywordContent", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("KeywordReference", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put("KeywordType", new ComplexListMetadataKind(KeywordType.class, false));
+        metadataMap.put("KeywordType", new ComplexListMetadataKind(EnumType.class, false));
     }
 
     /**

@@ -25,10 +25,9 @@
  * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
  * accept its terms.
  */
-package fr.gouv.vitam.tools.sedalib.metadata.content;
+package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
@@ -42,15 +41,9 @@ import java.util.List;
 /**
  * The Class KeywordType.
  * <p>
- * For abstract String formatted SEDA metadata
+ * For abstract Enum formatted SEDA metadata
  */
-public class KeywordType extends NamedTypeMetadata {
-
-    /**
-     * Enum restricted values.
-     */
-    public static final List<String> enumValues = Arrays.asList("corpname", "famname", "geogname", "name",
-            "occupation", "persname", "subject", "genreform", "function");
+public class EnumType extends NamedTypeMetadata {
 
     /**
      * The value.
@@ -58,24 +51,44 @@ public class KeywordType extends NamedTypeMetadata {
     private String value;
 
     /**
-     * Instantiates a new code keyword.
+     * The values list.
      */
-    public KeywordType() {
-        super("KeywordType");
+    private String enumValues;
+
+    /**
+     * Instantiates a new enum type.
+     */
+    public EnumType() throws SEDALibException {
+        this(null,null);
     }
 
     /**
-     * Instantiates a new code keyword.
+     * Instantiates a new enum type.
      *
+     * @param elementName the XML element name
+     */
+    public EnumType(String elementName) throws SEDALibException {
+        this(elementName, null);
+    }
+
+    /**
+     * Instantiates a new enum type.
+     *
+     * @param elementName the XML element name
      * @param value the value
      * @throws SEDALibException the seda lib exception
      */
-    public KeywordType(String value) throws SEDALibException {
-        this();
-        if (enumValues.contains(value))
+    public EnumType(String elementName,String value) throws SEDALibException {
+        super(elementName);
+        List<String> enumValues= EnumTypeConstants.enumListMap.get(elementName);
+        if (enumValues==null)
+            throw new SEDALibException("Type Enuméré ["+elementName+"] inconnu");
+        if (value==null)
+            this.value= "";
+        else if (value.isEmpty() || enumValues.contains(value))
             this.value = value;
         else
-            throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
+            throw new SEDALibException("Valeur interdite ["+value+"] dans un élément [" + elementName + "]");
     }
 
 
@@ -121,6 +134,9 @@ public class KeywordType extends NamedTypeMetadata {
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
                     value = event.asCharacters().getData();
+                    List<String> enumValues= EnumTypeConstants.enumListMap.get(elementName);
+                    if (enumValues==null)
+                        throw new SEDALibException("Type Enuméré ["+elementName+"] inconnu");
                     if (!enumValues.contains(value))
                         throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
                     event = xmlReader.nextUsefullEvent();
@@ -157,7 +173,12 @@ public class KeywordType extends NamedTypeMetadata {
      * @throws SEDALibException the seda lib exception
      */
     public void setValue(String value) throws SEDALibException {
-        if (enumValues.contains(value))
+        List<String> enumValues= EnumTypeConstants.enumListMap.get(elementName);
+        if (enumValues==null)
+            throw new SEDALibException("Type Enuméré ["+elementName+"] inconnu");
+        if (value==null)
+            this.value= "";
+        else if (value.isEmpty() || enumValues.contains(value))
             this.value = value;
         else
             throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");

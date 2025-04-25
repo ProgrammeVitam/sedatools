@@ -100,7 +100,7 @@ class ContentTest {
 
         // Test Keyword and KeywordType metadata
         Keyword keyword = new Keyword();
-        KeywordType keywordType = new KeywordType("subject");
+        EnumType keywordType = new EnumType("KeywordType","subject");
         keyword.addMetadata(keywordType);
         content.addMetadata(keyword);
 
