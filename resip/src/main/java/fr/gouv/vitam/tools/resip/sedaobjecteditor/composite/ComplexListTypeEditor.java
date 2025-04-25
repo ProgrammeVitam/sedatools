@@ -100,7 +100,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
             throw new SEDALibException("La création d'une métadonnée de type [" + complexListSubType + "] a généré une erreur", te.getTargetException());
         }
         result.elementName = elementName;
-        for (String metadataName : result.getMetadataOrderedList()) {
+        for (String metadataName : result.getMetadataMap().keySet()) {
             if (!minimal || (SEDAObjectEditorConstants.minimalTagList.contains(metadataName))) {
                 ComplexListMetadataKind complexListMetadataKind = result.getMetadataMap().get(metadataName);
                 SEDAMetadata metadataObject = SEDAObjectEditor.createSEDAMetadataSample(complexListMetadataKind.getMetadataClass().getSimpleName(), metadataName, minimal);
@@ -119,7 +119,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
                 }
             }
         }
-        if (!result.isNotExpendable() && !minimal)
+        if (!result.isNotExpandable() && !minimal)
             try {
                 result.addNewMetadata("AnyXMLType", "<AnyOtherMetadata><SubTag1>Text1</SubTag1><SubTag2>Text2</SubTag2></AnyOtherMetadata>");
             } catch (SEDALibException ignored) {
@@ -148,7 +148,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
         String result;
         if (sm instanceof ComplexListType) {
             List<String> summaryList = new ArrayList<>(objectEditorList.size());
-            for (SEDAMetadata innerSM : ((ComplexListType) sm).metadataList) {
+            for (SEDAMetadata innerSM : ((ComplexListType) sm).getMetadataList()) {
                 result = getSEDAMetadataSummary(innerSM, depth + 1, length);
                 length += result.length() + 2;
                 summaryList.add(result);
@@ -185,7 +185,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
         this.objectEditorList = new ArrayList<SEDAObjectEditor>();
         this.sedaObjectEditorPanel = new SEDAObjectEditorCompositePanel(this);
         if (!hasSubeditorsCreatedWhenExpandedFlag()) {
-            for (SEDAMetadata detail : getComplexListTypeMetadata().metadataList) {
+            for (SEDAMetadata detail : getComplexListTypeMetadata().getMetadataList()) {
                 SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(detail, this);
                 objectEditorList.add(objectEditor);
             }
@@ -201,12 +201,12 @@ public class ComplexListTypeEditor extends CompositeEditor {
         for (SEDAObjectEditor soe : objectEditorList) {
             used.add(soe.getTag());
         }
-        for (String metadataName : getComplexListTypeMetadata().getMetadataOrderedList()) {
+        for (String metadataName : getComplexListTypeMetadata().getMetadataMap().keySet()) {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
             if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName)))
                 result.add(Pair.of(metadataName, translateTag(metadataName)));
         }
-        if (!getComplexListTypeMetadata().isNotExpendable())
+        if (!getComplexListTypeMetadata().isNotExpandable())
             result.add(Pair.of("AnyXMLType", translateTag("AnyXMLType")));
 
         result.sort((p1, p2) -> p1.getValue().compareTo(p2.getValue()));
@@ -218,14 +218,14 @@ public class ComplexListTypeEditor extends CompositeEditor {
         int curOrderIndex;
         int i;
         boolean manyFlag;
-        addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);
+        addOrderIndex = getComplexListTypeMetadata().indexOfMetadata(metadataName);
         i = 0;
         if (addOrderIndex == -1)
             return Integer.MAX_VALUE;
         else {
             manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
             for (SEDAObjectEditor soe : objectEditorList) {
-                curOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(soe.getTag());
+                curOrderIndex = getComplexListTypeMetadata().indexOfMetadata(soe.getTag());
                 if ((!manyFlag) && (curOrderIndex == addOrderIndex) ||
                         (curOrderIndex == -1) || (curOrderIndex > addOrderIndex)) {
                     break;
@@ -239,7 +239,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
     @Override
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata = null;
-        if (!getComplexListTypeMetadata().isNotExpendable() && metadataName.equals("AnyXMLType"))
+        if (!getComplexListTypeMetadata().isNotExpandable() && metadataName.equals("AnyXMLType"))
             sedaMetadata = createSEDAMetadataSample("AnyXMLType", "AnyXMLType", true);
         else {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
@@ -282,7 +282,7 @@ public class ComplexListTypeEditor extends CompositeEditor {
     @Override
     public void createSubEditors() {
         try {
-            for (SEDAMetadata detail : getComplexListTypeMetadata().metadataList) {
+            for (SEDAMetadata detail : getComplexListTypeMetadata().getMetadataList()) {
                 SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(detail, this);
                 objectEditorList.add(objectEditor);
                 if (objectEditor instanceof CompositeEditor)

@@ -99,39 +99,67 @@ public class ManagementMetadata extends ComplexListType {
         super("ManagementMetadata");
     }
 
+    // FIXME: est-ce vraiment pertinent de tordre la logique systématique des constructeurs pour ce cas?
 
     /**
      * Adds a new metadata, or replace it if it exists and the metadata can't have
-     * many values. This is a flexible constructor used to simplify metadata management.
+     * many values. For RuleType metadata, if an instance already exists, adds the args
+     * as new rules to the existing RuleType instance rather than creating a new one.
+     * This is a flexible constructor used to simplify metadata management.
+     *
+     * @param elementName The name of the element to add
+     * @param args        The arguments to construct the metadata
+     * @throws SEDALibException if metadata construction fails
      */
     @Override
     public void addNewMetadata(String elementName, Object... args) throws SEDALibException {
-        int ruleIndex = IntStream.range(0, metadataList.size())
-            .boxed()
-            .map(e -> new SimpleEntry<>(metadataList.get(e), e))
-            .filter(e -> e.getKey().getXmlElementName().equals(elementName)).map(Map.Entry::getValue)
-            .max(Integer::compareTo).orElse(0);
-        if (ruleIndex == 0) {
-            super.addNewMetadata(elementName, args);
-        } else {
-            ((RuleType) metadataList.get(ruleIndex)).addNewMetadata("Rule", args);
-        }
-    }
+        ComplexListMetadataKind metadataKind = getMetadataMap().get(elementName);
 
-    @Override
-    public void addMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
-        int ruleIndex = IntStream.range(0, metadataList.size())
-            .boxed()
-            .map(e -> new SimpleEntry<>(metadataList.get(e), e))
-            .filter(e -> e.getKey().getXmlElementName().equals(sedaMetadata.getXmlElementName())).map(Map.Entry::getValue)
-            .max(Integer::compareTo).orElse(0);
-        if (ruleIndex == 0) {
-            super.addMetadata(sedaMetadata);
-        }else {
-            RuleType ruleType = ((RuleType) metadataList.get(ruleIndex));
-            for (SEDAMetadata metadata : ((RuleType) sedaMetadata).metadataList) {
-                ruleType.addMetadata(metadata);
+        if (RuleType.class.isAssignableFrom(metadataKind.getMetadataClass())) {
+            int ruleIndex = 0;
+            for (int i = 0; i < metadataList.size(); i++) {
+                if (metadataList.get(i).getXmlElementName().equals(elementName)) {
+                    ruleIndex = i;
+                }
+            }
+            if (ruleIndex != 0) {
+                ((RuleType) metadataList.get(ruleIndex)).addNewMetadata("Rule", args);
+                return;
             }
         }
+        super.addNewMetadata(elementName, args);
+    }
+
+    // FIXME: est-ce vraiment pertinent de tordre la logique systématique des constructeurs pour ce cas?
+
+    /**
+     * Adds a metadata object that matches the element name in the metadata map.
+     * If the metadata is a RuleType and one already exists with same element name, merges the metadata lists.
+     * Otherwise delegates to parent class implementation.
+     *
+     * @param sedaMetadata the metadata object to add
+     * @throws SEDALibException if metadata does not match element name in metadata map
+     */
+    @Override
+    public void addMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
+        ComplexListMetadataKind metadataKind = getMetadataMap().get(sedaMetadata.getXmlElementName());
+
+        if (RuleType.class.isAssignableFrom(metadataKind.getMetadataClass())) {
+            int ruleIndex = 0;
+            for (int i = 0; i < metadataList.size(); i++) {
+                if (metadataList.get(i).getXmlElementName().equals(sedaMetadata.getXmlElementName())) {
+                    ruleIndex = i;
+                }
+            }
+            if (ruleIndex != 0) {
+                RuleType ruleType = ((RuleType) metadataList.get(ruleIndex));
+                for (SEDAMetadata metadata : ((RuleType) sedaMetadata).getMetadataList()) {
+                    ruleType.addMetadata(metadata);
+                }
+                super.addMetadata(ruleType);
+                return;
+            }
+        }
+        super.addMetadata(sedaMetadata);
     }
 }

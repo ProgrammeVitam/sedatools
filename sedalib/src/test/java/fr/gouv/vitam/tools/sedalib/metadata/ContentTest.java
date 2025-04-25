@@ -255,7 +255,7 @@ class ContentTest {
 
         // and add Agent in SEDA 2.1 version then
         assertThatThrownBy(() -> c.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier"))
-                .isInstanceOf(SEDALibException.class).hasMessageContaining("Pas de constructeur de l'élément [Agent]");
+                .isInstanceOf(SEDALibException.class).hasStackTraceContaining("Pas de constructeur de l'élément [Agent]");
 
         // and add Agent in SEDA 2.1 version then
         SEDA2Version.setSeda2Version(2);
@@ -291,19 +291,19 @@ class ContentTest {
 
         //Test wrong args in addNewMetadata
         assertThatThrownBy(() -> c.addNewMetadata("DescriptionLevel", "Test1", "Test2"))
-                .hasMessageContaining("Pas de constructeur"); // for StringType
+                .hasStackTraceContaining("Pas de constructeur"); // for StringType
         assertThatThrownBy(() -> c.addNewMetadata("Description", "Test1", "Test2", "Test3"))
-                .hasMessageContaining("Pas de constructeur"); // for TextType
+                .hasStackTraceContaining("Pas de constructeur"); // for TextType
         assertThatThrownBy(() -> c.addNewMetadata("Recipient", "Test", 1))
-                .hasMessageContaining("Pas de constructeur"); // for AgentType
+                .hasStackTraceContaining("Pas de constructeur"); // for AgentType
         assertThatThrownBy(() -> c.addNewMetadata("XMLTest", new Date(0)))
-                .hasMessageContaining("Pas de constructeur"); // for GenericXMLBlock
+                .hasStackTraceContaining("Pas de constructeur"); // for GenericXMLBlock
         Event event = new Event();
         assertThatThrownBy(() -> event.addNewMetadata("EventDateTime", "Date"))
-                .hasMessageContaining("Impossible de construire"); // for DateTimeType
+                .hasStackTraceContaining("Impossible de construire"); // for DateTimeType
         // Test Keyword metadata with wrong KeywordType
         assertThatThrownBy(() -> c.addNewMetadata("Keyword", "TestKeywordContent", "TestKeywordReference", "notconvenient"))
-                .hasMessageContaining("Impossible de construire l'élément [Keyword]");
+                .hasStackTraceContaining("Impossible de construire l'élément [Keyword]");
 
     }
 

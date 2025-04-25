@@ -6,5 +6,5 @@ import java.lang.annotation.RetentionPolicy;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ComplexListMetadataMap {
     boolean isExpandable() default false;
-    int[] seda2Version() default {-1}; // NON_SPECIFIC_SEDA2_VERSION
+    int[] seda2Version() default {0}; // NON_SPECIFIC_SEDA2_VERSION
 }

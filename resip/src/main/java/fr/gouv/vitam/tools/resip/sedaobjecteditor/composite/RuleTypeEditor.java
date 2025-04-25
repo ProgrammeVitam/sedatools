@@ -4,10 +4,7 @@ import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Rule;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -29,14 +26,14 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
     protected int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
         if(metadataName.equals(RULE_TAG))
             return getNewRuleIndex();
-        int addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);
+        int addOrderIndex = getComplexListTypeMetadata().indexOfMetadata(metadataName);
         int i = 0;
         if (addOrderIndex == -1)
             return Integer.MAX_VALUE;
         else {
             boolean manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
             for (SEDAObjectEditor soe : objectEditorList) {
-                int curOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(soe.getTag());
+                int curOrderIndex = getComplexListTypeMetadata().indexOfMetadata(soe.getTag());
                 if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
                     break;
                 }
@@ -60,7 +57,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
 
     public void addChildTo(String metadataName, Rule ruleParent) throws SEDALibException {
         SEDAMetadata sedaMetadata;
-        if (!getComplexListTypeMetadata().isNotExpendable() && metadataName.equals("AnyXMLType"))
+        if (!getComplexListTypeMetadata().isNotExpandable() && metadataName.equals("AnyXMLType"))
             sedaMetadata = createSEDAMetadataSample("AnyXMLType", "AnyXMLType", true);
         else {
             ComplexListMetadataKind complexListMetadataKind = getComplexListTypeMetadata().getMetadataMap().get(metadataName);
@@ -81,7 +78,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
     }
 
     private int getInsertionSEDAObjectEditorIndex(String metadataName, Rule ruleParent) throws SEDALibException {
-        int addOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(metadataName);
+        int addOrderIndex = getComplexListTypeMetadata().indexOfMetadata(metadataName);
         int parentIndex = objectEditorList.stream().map(SEDAObjectEditor::getEditedObject).collect(Collectors.toList()).indexOf(ruleParent);
         if(parentIndex == -1)
             throw new IllegalStateException("Cannot find parent element");
@@ -92,7 +89,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
             boolean manyFlag = getComplexListTypeMetadata().getMetadataMap().get(metadataName).isMany();
             for (SEDAObjectEditor soe : objectEditorList.subList(parentIndex + 1, objectEditorList.size())) {
                 if(soe.getTag().equals("Rule")) break;
-                int curOrderIndex = getComplexListTypeMetadata().getMetadataOrderedList().indexOf(soe.getTag());
+                int curOrderIndex = getComplexListTypeMetadata().indexOfMetadata(soe.getTag());
                 if ((!manyFlag) && (curOrderIndex == addOrderIndex)) {
                     break;
                 }
@@ -119,7 +116,7 @@ public class RuleTypeEditor extends ComplexListTypeEditor {
             if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName)))
                 result.add(Pair.of(metadataName, translateTag(metadataName)));
         }
-        if (!getComplexListTypeMetadata().isNotExpendable())
+        if (!getComplexListTypeMetadata().isNotExpandable())
             result.add(Pair.of("AnyXMLType", translateTag("AnyXMLType")));
 
         result.sort(comparingByValue());

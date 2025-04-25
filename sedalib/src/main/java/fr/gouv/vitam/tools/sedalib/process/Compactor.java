@@ -308,7 +308,7 @@ public class Compactor {
     }
 
     private Content copyAllSEDAMetadata(Content originContent, Content destContent) {
-        destContent.metadataList.addAll(originContent.metadataList);
+        destContent.getMetadataList().addAll(originContent.getMetadataList());
         return destContent;
     }
 
@@ -320,13 +320,13 @@ public class Compactor {
         // if no metadata filter defined all is copied
         if (contentMetadataFilter == null) {
             copyAllSEDAMetadata(originContent, resultContent);
-        } else for (SEDAMetadata sm : originContent.metadataList) {
+        } else for (SEDAMetadata sm : originContent.getMetadataList()) {
             Integer limit = contentMetadataFilter.get(sm.getXmlElementName());
             if (limit != null) {
                 if (limit == 0)
-                    resultContent.metadataList.add(sm);
+                    resultContent.getMetadataList().add(sm);
                 else
-                    resultContent.metadataList.add(truncateTextType(sm, limit));
+                    resultContent.getMetadataList().add(truncateTextType(sm, limit));
             } else
                 droppedMetadataCounted++;
         }
