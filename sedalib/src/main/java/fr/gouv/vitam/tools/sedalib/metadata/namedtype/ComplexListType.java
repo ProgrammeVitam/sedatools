@@ -448,7 +448,7 @@ public abstract class ComplexListType extends NamedTypeMetadata {
                     " a un trop grand nombre de variables annotées @ComplexListMetadataMap accessibles");
 
         Object object;
-        int seda2Version;
+        int[] seda2Version;
         boolean isExpandable;
         LinkedHashMap<String, ComplexListMetadataKind> metadataMap;
         for (Field field : fields) {
@@ -466,9 +466,11 @@ public abstract class ComplexListType extends NamedTypeMetadata {
                 throw new SEDALibException("La variable " + field + " annotée @ComplexListMetadataMap du type " +
                         subClass + " n'est pas de type LinkedHashMap<String,ComplexListMetadataKind>", e);
             }
-            subTypeMetadataMapMap[seda2Version + 1].put(subClass, metadataMap);
-            subTypeMetadataOrderedListMap[seda2Version + 1].put(subClass, new ArrayList<>(metadataMap.keySet()));
-            subTypeNotExpandableMap[seda2Version + 1].put(subClass, !isExpandable);
+            for (int version : seda2Version) {
+                subTypeMetadataMapMap[version + 1].put(subClass, metadataMap);
+                subTypeMetadataOrderedListMap[version + 1].put(subClass, new ArrayList<>(metadataMap.keySet()));
+                subTypeNotExpandableMap[version + 1].put(subClass, !isExpandable);
+            }
         }
         analyzedSubTypeMetadataSet.add(subClass);
     }
