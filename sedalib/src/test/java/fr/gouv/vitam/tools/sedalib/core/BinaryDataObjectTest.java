@@ -56,6 +56,9 @@ class BinaryDataObjectTest {
                 "    \"elementName\" : \"DataObjectVersion\",\n" +
                 "    \"value\" : \"BinaryMaster_1\"\n" +
                 "  },\n" +
+                "  \"persistentIdentifier\" : null,\n" +
+                "  \"dataObjectUse\" : null,\n" +
+                "  \"dataObjectNumber\" : null,\n" +
                 "  \"uri\" : {\n" +
                 "    \"type\" : \"StringType\",\n" +
                 "    \"elementName\" : \"Uri\",\n" +

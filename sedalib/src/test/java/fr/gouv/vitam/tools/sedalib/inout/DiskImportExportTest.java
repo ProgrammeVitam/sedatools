@@ -58,6 +58,9 @@ class DiskImportExportTest implements UseTestFiles {
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_1\"\n" +
                 "    },\n" +
+                "    \"persistentIdentifier\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"uri\" : null,\n" +
                 "    \"messageDigest\" : {\n" +
                 "      \"type\" : \"DigestType\",\n" +
@@ -116,6 +119,9 @@ class DiskImportExportTest implements UseTestFiles {
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"TextContent_1\"\n" +
                 "    },\n" +
+                "    \"persistentIdentifier\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"uri\" : null,\n" +
                 "    \"messageDigest\" : {\n" +
                 "      \"type\" : \"DigestType\",\n" +
@@ -252,6 +258,9 @@ class DiskImportExportTest implements UseTestFiles {
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_1\"\n" +
                 "    },\n" +
+                "    \"persistentIdentifier\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"uri\" : null,\n" +
                 "    \"messageDigest\" : {\n" +
                 "      \"type\" : \"DigestType\",\n" +

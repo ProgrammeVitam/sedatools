@@ -118,6 +118,12 @@ public class ArchiveTransfer {
                     xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
                             "fr:gouv:culture:archivesdefrance:seda:v2.2 seda-2.2-main.xsd");
                     break;
+                case 3:
+                    xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.3");
+                    xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+                    xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
+                            "fr:gouv:culture:archivesdefrance:seda:v2.3 seda-2.3-main.xsd");
+                    break;
                 default:
                     throw new SEDALibException("Version de SEDA ["+ SEDA2Version.getSeda2VersionString() +"] sans schéma",null);
             }

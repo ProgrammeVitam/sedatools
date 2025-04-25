@@ -127,6 +127,9 @@ class DataObjectPackageTest {
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_1\"\n" +
                 "    },\n" +
+                "    \"persistentIdentifier\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"uri\" : {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"Uri\",\n" +
@@ -189,6 +192,9 @@ class DataObjectPackageTest {
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"TextContent_1\"\n" +
                 "    },\n" +
+                "    \"persistentIdentifier\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"uri\" : {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"Uri\",\n" +
@@ -251,6 +257,9 @@ class DataObjectPackageTest {
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_1\"\n" +
                 "    },\n" +
+                "    \"persistentIdentifier\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"uri\" : {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"Uri\",\n" +
@@ -313,6 +322,9 @@ class DataObjectPackageTest {
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"TextContent_1\"\n" +
                 "    },\n" +
+                "    \"persistentIdentifier\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"uri\" : {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"Uri\",\n" +
@@ -375,6 +387,9 @@ class DataObjectPackageTest {
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_2\"\n" +
                 "    },\n" +
+                "    \"persistentIdentifier\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"uri\" : {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"Uri\",\n" +
@@ -437,6 +452,9 @@ class DataObjectPackageTest {
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_3\"\n" +
                 "    },\n" +
+                "    \"persistentIdentifier\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"uri\" : {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"Uri\",\n" +

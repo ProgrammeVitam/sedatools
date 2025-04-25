@@ -58,8 +58,10 @@ class SIPImportTest implements UseTestFiles {
                 "    \"dataObjectGroupId\" : null,\n" +
                 "    \"dataObjectGroupReferenceId\" : null,\n" +
                 "    \"dataObjectGroupSystemId\" : null,\n" +
+                "    \"dataObjectNumber\" : null,\n" +
                 "    \"dataObjectProfile\" : null,\n" +
                 "    \"dataObjectSystemId\" : null,\n" +
+                "    \"dataObjectUse\" : null,\n" +
                 "    \"dataObjectVersion\" : {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
@@ -124,6 +126,7 @@ class SIPImportTest implements UseTestFiles {
                 "    },\n" +
                 "    \"metadata\" : null,\n" +
                 "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\SipOK.zip-tmpdir\\\\Content\\\\ID13.txt\",\n" +
+                "    \"persistentIdentifier\" : null,\n" +
                 "    \"relationshipsXmlData\" : [ ],\n" +
                 "    \"size\" : {\n" +
                 "      \"type\" : \"IntegerType\",\n" +

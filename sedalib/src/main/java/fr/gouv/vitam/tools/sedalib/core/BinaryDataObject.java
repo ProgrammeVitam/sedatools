@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.sedalib.core;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
@@ -102,6 +103,21 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      * The data object version.
      */
     public StringType dataObjectVersion;
+
+    /**
+     * The persistent identifier (only in Seda 2.3).
+     */
+    public PersistentIdentifier persistentIdentifier;
+
+    /**
+     * The data object use (only in Seda 2.3).
+     */
+    public StringType dataObjectUse;
+
+    /**
+     * The data object number (only in Seda 2.3).
+     */
+    public IntegerType dataObjectNumber;
 
     // Attachment
     // - binary content in xml not supported by SEDALib
@@ -191,7 +207,13 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         this.relationshipsXmlData = new ArrayList<>();
         this.dataObjectGroupReferenceId = null;
         this.dataObjectGroupId = null;
-        this.dataObjectVersion = new StringType("DataObjectVersion", dataObjectVersion);
+        if (dataObjectVersion==null)
+            this.dataObjectVersion=null;
+        else
+            this.dataObjectVersion = new StringType("DataObjectVersion", dataObjectVersion);
+        this.persistentIdentifier = null;
+        this.dataObjectUse = null;
+        this.dataObjectNumber = null;
         this.uri = null;
         this.messageDigest = null;
         this.size = null;
@@ -386,18 +408,32 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      */
     @Override
     public String toString() {
-        String result="";
+        String result = "";
         try {
-            if (SEDA2Version.getSeda2Version()>1) {
+            if (SEDA2Version.getSeda2Version() > 1) {
                 if (dataObjectProfile == null)
                     result = "DataObjectProfile: non défini\n";
                 else
-                    result = "DataObjectProfile: " + undefined(dataObjectProfile.getValue())+"\n";
+                    result = "DataObjectProfile: " + undefined(dataObjectProfile.getValue()) + "\n";
             }
-            if (dataObjectVersion == null)
-                result += "DataObjectVersion: non défini";
-            else
-                result += "DataObjectVersion: " + undefined(dataObjectVersion.getValue());
+            if (persistentIdentifier != null) {
+                String add;
+                result += "PersistentIdentifier: ";
+                add = persistentIdentifier.getSimpleMetadata("PersistentIdentifierType");
+                result += (add != null ? add : "-") + "/";
+                add = persistentIdentifier.getSimpleMetadata("PersistentIdentifierOrigin");
+                result += (add != null ? add : "-") + "/";
+                add = persistentIdentifier.getSimpleMetadata("PersistentIdentifierReference");
+                result += (add != null ? add : "-") + "/";
+                add = persistentIdentifier.getSimpleMetadata("PersistentIdentifierContent");
+                result += (add != null ? add : "-") + "\n";
+            }
+            if (dataObjectVersion != null)
+                result += "DataObjectVersion: " + undefined(dataObjectVersion.getValue()) + "\n";
+            if (dataObjectUse != null)
+                result += "DataObjectUse: " + undefined(dataObjectUse.getValue()) + "\n";
+            if (dataObjectNumber != null)
+                result += "DataObjectNumber: " + Long.toString(dataObjectNumber.getValue()) + "\n";
             if (fileInfo == null)
                 result += "\nPas d'éléments FileInfo";
             else {
@@ -452,10 +488,10 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             xmlWriter.writeStartElement("BinaryDataObject");
             xmlWriter.writeAttributeIfNotEmpty("id", inDataPackageObjectId);
             if (dataObjectProfile != null) {
-                if (SEDA2Version.getSeda2Version()>1)
+                if (SEDA2Version.getSeda2Version() > 1)
                     dataObjectProfile.toSedaXml(xmlWriter);
                 else
-                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] dans le BinaryDataObject ["+inDataPackageObjectId+"]");
+                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] dans le BinaryDataObject [" + inDataPackageObjectId + "]");
             }
             if (dataObjectSystemId != null)
                 dataObjectSystemId.toSedaXml(xmlWriter);
@@ -467,6 +503,12 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
 //		dataObjectGroupId not used in 2.1 DataObjectGroup mode
             if (dataObjectVersion != null)
                 dataObjectVersion.toSedaXml(xmlWriter);
+            if (persistentIdentifier != null)
+                persistentIdentifier.toSedaXml(xmlWriter);
+            if (dataObjectUse != null)
+                dataObjectUse.toSedaXml(xmlWriter);
+            if (dataObjectNumber != null)
+                dataObjectNumber.toSedaXml(xmlWriter);
             String tmpUri = "content/" + inDataPackageObjectId;
             if (fileInfo != null) {
                 String tmp = fileInfo.getSimpleMetadata("Filename");
@@ -545,12 +587,11 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         try {
             nextElementName = xmlReader.peekName();
             if ((nextElementName != null) && (nextElementName.equals("DataObjectProfile"))) {
-                if (SEDA2Version.getSeda2Version()>1) {
+                if (SEDA2Version.getSeda2Version() > 1) {
                     dataObjectProfile = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
                     nextElementName = xmlReader.peekName();
-                }
-                else
-                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] du BinaryDataObject ["+inDataPackageObjectId+"]");
+                } else
+                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] du BinaryDataObject [" + inDataPackageObjectId + "]");
             }
             if ((nextElementName != null) && (nextElementName.equals("DataObjectSystemId"))) {
                 dataObjectSystemId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
@@ -576,6 +617,27 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             if ((nextElementName != null) && (nextElementName.equals("DataObjectVersion"))) {
                 dataObjectVersion = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
                 nextElementName = xmlReader.peekName();
+            }
+            if ((nextElementName != null) && (nextElementName.equals("PersistentIdentifier"))) {
+                if (SEDA2Version.getSeda2Version() > 2) {
+                    persistentIdentifier = (PersistentIdentifier) SEDAMetadata.fromSedaXml(xmlReader, PersistentIdentifier.class);
+                    nextElementName = xmlReader.peekName();
+                } else
+                    throw new SEDALibException("Balise XML inattendue [PersistentIdentifier] du BinaryDataObject [" + inDataPackageObjectId + "]");
+            }
+            if ((nextElementName != null) && (nextElementName.equals("DataObjectUse"))) {
+                if (SEDA2Version.getSeda2Version() > 2) {
+                    dataObjectUse = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
+                    nextElementName = xmlReader.peekName();
+                } else
+                    throw new SEDALibException("Balise XML inattendue [DataObjectUse] du BinaryDataObject [" + inDataPackageObjectId + "]");
+            }
+            if ((nextElementName != null) && (nextElementName.equals("DataObjectNumber"))) {
+                if (SEDA2Version.getSeda2Version() > 2) {
+                    dataObjectNumber = (IntegerType) SEDAMetadata.fromSedaXml(xmlReader, IntegerType.class);
+                    nextElementName = xmlReader.peekName();
+                } else
+                    throw new SEDALibException("Balise XML inattendue [DataObjectNumber] du BinaryDataObject [" + inDataPackageObjectId + "]");
             }
             if ((nextElementName != null) && (nextElementName.equals("Attachment")))
                 throw new SEDALibException("Elément Attachment non supporté");
@@ -606,7 +668,8 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
             if ((nextElementName != null) && (nextElementName.equals("Metadata"))) {
                 metadata = (Metadata) SEDAMetadata.fromSedaXml(xmlReader, Metadata.class);
             }
-        } catch (XMLStreamException e) {
+        } catch (
+                XMLStreamException e) {
             throw new SEDALibException("Erreur de lecture XML du BinaryDataObject", e);
         }
     }
@@ -706,6 +769,9 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         this.dataObjectGroupSystemId = bdo.dataObjectGroupSystemId;
         this.relationshipsXmlData = bdo.relationshipsXmlData;
         this.dataObjectVersion = bdo.dataObjectVersion;
+        this.persistentIdentifier = bdo.persistentIdentifier;
+        this.dataObjectUse = bdo.dataObjectUse;
+        this.dataObjectNumber = bdo.dataObjectNumber;
         this.messageDigest = bdo.messageDigest;
         this.size = bdo.size;
         this.compressed = bdo.compressed;
@@ -714,7 +780,7 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
         this.metadata = bdo.metadata;
     }
 
-    // Getters and setters
+// Getters and setters
 
     /*
      * (non-Javadoc)
