@@ -50,7 +50,7 @@ public class Event extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = 1)
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {1})
     public static final Map<String, ComplexListMetadataKind> metadataMap_default;
 
     static {
@@ -69,7 +69,7 @@ public class Event extends ComplexListType {
                 new ComplexListMetadataKind(StringType.class, false));
     }
 
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = 2)
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {2,3})
     public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
 
     static {

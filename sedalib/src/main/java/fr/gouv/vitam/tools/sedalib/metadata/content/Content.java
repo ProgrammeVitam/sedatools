@@ -56,7 +56,7 @@ public class Content extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = 1)
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {1})
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
@@ -116,7 +116,7 @@ public class Content extends ComplexListType {
         metadataMap.put("DocumentPack", new ComplexListMetadataKind(DocumentPack.class, false));
     }
 
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = 2)
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {2})
     public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
 
     static {
@@ -176,6 +176,68 @@ public class Content extends ComplexListType {
         // Experimental Compact extensions
         metadataMap_v2.put("DocumentContainer", new ComplexListMetadataKind(DocumentContainer.class, false));
         metadataMap_v2.put("DocumentPack", new ComplexListMetadataKind(DocumentPack.class, false));
+    }
+
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {3})
+    public static final Map<String, ComplexListMetadataKind> metadataMap_v3;
+
+    static {
+        metadataMap_v3 = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
+        metadataMap_v3.put("DescriptionLevel", new ComplexListMetadataKind(DescriptionLevel.class, false));
+        metadataMap_v3.put("Title", new ComplexListMetadataKind(TextType.class, true));
+        metadataMap_v3.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("SystemId", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("OriginatingSystemId", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("ArchivalAgencyArchiveUnitIdentifier",
+                new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("OriginatingAgencyArchiveUnitIdentifier",
+                new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("TransferringAgencyArchiveUnitIdentifier",
+                new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("Description", new ComplexListMetadataKind(TextType.class, true));
+        metadataMap_v3.put("CustodialHistory",
+                new ComplexListMetadataKind(CustodialHistory.class, false));
+        metadataMap_v3.put("Type", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("DocumentType", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("Language", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("DescriptionLanguage", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("Status", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("Version", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("Tag", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("Keyword", new ComplexListMetadataKind(Keyword.class, true));
+        metadataMap_v3.put("Coverage", new ComplexListMetadataKind(Coverage.class, false));
+        metadataMap_v3.put("OriginatingAgency",
+                new ComplexListMetadataKind(AgencyType.class, false));
+        metadataMap_v3.put("SubmissionAgency",
+                new ComplexListMetadataKind(AgencyType.class, false));
+        metadataMap_v3.put("Agent", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v3.put("AuthorizedAgent", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v3.put("Writer", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v3.put("Addressee", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v3.put("Recipient", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v3.put("Transmitter", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v3.put("Sender", new ComplexListMetadataKind(AgentType.class, true));
+        metadataMap_v3.put("Source", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("RelatedObjectReference", new ComplexListMetadataKind(RelatedObjectReference.class, false));
+        metadataMap_v3.put("CreatedDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v3.put("TransactedDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v3.put("AcquiredDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v3.put("SentDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v3.put("ReceivedDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v3.put("RegisteredDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v3.put("StartDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v3.put("EndDate", new ComplexListMetadataKind(DateTimeType.class, false));
+        metadataMap_v3.put("DateLitteral", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("Event", new ComplexListMetadataKind(Event.class, true));
+        // deprecated in Seda 2.3 metadataMap_v3.put("Signature", new ComplexListMetadataKind(Signature.class, true));
+        metadataMap_v3.put("SigningInformation", new ComplexListMetadataKind(SigningInformation.class, false));
+        metadataMap_v3.put("Gps", new ComplexListMetadataKind(Gps.class, false));
+        metadataMap_v3.put("OriginatingSystemIdReplyTo", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("TextContent", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
+        // Experimental Compact extensions
+        metadataMap_v3.put("DocumentContainer", new ComplexListMetadataKind(DocumentContainer.class, false));
+        metadataMap_v3.put("DocumentPack", new ComplexListMetadataKind(DocumentPack.class, false));
     }
 
     /**

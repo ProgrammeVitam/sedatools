@@ -9,7 +9,7 @@ public class LinkingAgentIdentifierType extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(seda2Version = 2)
+    @ComplexListMetadataMap(seda2Version = {2,3})
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
