@@ -31,6 +31,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
+import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Weight;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
@@ -58,9 +59,11 @@ import java.util.LinkedHashMap;
 //FileInfo
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({ @JsonSubTypes.Type(value = FileInfo.class, name = "FileInfo"),
+        @JsonSubTypes.Type(value = PersistentIdentifier.class, name = "PersistentIdentifier"),
         @JsonSubTypes.Type(value = AnyXMLListType.class, name = "AnyXMLListType"),
         @JsonSubTypes.Type(value = AnyXMLType.class, name = "AnyXMLType"),
         @JsonSubTypes.Type(value = StringType.class, name = "StringType"),
+        @JsonSubTypes.Type(value = EnumType.class, name = "EnumType"),
         @JsonSubTypes.Type(value = TextType.class, name = "TextType"),
         @JsonSubTypes.Type(value = DateTimeType.class, name = "DateTimeType"),
         @JsonSubTypes.Type(value = DateType.class, name = "DateType"),
