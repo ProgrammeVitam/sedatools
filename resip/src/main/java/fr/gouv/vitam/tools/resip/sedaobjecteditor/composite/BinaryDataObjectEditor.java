@@ -32,6 +32,7 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.Prefs;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
+import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
@@ -87,18 +88,24 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     static final String DATA_OBJECT_PROFILE_ELEMENT_NAME = "DataObjectProfile";
     static final int DATA_OBJECT_VERSION = 1;
     static final String DATA_OBJECT_VERSION_ELEMENT_NAME = "DataObjectVersion";
-    static final int URI = 2;
-    static final int MESSAGE_DIGEST = 3;
+    static final int DATA_OBJECT_USE = 2;
+    static final String DATA_OBJECT_USE_ELEMENT_NAME = "DataObjectUse";
+    static final int DATA_OBJECT_NUMBER = 3;
+    static final String DATA_OBJECT_NUMBER_ELEMENT_NAME = "DataObjectNumber";
+    static final int PERSISTENT_IDENTIFIER = 4;
+    static final String PERSISTENT_IDENTIFIER_ELEMENT_NAME = "PersistentIdentifier";
+    static final int URI = 5;
+    static final int MESSAGE_DIGEST = 6;
     static final String MESSAGE_DIGEST_ELEMENT_NAME = "MessageDigest";
-    static final int SIZE = 4;
+    static final int SIZE = 7;
     static final String SIZE_ELEMENT_NAME = "Size";
-    static final int COMPRESSED = 5;
+    static final int COMPRESSED = 8;
     static final String COMPRESSED_ELEMENT_NAME = "Compressed";
-    static final int FORMAT_IDENTIFICATION = 6;
+    static final int FORMAT_IDENTIFICATION = 9;
     static final String FORMAT_IDENTIFICATION_ELEMENT_NAME = "FormatIdentification";
-    static final int FILE_INFO = 7;
+    static final int FILE_INFO = 10;
     static final String FILE_INFO_ELEMENT_NAME = "FileInfo";
-    static final int METADATA = 8;
+    static final int METADATA = 11;
     static final String METADATA_ELEMENT_NAME = "Metadata";
 
     static final String STRING_TYPE_CLASS = "StringType";
@@ -106,6 +113,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     static final String INTEGER_TYPE_CLASS = "IntegerType";
     static final String FORMAT_IDENTIFICATION_CLASS = "FormatIdentification";
     static final String FILE_INFO_CLASS = "FileInfo";
+    static final String PERSISTENT_IDENTIFIER_CLASS = "PersistentIdentifier";
     static final String METADATA_CLASS = "Metadata";
 
     /**
@@ -123,7 +131,7 @@ public class BinaryDataObjectEditor extends CompositeEditor {
     public BinaryDataObjectEditor(BinaryDataObject editedObject, SEDAObjectEditor father) {
         super(editedObject, father);
         this.editedOnDiskPath = editedObject.getOnDiskPath();
-        this.objectEditorArray = new SEDAObjectEditor[9];
+        this.objectEditorArray = new SEDAObjectEditor[12];
     }
 
     private BinaryDataObject getBinaryDataObjectMetadata() {
@@ -156,6 +164,15 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                 case DATA_OBJECT_VERSION_ELEMENT_NAME:
                     tmpBdo.dataObjectVersion = (StringType) subMetadata;
                     break;
+                case DATA_OBJECT_USE_ELEMENT_NAME:
+                    tmpBdo.dataObjectUse = (StringType) subMetadata;
+                    break;
+                case DATA_OBJECT_NUMBER_ELEMENT_NAME:
+                    tmpBdo.dataObjectNumber = (IntegerType) subMetadata;
+                    break;
+                case PERSISTENT_IDENTIFIER_ELEMENT_NAME:
+                    tmpBdo.persistentIdentifier = (PersistentIdentifier) subMetadata;
+                    break;
                 case "Uri":
                     tmpBdo.uri = (StringType) subMetadata;
                     break;
@@ -184,6 +201,11 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         }
         getBinaryDataObjectMetadata().dataObjectProfile = tmpBdo.dataObjectProfile;
         getBinaryDataObjectMetadata().dataObjectVersion = tmpBdo.dataObjectVersion;
+        if (SEDA2Version.getSeda2Version() > 2) {
+            getBinaryDataObjectMetadata().dataObjectUse = tmpBdo.dataObjectUse;
+            getBinaryDataObjectMetadata().dataObjectNumber = tmpBdo.dataObjectNumber;
+            getBinaryDataObjectMetadata().persistentIdentifier = tmpBdo.persistentIdentifier;
+        }
         getBinaryDataObjectMetadata().uri = tmpBdo.uri;
         getBinaryDataObjectMetadata().messageDigest = tmpBdo.messageDigest;
         getBinaryDataObjectMetadata().size = tmpBdo.size;
@@ -212,8 +234,15 @@ public class BinaryDataObjectEditor extends CompositeEditor {
 
         if (getBinaryDataObjectMetadata().dataObjectVersion != null)
             summaryList.add(getBinaryDataObjectMetadata().dataObjectVersion.getValue());
-        else
-            summaryList.add(translateTag(UNKNOWN));
+
+        if (getBinaryDataObjectMetadata().dataObjectUse != null)
+            summaryList.add(getBinaryDataObjectMetadata().dataObjectUse.getValue());
+
+        if (getBinaryDataObjectMetadata().dataObjectNumber != null)
+            summaryList.add(Long.toString(getBinaryDataObjectMetadata().dataObjectNumber.getValue()));
+
+        if (getBinaryDataObjectMetadata().persistentIdentifier != null)
+            summaryList.add(getBinaryDataObjectMetadata().dataObjectNumber.toString());
 
         if (getBinaryDataObjectMetadata().fileInfo != null) {
             tmp = getItOrUnknown(getBinaryDataObjectMetadata().fileInfo.getSimpleMetadata("Filename"));
@@ -291,6 +320,12 @@ public class BinaryDataObjectEditor extends CompositeEditor {
             objectEditorArray[DATA_OBJECT_PROFILE] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectProfile, this);
         if (getBinaryDataObjectMetadata().dataObjectVersion != null)
             objectEditorArray[DATA_OBJECT_VERSION] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectVersion, this);
+        if (getBinaryDataObjectMetadata().dataObjectUse != null)
+            objectEditorArray[DATA_OBJECT_USE] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectUse, this);
+        if (getBinaryDataObjectMetadata().dataObjectNumber != null)
+            objectEditorArray[DATA_OBJECT_NUMBER] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().dataObjectNumber, this);
+        if (getBinaryDataObjectMetadata().persistentIdentifier != null)
+            objectEditorArray[PERSISTENT_IDENTIFIER] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().persistentIdentifier, this);
         if (getBinaryDataObjectMetadata().uri != null)
             objectEditorArray[URI] = SEDAObjectEditor.createSEDAObjectEditor(getBinaryDataObjectMetadata().uri, this);
         if (getBinaryDataObjectMetadata().messageDigest != null)
@@ -424,6 +459,20 @@ public class BinaryDataObjectEditor extends CompositeEditor {
                         Pair.of(FILE_INFO_ELEMENT_NAME, translateTag(FILE_INFO_ELEMENT_NAME)),
                         Pair.of(METADATA_ELEMENT_NAME, translateTag(METADATA_ELEMENT_NAME))));
                 break;
+            case 3:
+                extensionList = new ArrayList<>(Arrays.asList(
+                        Pair.of(DATA_OBJECT_PROFILE_ELEMENT_NAME, translateTag(DATA_OBJECT_PROFILE_ELEMENT_NAME)),
+                        Pair.of(DATA_OBJECT_VERSION_ELEMENT_NAME, translateTag(DATA_OBJECT_VERSION_ELEMENT_NAME)),
+                        Pair.of(DATA_OBJECT_USE_ELEMENT_NAME, translateTag(DATA_OBJECT_USE_ELEMENT_NAME)),
+                        Pair.of(DATA_OBJECT_NUMBER_ELEMENT_NAME, translateTag(DATA_OBJECT_NUMBER_ELEMENT_NAME)),
+                        Pair.of(PERSISTENT_IDENTIFIER_ELEMENT_NAME, translateTag(PERSISTENT_IDENTIFIER_ELEMENT_NAME)),
+                        Pair.of("Uri", translateTag("Uri")),
+                        Pair.of(MESSAGE_DIGEST_ELEMENT_NAME, translateTag(MESSAGE_DIGEST_ELEMENT_NAME)),
+                        Pair.of(SIZE_ELEMENT_NAME, translateTag(SIZE_ELEMENT_NAME)),
+                        Pair.of(FORMAT_IDENTIFICATION_ELEMENT_NAME, translateTag(FORMAT_IDENTIFICATION_ELEMENT_NAME)),
+                        Pair.of(FILE_INFO_ELEMENT_NAME, translateTag(FILE_INFO_ELEMENT_NAME)),
+                        Pair.of(METADATA_ELEMENT_NAME, translateTag(METADATA_ELEMENT_NAME))));
+                break;
             default:
                 throw new SEDALibException("Version SEDA [" + SEDA2Version.getSeda2VersionString() + "] inconnue", null);
         }
@@ -446,6 +495,18 @@ public class BinaryDataObjectEditor extends CompositeEditor {
             case DATA_OBJECT_VERSION_ELEMENT_NAME:
                 sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_VERSION_ELEMENT_NAME, true);
                 objectEditorArray[DATA_OBJECT_VERSION] = createSEDAObjectEditor(sedaMetadata, this);
+                break;
+            case DATA_OBJECT_USE_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_USE_ELEMENT_NAME, true);
+                objectEditorArray[DATA_OBJECT_USE] = createSEDAObjectEditor(sedaMetadata, this);
+                break;
+            case DATA_OBJECT_NUMBER_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(INTEGER_TYPE_CLASS, DATA_OBJECT_NUMBER_ELEMENT_NAME, true);
+                objectEditorArray[DATA_OBJECT_NUMBER] = createSEDAObjectEditor(sedaMetadata, this);
+                break;
+            case PERSISTENT_IDENTIFIER_ELEMENT_NAME:
+                sedaMetadata = createSEDAMetadataSample(PERSISTENT_IDENTIFIER_CLASS, PERSISTENT_IDENTIFIER_ELEMENT_NAME, true);
+                objectEditorArray[PERSISTENT_IDENTIFIER] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
             case "Uri":
                 sedaMetadata = createSEDAMetadataSample(STRING_TYPE_CLASS, "Uri", true);
@@ -506,6 +567,11 @@ public class BinaryDataObjectEditor extends CompositeEditor {
         if (SEDA2Version.getSeda2Version() > 1)
             result.dataObjectProfile = (StringType) createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_PROFILE_ELEMENT_NAME, minimal);
         result.dataObjectVersion = (StringType) createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_VERSION_ELEMENT_NAME, minimal);
+        if (SEDA2Version.getSeda2Version() > 2) {
+            result.dataObjectUse = (StringType) createSEDAMetadataSample(STRING_TYPE_CLASS, DATA_OBJECT_USE_ELEMENT_NAME, minimal);
+            result.dataObjectNumber = (IntegerType) createSEDAMetadataSample(INTEGER_TYPE_CLASS, DATA_OBJECT_NUMBER_ELEMENT_NAME, minimal);
+            result.persistentIdentifier = (PersistentIdentifier) createSEDAMetadataSample(PERSISTENT_IDENTIFIER_CLASS, PERSISTENT_IDENTIFIER_ELEMENT_NAME, minimal);
+        }
         result.messageDigest = (DigestType) createSEDAMetadataSample(DIGEST_TYPE_CLASS, MESSAGE_DIGEST_ELEMENT_NAME, minimal);
         result.size = (IntegerType) createSEDAMetadataSample(INTEGER_TYPE_CLASS, SIZE_ELEMENT_NAME, minimal);
         result.formatIdentification = (FormatIdentification) createSEDAMetadataSample(FORMAT_IDENTIFICATION_CLASS, FORMAT_IDENTIFICATION_ELEMENT_NAME, minimal);

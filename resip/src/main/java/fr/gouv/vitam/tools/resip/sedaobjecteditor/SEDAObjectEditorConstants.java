@@ -97,7 +97,10 @@ public class SEDAObjectEditorConstants {
         sedaMetadataInformationMap.put("ReuseRule", "Règle de réutilisation");
         sedaMetadataInformationMap.put("StorageRule", "Règle de durée d’utilité courante (FinalAction possible RestrictAccess,Transfer ou Copy)");
         sedaMetadataInformationMap.put("Event", "Evènement (EventDateTime obligatoire)");
-        sedaMetadataInformationMap.put("UpdateOperation", "Définition d'attachement à une AU existante\n    Accepte aussi la forme <UpdateOperation><SystemId>guid</SystemId><UpdateOperation>)");
+        // Seda 2.3
+        sedaMetadataInformationMap.put("SigningRoleEditor", "Rôle de l'unité d'archives dans un contexte de signature. Quatre rôles (étiquettes) ont été" +
+                " identifiés : document signé, signature, horodatage et preuves complémentaires");
+        sedaMetadataInformationMap.put("DetachedSigningRole", "Référence aux rôles des unités d'archives encapsulées sous la racine contenant le document signé");
 
         minimalTagList=new ArrayList<>();
         minimalTagList.add("DescriptionLevel");
@@ -143,6 +146,11 @@ public class SEDAObjectEditorConstants {
         minimalTagList.add("LastModified");
         minimalTagList.add("LinkingAgentIdentifierType");
         minimalTagList.add("LinkingAgentIdentifierValue");
+        // Seda 2.3
+        minimalTagList.add("PersistentIdentifierType");
+        minimalTagList.add("PersistentIdentifierContent");
+        minimalTagList.add("SigningRole");
+
 
         largeAreaTagList=new ArrayList<>();
         largeAreaTagList.add("Address");
@@ -182,12 +190,14 @@ public class SEDAObjectEditorConstants {
         translateMap.put("Sender", "Expéditeur");
         translateMap.put("SentDate", "Date d'envoi");
         translateMap.put("Signature", "Signature");
+        translateMap.put("SigningInformation", "Informations de signature");
         translateMap.put("Source", "ID-papier");
         translateMap.put("Status", "Etat");
         translateMap.put("SubmissionAgency", "Service versant");
         translateMap.put("SystemId", "ID-interne");
         translateMap.put("Tag", "Tag");
         translateMap.put("TextContent", "Contenu textuel");
+        translateMap.put("PersistentIdentifier", "Identifiant pérenne");
         translateMap.put("Title", "Titre");
         translateMap.put("TransactedDate", "Date de transaction");
         translateMap.put("TransferringAgencyArchiveUnitIdentifier", "ID-versant");
@@ -204,6 +214,8 @@ public class SEDAObjectEditorConstants {
         translateMap.put("KeywordContent", "Valeur");
         translateMap.put("KeywordReference", "Identifiant");
         translateMap.put("KeywordType", "Type");
+        translateMap.put("SigningRoleEditor", "Role de l'AU");
+        translateMap.put("DetachedSigningRole", "Role des AU encapsulées");
 
         // Coverage subfields
         translateMap.put("Spatial", "Spatiale");
@@ -280,6 +292,25 @@ public class SEDAObjectEditorConstants {
         translateMap.put("Signer", "Signataire");
         translateMap.put("Validator", "Valideur");
 
+        // SigningInformaation all subfields Seda 2.3
+        translateMap.put("SigningRole", "Rôle de l'AU dans la signature");
+        translateMap.put("DetachedSigningRole", "Rôle des AU encapsulées dans la signature");
+        translateMap.put("SignedDocumentReferenceId", "Référence du document signé");
+        translateMap.put("SignatureDescription", "Description de la signature");
+        translateMap.put("TimestampingInformation", "Informations d'horodatage");
+        translateMap.put("AdditionalProof", "Preuves complémentaires");
+        translateMap.put("AdditionalProofInformation", "Informations de preuve complémentaire");
+        translateMap.put("Extended", "Champ XML libre");
+
+        // SignatureDescription all subfields Seda 2.3
+        translateMap.put("Signer", "Signataire");
+        translateMap.put("Validator", "Valideur");
+        translateMap.put("SigningType", "Qualité de signature");
+
+        // TimestampingInformation all subfields Seda 2.3
+        translateMap.put("TimeStamp", "Horodatage");
+        translateMap.put("AdditionalTimestampingInformation", "Autres informations");
+
         // GPS subfields
         translateMap.put("GpsVersionID", "Identifiant version");
         translateMap.put("GpsAltitude", "Altitude");
@@ -289,6 +320,12 @@ public class SEDAObjectEditorConstants {
         translateMap.put("GpsLongitude", "Longitude");
         translateMap.put("GpsLongitudeRef", "Référence long.");
         translateMap.put("GpsDateStamp", "Date & Heure GPS");
+
+        // PersistentIdentifier subfields
+        translateMap.put("PersistentIdentifierType", "Type");
+        translateMap.put("PersistentIdentifierOrigin", "Origine");
+        translateMap.put("PersistentIdentifierReference", "Référence");
+        translateMap.put("PersistentIdentifierContent", "Valeur");
 
         //Management all subfields
         translateMap.put("Management", "Gestion");
@@ -328,6 +365,8 @@ public class SEDAObjectEditorConstants {
         translateMap.put("BinaryDataObject", "Numérique");
         translateMap.put("DataObjectProfile", "Profil d'objet");
         translateMap.put("DataObjectVersion", "Version");
+        translateMap.put("DataObjectUse", "Usage");
+        translateMap.put("DataObjectNumber", "Numéro");
         translateMap.put("MessageDigest", "Hachage");
         translateMap.put("Size", "Taille");
         translateMap.put("Uri", "Chemin dans le SIP");
