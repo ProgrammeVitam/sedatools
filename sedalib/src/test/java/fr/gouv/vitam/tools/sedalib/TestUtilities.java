@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -134,5 +135,14 @@ public class TestUtilities {
 
     public static boolean isWindowsOS() {
         return System.getProperty("os.name").toLowerCase().contains("win");
+    }
+
+    // Reads the content of a file into a String using the specified character set.
+    public static String readFileToString(String filename) {
+        try {
+            return Files.readString(Path.of(filename), Charset.defaultCharset());
+        } catch (IOException e) {
+            return null;
+        }
     }
 }
