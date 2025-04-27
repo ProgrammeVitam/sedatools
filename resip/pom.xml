@@ -91,6 +91,18 @@
     </dependencies>
     <build>
         <plugins>
+            <!-- for tests -->
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.junit.jupiter</groupId>
+                        <artifactId>junit-jupiter-engine</artifactId>
+                        <version>${junit-jupiter-engine.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+
             <!-- make a minimal runnable jar -->
             <plugin>
                 <artifactId>maven-shade-plugin</artifactId>
