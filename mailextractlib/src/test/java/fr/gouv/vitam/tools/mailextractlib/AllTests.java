@@ -129,12 +129,12 @@ public interface AllTests {
         }
 
         for (int i = 0; i < lines.length; i++) {
-            String[] columns = lines[i].split(";");
+            String[] columns = lines[i].split("\";\"");
             StringBuilder newLine = new StringBuilder();
             for (int j = 0; j < columns.length; j++) {
                 if (!columnsToRemoveAsSet.contains(j)) {
                     if (newLine.length() > 0) {
-                        newLine.append(";");
+                        newLine.append("\";\"");
                     }
                     newLine.append(columns[j]);
                 }
