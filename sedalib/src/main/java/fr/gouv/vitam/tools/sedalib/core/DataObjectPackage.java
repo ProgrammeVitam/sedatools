@@ -363,7 +363,7 @@ public class DataObjectPackage {
     public long getDataObjectsTotalSize() {
         long result = 0;
         for (Map.Entry<String, BinaryDataObject> pair : bdoInDataObjectPackageIdMap.entrySet()) {
-            IntegerType size = pair.getValue().size;
+            IntegerType size = pair.getValue().getMetadataSize();
             if (size != null)
                 result += size.getValue();
         }
@@ -1141,8 +1141,7 @@ public class DataObjectPackage {
                         break;
                     case "BinaryDataObject":
                         bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                        //noinspection ConstantConditions
-                        bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.uri.getValue());
+                        bdo.setOnDiskPathFromString(rootDir + File.separator +  bdo.getMetadataUri().getValue());
                         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé", null);
                         break;
                     case "PhysicalDataObject":

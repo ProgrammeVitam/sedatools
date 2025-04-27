@@ -47,34 +47,20 @@ class DiskImportExportTest implements UseTestFiles {
         // assert one dataObjectGroup using serialization
         String testog = "{\n" +
                 "  \"binaryDataObjectList\" : [ {\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_1\"\n" +
-                "    },\n" +
-                "    \"persistentIdentifier\" : null,\n" +
-                "    \"dataObjectUse\" : null,\n" +
-                "    \"dataObjectNumber\" : null,\n" +
-                "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"DigestType\",\n" +
                 "      \"elementName\" : \"MessageDigest\",\n" +
                 "      \"value\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
                 "      \"algorithm\" : \"SHA-512\"\n" +
-                "    },\n" +
-                "    \"size\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"IntegerType\",\n" +
                 "      \"elementName\" : \"Size\",\n" +
                 "      \"value\" : 50651\n" +
-                "    },\n" +
-                "    \"compressed\" : null,\n" +
-                "    \"formatIdentification\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
                 "      \"elementName\" : \"FormatIdentification\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -90,8 +76,7 @@ class DiskImportExportTest implements UseTestFiles {
                 "        \"elementName\" : \"FormatId\",\n" +
                 "        \"value\" : \"fmt/294\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"fileInfo\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
                 "      \"elementName\" : \"FileInfo\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -101,41 +86,26 @@ class DiskImportExportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \"dateTimeString\" : \"2019-01-16T20:03:35.841171Z\"\n" +
+                "        \n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"metadata\" : null,\n" +
+                "    } ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID14\",\n" +
-                "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1_201609-TdB-suivi-des-a.ods\"\n" +
+                "    \"onDiskPath\" : \"C:\\\\Users\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1_201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"TextContent_1\"\n" +
-                "    },\n" +
-                "    \"persistentIdentifier\" : null,\n" +
-                "    \"dataObjectUse\" : null,\n" +
-                "    \"dataObjectNumber\" : null,\n" +
-                "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"DigestType\",\n" +
                 "      \"elementName\" : \"MessageDigest\",\n" +
                 "      \"value\" : \"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
                 "      \"algorithm\" : \"SHA-512\"\n" +
-                "    },\n" +
-                "    \"size\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"IntegerType\",\n" +
                 "      \"elementName\" : \"Size\",\n" +
                 "      \"value\" : 3307\n" +
-                "    },\n" +
-                "    \"compressed\" : null,\n" +
-                "    \"formatIdentification\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
                 "      \"elementName\" : \"FormatIdentification\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -151,8 +121,7 @@ class DiskImportExportTest implements UseTestFiles {
                 "        \"elementName\" : \"FormatId\",\n" +
                 "        \"value\" : \"x-fmt/111\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"fileInfo\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
                 "      \"elementName\" : \"FileInfo\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -162,12 +131,11 @@ class DiskImportExportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \"dateTimeString\" : \"2019-01-16T20:03:35.842169Z\"\n" +
+                "        \n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"metadata\" : null,\n" +
+                "    } ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID15\",\n" +
-                "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1_201609-TdB-suivi-des-a.txt\"\n" +
+                "    \"onDiskPath\" : \"C:\\\\Users\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithoutLinksModelV1\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1_201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ ],\n" +
                 "  \"logBook\" : null,\n" +
@@ -247,34 +215,20 @@ class DiskImportExportTest implements UseTestFiles {
         // assert one dataObjectGroup using serialization
         String testog = "{\n" +
                 "  \"binaryDataObjectList\" : [ {\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_1\"\n" +
-                "    },\n" +
-                "    \"persistentIdentifier\" : null,\n" +
-                "    \"dataObjectUse\" : null,\n" +
-                "    \"dataObjectNumber\" : null,\n" +
-                "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"DigestType\",\n" +
                 "      \"elementName\" : \"MessageDigest\",\n" +
                 "      \"value\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
                 "      \"algorithm\" : \"SHA-512\"\n" +
-                "    },\n" +
-                "    \"size\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"IntegerType\",\n" +
                 "      \"elementName\" : \"Size\",\n" +
                 "      \"value\" : 21232\n" +
-                "    },\n" +
-                "    \"compressed\" : null,\n" +
-                "    \"formatIdentification\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
                 "      \"elementName\" : \"FormatIdentification\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -290,8 +244,7 @@ class DiskImportExportTest implements UseTestFiles {
                 "        \"elementName\" : \"FormatId\",\n" +
                 "        \"value\" : \"fmt/645\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"fileInfo\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
                 "      \"elementName\" : \"FileInfo\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -301,12 +254,11 @@ class DiskImportExportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \"dateTimeString\" : \"2019-01-16T20:03:35.698553Z\"\n" +
+                "        \"dateTimeString\" : \"2025-02-12T19:30:16.677800700Z\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"metadata\" : null,\n" +
+                "    } ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID13\",\n" +
-                "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithLinksModelV2\\\\Root\\\\Node 1\\\\Node 1.2\\\\__BinaryMaster_1__image001.jpg\"\n" +
+                "    \"onDiskPath\" : \"C:\\\\Users\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\src\\\\test\\\\resources\\\\PacketSamples\\\\SampleWithLinksModelV2\\\\Root\\\\Node 1\\\\Node 1.2\\\\__BinaryMaster_1__image001.jpg\"\n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ ],\n" +
                 "  \"logBook\" : null,\n" +

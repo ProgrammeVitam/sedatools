@@ -46,34 +46,20 @@ class CompressedFileImportTest implements UseTestFiles {
         // assert one dataObjectGroup using serialization
         String testog = "{\n" +
                 "  \"binaryDataObjectList\" : [ {\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_1\"\n" +
-                "    },\n" +
-                "    \"persistentIdentifier\" : null,\n" +
-                "    \"dataObjectUse\" : null,\n" +
-                "    \"dataObjectNumber\" : null,\n" +
-                "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"DigestType\",\n" +
                 "      \"elementName\" : \"MessageDigest\",\n" +
                 "      \"value\" : \"ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e\",\n" +
                 "      \"algorithm\" : \"SHA-512\"\n" +
-                "    },\n" +
-                "    \"size\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"IntegerType\",\n" +
                 "      \"elementName\" : \"Size\",\n" +
                 "      \"value\" : 50651\n" +
-                "    },\n" +
-                "    \"compressed\" : null,\n" +
-                "    \"formatIdentification\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
                 "      \"elementName\" : \"FormatIdentification\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -89,8 +75,7 @@ class CompressedFileImportTest implements UseTestFiles {
                 "        \"elementName\" : \"FormatId\",\n" +
                 "        \"value\" : \"fmt/294\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"fileInfo\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
                 "      \"elementName\" : \"FileInfo\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -100,41 +85,26 @@ class CompressedFileImportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \"dateTimeString\" : \"2025-04-27T15:35:17.966517600Z\"\n" +
+                "        \"dateTimeString\" : \"2025-04-27T09:35:01.475902600Z\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"metadata\" : null,\n" +
+                "    } ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
                 "    \"onDiskPath\" : \"C:\\\\Users\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__BinaryMaster_1__201609-TdB-suivi-des-a.ods\"\n" +
                 "  }, {\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"TextContent_1\"\n" +
-                "    },\n" +
-                "    \"persistentIdentifier\" : null,\n" +
-                "    \"dataObjectUse\" : null,\n" +
-                "    \"dataObjectNumber\" : null,\n" +
-                "    \"uri\" : null,\n" +
-                "    \"messageDigest\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"DigestType\",\n" +
                 "      \"elementName\" : \"MessageDigest\",\n" +
                 "      \"value\" : \"7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2\",\n" +
                 "      \"algorithm\" : \"SHA-512\"\n" +
-                "    },\n" +
-                "    \"size\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"IntegerType\",\n" +
                 "      \"elementName\" : \"Size\",\n" +
                 "      \"value\" : 3307\n" +
-                "    },\n" +
-                "    \"compressed\" : null,\n" +
-                "    \"formatIdentification\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FormatIdentification\",\n" +
                 "      \"elementName\" : \"FormatIdentification\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -150,8 +120,7 @@ class CompressedFileImportTest implements UseTestFiles {
                 "        \"elementName\" : \"FormatId\",\n" +
                 "        \"value\" : \"x-fmt/111\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"fileInfo\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
                 "      \"elementName\" : \"FileInfo\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -161,10 +130,9 @@ class CompressedFileImportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \"dateTimeString\" : \"2025-04-27T15:35:17.966517600Z\"\n" +
+                "        \"dateTimeString\" : \"2025-04-27T09:35:01.478904700Z\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"metadata\" : null,\n" +
+                "    } ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID19\",\n" +
                 "    \"onDiskPath\" : \"C:\\\\Users\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1__201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +

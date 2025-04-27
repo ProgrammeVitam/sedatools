@@ -344,9 +344,10 @@ public class Compactor {
         localSubDocumentCounter++;
         if (au.getTheDataObjectGroup() != null) {
             for (BinaryDataObject bdo : au.getTheDataObjectGroup().getBinaryDataObjectList()) {
-                String radical = bdo.dataObjectVersion.getValue().split("_")[0];
+                StringType dataObjectVersion= bdo.getMetadataDataObjectVersion();
+                String radical = dataObjectVersion.getValue().split("_")[0];
                 if (subDocumentObjectVersionFilter.contains(radical)) {
-                    compactedFileURI = getExtendedCompactedFileName(auURI + "-" + bdo.dataObjectVersion.getValue(),
+                    compactedFileURI = getExtendedCompactedFileName(auURI + "-" + dataObjectVersion.getValue(),
                             bdo.getOnDiskPath());
                     subDocument.addMetadata(new FileObject(bdo, compactedFileURI));
                     compactedFilesList.add(new CompactedFile(compactedFileURI,
@@ -374,9 +375,10 @@ public class Compactor {
         auURI = parentRecordGrpID + "-" + "Document" + documentCounter;
         if (au.getTheDataObjectGroup() != null) {
             for (BinaryDataObject bdo : au.getTheDataObjectGroup().getBinaryDataObjectList()) {
-                String radical = bdo.dataObjectVersion.getValue().split("_")[0];
+                StringType dataObjectVersion= bdo.getMetadataDataObjectVersion();
+                String radical = dataObjectVersion.getValue().split("_")[0];
                 if (documentObjectVersionFilter.contains(radical)) {
-                    compactedFileURI = getExtendedCompactedFileName(auURI + "-" + bdo.dataObjectVersion.getValue(),
+                    compactedFileURI = getExtendedCompactedFileName(auURI + "-" + dataObjectVersion.getValue(),
                             bdo.getOnDiskPath());
                     document.addMetadata(new FileObject(bdo, compactedFileURI));
                     compactedFileList.add(new CompactedFile(compactedFileURI,

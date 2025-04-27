@@ -35,6 +35,7 @@ import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
@@ -380,7 +381,8 @@ public class CSVMetadataToDataObjectPackageImporter {
 
         lineCount = 0;
         for (Map.Entry<String, BinaryDataObject> pair : dataObjectPackage.getBdoInDataObjectPackageIdMap().entrySet()) {
-            if (pair.getValue().fileInfo.getSimpleMetadata("LastModified") == null)
+            FileInfo fileInfo= pair.getValue().getMetadataFileInfo();
+            if (fileInfo.getSimpleMetadata("LastModified") == null)
                 pair.getValue().extractTechnicalElements(sedaLibProgressLogger);
             lineCount++;
             doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, lineCount, "sedalib: " + lineCount +

@@ -29,10 +29,9 @@ package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.io.FileUtils;
@@ -442,12 +441,13 @@ public class DataObjectPackageToCSVMetadataExporter {
         int version;
         TreeMap<Integer, BinaryDataObject> rankMap = new TreeMap<>();
         for (BinaryDataObject bdo : objectList) {
-            if ((bdo.dataObjectVersion == null) || (bdo.dataObjectVersion.getValue().isEmpty())) {
+            StringType dataObjectVersion= bdo.getMetadataDataObjectVersion();
+            if ((dataObjectVersion == null) || (dataObjectVersion.getValue().isEmpty())) {
                 doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS, "Un objet binaire n'a pas d'usage_version," +
                         " il ne peut être choisi pour l'extraction", null);
                 continue;
             }
-            String[] usageVersion = bdo.dataObjectVersion.getValue().split("_");
+            String[] usageVersion = dataObjectVersion.getValue().split("_");
             switch (usageVersion[0]) {
                 case "BinaryMaster":
                     rank = 0;
@@ -551,7 +551,8 @@ public class DataObjectPackageToCSVMetadataExporter {
         String filename = null;
         String name;
         String ext;
-        if (bdo.fileInfo != null) filename = bdo.fileInfo.getSimpleMetadata("Filename");
+        FileInfo fileInfo= bdo.getMetadataFileInfo();
+        if (fileInfo != null) filename = fileInfo.getSimpleMetadata("Filename");
         if (filename == null) filename = "undefined";
         int point = filename.lastIndexOf('.');
         if (point == -1) {
@@ -564,8 +565,9 @@ public class DataObjectPackageToCSVMetadataExporter {
 
         if (!uniqFlag) {
             String usageVersion;
-            if (bdo.dataObjectVersion == null) usageVersion = "undefined_1";
-            else usageVersion = bdo.dataObjectVersion.getValue();
+            StringType dataObjectVersion= bdo.getMetadataDataObjectVersion();
+            if (dataObjectVersion == null) usageVersion = "undefined_1";
+            else usageVersion = dataObjectVersion.getValue();
             name = "__" + usageVersion + "__" + name;
         }
 
