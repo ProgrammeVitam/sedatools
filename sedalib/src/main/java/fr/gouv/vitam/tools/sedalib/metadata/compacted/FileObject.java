@@ -58,7 +58,7 @@ public class FileObject extends ComplexListType {
         metadataMap_default = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
         metadataMap_default.put("DataObjectVersion",
                 new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("URI", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default.put("Uri", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
         metadataMap_default.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
         metadataMap_default.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, true));
@@ -82,11 +82,11 @@ public class FileObject extends ComplexListType {
     public FileObject(BinaryDataObject binaryDataObject, String uri) throws SEDALibException {
         super("FileObject");
 
-        addMetadata(binaryDataObject.dataObjectVersion);
-        if (uri != null) addNewMetadata("URI", uri);
-        addMetadata(binaryDataObject.messageDigest);
-        addMetadata(binaryDataObject.size);
-        addMetadata(binaryDataObject.formatIdentification);
-        addMetadata(binaryDataObject.fileInfo);
+        addMetadata(binaryDataObject.getMetadataDataObjectVersion());
+        if (uri != null) addMetadata(new StringType("Uri", uri));
+        addMetadata(binaryDataObject.getMetadataMessageDigest());
+        addMetadata(binaryDataObject.getMetadataSize());
+        addMetadata(binaryDataObject.getMetadataFormatIdentification());
+        addMetadata(binaryDataObject.getMetadataFileInfo());
     }
 }
