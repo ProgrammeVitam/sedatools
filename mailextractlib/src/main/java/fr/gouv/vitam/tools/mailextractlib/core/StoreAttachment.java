@@ -283,7 +283,7 @@ public class StoreAttachment {
                     // recursive extraction of a message in attachment...
                     doProgressLog(a.fatherElement.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: attached message extraction", null);
                     if (a.extractAsStoreAttachment(messageNode, writeFlag))
-                        return;
+                        continue;
                     doProgressLog(a.fatherElement.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: can't extract as an attached message, extract as standard attachment", null);
                 }
                 // standard attachment file
