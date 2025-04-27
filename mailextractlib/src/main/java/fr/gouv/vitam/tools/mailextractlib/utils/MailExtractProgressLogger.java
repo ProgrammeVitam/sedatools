@@ -367,7 +367,7 @@ public class MailExtractProgressLogger {
                         countLog = log.replace("%count", Integer.toString(rank));
                         mepl.log(level, countLog);
                     }
-                    if ((rank % mepl.progressFuncStep) == 0) {
+                    if ((mepl.progressLogFunc != null) && (rank % mepl.progressFuncStep) == 0) {
                         if (countLog == null)
                             countLog = log.replace("%count", Integer.toString(rank));
                         mepl.progressLogFunc.doProgressLog(rank, countLog);
@@ -378,7 +378,7 @@ public class MailExtractProgressLogger {
         }
     }
 
-    /**
+    /**(mepl.progressLogFunc != null) &&
      * Readable file size.
      *
      * @param size the size

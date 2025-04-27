@@ -341,7 +341,7 @@ public class SEDALibProgressLogger {
                 if ((count % spl.step) == 0) {
                     spl.log(level, log);
                 }
-                if ((count % spl.progressFuncStep) == 0) {
+                if ((spl.progressLogFunc!=null) && (count % spl.progressFuncStep) == 0) {
                     spl.progressLogFunc.doProgressLog(count, log);
                     Thread.sleep(1);
                 }
