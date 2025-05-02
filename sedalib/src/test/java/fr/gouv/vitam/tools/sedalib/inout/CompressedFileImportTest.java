@@ -85,7 +85,7 @@ class CompressedFileImportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \"dateTimeString\" : \"2025-04-27T09:35:01.475902600Z\"\n" +
+                "        \"dateTimeString\" : \"2025-04-27T20:15:14.696302Z\"\n" +
                 "      } ]\n" +
                 "    } ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID17\",\n" +
@@ -130,30 +130,22 @@ class CompressedFileImportTest implements UseTestFiles {
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
                 "        \"elementName\" : \"LastModified\",\n" +
-                "        \"dateTimeString\" : \"2025-04-27T09:35:01.478904700Z\"\n" +
+                "        \"dateTimeString\" : \"2025-04-27T20:15:14.696302Z\"\n" +
                 "      } ]\n" +
                 "    } ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID19\",\n" +
                 "    \"onDiskPath\" : \"C:\\\\Users\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestImport.zip-tmpdir\\\\Root\\\\Node 1\\\\Node 1.1\\\\__TextContent_1__201609-TdB-suivi-des-a.txt\"\n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"PhysicalMaster_1\"\n" +
-                "    },\n" +
-                "    \"physicalId\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"PhysicalId\",\n" +
                 "      \"value\" : \"940 W\"\n" +
-                "    },\n" +
-                "    \"physicalDimensions\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"PhysicalDimensions\",\n" +
                 "      \"elementName\" : \"PhysicalDimensions\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -182,8 +174,7 @@ class CompressedFileImportTest implements UseTestFiles {
                 "        \"value\" : 59.0,\n" +
                 "        \"unit\" : \"gram\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"otherDimensionsAbstractXml\" : [ ],\n" +
+                "    } ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID18\",\n" +
                 "    \"onDiskPath\" : null\n" +
                 "  } ],\n" +

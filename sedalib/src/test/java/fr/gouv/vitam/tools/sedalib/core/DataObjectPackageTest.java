@@ -411,23 +411,15 @@ class DataObjectPackageTest {
                 "    \n" +
                 "  } ],\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"PhysicalMaster_1\"\n" +
-                "    },\n" +
-                "    \"physicalId\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"PhysicalId\",\n" +
                 "      \"value\" : \"940 W\"\n" +
-                "    },\n" +
-                "    \"physicalDimensions\" : {\n" +
+                "    }, {\n" +
                 "      \"type\" : \"PhysicalDimensions\",\n" +
                 "      \"elementName\" : \"PhysicalDimensions\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -456,8 +448,7 @@ class DataObjectPackageTest {
                 "        \"value\" : 59.0,\n" +
                 "        \"unit\" : \"gram\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"otherDimensionsAbstractXml\" : [ ],\n" +
+                "    } ],\n" +
                 "    \"inDataObjectPackageId\" : \"ID18\",\n" +
                 "    \"onDiskPath\" : null\n" +
                 "  } ],\n" +

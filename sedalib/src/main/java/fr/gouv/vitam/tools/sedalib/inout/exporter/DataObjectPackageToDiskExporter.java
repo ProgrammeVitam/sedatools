@@ -207,7 +207,7 @@ public class DataObjectPackageToDiskExporter {
      */
     private String constructMetadataFileName(PhysicalDataObject physicalDataObject) {
         String result;
-        StringType dataObjectVersion=physicalDataObject.getFirstNamedMetadataStringType("DataObjectVersion");
+        StringType dataObjectVersion=physicalDataObject.getMetadataDataObjectVersion();
         if (dataObjectVersion == null)
             result = "__undefined__PhysicalDataObjectMetadata.xml";
         else

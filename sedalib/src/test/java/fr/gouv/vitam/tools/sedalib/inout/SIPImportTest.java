@@ -127,20 +127,16 @@ class SIPImportTest implements UseTestFiles {
                 "  \"logBook\" : null,\n" +
                 "  \"onDiskPath\" : null,\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"inDataObjectPackageId\" : \"ID1000\",\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"PhysicalMaster_1\"\n" +
-                "    },\n" +
-                "    \"inDataObjectPackageId\" : \"ID1000\",\n" +
-                "    \"onDiskPath\" : null,\n" +
-                "    \"otherDimensionsAbstractXml\" : [ ],\n" +
-                "    \"physicalDimensions\" : {\n" +
+                "    }, {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"PhysicalId\",\n" +
+                "      \"value\" : \"12345\"\n" +
+                "    }, {\n" +
                 "      \"type\" : \"PhysicalDimensions\",\n" +
                 "      \"elementName\" : \"PhysicalDimensions\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -159,13 +155,8 @@ class SIPImportTest implements UseTestFiles {
                 "        \"unit\" : \"kilogram\",\n" +
                 "        \"value\" : 1.0\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"physicalId\" : {\n" +
-                "      \"type\" : \"StringType\",\n" +
-                "      \"elementName\" : \"PhysicalId\",\n" +
-                "      \"value\" : \"12345\"\n" +
-                "    },\n" +
-                "    \"relationshipsXmlData\" : [ ]\n" +
+                "    } ],\n" +
+                "    \"onDiskPath\" : null\n" +
                 "  } ]\n" +
                 "}";
 

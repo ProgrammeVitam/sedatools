@@ -32,10 +32,7 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
-import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
-import fr.gouv.vitam.tools.sedalib.metadata.data.Weight;
+import fr.gouv.vitam.tools.sedalib.metadata.data.*;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -70,15 +67,17 @@ import java.util.LinkedHashMap;
         @JsonSubTypes.Type(value = FormatIdentification.class, name = "FormatIdentification"),
         @JsonSubTypes.Type(value = FileInfo.class, name = "FileInfo"),
         @JsonSubTypes.Type(value = Metadata.class, name = "Metadata"),
+        // More subTypes for PhysicalDataObject
+        @JsonSubTypes.Type(value = PhysicalDimensions.class, name = "PhysicalDimensions"),
+        @JsonSubTypes.Type(value = LinearDimensionType.class, name = "LinearDimensionType"),
+        @JsonSubTypes.Type(value = Weight.class, name = "Weight"),
         // Others
         @JsonSubTypes.Type(value = AnyXMLListType.class, name = "AnyXMLListType"),
         @JsonSubTypes.Type(value = EnumType.class, name = "EnumType"),
         @JsonSubTypes.Type(value = TextType.class, name = "TextType"),
         @JsonSubTypes.Type(value = DateTimeType.class, name = "DateTimeType"),
         @JsonSubTypes.Type(value = DateType.class, name = "DateType"),
-        @JsonSubTypes.Type(value = Event.class, name = "Event"),
-        @JsonSubTypes.Type(value = LinearDimensionType.class, name = "LinearDimensionType"),
-        @JsonSubTypes.Type(value = Weight.class, name = "Weight")})
+        @JsonSubTypes.Type(value = Event.class, name = "Event")})
 public abstract class SEDAMetadata {
 
     /**

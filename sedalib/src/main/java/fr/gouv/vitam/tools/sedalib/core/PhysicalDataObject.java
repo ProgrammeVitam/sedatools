@@ -29,9 +29,9 @@ package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -44,7 +44,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 
@@ -53,63 +55,123 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
  * <p>
  * Class for SEDA element PhysicalDataObject. It contains metadata.
  */
-public class PhysicalDataObject extends DataObjectPackageIdElement implements DataObject {
+public class PhysicalDataObject extends DataObjectPackageIdElement implements DataObject, ComplexListInterface {
 
     // SEDA elements
 
     /**
-     * The data object profile (only in Seda 2.2).
+     * Init metadata map.
      */
-    public StringType dataObjectProfile;
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {1})
+    public static final Map<String, ComplexListMetadataKind> metadataMap_v1;
+
+    static {
+        metadataMap_v1 = new LinkedHashMap<>();
+        metadataMap_v1.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v1.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v1.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
+        metadataMap_v1.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v1.put("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v1.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+
+        metadataMap_v1.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v1.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
+    }
+
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {2})
+    public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
+
+    static {
+        metadataMap_v2 = new LinkedHashMap<>();
+        metadataMap_v2.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
+        metadataMap_v2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+
+        metadataMap_v2.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
+    }
+
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {3})
+    public static final Map<String, ComplexListMetadataKind> metadataMap_v3;
+
+    static {
+        metadataMap_v3 = new LinkedHashMap<>();
+        metadataMap_v3.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
+        metadataMap_v3.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
+        metadataMap_v3.put("DataObjectUse", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false));
+
+        metadataMap_v3.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v3.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
+    }
+
+    public final static LinkedHashMap<String, ComplexListMetadataKind>[] metadataMaps = new LinkedHashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
+    public final static Boolean[] notExpandables = new Boolean[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
+
+    static {
+        ComplexListInterface.initMetadataMaps(PhysicalDataObject.class, metadataMaps, notExpandables);
+    }
+    /**
+     * The metadata list.
+     */
+    private List<SEDAMetadata> metadataList;
 
     /**
-     * The data object system id.
+     * {@inheritDoc}
      */
-    public StringType dataObjectSystemId;
+    @JsonIgnore
+    @Override
+    public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
+        LinkedHashMap<String, ComplexListMetadataKind> result = metadataMaps[SEDA2Version.getSeda2Version()];
+        if (result == null)
+            result = metadataMaps[0];
+        return result;
+    }
 
     /**
-     * The data object group system id.
+     * {@inheritDoc}
      */
-    public StringType dataObjectGroupSystemId;
+    @JsonIgnore
+    @Override
+    public boolean isNotExpandable() throws SEDALibException {
+        Boolean result = notExpandables[SEDA2Version.getSeda2Version()];
+        if (result == null)
+            result = notExpandables[0];
+        return result;
+    }
 
     /**
-     * The relationships xml element in String form.
+     * {@inheritDoc}
      */
-    public List<AnyXMLType> relationshipsXmlData;
+    @Override
+    public List<SEDAMetadata> getMetadataList() {
+        return metadataList;
+    }
 
     /**
-     * The data object group reference id.
+     * {@inheritDoc}
      */
-    public StringType dataObjectGroupReferenceId;
+    @Override
+    public void setMetadataList(List<SEDAMetadata> metadataList) {
+        this.metadataList = metadataList;
+    }
 
     /**
-     * The data object group id.
+     * {@inheritDoc}
      */
-    public StringType dataObjectGroupId;
-
-    /**
-     * The data object version.
-     */
-    public StringType dataObjectVersion;
-
-    /**
-     * The physical id xml element in String form.
-     */
-    public StringType physicalId;
-
-    /**
-     * The physical dimensions xml element.
-     */
-    public PhysicalDimensions physicalDimensions;
-
-    /**
-     * The other Dimensions AbstractXml for any rawXML.
-     */
-    public List<AnyXMLType> otherDimensionsAbstractXml;
-
+    @Override
+    @JsonIgnore
+    public String getXmlElementName() {
+        return "PhysicalDataObject";
+    }
 
     // Inner element
-
     /**
      * The DataObjectGroup in which is the PhysicalDataObject, or null.
      */
@@ -135,22 +197,15 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      */
     public PhysicalDataObject(DataObjectPackage dataObjectPackage) {
         super(dataObjectPackage);
-        this.dataObjectProfile = null;
-        this.dataObjectSystemId = null;
-        this.dataObjectGroupSystemId = null;
-        this.relationshipsXmlData = new ArrayList<>();
-        this.dataObjectGroupReferenceId = null;
-        this.dataObjectGroupId = null;
-        this.dataObjectVersion = null;
-        this.physicalId = null;
-        this.physicalDimensions = null;
+
+        this.metadataList = new ArrayList<>(10);
+
         if (dataObjectPackage != null)
             try {
                 dataObjectPackage.addPhysicalDataObject(this);
             } catch (SEDALibException e) {
                 // impossible as the uniqID is generated by the called function.
             }
-        this.otherDimensionsAbstractXml = new ArrayList<>();
     }
 
     /**
@@ -195,31 +250,10 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
             throws InterruptedException, SEDALibException {
         try {
+            // XML write
             xmlWriter.writeStartElement("PhysicalDataObject");
-            xmlWriter.writeAttribute("id", inDataPackageObjectId);
-
-            if (dataObjectProfile != null) {
-                if (SEDA2Version.getSeda2Version()>1)
-                    dataObjectProfile.toSedaXml(xmlWriter);
-                else
-                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] dans le PhysicalDataObject ["+inDataPackageObjectId+"]");
-            }
-            if (dataObjectSystemId != null)
-                dataObjectSystemId.toSedaXml(xmlWriter);
-            if (dataObjectGroupSystemId != null)
-                dataObjectGroupSystemId.toSedaXml(xmlWriter);
-            for (AnyXMLType rXmlData : relationshipsXmlData)
-                rXmlData.toSedaXml(xmlWriter);
-//		dataObjectGroupReferenceId not used in 2.1 DataObjectGroup mode
-//		dataObjectGroupId not used in 2.1 DataObjectGroup mode
-            if (dataObjectVersion != null)
-                dataObjectVersion.toSedaXml(xmlWriter);
-            if (physicalId!=null)
-                physicalId.toSedaXml(xmlWriter);
-            if (physicalDimensions!=null)
-                physicalDimensions.toSedaXml(xmlWriter);
-            for (AnyXMLType otherXmlData : otherDimensionsAbstractXml)
-                otherXmlData.toSedaXml(xmlWriter);
+            xmlWriter.writeAttributeIfNotEmpty("id", inDataPackageObjectId);
+            toSedaXmlMetadataList(xmlWriter);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException(
@@ -243,7 +277,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             try(SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
                 toSedaXml(xmlWriter, null);
             }
-            result = baos.toString("UTF-8");
+            result = baos.toString(StandardCharsets.UTF_8);
         } catch (SEDALibException | XMLStreamException | IOException e) {
             throw new SEDALibException("Erreur interne", e);
         } catch (InterruptedException e) {
@@ -255,9 +289,8 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             if (result.isEmpty())
                 result = null;
             else {
-                result = result.replaceFirst("\\<PhysicalDataObject .*\\>", "");
-                result = result.substring(0, result.lastIndexOf("</PhysicalDataObject>") - 1);
-                result = result.trim();
+                result = result.replaceFirst("<PhysicalDataObject .*>", "");
+                result = result.substring(1, result.lastIndexOf("</PhysicalDataObject>") - 1);
             }
         }
         return result;
@@ -276,57 +309,11 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      */
     private void setFromXmlContent(SEDAXMLEventReader xmlReader)
             throws SEDALibException {
-        String nextElementName;
         try {
-            nextElementName = xmlReader.peekName();
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectProfile"))) {
-                if (SEDA2Version.getSeda2Version()>1) {
-                    dataObjectProfile = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                    nextElementName = xmlReader.peekName();
-                }
-                else
-                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] du PhysicalDataObject ["+inDataPackageObjectId+"]");
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectSystemId"))) {
-                dataObjectSystemId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectGroupSystemId"))) {
-                dataObjectGroupSystemId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            relationshipsXmlData = new ArrayList<>();
-            while ((nextElementName != null) && (nextElementName.equals("Relationship"))) {
-                relationshipsXmlData.add((AnyXMLType) SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class));
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectGroupReferenceId"))) {
-                dataObjectGroupReferenceId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectGroupId"))) {
-                dataObjectGroupId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectVersion"))) {
-                dataObjectVersion = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("PhysicalId"))) {
-                physicalId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("PhysicalDimensions"))) {
-                physicalDimensions = (PhysicalDimensions) SEDAMetadata.fromSedaXml(xmlReader, PhysicalDimensions.class);
-                nextElementName = xmlReader.peekName();
-            }
-            otherDimensionsAbstractXml = new ArrayList<>();
-            while (nextElementName != null) {
-                otherDimensionsAbstractXml.add((AnyXMLType) SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class));
-                nextElementName = xmlReader.peekName();
-            }
-        } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML du PhysicalDataObject", e);
+            metadataList = new ArrayList<>(18);
+            fillFromSedaXmlMetadataList(xmlReader);
+        } catch (SEDALibException e) {
+            throw new SEDALibException("Erreur de lecture XML du BinaryDataObject", e);
         }
     }
 
@@ -365,23 +352,28 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
         if (pdo == null)
             return null;
 
-        if ((pdo.dataObjectGroupReferenceId != null) && (pdo.dataObjectGroupId != null))
+        StringType dataObjectGroupId = (StringType) pdo.getFirstNamedMetadata("DataObjectGroupId");
+        StringType dataObjectGroupReferenceId = (StringType) pdo.getFirstNamedMetadata("DataObjectGroupReferenceId");
+
+        if ((dataObjectGroupId != null) && (dataObjectGroupReferenceId != null))
             throw new SEDALibException("Eléments DataObjectGroupReferenceId et DataObjectGroupId incompatibles");
-        if (pdo.dataObjectGroupId != null) {
-            if (dataObjectPackage.getDataObjectGroupById(pdo.dataObjectGroupId.getValue()) != null)
-                throw new SEDALibException("Elément DataObjectGroup [" + pdo.dataObjectGroupId.getValue() + "] déjà créé");
+        if (dataObjectGroupId != null) {
+            if (dataObjectPackage.getDataObjectGroupById(dataObjectGroupId.getValue()) != null)
+                throw new SEDALibException("Elément DataObjectGroup [" + dataObjectGroupId.getValue() + "] déjà créé");
             dog = new DataObjectGroup(dataObjectPackage, null);
-            dog.setInDataObjectPackageId(pdo.dataObjectGroupId.getValue());
+            dog.setInDataObjectPackageId(dataObjectGroupId.getValue());
             dataObjectPackage.addDataObjectGroup(dog);
             dog.addDataObject(pdo);
             doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_WARNINGS, "sedalib: dataObjectGroup [" + dog.inDataPackageObjectId
                         + "] créé depuis PhysicalDataObject [" + pdo.inDataPackageObjectId + "]", null);
-        } else if (pdo.dataObjectGroupReferenceId != null) {
-            dog = dataObjectPackage.getDataObjectGroupById(pdo.dataObjectGroupReferenceId.getValue());
+        } else if (dataObjectGroupReferenceId != null) {
+            dog = dataObjectPackage.getDataObjectGroupById(dataObjectGroupReferenceId.getValue());
             if (dog == null)
-                throw new SEDALibException("Erreur de référence au DataObjectGroup [" + pdo.dataObjectGroupId.getValue() + "]");
+                throw new SEDALibException("Erreur de référence au DataObjectGroup [" + dataObjectGroupReferenceId.getValue() + "]");
             dog.addDataObject(pdo);
         }
+        pdo.removeFirstNamedMetadata("DataObjectGroupReferenceId");
+        pdo.removeFirstNamedMetadata("DataObjectGroupId");
 
         int counter = dataObjectPackage.getNextInOutCounter();
         doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
@@ -412,16 +404,17 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
             throw new SEDALibException("Erreur de lecture du PhysicalDataObject", e);
         }
 
-        if ((pdo.dataObjectGroupId != null) || (pdo.dataObjectGroupReferenceId != null))
-            throw new SEDALibException("La référence à un DataObjectGroup n'est pas modifiable par édition");
-        this.dataObjectProfile = pdo.dataObjectProfile;
-        this.dataObjectSystemId = pdo.dataObjectSystemId;
-        this.dataObjectGroupSystemId = pdo.dataObjectGroupSystemId;
-        this.relationshipsXmlData = pdo.relationshipsXmlData;
-        this.dataObjectVersion = pdo.dataObjectVersion;
-        this.physicalId = pdo.physicalId;
-        this.physicalDimensions = pdo.physicalDimensions;
-        this.otherDimensionsAbstractXml=pdo.otherDimensionsAbstractXml;
+        metadataList = pdo.metadataList;
+    }
+
+    /**
+     * Gets the DataObjectVersion metadata from the metadata list.
+     *
+     * @return the DataObjectVersion metadata, or null if not found
+     */
+    @JsonIgnore
+    public StringType getMetadataDataObjectVersion() {
+        return (StringType) getFirstNamedMetadata("DataObjectVersion");
     }
 
     // Getters and setters

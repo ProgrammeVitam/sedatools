@@ -506,9 +506,10 @@ public class DiskToDataObjectPackageImporter {
         try {
             PhysicalDataObject pdo = new PhysicalDataObject(dataObjectPackage,
                     new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
-            if (pdo.dataObjectVersion == null)
-                pdo.dataObjectVersion = new StringType("DataObjectVersion",dataObjectVersion);
-            else if (!pdo.dataObjectVersion.getValue().equals(dataObjectVersion))
+            StringType pdoDataObjectVersion=pdo.getMetadataDataObjectVersion();
+            if (pdoDataObjectVersion == null)
+                pdoDataObjectVersion = new StringType("DataObjectVersion",dataObjectVersion);
+            else if (!pdoDataObjectVersion.getValue().equals(dataObjectVersion))
                 throw new SEDALibException(
                         "usage_version incomptabible entre le contenu du fichier [" + path.toString() + "] et son nom");
             dog.addDataObject(pdo);

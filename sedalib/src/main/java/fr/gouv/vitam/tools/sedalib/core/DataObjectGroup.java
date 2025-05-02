@@ -152,9 +152,11 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
             if ((bdoDataObjectVersion != null) && (bdoDataObjectVersion.getValue().equals(dataObjectVersion)))
                 return bdo;
         }
-        for (PhysicalDataObject pdo : physicalDataObjectList)
-            if ((pdo.dataObjectVersion != null) && (pdo.dataObjectVersion.getValue().equals(dataObjectVersion)))
+        for (PhysicalDataObject pdo : physicalDataObjectList) {
+            StringType pdoDataObjectVersion = pdo.getMetadataDataObjectVersion();
+            if ((pdoDataObjectVersion != null) && (pdoDataObjectVersion.getValue().equals(dataObjectVersion)))
                 return pdo;
+        }
         return null;
     }
 
@@ -272,7 +274,9 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                             break;
                         case "PhysicalDataObject":
                             pdo = PhysicalDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                            if ((pdo.dataObjectGroupId != null) || (pdo.dataObjectGroupReferenceId != null))
+                            StringType dataObjectGroupId=(StringType) pdo.getFirstNamedMetadata("DataObjectGroupId");
+                            StringType dataObjectGroupReferenceId=(StringType) pdo.getFirstNamedMetadata("DataObjectGroupReferenceId");
+                            if ((dataObjectGroupId != null) || (dataObjectGroupReferenceId != null))
                                 throw new SEDALibException("Le PhysicalDataObject [" + pdo.inDataPackageObjectId
                                         + "] utilise un raccordement DataObjectGroup mode SEDA2.0 "
                                         + "dans un DataObjectGroup mode SEDA2."+SEDA2Version.getSeda2Version());

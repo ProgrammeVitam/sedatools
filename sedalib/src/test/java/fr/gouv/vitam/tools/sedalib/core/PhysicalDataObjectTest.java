@@ -6,6 +6,8 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
@@ -42,23 +44,15 @@ class PhysicalDataObjectTest {
 
         // Then
         String testOut = "{\n" +
-                "  \"dataObjectProfile\" : null,\n" +
-                "  \"dataObjectSystemId\" : null,\n" +
-                "  \"dataObjectGroupSystemId\" : null,\n" +
-                "  \"relationshipsXmlData\" : [ ],\n" +
-                "  \"dataObjectGroupReferenceId\" : null,\n" +
-                "  \"dataObjectGroupId\" : null,\n" +
-                "  \"dataObjectVersion\" : {\n" +
+                "  \"metadataList\" : [ {\n" +
                 "    \"type\" : \"StringType\",\n" +
                 "    \"elementName\" : \"DataObjectVersion\",\n" +
                 "    \"value\" : \"PhysicalMaster_1\"\n" +
-                "  },\n" +
-                "  \"physicalId\" : {\n" +
+                "  }, {\n" +
                 "    \"type\" : \"StringType\",\n" +
                 "    \"elementName\" : \"PhysicalId\",\n" +
                 "    \"value\" : \"940 W\"\n" +
-                "  },\n" +
-                "  \"physicalDimensions\" : {\n" +
+                "  }, {\n" +
                 "    \"type\" : \"PhysicalDimensions\",\n" +
                 "    \"elementName\" : \"PhysicalDimensions\",\n" +
                 "    \"metadataList\" : [ {\n" +
@@ -87,8 +81,7 @@ class PhysicalDataObjectTest {
                 "      \"value\" : 59.0,\n" +
                 "      \"unit\" : \"gram\"\n" +
                 "    } ]\n" +
-                "  },\n" +
-                "  \"otherDimensionsAbstractXml\" : [ {\n" +
+                "  }, {\n" +
                 "    \"type\" : \"AnyXMLType\",\n" +
                 "    \"elementName\" : \"Extent\",\n" +
                 "    \"rawXml\" : \"<Extent>1 carte imprimée</Extent>\"\n" +
@@ -114,7 +107,7 @@ class PhysicalDataObjectTest {
                 "}";
         testOut = testOut.replaceAll("\"onDiskPath\" : .*\"", "");
         pdoNextOut = pdoNextOut.replaceAll("\"onDiskPath\" : .*\"", "");
-        assertThat(testOut).isEqualToNormalizingNewlines(pdoNextOut);
+        assertThat(pdoNextOut).isEqualToNormalizingNewlines(testOut);
 
     }
 
@@ -134,21 +127,38 @@ class PhysicalDataObjectTest {
         PhysicalDataObject pdo = si.getArchiveTransfer().getDataObjectPackage().getPdoInDataObjectPackageIdMap()
                 .get("ID18");
 
-        // When dataObjectProfile defined in SEDA 2.1 can't generate XML
-        pdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
-        assertThatThrownBy(pdo::toSedaXmlFragments).isInstanceOf(SEDALibException.class)
-                .hasMessageContaining("Erreur interne");
-        pdo.dataObjectProfile = null;
+        // When dataObjectProfile defined in SEDA 2.1 it's at the end as an extension
+        pdo.addSedaXmlFragments("<DataObjectProfile>Test</DataObjectProfile>");
+        String pdoOut = pdo.toSedaXmlFragments();
+
+        // Then
+        String testOut1 = "  <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
+                "  <PhysicalId>940 W</PhysicalId>\n" +
+                "  <PhysicalDimensions>\n" +
+                "    <Width unit=\"centimetre\">10.0</Width>\n" +
+                "    <Height unit=\"centimetre\">8.0</Height>\n" +
+                "    <Depth unit=\"centimetre\">1.0</Depth>\n" +
+                "    <Diameter unit=\"centimetre\">0.0</Diameter>\n" +
+                "    <Weight unit=\"gram\">59.0</Weight>\n" +
+                "  </PhysicalDimensions>\n" +
+                "  <Extent>1 carte imprimée</Extent>\n" +
+                "  <Dimensions>10,5cm x 14,8cm</Dimensions>\n" +
+                "  <Color>Noir et blanc</Color>\n" +
+                "  <Framing>Paysage</Framing>\n" +
+                "  <Technique>Phototypie</Technique>\n" +
+                "  <DataObjectProfile>Test</DataObjectProfile>";
+        assertThat(pdoOut).isEqualToNormalizingNewlines(testOut1);
+        pdo.removeFirstNamedMetadata("DataObjectProfile");
 
 
         // When test read write fragments in XML string format
-        String pdoOut = pdo.toSedaXmlFragments();
+        pdoOut = pdo.toSedaXmlFragments();
         PhysicalDataObject pdoNext = new PhysicalDataObject(si.getArchiveTransfer().getDataObjectPackage());
         pdoNext.fromSedaXmlFragments(pdoOut);
         String pdoNextOut = pdoNext.toSedaXmlFragments();
 
         // Then
-        String testOut = "<DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
+        String testOut2 = "  <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
                 "  <PhysicalId>940 W</PhysicalId>\n" +
                 "  <PhysicalDimensions>\n" +
                 "    <Width unit=\"centimetre\">10.0</Width>\n" +
@@ -162,7 +172,7 @@ class PhysicalDataObjectTest {
                 "  <Color>Noir et blanc</Color>\n" +
                 "  <Framing>Paysage</Framing>\n" +
                 "  <Technique>Phototypie</Technique>";
-        assertThat(testOut).isEqualToNormalizingNewlines(pdoNextOut);
+        assertThat(pdoNextOut).isEqualToNormalizingNewlines(testOut2);
     }
 
     @Test
@@ -181,7 +191,7 @@ class PhysicalDataObjectTest {
         si.doImport();
         PhysicalDataObject pdo = si.getArchiveTransfer().getDataObjectPackage().getPdoInDataObjectPackageIdMap()
                 .get("ID18");
-        pdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
+        pdo.addNewMetadata("DataObjectProfile", "Test");
 
         // When test read write fragments in XML string format
         String pdoOut = pdo.toSedaXmlFragments();
@@ -190,8 +200,63 @@ class PhysicalDataObjectTest {
         String pdoNextOut = pdoNext.toSedaXmlFragments();
 
         // Then
-        String testOut = "<DataObjectProfile>Test</DataObjectProfile>\n" +
+        String testOut = "  <DataObjectProfile>Test</DataObjectProfile>\n" +
                 "  <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
+                "  <PhysicalId>940 W</PhysicalId>\n" +
+                "  <PhysicalDimensions>\n" +
+                "    <Width unit=\"centimetre\">10.0</Width>\n" +
+                "    <Height unit=\"centimetre\">8.0</Height>\n" +
+                "    <Depth unit=\"centimetre\">1.0</Depth>\n" +
+                "    <Diameter unit=\"centimetre\">0.0</Diameter>\n" +
+                "    <Weight unit=\"gram\">59.0</Weight>\n" +
+                "  </PhysicalDimensions>\n" +
+                "  <Extent>1 carte imprimée</Extent>\n" +
+                "  <Dimensions>10,5cm x 14,8cm</Dimensions>\n" +
+                "  <Color>Noir et blanc</Color>\n" +
+                "  <Framing>Paysage</Framing>\n" +
+                "  <Technique>Phototypie</Technique>";
+        assertThat(pdoNextOut).isEqualToNormalizingNewlines(testOut);
+        SEDA2Version.setSeda2Version(1);
+    }
+
+    @Test
+    void testXMLFragmentForSedaVersion3() throws SEDALibException, InterruptedException {
+        // Given
+        SEDA2Version.setSeda2Version(3);
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+        module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+        mapper.registerModule(module);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+        si.doImport();
+        PhysicalDataObject pdo = si.getArchiveTransfer().getDataObjectPackage().getPdoInDataObjectPackageIdMap()
+                .get("ID18");
+        pdo.addNewMetadata("DataObjectProfile", "Test");
+        pdo.addMetadata(new PersistentIdentifier("PType", "POrigin", "PReference", "PContent"));
+        pdo.addMetadata(new StringType("DataObjectUse", "PhysicalMaster"));
+        pdo.addMetadata(new IntegerType("DataObjectNumber", 1));
+
+        // When test read write fragments in XML string format
+        String pdoOut = pdo.toSedaXmlFragments();
+        PhysicalDataObject pdoNext = new PhysicalDataObject(si.getArchiveTransfer().getDataObjectPackage());
+        pdoNext.fromSedaXmlFragments(pdoOut);
+        String pdoNextOut = pdoNext.toSedaXmlFragments();
+
+        // Then
+        String testOut = "  <DataObjectProfile>Test</DataObjectProfile>\n" +
+                "  <DataObjectVersion>PhysicalMaster_1</DataObjectVersion>\n" +
+                "  <PersistentIdentifier>\n" +
+                "    <PersistentIdentifierType>PType</PersistentIdentifierType>\n" +
+                "    <PersistentIdentifierOrigin>POrigin</PersistentIdentifierOrigin>\n" +
+                "    <PersistentIdentifierReference>PReference</PersistentIdentifierReference>\n" +
+                "    <PersistentIdentifierContent>PContent</PersistentIdentifierContent>\n" +
+                "  </PersistentIdentifier>\n" +
+                "  <DataObjectUse>PhysicalMaster</DataObjectUse>\n" +
+                "  <DataObjectNumber>1</DataObjectNumber>\n" +
                 "  <PhysicalId>940 W</PhysicalId>\n" +
                 "  <PhysicalDimensions>\n" +
                 "    <Width unit=\"centimetre\">10.0</Width>\n" +
