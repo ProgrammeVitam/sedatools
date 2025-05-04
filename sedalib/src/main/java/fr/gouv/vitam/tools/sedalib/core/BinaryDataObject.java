@@ -41,12 +41,9 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
 import java.io.*;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -63,89 +60,84 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
  * Class for SEDA element BinaryDataObject. It contains metadata and links to
  * the binary file.
  */
-public class BinaryDataObject extends DataObjectPackageIdElement implements DataObject, ComplexListInterface {
+public class BinaryDataObject extends AbstractUnitaryDataObject implements DataObject, ComplexListInterface {
 
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap(seda2Version = {1})
-    public static final Map<String, ComplexListMetadataKind> metadataMap_v1;
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V1;
 
     static {
-        metadataMap_v1 = new LinkedHashMap<>();
-        metadataMap_v1.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v1.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v1.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
-        metadataMap_v1.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v1.put("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v1.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1 = new LinkedHashMap<>();
+        METADATA_MAP_V1.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
+        METADATA_MAP_V1.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
 
-        metadataMap_v1.put("Uri", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v1.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
-        metadataMap_v1.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
-        metadataMap_v1.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v1.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
-        metadataMap_v1.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
-        metadataMap_v1.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
-        metadataMap_v1.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
+        METADATA_MAP_V1.put("Uri", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
+        METADATA_MAP_V1.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
+        METADATA_MAP_V1.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
+        METADATA_MAP_V1.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
+        METADATA_MAP_V1.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
+        METADATA_MAP_V1.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
     }
 
     @ComplexListMetadataMap(seda2Version = {2})
-    public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2;
 
     static {
-        metadataMap_v2 = new LinkedHashMap<>();
-        metadataMap_v2.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
-        metadataMap_v2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2 = new LinkedHashMap<>();
+        METADATA_MAP_V2.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
+        METADATA_MAP_V2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
 
-        metadataMap_v2.put("Uri", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
-        metadataMap_v2.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
-        metadataMap_v2.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
-        metadataMap_v2.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
-        metadataMap_v2.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
-        metadataMap_v2.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
+        METADATA_MAP_V2.put("Uri", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
+        METADATA_MAP_V2.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
+        METADATA_MAP_V2.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
+        METADATA_MAP_V2.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
+        METADATA_MAP_V2.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
+        METADATA_MAP_V2.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
     }
 
     @ComplexListMetadataMap(seda2Version = {3})
-    public static final Map<String, ComplexListMetadataKind> metadataMap_v3;
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3;
 
     static {
-        metadataMap_v3 = new LinkedHashMap<>();
-        metadataMap_v3.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v3.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v3.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v3.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
-        metadataMap_v3.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
-        metadataMap_v3.put("DataObjectUse", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v3.put("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false));
+        METADATA_MAP_V3 = new LinkedHashMap<>();
+        METADATA_MAP_V3.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
+        METADATA_MAP_V3.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
+        METADATA_MAP_V3.put("DataObjectUse", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false));
 
-        metadataMap_v3.put("Uri", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v3.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
-        metadataMap_v3.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
-        metadataMap_v3.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v3.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
-        metadataMap_v3.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
-        metadataMap_v3.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
-        metadataMap_v3.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
+        METADATA_MAP_V3.put("Uri", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
+        METADATA_MAP_V3.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
+        METADATA_MAP_V3.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
+        METADATA_MAP_V3.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
+        METADATA_MAP_V3.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
+        METADATA_MAP_V3.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
     }
 
-    public final static LinkedHashMap<String, ComplexListMetadataKind>[] metadataMaps = new LinkedHashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
-    public final static Boolean[] notExpandables = new Boolean[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
+    private final static LinkedHashMap<String, ComplexListMetadataKind>[] METADATA_MAPS = new LinkedHashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
+    public final static Boolean[] NON_EXPANDABLE_FLAGS = new Boolean[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
 
     static {
-        ComplexListInterface.initMetadataMaps(BinaryDataObject.class, metadataMaps, notExpandables);
+        ComplexListInterface.initMetadataMaps(BinaryDataObject.class, METADATA_MAPS, NON_EXPANDABLE_FLAGS);
     }
-
-    /**
-     * The metadata list.
-     */
-    private List<SEDAMetadata> metadataList;
 
     /**
      * {@inheritDoc}
@@ -153,9 +145,9 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     @JsonIgnore
     @Override
     public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
-        LinkedHashMap<String, ComplexListMetadataKind> result = metadataMaps[SEDA2Version.getSeda2Version()];
+        LinkedHashMap<String, ComplexListMetadataKind> result = METADATA_MAPS[SEDA2Version.getSeda2Version()];
         if (result == null)
-            result = metadataMaps[0];
+            result = METADATA_MAPS[0];
         return result;
     }
 
@@ -165,35 +157,10 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     @JsonIgnore
     @Override
     public boolean isNotExpandable() throws SEDALibException {
-        Boolean result = notExpandables[SEDA2Version.getSeda2Version()];
+        Boolean result = NON_EXPANDABLE_FLAGS[SEDA2Version.getSeda2Version()];
         if (result == null)
-            result = notExpandables[0];
+            result = NON_EXPANDABLE_FLAGS[0];
         return result;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<SEDAMetadata> getMetadataList() {
-        return metadataList;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void setMetadataList(List<SEDAMetadata> metadataList) {
-        this.metadataList = metadataList;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @JsonIgnore
-    public String getXmlElementName() {
-        return "BinaryDataObject";
     }
 
     // Inner element
@@ -259,19 +226,10 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      */
     public BinaryDataObject(DataObjectPackage dataObjectPackage, Path path, String explicitFilename, String dataObjectVersion) {
         super(dataObjectPackage);
-        this.metadataList = new ArrayList<>(17);
-
         if (dataObjectVersion != null)
             metadataList.add(new StringType("DataObjectVersion", dataObjectVersion));
         addFilenameMetadata(path, explicitFilename);
         this.onDiskPath = (path != null ? path.toAbsolutePath().normalize() : null);
-        this.dataObjectGroup = null;
-        if (dataObjectPackage != null)
-            try {
-                dataObjectPackage.addBinaryDataObject(this);
-            } catch (SEDALibException ignored) {
-                // impossible as the uniqID is generated by the called function.
-            }
     }
 
     /**
@@ -502,72 +460,12 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
             throws InterruptedException, SEDALibException {
         finalizeUri();
-        // XML write
-        try {
-            xmlWriter.writeStartElement("BinaryDataObject");
-            xmlWriter.writeAttributeIfNotEmpty("id", inDataPackageObjectId);
-            toSedaXmlMetadataList(xmlWriter);
-            xmlWriter.writeEndElement();
-        } catch (XMLStreamException e) {
-            throw new SEDALibException(
-                    "Erreur d'écriture XML dans un élément [" + getXmlElementName() + "]", e);
-        }
-
-        int counter = getDataObjectPackage().getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger, OBJECTS_GROUP, counter,
-                "sedalib: " + counter + " métadonnées DataObject exportées");
+        super.toSedaXml(xmlWriter, sedaLibProgressLogger);
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.gouv.vitam.tools.sedalib.core.DataObject#toSedaXmlFragments()
-     */
-    @Override
-    public String toSedaXmlFragments() throws SEDALibException {
-        String result;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            try (SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
-                toSedaXml(xmlWriter, null);
-            }
-            result = baos.toString(StandardCharsets.UTF_8);
-        } catch (SEDALibException | XMLStreamException | IOException e) {
-            throw new SEDALibException("Erreur interne d'écriture du BinaryDataObject", e);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new SEDALibException("Interruption du process", e);
-        }
-        if (result != null) {
-            if (result.isEmpty())
-                result = null;
-            else {
-                result = result.replaceFirst("<BinaryDataObject .*>", "");
-                result = result.substring(1, result.lastIndexOf("</BinaryDataObject>") - 1);
-            }
-        }
-        return result;
-    }
 
     // SEDA XML importer
 
-    /**
-     * Read the BinaryDataObject element content in XML expected form from the SEDA
-     * Manifest in the ArchiveTransfer. Utility methods for fromSedaXml and
-     * fromSedaXmlFragments
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is not
-     *                          respected
-     */
-    private void setFromXmlContent(SEDAXMLEventReader xmlReader)
-            throws SEDALibException {
-        try {
-            metadataList = new ArrayList<>(18);
-            fillFromSedaXmlMetadataList(xmlReader);
-        } catch (SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture XML du BinaryDataObject", e);
-        }
-    }
 
     /**
      * Import the BinaryDataObject in XML expected form from the SEDA Manifest in
@@ -583,85 +481,12 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
      */
     public static BinaryDataObject fromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
                                                SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
-        BinaryDataObject bdo = null;
-        DataObjectGroup dog;
-        String tmp;
-        try {
-            tmp = xmlReader.peekAttributeBlockIfNamed("BinaryDataObject", "id");
-            if (tmp != null) {
-                bdo = new BinaryDataObject();
-                bdo.inDataPackageObjectId = tmp;
-                dataObjectPackage.addBinaryDataObject(bdo);
-                xmlReader.nextUsefullEvent();
-                bdo.setFromXmlContent(xmlReader);
-                xmlReader.endBlockNamed("BinaryDataObject");
-            }
-        } catch (XMLStreamException | SEDALibException e) {
-            throw new SEDALibException("Erreur de lecture dans le BinaryDataObject"
-                    + (bdo != null ? " [" + bdo.inDataPackageObjectId + "]" : ""), e);
-        }
-        //case not a BinaryDataObject
-        if (bdo == null)
-            return null;
-
-        StringType dataObjectGroupId = (StringType) bdo.getFirstNamedMetadata("DataObjectGroupId");
-        StringType dataObjectGroupReferenceId = (StringType) bdo.getFirstNamedMetadata("DataObjectGroupReferenceId");
-
-        if ((dataObjectGroupId != null) && (dataObjectGroupReferenceId != null))
-            throw new SEDALibException("Eléments DataObjectGroupReferenceId et DataObjectGroupId incompatibles");
-        if (dataObjectGroupId != null) {
-            if (dataObjectPackage.getDataObjectGroupById(dataObjectGroupId.getValue()) != null)
-                throw new SEDALibException("Elément DataObjectGroup [" + dataObjectGroupId.getValue() + "] déjà créé");
-            if (dataObjectGroupId.getValue() == null)
-                throw new SEDALibException("Elément DataObjectGroup vide");
-            dog = new DataObjectGroup();
-            dog.setInDataObjectPackageId(dataObjectGroupId.getValue());
-            dataObjectPackage.addDataObjectGroup(dog);
-            dog.addDataObject(bdo);
-            doProgressLog(sedaLibProgressLogger, OBJECTS_WARNINGS, "sedalib: dataObjectGroup [" + dog.inDataPackageObjectId
-                    + "] créé depuis BinaryDataObject [" + bdo.inDataPackageObjectId + "]", null);
-        } else if (dataObjectGroupReferenceId != null) {
-            if (dataObjectGroupReferenceId.getValue() == null)
-                throw new SEDALibException("Elément DataObjectGroupReferenceId vide");
-            dog = dataObjectPackage.getDataObjectGroupById(dataObjectGroupReferenceId.getValue());
-            if (dog == null)
-                throw new SEDALibException("Erreur de référence au DataObjectGroup [" + dataObjectGroupReferenceId.getValue() + "]");
-            dog.addDataObject(bdo);
-        }
-        bdo.removeFirstNamedMetadata("DataObjectGroupReferenceId");
-        bdo.removeFirstNamedMetadata("DataObjectGroupId");
-
-        int counter = dataObjectPackage.getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger, OBJECTS_GROUP, counter, "sedalib: " + counter + " métadonnées DataObject importées");
-        return bdo;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * fr.gouv.vitam.tools.sedalib.core.DataObject#fromSedaXmlFragments(java.lang.
-     * String)
-     */
-    public void fromSedaXmlFragments(String fragments) throws SEDALibException {
         BinaryDataObject bdo = new BinaryDataObject();
-
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes(StandardCharsets.UTF_8));
-             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
-            // jump StartDocument
-            xmlReader.nextUsefullEvent();
-            bdo.setFromXmlContent(xmlReader);
-            XMLEvent event = xmlReader.xmlReader.peek();
-            if (!event.isEndDocument())
-                throw new SEDALibException("Il y a des champs illégaux");
-        } catch (XMLStreamException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture du BinaryDataObject", e);
-        }
-
-        metadataList = bdo.metadataList;
+        return (importUnitaryDataObjectPackageIdElementFromSedaXml(bdo, xmlReader, dataObjectPackage, sedaLibProgressLogger)
+                ? bdo : null);
     }
 
-    /**
+   /**
      * Gets the FileInfo metadata from the metadata list.
      *
      * @return the FileInfo metadata, or null if not found
@@ -669,16 +494,6 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     @JsonIgnore
     public FileInfo getMetadataFileInfo() {
         return (FileInfo) getFirstNamedMetadata("FileInfo");
-    }
-
-    /**
-     * Gets the DataObjectVersion metadata from the metadata list.
-     *
-     * @return the DataObjectVersion metadata, or null if not found
-     */
-    @JsonIgnore
-    public StringType getMetadataDataObjectVersion() {
-        return (StringType) getFirstNamedMetadata("DataObjectVersion");
     }
 
     /**
@@ -720,25 +535,4 @@ public class BinaryDataObject extends DataObjectPackageIdElement implements Data
     public FormatIdentification getMetadataFormatIdentification() {
         return (FormatIdentification) getFirstNamedMetadata("FormatIdentification");
     }
-
-// Getters and setters
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.gouv.vitam.tools.sedalib.core.DataObject#getOg()
-     */
-    public DataObjectGroup getDataObjectGroup() {
-        return dataObjectGroup;
-    }
-
-    /**
-     * Sets the dataObjectGroup.
-     *
-     * @param dataObjectGroup the new DataObjectGroup
-     */
-    public void setDataObjectGroup(DataObjectGroup dataObjectGroup) {
-        this.dataObjectGroup = dataObjectGroup;
-    }
-
 }
