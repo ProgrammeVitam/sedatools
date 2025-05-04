@@ -34,6 +34,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -102,14 +103,15 @@ public class StatisticThread extends SwingWorker<String, String> {
             int counter = 0;
             for (BinaryDataObject bdo : dataObjectPackage.getBdoInDataObjectPackageIdMap().values()) {
                 String category = null;
-                FormatIdentification formatIdentification = bdo.formatIdentification;
+                FormatIdentification formatIdentification = bdo.getMetadataFormatIdentification();
                 if (formatIdentification != null)
                     category = findCategory(formatIdentification.getSimpleMetadata("FormatId"), formatByCatgeoryMap);
                 if (category == null) category = otherCategory;
-                if (bdo.size != null) {
+                IntegerType size=bdo.getMetadataSize();
+                if (size != null) {
                     if (category != null)
-                        sizeByCategoryMap.get(category).add(bdo.size.getValue());
-                    sizeByCategoryMap.get("Tous formats").add(bdo.size.getValue());
+                        sizeByCategoryMap.get(category).add(size.getValue());
+                    sizeByCategoryMap.get("Tous formats").add(size.getValue());
                 }
                 counter++;
                 doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, counter, "resip: " +

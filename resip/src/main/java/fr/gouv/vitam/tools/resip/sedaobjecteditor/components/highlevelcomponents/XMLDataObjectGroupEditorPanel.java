@@ -248,7 +248,7 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                 BinaryDataObject bdo = (BinaryDataObject) displayedDataObject;
                 bdo.setOnDiskPath(Paths.get(newBinary));
                 try {
-                    bdo.fileInfo = null;
+                    bdo.removeFirstNamedMetadata("FileInfo");
                     bdo.extractTechnicalElements(null);
                 } catch (SEDALibException e) {
                     UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),

@@ -3,6 +3,9 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
@@ -96,25 +99,29 @@ public class DuplicatesTableModel extends AbstractTableModel {
             case 3:
                 List<String> names = new ArrayList<String>();
                 for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
-                    names.add((bdo.fileInfo==null?null:bdo.fileInfo.getSimpleMetadata("Filename")));
+                    FileInfo fi=bdo.getMetadataFileInfo();
+                    names.add((fi==null?null:fi.getSimpleMetadata("Filename")));
                 }
                 return String.join(", ", names);
             case 4:
                 List<String> sizes = new ArrayList<String>();
                 for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
-                    sizes.add(String.format("%,d", (bdo.size==null?0:bdo.size.getValue())));
+                    IntegerType s=bdo.getMetadataSize();
+                    sizes.add(String.format("%,d", (s==null?0:s.getValue())));
                 }
                 return String.join(", ", sizes);
             case 5:
                 List<String> formats = new ArrayList<String>();
                 for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
-                    formats.add((bdo.formatIdentification==null?null:bdo.formatIdentification.getSimpleMetadata("FormatId")));
+                    FormatIdentification fi=bdo.getMetadataFormatIdentification();
+                    formats.add((fi==null?null:fi.getSimpleMetadata("FormatId")));
                 }
                 return String.join(", ", formats);
             case 6:
                 List<String> types = new ArrayList<String>();
                 for (BinaryDataObject bdo : dogList.get(0).getBinaryDataObjectList()) {
-                    types.add((bdo.formatIdentification==null?null:bdo.formatIdentification.getSimpleMetadata("MimeType")));
+                    FormatIdentification fi=bdo.getMetadataFormatIdentification();
+                    types.add((fi==null?null:fi.getSimpleMetadata("MimeType")));
                 }
                 return String.join(", ", types);
             default:

@@ -183,7 +183,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
             }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            doProgressLog(spl, GLOBAL, "Extraction de massages du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.fileInfo.getSimpleMetadata("Filename") + "]", null);
+            doProgressLog(spl, GLOBAL, "Extraction de massages du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.getMetadataFileInfo().getSimpleMetadata("Filename") + "]", null);
 
             MailExtractProgressLogger mepl = new MailExtractProgressLogger(ResipLogger.getGlobalLogger().getLogger(),
                     localLogLevel, (count, log) -> {
@@ -196,7 +196,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
             String target = getTmpDirTarget(mic.getWorkDir(), bdoToExpand.getOnDiskPathToString(), bdoToExpand.getInDataObjectPackageId());
             MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),
                     mic.isExtractAttachmentTextFile(), mic.isExtractAttachmentTextMetadata(),
-                    StoreExtractor.getProtocolFromDroidFormat(bdoToExpand.formatIdentification.getSimpleMetadata("FormatId")),
+                    StoreExtractor.getProtocolFromDroidFormat(bdoToExpand.getMetadataFormatIdentification().getSimpleMetadata("FormatId")),
                     mic.getDefaultCharsetName(), bdoToExpand.getOnDiskPathToString(), "", target, mepl);
             mi.doExtract();
             doProgressLog(spl, GLOBAL, "resip: extraction de messages terminée\n" + mi.getSummary(), null);

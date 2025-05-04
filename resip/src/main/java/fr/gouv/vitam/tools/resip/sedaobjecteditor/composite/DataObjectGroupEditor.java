@@ -83,10 +83,10 @@ public class DataObjectGroupEditor extends CompositeEditor {
     private void addDataObject(DataObject dataObject) throws SEDALibException {
         DataObjectGroup og;
         if (dataObject instanceof BinaryDataObject) {
-            getDataObjectGroupMetadata().getDataObjectPackage().addBinaryDataObject((BinaryDataObject) dataObject);
+            getDataObjectGroupMetadata().getDataObjectPackage().addDataObjectPackageIdElement((BinaryDataObject) dataObject);
             getDataObjectGroupMetadata().addDataObject((BinaryDataObject) dataObject);
         } else if (dataObject instanceof PhysicalDataObject) {
-            getDataObjectGroupMetadata().getDataObjectPackage().addPhysicalDataObject((PhysicalDataObject) dataObject);
+            getDataObjectGroupMetadata().getDataObjectPackage().addDataObjectPackageIdElement((PhysicalDataObject) dataObject);
             getDataObjectGroupMetadata().addDataObject((PhysicalDataObject) dataObject);
         }
     }

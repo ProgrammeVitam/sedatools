@@ -33,7 +33,9 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -96,5 +98,28 @@ public class PersistentIdentifier extends ComplexListType {
         if (persistentIdentifierContent != null) {
             addNewMetadata("PersistentIdentifierContent", persistentIdentifierContent);
         }
+    }
+
+    /**
+     * Generates a summary from the PersistentIdentifier metadata.
+     * <p>
+     * The summary includes values for "PersistentIdentifierType" or "PersistentIdentifierOrigin"
+     * (if "PersistentIdentifierType" is not available) and "PersistentIdentifierContent",
+     * joined with " : " as a delimiter.
+     *
+     * @return a summary string constructed from the metadata
+     */
+    public String getSummary() {
+        List<String> summaryList = new ArrayList<>(2);
+        if (getFirstNamedMetadata("PersistentIdentifierType") != null)
+            summaryList.add(((StringType) getFirstNamedMetadata("PersistentIdentifierType")).getValue());
+        else if (getFirstNamedMetadata("PersistentIdentifierOrigin") != null)
+            summaryList.add(((StringType) getFirstNamedMetadata("PersistentIdentifierOrigin")).getValue());
+        else if (getFirstNamedMetadata("PersistentIdentifierReference") != null)
+            summaryList.add(((StringType) getFirstNamedMetadata("PersistentIdentifierReference")).getValue());
+        if (getFirstNamedMetadata("PersistentIdentifierContent") != null)
+            summaryList.add(((StringType) getFirstNamedMetadata("PersistentIdentifierContent")).getValue());
+
+        return String.join(" : ", summaryList);
     }
 }

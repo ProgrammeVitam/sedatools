@@ -37,6 +37,7 @@ import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,8 +83,9 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
                         DataObject dataObject = list.getModel().getElementAt(index);
                         if (dataObject instanceof BinaryDataObject) {
                             BinaryDataObject bdo = (BinaryDataObject) dataObject;
-                            if ((bdo.formatIdentification!=null) &&
-                                    (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(bdo.formatIdentification.getSimpleMetadata("FormatId")))) {
+                            FormatIdentification fi=bdo.getMetadataFormatIdentification();
+                            if ((fi!=null) &&
+                                    (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(fi.getSimpleMetadata("FormatId")))) {
                                 JPopupMenu popup = new JPopupMenu();
                                 JMenuItem mi;
                                 mi = new JMenuItem("Remplacer par le décompressé");
@@ -93,8 +95,8 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
                                 popup.add(mi);
                                 popup.show((Component) e.getSource(), e.getX(), e.getY());
                             }
-                            if ((bdo.formatIdentification!=null) &&
-                                    (StoreExtractor.getProtocolFromDroidFormat(bdo.formatIdentification.getSimpleMetadata("FormatId"))!=null)) {
+                            if ((fi!=null) &&
+                                    (StoreExtractor.getProtocolFromDroidFormat(fi.getSimpleMetadata("FormatId"))!=null)) {
                                 JPopupMenu popup = new JPopupMenu();
                                 JMenuItem mi;
                                 mi = new JMenuItem("Remplacer par l'extraction des messages");

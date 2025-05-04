@@ -88,9 +88,9 @@ class DataObjectListTransferHandler extends TransferHandler {
                 ResipGraphicApp.getTheWindow().treePane.displayedTreeNodeChanged();
             }
             if (dataObject instanceof BinaryDataObject)
-                list.container.getEditedArchiveUnit().getDataObjectPackage().addBinaryDataObject((BinaryDataObject) dataObject);
+                list.container.getEditedArchiveUnit().getDataObjectPackage().addDataObjectPackageIdElement((BinaryDataObject) dataObject);
             else
-                list.container.getEditedArchiveUnit().getDataObjectPackage().addPhysicalDataObject((PhysicalDataObject) dataObject);
+                list.container.getEditedArchiveUnit().getDataObjectPackage().addDataObjectPackageIdElement((PhysicalDataObject) dataObject);
             dataObjectGroup.addDataObject(dataObject);
         } catch (SEDALibException ignored) {}
     }

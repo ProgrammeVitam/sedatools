@@ -42,6 +42,7 @@ import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectGroup;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CompressedFileToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
@@ -86,8 +87,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             if ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty()) &&
                     (dog.getBinaryDataObjectList() != null)) {
                 for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
-                    if ((bdo.formatIdentification != null) &&
-                            (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(bdo.formatIdentification.getSimpleMetadata("FormatId")))) {
+                    FormatIdentification fi=bdo.getMetadataFormatIdentification();
+                    if ((fi != null) &&
+                            (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(fi.getSimpleMetadata("FormatId")))) {
                         return bdo;
                     }
                 }
@@ -106,8 +108,9 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             if ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty()) &&
                     (dog.getBinaryDataObjectList() != null) && (dog.getBinaryDataObjectList().size() == 1)) {
                 BinaryDataObject bdo = dog.getBinaryDataObjectList().get(0);
-                if ((bdo.formatIdentification!=null) &&
-                        (StoreExtractor.getProtocolFromDroidFormat(bdo.formatIdentification.getSimpleMetadata("FormatId"))!=null)) {
+                FormatIdentification fi=bdo.getMetadataFormatIdentification();
+                if ((fi!=null) &&
+                        (StoreExtractor.getProtocolFromDroidFormat(fi.getSimpleMetadata("FormatId"))!=null)) {
                     return bdo;
                 }
             }
