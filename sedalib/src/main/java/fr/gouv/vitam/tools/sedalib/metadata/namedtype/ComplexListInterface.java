@@ -29,7 +29,6 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
 import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
-import fr.gouv.vitam.tools.sedalib.metadata.content.DescriptionLevel;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Gps;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -730,8 +729,6 @@ public interface ComplexListInterface {
                     return ((TextType) sm).getValue();
                 else if ((sm instanceof TextType) && (((TextType) sm).getLang().equals("fr")))
                     langText = ((TextType) sm).getValue();
-                else if ((sm instanceof DescriptionLevel))
-                    return ((DescriptionLevel) sm).getValue();
                 else if ((sm instanceof EnumType))
                     return ((EnumType) sm).getValue();
                 else if (sm instanceof DateTimeType) {

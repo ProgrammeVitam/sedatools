@@ -61,7 +61,7 @@ public class Content extends ComplexListType {
 
     static {
         metadataMap = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
-        metadataMap.put("DescriptionLevel", new ComplexListMetadataKind(DescriptionLevel.class, false));
+        metadataMap.put("DescriptionLevel", new ComplexListMetadataKind(EnumType.class, false));
         metadataMap.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("SystemId", new ComplexListMetadataKind(StringType.class, true));
@@ -121,7 +121,7 @@ public class Content extends ComplexListType {
 
     static {
         metadataMap_v2 = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
-        metadataMap_v2.put("DescriptionLevel", new ComplexListMetadataKind(DescriptionLevel.class, false));
+        metadataMap_v2.put("DescriptionLevel", new ComplexListMetadataKind(EnumType.class, false));
         metadataMap_v2.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap_v2.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_v2.put("SystemId", new ComplexListMetadataKind(StringType.class, true));
@@ -183,7 +183,7 @@ public class Content extends ComplexListType {
 
     static {
         metadataMap_v3 = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
-        metadataMap_v3.put("DescriptionLevel", new ComplexListMetadataKind(DescriptionLevel.class, false));
+        metadataMap_v3.put("DescriptionLevel", new ComplexListMetadataKind(EnumType.class, false));
         metadataMap_v3.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap_v3.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_v3.put("SystemId", new ComplexListMetadataKind(StringType.class, true));

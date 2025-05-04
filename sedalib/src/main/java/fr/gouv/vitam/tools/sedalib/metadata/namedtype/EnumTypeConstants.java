@@ -18,5 +18,7 @@ public class EnumTypeConstants {
 
         enumListMap.put("SigningRole", Arrays.asList("SignedDocument", "Timestamp", "Signature", "AdditionalProof"));
         enumListMap.put("DetachedSigningRole", Arrays.asList("Timestamp", "Signature", "AdditionalProof"));
+        enumListMap.put("DescriptionLevel", Arrays.asList("Fonds", "Subfonds", "Class", "Collection",
+                "Series", "Subseries", "RecordGrp", "SubGrp", "File", "Item", "OtherLevel"));
     }
 }
