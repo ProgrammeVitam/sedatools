@@ -59,14 +59,15 @@ import java.util.LinkedHashMap;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         // SubTypes for BinaryDataObject
+        @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),
         @JsonSubTypes.Type(value = StringType.class, name = "StringType"),
-        @JsonSubTypes.Type(value = AnyXMLType.class, name = "AnyXMLType"),
         @JsonSubTypes.Type(value = PersistentIdentifier.class, name = "PersistentIdentifier"),
         @JsonSubTypes.Type(value = IntegerType.class, name = "IntegerType"),
         @JsonSubTypes.Type(value = DigestType.class, name = "DigestType"),
         @JsonSubTypes.Type(value = FormatIdentification.class, name = "FormatIdentification"),
         @JsonSubTypes.Type(value = FileInfo.class, name = "FileInfo"),
         @JsonSubTypes.Type(value = Metadata.class, name = "Metadata"),
+        @JsonSubTypes.Type(value = AnyXMLType.class, name = "AnyXMLType"),
         // More subTypes for PhysicalDataObject
         @JsonSubTypes.Type(value = PhysicalDimensions.class, name = "PhysicalDimensions"),
         @JsonSubTypes.Type(value = LinearDimensionType.class, name = "LinearDimensionType"),

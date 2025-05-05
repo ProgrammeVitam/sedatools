@@ -365,8 +365,10 @@ public class SEDAObjectEditorConstants {
         translateMap.put("BinaryDataObject", "Numérique");
         translateMap.put("DataObjectProfile", "Profil d'objet");
         translateMap.put("DataObjectVersion", "Version");
+        translateMap.put("Compressed", "Compressé");
         translateMap.put("DataObjectUse", "Usage");
         translateMap.put("DataObjectNumber", "Numéro");
+        translateMap.put("Relationship", "Relation");
         translateMap.put("MessageDigest", "Hachage");
         translateMap.put("Size", "Taille");
         translateMap.put("Uri", "Chemin dans le SIP");
@@ -384,6 +386,7 @@ public class SEDAObjectEditorConstants {
         translateMap.put("CreatingOsVersion", "OS-Version");
         translateMap.put("LastModified", "Date de modification");
         translateMap.put("Metadata", "Métadonnées");
+        translateMap.put("OtherMetadata", "Autres Métadonnées");
         translateMap.put("Audio", "Audio");
         translateMap.put("Document", "Document");
         translateMap.put("Image", "Image");

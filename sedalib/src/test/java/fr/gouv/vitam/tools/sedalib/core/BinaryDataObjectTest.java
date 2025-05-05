@@ -38,6 +38,7 @@ class BinaryDataObjectTest {
         si.doImport();
         BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
                 .get("ID7");
+        bdo.addNewMetadata("Relationship", "tar","typ");
 
         String bdoOut = mapper.writeValueAsString(bdo);
         //System.out.println("Value to verify=" + bdoOut);
@@ -49,6 +50,11 @@ class BinaryDataObjectTest {
         // Then
         String testOut = "{\n" +
                 "  \"metadataList\" : [ {\n" +
+                "    \"type\" : \"Relationship\",\n" +
+                "    \"elementName\" : \"Relationship\",\n" +
+                "    \"target\" : \"tar\",\n" +
+                "    \"type\" : \"typ\"\n" +
+                "  }, {\n" +
                 "    \"type\" : \"StringType\",\n" +
                 "    \"elementName\" : \"DataObjectVersion\",\n" +
                 "    \"value\" : \"BinaryMaster_1\"\n" +

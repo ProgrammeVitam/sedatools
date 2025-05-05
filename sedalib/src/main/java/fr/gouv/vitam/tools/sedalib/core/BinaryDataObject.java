@@ -34,6 +34,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -72,7 +73,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         METADATA_MAP_V1 = new LinkedHashMap<>();
         METADATA_MAP_V1.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V1.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
+        METADATA_MAP_V1.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
         METADATA_MAP_V1.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V1.put("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V1.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
@@ -95,7 +96,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         METADATA_MAP_V2.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V2.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V2.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
+        METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
         METADATA_MAP_V2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
 
         METADATA_MAP_V2.put("Uri", new ComplexListMetadataKind(StringType.class, false));
@@ -116,7 +117,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         METADATA_MAP_V3.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V3.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V3.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("Relationship", new ComplexListMetadataKind(AnyXMLType.class, true));
+        METADATA_MAP_V3.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
         METADATA_MAP_V3.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
         METADATA_MAP_V3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
         METADATA_MAP_V3.put("DataObjectUse", new ComplexListMetadataKind(StringType.class, false));
