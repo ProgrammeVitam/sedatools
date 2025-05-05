@@ -169,7 +169,8 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
                 ((CompositeEditor) dataObjectGroupEditor).refreshEditedObjectLabel();
             }
             DataObjectGroup dog = dataObjectGroupEditor.extractEditedObject();
-            if (dog.getPhysicalDataObjectList().size()+dog.getPhysicalDataObjectList().size()==0) {
+            if ((dog.getBinaryDataObjectList().size() + dog.getPhysicalDataObjectList().size() == 0) && (dog.logBook == null)) {
+                ArchiveUnit memoryArchiveUnit = editedArchiveUnit;
                 editedArchiveUnit.removeEmptyDataObjectGroup();
                 dataObjectGroupEditor.editDataObjectGroup(null);
                 scrollPane.setVisible(false);
@@ -177,8 +178,8 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
                 saveButton.setEnabled(false);
                 revertButton.setEnabled(false);
                 ResipGraphicApp.getTheWindow().treePane.doRefreshTree();
-            }
-            else {
+                ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(memoryArchiveUnit);
+            } else {
                 for (SEDAObjectEditor me : dataObjectGroupEditor.objectEditorList) {
                     ((CompositeEditor) me).refreshEditedObjectLabel();
                 }
