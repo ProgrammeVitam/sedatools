@@ -98,15 +98,17 @@ public class DateTimeType extends NamedTypeMetadata {
      * Instantiates  a new date time from String.
      *
      * @param elementName the XML element name
-     * @param dateString   the date string value
+     * @param dateString  the date string value
      * @throws SEDALibException if wrong date time format
      */
     public DateTimeType(String elementName, String dateString) throws SEDALibException {
         super(elementName);
         try {
-            this.value = SEDAXMLEventReader.getDateTimeFromString(dateString);
-        }
-        catch( DateTimeParseException e) {
+            if (dateString.isEmpty())
+                this.value = null;
+            else
+                this.value = SEDAXMLEventReader.getDateTimeFromString(dateString);
+        } catch (DateTimeParseException e) {
             throw new SEDALibException("Problème de formatage de date/temps à la création d'un élément [" + elementName + "]");
         }
     }
@@ -139,7 +141,9 @@ public class DateTimeType extends NamedTypeMetadata {
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         if (value != null)
-            result.put("",SEDAXMLStreamWriter.getStringFromDateTime(value));
+            result.put("", SEDAXMLStreamWriter.getStringFromDateTime(value));
+        else
+            result.put("", "");
         return result;
     }
 
@@ -205,7 +209,10 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     @JsonGetter("dateTimeString")
     public String getDateTimeString() {
-        return value.toInstant(ZoneOffset.UTC).toString();
+        if (value == null)
+            return "";
+        else
+            return value.toInstant(ZoneOffset.UTC).toString();
     }
 
     /**
@@ -215,6 +222,9 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     @JsonSetter("dateTimeString")
     public void setDateTimeString(String dateTimeString) {
-        this.value = LocalDateTime.ofInstant(Instant.parse(dateTimeString),ZoneOffset.UTC);
+        if ((dateTimeString==null) || dateTimeString.trim().isEmpty())
+            this.value=null;
+        else
+            this.value = LocalDateTime.ofInstant(Instant.parse(dateTimeString), ZoneOffset.UTC);
     }
 }
