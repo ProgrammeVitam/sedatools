@@ -424,16 +424,17 @@ public class TestSipGeneratorApp {
             throw new SEDALibException("Impossible de générer les infos techniques pour le fichier [" + bdo.getOnDiskPath().toString() + "]\n->" + e.getMessage());
         }
 
-        bdo.messageDigest = new DigestType("MessageDigest",digest,"SHA-512");
-        bdo.size = new IntegerType("Size",lsize);
+        bdo.addMetadata(new DigestType("MessageDigest",digest,"SHA-512"));
+        bdo.addNewMetadata("Size",lsize);
         if (contentType == TEXT_CONTENT)
-            bdo.formatIdentification = new FormatIdentification("Plain Text File", "text/plain", "x-fmt/111", null);
+            bdo.addMetadata(new FormatIdentification("Plain Text File", "text/plain", "x-fmt/111", null));
         else
-            bdo.formatIdentification = new FormatIdentification("Unknown", null, null, null);
+            bdo.addNewMetadata("FormatIdentification","Unknown", null, null, null);
 
-        bdo.fileInfo = new FileInfo();
-        bdo.fileInfo.addNewMetadata("Filename", lfilename);
-        bdo.fileInfo.addNewMetadata("LastModified", llastModified.toString());
+        FileInfo fileInfo = new FileInfo();
+        fileInfo.addNewMetadata("Filename", lfilename);
+        fileInfo.addNewMetadata("LastModified", llastModified.toString());
+        bdo.addMetadata(fileInfo);
     }
 
     /**
