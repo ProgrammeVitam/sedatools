@@ -205,7 +205,7 @@ public class SEDAObjectEditorConstants {
         translateMap.put("Type", "Type OAIS");
         translateMap.put("Version", "Version");
         translateMap.put("Writer", "Rédacteur");
-        translateMap.put("AnyXMLType", "XML Brut");
+        translateMap.put("AnyXMLType", "\u00A0Extension XML brut");
 
         // CustodialHistory subfields
         translateMap.put("CustodialHistoryItem", "Détail");

@@ -29,39 +29,23 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
-import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListMetadataKind;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 
 /**
  * The PhysicalDataObject object editor class.
  */
-public class PhysicalDataObjectEditor extends CompositeEditor {
+public class PhysicalDataObjectEditor extends AbstractUnitaryDataObjectEditor {
 
-
-    /**
-     * Explicative texts
-     */
-    static final String UNKNOWN = "Unknown";
-    static final String TO_BE_DEFINED = "Tbd";
 
     /**
      * Instantiates a new PhysicalDataObject editor.
@@ -78,35 +62,8 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
     }
 
     @Override
-    public String getTag() {
-        return "PhysicalDataObject";
-    }
-
-    @Override
-    public String getName() {
-        if (editedObject == null)
-            return translateTag(getTag()) + " - " + translateTag(UNKNOWN);
-        return translateTag(getTag()) + " - " +
-                (getPhysicalDataObject().getInDataObjectPackageId() == null ? TO_BE_DEFINED :
-                        getPhysicalDataObject().getInDataObjectPackageId());
-    }
-
-    @Override
     public PhysicalDataObject extractEditedObject() throws SEDALibException {
-        PhysicalDataObject tmpPdo = new PhysicalDataObject();
-        for (SEDAObjectEditor objectEditor : objectEditorList) {
-            SEDAMetadata subMetadata = (SEDAMetadata) objectEditor.extractEditedObject();
-            tmpPdo.addMetadata(subMetadata);
-        }
-        getPhysicalDataObject().setMetadataList(tmpPdo.getMetadataList());
-
-        return getPhysicalDataObject();
-    }
-
-    private String getItOrUnknown(String str) {
-        if ((str == null) || (str.isEmpty()))
-            return translateTag(UNKNOWN);
-        return str;
+        return (PhysicalDataObject) super.extractEditedObject();
     }
 
     @Override
@@ -122,104 +79,9 @@ public class PhysicalDataObjectEditor extends CompositeEditor {
         return String.join(", ", summaryList);
     }
 
-    private void updateObjectEditorList() throws SEDALibException {
-        ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
-    }
-
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
-        this.objectEditorList = new ArrayList<>();
-
-        this.sedaObjectEditorPanel = new SEDAObjectEditorCompositePanel(this, null, false);
-        for (SEDAMetadata sm : getPhysicalDataObject().getMetadataList()) {
-            objectEditorList.add(SEDAObjectEditor.createSEDAObjectEditor(sm, this));
-        }
-        updateObjectEditorList();
-    }
-
-    @Override
-    public List<Pair<String, String>> getExtensionList() throws SEDALibException {
-        List<String> used = new ArrayList<>();
-        List<Pair<String, String>> result = new ArrayList<>();
-        for (SEDAObjectEditor soe : objectEditorList) {
-            used.add(soe.getTag());
-        }
-        for (String metadataName : getPhysicalDataObject().getMetadataMap().keySet()) {
-            if (metadataName.endsWith("SystemId"))
-                continue;
-            ComplexListMetadataKind complexListMetadataKind = getPhysicalDataObject().getMetadataMap().get(metadataName);
-            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName)))
-                result.add(Pair.of(metadataName, translateTag(metadataName)));
-        }
-        if (!getPhysicalDataObject().isNotExpandable())
-            result.add(Pair.of("AnyXMLType", translateTag("AnyXMLType")));
-
-        result.sort((p1, p2) -> p1.getValue().compareTo(p2.getValue()));
-        return result;
-    }
-
-
-    private void replaceOrAddObjectEditor(SEDAObjectEditor newObjectEditor) throws SEDALibException {
-        // replace if it exists
-        for (int i = 0; i < objectEditorList.size(); i++) {
-            if (objectEditorList.get(i).getTag().equals(newObjectEditor.getTag())) {
-                objectEditorList.set(i, newObjectEditor);
-                return;
-            }
-        }
-
-        // add in BinaryDataObject metadata order
-        objectEditorList.add(getInsertionSEDAObjectEditorIndex(newObjectEditor.getTag()), newObjectEditor);
-    }
-
-    protected int getInsertionSEDAObjectEditorIndex(String metadataName) throws SEDALibException {
-        int addOrderIndex;
-        int curOrderIndex;
-        int i;
-        boolean manyFlag;
-        addOrderIndex = getPhysicalDataObject().indexOfMetadata(metadataName);
-        i = 0;
-        if (addOrderIndex == -1)
-            return Integer.MAX_VALUE;
-        else {
-            manyFlag = getPhysicalDataObject().getMetadataMap().get(metadataName).isMany();
-            for (SEDAObjectEditor soe : objectEditorList) {
-                curOrderIndex = getPhysicalDataObject().indexOfMetadata(soe.getTag());
-                if ((!manyFlag) && (curOrderIndex == addOrderIndex) ||
-                        (curOrderIndex == -1) || (curOrderIndex > addOrderIndex)) {
-                    break;
-                }
-                i++;
-            }
-        }
-        return i;
-    }
-
-    @Override
-    public void addChild(String metadataName) throws SEDALibException {
-        SEDAMetadata sedaMetadata;
-        SEDAMetadata sm = createSEDAMetadataSample(getPhysicalDataObject().getMetadataMap().get(metadataName).getMetadataClass().getSimpleName(), metadataName, true);
-        replaceOrAddObjectEditor(createSEDAObjectEditor(sm, this));
-        updateObjectEditorList();
-    }
-
-    @Override
-    public void removeChild(SEDAObjectEditor objectEditor) throws SEDALibException {
-        objectEditorList.remove(objectEditor);
-        updateObjectEditorList();
-    }
-
-    @Override
-    public boolean canContainsMultiple(String metadataName) {
-        try {
-            ComplexListMetadataKind cmk = getPhysicalDataObject().getMetadataMap().get(metadataName);
-            if (cmk != null)
-                return cmk.isMany();
-            return !getPhysicalDataObject().isNotExpandable();
-        } catch (SEDALibException ignored) {
-            // Exception impossible
-            return false;
-        }
+        prepareSEDAObjectEditorPanel(null );
     }
 
     /**
