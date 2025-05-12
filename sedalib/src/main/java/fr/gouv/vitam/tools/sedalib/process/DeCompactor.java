@@ -298,14 +298,10 @@ public class DeCompactor {
                     break;
                 case "FileObject":
                     BinaryDataObject bdo = new BinaryDataObject(dataObjectPackage);
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("DataObjectVersion"));
-                    StringType uri = (StringType) ((FileObject) sm).getFirstNamedMetadata("Uri");
-                    bdo.addMetadata(uri);
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("MessageDigest"));
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("Size"));
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("FormatIdentification"));
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("FileInfo"));
-                    bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
+                    bdo.setMetadataList(((FileObject)sm).getMetadataList());
+                    StringType uri=(StringType) ((FileObject)sm).getFirstNamedMetadata("Uri");
+                    if (uri!=null)
+                        bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
                     dataObjectGroup.addDataObject(bdo);
                     binaryDataObjectCounter++;
                     break;
@@ -344,14 +340,10 @@ public class DeCompactor {
                     break;
                 case "FileObject":
                     BinaryDataObject bdo = new BinaryDataObject(dataObjectPackage);
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("DataObjectVersion"));
-                    StringType uri = (StringType) ((FileObject) sm).getFirstNamedMetadata("Uri");
-                    bdo.addMetadata(uri);
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("MessageDigest"));
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("Size"));
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("FormatIdentification"));
-                    bdo.addMetadata(((FileObject) sm).getFirstNamedMetadata("FileInfo"));
-                    bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
+                    bdo.setMetadataList(((FileObject)sm).getMetadataList());
+                    StringType uri=(StringType) ((FileObject)sm).getFirstNamedMetadata("Uri");
+                    if (uri!=null)
+                        bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
                     dataObjectGroup.addDataObject(bdo);
                     binaryDataObjectCounter++;
                     break;

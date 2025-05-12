@@ -31,7 +31,8 @@ build
 /sedalib/src/test/resources/PacketSamples/SampleWithLinksModelV2/Root/Shortcut Node 2.4 - OG Link.lnk
 /resip/ResipPreferences.properties
 /mailextractlib/doc/
-sedalib/doc/
+/sedalib/doc/
+/javalibpst/doc/
 **/*.exe
 
 .DS_Store

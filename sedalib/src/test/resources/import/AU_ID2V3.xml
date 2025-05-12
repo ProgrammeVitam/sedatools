@@ -1,0 +1,213 @@
+<Content>
+  <DescriptionLevel>Item</DescriptionLevel>
+  <Title>DocumentPack1</Title>
+  <DocumentPack>
+    <DocumentsCount>1</DocumentsCount>
+    <FileObjectsCount>4</FileObjectsCount>
+    <RecordGrp>
+      <RecordGrpID>Node1</RecordGrpID>
+      <Content>
+        <DescriptionLevel>RecordGrp</DescriptionLevel>
+        <Title>Root</Title>
+      </Content>
+      <RecordGrp>
+        <RecordGrpID>Node2</RecordGrpID>
+        <Content>
+          <DescriptionLevel>RecordGrp</DescriptionLevel>
+          <Title>Node 2</Title>
+        </Content>
+        <RecordGrp>
+          <RecordGrpID>Node3</RecordGrpID>
+          <Content>
+            <DescriptionLevel>RecordGrp</DescriptionLevel>
+            <Title>Node 2.2 - Title cases</Title>
+          </Content>
+          <RecordGrp>
+            <RecordGrpID>Node4</RecordGrpID>
+            <Content>
+              <DescriptionLevel>RecordGrp</DescriptionLevel>
+              <Title>Node 2.2.1-^@]}êë^$£ê%ùµ_§._,;_!œŒÊ</Title>
+            </Content>
+            <RecordGrp>
+              <RecordGrpID>Node5</RecordGrpID>
+              <Content>
+                <DescriptionLevel>RecordGrp</DescriptionLevel>
+                <Title>^@]}êë^$£ê%ùµ_§._,;_!œŒÊ</Title>
+              </Content>
+            </RecordGrp>
+          </RecordGrp>
+          <RecordGrp>
+            <RecordGrpID>Node6</RecordGrpID>
+            <Content>
+              <DescriptionLevel>RecordGrp</DescriptionLevel>
+              <Title>Node 2.2.2-1234567890-a</Title>
+            </Content>
+          </RecordGrp>
+          <RecordGrp>
+            <RecordGrpID>Node7</RecordGrpID>
+            <Content>
+              <DescriptionLevel>RecordGrp</DescriptionLevel>
+              <Title>Node 2.2.3-ENMAJUSCULE</Title>
+            </Content>
+          </RecordGrp>
+          <RecordGrp>
+            <RecordGrpID>Node8</RecordGrpID>
+            <Content>
+              <DescriptionLevel>RecordGrp</DescriptionLevel>
+              <Title>Node 2.2.4-Un                                             espace</Title>
+            </Content>
+          </RecordGrp>
+        </RecordGrp>
+        <RecordGrp>
+          <RecordGrpID>Node9</RecordGrpID>
+          <Content>
+            <DescriptionLevel>RecordGrp</DescriptionLevel>
+            <Title>Node 2.3 - Many</Title>
+          </Content>
+        </RecordGrp>
+        <RecordGrp>
+          <RecordGrpID>Node10</RecordGrpID>
+          <Content>
+            <DescriptionLevel>RecordGrp</DescriptionLevel>
+            <Title>Node 2.4</Title>
+          </Content>
+        </RecordGrp>
+        <RecordGrp>
+          <RecordGrpID>Node11</RecordGrpID>
+          <Content>
+            <DescriptionLevel>RecordGrp</DescriptionLevel>
+            <Title>Node 2.5</Title>
+          </Content>
+        </RecordGrp>
+      </RecordGrp>
+    </RecordGrp>
+    <Document>
+      <RecordGrpID>Node1</RecordGrpID>
+      <Content>
+        <DescriptionLevel>Item</DescriptionLevel>
+        <Title>CSIC Tech : points remarquables PMO</Title>
+        <OriginatingSystemId>&lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></OriginatingSystemId>
+        <Writer>
+          <FirstName>PLANCHOT Benjamin</FirstName>
+          <BirthName>PLANCHOT Benjamin</BirthName>
+          <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>
+        </Writer>
+        <Addressee>
+          <FirstName>frederic.deguilhen@culture.gouv.fr</FirstName>
+          <BirthName>frederic.deguilhen@culture.gouv.fr</BirthName>
+          <Identifier>frederic.deguilhen@culture.gouv.fr</Identifier>
+        </Addressee>
+        <Addressee>
+          <FirstName>jean-severin.lair@culture.gouv.fr</FirstName>
+          <BirthName>jean-severin.lair@culture.gouv.fr</BirthName>
+          <Identifier>jean-severin.lair@culture.gouv.fr</Identifier>
+        </Addressee>
+        <Recipient>
+          <FirstName>PLANCHOT Benjamin</FirstName>
+          <BirthName>PLANCHOT Benjamin</BirthName>
+          <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>
+        </Recipient>
+        <SentDate>2016-08-30T10:14:17.000</SentDate>
+        <ReceivedDate>2016-08-30T10:14:18.000</ReceivedDate>
+        <TextContent>Bonjour,
+
+Vous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l'avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.
+
+Pour rappel :
+- L'objectif est de remonter l'état des activités (statut, livrable/jalon, points importants).
+- Les colonnes de N à V sont à mettre à jour si nécessaire (fond orange clair).
+
+Merci par avance.
+
+Bien cordialement,
+
+
+[http://www.modernisation.gouv.fr/sites/default/files/bloc-sgmap-2.jpg]&lt; http://www.modernisation.gouv.fr/>
+
+Benjamin PLANCHOT | PMO
+Service « performance des services numériques »
+Direction interministérielle du numérique et du système d'information et de communication de l'Etat
+01 40 15 71 50 | Tour Mirabeau - 39-43 Quai André Citroën, 75015 Paris - Bureau 4027
+modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/></TextContent>
+      </Content>
+      <FileObject>
+        <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+        <Uri>Node1-Document0-BinaryMaster_1.eml</Uri>
+        <MessageDigest algorithm="SHA-512">aa5ffc20efc3ae8f8e25ab95e08b3f5daa9004eeaed33006f4849faddec7d82675284b5de4125e03f9aad336e5c79b394b3a39183dcd456496fa0fd354896a6b</MessageDigest>
+        <Size>108810</Size>
+        <FormatIdentification>
+          <FormatLitteral>MIME Email</FormatLitteral>
+          <MimeType>message/rfc822</MimeType>
+          <FormatId>fmt/950</FormatId>
+        </FormatIdentification>
+        <FileInfo>
+          <Filename>-79980C36BA239C449A957.eml</Filename>
+          <LastModified>###TIMESTAMP###</LastModified>
+        </FileInfo>
+      </FileObject>
+      <SubDocument>
+        <Content>
+          <DescriptionLevel>Item</DescriptionLevel>
+          <Title>201609_TdB_suivi_des_activites_VITAM.ods</Title>
+          <Description>Document "201609_TdB_suivi_des_activites_VITAM.ods" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>
+          <CreatedDate>2016-08-30T10:13:03.000</CreatedDate>
+        </Content>
+        <FileObject>
+          <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+          <Uri>Node1-Document0/SubDocument1-BinaryMaster_1.ods</Uri>
+          <MessageDigest algorithm="SHA-512">ccc63de7306ced0b656f8f5bcb718304fefa93baed5bdb6e523146ff9ff9795ad22fff6077110fbd171df9553a24554fd5aa2b72cf76ffb4c24c7371be5f774e</MessageDigest>
+          <Size>50651</Size>
+          <FormatIdentification>
+            <FormatLitteral>OpenDocument Spreadsheet</FormatLitteral>
+            <MimeType>application/vnd.oasis.opendocument.spreadsheet</MimeType>
+            <FormatId>fmt/294</FormatId>
+          </FormatIdentification>
+          <FileInfo>
+            <Filename>201609-TdB-suivi-des-a.ods</Filename>
+            <LastModified>###TIMESTAMP###</LastModified>
+          </FileInfo>
+        </FileObject>
+        <FileObject>
+          <DataObjectVersion>TextContent_1</DataObjectVersion>
+          <Uri>Node1-Document0/SubDocument1-TextContent_1.txt</Uri>
+          <MessageDigest algorithm="SHA-512">7040a2d9f0a4ba697fde735cbe12f462af609eda6e35a0f3ddbddddbdaf8ffdd394c37a59bbb8ea4238f13169e0d634fa75cf3b251c4607144010d3552a87dd2</MessageDigest>
+          <Size>3307</Size>
+          <FormatIdentification>
+            <FormatLitteral>Plain Text File</FormatLitteral>
+            <MimeType>text/plain</MimeType>
+            <FormatId>x-fmt/111</FormatId>
+          </FormatIdentification>
+          <FileInfo>
+            <Filename>201609-TdB-suivi-des-a.txt</Filename>
+            <LastModified>###TIMESTAMP###</LastModified>
+          </FileInfo>
+        </FileObject>
+      </SubDocument>
+      <SubDocument>
+        <Content>
+          <DescriptionLevel>Item</DescriptionLevel>
+          <Title>image001.jpg</Title>
+          <Description>Document "image001.jpg" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>
+          <CreatedDate>2016-08-30T10:14:17.000</CreatedDate>
+        </Content>
+        <FileObject>
+          <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
+          <DataObjectUse>BinaryMaster</DataObjectUse>
+          <DataObjectNumber>1</DataObjectNumber>
+          <Uri>Node1-Document0/SubDocument2-BinaryMaster_1.jpg</Uri>
+          <MessageDigest algorithm="SHA-512">e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3</MessageDigest>
+          <Size>21232</Size>
+          <FormatIdentification>
+            <FormatLitteral>Exchangeable Image File Format (Compressed)</FormatLitteral>
+            <MimeType>image/jpeg</MimeType>
+            <FormatId>fmt/645</FormatId>
+          </FormatIdentification>
+          <FileInfo>
+            <Filename>image001.jpg</Filename>
+            <LastModified>###TIMESTAMP###</LastModified>
+          </FileInfo>
+        </FileObject>
+      </SubDocument>
+    </Document>
+  </DocumentPack>
+</Content>

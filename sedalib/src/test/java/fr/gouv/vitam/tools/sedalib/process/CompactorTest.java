@@ -3,6 +3,8 @@ package fr.gouv.vitam.tools.sedalib.process;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import org.apache.commons.io.FileUtils;
@@ -71,5 +73,36 @@ class CompactorTest implements UseTestFiles {
         assertThat(doc).exists();
         assertThat(doc.length()).isGreaterThan(2 * 1024);
         assertThat(doc.length()).isLessThan(3 * 1024);
+    }
+
+    @Test
+    void TestCompactorSeda2V3() throws Exception {
+
+        // Given this test directory imported
+        SEDA2Version.setSeda2Version(3);
+        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+                "src/test/resources/PacketSamples/SampleWithoutLinksModelV1", null);
+        di.addIgnorePattern("Thumbs.db");
+        di.addIgnorePattern("pagefile.sys");
+        di.doImport();
+
+        // When Compact the root ArchiveUnit
+        ArchiveUnit rootAu = di.getArchiveTransfer().getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList().get(0);
+        BinaryDataObject bdo=di.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap().get("ID18");
+        bdo.addNewMetadata("DataObjectUse","BinaryMaster");
+        bdo.addNewMetadata("DataObjectNumber",1);
+        eraseAll("target/tmpJunit/CompactorTest");
+        Compactor compactor = new Compactor(rootAu, "target/tmpJunit/CompactorTest", null);
+        compactor.setObjectVersionFilters(List.of("BinaryMaster"), List.of("BinaryMaster", "TextContent"));
+        compactor.setCompactedDocumentPackLimit(4096, 4);
+        compactor.setDeflatedFlag(true);
+        ArchiveUnit compactedAU = compactor.doCompact();
+
+        // Then assert the first DocumentPack AU content
+        ArchiveUnit packAU = compactedAU.getChildrenAuList().getArchiveUnitList().get(0);
+
+        assertThat(TestUtilities.SlackNormalize(packAU.getContentXmlData().replaceAll("<LastModified>.+<\\/LastModified>",
+                "<LastModified>###TIMESTAMP###<\\/LastModified>")))
+                .isEqualTo(ResourceUtils.getResourceAsString("import/AU_ID2V3.xml"));
     }
 }
