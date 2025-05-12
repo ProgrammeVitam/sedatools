@@ -14,6 +14,8 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,6 +23,7 @@ import java.io.IOException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+@Execution(value = ExecutionMode.SAME_THREAD,reason= "Can't execute different SedaVersion treatment in parallel")
 class BinaryDataObjectTest {
 
     @Test
@@ -153,6 +156,8 @@ class BinaryDataObjectTest {
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
                 "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+
+        SEDA2Version.setSeda2Version(1);
         si.doImport();
         BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
                 .get("ID7");
