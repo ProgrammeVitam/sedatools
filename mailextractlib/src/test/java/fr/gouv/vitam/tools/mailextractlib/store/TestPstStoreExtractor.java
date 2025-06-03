@@ -56,11 +56,11 @@ public class TestPstStoreExtractor implements AllTests {
         resultMails=resultMails.replaceAll("/","\\\\");
         assertThat(mails).isEqualToNormalizingNewlines(resultMails);
 
-        // appointments extraction comparison except ID, UniqID and ExceptionToID which may differ in parallel treatment
+        // appointments extraction comparison except UniqID and ExceptionToID which may differ in parallel treatment
         String appointments=FileUtils.readFileToString(new File("target/tmpJUnit/testGlobalPstExtractor/appointments.csv"),defaultCharset());
-        appointments=appointments.replaceAll("/","\\\\");
+        appointments=AllTests.removeColumnsAndSortLines(appointments.replaceAll("/","\\\\"), new int[]{10,19});
         String resultAppointments=FileUtils.readFileToString(new File("src/test/resources/pst/results/appointments.csv"), StandardCharsets.UTF_8);
-        resultAppointments=resultAppointments.replaceAll("/","\\\\");
+        resultAppointments=AllTests.removeColumnsAndSortLines(resultAppointments.replaceAll("/","\\\\"), new int[]{10,19});
         assertThat(appointments).isEqualToNormalizingNewlines(resultAppointments);
 
         // contacts extraction
