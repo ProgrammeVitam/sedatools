@@ -690,15 +690,14 @@ public abstract class StoreMessage extends StoreElement {
     }
 
     private void writeToMailsList() throws InterruptedException {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         PrintStream ps = storeFolder.getStoreExtractor().getGlobalListPS(this.getClass());
         synchronized (ps) {
             try {
                 ps.format("\"%d\";", listLineId);
                 ps.format("\"%s\";",
-                        (sentDate == null ? "" : sdf.format(sentDate)));
+                        (sentDate == null ? "" : DateRange.getISODateString(sentDate)));
                 ps.format("\"%s\";",
-                        (receivedDate == null ? "" : sdf.format(receivedDate)));
+                        (receivedDate == null ? "" : DateRange.getISODateString(receivedDate)));
                 if ((from != null) && !from.isEmpty()) {
                     MetadataPerson p = new MetadataPerson(from);
                     ps.format("\"%s\";\"%s\";", filterHyphenForCsv(p.fullName),
