@@ -1,5 +1,5 @@
 ID;SentDate;ReceivedDate;FromName;FromAddress;ToList;Subject;MessageID;AttachmentList;ReplyTo;Folder;Size;Attached
-"1";"19/08/2019 23:18";"";"test";"test@programmevitam.fr";"test-a@programmevitam.fr";"Test message 1";"<003e01d556d3$b3116ed0$19344c70$@programmevitam.fr>";"2019_Newsletter Vitam_n11_juin_2019.pdf, logo_vitam.png";"";"";"659359";
-"2";"19/08/2019 23:30";"";"test";"test@programmevitam.fr";"test-a@programmevitam.fr, test-b@programmevitam.fr";"Test message 2";"<000c01d556d5$611cfc50$2356f4f0$@programmevitam.fr>";"noname";"";"";"662266";
-"3";"19/08/2019 23:33";"";"test";"test@programmevitam.fr";"test-a@programmevitam.fr";"Test message 3";"<002801d556d5$cce9b9f0$66bd2dd0$@programmevitam.fr>";"Test message 2.eml, noname";"";"";"1350200";
-"4";"19/08/2019 23:35";"";"test";"test@programmevitam.fr";"test-b@programmevitam.fr";"Test message 4";"<003e01d556d5$ff5b6460$fe122d20$@programmevitam.fr>";"Test - origin.pst";"";"";"4197213";
+"1";"2019-08-19T21:18:50Z";"";"test";"test@programmevitam.fr";"test-a@programmevitam.fr";"Test message 1";"<003e01d556d3$b3116ed0$19344c70$@programmevitam.fr>";"2019_Newsletter Vitam_n11_juin_2019.pdf, logo_vitam.png";"";"";"659359";
+"2";"2019-08-19T21:30:50Z";"";"test";"test@programmevitam.fr";"test-a@programmevitam.fr, test-b@programmevitam.fr";"Test message 2";"<000c01d556d5$611cfc50$2356f4f0$@programmevitam.fr>";"noname";"";"";"662266";
+"3";"2019-08-19T21:33:51Z";"";"test";"test@programmevitam.fr";"test-a@programmevitam.fr";"Test message 3";"<002801d556d5$cce9b9f0$66bd2dd0$@programmevitam.fr>";"Test message 2.eml, noname";"";"";"1350200";
+"4";"2019-08-19T21:35:13Z";"";"test";"test@programmevitam.fr";"test-b@programmevitam.fr";"Test message 4";"<003e01d556d5$ff5b6460$fe122d20$@programmevitam.fr>";"Test - origin.pst";"";"";"4197213";
