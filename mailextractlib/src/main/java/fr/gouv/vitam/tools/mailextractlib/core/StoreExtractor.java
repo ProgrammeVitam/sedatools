@@ -55,6 +55,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -200,7 +201,31 @@ public abstract class StoreExtractor {
     static HashMap<String, Boolean> schemeContainerMap = new HashMap<>();
 
     /**
-     * Subscribes all defaults store extractor.
+     * Initializes default extractors and sets relevant system properties for handling email
+     * and document extraction scenarios. This method configures several components to ensure
+     * compatibility with specific formats and address common issues in data extraction processes.
+     *
+     * The following initializations and configurations are applied:
+     *
+     * 1. Subscribes default store extractors:
+     *    - JMStoreExtractor
+     *    - MsgStoreExtractor
+     *    - PstStoreExtractor
+     *    - PstEmbeddedStoreExtractor
+     *
+     * 2. Sets the maximum allowed size for byte arrays in Apache POI to prevent extraction 
+     *    failures when handling large attachments in TNEF files. This change overrides 
+     *    the default 1 MB limit with a maximum value of 2 GB.
+     *
+     * 3. Configures Jakarta Mail properties to handle malformed MIME messages:
+     *    - Enables fallback for unknown content-transfer-encoding values, which allows
+     *      the parsing of messages with invalid encoding values (e.g., "iso-8859-1").
+     *    - Disables strict decoding of MIME-encoded headers, allowing the library 
+     *      to tolerate malformed headers and return raw, undecoded text instead of throwing exceptions.
+     *    - Enables lenient Base64 decoding to tolerate malformed or corrupted Base64 encoded data,
+     *      avoiding exceptions during data extraction.
+     *
+     * 4. Sets the default time zone for the application to UTC.
      */
     public static void initDefaultExtractors() {
         JMStoreExtractor.subscribeStoreExtractor();
@@ -264,6 +289,14 @@ public abstract class StoreExtractor {
          * errors, it could lead to silent data loss or misinterpretation if the encoded data is critical.
          */
         System.setProperty("mail.mime.base64.ignoreerrors", "true");
+
+        /*
+         * Set the default time zone of the application to UTC.
+         * This ensures that MIME message generation will use normalized
+         * UTC dates everywhere. This is important for consistency across
+         * different systems and timezones.
+         */
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 
     // StoreExtractor definition parameters
