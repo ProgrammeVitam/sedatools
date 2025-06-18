@@ -110,6 +110,8 @@ public class PrefsDialog extends JDialog {
     private JTextArea compactSubDocumentDataObjectVersionFilterTextArea;
 
     private final JRadioButton seda2Version1RadioButton;
+    private final JRadioButton seda2Version2RadioButton;
+    private final JRadioButton seda2Version3RadioButton;
     private final JTextField dupMaxTextField;
     private final JRadioButton structuredInterfaceRadioButton;
     private final JCheckBox debugModeCheckBox;
@@ -1284,29 +1286,31 @@ public class PrefsDialog extends JDialog {
         treatmentParametersPanel.add(sedaVersionLabel, gbc);
 
         seda2Version1RadioButton = new JRadioButton("SEDA 2.1");
-        gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(0, 0, 5, 5);
-        gbc.gridx = 1;
-        gbc.gridy = 5;
-        treatmentParametersPanel.add(seda2Version1RadioButton, gbc);
+        seda2Version2RadioButton = new JRadioButton("SEDA 2.2");
+        seda2Version3RadioButton = new JRadioButton("SEDA 2.3");
+        JPanel buttonGroupPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 0)); // Alignement serré à gauche.
+        buttonGroupPanel.add(seda2Version1RadioButton);
+        buttonGroupPanel.add(seda2Version2RadioButton);
+        buttonGroupPanel.add(seda2Version3RadioButton);
 
-        JRadioButton seda2Version2RadioButton = new JRadioButton("SEDA 2.2");
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(0, 0, 5, 5);
-        gbc.gridx = 2;
+        gbc.gridx = 1; // Position du groupe.
         gbc.gridy = 5;
-        treatmentParametersPanel.add(seda2Version2RadioButton, gbc);
+        treatmentParametersPanel.add(buttonGroupPanel, gbc);
 
         ButtonGroup seda2VersionButtonGroup = new ButtonGroup();
         seda2VersionButtonGroup.add(seda2Version1RadioButton);
         seda2VersionButtonGroup.add(seda2Version2RadioButton);
+        seda2VersionButtonGroup.add(seda2Version3RadioButton);
         seda2VersionButtonGroup.clearSelection();
         if (tp.getSeda2Version() == 1)
             seda2Version1RadioButton.setSelected(true);
-        else
+        else if (tp.getSeda2Version() == 2)
             seda2Version2RadioButton.setSelected(true);
+        else
+          seda2Version3RadioButton.setSelected(true);
 
 
         JLabel interfaceLabel = new JLabel("Interface");
@@ -1624,7 +1628,12 @@ public class PrefsDialog extends JDialog {
             if (!tryToConvertCurrentWorkSedaVersion(toSeda2Version))
                 return false;
         }
-        tp.setSeda2Version((seda2Version1RadioButton.isSelected() ? 1 : 2));
+        if (seda2Version1RadioButton.isSelected())
+            tp.setSeda2Version(1);
+        else if (seda2Version2RadioButton.isSelected())
+            tp.setSeda2Version(2);
+        else
+            tp.setSeda2Version(3);
         try {
             SEDA2Version.setSeda2Version(tp.getSeda2Version());
         } catch (SEDALibException ignored) {

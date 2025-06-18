@@ -105,10 +105,10 @@ class SEDA2VersionTest {
 
         Content c=dop.getArchiveUnitById("ID10").getContent();
         boolean foundLinking=false;
-        for (SEDAMetadata sm : c.metadataList) {
+        for (SEDAMetadata sm : c.getMetadataList()) {
             if (sm.getXmlElementName().equals("Event")){
                 Event event=(Event) sm;
-                for (SEDAMetadata osm : event.metadataList){
+                for (SEDAMetadata osm : event.getMetadataList()){
                     if (osm instanceof LinkingAgentIdentifierType) {
                         foundLinking = true;
                         break;
@@ -129,10 +129,10 @@ class SEDA2VersionTest {
 
         c=dop.getArchiveUnitById("ID10").getContent();
         foundLinking=false;
-        for (SEDAMetadata sm : c.metadataList) {
+        for (SEDAMetadata sm : c.getMetadataList()) {
             if (sm.getXmlElementName().equals("Event")){
                 Event event=(Event) sm;
-                for (SEDAMetadata osm : event.metadataList){
+                for (SEDAMetadata osm : event.getMetadataList()){
                     if (osm instanceof LinkingAgentIdentifierType) {
                         foundLinking = true;
                         break;

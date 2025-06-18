@@ -27,7 +27,6 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 
-import com.sun.mail.util.QPDecoderStream;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
@@ -35,20 +34,24 @@ import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 
-import javax.activation.DataHandler;
-import javax.mail.*;
-import javax.mail.internet.*;
+import jakarta.activation.CommandMap;
+import jakarta.activation.DataHandler;
+import jakarta.activation.MailcapCommandMap;
+import jakarta.mail.*;
+import jakarta.mail.internet.*;
+import org.eclipse.angus.mail.util.QPDecoderStream;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.List;
+import java.util.*;
 
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers.decodeRfc2047Flexible;
 
 /**
  * StoreMessage sub-class for mail boxes extracted through JavaMail library.
@@ -57,6 +60,28 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  * could also be used for POP3 and Gmail, via StoreExtractor (not tested).
  */
 public class JMStoreMessage extends StoreMessage {
+
+    /**
+     * Define Mime DataContentHandler to be able to extract signed and encrypted messages (but not decrypting them!)
+     */
+    static {
+        final MailcapCommandMap mc = (MailcapCommandMap) CommandMap.getDefaultCommandMap();
+
+        mc.addMailcap("application/pgp-signature;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.pgp");
+        mc.addMailcap("application/pkcs7-signature;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.pkcs7_signature");
+        mc.addMailcap("application/pkcs7-mime;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.pkcs7_mime");
+        mc.addMailcap("application/x-pkcs7-signature;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.x_pkcs7_signature");
+        mc.addMailcap("application/x-pkcs7-mime;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.x_pkcs7_mime");
+        mc.addMailcap("multipart/signed;; x-java-content-handler=fr.gouv.vitam.tools.mailextractlib.store.javamail.handlers.multipart_signed");
+
+        AccessController.doPrivileged(new PrivilegedAction() {
+            public Object run() {
+                CommandMap.setDefaultCommandMap(mc);
+
+                return null;
+            }
+        });
+    }
 
     /**
      * Native JavaMail message.
@@ -72,7 +97,7 @@ public class JMStoreMessage extends StoreMessage {
      * @param mBFolder Containing MailBoxFolder
      * @param message  Native JavaMail message
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major
-     *                             format problems...)
+     *                                 format problems...)
      */
     public JMStoreMessage(StoreFolder mBFolder, MimeMessage message) throws MailExtractLibException {
         super(mBFolder);
@@ -186,6 +211,8 @@ public class JMStoreMessage extends StoreMessage {
 
         try {
             result = message.getSubject();
+            if ((result != null) && (result.contains("=?")))
+                result = decodeRfc2047Flexible(message.getHeader("Subject", (String) null));
         } catch (MessagingException e) {
             doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib.javamail: can't get message subject", e);
         }
@@ -221,16 +248,20 @@ public class JMStoreMessage extends StoreMessage {
         if ((aList == null) || (aList.size() == 0)) {
             logMessageWarning("mailextractlib.javamail: no From address in header", null);
         } else {
-            if (aList.size() > 1)
-                logMessageWarning("mailextractlib.javamail: multiple From addresses, keep the first one in header", null);
-            result = aList.get(0);
+            aList = RFC822Headers.removeInvalidAndDuplicatesFromAddressesList(aList);
+            if (aList.size() > 1) {
+                result = String.join(", ", aList);
+                logMessageWarning("mailextractlib.javamail: multiple From addresses [" + result + "]", null);
+            } else
+                result = aList.get(0);
+            if ((result != null) && (result.contains("=?")))
+                result = decodeRfc2047Flexible(result);
         }
         from = result;
     }
 
     // get addresses in header with parsing control relaxed
     private List<String> getAddressHeader(String name) throws InterruptedException {
-        List<String> result = null;
         String addressHeaderString = null;
 
         try {
@@ -238,29 +269,7 @@ public class JMStoreMessage extends StoreMessage {
         } catch (MessagingException me) {
             logMessageWarning("mailextractlib.javamail: can't access to [" + name + "] address header", me);
         }
-
-        if (addressHeaderString != null) {
-            result = new ArrayList<String>();
-            InternetAddress[] iAddressArray;
-            try {
-                iAddressArray = InternetAddress.parseHeader(addressHeaderString, false);
-            } catch (AddressException e) {
-                try {
-                    // try at least to Mime decode
-                    addressHeaderString = MimeUtility.decodeText(addressHeaderString);
-                } catch (UnsupportedEncodingException ignored) {
-                }
-                logMessageWarning("mailextractlib.javamail: wrongly formatted address " + addressHeaderString
-                        + ", keep raw address list in metadata in header " + name, e);
-                result.add(addressHeaderString);
-                return result;
-            }
-            for (InternetAddress ia : iAddressArray) {
-                result.add(getStringAddress(ia));
-            }
-        }
-
-        return result;
+        return RFC822Headers.treatAddressHeaderString(name,this,addressHeaderString);
     }
 
     /*
@@ -296,9 +305,14 @@ public class JMStoreMessage extends StoreMessage {
         List<String> aList = getAddressHeader("Return-Path");
 
         if (!((aList == null) || (aList.size() == 0))) {
-            if (aList.size() > 1)
-                logMessageWarning("mailextractlib.javamail: multiple Return-Path, keep the first one addresses in header", null);
-            result = aList.get(0);
+            aList = RFC822Headers.removeInvalidAndDuplicatesFromAddressesList(aList);
+            if (aList.size() > 1) {
+                result = String.join(", ", aList);
+                logMessageWarning("mailextractlib.javamail: multiple Return-Path addresses [" + result + "]", null);
+            } else
+                result = aList.get(0);
+            if ((result != null) && (result.contains("=?")))
+                result = decodeRfc2047Flexible(result);
         }
 
         returnPath = result;
@@ -357,7 +371,7 @@ public class JMStoreMessage extends StoreMessage {
             if (irtList != null) {
                 if (irtList.length > 1)
                     logMessageWarning(
-                            "mailextractlib.javamail: multiple In-Reply-To identifiers, keep the first one in header", null);
+                            "mailextractlib.javamail: multiple In-Reply-To identifiers [" + String.join(", ", irtList) + "] keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(irtList[0]);
             }
         } catch (MessagingException me) {
@@ -479,8 +493,8 @@ public class JMStoreMessage extends StoreMessage {
     protected void analyzeBodies() throws InterruptedException {
         try {
             getPartBodyContents(message);
-        } catch (Exception e) {
-            logMessageWarning("mailextractlib.javamail: badly formatted mime message, can't extract body contents", e);
+        } catch (Exception | NoClassDefFoundError e) {
+            logMessageWarning("mailextractlib.javamail: badly formatted mime message, may not extract all body contents", e);
         }
     }
 
@@ -490,10 +504,9 @@ public class JMStoreMessage extends StoreMessage {
 
         if ((p.isMimeType("text/plain") || p.isMimeType("text/html") || p.isMimeType("text/rtf"))
                 && ((p.getDisposition() == null) || Part.INLINE.equalsIgnoreCase(p.getDisposition())))
-            // test if it's a bodyContent then not an attachment
+        // test if it's a bodyContent then not an attachment
         {
-        }
-        else if (!p.isMimeType("multipart/*")) {
+        } else if (!p.isMimeType("multipart/*")) {
             // any other non multipart is an attachment
 
             try {
@@ -623,15 +636,15 @@ public class JMStoreMessage extends StoreMessage {
         aName = sanitizeFilename(aName);
 
         if (aType == StoreAttachment.STORE_ATTACHMENT)
-            lStoreMessageAttachment.add(new StoreAttachment(this,getPartRawContent(bodyPart), "eml",
+            lStoreMessageAttachment.add(new StoreAttachment(this, getPartRawContent(bodyPart), "eml",
                     MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
         else {
             if (aMimeType.toLowerCase().equals("application/ms-tnef")
                     || aMimeType.toLowerCase().equals("application/vnd.ms-tnef"))
-                lStoreMessageAttachment.add(new StoreAttachment(this,getPartLFFixedRawContent(bodyPart), "file",
+                lStoreMessageAttachment.add(new StoreAttachment(this, getPartLFFixedRawContent(bodyPart), "file",
                         MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
             else
-                lStoreMessageAttachment.add(new StoreAttachment(this,getPartRawContent(bodyPart), "file",
+                lStoreMessageAttachment.add(new StoreAttachment(this, getPartRawContent(bodyPart), "file",
                         MimeUtility.decodeText(aName), aCreationDate, aModificationDate, aMimeType, aContentID, aType));
         }
     }

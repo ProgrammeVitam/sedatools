@@ -73,9 +73,9 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.getAllJava
  */
 public class DroidIdentifier {
 
-    private static final String DROID_SIGNATURE_FILE = "DROID_SignatureFile_V97.xml";
+    private static final String DROID_SIGNATURE_FILE = "DROID_SignatureFile_V120.xml";
 
-    private static final String CONTAINER_SIGNATURE_FILE = "container-signature-20201001.xml";
+    private static final String CONTAINER_SIGNATURE_FILE = "container-signature-20240715.xml";
 
     /** Singleton. */
     private static DroidIdentifier instance = null;
@@ -179,7 +179,6 @@ public class DroidIdentifier {
                     .getResourceAsStream(DROID_SIGNATURE_FILE)) {
                 File targetFile = new File(
                         "." + File.separator + "config" + File.separator + DROID_SIGNATURE_FILE);
-                System.out.println("is=" + is + " toPath=" + targetFile.toPath());
                 Files.copy(is, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new SEDALibException("Panic! Can't extract a DROID signature file, stop");

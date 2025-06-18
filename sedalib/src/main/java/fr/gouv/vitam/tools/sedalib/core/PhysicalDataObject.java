@@ -28,93 +28,106 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AnyXMLType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
-import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.events.XMLEvent;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * The Class PhysicalDataObject.
  * <p>
  * Class for SEDA element PhysicalDataObject. It contains metadata.
  */
-public class PhysicalDataObject extends DataObjectPackageIdElement implements DataObject {
-
-    // SEDA elements
+public class PhysicalDataObject extends AbstractUnitaryDataObject implements DataObject, ComplexListInterface {
 
     /**
-     * The data object profile (only in Seda 2.2).
+     * Init metadata map.
      */
-    public StringType dataObjectProfile;
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {1})
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V1;
+
+    static {
+        METADATA_MAP_V1 = new LinkedHashMap<>();
+        METADATA_MAP_V1.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
+        METADATA_MAP_V1.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+
+        METADATA_MAP_V1.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
+    }
+
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {2})
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2;
+
+    static {
+        METADATA_MAP_V2 = new LinkedHashMap<>();
+        METADATA_MAP_V2.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
+        METADATA_MAP_V2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+
+        METADATA_MAP_V2.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
+    }
+
+    @ComplexListMetadataMap(isExpandable = true, seda2Version = {3})
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3;
+
+    static {
+        METADATA_MAP_V3 = new LinkedHashMap<>();
+        METADATA_MAP_V3.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
+        METADATA_MAP_V3.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
+        METADATA_MAP_V3.put("DataObjectUse", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false));
+
+        METADATA_MAP_V3.put("PhysicalId", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
+    }
+
+    private final static LinkedHashMap<String, ComplexListMetadataKind>[] METADATA_MAPS = new LinkedHashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
+    private final static Boolean[] NON_EXPANDABLE_FLAGS = new Boolean[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
+
+    static {
+        ComplexListInterface.initMetadataMaps(PhysicalDataObject.class, METADATA_MAPS, NON_EXPANDABLE_FLAGS);
+    }
 
     /**
-     * The data object system id.
-     */
-    public StringType dataObjectSystemId;
-
-    /**
-     * The data object group system id.
-     */
-    public StringType dataObjectGroupSystemId;
-
-    /**
-     * The relationships xml element in String form.
-     */
-    public List<AnyXMLType> relationshipsXmlData;
-
-    /**
-     * The data object group reference id.
-     */
-    public StringType dataObjectGroupReferenceId;
-
-    /**
-     * The data object group id.
-     */
-    public StringType dataObjectGroupId;
-
-    /**
-     * The data object version.
-     */
-    public StringType dataObjectVersion;
-
-    /**
-     * The physical id xml element in String form.
-     */
-    public StringType physicalId;
-
-    /**
-     * The physical dimensions xml element.
-     */
-    public PhysicalDimensions physicalDimensions;
-
-    /**
-     * The other Dimensions AbstractXml for any rawXML.
-     */
-    public List<AnyXMLType> otherDimensionsAbstractXml;
-
-
-    // Inner element
-
-    /**
-     * The DataObjectGroup in which is the PhysicalDataObject, or null.
+     * {@inheritDoc}
      */
     @JsonIgnore
-    DataObjectGroup dataObjectGroup;
+    @Override
+    public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
+        LinkedHashMap<String, ComplexListMetadataKind> result = METADATA_MAPS[SEDA2Version.getSeda2Version()];
+        if (result == null)
+            result = METADATA_MAPS[0];
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @JsonIgnore
+    @Override
+    public boolean isNotExpandable() throws SEDALibException {
+        Boolean result = NON_EXPANDABLE_FLAGS[SEDA2Version.getSeda2Version()];
+        if (result == null)
+            result = NON_EXPANDABLE_FLAGS[0];
+        return result;
+    }
 
     // Constructors
 
@@ -128,35 +141,19 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
     /**
      * Instantiates a new PhysicalDataObject.
      * <p>
-     * If DataObjectPackage is defined the new ArchiveUnit is added with a generated
+     * If DataObjectPackage is defined the new PhysicalDataObject is added with a generated
      * uniqID in the structure.
      *
      * @param dataObjectPackage the DataObjectPackage
      */
     public PhysicalDataObject(DataObjectPackage dataObjectPackage) {
         super(dataObjectPackage);
-        this.dataObjectProfile = null;
-        this.dataObjectSystemId = null;
-        this.dataObjectGroupSystemId = null;
-        this.relationshipsXmlData = new ArrayList<>();
-        this.dataObjectGroupReferenceId = null;
-        this.dataObjectGroupId = null;
-        this.dataObjectVersion = null;
-        this.physicalId = null;
-        this.physicalDimensions = null;
-        if (dataObjectPackage != null)
-            try {
-                dataObjectPackage.addPhysicalDataObject(this);
-            } catch (SEDALibException e) {
-                // impossible as the uniqID is generated by the called function.
-            }
-        this.otherDimensionsAbstractXml = new ArrayList<>();
     }
 
     /**
      * Instantiates a new PhysicalDataObject.
      * <p>
-     * If DataObjectPackage is defined the new ArchiveUnit is added with a generated
+     * If DataObjectPackage is defined the new PhysicalDataObject is added with a generated
      * uniqID in the structure.
      * <p>
      * Fragment sample: <code>
@@ -183,152 +180,7 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
         fromSedaXmlFragments(xmlData);
     }
 
-    // SEDA XML exporter
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * fr.gouv.vitam.tools.sedalib.core.DataObject#toSedaXml(fr.gouv.vitam.tools.
-     * sedalib.xml.SEDAXMLStreamWriter)
-     */
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
-            throws InterruptedException, SEDALibException {
-        try {
-            xmlWriter.writeStartElement("PhysicalDataObject");
-            xmlWriter.writeAttribute("id", inDataPackageObjectId);
-
-            if (dataObjectProfile != null) {
-                if (SEDA2Version.getSeda2Version()>1)
-                    dataObjectProfile.toSedaXml(xmlWriter);
-                else
-                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] dans le PhysicalDataObject ["+inDataPackageObjectId+"]");
-            }
-            if (dataObjectSystemId != null)
-                dataObjectSystemId.toSedaXml(xmlWriter);
-            if (dataObjectGroupSystemId != null)
-                dataObjectGroupSystemId.toSedaXml(xmlWriter);
-            for (AnyXMLType rXmlData : relationshipsXmlData)
-                rXmlData.toSedaXml(xmlWriter);
-//		dataObjectGroupReferenceId not used in 2.1 DataObjectGroup mode
-//		dataObjectGroupId not used in 2.1 DataObjectGroup mode
-            if (dataObjectVersion != null)
-                dataObjectVersion.toSedaXml(xmlWriter);
-            if (physicalId!=null)
-                physicalId.toSedaXml(xmlWriter);
-            if (physicalDimensions!=null)
-                physicalDimensions.toSedaXml(xmlWriter);
-            for (AnyXMLType otherXmlData : otherDimensionsAbstractXml)
-                otherXmlData.toSedaXml(xmlWriter);
-            xmlWriter.writeEndElement();
-        } catch (XMLStreamException e) {
-            throw new SEDALibException(
-                    "Erreur d'écriture XML du PhysicalDataObject [" + inDataPackageObjectId + "]", e);
-        }
-
-        int counter = getDataObjectPackage().getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                "sedalib: "+ counter + " métadonnées DataObject exportées");
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.gouv.vitam.tools.sedalib.core.DataObject#toSedaXmlFragments()
-     */
-    @Override
-    public String toSedaXmlFragments() throws SEDALibException {
-        String result;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()){
-            try(SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
-                toSedaXml(xmlWriter, null);
-            }
-            result = baos.toString("UTF-8");
-        } catch (SEDALibException | XMLStreamException | IOException e) {
-            throw new SEDALibException("Erreur interne", e);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            throw new SEDALibException("Interruption", e);
-        }
-
-        if (result != null) {
-            if (result.isEmpty())
-                result = null;
-            else {
-                result = result.replaceFirst("\\<PhysicalDataObject .*\\>", "");
-                result = result.substring(0, result.lastIndexOf("</PhysicalDataObject>") - 1);
-                result = result.trim();
-            }
-        }
-        return result;
-    }
-
     // SEDA XML importer
-
-    /**
-     * Read the PhysicalDataObject element content in XML expected form from the
-     * SEDA Manifest in the ArchiveTransfer. Utility methods for fromSedaXml and
-     * fromSedaXmlFragments
-     *
-     * @param xmlReader the SEDAXMLEventReader reading the SEDA manifest
-     * @throws SEDALibException if the XML can't be read or the SEDA scheme is
-     *                          not respected
-     */
-    private void setFromXmlContent(SEDAXMLEventReader xmlReader)
-            throws SEDALibException {
-        String nextElementName;
-        try {
-            nextElementName = xmlReader.peekName();
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectProfile"))) {
-                if (SEDA2Version.getSeda2Version()>1) {
-                    dataObjectProfile = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                    nextElementName = xmlReader.peekName();
-                }
-                else
-                    throw new SEDALibException("Balise XML inattendue [DataObjectProfile] du PhysicalDataObject ["+inDataPackageObjectId+"]");
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectSystemId"))) {
-                dataObjectSystemId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectGroupSystemId"))) {
-                dataObjectGroupSystemId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            relationshipsXmlData = new ArrayList<>();
-            while ((nextElementName != null) && (nextElementName.equals("Relationship"))) {
-                relationshipsXmlData.add((AnyXMLType) SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class));
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectGroupReferenceId"))) {
-                dataObjectGroupReferenceId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectGroupId"))) {
-                dataObjectGroupId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("DataObjectVersion"))) {
-                dataObjectVersion = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("PhysicalId"))) {
-                physicalId = (StringType) SEDAMetadata.fromSedaXml(xmlReader, StringType.class);
-                nextElementName = xmlReader.peekName();
-            }
-            if ((nextElementName != null) && (nextElementName.equals("PhysicalDimensions"))) {
-                physicalDimensions = (PhysicalDimensions) SEDAMetadata.fromSedaXml(xmlReader, PhysicalDimensions.class);
-                nextElementName = xmlReader.peekName();
-            }
-            otherDimensionsAbstractXml = new ArrayList<>();
-            while (nextElementName != null) {
-                otherDimensionsAbstractXml.add((AnyXMLType) SEDAMetadata.fromSedaXml(xmlReader, AnyXMLType.class));
-                nextElementName = xmlReader.peekName();
-            }
-        } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML du PhysicalDataObject", e);
-        }
-    }
 
     /**
      * Import the PhysicalDataObject in XML expected form from the SEDA Manifest in
@@ -344,103 +196,8 @@ public class PhysicalDataObject extends DataObjectPackageIdElement implements Da
      */
     public static PhysicalDataObject fromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
                                                  SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
-        PhysicalDataObject pdo = null;
-        DataObjectGroup dog;
-        String tmp;
-        try {
-            tmp = xmlReader.peekAttributeBlockIfNamed("PhysicalDataObject", "id");
-            if (tmp != null) {
-                pdo = new PhysicalDataObject();
-                pdo.inDataPackageObjectId = tmp;
-                dataObjectPackage.addPhysicalDataObject(pdo);
-                xmlReader.nextUsefullEvent();
-                pdo.setFromXmlContent(xmlReader);
-                xmlReader.endBlockNamed("PhysicalDataObject");
-            }
-        } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML du PhysicalDataObject"
-                    + (pdo != null ? " [" + pdo.inDataPackageObjectId + "]" : ""), e);
-        }
-        //case not a PhysicalDataObject
-        if (pdo == null)
-            return null;
-
-        if ((pdo.dataObjectGroupReferenceId != null) && (pdo.dataObjectGroupId != null))
-            throw new SEDALibException("Eléments DataObjectGroupReferenceId et DataObjectGroupId incompatibles");
-        if (pdo.dataObjectGroupId != null) {
-            if (dataObjectPackage.getDataObjectGroupById(pdo.dataObjectGroupId.getValue()) != null)
-                throw new SEDALibException("Elément DataObjectGroup [" + pdo.dataObjectGroupId.getValue() + "] déjà créé");
-            dog = new DataObjectGroup(dataObjectPackage, null);
-            dog.setInDataObjectPackageId(pdo.dataObjectGroupId.getValue());
-            dataObjectPackage.addDataObjectGroup(dog);
-            dog.addDataObject(pdo);
-            doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_WARNINGS, "sedalib: dataObjectGroup [" + dog.inDataPackageObjectId
-                        + "] créé depuis PhysicalDataObject [" + pdo.inDataPackageObjectId + "]", null);
-        } else if (pdo.dataObjectGroupReferenceId != null) {
-            dog = dataObjectPackage.getDataObjectGroupById(pdo.dataObjectGroupReferenceId.getValue());
-            if (dog == null)
-                throw new SEDALibException("Erreur de référence au DataObjectGroup [" + pdo.dataObjectGroupId.getValue() + "]");
-            dog.addDataObject(pdo);
-        }
-
-        int counter = dataObjectPackage.getNextInOutCounter();
-        doProgressLogIfStep(sedaLibProgressLogger,SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                "sedalib: "+ counter + " métadonnées DataObject importées");
-        return pdo;
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see
-     * fr.gouv.vitam.tools.sedalib.core.DataObject#fromSedaXmlFragments(java.lang.
-     * String)
-     */
-    @Override
-    public void fromSedaXmlFragments(String fragments) throws SEDALibException {
         PhysicalDataObject pdo = new PhysicalDataObject();
-
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(fragments.getBytes(StandardCharsets.UTF_8));
-             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
-            // jump StartDocument
-            xmlReader.nextUsefullEvent();
-            pdo.setFromXmlContent(xmlReader);
-            XMLEvent event = xmlReader.xmlReader.peek();
-            if (!event.isEndDocument())
-                throw new SEDALibException("Il y a des champs illégaux");
-        } catch (XMLStreamException | SEDALibException | IOException e) {
-            throw new SEDALibException("Erreur de lecture du PhysicalDataObject", e);
-        }
-
-        if ((pdo.dataObjectGroupId != null) || (pdo.dataObjectGroupReferenceId != null))
-            throw new SEDALibException("La référence à un DataObjectGroup n'est pas modifiable par édition");
-        this.dataObjectProfile = pdo.dataObjectProfile;
-        this.dataObjectSystemId = pdo.dataObjectSystemId;
-        this.dataObjectGroupSystemId = pdo.dataObjectGroupSystemId;
-        this.relationshipsXmlData = pdo.relationshipsXmlData;
-        this.dataObjectVersion = pdo.dataObjectVersion;
-        this.physicalId = pdo.physicalId;
-        this.physicalDimensions = pdo.physicalDimensions;
-        this.otherDimensionsAbstractXml=pdo.otherDimensionsAbstractXml;
-    }
-
-    // Getters and setters
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see fr.gouv.vitam.tools.sedalib.core.DataObject#getDataObjectGroup()
-     */
-    public DataObjectGroup getDataObjectGroup() {
-        return dataObjectGroup;
-    }
-
-    /**
-     * Sets the dataObjectGroup.
-     *
-     * @param dataObjectGroup the new dataObjectGroup
-     */
-    public void setDataObjectGroup(DataObjectGroup dataObjectGroup) {
-        this.dataObjectGroup = dataObjectGroup;
+        return (importUnitaryDataObjectPackageIdElementFromSedaXml(pdo, xmlReader, dataObjectPackage, sedaLibProgressLogger)
+                ? pdo : null);
     }
 }

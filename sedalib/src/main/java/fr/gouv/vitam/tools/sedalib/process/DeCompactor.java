@@ -34,10 +34,7 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.compacted.*;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.CompressUtility;
@@ -172,7 +169,7 @@ public class DeCompactor {
         documentContainer = (DocumentContainer) archiveUnit.getContent().getFirstNamedMetadata("DocumentContainer");
         if (documentContainer == null)
             throw new SEDALibException(MODULE + "pas de DocumentContainer dans l'ArchiveUnit");
-        for (SEDAMetadata sm : documentContainer.metadataList) {
+        for (SEDAMetadata sm : documentContainer.getMetadataList()) {
             switch (sm.getXmlElementName()) {
                 case "DocumentsCount":
                     expectedDocumentNumber = ((IntegerType) sm).getValue();
@@ -200,7 +197,7 @@ public class DeCompactor {
         String nodeName = null;
 
         result = new ArchiveUnit(dataObjectPackage);
-        for (SEDAMetadata sm : recordGrp.metadataList) {
+        for (SEDAMetadata sm : recordGrp.getMetadataList()) {
             switch (sm.getXmlElementName()) {
                 case "RecordGrpID":
                     nodeName = ((StringType) sm).getValue();
@@ -239,7 +236,7 @@ public class DeCompactor {
         documentPack = (DocumentPack) archiveUnit.getContent().getFirstNamedMetadata("DocumentPack");
         if (documentPack == null)
             throw new SEDALibException(MODULE + "pas de DocumentPack dans l'ArchiveUnit");
-        for (SEDAMetadata sm : documentPack.metadataList) {
+        for (SEDAMetadata sm : documentPack.getMetadataList()) {
             switch (sm.getXmlElementName()) {
                 case "DocumentsCount":
                     packExpectedDocumentNumber = ((IntegerType) sm).getValue();
@@ -288,7 +285,7 @@ public class DeCompactor {
         archiveUnitCounter++;
         DataObjectGroup dataObjectGroup = new DataObjectGroup(dataObjectPackage, null);
 
-        for (SEDAMetadata sm : document.metadataList) {
+        for (SEDAMetadata sm : document.getMetadataList()) {
             switch (sm.getXmlElementName()) {
                 case "RecordGrpID":
                     recordGrpID = ((StringType) sm).getValue();
@@ -301,13 +298,10 @@ public class DeCompactor {
                     break;
                 case "FileObject":
                     BinaryDataObject bdo = new BinaryDataObject(dataObjectPackage);
-                    bdo.dataObjectVersion = (StringType) ((FileObject) sm).getFirstNamedMetadata("DataObjectVersion");
-                    bdo.uri = (StringType) ((FileObject) sm).getFirstNamedMetadata("URI");
-                    bdo.messageDigest = (DigestType) ((FileObject) sm).getFirstNamedMetadata("MessageDigest");
-                    bdo.size = (IntegerType) ((FileObject) sm).getFirstNamedMetadata("Size");
-                    bdo.formatIdentification = (FormatIdentification) ((FileObject) sm).getFirstNamedMetadata("FormatIdentification");
-                    bdo.fileInfo = (FileInfo) ((FileObject) sm).getFirstNamedMetadata("FileInfo");
-                    bdo.setOnDiskPath(documentDirPath.resolve(bdo.uri.getValue()));
+                    bdo.setMetadataList(((FileObject)sm).getMetadataList());
+                    StringType uri=(StringType) ((FileObject)sm).getFirstNamedMetadata("Uri");
+                    if (uri!=null)
+                        bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
                     dataObjectGroup.addDataObject(bdo);
                     binaryDataObjectCounter++;
                     break;
@@ -336,7 +330,7 @@ public class DeCompactor {
         archiveUnitCounter++;
         DataObjectGroup dataObjectGroup = new DataObjectGroup(dataObjectPackage, null);
 
-        for (SEDAMetadata sm : subDocument.metadataList) {
+        for (SEDAMetadata sm : subDocument.getMetadataList()) {
             switch (sm.getXmlElementName()) {
                 case "Content":
                     newArchiveUnit.setContent((Content) sm);
@@ -346,13 +340,10 @@ public class DeCompactor {
                     break;
                 case "FileObject":
                     BinaryDataObject bdo = new BinaryDataObject(dataObjectPackage);
-                    bdo.dataObjectVersion = (StringType) ((FileObject) sm).getFirstNamedMetadata("DataObjectVersion");
-                    bdo.uri = (StringType) ((FileObject) sm).getFirstNamedMetadata("URI");
-                    bdo.messageDigest = (DigestType) ((FileObject) sm).getFirstNamedMetadata("MessageDigest");
-                    bdo.size = (IntegerType) ((FileObject) sm).getFirstNamedMetadata("Size");
-                    bdo.formatIdentification = (FormatIdentification) ((FileObject) sm).getFirstNamedMetadata("FormatIdentification");
-                    bdo.fileInfo = (FileInfo) ((FileObject) sm).getFirstNamedMetadata("FileInfo");
-                    bdo.setOnDiskPath(documentDirPath.resolve(bdo.uri.getValue()));
+                    bdo.setMetadataList(((FileObject)sm).getMetadataList());
+                    StringType uri=(StringType) ((FileObject)sm).getFirstNamedMetadata("Uri");
+                    if (uri!=null)
+                        bdo.setOnDiskPath(documentDirPath.resolve(uri.getValue()));
                     dataObjectGroup.addDataObject(bdo);
                     binaryDataObjectCounter++;
                     break;

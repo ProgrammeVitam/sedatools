@@ -104,7 +104,7 @@ public class MailExtractThread extends Thread {
                 String newLog = mainWindow.consoleTextArea.getText() + "\n" + log;
                 mainWindow.consoleTextArea.setText(newLog);
                 mainWindow.consoleTextArea.setCaretPosition(newLog.length());
-            }, 1000,2);
+            }, 1000,2,MailExtractProgressLogger.MESSAGE_GROUP,1000);
             logger.setDebugFlag(debugFlag);
         } catch (Exception e) {
             System.out.println(e.getMessage());

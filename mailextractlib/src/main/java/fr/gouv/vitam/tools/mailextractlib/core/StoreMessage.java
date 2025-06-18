@@ -39,22 +39,22 @@ import fr.gouv.vitam.tools.mailextractlib.utils.RawDataSource;
 import org.apache.poi.hmef.Attachment;
 import org.apache.poi.hmef.HMEFMessage;
 
-import javax.activation.DataHandler;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
+import jakarta.activation.DataHandler;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.MimeBodyPart;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.mail.internet.MimeMultipart;
+import jakarta.mail.internet.MimeUtility;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
-import static fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor.ISO_8601;
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.*;
 
 /**
@@ -98,15 +98,6 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  */
 public abstract class StoreMessage extends StoreElement {
 
-    // /** Message nature (MESSAGE, CALENDAR). */
-    // protected int nature;
-    //
-    // /** The Constant MESSAGE. */
-    // static public final int MESSAGE = 0;
-    //
-    // /** The Constant CALENDAR. */
-    // static public final int CALENDAR = 1;
-    //
     /**
      * Raw binary content of the message for mime sources, or of the mime fake
      * for others.
@@ -284,7 +275,7 @@ public abstract class StoreMessage extends StoreElement {
 
     @Override
     public String getLogDescription() {
-        String result = "message "+getStoreExtractor().getElementCounter(this.getClass(),false);
+        String result = "message " + listLineId;
         if (subject != null)
             result += " [" + subject + "]";
         else
@@ -393,10 +384,12 @@ public abstract class StoreMessage extends StoreElement {
      * @throws InterruptedException the interrupted exception
      */
     protected void detectTNEFAttachment() throws InterruptedException {
-        String mimeType;
+        boolean partialExtraction;
 
         if (attachments != null && !attachments.isEmpty()) {
+            List<StoreAttachment> newAttachments = new ArrayList<>();
             for (StoreAttachment a : attachments) {
+                partialExtraction = false;
                 if ((a.attachmentType != StoreAttachment.STORE_ATTACHMENT)
                         && (a.attachmentContent instanceof byte[])
                         && ((a.mimeType.toLowerCase().equals("application/ms-tnef")
@@ -408,26 +401,33 @@ public abstract class StoreMessage extends StoreElement {
                         String rtfBody = tnefPart.getBody();
                         List<Attachment> tnefAttachments = tnefPart.getAttachments();
 
-                        attachments.remove(a);
                         if ((bodyContent[RTF_BODY] == null) || bodyContent[RTF_BODY].isEmpty())
                             bodyContent[RTF_BODY] = rtfBody;
                         else
                             logMessageWarning("mailextractlib: redondant rtf body extracted from winmail.dat droped", null);
 
                         for (Attachment tnefAttachment : tnefAttachments) {
-                            StoreAttachment smAttachment = new StoreAttachment(this, tnefAttachment.getContents(),
-                                    "file", tnefAttachment.getLongFilename(),
-                                    null, tnefAttachment.getModifiedDate(),
-                                    TikaExtractor.getInstance().getMimeType(tnefAttachment.getContents()),
-                                    null, StoreAttachment.FILE_ATTACHMENT);
-                            attachments.add(smAttachment);
+                            try {
+                                StoreAttachment smAttachment = new StoreAttachment(this, tnefAttachment.getContents(),
+                                        "file", tnefAttachment.getLongFilename(),
+                                        null, tnefAttachment.getModifiedDate(),
+                                        TikaExtractor.getInstance().getMimeType(tnefAttachment.getContents()),
+                                        null, StoreAttachment.FILE_ATTACHMENT);
+                                newAttachments.add(smAttachment);
+                            } catch (Exception e) {
+                                logMessageWarning("mailextractlib: can't extract all informations from winmail.dat content, " +
+                                        "it will be extracted partially and it will be extracted as a file", e);
+                                partialExtraction = true;
+                            }
                         }
-                        break;
+                        if (partialExtraction) newAttachments.add(a);
                     } catch (Exception e) {
                         logMessageWarning("mailextractlib: can't analyze winmail.dat content, it will be extracted as a file", e);
+                        newAttachments.add(a);
                     }
-                }
+                } else newAttachments.add(a);
             }
+            attachments = newAttachments;
         }
     }
 
@@ -539,26 +539,31 @@ public abstract class StoreMessage extends StoreElement {
 
             }
         } catch (MailExtractLibException e) {
-            doProgressLogIfDebug(getProgressLogger(),"Bodies optimization error",e);
+            doProgressLogIfDebug(getProgressLogger(), "Bodies optimization error", e);
         }
     }
 
     @Override
     public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
-        analyzeMessage();
-        storeFolder.getDateRange().extendRange(sentDate);
-        extractMessage(writeFlag);
-        countMessage();
+        if (storeFolder.getStoreExtractor().getOptions().extractMessages) {
+            listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
+            analyzeMessage();
+            extractMessage(writeFlag);
+            storeFolder.extendDateRange(sentDate);
+            countMessage();
+        }
     }
 
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
-        listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
-        analyzeMessage();
-        if (statsFlag)
-            extractMessage(false);
-        countMessage();
+        if (storeFolder.getStoreExtractor().getOptions().extractMessages) {
+            listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
+            analyzeMessage();
+            if (statsFlag)
+                extractMessage(false);
+            countMessage();
+
+        }
     }
 
     /**
@@ -613,7 +618,7 @@ public abstract class StoreMessage extends StoreElement {
                 messageNode.addObject(HTMLTextExtractor.getInstance().htmlStringtoString(textContent), messageID + ".txt",
                         "TextContent", 1);
             if (getStoreExtractor().options.extractMessageTextMetadata) {
-                messageNode.addLongMetadata("TextContent", ArchiveUnit.purifyMetadataText(textContent), true);
+                messageNode.addLongMetadata("TextContent", textContent, true);
             }
         }
 
@@ -639,21 +644,25 @@ public abstract class StoreMessage extends StoreElement {
         // add object binary master except if empty one
         messageNode.addObject(mimeContent, messageID + ".eml", "BinaryMaster", 1);
 
-        if (writeFlag)
+        if (writeFlag
+                && storeFolder.getStoreExtractor().getOptions().extractElementsContent)
             messageNode.write();
 
         int logLevel;
         if (getStoreExtractor().isRoot()) {
-            doProgressLogIfStep(getProgressLogger(), MailExtractProgressLogger.MESSAGE_GROUP, getStoreExtractor().getElementCounter(this.getClass(),false), "mailextractlib: " + getStoreExtractor().getElementCounter(this.getClass(),false) + " extracted messages");
-            logLevel=MailExtractProgressLogger.MESSAGE;
+            doProgressLogOneMoreCountedObject(getProgressLogger(), MailExtractProgressLogger.MESSAGE_GROUP, "mailextractlib: %count extracted messages");
+            logLevel = MailExtractProgressLogger.MESSAGE;
         } else
-            logLevel=MailExtractProgressLogger.MESSAGE_DETAILS;
+            logLevel = MailExtractProgressLogger.MESSAGE_DETAILS;
 
-        doProgressLog(getProgressLogger(), logLevel, "mailextractlib: extracted "+getLogDescription()+
-                        " with SentDate=" + (sentDate == null ? "Unknown sent date" : sentDate.toString()), null);
+        doProgressLog(getProgressLogger(), logLevel, "mailextractlib: extracted " + getLogDescription() +
+                " with SentDate=" + (sentDate == null ? "Unknown sent date" : sentDate.toString()), null);
 
         // write in csv list if asked for
-        writeToMailsList(writeFlag);
+        if (writeFlag
+                && getStoreExtractor().options.extractElementsList
+                && getStoreExtractor().canExtractObjectsLists())
+            writeToMailsList();
         if (Thread.interrupted())
             throw new InterruptedException("mailextractlib: interrupted");
     }
@@ -673,21 +682,22 @@ public abstract class StoreMessage extends StoreElement {
      * @param ps the dedicated print stream
      */
     static public void printGlobalListCSVHeader(PrintStream ps) {
-        ps.println("ID;SentDate;ReceivedDate;FromName;FromAddress;" +
-                "ToList;Subject;MessageID;" +
-                "AttachmentList;ReplyTo;Folder;Size;Attached");
+        synchronized (ps) {
+            ps.println("ID;SentDate;ReceivedDate;FromName;FromAddress;" +
+                    "ToList;Subject;MessageID;" +
+                    "AttachmentList;ReplyTo;Folder;Size;Attached");
+        }
     }
 
-    private void writeToMailsList(boolean writeFlag) throws InterruptedException {
-        if (writeFlag && getStoreExtractor().options.extractObjectsLists && getStoreExtractor().canExtractObjectsLists()) {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-            PrintStream ps = storeFolder.getStoreExtractor().getGlobalListPS(this.getClass());
+    private void writeToMailsList() throws InterruptedException {
+        PrintStream ps = storeFolder.getStoreExtractor().getGlobalListPS(this.getClass());
+        synchronized (ps) {
             try {
                 ps.format("\"%d\";", listLineId);
                 ps.format("\"%s\";",
-                        (sentDate == null ? "" : sdf.format(sentDate)));
+                        (sentDate == null ? "" : DateRange.getISODateString(sentDate)));
                 ps.format("\"%s\";",
-                        (receivedDate == null ? "" : sdf.format(receivedDate)));
+                        (receivedDate == null ? "" : DateRange.getISODateString(receivedDate)));
                 if ((from != null) && !from.isEmpty()) {
                     MetadataPerson p = new MetadataPerson(from);
                     ps.format("\"%s\";\"%s\";", filterHyphenForCsv(p.fullName),

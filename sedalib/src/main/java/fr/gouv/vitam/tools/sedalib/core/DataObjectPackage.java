@@ -180,12 +180,36 @@ public class DataObjectPackage {
             return true;
         if (bdoInDataObjectPackageIdMap.containsKey(inDataPackageObjectId))
             return true;
-        //noinspection RedundantIfStatement
         return pdoInDataObjectPackageIdMap.containsKey(inDataPackageObjectId);
     }
 
     /**
-     * Adds an ArchiveUnit as an DataObjectPackage element, defining a uniqID if not
+     * Adds a DataObjectPackageIdElement (ArchiveUnit, BinaryDataObject, PhysicalDataObject, DataObjectGroup) as
+     * a DataObjectPackage element, defining a unique ID if not already defined (null).
+     * <p>
+     * This is only useful when creating a DataObjectPackageIdElement without providing an outer
+     * DataObjectPackage in constructor, for example during JSON deserialization.
+     *
+     * @param element the DataObjectPackageIdElement to add
+     * @throws SEDALibException if the element has a defined ID which is already present in the DataObjectPackage
+     */
+    public void addDataObjectPackageIdElement(DataObjectPackageIdElement element) throws SEDALibException {
+        if (element.inDataPackageObjectId == null) element.inDataPackageObjectId = getNextInDataObjectPackageID();
+        if (isInDataObjectPackageIdUsed(element.inDataPackageObjectId))
+            throw new SEDALibException("Deux objets ne peuvent avoir la même référence [" + element.inDataPackageObjectId + "]");
+        if (element instanceof ArchiveUnit)
+            auInDataObjectPackageIdMap.put(element.inDataPackageObjectId, (ArchiveUnit) element);
+        else if (element instanceof DataObjectGroup)
+            dogInDataObjectPackageIdMap.put(element.inDataPackageObjectId, (DataObjectGroup) element);
+        else if (element instanceof BinaryDataObject)
+            bdoInDataObjectPackageIdMap.put(element.inDataPackageObjectId, (BinaryDataObject) element);
+        else if (element instanceof PhysicalDataObject)
+            pdoInDataObjectPackageIdMap.put(element.inDataPackageObjectId, (PhysicalDataObject) element);
+        element.setDataObjectPackage(this);
+    }
+
+    /**
+     * Adds an ArchiveUnit as a DataObjectPackage element, defining a uniqID if not
      * already defined (null).
      * <p>
      * This is only useful when you create an ArchiveUnit without giving an outer
@@ -206,7 +230,7 @@ public class DataObjectPackage {
     }
 
     /**
-     * Adds a data object group as an DataObjectPackage element, defining a uniqID if
+     * Adds a data object group as a DataObjectPackage element, defining a uniqID if
      * not already defined (null).
      * <p>
      * This is only useful when you create a DataObjectGroup without giving an outer
@@ -224,50 +248,6 @@ public class DataObjectPackage {
                     "Deux objets ne peuvent avoir la même référence [" + dog.inDataPackageObjectId + "]");
         dogInDataObjectPackageIdMap.put(dog.inDataPackageObjectId, dog);
         dog.setDataObjectPackage(this);
-    }
-
-    /**
-     * Adds a binary data object as an DataObjectPackage element, defining a uniqID if
-     * not already defined (null).
-     * <p>
-     * This is only useful when you create a BinaryDataObject without giving an
-     * outer DataObjectPackage in constructor, for example during json
-     * deserialization.
-     *
-     * @param bdo the BinaryDataObject
-     * @throws SEDALibException when the BinaryDataObject has a defined UniqId which
-     *                          is already in the DataObjectPackage
-     */
-    public void addBinaryDataObject(BinaryDataObject bdo) throws SEDALibException {
-        if (bdo.inDataPackageObjectId == null)
-            bdo.inDataPackageObjectId = getNextInDataObjectPackageID();
-        if (isInDataObjectPackageIdUsed(bdo.inDataPackageObjectId))
-            throw new SEDALibException(
-                    "Deux objets ne peuvent avoir la même référence [" + bdo.inDataPackageObjectId + "]");
-        bdoInDataObjectPackageIdMap.put(bdo.inDataPackageObjectId, bdo);
-        bdo.setDataObjectPackage(this);
-    }
-
-    /**
-     * Adds a PhysicalDataObject as an DataObjectPackage element, defining a uniqID if
-     * not already defined (null).
-     * <p>
-     * This is only useful when you create a PhysicalDataObject without giving an
-     * outer DataObjectPackage in constructor, for example during json
-     * deserialization.
-     *
-     * @param pdo the PhysicalDataObject
-     * @throws SEDALibException when the PhysicalDataObject has a defined UniqId
-     *                          which is already in the DataObjectPackage
-     */
-    public void addPhysicalDataObject(PhysicalDataObject pdo) throws SEDALibException {
-        if (pdo.inDataPackageObjectId == null)
-            pdo.inDataPackageObjectId = getNextInDataObjectPackageID();
-        if (isInDataObjectPackageIdUsed(pdo.inDataPackageObjectId))
-            throw new SEDALibException(
-                    "Deux objets ne peuvent avoir la même référence [" + pdo.inDataPackageObjectId + "]");
-        pdoInDataObjectPackageIdMap.put(pdo.inDataPackageObjectId, pdo);
-        pdo.setDataObjectPackage(this);
     }
 
     /**
@@ -363,7 +343,7 @@ public class DataObjectPackage {
     public long getDataObjectsTotalSize() {
         long result = 0;
         for (Map.Entry<String, BinaryDataObject> pair : bdoInDataObjectPackageIdMap.entrySet()) {
-            IntegerType size = pair.getValue().size;
+            IntegerType size = pair.getValue().getMetadataSize();
             if (size != null)
                 result += size.getValue();
         }
@@ -550,7 +530,7 @@ public class DataObjectPackage {
                 .entrySet()) {
             pair.getValue().setInDataObjectPackageId(null);
             try {
-                addBinaryDataObject(pair.getValue());
+                addDataObjectPackageIdElement(pair.getValue());
             } catch (SEDALibException ignored) {
                 // impossible
             }
@@ -560,7 +540,7 @@ public class DataObjectPackage {
                 .entrySet()) {
             pair.getValue().setInDataObjectPackageId(null);
             try {
-                addPhysicalDataObject(pair.getValue());
+                addDataObjectPackageIdElement(pair.getValue());
             } catch (SEDALibException ignored) {
                 // impossible
             }
@@ -809,7 +789,7 @@ public class DataObjectPackage {
             for (BinaryDataObject bdo : dataObjectGroup.getBinaryDataObjectList()) {
                 bdo.inDataPackageObjectId = null;
                 try {
-                    addBinaryDataObject(bdo);
+                    addDataObjectPackageIdElement(bdo);
                 } catch (SEDALibException ignored) {
                     // impossible
                 }
@@ -817,7 +797,7 @@ public class DataObjectPackage {
             for (PhysicalDataObject pdo : dataObjectGroup.getPhysicalDataObjectList()) {
                 pdo.inDataPackageObjectId = null;
                 try {
-                    addPhysicalDataObject(pdo);
+                    addDataObjectPackageIdElement(pdo);
                 } catch (SEDALibException ignored) {
                     // impossible
                 }
@@ -1141,8 +1121,7 @@ public class DataObjectPackage {
                         break;
                     case "BinaryDataObject":
                         bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                        //noinspection ConstantConditions
-                        bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.uri.getValue());
+                        bdo.setOnDiskPathFromString(rootDir + File.separator +  bdo.getMetadataUri().getValue());
                         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé", null);
                         break;
                     case "PhysicalDataObject":

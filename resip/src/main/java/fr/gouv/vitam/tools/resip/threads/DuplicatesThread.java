@@ -31,6 +31,8 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.DuplicatesWindow;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -143,7 +145,7 @@ public class DuplicatesThread extends SwingWorker<String, String> {
                 localLogStep = 1000;
             }
             spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, null,
-                    localLogStep, 2);
+                    localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
 
@@ -154,10 +156,14 @@ public class DuplicatesThread extends SwingWorker<String, String> {
             for (DataObjectGroup dog : dataObjectPackage.getDogInDataObjectPackageIdMap().values()) {
                 tmp = (dog.logBook == null ? "" : dog.logBook.toString());
                 for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
-                    if (binaryHash)
-                        tmp += "|BDO=" + (bdo.messageDigest == null ? null : bdo.messageDigest.getValue());
-                    if (binaryFilename)
-                        tmp += "|" + (bdo.fileInfo == null ? null : bdo.fileInfo.getSimpleMetadata("Filename"));
+                    if (binaryHash) {
+                        DigestType md=bdo.getMetadataMessageDigest();
+                        tmp += "|BDO=" + (md == null ? null : md.getValue());
+                    }
+                    if (binaryFilename) {
+                        FileInfo fi=bdo.getMetadataFileInfo();
+                        tmp += "|" + (fi == null ? null : fi.getSimpleMetadata("Filename"));
+                    }
                 }
                 for (PhysicalDataObject pdo : dog.getPhysicalDataObjectList()) {
                     if (physicalAllMD)

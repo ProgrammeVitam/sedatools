@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.DataObject;
 import fr.gouv.vitam.tools.sedalib.core.PhysicalDataObject;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,11 +70,13 @@ public class DataObjectListCellRenderer extends JLabel implements ListCellRender
 		setFont(BOLD_LABEL_FONT);
 		if (value instanceof BinaryDataObject) {
 			BinaryDataObject bdo=(BinaryDataObject)value;
-			setText(bdo.getInDataObjectPackageId()+"-"+(bdo.dataObjectVersion==null?translateTag("Unknown"):bdo.dataObjectVersion.getValue()));
+			StringType dataObjectVersion=bdo.getMetadataDataObjectVersion();
+			setText(bdo.getInDataObjectPackageId()+"-"+(dataObjectVersion==null?translateTag("Unknown"):dataObjectVersion.getValue()));
 		}
 		else if (value instanceof PhysicalDataObject) {
 			PhysicalDataObject pdo=(PhysicalDataObject)value;
-			setText(pdo.getInDataObjectPackageId()+"-"+(pdo.dataObjectVersion==null?translateTag("Unknown"):pdo.dataObjectVersion.getValue()));
+			StringType dataObjectVersion=pdo.getMetadataDataObjectVersion();
+			setText(pdo.getInDataObjectPackageId()+"-"+(dataObjectVersion==null?translateTag("Unknown"):dataObjectVersion.getValue()));
 		}
 		return this;
 	}

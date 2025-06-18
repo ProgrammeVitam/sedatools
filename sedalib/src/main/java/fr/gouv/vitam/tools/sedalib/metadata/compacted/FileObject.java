@@ -28,8 +28,12 @@
 package fr.gouv.vitam.tools.sedalib.metadata.compacted;
 
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
+import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -52,19 +56,63 @@ public class FileObject extends ComplexListType {
      * Init metadata map.
      */
     @ComplexListMetadataMap(isExpandable = false)
-    public static final Map<String, ComplexListMetadataKind> metadataMap_default;
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V1;
 
     static {
-        metadataMap_default = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
-        metadataMap_default.put("DataObjectVersion",
-                new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("URI", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
-        metadataMap_default.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
-        metadataMap_default.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, true));
-        metadataMap_default.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
+        METADATA_MAP_V1 = new LinkedHashMap<>();
+        METADATA_MAP_V1.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
+        METADATA_MAP_V1.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+
+        METADATA_MAP_V1.put("Uri", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
+        METADATA_MAP_V1.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
+        METADATA_MAP_V1.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V1.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
+        METADATA_MAP_V1.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
+        METADATA_MAP_V1.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
+        METADATA_MAP_V1.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
     }
 
+    @ComplexListMetadataMap(seda2Version = {2})
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2;
+
+    static {
+        METADATA_MAP_V2 = new LinkedHashMap<>();
+        METADATA_MAP_V2.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
+         METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
+        METADATA_MAP_V2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+
+        METADATA_MAP_V2.put("Uri", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
+        METADATA_MAP_V2.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
+        METADATA_MAP_V2.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V2.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
+        METADATA_MAP_V2.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
+        METADATA_MAP_V2.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
+        METADATA_MAP_V2.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
+    }
+
+    @ComplexListMetadataMap(seda2Version = {3})
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3;
+
+    static {
+        METADATA_MAP_V3 = new LinkedHashMap<>();
+        METADATA_MAP_V3.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
+        METADATA_MAP_V3.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
+        METADATA_MAP_V3.put("DataObjectUse", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false));
+
+        METADATA_MAP_V3.put("Uri", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
+        METADATA_MAP_V3.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
+        METADATA_MAP_V3.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
+        METADATA_MAP_V3.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
+        METADATA_MAP_V3.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
+        METADATA_MAP_V3.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
+        METADATA_MAP_V3.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
+    }
     /**
      * Instantiates a new FileObject.
      */
@@ -82,11 +130,8 @@ public class FileObject extends ComplexListType {
     public FileObject(BinaryDataObject binaryDataObject, String uri) throws SEDALibException {
         super("FileObject");
 
-        addMetadata(binaryDataObject.dataObjectVersion);
-        if (uri != null) addNewMetadata("URI", uri);
-        addMetadata(binaryDataObject.messageDigest);
-        addMetadata(binaryDataObject.size);
-        addMetadata(binaryDataObject.formatIdentification);
-        addMetadata(binaryDataObject.fileInfo);
+        for (SEDAMetadata sm: binaryDataObject.getMetadataList())
+            addMetadata (sm);
+        if (uri != null) addMetadata(new StringType("Uri", uri));
     }
 }

@@ -192,22 +192,6 @@ public class ArchiveUnit {
     }
 
     /**
-     * Purify metadata text string.
-     *
-     * @param in the in
-     * @return the string
-     */
-    public static String purifyMetadataText(String in) {
-        String result;
-
-        result = in.replaceAll("[\\p{C}&&[^\\r\\n\\t]]", "");
-        // break HTML tags in metadata if any
-        result = result.replace("<", "< ");
-        result = result.replace("&lt;", "&lt; ");
-        return result;
-    }
-
-    /**
      * Adds a simple (key, value) metadata.
      * <p>
      * If value is null or empty, no metadata is added.
@@ -440,10 +424,13 @@ public class ArchiveUnit {
     }
 
     // create all the directories hierarchy
+    // synchronized to prevent conflicts or errors caused by concurrent directory creation.
     private void createDirectory(String dirname) throws MailExtractLibException {
-        File dir = new File(dirname);
-        if (!dir.isDirectory() && !dir.mkdirs()) {
-            throw new MailExtractLibException("mailextractlib: illegal destination directory, writing unit \"" + name + "\"", null);
+        synchronized (storeExtractor.getRootStoreExtractor()) {
+            File dir = new File(dirname);
+            if (!dir.isDirectory() && !dir.mkdirs()) {
+                throw new MailExtractLibException("mailextractlib: can't create destination directory[" + dirname + "] for writing unit \"" + name + "\"", null);
+            }
         }
     }
 
@@ -545,7 +532,7 @@ public class ArchiveUnit {
 
         if (result.length() > len)
             result = result.substring(0, len);
-        int uniqID = storeExtractor.getUniqID();
+        int uniqID = storeExtractor.getNewUniqID();
         result = type + "#" + Integer.toString(uniqID) + "-" + result;
 
         return result;

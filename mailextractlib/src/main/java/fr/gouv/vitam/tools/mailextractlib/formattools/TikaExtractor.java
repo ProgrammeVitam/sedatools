@@ -34,18 +34,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Class for the text extraction tool. It uses Tika library.
+ * Singleton class for the text extraction tool. It uses Tika library.
  */
 public class TikaExtractor {
 
     /** Singleton instance **/
-    private static TikaExtractor INSTANCE = new TikaExtractor();
+    private static TikaExtractor INSTANCE = null;
 
     /** Tika object **/
     private Tika tika;
 
     /** Private constructor */
-    private TikaExtractor() {
+    public TikaExtractor() {
         Level memLevel;
         Logger logger;
 
@@ -63,6 +63,8 @@ public class TikaExtractor {
      * @return single instance of FileTextExtractor
      */
     public static TikaExtractor getInstance() {
+        if (INSTANCE==null)
+            INSTANCE=new TikaExtractor();
         return INSTANCE;
     }
 

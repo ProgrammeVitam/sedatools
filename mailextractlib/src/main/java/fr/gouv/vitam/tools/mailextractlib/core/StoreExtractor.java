@@ -37,7 +37,8 @@ import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import org.apache.poi.util.IOUtils;
 
-import javax.mail.URLName;
+import jakarta.mail.URLName;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -54,6 +55,10 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.*;
 import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -163,18 +168,15 @@ import static java.time.format.DateTimeFormatter.ISO_LOCAL_DATE_TIME;
  */
 public abstract class StoreExtractor {
 
-    // Map of StoreExtractor classes by scheme
-
-
     /**
      * The formatter used for zoned date conversion to String
      */
     public static final DateTimeFormatter ISO_8601 = new DateTimeFormatterBuilder()
-                .append(ISO_LOCAL_DATE_TIME)
-                .optionalStart()
-                .appendOffsetId()
-                .optionalStart()
-                .toFormatter();
+            .append(ISO_LOCAL_DATE_TIME)
+            .optionalStart()
+            .appendOffsetId()
+            .optionalStart()
+            .toFormatter();
 
     /**
      * The map of mimetypes/scheme known relations.
@@ -199,7 +201,31 @@ public abstract class StoreExtractor {
     static HashMap<String, Boolean> schemeContainerMap = new HashMap<>();
 
     /**
-     * Subscribes all defaults store extractor.
+     * Initializes default extractors and sets relevant system properties for handling email
+     * and document extraction scenarios. This method configures several components to ensure
+     * compatibility with specific formats and address common issues in data extraction processes.
+     *
+     * The following initializations and configurations are applied:
+     *
+     * 1. Subscribes default store extractors:
+     *    - JMStoreExtractor
+     *    - MsgStoreExtractor
+     *    - PstStoreExtractor
+     *    - PstEmbeddedStoreExtractor
+     *
+     * 2. Sets the maximum allowed size for byte arrays in Apache POI to prevent extraction 
+     *    failures when handling large attachments in TNEF files. This change overrides 
+     *    the default 1 MB limit with a maximum value of 2 GB.
+     *
+     * 3. Configures Jakarta Mail properties to handle malformed MIME messages:
+     *    - Enables fallback for unknown content-transfer-encoding values, which allows
+     *      the parsing of messages with invalid encoding values (e.g., "iso-8859-1").
+     *    - Disables strict decoding of MIME-encoded headers, allowing the library 
+     *      to tolerate malformed headers and return raw, undecoded text instead of throwing exceptions.
+     *    - Enables lenient Base64 decoding to tolerate malformed or corrupted Base64 encoded data,
+     *      avoiding exceptions during data extraction.
+     *
+     * 4. Sets the default time zone for the application to UTC.
      */
     public static void initDefaultExtractors() {
         JMStoreExtractor.subscribeStoreExtractor();
@@ -211,6 +237,66 @@ public abstract class StoreExtractor {
         // this change the limit to Integer.MAX_VALUE that is to say 2Go
         // This is also a bypass to a bug in POI 4.0 and 4.1 version when opening msg
         IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
+
+        /*
+         * Enable fallback for unknown Content-Transfer-Encoding values.
+         *
+         * Some malformed MIME messages incorrectly specify a charset name (e.g., "iso-8859-1")
+         * as the Content-Transfer-Encoding value instead of using valid encodings like "7bit",
+         * "8bit", "base64" or "quoted-printable".
+         *
+         * By setting the "mail.mime.ignoreunknownencoding" system property to true,
+         * Jakarta Mail will silently ignore unknown encodings and treat the content as "8bit".
+         * This avoids exceptions (e.g., IOException: Unknown encoding) during message parsing.
+         *
+         * Limitations:
+         * - If the actual encoding is "base64" or "quoted-printable" but declared incorrectly,
+         *   the message content may not be decoded properly and appear corrupted or unreadable.
+         * - This is a best-effort fallback intended for resilience, not full correctness.
+         */
+        System.setProperty("mail.mime.ignoreunknownencoding", "true");
+
+        /*
+         * Disable strict decoding of MIME-encoded headers (RFC 2047).
+         *
+         * By default, Jakarta Mail enforces strict parsing of encoded words
+         * (=?charset?encoding?encoded-text?=) in headers such as "Subject" or "From".
+         * If a header is malformed — for example, using an invalid charset name or
+         * broken Base64/Quoted-Printable content — it throws an exception.
+         *
+         * Setting "mail.mime.decodetext.strict" to "false" allows Jakarta Mail
+         * to tolerate such malformed headers by skipping the faulty encoding and
+         * returning the raw, undecoded text instead.
+         *
+         * ⚠ Note: this does not fix the content — it just avoids an exception and
+         * preserves the original text block for manual or partial decoding if needed.
+         */
+        System.setProperty("mail.mime.decodetext.strict", "false");
+
+        /*
+         * Enable lenient Base64 decoding of MIME parts.
+         *
+         * By default, Jakarta Mail enforces strict Base64 decoding and will throw an exception
+         * if it encounters errors (e.g., malformed or corrupted Base64 encoded data). By setting
+         * "mail.mime.base64.ignoreerrors" to "true", you instruct Jakarta Mail to ignore such
+         * errors and continue processing the data.
+         *
+         * This configuration is particularly useful in scenarios where you expect non-standard
+         * or imperfectly encoded data and prefer to bypass decoding exceptions in favor of
+         * processing the available content, albeit with a potential risk of data corruption.
+         *
+         * ⚠ Note: While lenient decoding prevents your application from stopping due to decoding
+         * errors, it could lead to silent data loss or misinterpretation if the encoded data is critical.
+         */
+        System.setProperty("mail.mime.base64.ignoreerrors", "true");
+
+        /*
+         * Set the default time zone of the application to UTC.
+         * This ensures that MIME message generation will use normalized
+         * UTC dates everywhere. This is important for consistency across
+         * different systems and timezones.
+         */
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 
     // StoreExtractor definition parameters
@@ -219,53 +305,53 @@ public abstract class StoreExtractor {
      * Scheme defining specific store extractor (imap| imaps| pop3| thunderbird|
      * mbox| eml| pst| msg| experimental gimap)...)
      */
-    protected String scheme;
+    protected final String scheme;
 
     /**
      * Hostname of target store in ((hostname|ip)[:port]) *.
      */
-    protected String host;
+    protected final String host;
 
     /**
      * Port of target store in ((hostname|ip)[:port]) *.
      */
-    protected int port;
+    protected final int port;
 
     /**
      * User account name, can be null if not used *.
      */
-    protected String user;
+    protected final String user;
 
     /**
      * Password, can be null if not used *.
      */
-    protected String password;
+    protected final String password;
 
     /**
-     * Path of ressource to extract *.
+     * Path of ressource to extract, can be null if not used  *.
      */
-    protected String path;
+    protected final String path;
 
     /**
      * Path of the folder in the store used as root for extraction, can be null
      * if default root folder.
      */
-    private String rootStoreFolderName;
+    protected final String rootStoreFolderName;
 
     /**
      * Path of the directory where will be the extraction directory.
      */
-    protected String destRootPath;
+    protected final String destRootPath;
 
     /**
      * Name of the extraction directory.
      */
-    protected String destName;
+    protected final String destName;
 
     /**
      * Extractor options, flags coded on an int, defined thru constants *.
      */
-    protected StoreExtractorOptions options;
+    protected final StoreExtractorOptions options;
 
     /**
      * Extractor context description.
@@ -273,7 +359,7 @@ public abstract class StoreExtractor {
     protected String description;
 
     // private field for global statictics
-    private long totalRawSize;
+    private final AtomicLong totalRawSize;
 
     // private field for time statistics
     private Instant start;
@@ -282,11 +368,14 @@ public abstract class StoreExtractor {
     // private object extraction root folder in store
     private StoreFolder rootStoreFolder;
 
-    // private root storeExtractor for nested extraction, null if root
-    private StoreExtractor rootStoreExtractor;
+    // private father storeExtractor for nested extraction, null if root
+    private final StoreExtractor fatherStoreExtractor;
+
+    // private root storeExtractor for nested extraction, this if root
+    private final StoreExtractor rootStoreExtractor;
 
     // private father element for nested extraction, null if root
-    private StoreElement fatherElement;
+    private final StoreElement fatherElement;
 
     // private logger
     private MailExtractProgressLogger logger;
@@ -299,18 +388,38 @@ public abstract class StoreExtractor {
     protected Map<String, PrintStream> globalListsPSMap;
 
     /**
+     * The accumulated elements classes
+     */
+    static Class[] accumulatedElements = {StoreFolder.class, StoreMessage.class,
+            StoreAppointment.class, StoreContact.class};
+
+    /**
      * The extracted elements counters map.
      * private map of counters for extracted elements
      * (messages, contacts, appointments...)
+     * It is final to enable synchronization on folder content changes during parallel processing of elements.
      */
-    protected Map<String, Integer> elementsCounterMap;
+    private Map<String, Integer> elementsCounterMap;
 
     /**
      * The sub-extracted elements counters map.
      * private map of counters for extracted elements from inner containers
      * (messages, contacts, appointments...)
      */
-    protected Map<String, Integer> subElementsCounterMap;
+    private Map<String, Integer> subElementsCounterMap;
+
+    /**
+     * UniqID for archive unit identification must be thread safe
+     */
+    private AtomicInteger uniqID;
+
+    /**
+     * The maximum number of parallel threads, automatically defined.
+     * Useful only for testing purposes.
+     */
+    private static final double THREAD_MULTIPLIER = Double.parseDouble(System.getProperty("thread.factor", "1.5"));
+    private int maxParallelThreads = (int) Math.round(
+            Runtime.getRuntime().availableProcessors() * THREAD_MULTIPLIER);
 
     /**
      * Add mimetypes, scheme, isContainer, store extractor known relation.
@@ -383,12 +492,13 @@ public abstract class StoreExtractor {
     /**
      * Init the PrintStream for a global list generated for a certain type of element (message, folder, appointment, contact...),
      * if not already done with the header in csv format, and return the printstream
+     * <p>This method is thread-safe, enabling Elements of non-abstract Extractors to get, and may be initialize, PrintStreams in parallel.
      *
      * @param listClass the list class
      * @return the initialized global list ps
      */
     @SuppressWarnings("unchecked")
-    public PrintStream getGlobalListPS(Class listClass) {
+    synchronized public PrintStream getGlobalListPS(Class listClass) {
         String globalListName = null;
         PrintStream result = null;
         try {
@@ -414,13 +524,14 @@ public abstract class StoreExtractor {
      * Return the counter for a certain type of extracted element (message, folder, appointment, contact...) if it exists.
      * <p>If not init the counter to 0, and return the counter.
      * <p>If subFlag is true, it actually act on the sub-extracted elements from inner containers counter.
+     * <p>This method is thread-safe, enabling non-abstract Extractors to use counters in parallel.
      *
      * @param listClass the list class
      * @param subFlag   the sub extracted flag
      * @return the initialized global list counter
      */
     @SuppressWarnings("unchecked")
-    public int getElementCounter(Class listClass, boolean subFlag) {
+    synchronized public int getElementCounter(Class listClass, boolean subFlag) {
         String elementName = null;
         Integer result = 0;
         try {
@@ -438,18 +549,20 @@ public abstract class StoreExtractor {
         return result;
     }
 
+
     /**
-     * Add a value to the counter for a certain type of extracted element (message, folder, appointment, contact...), and return the counter if it exists.
-     * <p>If not init the counter to value, and return the counter.
-     * <p>If subFlag is true, it actually act on the sub-extracted elements from inner containers counter.
+     * Adds a value to the counter for a specific type of extracted element (e.g., message, folder, appointment, contact...) and returns the updated counter.
+     * <p>If the counter does not exist, it is initialized with the provided value and then returned.
+     * <p>If {@code subFlag} is true, the operation is applied to the counters of sub-extracted elements from inner containers.
+     * <p>This method is thread-safe, enabling non-abstract Extractors to use counters in parallel.
      *
-     * @param value     the value
-     * @param listClass the list class
-     * @param subFlag   the sub flag
-     * @return the int
+     * @param value     the value to add to the counter
+     * @param listClass the class representing the type of the extracted element
+     * @param subFlag   a flag indicating if the operation should target sub-extracted elements
+     * @return the updated counter value
      */
     @SuppressWarnings("unchecked")
-    public int addElementCounter(int value, Class listClass, boolean subFlag) {
+    synchronized public int addElementCounter(int value, Class listClass, boolean subFlag) {
         String elementName = null;
         Integer result = 0;
         try {
@@ -468,6 +581,7 @@ public abstract class StoreExtractor {
         return result;
     }
 
+
     /**
      * Increment the counter for a certain type of extracted element (message, folder, appointment, contact...), and return the counter if it exists.
      * <p>If not init the counter to 1, and return the counter.
@@ -480,15 +594,13 @@ public abstract class StoreExtractor {
         return addElementCounter(1, listClass, false);
     }
 
-    // sub elements accumulated
-    static Class[] accumulatedElements = {StoreFolder.class, StoreMessage.class, StoreAppointment.class, StoreContact.class};
-
     /**
      * Accumulate elements of a container extractor in sub element counters.
+     * <p>This method is thread-safe, enabling non-abstract Extractors to use counters in parallel.
      *
      * @param subExtractor the sub extractor
      */
-    public void accumulateSubElements(StoreExtractor subExtractor) {
+    synchronized public void accumulateSubElements(StoreExtractor subExtractor) {
         for (Class c : accumulatedElements) {
             int value = subExtractor.getElementCounter(c, false) +
                     subExtractor.getElementCounter(c, true);
@@ -509,17 +621,17 @@ public abstract class StoreExtractor {
     /**
      * Instantiates a new store extractor.
      *
-     * @param urlString           the url string
-     * @param rootStoreFolderName Path of the extracted folder in the store box, can be null if default root folder
-     * @param destPathString      the dest path string
-     * @param options             Extractor options
-     * @param rootStoreExtractor  the creating store extractor in nested extraction, or null if root one
-     * @param fatherElement       the father element in nested extraction, or null if root one
-     * @param logger              logger used
+     * @param urlString            the url string
+     * @param rootStoreFolderName  Path of the extracted folder in the store box, can be null if default root folder
+     * @param destPathString       the dest path string
+     * @param options              Extractor options
+     * @param fatherStoreExtractor the creating store extractor in nested extraction, or null if root one
+     * @param fatherElement        the father element in nested extraction, or null if root one
+     * @param logger               logger used
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major                             format problems...)
      */
     protected StoreExtractor(String urlString, String rootStoreFolderName, String destPathString, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger) throws MailExtractLibException {
+                             StoreExtractor fatherStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger) throws MailExtractLibException {
 
         URLName url;
         url = new URLName(urlString);
@@ -527,16 +639,24 @@ public abstract class StoreExtractor {
         this.scheme = url.getProtocol();
         this.host = url.getHost();
         this.port = url.getPort();
+
+        String tempUser = null;
+        String tempPassword = null;
+        String tempPath = null;
         try {
             if (url.getUsername() != null)
-                this.user = URLDecoder.decode(url.getUsername(), "UTF-8");
+                tempUser = URLDecoder.decode(url.getUsername(), "UTF-8");
             if (url.getPassword() != null)
-                this.password = URLDecoder.decode(url.getPassword(), "UTF-8");
+                tempPassword = URLDecoder.decode(url.getPassword(), "UTF-8");
             if (url.getFile() != null)
-                this.path = URLDecoder.decode(url.getFile(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
+                tempPath = URLDecoder.decode(url.getFile(), "UTF-8");
+        } catch (UnsupportedEncodingException ignored) {
             // not possible
         }
+        this.user = tempUser;
+        this.password = tempPassword;
+        this.path = tempPath;
+
         this.rootStoreFolderName = rootStoreFolderName;
         this.destRootPath = Paths.get(destPathString).toAbsolutePath().normalize().getParent().toString();
         this.destName = Paths.get(destPathString).toAbsolutePath().normalize().getFileName().toString();
@@ -545,20 +665,26 @@ public abstract class StoreExtractor {
         else
             this.options = options;
 
-        this.totalRawSize = 0;
+        this.totalRawSize = new AtomicLong(0);
 
-        this.rootStoreExtractor = rootStoreExtractor;
+        this.fatherStoreExtractor = fatherStoreExtractor;
         this.fatherElement = fatherElement;
+        if (fatherStoreExtractor == null)
+            this.rootStoreExtractor = this;
+        else
+            this.rootStoreExtractor = fatherStoreExtractor.rootStoreExtractor;
         this.logger = logger;
 
         this.description = ":p:" + scheme + ":u:" + user;
 
-        globalListsPSMap = new HashMap<>();
-        elementsCounterMap = new HashMap<>();
-        subElementsCounterMap = new HashMap<>();
+        globalListsPSMap = new ConcurrentHashMap<>();
+        elementsCounterMap = new ConcurrentHashMap<>();
+        subElementsCounterMap = new ConcurrentHashMap<>();
 
-        doProgressLogIfDebug(logger,"StoreExtractor ["+this+"] created with url="+urlString+
-                " rootFolder="+rootStoreFolderName+" destPath="+destPathString+" rootExtractor="+rootStoreExtractor,null);
+        uniqID = new AtomicInteger(0);
+
+        doProgressLogIfDebug(logger, "StoreExtractor [" + this + "] created with url=" + urlString +
+                " rootFolder=" + rootStoreFolderName + " destPath=" + destPathString + " rootExtractor=" + fatherStoreExtractor, null);
     }
 
     /**
@@ -569,7 +695,7 @@ public abstract class StoreExtractor {
     public void writeTargetLog() throws InterruptedException {
 
         // if root extractor log extraction context
-        if (rootStoreExtractor == null) {
+        if (fatherStoreExtractor == null) {
             doProgressLog(logger, MailExtractProgressLogger.GLOBAL,
                     "mailextract :target store with scheme=" + scheme + (host == null || host.isEmpty() ? "" : "  server=" + host)
                             + (port == -1 ? "" : ":" + Integer.toString(port))
@@ -624,8 +750,6 @@ public abstract class StoreExtractor {
         return logger;
     }
 
-    private int uniqID = 1;
-
     /**
      * Checks for dest name.
      *
@@ -636,30 +760,32 @@ public abstract class StoreExtractor {
     }
 
     /**
-     * Gets a uniq ID in store extractor context.
+     * Gets a unique ID within the store extractor context.
      * <p>
-     * Sequence incremented at each call in root store extractor context to
-     * garanty unicity for the whole extraction process even in nested
-     * extractions.
+     * The sequence is incremented with each call in the root store extractor context,
+     * ensuring uniqueness throughout the entire extraction process, including nested extractions.
+     * This method is thread-safe.
      *
-     * @return a uniq ID
+     * @return a unique ID
      */
-    public int getUniqID() {
+
+    synchronized public int getNewUniqID() {
         int id;
-        if (rootStoreExtractor == null)
-            id = uniqID++;
+        if (fatherStoreExtractor == null)
+            id = uniqID.addAndGet(1);
         else
-            id = rootStoreExtractor.getUniqID();
+            id = rootStoreExtractor.getNewUniqID();
         return id;
     }
 
     /**
      * Add to total raw size.
+     * <p>This method is thread-safe, enabling non-abstract Extractors to use size accumulator in parallel.
      *
      * @param elementSize the element size
      */
     public void addTotalRawSize(long elementSize) {
-        totalRawSize += elementSize;
+        totalRawSize.addAndGet(elementSize);
     }
 
     /**
@@ -671,7 +797,7 @@ public abstract class StoreExtractor {
      * @return the total raw size
      */
     public long getTotalRawSize() {
-        return totalRawSize;
+        return totalRawSize.get();
     }
 
     /**
@@ -689,7 +815,7 @@ public abstract class StoreExtractor {
      * @return the description String
      */
     public boolean isRoot() {
-        return rootStoreExtractor == null;
+        return fatherStoreExtractor == null;
     }
 
     /**
@@ -774,10 +900,10 @@ public abstract class StoreExtractor {
         } else {
             try {
                 store = (StoreExtractor) storeExtractorClass.getConstructor(String.class, String.class, String.class,
-                        StoreExtractorOptions.class, StoreExtractor.class, MailExtractProgressLogger.class)
+                                StoreExtractorOptions.class, StoreExtractor.class, MailExtractProgressLogger.class)
                         .newInstance(urlString, rootStoreFolderName, destPathString, options, rootStoreExtractor, logger);
             } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | NoSuchMethodException
-                    | SecurityException e) {
+                     | SecurityException e) {
                 throw new MailExtractLibException("mailextractlib: dysfonctional store type=" + url.getProtocol(), e);
             } catch (InvocationTargetException e) {
                 Throwable te = e.getCause();
@@ -785,7 +911,6 @@ public abstract class StoreExtractor {
             }
         }
         return store;
-
     }
 
     private static String readableFileSize(long size) {
@@ -809,7 +934,7 @@ public abstract class StoreExtractor {
             try {
                 elementName = (String) elementClass.getMethod("getElementName").invoke(null);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                doProgressLogIfDebug(logger,"GetSummary error",e);
+                doProgressLogIfDebug(logger, "GetSummary error", e);
             }
             Integer count = elementsCounterMap.get(elementName);
             if ((count != null) && (count > 0)) {
@@ -828,7 +953,7 @@ public abstract class StoreExtractor {
             try {
                 elementName = (String) elementClass.getMethod("getElementName").invoke(null);
             } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                doProgressLogIfDebug(logger,"GetSummary error",e);
+                doProgressLogIfDebug(logger, "GetSummary error", e);
             }
             Integer count = subElementsCounterMap.get(elementName);
             if ((count != null) && (count > 0)) {
@@ -881,10 +1006,10 @@ public abstract class StoreExtractor {
             title += " sur le serveur " + host + (port == -1 ? "" : ":" + Integer.toString(port));
         title += " à la date du " + start;
         rootNode.addMetadata("Title", title, true);
-        if (rootStoreFolder.dateRange.isDefined()) {
-            rootNode.addMetadata("StartDate", DateRange.getISODateString(rootStoreFolder.dateRange.getStart()),
+        if (rootStoreFolder.getDateRange().isDefined()) {
+            rootNode.addMetadata("StartDate", DateRange.getISODateString(rootStoreFolder.getDateRange().getStart()),
                     true);
-            rootNode.addMetadata("EndDate", DateRange.getISODateString(rootStoreFolder.dateRange.getEnd()), true);
+            rootNode.addMetadata("EndDate", DateRange.getISODateString(rootStoreFolder.getDateRange().getEnd()), true);
         }
         rootNode.write();
 
@@ -914,24 +1039,18 @@ public abstract class StoreExtractor {
 
         start = Instant.now();
 
+        int memProgressLogLevel=logger.getProgressLogLevel();
+        logger.setProgressLogLevel(GLOBAL);
         writeTargetLog();
         doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: listing begin", null);
 
         rootStoreFolder.listFolder(stats);
 
         end = Instant.now();
-        System.out.println("--------------------------------------------------------------------------------");
-
-        d = Duration.between(start, end);
-        time = String.format("%dm%02ds", d.toMinutes(), d.minusMinutes(d.toMinutes()).getSeconds());
-        tmp = String.format("mailextractlib: terminated in %s listing %d folders", time, getElementCounter(StoreFolder.class, false));
-        if (stats) {
-            tmp += String.format(" with %s messages, for %.2f MBytes",
-                    Integer.toString(getElementCounter(StoreMessage.class, false)), ((double) getTotalRawSize()) / (1024.0 * 1024.0));
-        }
-
-        doProgressLog(logger, MailExtractProgressLogger.GLOBAL, tmp, null);
-        System.out.println(tmp);
+        String summary = "Terminated in " + getSummary();
+        doProgressLog(logger, MailExtractProgressLogger.GLOBAL, "mailextractlib: " + summary, null);
+        System.out.println(summary);
+        logger.setProgressLogLevel(memProgressLogLevel);
     }
 
     /**
@@ -944,28 +1063,24 @@ public abstract class StoreExtractor {
     }
 
     /**
-     * Checks for magic number.
+     * Utility function to detect if the four first bytes are a defined magic number.
      *
      * @param content     the content
      * @param magicNumber the magic number
      * @return true, if successful
      */
-// Utility function to detect if the four bytes is a defined magic number
     public static boolean hasMagicNumber(byte[] content, byte[] magicNumber) {
         return hasMagicNumber(content, magicNumber, 0);
     }
 
-    // Utility function to detect if the bytes at offset is a defined magic
-
     /**
-     * Checks for magic number.
+     * Utility function to detect if the bytes at offset are a defined magic number.
      *
      * @param content     the content
      * @param magicNumber the magic number
      * @param offset      the offset
      * @return true, if successful
      */
-// number
     public static boolean hasMagicNumber(byte[] content, byte[] magicNumber, int offset) {
         if (content.length < magicNumber.length + offset)
             return false;
@@ -1001,4 +1116,33 @@ public abstract class StoreExtractor {
     public static String getVerifiedScheme(byte[] content) {
         return null;
     }
+
+    /**
+     * Gets the maximum number of parallel threads used for processing.
+     * This value is automatically defined and is useful only for testing purposes.
+     *
+     * @return the maximum number of parallel threads.
+     */
+    public int getMaxParallelThreads() {
+        return maxParallelThreads;
+    }
+
+    /**
+     * Sets the maximum number of parallel threads used for processing.
+     *
+     * @param maxParallelThreads the maximum number of parallel threads.
+     */
+    public void setMaxParallelThreads(int maxParallelThreads) {
+        this.maxParallelThreads = maxParallelThreads;
+    }
+
+    /**
+     * Gets the root store extractor in nested extractions.
+     *
+     * @return the root extractor.
+     */
+    public StoreExtractor getRootStoreExtractor() {
+        return rootStoreExtractor;
+    }
+
 }

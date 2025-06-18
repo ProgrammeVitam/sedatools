@@ -38,7 +38,6 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.RuleType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 import java.awt.*;
@@ -194,7 +193,6 @@ public class RuleEditor extends SEDAObjectEditor {
             }
         }
 
-        @NotNull
         private List<SEDAObjectEditor> prepareEditorListToDelete(List<SEDAObjectEditor> rulesEditorList,
             List<String> ruleMetadataKindList) {
             List<SEDAObjectEditor> itemsToDelete = new ArrayList<>();

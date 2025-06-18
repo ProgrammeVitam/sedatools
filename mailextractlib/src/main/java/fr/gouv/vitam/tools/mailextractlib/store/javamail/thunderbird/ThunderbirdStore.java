@@ -27,7 +27,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird;
 
-import javax.mail.*;
+import jakarta.mail.*;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -116,7 +116,7 @@ public class ThunderbirdStore extends Store {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Store#getDefaultFolder()
+     * @see jakarta.mail.Store#getDefaultFolder()
      */
     @Override
     public Folder getDefaultFolder() throws MessagingException {
@@ -126,7 +126,7 @@ public class ThunderbirdStore extends Store {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Store#getFolder(java.lang.String)
+     * @see jakarta.mail.Store#getFolder(java.lang.String)
      */
     @Override
     public Folder getFolder(String name) throws MessagingException {
@@ -140,7 +140,7 @@ public class ThunderbirdStore extends Store {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Store#getFolder(javax.mail.URLName)
+     * @see jakarta.mail.Store#getFolder(jakarta.mail.URLName)
      */
     @Override
     public Folder getFolder(URLName url) throws MessagingException {

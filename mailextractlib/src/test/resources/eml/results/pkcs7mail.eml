@@ -1,0 +1,372 @@
+From - Fri Jul 24 17:46:23 2015
+X-Mozilla-Status: 0011
+X-Mozilla-Status2: 00000000
+X-Mozilla-Keys:                                                                                 
+Return-Path: <guy.duplaquet@agriculture.gouv.fr>
+Received: from perdition.culture.fr (perdition.culture.fr [143.126.201.8])
+	 by joe (Cyrus v2.2.13-Mandriva-RPM-2.2.13-2.1.20060mlcs4) with LMTPA;
+	 Thu, 29 May 2014 21:28:25 +0200
+X-Sieve: CMU Sieve 2.2
+Received: from pasteur02.culture.fr (pasteur02.culture.fr [143.126.201.53])
+	by perdition.culture.fr (Postfix) with ESMTP id 010EC154002;
+	Thu, 29 May 2014 21:28:25 +0200 (CEST)
+Received: from pps.filterd (pasteur02 [127.0.0.1])
+	by pasteur02.culture.fr (8.14.5/8.14.5) with SMTP id s4TISBSo011450;
+	Thu, 29 May 2014 21:28:24 +0200
+Received: from clyde.culture.fr (clyde.culture.fr [143.126.201.119])
+	by pasteur02.culture.fr with ESMTP id 1m48tg9vxq-1;
+	Thu, 29 May 2014 21:28:24 +0200
+Received: from smtp2.agriculture.ader.gouv.fr (heckel.culture.fr [143.126.201.38])
+	by clyde.culture.fr (Postfix) with ESMTP id A343038002;
+	Thu, 29 May 2014 21:28:24 +0200 (CEST)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by smtp2.agriculture.ader.gouv.fr (Postfix) with ESMTP id 8CA6A12016C;
+	Thu, 29 May 2014 21:28:24 +0200 (CEST)
+Message-ID: <53878A4F.5080807@agriculture.gouv.fr>
+Date: Thu, 29 May 2014 21:28:15 +0200
+From: Guy Duplaquet <guy.duplaquet@agriculture.gouv.fr>
+Organization: =?UTF-8?B?TWluaXN0w6hyZSBkZSBsJ2FncmljdWx0dXJlLCBkZSBsJ2Fncg==?=
+ =?UTF-8?B?b2FsaW1lbnRhaXJlIGV0IGRlIGxhIGZvcsOqdA==?=
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:24.0) Gecko/20100101 Thunderbird/24.4.0
+MIME-Version: 1.0
+To: frederic.bregier@culture.gouv.fr,
+        =?UTF-8?B?TEFJUiBKZWFuLVPDqXZlcmlu?=
+ <jean-severin.lair@culture.gouv.fr>
+CC: =?UTF-8?B?Q2hhcmxlcy1BbmRyw6kgQlVGRkVU?=
+ <charles-andre.buffet@agriculture.gouv.fr>,
+        Anne COYNE <anne.coyne@agriculture.gouv.fr>,
+        =?UTF-8?B?RnLDqWTDqXJpYyBHQVVNT05U?=
+ <frederic.gaumont@agriculture.gouv.fr>,
+        Melanie Rebours <melanie.rebours@culture.gouv.fr>,
+        Fabrice BERTRAND <fabrice.bertrand@agriculture.gouv.fr>,
+        Gael DERAL <gael.deral@agriculture.gouv.fr>
+Subject: Re: =?UTF-8?B?UHLDqXNlbnRhdGlvbiBWSVRBTSBtZXJjcmVkaSAyOC8wNS8yMDE=?=
+ =?UTF-8?B?NA==?=
+References: <5385FEB3.5000504@agriculture.gouv.fr>
+In-Reply-To: <5385FEB3.5000504@agriculture.gouv.fr>
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha1; boundary="------------ms080900010009090704060801"
+X-Virus-Version: vendor=nai engine=5600 definitions=7453 signatures=670456
+
+This is a cryptographically signed message in MIME format.
+
+--------------ms080900010009090704060801
+Content-Type: multipart/alternative;
+ boundary="------------030305090702090305080908"
+
+This is a multi-part message in MIME format.
+--------------030305090702090305080908
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+
+Bonjour Jean-S=C3=A9verin, Fr=C3=A9d=C3=A9ric,
+
+Le d=C3=A9briefing avec Anne m'a confort=C3=A9 dans mon analyse sur la pe=
+rtinence=20
+d'une pr=C3=A9sentation aux architectes d'entreprise du minist=C3=A8re. B=
+on,=20
+=C3=A9videmment, ils sont =C3=A0 Toulouse :-) L'id=C3=A9e serait d'identi=
+fier les=20
+composants r=C3=A9-utilisables que l'on pourrait inclure dans Orion (le=20
+cadriciel de d=C3=A9veloppement utilis=C3=A9 pour tous les d=C3=A9veloppe=
+ments m=C3=A9tier=20
+du minist=C3=A8re) pour simplifier les versements et/ou les acc=C3=A8s au=
+x=20
+entrep=C3=B4ts VITAM.
+
+Seriez-vous disponible pour une journ=C3=A9e =C3=A0 Toulouse, courant sep=
+tembre ou=20
+octobre ?
+
+Tr=C3=A8s cordialement,
+
+*Guy Duplaquet*
+
+*Minist=C3=A8re de l'agriculture, de l'agroalimentaire et de la for=C3=AA=
+t*
+
+Secr=C3=A9tariat g=C3=A9n=C3=A9ral / Service de la modernisation
+Sous-direction des syst=C3=A8mes d'information
+/251, rue de Vaugirard, Paris 15/
+
+/=C3=80 m=C3=A9diter : il vaut mieux qu'une chose soit faite que parfaite=
+=2E/
+
+Charles-Andr=C3=A9 BUFFET a =C3=A9crit :
+> Bonjour,
+> Madame COYNE (SDSI adjointe Agriculture) et moi avons assist=C3=A9 =C3=A0=
+ votre=20
+> pr=C3=A9sentation VITAM cet apr=C3=A8s-midi. Nous l'avons trouv=C3=A9 t=
+r=C3=A8s int=C3=A9ressante.
+> Auriez-vous la possibilit=C3=A9 de nous transmettre le support projet=C3=
+=A9 afin=20
+> que nous puissions le diffuser, parall=C3=A8lement, aux agents de la=20
+> mission des archives et =C3=A0 ceux de la SDSI Agriculture.
+>
+> Nous avons =C3=A9voqu=C3=A9 =C3=A0 la fin de la r=C3=A9union, avec mons=
+ieur BREGIER, la=20
+> possibilit=C3=A9 que vous veniez nous faire une pr=C3=A9sentation au MA=
+AF aupr=C3=A8s=20
+> des =C3=A9quipes concern=C3=A9es. Sur ce point, Guy, Anne je crois que =
+vous=20
+> serez plus l=C3=A9gitime pour proposer un cr=C3=A9neau (sans doute apr=C3=
+=A8s la=20
+> rentr=C3=A9e de septembre).
+>
+> Cordialement,
+> --=20
+>
+
+
+--------------030305090702090305080908
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <head>
+    <meta content=3D"text/html; charset=3DUTF-8" http-equiv=3D"Content-Ty=
+pe">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#FFFFFF">
+    <div class=3D"moz-cite-prefix"><tt>Bonjour Jean-S=C3=A9verin, Fr=C3=A9=
+d=C3=A9ric,<br>
+        <br>
+        Le d=C3=A9briefing avec Anne m'a confort=C3=A9 dans mon analyse s=
+ur la
+        pertinence d'une pr=C3=A9sentation aux architectes d'entreprise d=
+u
+        minist=C3=A8re. Bon, =C3=A9videmment, ils sont =C3=A0 Toulouse :-=
+) L'id=C3=A9e
+        serait d'identifier les composants r=C3=A9-utilisables que l'on
+        pourrait inclure dans Orion (le cadriciel de d=C3=A9veloppement
+        utilis=C3=A9 pour tous les d=C3=A9veloppements m=C3=A9tier du min=
+ist=C3=A8re) pour
+        simplifier les versements et/ou les acc=C3=A8s aux entrep=C3=B4ts=
+ VITAM.<br>
+        <br>
+        Seriez-vous disponible pour une journ=C3=A9e =C3=A0 Toulouse, cou=
+rant
+        septembre ou octobre ?<br>
+        <br>
+        Tr=C3=A8s cordialement,=C2=A0=C2=A0=C2=A0 <br>
+      </tt>
+      <div class=3D"moz-signature">
+        <meta http-equiv=3D"content-type" content=3D"text/html;
+          charset=3DUTF-8">
+        <title></title>
+        <meta name=3D"generator" content=3D"LibreOffice 4.2.0.4 (Windows)=
+">
+        <meta name=3D"created" content=3D"0;0">
+        <meta name=3D"changedby" content=3D"Guy Duplaquet">
+        <meta name=3D"changed" content=3D"20140331;101056509000000">
+        <meta name=3D"CHANGEDBY" content=3D"Guy Duplaquet">
+        <style type=3D"text/css">
+	<!--
+		@page { size: 21cm 29.7cm; margin-left: 2cm; margin-right: 1cm; margin-=
+top: 1cm; margin-bottom: 1cm }
+		p { margin-bottom: 0.25cm; color: #000000; line-height: 120% }
+		pre { color: #000000 }
+		pre.western { font-family: "Liberation Mono", monospace; font-size: 10p=
+t }
+		pre.cjk { font-family: "NSimSun", monospace; font-size: 10pt }
+		pre.ctl { font-family: "Liberation Mono", monospace; font-size: 10pt }
+	-->
+	</style>
+        <p><font face=3D"Courier New, monospace"><b>Guy Duplaquet</b></fo=
+nt></p>
+        <pre class=3D"western"><font color=3D"#00ff00"><font style=3D"fon=
+t-size: 8pt" size=3D"1"><b>Minist=C3=A8re de l'agriculture, de l'agroalim=
+entaire et de la for=C3=AAt</b></font></font></pre>
+        <pre class=3D"western"><font color=3D"#b3b3b3"><font style=3D"fon=
+t-size: 8pt" size=3D"1">Secr=C3=A9tariat g=C3=A9n=C3=A9ral / Service de l=
+a modernisation
+Sous-direction des syst=C3=A8mes d'information
+<i>251, rue de Vaugirard, Paris 15</i></font></font></pre>
+        <pre class=3D"western" style=3D"margin-bottom: 0.5cm"><font color=
+=3D"#b3b3b3"><font style=3D"font-size: 8pt" size=3D"1"><i>=C3=80 m=C3=A9d=
+iter=C2=A0: il vaut mieux qu'une chose soit faite que parfaite.</i></font=
+></font></pre>
+      </div>
+      Charles-Andr=C3=A9 BUFFET a =C3=A9crit=C2=A0:<br>
+    </div>
+    <blockquote cite=3D"mid:5385FEB3.5000504@agriculture.gouv.fr"
+      type=3D"cite">
+      <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DU=
+TF-8">
+      Bonjour,<br>
+      Madame COYNE (SDSI adjointe Agriculture) et moi avons assist=C3=A9 =
+=C3=A0
+      votre pr=C3=A9sentation VITAM cet apr=C3=A8s-midi. Nous l'avons tro=
+uv=C3=A9 tr=C3=A8s
+      int=C3=A9ressante.<br>
+      Auriez-vous la possibilit=C3=A9 de nous transmettre le support proj=
+et=C3=A9
+      afin que nous puissions le diffuser, parall=C3=A8lement, aux agents=
+ de
+      la mission des archives et =C3=A0 ceux de la SDSI Agriculture.<br>
+      <br>
+      Nous avons =C3=A9voqu=C3=A9 =C3=A0 la fin de la r=C3=A9union, avec =
+monsieur BREGIER,
+      la possibilit=C3=A9 que vous veniez nous faire une pr=C3=A9sentatio=
+n au MAAF
+      aupr=C3=A8s des =C3=A9quipes concern=C3=A9es. Sur ce point, Guy, An=
+ne je crois
+      que vous serez plus l=C3=A9gitime pour proposer un cr=C3=A9neau (sa=
+ns doute
+      apr=C3=A8s la rentr=C3=A9e de septembre).<br>
+      <br>
+      Cordialement,<br>
+      <div class=3D"moz-signature">-- <br>
+        <br>
+      </div>
+    </blockquote>
+    <br>
+  </body>
+</html>
+
+--------------030305090702090305080908--
+
+--------------ms080900010009090704060801
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: Signature cryptographique S/MIME
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExCzAJBgUrDgMCGgUAMIAGCSqGSIb3DQEHAQAAoIIY2TCC
+BgAwggPooAMCAQICAhjbMA0GCSqGSIb3DQEBCwUAMIGGMQswCQYDVQQGEwJGUjFBMD8GA1UE
+Cgw4U0VSVklDRS1QVUJMSUMgR09VViBNSU5JU1RFUkUgRU4gQ0hBUkdFIERFIEwnQUdSSUNV
+TFRVUkUxFzAVBgNVBAsMDjAwMDIgMTEwMDcwMDE4MRswGQYDVQQDDBJBQyBBR0VOVFMgU1RB
+TkRBUkQwHhcNMTQwMzAyMTczOTE1WhcNMTcwMzAyMTczOTE1WjCB4zELMAkGA1UEBhMCRlIx
+QTA/BgNVBAoMOFNFUlZJQ0UtUFVCTElDIEdPVVYgTUlOSVNURVJFIEVOIENIQVJHRSBERSBM
+J0FHUklDVUxUVVJFMRcwFQYDVQQLDA4wMDAyIDExMDA3MDAxODEPMA0GA1UEBQwGMTMzNjMw
+MR0wGwYKCZImiZPyLGQBAQwNZ3V5LmR1cGxhcXVldDEwMC4GCSqGSIb3DQEJARYhZ3V5LmR1
+cGxhcXVldEBhZ3JpY3VsdHVyZS5nb3V2LmZyMRYwFAYDVQQDDA1HdXkgRFVQTEFRVUVUMIIB
+IjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5US6jkNjXlCogRlqFqYLBMGQeAHhfd6h
+A1MOdIpYoX+FSmQgRFPeDcgOtaysmv7uTLPxXVAy8aNjrUSTYcEX7JyquFD3dbdWVC5wzDTY
+EK++hp+ZGU1GfbQlIF/D2NMlHF00sBWacNCded+lM1nGN7tmIwccla4Z+oSMwVNWFcJxS5TQ
+UrX/4moj46EHZWhvDXY+jGs7bXlHgpER7kgwf/LbqD3nWrW3K9L7k4w9J+Qzks3z7XlnWRSz
+P7E21WLafKQVJw/fE7veEvRxfIk2G+rnr6xY8GkAjsu3mpIxpZqBvYgvetm1bFe7S7doP29i
+CcFxNW1nGfi8Xcissup74QIDAQABo4IBFzCCARMwHQYDVR0OBBYEFIPlkAUI5HJjnHTwPIVM
+xcN/OKLIMB8GA1UdIwQYMBaAFHG2MRZP4TM1kK2KVia7yWlZRjXVMBcGA1UdIAQQMA4wDAYK
+KoF6AYEGAQELATARBglghkgBhvhCAQEEBAMCB4AwEwYDVR0lBAwwCgYIKwYBBQUHAwIwDgYD
+VR0PAQH/BAQDAgeAMCwGA1UdEQQlMCOBIWd1eS5kdXBsYXF1ZXRAYWdyaWN1bHR1cmUuZ291
+di5mcjBSBgNVHR8ESzBJMEegRaBDhkFodHRwOi8vaWdjLWNybC5hZ3JpY3VsdHVyZS5nb3V2
+LmZyL2NybC9jcmwtYWMtYWdlbnRzLXN0YW5kYXJkLmNybDANBgkqhkiG9w0BAQsFAAOCAgEA
+lD0rr/DDbwvsczv9tXScTJNLKIacn9xXsTqBTbNX5uAQUTLQ2bQ/+OKH9Cn+J0aT6uNZlz2E
+uLdgYL1Ym+n2k+MCVo8Ih+rDxH5fsrp/AIvHWUpLIz4BF51d2HPxUcJF3E0xklay8bXVVBWc
+sNoZJLqpAYliwnhGOeqiQy4FTR6JhAZg63XSzlwO6z+EYVKDIvwkHuEQGrWY6uv9vjl36ZXw
+ePQCYxYPKnoHT9gUBmTC8I7RHDK4AIwz5eER7IAvbSBkyjxti9bu8+UlaEsR/mWLYeazB9Er
+G8xRtorCbXZyGaPh7bjCqKLB81lD04PTkwLVNRJBudlu1zkXdV4OY7d5PODu8X8xjdPYuDQV
+IY9yIrEDovcwXUUxPCJZXc8r5aL5szKmRA8xB12LNY7HP2adQPyEXaiBcpWZUTzZAmwFMtQv
+dRbKxEdBzmsLKqLHLfmQkGuFwJIkfHG2a3K7vMqsEuxsOIM91WsaMYp7qGuav2QAmQ7/U/bC
+z0KxAz5Rz/nua3SKChAXoNXpinKGdfDxsrW3I9dYLQ9UHh+z5r214xu1FBZgZEUYQepDBPYR
+iYj07t0oZIFKpfMjEfHxf8BX0whzW8ZoCVgMyvCj5J91GM50NT+aFA2bJzIlU2cpH6xQmnMx
+aPHwB5HW187DLUPEJd4s7wzsObrzCIBeAk8wggYAMIID6KADAgECAgIonTANBgkqhkiG9w0B
+AQsFADCBhjELMAkGA1UEBhMCRlIxQTA/BgNVBAoMOFNFUlZJQ0UtUFVCTElDIEdPVVYgTUlO
+SVNURVJFIEVOIENIQVJHRSBERSBMJ0FHUklDVUxUVVJFMRcwFQYDVQQLDA4wMDAyIDExMDA3
+MDAxODEbMBkGA1UEAwwSQUMgQUdFTlRTIFNUQU5EQVJEMB4XDTE0MDQwNzA4MzIyN1oXDTE3
+MDQwNzA4MzIyN1owgeMxCzAJBgNVBAYTAkZSMUEwPwYDVQQKDDhTRVJWSUNFLVBVQkxJQyBH
+T1VWIE1JTklTVEVSRSBFTiBDSEFSR0UgREUgTCdBR1JJQ1VMVFVSRTEXMBUGA1UECwwOMDAw
+MiAxMTAwNzAwMTgxDzANBgNVBAUMBjEzMzYzMDEdMBsGCgmSJomT8ixkAQEMDWd1eS5kdXBs
+YXF1ZXQxMDAuBgkqhkiG9w0BCQEWIWd1eS5kdXBsYXF1ZXRAYWdyaWN1bHR1cmUuZ291di5m
+cjEWMBQGA1UEAwwNR3V5IERVUExBUVVFVDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoC
+ggEBAJ32Howfx8WN0PTz2Bp0OPIv8Ry/+aSqZfaUHpP+sQbTNXk04gpdyCWdF9XJaXXR5TVB
+TFuKxNTDCNhFmKgLDAAcVWbCQ6hpjDb6V9BalXv0R2uogpZsvLWUS5EkgpA/PdsCy6r2kFdE
+NzRbj53Z5EVgleQGRQRPo+DE0sLf2aWNeC6I+lAnYY9bLkbCwc9I9nkFGyoXxc7nRIDDaiBV
+GuvlRYqW8Bk8QahXkSYJNn/nARYc+OTUZeqw7fXi5YJNGgtLuAfx8uTialbsMjfR9JFfVpAz
+8VjFMfpOqDtJnpSGem6hCePwshWjRreboZi4ZJ1PnZ0DSm/YXqz2yQRkxG8CAwEAAaOCARcw
+ggETMB0GA1UdDgQWBBRRjCrzRp449Q1YKB3k7fbx/2jonzAfBgNVHSMEGDAWgBRxtjEWT+Ez
+NZCtilYmu8lpWUY11TAXBgNVHSAEEDAOMAwGCiqBegGBBgEBCwMwEQYJYIZIAYb4QgEBBAQD
+AgUgMBMGA1UdJQQMMAoGCCsGAQUFBwMEMA4GA1UdDwEB/wQEAwIFIDAsBgNVHREEJTAjgSFn
+dXkuZHVwbGFxdWV0QGFncmljdWx0dXJlLmdvdXYuZnIwUgYDVR0fBEswSTBHoEWgQ4ZBaHR0
+cDovL2lnYy1jcmwuYWdyaWN1bHR1cmUuZ291di5mci9jcmwvY3JsLWFjLWFnZW50cy1zdGFu
+ZGFyZC5jcmwwDQYJKoZIhvcNAQELBQADggIBABuyuc9HssTrh4/m1NX1yiWvaXVul+AB1zEk
+gJPjYlRqLSBRIZEtGkGYgvAonf4vH72px4tMTiSLeuRz1rMYhryu49gK7T+8c937hZqVZJya
+mcJb9PnIzcCVIEWB0CwjxaqY9qscb5oER7GR0RzlvVVZxNFZzFoFkf8oiQkkVSZ5MYVkxww9
+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
+jTCBhjELMAkGA1UEBhMCRlIxQTA/BgNVBAoMOFNFUlZJQ0UtUFVCTElDIEdPVVYgTUlOSVNU
+RVJFIEVOIENIQVJHRSBERSBMJ0FHUklDVUxUVVJFMRcwFQYDVQQLDA4wMDAyIDExMDA3MDAx
+ODEbMBkGA1UEAwwSQUMgQUdFTlRTIFNUQU5EQVJEAgIY2zAJBgUrDgMCGgUAoIICDzAYBgkq
+hkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xNDA1MjkxOTI4MTVaMCMG
+CSqGSIb3DQEJBDEWBBQEetE8uU1Og92SpUd8x7H3UGyOKjBsBgkqhkiG9w0BCQ8xXzBdMAsG
+CWCGSAFlAwQBKjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0G
+CCqGSIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMIGeBgkrBgEEAYI3EAQxgZAw
+gY0wgYYxCzAJBgNVBAYTAkZSMUEwPwYDVQQKDDhTRVJWSUNFLVBVQkxJQyBHT1VWIE1JTklT
+VEVSRSBFTiBDSEFSR0UgREUgTCdBR1JJQ1VMVFVSRTEXMBUGA1UECwwOMDAwMiAxMTAwNzAw
+MTgxGzAZBgNVBAMMEkFDIEFHRU5UUyBTVEFOREFSRAICKJ0wgaAGCyqGSIb3DQEJEAILMYGQ
+oIGNMIGGMQswCQYDVQQGEwJGUjFBMD8GA1UECgw4U0VSVklDRS1QVUJMSUMgR09VViBNSU5J
+U1RFUkUgRU4gQ0hBUkdFIERFIEwnQUdSSUNVTFRVUkUxFzAVBgNVBAsMDjAwMDIgMTEwMDcw
+MDE4MRswGQYDVQQDDBJBQyBBR0VOVFMgU1RBTkRBUkQCAiidMA0GCSqGSIb3DQEBAQUABIIB
+AEzhwEzbjwMCdr/qMWOYVBBjQureHiHbyYdeQYn1Ne1zQ2a3HHn1ndiDfpjdxwREovhcmoYj
+ZpQGToFvsPTIDAl4ALNwgMZNtnKPRMX3Mg49hd13lQx99HBHoFBS1Rzk/TsYW8SBzgBHyvXC
+6NGUL0dZ232/AN0k5W5WIkfjOf4R1Tyq2hTBFFfJEj2NhectiJnsgw+yJ7oBisNdrTQCnvff
+fzq79On14kdqfNRAmOhLxLMfNxFdQlm+vwSFmekOk9ARs9b0f8Er+dNXbXGaK9PBX1BpVXu+
+LdANSGwuuAIkCYazj2KfyCVvDLhhsnS5nsYYcbDO1d6eHOFPLKPh9jkAAAAAAAA=
+--------------ms080900010009090704060801--
+

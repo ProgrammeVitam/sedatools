@@ -27,7 +27,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.nodes;
 
-import org.apache.commons.text.StringEscapeUtils;
+import fr.gouv.vitam.tools.mailextractlib.utils.HtmlAndXmlEscape;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -77,8 +77,10 @@ public class MetadataXMLString extends MetadataXML {
             "(" + TAG_START + ".*" + TAG_END + ")|(" + TAG_SELF_CLOSING + ")|(" + HTML_ENTITY + ")",
             Pattern.DOTALL);
 
+    private static final Pattern FORBIDDEN_PATTERN = Pattern.compile("[\\p{C}&&[^\\r\\n\\t]]");
+
     /**
-     * Write the value in XML format.
+     * Normalise string to prevent XML misinterpretation.
      * <p>
      * First unescape all HMTL4 entities, then still existing HTML structures are broken,
      * to be accepted by Vitam sanitizer, if any is detected a space is inserted after the
@@ -86,26 +88,41 @@ public class MetadataXMLString extends MetadataXML {
      * Then the String is UTF-8 encoded with linefeed, carriagereturn and tabulation escaped and
      * &lt;,&amp;,&gt;,' and " XML encoded, and stripped from illegal characters.
      *
+     * @param value string to be normalised
+     * @return the string
+     */
+    public static String normaliseXMLString(String value) {
+        // remove all forbidden and invisible characters
+        String normalized = FORBIDDEN_PATTERN.matcher(value).replaceAll("");
+        // unescape all HMTL characters
+        normalized= HtmlAndXmlEscape.unescapeHtmlAndXMLEntities(normalized);
+        // break XML tags in metadata if any, based on Vitam sanity check
+        Matcher m = HTML_PATTERN.matcher(normalized);
+       if (m.find()) {
+            StringBuffer sb = new StringBuffer();
+            do {
+                String match = m.group();
+                String replacement = match.substring(0, 1) + " " + match.substring(1);
+                // "quote" to avoid problems with '$'
+                m.appendReplacement(sb, Matcher.quoteReplacement(replacement));
+            } while (m.find());
+            m.appendTail(sb);
+           normalized = sb.toString();
+        }
+
+        // suppress and escape all non XML compliance
+        return HtmlAndXmlEscape.escapeXml(normalized);
+    }
+
+    /**
+     * Write the value in XML normalised format.
+     *
      * @param depth Depth used for tabulation (no use for this tree Metadata
      *              Structure which is always a terminal tree node)
      * @return the string
      */
     public String writeXML(int depth) {
-        String normalisedValue;
-
-        normalisedValue=StringEscapeUtils.unescapeHtml4(value);
-        Matcher m = HTML_PATTERN.matcher(normalisedValue);
-        int iter=0;
-        if (m.find()) {
-            StringBuffer sb = new StringBuffer();
-            do {
-                iter++;
-                m.appendReplacement(sb, m.group().substring(0, 1) + " " + m.group().substring(1));
-            } while (m.find());
-            m.appendTail(sb);
-            normalisedValue = sb.toString();
-        }
-        return StringEscapeUtils.escapeXml10(normalisedValue);
+        return normaliseXMLString(value);
     }
 
     public String getValue() {

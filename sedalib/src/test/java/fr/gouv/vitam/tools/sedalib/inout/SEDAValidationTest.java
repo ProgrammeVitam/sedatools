@@ -118,7 +118,7 @@ class SEDAValidationTest implements UseTestFiles {
 
         ArchiveUnit au = di.getArchiveTransfer().getDataObjectPackage().getArchiveUnitById("ID11");
         BinaryDataObject bdo = (BinaryDataObject) au.getTheDataObjectGroup().getBinaryDataObjectList().get(0);
-        bdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
+		bdo.addMetadata(new StringType("DataObjectProfile", "Test"));
 
         // validation
         assertAll(() -> di.getArchiveTransfer().sedaSchemaValidate(null));

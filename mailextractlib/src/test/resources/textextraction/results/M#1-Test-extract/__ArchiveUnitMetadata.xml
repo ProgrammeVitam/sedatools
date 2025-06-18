@@ -1,0 +1,18 @@
+<Content>
+    <DescriptionLevel>Item</DescriptionLevel>
+    <Title>Test extraction textuelle</Title>
+    <OriginatingSystemId>&lt;c4c01db8-bf73-465b-b41f-66aa7d9764ab@orange.fr&gt;</OriginatingSystemId>
+    <Writer>
+        <FullName>js lair</FullName>
+        <Identifier>js.lair@orange.fr</Identifier>
+    </Writer>
+    <Addressee>
+        <FullName>js lair</FullName>
+        <Identifier>js.lair@orange.fr</Identifier>
+    </Addressee>
+    <SentDate>2025-04-19T17:22:52Z</SentDate>
+    <ReceivedDate>2025-04-19T17:22:39Z</ReceivedDate>
+    <TextContent>Avec quelques pièces jointes pour faire un test d&apos;extraction du texte de 
+différents formats...</TextContent>
+
+</Content>

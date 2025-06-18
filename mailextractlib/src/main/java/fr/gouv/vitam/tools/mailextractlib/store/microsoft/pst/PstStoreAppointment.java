@@ -27,7 +27,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
-import com.pff.*;
+import fr.gouv.vitam.tools.javalibpst.*;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreAppointment;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;

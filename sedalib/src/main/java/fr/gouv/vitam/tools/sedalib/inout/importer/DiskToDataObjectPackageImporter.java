@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -505,9 +506,10 @@ public class DiskToDataObjectPackageImporter {
         try {
             PhysicalDataObject pdo = new PhysicalDataObject(dataObjectPackage,
                     new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
-            if (pdo.dataObjectVersion == null)
-                pdo.dataObjectVersion = new StringType("DataObjectVersion",dataObjectVersion);
-            else if (!pdo.dataObjectVersion.getValue().equals(dataObjectVersion))
+            StringType pdoDataObjectVersion=pdo.getMetadataDataObjectVersion();
+            if (pdoDataObjectVersion == null)
+                pdoDataObjectVersion = new StringType("DataObjectVersion",dataObjectVersion);
+            else if (!pdoDataObjectVersion.getValue().equals(dataObjectVersion))
                 throw new SEDALibException(
                         "usage_version incomptabible entre le contenu du fichier [" + path.toString() + "] et son nom");
             dog.addDataObject(pdo);
@@ -542,9 +544,10 @@ public class DiskToDataObjectPackageImporter {
         if (zdo == null) {
             try {
                 bdo = new BinaryDataObject(dataObjectPackage, new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
-                if (bdo.dataObjectVersion == null)
-                    bdo.dataObjectVersion = new StringType("DataObjectVersion",dataObjectVersion);
-                else if (!bdo.dataObjectVersion.getValue().equals(dataObjectVersion))
+                StringType bdoDataObjectVersion= bdo.getMetadataDataObjectVersion();
+                if (bdoDataObjectVersion == null)
+                    bdo.addMetadata(new StringType("DataObjectVersion",dataObjectVersion));
+                else if (!bdoDataObjectVersion.getValue().equals(dataObjectVersion))
                     throw new SEDALibException("usage_version incomptabible entre le contenu du fichier ["
                             + path.toString() + "] et son nom");
                 dog.addDataObject(bdo);
@@ -895,7 +898,8 @@ public class DiskToDataObjectPackageImporter {
 
         inCounter = 0;
         for (Map.Entry<String, BinaryDataObject> pair : dataObjectPackage.getBdoInDataObjectPackageIdMap().entrySet()) {
-            if (pair.getValue().fileInfo.getSimpleMetadata("LastModified") == null)
+            FileInfo fileInfo= pair.getValue().getMetadataFileInfo();
+            if (fileInfo.getSimpleMetadata("LastModified") == null)
                 pair.getValue().extractTechnicalElements(sedaLibProgressLogger);
             inCounter++;
             doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, inCounter, "sedalib: " + inCounter +

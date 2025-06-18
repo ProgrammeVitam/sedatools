@@ -28,6 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
@@ -168,12 +170,14 @@ public class DataObjectPackageToDiskExporter {
      */
     private String constructFileName(BinaryDataObject binaryDataObject) {
         String result;
-        if (binaryDataObject.dataObjectVersion == null)
+        StringType dataObjectVersion= binaryDataObject.getMetadataDataObjectVersion();
+        if (dataObjectVersion == null)
             result = "__undefined__";
-        else result = "__" + binaryDataObject.dataObjectVersion.getValue() + "__";
-        if ((binaryDataObject.fileInfo != null) &&
-                (binaryDataObject.fileInfo.getSimpleMetadata("Filename") != null))
-            result += binaryDataObject.fileInfo.getSimpleMetadata("Filename");
+        else result = "__" + dataObjectVersion.getValue() + "__";
+        FileInfo fileInfo= binaryDataObject.getMetadataFileInfo();
+        if ((fileInfo != null) &&
+                (fileInfo.getSimpleMetadata("Filename") != null))
+            result += fileInfo.getSimpleMetadata("Filename");
         else
             result += "NoName";
         return stripFileName(result);
@@ -187,10 +191,11 @@ public class DataObjectPackageToDiskExporter {
      */
     private String constructMetadataFileName(BinaryDataObject binaryDataObject) {
         String result;
-        if (binaryDataObject.dataObjectVersion == null)
+        StringType dataObjectVersion= binaryDataObject.getMetadataDataObjectVersion();
+        if (dataObjectVersion == null)
             result = "__undefined__BinaryDataObjectMetadata.xml";
         else
-            result = "__" + binaryDataObject.dataObjectVersion.getValue() + "__BinaryDataObjectMetadata.xml";
+            result = "__" + dataObjectVersion.getValue() + "__BinaryDataObjectMetadata.xml";
         return stripFileName(result);
     }
 
@@ -202,10 +207,11 @@ public class DataObjectPackageToDiskExporter {
      */
     private String constructMetadataFileName(PhysicalDataObject physicalDataObject) {
         String result;
-        if (physicalDataObject.dataObjectVersion == null)
+        StringType dataObjectVersion=physicalDataObject.getMetadataDataObjectVersion();
+        if (dataObjectVersion == null)
             result = "__undefined__PhysicalDataObjectMetadata.xml";
         else
-            result = "__" + physicalDataObject.dataObjectVersion.getValue() + "__PhysicalDataObjectMetadata.xml";
+            result = "__" + dataObjectVersion.getValue() + "__PhysicalDataObjectMetadata.xml";
         return stripFileName(result);
     }
 
@@ -223,6 +229,7 @@ public class DataObjectPackageToDiskExporter {
                 result = "NoTitle";
             else if (result.length() > 12)
                 result = result.substring(0, 11);
+            result = result.replaceAll("[^\\p{IsAlphabetic}\\p{Digit}]", "-");
             result += "_";
         }
         result += au.getInDataObjectPackageId();

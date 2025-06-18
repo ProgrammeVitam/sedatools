@@ -27,7 +27,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.embeddedmsg;
 
-import com.pff.PSTMessage;
+import fr.gouv.vitam.tools.javalibpst.PSTMessage;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;

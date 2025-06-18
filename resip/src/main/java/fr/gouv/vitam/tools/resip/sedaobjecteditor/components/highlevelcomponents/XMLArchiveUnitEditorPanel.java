@@ -90,7 +90,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
                 Content c = new Content();
                 List<String> contentMetadataList = new ArrayList<String>();
                 contentMetadataList.add("[C]AnyOtherMetadata ");
-                for (String metadataName : c.getMetadataOrderedList()) {
+                for (String metadataName : c.getMetadataMap().keySet()) {
                     ComplexListMetadataKind complexListMetadataKind = c.getMetadataMap().get(metadataName);
                     contentMetadataList.add("[C]" + metadataName + (complexListMetadataKind.isMany() ? " *" : " "));
                 }
@@ -99,7 +99,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
                 Management m = new Management();
                 List<String> managementMetadataList = new ArrayList<String>();
                 managementMetadataList.add("[C]AnyOtherMetadata ");
-                for (String metadataName : m.getMetadataOrderedList()) {
+                for (String metadataName : m.getMetadataMap().keySet()) {
                     ComplexListMetadataKind complexListMetadataKind = m.getMetadataMap().get(metadataName);
                     managementMetadataList.add("[M]" + metadataName + (complexListMetadataKind.isMany() ? " *" : " "));
                 }

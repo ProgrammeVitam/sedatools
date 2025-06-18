@@ -84,9 +84,9 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
                             DataObjectGroup og = parser.readValueAs(DataObjectGroup.class);
                             dataObjectPackage.addDataObjectGroup(og);
                             for (BinaryDataObject bdo : og.getBinaryDataObjectList())
-                                dataObjectPackage.addBinaryDataObject(bdo);
+                                dataObjectPackage.addDataObjectPackageIdElement(bdo);
                             for (PhysicalDataObject pdo : og.getPhysicalDataObjectList())
-                                dataObjectPackage.addPhysicalDataObject(pdo);
+                                dataObjectPackage.addDataObjectPackageIdElement(pdo);
                         }
                         break;
                     case "ArchiveUnitList":

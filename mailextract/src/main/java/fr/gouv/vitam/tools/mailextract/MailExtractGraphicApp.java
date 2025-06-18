@@ -47,51 +47,51 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
     /**
      * The parameters
      */
-    private String destRootPath;
-    private String destName;
-    private String protocol;
-    private String host;
-    private int port;
-    private String user;
-    private String password;
-    private String container;
-    private String folder;
-    private StoreExtractorOptions storeExtractorOptions;
-    private boolean debugFlag;
-    private boolean local;
-    private String logLevel;
+    private String type;
+    private String user, password, hostname;
+    int port;
+    private String container, folder;
+    private String rootpath, outputname;
+    
+    StoreExtractorOptions storeExtractorOptions;
+    
+    private boolean debug = false;
+    private String verbatim;
+    private boolean english;
 
     /**
      * Instantiates a new mail extract graphic app with beginning parameters.
      *
-     * @param protocol              the protocol
-     * @param host                  the host
-     * @param port                  the port
-     * @param user                  the user
-     * @param password              the password
-     * @param container             the container
-     * @param folder                the folder
-     * @param destRootPath          the dest root path
-     * @param destName              the dest name
-     * @param storeExtractorOptions the store extractor options
-     * @param logLevel              the log level
-     * @param local                 the local
+     * @param type                  the type of the mail extraction process
+     * @param user                  the username for authentication
+     * @param password              the password for authentication
+     * @param hostname              the server address
+     * @param port                  the server port
+     * @param container             the container information
+     * @param folder                the folder to extract emails from
+     * @param rootpath              the root path for saving extracted mails
+     * @param outputname            the output name for the extraction
+     * @param storeExtractorOptions the options for the store extractor
+     * @param debug                 the debug flag indicating whether debug mode is enabled
+     * @param verbatim              the verbosity level for logging
+     * @param english               the flag indicating if English language is used
      */
-    MailExtractGraphicApp(String protocol, String host, int port, String user, String password, String container,
-                          String folder, String destRootPath, String destName, StoreExtractorOptions storeExtractorOptions,
-                          String logLevel, boolean local) {
-        this.protocol = protocol;
-        this.host = host;
-        this.port = port;
+    MailExtractGraphicApp(String type, String user, String password, String hostname, int port, String container, String folder,
+                          String rootpath, String outputname, StoreExtractorOptions storeExtractorOptions,
+                          boolean debug, String verbatim, boolean english) {
+        this.type = type;
         this.user = user;
         this.password = password;
+        this.hostname = hostname;
+        this.port = port;
         this.container = container;
         this.folder = folder;
-        this.destRootPath = destRootPath;
-        this.destName = destName;
+        this.rootpath = rootpath;
+        this.outputname = outputname;
         this.storeExtractorOptions = storeExtractorOptions;
-        this.logLevel = logLevel;
-        this.local = local;
+        this.debug = debug;
+        this.verbatim = verbatim;
+        this.english = english;
 
         EventQueue.invokeLater(this);
     }
@@ -113,71 +113,83 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
 
     // insert all parameters from the command line in the graphic fields
     private void insertOptions() {
-        if (local) {
-            mainWindow.localRadioButton.doClick();
-            if (protocol.equals("pst"))
+        switch (type) {
+            case "pst":
+                mainWindow.localRadioButton.doClick();
                 mainWindow.pstRadioButton.doClick();
-            else if (protocol.equals("mbox"))
+                mainWindow.containerField.setText(container);
+
+                break;
+            case "mbox":
+                mainWindow.localRadioButton.doClick();
                 mainWindow.mboxRadioButton.doClick();
-            else if (protocol.equals("eml"))
+                mainWindow.containerField.setText(container);
+
+                break;
+            case "eml":
+                mainWindow.localRadioButton.doClick();
                 mainWindow.emlRadioButton.doClick();
-            else if (protocol.equals("thunderbird"))
+                mainWindow.containerField.setText(container);
+
+                break;
+            case "thunderbird":
+                mainWindow.localRadioButton.doClick();
                 mainWindow.thunderbirdRadioButton.doClick();
-            else if (protocol.equals("msg"))
+                mainWindow.containerField.setText(container);
+
+                break;
+            case "msg":
+                mainWindow.localRadioButton.doClick();
                 mainWindow.msgRadioButton.doClick();
-            mainWindow.containerField.setText(container);
-        } else {
-            mainWindow.protocoleRadioButton.doClick();
-            if (protocol.equalsIgnoreCase("imap"))
+                mainWindow.containerField.setText(container);
+
+                break;
+            case "imap":
+                mainWindow.protocoleRadioButton.doClick();
                 mainWindow.imapRadioButton.doClick();
-            else
+                mainWindow.userField.setText(user);
+                mainWindow.passwordField.setText(password);
+                mainWindow.serverField.setText((port != -1) ? hostname + ":" + port : hostname);
+                break;
+            case "imaps":
+                mainWindow.protocoleRadioButton.doClick();
                 mainWindow.imapsRadioButton.doClick();
-            mainWindow.userField.setText(user);
-            mainWindow.passwordField.setText(password);
-            mainWindow.serverField.setText(host + (port == -1 ? "" : ":" + Integer.toString(port)));
+                mainWindow.userField.setText(user);
+                mainWindow.passwordField.setText(password);
+                mainWindow.serverField.setText((port != -1) ? hostname + ":" + port : hostname);
+                break;
         }
+
         mainWindow.folderField.setText(folder);
-        mainWindow.savedirField.setText(destRootPath);
-        mainWindow.nameField.setText(destName);
+        mainWindow.savedirField.setText(rootpath);
+        mainWindow.nameField.setText(outputname);
 
-        if (storeExtractorOptions.keepOnlyDeepEmptyFolders)
-            mainWindow.keeponlydeepCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.dropEmptyFolders)
-            mainWindow.dropemptyfoldersCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.warningMsgProblem)
-            mainWindow.warningCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractObjectsLists)
-            mainWindow.extractlistCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractMessageTextFile)
-            mainWindow.extractmessagetextfileCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractMessageTextMetadata)
-            mainWindow.extractmessagetextmetadataCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractFileTextFile)
-            mainWindow.extractfiletextfileCheckBox.setSelected(true);
-
-        if (storeExtractorOptions.extractFileTextMetadata)
-            mainWindow.extractfiletextmetadataCheckBox.setSelected(true);
-
-        mainWindow.debugCheckBox.setSelected(debugFlag);
-
+        mainWindow.keepOnlyDeepCheckBox.setSelected(storeExtractorOptions.keepOnlyDeepEmptyFolders);
+        mainWindow.dropEmptyFoldersCheckBox.setSelected(storeExtractorOptions.dropEmptyFolders);
+        mainWindow.warningCheckBox.setSelected(storeExtractorOptions.warningMsgProblem);
+        mainWindow.extractMessageCheckBox.setSelected(storeExtractorOptions.extractMessages);
+        mainWindow.extractContactCheckBox.setSelected(storeExtractorOptions.extractContacts);
+        mainWindow.extractAppointmentCheckBox.setSelected(storeExtractorOptions.extractAppointments);
+        mainWindow.extractContentCheckBox.setSelected(storeExtractorOptions.extractElementsContent);
+        mainWindow.extractListCheckBox.setSelected(storeExtractorOptions.extractElementsList);
+        mainWindow.extractmessagetextfileCheckBox.setSelected(storeExtractorOptions.extractMessageTextFile);
+        mainWindow.extractmessagetextmetadataCheckBox.setSelected(storeExtractorOptions.extractMessageTextMetadata);
+        mainWindow.extractfiletextfileCheckBox.setSelected(storeExtractorOptions.extractFileTextFile);
+        mainWindow.extractfiletextmetadataCheckBox.setSelected(storeExtractorOptions.extractFileTextMetadata);
+        mainWindow.charsetComboBox.setSelectedItem(storeExtractorOptions.defaultCharsetName);
         mainWindow.namesLengthField.setText(Integer.toString(storeExtractorOptions.namesLength));
 
-        mainWindow.charsetComboBox.setSelectedItem(storeExtractorOptions.defaultCharsetName);
+        mainWindow.debugCheckBox.setSelected(debug);
+        mainWindow.englishCheckBox.setSelected(english);
 
         // convert from normalized log level name to the choice list log level
         for (int i = 0; i < 7; i++) {
-            if (logLevel.equals(loglevelStrings[i])) {
-                logLevel = mainWindow.loglevelGraphicStrings[i];
+            if (verbatim.equals(loglevelStrings[i])) {
+                verbatim = mainWindow.loglevelGraphicStrings[i];
                 break;
             }
         }
-        mainWindow.loglevelComboBox.setSelectedItem(logLevel);
+        mainWindow.loglevelComboBox.setSelectedItem(verbatim);
     }
 
     /*
@@ -290,8 +302,8 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
         if (actionNumber == EMPTY_LOG) {
             mainWindow.consoleTextArea.setText("");
         } else
-            new MailExtractThread(mainWindow, actionNumber, protocol, host, port, user, password, container, folder, destRootPath,
-                    destName, storeExtractorOptions, logLevel, debugFlag).start();
+            new MailExtractThread(mainWindow, actionNumber, type, hostname, port, user, password, container, folder, rootpath,
+                    outputname, storeExtractorOptions, verbatim, debug).start();
     }
 
     /**
@@ -301,76 +313,53 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
 
     // get the global parameters from the graphic fields
     private void parseParams() {
-        destRootPath = "";
-        destName = "";
-        protocol = "";
-        host = "localhost";
-        port = -1;
-        user = null;
-        password = null;
-        container = "";
-        folder = "";
-        storeExtractorOptions = new StoreExtractorOptions();
-        local = true;
-
         // local
         if (mainWindow.localRadioButton.isSelected()) {
             if (mainWindow.thunderbirdRadioButton.isSelected())
-                protocol = "thunderbird";
+                type = "thunderbird";
             else if (mainWindow.emlRadioButton.isSelected())
-                protocol = "eml";
+                type = "eml";
             else if (mainWindow.msgRadioButton.isSelected())
-                protocol = "msg";
+                type = "msg";
             else if (mainWindow.mboxRadioButton.isSelected())
-                protocol = "mbox";
+                type = "mbox";
             else if (mainWindow.pstRadioButton.isSelected())
-                protocol = "pst";
+                type = "pst";
             container = mainWindow.containerField.getText();
         }
         // server
         else {
             if (mainWindow.imapsRadioButton.isSelected())
-                protocol = "imaps";
+                type = "imaps";
             else
-                protocol = "imap";
+                type = "imap";
             String server = mainWindow.serverField.getText();
             if (server.indexOf(':') >= 0) {
-                host = server.substring(0, server.indexOf(':'));
+                hostname = server.substring(0, server.indexOf(':'));
                 port = Integer.parseInt(server.substring(server.indexOf(':') + 1));
             } else
-                host = server;
+                hostname = server;
             user = mainWindow.userField.getText();
             password = mainWindow.passwordField.getText();
         }
         folder = mainWindow.folderField.getText();
-        destRootPath = mainWindow.savedirField.getText();
-        destName = mainWindow.nameField.getText();
+        rootpath = mainWindow.savedirField.getText();
+        outputname = mainWindow.nameField.getText();
 
-        if (mainWindow.keeponlydeepCheckBox.isSelected())
-            storeExtractorOptions.keepOnlyDeepEmptyFolders = true;
+        storeExtractorOptions.keepOnlyDeepEmptyFolders = mainWindow.keepOnlyDeepCheckBox.isSelected();
+        storeExtractorOptions.dropEmptyFolders = mainWindow.dropEmptyFoldersCheckBox.isSelected();
+        storeExtractorOptions.warningMsgProblem = mainWindow.warningCheckBox.isSelected();
+        storeExtractorOptions.extractMessages = mainWindow.extractMessageCheckBox.isSelected();
+        storeExtractorOptions.extractContacts = mainWindow.extractContactCheckBox.isSelected();
+        storeExtractorOptions.extractAppointments = mainWindow.extractAppointmentCheckBox.isSelected();
+        storeExtractorOptions.extractElementsContent = mainWindow.extractContentCheckBox.isSelected();
+        storeExtractorOptions.extractElementsList = mainWindow.extractListCheckBox.isSelected();
+        storeExtractorOptions.extractMessageTextFile = mainWindow.extractmessagetextfileCheckBox.isSelected();
+        storeExtractorOptions.extractMessageTextMetadata = mainWindow.extractmessagetextmetadataCheckBox.isSelected();
+        storeExtractorOptions.extractFileTextFile = mainWindow.extractfiletextfileCheckBox.isSelected();
+        storeExtractorOptions.extractFileTextMetadata = mainWindow.extractfiletextmetadataCheckBox.isSelected();
 
-        if (mainWindow.dropemptyfoldersCheckBox.isSelected())
-            storeExtractorOptions.dropEmptyFolders = true;
-
-        if (mainWindow.warningCheckBox.isSelected())
-            storeExtractorOptions.warningMsgProblem = true;
-
-        if (mainWindow.extractlistCheckBox.isSelected())
-            storeExtractorOptions.extractObjectsLists = true;
-
-        if (mainWindow.extractmessagetextfileCheckBox.isSelected())
-            storeExtractorOptions.extractMessageTextFile = true;
-
-        if (mainWindow.extractmessagetextmetadataCheckBox.isSelected())
-            storeExtractorOptions.extractMessageTextMetadata = true;
-
-        if (mainWindow.extractfiletextfileCheckBox.isSelected())
-            storeExtractorOptions.extractFileTextFile = true;
-
-        if (mainWindow.extractfiletextmetadataCheckBox.isSelected())
-            storeExtractorOptions.extractFileTextMetadata = true;
-
-        debugFlag = mainWindow.debugCheckBox.isSelected();
+        debug = mainWindow.debugCheckBox.isSelected();
 
         try {
             storeExtractorOptions.namesLength = Integer.parseInt(mainWindow.namesLengthField.getText());
@@ -382,10 +371,10 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
 
         // convert from log level name in the choice list to normalized log
         // level
-        logLevel = (String) mainWindow.loglevelComboBox.getSelectedItem();
+        verbatim = (String) mainWindow.loglevelComboBox.getSelectedItem();
         for (int i = 0; i < 7; i++) {
-            if (logLevel.equals(mainWindow.loglevelGraphicStrings[i])) {
-                logLevel = loglevelStrings[i];
+            if (verbatim.equals(mainWindow.loglevelGraphicStrings[i])) {
+                verbatim = loglevelStrings[i];
                 break;
             }
         }

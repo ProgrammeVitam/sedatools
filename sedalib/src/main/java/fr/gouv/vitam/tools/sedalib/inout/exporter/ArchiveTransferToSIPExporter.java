@@ -222,7 +222,7 @@ public class ArchiveTransferToSIPExporter {
                     DataObjectGroup og = pair.getValue();
                     if (og.getBinaryDataObjectList() != null) {
                         for (BinaryDataObject bo : og.getBinaryDataObjectList()) {
-                            e = new ZipEntry(bo.uri.getValue());
+                            e = new ZipEntry(bo.getMetadataUri().getValue());
                             zipout.putNextEntry(e);
                             try (FileInputStream fis = new FileInputStream(bo.getOnDiskPath().toFile())) {
                                 IOUtils.copy(fis, zipout);

@@ -3,21 +3,27 @@ package fr.gouv.vitam.tools.sedalib.core;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
+import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListInterface;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import static fr.gouv.vitam.tools.sedalib.TestUtilities.LineEndNormalize;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+@Execution(value = ExecutionMode.SAME_THREAD,reason= "Can't execute different SedaVersion treatment in parallel")
 class BinaryDataObjectTest {
 
     @Test
@@ -35,6 +41,7 @@ class BinaryDataObjectTest {
         si.doImport();
         BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
                 .get("ID7");
+        bdo.addNewMetadata("Relationship", "tar","typ");
 
         String bdoOut = mapper.writeValueAsString(bdo);
         //System.out.println("Value to verify=" + bdoOut);
@@ -45,35 +52,29 @@ class BinaryDataObjectTest {
 
         // Then
         String testOut = "{\n" +
-                "  \"dataObjectProfile\":null,\n" +
-                "  \"dataObjectSystemId\" : null,\n" +
-                "  \"dataObjectGroupSystemId\" : null,\n" +
-                "  \"relationshipsXmlData\" : [ ],\n" +
-                "  \"dataObjectGroupReferenceId\" : null,\n" +
-                "  \"dataObjectGroupId\" : null,\n" +
-                "  \"dataObjectVersion\" : {\n" +
+                "  \"metadataList\" : [ {\n" +
+                "    \"type\" : \"Relationship\",\n" +
+                "    \"elementName\" : \"Relationship\",\n" +
+                "    \"target\" : \"tar\",\n" +
+                "    \"type\" : \"typ\"\n" +
+                "  }, {\n" +
                 "    \"type\" : \"StringType\",\n" +
                 "    \"elementName\" : \"DataObjectVersion\",\n" +
                 "    \"value\" : \"BinaryMaster_1\"\n" +
-                "  },\n" +
-                "  \"uri\" : {\n" +
+                "  }, {\n" +
                 "    \"type\" : \"StringType\",\n" +
                 "    \"elementName\" : \"Uri\",\n" +
                 "    \"value\" : \"content/ID7.jpg\"\n" +
-                "  },\n" +
-                "  \"messageDigest\" : {\n" +
+                "  }, {\n" +
                 "    \"type\" : \"DigestType\",\n" +
                 "    \"elementName\" : \"MessageDigest\",\n" +
                 "    \"value\" : \"e321b289f1800e5fa3be1b8d01687c8999ef3ecfec759bd0e19ccd92731036755c8f79cbd4af8f46fc5f4e14ad805f601fe2e9b58ad0b9f5a13695c0123e45b3\",\n" +
                 "    \"algorithm\" : \"SHA-512\"\n" +
-                "  },\n" +
-                "  \"size\" : {\n" +
+                "  }, {\n" +
                 "    \"type\" : \"IntegerType\",\n" +
                 "    \"elementName\" : \"Size\",\n" +
                 "    \"value\" : 21232\n" +
-                "  },\n" +
-                "  \"compressed\" : null,\n" +
-                "  \"formatIdentification\" : {\n" +
+                "  }, {\n" +
                 "    \"type\" : \"FormatIdentification\",\n" +
                 "    \"elementName\" : \"FormatIdentification\",\n" +
                 "    \"metadataList\" : [ {\n" +
@@ -89,8 +90,7 @@ class BinaryDataObjectTest {
                 "      \"elementName\" : \"FormatId\",\n" +
                 "      \"value\" : \"fmt/645\"\n" +
                 "    } ]\n" +
-                "  },\n" +
-                "  \"fileInfo\" : {\n" +
+                "  }, {\n" +
                 "    \"type\" : \"FileInfo\",\n" +
                 "    \"elementName\" : \"FileInfo\",\n" +
                 "    \"metadataList\" : [ {\n" +
@@ -102,8 +102,7 @@ class BinaryDataObjectTest {
                 "      \"elementName\" : \"LastModified\",\n" +
                 "      \"dateTimeString\" : \"2018-08-28T19:22:19Z\"\n" +
                 "    } ]\n" +
-                "  },\n" +
-                "  \"metadata\" : {\n" +
+                "  }, {\n" +
                 "    \"type\" : \"Metadata\",\n" +
                 "    \"elementName\" : \"Metadata\",\n" +
                 "    \"metadataList\" : [ {\n" +
@@ -135,13 +134,13 @@ class BinaryDataObjectTest {
                 "        \"rawXml\" : \"<ColorDepth>24</ColorDepth>\"\n" +
                 "      } ]\n" +
                 "    } ]\n" +
-                "  },\n" +
+                "  } ],\n" +
                 "  \"inDataObjectPackageId\" : \"ID7\",\n" +
-                "  \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\TestSIP.zip-tmpdir\\\\content\\\\ID7.jpg\"\n" +
+                "  \n" +
                 "}";
-        testOut = LineEndNormalize(testOut.replaceAll("\"onDiskPath\" : .*\"", ""));
-        bdoNextOut = LineEndNormalize(bdoNextOut.replaceAll("\"onDiskPath\" : .*\"", ""));
-        assertThat(bdoNextOut).isEqualTo(testOut);
+        testOut = TestUtilities.SlackNormalize(testOut.replaceAll("\"onDiskPath\" : .*\"", ""));
+        bdoNextOut = TestUtilities.SlackNormalize(bdoNextOut.replaceAll("\"onDiskPath\" : .*\"", ""));
+        assertThat(bdoNextOut).isEqualToNormalizingNewlines(testOut);
 
     }
 
@@ -157,15 +156,17 @@ class BinaryDataObjectTest {
 
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
                 "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+
+        SEDA2Version.setSeda2Version(1);
         si.doImport();
         BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
                 .get("ID7");
 
-        // When dataObjectProfile defined in SEDA 2.1 can't generate XML
-        bdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
-        assertThatThrownBy(bdo::toSedaXmlFragments).isInstanceOf(SEDALibException.class)
-                .hasMessageContaining("Erreur interne");
-        bdo.dataObjectProfile = null;
+        // When dataObjectProfile is defined in SEDA 2.1 can't add
+        assertThatThrownBy(() ->
+                bdo.addMetadata(new StringType("DataObjectProfile", "Test"))).isInstanceOf(SEDALibException.class)
+                .hasMessageContaining("Impossible d'étendre le schéma");
+        bdo.removeFirstNamedMetadata("DataObjectProfile");
 
         // When test read write fragments in XML string format
         String bdoOut = bdo.toSedaXmlFragments();
@@ -194,7 +195,7 @@ class BinaryDataObjectTest {
         si.doImport();
         BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
                 .get("ID7");
-        bdo.dataObjectProfile = new StringType("DataObjectProfile", "Test");
+        bdo.addMetadata(new StringType("DataObjectProfile", "Test"));
 
         // When test read write fragments in XML string format
         String bdoOut = bdo.toSedaXmlFragments();
@@ -203,7 +204,40 @@ class BinaryDataObjectTest {
         String bdoNextOut = bdoNext.toSedaXmlFragments();
 
         // Then
-        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7_with_profile.xml"));
+        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7_seda2.2.xml"));
+        SEDA2Version.setSeda2Version(1);
+    }
+
+    @Test
+    void testXMLFragmentForSedaVersion3() throws SEDALibException, InterruptedException, FileNotFoundException {
+
+        // Given
+        SEDA2Version.setSeda2Version(3);
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+        module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+        mapper.registerModule(module);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+                "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
+        si.doImport();
+        BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
+                .get("ID7");
+        bdo.addMetadata(new StringType("DataObjectProfile", "Test"));
+        bdo.addMetadata(new PersistentIdentifier("PType","POrigin", "PReference", "PContent"));
+        bdo.addMetadata(new StringType("DataObjectUse","BinaryMaster"));
+        bdo.addMetadata(new IntegerType("DataObjectNumber",1));
+
+        // When test read write fragments in XML string format
+        String bdoOut = bdo.toSedaXmlFragments();
+        BinaryDataObject bdoNext = new BinaryDataObject(si.getArchiveTransfer().getDataObjectPackage());
+        bdoNext.fromSedaXmlFragments(bdoOut);
+        String bdoNextOut = bdoNext.toSedaXmlFragments();
+
+        // Then
+        assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7_seda2.3.xml"));
         SEDA2Version.setSeda2Version(1);
     }
 }

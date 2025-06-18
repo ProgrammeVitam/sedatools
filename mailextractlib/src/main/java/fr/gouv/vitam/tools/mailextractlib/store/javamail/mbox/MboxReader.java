@@ -29,9 +29,9 @@ package fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox;
 
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 
-import javax.mail.internet.SharedInputStream;
-import javax.mail.util.SharedByteArrayInputStream;
-import javax.mail.util.SharedFileInputStream;
+import jakarta.mail.internet.SharedInputStream;
+import jakarta.mail.util.SharedByteArrayInputStream;
+import jakarta.mail.util.SharedFileInputStream;
 import java.io.*;
 
 /**

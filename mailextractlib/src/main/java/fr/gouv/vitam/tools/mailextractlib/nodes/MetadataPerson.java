@@ -27,7 +27,7 @@
 
 package fr.gouv.vitam.tools.mailextractlib.nodes;
 
-import javax.mail.internet.MimeUtility;
+import jakarta.mail.internet.MimeUtility;
 import java.io.UnsupportedEncodingException;
 
 /**

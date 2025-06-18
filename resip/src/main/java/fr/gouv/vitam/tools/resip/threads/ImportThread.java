@@ -42,7 +42,6 @@ import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import lombok.extern.slf4j.Slf4j;
 
 import javax.swing.*;
 import java.io.File;
@@ -58,7 +57,6 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
 /**
  * The type Import thread.
  */
-@Slf4j
 public class ImportThread extends SwingWorker<String, String> {
     //input
     private Work work;
@@ -234,7 +232,7 @@ public class ImportThread extends SwingWorker<String, String> {
             String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
             inOutDialog.extProgressTextArea.setText(newLog);
             inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-        }, localLogStep, 2);
+        }, localLogStep, 2,MailExtractProgressLogger.MESSAGE_GROUP,1000);
         mepl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
         MailImportContext mic = (MailImportContext) work.getCreationContext();
         String target = getTmpDirTarget(mic.getWorkDir(), mic.getOnDiskInput());
@@ -272,7 +270,7 @@ public class ImportThread extends SwingWorker<String, String> {
                 String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
                 inOutDialog.extProgressTextArea.setText(newLog);
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2);
+            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             if (work.getCreationContext() instanceof ZipImportContext)
                 doZipImport();
@@ -307,7 +305,6 @@ public class ImportThread extends SwingWorker<String, String> {
         if (isCancelled())
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: import annulé, les données n'ont pas été modifiées", null);
         else if (exitThrowable != null) {
-            log.error("error:", exitThrowable);
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant l'import, les données n'ont pas été modifiées", exitThrowable);
         } else {
             work.getCreationContext().setSummary(summary);

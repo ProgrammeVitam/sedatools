@@ -29,9 +29,9 @@ package fr.gouv.vitam.tools.mailextractlib.store.javamail.eml;
 
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.JMMimeMessage;
 
-import javax.mail.*;
-import javax.mail.util.SharedByteArrayInputStream;
-import javax.mail.util.SharedFileInputStream;
+import jakarta.mail.*;
+import jakarta.mail.util.SharedByteArrayInputStream;
+import jakarta.mail.util.SharedFileInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -67,7 +67,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getName()
+     * @see jakarta.mail.Folder#getName()
      */
     @Override
     public String getName() {
@@ -77,7 +77,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getFullName()
+     * @see jakarta.mail.Folder#getFullName()
      */
     @Override
     public String getFullName() {
@@ -87,7 +87,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getSeparator()
+     * @see jakarta.mail.Folder#getSeparator()
      */
     // implement inherited abstract method Folder.getSeparator()
     @Override
@@ -106,7 +106,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#list()
+     * @see jakarta.mail.Folder#list()
      */
     @Override
     public Folder[] list() throws MessagingException {
@@ -118,7 +118,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getParent()
+     * @see jakarta.mail.Folder#getParent()
      */
     @Override
     public Folder getParent() throws MessagingException {
@@ -128,7 +128,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#exists()
+     * @see jakarta.mail.Folder#exists()
      */
     @Override
     public boolean exists() {
@@ -138,7 +138,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getType()
+     * @see jakarta.mail.Folder#getType()
      */
     @Override
     public int getType() {
@@ -148,7 +148,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getPermanentFlags()
+     * @see jakarta.mail.Folder#getPermanentFlags()
      */
     @Override
     public Flags getPermanentFlags() {
@@ -158,7 +158,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#hasNewMessages()
+     * @see jakarta.mail.Folder#hasNewMessages()
      */
     @Override
     public boolean hasNewMessages() {
@@ -169,7 +169,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getFolder(java.lang.String)
+     * @see jakarta.mail.Folder#getFolder(java.lang.String)
      */
     @Override
     public Folder getFolder(String name) throws MessagingException {
@@ -206,7 +206,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#isOpen()
+     * @see jakarta.mail.Folder#isOpen()
      */
     @Override
     public boolean isOpen() {
@@ -216,7 +216,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#open(int)
+     * @see jakarta.mail.Folder#open(int)
      */
     @Override
     public void open(int mode) throws MessagingException {
@@ -250,7 +250,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#close(boolean)
+     * @see jakarta.mail.Folder#close(boolean)
      */
     @Override
     public void close(boolean expunge) throws MessagingException {
@@ -267,7 +267,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getMessageCount()
+     * @see jakarta.mail.Folder#getMessageCount()
      */
     @Override
     public int getMessageCount() throws MessagingException {
@@ -277,7 +277,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getMessage(int)
+     * @see jakarta.mail.Folder#getMessage(int)
      */
     @Override
     public Message getMessage(int msgno) throws MessagingException {
@@ -309,7 +309,7 @@ public class EmlFolder extends Folder {
     /*
      * (non-Javadoc)
      *
-     * @see javax.mail.Folder#getURLName()
+     * @see jakarta.mail.Folder#getURLName()
      */
     @Override
     public URLName getURLName() {

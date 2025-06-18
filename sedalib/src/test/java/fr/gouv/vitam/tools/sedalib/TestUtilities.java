@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -110,28 +111,13 @@ public class TestUtilities {
         }
     }
 
-    // Utility function to get rid of line-ending differences and enbaling cross-platform compilation
-    public static String LineEndNormalize(String text) {
-        StringBuilder sb = new StringBuilder();
-        boolean inString = false;
-
-        char[] chars = text.toCharArray();
-        for (int i = 0, n = chars.length; i < n; i++) {
-            char c = chars[i];
-            if (c == '"')
-                inString = !inString;
-            else if (c == '\\') {
-                if (chars[i + 1] == '"')
-                    continue;
-                if ((inString) && (chars[i + 1] == '\\'))
-                    i++;
-                i++;
-                continue;
-            } else if (!inString && Character.isWhitespace(c) && c != '\n')
-                continue;
-            sb.append(c);
+    // Utility function to get rid of slacks in file names differences and enbaling cross-platform compilation
+    public static String SlackNormalize(String csv) {
+        if (csv == null) {
+            return null;
         }
-        return sb.toString();
+        // Remplace chaque '/' par un '\'
+        return csv.replace('\\', '/');
     }
 
     public static void eraseAll(String dirOrFile) {
@@ -149,5 +135,14 @@ public class TestUtilities {
 
     public static boolean isWindowsOS() {
         return System.getProperty("os.name").toLowerCase().contains("win");
+    }
+
+    // Reads the content of a file into a String using the specified character set.
+    public static String readFileToString(String filename) {
+        try {
+            return Files.readString(Path.of(filename), Charset.defaultCharset());
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

@@ -6,6 +6,7 @@ package fr.gouv.vitam.tools.resip.inout;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
+import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 
@@ -94,7 +95,7 @@ public class MailImporter {
         this.mailfolder = mailfolder;
         this.summary = null;
 
-        this.storeExtractorOptions = new StoreExtractorOptions(true, true, true, 12, defaultCharsetName, true, extractMessageTextFile,
+        this.storeExtractorOptions = new StoreExtractorOptions(true, true, ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag(), 12, defaultCharsetName, true, extractMessageTextFile,
                 extractMessageTextMetadata, extractAttachmentTextFile, extractAttachmentMetadata, 2);
         this.target = target;
         this.mailExtractProgressLogger = mailExtractProgressLogger;

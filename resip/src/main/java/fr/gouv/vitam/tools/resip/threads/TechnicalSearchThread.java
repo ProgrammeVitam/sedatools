@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.resip.threads;
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -98,13 +99,14 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
     }
 
     private boolean testBinaryDataObject(BinaryDataObject bdo) {
-        if ((bdo.size == null) && ((min != 0) || (max != Long.MAX_VALUE)))
+        IntegerType size=bdo.getMetadataSize();
+        if ((size == null) && ((min != 0) || (max != Long.MAX_VALUE)))
             return false;
-        if ((bdo.size.getValue() < min) || (bdo.size.getValue() > max))
+        if (((min != 0) || (max != Long.MAX_VALUE)) && (size.getValue() < min) || (size.getValue() > max))
             return false;
         if (allFormatsFlag)
             return true;
-        FormatIdentification formatIdentification=bdo.formatIdentification;
+        FormatIdentification formatIdentification=bdo.getMetadataFormatIdentification();
         if (formatIdentification==null)
             return false;
         if (formats.contains(formatIdentification.getSimpleMetadata("FormatId")))

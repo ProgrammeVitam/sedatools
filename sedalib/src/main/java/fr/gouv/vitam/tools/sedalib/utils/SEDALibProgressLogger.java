@@ -116,6 +116,16 @@ public class SEDALibProgressLogger {
     private int progressLogLevel;
 
     /**
+     * The progressLogLevel for progressFunc
+     */
+    private int progressFuncLogLevel;
+
+    /**
+     * The number used to determine if an accumulation as to be a progress log or not in progressFunc
+     */
+    private int progressFuncStep;
+
+    /**
      * The debugFlag flag
      */
     private boolean debugFlag;
@@ -131,6 +141,8 @@ public class SEDALibProgressLogger {
         this.logger = logger;
         this.step = Integer.MAX_VALUE;
         this.progressLogLevel = progressLogLevel;
+        this.progressFuncLogLevel = progressLogLevel;
+        this.progressFuncStep = step;
         this.stepDuration = Integer.MAX_VALUE;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
         this.debugFlag = false;
@@ -149,6 +161,8 @@ public class SEDALibProgressLogger {
         this.logger = logger;
         this.step = step;
         this.progressLogLevel = progressLogLevel;
+        this.progressFuncLogLevel = progressLogLevel;
+        this.progressFuncStep = step;
         this.stepDuration = Integer.MAX_VALUE;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
         this.debugFlag = false;
@@ -168,6 +182,31 @@ public class SEDALibProgressLogger {
         this.logger = logger;
         this.step = step;
         this.progressLogLevel = progressLogLevel;
+        this.progressFuncLogLevel = progressLogLevel;
+        this.progressFuncStep = step;
+        this.stepDuration = stepDuration;
+        this.previousStepEpochSeconds = Instant.now().getEpochSecond();
+        this.debugFlag = false;
+    }
+
+    /**
+     * Instantiates a new SEDA lib progress logger with all parameters.
+     *
+     * @param logger               the standard logger
+     * @param progressLogLevel     the progress log level, controls which log messages are displayed
+     * @param progressConsumer     the lambda function called to indicate progress updates
+     * @param step                 the interval count for triggering progress logs
+     * @param stepDuration         the duration threshold in seconds for triggering progress logs
+     * @param progressFuncLogLevel the log level for the progress consumer function
+     */
+    public SEDALibProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer,
+                                 int step, int stepDuration, int progressFuncLogLevel, int progressFuncStep) {
+        this.progressLogFunc = progressConsumer;
+        this.logger = logger;
+        this.step = step;
+        this.progressLogLevel = progressLogLevel;
+        this.progressFuncLogLevel = progressFuncLogLevel;
+        this.progressFuncStep = progressFuncStep;
         this.stepDuration = stepDuration;
         this.previousStepEpochSeconds = Instant.now().getEpochSecond();
         this.debugFlag = false;
@@ -235,11 +274,11 @@ public class SEDALibProgressLogger {
      * @param e     the exception
      */
     public static void doProgressLogWithoutInterruption(SEDALibProgressLogger spl, int level, String log, Throwable e) {
-        if (spl!=null) {
+        if (spl != null) {
             if (level <= spl.progressLogLevel) {
                 if (e != null)
                     log += "\n" + getMessagesStackString(e);
-                if (spl.progressLogFunc != null) {
+                if ((spl.progressLogFunc != null) && (level <= spl.progressFuncLogLevel)) {
                     spl.progressLogFunc.doProgressLog(-1, log);
                 }
                 if ((e != null) && spl.debugFlag)
@@ -252,9 +291,9 @@ public class SEDALibProgressLogger {
     /**
      * Do progress log, and log with exception if debug flag set
      *
-     * @param spl   the SEDALib progress logger
-     * @param log   the log
-     * @param e     the exception
+     * @param spl the SEDALib progress logger
+     * @param log the log
+     * @param e   the exception
      */
     public static void doProgressLogIfDebug(SEDALibProgressLogger spl, String log, Throwable e) {
         if ((spl != null) && spl.debugFlag) {
@@ -288,16 +327,23 @@ public class SEDALibProgressLogger {
      * @throws InterruptedException the interrupted exception
      */
     public static void doProgressLogIfStep(SEDALibProgressLogger spl, int level, int count, String log) throws InterruptedException {
-        if (spl!=null) {
+        if (spl != null) {
             if (level <= spl.progressLogLevel) {
                 long nowEpochSeconds = Instant.now().getEpochSecond();
-                int mod = count % spl.step;
-                if ((mod == 0) || (spl.stepDuration < nowEpochSeconds - spl.previousStepEpochSeconds)) {
-                    if (spl.progressLogFunc != null)
-                        spl.progressLogFunc.doProgressLog(count, (mod == 0 ? "" : "* ") + log);
+                if (spl.stepDuration < nowEpochSeconds - spl.previousStepEpochSeconds) {
+                    if ((spl.progressLogFunc != null) && (level <= spl.progressFuncLogLevel))
+                        spl.progressLogFunc.doProgressLog(count, (count % spl.progressFuncStep == 0 ? "" : " * ") + log);
                     spl.log(level, log);
                     Thread.sleep(1);
                     spl.previousStepEpochSeconds = nowEpochSeconds;
+                    return;
+                }
+                if ((count % spl.step) == 0) {
+                    spl.log(level, log);
+                }
+                if ((spl.progressLogFunc!=null) && (count % spl.progressFuncStep) == 0) {
+                    spl.progressLogFunc.doProgressLog(count, log);
+                    Thread.sleep(1);
                 }
             }
         }

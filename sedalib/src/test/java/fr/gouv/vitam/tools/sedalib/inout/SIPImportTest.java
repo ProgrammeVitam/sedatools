@@ -54,18 +54,41 @@ class SIPImportTest implements UseTestFiles {
         // assert one dataObjectGroup using serialization
         String testog = "{\n" +
                 "  \"binaryDataObjectList\" : [ {\n" +
-                "    \"compressed\" : null,\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"inDataObjectPackageId\" : \"ID13\",\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"BinaryMaster_1\"\n" +
-                "    },\n" +
-                "    \"fileInfo\" : {\n" +
+                "    }, {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"Uri\",\n" +
+                "      \"value\" : \"Content/ID13.txt\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"DigestType\",\n" +
+                "      \"algorithm\" : \"SHA-512\",\n" +
+                "      \"elementName\" : \"MessageDigest\",\n" +
+                "      \"value\" : \"86c0bc701ef6b5dd21b080bc5bb2af38097baa6237275da83a52f092c9eae3e4e4b0247391620bd732fe824d18bd3bb6c37e62ec73a8cf3585c6a799399861b1\"\n" +
+                "    }, {\n" +
+                "      \"type\" : \"IntegerType\",\n" +
+                "      \"elementName\" : \"Size\",\n" +
+                "      \"value\" : 6\n" +
+                "    }, {\n" +
+                "      \"type\" : \"FormatIdentification\",\n" +
+                "      \"elementName\" : \"FormatIdentification\",\n" +
+                "      \"metadataList\" : [ {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatLitteral\",\n" +
+                "        \"value\" : \"Plain Text File\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"MimeType\",\n" +
+                "        \"value\" : \"text/plain\"\n" +
+                "      }, {\n" +
+                "        \"type\" : \"StringType\",\n" +
+                "        \"elementName\" : \"FormatId\",\n" +
+                "        \"value\" : \"x-fmt/111\"\n" +
+                "      } ]\n" +
+                "    }, {\n" +
                 "      \"type\" : \"FileInfo\",\n" +
                 "      \"elementName\" : \"FileInfo\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -97,63 +120,23 @@ class SIPImportTest implements UseTestFiles {
                 "        \"dateTimeString\" : \"2017-04-04T08:07:06.487Z\",\n" +
                 "        \"elementName\" : \"LastModified\"\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"formatIdentification\" : {\n" +
-                "      \"type\" : \"FormatIdentification\",\n" +
-                "      \"elementName\" : \"FormatIdentification\",\n" +
-                "      \"metadataList\" : [ {\n" +
-                "        \"type\" : \"StringType\",\n" +
-                "        \"elementName\" : \"FormatLitteral\",\n" +
-                "        \"value\" : \"Plain Text File\"\n" +
-                "      }, {\n" +
-                "        \"type\" : \"StringType\",\n" +
-                "        \"elementName\" : \"MimeType\",\n" +
-                "        \"value\" : \"text/plain\"\n" +
-                "      }, {\n" +
-                "        \"type\" : \"StringType\",\n" +
-                "        \"elementName\" : \"FormatId\",\n" +
-                "        \"value\" : \"x-fmt/111\"\n" +
-                "      } ]\n" +
-                "    },\n" +
-                "    \"inDataObjectPackageId\" : \"ID13\",\n" +
-                "    \"messageDigest\" : {\n" +
-                "      \"type\" : \"DigestType\",\n" +
-                "      \"algorithm\" : \"SHA-512\",\n" +
-                "      \"elementName\" : \"MessageDigest\",\n" +
-                "      \"value\" : \"86c0bc701ef6b5dd21b080bc5bb2af38097baa6237275da83a52f092c9eae3e4e4b0247391620bd732fe824d18bd3bb6c37e62ec73a8cf3585c6a799399861b1\"\n" +
-                "    },\n" +
-                "    \"metadata\" : null,\n" +
-                "    \"onDiskPath\" : \"F:\\\\DocumentsPerso\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\SipOK.zip-tmpdir\\\\Content\\\\ID13.txt\",\n" +
-                "    \"relationshipsXmlData\" : [ ],\n" +
-                "    \"size\" : {\n" +
-                "      \"type\" : \"IntegerType\",\n" +
-                "      \"elementName\" : \"Size\",\n" +
-                "      \"value\" : 6\n" +
-                "    },\n" +
-                "    \"uri\" : {\n" +
-                "      \"type\" : \"StringType\",\n" +
-                "      \"elementName\" : \"Uri\",\n" +
-                "      \"value\" : \"Content/ID13.txt\"\n" +
-                "    }\n" +
+                "    } ],\n" +
+                "    \"onDiskPath\" : \"C:\\\\Users\\\\JS\\\\IdeaProjects\\\\sedatools\\\\sedalib\\\\target\\\\tmpJunit\\\\SipOK.zip-tmpdir\\\\Content\\\\ID13.txt\"\n" +
                 "  } ],\n" +
                 "  \"inDataObjectPackageId\" : \"ID12\",\n" +
                 "  \"logBook\" : null,\n" +
                 "  \"onDiskPath\" : null,\n" +
                 "  \"physicalDataObjectList\" : [ {\n" +
-                "    \"dataObjectGroupId\" : null,\n" +
-                "    \"dataObjectGroupReferenceId\" : null,\n" +
-                "    \"dataObjectGroupSystemId\" : null,\n" +
-                "    \"dataObjectProfile\" : null,\n" +
-                "    \"dataObjectSystemId\" : null,\n" +
-                "    \"dataObjectVersion\" : {\n" +
+                "    \"inDataObjectPackageId\" : \"ID1000\",\n" +
+                "    \"metadataList\" : [ {\n" +
                 "      \"type\" : \"StringType\",\n" +
                 "      \"elementName\" : \"DataObjectVersion\",\n" +
                 "      \"value\" : \"PhysicalMaster_1\"\n" +
-                "    },\n" +
-                "    \"inDataObjectPackageId\" : \"ID1000\",\n" +
-                "    \"onDiskPath\" : null,\n" +
-                "    \"otherDimensionsAbstractXml\" : [ ],\n" +
-                "    \"physicalDimensions\" : {\n" +
+                "    }, {\n" +
+                "      \"type\" : \"StringType\",\n" +
+                "      \"elementName\" : \"PhysicalId\",\n" +
+                "      \"value\" : \"12345\"\n" +
+                "    }, {\n" +
                 "      \"type\" : \"PhysicalDimensions\",\n" +
                 "      \"elementName\" : \"PhysicalDimensions\",\n" +
                 "      \"metadataList\" : [ {\n" +
@@ -172,13 +155,8 @@ class SIPImportTest implements UseTestFiles {
                 "        \"unit\" : \"kilogram\",\n" +
                 "        \"value\" : 1.0\n" +
                 "      } ]\n" +
-                "    },\n" +
-                "    \"physicalId\" : {\n" +
-                "      \"type\" : \"StringType\",\n" +
-                "      \"elementName\" : \"PhysicalId\",\n" +
-                "      \"value\" : \"12345\"\n" +
-                "    },\n" +
-                "    \"relationshipsXmlData\" : [ ]\n" +
+                "    } ],\n" +
+                "    \"onDiskPath\" : null\n" +
                 "  } ]\n" +
                 "}";
 
@@ -188,14 +166,14 @@ class SIPImportTest implements UseTestFiles {
         Pattern pog = Pattern.compile("\"onDiskPath\" : .*\"");
         Matcher msog = pog.matcher(sog);
         boolean sogpath = msog.find();
-        sog = TestUtilities.LineEndNormalize(sog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sog = sog.replaceAll("\"onDiskPath\" : .*\"", "");
 
         Matcher mtestog = pog.matcher(testog);
         boolean testogpath = mtestog.find();
-        testog = TestUtilities.LineEndNormalize(testog.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testog = testog.replaceAll("\"onDiskPath\" : .*\"", "");
 
         assertTrue(sogpath & testogpath);
-        assertThat(sog).isEqualTo(testog);
+        assertThat(sog).isEqualToNormalizingNewlines(testog);
 
         // assert one archiveUnit using serialization
         String testau = "{\n" +
@@ -215,22 +193,22 @@ class SIPImportTest implements UseTestFiles {
         Pattern pau = Pattern.compile("\"onDiskPath\" : .*\"");
         Matcher mtestau = pau.matcher(testau);
         boolean testaupath = mtestau.find();
-        testau = TestUtilities.LineEndNormalize(testau.replaceAll("\"onDiskPath\" : .*\"", ""));
+        testau = testau.replaceAll("\"onDiskPath\" : .*\"", "");
 
         ArchiveUnit au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID4");
         String sau = mapper.writeValueAsString(au);
         //System.out.println(sau);
         Matcher msau = pau.matcher(sau);
         boolean saupath = msau.find();
-        sau = TestUtilities.LineEndNormalize(sau.replaceAll("\"onDiskPath\" : .*\"", ""));
+        sau = sau.replaceAll("\"onDiskPath\" : .*\"", "");
 
         assertThat(saupath).isEqualTo(testaupath);
-        assertThat(sau).isEqualTo(testau);
+        assertThat(sau).isEqualToNormalizingNewlines(testau);
 
         // test decoding of complex content metadata on this ArchiveUnit
         String content = au.getContent().toString();
 
-        assertThat(content).isEqualTo(ResourceUtils.getResourceAsString("import/AU_ID4.xml"));
+        assertThat(content).isEqualToNormalizingNewlines(ResourceUtils.getResourceAsString("import/AU_ID4.xml"));
 
         // test decoding of complex management metadata on this ArchiveUnit
         au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID8");
@@ -256,7 +234,7 @@ class SIPImportTest implements UseTestFiles {
                 "</Management>";
         String management = au.getManagement().toString();
 
-        assertThat(management).isEqualTo(testManagement);
+        assertThat(management).isEqualToNormalizingNewlines(testManagement);
 
     }
 

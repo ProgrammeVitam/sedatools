@@ -61,8 +61,6 @@ It uses :
 * the java-libpst for local Outlook extraction (thanks to  to Richard Johnson http://github.com/rjohnsondev).
 * the POI HSMF library for .msg Microsoft message extraction
 
-Note: For now it can't extract S/MIME (ciphered and/or signed) messages.
-
 The operation, extraction or listing, can be logged on console and file (root/username[-timestamp].log - cf args). 
 At the different levels you can have: extraction errors (SEVERE), warning about extraction problems and items dropped (WARNING), information about global process (INFO), list of treated folders (FINE), list of treated messages (FINER), problems with some expected metadata (FINEST).
 The default level of log is INFO for extracting and OFF for listing.
@@ -82,8 +80,9 @@ On Windows, it's also possible to execute: windows/MailExtract.exe -h
 GUI
 ---
 
-![mailextractIHM](mailextract/windows/mailextractIHM.png)
+![mailextractGUI](mailextract/windows/mailextractGUI.png)
 
+**Note: a small checkbox located at the bottom-left corner allows you to switch the interface language to English.**
 
 The Resip application
 =====================

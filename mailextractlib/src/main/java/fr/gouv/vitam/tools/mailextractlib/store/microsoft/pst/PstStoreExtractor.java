@@ -27,9 +27,9 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
-import com.pff.PSTException;
-import com.pff.PSTFile;
-import com.pff.PSTFolder;
+import fr.gouv.vitam.tools.javalibpst.PSTException;
+import fr.gouv.vitam.tools.javalibpst.PSTFile;
+import fr.gouv.vitam.tools.javalibpst.PSTFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreElement;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
@@ -98,6 +98,7 @@ public class PstStoreExtractor extends StoreExtractor {
         }
 
         pstFile.setGlobalCodepage(options.defaultCharsetName);
+        PSTFile.setPrintErrors(logger.getDebugFlag());
 
         ArchiveUnit rootNode = new ArchiveUnit(this, destRootPath, destName);
         PstStoreFolder lPRootMailBoxFolder;
@@ -170,6 +171,21 @@ public class PstStoreExtractor extends StoreExtractor {
         return result;
     }
 
+    private void deleteStoreFileAndContainerAndThrowException(String message, Exception e) throws MailExtractLibException {
+        if (storeFile != null) {
+            try {
+                Files.deleteIfExists(storeFile.toPath());
+                File parentDirectory = storeFile.getParentFile();
+                if (parentDirectory != null && parentDirectory.isDirectory()) {
+                    Files.deleteIfExists(parentDirectory.toPath());
+                }
+            } catch (IOException ee) {
+                throw new MailExtractLibException(message + ", and unable to suppress temporary files ("+ee.getMessage()+")", e);
+            }
+        }
+        throw new MailExtractLibException(message, e);
+    }
+
     /**
      * Instantiates a new LP embedded pst store extractor.
      *
@@ -191,8 +207,7 @@ public class PstStoreExtractor extends StoreExtractor {
         try {
             pstFile = new PSTFile(path);
         } catch (Exception e) {
-            throw new MailExtractLibException(
-                    "mailextractlib.pst: can't open " + path + ", doesn't exist or is not a pst file", e);
+            deleteStoreFileAndContainerAndThrowException("mailextractlib.pst: can't open " + path + ", doesn't exist or is not a pst file",e);
         }
 
         PstStoreFolder lPRootMailBoxFolder;
@@ -200,17 +215,17 @@ public class PstStoreExtractor extends StoreExtractor {
         try {
             PSTFolder pstFolder = findChildFolder(pstFile.getRootFolder(), "");
 
-            if (pstFolder == null)
-                throw new MailExtractLibException(
-                        "mailextractlib.pst: Can't find the root folder in pst file", null);
+            if (pstFolder == null) {
+                deleteStoreFileAndContainerAndThrowException("mailextractlib.pst: Can't find the root folder in pst file", null);
+            }
 
             lPRootMailBoxFolder = PstStoreFolder.createRootFolder(this, pstFolder, rootNode);
 
             setRootFolder(lPRootMailBoxFolder);
         } catch (IOException e) {
-            throw new MailExtractLibException("mailextractlib.pst: Can't use " + path + " pst file", e);
+            deleteStoreFileAndContainerAndThrowException("mailextractlib.pst: Can't use " + path + " pst file", e);
         } catch (PSTException e) {
-            throw new MailExtractLibException("mailextractlib.pst: Can't find extraction root folder", e);
+            deleteStoreFileAndContainerAndThrowException("mailextractlib.pst: Can't find extraction root folder", e);
         }
     }
 
@@ -257,7 +272,8 @@ public class PstStoreExtractor extends StoreExtractor {
     public void endStoreExtractor() throws MailExtractLibException {
         super.endStoreExtractor();
         try {
-            pstFile.close();
+            if (pstFile!=null)
+                pstFile.close();
         } catch (IOException e) {
             throw new MailExtractLibException("mailextractlib.pst: Can't close temporary file tmpstore", e);
         }

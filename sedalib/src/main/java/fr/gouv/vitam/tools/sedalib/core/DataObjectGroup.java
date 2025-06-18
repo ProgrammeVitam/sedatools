@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.sedalib.core;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.management.LogBook;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -146,12 +147,16 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
      * @return the DataObject or null if not found
      */
     public DataObject findDataObjectByDataObjectVersion(String dataObjectVersion) {
-        for (BinaryDataObject bdo : binaryDataObjectList)
-            if ((bdo.dataObjectVersion != null) && (bdo.dataObjectVersion.getValue().equals(dataObjectVersion)))
+        for (BinaryDataObject bdo : binaryDataObjectList) {
+            StringType bdoDataObjectVersion = bdo.getMetadataDataObjectVersion();
+            if ((bdoDataObjectVersion != null) && (bdoDataObjectVersion.getValue().equals(dataObjectVersion)))
                 return bdo;
-        for (PhysicalDataObject pdo : physicalDataObjectList)
-            if ((pdo.dataObjectVersion != null) && (pdo.dataObjectVersion.getValue().equals(dataObjectVersion)))
+        }
+        for (PhysicalDataObject pdo : physicalDataObjectList) {
+            StringType pdoDataObjectVersion = pdo.getMetadataDataObjectVersion();
+            if ((pdoDataObjectVersion != null) && (pdoDataObjectVersion.getValue().equals(dataObjectVersion)))
                 return pdo;
+        }
         return null;
     }
 
@@ -222,7 +227,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
     // SEDA XML importer
 
     /**
-     * Import the DataObjectGroup in XML expected form form the SEDA Manifest in the
+     * Import the DataObjectGroup in XML expected form from the SEDA Manifest in the
      * ArchiveTransfer and return it's id in ArchiveTransfer.
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
@@ -257,20 +262,24 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                     switch (tmp) {
                         case "BinaryDataObject":
                             bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                            //noinspection ConstantConditions
-                            if ((bdo.dataObjectGroupId != null) || (bdo.dataObjectGroupReferenceId != null))
+                            StringType bdoDataObjectGroupId = (StringType) bdo.getFirstNamedMetadata("DataObjectGroupId");
+                            StringType bdoDataObjectGroupReferenceId = (StringType) bdo.getFirstNamedMetadata("DataObjectGroupReferenceId");
+                            if ((bdoDataObjectGroupId != null) || (bdoDataObjectGroupReferenceId != null))
                                 throw new SEDALibException("Le BinaryDataObject [" + bdo.inDataPackageObjectId
                                         + "] utilise un raccordement DataObjectGroup mode SEDA2.0 "
-                                        + "dans un DataObjectGroup mode SEDA2.1");
-                            bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.uri.getValue());
+                                        + "dans un DataObjectGroup mode SEDA2." + SEDA2Version.getSeda2Version());
+                            StringType bdoUri = (StringType) bdo.getFirstNamedMetadata("Uri");
+                            bdo.setOnDiskPathFromString(rootDir + File.separator + bdoUri.getValue());
                             dog.addDataObject(bdo);
                             break;
                         case "PhysicalDataObject":
                             pdo = PhysicalDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                            if ((pdo.dataObjectGroupId != null) || (pdo.dataObjectGroupReferenceId != null))
+                            StringType dataObjectGroupId=(StringType) pdo.getFirstNamedMetadata("DataObjectGroupId");
+                            StringType dataObjectGroupReferenceId=(StringType) pdo.getFirstNamedMetadata("DataObjectGroupReferenceId");
+                            if ((dataObjectGroupId != null) || (dataObjectGroupReferenceId != null))
                                 throw new SEDALibException("Le PhysicalDataObject [" + pdo.inDataPackageObjectId
                                         + "] utilise un raccordement DataObjectGroup mode SEDA2.0 "
-                                        + "dans un DataObjectGroup mode SEDA2.1");
+                                        + "dans un DataObjectGroup mode SEDA2."+SEDA2Version.getSeda2Version());
                             dog.addDataObject(pdo);
                             break;
                         default:

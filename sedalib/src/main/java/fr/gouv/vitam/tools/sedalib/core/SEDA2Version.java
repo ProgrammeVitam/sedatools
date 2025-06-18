@@ -32,9 +32,13 @@ public final class SEDA2Version {
      */
     public static final int SEDA2_2 = 2;
     /**
+     * For Seda2.2 SEDA2_2=2
+     */
+    public static final int SEDA2_3 = 3;
+    /**
      * Max Seda2.x supported version MAX_SUPPORTED_VERSION=2
      */
-    public static final int MAX_SUPPORTED_VERSION = 2;
+    public static final int MAX_SUPPORTED_VERSION = 3;
 
     /**
      * SEDA2 convention used for all lib processing
@@ -84,6 +88,7 @@ public final class SEDA2Version {
         switch (newSeda2Version) {
             case SEDA2_1:
             case SEDA2_2:
+            case SEDA2_3:
                 return true;
             default:
                 return false;

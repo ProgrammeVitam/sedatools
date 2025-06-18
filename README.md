@@ -130,36 +130,47 @@ Elle peut être lancée avec des arguments en ligne de commande (voir ci-dessous
 Pour avoir toutes les possibilités d'options, il suffit d'utiliser l'argument --help ou -h.
 
 Pour information la syntaxe des arguments est:
+# MailExtractApp - Options d'exécution
 
-| Option                       | Description                                                                                                                                                     |
-|------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| *help*                       | aide                                                                                                                                                            |
-| *type TYPE*                  | type de conteneur local à extraire (thunderbird/pst/eml/mbox) ou protocole d'accès distant (imap                                                                |imaps|pop3...)|
-| *user USERNAME*              | nom d'utilisateur de la boite (aussi utilisé pour générer le nom de l'extraction)                                                                               |
-| *password PASSWORD*          | mot de passe                                                                                                                                                    |
-| *server HOSTNAME/IP(:port)*  | serveur de messagerie HostName/IP(:port)                                                                                                                        |
-| *container ONDISK*           | localisation sur le disque du conteneur local à utiliser (répertoire Thunderbird, fichier pst, eml, mbox, msg...)                                               |
-| *folder INMAIL*              | répertoire particulier de la boite à partir duquel faire l'extraction ou l'édition de la structure                                                              |
-| *rootdir ONDISK*             | répertoire de base sur le disque (par défaut répertoire courant de la console) pour l'extraction (extraction en root/username[-timestamp])                      |
-| *dropemptyfolders*           | n'extrait pas les répertoires n'ayant aucun message en direct ou dans son arborescence                                                                          |
-| *keeponlydeep*               | garde les répertoires vides sauf ceux à la racine (il existe couramment des répertoires non utilisés à côté de INBOX)                                           |
-| *verbatim LOGLEVEL*          | niveau de log (OFF/GLOBAL/WARNING/FOLDER/MESSAGE_GROUP/MESSAGE/MESSAGE_DETAILS), valeur par défaut OFF                                                          |
-| *sedaversion SUBVERSION*     | sous-version du SEDA 2 (1 pour 2.1/2 pour 2.2), à 2.1 par défaut                                                                                                |
-| *nameslength NUMBER*         | longueur limite des noms de répertoires et fichiers générés                                                                                                     |
-| *setchar ENCODING*           | jeu d'encodage de caractère par défaut, notamment utile pour l'extraction correct des pst, valeur par défaut jeu de caractère de l'OS.                          |
-| *extractlists*               | génère les listes csv d'objets (messages, contacts, rendez-vous) le cas échéant                                                                                 |
-| *extractmessagetextfile*     | extrait un fichier avec le texte du message                                                                                                                     |
-| *extractmessagetextmetadata* | inclus le texte du message dans les métadonnées                                                                                                                 |
-| *extractfiletextfile*        | extrait un fichier avec le texte des fichiers attachés                                                                                                          |
-| *extractfiletextmetadata*    | inclus le texte du fichier attaché dans les métadonnées                                                                                                         |
-| *model NUMBER*               | modèle d'extraction sur disque 1 (generateurseda) ou 2 (sedalib), valeur par défaut 2                                                                           |
-| *warning*                    | génère un avertissement quand il y a un problème d'extraction limité à un message en particulier (sinon cela est loggé au niveau FINE)                          |
-| *x*                          | fait l'extraction                                                                                                                                               |
-| *l*                          | édite l'ensemble des répertoires de la messagerie (ne prend pas en compte les options -d et -k)                                                                 |
-| *z*                          | édite l'ensemble des répertoires de la messagerie ainsi que le nombre et le poids des messages qu'ils contiennent (ne prend pas en compte les options -d et -k) |
+## Description
+MailExtractApp permet l'extraction et la structure de boîtes mail depuis différentes sources :
+- Serveurs (IMAP, IMAPS, POP3...)
+- Fichiers locaux (PST, EML, Thunderbird, MBOX)
+
+L'application peut être lancée en mode graphique (GUI) ou en ligne de commande. Voici les options disponibles.
+
+---
+
+## Options disponibles
+| **Option courte** | **Option longue**                  | **Description**                                                                                                          | **Valeur par défaut**                      |
+|-------------------|------------------------------------|--------------------------------------------------------------------------------------------------------------------------|--------------------------------------------|
+| `-h`              | `--help`                           | Affiche le menu d'aide.                                                                                                  | -                                          |
+| `-t`              | `--type <type>`                    | Type de conteneur local à extraire (thunderbird, pst, eml, mbox) ou protocole pour accès serveur (imap, imaps, pop3...). | `pst`                                      |
+| `-u`              | `--user <username>`                | Nom du compte utilisateur (utilisé également pour nommer la destination d'extraction).                                   | -                                          |
+| `-p`              | `--password <password>`            | Mot de passe pour le compte utilisateur.                                                                                 | -                                          |
+| `-s`              | `--server <hostname[:port]>`       | Serveur mail (nom d'hôte ou IP) et éventuellement un port (ex : `host:port`).                                            | -                                          |
+| `-c`              | `--container <path>`               | Chemin du fichier ou dossier local à extraire.                                                                           | -                                          |
+| `-f`              | `--folder <folder>`                | Dossier spécifique à traiter dans ce qui est à extraire.                                                                 | (racine)                                   |
+| `-r`              | `--rootpath`                       | Chemin du répertoire où les fichiers extraits seront enregistrés.                                                        | Répertoire actuel          |
+| `-o`              | `--outputname`                     | Nom du dossier de sortie et du fichier de log.                                                                           | L'extraction est effectuée directement dans `rootpath`, avec un fichier log nommé `.log`.                |
+| `-d`              | `--dropemptyfolders`               | Supprime les dossiers vides.                                                                                             | `false`                                    |
+| `-k`              | `--keepfirstlevelemptyforlders`    | Ne conserve que les dossiers vides qui sont à la racine.                                                                 | `false`                                    |
+| `-n`              | `--nameslength <limit>`            | Limite de longueur pour les noms de fichiers et dossiers générés.                                                        | `12`                                       |
+| `-cs`             | `--charset <charset>`              | Charset utilisé pour l'extraction de contenu.                                                                            | `UTF-8`                                    |
+| `-e`              | `--extractchoices <choices>`       | Éléments à extraire (`m` pour mails, `c` pour contacts, `a` pour rendez-vous).                                           | `mca`                                      |
+| `-m`              | `--extractmode <modes>`            | Forme d'extraction (`c` pour contenu, `l` pour listes).                                                                  | `cl`                                       |
+| `-tm`             | `--extracttextmetadata <elements>` | Extrait le texte comme métadonnées (`m` pour messages, `a` pour pièces jointes).                                         | (Aucun par défaut)                         |
+| `-tf`             | `--extracttextfile <elements>`        | Extrait le texte et ajoute un fichier texte (`m` pour messages, `a` pour pièces jointes).                                | (Aucun par défaut)                         |
+| `-ml`             | `--model <number>`                 | Modèle de structure d'extraction des metadata sur disque (`1` ou `2`).                                                   | `2`                                        |
+| `-w`              | `--warning`                        | Génère un avertissement pour chaque problème rencontré, quel que soit le niveau de journalisation.                       | `false`                                    |
+| `-b`              | `--debug`                          | Active la journalisation en mode debug.                                                                                  | `false`                                    |
+| `-v`              | `--verbatim <level>`               | Définit le niveau de journalisation (OFF, GLOBAL, WARNING, FOLDER, MESSAGE_GROUP, MESSAGE, MESSAGE_DETAILS).             | `OFF`                                      |
+| `-x`              | `--doextract`                      | Effectue une extraction complète (ignoré si l'interface graphique est lancée).                                           | -                                          |
+| `-l`              | `--dolist`                         | Liste tous les dossiers sans utiliser les options de suppression (ignoré si l'interface graphique est lancée).           | -                                          |
+| `-z`              | `--dostats`                        | Liste les dossiers et leurs statistiques (ignoré si l'interface graphique est lancée).                                   | -                                          |
 
 Si le niveau de log est autre chose que OFF l'opération, d'extraction ou d'édition, sera loggée sur la console et dans un fichier 
-(en rootdir/username.log).
+(en rootpath/outputname.log).
 
 Selon le niveau choisi de log vous aurez: informations sur le process global (GLOBAL), avertissement sur 
 les problèmes d'extraction et les items abandonnés (WARNING), liste des répertoires traités (FOLDER), 
@@ -168,7 +179,7 @@ problèmes avec certaines méta-données (MESSAGE_DETAILS).
 
 A noter: Si aucune option -x, -l ou -z n'est mise l'interface graphique est lancée avec les éléments complétés.
 
-Les libellés long des options peut être réduit au premier caractère précédé d'un seul - (par exemple -h est équivalent à --help)
+Les libellés court et long des options peuvent être utilisé indifféremment (par exemple -h est équivalent à --help)
 
 **AVERTISSEMENT**: Editer la liste des répertoires avec le nombre et poids des messages est une opération potentiellement lourde sur un serveur distant car cela nécessite d'importer l'ensemble des messages.
 

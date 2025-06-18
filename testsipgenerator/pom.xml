@@ -128,24 +128,27 @@
                             </classPath>
                             <jre>
                                 <path>.\jre</path>
-                                <bundledJre64Bit>false</bundledJre64Bit>
-                                <bundledJreAsFallback>true</bundledJreAsFallback>
-                                <minVersion>11.0.0</minVersion>
-                                <jdkPreference>preferJre</jdkPreference>
-                                <runtimeBits>64</runtimeBits>
+                                <minVersion>11</minVersion>
+                                <requires64Bit/>
                                 <opts>
                                     <opt>-Xms1024m</opt>
                                 </opts>
                             </jre>
                             <versionInfo>
-                                <fileVersion>${project.majorVersion}.${project.minorVersion}.0.0
+                                <fileVersion>
+                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
                                 </fileVersion>
-                                <txtFileVersion>${project.version}</txtFileVersion>
+                                <txtFileVersion>
+                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
+                                </txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
                                 <copyright>Programme Vitam</copyright>
-                                <productVersion>${project.majorVersion}.${project.minorVersion}.0.0
+                                <productVersion>
+                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
                                 </productVersion>
-                                <txtProductVersion>${project.version}</txtProductVersion>
+                                <txtProductVersion>
+                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
+                                </txtProductVersion>
                                 <productName>${project.name}</productName>
                                 <internalName>${project.name}</internalName>
                                 <originalFilename>TestFileGenerator.exe</originalFilename>

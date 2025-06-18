@@ -50,8 +50,20 @@ public class StoreExtractorOptions {
     /** The default charset name. */
     public String defaultCharsetName;
 
-    /** The extract objects (mails, contacts, appointments...) lists flag. */
-    public boolean extractObjectsLists;
+    /** The extract messages flag. */
+    public boolean extractMessages;
+
+    /** The extract contacts flag. */
+    public boolean extractContacts;
+
+    /** The extract appointments flag. */
+    public boolean extractAppointments;
+
+    /** The extract elements (messages, contacts, appointments...) content flag. */
+    public boolean extractElementsContent;
+
+    /** The extract elements (messages, contacts, appointments...) list flag. */
+    public boolean extractElementsList;
 
     /** The extract message text version file flag. */
     public boolean extractMessageTextFile;
@@ -76,7 +88,11 @@ public class StoreExtractorOptions {
         dropEmptyFolders = true;
         warningMsgProblem = false;
         namesLength = 12;
-        extractObjectsLists = false;
+        extractMessages = false;
+        extractContacts = false;
+        extractAppointments = false;
+        extractElementsContent = false;
+        extractElementsList = false;
         extractMessageTextFile = false;
         extractMessageTextMetadata = false;
         extractFileTextFile = false;
@@ -86,14 +102,14 @@ public class StoreExtractorOptions {
     }
 
     /**
-     * Instantiates a new store extractor options.
+     * Instantiates a new store extractor options without specific elements extraction options
      *
      * @param keepOnlyDeepEmptyFolders   the keep only deep empty folders
      * @param dropEmptyFolders           the drop empty folders
      * @param warningMsgProblem          the warning msg problem
      * @param namesLength                the names length
      * @param defaultCharsetName         the default charset name
-     * @param extractObjectsLists        the extract objects list flag
+     * @param extractElementsList       the extract elements list flag
      * @param extractMessageTextFile     the extract message text file flag
      * @param extractMessageTextMetadata the extract message text metadata flag
      * @param extractFileTextFile        the extract file text file flag
@@ -101,7 +117,7 @@ public class StoreExtractorOptions {
      * @param model                     the model version (1 or 2)
      */
     public StoreExtractorOptions(boolean keepOnlyDeepEmptyFolders, boolean dropEmptyFolders, boolean warningMsgProblem,
-                                 int namesLength, String defaultCharsetName, boolean extractObjectsLists, boolean extractMessageTextFile,
+                                 int namesLength, String defaultCharsetName, boolean extractElementsList, boolean extractMessageTextFile,
                                  boolean extractMessageTextMetadata,
                                  boolean extractFileTextFile, boolean extractFileTextMetadata, int model) {
         this.keepOnlyDeepEmptyFolders = keepOnlyDeepEmptyFolders;
@@ -109,11 +125,60 @@ public class StoreExtractorOptions {
         this.warningMsgProblem = warningMsgProblem;
         this.namesLength = namesLength;
         this.defaultCharsetName = defaultCharsetName;
-        this.extractObjectsLists = extractObjectsLists;
+        this.extractMessages = true;
+        this.extractContacts = true;
+        this.extractAppointments = true;
+        this.extractElementsContent = true;
+        this.extractElementsList = extractElementsList;
         this.extractMessageTextFile = extractMessageTextFile;
         this.extractMessageTextMetadata = extractMessageTextMetadata;
         this.extractFileTextFile = extractFileTextFile;
         this.extractFileTextMetadata = extractFileTextMetadata;
         this.model = model;
     }
+
+    /**
+     * Instantiates a new store extractor options with all elements extraction options.
+     *
+     * @param keepOnlyDeepEmptyFolders   the keep only deep empty folders
+     * @param dropEmptyFolders           the drop empty folders
+     * @param warningMsgProblem          the warning msg problem
+     * @param namesLength                the names length
+     * @param defaultCharsetName         the default charset name
+     * @param extractMessages            the extract messages list flag
+     * @param extractContacts            the extract contacts list flag
+     * @param extractAppointments        the extract appointments list flag
+     * @param extractElementsContent     the extract elements content flag
+     * @param extractElementsList        the extract elements list flag
+     * @param extractMessageTextFile     the extract message text file flag
+     * @param extractMessageTextMetadata the extract message text metadata flag
+     * @param extractFileTextFile        the extract file text file flag
+     * @param extractFileTextMetadata    the extract file text metadata flag
+     * @param model                     the model version (1 or 2)
+     */
+    public StoreExtractorOptions(boolean keepOnlyDeepEmptyFolders, boolean dropEmptyFolders, boolean warningMsgProblem,
+                                 int namesLength, String defaultCharsetName,
+                                 boolean extractMessages, boolean extractContacts, boolean extractAppointments,
+                                 boolean extractElementsContent,
+                                 boolean extractElementsList,
+                                 boolean extractMessageTextFile,
+                                 boolean extractMessageTextMetadata,
+                                 boolean extractFileTextFile, boolean extractFileTextMetadata, int model) {
+        this.keepOnlyDeepEmptyFolders = keepOnlyDeepEmptyFolders;
+        this.dropEmptyFolders = dropEmptyFolders;
+        this.warningMsgProblem = warningMsgProblem;
+        this.namesLength = namesLength;
+        this.defaultCharsetName = defaultCharsetName;
+        this.extractMessages = extractMessages;
+        this.extractContacts = extractContacts;
+        this.extractAppointments = extractAppointments;
+        this.extractElementsContent = extractElementsContent;
+        this.extractElementsList = extractElementsList;
+        this.extractMessageTextFile = extractMessageTextFile;
+        this.extractMessageTextMetadata = extractMessageTextMetadata;
+        this.extractFileTextFile = extractFileTextFile;
+        this.extractFileTextMetadata = extractFileTextMetadata;
+        this.model = model;
+    }
+
 }

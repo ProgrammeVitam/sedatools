@@ -27,38 +27,41 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft;
 
-import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
+
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor.ISO_8601;
 import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger.doProgressLog;
+import static fr.gouv.vitam.tools.mailextractlib.utils.RFC822Headers.decodeRfc2047Flexible;
 
 /**
  * StoreMessage sub-class for Microsoft message format, abstraction for pst and msg messages.
  */
 public abstract class MicrosoftStoreMessage extends StoreMessage implements MicrosoftStoreElement {
 
-    /** The RFC822 headers if any. */
+    /**
+     * The RFC822 headers if any.
+     */
     protected RFC822Headers rfc822Headers;
 
-    /** The attachments list. */
+    /**
+     * The attachments list.
+     */
     protected MicrosoftStoreMessageAttachment[] nativeAttachments;
 
     /**
      * Instantiates a new LP store message.
      *
-     * @param mBFolder
-     *            Containing MailBoxFolder
+     * @param mBFolder Containing MailBoxFolder
      */
     public MicrosoftStoreMessage(StoreFolder mBFolder) {
         super(mBFolder);
@@ -194,6 +197,8 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                 if (sList.length > 1)
                     logMessageWarning("mailextractlib.microsoft: multiple subjects, keep the first one in header", null);
                 result = RFC822Headers.getHeaderValue(sList[0]);
+                if ((result != null) && (result.contains("=?")))
+                    result = decodeRfc2047Flexible(result);
             }
         } else {
             // pst file value
@@ -212,7 +217,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                 result = null;
         }
         if (result == null)
-            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS,
+            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS,
                     "mailextractlib.microsoft: no subject in header", null);
 
         subject = result;
@@ -258,7 +263,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                 }
             }
             // FIXME AN pst to test
-             catch (Exception e) {
+            catch (Exception e) {
                 logMessageWarning("mailextractlib.microsoft: error during Message ID extraction", e);
                 result = "NoMessageID";
             }
@@ -304,6 +309,21 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         return result;
     }
 
+    static String getFormattedAddress(String name, String smtpAddress) {
+        String result=null;
+
+        if (name != null){
+            if (smtpAddress != null)
+                result = name + " <" + smtpAddress + ">";
+            else
+                result = name;
+        }
+        else {
+            result = smtpAddress;
+        }
+        return result;
+    }
+
     /*
      * (non-Javadoc)
      *
@@ -314,22 +334,31 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
 
         if (hasRFC822Headers()) {
             // smtp header value
-            String[] fromList = rfc822Headers.getHeader("From");
-            if (fromList != null) {
-                if (fromList.length > 1)
-                    logMessageWarning("mailextractlib.microsoft: multiple From addresses, keep the first one in header", null);
-                result = RFC822Headers.getHeaderValue(fromList[0]);
+            String[] fromArray = rfc822Headers.getHeader("From");
+            if (fromArray != null) {
+                if (fromArray.length == 1)
+                    result = RFC822Headers.getHeaderValue(fromArray[0]);
+                else {
+                    List<String> fromList = new ArrayList<>();
+                    for (String header : fromArray) {
+                        fromList.add(RFC822Headers.getHeaderValue(header));
+                    }
+                    fromList = RFC822Headers.removeInvalidAndDuplicatesFromAddressesList(fromList);
+                    if (fromList.size() > 1) {
+                        result = String.join(", ", fromList);
+                        logMessageWarning(
+                                "mailextractlib.microsoft: multiple From addresses [" + result + "]", null);
+                    } else
+                        result = fromList.get(0);
+                }
+                if ((result != null) && (result.contains("=?")))
+                    result = decodeRfc2047Flexible(result);
             }
         } else {
             // pst file value
-            String fromAddr = getSenderEmailAddress();
-            if (fromAddr != null) {
-                String fromName = getSenderName();
-                if (fromName != null)
-                    result = fromName + " <" + fromAddr + ">";
-                else
-                    result = fromAddr;
-            }
+            String fromName = getSenderName();
+            String fromAddress = getSenderEmailAddress();
+            result=getFormattedAddress(fromName,fromAddress);
         }
 
         if (result == null)
@@ -376,7 +405,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
                     String emailAddress = getNativeRecipientsSmtpAddress(i);
                     if ((emailAddress == null) || (emailAddress.isEmpty()))
                         emailAddress = getNativeRecipientsEmailAddress(i);
-                    normAddress = getNativeRecipientsDisplayName(i) + " <" + emailAddress + ">";
+                    normAddress = getFormattedAddress(getNativeRecipientsDisplayName(i),emailAddress);
                     switch (getNativeRecipientsType(i)) {
                         case MAPI_TO:
                             recipientTo.add(normAddress);
@@ -395,7 +424,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         }
     }
 
-    // ReplyTo specific functions
+// ReplyTo specific functions
 
     /*
      * (non-Javadoc)
@@ -415,7 +444,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         replyTo = result;
     }
 
-    // Return-Path specific functions
+// Return-Path specific functions
 
     /*
      * (non-Javadoc)
@@ -428,12 +457,25 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
 
         if (hasRFC822Headers()) {
             // smtp header value
-            String[] rpList = rfc822Headers.getHeader("Return-Path");
-            if (rpList != null) {
-                if (rpList.length > 1)
-                    logMessageWarning(
-                            "mailextractlib.microsoft: multiple Return-Path addresses, keep the first one in header", null);
-                result = RFC822Headers.getHeaderValue(rpList[0]);
+            String[] rpArray = rfc822Headers.getHeader("Return-Path");
+            if (rpArray != null) {
+                if (rpArray.length == 1)
+                    result = RFC822Headers.getHeaderValue(rpArray[0]);
+                else {
+                    List<String> rpList = new ArrayList<>();
+                    for (String header : rpArray) {
+                        rpList.add(RFC822Headers.getHeaderValue(header));
+                    }
+                    rpList = RFC822Headers.removeInvalidAndDuplicatesFromAddressesList(rpList);
+                    if (rpList.size() > 1) {
+                        result = String.join(", ", rpList);
+                        logMessageWarning(
+                                "mailextractlib.microsoft: multiple Return-Path addresses [" + result + "]", null);
+                    } else
+                        result = rpList.get(0);
+                }
+                if ((result != null) && (result.contains("=?")))
+                    result = decodeRfc2047Flexible(result);
             }
         }
         // if not in the SMTP header there's no microsoft version
@@ -441,7 +483,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         returnPath = result;
     }
 
-    // Dates specific functions
+// Dates specific functions
 
     /*
      * (non-Javadoc)
@@ -453,7 +495,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         sentDate = getNativeClientSubmitTime();
     }
 
-    // In-reply-to and References specific functions
+// In-reply-to and References specific functions
 
     /*
      * (non-Javadoc)
@@ -510,7 +552,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
         references = result;
     }
 
-    // Content analysis methods
+// Content analysis methods
 
     /*
      * (non-Javadoc)
@@ -549,7 +591,7 @@ public abstract class MicrosoftStoreMessage extends StoreMessage implements Micr
      */
     @Override
     protected void analyzeAttachments() throws InterruptedException {
-        attachments= MicrosoftStoreElement.getAttachments(this,nativeAttachments);
+        attachments = MicrosoftStoreElement.getAttachments(this, nativeAttachments);
     }
     // Global message
 

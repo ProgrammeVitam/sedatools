@@ -5,15 +5,16 @@ import fr.gouv.vitam.tools.resip.threads.DuplicatesThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.*;
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.*;
@@ -496,9 +497,11 @@ public class DuplicatesWindow extends JFrame {
             newDogList.add(dog);
             List<BinaryDataObject> bdoList = dog.getBinaryDataObjectList();
             for (int j = 0; j < originBdoList.size(); j++) {
+                FileInfo bdoFIleInfo=bdoList.get(j).getMetadataFileInfo();
+                FileInfo originBdoFIleInfo=originBdoList.get(j).getMetadataFileInfo();
                 try {
-                    bdoList.get(j).fileInfo.addNewMetadata("Filename", originBdoList.get(j).fileInfo.getSimpleMetadata("Filename"));
-                    bdoList.get(j).fileInfo.addNewMetadata("LastModified", originBdoList.get(j).fileInfo.getSimpleMetadata("LastModified"));
+                    bdoFIleInfo.addNewMetadata("Filename", originBdoFIleInfo.getSimpleMetadata("Filename"));
+                    bdoFIleInfo.addNewMetadata("LastModified", originBdoFIleInfo.getSimpleMetadata("LastModified"));
                 } catch (SEDALibException ignored) {
                 }
             }

@@ -3,8 +3,6 @@
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
-import org.jetbrains.annotations.NotNull;
-
 import javax.swing.tree.TreePath;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -55,7 +53,6 @@ public class DataObjectPackageTreeNodesTransferable implements Transferable {
 	/* (non-Javadoc)
 	 * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
 	 */
-	@NotNull
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
 		if (!isDataFlavorSupported(flavor))
 			throw new UnsupportedFlavorException(flavor);

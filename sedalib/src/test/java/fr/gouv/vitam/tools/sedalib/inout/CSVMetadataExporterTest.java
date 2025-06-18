@@ -133,7 +133,7 @@ class CSVMetadataExporterTest {
                             .getInputStream(entry));
                     int currentByte;
                     // establish buffer for writing file
-                    byte data[] = new byte[BUFFER];
+                    byte[] data = new byte[BUFFER];
 
                     // write the current file to disk
                     FileOutputStream fos = new FileOutputStream(destFile);
@@ -198,7 +198,7 @@ class CSVMetadataExporterTest {
         csvMetadataExporter.doExportToCSVMetadataFile(TEMPORARY_FILE);
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
-        String generatedFileContent = FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8");
+        String generatedFileContent = TestUtilities.SlackNormalize(FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8"));
         String expectedFileContent = ResourceUtils.getResourceAsString("ExpectedResults/ExportedMetadata.csv");
 
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
@@ -222,7 +222,7 @@ class CSVMetadataExporterTest {
         cme.doExportToCSVMetadataFile(TEMPORARY_FILE);
 
         // Then verify that csv content is the expected content, except for the system dependant file separator and new lines
-        String generatedFileContent = FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8");
+        String generatedFileContent = TestUtilities.SlackNormalize(FileUtils.readFileToString(new File(TEMPORARY_FILE), "UTF8"));
         String expectedFileContent = ResourceUtils.getResourceAsString("ExpectedResults/ExportedMetadataWithExtendedFormat.csv");
         assertThat(generatedFileContent).isEqualToNormalizingNewlines(expectedFileContent);
     }

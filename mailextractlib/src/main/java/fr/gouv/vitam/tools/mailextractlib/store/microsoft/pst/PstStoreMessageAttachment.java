@@ -27,9 +27,9 @@
 
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
-import com.pff.PSTAttachment;
-import com.pff.PSTException;
-import com.pff.PSTMessage;
+import fr.gouv.vitam.tools.javalibpst.PSTAttachment;
+import fr.gouv.vitam.tools.javalibpst.PSTException;
+import fr.gouv.vitam.tools.javalibpst.PSTMessage;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessageAttachment;
 
 import java.io.ByteArrayOutputStream;
