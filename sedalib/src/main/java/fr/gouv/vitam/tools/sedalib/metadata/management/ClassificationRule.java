@@ -45,20 +45,22 @@ import java.util.Map;
  */
 public class ClassificationRule extends RuleType {
 
-    static final String CLASSIFICATIONRULE_TAG="ClassificationRule";
-    static final String CLASSIFICATIONLEVEL_TAG="ClassificationLevel";
-    static final String CLASSIFICATIONOWNER_TAG="ClassificationOwner";
+    static final String CLASSIFICATIONRULE_TAG = "ClassificationRule";
+    static final String CLASSIFICATIONLEVEL_TAG = "ClassificationLevel";
+    static final String CLASSIFICATIONOWNER_TAG = "ClassificationOwner";
 
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
     public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
         metadataMap = new LinkedHashMap<>();
         metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
         metadataMap.put(PREVENTINHERITANCE_TAG, new ComplexListMetadataKind(BooleanType.class, false));
         metadataMap.put(REFNONRULEID_TAG, new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("ClassificationAudience", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put(CLASSIFICATIONLEVEL_TAG, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put(CLASSIFICATIONOWNER_TAG, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("ClassificationReassessingDate", new ComplexListMetadataKind(DateType.class, false));
@@ -84,7 +86,7 @@ public class ClassificationRule extends RuleType {
      */
     public ClassificationRule(String classificationLevel, String classificationOwner) throws SEDALibException {
         this();
-        addNewMetadata(CLASSIFICATIONLEVEL_TAG,classificationLevel);
-        addNewMetadata(CLASSIFICATIONOWNER_TAG,classificationOwner);
+        addNewMetadata(CLASSIFICATIONLEVEL_TAG, classificationLevel);
+        addNewMetadata(CLASSIFICATIONOWNER_TAG, classificationOwner);
     }
 }
