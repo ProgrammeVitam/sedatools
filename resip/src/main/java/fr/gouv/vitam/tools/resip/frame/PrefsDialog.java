@@ -84,6 +84,7 @@ public class PrefsDialog extends JDialog {
     private final JCheckBox attachementFileCheckBox;
     private final JCheckBox messageMetadataCheckBox;
     private final JCheckBox attachementMetadataCheckBox;
+    private final JCheckBox allowsExternalToolsForTextExtractionCheckBox;
     private final JTextArea ignorePatternsTextArea;
     private final JCheckBox ignoreLinksChexBox;
     private final JComboBox<String> csvCharsetCombobox;
@@ -886,6 +887,23 @@ public class PrefsDialog extends JDialog {
         importParametersPanel.add(attachementMetadataCheckBox, gbc);
         attachementMetadataCheckBox.setSelected(mic.isExtractAttachmentTextMetadata());
 
+        JLabel allowsExternalToolsForTextExtractionLabel = new JLabel("Extraction de métadonnées textuelles :");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.EAST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        importParametersPanel.add(allowsExternalToolsForTextExtractionLabel, gbc);
+
+        allowsExternalToolsForTextExtractionCheckBox = new JCheckBox("Utilisation d'outils externes installés");
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.insets = new Insets(0, 0, 5, 5);
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        importParametersPanel.add(allowsExternalToolsForTextExtractionCheckBox, gbc);
+        allowsExternalToolsForTextExtractionCheckBox.setSelected(mic.isAllowsExternalToolsForTextExtraction());
+
         JLabel diskImportLabel = new JLabel("Import des hiérarchies sur disque");
         diskImportLabel.setFont(MainWindow.BOLD_LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -895,7 +913,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         importParametersPanel.add(diskImportLabel, gbc);
 
         JScrollPane scrollPane5 = new JScrollPane();
@@ -906,7 +924,7 @@ public class PrefsDialog extends JDialog {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 1;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         importParametersPanel.add(scrollPane5, gbc);
 
         ignorePatternsTextArea = new JTextArea();
@@ -921,7 +939,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 5;
+        gbc.gridy = 6;
         gbc.weighty = 1.0;
         importParametersPanel.add(ignorePatternsLabel, gbc);
 
@@ -934,7 +952,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
-        gbc.gridy = 6;
+        gbc.gridy = 7;
         importParametersPanel.add(ignoreLinksChexBox, gbc);
 
         JLabel csvImportLabel = new JLabel("Import/export des csv");
@@ -946,7 +964,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 0;
-        gbc.gridy = 7;
+        gbc.gridy = 8;
         importParametersPanel.add(csvImportLabel, gbc);
 
         JLabel csvCharsetLabel = new JLabel("Encodage des csv :");
@@ -954,7 +972,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         importParametersPanel.add(csvCharsetLabel, gbc);
 
         csvCharsetCombobox = new JComboBox<>(charsetStrings);
@@ -963,7 +981,7 @@ public class PrefsDialog extends JDialog {
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx = 1;
-        gbc.gridy = 8;
+        gbc.gridy = 9;
         importParametersPanel.add(csvCharsetCombobox, gbc);
         csvCharsetCombobox.setSelectedItem(cic.getCsvCharsetName());
 
@@ -972,7 +990,7 @@ public class PrefsDialog extends JDialog {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         importParametersPanel.add(lblCsvDelimiter, gbc);
 
         csvDelimiterTextField = new JTextField();
@@ -982,7 +1000,7 @@ public class PrefsDialog extends JDialog {
         gbc.insets = new Insets(0, 0, 5, 5);
         gbc.gridwidth = 2;
         gbc.gridx = 1;
-        gbc.gridy = 9;
+        gbc.gridy = 10;
         gbc.anchor = GridBagConstraints.WEST;
         importParametersPanel.add(csvDelimiterTextField, gbc);
         csvDelimiterTextField.setColumns(1);
@@ -1523,6 +1541,8 @@ public class PrefsDialog extends JDialog {
         mic.setExtractAttachmentTextMetadata(attachementMetadataCheckBox.isSelected());
         mic.setExtractMessageTextFile(messageFileCheckBox.isSelected());
         mic.setExtractAttachmentTextFile(attachementFileCheckBox.isSelected());
+        // Warning: This flag takes effect on bootstrap (requires restart).
+        mic.setAllowsExternalToolsForTextExtraction(allowsExternalToolsForTextExtractionCheckBox.isSelected());
         mic.setDefaultCharsetName((String) defaultMailCharsetCombobox.getSelectedItem());
 
         gmc.setHierarchicalArchiveUnits(hierarchicalRadioButton.isSelected());

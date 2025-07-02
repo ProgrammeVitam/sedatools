@@ -227,7 +227,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             else
                 mainWindow.load();
 
-            StoreExtractor.initDefaultExtractors();
+            MailImportContext mic = new MailImportContext(Prefs.getInstance());
+            StoreExtractor.initDefaultExtractors(mic.isAllowsExternalToolsForTextExtraction());
         } catch (Exception e) {
             getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, exécution interrompue", e);
             System.exit(1);
