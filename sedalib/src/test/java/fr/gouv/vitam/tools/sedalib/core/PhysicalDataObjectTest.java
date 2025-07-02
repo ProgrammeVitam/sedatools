@@ -11,6 +11,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
@@ -22,6 +23,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 @Execution(value = ExecutionMode.SAME_THREAD,reason= "Can't execute different SedaVersion treatment in parallel")
 class PhysicalDataObjectTest {
+
+    @BeforeEach
+    void setUp() throws SEDALibException {
+        // Reset default seda version
+        SEDA2Version.setSeda2Version(1);
+    }
 
     @Test
     void testJson() throws SEDALibException, InterruptedException, IOException {

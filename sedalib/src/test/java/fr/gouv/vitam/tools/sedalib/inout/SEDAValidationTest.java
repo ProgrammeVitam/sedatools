@@ -12,6 +12,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import org.apache.commons.io.output.ByteArrayOutputStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.stream.XMLStreamException;
@@ -23,6 +24,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 class SEDAValidationTest implements UseTestFiles {
+
+	@BeforeEach
+	void setUp() throws SEDALibException {
+		// Reset default seda version
+		SEDA2Version.setSeda2Version(1);
+	}
 
 	@Test
 	void testSedaXmlValidationOK()
