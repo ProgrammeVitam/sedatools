@@ -44,6 +44,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.file.Files;
@@ -55,6 +56,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -207,17 +209,19 @@ public abstract class StoreExtractor {
      *
      * The following initializations and configurations are applied:
      *
-     * 1. Subscribes default store extractors:
+     * 1. Prevent external tika tools execution on host (tesseract, ffmpeg...) if configured
+     *
+     * 2. Subscribes default store extractors:
      *    - JMStoreExtractor
      *    - MsgStoreExtractor
      *    - PstStoreExtractor
      *    - PstEmbeddedStoreExtractor
      *
-     * 2. Sets the maximum allowed size for byte arrays in Apache POI to prevent extraction 
+     * 3. Sets the maximum allowed size for byte arrays in Apache POI to prevent extraction 
      *    failures when handling large attachments in TNEF files. This change overrides 
      *    the default 1 MB limit with a maximum value of 2 GB.
      *
-     * 3. Configures Jakarta Mail properties to handle malformed MIME messages:
+     * 4. Configures Jakarta Mail properties to handle malformed MIME messages:
      *    - Enables fallback for unknown content-transfer-encoding values, which allows
      *      the parsing of messages with invalid encoding values (e.g., "iso-8859-1").
      *    - Disables strict decoding of MIME-encoded headers, allowing the library 
@@ -227,7 +231,12 @@ public abstract class StoreExtractor {
      *
      * 4. Sets the default time zone for the application to UTC.
      */
-    public static void initDefaultExtractors() {
+    public static void initDefaultExtractors(boolean allowsExternalToolsForTextExtraction) {
+
+        if (!allowsExternalToolsForTextExtraction) {
+            preventExternalToolsForTextExtractionInTika();
+        }
+
         JMStoreExtractor.subscribeStoreExtractor();
         MsgStoreExtractor.subscribeStoreExtractor();
         PstStoreExtractor.subscribeStoreExtractor();
@@ -297,6 +306,19 @@ public abstract class StoreExtractor {
          * different systems and timezones.
          */
         TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+    }
+
+    private static void preventExternalToolsForTextExtractionInTika() {
+        // Apache Tika may use external tools (ffmpeg, exiftool, sox, tesseract...)
+        // Manually instantiating the TikaConfig class does not work because some parsers still use internally the
+        // TikaConfig.getDefaultConfig() method, which by default allows external tools.
+        // Setting the "tika.config" system property is the only solution that seems to work.
+        URL url = StoreExtractor.class.getClassLoader().getResource("tika-without-externals.config");
+        try {
+            System.setProperty("tika.config", Objects.requireNonNull(url).toURI().toString());
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     // StoreExtractor definition parameters

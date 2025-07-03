@@ -32,6 +32,9 @@ public class MailImportContext extends CreationContext {
      */
     boolean extractAttachmentTextMetadata;
 
+    /** Set to true to allow external tools for apache-tika text extraction (tesseract, ffmpeg...)  */
+    boolean allowsExternalToolsForTextExtraction;
+
     /**
      * The protocol.
      */
@@ -52,7 +55,7 @@ public class MailImportContext extends CreationContext {
      * Instantiates a new mail import context.
      */
     public MailImportContext() {
-        this(false, false, false, false, null, null, null, null);
+        this(false, false, false, false, false, null, null, null, null);
     }
 
     /**
@@ -62,6 +65,7 @@ public class MailImportContext extends CreationContext {
      * @param extractMessageTextMetadata the extract message text metadata
      * @param extractAttachmentTextFile  the extract attachment text file
      * @param extractAttachementMetadata the extract attachement metadata
+     * @param allowsExternalToolsForTextExtraction allow/prevent external tools for apache-tika text extraction (tesseract, ffmpeg...)
      * @param protocol                   the protocol
      * @param defaultCharsetName         the default charset name
      * @param onDiskInput                the on disk input
@@ -70,12 +74,15 @@ public class MailImportContext extends CreationContext {
     public MailImportContext(boolean extractMessageTextFile,
                              boolean extractMessageTextMetadata,
                              boolean extractAttachmentTextFile,
-                             boolean extractAttachementMetadata, String protocol, String defaultCharsetName, String onDiskInput, String workDir) {
+                             boolean extractAttachementMetadata,
+                             boolean allowsExternalToolsForTextExtraction,
+                             String protocol, String defaultCharsetName, String onDiskInput, String workDir) {
         super(onDiskInput, workDir);
         this.extractMessageTextFile = extractMessageTextFile;
         this.extractMessageTextMetadata = extractMessageTextMetadata;
         this.extractAttachmentTextFile = extractAttachmentTextFile;
         this.extractAttachmentTextMetadata = extractAttachementMetadata;
+        this.allowsExternalToolsForTextExtraction = allowsExternalToolsForTextExtraction;
         this.protocol = protocol;
         this.mailFolder = "";
         this.defaultCharsetName=defaultCharsetName;
@@ -92,6 +99,7 @@ public class MailImportContext extends CreationContext {
         this.extractMessageTextMetadata = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractMessageTextMetadata", "true"));
         this.extractAttachmentTextFile = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextFile", "true"));
         this.extractAttachmentTextMetadata = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextMetadata", "false"));
+        this.allowsExternalToolsForTextExtraction = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.allowsExternalToolsForTextExtraction", "false"));
         this.protocol = prefs.getPrefProperties().getProperty("importContext.mail.protocol", "thunderbird");
         this.mailFolder = "";
         this.defaultCharsetName = prefs.getPrefProperties().getProperty("importContext.mail.defaultCharsetName", "windows-1252");
@@ -105,6 +113,7 @@ public class MailImportContext extends CreationContext {
         prefs.getPrefProperties().setProperty("importContext.mail.extractMessageTextMetadata", Boolean.toString(extractMessageTextMetadata));
         prefs.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextFile", Boolean.toString(extractAttachmentTextFile));
         prefs.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextMetadata", Boolean.toString(extractAttachmentTextMetadata));
+        prefs.getPrefProperties().setProperty("importContext.mail.allowsExternalToolsForTextExtraction", Boolean.toString(allowsExternalToolsForTextExtraction));
         prefs.getPrefProperties().setProperty("importContext.mail.protocol", (protocol == null ? "" : protocol));
         prefs.getPrefProperties().setProperty("importContext.mail.defaultCharsetName", (defaultCharsetName == null ? "" : defaultCharsetName));
     }
@@ -118,6 +127,7 @@ public class MailImportContext extends CreationContext {
         this.extractMessageTextMetadata = true;
         this.extractAttachmentTextFile = true;
         this.extractAttachmentTextMetadata = false;
+        this.allowsExternalToolsForTextExtraction = false;
         this.protocol = "thunderbird";
         this.mailFolder = "";
         this.defaultCharsetName="windows-1252";
@@ -195,6 +205,23 @@ public class MailImportContext extends CreationContext {
      */
     public void setExtractAttachmentTextMetadata(boolean extractAttachementTextMetadata) {
         this.extractAttachmentTextMetadata = extractAttachementTextMetadata;
+    }
+
+    /**
+     * Checks if external tools (tesseract, ffmpeg...) can be executed on host by tika for text extraction.
+     * @return true is external tools are allowed, false otherwise.
+     */
+    public boolean isAllowsExternalToolsForTextExtraction() {
+        return allowsExternalToolsForTextExtraction;
+    }
+
+    /**
+     * Sets whether external tools (tesseract, ffmpeg...) can be executed on host by tika for text extraction.
+     *
+     * @param allowsExternalToolsForTextExtraction true is external tools are allowed, false otherwise.
+     */
+    public void setAllowsExternalToolsForTextExtraction(boolean allowsExternalToolsForTextExtraction) {
+        this.allowsExternalToolsForTextExtraction = allowsExternalToolsForTextExtraction;
     }
 
     /**

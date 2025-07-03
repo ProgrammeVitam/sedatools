@@ -1,8 +1,16 @@
 package fr.gouv.vitam.tools.mailextractlib;
 
-import fr.gouv.vitam.tools.mailextractlib.core.*;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAppointment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreContact;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractorOptions;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
+import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -10,6 +18,40 @@ import java.io.IOException;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class TestTextExtraction {
+
+    private static final SoftAssertions assertNoProcessesRun = new SoftAssertions();
+    private static SecurityManager initialSecurityManager;
+
+    @BeforeAll
+    public static void setup() {
+        initialSecurityManager = System.getSecurityManager();
+
+        // WARNING: Deprecated in Java 17. Not recommended for production, but still good for testing.
+        class NoExecSecurityManager extends SecurityManager {
+            @Override
+            public void checkExec(String cmd) {
+                assertNoProcessesRun.fail("Process run: '" + cmd + "'");
+            }
+
+            @Override
+            public void checkPermission(java.security.Permission perm) {
+                // Allow all other permissions
+            }
+        }
+
+        // Set the custom SecurityManager
+        System.setSecurityManager(new NoExecSecurityManager());
+    }
+
+    @AfterAll
+    public static void tearDown() {
+        // Reset initial security manager
+        System.setSecurityManager(initialSecurityManager);
+
+        // Asser that no external processes run under-the-hood by apache-tika (tesseract, ffmpeg...)
+        assertNoProcessesRun.assertAll();
+    }
+
     @Test
     public void testTextExtraction() throws MailExtractLibException, InterruptedException, IOException {
         //given

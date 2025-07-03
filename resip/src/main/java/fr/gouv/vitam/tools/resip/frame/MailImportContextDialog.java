@@ -49,6 +49,7 @@ public class MailImportContextDialog extends JDialog {
 	private JCheckBox attachementFileCheckBox;
 	private JCheckBox messageMetadataCheckBox;
 	private JCheckBox attachementMetadataCheckBox;
+	private JCheckBox allowsExternalToolsForTextExtractionCheckBox;
 	private JRadioButton pstRadioButton;
 	private JRadioButton msgRadioButton;
 	private JRadioButton tdbRadioButton;
@@ -265,6 +266,26 @@ public class MailImportContextDialog extends JDialog {
 		parametersPanel.add(attachementMetadataCheckBox, gbc);
 		attachementMetadataCheckBox.setSelected(mailImportContext.isExtractAttachmentTextMetadata());
 
+		JLabel allowsExternalToolsForTextExtractionLabel = new JLabel("Extraction de métadonnées textuelles :");
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.EAST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 0;
+		gbc.gridy = 7;
+		parametersPanel.add(allowsExternalToolsForTextExtractionLabel, gbc);
+
+		allowsExternalToolsForTextExtractionCheckBox = new JCheckBox("Utilisation d'outils externes installés");
+		// allowsExternalToolsForTextExtraction flag is read-only.
+		// Actual setting is set during bootstrap, it cannot be updated here.
+		allowsExternalToolsForTextExtractionCheckBox.setEnabled(false);
+		gbc = new GridBagConstraints();
+		gbc.anchor = GridBagConstraints.WEST;
+		gbc.insets = new Insets(0, 0, 5, 5);
+		gbc.gridx = 1;
+		gbc.gridy = 7;
+		parametersPanel.add(allowsExternalToolsForTextExtractionCheckBox, gbc);
+		allowsExternalToolsForTextExtractionCheckBox.setSelected(mailImportContext.isAllowsExternalToolsForTextExtraction());
+
 		// Buttons
 		JButton cancelButton = new JButton("Annuler");
 		cancelButton.setFont(MainWindow.CLICK_FONT);
@@ -314,6 +335,7 @@ public class MailImportContextDialog extends JDialog {
 		mailImportContext.setExtractMessageTextMetadata(messageMetadataCheckBox.isSelected());
 		mailImportContext.setExtractAttachmentTextFile(attachementFileCheckBox.isSelected());
 		mailImportContext.setExtractAttachmentTextMetadata(attachementMetadataCheckBox.isSelected());
+		// allowsExternalToolsForTextExtraction is readonly, no need to update it
 		mailImportContext.setExtractMessageTextFile(messageFileCheckBox.isSelected());
 		if (pstRadioButton.isSelected())
 			mailImportContext.setProtocol("pst");

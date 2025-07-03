@@ -26,7 +26,7 @@ public interface AllTests {
         File testDir=new File("target/tmpJUnit/"+testName);
         if (testDir.isDirectory())
             FileUtils.deleteDirectory(testDir);
-        StoreExtractor.initDefaultExtractors();
+        StoreExtractor.initDefaultExtractors(false);
     }
 
     static MailExtractProgressLogger initLogger(String loggerName) {

@@ -405,7 +405,8 @@ public class MailExtractApp {
 
 
         // init default store extractors
-        StoreExtractor.initDefaultExtractors();
+        // For now, we'll keep running external tools during apache-tika text extraction (tesseract, ffmpeg...).
+        StoreExtractor.initDefaultExtractors(true);
 
         // if no do option graphic version
         if (!cmd.hasOption("l") && !cmd.hasOption("z") && !cmd.hasOption("x")) {

@@ -5,6 +5,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.content.*;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.stream.XMLStreamException;
@@ -15,6 +16,13 @@ import java.nio.charset.StandardCharsets;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class SEDA2VersionTest {
+
+    @BeforeEach
+    void setUp() throws SEDALibException {
+        // Reset default seda version
+        SEDA2Version.setSeda2Version(1);
+    }
+
     @Test
         // Test the SEDA2.1 and 2.2 construct from xml string (fromSedaXML)
     void testSeda2VersionComplianceTest() throws SEDALibException {

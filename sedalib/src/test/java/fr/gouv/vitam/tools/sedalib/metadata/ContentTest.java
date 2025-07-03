@@ -5,6 +5,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.content.*;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -19,6 +20,12 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 class ContentTest {
+
+    @BeforeEach
+    void setUp() throws SEDALibException {
+        // Reset default seda version
+        SEDA2Version.setSeda2Version(1);
+    }
 
     @Test
         // Test Content and ComplexListType subclass

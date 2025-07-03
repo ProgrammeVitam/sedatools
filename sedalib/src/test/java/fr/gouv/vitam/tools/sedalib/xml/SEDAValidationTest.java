@@ -2,12 +2,19 @@ package fr.gouv.vitam.tools.sedalib.xml;
 
 import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static fr.gouv.vitam.tools.sedalib.TestUtilities.readFileToString;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class SEDAValidationTest {
+
+    @BeforeEach
+    void setUp() throws SEDALibException {
+        // Reset default seda version
+        SEDA2Version.setSeda2Version(1);
+    }
 
     @Test
     public void testSeda2_1ArchiveTransferCompliance() throws SEDALibException {
