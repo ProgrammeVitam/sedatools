@@ -39,6 +39,16 @@
             <artifactId>tika-parsers-standard-package</artifactId>
             <version>${tika.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${apache.poi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
         <!--    For MIME type mail treatment-->
         <dependency>
             <groupId>jakarta.mail</groupId>
