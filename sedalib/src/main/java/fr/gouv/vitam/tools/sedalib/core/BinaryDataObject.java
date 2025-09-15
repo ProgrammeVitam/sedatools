@@ -63,80 +63,72 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
  */
 public class BinaryDataObject extends AbstractUnitaryDataObject implements DataObject, ComplexListInterface {
 
-    /**
-     * Init metadata map.
-     */
-    @ComplexListMetadataMap(seda2Version = {1})
-    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V1;
+    private static class MetadataField {
+        final String key;
+        final ComplexListMetadataKind kind;
+        final Set<Integer> versions;
 
-    static {
-        METADATA_MAP_V1 = new LinkedHashMap<>();
-        METADATA_MAP_V1.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
-        METADATA_MAP_V1.put("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
+        MetadataField(String key, ComplexListMetadataKind kind, Integer... supportedVersions) {
+            this.key = key;
+            this.kind = kind;
+            this.versions = new HashSet<>(Arrays.asList(supportedVersions));
+        }
 
-        METADATA_MAP_V1.put("Uri", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
-        METADATA_MAP_V1.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
-        METADATA_MAP_V1.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V1.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
-        METADATA_MAP_V1.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
-        METADATA_MAP_V1.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
-        METADATA_MAP_V1.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
+        boolean isForVersion(int version) {
+            return versions.contains(version);
+        }
     }
+
+    private static final List<MetadataField> ALL_FIELDS = Arrays.asList(
+        new MetadataField("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false), 2, 3),
+        new MetadataField("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("Relationship", new ComplexListMetadataKind(Relationship.class, true), 1, 2, 3),
+        new MetadataField("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false), 1),
+        new MetadataField("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true), 3),
+        new MetadataField("DataObjectUse", new ComplexListMetadataKind(StringType.class, false), 3),
+        new MetadataField("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false), 3),
+        new MetadataField("Uri", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("MessageDigest", new ComplexListMetadataKind(DigestType.class, false), 1, 2, 3),
+        new MetadataField("Size", new ComplexListMetadataKind(IntegerType.class, false), 1, 2, 3),
+        new MetadataField("Compressed", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+        new MetadataField("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false), 1, 2, 3),
+        new MetadataField("FileInfo", new ComplexListMetadataKind(FileInfo.class, false), 1, 2, 3),
+        new MetadataField("Metadata", new ComplexListMetadataKind(Metadata.class, false), 1, 2, 3),
+        new MetadataField("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false), 1, 2, 3)
+    );
+
+    private static LinkedHashMap<String, ComplexListMetadataKind> createMetadataMapForVersion(int version) {
+        LinkedHashMap<String, ComplexListMetadataKind> map = new LinkedHashMap<>();
+        for (MetadataField field : ALL_FIELDS) {
+            if (field.isForVersion(version)) {
+                map.put(field.key, field.kind);
+            }
+        }
+        return map;
+    }
+
+    @ComplexListMetadataMap(seda2Version = {1})
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V1 = createMetadataMapForVersion(1);
 
     @ComplexListMetadataMap(seda2Version = {2})
-    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2;
-
-    static {
-        METADATA_MAP_V2 = new LinkedHashMap<>();
-        METADATA_MAP_V2.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
-        METADATA_MAP_V2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
-
-        METADATA_MAP_V2.put("Uri", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
-        METADATA_MAP_V2.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
-        METADATA_MAP_V2.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V2.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
-        METADATA_MAP_V2.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
-        METADATA_MAP_V2.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
-        METADATA_MAP_V2.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
-    }
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2 = createMetadataMapForVersion(2);
 
     @ComplexListMetadataMap(seda2Version = {3})
-    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3;
+    public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3 = createMetadataMapForVersion(3);
 
-    static {
-        METADATA_MAP_V3 = new LinkedHashMap<>();
-        METADATA_MAP_V3.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
-        METADATA_MAP_V3.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true));
-        METADATA_MAP_V3.put("DataObjectUse", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false));
+    @SuppressWarnings("unchecked")
+    private final static LinkedHashMap<String, ComplexListMetadataKind>[] METADATA_MAPS =
+        new LinkedHashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
 
-        METADATA_MAP_V3.put("Uri", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("MessageDigest", new ComplexListMetadataKind(DigestType.class, false));
-        METADATA_MAP_V3.put("Size", new ComplexListMetadataKind(IntegerType.class, false));
-        METADATA_MAP_V3.put("Compressed", new ComplexListMetadataKind(StringType.class, false));
-        METADATA_MAP_V3.put("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false));
-        METADATA_MAP_V3.put("FileInfo", new ComplexListMetadataKind(FileInfo.class, false));
-        METADATA_MAP_V3.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
-        METADATA_MAP_V3.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
-    }
-
-    private final static LinkedHashMap<String, ComplexListMetadataKind>[] METADATA_MAPS = new LinkedHashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
     public final static Boolean[] NON_EXPANDABLE_FLAGS = new Boolean[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
 
     static {
+        for (int i = 0; i <= SEDA2Version.MAX_SUPPORTED_VERSION; i++) {
+            METADATA_MAPS[i] = createMetadataMapForVersion(i);
+        }
         ComplexListInterface.initMetadataMaps(BinaryDataObject.class, METADATA_MAPS, NON_EXPANDABLE_FLAGS);
     }
 
