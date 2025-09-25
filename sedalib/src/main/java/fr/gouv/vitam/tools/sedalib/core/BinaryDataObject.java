@@ -439,6 +439,12 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         if (fileInfo != null) {
             String tmp = fileInfo.getSimpleMetadata("Filename");
             tmpUri += (tmp != null ? "." + getExtension(tmp) : "");
+
+            // Remplace l'inDataPackageObjectId par le fileName si fileName présent
+            // pour garder le nom du fichier d'origine dans le dossier content du SIP.
+            if (tmp != null) {
+                tmpUri = "content/" + tmp;
+            }
         }
         addMetadata(new StringType("Uri", tmpUri));
     }
@@ -479,7 +485,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
                 ? bdo : null);
     }
 
-   /**
+    /**
      * Gets the FileInfo metadata from the metadata list.
      *
      * @return the FileInfo metadata, or null if not found
