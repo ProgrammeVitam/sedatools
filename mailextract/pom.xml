@@ -2,21 +2,22 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
-        <artifactId>sedatools</artifactId>
         <groupId>fr.gouv.vitam.tools</groupId>
+        <artifactId>sedatools</artifactId>
         <version>2.9.0-SNAPSHOT</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
-
     <artifactId>mailextract</artifactId>
+    <packaging>jar</packaging>
 
     <name>mailextract</name>
     <url>http://www.programmevitam.fr</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <timestamp>${maven.build.timestamp}</timestamp>
+        <maven.build.timestamp.format>dd/MM/yyyy HH:mm</maven.build.timestamp.format>
     </properties>
 
     <dependencies>
@@ -54,6 +55,7 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <executions>
                     <execution>
+                        <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
                         </goals>
@@ -69,6 +71,7 @@
                                 </filter>
                             </filters>
                             <shadedArtifactAttached>true</shadedArtifactAttached>
+                            <minimizeJar>false</minimizeJar>
                             <transformers>
                                 <!-- Point d’entrée -->
                                 <transformer
@@ -107,6 +110,45 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <!-- download openjdk -->
+                    <execution>
+                        <id>download-jdk</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <get
+                                        src="https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_windows-x64_bin.zip"
+                                        dest="${project.build.directory}/openjdk-11+28_windows-x64_bin.zip"
+                                        verbose="false"
+                                        ignoreerrors="false"
+                                        usetimestamp="true"/>
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unzip-jdk</id>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <echo message="unzipping file"/>
+                                <unzip src="${project.build.directory}/openjdk-11+28_windows-x64_bin.zip"
+                                       dest="${project.build.directory}/"/>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <!-- LAUNCH4J -->
             <plugin>
                 <groupId>com.akathist.maven.plugins.launch4j</groupId>
@@ -121,18 +163,21 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar>
+                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
                             <icon>windows/VitamIcon.ico</icon>
-                            <outfile>windows/MailExtract.exe</outfile>
+                            <outfile>${project.build.directory}/MailExtract.exe</outfile>
+                            <stayAlive>true</stayAlive>
                             <downloadUrl>http://java.com/download</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.mailextract.MailExtractApp</mainClass>
                             </classPath>
                             <jre>
-                                <path>.\jre</path>
-                                <minVersion>11.0.0</minVersion>
+                                <path>jdk-11</path>
+                                <minVersion>11</minVersion>
                                 <requires64Bit/>
+                                <requiresJdk/>
                                 <opts>
+                                    <opt>-Dfile.encoding="UTF8"</opt>
                                     <opt>-Xms1024m</opt>
                                 </opts>
                             </jre>
@@ -141,7 +186,7 @@
                                     ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
                                 </fileVersion>
                                 <txtFileVersion>
-                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0}
+                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
                                 </txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
                                 <copyright>Programme Vitam</copyright>
@@ -165,18 +210,20 @@
                         </goals>
                         <configuration>
                             <headerType>console</headerType>
-                            <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar>
+                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
                             <icon>windows/VitamIcon.ico</icon>
-                            <outfile>windows/MailExtractCmd.exe</outfile>
+                            <outfile>${project.build.directory}/MailExtractCmd.exe</outfile>
                             <downloadUrl>http://java.com/download</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.mailextract.MailExtractApp</mainClass>
                             </classPath>
                             <jre>
-                                <path>.\jre</path>
-                                <minVersion>11.0.0</minVersion>
+                                <path>jdk-11</path>
+                                <minVersion>11</minVersion>
                                 <requires64Bit/>
+                                <requiresJdk/>
                                 <opts>
+                                    <opt>-Dfile.encoding="UTF8"</opt>
                                     <opt>-Xms1024m</opt>
                                 </opts>
                             </jre>
@@ -199,6 +246,42 @@
                                 <internalName>${project.name}</internalName>
                                 <originalFilename>MailExtract.exe</originalFilename>
                             </versionInfo>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
+                <executions>
+                    <execution>
+                        <id>jar-with-deps-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>fr.gouv.vitam.tools.mailextract.MailExtractApp</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>zip-with-jdk-11-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${project.basedir}/assembly.xml</descriptor>
+                            </descriptors>
                         </configuration>
                     </execution>
                 </executions>
