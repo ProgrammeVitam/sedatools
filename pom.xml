@@ -93,12 +93,6 @@
                     <url>${env.SERVICE_NEXUS_URL}/repository/maven-snapshots/</url>
                 </snapshotRepository>
             </distributionManagement>
-            <repositories>
-                <repository>
-                    <id>vitam</id>
-                    <url>${env.SERVICE_NEXUS_URL}/repository/maven-public/</url>
-                </repository>
-            </repositories>
             <!-- Maven plugins repositories -->
             <pluginRepositories>
                 <pluginRepository>
