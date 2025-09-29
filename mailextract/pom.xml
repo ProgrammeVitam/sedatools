@@ -118,7 +118,7 @@
                     <!-- download openjdk -->
                     <execution>
                         <id>download-jdk</id>
-                        <phase>initialize</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
