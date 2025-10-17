@@ -34,7 +34,7 @@ import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.CompactContext;
 import fr.gouv.vitam.tools.resip.parameters.CreationContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
@@ -194,7 +194,7 @@ public class DeCompactThread extends SwingWorker<String, String> {
             doProgressLog(spl, GLOBAL, "Décompactage de l'ArchiveUnit [" + targetArchiveUnit.getInDataObjectPackageId() + "]=" +
                     targetArchiveUnit.getContent().getSimpleMetadata("Title"), null);
 
-            CreationContext cc = new CreationContext(Prefs.getInstance());
+            CreationContext cc = new CreationContext(Preferences.getInstance());
 
             String target = getTmpDirTarget(cc.getWorkDir(), "DeCompact", targetArchiveUnit.getInDataObjectPackageId());
             //run output

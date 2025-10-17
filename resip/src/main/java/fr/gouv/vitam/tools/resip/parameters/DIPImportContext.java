@@ -28,15 +28,15 @@ public class DIPImportContext extends CreationContext {
     /**
      * Instantiates a new DIP import context.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public DIPImportContext(Prefs prefs) {
-		super(prefs);
+    public DIPImportContext(Preferences preferences) {
+		super(preferences);
 	}
 
 	/* (non-Javadoc)
 	 * @see CreationContext#toPrefs(Prefs)
 	 */
-	public void toPrefs(Prefs prefs) {
+	public void toPrefs(Preferences preferences) {
 	}
 }

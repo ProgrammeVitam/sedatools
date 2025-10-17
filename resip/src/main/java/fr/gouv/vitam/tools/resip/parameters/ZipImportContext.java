@@ -3,8 +3,6 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -22,10 +20,10 @@ public class ZipImportContext extends DiskImportContext {
 	/**
 	 * Instantiates a new zip import context.
 	 *
-	 * @param prefs the prefs
+	 * @param preferences the prefs
 	 */
-	public ZipImportContext(Prefs prefs) {
-		super(prefs);
+	public ZipImportContext(Preferences preferences) {
+		super(preferences);
 		this.noLinkFlag=true;
 	}
 
@@ -43,7 +41,7 @@ public class ZipImportContext extends DiskImportContext {
 	/* (non-Javadoc)
 	 * @see CreationContext#toPrefs(Prefs)
 	 */
-	public void toPrefs(Prefs prefs) {
+	public void toPrefs(Preferences preferences) {
 	}
 
 	/* (non-Javadoc)

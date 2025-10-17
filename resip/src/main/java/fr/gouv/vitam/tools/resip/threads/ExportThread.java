@@ -31,7 +31,7 @@ import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.parameters.CSVImportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
@@ -177,7 +177,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     break;
                 case CSV_ALL_DISK_EXPORT:
                     inOutDialog.extProgressTextArea.setText("Export en hiérarchie disque simplifiée avec fichier csv des métadonnées " + work.getExportContext().getOnDiskOutput() + "\n");
-                    CSVImportContext cmic = new CSVImportContext(Prefs.getInstance());
+                    CSVImportContext cmic = new CSVImportContext(Preferences.getInstance());
                     DataObjectPackageToCSVMetadataExporter cme = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmic.getCsvCharsetName(), cmic.getDelimiter(),
                             work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().isCsvExtendedFormat(), work.getExportContext().getMaxNameSize(), spl);
@@ -186,7 +186,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     break;
                 case CSV_ALL_ZIP_EXPORT:
                     inOutDialog.extProgressTextArea.setText("Export en hiérarchie disque simplifiée dans un zip avec fichier csv des métadonnées " + work.getExportContext().getOnDiskOutput() + "\n");
-                    CSVImportContext cmicz = new CSVImportContext(Prefs.getInstance());
+                    CSVImportContext cmicz = new CSVImportContext(Preferences.getInstance());
                     DataObjectPackageToCSVMetadataExporter cmez = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmicz.getCsvCharsetName(), cmicz.getDelimiter(),
                             work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().isCsvExtendedFormat(), work.getExportContext().getMaxNameSize(), spl);
@@ -195,7 +195,7 @@ public class ExportThread extends SwingWorker<String, String> {
                     break;
                 case CSV_METADATA_FILE_EXPORT:
                     inOutDialog.extProgressTextArea.setText("Export en hiérarchie disque simplifiée avec fichier csv des métadonnées " + work.getExportContext().getOnDiskOutput() + "\n");
-                    CSVImportContext cmicm = new CSVImportContext(Prefs.getInstance());
+                    CSVImportContext cmicm = new CSVImportContext(Preferences.getInstance());
                     DataObjectPackageToCSVMetadataExporter cmem = new DataObjectPackageToCSVMetadataExporter(
                             archiveTransfer.getDataObjectPackage(), cmicm.getCsvCharsetName(), cmicm.getDelimiter(),
                             work.getExportContext().getUsageVersionSelectionMode(), work.getExportContext().isCsvExtendedFormat(), work.getExportContext().getMaxNameSize(), spl);
@@ -225,7 +225,7 @@ public class ExportThread extends SwingWorker<String, String> {
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: export terminé", null);
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
             try {
-                Prefs.getInstance().setPrefsExportDirFromChild(work.getExportContext().getOnDiskOutput());
+                Preferences.getInstance().setPrefsExportDirFromChild(work.getExportContext().getOnDiskOutput());
             } catch (ResipException e) {
                 doProgressLogWithoutInterruption(spl, GLOBAL, "resip: la localisation d'export par défaut n'a pu être actualisée dans les préférences", e);
             }

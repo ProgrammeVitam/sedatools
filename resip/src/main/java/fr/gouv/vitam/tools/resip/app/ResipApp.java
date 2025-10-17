@@ -35,7 +35,7 @@ import fr.gouv.vitam.tools.resip.parameters.CSVMetadataImportContext;
 import fr.gouv.vitam.tools.resip.parameters.CreationContext;
 import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
@@ -309,7 +309,7 @@ public class ResipApp {
                 System.exit(1);
             }
         } else {
-            workdirString = new CreationContext(Prefs.getInstance()).getWorkDir();
+            workdirString = new CreationContext(Preferences.getInstance()).getWorkDir();
         }
         try {
             Files.createDirectories(Paths.get(workdirString));
@@ -401,7 +401,7 @@ public class ResipApp {
             }
         } else {
             try {
-                exportContext = new ExportContext(Prefs.getInstance());
+                exportContext = new ExportContext(Preferences.getInstance());
             } catch (Exception e) {
                 exportContext = new ExportContext();
                 exportContext.setDefaultPrefs();

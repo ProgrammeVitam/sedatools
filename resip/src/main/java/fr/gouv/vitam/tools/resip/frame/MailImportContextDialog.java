@@ -29,7 +29,7 @@ package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 
 import javax.swing.*;
 import java.awt.*;
@@ -94,7 +94,7 @@ public class MailImportContextDialog extends JDialog {
      * @param owner the owner
      */
     public MailImportContextDialog(JFrame owner) {
-		this(owner, new MailImportContext(Prefs.getInstance()));
+		this(owner, new MailImportContext(Preferences.getInstance()));
 	}
 
     /**

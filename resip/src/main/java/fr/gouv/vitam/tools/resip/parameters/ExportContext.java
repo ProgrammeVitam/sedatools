@@ -154,98 +154,114 @@ public class ExportContext {
 	/**
 	 * Instantiates a new GlobalMetadata from the preferences.
 	 *
-	 * @param prefs the prefs
+	 * @param preferences the prefs
 	 */
-	public ExportContext(Prefs prefs) {
+	public ExportContext(Preferences preferences) {
 		setArchiveTransferGlobalMetadata(new GlobalMetadata());
-		hierarchicalArchiveUnits = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.hierarchicalArchiveUnits", "true"));
-		indented = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.indented", "true"));
-		reindex = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.reindex", "false"));
+		hierarchicalArchiveUnits = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("exportContext.general.hierarchicalArchiveUnits", "true"));
+		indented = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("exportContext.general.indented", "true"));
+		reindex = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("exportContext.general.reindex", "false"));
 		try {
-			usageVersionSelectionMode=Integer.parseInt(prefs.getPrefProperties().getProperty("exportContext.csvExport.usageVersionSelectionMode",Integer.toString(LAST_DATAOBJECT)));
+			usageVersionSelectionMode=Integer.parseInt(
+                preferences.getPrefProperties().getProperty("exportContext.csvExport.usageVersionSelectionMode",Integer.toString(LAST_DATAOBJECT)));
 		}
 		catch (NumberFormatException e){
 			usageVersionSelectionMode=LAST_DATAOBJECT;
 		}
 		if ((usageVersionSelectionMode<FIRST_DATAOBJECT) || (usageVersionSelectionMode>ALL_DATAOBJECTS)) usageVersionSelectionMode=LAST_DATAOBJECT;
 		try {
-			maxNameSize=Integer.parseInt(prefs.getPrefProperties().getProperty("exportContext.csvExport.maxNameSize","32"));
+			maxNameSize=Integer.parseInt(
+                preferences.getPrefProperties().getProperty("exportContext.csvExport.maxNameSize","32"));
 		}
 		catch (NumberFormatException e){
 			maxNameSize=32;
 		}
 		if (maxNameSize<0) maxNameSize=0;
-		csvExtendedFormat = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.csvExport.csvExtendedFormat", "true"));
-		managementMetadataXmlData=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.general.managementMetadataXmlData", ""));
-		metadataFilterFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.general.metadataFilterFlag", "false"));
-		String keptMetadataString = prefs.getPrefProperties().getProperty("exportContext.general.keptMetadataList", "");
+		csvExtendedFormat = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("exportContext.csvExport.csvExtendedFormat", "true"));
+		managementMetadataXmlData=nullIfEmpty(
+            preferences.getPrefProperties().getProperty("exportContext.general.managementMetadataXmlData", ""));
+		metadataFilterFlag = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("exportContext.general.metadataFilterFlag", "false"));
+		String keptMetadataString = preferences.getPrefProperties().getProperty("exportContext.general.keptMetadataList", "");
 		if (keptMetadataString.isEmpty())
 			keptMetadataList = new ArrayList<>();
 		else
 			keptMetadataList = Arrays.asList(keptMetadataString.split("\\s*\n\\s*"))
 					.stream().map(String::trim).collect(Collectors.toList());
 
-		getArchiveTransferGlobalMetadata().comment=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.comment", ""));
-		getArchiveTransferGlobalMetadata().date=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.date", ""));
-		getArchiveTransferGlobalMetadata().setNowFlag(Boolean.parseBoolean(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.nowFlag", "true")));
-		getArchiveTransferGlobalMetadata().messageIdentifier=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.messageIdentifier", ""));
-		getArchiveTransferGlobalMetadata().archivalAgreement=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.archivalAgreement", ""));
+		getArchiveTransferGlobalMetadata().comment=nullIfEmpty(
+            preferences.getPrefProperties().getProperty("exportContext.globalMetadata.comment", ""));
+		getArchiveTransferGlobalMetadata().date=nullIfEmpty(
+            preferences.getPrefProperties().getProperty("exportContext.globalMetadata.date", ""));
+		getArchiveTransferGlobalMetadata().setNowFlag(Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("exportContext.globalMetadata.nowFlag", "true")));
+		getArchiveTransferGlobalMetadata().messageIdentifier=nullIfEmpty(
+            preferences.getPrefProperties().getProperty("exportContext.globalMetadata.messageIdentifier", ""));
+		getArchiveTransferGlobalMetadata().archivalAgreement=nullIfEmpty(
+            preferences.getPrefProperties().getProperty("exportContext.globalMetadata.archivalAgreement", ""));
 		getArchiveTransferGlobalMetadata()
-				.codeListVersionsXmlData=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.codeListVersionsXmlData", ""));
+				.codeListVersionsXmlData=nullIfEmpty(
+            preferences.getPrefProperties().getProperty("exportContext.globalMetadata.codeListVersionsXmlData", ""));
 		getArchiveTransferGlobalMetadata()
-				.transferRequestReplyIdentifier=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.transferRequestReplyIdentifier", ""));
+				.transferRequestReplyIdentifier=nullIfEmpty(preferences.getPrefProperties().getProperty("exportContext.globalMetadata.transferRequestReplyIdentifier", ""));
 		getArchiveTransferGlobalMetadata()
-				.archivalAgencyIdentifier=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.archivalAgencyIdentifier", ""));
+				.archivalAgencyIdentifier=nullIfEmpty(
+            preferences.getPrefProperties().getProperty("exportContext.globalMetadata.archivalAgencyIdentifier", ""));
 		getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData=
-				nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.archivalAgencyOrganizationDescriptiveMetadataXmlData", ""));
+				nullIfEmpty(preferences.getPrefProperties().getProperty("exportContext.globalMetadata.archivalAgencyOrganizationDescriptiveMetadataXmlData", ""));
 		getArchiveTransferGlobalMetadata()
-				.transferringAgencyIdentifier=nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.transferringAgencyIdentifier", ""));
+				.transferringAgencyIdentifier=nullIfEmpty(
+            preferences.getPrefProperties().getProperty("exportContext.globalMetadata.transferringAgencyIdentifier", ""));
 		getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData=
-				nullIfEmpty(prefs.getPrefProperties().getProperty("exportContext.globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData", ""));
+				nullIfEmpty(preferences.getPrefProperties().getProperty("exportContext.globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData", ""));
 	}
 
 	/**
 	 * To prefs.
 	 *
-	 * @param prefs the prefs
+	 * @param preferences the prefs
 	 */
-	public void toPrefs(Prefs prefs) {
-		prefs.getPrefProperties().setProperty("exportContext.general.hierarchicalArchiveUnits", Boolean.toString(hierarchicalArchiveUnits));
-		prefs.getPrefProperties().setProperty("exportContext.general.indented", Boolean.toString(indented));
-		prefs.getPrefProperties().setProperty("exportContext.general.reindex", Boolean.toString(reindex));
-		prefs.getPrefProperties().setProperty("exportContext.csvExport.usageVersionSelectionMode", Integer.toString(usageVersionSelectionMode));
-		prefs.getPrefProperties().setProperty("exportContext.csvExport.maxNameSize", Integer.toString(maxNameSize));
-		prefs.getPrefProperties().setProperty("exportContext.csvExport.csvExtendedFormat", Boolean.toString(csvExtendedFormat));
-		prefs.getPrefProperties().setProperty("exportContext.general.managementMetadataXmlData", (managementMetadataXmlData == null ? ""
+	public void toPrefs(Preferences preferences) {
+		preferences.getPrefProperties().setProperty("exportContext.general.hierarchicalArchiveUnits", Boolean.toString(hierarchicalArchiveUnits));
+		preferences.getPrefProperties().setProperty("exportContext.general.indented", Boolean.toString(indented));
+		preferences.getPrefProperties().setProperty("exportContext.general.reindex", Boolean.toString(reindex));
+		preferences.getPrefProperties().setProperty("exportContext.csvExport.usageVersionSelectionMode", Integer.toString(usageVersionSelectionMode));
+		preferences.getPrefProperties().setProperty("exportContext.csvExport.maxNameSize", Integer.toString(maxNameSize));
+		preferences.getPrefProperties().setProperty("exportContext.csvExport.csvExtendedFormat", Boolean.toString(csvExtendedFormat));
+		preferences.getPrefProperties().setProperty("exportContext.general.managementMetadataXmlData", (managementMetadataXmlData == null ? ""
 				: managementMetadataXmlData));
-		prefs.getPrefProperties().setProperty("exportContext.general.metadataFilterFlag", Boolean.toString(metadataFilterFlag));
-		prefs.getPrefProperties().setProperty("exportContext.general.keptMetadataList", String.join("\n", keptMetadataList));
+		preferences.getPrefProperties().setProperty("exportContext.general.metadataFilterFlag", Boolean.toString(metadataFilterFlag));
+		preferences.getPrefProperties().setProperty("exportContext.general.keptMetadataList", String.join("\n", keptMetadataList));
 
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.comment", (getArchiveTransferGlobalMetadata().comment == null ? ""
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.comment", (getArchiveTransferGlobalMetadata().comment == null ? ""
 				: getArchiveTransferGlobalMetadata().comment));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.date", (getArchiveTransferGlobalMetadata().date == null ? ""
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.date", (getArchiveTransferGlobalMetadata().date == null ? ""
 				: getArchiveTransferGlobalMetadata().date));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.nowFlag", Boolean.toString(getArchiveTransferGlobalMetadata().isNowFlag()));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.messageIdentifier", (getArchiveTransferGlobalMetadata().messageIdentifier == null ? ""
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.nowFlag", Boolean.toString(getArchiveTransferGlobalMetadata().isNowFlag()));
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.messageIdentifier", (getArchiveTransferGlobalMetadata().messageIdentifier == null ? ""
 				: getArchiveTransferGlobalMetadata().messageIdentifier));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.archivalAgreement", (getArchiveTransferGlobalMetadata().archivalAgreement == null ? ""
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.archivalAgreement", (getArchiveTransferGlobalMetadata().archivalAgreement == null ? ""
 				: getArchiveTransferGlobalMetadata().archivalAgreement));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.codeListVersionsXmlData",
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.codeListVersionsXmlData",
 				(getArchiveTransferGlobalMetadata().codeListVersionsXmlData == null ? ""
 						: getArchiveTransferGlobalMetadata().codeListVersionsXmlData));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.transferRequestReplyIdentifier",
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.transferRequestReplyIdentifier",
 				(getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier == null ? ""
 						: getArchiveTransferGlobalMetadata().transferRequestReplyIdentifier));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.archivalAgencyIdentifier",
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.archivalAgencyIdentifier",
 				(getArchiveTransferGlobalMetadata().archivalAgencyIdentifier == null ? ""
 						: getArchiveTransferGlobalMetadata().archivalAgencyIdentifier));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.archivalAgencyOrganizationDescriptiveMetadataXmlData",
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.archivalAgencyOrganizationDescriptiveMetadataXmlData",
 				(getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData == null ? ""
 						: getArchiveTransferGlobalMetadata().archivalAgencyOrganizationDescriptiveMetadataXmlData));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.transferringAgencyIdentifier",
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.transferringAgencyIdentifier",
 				(getArchiveTransferGlobalMetadata().transferringAgencyIdentifier == null ? ""
 						: getArchiveTransferGlobalMetadata().transferringAgencyIdentifier));
-		prefs.getPrefProperties().setProperty("exportContext.globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData",
+		preferences.getPrefProperties().setProperty("exportContext.globalMetadata.transferringAgencyOrganizationDescriptiveMetadataXmlData",
 				(getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData == null ? ""
 						: getArchiveTransferGlobalMetadata().transferringAgencyOrganizationDescriptiveMetadataXmlData));
 	}

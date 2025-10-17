@@ -94,10 +94,10 @@ public class CreationContext {
     /**
      * Instantiates a new creation context from preferences.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public CreationContext(Prefs prefs) {
-		workDir = prefs.getPrefProperties().getProperty("importContext.workDir", "");
+    public CreationContext(Preferences preferences) {
+		workDir = preferences.getPrefProperties().getProperty("importContext.workDir", "");
 		try {
 			 Paths.get(workDir);
 		}
@@ -105,7 +105,7 @@ public class CreationContext {
 			workDir="";
 		}
 		if (workDir.isEmpty())
-				workDir = Prefs.getDefaultWorkDir();
+				workDir = Preferences.getDefaultWorkDir();
 		onDiskInput = null;
 		summary = null;
 		structureChanged = false;
@@ -115,17 +115,17 @@ public class CreationContext {
      * Put in preferences the values specific of this context class.
      * Values from the upper class are not put in preferences.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public void toPrefs(Prefs prefs) {
-		prefs.getPrefProperties().setProperty("importContext.workDir", (workDir == null ? "" : workDir));
+    public void toPrefs(Preferences preferences) {
+		preferences.getPrefProperties().setProperty("importContext.workDir", (workDir == null ? "" : workDir));
 	}
 
     /**
      * Sets the default prefs.
      */
     public void setDefaultPrefs() {
-		workDir = Prefs.getDefaultWorkDir();
+		workDir = Preferences.getDefaultWorkDir();
 		onDiskInput = null;
 		summary = null;
 		structureChanged = false;

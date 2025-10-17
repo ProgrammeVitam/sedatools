@@ -85,7 +85,7 @@ public class ImportThread extends SwingWorker<String, String> {
 
     private void setWorkFromArchiveTransfer(ArchiveTransfer archiveTransfer) {
         work.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
-        ExportContext newExportContext = new ExportContext(Prefs.getInstance());
+        ExportContext newExportContext = new ExportContext(Preferences.getInstance());
         if (archiveTransfer.getGlobalMetadata() != null)
             newExportContext.setArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata());
         if (archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData() != null)
@@ -96,7 +96,7 @@ public class ImportThread extends SwingWorker<String, String> {
 
     private void setWorkFromArchiveDeliveryRequestReply(ArchiveDeliveryRequestReply archiveDeliveryRequestReply) {
         work.setDataObjectPackage(archiveDeliveryRequestReply.getDataObjectPackage());
-        ExportContext newExportContext = new ExportContext(Prefs.getInstance());
+        ExportContext newExportContext = new ExportContext(Preferences.getInstance());
         if (archiveDeliveryRequestReply.getGlobalMetadata() != null)
             newExportContext.setArchiveTransferGlobalMetadata(archiveDeliveryRequestReply.getGlobalMetadata());
         if (archiveDeliveryRequestReply.getDataObjectPackage().getManagementMetadataXmlData() != null)
@@ -201,7 +201,7 @@ public class ImportThread extends SwingWorker<String, String> {
                 ctic.getOnDiskInput(), ctic.getCsvCharsetName(), ctic.getDelimiter(), spl);
         cti.doImport();
         work.setDataObjectPackage(cti.getDataObjectPackage());
-        work.setExportContext(new ExportContext(Prefs.getInstance()));
+        work.setExportContext(new ExportContext(Preferences.getInstance()));
         summary = cti.getSummary();
     }
 
@@ -212,7 +212,7 @@ public class ImportThread extends SwingWorker<String, String> {
                 cmic.getOnDiskInput(), cmic.getCsvCharsetName(), cmic.getDelimiter(), spl);
         cmi.doImport();
         work.setDataObjectPackage(cmi.getDataObjectPackage());
-        work.setExportContext(new ExportContext(Prefs.getInstance()));
+        work.setExportContext(new ExportContext(Preferences.getInstance()));
         summary = cmi.getSummary();
     }
 
@@ -245,7 +245,7 @@ public class ImportThread extends SwingWorker<String, String> {
         List<Path> lp = new ArrayList<>();
         lp.add(Paths.get(mi.getTarget()));
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(lp, spl);
-        for (String ip : new DiskImportContext(Prefs.getInstance())
+        for (String ip : new DiskImportContext(Preferences.getInstance())
                 .getIgnorePatternList())
             di.addIgnorePattern(ip);
         di.doImport();
@@ -316,7 +316,7 @@ public class ImportThread extends SwingWorker<String, String> {
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: import terminé", null);
             doProgressLogWithoutInterruption(spl, GLOBAL, summary, null);
             try {
-                Prefs.getInstance().setPrefsImportDirFromChild(work.getCreationContext().getOnDiskInput());
+                Preferences.getInstance().setPrefsImportDirFromChild(work.getCreationContext().getOnDiskInput());
             } catch (ResipException e) {
                 doProgressLogWithoutInterruption(spl, GLOBAL, "resip: la localisation d'import par défaut n'a pu être actualisée dans les préférences", e);
             }

@@ -71,30 +71,31 @@ public class TreatmentParameters {
     /**
      * Instantiates a new creation context.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public TreatmentParameters(Prefs prefs) {
-        String categoriesString = prefs.getPrefProperties().getProperty("treatmentParameters.categoriesList", null);
+    public TreatmentParameters(Preferences preferences) {
+        String categoriesString = preferences.getPrefProperties().getProperty("treatmentParameters.categoriesList", null);
         formatByCategoryMap = new LinkedHashMap<>();
         if (categoriesString != null) {
             List<String> categoryList = Arrays.asList(categoriesString.split("\\|"));
             categoryList.replaceAll(String::trim);
             formatByCategoryMap = new LinkedHashMap<>();
             for (String category : categoryList) {
-                String formatsString = prefs.getPrefProperties().getProperty("treatmentParameters.categories." + canonizeCategoryName(category), "");
+                String formatsString = preferences.getPrefProperties().getProperty("treatmentParameters.categories." + canonizeCategoryName(category), "");
                 List<String> formatList = Arrays.asList(formatsString.split("\\|"));
                 formatList.replaceAll(String::trim);
                 formatByCategoryMap.put(category, formatList);
             }
         }
         try {
-            dupMax=Integer.parseInt(prefs.getPrefProperties().getProperty("treatmentParameters.dupMax","1000"));
+            dupMax=Integer.parseInt(preferences.getPrefProperties().getProperty("treatmentParameters.dupMax","1000"));
         }
         catch (NumberFormatException e){
             dupMax=1000;
         }
         try {
-            seda2Version=Integer.parseInt(prefs.getPrefProperties().getProperty("treatmentParameters.seda2Version","1"));
+            seda2Version=Integer.parseInt(
+                preferences.getPrefProperties().getProperty("treatmentParameters.seda2Version","1"));
         }
         catch (NumberFormatException e){
             seda2Version=1;
@@ -106,15 +107,15 @@ public class TreatmentParameters {
     /**
      * Put in preferences the values specific of this class.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public void toPrefs(Prefs prefs) {
-        prefs.getPrefProperties().setProperty("treatmentParameters.categoriesList", String.join("|",formatByCategoryMap.keySet()));
+    public void toPrefs(Preferences preferences) {
+        preferences.getPrefProperties().setProperty("treatmentParameters.categoriesList", String.join("|",formatByCategoryMap.keySet()));
         for (Map.Entry<String,List<String>> e:formatByCategoryMap.entrySet()) {
-            prefs.getPrefProperties().setProperty("treatmentParameters.categories."+canonizeCategoryName(e.getKey()),String.join("|",e.getValue()));
+            preferences.getPrefProperties().setProperty("treatmentParameters.categories."+canonizeCategoryName(e.getKey()),String.join("|",e.getValue()));
         }
-        prefs.getPrefProperties().setProperty("treatmentParameters.dupMax", Integer.toString(dupMax));
-        prefs.getPrefProperties().setProperty("treatmentParameters.seda2Version", Integer.toString(seda2Version));
+        preferences.getPrefProperties().setProperty("treatmentParameters.dupMax", Integer.toString(dupMax));
+        preferences.getPrefProperties().setProperty("treatmentParameters.seda2Version", Integer.toString(seda2Version));
     }
 
     /**

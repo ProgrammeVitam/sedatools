@@ -30,15 +30,15 @@ public class CSVMetadataImportContext extends CSVImportContext {
     /**
      * Instantiates a new csv metadata import context from preferences.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public CSVMetadataImportContext(Prefs prefs) {
-        super(prefs);
+    public CSVMetadataImportContext(Preferences preferences) {
+        super(preferences);
     }
 
     /* (non-Javadoc)
      * @see CreationContext#toPrefs(Prefs)
      */
-    public void toPrefs(Prefs prefs) {
+    public void toPrefs(Preferences preferences) {
     }
 }

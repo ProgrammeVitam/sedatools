@@ -43,11 +43,11 @@ public class CSVImportContext extends CreationContext {
     /**
      * Instantiates a new CSV import context from preferences.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public CSVImportContext(Prefs prefs) {
-        super(prefs);
-        csvCharsetName = prefs.getPrefProperties().getProperty("importContext.csv.charsetName", "");
+    public CSVImportContext(Preferences preferences) {
+        super(preferences);
+        csvCharsetName = preferences.getPrefProperties().getProperty("importContext.csv.charsetName", "");
         if (csvCharsetName.isEmpty()) {
             if (System.getProperty("os.name").toLowerCase().contains("win"))
                 this.csvCharsetName = "windows-1252";
@@ -55,7 +55,7 @@ public class CSVImportContext extends CreationContext {
                 this.csvCharsetName = "UTF-8";
         }
 
-        String tmp = prefs.getPrefProperties().getProperty("importContext.csv.delimiter", "");
+        String tmp = preferences.getPrefProperties().getProperty("importContext.csv.delimiter", "");
         if (tmp.isEmpty())
             delimiter = ';';
         else
@@ -65,12 +65,12 @@ public class CSVImportContext extends CreationContext {
     /* (non-Javadoc)
      * @see CreationContext#toPrefs(Prefs)
      */
-    public void toPrefs(Prefs prefs) {
+    public void toPrefs(Preferences preferences) {
         if (System.getProperty("os.name").toLowerCase().contains("win"))
-            prefs.getPrefProperties().setProperty("importContext.csv.charsetName", (csvCharsetName == null ? "windows-1252" : csvCharsetName));
+            preferences.getPrefProperties().setProperty("importContext.csv.charsetName", (csvCharsetName == null ? "windows-1252" : csvCharsetName));
         else
-            prefs.getPrefProperties().setProperty("importContext.csv.charsetName", (csvCharsetName == null ? "UTF-8" : csvCharsetName));
-        prefs.getPrefProperties().setProperty("importContext.csv.delimiter", (delimiter == '\0' ? ";" : Character.toString(delimiter)));
+            preferences.getPrefProperties().setProperty("importContext.csv.charsetName", (csvCharsetName == null ? "UTF-8" : csvCharsetName));
+        preferences.getPrefProperties().setProperty("importContext.csv.delimiter", (delimiter == '\0' ? ";" : Character.toString(delimiter)));
     }
 
     /* (non-Javadoc)

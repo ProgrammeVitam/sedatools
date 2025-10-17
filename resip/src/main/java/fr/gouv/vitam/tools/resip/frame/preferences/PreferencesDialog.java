@@ -199,14 +199,14 @@ public class PreferencesDialog extends JDialog {
         super(owner, "Edition des paramètres par défaut", true);
         GridBagConstraints gbc;
 
-        cc = new CreationContext(Prefs.getInstance());
-        coc = new CompactContext(Prefs.getInstance());
-        dic = new DiskImportContext(Prefs.getInstance());
-        mic = new MailImportContext(Prefs.getInstance());
-        gmc = new ExportContext(Prefs.getInstance());
-        cic = new CSVImportContext(Prefs.getInstance());
-        tp = new TreatmentParameters(Prefs.getInstance());
-        ip = new InterfaceParameters(Prefs.getInstance());
+        cc = new CreationContext(Preferences.getInstance());
+        coc = new CompactContext(Preferences.getInstance());
+        dic = new DiskImportContext(Preferences.getInstance());
+        mic = new MailImportContext(Preferences.getInstance());
+        gmc = new ExportContext(Preferences.getInstance());
+        cic = new CSVImportContext(Preferences.getInstance());
+        tp = new TreatmentParameters(Preferences.getInstance());
+        ip = new InterfaceParameters(Preferences.getInstance());
 
         this.owner = owner;
         this.setPreferredSize(new Dimension(800, 500));
