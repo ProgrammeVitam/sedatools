@@ -300,14 +300,28 @@ public class TreeDataObjectPackageEditorPanel extends JPanel {
     }
 
     /**
-     * Refresh TreePaneLabel informations.
+     * Refresh TreePaneLabel information.
      */
     public void refreshTreeLabel() {
-        dataObjectPackageTreeLabel
-                .setText("Arbre du SIP (" + editedDataObjectPackage.getArchiveUnitCount()
-                        + " archiveUnit/" + editedDataObjectPackage.getDataObjectGroupCount()
-                        + " dog/" + editedDataObjectPackage.getBinaryDataObjectCount() + " bdo/"
-                        + editedDataObjectPackage.getPhysicalDataObjectCount() + " pdo)");
+        if (editedDataObjectPackage == null) {
+            ResipLogger.getGlobalLogger().getLogger().warn("No edited data object package");
+            return;
+        }
+
+        String treeLabel = buildTreeLabel(editedDataObjectPackage);
+        dataObjectPackageTreeLabel.setText(treeLabel);
+    }
+
+    private String buildTreeLabel(DataObjectPackage dataObjectPackage) {
+        int archiveUnitCount = dataObjectPackage.getArchiveUnitCount();
+        int dogCount = dataObjectPackage.getDataObjectGroupCount();
+        int bdoCount = dataObjectPackage.getBinaryDataObjectCount();
+        int pdoCount = dataObjectPackage.getPhysicalDataObjectCount();
+
+        return String.format(
+            "Arbre du SIP (%d archiveUnit / %d dog / %d bdo / %d pdo)",
+            archiveUnitCount, dogCount, bdoCount, pdoCount
+        );
     }
 
     /**
