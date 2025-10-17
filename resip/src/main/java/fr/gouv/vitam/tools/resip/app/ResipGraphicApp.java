@@ -30,6 +30,7 @@ package fr.gouv.vitam.tools.resip.app;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.*;
+import fr.gouv.vitam.tools.resip.frame.preferences.PreferencesDialog;
 import fr.gouv.vitam.tools.resip.parameters.*;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredArchiveUnitEditorPanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.StructuredDataObjectGroupEditorPanel;
@@ -848,26 +849,26 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      */
     void editPrefs() {
         try {
-            PrefsDialog prefsDialog = new PrefsDialog(mainWindow);
-            prefsDialog.setVisible(true);
-            if (prefsDialog.getReturnValue() == OK_DIALOG) {
-                prefsDialog.cc.toPrefs(Prefs.getInstance());
-                prefsDialog.coc.toPrefs(Prefs.getInstance());
-                prefsDialog.dic.toPrefs(Prefs.getInstance());
-                prefsDialog.mic.toPrefs(Prefs.getInstance());
-                prefsDialog.gmc.toPrefs(Prefs.getInstance());
-                prefsDialog.cic.toPrefs(Prefs.getInstance());
-                prefsDialog.tp.toPrefs(Prefs.getInstance());
-                prefsDialog.ip.toPrefs(Prefs.getInstance());
+            PreferencesDialog preferencesDialog = new PreferencesDialog(mainWindow);
+            preferencesDialog.setVisible(true);
+            if (preferencesDialog.getReturnValue() == OK_DIALOG) {
+                preferencesDialog.cc.toPrefs(Prefs.getInstance());
+                preferencesDialog.coc.toPrefs(Prefs.getInstance());
+                preferencesDialog.dic.toPrefs(Prefs.getInstance());
+                preferencesDialog.mic.toPrefs(Prefs.getInstance());
+                preferencesDialog.gmc.toPrefs(Prefs.getInstance());
+                preferencesDialog.cic.toPrefs(Prefs.getInstance());
+                preferencesDialog.tp.toPrefs(Prefs.getInstance());
+                preferencesDialog.ip.toPrefs(Prefs.getInstance());
                 Prefs.getInstance().save();
-                treatmentParameters = prefsDialog.tp;
+                treatmentParameters = preferencesDialog.tp;
                 useSeda2Version(treatmentParameters.getSeda2Version());
-                interfaceParameters = prefsDialog.ip;
+                interfaceParameters = preferencesDialog.ip;
                 debugMenuItem.setState(interfaceParameters.isDebugFlag());
                 experimentalMenuItem.setState(interfaceParameters.isExperimentalFlag());
                 structuredMenuItem.setState(interfaceParameters.isStructuredMetadataEditionFlag());
                 toggleStructuredEdition();
-                ResipLogger.createGlobalLogger(prefsDialog.cc.getWorkDir() + File.separator + "log.txt",
+                ResipLogger.createGlobalLogger(preferencesDialog.cc.getWorkDir() + File.separator + "log.txt",
                         getGlobalLogger().getProgressLogLevel());
             }
         } catch (ResipException | SEDALibException e) {
