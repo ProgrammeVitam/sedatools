@@ -29,6 +29,8 @@ package fr.gouv.vitam.tools.resip.app;
 
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.event.EventBus;
+import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
 import fr.gouv.vitam.tools.resip.frame.*;
 import fr.gouv.vitam.tools.resip.frame.preferences.PreferencesDialog;
 import fr.gouv.vitam.tools.resip.parameters.*;
@@ -43,7 +45,8 @@ import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -159,6 +162,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      */
     public DuplicatesWindow duplicatesWindow;
 
+    private SedaVersion sedaVersion;
+
     /**
      * Instantiates a new Resip graphic app.
      *
@@ -166,6 +171,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      * @throws ResipException the resip exception
      */
     public ResipGraphicApp(CreationContext creationContext) throws ResipException {
+        EventBus.subscribe(
+            SedaVersionChangedEvent.class,
+            event -> this.sedaVersion = event.getNewVersion()
+        );
+
         try {
             if (System.getProperty("os.name").toLowerCase().contains("win"))
                 UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -194,13 +204,6 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         // prefs init
         this.interfaceParameters = new InterfaceParameters(Preferences.getInstance());
         this.treatmentParameters = new TreatmentParameters(Preferences.getInstance());
-
-        try {
-            SEDA2Version.setSeda2Version(treatmentParameters.getSeda2Version());
-        } catch (SEDALibException e) {
-            getGlobalLogger().getLogger().error(e.getLocalizedMessage());
-            System.exit(-1);
-        }
 
         getGlobalLogger().setDebugFlag(interfaceParameters.isDebugFlag());
         getGlobalLogger().logIfDebug("Resip prefs accessed from " + Preferences.getInstance().getPrefPropertiesFilename(), null);
@@ -377,13 +380,13 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "SeeManifest");
         treatMenu.add(menuItem);
 
-        sedaValidationMenuItem = new JMenuItem("Vérifier la conformité " + SEDA2Version.getSeda2VersionString() + "...");
+        sedaValidationMenuItem = new JMenuItem("Vérifier la conformité " + sedaVersion.displayString() + "...");
         sedaValidationMenuItem.addActionListener(this);
         sedaValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(sedaValidationMenuItem, "CheckSEDASchema");
         treatMenu.add(sedaValidationMenuItem);
 
-        sedaProfileValidationMenuItem = new JMenuItem("Vérifier la conformité à un profil " + SEDA2Version.getSeda2VersionString() + "...");
+        sedaProfileValidationMenuItem = new JMenuItem("Vérifier la conformité à un profil " + sedaVersion.displayString() + "...");
         sedaProfileValidationMenuItem.addActionListener(this);
         sedaProfileValidationMenuItem.setAccelerator(KeyStroke.getKeyStroke('R', InputEvent.SHIFT_DOWN_MASK + Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
         actionByMenuItem.put(sedaProfileValidationMenuItem, "CheckSpecificSEDASchemaProfile");
@@ -726,18 +729,18 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
             if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
                 filename = fileChooser.getSelectedFile().getCanonicalPath();
-                int loadSeda2Version = Work.getSeda2VersionFromFile(filename);
-                if (loadSeda2Version != SEDA2Version.getSeda2Version()) {
+                final SedaVersion sedaVersionFromWorkspace = Work.getSeda2VersionFromFile(filename);
+
+                if (sedaVersionFromWorkspace != sedaVersion) {
                     if (UserInteractionDialog.getUserAnswer(mainWindow,
                             "Pour charger ce fichier il faut faire passer l'interface en " +
-                                    SEDA2Version.getSeda2VersionString(loadSeda2Version) + "\n" +
+                                    sedaVersion + "\n" +
                                     "Voulez-vous continuer?",
                             "Confirmation", UserInteractionDialog.WARNING_DIALOG,
                             null) != OK_DIALOG)
                         return;
-                    treatmentParameters.setSeda2Version(loadSeda2Version);
+                    EventBus.publish(new SedaVersionChangedEvent(sedaVersionFromWorkspace));
                     treatmentParameters.toPrefs(Preferences.getInstance());
-                    useSeda2Version(treatmentParameters.getSeda2Version());
                 }
                 mainWindow.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
                 currentWork = Work.createFromFile(filename);
@@ -839,14 +842,6 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         }
     }
 
-    private void useSeda2Version(int version) throws SEDALibException {
-        SEDA2Version.setSeda2Version(version);
-        if (currentWork != null)
-            currentWork.setSeda2Version(version);
-        sedaValidationMenuItem.setText("Vérifier la conformité " + SEDA2Version.getSeda2VersionString() + "...");
-        sedaProfileValidationMenuItem.setText("Vérifier la conformité à un profil " + SEDA2Version.getSeda2VersionString() + "...");
-    }
-
     // MenuItem Edit Preferences
 
     /**
@@ -866,8 +861,6 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 preferencesDialog.tp.toPrefs(Preferences.getInstance());
                 preferencesDialog.ip.toPrefs(Preferences.getInstance());
                 Preferences.getInstance().save();
-                treatmentParameters = preferencesDialog.tp;
-                useSeda2Version(treatmentParameters.getSeda2Version());
                 interfaceParameters = preferencesDialog.ip;
                 debugMenuItem.setState(interfaceParameters.isDebugFlag());
                 experimentalMenuItem.setState(interfaceParameters.isExperimentalFlag());
@@ -876,7 +869,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 ResipLogger.createGlobalLogger(preferencesDialog.cc.getWorkDir() + File.separator + "log.txt",
                         getGlobalLogger().getProgressLogLevel());
             }
-        } catch (ResipException | SEDALibException e) {
+        } catch (ResipException e) {
             UserInteractionDialog.getUserAnswer(mainWindow,
                     "Erreur fatale, impossible d'éditer les préférences \n->" + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
@@ -997,7 +990,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
      * Check seda schema.
      */
     void checkSEDASchema() {
-        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification " + SEDA2Version.getSeda2VersionString());
+        InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification " + sedaVersion.displayString());
         CheckProfileThread checkProfileThread = new CheckProfileThread(null, inOutDialog);
         completeResipWork();
         checkProfileThread.execute();
@@ -1014,7 +1007,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             JFileChooser fileChooser = new JFileChooser(Preferences.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(mainWindow) == JFileChooser.APPROVE_OPTION) {
-                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification Profil " + SEDA2Version.getSeda2VersionString());
+                InOutDialog inOutDialog = new InOutDialog(mainWindow, "Vérification Profil " + sedaVersion.displayString());
                 CheckProfileThread checkProfileThread = new CheckProfileThread(fileChooser.getSelectedFile()
                         .getAbsolutePath(), inOutDialog);
                 completeResipWork();
@@ -1023,12 +1016,12 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             }
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(mainWindow,
-                    "Erreur fatale, impossible de faire la vérification de confirmité au profil " + SEDA2Version.getSeda2VersionString() + "\n->"
+                    "Erreur fatale, impossible de faire la vérification de confirmité au profil " + sedaVersion.displayString() + "\n->"
                             + e.getMessage(),
                     "Erreur", UserInteractionDialog.ERROR_DIALOG,
                     null);
             getGlobalLogger().log(ResipLogger.ERROR, "resip.graphicapp: erreur fatale, impossible de faire la " +
-                    "vérification de confirmité au profil " + SEDA2Version.getSeda2VersionString(), e);
+                    "vérification de confirmité au profil " + sedaVersion.displayString(), e);
         }
     }
 

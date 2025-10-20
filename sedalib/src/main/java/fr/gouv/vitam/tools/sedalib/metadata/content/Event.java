@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -50,7 +51,7 @@ public class Event extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = {1})
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_1 })
     public static final Map<String, ComplexListMetadataKind> metadataMap_default;
 
     static {
@@ -69,7 +70,7 @@ public class Event extends ComplexListType {
                 new ComplexListMetadataKind(StringType.class, false));
     }
 
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = {2,3})
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_2, SedaVersion.V2_3 })
     public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
 
     static {
@@ -87,7 +88,7 @@ public class Event extends ComplexListType {
         metadataMap_v2.put("EventDetailData",
                 new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("LinkingAgentIdentifier",
-                new ComplexListMetadataKind(LinkingAgentIdentifierType.class, true));
+                new ComplexListMetadataKind(LinkingAgentIdentifier.class, true));
     }
 
     /**

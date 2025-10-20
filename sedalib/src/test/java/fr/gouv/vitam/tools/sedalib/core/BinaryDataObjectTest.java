@@ -3,18 +3,20 @@ package fr.gouv.vitam.tools.sedalib.core;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.ComplexListInterface;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.parallel.Execution;
 import org.junit.jupiter.api.parallel.ExecutionMode;
 
@@ -24,14 +26,9 @@ import java.io.IOException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
+@ExtendWith(SedaContextExtension.class)
 @Execution(value = ExecutionMode.SAME_THREAD,reason= "Can't execute different SedaVersion treatment in parallel")
 class BinaryDataObjectTest {
-
-    @BeforeEach
-    void setUp() throws SEDALibException {
-        // Reset default seda version
-        SEDA2Version.setSeda2Version(1);
-    }
 
     @Test
     void testJson() throws SEDALibException, InterruptedException, IOException {
@@ -164,7 +161,7 @@ class BinaryDataObjectTest {
         SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
                 "src/test/resources/PacketSamples/TestSip.zip", "target/tmpJunit/TestSIP.zip-tmpdir", null);
 
-        SEDA2Version.setSeda2Version(1);
+        SedaContext.setVersion(SedaVersion.V2_1);
         si.doImport();
         BinaryDataObject bdo = si.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap()
                 .get("ID7");
@@ -189,7 +186,7 @@ class BinaryDataObjectTest {
     void testXMLFragmentForSedaVersion2() throws SEDALibException, InterruptedException, FileNotFoundException {
 
         // Given
-        SEDA2Version.setSeda2Version(2);
+        SedaContext.setVersion(SedaVersion.V2_2);
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
@@ -212,14 +209,14 @@ class BinaryDataObjectTest {
 
         // Then
         assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7_seda2.2.xml"));
-        SEDA2Version.setSeda2Version(1);
+        SedaContext.setVersion(SedaVersion.V2_1);
     }
 
     @Test
     void testXMLFragmentForSedaVersion3() throws SEDALibException, InterruptedException, FileNotFoundException {
 
         // Given
-        SEDA2Version.setSeda2Version(3);
+        SedaContext.setVersion(SedaVersion.V2_3);
         ObjectMapper mapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
@@ -245,6 +242,6 @@ class BinaryDataObjectTest {
 
         // Then
         assertThat(bdoNextOut).isEqualToIgnoringWhitespace(ResourceUtils.getResourceAsString("import/binary_data_object_ID7_seda2.3.xml"));
-        SEDA2Version.setSeda2Version(1);
+        SedaContext.setVersion(SedaVersion.V2_1);
     }
 }

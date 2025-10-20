@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.metadata.compacted;
 
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
@@ -73,7 +74,7 @@ public class FileObject extends ComplexListType {
         METADATA_MAP_V1.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
     }
 
-    @ComplexListMetadataMap(seda2Version = {2})
+    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_2 })
     public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2;
 
     static {
@@ -92,7 +93,7 @@ public class FileObject extends ComplexListType {
         METADATA_MAP_V2.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
     }
 
-    @ComplexListMetadataMap(seda2Version = {3})
+    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_3 })
     public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3;
 
     static {

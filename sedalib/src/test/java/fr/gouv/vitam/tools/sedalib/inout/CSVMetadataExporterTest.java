@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.inout;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
@@ -8,6 +9,7 @@ import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -23,6 +25,7 @@ import static fr.gouv.vitam.tools.sedalib.TestUtilities.eraseAll;
 import static fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter.ALL_DATAOBJECTS;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ExtendWith(SedaContextExtension.class)
 class CSVMetadataExporterTest {
 
     private static final String TEMPORARY_FILE = "target/tmpJunit/CSVMetadataExporterCSV/ExportedMetadata.csv";

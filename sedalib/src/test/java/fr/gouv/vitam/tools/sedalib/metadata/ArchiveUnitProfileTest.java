@@ -1,10 +1,13 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 // test ArchveUnitProfile
+@ExtendWith(SedaContextExtension.class)
 class ArchiveUnitProfileTest {
 
     @Test

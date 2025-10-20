@@ -28,6 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
@@ -110,27 +112,14 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         return map;
     }
 
-    @ComplexListMetadataMap(seda2Version = {1})
+    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_1 })
     public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V1 = createMetadataMapForVersion(1);
 
-    @ComplexListMetadataMap(seda2Version = {2})
+    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_2 })
     public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2 = createMetadataMapForVersion(2);
 
-    @ComplexListMetadataMap(seda2Version = {3})
+    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_3 })
     public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3 = createMetadataMapForVersion(3);
-
-    @SuppressWarnings("unchecked")
-    private final static LinkedHashMap<String, ComplexListMetadataKind>[] METADATA_MAPS =
-        new LinkedHashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
-
-    public final static Boolean[] NON_EXPANDABLE_FLAGS = new Boolean[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
-
-    static {
-        for (int i = 0; i <= SEDA2Version.MAX_SUPPORTED_VERSION; i++) {
-            METADATA_MAPS[i] = createMetadataMapForVersion(i);
-        }
-        ComplexListInterface.initMetadataMaps(BinaryDataObject.class, METADATA_MAPS, NON_EXPANDABLE_FLAGS);
-    }
 
     /**
      * {@inheritDoc}
@@ -138,10 +127,8 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
     @JsonIgnore
     @Override
     public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
-        LinkedHashMap<String, ComplexListMetadataKind> result = METADATA_MAPS[SEDA2Version.getSeda2Version()];
-        if (result == null)
-            result = METADATA_MAPS[0];
-        return result;
+        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface
+            .getMetadataMap(this.getClass());
     }
 
     /**
@@ -149,11 +136,9 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      */
     @JsonIgnore
     @Override
-    public boolean isNotExpandable() throws SEDALibException {
-        Boolean result = NON_EXPANDABLE_FLAGS[SEDA2Version.getSeda2Version()];
-        if (result == null)
-            result = NON_EXPANDABLE_FLAGS[0];
-        return result;
+    public boolean isNotExpandable() {
+        return ComplexListInterface
+            .isNotExpandable(this.getClass());
     }
 
     // Inner element

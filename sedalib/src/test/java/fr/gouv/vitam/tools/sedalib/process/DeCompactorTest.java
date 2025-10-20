@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.process;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
@@ -11,6 +12,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -19,6 +21,7 @@ import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ExtendWith(SedaContextExtension.class)
 class DeCompactorTest implements UseTestFiles {
 
     private void eraseAll(String dirOrFile) {

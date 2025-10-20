@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.compacted.DocumentContainer;
 import fr.gouv.vitam.tools.sedalib.metadata.compacted.DocumentPack;
@@ -56,7 +57,7 @@ public class Content extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = {1})
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_1 })
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
@@ -116,7 +117,7 @@ public class Content extends ComplexListType {
         metadataMap.put("DocumentPack", new ComplexListMetadataKind(DocumentPack.class, false));
     }
 
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = {2})
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_2 })
     public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
 
     static {
@@ -178,7 +179,7 @@ public class Content extends ComplexListType {
         metadataMap_v2.put("DocumentPack", new ComplexListMetadataKind(DocumentPack.class, false));
     }
 
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = {3})
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_3 })
     public static final Map<String, ComplexListMetadataKind> metadataMap_v3;
 
     static {

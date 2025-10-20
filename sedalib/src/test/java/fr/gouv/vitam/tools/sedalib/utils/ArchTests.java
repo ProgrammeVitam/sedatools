@@ -33,11 +33,14 @@ import com.tngtech.archunit.core.domain.JavaMethodCall;
 import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition;
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.time.LocalDateTime;
 
+@ExtendWith(SedaContextExtension.class)
 public class ArchTests {
 
 

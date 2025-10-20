@@ -1,13 +1,16 @@
 package fr.gouv.vitam.tools.sedalib.inout.importer;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Paths;
 
+@ExtendWith(SedaContextExtension.class)
 class CSVMetadataFormatterTest {
 
     @Test

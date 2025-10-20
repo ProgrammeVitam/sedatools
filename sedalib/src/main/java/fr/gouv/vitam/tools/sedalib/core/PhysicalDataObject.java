@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
@@ -49,7 +50,7 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = {1})
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_1 })
     public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V1;
 
     static {
@@ -65,7 +66,7 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
         METADATA_MAP_V1.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
     }
 
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = {2})
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_2 })
     public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V2;
 
     static {
@@ -80,7 +81,7 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
         METADATA_MAP_V2.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
     }
 
-    @ComplexListMetadataMap(isExpandable = true, seda2Version = {3})
+    @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_3 })
     public static final Map<String, ComplexListMetadataKind> METADATA_MAP_V3;
 
     static {
@@ -98,23 +99,14 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
         METADATA_MAP_V3.put("PhysicalDimensions", new ComplexListMetadataKind(PhysicalDimensions.class, false));
     }
 
-    private final static LinkedHashMap<String, ComplexListMetadataKind>[] METADATA_MAPS = new LinkedHashMap[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
-    private final static Boolean[] NON_EXPANDABLE_FLAGS = new Boolean[SEDA2Version.MAX_SUPPORTED_VERSION + 1];
-
-    static {
-        ComplexListInterface.initMetadataMaps(PhysicalDataObject.class, METADATA_MAPS, NON_EXPANDABLE_FLAGS);
-    }
-
     /**
      * {@inheritDoc}
      */
     @JsonIgnore
     @Override
     public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
-        LinkedHashMap<String, ComplexListMetadataKind> result = METADATA_MAPS[SEDA2Version.getSeda2Version()];
-        if (result == null)
-            result = METADATA_MAPS[0];
-        return result;
+        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface
+            .getMetadataMap(this.getClass());
     }
 
     /**
@@ -122,14 +114,10 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
      */
     @JsonIgnore
     @Override
-    public boolean isNotExpandable() throws SEDALibException {
-        Boolean result = NON_EXPANDABLE_FLAGS[SEDA2Version.getSeda2Version()];
-        if (result == null)
-            result = NON_EXPANDABLE_FLAGS[0];
-        return result;
+    public boolean isNotExpandable() {
+        return ComplexListInterface
+            .isNotExpandable(this.getClass());
     }
-
-    // Constructors
 
     /**
      * Instantiates a new PhysicalDataObject.

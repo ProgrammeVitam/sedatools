@@ -27,6 +27,7 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.content;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
@@ -48,7 +49,7 @@ public class SigningInformation extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(seda2Version = {3})
+    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_3 })
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {

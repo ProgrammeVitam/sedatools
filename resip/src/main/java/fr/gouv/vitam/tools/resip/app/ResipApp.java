@@ -30,6 +30,8 @@ package fr.gouv.vitam.tools.resip.app;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.gouv.vitam.tools.resip.data.Work;
+import fr.gouv.vitam.tools.resip.event.EventBus;
+import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
 import fr.gouv.vitam.tools.resip.parameters.CSVImportContext;
 import fr.gouv.vitam.tools.resip.parameters.CSVMetadataImportContext;
 import fr.gouv.vitam.tools.resip.parameters.CreationContext;
@@ -40,13 +42,13 @@ import fr.gouv.vitam.tools.resip.parameters.SIPImportContext;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.ArchiveTransferToSIPExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackageImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -65,7 +67,9 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ResipApp class for launching the command or the graphic application.
@@ -236,6 +240,8 @@ public class ResipApp {
 
         System.out.println("Resip launched");
 
+        EventBus.subscribe(SedaVersionChangedEvent.class, event -> SedaContext.setVersion(event.getNewVersion()));
+
         String workdirString;
         int logLevel;
         CreationContext creationContext;
@@ -335,24 +341,22 @@ public class ResipApp {
         }
 
         // define the SEDA 2 version
-        if (cmd.hasOption("sedaversion")){
-            try {
-                int tmp = Integer.parseInt(cmd.getOptionValue("sedaversion"));
-                switch (tmp){
-                    case 1:
-                    case 2:
-                        SEDA2Version.setSeda2Version(tmp);
-                        break;
-                    default:
-                        throw new NumberFormatException("Doit valoir 1 ou 2");
-                }
-            } catch (NumberFormatException e) {
-                System.err.println(
-                        "Resip: La sous-version du SEDA 2 est non conforme, elle doit être dans la liste (1|2)");
+        if (cmd.hasOption("sedaversion")) {
+            final Map<String, SedaVersion> supportedSedaVersions = new HashMap<>();
+            supportedSedaVersions.put("2.1", SedaVersion.V2_1);
+            supportedSedaVersions.put("2.2", SedaVersion.V2_2);
+            supportedSedaVersions.put("2.3", SedaVersion.V2_3);
+
+            String sedaVersion = cmd.getOptionValue("sedaversion");
+            boolean isNotSupportedVersion = !supportedSedaVersions.containsKey(sedaVersion);
+
+            if (isNotSupportedVersion) {
+                System.err.println("Doit valoir " + String.join(",", supportedSedaVersions.keySet()));
                 System.exit(1);
-            } catch (SEDALibException ignored) {
-                // no real case
             }
+
+            final SedaVersion version = supportedSedaVersions.get(sedaVersion);
+            EventBus.publish(new SedaVersionChangedEvent(version));
         }
 
         // define the global logger
@@ -447,7 +451,7 @@ public class ResipApp {
                         cmi.doImport();
 
                         packet = new ArchiveTransfer();
-                        Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext, exportContext, SEDA2Version.getSeda2Version());
+                        Work work = new Work(cmi.getDataObjectPackage(), cSVMetadataImportContext, exportContext);
                         work.getDataObjectPackage()
                             .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
                         packet.setDataObjectPackage(work.getDataObjectPackage());

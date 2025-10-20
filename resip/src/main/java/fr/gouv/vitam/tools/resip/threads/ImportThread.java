@@ -38,7 +38,6 @@ import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveDeliveryRequestReply;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveTransfer;
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.inout.importer.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
@@ -75,7 +74,7 @@ public class ImportThread extends SwingWorker<String, String> {
      * @param dialog the dialog
      */
     public ImportThread(CreationContext cc, InOutDialog dialog) {
-        this.work = new Work(null, cc, null, SEDA2Version.getSeda2Version());
+        this.work = new Work(null, cc, null);
         this.inOutDialog = dialog;
         this.summary = null;
         this.exitThrowable = null;

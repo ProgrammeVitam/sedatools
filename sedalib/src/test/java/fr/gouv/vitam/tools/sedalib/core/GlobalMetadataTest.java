@@ -1,10 +1,13 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ExtendWith(SedaContextExtension.class)
 class GlobalMetadataTest {
 
 	@Test

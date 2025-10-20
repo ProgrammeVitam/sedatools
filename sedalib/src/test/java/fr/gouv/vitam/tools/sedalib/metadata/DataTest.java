@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Metadata;
@@ -7,6 +8,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.PhysicalDimensions;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.FileNotFoundException;
 import java.nio.file.attribute.FileTime;
@@ -15,6 +17,7 @@ import java.time.LocalDateTime;
 import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+@ExtendWith(SedaContextExtension.class)
 class DataTest {
 
     @Test

@@ -28,6 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.IndentXMLTool;
@@ -40,6 +42,7 @@ import javax.xml.stream.events.XMLEvent;
 import javax.xml.validation.Schema;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLog;
 
@@ -105,27 +108,29 @@ public class ArchiveTransfer {
             xmlWriter.writeStartElement("ArchiveTransfer");
             xmlWriter.writeNamespace("xlink", "http://www.w3.org/1999/xlink");
             xmlWriter.writeNamespace("pr", "info:lc/xmlns/premis-v2");
-            switch(SEDA2Version.getSeda2Version()){
-                case 1:
+
+            final SedaVersion version = SedaContext.getVersion();
+            switch (version) {
+                case V2_1:
                     xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.1");
                     xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
                     xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
                             "fr:gouv:culture:archivesdefrance:seda:v2.1 seda-2.1-main.xsd");
                     break;
-                case 2:
+                case V2_2:
                     xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.2");
                     xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
                     xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
                             "fr:gouv:culture:archivesdefrance:seda:v2.2 seda-2.2-main.xsd");
                     break;
-                case 3:
+                case V2_3:
                     xmlWriter.writeDefaultNamespace("fr:gouv:culture:archivesdefrance:seda:v2.3");
                     xmlWriter.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
                     xmlWriter.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "schemaLocation",
                             "fr:gouv:culture:archivesdefrance:seda:v2.3 seda-2.3-main.xsd");
                     break;
                 default:
-                    throw new SEDALibException("Version de SEDA ["+ SEDA2Version.getSeda2VersionString() +"] sans schéma",null);
+                    throw new SEDALibException("Version ["+ SedaContext.getVersion() +"] sans schéma", null);
             }
             xmlWriter.setXmlId(true);
         } catch (XMLStreamException e) {
@@ -348,7 +353,7 @@ public class ArchiveTransfer {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
-            manifest = baos.toString("UTF-8");
+            manifest = baos.toString(StandardCharsets.UTF_8);
         } catch (XMLStreamException | IOException e) {
             throw new SEDALibException("Echec d'écriture XML du manifest", e);
         }
@@ -362,7 +367,7 @@ public class ArchiveTransfer {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              SEDAXMLStreamWriter ixsw = new SEDAXMLStreamWriter(baos, IndentXMLTool.STANDARD_INDENT)) {
             toSedaXml(ixsw, true, sedaLibProgressLogger);
-            manifest = baos.toString("UTF-8");
+            manifest = baos.toString(StandardCharsets.UTF_8);
         } catch (XMLStreamException | IOException e) {
             throw new SEDALibException("Echec d'écriture XML du manifest", e);
         }
