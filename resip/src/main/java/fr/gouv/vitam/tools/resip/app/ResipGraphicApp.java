@@ -192,8 +192,15 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         this.addThreadRunning = false;
 
         // prefs init
-        Preferences.getInstance();
         this.interfaceParameters = new InterfaceParameters(Preferences.getInstance());
+        this.treatmentParameters = new TreatmentParameters(Preferences.getInstance());
+
+        try {
+            SEDA2Version.setSeda2Version(treatmentParameters.getSeda2Version());
+        } catch (SEDALibException e) {
+            getGlobalLogger().getLogger().error(e.getLocalizedMessage());
+            System.exit(-1);
+        }
 
         getGlobalLogger().setDebugFlag(interfaceParameters.isDebugFlag());
         getGlobalLogger().logIfDebug("Resip prefs accessed from " + Preferences.getInstance().getPrefPropertiesFilename(), null);
@@ -211,8 +218,6 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     public void run() {
         try {
             mainWindow = new MainWindow(this); //NOSONAR
-            this.treatmentParameters = new TreatmentParameters(Preferences.getInstance());
-            useSeda2Version(treatmentParameters.getSeda2Version());
             mainWindow.setVisible(true);
             mainWindow.setLocationRelativeTo(null);
             this.searchDialog = new SearchDialog(mainWindow);

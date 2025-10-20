@@ -206,9 +206,9 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
         } else {
             Map<String, ComplexListMetadataKind> metadataMap;
             if (macroMetadata.equals("[C]")) {
-                metadataMap = Content.metadataMap;
+                metadataMap = new Content().getMetadataMap();
             } else {
-                metadataMap = Management.metadataMap;
+                metadataMap = new Management().getMetadataMap();
             }
             if (elementName.equals("AnyOtherMetadata"))
                 result = SEDAObjectEditor.createSEDAMetadataSample("AnyXMLType", elementName, false);
