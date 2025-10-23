@@ -305,7 +305,7 @@ public class DataObjectPackage {
      * not touched
      */
     public Integer getTouchedInDataObjectPackageId(String inDataObjectPackageId) {
-        return touchedInDataObjectPackageIdMap.get(inDataObjectPackageId);
+        return touchedInDataObjectPackageIdMap.getOrDefault(inDataObjectPackageId,0);
     }
 
     /**

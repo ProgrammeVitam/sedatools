@@ -59,6 +59,7 @@ public class ClassificationRule extends RuleType {
         metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
         metadataMap.put(PREVENTINHERITANCE_TAG, new ComplexListMetadataKind(BooleanType.class, false));
         metadataMap.put(REFNONRULEID_TAG, new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("ClassificationAudience", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put(CLASSIFICATIONLEVEL_TAG, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put(CLASSIFICATIONOWNER_TAG, new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("ClassificationReassessingDate", new ComplexListMetadataKind(DateType.class, false));
