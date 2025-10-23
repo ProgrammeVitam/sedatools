@@ -37,7 +37,7 @@ import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.inout.MailImporter;
 import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.MailImportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
@@ -192,7 +192,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
                 inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
             }, localLogStep, 2,MailExtractProgressLogger.MESSAGE_GROUP,1000);
             mepl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
-            MailImportContext mic = new MailImportContext(Prefs.getInstance());
+            MailImportContext mic = new MailImportContext(Preferences.getInstance());
             String target = getTmpDirTarget(mic.getWorkDir(), bdoToExpand.getOnDiskPathToString(), bdoToExpand.getInDataObjectPackageId());
             MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),
                     mic.isExtractAttachmentTextFile(), mic.isExtractAttachmentTextMetadata(),
@@ -208,7 +208,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
                 }
             }
             di = new DiskToArchiveTransferImporter(lp, spl);
-            for (String ip : new DiskImportContext(Prefs.getInstance())
+            for (String ip : new DiskImportContext(Preferences.getInstance())
                     .getIgnorePatternList())
                 di.addIgnorePattern(ip);
             di.doImport();

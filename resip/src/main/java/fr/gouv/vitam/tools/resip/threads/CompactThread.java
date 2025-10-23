@@ -33,7 +33,7 @@ import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.CompactContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
@@ -193,7 +193,7 @@ public class CompactThread extends SwingWorker<String, String> {
             doProgressLog(spl, GLOBAL, "Compactage de l'ArchiveUnit [" + targetArchiveUnit.getInDataObjectPackageId() + "]=" +
                     targetArchiveUnit.getContent().getSimpleMetadata("Title"), null);
 
-            CompactContext coc = new CompactContext(Prefs.getInstance());
+            CompactContext coc = new CompactContext(Preferences.getInstance());
 
             String target = getTmpDirTarget(coc.getWorkDir(), "Compact", targetArchiveUnit.getInDataObjectPackageId());
             //run output

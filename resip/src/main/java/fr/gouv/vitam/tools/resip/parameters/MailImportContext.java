@@ -91,31 +91,35 @@ public class MailImportContext extends CreationContext {
     /**
      * Instantiates a new mail import context from preferences.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public MailImportContext(Prefs prefs) {
-        super(prefs);
-        this.extractMessageTextFile = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractMessageTextFile", "false"));
-        this.extractMessageTextMetadata = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractMessageTextMetadata", "true"));
-        this.extractAttachmentTextFile = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextFile", "true"));
-        this.extractAttachmentTextMetadata = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextMetadata", "false"));
-        this.allowsExternalToolsForTextExtraction = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.mail.allowsExternalToolsForTextExtraction", "false"));
-        this.protocol = prefs.getPrefProperties().getProperty("importContext.mail.protocol", "thunderbird");
+    public MailImportContext(Preferences preferences) {
+        super(preferences);
+        this.extractMessageTextFile = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("importContext.mail.extractMessageTextFile", "false"));
+        this.extractMessageTextMetadata = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("importContext.mail.extractMessageTextMetadata", "true"));
+        this.extractAttachmentTextFile = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextFile", "true"));
+        this.extractAttachmentTextMetadata = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextMetadata", "false"));
+        this.allowsExternalToolsForTextExtraction = Boolean.parseBoolean(preferences.getPrefProperties().getProperty("importContext.mail.allowsExternalToolsForTextExtraction", "false"));
+        this.protocol = preferences.getPrefProperties().getProperty("importContext.mail.protocol", "thunderbird");
         this.mailFolder = "";
-        this.defaultCharsetName = prefs.getPrefProperties().getProperty("importContext.mail.defaultCharsetName", "windows-1252");
+        this.defaultCharsetName = preferences.getPrefProperties().getProperty("importContext.mail.defaultCharsetName", "windows-1252");
     }
 
     /* (non-Javadoc)
      * @see CreationContext#toPrefs(Prefs)
      */
-    public void toPrefs(Prefs prefs) {
-        prefs.getPrefProperties().setProperty("importContext.mail.extractMessageTextFile", Boolean.toString(extractMessageTextFile));
-        prefs.getPrefProperties().setProperty("importContext.mail.extractMessageTextMetadata", Boolean.toString(extractMessageTextMetadata));
-        prefs.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextFile", Boolean.toString(extractAttachmentTextFile));
-        prefs.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextMetadata", Boolean.toString(extractAttachmentTextMetadata));
-        prefs.getPrefProperties().setProperty("importContext.mail.allowsExternalToolsForTextExtraction", Boolean.toString(allowsExternalToolsForTextExtraction));
-        prefs.getPrefProperties().setProperty("importContext.mail.protocol", (protocol == null ? "" : protocol));
-        prefs.getPrefProperties().setProperty("importContext.mail.defaultCharsetName", (defaultCharsetName == null ? "" : defaultCharsetName));
+    public void toPrefs(Preferences preferences) {
+        preferences.getPrefProperties().setProperty("importContext.mail.extractMessageTextFile", Boolean.toString(extractMessageTextFile));
+        preferences.getPrefProperties().setProperty("importContext.mail.extractMessageTextMetadata", Boolean.toString(extractMessageTextMetadata));
+        preferences.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextFile", Boolean.toString(extractAttachmentTextFile));
+        preferences.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextMetadata", Boolean.toString(extractAttachmentTextMetadata));
+        preferences.getPrefProperties().setProperty("importContext.mail.allowsExternalToolsForTextExtraction", Boolean.toString(allowsExternalToolsForTextExtraction));
+        preferences.getPrefProperties().setProperty("importContext.mail.protocol", (protocol == null ? "" : protocol));
+        preferences.getPrefProperties().setProperty("importContext.mail.defaultCharsetName", (defaultCharsetName == null ? "" : defaultCharsetName));
     }
 
     /* (non-Javadoc)

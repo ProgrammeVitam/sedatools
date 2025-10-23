@@ -56,24 +56,25 @@ public class DiskImportContext extends CreationContext {
 	/**
 	 * Instantiates a new disk import context.
 	 *
-	 * @param prefs the prefs
+	 * @param preferences the prefs
 	 */
-	public DiskImportContext(Prefs prefs) {
-		super(prefs);
-		String ignorePatternsString = prefs.getPrefProperties().getProperty("importContext.disk.ignorePatternList", "");
+	public DiskImportContext(Preferences preferences) {
+		super(preferences);
+		String ignorePatternsString = preferences.getPrefProperties().getProperty("importContext.disk.ignorePatternList", "");
 		if (ignorePatternsString.isEmpty())
 			ignorePatternList = new ArrayList<String>();
 		else
 			ignorePatternList = Arrays.asList(ignorePatternsString.split("\\s*\n\\s*"));
-		noLinkFlag=Boolean.parseBoolean(prefs.getPrefProperties().getProperty("importContext.disk.noLinkFlag", "false"));
+		noLinkFlag=Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("importContext.disk.noLinkFlag", "false"));
 	}
 
 	/* (non-Javadoc)
 	 * @see CreationContext#toPrefs(Prefs)
 	 */
-	public void toPrefs(Prefs prefs) {
-		prefs.getPrefProperties().setProperty("importContext.disk.ignorePatternList", String.join("\n", ignorePatternList));
-		prefs.getPrefProperties().setProperty("importContext.disk.noLinkFlag",Boolean.toString(noLinkFlag));
+	public void toPrefs(Preferences preferences) {
+		preferences.getPrefProperties().setProperty("importContext.disk.ignorePatternList", String.join("\n", ignorePatternList));
+		preferences.getPrefProperties().setProperty("importContext.disk.noLinkFlag",Boolean.toString(noLinkFlag));
 	}
 
 	/* (non-Javadoc)

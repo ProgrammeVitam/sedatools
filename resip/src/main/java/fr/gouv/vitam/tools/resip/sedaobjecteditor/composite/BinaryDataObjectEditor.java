@@ -29,7 +29,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.composite;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
@@ -224,7 +224,7 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     }
 
     private void defineButton() {
-        JFileChooser fileChooser = new JFileChooser((editedOnDiskPath == null ? Prefs.getInstance().getPrefsLoadDir() :
+        JFileChooser fileChooser = new JFileChooser((editedOnDiskPath == null ? Preferences.getInstance().getPrefsLoadDir() :
                 editedOnDiskPath.toAbsolutePath().getParent().toString()));
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 

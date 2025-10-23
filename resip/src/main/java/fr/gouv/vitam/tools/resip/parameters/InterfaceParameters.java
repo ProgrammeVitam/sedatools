@@ -61,23 +61,26 @@ public class InterfaceParameters {
     /**
      * Instantiates a new creation context.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public InterfaceParameters(Prefs prefs) {
-        structuredMetadataEditionFlag=Boolean.parseBoolean(prefs.getPrefProperties().getProperty("interfaceParameters.structuredEdtionFlag", "true"));
-        debugFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("interfaceParameters.debugFlag", "false"));
-        experimentalFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("interfaceParameters.experimentalFlag", "false"));
+    public InterfaceParameters(Preferences preferences) {
+        structuredMetadataEditionFlag=Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("interfaceParameters.structuredEdtionFlag", "true"));
+        debugFlag = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("interfaceParameters.debugFlag", "false"));
+        experimentalFlag = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("interfaceParameters.experimentalFlag", "false"));
     }
 
     /**
      * Put in preferences the values specific of this class.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public void toPrefs(Prefs prefs) {
-        prefs.getPrefProperties().setProperty("interfaceParameters.structuredEdtionFlag",Boolean.toString(structuredMetadataEditionFlag));
-        prefs.getPrefProperties().setProperty("interfaceParameters.debugFlag", Boolean.toString(debugFlag));
-        prefs.getPrefProperties().setProperty("interfaceParameters.experimentalFlag", Boolean.toString(experimentalFlag));
+    public void toPrefs(Preferences preferences) {
+        preferences.getPrefProperties().setProperty("interfaceParameters.structuredEdtionFlag",Boolean.toString(structuredMetadataEditionFlag));
+        preferences.getPrefProperties().setProperty("interfaceParameters.debugFlag", Boolean.toString(debugFlag));
+        preferences.getPrefProperties().setProperty("interfaceParameters.experimentalFlag", Boolean.toString(experimentalFlag));
     }
 
     /**

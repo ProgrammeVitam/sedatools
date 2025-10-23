@@ -32,7 +32,7 @@ import fr.gouv.vitam.tools.resip.data.Work;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UsedTmpDirDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.parameters.ZipImportContext;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
@@ -175,7 +175,7 @@ public class ExpandThread extends SwingWorker<String, String> {
 
             doProgressLog(spl, GLOBAL, "Expansion du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.getMetadataFileInfo().getSimpleMetadata("Filename") + "]", null);
 
-            ZipImportContext zic = new ZipImportContext(Prefs.getInstance());
+            ZipImportContext zic = new ZipImportContext(Preferences.getInstance());
             String target = getTmpDirTarget(zic.getWorkDir(), bdoToExpand.getOnDiskPathToString(), bdoToExpand.getInDataObjectPackageId());
             zi = new CompressedFileToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, null, null, spl);
             for (String ip : zic.getIgnorePatternList())

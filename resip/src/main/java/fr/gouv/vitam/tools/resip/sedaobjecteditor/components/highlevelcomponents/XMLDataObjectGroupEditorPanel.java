@@ -30,7 +30,7 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponent
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.frame.XmlEditDialog;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectListCellRenderer;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectListViewer;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
@@ -220,7 +220,7 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
     private String chooseNewObject() {
         File tmp = null;
         try {
-            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            JFileChooser fileChooser = new JFileChooser(Preferences.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
                 tmp = fileChooser.getSelectedFile();

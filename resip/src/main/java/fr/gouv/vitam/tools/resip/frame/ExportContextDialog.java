@@ -29,7 +29,7 @@ package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
 
 import javax.swing.*;
@@ -115,7 +115,7 @@ public class ExportContextDialog extends JDialog {
 	 * @param owner the owner
 	 */
 	public ExportContextDialog(JFrame owner) {
-		this(owner, new ExportContext(Prefs.getInstance()));
+		this(owner, new ExportContext(Preferences.getInstance()));
 	}
 
 	/**

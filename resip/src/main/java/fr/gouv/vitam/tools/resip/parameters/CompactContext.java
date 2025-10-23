@@ -99,56 +99,60 @@ public class CompactContext extends CreationContext {
     /**
      * Instantiates a new compact context from the preferences.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public CompactContext(Prefs prefs) {
-        super(prefs);
+    public CompactContext(Preferences preferences) {
+        super(preferences);
         try {
-            maxMetadataSize = Integer.parseInt(prefs.getPrefProperties().getProperty("compactContext.general.maxMetadataSize", "0"));
+            maxMetadataSize = Integer.parseInt(
+                preferences.getPrefProperties().getProperty("compactContext.general.maxMetadataSize", "0"));
         } catch (NumberFormatException e) {
             maxMetadataSize = 1000000;
         }
         try {
-            maxDocumentNumber = Integer.parseInt(prefs.getPrefProperties().getProperty("compactContext.general.maxDocumentNumber", "0"));
+            maxDocumentNumber = Integer.parseInt(
+                preferences.getPrefProperties().getProperty("compactContext.general.maxDocumentNumber", "0"));
         } catch (NumberFormatException e) {
             maxDocumentNumber = 1000;
         }
-        metadataFilterFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("compactContext.general.metadataFilterFlag", "false"));
-        String keptMetadataString = prefs.getPrefProperties().getProperty("compactContext.general.keptMetadataList", "");
+        metadataFilterFlag = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("compactContext.general.metadataFilterFlag", "false"));
+        String keptMetadataString = preferences.getPrefProperties().getProperty("compactContext.general.keptMetadataList", "");
         if (keptMetadataString.isEmpty())
             setDefaultPrefs();
         else
             keptMetadataList = Arrays.asList(keptMetadataString.split("\\s*\n\\s*"))
                     .stream().map(String::trim).collect(Collectors.toList());
-        String documentKeptDataObjectVersionString = prefs.getPrefProperties().getProperty("compactContext.general.documentKeptDataObjectVersionList", "");
+        String documentKeptDataObjectVersionString = preferences.getPrefProperties().getProperty("compactContext.general.documentKeptDataObjectVersionList", "");
         if (documentKeptDataObjectVersionString.isEmpty())
             setDefaultPrefs();
         else
             documentKeptDataObjectVersionList = Arrays.asList(documentKeptDataObjectVersionString.split("\\s*\n\\s*"))
                     .stream().map(String::trim).collect(Collectors.toList());
-        String subDocumentKeptDataObjectVersionString = prefs.getPrefProperties().getProperty("compactContext.general.subDocumentKeptDataObjectVersionList", "");
+        String subDocumentKeptDataObjectVersionString = preferences.getPrefProperties().getProperty("compactContext.general.subDocumentKeptDataObjectVersionList", "");
         if (subDocumentKeptDataObjectVersionString.isEmpty())
             setDefaultPrefs();
         else
             subDocumentKeptDataObjectVersionList = Arrays.asList(subDocumentKeptDataObjectVersionString.split("\\s*\n\\s*"))
                     .stream().map(String::trim).collect(Collectors.toList());
-        deflatedFlag = Boolean.parseBoolean(prefs.getPrefProperties().getProperty("compactContext.general.deflatedFlag", "false"));
+        deflatedFlag = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("compactContext.general.deflatedFlag", "false"));
     }
 
     /**
      * To prefs.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
     @Override
-    public void toPrefs(Prefs prefs) {
-        prefs.getPrefProperties().setProperty("compactContext.general.maxMetadataSize", Integer.toString(maxMetadataSize));
-        prefs.getPrefProperties().setProperty("compactContext.general.maxDocumentNumber", Integer.toString(maxDocumentNumber));
-        prefs.getPrefProperties().setProperty("compactContext.general.metadataFilterFlag", Boolean.toString(metadataFilterFlag));
-        prefs.getPrefProperties().setProperty("compactContext.general.keptMetadataList", String.join("\n", keptMetadataList));
-        prefs.getPrefProperties().setProperty("compactContext.general.documentKeptDataObjectVersionList", String.join("\n", documentKeptDataObjectVersionList));
-        prefs.getPrefProperties().setProperty("compactContext.general.subDocumentKeptDataObjectVersionList", String.join("\n", subDocumentKeptDataObjectVersionList));
-        prefs.getPrefProperties().setProperty("compactContext.general.deflatedFlag", Boolean.toString(deflatedFlag));
+    public void toPrefs(Preferences preferences) {
+        preferences.getPrefProperties().setProperty("compactContext.general.maxMetadataSize", Integer.toString(maxMetadataSize));
+        preferences.getPrefProperties().setProperty("compactContext.general.maxDocumentNumber", Integer.toString(maxDocumentNumber));
+        preferences.getPrefProperties().setProperty("compactContext.general.metadataFilterFlag", Boolean.toString(metadataFilterFlag));
+        preferences.getPrefProperties().setProperty("compactContext.general.keptMetadataList", String.join("\n", keptMetadataList));
+        preferences.getPrefProperties().setProperty("compactContext.general.documentKeptDataObjectVersionList", String.join("\n", documentKeptDataObjectVersionList));
+        preferences.getPrefProperties().setProperty("compactContext.general.subDocumentKeptDataObjectVersionList", String.join("\n", subDocumentKeptDataObjectVersionList));
+        preferences.getPrefProperties().setProperty("compactContext.general.deflatedFlag", Boolean.toString(deflatedFlag));
     }
 
     /**

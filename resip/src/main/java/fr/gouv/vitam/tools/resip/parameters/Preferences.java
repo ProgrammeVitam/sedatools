@@ -48,7 +48,7 @@ import java.util.*;
  * directory.
  * </p>
  */
-public class Prefs {
+public class Preferences {
 
     /**
      * The preferences file name.
@@ -64,7 +64,7 @@ public class Prefs {
     /**
      * The instance.
      */
-    private static Prefs instance;
+    private static Preferences instance;
 
 
     /**
@@ -72,16 +72,16 @@ public class Prefs {
      *
      * @return single instance of Prefs
      */
-    public static Prefs getInstance() {
+    public static Preferences getInstance() {
         if (instance == null)
-            instance = new Prefs();
+            instance = new Preferences();
         return instance;
     }
 
     /**
      * Instantiates a new prefProperties.
      */
-    private Prefs() {
+    private Preferences() {
         try {
             // to get the properties sorted by key when stored work for java 8/9/10
             prefProperties = new Properties(){
@@ -122,7 +122,7 @@ public class Prefs {
                                 "été trouvé. Recherche de la version personnelle.",e);
 
                 try {
-                    prefPropertiesFilename=Prefs.getDefaultWorkDir()+File.separator+PREFERENCES_FILENAME;
+                    prefPropertiesFilename= Preferences.getDefaultWorkDir()+File.separator+PREFERENCES_FILENAME;
                     load();
                 } catch (ResipException ee) {
                     ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,

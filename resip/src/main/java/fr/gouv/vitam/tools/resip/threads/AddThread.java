@@ -33,7 +33,7 @@ import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.UserInteractionDialog;
 import fr.gouv.vitam.tools.resip.parameters.DiskImportContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
@@ -106,7 +106,7 @@ public class AddThread extends SwingWorker<String, String> {
             this.work = work;
         else
             this.work = new Work(null,
-                    new DiskImportContext(Prefs.getInstance()),
+                    new DiskImportContext(Preferences.getInstance()),
                     null, SEDA2Version.getSeda2Version());
 
         this.targetNode = targetNode;
@@ -121,7 +121,7 @@ public class AddThread extends SwingWorker<String, String> {
 
     private void setWorkFromDataObjectPackage(DataObjectPackage dataObjectPackage) {
         work.setDataObjectPackage(dataObjectPackage);
-        ExportContext newExportContext = new ExportContext(Prefs.getInstance());
+        ExportContext newExportContext = new ExportContext(Preferences.getInstance());
         if (dataObjectPackage.getManagementMetadataXmlData() != null)
             newExportContext.setManagementMetadataXmlData(
                     dataObjectPackage.getManagementMetadataXmlData());
@@ -162,7 +162,7 @@ public class AddThread extends SwingWorker<String, String> {
             if (this.work.getCreationContext() instanceof DiskImportContext)
                 dic = (DiskImportContext) this.work.getCreationContext();
             else
-                dic = new DiskImportContext(Prefs.getInstance());
+                dic = new DiskImportContext(Preferences.getInstance());
             di = new DiskToDataObjectPackageImporter(lp, dic.isNoLinkFlag(), null, spl);
             for (String ip : dic.getIgnorePatternList())
                 di.addIgnorePattern(ip);

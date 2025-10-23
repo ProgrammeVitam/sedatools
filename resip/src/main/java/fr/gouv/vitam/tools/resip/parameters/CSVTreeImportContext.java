@@ -30,15 +30,15 @@ public class CSVTreeImportContext extends CSVImportContext {
     /**
      * Instantiates a new csv tree import context from preferences.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public CSVTreeImportContext(Prefs prefs) {
-		super(prefs);
+    public CSVTreeImportContext(Preferences preferences) {
+		super(preferences);
 	}
 
 	/* (non-Javadoc)
 	 * @see CreationContext#toPrefs(Prefs)
 	 */
-	public void toPrefs(Prefs prefs) {
+	public void toPrefs(Preferences preferences) {
 	}
 }

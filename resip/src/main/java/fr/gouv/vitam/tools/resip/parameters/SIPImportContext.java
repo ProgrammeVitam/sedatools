@@ -28,15 +28,15 @@ public class SIPImportContext extends CreationContext {
     /**
      * Instantiates a new SIP import context.
      *
-     * @param prefs the prefs
+     * @param preferences the prefs
      */
-    public SIPImportContext(Prefs prefs) {
-		super(prefs);
+    public SIPImportContext(Preferences preferences) {
+		super(preferences);
 	}
 
 	/* (non-Javadoc)
 	 * @see CreationContext#toPrefs(Prefs)
 	 */
-	public void toPrefs(Prefs prefs) {
+	public void toPrefs(Preferences preferences) {
 	}
 }

@@ -1,7 +1,7 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.parameters.Prefs;
+import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.parameters.TreatmentParameters;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 
@@ -179,8 +179,8 @@ public class AboutDialog extends JDialog {
 
     private void buttonReinitPrefs() {
         try {
-            Prefs.getInstance().reinitialisePrefs();
-            ResipGraphicApp.getTheApp().treatmentParameters =new TreatmentParameters(Prefs.
+            Preferences.getInstance().reinitialisePrefs();
+            ResipGraphicApp.getTheApp().treatmentParameters =new TreatmentParameters(Preferences.
                     getInstance());
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Erreur fatale, réinitialisation des préférences impossible \n->" + e.getMessage(), "Erreur",
@@ -192,10 +192,10 @@ public class AboutDialog extends JDialog {
 
     private void buttonSavePrefs() {
         try {
-            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            JFileChooser fileChooser = new JFileChooser(Preferences.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(ResipGraphicApp.getTheApp().mainWindow) == JFileChooser.APPROVE_OPTION) {
-                Prefs.getInstance().save(fileChooser.getSelectedFile().getAbsolutePath());
+                Preferences.getInstance().save(fileChooser.getSelectedFile().getAbsolutePath());
             }
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Sauvegarde des préférences impossible \n->" + e.getMessage(), "Erreur",
@@ -207,10 +207,10 @@ public class AboutDialog extends JDialog {
 
     private void buttonImportPrefs() {
         try {
-            JFileChooser fileChooser = new JFileChooser(Prefs.getInstance().getPrefsImportDir());
+            JFileChooser fileChooser = new JFileChooser(Preferences.getInstance().getPrefsImportDir());
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if (fileChooser.showOpenDialog(ResipGraphicApp.getTheApp().mainWindow) == JFileChooser.APPROVE_OPTION) {
-                Prefs.getInstance().load(fileChooser.getSelectedFile().getAbsolutePath());
+                Preferences.getInstance().load(fileChooser.getSelectedFile().getAbsolutePath());
             }
         } catch (Exception e) {
             UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow, "Import des préférences impossible \n->" + e.getMessage(), "Erreur",
