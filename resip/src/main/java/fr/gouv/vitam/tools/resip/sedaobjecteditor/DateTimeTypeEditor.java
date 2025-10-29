@@ -37,6 +37,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * The DateTimeType object editor class.
@@ -82,7 +83,8 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        getDateTimeTypeMetadata().setValue(valueDateTimePicker.getDateTimePermissive());
+        getDateTimeTypeMetadata().setDateTimeString(valueDateTimePicker.getDateTimePermissive().format(
+            DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         return getDateTimeTypeMetadata();
     }
 
@@ -117,7 +119,7 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
         editPanel.setLayout(gbl);
 
         valueDateTimePicker = new DateTimePicker();
-        valueDateTimePicker.setDateTimePermissive(getDateTimeTypeMetadata().getValue());
+        valueDateTimePicker.setDateTimePermissive(getDateTimeTypeMetadata().toLocalDateTime());
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.anchor = GridBagConstraints.LINE_START;
