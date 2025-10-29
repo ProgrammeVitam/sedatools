@@ -1,7 +1,7 @@
 {
   "archiveUnitProfileXmlData" : null,
   "managementXmlData" : null,
-  "contentXmlData" : "<Content>\n  <DescriptionLevel>Item</DescriptionLevel>\n  <Title>image001.jpg</Title>\n  <Description xml:lang=\"fr\">Document \"image001.jpg\" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>\n  <CreatedDate>2016-08-30T10:14:17.000</CreatedDate>\n</Content>",
+  "contentXmlData" : "<Content>\n  <DescriptionLevel>Item</DescriptionLevel>\n  <Title>image001.jpg</Title>\n  <Description xml:lang=\"fr\">Document \"image001.jpg\" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>\n  <CreatedDate>2016-08-30T10:14:17Z</CreatedDate>\n</Content>",
   "childrenAuList" : {
     "inDataObjectPackageIdList" : [ ]
   },

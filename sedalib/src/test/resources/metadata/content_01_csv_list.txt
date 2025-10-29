@@ -27,28 +27,28 @@ RelatedObjectReference.Replaces.0.DataObjectReference.DataObjectReferenceId: DoR
 RelatedObjectReference.Requires.0.RepositoryArchiveUnitPID: AuPid
 RelatedObjectReference.IsPartOf.0.RepositoryObjectPID: DoPid
 RelatedObjectReference.References.0.ExternalReference: ExtrenalRef
-RegisteredDate: 2104-05-13T00:00:00.000
-Event.0.EventDateTime: 1970-01-01T01:00:00.000
+RegisteredDate: 2104-05-13T00:00:00
+Event.0.EventDateTime: 1970-01-01T01:00:00
 Event.0.Outcome: OK
 Event.0.Information.0: <Information>OK</Information>
 Event.1.EventIdentifier: AUT-234452
 Event.1.EventTypeCode: Autorisation
-Event.1.EventDateTime: 2104-05-31T01:00:00.000
+Event.1.EventDateTime: 2104-05-31T01:00:00
 Event.1.Outcome: OK
 Signature.0.Signer.0.FirstName: Paul
 Signature.0.Signer.0.BirthName: Dupont
-Signature.0.Signer.0.SigningTime: 1970-01-01T01:00:00.000
+Signature.0.Signer.0.SigningTime: 1970-01-01T01:00:00
 Signature.0.Signer.1.FullName: Martin Durant
-Signature.0.Signer.1.SigningTime: 1970-01-02T01:00:00.000
+Signature.0.Signer.1.SigningTime: 1970-01-02T01:00:00
 Signature.0.Signer.2.FirstName: Emilie
 Signature.0.Signer.2.BirthName: Martin
 Signature.0.Signer.2.Identifier: emilie.martin@corp.fr
-Signature.0.Signer.2.SigningTime: 1970-01-02T01:00:00.000
+Signature.0.Signer.2.SigningTime: 1970-01-02T01:00:00
 Signature.0.Signer.3.FullName: Laura Tremoulet
 Signature.0.Signer.3.BirthPlace.Geogname: TestLocation1
-Signature.0.Signer.3.SigningTime: 1970-01-01T02:00:00.000
+Signature.0.Signer.3.SigningTime: 1970-01-01T02:00:00
 Signature.0.Validator.Corpname: The corporation
-Signature.0.Validator.ValidationTime: 1970-01-03T01:00:00.000
+Signature.0.Validator.ValidationTime: 1970-01-03T01:00:00
 Signature.0.ReferencedObject.SignedObjectId: TestID1
 Signature.0.ReferencedObject.SignedObjectDigest: TestDigest1
 Signature.0.ReferencedObject.SignedObjectDigest.attr: algorithm="TestSHA"

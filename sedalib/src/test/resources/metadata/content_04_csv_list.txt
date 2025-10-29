@@ -1,11 +1,11 @@
 Content.Description.0: TestDescription EN
 Content.Description.0.attr: xml:lang="en"
-Content.Event.0.EventDateTime: 1970-01-01T01:00:00.000
+Content.Event.0.EventDateTime: 1970-01-01T01:00:00
 Content.Event.0.Outcome: OK
 Content.Event.0.Information.0: <Information>OK</Information>
 Content.Event.1.EventIdentifier: AUT-234452
 Content.Event.1.EventTypeCode: Autorisation
-Content.Event.1.EventDateTime: 2104-05-31T01:00:00.000
+Content.Event.1.EventDateTime: 2104-05-31T01:00:00
 Content.Event.1.Outcome: OK
 Content.Frog.0: <Frog>
     <CommonName>Rouge à laser</CommonName>
