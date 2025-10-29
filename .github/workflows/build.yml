@@ -21,6 +21,7 @@ jobs:
       - name: Build and Run Tests
         run: mvn --settings .ci/github-actions-settings.xml verify
         env:
+          JAVA_TOOL_OPTIONS: "-Duser.timezone=Europe/Paris"
           SERVICE_NEXUS_URL: ${{ secrets.SERVICE_NEXUS_URL }}
           CI_USR: ${{ secrets.CI_USR }}
           CI_PSW: ${{ secrets.CI_PSW }}
