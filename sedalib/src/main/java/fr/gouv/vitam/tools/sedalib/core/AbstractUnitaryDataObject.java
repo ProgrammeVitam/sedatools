@@ -136,8 +136,7 @@ abstract public class AbstractUnitaryDataObject extends DataObjectPackageIdEleme
             throws InterruptedException, SEDALibException {
         try {
             // XML write
-            final String elementName = getXmlElementName();
-            xmlWriter.writeStartElement(elementName);
+            xmlWriter.writeStartElement(getXmlElementName());
             xmlWriter.writeAttributeIfNotEmpty("id", inDataPackageObjectId);
             toSedaXmlMetadataList(xmlWriter);
             xmlWriter.writeEndElement();
