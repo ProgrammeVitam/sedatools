@@ -51,7 +51,6 @@ pipeline {
                 script {
                     // overwrite file content with one more goal
                     writeFile file: 'deploy_goal.txt', text: "${env.DEPLOY_GOAL}"
-                    writeFile file: 'master_branch.txt', text: "${env.MASTER_BRANCH}"
                  }
                 echo "We are on master branch (${env.GIT_BRANCH}) ; deploy goal is \"${env.DEPLOY_GOAL}\""
             }

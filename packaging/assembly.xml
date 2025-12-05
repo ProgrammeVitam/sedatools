@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+    <id>package</id>
     <formats>
-        <format>tar.gz</format>
+        <format>zip</format>
     </formats>
     <includeBaseDirectory>false</includeBaseDirectory>
     <fileSets>
-        <!-- Add all vitam-external rpm -->
+
+        <!-- Resip -->
+        <fileSet>
+            <directory>../resip/target</directory>
+            <outputDirectory>resip/</outputDirectory>
+            <includes>
+                <include>Resip.exe</include>
+                <include>resip-${project.version}-shaded.jar</include>
+            </includes>
+        </fileSet>
         <fileSet>
             <directory>../resip/windows</directory>
-            <outputDirectory></outputDirectory>
-            <excludes>
-                <exclude>VitamIcon.ico</exclude>
-                <exclude>resipIHM.png</exclude>
-            </excludes>
+            <outputDirectory>resip/</outputDirectory>
+            <includes>
+                <include>Resip.bat</include>
+            </includes>
         </fileSet>
-        <fileSet>
-            <directory>../doc</directory>
-            <outputDirectory>/doc</outputDirectory>
-        </fileSet>
-        <!-- Add "native" vitam-product rpm -->
         <fileSet>
             <directory>../resip/src/test/resources/PacketSamples/</directory>
-            <outputDirectory>config/</outputDirectory>
+            <outputDirectory>resip/config/</outputDirectory>
             <includes>
                 <include>**/ExportContext.config</include>
             </includes>
-            <!-- <excludes>
-                <exclude>**/vitam-gatling-*.rpm</exclude>
-            </excludes> -->
-        </fileSet> 
-    </fileSets>
-    <dependencySets>
-        <!-- Add documentation files -->
-        <dependencySet>
-            <outputDirectory>/</outputDirectory>
-            <unpack>false</unpack>
+        </fileSet>
+        <fileSet>
+            <directory>../resip/doc</directory>
+            <outputDirectory>resip/doc</outputDirectory>
+        </fileSet>
+
+        <!-- TestFileGenerator -->
+        <fileSet>
+            <directory>../testsipgenerator/target</directory>
+            <outputDirectory>testsipgenerator/</outputDirectory>
             <includes>
-                <include>fr.gouv.vitam.tools:resip:*</include>
+                <include>TestFileGenerator.exe</include>
+                <include>testsipgenerator-${project.version}-shaded.jar</include>
             </includes>
-        </dependencySet>
-    </dependencySets>
+        </fileSet>
+
+        <!-- MailExtractor -->
+        <fileSet>
+            <directory>../mailextract/target</directory>
+            <outputDirectory>mailextract/</outputDirectory>
+            <includes>
+                <include>MailExtract.exe</include>
+                <include>MailExtractCmd.exe</include>
+                <include>mailextract-${project.version}-shaded.jar</include>
+            </includes>
+        </fileSet>
+
+    </fileSets>
 </assembly>

@@ -216,16 +216,16 @@
                         </goals>
                         <configuration>
                             <headerType>gui</headerType>
-                            <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar>
+                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
                             <icon>windows/VitamIcon.ico</icon>
-                            <outfile>windows/Resip.exe</outfile>
+                            <outfile>${project.build.directory}/Resip.exe</outfile>
                             <stayAlive>true</stayAlive>
                             <downloadUrl>https://adoptium.net/temurin/releases/?version=11</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.resip.app.ResipApp</mainClass>
                             </classPath>
                             <jre>
-                                <path>.\jre</path>
+                                <path>./jdk-11.0.29+7-jre</path>
                                 <minVersion>11</minVersion>
                                 <requires64Bit/>
                                 <opts>
@@ -242,50 +242,7 @@
                                 </txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
                                 <copyright>Programme Vitam</copyright>
-                                <productVersion>
-                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
-                                </productVersion>
-                                <txtProductVersion>
-                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
-                                </txtProductVersion>
-                                <productName>${project.name}</productName>
-                                <internalName>${project.name}</internalName>
-                                <originalFilename>Resip.exe</originalFilename>
-                            </versionInfo>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>l4j-generate-x64</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>launch4j</goal>
-                        </goals>
-                        <configuration>
-                            <headerType>gui</headerType>
-                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
-                            <icon>windows/VitamIcon.ico</icon>
-                            <outfile>${project.build.directory}/Resip.exe</outfile>
-                            <stayAlive>true</stayAlive>
-                            <downloadUrl>https://adoptium.net/temurin/releases/?version=11</downloadUrl>
-                            <classPath>
-                                <mainClass>fr.gouv.vitam.tools.resip.app.ResipApp</mainClass>
-                            </classPath>
-                            <!-- Specify the JRE to include -->
-                            <jre>
-                                <path>./jdk-11.0.29+7-jre</path>
-                                <minVersion>11</minVersion>
-                                <requires64Bit/>
-                                <requiresJdk/>
-                            </jre>
-                            <versionInfo>
-                                <fileVersion>
-                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
-                                </fileVersion>
-                                <txtFileVersion>
-                                    ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
-                                </txtFileVersion>
-                                <fileDescription>${project.name}</fileDescription>
-                                <copyright>Programme Vitam</copyright>
+                                <companyName>Programme Vitam</companyName>
                                 <productVersion>
                                     ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
                                 </productVersion>
@@ -323,7 +280,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <id>tar.gz-with-jdk-11-assembly</id>
+                        <id>zip-with-jdk-11-assembly</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
