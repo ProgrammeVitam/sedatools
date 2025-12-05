@@ -169,7 +169,7 @@
                 <executions>
                     <!-- download openjdk -->
                     <execution>
-                        <id>download-jdk</id>
+                        <id>download-jre</id>
                         <phase>package</phase>
                         <goals>
                             <goal>run</goal>
@@ -177,27 +177,28 @@
                         <configuration>
                             <target>
                                 <get
-                                        src="https://download.java.net/openjdk/jdk11/ri/openjdk-11+28_windows-x64_bin.zip"
-                                        dest="${project.build.directory}/openjdk-11+28_windows-x64_bin.zip"
-                                        verbose="false"
-                                        ignoreerrors="false"
-                                        usetimestamp="true"/>
+                                    src="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29+7/OpenJDK11U-jre_x64_windows_hotspot_11.0.29_7.zip"
+                                    dest="${project.build.directory}/jre11.zip"
+                                    verbose="false"
+                                    ignoreerrors="false"
+                                    usetimestamp="true"/>
                             </target>
                         </configuration>
                     </execution>
                     <execution>
-                        <id>unzip-jdk</id>
+                        <id>unzip-jre</id>
                         <phase>package</phase>
-                        <configuration>
-                            <target>
-                                <echo message="unzipping file"/>
-                                <unzip src="${project.build.directory}/openjdk-11+28_windows-x64_bin.zip"
-                                       dest="${project.build.directory}/"/>
-                            </target>
-                        </configuration>
                         <goals>
                             <goal>run</goal>
                         </goals>
+                        <configuration>
+                            <target>
+                                <echo message="unzipping file"/>
+                                <unzip
+                                    src="${project.build.directory}/jre11.zip"
+                                    dest="${project.build.directory}/"/>
+                            </target>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -219,7 +220,7 @@
                             <icon>windows/VitamIcon.ico</icon>
                             <outfile>windows/Resip.exe</outfile>
                             <stayAlive>true</stayAlive>
-                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <downloadUrl>https://adoptium.net/temurin/releases/?version=11</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.resip.app.ResipApp</mainClass>
                             </classPath>
@@ -265,13 +266,13 @@
                             <icon>windows/VitamIcon.ico</icon>
                             <outfile>${project.build.directory}/Resip.exe</outfile>
                             <stayAlive>true</stayAlive>
-                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <downloadUrl>https://adoptium.net/temurin/releases/?version=11</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.resip.app.ResipApp</mainClass>
                             </classPath>
                             <!-- Specify the JRE to include -->
                             <jre>
-                                <path>jdk-11</path>
+                                <path>./jdk-11.0.29+7-jre</path>
                                 <minVersion>11</minVersion>
                                 <requires64Bit/>
                                 <requiresJdk/>

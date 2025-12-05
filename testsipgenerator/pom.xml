@@ -122,12 +122,12 @@
                             <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar>
                             <icon>windows/VitamIcon.ico</icon>
                             <outfile>windows/TestFileGenerator.exe</outfile>
-                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <downloadUrl>https://adoptium.net/temurin/releases/?version=11</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.testsipgenerator.TestSipGeneratorApp</mainClass>
                             </classPath>
                             <jre>
-                                <path>.\jre</path>
+                                <path>./jdk-11.0.29+7-jre</path>
                                 <minVersion>11</minVersion>
                                 <requires64Bit/>
                                 <opts>
