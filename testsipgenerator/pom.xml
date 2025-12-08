@@ -119,15 +119,15 @@
                         </goals>
                         <configuration>
                             <headerType>console</headerType>
-                            <jar>target/${project.artifactId}-${project.version}-shaded.jar</jar>
+                            <jar>${project.build.directory}/${project.artifactId}-${project.version}-shaded.jar</jar>
                             <icon>windows/VitamIcon.ico</icon>
-                            <outfile>windows/TestFileGenerator.exe</outfile>
-                            <downloadUrl>http://java.com/download</downloadUrl>
+                            <outfile>${project.build.directory}/TestFileGenerator.exe</outfile>
+                            <downloadUrl>https://adoptium.net/temurin/releases/?version=11</downloadUrl>
                             <classPath>
                                 <mainClass>fr.gouv.vitam.tools.testsipgenerator.TestSipGeneratorApp</mainClass>
                             </classPath>
                             <jre>
-                                <path>.\jre</path>
+                                <path>./jdk-11.0.29+7-jre</path>
                                 <minVersion>11</minVersion>
                                 <requires64Bit/>
                                 <opts>
@@ -143,6 +143,7 @@
                                 </txtFileVersion>
                                 <fileDescription>${project.name}</fileDescription>
                                 <copyright>Programme Vitam</copyright>
+                                <companyName>Programme Vitam</companyName>
                                 <productVersion>
                                     ${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}.0
                                 </productVersion>

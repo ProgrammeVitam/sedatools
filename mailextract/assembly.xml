@@ -14,7 +14,7 @@
             <includes>
                 <include>MailExtract.exe</include>
                 <include>MailExtractCmd.exe</include>
-                <include>jdk-11/**</include>
+                <include>jdk-11.0.29+7-jre/**</include>
             </includes>
         </fileSet>
     </fileSets>
