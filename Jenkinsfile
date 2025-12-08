@@ -1,6 +1,11 @@
 pipeline {
     agent {
-        label 'slaves'
+        label 'build'
+    }
+
+    tools {
+        jdk 'java11'
+        maven 'maven-3.9'
     }
 
     environment {
