@@ -18,7 +18,7 @@
 
         <!--High level processing libraries-->
         <!--    For text extraction-->
-        <tika.version>3.1.0</tika.version>
+        <tika.version>3.2.3</tika.version>
         <apache.poi.version>5.4.1</apache.poi.version>
         <commons-io.version>2.20.0</commons-io.version>
         <!--    For MIME type mail treatment-->
@@ -27,7 +27,7 @@
         <jakarta.activation.version>2.1.2</jakarta.activation.version>
         <angus-activation.version>2.0.2</angus-activation.version>
         <!--    For HTML manipulation-->
-        <jsoup.version>1.19.1</jsoup.version>
+        <jsoup.version>1.21.1</jsoup.version>
         <!--    For format identification (DROID from the UK National Archives)-->
         <droid.version>6.8.0</droid.version>
         <droidjaxb-impl.version>2.3.8</droidjaxb-impl.version>
