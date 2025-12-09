@@ -1,17 +1,18 @@
 package fr.gouv.vitam.tools.sedalib.utils;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.nio.file.attribute.FileTime;
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeParseException;
 
-import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@ExtendWith(SedaContextExtension.class)
 class LocalDateTimeUtilTest {
 
 

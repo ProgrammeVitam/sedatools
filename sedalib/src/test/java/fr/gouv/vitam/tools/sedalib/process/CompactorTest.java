@@ -1,16 +1,17 @@
 package fr.gouv.vitam.tools.sedalib.process;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -19,13 +20,8 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@ExtendWith(SedaContextExtension.class)
 class CompactorTest implements UseTestFiles {
-
-    @BeforeEach
-    void setUp() throws SEDALibException {
-        // Reset default seda version
-        SEDA2Version.setSeda2Version(1);
-    }
 
     private void eraseAll(String dirOrFile) {
         try {
@@ -87,7 +83,7 @@ class CompactorTest implements UseTestFiles {
     void TestCompactorSeda2V3() throws Exception {
 
         // Given this test directory imported
-        SEDA2Version.setSeda2Version(3);
+        SedaContext.setVersion(SedaVersion.V2_3);
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
                 "src/test/resources/PacketSamples/SampleWithoutLinksModelV1", null);
         di.addIgnorePattern("Thumbs.db");

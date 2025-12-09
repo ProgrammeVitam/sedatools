@@ -28,6 +28,8 @@
 package fr.gouv.vitam.tools.resip.frame.preferences;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
+import fr.gouv.vitam.tools.resip.event.EventBus;
+import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.frame.MainWindow;
 import fr.gouv.vitam.tools.resip.frame.NumericFilter;
@@ -38,8 +40,7 @@ import fr.gouv.vitam.tools.resip.threads.ChangeSeda2VersionThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 
 import javax.swing.*;
 import javax.swing.text.AbstractDocument;
@@ -169,6 +170,8 @@ public class PreferencesDialog extends JDialog {
             "UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
             "windows-1250", "windows-1251", "windows-1253", "windows-1254", "windows-1257"};
 
+    private SedaVersion currentVersion;
+
     // Dialog test context
 
     /**
@@ -197,7 +200,10 @@ public class PreferencesDialog extends JDialog {
      */
     public PreferencesDialog(JFrame owner) {
         super(owner, "Edition des paramètres par défaut", true);
-        GridBagConstraints gbc;
+
+        EventBus.subscribe(SedaVersionChangedEvent.class, event -> {
+            this.currentVersion = event.getNewVersion();
+        });
 
         cc = new CreationContext(Preferences.getInstance());
         coc = new CompactContext(Preferences.getInstance());
@@ -217,6 +223,8 @@ public class PreferencesDialog extends JDialog {
         gridBagLayout.rowWeights = new double[]{1.0, 0.1};
         gridBagLayout.columnWeights = new double[]{1.0, 1.0};
         contentPane.setLayout(new GridBagLayout());
+
+        GridBagConstraints gbc;
 
         tabbedPane = new JTabbedPane(TOP);
         gbc = new GridBagConstraints();
@@ -1305,7 +1313,7 @@ public class PreferencesDialog extends JDialog {
         gbc.gridy = 4;
         treatmentParametersPanel.add(sedaVersionLabel, gbc);
 
-        final SedaVersion selectedVersion = SedaVersion.from(2, tp.getSeda2Version());
+        final SedaVersion selectedVersion = this.currentVersion;
         sedaVersionSelector = new SedaVersionSelector(selectedVersion);
 
         gbc = new GridBagConstraints();
@@ -1471,12 +1479,16 @@ public class PreferencesDialog extends JDialog {
         }
     }
 
-    private boolean tryToConvertCurrentWorkSedaVersion(int toSeda2Version) {
+    private boolean tryToConvertCurrentWorkSedaVersion(SedaVersion currentVersion, SedaVersion nextVersion) {
         DataObjectPackage currentPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
-        String versionLabel = "SEDA 2." + toSeda2Version;
 
-        InOutDialog inOutDialog = new InOutDialog(this.owner, "Conversion vers le schéma " + versionLabel);
-        ChangeSeda2VersionThread conversionThread = new ChangeSeda2VersionThread(toSeda2Version, currentPackage, inOutDialog);
+        InOutDialog inOutDialog = new InOutDialog(this.owner, "Conversion vers le schéma " + nextVersion);
+        ChangeSeda2VersionThread conversionThread = new ChangeSeda2VersionThread(
+            currentVersion,
+            nextVersion,
+            currentPackage,
+            inOutDialog
+        );
 
         SedaConversionErrorHandler errorHandler = new SedaConversionErrorHandler(this.owner);
         SedaConversionWaiter waiter = new SedaConversionWaiter();
@@ -1486,12 +1498,12 @@ public class PreferencesDialog extends JDialog {
             inOutDialog.setVisible(true);
             waiter.waitUntilFinished(conversionThread);
         } catch (Exception e) {
-            errorHandler.handleFatalError(versionLabel, e, conversionThread.getError());
+            errorHandler.handleFatalError(nextVersion.toString(), e, conversionThread.getError());
             return false;
         }
 
         if (conversionThread.getResult() == null) {
-            errorHandler.handleNullResult(versionLabel, conversionThread.getError());
+            errorHandler.handleNullResult(nextVersion.toString(), conversionThread.getError());
             return false;
         }
 
@@ -1619,7 +1631,6 @@ public class PreferencesDialog extends JDialog {
         }
         tp.setDupMax(tmp);
 
-        SedaVersion currentVersion = SedaVersion.from(2, tp.getSeda2Version());
         SedaVersion selectedVersion = sedaVersionSelector.getSelectedVersion();
 
         if (!selectedVersion.equals(currentVersion)
@@ -1644,17 +1655,11 @@ public class PreferencesDialog extends JDialog {
             if (userChoice != OK_DIALOG)
                 return false;
 
-            if (!tryToConvertCurrentWorkSedaVersion(selectedVersion.getMinor()))
+            if (!tryToConvertCurrentWorkSedaVersion(currentVersion, selectedVersion))
                 return false;
         }
 
-        tp.setSeda2Version(selectedVersion.getMinor());
-
-        try {
-            SEDA2Version.setSeda2Version(tp.getSeda2Version());
-        } catch (SEDALibException ignored) {
-            // no real case
-        }
+        EventBus.publish(new SedaVersionChangedEvent(selectedVersion));
 
         ip.setStructuredMetadataEditionFlag(structuredInterfaceRadioButton.isSelected());
         ip.setDebugFlag(debugModeCheckBox.isSelected());

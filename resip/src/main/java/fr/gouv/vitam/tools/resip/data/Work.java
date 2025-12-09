@@ -30,6 +30,8 @@ package fr.gouv.vitam.tools.resip.data;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import fr.gouv.vitam.tools.resip.event.EventBus;
+import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
 import fr.gouv.vitam.tools.resip.parameters.CreationContext;
 import fr.gouv.vitam.tools.resip.parameters.ExportContext;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
@@ -37,6 +39,7 @@ import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.*;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
@@ -92,15 +95,15 @@ public class Work {
     private DataObjectPackage dataObjectPackage;
 
     /**
-     * The SEDA 2 version.
+     * SEDA version
      */
-    private int seda2Version;
+    private SedaVersion version;
 
     /**
      * Instantiates a new work for json serialization.
      */
     public Work() {
-        this(null, null, null,1);
+        this(null, null, null);
     }
 
     /**
@@ -109,14 +112,17 @@ public class Work {
      * @param dataObjectPackage the archive transfer
      * @param creationContext   the creation context
      * @param exportContext     the export context
-     * @param seda2Version      the seda 2 version
      */
-    public Work(DataObjectPackage dataObjectPackage, CreationContext creationContext, ExportContext exportContext, int seda2Version) {
+    public Work(DataObjectPackage dataObjectPackage, CreationContext creationContext, ExportContext exportContext) {
         this.serializationVersion = CURRENT_SERIALIZATION_VERSION;
-        this.seda2Version = seda2Version;
         this.dataObjectPackage = dataObjectPackage;
         this.creationContext = creationContext;
         this.exportContext = exportContext;
+
+        EventBus.subscribe(
+            SedaVersionChangedEvent.class,
+            event -> this.version = event.getNewVersion()
+        );
     }
 
     /**
@@ -149,7 +155,7 @@ public class Work {
      * @return the SEDA 2 version
      * @throws ResipException the resip exception
      */
-    public static int getSeda2VersionFromFile(String file) throws ResipException {
+    public static SedaVersion getSeda2VersionFromFile(String file) throws ResipException {
         Work ow;
         try (ZipInputStream zis = new ZipInputStream(new FileInputStream(file))) {
             ObjectMapper mapper = new ObjectMapper();
@@ -167,7 +173,7 @@ public class Work {
             throw new ResipException("Resip: La lecture du fichier [" + file
                     + "] ne permet pas de retrouver une session Resip", e);
         }
-        return ow.seda2Version;
+        return ow.version;
     }
 
     /**
@@ -294,23 +300,5 @@ public class Work {
      */
     public void setExportContext(ExportContext exportContext) {
         this.exportContext = exportContext;
-    }
-
-    /**
-     * Gets the SEDA 2 version used.
-     *
-     * @return the seda 2 version
-     */
-    public int getSeda2Version() {
-        return seda2Version;
-    }
-
-    /**
-     * Sets the SEDA 2 version used.
-     *
-     * @param seda2Version the seda 2 version
-     */
-    public void setSeda2Version(int seda2Version) {
-        this.seda2Version = seda2Version;
     }
 }

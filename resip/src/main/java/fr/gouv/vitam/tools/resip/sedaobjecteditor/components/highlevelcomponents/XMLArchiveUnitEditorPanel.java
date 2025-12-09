@@ -59,11 +59,6 @@ import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstan
 
 public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEditorPanel {
     /**
-     * The Add content editedObject array.
-     */
-    static private String[] addContentMetadataArray = null;
-
-    /**
      * The editedObject.
      */
     private ArchiveUnit archiveUnit;
@@ -83,34 +78,33 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
      * @return the string [ ]
      */
     static public String[] getAddContentMetadataArray() {
-        if (addContentMetadataArray == null) {
-            try {
-                List<String> tmp = new ArrayList<String>();
-                tmp.add("[A]ArchiveUnitProfile ");
-                Content c = new Content();
-                List<String> contentMetadataList = new ArrayList<String>();
-                contentMetadataList.add("[C]AnyOtherMetadata ");
-                for (String metadataName : c.getMetadataMap().keySet()) {
-                    ComplexListMetadataKind complexListMetadataKind = c.getMetadataMap().get(metadataName);
-                    contentMetadataList.add("[C]" + metadataName + (complexListMetadataKind.isMany() ? " *" : " "));
-                }
-                contentMetadataList.sort(String::compareTo);
-                tmp.addAll(contentMetadataList);
-                Management m = new Management();
-                List<String> managementMetadataList = new ArrayList<String>();
-                managementMetadataList.add("[C]AnyOtherMetadata ");
-                for (String metadataName : m.getMetadataMap().keySet()) {
-                    ComplexListMetadataKind complexListMetadataKind = m.getMetadataMap().get(metadataName);
-                    managementMetadataList.add("[M]" + metadataName + (complexListMetadataKind.isMany() ? " *" : " "));
-                }
-                managementMetadataList.sort(String::compareTo);
-                tmp.addAll(managementMetadataList);
-                addContentMetadataArray = tmp.toArray(new String[0]);
-            } catch (SEDALibException e) {
-                addContentMetadataArray = new String[0];
+        List<String> options = new ArrayList<>();
+
+        try {
+            options.add("[A]ArchiveUnitProfile ");
+            Content c = new Content();
+            List<String> contentMetadataList = new ArrayList<String>();
+            contentMetadataList.add("[C]AnyOtherMetadata ");
+            for (String metadataName : c.getMetadataMap().keySet()) {
+                ComplexListMetadataKind complexListMetadataKind = c.getMetadataMap().get(metadataName);
+                contentMetadataList.add("[C]" + metadataName + (complexListMetadataKind.isMany() ? " *" : " "));
             }
+            contentMetadataList.sort(String::compareTo);
+            options.addAll(contentMetadataList);
+            Management m = new Management();
+            List<String> managementMetadataList = new ArrayList<String>();
+            managementMetadataList.add("[C]AnyOtherMetadata ");
+            for (String metadataName : m.getMetadataMap().keySet()) {
+                ComplexListMetadataKind complexListMetadataKind = m.getMetadataMap().get(metadataName);
+                managementMetadataList.add("[M]" + metadataName + (complexListMetadataKind.isMany() ? " *" : " "));
+            }
+            managementMetadataList.sort(String::compareTo);
+            options.addAll(managementMetadataList);
+        } catch (SEDALibException e) {
+            ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, "Errors occurs while computing add metadata options", e);
         }
-        return addContentMetadataArray;
+
+        return options.toArray(new String[0]);
     }
 
     /**

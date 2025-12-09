@@ -33,7 +33,8 @@ import fr.gouv.vitam.tools.resip.frame.InOutDialog;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersionConverter;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -46,9 +47,10 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  */
 public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
     //input
-    private int toSeda2Version;
-    private DataObjectPackage dop;
-    private InOutDialog inOutDialog;
+    private final SedaVersion currentVersion;
+    private final SedaVersion nextVersion;
+    private final DataObjectPackage dop;
+    private final InOutDialog inOutDialog;
 
     //run output
     private DataObjectPackage convertedDop;
@@ -59,12 +61,19 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
     /**
      * Instantiates a new Check profile thread.
      *
-     * @param toSeda2Version the seda 2 version to change to
-     * @param dop            the data object package
-     * @param dialog         the dialog
+     * @param currentVersion current SEDA version
+     * @param nextVersion target SEDA version
+     * @param dop the data object package
+     * @param dialog the dialog
      */
-    public ChangeSeda2VersionThread(int toSeda2Version, DataObjectPackage dop, InOutDialog dialog) {
-        this.toSeda2Version = toSeda2Version;
+    public ChangeSeda2VersionThread(
+        SedaVersion currentVersion,
+        SedaVersion nextVersion,
+        DataObjectPackage dop,
+        InOutDialog dialog
+    ) {
+        this.currentVersion = currentVersion;
+        this.nextVersion = nextVersion;
         this.dop = dop;
         this.inOutDialog = dialog;
         this.exitThrowable = null;
@@ -95,7 +104,7 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
             if (work == null)
                 throw new ResipException("Pas de contenu à transformer");
 
-            convertedDop = SEDA2Version.convertToSeda2Version(dop, toSeda2Version, spl);
+            convertedDop = new SedaVersionConverter(spl).convert(dop, currentVersion, nextVersion);
         } catch (Throwable e) { //NOSONAR
             exitThrowable = e;
         }

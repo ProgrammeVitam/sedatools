@@ -1,19 +1,21 @@
 package fr.gouv.vitam.tools.sedalib.inout;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.UseTestFiles;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.core.GlobalMetadata;
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.SIPToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
@@ -23,13 +25,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@ExtendWith(SedaContextExtension.class)
 class SEDAValidationTest implements UseTestFiles {
-
-	@BeforeEach
-	void setUp() throws SEDALibException {
-		// Reset default seda version
-		SEDA2Version.setSeda2Version(1);
-	}
 
 	@Test
 	void testSedaXmlValidationOK()
@@ -83,7 +80,7 @@ class SEDAValidationTest implements UseTestFiles {
             throws IllegalArgumentException, SEDALibException, InterruptedException {
 
         // do import of test directory
-        SEDA2Version.setSeda2Version(2);
+        SedaContext.setVersion(SedaVersion.V2_2);
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
                 "src/test/resources/PacketSamples/SampleWithLinksModelV2", null);
         di.addIgnorePattern("Thumbs.db");
@@ -138,7 +135,7 @@ class SEDAValidationTest implements UseTestFiles {
         } catch (XMLStreamException | IOException e) {
             throw new RuntimeException(e);
         }
-        SEDA2Version.setSeda2Version(1);
+        SedaContext.setVersion(SedaVersion.V2_1);
     }
 
 	@Test

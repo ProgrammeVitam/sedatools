@@ -1,5 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.inout;
 
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
 import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
@@ -13,6 +14,7 @@ import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
@@ -28,6 +30,7 @@ import java.util.StringTokenizer;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
+@ExtendWith(SedaContextExtension.class)
 class SIPBuilderTest {
 
     private static String stripFileName(String fileName) {

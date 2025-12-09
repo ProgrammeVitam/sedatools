@@ -1,6 +1,6 @@
 package fr.gouv.vitam.tools.sedalib.xml;
 
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.xerces.util.XMLCatalogResolver;
 import org.xml.sax.SAXException;
@@ -26,34 +26,23 @@ public class SEDAXMLValidator {
 
     private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_1 = "seda2_1/seda-vitam-2.1-main.xsd";
     private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_2 = "seda2_2/seda-vitam-2.2-main.xsd";
-    // TODO mettre la version vitam du seda2.3 si nécessaire
     private static final String SEDA_VITAM_VALIDATION_RESOURCE_2_3 = "seda2_3/seda-2.3-main.xsd";
     private static final String HTTP_WWW_W3_ORG_XML_XML_SCHEMA_V1_1 = "http://www.w3.org/XML/XMLSchema/v1.1";
     private static final String CATALOG_FILENAME = "xsd_validation/catalog.xml";
     private static final String RNG_FACTORY = "com.thaiopensource.relaxng.jaxp.XMLSyntaxSchemaFactory";
     private static final String RNG_PROPERTY_KEY = "javax.xml.validation.SchemaFactory:" + XMLConstants.RELAXNG_NS_URI;
 
-    private static Schema sedaSchema = null;
-    private static int sedaVersion = 0;
-
     public static Schema getSEDASchema() throws SEDALibException {
-        if ((sedaSchema == null) || (sedaVersion != SEDA2Version.getSeda2Version())) {
-            switch (SEDA2Version.getSeda2Version()) {
-                case 1:
-                    sedaSchema = getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_1));
-                    break;
-                case 2:
-                    sedaSchema = getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_2));
-                    break;
-                case 3:
-                    sedaSchema = getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_3));
-                    break;
-                default:
-                    throw new SEDALibException("Version du SEDA [" + SEDA2Version.getSeda2VersionString() + "] sans schéma", null);
-            }
-            sedaVersion = SEDA2Version.getSeda2Version();
+        switch (SedaContext.getVersion()) {
+            case V2_1:
+                return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_1));
+            case V2_2:
+                return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_2));
+            case V2_3:
+                return getSchemaFromXSDResource(SEDAXMLValidator.class.getClassLoader().getResource(SEDA_VITAM_VALIDATION_RESOURCE_2_3));
+            default:
+                throw new SEDALibException("Version [" + SedaContext.getVersion() + "] sans schéma", null);
         }
-        return sedaSchema;
     }
 
     public static Schema getSchemaFromXSDResource(URL xsdResource) throws SEDALibException {

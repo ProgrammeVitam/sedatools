@@ -44,6 +44,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
+import java.util.Optional;
 
 import static java.time.format.DateTimeFormatter.ISO_DATE;
 import static java.time.format.DateTimeFormatter.ISO_DATE_TIME;
@@ -368,11 +369,15 @@ public class SEDAXMLEventReader implements AutoCloseable {
      */
     public String peekAttributeBlockIfNamed(String tag, String attribute) throws XMLStreamException {
         XMLEvent peek = peekUsefullEvent();
-        String result = null;
 
-        if (peek.isStartElement() && tag.equals(peek.asStartElement().getName().getLocalPart()))
-            result = peek.asStartElement().getAttributeByName(new QName(attribute)).getValue();
-        return result;
+        if (!peek.isStartElement()) return null;
+        if (!tag.equals(peek.asStartElement().getName().getLocalPart())) return null;
+
+        final QName qName = new QName(attribute);
+        final StartElement startElement = peek.asStartElement();
+        final Attribute attr = startElement.getAttributeByName(qName);
+
+        return Optional.ofNullable(attr).map(Attribute::getValue).orElse(null);
     }
 
     /**

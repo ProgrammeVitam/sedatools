@@ -1,12 +1,14 @@
 package fr.gouv.vitam.tools.sedalib.metadata;
 
-import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
+import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.metadata.content.*;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
@@ -19,13 +21,8 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
+@ExtendWith(SedaContextExtension.class)
 class ContentTest {
-
-    @BeforeEach
-    void setUp() throws SEDALibException {
-        // Reset default seda version
-        SEDA2Version.setSeda2Version(1);
-    }
 
     @Test
         // Test Content and ComplexListType subclass
@@ -265,7 +262,7 @@ class ContentTest {
                 .isInstanceOf(SEDALibException.class).hasStackTraceContaining("Pas de constructeur de l'élément [Agent]");
 
         // and add Agent in SEDA 2.1 version then
-        SEDA2Version.setSeda2Version(2);
+        SedaContext.setVersion(SedaVersion.V2_2);
         c.addNewMetadata("Agent", "TestFirstName", "TestBirthName", "TestIdentifier");
         String cOut = c.toString();
         String testOut = "<Content>\n" +
@@ -285,7 +282,7 @@ class ContentTest {
                 "  </Gps>\n" +
                 "</Content>";
         assertThat(cOut).isEqualTo(testOut);
-        SEDA2Version.setSeda2Version(1);
+        SedaContext.setVersion(SedaVersion.V2_1);
     }
 
 

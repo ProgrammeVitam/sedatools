@@ -28,6 +28,7 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.management.LogBook;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
@@ -267,7 +268,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                             if ((bdoDataObjectGroupId != null) || (bdoDataObjectGroupReferenceId != null))
                                 throw new SEDALibException("Le BinaryDataObject [" + bdo.inDataPackageObjectId
                                         + "] utilise un raccordement DataObjectGroup mode SEDA2.0 "
-                                        + "dans un DataObjectGroup mode SEDA2." + SEDA2Version.getSeda2Version());
+                                        + "dans un DataObjectGroup mode " + SedaContext.getVersion());
                             StringType bdoUri = (StringType) bdo.getFirstNamedMetadata("Uri");
                             bdo.setOnDiskPathFromString(rootDir + File.separator + bdoUri.getValue());
                             dog.addDataObject(bdo);
@@ -279,7 +280,7 @@ public class DataObjectGroup extends DataObjectPackageIdElement implements DataO
                             if ((dataObjectGroupId != null) || (dataObjectGroupReferenceId != null))
                                 throw new SEDALibException("Le PhysicalDataObject [" + pdo.inDataPackageObjectId
                                         + "] utilise un raccordement DataObjectGroup mode SEDA2.0 "
-                                        + "dans un DataObjectGroup mode SEDA2."+SEDA2Version.getSeda2Version());
+                                        + "dans un DataObjectGroup mode " + SedaContext.getVersion());
                             dog.addDataObject(pdo);
                             break;
                         default:

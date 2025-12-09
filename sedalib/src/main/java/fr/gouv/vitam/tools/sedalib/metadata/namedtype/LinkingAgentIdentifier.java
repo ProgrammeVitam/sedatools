@@ -1,15 +1,16 @@
 package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
 
+import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class LinkingAgentIdentifierType extends ComplexListType {
+public class LinkingAgentIdentifier extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap(seda2Version = {2,3})
+    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_2, SedaVersion.V2_3 })
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
@@ -24,7 +25,7 @@ public class LinkingAgentIdentifierType extends ComplexListType {
      *
      * @param elementName the element name
      */
-    public LinkingAgentIdentifierType(String elementName) {
+    public LinkingAgentIdentifier(String elementName) {
         super(elementName);
     }
 
@@ -37,7 +38,7 @@ public class LinkingAgentIdentifierType extends ComplexListType {
      * @param linkingAgentRole            the linking agent role
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public LinkingAgentIdentifierType(String elementName,
+    public LinkingAgentIdentifier(String elementName,
                                       String linkingAgentIdentifierType,
                                       String linkingAgentIdentifierValue,
                                       String linkingAgentRole) throws SEDALibException{
