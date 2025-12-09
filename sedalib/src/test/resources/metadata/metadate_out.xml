@@ -61,7 +61,7 @@
         <Event>
             <EventIdentifier>ID-00001</EventIdentifier>
             <EventType>Request</EventType>
-            <EventDateTime>2000-01-01T13:10:00.000</EventDateTime>
+            <EventDateTime>2000-01-01T13:10:00</EventDateTime>
             <Outcome>OK</Outcome>
         </Event>
     </LogBook>

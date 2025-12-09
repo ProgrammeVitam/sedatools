@@ -732,10 +732,7 @@ public interface ComplexListInterface {
                 else if ((sm instanceof EnumType))
                     return ((EnumType) sm).getValue();
                 else if (sm instanceof DateTimeType) {
-                    if (((DateTimeType) sm).getValue() == null)
-                        return "";
-                    else
-                        return SEDAXMLStreamWriter.getStringFromDateTime(((DateTimeType) sm).getValue());
+                    return (((DateTimeType) sm).getDateTimeString());
                 }
             }
         }

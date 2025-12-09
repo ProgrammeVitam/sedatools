@@ -298,14 +298,6 @@ public abstract class StoreExtractor {
          * errors, it could lead to silent data loss or misinterpretation if the encoded data is critical.
          */
         System.setProperty("mail.mime.base64.ignoreerrors", "true");
-
-        /*
-         * Set the default time zone of the application to UTC.
-         * This ensures that MIME message generation will use normalized
-         * UTC dates everywhere. This is important for consistency across
-         * different systems and timezones.
-         */
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
     }
 
     private static void preventExternalToolsForTextExtractionInTika() {

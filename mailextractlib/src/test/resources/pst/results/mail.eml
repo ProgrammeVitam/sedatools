@@ -1,4 +1,4 @@
-Date: Mon, 19 Aug 2019 21:30:50 +0000 (UTC)
+Date: Mon, 19 Aug 2019 23:30:50 +0200 (CEST)
 From: "Test" <test@programmevitam.fr>
 To: <test-a@programmevitam.fr>,<test-b@programmevitam.fr>
 Message-ID: <000c01d556d5$611cfc50$2356f4f0$@programmevitam.fr>
@@ -71,7 +71,7 @@ div.WordSection1
 Content-Type: message/rfc822; name="Test message 1.eml"
 Content-Disposition: attachment; filename="Test message 1.eml"
 
-Date: Mon, 19 Aug 2019 21:18:50 +0000 (UTC)
+Date: Mon, 19 Aug 2019 23:18:50 +0200 (CEST)
 From: "Test" <test@programmevitam.fr>
 To: <test-a@programmevitam.fr>
 Message-ID: <003e01d556d3$b3116ed0$19344c70$@programmevitam.fr>

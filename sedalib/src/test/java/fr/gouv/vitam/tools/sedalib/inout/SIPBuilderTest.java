@@ -2,6 +2,7 @@ package fr.gouv.vitam.tools.sedalib.inout;
 
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
 import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.SEDA2Version;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Event;
 import fr.gouv.vitam.tools.sedalib.metadata.management.AppraisalRule;
@@ -10,6 +11,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.namedtype.AgentType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.LoggerFactory;
 
@@ -34,6 +36,11 @@ class SIPBuilderTest {
             return (tmp.substring(0, tmp.lastIndexOf('.')));
         else
             return tmp;
+    }
+
+    @BeforeEach
+    void setUp() throws SEDALibException {
+        SEDA2Version.setSeda2Version(1);
     }
 
     @Test

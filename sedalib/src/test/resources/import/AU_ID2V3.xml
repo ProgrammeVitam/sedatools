@@ -107,8 +107,8 @@
           <BirthName>PLANCHOT Benjamin</BirthName>
           <Identifier>benjamin.planchot@modernisation.gouv.fr</Identifier>
         </Recipient>
-        <SentDate>2016-08-30T10:14:17.000</SentDate>
-        <ReceivedDate>2016-08-30T10:14:18.000</ReceivedDate>
+        <SentDate>2016-08-30T10:14:17Z</SentDate>
+        <ReceivedDate>2016-08-30T10:14:18Z</ReceivedDate>
         <TextContent>Bonjour,
 
 Vous trouverez ci-joint les éléments collectés au mois de juillet sous forme de tableur correspondant à l'avancement de vos activités. Afin de publier une mise à jour en CSIC Tech, merci de mettre à jour les éléments pour le jeudi 08 septembre au plus tard. Sans retour de votre part, je tiendrai compte de la dernière mise à jour.
@@ -150,7 +150,7 @@ modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/></TextContent>
           <DescriptionLevel>Item</DescriptionLevel>
           <Title>201609_TdB_suivi_des_activites_VITAM.ods</Title>
           <Description>Document "201609_TdB_suivi_des_activites_VITAM.ods" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>
-          <CreatedDate>2016-08-30T10:13:03.000</CreatedDate>
+          <CreatedDate>2016-08-30T10:13:03Z</CreatedDate>
         </Content>
         <FileObject>
           <DataObjectVersion>BinaryMaster_1</DataObjectVersion>
@@ -188,7 +188,7 @@ modernisation.gouv.fr&lt; http://www.modernisation.gouv.fr/></TextContent>
           <DescriptionLevel>Item</DescriptionLevel>
           <Title>image001.jpg</Title>
           <Description>Document "image001.jpg" joint au message &lt;79980C36BA239C449A9575FE17591F3D0C237AD1@prd-exch-b01.solano.alize></Description>
-          <CreatedDate>2016-08-30T10:14:17.000</CreatedDate>
+          <CreatedDate>2016-08-30T10:14:17Z</CreatedDate>
         </Content>
         <FileObject>
           <DataObjectVersion>BinaryMaster_1</DataObjectVersion>

@@ -114,7 +114,7 @@ class SIPImportTest implements UseTestFiles {
                 "        \"value\" : \"CreatingApplicationVersion0\"\n" +
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
-                "        \"dateTimeString\" : \"2006-05-04T18:13:51Z\",\n" +
+                "        \"dateTimeString\" : \"2006-05-04T18:13:51\",\n" +
                 "        \"elementName\" : \"DateCreatedByApplication\"\n" +
                 "      }, {\n" +
                 "        \"type\" : \"StringType\",\n" +
@@ -126,7 +126,7 @@ class SIPImportTest implements UseTestFiles {
                 "        \"value\" : \"CreatingOsVersion0\"\n" +
                 "      }, {\n" +
                 "        \"type\" : \"DateTimeType\",\n" +
-                "        \"dateTimeString\" : \"2017-04-04T08:07:06.487Z\",\n" +
+                "        \"dateTimeString\" : \"2017-04-04T08:07:06.487+02:00\",\n" +
                 "        \"elementName\" : \"LastModified\"\n" +
                 "      } ]\n" +
                 "    } ],\n" +

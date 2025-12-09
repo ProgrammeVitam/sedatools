@@ -33,7 +33,7 @@ class SEDA2VersionTest {
         String xmlFragments="  <Event>\n" +
                 "    <EventIdentifier>AUT-234452</EventIdentifier>\n" +
                 "    <EventTypeCode>Autorisation</EventTypeCode>\n" +
-                "    <EventDateTime>2104-05-31T01:00:00.000</EventDateTime>\n" +
+                "    <EventDateTime>2104-05-31T01:00:00</EventDateTime>\n" +
                 "    <Outcome>OK</Outcome>\n" +
                 "    <AnyThing>OK</AnyThing>\n" +
                 "    <LinkingAgentIdentifier>\n" +

@@ -266,19 +266,19 @@
       <ExternalReference>4-LK18-3389</ExternalReference>
     </References>
   </RelatedObjectReference>
-  <CreatedDate>2017-01-01T00:00:00.000</CreatedDate>
-  <TransactedDate>2017-01-01T00:00:00.000</TransactedDate>
-  <AcquiredDate>2017-01-01T00:00:00.000</AcquiredDate>
-  <SentDate>2017-01-01T00:00:00.000</SentDate>
-  <ReceivedDate>2017-01-01T00:00:00.000</ReceivedDate>
-  <RegisteredDate>2017-01-01T00:00:00.000</RegisteredDate>
-  <StartDate>2017-04-04T08:07:06.000</StartDate>
-  <EndDate>2017-04-04T08:07:06.000</EndDate>
+  <CreatedDate>2017-01-01</CreatedDate>
+  <TransactedDate>2017-01-01</TransactedDate>
+  <AcquiredDate>2017-01-01</AcquiredDate>
+  <SentDate>2017-01-01</SentDate>
+  <ReceivedDate>2017-01-01</ReceivedDate>
+  <RegisteredDate>2017-01-01</RegisteredDate>
+  <StartDate>2017-04-04T08:07:06</StartDate>
+  <EndDate>2017-04-04T08:07:06</EndDate>
   <Event>
     <EventIdentifier>123456</EventIdentifier>
     <EventTypeCode>Ligne_ouverture</EventTypeCode>
     <EventType>Ouverture</EventType>
-    <EventDateTime>1998-05-25T08:07:06.000</EventDateTime>
+    <EventDateTime>1998-05-25T08:07:06</EventDateTime>
     <EventDetail>Ouverture de la station à l'exploitation</EventDetail>
     <Outcome>OK</Outcome>
     <OutcomeDetail>Ligne_Ouverture_OK</OutcomeDetail>
@@ -312,7 +312,7 @@
       </DeathPlace>
       <Nationality>Française</Nationality>
       <Identifier>0000 0000 5488 9547</Identifier>
-      <SigningTime>1998-04-04T08:07:06.000</SigningTime>
+      <SigningTime>1998-04-04T08:07:06</SigningTime>
       <Function>Ingénierie</Function>
       <Activity>Conception de lignes de métro</Activity>
       <Position>Chef de l'inspection des Ponts et Chaussées</Position>
@@ -345,7 +345,7 @@
       </DeathPlace>
       <Nationality>Française</Nationality>
       <Identifier>0000 0000 5488 9547</Identifier>
-      <ValidationTime>1998-04-04T08:07:06.000</ValidationTime>
+      <ValidationTime>1998-04-04T08:07:06</ValidationTime>
       <Function>Ingénierie</Function>
       <Activity>Conception de lignes de métro</Activity>
       <Position>Chef de l'inspection des Ponts et Chaussées</Position>
