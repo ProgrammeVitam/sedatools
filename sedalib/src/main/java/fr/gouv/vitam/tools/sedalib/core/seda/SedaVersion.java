@@ -42,14 +42,22 @@ public enum SedaVersion {
 
     public static SedaVersion from(String version) {
         String[] fragments = version.split("[.]");
+        int major = 2;
+        int minor;
 
-        if (fragments.length != 2) {
-            throw new IllegalArgumentException("Unsupported SEDA version: " + version);
+        if (fragments.length == 1) {
+            minor = Integer.parseInt(fragments[0]);
+
+            return from(major, minor);
         }
 
-        int major = Integer.parseInt(fragments[0]);
-        int minor = Integer.parseInt(fragments[1]);
+        if (fragments.length == 2) {
+            major = Integer.parseInt(fragments[0]);
+            minor = Integer.parseInt(fragments[1]);
 
-        return from(major, minor);
+            return from(major, minor);
+        }
+
+        throw new IllegalArgumentException("Unsupported SEDA version: " + version);
     }
 }

@@ -102,11 +102,12 @@ public class TreatmentParameters {
             dupMax = 1000;
         }
 
-        final String sedaVersion = preferences
+        final String defaultConfiguredSedaVersion = SedaVersion.V2_1.toString();
+        final String configuredSedaVersion = preferences
             .getPrefProperties()
-            .getProperty("treatmentParameters.seda2Version", SedaVersion.V2_1.toString());
+            .getProperty("treatmentParameters.seda2Version", defaultConfiguredSedaVersion);
 
-        EventBus.publish(new SedaVersionChangedEvent(SedaVersion.from(sedaVersion)));
+        EventBus.publish(new SedaVersionChangedEvent(parseSedaVersion(configuredSedaVersion)));
     }
 
     /**
@@ -227,5 +228,16 @@ public class TreatmentParameters {
      */
     public void setSedaVersion(SedaVersion version) {
         this.sedaVersion = version;
+    }
+
+    private SedaVersion parseSedaVersion(String version) {
+        final List<String> allowedVersions = List.of("1", "2", "3", "2.1", "2.2", "2.3");
+        final String defaultVersion = allowedVersions.get(0);
+        final String finalVersion = allowedVersions.stream()
+            .filter(allowedVersion -> allowedVersion.equals(version))
+            .findFirst()
+            .orElse(defaultVersion);
+
+        return SedaVersion.from(finalVersion);
     }
 }
