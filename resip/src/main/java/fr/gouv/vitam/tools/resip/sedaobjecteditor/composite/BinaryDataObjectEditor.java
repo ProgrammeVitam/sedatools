@@ -42,6 +42,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestSha512;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
 import javax.swing.*;
@@ -54,7 +55,6 @@ import java.util.List;
 
 import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
-import static fr.gouv.vitam.tools.sedalib.core.BinaryDataObject.getDigestSha512;
 
 /**
  * The BinaryDataObject object editor class.
@@ -186,7 +186,7 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     private void extractFileMetadataInEditors() {
         try {
             replaceOrAddObjectEditor( createSEDAObjectEditor(new DigestType("MessageDigest",
-                    getDigestSha512(editedOnDiskPath), "SHA-512"), this));
+                    DigestSha512.compute(editedOnDiskPath), "SHA-512"), this));
             replaceOrAddObjectEditor( createSEDAObjectEditor(new IntegerType("Size" ,
                     Files.size(editedOnDiskPath)), this));
 
