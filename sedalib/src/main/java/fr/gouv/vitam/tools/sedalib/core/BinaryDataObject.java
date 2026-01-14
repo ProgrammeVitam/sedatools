@@ -28,10 +28,8 @@
 package fr.gouv.vitam.tools.sedalib.core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.gouv.vitam.tools.sedalib.core.seda.SedaContext;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
@@ -45,14 +43,9 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
 import java.io.*;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.nio.file.attribute.FileTime;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
@@ -82,25 +75,25 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
     }
 
     private static final List<MetadataField> ALL_FIELDS = Arrays.asList(
-        new MetadataField("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false), 2, 3),
-        new MetadataField("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("Relationship", new ComplexListMetadataKind(Relationship.class, true), 1, 2, 3),
-        new MetadataField("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false), 1),
-        new MetadataField("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true), 3),
-        new MetadataField("DataObjectUse", new ComplexListMetadataKind(StringType.class, false), 3),
-        new MetadataField("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false), 3),
-        new MetadataField("Uri", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("MessageDigest", new ComplexListMetadataKind(DigestType.class, false), 1, 2, 3),
-        new MetadataField("Size", new ComplexListMetadataKind(IntegerType.class, false), 1, 2, 3),
-        new MetadataField("Compressed", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
-        new MetadataField("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false), 1, 2, 3),
-        new MetadataField("FileInfo", new ComplexListMetadataKind(FileInfo.class, false), 1, 2, 3),
-        new MetadataField("Metadata", new ComplexListMetadataKind(Metadata.class, false), 1, 2, 3),
-        new MetadataField("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false), 1, 2, 3)
-    );
+            new MetadataField("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false), 2, 3),
+            new MetadataField("DataObjectSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+            new MetadataField("DataObjectGroupSystemId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+            new MetadataField("Relationship", new ComplexListMetadataKind(Relationship.class, true), 1, 2, 3),
+            new MetadataField("DataObjectGroupReferenceId", new ComplexListMetadataKind(StringType.class, false), 1),
+            new MetadataField("DataObjectGroupId", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+            new MetadataField("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+            new MetadataField("PersistentIdentifier", new ComplexListMetadataKind(PersistentIdentifier.class, true), 3),
+            new MetadataField("DataObjectUse", new ComplexListMetadataKind(StringType.class, false), 3),
+            new MetadataField("DataObjectNumber", new ComplexListMetadataKind(IntegerType.class, false), 3),
+            new MetadataField("Uri", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+            new MetadataField("MessageDigest", new ComplexListMetadataKind(DigestType.class, false), 1, 2, 3),
+            new MetadataField("Size", new ComplexListMetadataKind(IntegerType.class, false), 1, 2, 3),
+            new MetadataField("Compressed", new ComplexListMetadataKind(StringType.class, false), 1, 2, 3),
+            new MetadataField("FormatIdentification", new ComplexListMetadataKind(FormatIdentification.class, false), 1,
+                    2, 3),
+            new MetadataField("FileInfo", new ComplexListMetadataKind(FileInfo.class, false), 1, 2, 3),
+            new MetadataField("Metadata", new ComplexListMetadataKind(Metadata.class, false), 1, 2, 3),
+            new MetadataField("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false), 1, 2, 3));
 
     private static LinkedHashMap<String, ComplexListMetadataKind> createMetadataMapForVersion(int version) {
         LinkedHashMap<String, ComplexListMetadataKind> map = new LinkedHashMap<>();
@@ -128,7 +121,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
     @Override
     public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
         return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface
-            .getMetadataMap(this.getClass());
+                .getMetadataMap(this.getClass());
     }
 
     /**
@@ -138,7 +131,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
     @Override
     public boolean isNotExpandable() {
         return ComplexListInterface
-            .isNotExpandable(this.getClass());
+                .isNotExpandable(this.getClass());
     }
 
     // Inner element
@@ -171,8 +164,10 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      * If an explicit filename is provided, it will be used,
      * otherwise the filename will be extracted from the path if available.
      *
-     * @param path             The file path to extract filename from if no explicit name provided
-     * @param explicitFilename The explicit filename to use, or null to use path filename
+     * @param path             The file path to extract filename from if no explicit
+     *                         name provided
+     * @param explicitFilename The explicit filename to use, or null to use path
+     *                         filename
      */
     private void addFilenameMetadata(Path path, String explicitFilename) {
         String nameValue = explicitFilename != null
@@ -202,7 +197,8 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      * @param explicitFilename  the filename metadata
      * @param dataObjectVersion the DataObjectVersion
      */
-    public BinaryDataObject(DataObjectPackage dataObjectPackage, Path path, String explicitFilename, String dataObjectVersion) {
+    public BinaryDataObject(DataObjectPackage dataObjectPackage, Path path, String explicitFilename,
+            String dataObjectVersion) {
         super(dataObjectPackage);
         if (dataObjectVersion != null)
             metadataList.add(new StringType("DataObjectVersion", dataObjectVersion));
@@ -262,54 +258,6 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         return i < 0 ? "seda" : fileName.substring(i + 1);
     }
 
-    private static final String SHA512_ALGORITHM = "SHA-512";
-    private static final long SMALL_FILE_THRESHOLD = 2 * 1024 * 1024; // 10Mo
-
-    /**
-     * Computes the message digest (hash) for a file.
-     *
-     * @param digest The MessageDigest instance to use for computing the hash
-     * @param path   The path to the file to hash
-     * @return The computed digest bytes
-     * @throws SEDALibException if an error occurs reading the file
-     */
-    private static byte[] computeDigest(MessageDigest digest, Path path) throws SEDALibException {
-        try {
-            long size = Files.size(path);
-
-            if (size <= SMALL_FILE_THRESHOLD) {
-                byte[] all = Files.readAllBytes(path);
-                digest.update(all);
-                return digest.digest();
-            }
-
-            // Quicker on big files
-            try (FileChannel channel = FileChannel.open(path, StandardOpenOption.READ)) {
-                MappedByteBuffer buffer = channel.map(FileChannel.MapMode.READ_ONLY, 0, size);
-                digest.update(buffer);
-                return digest.digest();
-            }
-
-        } catch (IOException e) {
-            throw new SEDALibException(
-                    String.format("Impossible de calculer le hash du fichier [%s]", path), e);
-        }
-    }
-
-    /**
-     * Converts a byte array to its hexadecimal string representation.
-     *
-     * @param bytes The byte array to convert
-     * @return The hexadecimal string representation of the bytes
-     */
-    private static String bytesToHex(byte[] bytes) {
-        StringBuilder sb = new StringBuilder(bytes.length * 2);
-        for (byte b : bytes) {
-            sb.append(String.format("%02x", b));
-        }
-        return sb.toString();
-    }
-
     /**
      * Gets the digest sha 512.
      *
@@ -318,19 +266,25 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      * @throws SEDALibException if unable to get digest
      */
     public static String getDigestSha512(Path path) throws SEDALibException {
-        MessageDigest digest;
-        try {
-            digest = MessageDigest.getInstance(SHA512_ALGORITHM);
-            byte[] hash = computeDigest(digest, path);
-            return bytesToHex(hash);
-        } catch (NoSuchAlgorithmException e) {
-            throw new SEDALibException("Impossible de mobiliser l'algorithme de hashage " + SHA512_ALGORITHM, e);
-        }
+        return fr.gouv.vitam.tools.sedalib.utils.digest.DigestSha512.compute(path);
+    }
+
+    /**
+     * Gets the digest sha 512.
+     *
+     * @param path   the path of the file to hash
+     * @param logger the logger
+     * @return the digest sha 512
+     * @throws SEDALibException if unable to get digest
+     */
+    public static String getDigestSha512(Path path, SEDALibProgressLogger logger) throws SEDALibException {
+        return fr.gouv.vitam.tools.sedalib.utils.digest.DigestSha512.compute(path, logger);
     }
 
     /**
      * Updates the FileInfo metadata for a binary data object.
-     * If no FileInfo exists, creates a new one. Sets the filename from the onDiskPath if not already set.
+     * If no FileInfo exists, creates a new one. Sets the filename from the
+     * onDiskPath if not already set.
      * Updates the last modified timestamp.
      *
      * @param lastModifiedTime The last modified timestamp to set
@@ -370,8 +324,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
                     logger,
                     OBJECTS_WARNINGS,
                     "sedalib: impossible de faire l'identification Droid pour le fichier [" + path + "]",
-                    e
-            );
+                    e);
             return null;
         }
     }
@@ -380,7 +333,8 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      * Extract technical elements (lastmodified date, size, format, digest...) from
      * file and complete the BinaryDataObject metadata.
      *
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @throws SEDALibException if unable to get size or lastmodified date (probably
      *                          can't access file)
      */
@@ -396,7 +350,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         }
 
         updateFileInfo(lastModifiedTime);
-        addMetadata(new DigestType("MessageDigest", getDigestSha512(onDiskPath), "SHA-512"));
+        addMetadata(new DigestType("MessageDigest", getDigestSha512(onDiskPath, sedaLibProgressLogger), "SHA-512"));
         addMetadata(new IntegerType("Size", size));
 
         IdentificationResult idResult = identifyFormat(sedaLibProgressLogger, onDiskPath);
@@ -441,9 +395,7 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
         super.toSedaXml(xmlWriter, sedaLibProgressLogger);
     }
 
-
     // SEDA XML importer
-
 
     /**
      * Import the BinaryDataObject in XML expected form from the SEDA Manifest in
@@ -451,20 +403,23 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @param dataObjectPackage     the DataObjectPackage to be completed
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @return the read BinaryDataObject, or null if not a BinaryDataObject
      * @throws SEDALibException     if the XML can't be read or the SEDA scheme is
      *                              not respected
      * @throws InterruptedException if export process is interrupted
      */
     public static BinaryDataObject fromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
-                                               SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+            SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
         BinaryDataObject bdo = new BinaryDataObject();
-        return (importUnitaryDataObjectPackageIdElementFromSedaXml(bdo, xmlReader, dataObjectPackage, sedaLibProgressLogger)
-                ? bdo : null);
+        return (importUnitaryDataObjectPackageIdElementFromSedaXml(bdo, xmlReader, dataObjectPackage,
+                sedaLibProgressLogger)
+                        ? bdo
+                        : null);
     }
 
-   /**
+    /**
      * Gets the FileInfo metadata from the metadata list.
      *
      * @return the FileInfo metadata, or null if not found
