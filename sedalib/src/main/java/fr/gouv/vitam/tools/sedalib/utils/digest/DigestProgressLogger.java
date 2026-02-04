@@ -1,0 +1,131 @@
+/**
+ * Copyright French Prime minister Office/DINSIC/Vitam Program (2015-2019)
+ * <p>
+ * contact.vitam@programmevitam.fr
+ * <p>
+ * This software is developed as a validation helper tool, for constructing Submission Information Packages (archives
+ * sets) in the Vitam program whose purpose is to implement a digital archiving back-office system managing high
+ * volumetry securely and efficiently.
+ * <p>
+ * This software is governed by the CeCILL 2.1 license under French law and abiding by the rules of distribution of free
+ * software. You can use, modify and/ or redistribute the software under the terms of the CeCILL 2.1 license as
+ * circulated by CEA, CNRS and INRIA archiveTransfer the following URL "http://www.cecill.info".
+ * <p>
+ * As a counterpart to the access to the source code and rights to copy, modify and redistribute granted by the license,
+ * users are provided only with a limited warranty and the software's author, the holder of the economic rights, and the
+ * successive licensors have only limited liability.
+ * <p>
+ * In this respect, the user's attention is drawn to the risks associated with loading, using, modifying and/or
+ * developing or reproducing the software by the user in light of its specific status of free software, that may mean
+ * that it is complicated to manipulate, and that also therefore means that it is reserved for developers and
+ * experienced professionals having in-depth computer knowledge. Users are therefore encouraged to load and test the
+ * software's suitability as regards their requirements in conditions enabling the security of their systems and/or data
+ * to be ensured and, more generally, to use and operate it in the same conditions as regards security.
+ * <p>
+ * The fact that you are presently reading this means that you have had knowledge of the CeCILL 2.1 license and that you
+ * accept its terms.
+ */
+package fr.gouv.vitam.tools.sedalib.utils.digest;
+
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import org.apache.commons.io.FileUtils;
+
+import java.nio.file.Path;
+
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
+import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
+
+/**
+ * Common logging logic for digest computation.
+ */
+public class DigestProgressLogger {
+
+    private static final long LOGGING_THRESHOLD_BYTES = 20L * FileUtils.ONE_MB;
+    private static final long LOG_INTERVAL_MS = 3_000;
+
+    private final SEDALibProgressLogger logger;
+    private final String filename;
+    private final long fileSize;
+    private final boolean enabled;
+
+    private long lastLogTimestamp;
+
+    public DigestProgressLogger(
+        SEDALibProgressLogger logger,
+        Path path,
+        long fileSize
+    ) {
+        this.logger = logger;
+        this.filename = extractFilename(path);
+        this.fileSize = fileSize;
+        this.enabled = logger != null && fileSize > LOGGING_THRESHOLD_BYTES;
+        this.lastLogTimestamp = System.currentTimeMillis();
+
+        if (enabled) {
+            log(0);
+        }
+    }
+
+    /**
+     * Logs progress based on total bytes read.
+     */
+    public void logProgress(long bytesReadTotal) {
+        if (!enabled || !shouldLogNow()) {
+            return;
+        }
+
+        log(bytesReadTotal);
+    }
+
+    public void logEnd() {
+        if (!enabled) {
+            return;
+        }
+
+        log(fileSize);
+    }
+
+    private boolean shouldLogNow() {
+        long now = System.currentTimeMillis();
+        if (now - lastLogTimestamp >= LOG_INTERVAL_MS) {
+            lastLogTimestamp = now;
+            return true;
+        }
+        return false;
+    }
+
+    private void log(long bytesRead) {
+        doProgressLogWithoutInterruption(
+            logger,
+            GLOBAL,
+            formatMessage(bytesRead),
+            null
+        );
+    }
+
+    private String formatMessage(long bytesRead) {
+        int percent = computePercent(bytesRead);
+
+        return String.format(
+            "digest %s %s/%s (%d%%)",
+            filename,
+            FileUtils.byteCountToDisplaySize(bytesRead),
+            FileUtils.byteCountToDisplaySize(fileSize),
+            percent
+        );
+    }
+
+    private int computePercent(long bytesReadTotal) {
+        if (fileSize <= 0) {
+            return 100;
+        }
+        long percent = (bytesReadTotal * 100L) / fileSize;
+        return (int) Math.min(percent, 100);
+    }
+
+    private static String extractFilename(Path path) {
+        return (path != null && path.getFileName() != null)
+            ? path.getFileName().toString()
+            : "inconnu";
+    }
+}
