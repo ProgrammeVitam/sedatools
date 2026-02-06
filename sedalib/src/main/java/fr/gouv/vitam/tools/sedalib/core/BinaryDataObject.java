@@ -48,7 +48,7 @@ import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import fr.gouv.vitam.tools.sedalib.utils.digest.DigestSha512;
+import fr.gouv.vitam.tools.sedalib.utils.digest.DigestComputer;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
@@ -333,6 +333,23 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
      *                          can't access file)
      */
     public void extractTechnicalElements(SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
+        String algorithm = "SHA-512";
+        if (getDataObjectPackage() != null) algorithm = getDataObjectPackage().getDigestAlgorithm();
+        extractTechnicalElements(algorithm, sedaLibProgressLogger);
+    }
+
+    /**
+     * Extract technical elements (lastmodified date, size, format, digest...) from
+     * file and complete the BinaryDataObject metadata.
+     *
+     * @param algorithm             the hash algorithm
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
+     * @throws SEDALibException if unable to get size or lastmodified date (probably
+     *                          can't access file)
+     */
+    public void extractTechnicalElements(String algorithm, SEDALibProgressLogger sedaLibProgressLogger)
+        throws SEDALibException {
         long size;
         FileTime lastModifiedTime;
         try {
@@ -347,7 +364,11 @@ public class BinaryDataObject extends AbstractUnitaryDataObject implements DataO
 
         updateFileInfo(lastModifiedTime);
         addMetadata(
-            new DigestType("MessageDigest", DigestSha512.compute(onDiskPath, sedaLibProgressLogger), "SHA-512")
+            new DigestType(
+                "MessageDigest",
+                DigestComputer.compute(onDiskPath, algorithm, sedaLibProgressLogger),
+                algorithm
+            )
         );
         addMetadata(new IntegerType("Size", size));
 

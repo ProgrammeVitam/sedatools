@@ -37,9 +37,7 @@
  */
 package fr.gouv.vitam.tools.resip.threads;
 
-import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.InOutDialog;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
 
 import javax.swing.*;
@@ -72,6 +70,7 @@ public class CleanThread extends SwingWorker<String, String> {
         this.workDir = workDir;
         dialog.setThread(this);
         this.inOutDialog = dialog;
+        this.spl = ThreadLoggerFactory.createLogger(inOutDialog.extProgressTextArea);
     }
 
     private void recursiveDelete(File inFile) throws IOException, InterruptedException {
@@ -87,31 +86,8 @@ public class CleanThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        spl = null;
         fileCounter = 0;
         try {
-            int localLogLevel, localLogStep;
-            if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_WARNINGS;
-                localLogStep = 1;
-            } else {
-                localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
-                localLogStep = 1000;
-            }
-            spl = new SEDALibProgressLogger(
-                ResipLogger.getGlobalLogger().getLogger(),
-                localLogLevel,
-                (count, log) -> {
-                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                    inOutDialog.extProgressTextArea.setText(newLog);
-                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-                },
-                localLogStep,
-                2,
-                SEDALibProgressLogger.OBJECTS_GROUP,
-                1000
-            );
-
             doProgressLog(spl, GLOBAL, "Nettoyage du répertoire: " + workDir, null);
             for (File f : new File(workDir).listFiles()) {
                 if (f.isDirectory() && f.toString().endsWith("-tmpdir")) {

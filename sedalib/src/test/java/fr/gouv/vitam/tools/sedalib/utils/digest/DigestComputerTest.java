@@ -50,7 +50,7 @@ import java.util.Random;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class DigestSha512Test {
+class DigestComputerTest {
 
     @TempDir
     Path tempDir;
@@ -63,10 +63,28 @@ class DigestSha512Test {
         Files.writeString(file, content);
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         MessageDigest md = MessageDigest.getInstance("SHA-512");
+        byte[] expectedBytes = md.digest(content.getBytes());
+        String expected = bytesToHex(expectedBytes);
+
+        assertThat(digest).isEqualTo(expected);
+    }
+
+    @Test
+    void testComputeDigestSHA256() throws IOException, SEDALibException, NoSuchAlgorithmException {
+        // Given
+        Path file = tempDir.resolve("sha256.txt");
+        String content = "SHA-256 test";
+        Files.writeString(file, content);
+
+        // When
+        String digest = DigestComputer.compute(file, "SHA-256");
+
+        // Then
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] expectedBytes = md.digest(content.getBytes());
         String expected = bytesToHex(expectedBytes);
 
@@ -80,7 +98,7 @@ class DigestSha512Test {
         Files.createFile(file);
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -103,7 +121,7 @@ class DigestSha512Test {
         Files.write(file, data);
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -125,14 +143,10 @@ class DigestSha512Test {
         }
 
         // When
-        String digest = DigestSha512.compute(file);
+        String digest = DigestComputer.compute(file, "SHA-512");
 
         // Then
         // We know a sparse file reads as zeros.
-        // To verify, we can either hardcode the hash of 2.5GB of zeros or compute it.
-        // Computing it in the test ensures correctness but takes time.
-        // 2.5GB read ~ 5-10s at 500MB/s.
-
         MessageDigest md = MessageDigest.getInstance("SHA-512");
         byte[] buffer = new byte[64 * 1024]; // 64KB of zeros
         long remaining = size;

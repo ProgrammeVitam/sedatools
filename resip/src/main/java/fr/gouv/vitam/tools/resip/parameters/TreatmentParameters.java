@@ -37,6 +37,7 @@
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
+import fr.gouv.vitam.tools.resip.event.DigestAlgorithmChangedEvent;
 import fr.gouv.vitam.tools.resip.event.EventBus;
 import fr.gouv.vitam.tools.resip.event.SedaVersionChangedEvent;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
@@ -69,12 +70,25 @@ public class TreatmentParameters {
     SedaVersion sedaVersion;
 
     /**
+     * The digest algorithm.
+     */
+    String digestAlgorithm;
+
+    /**
      * Instantiates a new creation context.
      */
     public TreatmentParameters() {
+        subscribeToEvents();
+    }
+
+    private void subscribeToEvents() {
         EventBus.subscribe(SedaVersionChangedEvent.class, event -> {
             if (event.getNewVersion() != null) this.sedaVersion = event.getNewVersion();
         });
+        EventBus.subscribe(
+            DigestAlgorithmChangedEvent.class,
+            event -> this.digestAlgorithm = event.getNewDigestAlgorithm()
+        );
     }
 
     private String canonizeCategoryName(String category) {
@@ -87,9 +101,7 @@ public class TreatmentParameters {
      * @param preferences the prefs
      */
     public TreatmentParameters(Preferences preferences) {
-        EventBus.subscribe(SedaVersionChangedEvent.class, event -> {
-            if (event.getNewVersion() != null) this.sedaVersion = event.getNewVersion();
-        });
+        subscribeToEvents();
 
         final String categoriesString = preferences
             .getPrefProperties()
@@ -123,6 +135,8 @@ public class TreatmentParameters {
             .getProperty("treatmentParameters.seda2Version", defaultConfiguredSedaVersion);
 
         EventBus.publish(new SedaVersionChangedEvent(parseSedaVersion(configuredSedaVersion)));
+
+        digestAlgorithm = preferences.getPrefProperties().getProperty("treatmentParameters.digestAlgorithm", "SHA-512");
     }
 
     /**
@@ -149,6 +163,7 @@ public class TreatmentParameters {
                 "treatmentParameters.seda2Version",
                 (sedaVersion == null ? SedaVersion.V2_1 : sedaVersion).toString()
             );
+        preferences.getPrefProperties().setProperty("treatmentParameters.digestAlgorithm", digestAlgorithm);
     }
 
     /**
@@ -384,6 +399,7 @@ public class TreatmentParameters {
         formatByCategoryMap.put("Autres...", List.of("Other"));
         dupMax = 1000;
         sedaVersion = SedaVersion.V2_1;
+        digestAlgorithm = "SHA-512";
     }
 
     // Getters and setters
@@ -452,5 +468,24 @@ public class TreatmentParameters {
             .orElse(defaultVersion);
 
         return SedaVersion.from(finalVersion);
+    }
+
+    /**
+     * Gets digest algorithm.
+     *
+     * @return the digest algorithm
+     */
+    public String getDigestAlgorithm() {
+        return digestAlgorithm;
+    }
+
+    /**
+     * Sets digest algorithm.
+     *
+     * @param digestAlgorithm the digest algorithm
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = digestAlgorithm;
+        EventBus.publish(new DigestAlgorithmChangedEvent(digestAlgorithm));
     }
 }
