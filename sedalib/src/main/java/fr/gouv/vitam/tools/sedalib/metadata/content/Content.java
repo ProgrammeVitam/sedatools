@@ -71,21 +71,17 @@ public class Content extends ComplexListType {
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
-        metadataMap = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
+        metadataMap = new LinkedHashMap<>(); //NOSONAR public mandatory for ComplexlistType mechanism
         metadataMap.put("DescriptionLevel", new ComplexListMetadataKind(EnumType.class, false));
         metadataMap.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("SystemId", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("OriginatingSystemId", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("ArchivalAgencyArchiveUnitIdentifier",
-                new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("OriginatingAgencyArchiveUnitIdentifier",
-                new ComplexListMetadataKind(StringType.class, true));
-        metadataMap.put("TransferringAgencyArchiveUnitIdentifier",
-                new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("ArchivalAgencyArchiveUnitIdentifier", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("OriginatingAgencyArchiveUnitIdentifier", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap.put("TransferringAgencyArchiveUnitIdentifier", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Description", new ComplexListMetadataKind(TextType.class, true));
-        metadataMap.put("CustodialHistory",
-                new ComplexListMetadataKind(CustodialHistory.class, false));
+        metadataMap.put("CustodialHistory", new ComplexListMetadataKind(CustodialHistory.class, false));
         metadataMap.put("Type", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("DocumentType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap.put("Language", new ComplexListMetadataKind(StringType.class, true));
@@ -95,10 +91,8 @@ public class Content extends ComplexListType {
         metadataMap.put("Tag", new ComplexListMetadataKind(StringType.class, true));
         metadataMap.put("Keyword", new ComplexListMetadataKind(Keyword.class, true));
         metadataMap.put("Coverage", new ComplexListMetadataKind(Coverage.class, false));
-        metadataMap.put("OriginatingAgency",
-                new ComplexListMetadataKind(AgencyType.class, false));
-        metadataMap.put("SubmissionAgency",
-                new ComplexListMetadataKind(AgencyType.class, false));
+        metadataMap.put("OriginatingAgency", new ComplexListMetadataKind(AgencyType.class, false));
+        metadataMap.put("SubmissionAgency", new ComplexListMetadataKind(AgencyType.class, false));
         // can't implement AgentAbstract (abstract in middle of th list...)
         metadataMap.put("AuthorizedAgent", new ComplexListMetadataKind(AgentType.class, true));
         metadataMap.put("Writer", new ComplexListMetadataKind(AgentType.class, true));
@@ -131,21 +125,23 @@ public class Content extends ComplexListType {
     public static final Map<String, ComplexListMetadataKind> metadataMap_v2;
 
     static {
-        metadataMap_v2 = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
+        metadataMap_v2 = new LinkedHashMap<>(); //NOSONAR public mandatory for ComplexlistType mechanism
         metadataMap_v2.put("DescriptionLevel", new ComplexListMetadataKind(EnumType.class, false));
         metadataMap_v2.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap_v2.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_v2.put("SystemId", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_v2.put("OriginatingSystemId", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap_v2.put("ArchivalAgencyArchiveUnitIdentifier",
-                new ComplexListMetadataKind(StringType.class, true));
-        metadataMap_v2.put("OriginatingAgencyArchiveUnitIdentifier",
-                new ComplexListMetadataKind(StringType.class, true));
-        metadataMap_v2.put("TransferringAgencyArchiveUnitIdentifier",
-                new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put("ArchivalAgencyArchiveUnitIdentifier", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v2.put(
+            "OriginatingAgencyArchiveUnitIdentifier",
+            new ComplexListMetadataKind(StringType.class, true)
+        );
+        metadataMap_v2.put(
+            "TransferringAgencyArchiveUnitIdentifier",
+            new ComplexListMetadataKind(StringType.class, true)
+        );
         metadataMap_v2.put("Description", new ComplexListMetadataKind(TextType.class, true));
-        metadataMap_v2.put("CustodialHistory",
-                new ComplexListMetadataKind(CustodialHistory.class, false));
+        metadataMap_v2.put("CustodialHistory", new ComplexListMetadataKind(CustodialHistory.class, false));
         metadataMap_v2.put("Type", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("DocumentType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("Language", new ComplexListMetadataKind(StringType.class, true));
@@ -155,10 +151,8 @@ public class Content extends ComplexListType {
         metadataMap_v2.put("Tag", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_v2.put("Keyword", new ComplexListMetadataKind(Keyword.class, true));
         metadataMap_v2.put("Coverage", new ComplexListMetadataKind(Coverage.class, false));
-        metadataMap_v2.put("OriginatingAgency",
-                new ComplexListMetadataKind(AgencyType.class, false));
-        metadataMap_v2.put("SubmissionAgency",
-                new ComplexListMetadataKind(AgencyType.class, false));
+        metadataMap_v2.put("OriginatingAgency", new ComplexListMetadataKind(AgencyType.class, false));
+        metadataMap_v2.put("SubmissionAgency", new ComplexListMetadataKind(AgencyType.class, false));
         // specific in Seda 2.2
         metadataMap_v2.put("Agent", new ComplexListMetadataKind(AgentType.class, true));
         metadataMap_v2.put("AuthorizedAgent", new ComplexListMetadataKind(AgentType.class, true));
@@ -193,21 +187,23 @@ public class Content extends ComplexListType {
     public static final Map<String, ComplexListMetadataKind> metadataMap_v3;
 
     static {
-        metadataMap_v3 = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
+        metadataMap_v3 = new LinkedHashMap<>(); //NOSONAR public mandatory for ComplexlistType mechanism
         metadataMap_v3.put("DescriptionLevel", new ComplexListMetadataKind(EnumType.class, false));
         metadataMap_v3.put("Title", new ComplexListMetadataKind(TextType.class, true));
         metadataMap_v3.put("FilePlanPosition", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_v3.put("SystemId", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_v3.put("OriginatingSystemId", new ComplexListMetadataKind(StringType.class, true));
-        metadataMap_v3.put("ArchivalAgencyArchiveUnitIdentifier",
-                new ComplexListMetadataKind(StringType.class, true));
-        metadataMap_v3.put("OriginatingAgencyArchiveUnitIdentifier",
-                new ComplexListMetadataKind(StringType.class, true));
-        metadataMap_v3.put("TransferringAgencyArchiveUnitIdentifier",
-                new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put("ArchivalAgencyArchiveUnitIdentifier", new ComplexListMetadataKind(StringType.class, true));
+        metadataMap_v3.put(
+            "OriginatingAgencyArchiveUnitIdentifier",
+            new ComplexListMetadataKind(StringType.class, true)
+        );
+        metadataMap_v3.put(
+            "TransferringAgencyArchiveUnitIdentifier",
+            new ComplexListMetadataKind(StringType.class, true)
+        );
         metadataMap_v3.put("Description", new ComplexListMetadataKind(TextType.class, true));
-        metadataMap_v3.put("CustodialHistory",
-                new ComplexListMetadataKind(CustodialHistory.class, false));
+        metadataMap_v3.put("CustodialHistory", new ComplexListMetadataKind(CustodialHistory.class, false));
         metadataMap_v3.put("Type", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v3.put("DocumentType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v3.put("Language", new ComplexListMetadataKind(StringType.class, true));
@@ -217,10 +213,8 @@ public class Content extends ComplexListType {
         metadataMap_v3.put("Tag", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_v3.put("Keyword", new ComplexListMetadataKind(Keyword.class, true));
         metadataMap_v3.put("Coverage", new ComplexListMetadataKind(Coverage.class, false));
-        metadataMap_v3.put("OriginatingAgency",
-                new ComplexListMetadataKind(AgencyType.class, false));
-        metadataMap_v3.put("SubmissionAgency",
-                new ComplexListMetadataKind(AgencyType.class, false));
+        metadataMap_v3.put("OriginatingAgency", new ComplexListMetadataKind(AgencyType.class, false));
+        metadataMap_v3.put("SubmissionAgency", new ComplexListMetadataKind(AgencyType.class, false));
         metadataMap_v3.put("Agent", new ComplexListMetadataKind(AgentType.class, true));
         metadataMap_v3.put("AuthorizedAgent", new ComplexListMetadataKind(AgentType.class, true));
         metadataMap_v3.put("Writer", new ComplexListMetadataKind(AgentType.class, true));
@@ -266,18 +260,18 @@ public class Content extends ComplexListType {
      */
     public String filteredToString(List<String> keptMetadataList) {
         String result;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+        try (
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)
+        ) {
             xmlWriter.writeStartElement(elementName);
             for (SEDAMetadata sm : metadataList) {
-                if (keptMetadataList.contains(sm.getXmlElementName()))
-                    sm.toSedaXml(xmlWriter);
+                if (keptMetadataList.contains(sm.getXmlElementName())) sm.toSedaXml(xmlWriter);
             }
             xmlWriter.writeEndElement();
             xmlWriter.flush();
             result = baos.toString(StandardCharsets.UTF_8);
-            if (result.startsWith("\n"))
-                result = result.substring(1);
+            if (result.startsWith("\n")) result = result.substring(1);
         } catch (XMLStreamException | IOException | SEDALibException e) {
             result = super.toString();
         }
@@ -298,19 +292,25 @@ public class Content extends ComplexListType {
         String previousXMLElementName = null;
         int count = 0;
         for (SEDAMetadata sm : metadataList) {
-            if ((keptMetadataList != null) && (!keptMetadataList.contains(sm.getXmlElementName())))
-                continue;
+            if ((keptMetadataList != null) && (!keptMetadataList.contains(sm.getXmlElementName()))) continue;
             if (!sm.getXmlElementName().equals(previousXMLElementName)) {
                 previousXMLElementName = sm.getXmlElementName();
                 count = 0;
             } else count++;
             final String addedName;
-            if (isAMultiValuedMetadata(sm.getXmlElementName()))
-                addedName = sm.getXmlElementName() + "." + count;
-            else
-                addedName = sm.getXmlElementName();
+            if (isAMultiValuedMetadata(sm.getXmlElementName())) addedName = sm.getXmlElementName() + "." + count;
+            else addedName = sm.getXmlElementName();
             LinkedHashMap<String, String> smCsvList = sm.toCsvList();
-            smCsvList.entrySet().stream().forEach(e -> result.put("Content." + addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue()));
+            smCsvList
+                .entrySet()
+                .stream()
+                .forEach(
+                    e ->
+                        result.put(
+                            "Content." + addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()),
+                            e.getValue()
+                        )
+                );
         }
         return result;
     }

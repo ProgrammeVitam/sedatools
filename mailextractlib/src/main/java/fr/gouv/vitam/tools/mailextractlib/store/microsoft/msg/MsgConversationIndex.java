@@ -49,6 +49,7 @@ import java.util.UUID;
  * @author Nick Buller
  */
 public class MsgConversationIndex {
+
     private static final int HUNDRED_NS_TO_MS = 1000;
     private static final int MINIMUM_HEADER_SIZE = 22;
     private static final int RESPONSE_LEVEL_SIZE = 5;
@@ -177,7 +178,6 @@ public class MsgConversationIndex {
     }
 
     private static long convertBigEndianBytesToLong(final byte[] data, final int start, final int end) {
-
         long offset = 0;
         for (int x = start; x < end; ++x) {
             offset = offset << 8;
@@ -200,7 +200,7 @@ public class MsgConversationIndex {
     private static final long EPOCH_DIFF = 11644473600000L;
 
     private static Date filetimeToDate(final int high, final int low) {
-        final long filetime = ((long) high) << 32 | (low & 0xffffffffL);
+        final long filetime = (((long) high) << 32) | (low & 0xffffffffL);
         final long ms_since_16010101 = filetime / (1000 * 10);
         final long ms_since_19700101 = ms_since_16010101 - EPOCH_DIFF;
         return new Date(ms_since_19700101);
@@ -226,10 +226,12 @@ public class MsgConversationIndex {
         final int responseLevelCount = (rawConversationIndex.length - MINIMUM_HEADER_SIZE) / RESPONSE_LEVEL_SIZE;
         this.responseLevels = new ArrayList<>(responseLevelCount);
 
-        for (int responseLevelIndex = 0, position = 22; responseLevelIndex < responseLevelCount; responseLevelIndex++, position += RESPONSE_LEVEL_SIZE) {
-
-            final long responseLevelValue = convertBigEndianBytesToLong(rawConversationIndex, position,
-                    position + 5);
+        for (
+            int responseLevelIndex = 0, position = 22;
+            responseLevelIndex < responseLevelCount;
+            responseLevelIndex++, position += RESPONSE_LEVEL_SIZE
+        ) {
+            final long responseLevelValue = convertBigEndianBytesToLong(rawConversationIndex, position, position + 5);
             final short deltaCode = (short) (responseLevelValue >> 39);
             final short random = (short) (responseLevelValue & 0xFF);
 

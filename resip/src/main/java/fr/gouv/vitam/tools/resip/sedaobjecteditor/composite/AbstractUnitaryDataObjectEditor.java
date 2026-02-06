@@ -58,7 +58,6 @@ import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstan
  */
 public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
 
-
     /**
      * Explicative texts
      */
@@ -86,16 +85,20 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
 
     @Override
     public String getName() {
-        if (editedObject == null)
-            return translateTag(getTag()) + " - " + translateTag(UNKNOWN);
-        return translateTag(getTag()) + " - " +
-                (getAbstractUnitaryDataObject().getInDataObjectPackageId() == null ? TO_BE_DEFINED :
-                        getAbstractUnitaryDataObject().getInDataObjectPackageId());
+        if (editedObject == null) return translateTag(getTag()) + " - " + translateTag(UNKNOWN);
+        return (
+            translateTag(getTag()) +
+            " - " +
+            (getAbstractUnitaryDataObject().getInDataObjectPackageId() == null
+                    ? TO_BE_DEFINED
+                    : getAbstractUnitaryDataObject().getInDataObjectPackageId())
+        );
     }
 
     @Override
     public AbstractUnitaryDataObject extractEditedObject() throws SEDALibException {
-        AbstractUnitaryDataObject tmpAbstractUnitaryDataObject = ((AbstractUnitaryDataObject) editedObject).getEmptySameAbstractUnitaryDataObjet();
+        AbstractUnitaryDataObject tmpAbstractUnitaryDataObject =
+            ((AbstractUnitaryDataObject) editedObject).getEmptySameAbstractUnitaryDataObjet();
 
         for (SEDAObjectEditor objectEditor : objectEditorList) {
             SEDAMetadata subMetadata = (SEDAMetadata) objectEditor.extractEditedObject();
@@ -107,8 +110,7 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
     }
 
     protected String getItOrUnknown(String str) {
-        if ((str == null) || (str.isEmpty()))
-            return translateTag(UNKNOWN);
+        if ((str == null) || (str.isEmpty())) return translateTag(UNKNOWN);
         return str;
     }
 
@@ -117,10 +119,8 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
         List<String> summaryList = new ArrayList<>(objectEditorList.size());
         String tmp;
         for (SEDAMetadata sm : getAbstractUnitaryDataObject().getMetadataList()) {
-            if (sm instanceof StringType)
-                summaryList.add(((StringType) sm).getValue());
-            else if (sm instanceof PersistentIdentifier)
-                summaryList.add(((PersistentIdentifier) sm).getSummary());
+            if (sm instanceof StringType) summaryList.add(((StringType) sm).getValue());
+            else if (sm instanceof PersistentIdentifier) summaryList.add(((PersistentIdentifier) sm).getSummary());
         }
         return String.join(", ", summaryList);
     }
@@ -147,19 +147,21 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
             used.add(soe.getTag());
         }
         for (String metadataName : getAbstractUnitaryDataObject().getMetadataMap().keySet()) {
-            if (metadataName.endsWith("SystemId"))
-                continue;
-            ComplexListMetadataKind complexListMetadataKind = getAbstractUnitaryDataObject().getMetadataMap().get(metadataName);
-            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName)))
-                result.add(Pair.of(metadataName, translateTag(metadataName)));
+            if (metadataName.endsWith("SystemId")) continue;
+            ComplexListMetadataKind complexListMetadataKind = getAbstractUnitaryDataObject()
+                .getMetadataMap()
+                .get(metadataName);
+            if ((complexListMetadataKind.isMany()) || (!used.contains(metadataName))) result.add(
+                Pair.of(metadataName, translateTag(metadataName))
+            );
         }
-        if (!getAbstractUnitaryDataObject().isNotExpandable())
-            result.add(Pair.of("AnyXMLType", translateTag("AnyXMLType")));
+        if (!getAbstractUnitaryDataObject().isNotExpandable()) result.add(
+            Pair.of("AnyXMLType", translateTag("AnyXMLType"))
+        );
 
         result.sort((p1, p2) -> p1.getValue().compareTo(p2.getValue()));
         return result;
     }
-
 
     protected void replaceOrAddObjectEditor(SEDAObjectEditor newObjectEditor) throws SEDALibException {
         ComplexListMetadataKind cmk = getAbstractUnitaryDataObject().getMetadataMap().get(newObjectEditor.getTag());
@@ -182,14 +184,16 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
         boolean manyFlag;
         addOrderIndex = getAbstractUnitaryDataObject().indexOfMetadata(metadataName);
         i = 0;
-        if (addOrderIndex == -1)
-            return Integer.MAX_VALUE;
+        if (addOrderIndex == -1) return Integer.MAX_VALUE;
         else {
             manyFlag = getAbstractUnitaryDataObject().getMetadataMap().get(metadataName).isMany();
             for (SEDAObjectEditor soe : objectEditorList) {
                 curOrderIndex = getAbstractUnitaryDataObject().indexOfMetadata(soe.getTag());
-                if ((!manyFlag) && (curOrderIndex == addOrderIndex) ||
-                        (curOrderIndex == -1) || (curOrderIndex > addOrderIndex)) {
+                if (
+                    ((!manyFlag) && (curOrderIndex == addOrderIndex)) ||
+                    (curOrderIndex == -1) ||
+                    (curOrderIndex > addOrderIndex)
+                ) {
                     break;
                 }
                 i++;
@@ -201,7 +205,11 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
     @Override
     public void addChild(String metadataName) throws SEDALibException {
         SEDAMetadata sedaMetadata;
-        SEDAMetadata sm = createSEDAMetadataSample(getAbstractUnitaryDataObject().getMetadataMap().get(metadataName).getMetadataClass().getSimpleName(), metadataName, true);
+        SEDAMetadata sm = createSEDAMetadataSample(
+            getAbstractUnitaryDataObject().getMetadataMap().get(metadataName).getMetadataClass().getSimpleName(),
+            metadataName,
+            true
+        );
         replaceOrAddObjectEditor(createSEDAObjectEditor(sm, this));
         updateObjectEditorList();
     }
@@ -216,8 +224,7 @@ public abstract class AbstractUnitaryDataObjectEditor extends CompositeEditor {
     public boolean canContainsMultiple(String metadataName) {
         try {
             ComplexListMetadataKind cmk = getAbstractUnitaryDataObject().getMetadataMap().get(metadataName);
-            if (cmk != null)
-                return cmk.isMany();
+            if (cmk != null) return cmk.isMany();
             return !getAbstractUnitaryDataObject().isNotExpandable();
         } catch (SEDALibException ignored) {
             // Exception impossible

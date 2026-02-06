@@ -66,8 +66,7 @@ public class DateTypeEditor extends SEDAObjectEditor {
      */
     public DateTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof DateType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof DateType)) throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
     }
 
     private DateType getDateTypeMetadata() {
@@ -82,11 +81,9 @@ public class DateTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new DateType(elementName);
-        else
-            return new DateType(elementName, LocalDate.of(2000, 1, 1));
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new DateType(elementName);
+        else return new DateType(elementName, LocalDate.of(2000, 1, 1));
     }
 
     @Override
@@ -98,8 +95,7 @@ public class DateTypeEditor extends SEDAObjectEditor {
     @Override
     public String getSummary() throws SEDALibException {
         LocalDate tmp = getDateTypeMetadata().getValue();
-        if (tmp != null)
-            return tmp.toString();
+        if (tmp != null) return tmp.toString();
         return "";
     }
 
@@ -107,7 +103,7 @@ public class DateTypeEditor extends SEDAObjectEditor {
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
         JLabel label = new JLabel(getName() + " :");
@@ -122,7 +118,7 @@ public class DateTypeEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
         valueDatePicker = new DatePicker();

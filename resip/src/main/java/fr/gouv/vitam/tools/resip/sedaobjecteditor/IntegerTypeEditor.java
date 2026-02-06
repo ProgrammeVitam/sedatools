@@ -66,8 +66,9 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
      */
     public IntegerTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof IntegerType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof IntegerType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private IntegerType getIntegerTypeMetadata() {
@@ -82,19 +83,15 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new IntegerType(elementName);
-        else
-            return new IntegerType(elementName, 42);
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new IntegerType(elementName);
+        else return new IntegerType(elementName, 42);
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (valueTextField.getText().isEmpty())
-            getIntegerTypeMetadata().setValue(null);
-        else
-            getIntegerTypeMetadata().setValue(Long.parseLong(valueTextField.getText()));
+        if (valueTextField.getText().isEmpty()) getIntegerTypeMetadata().setValue(null);
+        else getIntegerTypeMetadata().setValue(Long.parseLong(valueTextField.getText()));
         return getIntegerTypeMetadata();
     }
 
@@ -107,7 +104,7 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
         JLabel label = new JLabel(getName() + " :");
@@ -122,14 +119,16 @@ public class IntegerTypeEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{100, 0};
-        gbl.columnWeights = new double[]{0.0, 1.0};
+        gbl.columnWidths = new int[] { 100, 0 };
+        gbl.columnWeights = new double[] { 0.0, 1.0 };
         editPanel.setLayout(gbl);
 
         valueTextField = new JTextField();
         DocumentFilter filter = new IntegerFilter();
         ((AbstractDocument) valueTextField.getDocument()).setDocumentFilter(filter);
-        valueTextField.setText((getIntegerTypeMetadata().getValue() == null ? "" : Long.toString(getIntegerTypeMetadata().getValue())));
+        valueTextField.setText(
+            (getIntegerTypeMetadata().getValue() == null ? "" : Long.toString(getIntegerTypeMetadata().getValue()))
+        );
         valueTextField.setFont(SEDAObjectEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);

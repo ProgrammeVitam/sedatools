@@ -67,8 +67,9 @@ public class LinearDimensionTypeEditor extends SEDAObjectEditor {
      */
     public LinearDimensionTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof LinearDimensionType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof LinearDimensionType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private LinearDimensionType getLinearDimensionTypeMetadata() {
@@ -83,33 +84,32 @@ public class LinearDimensionTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new LinearDimensionType(elementName);
-        else
-            return new LinearDimensionType(elementName, 42.42, "metre");
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new LinearDimensionType(elementName);
+        else return new LinearDimensionType(elementName, 42.42, "metre");
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (valueTextField.getText().isEmpty())
-            getLinearDimensionTypeMetadata().setValue(null);
-        else
-            getLinearDimensionTypeMetadata().setValue(Double.parseDouble(valueTextField.getText()));
+        if (valueTextField.getText().isEmpty()) getLinearDimensionTypeMetadata().setValue(null);
+        else getLinearDimensionTypeMetadata().setValue(Double.parseDouble(valueTextField.getText()));
         getLinearDimensionTypeMetadata().setUnit((String) (unitComboBox.getSelectedItem()));
         return getLinearDimensionTypeMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        return (valueTextField.getText() == null ? "" : valueTextField.getText() + " ") + (unitComboBox.getSelectedItem()==null?"":unitComboBox.getSelectedItem());
+        return (
+            (valueTextField.getText() == null ? "" : valueTextField.getText() + " ") +
+            (unitComboBox.getSelectedItem() == null ? "" : unitComboBox.getSelectedItem())
+        );
     }
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
         JLabel label = new JLabel(getName() + " :");
@@ -124,14 +124,18 @@ public class LinearDimensionTypeEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{100, 0};
-        gbl.columnWeights = new double[]{0.0, 1.0};
+        gbl.columnWidths = new int[] { 100, 0 };
+        gbl.columnWeights = new double[] { 0.0, 1.0 };
         editPanel.setLayout(gbl);
 
         valueTextField = new JTextField();
         DocumentFilter filter = new DoubleFilter();
         ((AbstractDocument) valueTextField.getDocument()).setDocumentFilter(filter);
-        valueTextField.setText((getLinearDimensionTypeMetadata().getValue() == null ? "" : Double.toString(getLinearDimensionTypeMetadata().getValue())));
+        valueTextField.setText(
+            (getLinearDimensionTypeMetadata().getValue() == null
+                    ? ""
+                    : Double.toString(getLinearDimensionTypeMetadata().getValue()))
+        );
         valueTextField.setFont(SEDAObjectEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);

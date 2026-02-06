@@ -68,7 +68,6 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
     private List<String> otherFormats;
     private boolean allFormatsFlag;
 
-
     /**
      * Instantiates a new Technical search thread.
      *
@@ -77,18 +76,23 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
      * @param min                   the min
      * @param max                   the max
      */
-    public TechnicalSearchThread(ArchiveUnit au, List<String> formats, long min, long max,
-                                 Consumer<LinkedHashMap<ArchiveUnit, List<BinaryDataObject>>> callBack) {
+    public TechnicalSearchThread(
+        ArchiveUnit au,
+        List<String> formats,
+        long min,
+        long max,
+        Consumer<LinkedHashMap<ArchiveUnit, List<BinaryDataObject>>> callBack
+    ) {
         this.searchUnit = au;
         this.formats = formats;
         if (formats.contains("Other")) {
             this.searchOthers = true;
-            this.otherFormats =
-                    ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap().
-                            entrySet().
-                            stream().
-                            flatMap(e -> e.getValue().stream()).
-                            collect(Collectors.toList());
+            this.otherFormats = ResipGraphicApp.getTheApp()
+                .treatmentParameters.getFormatByCategoryMap()
+                .entrySet()
+                .stream()
+                .flatMap(e -> e.getValue().stream())
+                .collect(Collectors.toList());
             this.formats.remove("Other");
         } else {
             this.searchOthers = false;
@@ -97,32 +101,27 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
         this.allFormatsFlag = ((formats.size() == 0) && !this.searchOthers);
         this.min = min;
         this.max = max;
-        this.callBack=callBack;
+        this.callBack = callBack;
     }
 
     private void addBinaryDataObject(ArchiveUnit au, BinaryDataObject bdo) {
         List<BinaryDataObject> bdos = searchDataObjectResult.get(au);
-        if (bdos == null)
-            bdos = new ArrayList<BinaryDataObject>();
+        if (bdos == null) bdos = new ArrayList<BinaryDataObject>();
         bdos.add(bdo);
         searchDataObjectResult.put(au, bdos);
     }
 
     private boolean testBinaryDataObject(BinaryDataObject bdo) {
-        IntegerType size=bdo.getMetadataSize();
-        if ((size == null) && ((min != 0) || (max != Long.MAX_VALUE)))
-            return false;
-        if (((min != 0) || (max != Long.MAX_VALUE)) && (size.getValue() < min) || (size.getValue() > max))
-            return false;
-        if (allFormatsFlag)
-            return true;
-        FormatIdentification formatIdentification=bdo.getMetadataFormatIdentification();
-        if (formatIdentification==null)
-            return false;
-        if (formats.contains(formatIdentification.getSimpleMetadata("FormatId")))
-            return true;
-        if (searchOthers && !otherFormats.contains(formatIdentification.getSimpleMetadata("FormatId")))
-            return true;
+        IntegerType size = bdo.getMetadataSize();
+        if ((size == null) && ((min != 0) || (max != Long.MAX_VALUE))) return false;
+        if (
+            (((min != 0) || (max != Long.MAX_VALUE)) && (size.getValue() < min)) || (size.getValue() > max)
+        ) return false;
+        if (allFormatsFlag) return true;
+        FormatIdentification formatIdentification = bdo.getMetadataFormatIdentification();
+        if (formatIdentification == null) return false;
+        if (formats.contains(formatIdentification.getSimpleMetadata("FormatId"))) return true;
+        if (searchOthers && !otherFormats.contains(formatIdentification.getSimpleMetadata("FormatId"))) return true;
         return false;
     }
 
@@ -130,20 +129,15 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
         List<ArchiveUnit> auList = au.getChildrenAuList().getArchiveUnitList();
 
         for (ArchiveUnit childUnit : auList) {
-            if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId()))
-                continue;
+            if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId())) continue;
             for (DataObject dataObject : childUnit.getDataObjectRefList().getDataObjectList()) {
-                if (dataObject instanceof PhysicalDataObject)
-                    continue;
+                if (dataObject instanceof PhysicalDataObject) continue;
                 else if (dataObject instanceof BinaryDataObject) {
                     BinaryDataObject bdo = (BinaryDataObject) dataObject;
-                    if (testBinaryDataObject(bdo))
-                        addBinaryDataObject(childUnit, bdo);
-
+                    if (testBinaryDataObject(bdo)) addBinaryDataObject(childUnit, bdo);
                 } else if (dataObject instanceof DataObjectGroup) {
                     for (BinaryDataObject bdo : ((DataObjectGroup) dataObject).getBinaryDataObjectList()) {
-                        if (testBinaryDataObject(bdo))
-                            addBinaryDataObject(childUnit, bdo);
+                        if (testBinaryDataObject(bdo)) addBinaryDataObject(childUnit, bdo);
                     }
                 }
             }
@@ -155,7 +149,7 @@ public class TechnicalSearchThread extends SwingWorker<String, String> {
 
     @Override
     public String doInBackground() {
-        dataObjectPackage =searchUnit.getDataObjectPackage();
+        dataObjectPackage = searchUnit.getDataObjectPackage();
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
         searchDataObjectResult = new LinkedHashMap<ArchiveUnit, List<BinaryDataObject>>();
 

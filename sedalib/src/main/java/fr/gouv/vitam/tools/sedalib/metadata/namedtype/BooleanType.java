@@ -96,11 +96,13 @@ public class BooleanType extends NamedTypeMetadata {
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         String tmp = null;
         try {
-            if (value != null)
-                tmp = value.toString();
+            if (value != null) tmp = value.toString();
             xmlWriter.writeElementValue(elementName, tmp);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type BooleanType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément de type BooleanType [" + getXmlElementName() + "]",
+                e
+            );
         }
     }
 
@@ -113,10 +115,8 @@ public class BooleanType extends NamedTypeMetadata {
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         String tmp = null;
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
-        if (value != null)
-            tmp = value.toString();
-        else
-            tmp = "";
+        if (value != null) tmp = value.toString();
+        else tmp = "";
         result.put("", tmp);
         return result;
     }
@@ -136,20 +136,15 @@ public class BooleanType extends NamedTypeMetadata {
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
                     tmp = event.asCharacters().getData();
-                    if (tmp.equals("true"))
-                        value = true;
-                    else if (tmp.equals("false"))
-                        value = false;
-                    else
-                        throw new SEDALibException(tmp + " n'est pas une valeur autorisée");
+                    if (tmp.equals("true")) value = true;
+                    else if (tmp.equals("false")) value = false;
+                    else throw new SEDALibException(tmp + " n'est pas une valeur autorisée");
                     event = xmlReader.nextUsefullEvent();
-                } else
-                    value = null;
-                if ((!event.isEndElement())
-                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
-            } else
-                return false;
+                } else value = null;
+                if (
+                    (!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart()))
+                ) throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type BooleanType", e);
         }

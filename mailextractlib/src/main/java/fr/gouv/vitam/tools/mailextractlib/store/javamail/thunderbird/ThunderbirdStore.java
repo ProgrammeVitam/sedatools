@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird;
 
 import jakarta.mail.*;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -79,7 +80,6 @@ public class ThunderbirdStore extends Store {
      */
     public ThunderbirdStore(Session session, URLName url) {
         super(session, url);
-
         try {
             container = URLDecoder.decode(url.getFile(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -110,10 +110,10 @@ public class ThunderbirdStore extends Store {
     @Override
     protected boolean protocolConnect(String host, int port, String user, String passwd) throws MessagingException {
         // verify params significance in ThunderMBox context
-        if (!((passwd == null) || (passwd.isEmpty())))
-            throw new MessagingException("ThunderMBox: does not allow passwords");
-        if (port != -1)
-            throw new MessagingException("ThunderMBox: does not allow port selection");
+        if (!((passwd == null) || (passwd.isEmpty()))) throw new MessagingException(
+            "ThunderMBox: does not allow passwords"
+        );
+        if (port != -1) throw new MessagingException("ThunderMBox: does not allow port selection");
 
         // verify declared directory for thunderbird mbox hierarchy availability
         File test = new File(container);
@@ -140,10 +140,8 @@ public class ThunderbirdStore extends Store {
      */
     @Override
     public Folder getFolder(String name) throws MessagingException {
-        if (name.equals(container))
-            name = null;
-        else if (name.startsWith(container))
-            name = name.substring(container.length() + 1);
+        if (name.equals(container)) name = null;
+        else if (name.startsWith(container)) name = name.substring(container.length() + 1);
         return new ThunderbirdFolder(this, name);
     }
 
@@ -161,9 +159,9 @@ public class ThunderbirdStore extends Store {
         } catch (UnsupportedEncodingException e) {
             // not possible
         }
-        if (!filename.startsWith(container))
-            throw new MessagingException("ThunderMBox: folder must be in directory declared for the store");
+        if (!filename.startsWith(container)) throw new MessagingException(
+            "ThunderMBox: folder must be in directory declared for the store"
+        );
         return getFolder(url.getFile().substring(container.length()));
     }
-
 }

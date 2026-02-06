@@ -38,8 +38,8 @@
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox;
 
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.JMEmbeddedStore;
-
 import jakarta.mail.*;
+
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -103,12 +103,11 @@ public class MboxStore extends Store implements JMEmbeddedStore {
         // verify only if not embedded
         if (objectContent == null) {
             // verify params significance in ThunderMBox context
-            if (!host.equals("localhost"))
-                throw new MessagingException("mbox: only support localhost");
-            if (!((passwd == null) || (passwd.isEmpty())))
-                throw new MessagingException("mbox: does not allow passwords");
-            if (port != -1)
-                throw new MessagingException("mbox: does not allow port selection");
+            if (!host.equals("localhost")) throw new MessagingException("mbox: only support localhost");
+            if (!((passwd == null) || (passwd.isEmpty()))) throw new MessagingException(
+                "mbox: does not allow passwords"
+            );
+            if (port != -1) throw new MessagingException("mbox: does not allow port selection");
 
             // verify declared file for mbox availability
             try {
@@ -141,10 +140,8 @@ public class MboxStore extends Store implements JMEmbeddedStore {
      */
     @Override
     public Folder getFolder(String name) throws MessagingException {
-        if ((name == null) || (name.isEmpty()))
-            return new MboxFolder(this);
-        else
-            throw new MessagingException("mbox: only one root simulated folder, no " + name + " folder");
+        if ((name == null) || (name.isEmpty())) return new MboxFolder(this);
+        else throw new MessagingException("mbox: only one root simulated folder, no " + name + " folder");
     }
 
     /*
@@ -154,16 +151,13 @@ public class MboxStore extends Store implements JMEmbeddedStore {
      */
     @Override
     public Folder getFolder(URLName url) throws MessagingException {
-        if ((url.getFile() == null) || (url.getFile().isEmpty()))
-            return new MboxFolder(this);
-        else
-            throw new MessagingException("mbox: only one root simulated folder, no " + url.getFile() + " folder");
+        if ((url.getFile() == null) || (url.getFile().isEmpty())) return new MboxFolder(this);
+        else throw new MessagingException("mbox: only one root simulated folder, no " + url.getFile() + " folder");
     }
 
     @Override
     public void setObjectContent(Object objectContent) {
-        if (objectContent instanceof byte[])
-            this.objectContent = (byte[]) objectContent;
+        if (objectContent instanceof byte[]) this.objectContent = (byte[]) objectContent;
     }
 
     @Override

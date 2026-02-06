@@ -37,8 +37,6 @@
  */
 package fr.gouv.vitam.tools.javalibpst;
 
-import java.io.IOException;
-
 public class PSTByteFileContent extends PSTFileContent {
 
     protected byte[] content;
@@ -81,7 +79,7 @@ public class PSTByteFileContent extends PSTFileContent {
             return -1;
         }
         int targetindex = 0;
-        while (targetindex < target.length & this.index < this.content.length) {
+        while ((targetindex < target.length) & (this.index < this.content.length)) {
             target[targetindex++] = this.content[this.index++];
         }
         return targetindex;
@@ -96,5 +94,4 @@ public class PSTByteFileContent extends PSTFileContent {
     public void close() {
         // Do nothing
     }
-
 }

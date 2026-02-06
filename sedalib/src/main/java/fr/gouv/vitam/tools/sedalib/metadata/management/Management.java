@@ -67,18 +67,20 @@ public class Management extends ComplexListType {
         metadataMap.put(StorageRule.STORAGERULE_TAG, new ComplexListMetadataKind(StorageRule.class, false));
         metadataMap.put(AppraisalRule.APPRAISALRULE_TAG, new ComplexListMetadataKind(AppraisalRule.class, false));
         metadataMap.put(AccessRule.ACCESSRULE_TAG, new ComplexListMetadataKind(AccessRule.class, false));
-        metadataMap.put(DisseminationRule.DISSEMINATIONRULE_TAG, new ComplexListMetadataKind(DisseminationRule.class, false));
+        metadataMap.put(
+            DisseminationRule.DISSEMINATIONRULE_TAG,
+            new ComplexListMetadataKind(DisseminationRule.class, false)
+        );
         metadataMap.put(ReuseRule.REUSERULE_TAG, new ComplexListMetadataKind(ReuseRule.class, false));
-        metadataMap.put(ClassificationRule.CLASSIFICATIONRULE_TAG,
-                new ComplexListMetadataKind(ClassificationRule.class, false));
+        metadataMap.put(
+            ClassificationRule.CLASSIFICATIONRULE_TAG,
+            new ComplexListMetadataKind(ClassificationRule.class, false)
+        );
         metadataMap.put(HoldRule.HOLDRULE_TAG, new ComplexListMetadataKind(HoldRule.class, false));
-        metadataMap.put("LogBook",
-                new ComplexListMetadataKind(LogBook.class, false));
-        metadataMap.put("NeedAuthorization",
-                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap.put("LogBook", new ComplexListMetadataKind(LogBook.class, false));
+        metadataMap.put("NeedAuthorization", new ComplexListMetadataKind(StringType.class, false));
         // Vitam extension
-        metadataMap.put("UpdateOperation",
-                new ComplexListMetadataKind(UpdateOperation.class, false));
+        metadataMap.put("UpdateOperation", new ComplexListMetadataKind(UpdateOperation.class, false));
     }
 
     /**
@@ -106,14 +108,20 @@ public class Management extends ComplexListType {
                 count = 0;
             } else count++;
             final String addedName;
-            if (isAMultiValuedMetadata(sm.getXmlElementName()))
-                addedName = sm.getXmlElementName() + "." + count;
-            else
-                addedName = sm.getXmlElementName();
+            if (isAMultiValuedMetadata(sm.getXmlElementName())) addedName = sm.getXmlElementName() + "." + count;
+            else addedName = sm.getXmlElementName();
             LinkedHashMap<String, String> smCsvList = sm.toCsvList();
-            smCsvList.entrySet().stream().forEach(e -> result.put("Management."+addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()), e.getValue()));
+            smCsvList
+                .entrySet()
+                .stream()
+                .forEach(
+                    e ->
+                        result.put(
+                            "Management." + addedName + (e.getKey().isEmpty() ? "" : "." + e.getKey()),
+                            e.getValue()
+                        )
+                );
         }
         return result;
     }
-
 }

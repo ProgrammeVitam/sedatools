@@ -56,6 +56,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogIfStep;
 
 public class CompressUtility {
+
     /**
      * Log and error string finals.
      */
@@ -95,7 +96,6 @@ public class CompressUtility {
     // The uncompressed folder path.
     private Path uncompressedFolderPath;
 
-
     /**
      * Instantiates a new Compress utility.
      *
@@ -104,11 +104,16 @@ public class CompressUtility {
      * @param encoding               the encoding
      * @param sedaLibProgressLogger  the seda lib progress logger
      */
-    public CompressUtility(Path compressedFilePath, Path uncompressedFolderPath, String encoding,SEDALibProgressLogger sedaLibProgressLogger) {
-        this.compressedFilePath=compressedFilePath;
-        this.uncompressedFolderPath=uncompressedFolderPath;
-        this.encoding=encoding;
-        this.sedaLibProgressLogger=sedaLibProgressLogger;
+    public CompressUtility(
+        Path compressedFilePath,
+        Path uncompressedFolderPath,
+        String encoding,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) {
+        this.compressedFilePath = compressedFilePath;
+        this.uncompressedFolderPath = uncompressedFolderPath;
+        this.encoding = encoding;
+        this.sedaLibProgressLogger = sedaLibProgressLogger;
     }
 
     /**
@@ -118,8 +123,7 @@ public class CompressUtility {
      * @return the string
      */
     public static boolean isKnownCompressedMimeType(String mimeType) {
-        if (mimeType==null)
-            return false;
+        if (mimeType == null) return false;
         switch (mimeType) {
             case ZIP:
             case TAR:
@@ -133,43 +137,53 @@ public class CompressUtility {
     }
 
     private ArchiveInputStream createArchiveInputStream(Path compressedFilePath)
-            throws SEDALibException, InterruptedException {
+        throws SEDALibException, InterruptedException {
         String mimeType;
-        FileInputStream fis=null;
-        ArchiveInputStream ais=null;
+        FileInputStream fis = null;
+        ArchiveInputStream ais = null;
 
         try {
             IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(compressedFilePath);
             mimeType = ir.getMimeType();
         } catch (SEDALibException e) {
-            throw new SEDALibException(MODULE+ "impossible de faire l'identification de format Droid pour le fichier compressé ["
-                    + compressedFilePath + "]", e);
+            throw new SEDALibException(
+                MODULE +
+                "impossible de faire l'identification de format Droid pour le fichier compressé [" +
+                compressedFilePath +
+                "]",
+                e
+            );
         }
 
         try {
             fis = new FileInputStream(compressedFilePath.toFile()); // NOSONAR keep it open
             switch (mimeType) {
                 case ZIP:
-                    ais= new ZipArchiveInputStream(fis,encoding);
+                    ais = new ZipArchiveInputStream(fis, encoding);
                     break;
                 case XGZIP:
                 case GZIP:
-                    ais= new TarArchiveInputStream(new GzipCompressorInputStream(fis),encoding);
+                    ais = new TarArchiveInputStream(new GzipCompressorInputStream(fis), encoding);
                     break;
                 case BZIP2:
-                    ais= new TarArchiveInputStream(new BZip2CompressorInputStream(fis),encoding);
+                    ais = new TarArchiveInputStream(new BZip2CompressorInputStream(fis), encoding);
                     break;
                 default: //NOSONAR in a tar, Droid identify the first contained file format
-                    doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL,
-                            MODULE+ "format " + mimeType
-                                    + " de compression inconnu, essai d'utilisation du format tar.",null);
+                    doProgressLog(
+                        sedaLibProgressLogger,
+                        SEDALibProgressLogger.GLOBAL,
+                        MODULE + "format " + mimeType + " de compression inconnu, essai d'utilisation du format tar.",
+                        null
+                    );
                 case TAR:
-                    ais= new TarArchiveInputStream(fis,encoding);
+                    ais = new TarArchiveInputStream(fis, encoding);
                     break;
             }
         } catch (IOException e) {
-            throw new SEDALibException(MODULE+ "impossible d'ouvrir le fichier compressé ["
-                    + compressedFilePath + "]", e);
+            throw new SEDALibException(
+                MODULE + "impossible d'ouvrir le fichier compressé [" + compressedFilePath + "]",
+                e
+            );
         }
         return ais;
     }
@@ -180,8 +194,7 @@ public class CompressUtility {
      * @throws SEDALibException     the seda lib exception
      * @throws InterruptedException the interrupted exception
      */
-    public void unCompress()
-            throws SEDALibException, InterruptedException {
+    public void unCompress() throws SEDALibException, InterruptedException {
         int counter = 0;
 
         try (final ArchiveInputStream archiveInputStream = createArchiveInputStream(compressedFilePath)) {
@@ -194,8 +207,14 @@ public class CompressUtility {
                     String entryName = entry.getName();
                     if (entryName.contains("?")) {
                         entryName = entryName.replace("?", "_");
-                        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL,
-                                "Le nom du fichier [" + entryName + "] a un problème d'encodage, le(s) caratère(s) problématique à été rempalcé par _ ", null);
+                        doProgressLog(
+                            sedaLibProgressLogger,
+                            SEDALibProgressLogger.GLOBAL,
+                            "Le nom du fichier [" +
+                            entryName +
+                            "] a un problème d'encodage, le(s) caratère(s) problématique à été rempalcé par _ ",
+                            null
+                        );
                     }
                     final Path target = uncompressedFolderPath.resolve(entryName);
                     final Path parent = target.getParent();
@@ -204,12 +223,20 @@ public class CompressUtility {
                         Files.createDirectories(parent);
                     }
                     if (!entry.isDirectory()) {
-                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS,
-                                MODULE+"décompresse le fichier [" + entryName + "]", null);
+                        doProgressLog(
+                            sedaLibProgressLogger,
+                            SEDALibProgressLogger.OBJECTS,
+                            MODULE + "décompresse le fichier [" + entryName + "]",
+                            null
+                        );
                         Files.copy(archiveInputStream, target, StandardCopyOption.REPLACE_EXISTING);
                         counter++;
-                        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                                MODULE+counter + " fichiers extraits");
+                        doProgressLogIfStep(
+                            sedaLibProgressLogger,
+                            SEDALibProgressLogger.OBJECTS_GROUP,
+                            counter,
+                            MODULE + counter + " fichiers extraits"
+                        );
                     } else if (!Files.exists(target)) {
                         Files.createDirectories(target);
                     }

@@ -94,14 +94,15 @@ public class TestDialogWindow extends JFrame implements ActionListener {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public TestDialogWindow(Class<? extends JDialog> dialogClass) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public TestDialogWindow(Class<? extends JDialog> dialogClass)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         super("TestDialog");
-        this.dialogClass=dialogClass;
+        this.dialogClass = dialogClass;
 
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        else
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        if (System.getProperty("os.name").toLowerCase().contains("win")) UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName()
+        );
+        else UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
         JMenuBar menuBar = createMenu();
         setJMenuBar(menuBar);
@@ -129,41 +130,59 @@ public class TestDialogWindow extends JFrame implements ActionListener {
 
         if (source instanceof JMenuItem) {
             String action = ((JMenuItem) source).getText();
-            if (action == null)
-                System.err.println("unknown menu action");
-            else
-                switch (action) {
-                    // File Menu
-                    case "System":
-                        try {
-                            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                            MainWindow.LABEL_FONT=UIManager.getFont("Label.font");
-                            MainWindow.CLICK_FONT=UIManager.getFont("Button.font");
-                            MainWindow.BOLD_LABEL_FONT = MainWindow.LABEL_FONT.deriveFont(MainWindow.LABEL_FONT.getStyle() | Font.BOLD);
-                            MainWindow.TREE_FONT=MainWindow.LABEL_FONT;
-                            MainWindow.DETAILS_FONT=MainWindow.LABEL_FONT.deriveFont(MainWindow.LABEL_FONT.getSize()+(float)2.0);
-                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ignored) {
-                        }
-                        break;
-                    case "CrossPlatform":
-                        try {
-                            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-                            MainWindow.LABEL_FONT=UIManager.getFont("Label.font");
-                            MainWindow.CLICK_FONT=UIManager.getFont("Button.font");
-                            MainWindow.BOLD_LABEL_FONT = MainWindow.LABEL_FONT.deriveFont(MainWindow.LABEL_FONT.getStyle() | Font.BOLD);
-                            MainWindow.TREE_FONT=MainWindow.LABEL_FONT;
-                            MainWindow.DETAILS_FONT=MainWindow.LABEL_FONT.deriveFont(MainWindow.LABEL_FONT.getSize()+(float)2.0);
-                        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ignored) {
-                        }
-                        break;
-                }
+            if (action == null) System.err.println("unknown menu action");
+            else switch (action) {
+                // File Menu
+                case "System":
+                    try {
+                        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                        MainWindow.LABEL_FONT = UIManager.getFont("Label.font");
+                        MainWindow.CLICK_FONT = UIManager.getFont("Button.font");
+                        MainWindow.BOLD_LABEL_FONT = MainWindow.LABEL_FONT.deriveFont(
+                            MainWindow.LABEL_FONT.getStyle() | Font.BOLD
+                        );
+                        MainWindow.TREE_FONT = MainWindow.LABEL_FONT;
+                        MainWindow.DETAILS_FONT = MainWindow.LABEL_FONT.deriveFont(
+                            MainWindow.LABEL_FONT.getSize() + (float) 2.0
+                        );
+                    } catch (
+                        ClassNotFoundException
+                        | InstantiationException
+                        | IllegalAccessException
+                        | UnsupportedLookAndFeelException ignored
+                    ) {}
+                    break;
+                case "CrossPlatform":
+                    try {
+                        UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+                        MainWindow.LABEL_FONT = UIManager.getFont("Label.font");
+                        MainWindow.CLICK_FONT = UIManager.getFont("Button.font");
+                        MainWindow.BOLD_LABEL_FONT = MainWindow.LABEL_FONT.deriveFont(
+                            MainWindow.LABEL_FONT.getStyle() | Font.BOLD
+                        );
+                        MainWindow.TREE_FONT = MainWindow.LABEL_FONT;
+                        MainWindow.DETAILS_FONT = MainWindow.LABEL_FONT.deriveFont(
+                            MainWindow.LABEL_FONT.getSize() + (float) 2.0
+                        );
+                    } catch (
+                        ClassNotFoundException
+                        | InstantiationException
+                        | IllegalAccessException
+                        | UnsupportedLookAndFeelException ignored
+                    ) {}
+                    break;
+            }
             it.setVisible(false);
             try {
                 it = dialogClass.getConstructor(JFrame.class).newInstance(this);
                 it.setLocationByPlatform(true);
                 it.setVisible(true);
-            } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
-            }
+            } catch (
+                InstantiationException
+                | IllegalAccessException
+                | NoSuchMethodException
+                | InvocationTargetException ignored
+            ) {}
         }
     }
 }

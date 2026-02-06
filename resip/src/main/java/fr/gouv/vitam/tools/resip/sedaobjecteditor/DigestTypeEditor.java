@@ -79,8 +79,9 @@ public class DigestTypeEditor extends SEDAObjectEditor {
      */
     public DigestTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof DigestType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof DigestType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private DigestType getDigestTypeMetadata() {
@@ -95,11 +96,9 @@ public class DigestTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new DigestType(elementName, "");
-        else
-            return new DigestType(elementName, "Hash", "SHA-512");
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new DigestType(elementName, "");
+        else return new DigestType(elementName, "Hash", "SHA-512");
     }
 
     @Override
@@ -114,8 +113,9 @@ public class DigestTypeEditor extends SEDAObjectEditor {
     @Override
     public String getSummary() throws SEDALibException {
         String result = "";
-        if ((attributeTextField.getText() != null) && !attributeTextField.getText().isEmpty())
-            result = "(" + attributeTextField.getText() + ")";
+        if ((attributeTextField.getText() != null) && !attributeTextField.getText().isEmpty()) result = "(" +
+        attributeTextField.getText() +
+        ")";
         return result + valueTextField.getText();
     }
 
@@ -125,12 +125,12 @@ public class DigestTypeEditor extends SEDAObjectEditor {
         GridBagLayout gbl;
 
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-        algorithmWidth=(int) SEDAObjectEditor.LABEL_FONT.getStringBounds("SHA-512",frc).getWidth();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        algorithmWidth = (int) SEDAObjectEditor.LABEL_FONT.getStringBounds("SHA-512", frc).getWidth();
 
-        labelGBL= new GridBagLayout();
-        labelGBL.columnWidths = new int[]{0, 0, 0};
-        labelGBL.columnWeights = new double[]{1.0, 0.0, 0.0};
+        labelGBL = new GridBagLayout();
+        labelGBL.columnWidths = new int[] { 0, 0, 0 };
+        labelGBL.columnWeights = new double[] { 1.0, 0.0, 0.0 };
         labelPanel.setLayout(labelGBL);
 
         beforeLabel = new JLabel(getName() + (getDigestTypeMetadata().getAlgorithm() == null ? "" : "("));
@@ -155,7 +155,7 @@ public class DigestTypeEditor extends SEDAObjectEditor {
         algorithmButton.addActionListener(arg -> this.algorithmActivate());
         labelPanel.add(algorithmButton, gbc);
 
-        attributeTextField = new JTextField(getDigestTypeMetadata().getAlgorithm(),5);
+        attributeTextField = new JTextField(getDigestTypeMetadata().getAlgorithm(), 5);
         attributeTextField.setFont(SEDAObjectEditor.MINI_EDIT_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
@@ -167,11 +167,11 @@ public class DigestTypeEditor extends SEDAObjectEditor {
         if (getDigestTypeMetadata().getAlgorithm() == null) {
             algorithmButton.setVisible(true);
             attributeTextField.setVisible(false);
-            labelGBL.columnWidths = new int[]{0, 0, 0};
+            labelGBL.columnWidths = new int[] { 0, 0, 0 };
         } else {
             algorithmButton.setVisible(false);
             attributeTextField.setVisible(true);
-            labelGBL.columnWidths = new int[]{0,algorithmWidth, 0};
+            labelGBL.columnWidths = new int[] { 0, algorithmWidth, 0 };
         }
 
         innerLabel = new JLabel((getDigestTypeMetadata().getAlgorithm() == null ? ":" : ") :"));
@@ -186,7 +186,7 @@ public class DigestTypeEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
         valueTextField = new JTextField();
@@ -224,13 +224,13 @@ public class DigestTypeEditor extends SEDAObjectEditor {
         if (algorithm == null) {
             algorithmButton.setVisible(true);
             attributeTextField.setVisible(false);
-            labelGBL.columnWidths = new int[]{0,0, 0};
+            labelGBL.columnWidths = new int[] { 0, 0, 0 };
             beforeLabel.setText(getName());
             innerLabel.setText(" :");
         } else {
             algorithmButton.setVisible(false);
             attributeTextField.setVisible(true);
-            labelGBL.columnWidths = new int[]{0,algorithmWidth, 0};
+            labelGBL.columnWidths = new int[] { 0, algorithmWidth, 0 };
             beforeLabel.setText(getName() + "(");
             innerLabel.setText(") :");
         }

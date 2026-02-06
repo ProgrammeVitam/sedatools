@@ -101,7 +101,5 @@ public class MicrosoftStoreMessageAttachment {
     /**
      * Instantiates a new microsoft store message attachment.
      */
-    public MicrosoftStoreMessageAttachment() {
-    }
-
+    public MicrosoftStoreMessageAttachment() {}
 }

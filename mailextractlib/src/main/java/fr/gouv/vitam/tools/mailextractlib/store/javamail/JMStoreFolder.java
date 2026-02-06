@@ -43,7 +43,6 @@ import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox.MboxFolder;
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.thunderbird.ThunderbirdFolder;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
-
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import jakarta.mail.Flags;
 import jakarta.mail.Folder;
@@ -75,12 +74,11 @@ public class JMStoreFolder extends StoreFolder {
     private JMStoreFolder(StoreExtractor storeExtractor, final Folder folder, StoreFolder father) {
         super(storeExtractor);
         this.folder = folder;
-        if (folder instanceof ThunderbirdFolder)
-            ((ThunderbirdFolder) folder).setLogger(storeExtractor.getProgressLogger());
-        else if (folder instanceof MboxFolder)
-            ((MboxFolder) folder).setLogger(storeExtractor.getProgressLogger());
-        if (father != null)
-            finalizeStoreFolder(father);
+        if (folder instanceof ThunderbirdFolder) ((ThunderbirdFolder) folder).setLogger(
+                storeExtractor.getProgressLogger()
+            );
+        else if (folder instanceof MboxFolder) ((MboxFolder) folder).setLogger(storeExtractor.getProgressLogger());
+        if (father != null) finalizeStoreFolder(father);
     }
 
     /**
@@ -91,8 +89,11 @@ public class JMStoreFolder extends StoreFolder {
      * @param rootArchiveUnit Root ArchiveUnit
      * @return the JM store folder
      */
-    public static JMStoreFolder createRootFolder(StoreExtractor storeExtractor, final Folder folder,
-                                                 ArchiveUnit rootArchiveUnit) {
+    public static JMStoreFolder createRootFolder(
+        StoreExtractor storeExtractor,
+        final Folder folder,
+        ArchiveUnit rootArchiveUnit
+    ) {
         JMStoreFolder result = new JMStoreFolder(storeExtractor, folder);
         result.folderArchiveUnit = rootArchiveUnit;
 
@@ -137,19 +138,29 @@ public class JMStoreFolder extends StoreFolder {
                 for (int i = 0; i < submittedTasks; i++) {
                     Future<Void> future = completionService.poll(60, TimeUnit.SECONDS);
                     if (future == null) {
-                        throw new MailExtractLibException("mailextractlib.javamail: Timeout: no message extracted within 60 seconds, folder extraction aborted.", null);
+                        throw new MailExtractLibException(
+                            "mailextractlib.javamail: Timeout: no message extracted within 60 seconds, folder extraction aborted.",
+                            null
+                        );
                     }
                     try {
-                        future.get();  // Retrieve the task result or propagate any exception
+                        future.get(); // Retrieve the task result or propagate any exception
                     } catch (ExecutionException e) {
-                        MailExtractProgressLogger.doProgressLogWithoutInterruption(getStoreExtractor().getProgressLogger(),
-                                MailExtractProgressLogger.MESSAGE,
-                                "mailextractlib.javamail: Error during a message processing, it's dropped.", e);
+                        MailExtractProgressLogger.doProgressLogWithoutInterruption(
+                            getStoreExtractor().getProgressLogger(),
+                            MailExtractProgressLogger.MESSAGE,
+                            "mailextractlib.javamail: Error during a message processing, it's dropped.",
+                            e
+                        );
                     }
                 }
             } catch (MessagingException e) {
-                throw new MailExtractLibException("mailextractlib.javamail: cannot retrieve messages from folder "
-                        + getFullName() + ", folder extraction aborted", e);
+                throw new MailExtractLibException(
+                    "mailextractlib.javamail: cannot retrieve messages from folder " +
+                    getFullName() +
+                    ", folder extraction aborted",
+                    e
+                );
             } finally {
                 pool.shutdownNow();
             }
@@ -166,7 +177,10 @@ public class JMStoreFolder extends StoreFolder {
                 }
                 folder.close(false);
             } catch (MessagingException e) {
-                throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
+                throw new MailExtractLibException(
+                    "mailextractlib.javamail: can't get messages from folder " + getFullName(),
+                    e
+                );
             }
         }
     }
@@ -179,20 +193,22 @@ public class JMStoreFolder extends StoreFolder {
      * int, boolean)
      */
     @Override
-    protected void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException, InterruptedException {
+    protected void doExtractSubFolders(int level, boolean writeFlag)
+        throws MailExtractLibException, InterruptedException {
         JMStoreFolder mBSubFolder;
         try {
             final Folder[] subfolders = folder.list();
 
             for (final Folder subfolder : subfolders) {
-
                 mBSubFolder = new JMStoreFolder(storeExtractor, subfolder, this);
-                if (mBSubFolder.extractFolder(level + 1, writeFlag))
-                    incFolderSubFoldersCount();
+                if (mBSubFolder.extractFolder(level + 1, writeFlag)) incFolderSubFoldersCount();
                 extendDateRange(mBSubFolder.getDateRange());
             }
         } catch (MessagingException e) {
-            throw new MailExtractLibException("mailextractlib.javamail: can't get sub folders from folder " + getFullName(), e);
+            throw new MailExtractLibException(
+                "mailextractlib.javamail: can't get sub folders from folder " + getFullName(),
+                e
+            );
         }
     }
 
@@ -226,7 +242,10 @@ public class JMStoreFolder extends StoreFolder {
         try {
             return (folder.getType() & Folder.HOLDS_MESSAGES) != 0;
         } catch (MessagingException e) {
-            throw new MailExtractLibException("mailextractlib.javamail: can't determine if folder contains messages" + getFullName(), e);
+            throw new MailExtractLibException(
+                "mailextractlib.javamail: can't determine if folder contains messages" + getFullName(),
+                e
+            );
         }
     }
 
@@ -240,7 +259,10 @@ public class JMStoreFolder extends StoreFolder {
         try {
             return (folder.getType() & Folder.HOLDS_FOLDERS) != 0;
         } catch (MessagingException e) {
-            throw new MailExtractLibException("mailextractlib.javamail: can't determine if folder contains subfolders" + getFullName(), e);
+            throw new MailExtractLibException(
+                "mailextractlib.javamail: can't determine if folder contains subfolders" + getFullName(),
+                e
+            );
         }
     }
 
@@ -283,19 +305,29 @@ public class JMStoreFolder extends StoreFolder {
                 for (int i = 0; i < submittedTasks; i++) {
                     Future<Void> future = completionService.poll(60, TimeUnit.SECONDS);
                     if (future == null) {
-                        throw new MailExtractLibException("mailextractlib.javamail: Timeout: no message extracted within 60 seconds, folder extrcation aborted.", null);
+                        throw new MailExtractLibException(
+                            "mailextractlib.javamail: Timeout: no message extracted within 60 seconds, folder extrcation aborted.",
+                            null
+                        );
                     }
                     try {
-                        future.get();  // Retrieve the task result or propagate any exception
+                        future.get(); // Retrieve the task result or propagate any exception
                     } catch (ExecutionException e) {
-                        MailExtractProgressLogger.doProgressLogWithoutInterruption(getStoreExtractor().getProgressLogger(),
-                                MailExtractProgressLogger.MESSAGE,
-                                "mailextractlib.javamail: Error during a message processing, it's dropped.", e);
+                        MailExtractProgressLogger.doProgressLogWithoutInterruption(
+                            getStoreExtractor().getProgressLogger(),
+                            MailExtractProgressLogger.MESSAGE,
+                            "mailextractlib.javamail: Error during a message processing, it's dropped.",
+                            e
+                        );
                     }
                 }
             } catch (MessagingException e) {
-                throw new MailExtractLibException("mailextractlib.javamail: cannot retrieve messages from folder "
-                        + getFullName() + ", folder listing aborted", e);
+                throw new MailExtractLibException(
+                    "mailextractlib.javamail: cannot retrieve messages from folder " +
+                    getFullName() +
+                    ", folder listing aborted",
+                    e
+                );
             } finally {
                 pool.shutdownNow();
             }
@@ -312,7 +344,10 @@ public class JMStoreFolder extends StoreFolder {
                 }
                 folder.close(false);
             } catch (MessagingException e) {
-                throw new MailExtractLibException("mailextractlib.javamail: can't get messages from folder " + getFullName(), e);
+                throw new MailExtractLibException(
+                    "mailextractlib.javamail: can't get messages from folder " + getFullName(),
+                    e
+                );
             }
         }
     }
@@ -337,7 +372,10 @@ public class JMStoreFolder extends StoreFolder {
                 incFolderSubFoldersCount();
             }
         } catch (MessagingException e) {
-            throw new MailExtractLibException("mailextractlib.javamail: can't get sub folders from folder " + getFullName(), e);
+            throw new MailExtractLibException(
+                "mailextractlib.javamail: can't get sub folders from folder " + getFullName(),
+                e
+            );
         }
     }
 }

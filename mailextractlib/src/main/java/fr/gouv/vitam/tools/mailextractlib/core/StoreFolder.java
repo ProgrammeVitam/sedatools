@@ -114,7 +114,7 @@ public abstract class StoreFolder {
      *
      * @return the element name
      */
-    static public String getElementName() {
+    public static String getElementName() {
         return "folders";
     }
 
@@ -129,7 +129,6 @@ public abstract class StoreFolder {
      */
     protected void finalizeStoreFolder(StoreFolder father) {
         folderArchiveUnit = new ArchiveUnit(storeExtractor, father.folderArchiveUnit, "Folder", getName());
-
     }
 
     /**
@@ -148,10 +147,13 @@ public abstract class StoreFolder {
 
     // log at the folder level considering storeExtractor depth
     private void logFolder(String msg) throws InterruptedException {
-        if (storeExtractor.isRoot())
-            doProgressLog(storeExtractor.getProgressLogger(), MailExtractProgressLogger.FOLDER, msg, null);
-        else
-            doProgressLog(storeExtractor.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, null);
+        if (storeExtractor.isRoot()) doProgressLog(
+            storeExtractor.getProgressLogger(),
+            MailExtractProgressLogger.FOLDER,
+            msg,
+            null
+        );
+        else doProgressLog(storeExtractor.getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, null);
     }
 
     /**
@@ -167,7 +169,7 @@ public abstract class StoreFolder {
      * Extends the date range with the extra date range.
      * <p>This method is thread-safe, enabling non-abstract Folders and Elements to work on dateRange in parallel.
      **/
-    synchronized public void extendDateRange(DateRange extraDateRange) {
+    public synchronized void extendDateRange(DateRange extraDateRange) {
         dateRange.extendRange(extraDateRange);
     }
 
@@ -175,7 +177,7 @@ public abstract class StoreFolder {
      * Extends the date range with the extra date.
      * <p>This method is thread-safe, enabling non-abstract Folders and Elements to work on dateRange in parallel.
      */
-    synchronized public void extendDateRange(Date extraDate) {
+    public synchronized void extendDateRange(Date extraDate) {
         dateRange.extendRange(extraDate);
     }
 
@@ -185,7 +187,7 @@ public abstract class StoreFolder {
      *
      * @return the date range
      */
-    synchronized public DateRange getDateRange() {
+    public synchronized DateRange getDateRange() {
         return dateRange;
     }
 
@@ -309,11 +311,11 @@ public abstract class StoreFolder {
         if (folderElementsCount.get() + folderSubFoldersCount.get() != 0) {
             // accumulate in store extractor statistics out of recursion
             // if the scheme is not a container one but an embedded message folder counter is not used
-            if (StoreExtractor.schemeContainerMap.get(storeExtractor.scheme))
-                storeExtractor.incElementCounter(this.getClass());
+            if (StoreExtractor.schemeContainerMap.get(storeExtractor.scheme)) storeExtractor.incElementCounter(
+                this.getClass()
+            );
             storeExtractor.addTotalRawSize(getFolderElementsRawSize());
-        } else
-            logFolder("mailextractlib: empty extraction");
+        } else logFolder("mailextractlib: empty extraction");
     }
 
     /**
@@ -343,8 +345,11 @@ public abstract class StoreFolder {
         extractFolderElements(writeFlag);
         // extract all subfolders in the folder to the unit directory
         extractSubFolders(level, writeFlag);
-        if ((folderElementsCount.get() + folderSubFoldersCount.get() != 0) || ((!storeExtractor.options.dropEmptyFolders)
-                && !(level == 1 && storeExtractor.options.keepOnlyDeepEmptyFolders))) {
+        if (
+            (folderElementsCount.get() + folderSubFoldersCount.get() != 0) ||
+            ((!storeExtractor.options.dropEmptyFolders) &&
+                !(level == 1 && storeExtractor.options.keepOnlyDeepEmptyFolders))
+        ) {
             // get specific folder metadata to the unit
             // compute and add to the folder ArchiveUnit the expected folder
             // metadata
@@ -354,13 +359,13 @@ public abstract class StoreFolder {
                 folderArchiveUnit.addMetadata("StartDate", DateRange.getISODateString(dateRange.getStart()), true);
                 folderArchiveUnit.addMetadata("EndDate", DateRange.getISODateString(dateRange.getEnd()), true);
             }
-            if (writeFlag)
-                folderArchiveUnit.write();
+            if (writeFlag) folderArchiveUnit.write();
             result = true;
             storeExtractor.incElementCounter(this.getClass());
             storeExtractor.addTotalRawSize(getFolderElementsRawSize());
-        } else
-            logFolder("mailextractlib: empty folder " + FileSystems.getDefault().getSeparator() + getFullName() + " is droped");
+        } else logFolder(
+            "mailextractlib: empty folder " + FileSystems.getDefault().getSeparator() + getFullName() + " is droped"
+        );
         // accumulate in store extractor statistics out of recursion
 
         return result;
@@ -370,8 +375,7 @@ public abstract class StoreFolder {
     private void extractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException {
         folderElementsCount.set(0);
         folderElementsRawSize.set(0);
-        if (hasElements())
-            doExtractFolderElements(writeFlag);
+        if (hasElements()) doExtractFolderElements(writeFlag);
     }
 
     /**
@@ -385,13 +389,13 @@ public abstract class StoreFolder {
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major             format problems...)
      * @throws InterruptedException    the interrupted exception
      */
-    protected abstract void doExtractFolderElements(boolean writeFlag) throws MailExtractLibException, InterruptedException;
+    protected abstract void doExtractFolderElements(boolean writeFlag)
+        throws MailExtractLibException, InterruptedException;
 
     // encapsulate the subclasses real processing method
     private void extractSubFolders(int level, boolean writeFlag) throws MailExtractLibException, InterruptedException {
         folderSubFoldersCount.set(0);
-        if (hasSubfolders())
-            doExtractSubFolders(level, writeFlag);
+        if (hasSubfolders()) doExtractSubFolders(level, writeFlag);
     }
 
     /**
@@ -406,7 +410,8 @@ public abstract class StoreFolder {
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major             format problems...)
      * @throws InterruptedException    the interrupted exception
      */
-    protected abstract void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException, InterruptedException;
+    protected abstract void doExtractSubFolders(int level, boolean writeFlag)
+        throws MailExtractLibException, InterruptedException;
 
     /**
      * List all folders with or without statistics.
@@ -425,18 +430,26 @@ public abstract class StoreFolder {
         String fullName, tmp;
 
         fullName = getFullName();
-        if (fullName == null || fullName.isEmpty())
-            fullName = "";
+        if (fullName == null || fullName.isEmpty()) fullName = "";
         // log process on folder
         if (stats) {
             // inspect all elements in the folder for statistics
             listFolderElements(stats);
             // expose this folder statistics
-            tmp = String.format("%5d éléments   %7.2f MBytes    " + FileSystems.getDefault().getSeparator() + "%s", folderElementsCount.get(),
-                    ((double) folderElementsRawSize.get()) / (1024.0 * 1024.0), fullName);
+            tmp = String.format(
+                "%5d éléments   %7.2f MBytes    " + FileSystems.getDefault().getSeparator() + "%s",
+                folderElementsCount.get(),
+                ((double) folderElementsRawSize.get()) / (1024.0 * 1024.0),
+                fullName
+            );
             doProgressLog(storeExtractor.getProgressLogger(), MailExtractProgressLogger.GLOBAL, tmp, null);
         } else {
-            doProgressLog(storeExtractor.getProgressLogger(), MailExtractProgressLogger.GLOBAL, FileSystems.getDefault().getSeparator() + fullName, null);
+            doProgressLog(
+                storeExtractor.getProgressLogger(),
+                MailExtractProgressLogger.GLOBAL,
+                FileSystems.getDefault().getSeparator() + fullName,
+                null
+            );
         }
         // extract all subfolders in the folder to the unit directory
         listSubFolders(stats);
@@ -452,8 +465,7 @@ public abstract class StoreFolder {
     private void listFolderElements(boolean stats) throws MailExtractLibException, InterruptedException {
         folderElementsCount.set(0);
         folderElementsRawSize.set(0);
-        if (hasElements())
-            doListFolderElements(stats);
+        if (hasElements()) doListFolderElements(stats);
     }
 
     /**
@@ -473,8 +485,7 @@ public abstract class StoreFolder {
     // encapsulate the subclasses real processing method
     private void listSubFolders(boolean stats) throws MailExtractLibException, InterruptedException {
         folderSubFoldersCount.set(0);
-        if (hasSubfolders())
-            doListSubFolders(stats);
+        if (hasSubfolders()) doListSubFolders(stats);
     }
 
     /**
@@ -488,5 +499,4 @@ public abstract class StoreFolder {
      * @throws InterruptedException    the interrupted exception
      */
     protected abstract void doListSubFolders(boolean stats) throws MailExtractLibException, InterruptedException;
-
 }

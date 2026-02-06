@@ -57,24 +57,24 @@ public class UserInteractionDialog extends JDialog {
     /**
      * The Information dialog.
      */
-    static public final int INFORMATION_DIALOG = 0;
+    public static final int INFORMATION_DIALOG = 0;
     /**
      * The Warning dialog.
      */
-    static public final int WARNING_DIALOG = 1;
+    public static final int WARNING_DIALOG = 1;
     /**
      * The Error dialog.
      */
-    static public final int ERROR_DIALOG = 2;
+    public static final int ERROR_DIALOG = 2;
     /**
      * The Important dialog.
      */
-    static public final int IMPORTANT_DIALOG = 3;
+    public static final int IMPORTANT_DIALOG = 3;
 
     /**
      * The actions components.
      */
-    final private JPanel explanationPanel;
+    private final JPanel explanationPanel;
 
     /**
      * The return value.
@@ -94,7 +94,8 @@ public class UserInteractionDialog extends JDialog {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         TestDialogWindow window = new TestDialogWindow(UserInteractionDialog.class);
     }
 
@@ -104,10 +105,14 @@ public class UserInteractionDialog extends JDialog {
      * @param owner the owner
      */
     public UserInteractionDialog(JFrame owner) {
-        this(owner, "This is a warning message, with a question to answer...", "Important", WARNING_DIALOG,
-                "This is explanation");
+        this(
+            owner,
+            "This is a warning message, with a question to answer...",
+            "Important",
+            WARNING_DIALOG,
+            "This is explanation"
+        );
     }
-
 
     /**
      * Gets user answer.
@@ -119,7 +124,13 @@ public class UserInteractionDialog extends JDialog {
      * @param optionalExplationMessage the optional explation message
      * @return the user answer
      */
-    static public int getUserAnswer(JFrame owner, String message, String title, int kind, String optionalExplationMessage) {
+    public static int getUserAnswer(
+        JFrame owner,
+        String message,
+        String title,
+        int kind,
+        String optionalExplationMessage
+    ) {
         UserInteractionDialog dialog = new UserInteractionDialog(owner, message, title, kind, optionalExplationMessage);
         dialog.setVisible(true);
         return dialog.returnValue;
@@ -134,11 +145,17 @@ public class UserInteractionDialog extends JDialog {
      * @param kind                     the kind
      * @param optionalExplationMessage the optional explation message
      */
-    public UserInteractionDialog(JFrame owner, String message, String title, int kind, String optionalExplationMessage) {
+    public UserInteractionDialog(
+        JFrame owner,
+        String message,
+        String title,
+        int kind,
+        String optionalExplationMessage
+    ) {
         super(owner, title, true);
         GridBagConstraints gbc;
 
-        this.setMinimumSize(new Dimension(400,100));
+        this.setMinimumSize(new Dimension(400, 100));
         this.setResizable(false);
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
@@ -223,29 +240,25 @@ public class UserInteractionDialog extends JDialog {
             JButton buttonCancel = new JButton();
             buttonCancel.setText("Annuler");
             gbc = new GridBagConstraints();
-            gbc.gridx = 2-(optionalExplationMessage == null?1:0);
+            gbc.gridx = 2 - (optionalExplationMessage == null ? 1 : 0);
             gbc.gridy = 0;
             gbc.weightx = 1.0;
-            if (optionalExplationMessage != null)
-                gbc.anchor = GridBagConstraints.EAST;
-            else
-                gbc.anchor = GridBagConstraints.CENTER;
+            if (optionalExplationMessage != null) gbc.anchor = GridBagConstraints.EAST;
+            else gbc.anchor = GridBagConstraints.CENTER;
             gbc.insets = new Insets(5, 5, 5, 5);
-            buttonCancel.addActionListener(arg->buttonCancel());
+            buttonCancel.addActionListener(arg -> buttonCancel());
             mainActionPanel.add(buttonCancel, gbc);
         }
         JButton buttonOK = new JButton();
         buttonOK.setText("OK");
         gbc = new GridBagConstraints();
-        gbc.gridx = 1-(optionalExplationMessage == null?1:0);
+        gbc.gridx = 1 - (optionalExplationMessage == null ? 1 : 0);
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        if (optionalExplationMessage != null)
-            gbc.anchor = GridBagConstraints.EAST;
-        else
-            gbc.anchor = GridBagConstraints.CENTER;
+        if (optionalExplationMessage != null) gbc.anchor = GridBagConstraints.EAST;
+        else gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(5, 5, 5, 5);
-        buttonOK.addActionListener(arg->buttonOK());
+        buttonOK.addActionListener(arg -> buttonOK());
         mainActionPanel.add(buttonOK, gbc);
 
         explanationPanel = new JPanel();
@@ -290,12 +303,14 @@ public class UserInteractionDialog extends JDialog {
             explanationPanel.add(explanationTextArea, gbc);
         }
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                buttonCancel();
+        addWindowListener(
+            new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    buttonCancel();
+                }
             }
-        });
+        );
 
         pack();
         explanationPanel.setVisible(false);

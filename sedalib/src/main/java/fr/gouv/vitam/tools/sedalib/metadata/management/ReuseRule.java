@@ -56,7 +56,7 @@ import java.util.Map;
  */
 public class ReuseRule extends RuleType {
 
-    static final String REUSERULE_TAG="ReuseRule";
+    static final String REUSERULE_TAG = "ReuseRule";
 
     /**
      * Init metadata map.
@@ -86,6 +86,6 @@ public class ReuseRule extends RuleType {
      * @throws SEDALibException the seda lib exception
      */
     public ReuseRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(REUSERULE_TAG, rule , startDate);
+        super(REUSERULE_TAG, rule, startDate);
     }
 }

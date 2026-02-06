@@ -36,7 +36,7 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 /*
- * 
+ *
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
@@ -49,8 +49,8 @@ public class DIPImportContext extends CreationContext {
      * Instantiates a new DIP import context.
      */
     public DIPImportContext() {
-		this(null, null);
-	}
+        this(null, null);
+    }
 
     /**
      * Instantiates a new DIP import context.
@@ -59,8 +59,8 @@ public class DIPImportContext extends CreationContext {
      * @param workDir     the work dir
      */
     public DIPImportContext(String onDiskInput, String workDir) {
-		super (onDiskInput, workDir);
-	}
+        super(onDiskInput, workDir);
+    }
 
     /**
      * Instantiates a new DIP import context.
@@ -68,12 +68,11 @@ public class DIPImportContext extends CreationContext {
      * @param preferences the prefs
      */
     public DIPImportContext(Preferences preferences) {
-		super(preferences);
-	}
+        super(preferences);
+    }
 
-	/* (non-Javadoc)
-	 * @see CreationContext#toPrefs(Prefs)
-	 */
-	public void toPrefs(Preferences preferences) {
-	}
+    /* (non-Javadoc)
+     * @see CreationContext#toPrefs(Prefs)
+     */
+    public void toPrefs(Preferences preferences) {}
 }

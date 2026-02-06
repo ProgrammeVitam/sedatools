@@ -80,8 +80,7 @@ public class StatisticThread extends SwingWorker<String, String> {
 
     private String findCategory(String formatId, LinkedHashMap<String, List<String>> formatByCatgeoryMap) {
         for (Map.Entry<String, List<String>> category : formatByCatgeoryMap.entrySet()) {
-            if (category.getValue().contains(formatId))
-                return category.getKey();
+            if (category.getValue().contains(formatId)) return category.getKey();
         }
         return null;
     }
@@ -97,39 +96,53 @@ public class StatisticThread extends SwingWorker<String, String> {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
                 localLogStep = 1000;
             }
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel,
-                    null, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
+            spl = new SEDALibProgressLogger(
+                ResipLogger.getGlobalLogger().getLogger(),
+                localLogLevel,
+                null,
+                localLogStep,
+                2,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                1000
+            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             DataObjectPackage dataObjectPackage = ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage();
             LinkedHashMap<String, List<Long>> sizeByCategoryMap = new LinkedHashMap<String, List<Long>>();
-            LinkedHashMap<String, List<String>> formatByCatgeoryMap = ResipGraphicApp.getTheApp().treatmentParameters.getFormatByCategoryMap();
+            LinkedHashMap<String, List<String>> formatByCatgeoryMap = ResipGraphicApp.getTheApp()
+                .treatmentParameters.getFormatByCategoryMap();
             String otherCategory = null;
             for (Map.Entry<String, List<String>> category : formatByCatgeoryMap.entrySet()) {
                 sizeByCategoryMap.put(category.getKey(), new ArrayList<Long>());
-                if (category.getValue().contains("Other"))
-                    otherCategory = category.getKey();
+                if (category.getValue().contains("Other")) otherCategory = category.getKey();
             }
             sizeByCategoryMap.put("Tous formats", new ArrayList<Long>());
             int counter = 0;
             for (BinaryDataObject bdo : dataObjectPackage.getBdoInDataObjectPackageIdMap().values()) {
                 String category = null;
                 FormatIdentification formatIdentification = bdo.getMetadataFormatIdentification();
-                if (formatIdentification != null)
-                    category = findCategory(formatIdentification.getSimpleMetadata("FormatId"), formatByCatgeoryMap);
+                if (formatIdentification != null) category = findCategory(
+                    formatIdentification.getSimpleMetadata("FormatId"),
+                    formatByCatgeoryMap
+                );
                 if (category == null) category = otherCategory;
-                IntegerType size=bdo.getMetadataSize();
+                IntegerType size = bdo.getMetadataSize();
                 if (size != null) {
-                    if (category != null)
-                        sizeByCategoryMap.get(category).add(size.getValue());
+                    if (category != null) sizeByCategoryMap.get(category).add(size.getValue());
                     sizeByCategoryMap.get("Tous formats").add(size.getValue());
                 }
                 counter++;
-                doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, counter, "resip: " +
-                        counter + " objets pris en compte dans les statistiques");
+                doProgressLogIfStep(
+                    spl,
+                    SEDALibProgressLogger.OBJECTS_GROUP,
+                    counter,
+                    "resip: " + counter + " objets pris en compte dans les statistiques"
+                );
             }
-            statisticDataList = sizeByCategoryMap.entrySet().stream()
-                    .map(e -> new StatisticData(e.getKey(), e.getValue()))
-                    .collect(Collectors.toList());
+            statisticDataList = sizeByCategoryMap
+                .entrySet()
+                .stream()
+                .map(e -> new StatisticData(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
         } catch (Throwable e) {
             exitThrowable = e;
             return "KO";
@@ -141,29 +154,42 @@ public class StatisticThread extends SwingWorker<String, String> {
     protected void done() {
         ResipGraphicApp theApp = ResipGraphicApp.getTheApp();
 
-        if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: statistiques annulées", null);
-        else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant les statistiques", exitThrowable);
+        if (isCancelled()) doProgressLogWithoutInterruption(spl, GLOBAL, "resip: statistiques annulées", null);
+        else if (exitThrowable != null) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "resip: erreur durant les statistiques",
+            exitThrowable
+        );
         else {
             doProgressLogWithoutInterruption(spl, GLOBAL, "resip: statistiques terminées", null);
             statisticWindow.setStatisticDataList(statisticDataList);
-            doProgressLogWithoutInterruption(spl, GLOBAL, String.format(
-                    "%-40.40s %10s %10s %10s %10s", "Categorie", "Nb", "Min", "Moyenne", "Max"), null);
+            doProgressLogWithoutInterruption(
+                spl,
+                GLOBAL,
+                String.format("%-40.40s %10s %10s %10s %10s", "Categorie", "Nb", "Min", "Moyenne", "Max"),
+                null
+            );
             for (StatisticData sd : statisticDataList) {
-                if (sd.getObjectNumber() != 0)
-                    doProgressLogWithoutInterruption(spl, GLOBAL, String.format(
-                            "%-40.40s %10d %10d %10.0f %10d",
-                            sd.getFormatCategory(),
-                            sd.getObjectNumber(),
-                            sd.getMinSize(),
-                            sd.getMeanSize(),
-                            sd.getMaxSize()), null);
-                else
-                    doProgressLogWithoutInterruption(spl, GLOBAL, String.format(
-                            "%-40.40s %10d %10s %10s %10s",
-                            sd.getFormatCategory(),
-                            0, "-", "-", "-"), null);
+                if (sd.getObjectNumber() != 0) doProgressLogWithoutInterruption(
+                    spl,
+                    GLOBAL,
+                    String.format(
+                        "%-40.40s %10d %10d %10.0f %10d",
+                        sd.getFormatCategory(),
+                        sd.getObjectNumber(),
+                        sd.getMinSize(),
+                        sd.getMeanSize(),
+                        sd.getMaxSize()
+                    ),
+                    null
+                );
+                else doProgressLogWithoutInterruption(
+                    spl,
+                    GLOBAL,
+                    String.format("%-40.40s %10d %10s %10s %10s", sd.getFormatCategory(), 0, "-", "-", "-"),
+                    null
+                );
             }
         }
     }

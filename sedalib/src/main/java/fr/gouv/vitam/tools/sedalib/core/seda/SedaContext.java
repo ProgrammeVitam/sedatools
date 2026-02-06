@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.core.seda;
 
 public class SedaContext {
+
     private static SedaVersion _version;
 
     public static SedaVersion getVersion() {

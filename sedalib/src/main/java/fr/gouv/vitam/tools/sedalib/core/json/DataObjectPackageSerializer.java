@@ -78,8 +78,11 @@ public class DataObjectPackageSerializer extends StdSerializer<DataObjectPackage
      * @see com.fasterxml.jackson.databind.ser.std.StdSerializer#serialize(java.lang.Object, com.fasterxml.jackson.core.JsonGenerator, com.fasterxml.jackson.databind.SerializerProvider)
      */
     @Override
-    public void serialize(DataObjectPackage dataObjectPackage, JsonGenerator jGen, SerializerProvider serializerProvider)
-            throws IOException {
+    public void serialize(
+        DataObjectPackage dataObjectPackage,
+        JsonGenerator jGen,
+        SerializerProvider serializerProvider
+    ) throws IOException {
         {
             String[] tempArray;
 

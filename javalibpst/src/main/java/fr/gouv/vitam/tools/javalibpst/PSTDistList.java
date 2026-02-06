@@ -43,14 +43,14 @@ import java.util.HashMap;
 
 /**
  * PST DistList for extracting Addresses from Distribution lists.
- * 
+ *
  * @author Richard Johnson
  */
 public class PSTDistList extends PSTMessage {
 
     /**
      * constructor.
-     * 
+     *
      * @param theFile
      *            pst file
      * @param descriptorIndexNode
@@ -66,7 +66,7 @@ public class PSTDistList extends PSTMessage {
 
     /**
      * Internal constructor for performance.
-     * 
+     *
      * @param theFile
      *            pst file
      * @param folderIndexNode
@@ -77,14 +77,18 @@ public class PSTDistList extends PSTMessage {
      *            additional external items that represent
      *            this object.
      */
-    PSTDistList(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    PSTDistList(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
     /**
      * Find the next two null bytes in an array given start.
-     * 
+     *
      * @param data
      *            the array to search
      * @param start
@@ -103,21 +107,52 @@ public class PSTDistList extends PSTMessage {
     /**
      * identifier for one-off entries.
      */
-    private final byte[] oneOffEntryIdUid = { (byte) 0x81, (byte) 0x2b, (byte) 0x1f, (byte) 0xa4, (byte) 0xbe,
-        (byte) 0xa3, (byte) 0x10, (byte) 0x19, (byte) 0x9d, (byte) 0x6e, (byte) 0x00, (byte) 0xdd, (byte) 0x01,
-        (byte) 0x0f, (byte) 0x54, (byte) 0x02 };
+    private final byte[] oneOffEntryIdUid = {
+        (byte) 0x81,
+        (byte) 0x2b,
+        (byte) 0x1f,
+        (byte) 0xa4,
+        (byte) 0xbe,
+        (byte) 0xa3,
+        (byte) 0x10,
+        (byte) 0x19,
+        (byte) 0x9d,
+        (byte) 0x6e,
+        (byte) 0x00,
+        (byte) 0xdd,
+        (byte) 0x01,
+        (byte) 0x0f,
+        (byte) 0x54,
+        (byte) 0x02,
+    };
 
     /**
      * identifier for wrapped entries.
      */
-    private final byte[] wrappedEntryIdUid = { (byte) 0xc0, (byte) 0x91, (byte) 0xad, (byte) 0xd3, (byte) 0x51,
-        (byte) 0x9d, (byte) 0xcf, (byte) 0x11, (byte) 0xa4, (byte) 0xa9, (byte) 0x00, (byte) 0xaa, (byte) 0x00,
-        (byte) 0x47, (byte) 0xfa, (byte) 0xa4 };
+    private final byte[] wrappedEntryIdUid = {
+        (byte) 0xc0,
+        (byte) 0x91,
+        (byte) 0xad,
+        (byte) 0xd3,
+        (byte) 0x51,
+        (byte) 0x9d,
+        (byte) 0xcf,
+        (byte) 0x11,
+        (byte) 0xa4,
+        (byte) 0xa9,
+        (byte) 0x00,
+        (byte) 0xaa,
+        (byte) 0x00,
+        (byte) 0x47,
+        (byte) 0xfa,
+        (byte) 0xa4,
+    };
 
     /**
      * Inner class to represent distribution list one-off entries.
      */
     public class OneOffEntry {
+
         /** display name. */
         private String displayName = "";
 
@@ -156,14 +191,18 @@ public class PSTDistList extends PSTMessage {
          */
         @Override
         public String toString() {
-            return String.format("Display Name: %s\n" + "Address Type: %s\n" + "Email Address: %s\n", this.displayName,
-                this.addressType, this.emailAddress);
+            return String.format(
+                "Display Name: %s\n" + "Address Type: %s\n" + "Email Address: %s\n",
+                this.displayName,
+                this.addressType,
+                this.emailAddress
+            );
         }
     }
 
     /**
      * Parse a one-off entry from this Distribution List.
-     * 
+     *
      * @param data
      *            the item data
      * @param pos
@@ -217,7 +256,7 @@ public class PSTDistList extends PSTMessage {
 
     /**
      * Get an array of the members in this distribution list.
-     * 
+     *
      * @throws PSTException
      *             on corrupted data
      * @throws IOException
@@ -248,7 +287,7 @@ public class PSTDistList extends PSTMessage {
                 if (Arrays.equals(guid, this.wrappedEntryIdUid)) {
                     /* c3 */
                     final int entryType = item.data[pos] & 0x0F;
-                    final int entryAddressType = item.data[pos] & 0x70 >> 4;
+                    final int entryAddressType = item.data[pos] & (0x70 >> 4);
                     final boolean isOneOffEntryId = (item.data[pos] & 0x80) > 0;
                     pos++;
                     final int wrappedflags = (int) PSTObject.convertLittleEndianBytesToLong(item.data, pos, pos + 4);
@@ -265,7 +304,6 @@ public class PSTDistList extends PSTMessage {
                     pos++;
 
                     out[x] = PSTObject.detectAndLoadPSTObject(this.pstFile, descriptorIndex);
-
                 } else if (Arrays.equals(guid, this.oneOffEntryIdUid)) {
                     final OneOffEntry entry = this.parseOneOffEntry(item.data, pos);
                     pos = entry.pos;

@@ -61,8 +61,7 @@ public class MailImporter {
      */
     Instant start, /**
      * The End.
-     */
-    end;
+     */end;
 
     /**
      * The protocol.
@@ -123,17 +122,37 @@ public class MailImporter {
      * @param target                     the work dir
      * @param mailExtractProgressLogger  the logge
      */
-    public MailImporter(boolean extractMessageTextFile, boolean extractMessageTextMetadata,
-                        boolean extractAttachmentTextFile, boolean extractAttachmentMetadata, String protocol, String defaultCharsetName, String container,
-                        String mailfolder, String target, MailExtractProgressLogger mailExtractProgressLogger) {
+    public MailImporter(
+        boolean extractMessageTextFile,
+        boolean extractMessageTextMetadata,
+        boolean extractAttachmentTextFile,
+        boolean extractAttachmentMetadata,
+        String protocol,
+        String defaultCharsetName,
+        String container,
+        String mailfolder,
+        String target,
+        MailExtractProgressLogger mailExtractProgressLogger
+    ) {
         this.protocol = protocol;
         this.container = container;
         this.urlString = StoreExtractor.composeStoreURL(protocol, null, null, null, container);
         this.mailfolder = mailfolder;
         this.summary = null;
 
-        this.storeExtractorOptions = new StoreExtractorOptions(true, true, ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag(), 12, defaultCharsetName, true, extractMessageTextFile,
-                extractMessageTextMetadata, extractAttachmentTextFile, extractAttachmentMetadata, 2);
+        this.storeExtractorOptions = new StoreExtractorOptions(
+            true,
+            true,
+            ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag(),
+            12,
+            defaultCharsetName,
+            true,
+            extractMessageTextFile,
+            extractMessageTextMetadata,
+            extractAttachmentTextFile,
+            extractAttachmentMetadata,
+            2
+        );
         this.target = target;
         this.mailExtractProgressLogger = mailExtractProgressLogger;
     }
@@ -145,9 +164,8 @@ public class MailImporter {
      * @return the string
      */
     private static String readableFileSize(long size) {
-        if (size <= 0)
-            return "0";
-        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        if (size <= 0) return "0";
+        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
@@ -161,13 +179,18 @@ public class MailImporter {
         try {
             start = Instant.now();
 
-            storeExtractor = StoreExtractor.createStoreExtractor(urlString, mailfolder, target,
-                    storeExtractorOptions, mailExtractProgressLogger);
+            storeExtractor = StoreExtractor.createStoreExtractor(
+                urlString,
+                mailfolder,
+                target,
+                storeExtractorOptions,
+                mailExtractProgressLogger
+            );
             storeExtractor.extractAllFolders();
             summary = "Extraction " + storeExtractor.getSummary();
             storeExtractor.endStoreExtractor();
             end = Instant.now();
-            ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, getSummary(),null);
+            ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, getSummary(), null);
         } catch (Exception e) {
             throw new ResipException("Erreur d'extraction", e);
         }
@@ -182,17 +205,24 @@ public class MailImporter {
         String result = "resip: extraction depuis un conteneur courriel sur disque\n";
         result += "en [" + container + "]\n";
         result += "encodé selon le format [" + protocol + "]\n";
-        result += "génération de fichier en forme texte des messages: "
-                + (storeExtractorOptions.extractMessageTextFile ? "oui" : "non") + "\n";
-        result += "extraction des métadonnées texte des messages: "
-                + (storeExtractorOptions.extractMessageTextMetadata ? "oui" : "non") + "\n";
-        result += "génération de fichier en forme texte des pièces jointes: "
-                + (storeExtractorOptions.extractFileTextFile ? "oui" : "non") + "\n";
-        result += "extraction des métadonnées texte des pièces jointes: "
-                + (storeExtractorOptions.extractFileTextMetadata ? "oui" : "non") + "\n";
+        result +=
+        "génération de fichier en forme texte des messages: " +
+        (storeExtractorOptions.extractMessageTextFile ? "oui" : "non") +
+        "\n";
+        result +=
+        "extraction des métadonnées texte des messages: " +
+        (storeExtractorOptions.extractMessageTextMetadata ? "oui" : "non") +
+        "\n";
+        result +=
+        "génération de fichier en forme texte des pièces jointes: " +
+        (storeExtractorOptions.extractFileTextFile ? "oui" : "non") +
+        "\n";
+        result +=
+        "extraction des métadonnées texte des pièces jointes: " +
+        (storeExtractorOptions.extractFileTextMetadata ? "oui" : "non") +
+        "\n";
         result += "résultat: " + storeExtractor.getSummary();
-        if (start != null)
-            result += "en " + Duration.between(start, end).toString().substring(2) + "\n";
+        if (start != null) result += "en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
 

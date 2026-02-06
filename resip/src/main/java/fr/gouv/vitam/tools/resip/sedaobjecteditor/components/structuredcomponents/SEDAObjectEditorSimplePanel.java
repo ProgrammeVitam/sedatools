@@ -57,13 +57,14 @@ public class SEDAObjectEditorSimplePanel extends SEDAObjectEditorPanel {
      * @param editPanel      the edit panel
      * @throws SEDALibException the seda lib exception
      */
-    public SEDAObjectEditorSimplePanel(SEDAObjectEditor objectEditor, JPanel labelPanel, JPanel editPanel) throws SEDALibException {
+    public SEDAObjectEditorSimplePanel(SEDAObjectEditor objectEditor, JPanel labelPanel, JPanel editPanel)
+        throws SEDALibException {
         super(objectEditor);
-        boolean multiple = ((objectEditor.getFather()!=null ) &&
-                objectEditor.getFather().canContainsMultiple(objectEditor.getTag()));
+        boolean multiple =
+            ((objectEditor.getFather() != null) && objectEditor.getFather().canContainsMultiple(objectEditor.getTag()));
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{SEDAObjectEditorConstants.computeLabelWidth() - 20, 10, 10, 0};
-        gbl.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0};
+        gbl.columnWidths = new int[] { SEDAObjectEditorConstants.computeLabelWidth() - 20, 10, 10, 0 };
+        gbl.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0 };
         setLayout(gbl);
 
         GridBagConstraints gbc = new GridBagConstraints();

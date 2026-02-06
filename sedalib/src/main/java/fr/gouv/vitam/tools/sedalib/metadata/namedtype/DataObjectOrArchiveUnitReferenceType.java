@@ -50,7 +50,7 @@ import java.util.Map;
  */
 public class DataObjectOrArchiveUnitReferenceType extends ComplexListType {
 
-    static final String DATAOBJECTREFERENCE="DataObjectReference";
+    static final String DATAOBJECTREFERENCE = "DataObjectReference";
 
     /**
      * Init metadata map.
@@ -83,9 +83,8 @@ public class DataObjectOrArchiveUnitReferenceType extends ComplexListType {
      * @param dataObjectGroupID the data object group id
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public DataObjectOrArchiveUnitReferenceType(String elementName, String dataObjectGroupID) throws SEDALibException{
+    public DataObjectOrArchiveUnitReferenceType(String elementName, String dataObjectGroupID) throws SEDALibException {
         super(elementName);
-            addNewMetadata(DATAOBJECTREFERENCE, null,dataObjectGroupID);
+        addNewMetadata(DATAOBJECTREFERENCE, null, dataObjectGroupID);
     }
-
 }

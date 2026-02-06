@@ -95,8 +95,6 @@ public class MetadataXMLList extends MetadataXML {
      *            the metadata xml node
      */
     public void addMetadataXMLNode(MetadataXMLNode metadataxmlnode) {
-        if ((metadataxmlnode != null) && !metadataxmlnode.isEmpty())
-            nodelist.add(metadataxmlnode);
+        if ((metadataxmlnode != null) && !metadataxmlnode.isEmpty()) nodelist.add(metadataxmlnode);
     }
-
 }

@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 public class SEDAObjectEditorConstants {
+
     /**
      * The SEDAMetadata filling information map.
      */
@@ -65,54 +66,101 @@ public class SEDAObjectEditorConstants {
      */
     public static final Map<String, String> translateMap;
 
-
     static {
         sedaMetadataInformationMap = new HashMap<>();
-        sedaMetadataInformationMap.put("DateTimeType", "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z]" +
-                " ou YYYY-MM-DD'T'HH:MM:SS[Timezone ou Z]");
+        sedaMetadataInformationMap.put(
+            "DateTimeType",
+            "Date ou Date/Temps au format ISO8601\n    YYYY-MM-DD[Timezone ou Z]" +
+            " ou YYYY-MM-DD'T'HH:MM:SS[Timezone ou Z]"
+        );
         sedaMetadataInformationMap.put("DateType", "Date\n    YYYY-MM-DD");
         sedaMetadataInformationMap.put("AnyXMLType", "Bloc XML de structure non connue par ReSIP");
         sedaMetadataInformationMap.put("AgentType", "Metadonnée de type agent");
         sedaMetadataInformationMap.put("AgencyType", "Metadonnée de type agence");
         sedaMetadataInformationMap.put("PlaceType", "Metadonnée de type localisation");
         sedaMetadataInformationMap.put("StringType", "Metadonnée de type chaîne de caractères");
-        sedaMetadataInformationMap.put("DescriptionLevel", "Metadonnée de type code de niveau de description, fait partie des valeurs: " +
-                        "Fonds, Subfonds, Class, Collection, Series, Subseries, RecordGrp, SubGrp, File, Item, OtherLevel");
-        sedaMetadataInformationMap.put("KeywordType", "Metadonnée de type code de mot-clef, fait partie des valeurs: " +
-                "corpname, famname, geogname, name, occupation, persname, subject, genreform, function");
+        sedaMetadataInformationMap.put(
+            "DescriptionLevel",
+            "Metadonnée de type code de niveau de description, fait partie des valeurs: " +
+            "Fonds, Subfonds, Class, Collection, Series, Subseries, RecordGrp, SubGrp, File, Item, OtherLevel"
+        );
+        sedaMetadataInformationMap.put(
+            "KeywordType",
+            "Metadonnée de type code de mot-clef, fait partie des valeurs: " +
+            "corpname, famname, geogname, name, occupation, persname, subject, genreform, function"
+        );
         sedaMetadataInformationMap.put("IntegerType", "Metadonnée de type entier long");
         sedaMetadataInformationMap.put("SIPInternalIDType", "Metadonnée de type ID de référence interne au SIP");
-        sedaMetadataInformationMap.put("DataObjectOrArchiveUnitReferenceType", "Metadonnée de type ID de référence ArchiveUnit ou DataObject interne au SIP ou externe ");
-        sedaMetadataInformationMap.put("DataObjectReference", "Metadonnée de type ID de référence DataObject interne au SIP");
+        sedaMetadataInformationMap.put(
+            "DataObjectOrArchiveUnitReferenceType",
+            "Metadonnée de type ID de référence ArchiveUnit ou DataObject interne au SIP ou externe "
+        );
+        sedaMetadataInformationMap.put(
+            "DataObjectReference",
+            "Metadonnée de type ID de référence DataObject interne au SIP"
+        );
         sedaMetadataInformationMap.put("ReferencedObject", "Metadonnée de type référence à un objet signé");
-        sedaMetadataInformationMap.put("TextType", "Métadonnée de type chaîne de caractères. Il peut y avoir plusieurs occurrences " +
-                "de ce champ en plusieurs langues et il faut dans ce cas spécifier la langue dans un attribut xml. " +
-                "Par exemple pour définir la langue du texte comme anglaise on mettra l'attribut xml:lang=\"en\"");
-        sedaMetadataInformationMap.put("RelatedObjectReference", "Metadonnée de type relation ArchiveUnit ou DataObject externe ou interne au SIP");
+        sedaMetadataInformationMap.put(
+            "TextType",
+            "Métadonnée de type chaîne de caractères. Il peut y avoir plusieurs occurrences " +
+            "de ce champ en plusieurs langues et il faut dans ce cas spécifier la langue dans un attribut xml. " +
+            "Par exemple pour définir la langue du texte comme anglaise on mettra l'attribut xml:lang=\"en\""
+        );
+        sedaMetadataInformationMap.put(
+            "RelatedObjectReference",
+            "Metadonnée de type relation ArchiveUnit ou DataObject externe ou interne au SIP"
+        );
         sedaMetadataInformationMap.put("DigestType", "Metadonnée de type hachage avec un attribut d'algorithme");
         sedaMetadataInformationMap.put("ArchiveUnitProfile", "Identifiant du profil d'unité archivistique");
-        sedaMetadataInformationMap.put("Coverage", "Métadonnées de couverture spatiale, temporelle ou juridictionnelle");
-        sedaMetadataInformationMap.put("CustodialHistory", "Métadonnées indiquant les changements successifs de propriété, " +
-                "de responsabilité et de conservation avant leur entrée dans le lieu de conservation");
-        sedaMetadataInformationMap.put("Gps", "Métadonnées de coordonnées gps complétées ou vérifiées par un utilisateur");
-        sedaMetadataInformationMap.put("Keyword", "Métadonnées de mots-clef avec contexte inspiré du SEDA 1.0. KeywordType " +
-                "doit faire partie des valeurs: corpname, famname, geogname, name, occupation, persname, subject, genreform, function");
+        sedaMetadataInformationMap.put(
+            "Coverage",
+            "Métadonnées de couverture spatiale, temporelle ou juridictionnelle"
+        );
+        sedaMetadataInformationMap.put(
+            "CustodialHistory",
+            "Métadonnées indiquant les changements successifs de propriété, " +
+            "de responsabilité et de conservation avant leur entrée dans le lieu de conservation"
+        );
+        sedaMetadataInformationMap.put(
+            "Gps",
+            "Métadonnées de coordonnées gps complétées ou vérifiées par un utilisateur"
+        );
+        sedaMetadataInformationMap.put(
+            "Keyword",
+            "Métadonnées de mots-clef avec contexte inspiré du SEDA 1.0. KeywordType " +
+            "doit faire partie des valeurs: corpname, famname, geogname, name, occupation, persname, subject, genreform, function"
+        );
         sedaMetadataInformationMap.put("Signer", "Métadonnées d'un signataire de la transaction ou de l'objet");
         sedaMetadataInformationMap.put("Validator", "Métadonnées du validateur de la signature");
         sedaMetadataInformationMap.put("Signature", "Ensemble des métadonnées relatives à la signature.");
         sedaMetadataInformationMap.put("AccessRule", "Règle de communicabilité");
-        sedaMetadataInformationMap.put("AppraisalRule", "Règle de durée d’utilité administrative (FinalAction possible Keep ou Destroy)");
-        sedaMetadataInformationMap.put("ClassificationRule", "Règle de classification\n    ClassificationLevel et ClassificationOwner obligatoires");
+        sedaMetadataInformationMap.put(
+            "AppraisalRule",
+            "Règle de durée d’utilité administrative (FinalAction possible Keep ou Destroy)"
+        );
+        sedaMetadataInformationMap.put(
+            "ClassificationRule",
+            "Règle de classification\n    ClassificationLevel et ClassificationOwner obligatoires"
+        );
         sedaMetadataInformationMap.put("DisseminationRule", "Règle de diffusion");
         sedaMetadataInformationMap.put("ReuseRule", "Règle de réutilisation");
-        sedaMetadataInformationMap.put("StorageRule", "Règle de durée d’utilité courante (FinalAction possible RestrictAccess,Transfer ou Copy)");
+        sedaMetadataInformationMap.put(
+            "StorageRule",
+            "Règle de durée d’utilité courante (FinalAction possible RestrictAccess,Transfer ou Copy)"
+        );
         sedaMetadataInformationMap.put("Event", "Evènement (EventDateTime obligatoire)");
         // Seda 2.3
-        sedaMetadataInformationMap.put("SigningRoleEditor", "Rôle de l'unité d'archives dans un contexte de signature. Quatre rôles (étiquettes) ont été" +
-                " identifiés : document signé, signature, horodatage et preuves complémentaires");
-        sedaMetadataInformationMap.put("DetachedSigningRole", "Référence aux rôles des unités d'archives encapsulées sous la racine contenant le document signé");
+        sedaMetadataInformationMap.put(
+            "SigningRoleEditor",
+            "Rôle de l'unité d'archives dans un contexte de signature. Quatre rôles (étiquettes) ont été" +
+            " identifiés : document signé, signature, horodatage et preuves complémentaires"
+        );
+        sedaMetadataInformationMap.put(
+            "DetachedSigningRole",
+            "Référence aux rôles des unités d'archives encapsulées sous la racine contenant le document signé"
+        );
 
-        minimalTagList=new ArrayList<>();
+        minimalTagList = new ArrayList<>();
         minimalTagList.add("DescriptionLevel");
         minimalTagList.add("Title");
         minimalTagList.add("Description");
@@ -161,8 +209,7 @@ public class SEDAObjectEditorConstants {
         minimalTagList.add("PersistentIdentifierContent");
         minimalTagList.add("SigningRole");
 
-
-        largeAreaTagList=new ArrayList<>();
+        largeAreaTagList = new ArrayList<>();
         largeAreaTagList.add("Address");
         largeAreaTagList.add("CustodialHistoryItem");
         largeAreaTagList.add("Description");
@@ -421,9 +468,8 @@ public class SEDAObjectEditorConstants {
         translateMap.put("DataObjectGroup", "Groupe d'objets");
         translateMap.put("DataObject", "Objet numérique ou physique");
 
-
         //Others
-        translateMap.put("Unknown","Non défini");
+        translateMap.put("Unknown", "Non défini");
     }
 
     private SEDAObjectEditorConstants() {
@@ -438,30 +484,28 @@ public class SEDAObjectEditorConstants {
      */
     public static String translateTag(String tag) {
         String result = SEDAObjectEditorConstants.translateMap.get(tag);
-        if (result == null)
-            return tag;
+        if (result == null) return tag;
         return result;
     }
 
-    private static int labelWidth=0;
+    private static int labelWidth = 0;
 
     /**
      * Compute max label width taking into account all object translations.
      *
      * @return the int
      */
-    public static int computeLabelWidth(){
-        if (labelWidth!=0)
-            return labelWidth;
+    public static int computeLabelWidth() {
+        if (labelWidth != 0) return labelWidth;
 
-        double result=0;
+        double result = 0;
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-        for (Map.Entry<String,String>e: SEDAObjectEditorConstants.translateMap.entrySet()){
-            double width= SEDAObjectEditor.LABEL_FONT.getStringBounds(e.getValue(),frc).getWidth();
-            result=Math.max(result,width);
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        for (Map.Entry<String, String> e : SEDAObjectEditorConstants.translateMap.entrySet()) {
+            double width = SEDAObjectEditor.LABEL_FONT.getStringBounds(e.getValue(), frc).getWidth();
+            result = Math.max(result, width);
         }
-        labelWidth=(int)(result+31.99);
+        labelWidth = (int) (result + 31.99);
         return labelWidth;
     }
 }

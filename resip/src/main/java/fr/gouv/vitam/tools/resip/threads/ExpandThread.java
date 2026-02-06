@@ -66,6 +66,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
  * The type Add thread.
  */
 public class ExpandThread extends SwingWorker<String, String> {
+
     //input
     private Work work;
     private DataObjectPackageTreeNode targetNode;
@@ -94,12 +95,15 @@ public class ExpandThread extends SwingWorker<String, String> {
             expandThread.execute();
             inOutDialog.setVisible(true);
         } catch (Throwable e) {
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.mainWindow,
-                    "Erreur fatale, impossible de faire l'expansion \n->" + e.getMessage(), "Erreur",
-                    UserInteractionDialog.ERROR_DIALOG, null);
+            UserInteractionDialog.getUserAnswer(
+                ResipGraphicApp.mainWindow,
+                "Erreur fatale, impossible de faire l'expansion \n->" + e.getMessage(),
+                "Erreur",
+                UserInteractionDialog.ERROR_DIALOG,
+                null
+            );
             ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'expansion", e);
         }
-
     }
 
     /**
@@ -110,8 +114,12 @@ public class ExpandThread extends SwingWorker<String, String> {
      * @param bdoToExpand the binary data object to expand
      * @param dialog      the dialog
      */
-    public ExpandThread(Work work, DataObjectPackageTreeNode targetNode, BinaryDataObject bdoToExpand,
-                        InOutDialog dialog) {
+    public ExpandThread(
+        Work work,
+        DataObjectPackageTreeNode targetNode,
+        BinaryDataObject bdoToExpand,
+        InOutDialog dialog
+    ) {
         this.work = work;
         this.targetNode = targetNode;
         this.bdoToExpand = bdoToExpand;
@@ -123,17 +131,22 @@ public class ExpandThread extends SwingWorker<String, String> {
 
     private void recursiveDelete(File inFile) throws InterruptedException {
         if (inFile.isDirectory()) {
-            for (File f : inFile.listFiles())
-                recursiveDelete(f);
+            for (File f : inFile.listFiles()) recursiveDelete(f);
             inFile.delete();
         } else {
             inFile.delete();
             fileCounter++;
-            doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, fileCounter, fileCounter + " fichiers effacés");
+            doProgressLogIfStep(
+                spl,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                fileCounter,
+                fileCounter + " fichiers effacés"
+            );
         }
     }
 
-    private String getTmpDirTarget(String workDir, String srcPathName, String id) throws ResipException, InterruptedException {
+    private String getTmpDirTarget(String workDir, String srcPathName, String id)
+        throws ResipException, InterruptedException {
         String subDir = Paths.get(srcPathName).getFileName().toString() + "-" + id + "-tmpdir";
         String target = workDir + File.separator + subDir;
         if (Files.exists(Paths.get(target))) {
@@ -146,7 +159,7 @@ public class ExpandThread extends SwingWorker<String, String> {
                 target = utdd.getResult();
             } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
                 target = utdd.getResult();
-            } else {// STATUS_CANCEL
+            } else { // STATUS_CANCEL
                 this.cancel(false);
                 throw new ResipException("Opération annulée");
             }
@@ -176,20 +189,46 @@ public class ExpandThread extends SwingWorker<String, String> {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
                 localLogStep = 1000;
             }
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
-                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                inOutDialog.extProgressTextArea.setText(newLog);
-                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
+            spl = new SEDALibProgressLogger(
+                ResipLogger.getGlobalLogger().getLogger(),
+                localLogLevel,
+                (count, log) -> {
+                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                    inOutDialog.extProgressTextArea.setText(newLog);
+                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+                },
+                localLogStep,
+                2,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                1000
+            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            doProgressLog(spl, GLOBAL, "Expansion du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.getMetadataFileInfo().getSimpleMetadata("Filename") + "]", null);
+            doProgressLog(
+                spl,
+                GLOBAL,
+                "Expansion du BinaryDataObject " +
+                bdoToExpand.getInDataObjectPackageId() +
+                ", fichier [" +
+                bdoToExpand.getMetadataFileInfo().getSimpleMetadata("Filename") +
+                "]",
+                null
+            );
 
             ZipImportContext zic = new ZipImportContext(Preferences.getInstance());
-            String target = getTmpDirTarget(zic.getWorkDir(), bdoToExpand.getOnDiskPathToString(), bdoToExpand.getInDataObjectPackageId());
-            zi = new CompressedFileToArchiveTransferImporter(bdoToExpand.getOnDiskPathToString(), target, null, null, spl);
-            for (String ip : zic.getIgnorePatternList())
-                zi.addIgnorePattern(ip);
+            String target = getTmpDirTarget(
+                zic.getWorkDir(),
+                bdoToExpand.getOnDiskPathToString(),
+                bdoToExpand.getInDataObjectPackageId()
+            );
+            zi = new CompressedFileToArchiveTransferImporter(
+                bdoToExpand.getOnDiskPathToString(),
+                target,
+                null,
+                null,
+                spl
+            );
+            for (String ip : zic.getIgnorePatternList()) zi.addIgnorePattern(ip);
             zi.doImport();
             summary = zi.getSummary();
         } catch (Throwable e) {
@@ -203,21 +242,41 @@ public class ExpandThread extends SwingWorker<String, String> {
     protected void done() {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
-        if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Expansion annulée, les données n'ont pas été modifiées", null);
-        else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant l'expansion, les données n'ont pas été modifiées", exitThrowable);
+        if (isCancelled()) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "Expansion annulée, les données n'ont pas été modifiées",
+            null
+        );
+        else if (exitThrowable != null) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "Erreur durant l'expansion, les données n'ont pas été modifiées",
+            exitThrowable
+        );
         else {
             ResipGraphicApp.getTheApp().currentWork = this.work;
-            List<ArchiveUnit> addedNodes = zi.getArchiveTransfer().getDataObjectPackage().getGhostRootAu().getChildrenAuList()
-                    .getArchiveUnitList();
-            targetNode.getArchiveUnit().getDataObjectPackage().moveContentFromDataObjectPackage(zi.getArchiveTransfer().getDataObjectPackage(), targetNode.getArchiveUnit());
+            List<ArchiveUnit> addedNodes = zi
+                .getArchiveTransfer()
+                .getDataObjectPackage()
+                .getGhostRootAu()
+                .getChildrenAuList()
+                .getArchiveUnitList();
+            targetNode
+                .getArchiveUnit()
+                .getDataObjectPackage()
+                .moveContentFromDataObjectPackage(
+                    zi.getArchiveTransfer().getDataObjectPackage(),
+                    targetNode.getArchiveUnit()
+                );
             DataObject dataObject = targetNode.getArchiveUnit().getDataObjectRefList().getDataObjectList().get(0);
             if (dataObject instanceof DataObjectGroup) {
                 DataObjectGroup dog = (DataObjectGroup) dataObject;
                 dog.removeDataObject(bdoToExpand);
-                if (((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
-                        dog.getBinaryDataObjectList().isEmpty()) {
+                if (
+                    ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
+                    dog.getBinaryDataObjectList().isEmpty()
+                ) {
                     targetNode.getArchiveUnit().removeEmptyDataObjectGroup();
                     try {
                         targetNode.getArchiveUnit().getContent().addNewMetadata("DescriptionLevel", "RecordGrp");

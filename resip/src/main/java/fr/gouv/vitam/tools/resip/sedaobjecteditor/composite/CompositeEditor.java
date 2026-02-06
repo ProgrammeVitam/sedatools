@@ -96,7 +96,7 @@ public abstract class CompositeEditor extends SEDAObjectEditor {
     /**
      * Refresh editedObject label.
      */
-    public void refreshEditedObjectLabel()  {
+    public void refreshEditedObjectLabel() {
         ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).refreshEditedObjectLabel();
     }
 
@@ -110,12 +110,11 @@ public abstract class CompositeEditor extends SEDAObjectEditor {
      * @throws SEDALibException the seda lib exception
      */
     public void doExpand(boolean extendedFlag, boolean innerFlag) throws SEDALibException {
-        if (sedaObjectEditorPanel == null)
-            createSEDAObjectEditorPanel();
+        if (sedaObjectEditorPanel == null) createSEDAObjectEditorPanel();
         ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).setExpanded(extendedFlag);
-        for (SEDAObjectEditor objectEditor : objectEditorList)
-            if (objectEditor instanceof CompositeEditor)
-                ((CompositeEditor) objectEditor).doExpand(innerFlag, innerFlag);
+        for (SEDAObjectEditor objectEditor : objectEditorList) if (
+            objectEditor instanceof CompositeEditor
+        ) ((CompositeEditor) objectEditor).doExpand(innerFlag, innerFlag);
     }
 
     /**
@@ -128,6 +127,5 @@ public abstract class CompositeEditor extends SEDAObjectEditor {
     /**
      * Create sub editors.
      */
-    public void createSubEditors() {
-    }
+    public void createSubEditors() {}
 }

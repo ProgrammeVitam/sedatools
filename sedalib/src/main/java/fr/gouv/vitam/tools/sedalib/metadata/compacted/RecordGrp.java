@@ -72,9 +72,8 @@ public class RecordGrp extends ComplexListType {
     public static final Map<String, ComplexListMetadataKind> metadataMap_default;
 
     static {
-        metadataMap_default = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
-        metadataMap_default.put("RecordGrpID",
-                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default = new LinkedHashMap<>(); //NOSONAR public mandatory for ComplexlistType mechanism
+        metadataMap_default.put("RecordGrpID", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("Management", new ComplexListMetadataKind(Management.class, false));
         metadataMap_default.put("Content", new ComplexListMetadataKind(Content.class, false));
         metadataMap_default.put(ELEMENT_NAME, new ComplexListMetadataKind(RecordGrp.class, true));
@@ -96,11 +95,8 @@ public class RecordGrp extends ComplexListType {
      */
     public RecordGrp(String recordGrpID, Content content, Management management) throws SEDALibException {
         super(ELEMENT_NAME);
-
         addNewMetadata("RecordGrpID", recordGrpID);
-        if (content != null)
-            addMetadata(content);
-        if (management != null)
-            addMetadata(management);
+        if (content != null) addMetadata(content);
+        if (management != null) addMetadata(management);
     }
 }

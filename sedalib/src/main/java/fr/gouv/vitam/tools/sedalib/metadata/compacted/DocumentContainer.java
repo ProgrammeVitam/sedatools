@@ -66,13 +66,10 @@ public class DocumentContainer extends ComplexListType {
     public static final Map<String, ComplexListMetadataKind> metadataMap_default;
 
     static {
-        metadataMap_default = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
-        metadataMap_default.put("DocumentsCount",
-                new ComplexListMetadataKind(IntegerType.class, false));
-        metadataMap_default.put("FileObjectsCount",
-                new ComplexListMetadataKind(IntegerType.class, false));
-        metadataMap_default.put("RecordGrp",
-                new ComplexListMetadataKind(RecordGrp.class, false));
+        metadataMap_default = new LinkedHashMap<>(); //NOSONAR public mandatory for ComplexlistType mechanism
+        metadataMap_default.put("DocumentsCount", new ComplexListMetadataKind(IntegerType.class, false));
+        metadataMap_default.put("FileObjectsCount", new ComplexListMetadataKind(IntegerType.class, false));
+        metadataMap_default.put("RecordGrp", new ComplexListMetadataKind(RecordGrp.class, false));
     }
 
     /**
@@ -90,10 +87,8 @@ public class DocumentContainer extends ComplexListType {
      * @param recordGrp        the record grp
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public DocumentContainer(int documentsCounts, int fileObjectsCount,
-                             RecordGrp recordGrp) throws SEDALibException {
+    public DocumentContainer(int documentsCounts, int fileObjectsCount, RecordGrp recordGrp) throws SEDALibException {
         super("DocumentContainer");
-
         addNewMetadata("DocumentsCount", documentsCounts);
         addNewMetadata("FileObjectsCount", fileObjectsCount);
         addMetadata(recordGrp);

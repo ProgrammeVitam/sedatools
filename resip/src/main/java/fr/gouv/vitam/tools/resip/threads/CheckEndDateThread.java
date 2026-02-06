@@ -57,7 +57,8 @@ import java.util.Map;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.GLOBAL;
 import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgressLogWithoutInterruption;
 
-public class CheckEndDateThread  extends SwingWorker<String, InOutDialog> {
+public class CheckEndDateThread extends SwingWorker<String, InOutDialog> {
+
     private final VerifyDateDialog verifyDateDialog;
     //run output
     private Throwable exitThrowable;
@@ -90,15 +91,22 @@ public class CheckEndDateThread  extends SwingWorker<String, InOutDialog> {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
                 localLogStep = 1000;
             }
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
-                String newLog = verifyDateDialog.getExtProgressTextArea().getText() + "\n" + log;
-                verifyDateDialog.getExtProgressTextArea().setText(newLog);
-                verifyDateDialog.getExtProgressTextArea().setCaretPosition(newLog.length());
-            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
+            spl = new SEDALibProgressLogger(
+                ResipLogger.getGlobalLogger().getLogger(),
+                localLogLevel,
+                (count, log) -> {
+                    String newLog = verifyDateDialog.getExtProgressTextArea().getText() + "\n" + log;
+                    verifyDateDialog.getExtProgressTextArea().setText(newLog);
+                    verifyDateDialog.getExtProgressTextArea().setCaretPosition(newLog.length());
+                },
+                localLogStep,
+                2,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                1000
+            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            if (work == null)
-                throw new ResipException("Pas de contenu à valider");
+            if (work == null) throw new ResipException("Pas de contenu à valider");
 
             // first verify and reindex if neccesary
             if (work.getExportContext().isReindex()) {
@@ -106,9 +114,9 @@ public class CheckEndDateThread  extends SwingWorker<String, InOutDialog> {
                 ResipGraphicApp.mainWindow.treePane.allTreeChanged();
             }
 
-
-            HashMap<String, ArchiveUnit> auInDataObjectPackageIdMap =
-                work.getDataObjectPackage().getAuInDataObjectPackageIdMap();
+            HashMap<String, ArchiveUnit> auInDataObjectPackageIdMap = work
+                .getDataObjectPackage()
+                .getAuInDataObjectPackageIdMap();
 
             List<ArchiveUnit> searchArchiveUnitResult = new ArrayList<>();
             boolean isError = false;
@@ -116,14 +124,20 @@ public class CheckEndDateThread  extends SwingWorker<String, InOutDialog> {
                 ArchiveUnit archiveUnit = entry.getValue();
                 String startDateString = archiveUnit.getContent().getSimpleMetadata("StartDate");
                 String endDateString = archiveUnit.getContent().getSimpleMetadata("EndDate");
-                if(endDateString != null && startDateString != null) {
+                if (endDateString != null && startDateString != null) {
                     Date startDate = ISODateTimeFormat.dateTimeParser().parseDateTime(startDateString).toDate();
                     Date endDate = ISODateTimeFormat.dateTimeParser().parseDateTime(endDateString).toDate();
 
                     if (startDate.after(endDate)) {
                         searchArchiveUnitResult.add(archiveUnit);
-                        doProgressLogWithoutInterruption(spl, GLOBAL, "resip: l'unité archivistique " + entry.getKey() +
-                            " contient une erreur : la date de fin est antérieure à la date de début", null);
+                        doProgressLogWithoutInterruption(
+                            spl,
+                            GLOBAL,
+                            "resip: l'unité archivistique " +
+                            entry.getKey() +
+                            " contient une erreur : la date de fin est antérieure à la date de début",
+                            null
+                        );
                         isError = true;
                     }
                 }
@@ -140,11 +154,13 @@ public class CheckEndDateThread  extends SwingWorker<String, InOutDialog> {
 
     @Override
     protected void done() {
-        if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation annulée", null);
-        else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant la validation", exitThrowable);
-        else
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation OK", null);
+        if (isCancelled()) doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation annulée", null);
+        else if (exitThrowable != null) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "resip: erreur durant la validation",
+            exitThrowable
+        );
+        else doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation OK", null);
     }
 }

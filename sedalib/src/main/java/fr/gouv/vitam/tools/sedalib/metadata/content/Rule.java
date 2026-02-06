@@ -95,8 +95,10 @@ public class Rule extends NamedTypeMetadata {
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
             xmlWriter.writeElementValue("Rule", ruleID);
-            if (startDate != null)
-                xmlWriter.writeElementValue("StartDate", SEDAXMLStreamWriter.getStringFromDate(startDate));
+            if (startDate != null) xmlWriter.writeElementValue(
+                "StartDate",
+                SEDAXMLStreamWriter.getStringFromDate(startDate)
+            );
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML dans un élément de règle dans RuleType", e);
         }
@@ -117,8 +119,7 @@ public class Rule extends NamedTypeMetadata {
     public LinkedHashMap<String, String> toCsvList(int i) throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         result.put("Rule." + i, ruleID);
-        if (startDate != null)
-            result.put("StartDate." + i, SEDAXMLStreamWriter.getStringFromDate(startDate));
+        if (startDate != null) result.put("StartDate." + i, SEDAXMLStreamWriter.getStringFromDate(startDate));
         return result;
     }
 
@@ -136,8 +137,7 @@ public class Rule extends NamedTypeMetadata {
             tmp = xmlReader.nextValueIfNamed("Rule");
             if (tmp != null) {
                 tmpDate = xmlReader.nextValueIfNamed("StartDate");
-                if (tmpDate == null)
-                    curStartDate = null;
+                if (tmpDate == null) curStartDate = null;
                 else try {
                     curStartDate = SEDAXMLEventReader.getDateFromString(tmpDate);
                 } catch (DateTimeParseException e) {
@@ -145,10 +145,7 @@ public class Rule extends NamedTypeMetadata {
                 }
                 this.ruleID = tmp;
                 this.startDate = curStartDate;
-
-
-            } else
-                return false;
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de règle dans RuleType", e);
         }

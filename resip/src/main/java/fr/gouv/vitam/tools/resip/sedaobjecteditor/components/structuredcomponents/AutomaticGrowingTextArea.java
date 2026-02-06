@@ -60,25 +60,28 @@ public class AutomaticGrowingTextArea extends JTextArea {
 
         scrollPane = new JScrollPane(this);
 
-        scrollPane.getViewport().addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                inner.stateChanged(e);
-            }
-        });
+        scrollPane
+            .getViewport()
+            .addChangeListener(
+                new ChangeListener() {
+                    @Override
+                    public void stateChanged(ChangeEvent e) {
+                        inner.stateChanged(e);
+                    }
+                }
+            );
     }
 
     public void stateChanged(ChangeEvent e) {
         if (getText().length() > 0) {
             JViewport viewport = (JViewport) e.getSource();
             int lineCount = viewport.getView().getMinimumSize().height / getRowHeight();
-            if (currentLineNumber == Math.min(lineCount, maxLines))
-                return;
+            if (currentLineNumber == Math.min(lineCount, maxLines)) return;
             currentLineNumber = Math.min(lineCount, maxLines);
             SEDAObjectEditorSimplePanel oesp = (SEDAObjectEditorSimplePanel) scrollPane.getParent().getParent();
             setRows(currentLineNumber);
             GridBagLayout gbl = (GridBagLayout) oesp.getLayout();
-            gbl.rowHeights = new int[]{currentLineNumber * getRowHeight() + 4};
+            gbl.rowHeights = new int[] { currentLineNumber * getRowHeight() + 4 };
             oesp.revalidate();
         }
     }

@@ -51,7 +51,7 @@ public abstract class MetadataXML {
      *
      * @return true, if is empty
      */
-    abstract public boolean isEmpty();
+    public abstract boolean isEmpty();
 
     /**
      * Write the metadata in XML with pretty print format.
@@ -60,7 +60,7 @@ public abstract class MetadataXML {
      *            Depth used for tabulation
      * @return the string
      */
-    abstract protected String writeXML(int depth);
+    protected abstract String writeXML(int depth);
 
     /**
      * Generate a depth long repetition of tabs.

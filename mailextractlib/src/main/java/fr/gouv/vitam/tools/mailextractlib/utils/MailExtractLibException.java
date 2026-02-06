@@ -55,9 +55,9 @@ public class MailExtractLibException extends Exception {
         super();
     }
 
-/*
-    */
-/**
+    /*
+     */
+    /**
      * Instantiates a new extraction exception.
      *
      * @param message
@@ -69,7 +69,7 @@ public class MailExtractLibException extends Exception {
     }
 
     */
-/**
+    /**
      * Instantiates a new extraction exception.
      *
      * @param cause
@@ -105,8 +105,12 @@ public class MailExtractLibException extends Exception {
      * @param writableStackTrace
      *            the writable stack trace
      */
-    public MailExtractLibException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public MailExtractLibException(
+        String message,
+        Throwable cause,
+        boolean enableSuppression,
+        boolean writableStackTrace
+    ) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
-
 }

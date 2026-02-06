@@ -45,7 +45,7 @@ package fr.gouv.vitam.tools.resip.parameters;
  */
 public class CSVImportContext extends CreationContext {
 
-// prefs elements
+    // prefs elements
     /**
      * The csv charset name.
      */
@@ -86,28 +86,28 @@ public class CSVImportContext extends CreationContext {
         super(preferences);
         csvCharsetName = preferences.getPrefProperties().getProperty("importContext.csv.charsetName", "");
         if (csvCharsetName.isEmpty()) {
-            if (System.getProperty("os.name").toLowerCase().contains("win"))
-                this.csvCharsetName = "windows-1252";
-            else
-                this.csvCharsetName = "UTF-8";
+            if (System.getProperty("os.name").toLowerCase().contains("win")) this.csvCharsetName = "windows-1252";
+            else this.csvCharsetName = "UTF-8";
         }
 
         String tmp = preferences.getPrefProperties().getProperty("importContext.csv.delimiter", "");
-        if (tmp.isEmpty())
-            delimiter = ';';
-        else
-            delimiter = tmp.charAt(0);
+        if (tmp.isEmpty()) delimiter = ';';
+        else delimiter = tmp.charAt(0);
     }
 
     /* (non-Javadoc)
      * @see CreationContext#toPrefs(Prefs)
      */
     public void toPrefs(Preferences preferences) {
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            preferences.getPrefProperties().setProperty("importContext.csv.charsetName", (csvCharsetName == null ? "windows-1252" : csvCharsetName));
-        else
-            preferences.getPrefProperties().setProperty("importContext.csv.charsetName", (csvCharsetName == null ? "UTF-8" : csvCharsetName));
-        preferences.getPrefProperties().setProperty("importContext.csv.delimiter", (delimiter == '\0' ? ";" : Character.toString(delimiter)));
+        if (System.getProperty("os.name").toLowerCase().contains("win")) preferences
+            .getPrefProperties()
+            .setProperty("importContext.csv.charsetName", (csvCharsetName == null ? "windows-1252" : csvCharsetName));
+        else preferences
+            .getPrefProperties()
+            .setProperty("importContext.csv.charsetName", (csvCharsetName == null ? "UTF-8" : csvCharsetName));
+        preferences
+            .getPrefProperties()
+            .setProperty("importContext.csv.delimiter", (delimiter == '\0' ? ";" : Character.toString(delimiter)));
     }
 
     /* (non-Javadoc)
@@ -115,10 +115,8 @@ public class CSVImportContext extends CreationContext {
      */
     public void setDefaultPrefs() {
         super.setDefaultPrefs();
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            this.csvCharsetName = "windows-1252";
-        else
-            this.csvCharsetName = "UTF-8";
+        if (System.getProperty("os.name").toLowerCase().contains("win")) this.csvCharsetName = "windows-1252";
+        else this.csvCharsetName = "UTF-8";
         this.delimiter = ';';
     }
 

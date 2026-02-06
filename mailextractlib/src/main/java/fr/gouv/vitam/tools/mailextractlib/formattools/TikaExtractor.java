@@ -62,8 +62,7 @@ public class TikaExtractor {
 
         logger = Logger.getGlobal();
         memLevel = logger.getLevel();
-        if (memLevel != Level.FINEST)
-            logger.setLevel(Level.OFF);
+        if (memLevel != Level.FINEST) logger.setLevel(Level.OFF);
         tika = new Tika();
         logger.setLevel(memLevel);
     }
@@ -74,8 +73,7 @@ public class TikaExtractor {
      * @return single instance of FileTextExtractor
      */
     public static TikaExtractor getInstance() {
-        if (INSTANCE==null)
-            INSTANCE=new TikaExtractor();
+        if (INSTANCE == null) INSTANCE = new TikaExtractor();
         return INSTANCE;
     }
 
@@ -95,11 +93,9 @@ public class TikaExtractor {
 
         logger = Logger.getGlobal();
         memLevel = logger.getLevel();
-        if (memLevel != Level.FINEST)
-            logger.setLevel(Level.OFF);
+        if (memLevel != Level.FINEST) logger.setLevel(Level.OFF);
         try {
-            if (rawContent.length > 0)
-                s = tika.parseToString(new ByteArrayInputStream(rawContent));
+            if (rawContent.length > 0) s = tika.parseToString(new ByteArrayInputStream(rawContent));
         } catch (Throwable e) {
             throw new MailExtractLibException("mailextractlib.formattools: can't extract text content", e);
         } finally {
@@ -126,8 +122,7 @@ public class TikaExtractor {
         if (rawContent.length > 0) {
             logger = Logger.getGlobal();
             memLevel = logger.getLevel();
-            if (memLevel != Level.FINEST)
-                logger.setLevel(Level.OFF);
+            if (memLevel != Level.FINEST) logger.setLevel(Level.OFF);
             try {
                 result = tika.detect(rawContent);
             } catch (Exception e) {
@@ -138,5 +133,4 @@ public class TikaExtractor {
         }
         return result;
     }
-
 }

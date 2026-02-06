@@ -56,7 +56,7 @@ import java.util.Map;
  */
 public class DisseminationRule extends RuleType {
 
-    static final String DISSEMINATIONRULE_TAG="DisseminationRule";
+    static final String DISSEMINATIONRULE_TAG = "DisseminationRule";
 
     /**
      * Init metadata map.
@@ -86,6 +86,6 @@ public class DisseminationRule extends RuleType {
      * @throws SEDALibException the seda lib exception
      */
     public DisseminationRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(DISSEMINATIONRULE_TAG, rule , startDate);
+        super(DISSEMINATIONRULE_TAG, rule, startDate);
     }
 }

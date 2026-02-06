@@ -92,17 +92,27 @@ public class SignatureDescription extends ComplexListType {
      * @param signingType       the type of signing
      * @throws SEDALibException if sub-elements construction fails
      */
-    public SignatureDescription(String signerFirstName, String signerBirthName, LocalDateTime signingTime, String signerIdentifier,
-                                String validatorCorpname, LocalDateTime validationTime, String signingType) throws SEDALibException {
+    public SignatureDescription(
+        String signerFirstName,
+        String signerBirthName,
+        LocalDateTime signingTime,
+        String signerIdentifier,
+        String validatorCorpname,
+        LocalDateTime validationTime,
+        String signingType
+    ) throws SEDALibException {
         super("SignatureDescription");
         Signer signer = null;
         Validator validator = null;
 
-        if (signerFirstName != null || signerBirthName != null || signingTime != null && signerIdentifier != null)
-            addNewMetadata("Signer", signerFirstName, signerBirthName, signingTime, signerIdentifier);
-        if (validatorCorpname != null || validationTime != null)
-            addNewMetadata("Validator", validatorCorpname, validationTime);
-        if (signingType != null)
-            addNewMetadata("SigningType", signingType);
+        if (
+            signerFirstName != null || signerBirthName != null || (signingTime != null && signerIdentifier != null)
+        ) addNewMetadata("Signer", signerFirstName, signerBirthName, signingTime, signerIdentifier);
+        if (validatorCorpname != null || validationTime != null) addNewMetadata(
+            "Validator",
+            validatorCorpname,
+            validationTime
+        );
+        if (signingType != null) addNewMetadata("SigningType", signingType);
     }
 }

@@ -37,11 +37,6 @@
  */
 package fr.gouv.vitam.tools.javalibpst;
 
-/*
- * import java.text.SimpleDateFormat;
- * /
- **/
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -174,27 +169,33 @@ public class PSTAppointmentRecurrence {
     public PSTAppointmentRecurrence(final byte[] recurrencePattern, final PSTAppointment appt, final PSTTimeZone tz) {
         this.RecurrenceTimeZone = tz;
         final SimpleTimeZone stz;
-        if (tz==null)
-            stz=PSTTimeZone.utcTimeZone;
-        else
-            stz=this.RecurrenceTimeZone.getSimpleTimeZone();
+        if (tz == null) stz = PSTTimeZone.utcTimeZone;
+        else stz = this.RecurrenceTimeZone.getSimpleTimeZone();
 
         // Read the structure
         this.RecurFrequency = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 4, 6);
         this.PatternType = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 6, 8);
         this.CalendarType = (short) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 8, 10);
-        this.FirstDateTime = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 10, 14),
-                this.RecurrenceTimeZone);
+        this.FirstDateTime = apptTimeToUTCDate(
+            (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 10, 14),
+            this.RecurrenceTimeZone
+        );
         this.Period = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 14, 18);
         this.SlidingFlag = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, 18, 22);
         int offset = 22;
         if (this.PatternType != 0) {
-            this.PatternSpecific = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                    offset + 4);
+            this.PatternSpecific = (int) PSTObject.convertLittleEndianBytesToLong(
+                recurrencePattern,
+                offset,
+                offset + 4
+            );
             offset += 4;
             if (this.PatternType == 0x0003 || this.PatternType == 0x000B) {
-                this.PatternSpecificNth = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                        offset + 4);
+                this.PatternSpecificNth = (int) PSTObject.convertLittleEndianBytesToLong(
+                    recurrencePattern,
+                    offset,
+                    offset + 4
+                );
                 offset += 4;
             }
         }
@@ -205,33 +206,45 @@ public class PSTAppointmentRecurrence {
         this.FirstDOW = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
         offset += 4;
 
-        this.DeletedInstanceCount = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                offset + 4);
+        this.DeletedInstanceCount = (int) PSTObject.convertLittleEndianBytesToLong(
+            recurrencePattern,
+            offset,
+            offset + 4
+        );
         offset += 4;
         this.DeletedInstanceDates = new Date[this.DeletedInstanceCount];
         for (int i = 0; i < this.DeletedInstanceCount; ++i) {
             this.DeletedInstanceDates[i] = apptTimeToUTCDate(
-                    (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
-                    this.RecurrenceTimeZone);
+                (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
+                this.RecurrenceTimeZone
+            );
             offset += 4;
         }
 
-        this.ModifiedInstanceCount = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                offset + 4);
+        this.ModifiedInstanceCount = (int) PSTObject.convertLittleEndianBytesToLong(
+            recurrencePattern,
+            offset,
+            offset + 4
+        );
         offset += 4;
         this.ModifiedInstanceDates = new Date[this.ModifiedInstanceCount];
         for (int i = 0; i < this.ModifiedInstanceCount; ++i) {
             this.ModifiedInstanceDates[i] = apptTimeToUTCDate(
-                    (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
-                    this.RecurrenceTimeZone);
+                (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
+                this.RecurrenceTimeZone
+            );
             offset += 4;
         }
 
-        this.StartDate = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
-                this.RecurrenceTimeZone);
+        this.StartDate = apptTimeToUTCDate(
+            (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
+            this.RecurrenceTimeZone
+        );
         offset += 4;
-        this.EndDate = apptTimeToUTCDate((int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
-                this.RecurrenceTimeZone);
+        this.EndDate = apptTimeToUTCDate(
+            (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4),
+            this.RecurrenceTimeZone
+        );
         offset += 4 + 4; // Skip ReaderVersion2
 
         this.writerVersion2 = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset, offset + 4);
@@ -252,8 +265,11 @@ public class PSTAppointmentRecurrence {
         }
 
         if ((offset + 4) <= recurrencePattern.length) {
-            final int ReservedBlock1Size = (int) PSTObject.convertLittleEndianBytesToLong(recurrencePattern, offset,
-                    offset + 4);
+            final int ReservedBlock1Size = (int) PSTObject.convertLittleEndianBytesToLong(
+                recurrencePattern,
+                offset,
+                offset + 4
+            );
             offset += 4 + (ReservedBlock1Size * 4);
         }
 
@@ -272,8 +288,10 @@ public class PSTAppointmentRecurrence {
         f.setTimeZone(stz);
         final Calendar c = Calendar.getInstance(stz);
 
-        for (int i = 0; i < this.ExceptionCount; ++i)
-            modifiedDateMap.put(f.format(ModifiedInstanceDates[i].getTime()), Exceptions[i]);
+        for (int i = 0; i < this.ExceptionCount; ++i) modifiedDateMap.put(
+            f.format(ModifiedInstanceDates[i].getTime()),
+            Exceptions[i]
+        );
 
         for (int i = 0; i < appt.getNumberOfAttachments(); i++) {
             try {
@@ -284,15 +302,11 @@ public class PSTAppointmentRecurrence {
                 embeddedMessage = (PSTAppointment) message;
                 c.setTime(embeddedMessage.getRecurrenceBase());
                 PSTAppointmentException modifiedException = modifiedDateMap.get(f.format(c.getTime()));
-                if (modifiedException == null)
-                    continue;
+                if (modifiedException == null) continue;
                 modifiedException.setEmbeddedMessage(embeddedMessage);
-
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) {}
         }
     }
-
 
     @Override
     public String toString() {
@@ -300,17 +314,16 @@ public class PSTAppointmentRecurrence {
         result = "  Start date:" + getStartDate();
         result += "\n  End date:" + getEndDate();
         result += "\n  Changes:";
-        result += "\n    " + getExceptionCount() + " exceptions" ;
+        result += "\n    " + getExceptionCount() + " exceptions";
         result += "\n    " + getDeletedInstanceDates().length + " delete";
-        for (Date d : getDeletedInstanceDates())
-            result += "\n      " + d.toString();
+        for (Date d : getDeletedInstanceDates()) result += "\n      " + d.toString();
         result += "\n    " + getModifiedInstanceDates().length + " modified";
         int excount = 0;
         for (Date d : getModifiedInstanceDates()) {
             result += "\n      " + d.toString();
-            result += "\n"+ getException(excount++);
+            result += "\n" + getException(excount++);
         }
-        result+="\n";
+        result += "\n";
         return result;
     }
 }

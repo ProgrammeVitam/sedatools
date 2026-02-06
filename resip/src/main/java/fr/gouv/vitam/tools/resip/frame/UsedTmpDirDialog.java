@@ -97,7 +97,8 @@ public class UsedTmpDirDialog extends JDialog {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         TestDialogWindow window = new TestDialogWindow(UsedTmpDirDialog.class);
     }
 
@@ -306,9 +307,11 @@ public class UsedTmpDirDialog extends JDialog {
         explanationTextAres.setBackground(UIManager.getColor("Dialog.background"));
         explanationTextAres.setFocusable(false);
         explanationTextAres.setMinimumSize(new Dimension(500, 70));
-        explanationTextAres.setText("Le répertoire dans lequel vous allez extraire des informations temporaires pour traitement (issues d'un SIP, DIP, conteneur de mails...) n'est pas vide.\n" +
-                "Vous pouvez effacer ce répertoire et continuer ou annuler.\n" +
-                "En cliquant sur \"Plus d'options\" vous pouvez aussi continuer sur place au risque de mélanger des informations de différentes extractions ou encore changer de répertoire.");
+        explanationTextAres.setText(
+            "Le répertoire dans lequel vous allez extraire des informations temporaires pour traitement (issues d'un SIP, DIP, conteneur de mails...) n'est pas vide.\n" +
+            "Vous pouvez effacer ce répertoire et continuer ou annuler.\n" +
+            "En cliquant sur \"Plus d'options\" vous pouvez aussi continuer sur place au risque de mélanger des informations de différentes extractions ou encore changer de répertoire."
+        );
         explanationTextAres.setWrapStyleWord(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -360,12 +363,11 @@ public class UsedTmpDirDialog extends JDialog {
     private String chooseDiskName(String from) {
         JFileChooser fileChooser = new JFileChooser(from);
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
-            try {
-                return fileChooser.getSelectedFile().getCanonicalPath();
-            } catch (IOException e) {
-                return null;
-            }
+        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) try {
+            return fileChooser.getSelectedFile().getCanonicalPath();
+        } catch (IOException e) {
+            return null;
+        }
         return null;
     }
 
@@ -404,8 +406,7 @@ public class UsedTmpDirDialog extends JDialog {
 
     private void buttonChangeDirectory() {
         String newTarget = chooseDiskName(target);
-        if (newTarget == null)
-            return;
+        if (newTarget == null) return;
         target = newTarget;
         if (Files.exists(Paths.get(newTarget))) {
             changeDir(target);

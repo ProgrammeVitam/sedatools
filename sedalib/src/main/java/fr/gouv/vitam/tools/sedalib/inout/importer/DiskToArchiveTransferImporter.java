@@ -119,7 +119,7 @@ public class DiskToArchiveTransferImporter {
      * @throws SEDALibException if not a directory
      */
     public DiskToArchiveTransferImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
-            throws SEDALibException {
+        throws SEDALibException {
         this(directory, false, simpleCopy, sedaLibProgressLogger);
     }
 
@@ -141,10 +141,12 @@ public class DiskToArchiveTransferImporter {
      * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      * @throws SEDALibException if not a directory
      */
-    public DiskToArchiveTransferImporter(String directory, boolean noLinkFlag,
-                                         Function<String, String> extractTitleFromFileNameFunction,
-                                         SEDALibProgressLogger sedaLibProgressLogger)
-            throws SEDALibException {
+    public DiskToArchiveTransferImporter(
+        String directory,
+        boolean noLinkFlag,
+        Function<String, String> extractTitleFromFileNameFunction,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException {
         Path path;
         Iterator<Path> pi;
 
@@ -154,25 +156,26 @@ public class DiskToArchiveTransferImporter {
         this.onDiskRootPaths = new ArrayList<>();
 
         path = Paths.get(directory);
-        if (!Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS))
-            throw new SEDALibException("[" + directory + "] n'est pas un répertoire");
+        if (!Files.isDirectory(path, java.nio.file.LinkOption.NOFOLLOW_LINKS)) throw new SEDALibException(
+            "[" + directory + "] n'est pas un répertoire"
+        );
         try (Stream<Path> sp = Files.list(path).sorted(Comparator.comparing(Path::getFileName))) {
             pi = sp.iterator();
             while (pi.hasNext()) {
                 path = pi.next();
-                if (path.getFileName().toString().equals("__GlobalMetadata.xml"))
-                    this.onDiskGlobalMetadataPath = path;
-                else
-                    this.onDiskRootPaths.add(path);
+                if (path.getFileName().toString().equals("__GlobalMetadata.xml")) this.onDiskGlobalMetadataPath = path;
+                else this.onDiskRootPaths.add(path);
             }
         } catch (IOException e) {
-            throw new SEDALibException(
-                    "Impossible de lister les fichiers du répertoire [" + directory + "]", e);
+            throw new SEDALibException("Impossible de lister les fichiers du répertoire [" + directory + "]", e);
         }
 
-        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths, noLinkFlag,
-                extractTitleFromFileNameFunction,
-                sedaLibProgressLogger);
+        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(
+            this.onDiskRootPaths,
+            noLinkFlag,
+            extractTitleFromFileNameFunction,
+            sedaLibProgressLogger
+        );
     }
 
     /**
@@ -205,25 +208,28 @@ public class DiskToArchiveTransferImporter {
      * @param extractTitleFromFileNameFunction the extract title from file name function
      * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      */
-    public DiskToArchiveTransferImporter(List<Path> paths, boolean noLinkFlag,
-                                         Function<String, String> extractTitleFromFileNameFunction,
-                                         SEDALibProgressLogger sedaLibProgressLogger) {
-
+    public DiskToArchiveTransferImporter(
+        List<Path> paths,
+        boolean noLinkFlag,
+        Function<String, String> extractTitleFromFileNameFunction,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) {
         this.onDiskGlobalMetadataPath = null;
         this.archiveTransfer = new ArchiveTransfer();
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.onDiskRootPaths = new ArrayList<>();
 
         for (Path path : paths) {
-            if (path.getFileName().toString().equals("__GlobalMetadata"))
-                this.onDiskGlobalMetadataPath = path;
-            else
-                this.onDiskRootPaths.add(path);
+            if (path.getFileName().toString().equals("__GlobalMetadata")) this.onDiskGlobalMetadataPath = path;
+            else this.onDiskRootPaths.add(path);
         }
 
-        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths, noLinkFlag,
-                extractTitleFromFileNameFunction,
-                sedaLibProgressLogger);
+        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(
+            this.onDiskRootPaths,
+            noLinkFlag,
+            extractTitleFromFileNameFunction,
+            sedaLibProgressLogger
+        );
     }
 
     /**
@@ -247,8 +253,9 @@ public class DiskToArchiveTransferImporter {
         try {
             atgm.fromSedaXmlFragments(new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
         } catch (SEDALibException | IOException e) {
-            throw new SEDALibException("Lecture des métadonnées globales à partir du fichier [" + path
-                    + "] impossible\n->" + e.getMessage());
+            throw new SEDALibException(
+                "Lecture des métadonnées globales à partir du fichier [" + path + "] impossible\n->" + e.getMessage()
+            );
         }
         return atgm;
     }
@@ -269,7 +276,6 @@ public class DiskToArchiveTransferImporter {
      * @throws InterruptedException if export process is interrupted
      */
     public void doImport() throws SEDALibException, InterruptedException {
-
         Date d = new Date();
         start = Instant.now();
         String log = "sedalib: début de l'import d'un ArchiveTransfer depuis une hiérarchie sur disque\n";
@@ -277,10 +283,8 @@ public class DiskToArchiveTransferImporter {
         boolean first = true;
         for (Path path : onDiskRootPaths) {
             if (!path.getFileName().toString().equals("__ManagementMetadata.xml")) {
-                if (first)
-                    first = false;
-                else
-                    log += ",\n";
+                if (first) first = false;
+                else log += ",\n";
                 log += path.toString();
             }
         }
@@ -288,13 +292,19 @@ public class DiskToArchiveTransferImporter {
         log += "date=" + DateFormat.getDateTimeInstance().format(d);
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
-        if (onDiskGlobalMetadataPath != null)
-            archiveTransfer.setGlobalMetadata(processGlobalMetadata(onDiskGlobalMetadataPath));
+        if (onDiskGlobalMetadataPath != null) archiveTransfer.setGlobalMetadata(
+            processGlobalMetadata(onDiskGlobalMetadataPath)
+        );
         diskToDataObjectPackageImporter.doImport();
         archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
 
         end = Instant.now();
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: import d'un ArchiveTransfer depuis une hiérarchie sur disque terminé", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            "sedalib: import d'un ArchiveTransfer depuis une hiérarchie sur disque terminé",
+            null
+        );
     }
 
     /**
@@ -336,8 +346,8 @@ public class DiskToArchiveTransferImporter {
                 result += "encodé selon un modèle hybride V1/V2 de la structure\n";
                 break;
         }
-        if ((start != null) && (end != null))
-            result += "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
+        if ((start != null) && (end != null)) result +=
+        "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
 }

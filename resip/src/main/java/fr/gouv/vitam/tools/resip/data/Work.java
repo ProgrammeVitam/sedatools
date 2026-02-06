@@ -129,10 +129,7 @@ public class Work {
         this.creationContext = creationContext;
         this.exportContext = exportContext;
 
-        EventBus.subscribe(
-            SedaVersionChangedEvent.class,
-            event -> this.version = event.getNewVersion()
-        );
+        EventBus.subscribe(SedaVersionChangedEvent.class, event -> this.version = event.getNewVersion());
     }
 
     /**
@@ -143,18 +140,27 @@ public class Work {
      * @throws SEDALibException     the SEDA lib exception
      * @throws InterruptedException the interrupted exception
      */
-    public String doVitamNormalize(SEDALibProgressLogger spl)
-            throws SEDALibException, InterruptedException {
+    public String doVitamNormalize(SEDALibProgressLogger spl) throws SEDALibException, InterruptedException {
         Instant start = Instant.now();
-        String log = "resip: début de la vérification de l'absence de cycle et de la normalisation Vitam de la structure";
+        String log =
+            "resip: début de la vérification de l'absence de cycle et de la normalisation Vitam de la structure";
         doProgressLog(spl, SEDALibProgressLogger.GLOBAL, log, null);
 
         dataObjectPackage.vitamNormalize(spl);
 
-        doProgressLog(spl, SEDALibProgressLogger.STEP, "resip: " +
-                dataObjectPackage.getArchiveUnitCount() + " ArchiveUnits normalisées", null);
+        doProgressLog(
+            spl,
+            SEDALibProgressLogger.STEP,
+            "resip: " + dataObjectPackage.getArchiveUnitCount() + " ArchiveUnits normalisées",
+            null
+        );
         Instant end = Instant.now();
-        doProgressLog(spl, SEDALibProgressLogger.GLOBAL, "resip: opération terminée en " + Duration.between(start, end).toString().substring(2), null);
+        doProgressLog(
+            spl,
+            SEDALibProgressLogger.GLOBAL,
+            "resip: opération terminée en " + Duration.between(start, end).toString().substring(2),
+            null
+        );
         return "Vérification de l'absence de cycle et normalisation Vitam effectuées";
     }
 
@@ -175,13 +181,15 @@ public class Work {
             module.addDeserializer(CreationContext.class, new NullDeserializer<CreationContext>());
             mapper.registerModule(module);
             ZipEntry ze = zis.getNextEntry();
-            if (!ze.getName().equals(JSON_FILENAME))
-                throw new ResipException(
-                        "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip");
+            if (!ze.getName().equals(JSON_FILENAME)) throw new ResipException(
+                "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip"
+            );
             ow = mapper.readValue(zis, Work.class);
         } catch (IOException e) {
-            throw new ResipException("Resip: La lecture du fichier [" + file
-                    + "] ne permet pas de retrouver une session Resip", e);
+            throw new ResipException(
+                "Resip: La lecture du fichier [" + file + "] ne permet pas de retrouver une session Resip",
+                e
+            );
         }
         return ow.version;
     }
@@ -202,19 +210,23 @@ public class Work {
             module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
             mapper.registerModule(module);
             ZipEntry ze = zis.getNextEntry();
-            if (!ze.getName().equals(JSON_FILENAME))
-                throw new ResipException(
-                        "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip");
+            if (!ze.getName().equals(JSON_FILENAME)) throw new ResipException(
+                "Resip: Le fichier [" + file + "] n'est pas une sauvegarde de session Resip"
+            );
             ow = mapper.readValue(zis, Work.class);
 
             // some fields need to be computed or defined after the load phase from Json
             ow.getDataObjectPackage().getGhostRootAu().setDataObjectPackage(ow.getDataObjectPackage());
-            for (Map.Entry<String, ArchiveUnit> pair : ow.getDataObjectPackage().getAuInDataObjectPackageIdMap()
-                    .entrySet()) {
+            for (Map.Entry<String, ArchiveUnit> pair : ow
+                .getDataObjectPackage()
+                .getAuInDataObjectPackageIdMap()
+                .entrySet()) {
                 pair.getValue().setDataObjectPackage(ow.getDataObjectPackage());
             }
-            for (Map.Entry<String, DataObjectGroup> pair : ow.getDataObjectPackage().getDogInDataObjectPackageIdMap()
-                    .entrySet()) {
+            for (Map.Entry<String, DataObjectGroup> pair : ow
+                .getDataObjectPackage()
+                .getDogInDataObjectPackageIdMap()
+                .entrySet()) {
                 DataObjectGroup dog = pair.getValue();
                 dog.setDataObjectPackage(ow.getDataObjectPackage());
                 for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
@@ -227,8 +239,10 @@ public class Work {
                 }
             }
         } catch (IOException e) {
-            throw new ResipException("Resip: La lecture du fichier [" + file
-                    + "] ne permet pas de retrouver une session Resip", e);
+            throw new ResipException(
+                "Resip: La lecture du fichier [" + file + "] ne permet pas de retrouver une session Resip",
+                e
+            );
         }
         return ow;
     }
@@ -246,7 +260,7 @@ public class Work {
             module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
             mapper.registerModule(module);
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
-            try(ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file))) {
+            try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(file))) {
                 ZipEntry e = new ZipEntry(JSON_FILENAME);
                 zos.putNextEntry(e);
                 mapper.writeValue(zos, this);
@@ -255,7 +269,6 @@ public class Work {
         } catch (IOException e) {
             ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Impossible de sauvegarder la session", e);
         }
-
     }
 
     /**

@@ -50,27 +50,32 @@ import java.io.IOException;
  * @author Richard Johnson
  */
 class PSTDescriptorItem {
+
     PSTDescriptorItem(final byte[] data, final int offset, final PSTFile pstFile, int entryType) {
         this.pstFile = pstFile;
 
         if (pstFile.getPSTFileType() == PSTFile.PST_TYPE_ANSI) {
             this.descriptorIdentifier = (int) PSTObject.convertLittleEndianBytesToLong(data, offset, offset + 4);
-            this.offsetIndexIdentifier = ((int) PSTObject.convertLittleEndianBytesToLong(data, offset + 4, offset + 8))
-                    & 0xfffffffe;
-            if (entryType == PSTFile.SLBLOCK_ENTRY)
-                this.subNodeOffsetIndexIdentifier = (int) PSTObject.convertLittleEndianBytesToLong(data, offset + 8,
-                        offset + 12) & 0xfffffffe;
-            else
-                this.subNodeOffsetIndexIdentifier = 0;
+            this.offsetIndexIdentifier = ((int) PSTObject.convertLittleEndianBytesToLong(
+                    data,
+                    offset + 4,
+                    offset + 8
+                )) &
+            0xfffffffe;
+            if (entryType == PSTFile.SLBLOCK_ENTRY) this.subNodeOffsetIndexIdentifier =
+                (int) PSTObject.convertLittleEndianBytesToLong(data, offset + 8, offset + 12) & 0xfffffffe;
+            else this.subNodeOffsetIndexIdentifier = 0;
         } else {
             this.descriptorIdentifier = (int) PSTObject.convertLittleEndianBytesToLong(data, offset, offset + 4);
-            this.offsetIndexIdentifier = ((int) PSTObject.convertLittleEndianBytesToLong(data, offset + 8, offset + 16))
-                    & 0xfffffffe;
-            if (entryType == PSTFile.SLBLOCK_ENTRY)
-                this.subNodeOffsetIndexIdentifier = (int) PSTObject.convertLittleEndianBytesToLong(data, offset + 16,
-                        offset + 24) & 0xfffffffe;
-            else
-                this.subNodeOffsetIndexIdentifier = 0;
+            this.offsetIndexIdentifier = ((int) PSTObject.convertLittleEndianBytesToLong(
+                    data,
+                    offset + 8,
+                    offset + 16
+                )) &
+            0xfffffffe;
+            if (entryType == PSTFile.SLBLOCK_ENTRY) this.subNodeOffsetIndexIdentifier =
+                (int) PSTObject.convertLittleEndianBytesToLong(data, offset + 16, offset + 24) & 0xfffffffe;
+            else this.subNodeOffsetIndexIdentifier = 0;
         }
     }
 
@@ -88,7 +93,6 @@ class PSTDescriptorItem {
 
     public int[] getBlockOffsets() throws IOException, PSTException {
         if (this.dataBlockOffsets != null) {
-
             return this.dataBlockOffsets;
         }
         final Long[] offsets = this.pstFile.readLeaf(this.offsetIndexIdentifier).getBlockOffsets();
@@ -116,10 +120,17 @@ class PSTDescriptorItem {
 
     @Override
     public String toString() {
-        return "PSTDescriptorItem\n" + "   descriptorIdentifier: " + this.descriptorIdentifier + "\n"
-                + "   offsetIndexIdentifier: " + this.offsetIndexIdentifier + "\n" + "   subNodeOffsetIndexIdentifier: "
-                + this.subNodeOffsetIndexIdentifier + "\n";
-
+        return (
+            "PSTDescriptorItem\n" +
+            "   descriptorIdentifier: " +
+            this.descriptorIdentifier +
+            "\n" +
+            "   offsetIndexIdentifier: " +
+            this.offsetIndexIdentifier +
+            "\n" +
+            "   subNodeOffsetIndexIdentifier: " +
+            this.subNodeOffsetIndexIdentifier +
+            "\n"
+        );
     }
-
 }

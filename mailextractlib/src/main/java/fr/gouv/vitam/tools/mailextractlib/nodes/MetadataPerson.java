@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.mailextractlib.nodes;
 
 import jakarta.mail.internet.MimeUtility;
+
 import java.io.UnsupportedEncodingException;
 
 /**
@@ -76,26 +77,21 @@ public class MetadataPerson {
 
         if (((beg = s.lastIndexOf('<')) != -1) && ((end = s.lastIndexOf('>')) != -1) && (beg < end)) {
             identifier = s.substring(beg + 1, end).trim();
-            if (identifier.isEmpty())
-                identifier = "[Vide]";
-        } else
-            identifier = s.trim();
+            if (identifier.isEmpty()) identifier = "[Vide]";
+        } else identifier = s.trim();
 
-        if ((end = identifier.indexOf('@')) > 1)
-            name = identifier.substring(0, end);
-        else
-            name = "[Vide]";
+        if ((end = identifier.indexOf('@')) > 1) name = identifier.substring(0, end);
+        else name = "[Vide]";
 
-        if (name.startsWith("=?"))
-            try {
-                name = MimeUtility.decodeText(name);
-            } catch (UnsupportedEncodingException e) {
-                // Don't care
-            }
+        if (name.startsWith("=?")) try {
+            name = MimeUtility.decodeText(name);
+        } catch (UnsupportedEncodingException e) {
+            // Don't care
+        }
 
-        if ((name.charAt(0) == '"') && (name.charAt(name.length() - 1) == '"') && name.length() > 1)
-            name = name.substring(1, name.length() - 1);
-       
+        if ((name.charAt(0) == '"') && (name.charAt(name.length() - 1) == '"') && name.length() > 1) name =
+            name.substring(1, name.length() - 1);
+
         fullName = name.replaceAll("\\.", " ");
     }
 }

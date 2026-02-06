@@ -113,12 +113,14 @@ public class DigestType extends NamedTypeMetadata {
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
             xmlWriter.writeStartElement(elementName);
-            if (algorithm != null)
-                xmlWriter.writeAttribute("algorithm", algorithm);
+            if (algorithm != null) xmlWriter.writeAttribute("algorithm", algorithm);
             xmlWriter.writeCharactersIfNotEmpty(value);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type DigestType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément de type DigestType [" + getXmlElementName() + "]",
+                e
+            );
         }
     }
 
@@ -132,8 +134,7 @@ public class DigestType extends NamedTypeMetadata {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         if (value != null) {
             result.put("", value);
-            if (algorithm != null)
-                result.put("attr", "algorithm=\""+algorithm+"\"");
+            if (algorithm != null) result.put("attr", "algorithm=\"" + algorithm + "\"");
         }
         return result;
     }
@@ -154,12 +155,11 @@ public class DigestType extends NamedTypeMetadata {
                 if (event.isCharacters()) {
                     value = event.asCharacters().getData();
                     event = xmlReader.nextUsefullEvent();
-                } else
-                    value = "";
-                if ((!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
-            } else
-                return false;
+                } else value = "";
+                if (
+                    (!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart()))
+                ) throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type DigestType", e);
         }
@@ -205,6 +205,4 @@ public class DigestType extends NamedTypeMetadata {
     public void setAlgorithm(String algorithm) {
         this.algorithm = algorithm;
     }
-
-
 }

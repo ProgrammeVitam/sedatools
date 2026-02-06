@@ -63,6 +63,7 @@ import static fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger
  * All the files, if not pure binary, are UTF-8 encoded, as the file names.
  */
 public class ArchiveUnit {
+
     private StoreExtractor storeExtractor;
     private String rootPath;
     private String name;
@@ -72,6 +73,7 @@ public class ArchiveUnit {
 
     // Utility class containing one Object of the ObjectGroup
     private class ArchiveObject {
+
         /**
          * The Filename.
          */
@@ -134,12 +136,10 @@ public class ArchiveUnit {
      */
     public ArchiveUnit(StoreExtractor storeExtractor, ArchiveUnit father, String unitType, String name) {
         this.storeExtractor = storeExtractor;
-        if (unitType == null)
-            this.name = name;
+        if (unitType == null) this.name = name;
         else {
             this.name = this.normalizeUniqUnitname(unitType, name);
-            if (unitType.equals("Message"))
-                forceMessageUnit = true;
+            if (unitType.equals("Message")) forceMessageUnit = true;
         }
         this.rootPath = father.getFullName();
     }
@@ -191,13 +191,10 @@ public class ArchiveUnit {
      * @return Name of Archive Unit in directory name
      */
     public String getName() {
-        if (!forceMessageUnit && (objects.isEmpty()))
-            return name;
+        if (!forceMessageUnit && (objects.isEmpty())) return name;
         else {
-            if (storeExtractor.getOptions().model == StoreExtractorOptions.MODEL_V1)
-                return "__" + name + "__";
-            else
-                return name;
+            if (storeExtractor.getOptions().model == StoreExtractorOptions.MODEL_V1) return "__" + name + "__";
+            else return name;
         }
     }
 
@@ -214,11 +211,19 @@ public class ArchiveUnit {
      * @throws InterruptedException the interrupted exception
      */
     public void addMetadata(String key, String value, boolean mandatory) throws InterruptedException {
-        if (value != null && !value.isEmpty())
-            contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, value));
-        else if (mandatory)
-            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'", null);
+        if (value != null && !value.isEmpty()) contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, value));
+        else if (mandatory) doProgressLog(
+            getProgressLogger(),
+            MailExtractProgressLogger.MESSAGE_DETAILS,
+            "mailextractlib: mandatory metadata '" +
+            key +
+            "' empty in unit '" +
+            name +
+            "' in folder '" +
+            rootPath +
+            "'",
+            null
+        );
     }
 
     /**
@@ -238,9 +243,18 @@ public class ArchiveUnit {
     public void addLongMetadata(String key, String value, boolean mandatory) throws InterruptedException {
         if (value != null && !value.isEmpty()) {
             contentmetadatalist.addMetadataXMLNode(new MetadataXMLSplittedNode(key, value));
-        } else if (mandatory)
-            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'", null);
+        } else if (mandatory) doProgressLog(
+            getProgressLogger(),
+            MailExtractProgressLogger.MESSAGE_DETAILS,
+            "mailextractlib: mandatory metadata '" +
+            key +
+            "' empty in unit '" +
+            name +
+            "' in folder '" +
+            rootPath +
+            "'",
+            null
+        );
     }
 
     /**
@@ -257,12 +271,24 @@ public class ArchiveUnit {
      * @param mandatory      Mandatory flag
      * @throws InterruptedException the interrupted exception
      */
-    public void addMetadata(String key, String attributename, String attributevalue, String value, boolean mandatory) throws InterruptedException {
-        if (value != null && !value.isEmpty())
-            contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, attributename, attributevalue, value));
+    public void addMetadata(String key, String attributename, String attributevalue, String value, boolean mandatory)
+        throws InterruptedException {
+        if (value != null && !value.isEmpty()) contentmetadatalist.addMetadataXMLNode(
+            new MetadataXMLNode(key, attributename, attributevalue, value)
+        );
         else if (mandatory) {
-            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' is not defined in unit '" + name
-                    + "' in folder '" + rootPath + "'", null);
+            doProgressLog(
+                getProgressLogger(),
+                MailExtractProgressLogger.MESSAGE_DETAILS,
+                "mailextractlib: mandatory metadata '" +
+                key +
+                "' is not defined in unit '" +
+                name +
+                "' in folder '" +
+                rootPath +
+                "'",
+                null
+            );
         }
     }
 
@@ -275,10 +301,10 @@ public class ArchiveUnit {
      * @param defaultValue Default metadata value
      */
     public void addDefaultValuedMetadata(String key, String value, String defaultValue) {
-        if ((value != null) && !value.isEmpty())
-            contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, value));
-        else
-            contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, defaultValue));
+        if ((value != null) && !value.isEmpty()) contentmetadatalist.addMetadataXMLNode(
+            new MetadataXMLNode(key, value)
+        );
+        else contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, defaultValue));
     }
 
     /**
@@ -295,14 +321,24 @@ public class ArchiveUnit {
      * @param mandatory  Mandatory flag
      * @throws InterruptedException the interrupted exception
      */
-    public void addSameMetadataList(String key, List<String> valuesList, boolean mandatory) throws InterruptedException {
+    public void addSameMetadataList(String key, List<String> valuesList, boolean mandatory)
+        throws InterruptedException {
         if ((valuesList != null) && (!valuesList.isEmpty())) {
             for (String s : valuesList) {
                 contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, s));
             }
-        } else if (mandatory)
-            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'", null);
+        } else if (mandatory) doProgressLog(
+            getProgressLogger(),
+            MailExtractProgressLogger.MESSAGE_DETAILS,
+            "mailextractlib: mandatory metadata '" +
+            key +
+            "' empty in unit '" +
+            name +
+            "' in folder '" +
+            rootPath +
+            "'",
+            null
+        );
     }
 
     /**
@@ -335,9 +371,18 @@ public class ArchiveUnit {
             mvMetaData = new MetadataXMLNode("Identifier", p.identifier);
             mlMetaData.addMetadataXMLNode(mvMetaData);
             contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, mlMetaData));
-        } else if (mandatory)
-            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'", null);
+        } else if (mandatory) doProgressLog(
+            getProgressLogger(),
+            MailExtractProgressLogger.MESSAGE_DETAILS,
+            "mailextractlib: mandatory metadata '" +
+            key +
+            "' empty in unit '" +
+            name +
+            "' in folder '" +
+            rootPath +
+            "'",
+            null
+        );
     }
 
     /**
@@ -385,7 +430,8 @@ public class ArchiveUnit {
      * @param mandatory  Mandatory flag
      * @throws InterruptedException the interrupted exception
      */
-    public void addPersonMetadataList(String key, List<String> valuesList, boolean mandatory) throws InterruptedException {
+    public void addPersonMetadataList(String key, List<String> valuesList, boolean mandatory)
+        throws InterruptedException {
         MetadataPerson p;
         MetadataXMLNode mvMetaData;
         MetadataXMLList mlMetaData;
@@ -400,9 +446,18 @@ public class ArchiveUnit {
                 mlMetaData.addMetadataXMLNode(mvMetaData);
                 contentmetadatalist.addMetadataXMLNode(new MetadataXMLNode(key, mlMetaData));
             }
-        } else if (mandatory)
-            doProgressLog(getProgressLogger(),MailExtractProgressLogger.MESSAGE_DETAILS, "mailextractlib: mandatory metadata '" + key + "' empty in unit '" + name + "' in folder '"
-                    + rootPath + "'", null);
+        } else if (mandatory) doProgressLog(
+            getProgressLogger(),
+            MailExtractProgressLogger.MESSAGE_DETAILS,
+            "mailextractlib: mandatory metadata '" +
+            key +
+            "' empty in unit '" +
+            name +
+            "' in folder '" +
+            rootPath +
+            "'",
+            null
+        );
     }
 
     /**
@@ -416,7 +471,14 @@ public class ArchiveUnit {
      * @param version       Object version (usually 1)
      */
     public void addObject(String stringContent, String filename, String usage, int version) {
-        objects.add(new ArchiveObject(stringContent.getBytes(StandardCharsets.UTF_8), normalizeFilename(filename), usage, version));
+        objects.add(
+            new ArchiveObject(
+                stringContent.getBytes(StandardCharsets.UTF_8),
+                normalizeFilename(filename),
+                usage,
+                version
+            )
+        );
     }
 
     /**
@@ -439,7 +501,14 @@ public class ArchiveUnit {
         synchronized (storeExtractor.getRootStoreExtractor()) {
             File dir = new File(dirname);
             if (!dir.isDirectory() && !dir.mkdirs()) {
-                throw new MailExtractLibException("mailextractlib: can't create destination directory[" + dirname + "] for writing unit \"" + name + "\"", null);
+                throw new MailExtractLibException(
+                    "mailextractlib: can't create destination directory[" +
+                    dirname +
+                    "] for writing unit \"" +
+                    name +
+                    "\"",
+                    null
+                );
             }
         }
     }
@@ -447,16 +516,30 @@ public class ArchiveUnit {
     // create a file from byte array
     private void writeFile(String dirPath, String filename, byte[] byteContent) throws MailExtractLibException {
         try (FileOutputStream fos = new FileOutputStream(dirPath + File.separator + filename)) {
-            if (byteContent != null)
-                fos.write(byteContent);
+            if (byteContent != null) fos.write(byteContent);
         } catch (IOException ex) {
             if (dirPath.length() + filename.length() > 250) {
                 throw new MailExtractLibException(
-                        "mailextractlib: illegal destination file (may be too long pathname), writing unit \"" + name
-                                + "\"" + " dir=" + dirPath + " filename=" + filename, ex);
+                    "mailextractlib: illegal destination file (may be too long pathname), writing unit \"" +
+                    name +
+                    "\"" +
+                    " dir=" +
+                    dirPath +
+                    " filename=" +
+                    filename,
+                    ex
+                );
             } else {
-                throw new MailExtractLibException("mailextractlib: illegal destination file, writing unit \"" + name + "\""
-                        + " dir=" + dirPath + " filename=" + filename, ex);
+                throw new MailExtractLibException(
+                    "mailextractlib: illegal destination file, writing unit \"" +
+                    name +
+                    "\"" +
+                    " dir=" +
+                    dirPath +
+                    " filename=" +
+                    filename,
+                    ex
+                );
             }
         }
     }
@@ -480,23 +563,32 @@ public class ArchiveUnit {
         MetadataXMLNode contentmetadata = new MetadataXMLNode("Content", contentmetadatalist);
 
         // write unit metadata file
-        if (storeExtractor.getOptions().model == StoreExtractorOptions.MODEL_V1)
-            writeFile(dirPath, "ArchiveUnitContent.xml", contentmetadata.writeXML().getBytes(StandardCharsets.UTF_8));
-        else
-            writeFile(dirPath, "__ArchiveUnitMetadata.xml", contentmetadata.writeXML().getBytes(StandardCharsets.UTF_8));
-
+        if (storeExtractor.getOptions().model == StoreExtractorOptions.MODEL_V1) writeFile(
+            dirPath,
+            "ArchiveUnitContent.xml",
+            contentmetadata.writeXML().getBytes(StandardCharsets.UTF_8)
+        );
+        else writeFile(
+            dirPath,
+            "__ArchiveUnitMetadata.xml",
+            contentmetadata.writeXML().getBytes(StandardCharsets.UTF_8)
+        );
 
         // write objects files
         if (!objects.isEmpty()) {
             for (ArchiveObject o : objects) {
-                if (o.filename == null || o.filename.isEmpty())
-                    filename = "undefined";
-                else
-                    filename = o.filename;
-                if (storeExtractor.getOptions().model == StoreExtractorOptions.MODEL_V1)
-                    writeFile(dirPath, "__" + o.usage + "_" + Integer.toString(o.version) + "_" + filename, o.rawContent);
-                else
-                    writeFile(dirPath, "__" + o.usage + "_" + Integer.toString(o.version) + "__" + filename, o.rawContent);
+                if (o.filename == null || o.filename.isEmpty()) filename = "undefined";
+                else filename = o.filename;
+                if (storeExtractor.getOptions().model == StoreExtractorOptions.MODEL_V1) writeFile(
+                    dirPath,
+                    "__" + o.usage + "_" + Integer.toString(o.version) + "_" + filename,
+                    o.rawContent
+                );
+                else writeFile(
+                    dirPath,
+                    "__" + o.usage + "_" + Integer.toString(o.version) + "__" + filename,
+                    o.rawContent
+                );
             }
         }
     }
@@ -511,19 +603,15 @@ public class ArchiveUnit {
         int lastPoint = filename.lastIndexOf('.');
         if (lastPoint != -1) {
             extension = filename.substring(lastPoint);
-            if (lastPoint >= 1)
-                result = filename.substring(0, lastPoint);
-            else
-                result = "";
-        } else
-            result = filename;
+            if (lastPoint >= 1) result = filename.substring(0, lastPoint);
+            else result = "";
+        } else result = filename;
 
         len = storeExtractor.getOptions().namesLength + 20;
 
         result = result.replaceAll("[^\\p{IsAlphabetic}\\p{Digit}\\.]", "-");
 
-        if (result.length() > len)
-            result = result.substring(0, len);
+        if (result.length() > len) result = result.substring(0, len);
 
         return result + extension;
     }
@@ -534,18 +622,14 @@ public class ArchiveUnit {
         int len;
 
         len = storeExtractor.getOptions().namesLength;
-        if (len < 32)
-            type = type.substring(0, 1);
+        if (len < 32) type = type.substring(0, 1);
 
-        if (filename != null)
-            result = filename.replaceAll("[^\\p{IsAlphabetic}\\p{Digit}]", "-");
+        if (filename != null) result = filename.replaceAll("[^\\p{IsAlphabetic}\\p{Digit}]", "-");
 
-        if (result.length() > len)
-            result = result.substring(0, len);
+        if (result.length() > len) result = result.substring(0, len);
         int uniqID = storeExtractor.getNewUniqID();
         result = type + "#" + Integer.toString(uniqID) + "-" + result;
 
         return result;
     }
-
 }

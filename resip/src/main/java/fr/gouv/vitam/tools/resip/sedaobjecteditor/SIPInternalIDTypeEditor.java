@@ -64,8 +64,9 @@ public class SIPInternalIDTypeEditor extends SEDAObjectEditor {
      */
     public SIPInternalIDTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof SIPInternalIDType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof SIPInternalIDType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private SIPInternalIDType getSIPInternalIDTypeMetadata() {
@@ -80,11 +81,9 @@ public class SIPInternalIDTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new SIPInternalIDType(elementName, "");
-        else
-            return new SIPInternalIDType(elementName, "ID11");
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new SIPInternalIDType(elementName, "");
+        else return new SIPInternalIDType(elementName, "ID11");
     }
 
     @Override
@@ -102,7 +101,7 @@ public class SIPInternalIDTypeEditor extends SEDAObjectEditor {
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
         JLabel label = new JLabel(getName() + " :");
@@ -117,7 +116,7 @@ public class SIPInternalIDTypeEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
         valueTextField = new JTextField();

@@ -72,13 +72,13 @@ public class ResourceUtils {
         try {
             stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(resourcesFile);
         } catch (final SecurityException e) {
-            throw new FileNotFoundException( SECURITY_IN_RESOURCES + resourcesFile);
+            throw new FileNotFoundException(SECURITY_IN_RESOURCES + resourcesFile);
         }
         if (stream == null) {
             try {
                 stream = ResourceUtils.class.getClassLoader().getResourceAsStream(resourcesFile);
             } catch (final SecurityException e) {
-                throw new FileNotFoundException( SECURITY_IN_RESOURCES + resourcesFile);
+                throw new FileNotFoundException(SECURITY_IN_RESOURCES + resourcesFile);
             }
         }
         if (stream == null) {
@@ -86,7 +86,6 @@ public class ResourceUtils {
         }
         return stream;
     }
-
 
     /**
      * Get the File representation from the local path to the Resources directory
@@ -149,11 +148,10 @@ public class ResourceUtils {
         try {
             fileAsString = new String(Files.readAllBytes(getResourcePath(resourcesFile)));
         } catch (final SecurityException e) {
-            throw new FileNotFoundException( SECURITY_IN_RESOURCES + resourcesFile);
+            throw new FileNotFoundException(SECURITY_IN_RESOURCES + resourcesFile);
         } catch (final IOException e) {
             throw new FileNotFoundException(FILE_NOT_FOUND_IN_RESOURCES + resourcesFile);
         }
         return fileAsString;
     }
-
 }

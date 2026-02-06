@@ -85,7 +85,6 @@ public class SEDALibProgressLogger {
      */
     @FunctionalInterface
     public interface ProgressLogFunc {
-
         /**
          * Do progress log.
          *
@@ -187,7 +186,13 @@ public class SEDALibProgressLogger {
      * @param step             the step value
      * @param stepDuration     the step duration in seconds
      */
-    public SEDALibProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer, int step, int stepDuration) {
+    public SEDALibProgressLogger(
+        Logger logger,
+        int progressLogLevel,
+        ProgressLogFunc progressConsumer,
+        int step,
+        int stepDuration
+    ) {
         this.progressLogFunc = progressConsumer;
         this.logger = logger;
         this.step = step;
@@ -209,8 +214,15 @@ public class SEDALibProgressLogger {
      * @param stepDuration         the duration threshold in seconds for triggering progress logs
      * @param progressFuncLogLevel the log level for the progress consumer function
      */
-    public SEDALibProgressLogger(Logger logger, int progressLogLevel, ProgressLogFunc progressConsumer,
-                                 int step, int stepDuration, int progressFuncLogLevel, int progressFuncStep) {
+    public SEDALibProgressLogger(
+        Logger logger,
+        int progressLogLevel,
+        ProgressLogFunc progressConsumer,
+        int step,
+        int stepDuration,
+        int progressFuncLogLevel,
+        int progressFuncStep
+    ) {
         this.progressLogFunc = progressConsumer;
         this.logger = logger;
         this.step = step;
@@ -249,8 +261,7 @@ public class SEDALibProgressLogger {
     public static String getMessagesStackString(Throwable e) {
         String result;
         result = "-> " + e.getMessage();
-        if (e.getCause() instanceof Exception)
-            result += "\n" + getMessagesStackString(e.getCause());
+        if (e.getCause() instanceof Exception) result += "\n" + getMessagesStackString(e.getCause());
         return result;
     }
 
@@ -270,8 +281,8 @@ public class SEDALibProgressLogger {
     public static String getAllJavaStackString(Throwable e) {
         String result;
         result = getJavaStackString(e);
-        if (e.getCause() instanceof Exception)
-            result += "\n------------------------------------\n" + getJavaStackString(e.getCause());
+        if (e.getCause() instanceof Exception) result +=
+        "\n------------------------------------\n" + getJavaStackString(e.getCause());
         return result;
     }
 
@@ -286,13 +297,11 @@ public class SEDALibProgressLogger {
     public static void doProgressLogWithoutInterruption(SEDALibProgressLogger spl, int level, String log, Throwable e) {
         if (spl != null) {
             if (level <= spl.progressLogLevel) {
-                if (e != null)
-                    log += "\n" + getMessagesStackString(e);
+                if (e != null) log += "\n" + getMessagesStackString(e);
                 if ((spl.progressLogFunc != null) && (level <= spl.progressFuncLogLevel)) {
                     spl.progressLogFunc.doProgressLog(-1, log);
                 }
-                if ((e != null) && spl.debugFlag)
-                    log += "\n" + getAllJavaStackString(e);
+                if ((e != null) && spl.debugFlag) log += "\n" + getAllJavaStackString(e);
                 spl.log(level, log);
             }
         }
@@ -320,7 +329,8 @@ public class SEDALibProgressLogger {
      * @param e     the exception
      * @throws InterruptedException the interrupted exception
      */
-    public static void doProgressLog(SEDALibProgressLogger spl, int level, String log, Exception e) throws InterruptedException {
+    public static void doProgressLog(SEDALibProgressLogger spl, int level, String log, Exception e)
+        throws InterruptedException {
         if (spl != null) {
             doProgressLogWithoutInterruption(spl, level, log, e);
             Thread.sleep(1);
@@ -336,13 +346,15 @@ public class SEDALibProgressLogger {
      * @param log   the log
      * @throws InterruptedException the interrupted exception
      */
-    public static void doProgressLogIfStep(SEDALibProgressLogger spl, int level, int count, String log) throws InterruptedException {
+    public static void doProgressLogIfStep(SEDALibProgressLogger spl, int level, int count, String log)
+        throws InterruptedException {
         if (spl != null) {
             if (level <= spl.progressLogLevel) {
                 long nowEpochSeconds = Instant.now().getEpochSecond();
                 if (spl.stepDuration < nowEpochSeconds - spl.previousStepEpochSeconds) {
-                    if ((spl.progressLogFunc != null) && (level <= spl.progressFuncLogLevel))
-                        spl.progressLogFunc.doProgressLog(count, (count % spl.progressFuncStep == 0 ? "" : " * ") + log);
+                    if (
+                        (spl.progressLogFunc != null) && (level <= spl.progressFuncLogLevel)
+                    ) spl.progressLogFunc.doProgressLog(count, (count % spl.progressFuncStep == 0 ? "" : " * ") + log);
                     spl.log(level, log);
                     Thread.sleep(1);
                     spl.previousStepEpochSeconds = nowEpochSeconds;
@@ -351,7 +363,7 @@ public class SEDALibProgressLogger {
                 if ((count % spl.step) == 0) {
                     spl.log(level, log);
                 }
-                if ((spl.progressLogFunc!=null) && (count % spl.progressFuncStep) == 0) {
+                if ((spl.progressLogFunc != null) && (count % spl.progressFuncStep) == 0) {
                     spl.progressLogFunc.doProgressLog(count, log);
                     Thread.sleep(1);
                 }
@@ -366,9 +378,8 @@ public class SEDALibProgressLogger {
      * @return the string
      */
     public static String readableFileSize(long size) {
-        if (size <= 0)
-            return "0";
-        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        if (size <= 0) return "0";
+        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
@@ -391,8 +402,7 @@ public class SEDALibProgressLogger {
 
     private void log(int level, String message) {
         if (level <= progressLogLevel) {
-            if (logger != null)
-                logger.info(getMarker(level), message);
+            if (logger != null) logger.info(getMarker(level), message);
         }
     }
 }

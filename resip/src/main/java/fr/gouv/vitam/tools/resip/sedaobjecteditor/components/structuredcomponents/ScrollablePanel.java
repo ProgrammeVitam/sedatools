@@ -58,24 +58,21 @@ import java.awt.*;
  *  components added to the panel will be size to fill the area available,
  *  based on the rules of the applicable layout manager of course.
  */
-public class ScrollablePanel extends JPanel
-        implements Scrollable, SwingConstants
-{
-    public enum ScrollableSizeHint
-    {
+public class ScrollablePanel extends JPanel implements Scrollable, SwingConstants {
+
+    public enum ScrollableSizeHint {
         NONE,
         FIT,
-        STRETCH
+        STRETCH,
     }
 
-    public enum IncrementType
-    {
+    public enum IncrementType {
         PERCENT,
-        PIXELS
+        PIXELS,
     }
 
     private ScrollableSizeHint scrollableHeight = ScrollableSizeHint.NONE;
-    private ScrollableSizeHint scrollableWidth  = ScrollableSizeHint.NONE;
+    private ScrollableSizeHint scrollableWidth = ScrollableSizeHint.NONE;
 
     private IncrementInfo horizontalBlock;
     private IncrementInfo horizontalUnit;
@@ -85,9 +82,8 @@ public class ScrollablePanel extends JPanel
     /**
      *  Default constructor that uses a FlowLayout
      */
-    public ScrollablePanel()
-    {
-        this( new FlowLayout() );
+    public ScrollablePanel() {
+        this(new FlowLayout());
     }
 
     /**
@@ -95,10 +91,8 @@ public class ScrollablePanel extends JPanel
      *
      *  @param layout the LayountManger for the panel
      */
-    public ScrollablePanel(LayoutManager layout)
-    {
-        super( layout );
-
+    public ScrollablePanel(LayoutManager layout) {
+        super(layout);
         IncrementInfo block = new IncrementInfo(IncrementType.PERCENT, 100);
         IncrementInfo unit = new IncrementInfo(IncrementType.PERCENT, 10);
 
@@ -113,8 +107,7 @@ public class ScrollablePanel extends JPanel
      *
      *  @return the ScrollableSizeHint enum for the height
      */
-    public ScrollableSizeHint getScrollableHeight()
-    {
+    public ScrollableSizeHint getScrollableHeight() {
         return scrollableHeight;
     }
 
@@ -132,8 +125,7 @@ public class ScrollablePanel extends JPanel
      *
      *  @param scrollableHeight as represented by the ScrollableSizeHint enum.
      */
-    public void setScrollableHeight(ScrollableSizeHint scrollableHeight)
-    {
+    public void setScrollableHeight(ScrollableSizeHint scrollableHeight) {
         this.scrollableHeight = scrollableHeight;
         revalidate();
     }
@@ -143,8 +135,7 @@ public class ScrollablePanel extends JPanel
      *
      *  @return the ScrollableSizeHint enum for the width
      */
-    public ScrollableSizeHint getScrollableWidth()
-    {
+    public ScrollableSizeHint getScrollableWidth() {
         return scrollableWidth;
     }
 
@@ -162,8 +153,7 @@ public class ScrollablePanel extends JPanel
      *
      *  @param scrollableWidth as represented by the ScrollableSizeHint enum.
      */
-    public void setScrollableWidth(ScrollableSizeHint scrollableWidth)
-    {
+    public void setScrollableWidth(ScrollableSizeHint scrollableWidth) {
         this.scrollableWidth = scrollableWidth;
         revalidate();
     }
@@ -173,8 +163,7 @@ public class ScrollablePanel extends JPanel
      *
      *  @return the block IncrementInfo for the specified orientation
      */
-    public IncrementInfo getScrollableBlockIncrement(int orientation)
-    {
+    public IncrementInfo getScrollableBlockIncrement(int orientation) {
         return orientation == SwingConstants.HORIZONTAL ? horizontalBlock : verticalBlock;
     }
 
@@ -190,8 +179,7 @@ public class ScrollablePanel extends JPanel
      *  @param amount  a value used with the IncrementType to determine the
      *      scrollable amount
      */
-    public void setScrollableBlockIncrement(int orientation, IncrementType type, int amount)
-    {
+    public void setScrollableBlockIncrement(int orientation, IncrementType type, int amount) {
         IncrementInfo info = new IncrementInfo(type, amount);
         setScrollableBlockIncrement(orientation, info);
     }
@@ -204,10 +192,8 @@ public class ScrollablePanel extends JPanel
      *  @param info  An IncrementInfo object containing information of how to
      *      calculate the scrollable amount.
      */
-    public void setScrollableBlockIncrement(int orientation, IncrementInfo info)
-    {
-        switch(orientation)
-        {
+    public void setScrollableBlockIncrement(int orientation, IncrementInfo info) {
+        switch (orientation) {
             case SwingConstants.HORIZONTAL:
                 horizontalBlock = info;
                 break;
@@ -224,8 +210,7 @@ public class ScrollablePanel extends JPanel
      *
      *  @return the unit IncrementInfo for the specified orientation
      */
-    public IncrementInfo getScrollableUnitIncrement(int orientation)
-    {
+    public IncrementInfo getScrollableUnitIncrement(int orientation) {
         return orientation == SwingConstants.HORIZONTAL ? horizontalUnit : verticalUnit;
     }
 
@@ -241,8 +226,7 @@ public class ScrollablePanel extends JPanel
      *  @param amount  a value used with the IncrementType to determine the
      *                 scrollable amount
      */
-    public void setScrollableUnitIncrement(int orientation, IncrementType type, int amount)
-    {
+    public void setScrollableUnitIncrement(int orientation, IncrementType type, int amount) {
         IncrementInfo info = new IncrementInfo(type, amount);
         setScrollableUnitIncrement(orientation, info);
     }
@@ -255,10 +239,8 @@ public class ScrollablePanel extends JPanel
      *  @param info  An IncrementInfo object containing information of how to
      *               calculate the scrollable amount.
      */
-    public void setScrollableUnitIncrement(int orientation, IncrementInfo info)
-    {
-        switch(orientation)
-        {
+    public void setScrollableUnitIncrement(int orientation, IncrementInfo info) {
+        switch (orientation) {
             case SwingConstants.HORIZONTAL:
                 horizontalUnit = info;
                 break;
@@ -270,18 +252,14 @@ public class ScrollablePanel extends JPanel
         }
     }
 
-//  Implement Scrollable interface
+    //  Implement Scrollable interface
 
-    public Dimension getPreferredScrollableViewportSize()
-    {
+    public Dimension getPreferredScrollableViewportSize() {
         return getPreferredSize();
     }
 
-    public int getScrollableUnitIncrement(
-            Rectangle visible, int orientation, int direction)
-    {
-        switch(orientation)
-        {
+    public int getScrollableUnitIncrement(Rectangle visible, int orientation, int direction) {
+        switch (orientation) {
             case SwingConstants.HORIZONTAL:
                 return getScrollableIncrement(horizontalUnit, visible.width);
             case SwingConstants.VERTICAL:
@@ -291,11 +269,8 @@ public class ScrollablePanel extends JPanel
         }
     }
 
-    public int getScrollableBlockIncrement(
-            Rectangle visible, int orientation, int direction)
-    {
-        switch(orientation)
-        {
+    public int getScrollableBlockIncrement(Rectangle visible, int orientation, int direction) {
+        switch (orientation) {
             case SwingConstants.HORIZONTAL:
                 return getScrollableIncrement(horizontalBlock, visible.width);
             case SwingConstants.VERTICAL:
@@ -305,45 +280,33 @@ public class ScrollablePanel extends JPanel
         }
     }
 
-    protected int getScrollableIncrement(IncrementInfo info, int distance)
-    {
-        if (info.getIncrement() == IncrementType.PIXELS)
-            return info.getAmount();
-        else
-            return distance * info.getAmount() / 100;
+    protected int getScrollableIncrement(IncrementInfo info, int distance) {
+        if (info.getIncrement() == IncrementType.PIXELS) return info.getAmount();
+        else return (distance * info.getAmount()) / 100;
     }
 
-    public boolean getScrollableTracksViewportWidth()
-    {
-        if (scrollableWidth == ScrollableSizeHint.NONE)
-            return false;
+    public boolean getScrollableTracksViewportWidth() {
+        if (scrollableWidth == ScrollableSizeHint.NONE) return false;
 
-        if (scrollableWidth == ScrollableSizeHint.FIT)
-            return true;
+        if (scrollableWidth == ScrollableSizeHint.FIT) return true;
 
         //  STRETCH sizing, use the greater of the panel or viewport width
 
-        if (getParent() instanceof JViewport)
-        {
+        if (getParent() instanceof JViewport) {
             return (getParent().getWidth() > getPreferredSize().width);
         }
 
         return false;
     }
 
-    public boolean getScrollableTracksViewportHeight()
-    {
-        if (scrollableHeight == ScrollableSizeHint.NONE)
-            return false;
+    public boolean getScrollableTracksViewportHeight() {
+        if (scrollableHeight == ScrollableSizeHint.NONE) return false;
 
-        if (scrollableHeight == ScrollableSizeHint.FIT)
-            return true;
+        if (scrollableHeight == ScrollableSizeHint.FIT) return true;
 
         //  STRETCH sizing, use the greater of the panel or viewport height
 
-
-        if (getParent() instanceof JViewport)
-        {
+        if (getParent() instanceof JViewport) {
             return (getParent().getHeight() > getPreferredSize().height);
         }
 
@@ -353,33 +316,26 @@ public class ScrollablePanel extends JPanel
     /**
      *  Helper class to hold the information required to calculate the scroll amount.
      */
-    static class IncrementInfo
-    {
+    static class IncrementInfo {
+
         private IncrementType type;
         private int amount;
 
-        public IncrementInfo(IncrementType type, int amount)
-        {
+        public IncrementInfo(IncrementType type, int amount) {
             this.type = type;
             this.amount = amount;
         }
 
-        public IncrementType getIncrement()
-        {
+        public IncrementType getIncrement() {
             return type;
         }
 
-        public int getAmount()
-        {
+        public int getAmount() {
             return amount;
         }
 
-        public String toString()
-        {
-            return
-                    "ScrollablePanel[" +
-                            type + ", " +
-                            amount + "]";
+        public String toString() {
+            return "ScrollablePanel[" + type + ", " + amount + "]";
         }
     }
 }

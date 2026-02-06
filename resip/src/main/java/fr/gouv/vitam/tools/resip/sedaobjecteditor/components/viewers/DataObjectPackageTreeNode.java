@@ -91,8 +91,7 @@ public class DataObjectPackageTreeNode implements TreeNode {
         this.ogRecursivCount = 0;
         this.touchedCounter = 0;
         this.parents = new ArrayList<DataObjectPackageTreeNode>();
-        if (parent != null)
-            this.parents.add(parent);
+        if (parent != null) this.parents.add(parent);
         this.treeModel = treeModel;
     }
 
@@ -103,7 +102,11 @@ public class DataObjectPackageTreeNode implements TreeNode {
      * @param archiveUnit the archive unit
      * @param parent      the parent
      */
-    public DataObjectPackageTreeNode(DataObjectPackageTreeModel treeModel, ArchiveUnit archiveUnit, DataObjectPackageTreeNode parent) {
+    public DataObjectPackageTreeNode(
+        DataObjectPackageTreeModel treeModel,
+        ArchiveUnit archiveUnit,
+        DataObjectPackageTreeNode parent
+    ) {
         this(treeModel, parent);
         this.archiveUnit = archiveUnit;
         treeModel.addIdElementTreeNode(archiveUnit, this);
@@ -116,7 +119,11 @@ public class DataObjectPackageTreeNode implements TreeNode {
      * @param dataObject the data object
      * @param parent     the parent
      */
-    public DataObjectPackageTreeNode(DataObjectPackageTreeModel treeModel, DataObject dataObject, DataObjectPackageTreeNode parent) {
+    public DataObjectPackageTreeNode(
+        DataObjectPackageTreeModel treeModel,
+        DataObject dataObject,
+        DataObjectPackageTreeNode parent
+    ) {
         this(treeModel, parent);
         this.dataObject = dataObject;
         treeModel.addIdElementTreeNode(dataObject, this);
@@ -130,7 +137,6 @@ public class DataObjectPackageTreeNode implements TreeNode {
     public DataObjectPackageTreeModel getTreeModel() {
         return treeModel;
     }
-
 
     /**
      * Gets the data object.
@@ -156,16 +162,20 @@ public class DataObjectPackageTreeNode implements TreeNode {
     @Override
     @JsonIgnore
     public TreeNode getChildAt(int childIndex) {
-        if ((archiveUnit == null) || (childIndex < 0))
-            return null;
+        if ((archiveUnit == null) || (childIndex < 0)) return null;
         int sonAuCount = 0;
-        if (archiveUnit.getChildrenAuList() != null)
-            sonAuCount = archiveUnit.getChildrenAuList().getArchiveUnitList().size();
-        if ((sonAuCount > 0) && (childIndex < sonAuCount))
-            return treeModel.findTreeNode(archiveUnit.getChildrenAuList().getArchiveUnitList().get(childIndex));
+        if (archiveUnit.getChildrenAuList() != null) sonAuCount = archiveUnit
+            .getChildrenAuList()
+            .getArchiveUnitList()
+            .size();
+        if ((sonAuCount > 0) && (childIndex < sonAuCount)) return treeModel.findTreeNode(
+            archiveUnit.getChildrenAuList().getArchiveUnitList().get(childIndex)
+        );
         else {
             try {
-                return treeModel.findTreeNode(archiveUnit.getDataObjectRefList().getDataObjectList().get(childIndex - sonAuCount));
+                return treeModel.findTreeNode(
+                    archiveUnit.getDataObjectRefList().getDataObjectList().get(childIndex - sonAuCount)
+                );
             } catch (Exception e) {
                 return null;
             }
@@ -178,12 +188,11 @@ public class DataObjectPackageTreeNode implements TreeNode {
     @Override
     @JsonIgnore
     public int getChildCount() {
-        if (archiveUnit == null)
-            return 0;
-        if (archiveUnit.getChildrenAuList() == null)
-            return 0;
-        return archiveUnit.getChildrenAuList().getArchiveUnitList().size()
-                + archiveUnit.getDataObjectRefList().getCount();
+        if (archiveUnit == null) return 0;
+        if (archiveUnit.getChildrenAuList() == null) return 0;
+        return (
+            archiveUnit.getChildrenAuList().getArchiveUnitList().size() + archiveUnit.getDataObjectRefList().getCount()
+        );
     }
 
     /**
@@ -193,10 +202,8 @@ public class DataObjectPackageTreeNode implements TreeNode {
      */
     @JsonIgnore
     public int getAuChildCount() {
-        if (archiveUnit == null)
-            return 0;
-        if (archiveUnit.getChildrenAuList() == null)
-            return 0;
+        if (archiveUnit == null) return 0;
+        if (archiveUnit.getChildrenAuList() == null) return 0;
         return archiveUnit.getChildrenAuList().getArchiveUnitList().size();
     }
 
@@ -206,10 +213,8 @@ public class DataObjectPackageTreeNode implements TreeNode {
     @Override
     @JsonIgnore
     public TreeNode getParent() {
-        if (parents.isEmpty())
-            return null;
-        else
-            return parents.get(0);
+        if (parents.isEmpty()) return null;
+        else return parents.get(0);
     }
 
     /* (non-Javadoc)
@@ -218,15 +223,14 @@ public class DataObjectPackageTreeNode implements TreeNode {
     @Override
     @JsonIgnore
     public int getIndex(TreeNode node) {
-        if ((archiveUnit == null) || (node == null))
-            return -1;
+        if ((archiveUnit == null) || (node == null)) return -1;
         for (int i = 0; i < archiveUnit.getChildrenAuList().getCount(); i++) {
-            if (treeModel.findTreeNode(archiveUnit.getChildrenAuList().getArchiveUnitList().get(i)) == node)
-                return i;
+            if (treeModel.findTreeNode(archiveUnit.getChildrenAuList().getArchiveUnitList().get(i)) == node) return i;
         }
         for (int i = 0; i < archiveUnit.getDataObjectRefList().getCount(); i++) {
-            if (treeModel.findTreeNode(archiveUnit.getDataObjectRefList().getDataObjectList().get(i)) == node)
-                return i + archiveUnit.getChildrenAuList().getCount();
+            if (treeModel.findTreeNode(archiveUnit.getDataObjectRefList().getDataObjectList().get(i)) == node) return (
+                i + archiveUnit.getChildrenAuList().getCount()
+            );
         }
         return -1;
     }
@@ -254,15 +258,17 @@ public class DataObjectPackageTreeNode implements TreeNode {
      */
     @Override
     public Enumeration<DataObjectPackageTreeNode> children() {
-        if (archiveUnit == null)
-            return null;
+        if (archiveUnit == null) return null;
 
         List<DataObjectPackageTreeNode> lstn = new ArrayList<DataObjectPackageTreeNode>(
-                archiveUnit.getChildrenAuList().getCount() + archiveUnit.getDataObjectRefList().getCount());
-        for (int i = 0; i < archiveUnit.getChildrenAuList().getCount(); i++)
-            lstn.add(treeModel.findTreeNode(archiveUnit.getChildrenAuList().getArchiveUnitList().get(i)));
-        for (int i = 0; i < archiveUnit.getDataObjectRefList().getCount(); i++)
-            lstn.add(treeModel.findTreeNode(archiveUnit.getDataObjectRefList().getDataObjectList().get(i)));
+            archiveUnit.getChildrenAuList().getCount() + archiveUnit.getDataObjectRefList().getCount()
+        );
+        for (int i = 0; i < archiveUnit.getChildrenAuList().getCount(); i++) lstn.add(
+            treeModel.findTreeNode(archiveUnit.getChildrenAuList().getArchiveUnitList().get(i))
+        );
+        for (int i = 0; i < archiveUnit.getDataObjectRefList().getCount(); i++) lstn.add(
+            treeModel.findTreeNode(archiveUnit.getDataObjectRefList().getDataObjectList().get(i))
+        );
         return Collections.enumeration(lstn);
     }
 
@@ -272,8 +278,7 @@ public class DataObjectPackageTreeNode implements TreeNode {
      * @param parent the parent
      */
     public void addParent(DataObjectPackageTreeNode parent) {
-        if (parent != null)
-            parents.add(parent);
+        if (parent != null) parents.add(parent);
     }
 
     /**
@@ -282,8 +287,7 @@ public class DataObjectPackageTreeNode implements TreeNode {
      * @param parent the parent
      */
     public void removeParent(DataObjectPackageTreeNode parent) {
-        if (parent != null)
-            parents.remove(parent);
+        if (parent != null) parents.remove(parent);
     }
 
     /**
@@ -366,10 +370,8 @@ public class DataObjectPackageTreeNode implements TreeNode {
         childNode.addParent(this);
         auCount = childNode.getAuRecursivCount();
         ogCount = childNode.getOgRecursivCount();
-        if (childNode.getArchiveUnit() != null)
-            auCount++;
-        else
-            ogCount++;
+        if (childNode.getArchiveUnit() != null) auCount++;
+        else ogCount++;
         actualiseRecursivCounts(auCount, ogCount);
     }
 
@@ -383,10 +385,8 @@ public class DataObjectPackageTreeNode implements TreeNode {
         childNode.removeParent(this);
         auCount = childNode.getAuRecursivCount();
         ogCount = childNode.getOgRecursivCount();
-        if (childNode.getArchiveUnit() != null)
-            auCount++;
-        else
-            ogCount++;
+        if (childNode.getArchiveUnit() != null) auCount++;
+        else ogCount++;
         actualiseRecursivCounts(-auCount, -ogCount);
     }
 
@@ -396,13 +396,11 @@ public class DataObjectPackageTreeNode implements TreeNode {
      * @param aAttn the a attn
      * @return true, if is descendant
      */
-// Determines if aAttn is a descendant of this TreeNode
+    // Determines if aAttn is a descendant of this TreeNode
     public boolean isDescendant(DataObjectPackageTreeNode aAttn) {
-        if (aAttn == this)
-            return true;
+        if (aAttn == this) return true;
         for (DataObjectPackageTreeNode parent : aAttn.parents) {
-            if (isDescendant(parent))
-                return true;
+            if (isDescendant(parent)) return true;
         }
         return false;
     }
@@ -413,11 +411,10 @@ public class DataObjectPackageTreeNode implements TreeNode {
      * @param aAttn the a attn
      * @return true, if successful
      */
-// Determines if aAttn is a father of this TreeNode
+    // Determines if aAttn is a father of this TreeNode
     public boolean hasFather(DataObjectPackageTreeNode aAttn) {
         for (DataObjectPackageTreeNode parent : parents) {
-            if (aAttn.equals(parent))
-                return true;
+            if (aAttn.equals(parent)) return true;
         }
         return false;
     }

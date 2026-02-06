@@ -39,10 +39,11 @@ package fr.gouv.vitam.tools.javalibpst;
 
 /**
  * Simple exception for PST File related errors
- * 
+ *
  * @author Richard Johnson
  */
 public class PSTException extends Exception {
+
     /**
      * eclipse generated serial UID
      */

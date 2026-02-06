@@ -126,7 +126,8 @@ public class DroidIdentifier {
      * @return single instance of DroidIdentifier
      * @throws SEDALibException if the identifier can't be initialised, may be due to wrong signatures files
      */
-    public static DroidIdentifier init(SEDALibProgressLogger sedaLibProgressLogger, String configDir) throws SEDALibException {
+    public static DroidIdentifier init(SEDALibProgressLogger sedaLibProgressLogger, String configDir)
+        throws SEDALibException {
         instance = new DroidIdentifier(sedaLibProgressLogger, configDir);
         return instance;
     }
@@ -137,13 +138,12 @@ public class DroidIdentifier {
      * @return single instance of DroidIdentifier
      */
     public static DroidIdentifier getInstance() {
-        if (instance == null)
-            try {
-                instance = new DroidIdentifier(null, "./config");
-            } catch (SEDALibException e) {
-                System.err.println(getAllJavaStackString(e));
-                System.exit(1);
-            }
+        if (instance == null) try {
+            instance = new DroidIdentifier(null, "./config");
+        } catch (SEDALibException e) {
+            System.err.println(getAllJavaStackString(e));
+            System.exit(1);
+        }
         return instance;
     }
 
@@ -175,20 +175,22 @@ public class DroidIdentifier {
         };
 
         File dir = new File(configDir);
-        if (dir.isFile())
-            throw new SEDALibException("Panic! Can't create config directory");
-        else if (!dir.exists())
-            //noinspection ResultOfMethodCallIgnored
-            dir.mkdirs();
+        if (dir.isFile()) throw new SEDALibException("Panic! Can't create config directory");
+        else if (!dir.exists()) dir.mkdirs(); //noinspection ResultOfMethodCallIgnored
         String[] fileList = dir.list(droidFilter);
         if ((fileList == null) || (fileList.length == 0)) {
-            doProgressLogWithoutInterruption(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,
+            doProgressLogWithoutInterruption(
+                sedaLibProgressLogger,
+                SEDALibProgressLogger.GLOBAL,
                 "sedalib: can't find a DROID signature file, copy from ressource to file " + DROID_SIGNATURE_FILE,
-                null);
-            try (InputStream is = Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream(DROID_SIGNATURE_FILE)) {
-                File targetFile = new File(
-                        "." + File.separator + "config" + File.separator + DROID_SIGNATURE_FILE);
+                null
+            );
+            try (
+                InputStream is = Thread.currentThread()
+                    .getContextClassLoader()
+                    .getResourceAsStream(DROID_SIGNATURE_FILE)
+            ) {
+                File targetFile = new File("." + File.separator + "config" + File.separator + DROID_SIGNATURE_FILE);
                 Files.copy(is, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new SEDALibException("Panic! Can't extract a DROID signature file, stop");
@@ -253,20 +255,23 @@ public class DroidIdentifier {
         };
 
         File dir = new File(configDir);
-        if (dir.isFile())
-            throw new SEDALibException("Panic! Can't create config directory");
-        else if (!dir.exists())
-            //noinspection ResultOfMethodCallIgnored
-            dir.mkdirs();
+        if (dir.isFile()) throw new SEDALibException("Panic! Can't create config directory");
+        else if (!dir.exists()) dir.mkdirs(); //noinspection ResultOfMethodCallIgnored
         String[] fileList = dir.list(droidFilter);
         if ((fileList == null) || (fileList.length == 0)) {
-            doProgressLogWithoutInterruption(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL,
+            doProgressLogWithoutInterruption(
+                sedaLibProgressLogger,
+                SEDALibProgressLogger.GLOBAL,
                 "sedalib: can't find a DROID container signature file, copy from ressource to file " +
-                    CONTAINER_SIGNATURE_FILE, null);
-            try (InputStream is = Thread.currentThread().getContextClassLoader()
-                    .getResourceAsStream(CONTAINER_SIGNATURE_FILE)) {
-                File targetFile = new File(
-                        "." + File.separator + "config" + File.separator + CONTAINER_SIGNATURE_FILE);
+                CONTAINER_SIGNATURE_FILE,
+                null
+            );
+            try (
+                InputStream is = Thread.currentThread()
+                    .getContextClassLoader()
+                    .getResourceAsStream(CONTAINER_SIGNATURE_FILE)
+            ) {
+                File targetFile = new File("." + File.separator + "config" + File.separator + CONTAINER_SIGNATURE_FILE);
                 Files.copy(is, targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
             } catch (IOException e) {
                 throw new SEDALibException("Panic! Can't extract a DROID signature file, stop");
@@ -304,17 +309,20 @@ public class DroidIdentifier {
             ContainerSignatureSaxParser parser = new ContainerSignatureSaxParser();
             containerSignatureDefinitions = parser.parse(in);
         } catch (SignatureParseException e) {
-            throw new SEDALibException("Panic! Can't parse container signature file",e);
+            throw new SEDALibException("Panic! Can't parse container signature file", e);
         } catch (Exception e) {
-            throw new SEDALibException("Panic! Can't open container signature file",e);
+            throw new SEDALibException("Panic! Can't open container signature file", e);
         }
 
         containerContentIdentierMap = new HashMap<>();
 
         // create container content identifier for OLE2
         IdentificationRequestFactory ole2RequestFactory = new ContainerFileIdentificationRequestFactory();
-        ContainerDroidIdentifier ole2Identifier = new ContainerDroidIdentifier(containerSignatureDefinitions,
-                binarySignatureFile, OLE2_CONTAINER);
+        ContainerDroidIdentifier ole2Identifier = new ContainerDroidIdentifier(
+            containerSignatureDefinitions,
+            binarySignatureFile,
+            OLE2_CONTAINER
+        );
         Ole2IdentifierEngine ole2IdentifierEngine = new Ole2IdentifierEngine();
         ole2IdentifierEngine.setRequestFactory(ole2RequestFactory);
         ole2Identifier.setIdentifierEngine(ole2IdentifierEngine);
@@ -322,13 +330,15 @@ public class DroidIdentifier {
 
         // create container content identifier for ZIP
         IdentificationRequestFactory zipRequestFactory = new ContainerFileIdentificationRequestFactory();
-        ContainerDroidIdentifier zipIdentifier = new ContainerDroidIdentifier(containerSignatureDefinitions,
-                binarySignatureFile, ZIP_CONTAINER);
+        ContainerDroidIdentifier zipIdentifier = new ContainerDroidIdentifier(
+            containerSignatureDefinitions,
+            binarySignatureFile,
+            ZIP_CONTAINER
+        );
         ZipIdentifierEngine zipIdentifierEngine = new ZipIdentifierEngine();
         zipIdentifierEngine.setRequestFactory(zipRequestFactory);
         zipIdentifier.setIdentifierEngine(zipIdentifierEngine);
         containerContentIdentierMap.put(ZIP_CONTAINER, zipIdentifier);
-
     }
 
     /**
@@ -340,7 +350,7 @@ public class DroidIdentifier {
      * @param puid the puid
      * @return the TriggerPuid by puid
      */
-// get the container ID for the given PUID if any
+    // get the container ID for the given PUID if any
     public TriggerPuid getTriggerPuidByPuid(final String puid) {
         for (final TriggerPuid tp : containerSignatureDefinitions.getTiggerPuids()) {
             if (tp.getPuid().equals(puid)) {
@@ -369,7 +379,7 @@ public class DroidIdentifier {
     public IdentificationResult getIdentificationResult(Path path) throws SEDALibException {
         List<IdentificationResult> irl;
         String filename = path.normalize().toString();
-        FileSystemIdentificationRequest request=null;
+        FileSystemIdentificationRequest request = null;
 
         RequestMetaData metaData;
         try {
@@ -379,12 +389,11 @@ public class DroidIdentifier {
             request = new FileSystemIdentificationRequest(metaData, identifier);
             request.open(path);
         } catch (IOException e) {
-            if (request!=null)
-                try {
-                    request.close();
-                } catch (IOException e1) {
-                    //ignored
-                }
+            if (request != null) try {
+                request.close();
+            } catch (IOException e1) {
+                //ignored
+            }
             throw new SEDALibException("Impossible d'accéder au fichier [" + filename + "]");
         }
 
@@ -398,7 +407,7 @@ public class DroidIdentifier {
             } catch (IOException e1) {
                 //ignored
             }
-             throw new SEDALibException("Erreur dans l'identification par container du fichier [" + filename + "]");
+            throw new SEDALibException("Erreur dans l'identification par container du fichier [" + filename + "]");
         }
 
         if ((resultsContainerCollection != null) && !resultsContainerCollection.getResults().isEmpty()) {
@@ -412,16 +421,16 @@ public class DroidIdentifier {
         try {
             request.close();
         } catch (IOException e) {
-            throw new SEDALibException("Erreur dans l'identification droid du fichier [" + filename + "], impossible de fermer la requête");
+            throw new SEDALibException(
+                "Erreur dans l'identification droid du fichier [" + filename + "], impossible de fermer la requête"
+            );
         }
 
         if ((irl != null) && (!irl.isEmpty())) {
             String fileExtension = "";
-            if (filename.lastIndexOf('.') != -1)
-                fileExtension = filename.substring(filename.lastIndexOf('.') + 1);
+            if (filename.lastIndexOf('.') != -1) fileExtension = filename.substring(filename.lastIndexOf('.') + 1);
             return selectBestResult(irl, fileExtension);
-        } else
-            return null;
+        } else return null;
     }
 
     /**
@@ -431,8 +440,8 @@ public class DroidIdentifier {
      * @return the signature results
      */
     IdentificationResultCollection getSignatureResults(
-            @SuppressWarnings("rawtypes") final IdentificationRequest request) {
-
+        @SuppressWarnings("rawtypes") final IdentificationRequest request
+    ) {
         IdentificationResultCollection results = binarySignatureIdentifier.matchBinarySignatures(request);
         binarySignatureIdentifier.checkForExtensionsMismatches(results, request.getExtension());
         return results;
@@ -445,8 +454,8 @@ public class DroidIdentifier {
      * @return the extension results
      */
     IdentificationResultCollection getExtensionResults(
-            @SuppressWarnings("rawtypes") final IdentificationRequest request) {
-
+        @SuppressWarnings("rawtypes") final IdentificationRequest request
+    ) {
         return binarySignatureIdentifier.matchExtensions(request, true);
     }
 
@@ -458,8 +467,10 @@ public class DroidIdentifier {
      * @return the container results
      * @throws SEDALibException the SEDALibException
      */
-    IdentificationResultCollection getContainerResults(final IdentificationResultCollection signatureResults,
-                                                       @SuppressWarnings("rawtypes") final IdentificationRequest request) throws SEDALibException {
+    IdentificationResultCollection getContainerResults(
+        final IdentificationResultCollection signatureResults,
+        @SuppressWarnings("rawtypes") final IdentificationRequest request
+    ) throws SEDALibException {
         IdentificationResultCollection containerResults = new IdentificationResultCollection(request);
 
         if (!signatureResults.getResults().isEmpty() && canAnalyzeContainer()) {
@@ -468,17 +479,21 @@ public class DroidIdentifier {
                 if (filePuid != null) {
                     TriggerPuid containerPuid = getTriggerPuidByPuid(filePuid);
                     if (containerPuid != null) {
-
                         String containerType = containerPuid.getContainerType();
 
                         ContainerDroidIdentifier cci = containerContentIdentierMap.get(containerType);
                         if (cci != null) {
                             try {
-                                containerResults = cci.getContainerIdentification(request.getSourceInputStream(),
-                                        containerResults);
+                                containerResults = cci.getContainerIdentification(
+                                    request.getSourceInputStream(),
+                                    containerResults
+                                );
                             } catch (IOException e) { // go on after problems
                                 throw new SEDALibException(
-                                        "Impossible d'analyser en conteneur le format du fichier [" + request.getFileName() + "]");
+                                    "Impossible d'analyser en conteneur le format du fichier [" +
+                                    request.getFileName() +
+                                    "]"
+                                );
                             }
                         }
                     }
@@ -499,12 +514,11 @@ public class DroidIdentifier {
      * @param fileExtension the file extension of original file
      * @return the best identification result, or null if the list was empty
      */
-// use the signature file priorities and the extension to select the best format
+    // use the signature file priorities and the extension to select the best format
     protected IdentificationResult selectBestResult(List<IdentificationResult> irl, String fileExtension) {
         // special quick return cases
         int numResults = irl.size();
-        if (numResults == 0)
-            return null;
+        if (numResults == 0) return null;
         else if (numResults == 1) {
             return irl.get(0);
         }
@@ -538,8 +552,7 @@ public class DroidIdentifier {
 
         // different return cases
         numResults = irl.size();
-        if (numResults == 0)
-            return null;
+        if (numResults == 0) return null;
         else if (numResults == 1) {
             return irl.get(0);
         } else {
@@ -561,8 +574,7 @@ public class DroidIdentifier {
      * @param filename the file name
      * @return the best identification result puid, or null if the list was empty
      */
-    public static String getFileDroidFormat(String filename)
-            throws SEDALibException {
+    public static String getFileDroidFormat(String filename) throws SEDALibException {
         Path onDiskPath = null;
         String droidFormat;
 
@@ -571,8 +583,10 @@ public class DroidIdentifier {
             IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(onDiskPath);
             droidFormat = ir.getPuid();
         } catch (SEDALibException e) {
-            throw new SEDALibException("Impossible de faire l'identification de format Droid pour le fichier ["
-                    + onDiskPath + "]", e);
+            throw new SEDALibException(
+                "Impossible de faire l'identification de format Droid pour le fichier [" + onDiskPath + "]",
+                e
+            );
         }
         return droidFormat;
     }

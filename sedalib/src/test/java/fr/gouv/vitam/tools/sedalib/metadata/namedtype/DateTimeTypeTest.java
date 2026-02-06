@@ -49,7 +49,9 @@ public class DateTimeTypeTest {
 
     // --- Precise formats ---
     @Test
-    @DisplayName("Should recognise an OFFSET_DATE_TIME with explicit timezone offset (+02:00) and produce the correct UTC date")
+    @DisplayName(
+        "Should recognise an OFFSET_DATE_TIME with explicit timezone offset (+02:00) and produce the correct UTC date"
+    )
     void testOffsetDateTime() {
         String input = "2025-10-28T14:30:15+02:00";
         DateTimeType dtt = new DateTimeType("Test", input);
@@ -175,9 +177,8 @@ public class DateTimeTypeTest {
         LocalDateTime result = dt.toLocalDateTime();
         assertNotNull(result, "Expected non-null LocalDateTime for OFFSET_DATE_TIME");
         // Conversion UTC -> system LocalDateTime
-        LocalDateTime expectedLocal = ((OffsetDateTime) dt.getTemporalValue())
-            .atZoneSameInstant(ZoneId.systemDefault())
-            .toLocalDateTime();
+        LocalDateTime expectedLocal =
+            ((OffsetDateTime) dt.getTemporalValue()).atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
         assertEquals(expectedLocal, result, "LocalDateTime must match system local time");
     }
 

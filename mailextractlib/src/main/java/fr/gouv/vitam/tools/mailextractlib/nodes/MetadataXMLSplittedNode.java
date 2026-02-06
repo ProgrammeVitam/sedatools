@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.mailextractlib.nodes;
 
-
 import fr.gouv.vitam.tools.mailextractlib.utils.HtmlAndXmlEscape;
 
 import java.util.regex.Pattern;
@@ -85,7 +84,7 @@ public class MetadataXMLSplittedNode extends MetadataXMLNode {
         // remove all forbidden and invisible characters
         String normalized = FORBIDDEN_PATTERN.matcher(value).replaceAll("");
         // unescape all HMTL characters
-        normalized= HtmlAndXmlEscape.unescapeHtmlAndXMLEntities(normalized);
+        normalized = HtmlAndXmlEscape.unescapeHtmlAndXMLEntities(normalized);
         // break HTML tags in metadata if any
         normalized = normalized.replace("<", "< ");
         // break left HTML escape after unescape
@@ -124,27 +123,17 @@ public class MetadataXMLSplittedNode extends MetadataXMLNode {
             String subValue = normalisedValue.substring(chunkBeg, chunkEnd);
 
             // Build the XML output for this chunk
-            result.append(tabs)
-                    .append('<').append(tag);
+            result.append(tabs).append('<').append(tag);
             if (attributename != null) {
-                result.append(' ')
-                        .append(attributename)
-                        .append("=\"")
-                        .append(attributevalue)
-                        .append("\"");
+                result.append(' ').append(attributename).append("=\"").append(attributevalue).append("\"");
             }
-            result.append('>')
-                    .append(subValue)
-                    .append("</")
-                    .append(tag)
-                    .append(">\n");
+            result.append('>').append(subValue).append("</").append(tag).append(">\n");
 
             // Advance to the next segment
             chunkBeg = chunkEnd;
         }
 
         return result.toString();
-
     }
 
     /**
@@ -194,8 +183,7 @@ public class MetadataXMLSplittedNode extends MetadataXMLNode {
         int lastSpace = -1;
         int lastReturn = -1;
 
-        if ((length - beg) * 3 < maxBytesLength)
-            return s.length();
+        if ((length - beg) * 3 < maxBytesLength) return s.length();
 
         while (i < length) {
             char c = s.charAt(i);

@@ -56,13 +56,14 @@ import java.util.Map;
  */
 public class AccessRule extends RuleType {
 
-    static final String ACCESSRULE_TAG="AccessRule";
+    static final String ACCESSRULE_TAG = "AccessRule";
 
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
     public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
         metadataMap = new LinkedHashMap<>();
         metadataMap.put(RULE_TAG, new ComplexListMetadataKind(Rule.class, true));
@@ -85,6 +86,6 @@ public class AccessRule extends RuleType {
      * @throws SEDALibException the seda lib exception
      */
     public AccessRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(ACCESSRULE_TAG, rule , startDate);
+        super(ACCESSRULE_TAG, rule, startDate);
     }
 }

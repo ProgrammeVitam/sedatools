@@ -36,7 +36,7 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 /*
- * 
+ *
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
@@ -49,7 +49,7 @@ import java.util.List;
  */
 public class DiskImportContext extends CreationContext {
 
-// prefs elements
+    // prefs elements
     /**
      * The ignore pattern list.
      */
@@ -60,7 +60,7 @@ public class DiskImportContext extends CreationContext {
      */
     boolean noLinkFlag;
 
-// session element
+    // session element
     /**
      * The model version.
      */
@@ -70,8 +70,8 @@ public class DiskImportContext extends CreationContext {
      * Instantiates a new disk import context.
      */
     public DiskImportContext() {
-		this(null, false, null, null);
-	}
+        this(null, false, null, null);
+    }
 
     /**
      * Instantiates a new disk import context.
@@ -82,48 +82,49 @@ public class DiskImportContext extends CreationContext {
      * @param workDir           the work dir
      */
     public DiskImportContext(List<String> ignorePatternList, boolean noLinkFlag, String onDiskInput, String workDir) {
-		super(onDiskInput, workDir);
-		if (ignorePatternList == null)
-			this.ignorePatternList = new ArrayList<String>();
-		else
-			this.ignorePatternList = ignorePatternList;
-		this.noLinkFlag=noLinkFlag;
-	}
+        super(onDiskInput, workDir);
+        if (ignorePatternList == null) this.ignorePatternList = new ArrayList<String>();
+        else this.ignorePatternList = ignorePatternList;
+        this.noLinkFlag = noLinkFlag;
+    }
 
-	/**
-	 * Instantiates a new disk import context.
-	 *
-	 * @param preferences the prefs
-	 */
-	public DiskImportContext(Preferences preferences) {
-		super(preferences);
-		String ignorePatternsString = preferences.getPrefProperties().getProperty("importContext.disk.ignorePatternList", "");
-		if (ignorePatternsString.isEmpty())
-			ignorePatternList = new ArrayList<String>();
-		else
-			ignorePatternList = Arrays.asList(ignorePatternsString.split("\\s*\n\\s*"));
-		noLinkFlag=Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("importContext.disk.noLinkFlag", "false"));
-	}
+    /**
+     * Instantiates a new disk import context.
+     *
+     * @param preferences the prefs
+     */
+    public DiskImportContext(Preferences preferences) {
+        super(preferences);
+        String ignorePatternsString = preferences
+            .getPrefProperties()
+            .getProperty("importContext.disk.ignorePatternList", "");
+        if (ignorePatternsString.isEmpty()) ignorePatternList = new ArrayList<String>();
+        else ignorePatternList = Arrays.asList(ignorePatternsString.split("\\s*\n\\s*"));
+        noLinkFlag = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("importContext.disk.noLinkFlag", "false")
+        );
+    }
 
-	/* (non-Javadoc)
-	 * @see CreationContext#toPrefs(Prefs)
-	 */
-	public void toPrefs(Preferences preferences) {
-		preferences.getPrefProperties().setProperty("importContext.disk.ignorePatternList", String.join("\n", ignorePatternList));
-		preferences.getPrefProperties().setProperty("importContext.disk.noLinkFlag",Boolean.toString(noLinkFlag));
-	}
+    /* (non-Javadoc)
+     * @see CreationContext#toPrefs(Prefs)
+     */
+    public void toPrefs(Preferences preferences) {
+        preferences
+            .getPrefProperties()
+            .setProperty("importContext.disk.ignorePatternList", String.join("\n", ignorePatternList));
+        preferences.getPrefProperties().setProperty("importContext.disk.noLinkFlag", Boolean.toString(noLinkFlag));
+    }
 
-	/* (non-Javadoc)
-	 * @see CreationContext#setDefaultPrefs()
-	 */
-	public void setDefaultPrefs() {
-		super.setDefaultPrefs();
-		ignorePatternList = Arrays.asList("Thumbs.db", "pagefile.sys");
-		noLinkFlag=false;
-	}
+    /* (non-Javadoc)
+     * @see CreationContext#setDefaultPrefs()
+     */
+    public void setDefaultPrefs() {
+        super.setDefaultPrefs();
+        ignorePatternList = Arrays.asList("Thumbs.db", "pagefile.sys");
+        noLinkFlag = false;
+    }
 
-	// Getters and setters
+    // Getters and setters
 
     /**
      * Gets the ignore pattern list.
@@ -131,8 +132,8 @@ public class DiskImportContext extends CreationContext {
      * @return the ignore pattern list
      */
     public List<String> getIgnorePatternList() {
-		return ignorePatternList;
-	}
+        return ignorePatternList;
+    }
 
     /**
      * Sets the ignore pattern list.
@@ -140,8 +141,8 @@ public class DiskImportContext extends CreationContext {
      * @param ignorePatternList the new ignore pattern list
      */
     public void setIgnorePatternList(List<String> ignorePatternList) {
-		this.ignorePatternList = ignorePatternList;
-	}
+        this.ignorePatternList = ignorePatternList;
+    }
 
     /**
      * Is no link flag boolean.
@@ -149,8 +150,8 @@ public class DiskImportContext extends CreationContext {
      * @return the boolean
      */
     public boolean isNoLinkFlag() {
-		return noLinkFlag;
-	}
+        return noLinkFlag;
+    }
 
     /**
      * Sets no link flag.
@@ -158,8 +159,8 @@ public class DiskImportContext extends CreationContext {
      * @param noLinkFlag the no link flag
      */
     public void setNoLinkFlag(boolean noLinkFlag) {
-		this.noLinkFlag = noLinkFlag;
-	}
+        this.noLinkFlag = noLinkFlag;
+    }
 
     /**
      * Gets the model version.
@@ -167,8 +168,8 @@ public class DiskImportContext extends CreationContext {
      * @return the model version
      */
     public int getModelVersion() {
-		return modelVersion;
-	}
+        return modelVersion;
+    }
 
     /**
      * Sets the model version.
@@ -176,6 +177,6 @@ public class DiskImportContext extends CreationContext {
      * @param modelVersion the new model version
      */
     public void setModelVersion(int modelVersion) {
-		this.modelVersion = modelVersion;
-	}
+        this.modelVersion = modelVersion;
+    }
 }

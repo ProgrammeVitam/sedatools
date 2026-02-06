@@ -74,8 +74,7 @@ public class SEDAObjectEditorPanel extends ScrollablePanel {
                 ((CompositeEditor) objectEditor.getFather()).removeChild(objectEditor);
                 objectEditor.getFather().getSEDAObjectEditorPanelTopParent().validate();
             }
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
     }
 
     /**
@@ -87,7 +86,6 @@ public class SEDAObjectEditorPanel extends ScrollablePanel {
                 ((CompositeEditor) objectEditor.getFather()).addChild(objectEditor.getTag());
                 objectEditor.getFather().getSEDAObjectEditorPanelTopParent().validate();
             }
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
     }
 }

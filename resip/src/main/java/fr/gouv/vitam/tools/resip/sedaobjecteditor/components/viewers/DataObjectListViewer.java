@@ -68,7 +68,6 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
      */
     private BinaryDataObject actionBdo;
 
-
     /**
      * Instantiates a new data object list viewer.
      *
@@ -87,32 +86,37 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
                 if (index >= 0) {
                     if (SwingUtilities.isLeftMouseButton(e)) {
                         list.container.selectDataObject(list.getModel().getElementAt(index));
-                        if (e.getClickCount() == 2)
-                            list.container.buttonOpenObject();
+                        if (e.getClickCount() == 2) list.container.buttonOpenObject();
                     } else if (SwingUtilities.isRightMouseButton(e)) {
                         DataObject dataObject = list.getModel().getElementAt(index);
                         if (dataObject instanceof BinaryDataObject) {
                             BinaryDataObject bdo = (BinaryDataObject) dataObject;
-                            FormatIdentification fi=bdo.getMetadataFormatIdentification();
-                            if ((fi!=null) &&
-                                    (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(fi.getSimpleMetadata("FormatId")))) {
+                            FormatIdentification fi = bdo.getMetadataFormatIdentification();
+                            if (
+                                (fi != null) &&
+                                (CompressedFileToArchiveTransferImporter.isKnownCompressedDroidFormat(
+                                        fi.getSimpleMetadata("FormatId")
+                                    ))
+                            ) {
                                 JPopupMenu popup = new JPopupMenu();
                                 JMenuItem mi;
                                 mi = new JMenuItem("Remplacer par le décompressé");
                                 mi.addActionListener(list);
                                 mi.setActionCommand("Expand");
-                                list.actionBdo =bdo;
+                                list.actionBdo = bdo;
                                 popup.add(mi);
                                 popup.show((Component) e.getSource(), e.getX(), e.getY());
                             }
-                            if ((fi!=null) &&
-                                    (StoreExtractor.getProtocolFromDroidFormat(fi.getSimpleMetadata("FormatId"))!=null)) {
+                            if (
+                                (fi != null) &&
+                                (StoreExtractor.getProtocolFromDroidFormat(fi.getSimpleMetadata("FormatId")) != null)
+                            ) {
                                 JPopupMenu popup = new JPopupMenu();
                                 JMenuItem mi;
                                 mi = new JMenuItem("Remplacer par l'extraction des messages");
                                 mi.addActionListener(list);
                                 mi.setActionCommand("MailExtract");
-                                list.actionBdo =bdo;
+                                list.actionBdo = bdo;
                                 popup.add(mi);
                                 popup.show((Component) e.getSource(), e.getX(), e.getY());
                             }
@@ -144,19 +148,15 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
      *
      * @param dataObjectGroup the data object group
      */
-    public void initDataObjectGroup(DataObjectGroup dataObjectGroup){
+    public void initDataObjectGroup(DataObjectGroup dataObjectGroup) {
         DefaultListModel<DataObject> model = (DefaultListModel<DataObject>) getModel();
         model.removeAllElements();
         if (dataObjectGroup != null) {
-            for (BinaryDataObject bdo : dataObjectGroup.getBinaryDataObjectList())
-                model.addElement(bdo);
-            for (PhysicalDataObject pdo : dataObjectGroup.getPhysicalDataObjectList())
-                model.addElement(pdo);
+            for (BinaryDataObject bdo : dataObjectGroup.getBinaryDataObjectList()) model.addElement(bdo);
+            for (PhysicalDataObject pdo : dataObjectGroup.getPhysicalDataObjectList()) model.addElement(pdo);
         }
-        if (model.isEmpty())
-            container.selectDataObject(null);
-        else
-            container.selectDataObject(model.elementAt(0));
+        if (model.isEmpty()) container.selectDataObject(null);
+        else container.selectDataObject(model.elementAt(0));
     }
 
     /**
@@ -181,10 +181,8 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
     public void removeDataObject(DataObject dataObject) {
         container.getEditedArchiveUnit().getTheDataObjectGroup().removeDataObject(dataObject);
         ((DefaultListModel<DataObject>) getModel()).removeElement(dataObject);
-        if (((DefaultListModel<DataObject>) getModel()).isEmpty())
-            container.selectDataObject(null);
-        else
-            container.selectDataObject(getModel().getElementAt(0));
+        if (((DefaultListModel<DataObject>) getModel()).isEmpty()) container.selectDataObject(null);
+        else container.selectDataObject(getModel().getElementAt(0));
         ResipGraphicApp.getTheApp().currentWork.getCreationContext().setStructureChanged(true);
         ResipGraphicApp.getTheWindow().treePane.refreshTreeLabel();
     }
@@ -193,17 +191,17 @@ public class DataObjectListViewer extends JList<DataObject> implements ActionLis
     public void actionPerformed(ActionEvent ae) {
         if (ae.getActionCommand().equals("Expand")) {
             ExpandThread.launchExpandThread(ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(), actionBdo);
-        }
-        else if (ae.getActionCommand().equals("MailExtract")) {
-            MailExtractThread.launchMailExtractThread(ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(), actionBdo);
+        } else if (ae.getActionCommand().equals("MailExtract")) {
+            MailExtractThread.launchMailExtractThread(
+                ResipGraphicApp.getTheWindow().treePane.getDisplayedTreeNode(),
+                actionBdo
+            );
         }
     }
 
     @Override
     public Dimension getPreferredScrollableViewportSize() {
-        if (getModel().getSize() == 0)
-            return new Dimension(200, 128);
-        else
-            return super.getPreferredScrollableViewportSize();
+        if (getModel().getSize() == 0) return new Dimension(200, 128);
+        else return super.getPreferredScrollableViewportSize();
     }
 }

@@ -56,7 +56,7 @@ public class SEDALibException extends Exception {
     public SEDALibException(String message) {
         super(message);
     }
-    
+
     /**
      * Instantiates a new SEDALib exception.
      *

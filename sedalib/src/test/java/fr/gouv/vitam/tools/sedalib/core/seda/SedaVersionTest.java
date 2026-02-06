@@ -61,16 +61,17 @@ class SedaVersionTest {
 
     @Test
     void shouldThrowExceptionForUnsupportedMinorOnlyVersion() {
-        IllegalArgumentException exception =
-            assertThrows(IllegalArgumentException.class, () -> SedaVersion.from("4"));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> SedaVersion.from("4"));
 
         assertEquals("Unsupported SEDA version: 2.4", exception.getMessage());
     }
 
     @Test
     void shouldThrowExceptionForUnsupportedMajorMinorVersion() {
-        IllegalArgumentException exception =
-            assertThrows(IllegalArgumentException.class, () -> SedaVersion.from("3.0"));
+        IllegalArgumentException exception = assertThrows(
+            IllegalArgumentException.class,
+            () -> SedaVersion.from("3.0")
+        );
 
         assertEquals("Unsupported SEDA version: 3.0", exception.getMessage());
     }

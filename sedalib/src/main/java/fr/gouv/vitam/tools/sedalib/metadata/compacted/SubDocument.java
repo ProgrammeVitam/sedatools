@@ -71,7 +71,7 @@ public class SubDocument extends ComplexListType {
     public static final Map<String, ComplexListMetadataKind> metadataMap_default;
 
     static {
-        metadataMap_default = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
+        metadataMap_default = new LinkedHashMap<>(); //NOSONAR public mandatory for ComplexlistType mechanism
         metadataMap_default.put("Management", new ComplexListMetadataKind(Management.class, false));
         metadataMap_default.put("Content", new ComplexListMetadataKind(Content.class, false));
         metadataMap_default.put("FileObject", new ComplexListMetadataKind(FileObject.class, true));
@@ -93,7 +93,6 @@ public class SubDocument extends ComplexListType {
      */
     public SubDocument(Content content) throws SEDALibException {
         super(ELEMENT_NAME);
-
         addMetadata(content);
     }
 }

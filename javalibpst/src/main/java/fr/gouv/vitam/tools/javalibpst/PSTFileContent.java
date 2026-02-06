@@ -38,12 +38,14 @@
 package fr.gouv.vitam.tools.javalibpst;
 
 import java.io.IOException;
+
 //import java.util.HashMap;
 //import java.util.concurrent.atomic.AtomicLong;
 //import java.util.Map;
 //import java.util.TreeMap;
 
 public abstract class PSTFileContent {
+
     public abstract void seek(long index) throws IOException;
 
     public abstract long getFilePointer() throws IOException;
@@ -53,8 +55,8 @@ public abstract class PSTFileContent {
     public abstract int read(byte[] target) throws IOException;
 
     public final void readCompletely(final byte[] target) throws IOException {
-    //    collectCallStack();
-        int read =  this.read(target);
+        //    collectCallStack();
+        int read = this.read(target);
         // bail in common case
         if (read <= 0 || read == target.length) {
             return;
@@ -76,7 +78,6 @@ public abstract class PSTFileContent {
     public abstract byte readByte() throws IOException;
 
     public abstract void close() throws IOException;
-
     /**
      * Audit the code execution to better understand calls to `seek` and `read` operations
      * in `PSTFileContent`, and ensure the proper usage of `synchronized(PSTFileContent)`

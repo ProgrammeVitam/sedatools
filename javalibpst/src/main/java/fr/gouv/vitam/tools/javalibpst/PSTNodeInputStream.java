@@ -41,7 +41,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
-import java.util.zip.Inflater;
 import java.util.zip.InflaterOutputStream;
 
 /**
@@ -77,7 +76,7 @@ public class PSTNodeInputStream extends InputStream {
     }
 
     PSTNodeInputStream(final PSTFile pstFile, final byte[] attachmentData, final boolean encrypted)
-            throws PSTException {
+        throws PSTException {
         this.in = pstFile.getContentHandle();
         this.pstFile = pstFile;
         this.allData = attachmentData;
@@ -217,7 +216,6 @@ public class PSTNodeInputStream extends InputStream {
         }
         this.allData = data;
         this.length = this.allData.length;
-
     }
 
     public boolean isEncrypted() {
@@ -273,7 +271,6 @@ public class PSTNodeInputStream extends InputStream {
 
     @Override
     public int read() throws IOException {
-
         // first deal with items < 8K and we have all the data already
         if (this.allData != null) {
             if (this.currentLocation == this.length) {
@@ -370,7 +367,7 @@ public class PSTNodeInputStream extends InputStream {
                     PSTObject.decode(output);
                 }
                 this.currentLocation += bytesRemaining; // should be = to
-                                                        // this.length
+                // this.length
                 return bytesRemaining;
             } else {
                 System.arraycopy(this.allData, (int) this.currentLocation, output, 0, output.length);
@@ -387,7 +384,6 @@ public class PSTNodeInputStream extends InputStream {
         // while we still need to fill the array
         synchronized (in) {
             while (!filled) {
-
                 // fill up the output from where we are
                 // get the current block, either to the end, or until the length of
                 // the output
@@ -490,7 +486,8 @@ public class PSTNodeInputStream extends InputStream {
         // not past the end!
         if (location > this.length) {
             throw new PSTException(
-                    "Unable to seek past end of item! size = " + this.length + ", seeking to:" + location);
+                "Unable to seek past end of item! size = " + this.length + ", seeking to:" + location
+            );
         }
 
         // are we already there?
@@ -517,13 +514,12 @@ public class PSTNodeInputStream extends InputStream {
 
         // now move us to the right position in there
         this.currentLocation = location;
-
-//        Not needed as all PSTNodeInputStream read begin by a PSTFileContent.seek using currentLocation
-//        if (this.allData == null) {
-//            long blockStart = this.indexItems.get(this.currentBlock).fileOffset;
-//            final long newFilePos = blockStart + (location - skipPoint);
-//            this.in.seek(newFilePos);
-//        }
+        //        Not needed as all PSTNodeInputStream read begin by a PSTFileContent.seek using currentLocation
+        //        if (this.allData == null) {
+        //            long blockStart = this.indexItems.get(this.currentBlock).fileOffset;
+        //            final long newFilePos = blockStart + (location - skipPoint);
+        //            this.in.seek(newFilePos);
+        //        }
 
     }
 
@@ -537,5 +533,4 @@ public class PSTNodeInputStream extends InputStream {
     public PSTFile getPSTFile() {
         return this.pstFile;
     }
-
 }

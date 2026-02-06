@@ -43,7 +43,7 @@ import java.util.UUID;
 /**
  * Object that represents the message store.
  * Not much use other than to get the "name" of the PST file.
- * 
+ *
  * @author Richard Johnson
  */
 public class PSTMessageStore extends PSTObject {
@@ -65,9 +65,10 @@ public class PSTMessageStore extends PSTObject {
             final PSTTableBCItem item = this.items.get(guidEntryType);
             final int offset = 0;
             final byte[] bytes = item.data;
-            final long mostSigBits = (PSTObject.convertLittleEndianBytesToLong(bytes, offset, offset + 4) << 32)
-                | (PSTObject.convertLittleEndianBytesToLong(bytes, offset + 4, offset + 6) << 16)
-                | PSTObject.convertLittleEndianBytesToLong(bytes, offset + 6, offset + 8);
+            final long mostSigBits =
+                (PSTObject.convertLittleEndianBytesToLong(bytes, offset, offset + 4) << 32) |
+                (PSTObject.convertLittleEndianBytesToLong(bytes, offset + 4, offset + 6) << 16) |
+                PSTObject.convertLittleEndianBytesToLong(bytes, offset + 6, offset + 8);
             final long leastSigBits = PSTObject.convertBigEndianBytesToLong(bytes, offset + 8, offset + 16);
             return new UUID(mostSigBits, leastSigBits);
         }
@@ -96,7 +97,7 @@ public class PSTMessageStore extends PSTObject {
 
     /**
      * Is this pst file is password protected.
-     * 
+     *
      * @throws PSTException
      *             on corrupted pst
      * @throws IOException
@@ -108,5 +109,4 @@ public class PSTMessageStore extends PSTObject {
     public boolean isPasswordProtected() throws PSTException, IOException {
         return (this.getLongItem(0x67FF) != 0);
     }
-
 }

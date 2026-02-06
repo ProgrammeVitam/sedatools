@@ -45,29 +45,26 @@ import javax.swing.text.DocumentFilter;
  * The type Double filter.
  */
 public class DoubleFilter extends DocumentFilter {
+
     @Override
-    public void replace(FilterBypass fb, int offs, int length,
-                        String str, AttributeSet a) throws BadLocationException {
-        String number=fb.getDocument().getText(0,fb.getDocument().getLength());
-        number=number.substring(0,offs)+str+number.substring(offs+length);
+    public void replace(FilterBypass fb, int offs, int length, String str, AttributeSet a) throws BadLocationException {
+        String number = fb.getDocument().getText(0, fb.getDocument().getLength());
+        number = number.substring(0, offs) + str + number.substring(offs + length);
         try {
             Double.parseDouble(number);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return;
         }
         super.replace(fb, offs, length, str, a);
     }
 
     @Override
-    public void insertString(FilterBypass fb, int offs, String str,
-                             AttributeSet a) throws BadLocationException {
-        String number=fb.getDocument().getText(0,fb.getDocument().getLength());
-        number=number.substring(0,offs)+str+number.substring(offs);
+    public void insertString(FilterBypass fb, int offs, String str, AttributeSet a) throws BadLocationException {
+        String number = fb.getDocument().getText(0, fb.getDocument().getLength());
+        number = number.substring(0, offs) + str + number.substring(offs);
         try {
             Double.parseDouble(number);
-        }
-        catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             return;
         }
         super.insertString(fb, offs, str, a);

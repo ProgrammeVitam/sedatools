@@ -67,29 +67,23 @@ public class MsgStoreMessageAttachment extends MicrosoftStoreMessageAttachment {
                 Map<MAPIProperty, List<PropertyValue>> mapProp = spChunk.getProperties();
 
                 lVal = mapProp.get(MAPIProperty.ATTACH_SIZE);
-                if (lVal == null)
-                    size = 0;
-                else
-                    size = (int) lVal.get(0).getValue();
+                if (lVal == null) size = 0;
+                else size = (int) lVal.get(0).getValue();
 
                 lVal = mapProp.get(MAPIProperty.ATTACH_METHOD);
-                if (lVal == null)
-                    attachMethod = 0;
-                else
-                    attachMethod = (int) lVal.get(0).getValue();
+                if (lVal == null) attachMethod = 0;
+                else attachMethod = (int) lVal.get(0).getValue();
 
                 lVal = mapProp.get(MAPIProperty.CREATION_TIME);
                 if (lVal != null) {
                     Calendar cal = (Calendar) lVal.get(0).getValue();
-                    if (cal != null)
-                        creationTime = cal.getTime();
+                    if (cal != null) creationTime = cal.getTime();
                 }
 
                 lVal = mapProp.get(MAPIProperty.LAST_MODIFICATION_TIME);
                 if (lVal != null) {
                     Calendar cal = (Calendar) lVal.get(0).getValue();
-                    if (cal != null)
-                        modificationTime = cal.getTime();
+                    if (cal != null) modificationTime = cal.getTime();
                 }
             } else if ((chunk instanceof StringChunk) && (chunk.getChunkId() == MAPIProperty.DISPLAY_NAME.id)) {
                 displayName = ((StringChunk) chunk).getValue();
@@ -97,23 +91,17 @@ public class MsgStoreMessageAttachment extends MicrosoftStoreMessageAttachment {
         }
         byteArray = attachmentChunks.getEmbeddedAttachmentObject();
         tmpSC = attachmentChunks.getAttachFileName();
-        if (tmpSC != null)
-            filename = tmpSC.getValue();
+        if (tmpSC != null) filename = tmpSC.getValue();
         try {
             embeddedMessage = attachmentChunks.getEmbeddedMessage();
         } catch (IOException e) {
             // forget it
         }
         tmpSC = attachmentChunks.getAttachLongFileName();
-        if (tmpSC != null)
-            longFilename = tmpSC.getValue();
+        if (tmpSC != null) longFilename = tmpSC.getValue();
         tmpSC = attachmentChunks.getAttachMimeTag();
-        if (tmpSC != null)
-            mimeTag = tmpSC.getValue();
+        if (tmpSC != null) mimeTag = tmpSC.getValue();
         tmpSC = attachmentChunks.getAttachContentId();
-        if (tmpSC != null)
-            contentId = tmpSC.getValue();
-
+        if (tmpSC != null) contentId = tmpSC.getValue();
     }
-
 }

@@ -167,7 +167,10 @@ public class DataObjectPackageToDiskExporter {
      * @param dataObjectPackage     the archive transfer
      * @param sedaLibProgressLogger the progress logger
      */
-    public DataObjectPackageToDiskExporter(DataObjectPackage dataObjectPackage, SEDALibProgressLogger sedaLibProgressLogger) {
+    public DataObjectPackageToDiskExporter(
+        DataObjectPackage dataObjectPackage,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) {
         this(sedaLibProgressLogger);
         this.dataObjectPackage = dataObjectPackage;
     }
@@ -180,16 +183,13 @@ public class DataObjectPackageToDiskExporter {
      */
     private String constructFileName(BinaryDataObject binaryDataObject) {
         String result;
-        StringType dataObjectVersion= binaryDataObject.getMetadataDataObjectVersion();
-        if (dataObjectVersion == null)
-            result = "__undefined__";
+        StringType dataObjectVersion = binaryDataObject.getMetadataDataObjectVersion();
+        if (dataObjectVersion == null) result = "__undefined__";
         else result = "__" + dataObjectVersion.getValue() + "__";
-        FileInfo fileInfo= binaryDataObject.getMetadataFileInfo();
-        if ((fileInfo != null) &&
-                (fileInfo.getSimpleMetadata("Filename") != null))
-            result += fileInfo.getSimpleMetadata("Filename");
-        else
-            result += "NoName";
+        FileInfo fileInfo = binaryDataObject.getMetadataFileInfo();
+        if ((fileInfo != null) && (fileInfo.getSimpleMetadata("Filename") != null)) result +=
+        fileInfo.getSimpleMetadata("Filename");
+        else result += "NoName";
         return stripFileName(result);
     }
 
@@ -201,11 +201,9 @@ public class DataObjectPackageToDiskExporter {
      */
     private String constructMetadataFileName(BinaryDataObject binaryDataObject) {
         String result;
-        StringType dataObjectVersion= binaryDataObject.getMetadataDataObjectVersion();
-        if (dataObjectVersion == null)
-            result = "__undefined__BinaryDataObjectMetadata.xml";
-        else
-            result = "__" + dataObjectVersion.getValue() + "__BinaryDataObjectMetadata.xml";
+        StringType dataObjectVersion = binaryDataObject.getMetadataDataObjectVersion();
+        if (dataObjectVersion == null) result = "__undefined__BinaryDataObjectMetadata.xml";
+        else result = "__" + dataObjectVersion.getValue() + "__BinaryDataObjectMetadata.xml";
         return stripFileName(result);
     }
 
@@ -217,11 +215,9 @@ public class DataObjectPackageToDiskExporter {
      */
     private String constructMetadataFileName(PhysicalDataObject physicalDataObject) {
         String result;
-        StringType dataObjectVersion=physicalDataObject.getMetadataDataObjectVersion();
-        if (dataObjectVersion == null)
-            result = "__undefined__PhysicalDataObjectMetadata.xml";
-        else
-            result = "__" + dataObjectVersion.getValue() + "__PhysicalDataObjectMetadata.xml";
+        StringType dataObjectVersion = physicalDataObject.getMetadataDataObjectVersion();
+        if (dataObjectVersion == null) result = "__undefined__PhysicalDataObjectMetadata.xml";
+        else result = "__" + dataObjectVersion.getValue() + "__PhysicalDataObjectMetadata.xml";
         return stripFileName(result);
     }
 
@@ -235,10 +231,8 @@ public class DataObjectPackageToDiskExporter {
         String result = "";
         if (au.getContent() != null) {
             result = au.getContent().getSimpleMetadata("Title");
-            if (result == null)
-                result = "NoTitle";
-            else if (result.length() > 12)
-                result = result.substring(0, 11);
+            if (result == null) result = "NoTitle";
+            else if (result.length() > 12) result = result.substring(0, 11);
             result = result.replaceAll("[^\\p{IsAlphabetic}\\p{Digit}]", "-");
             result += "_";
         }
@@ -255,8 +249,10 @@ public class DataObjectPackageToDiskExporter {
     @SuppressWarnings("Annotator")
     private String stripFileName(String fileName) {
         String filteredName = fileName.replaceAll("[\\/|\\\\|\\*|\\:|\\||\"|\'|\\<|\\>|\\{|\\}|\\?|\\%|,]", "_");
-        while (filteredName.endsWith(".") || filteredName.endsWith(" "))
-            filteredName = filteredName.substring(0, filteredName.length() - 1);
+        while (filteredName.endsWith(".") || filteredName.endsWith(" ")) filteredName = filteredName.substring(
+            0,
+            filteredName.length() - 1
+        );
         return filteredName;
     }
 
@@ -273,8 +269,10 @@ public class DataObjectPackageToDiskExporter {
         // write binary file
         targetOnDiskPath = containerPath.resolve("__ManagementMetadata.xml");
         filesPathSet.add(targetOnDiskPath);
-        try (FileOutputStream fos = new FileOutputStream(targetOnDiskPath.toFile());
-             Writer rawWriter = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
+        try (
+            FileOutputStream fos = new FileOutputStream(targetOnDiskPath.toFile());
+            Writer rawWriter = new OutputStreamWriter(fos, StandardCharsets.UTF_8)
+        ) {
             try {
                 identXml = IndentXMLTool.getInstance(2).indentString(xmlData);
             } catch (Exception e) {
@@ -283,7 +281,8 @@ public class DataObjectPackageToDiskExporter {
             rawWriter.write(identXml);
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Ecriture des ManagementMetadata [" + targetOnDiskPath + "] impossible\n->" + e.getMessage());
+                "Ecriture des ManagementMetadata [" + targetOnDiskPath + "] impossible\n->" + e.getMessage()
+            );
         }
     }
 
@@ -298,17 +297,16 @@ public class DataObjectPackageToDiskExporter {
         boolean complexDataObjectRefList = (archiveUnit.getDataObjectRefList().getDataObjectList().size() > 1);
         for (DataObject zdo : archiveUnit.getDataObjectRefList().getDataObjectList()) {
             if (zdo instanceof DataObjectGroup) {
-                if (complexDataObjectRefList
-                        || (dataObjectPackage.isTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId())))
-                    dogPathStringMap.put((DataObjectGroup) zdo, emptyPath);
-                else
-                    dataObjectPackage.addTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId());
+                if (
+                    complexDataObjectRefList ||
+                    (dataObjectPackage.isTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId()))
+                ) dogPathStringMap.put((DataObjectGroup) zdo, emptyPath);
+                else dataObjectPackage.addTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId());
             }
         }
         for (ArchiveUnit childAu : archiveUnit.getChildrenAuList().getArchiveUnitList()) {
             determineExplicitDataObjectGroupInArchiveUnit(childAu);
         }
-
     }
 
     /**
@@ -316,8 +314,10 @@ public class DataObjectPackageToDiskExporter {
      */
     private void determineExplicitDataObjectGroupMap() {
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
-        for (ArchiveUnit au : dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList())
-            determineExplicitDataObjectGroupInArchiveUnit(au);
+        for (ArchiveUnit au : dataObjectPackage
+            .getGhostRootAu()
+            .getChildrenAuList()
+            .getArchiveUnitList()) determineExplicitDataObjectGroupInArchiveUnit(au);
     }
 
     /**
@@ -331,27 +331,40 @@ public class DataObjectPackageToDiskExporter {
         Path targetOnDiskPath;
         // write binary file
         targetOnDiskPath = containerPath.resolve(constructFileName(bdo));
-        if (filesPathSet.contains(targetOnDiskPath))
-            throw new SEDALibException("Collision de fichiers de représentation [" + targetOnDiskPath.toString()
-                    + "] détectée sur le BinaryDataObject [" + bdo.getInDataObjectPackageId() + "]");
+        if (filesPathSet.contains(targetOnDiskPath)) throw new SEDALibException(
+            "Collision de fichiers de représentation [" +
+            targetOnDiskPath.toString() +
+            "] détectée sur le BinaryDataObject [" +
+            bdo.getInDataObjectPackageId() +
+            "]"
+        );
         filesPathSet.add(targetOnDiskPath);
         try {
             Files.copy(bdo.getOnDiskPath(), targetOnDiskPath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            throw new SEDALibException("Ecriture du BinaryDataObject [" + bdo.getInDataObjectPackageId()
-                    + "] impossible\n->" + e.getMessage());
+            throw new SEDALibException(
+                "Ecriture du BinaryDataObject [" + bdo.getInDataObjectPackageId() + "] impossible\n->" + e.getMessage()
+            );
         }
         // write metadata file
         targetOnDiskPath = containerPath.resolve(constructMetadataFileName(bdo));
-        if (filesPathSet.contains(targetOnDiskPath))
-            throw new SEDALibException("Collision de fichiers de représentation [" + targetOnDiskPath.toString()
-                    + "] détectée sur le BinaryDataObject [" + bdo.getInDataObjectPackageId() + "]");
+        if (filesPathSet.contains(targetOnDiskPath)) throw new SEDALibException(
+            "Collision de fichiers de représentation [" +
+            targetOnDiskPath.toString() +
+            "] détectée sur le BinaryDataObject [" +
+            bdo.getInDataObjectPackageId() +
+            "]"
+        );
         filesPathSet.add(targetOnDiskPath);
         try {
             Files.write(targetOnDiskPath, bdo.toSedaXmlFragments().getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
-            throw new SEDALibException("Ecriture des métadonnées du BinaryDataObject [" + bdo.getInDataObjectPackageId()
-                    + "] impossible\n->" + e.getMessage());
+            throw new SEDALibException(
+                "Ecriture des métadonnées du BinaryDataObject [" +
+                bdo.getInDataObjectPackageId() +
+                "] impossible\n->" +
+                e.getMessage()
+            );
         }
     }
 
@@ -366,15 +379,23 @@ public class DataObjectPackageToDiskExporter {
         Path targetOnDiskPath;
         // write metadata file
         targetOnDiskPath = containerPath.resolve(constructMetadataFileName(pdo));
-        if (filesPathSet.contains(targetOnDiskPath))
-            throw new SEDALibException("Collision de fichiers de représentation [" + targetOnDiskPath.toString()
-                    + "] détectée sur le PhysicalDataObject [" + pdo.getInDataObjectPackageId() + "]");
+        if (filesPathSet.contains(targetOnDiskPath)) throw new SEDALibException(
+            "Collision de fichiers de représentation [" +
+            targetOnDiskPath.toString() +
+            "] détectée sur le PhysicalDataObject [" +
+            pdo.getInDataObjectPackageId() +
+            "]"
+        );
         filesPathSet.add(targetOnDiskPath);
         try {
             Files.write(targetOnDiskPath, pdo.toSedaXmlFragments().getBytes(StandardCharsets.UTF_8));
         } catch (Exception e) {
-            throw new SEDALibException("Ecriture des métadonnées du PhysicalDataObject ["
-                    + pdo.getInDataObjectPackageId() + "] impossible\n->" + e.getMessage());
+            throw new SEDALibException(
+                "Ecriture des métadonnées du PhysicalDataObject [" +
+                pdo.getInDataObjectPackageId() +
+                "] impossible\n->" +
+                e.getMessage()
+            );
         }
     }
 
@@ -386,10 +407,8 @@ public class DataObjectPackageToDiskExporter {
      * @throws SEDALibException if writing has failed
      */
     private void exportDataObjectGroupContent(DataObjectGroup dog, Path containerPath) throws SEDALibException {
-        for (BinaryDataObject bdo : dog.getBinaryDataObjectList())
-            exportBinaryDataObject(bdo, containerPath);
-        for (PhysicalDataObject pdo : dog.getPhysicalDataObjectList())
-            exportPhysicalDataObject(pdo, containerPath);
+        for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) exportBinaryDataObject(bdo, containerPath);
+        for (PhysicalDataObject pdo : dog.getPhysicalDataObjectList()) exportPhysicalDataObject(pdo, containerPath);
     }
 
     /**
@@ -408,7 +427,8 @@ public class DataObjectPackageToDiskExporter {
             Files.createDirectories(targetOnDiskPath);
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Création du répertoire [" + targetOnDiskPath + "] impossible\n->" + e.getMessage());
+                "Création du répertoire [" + targetOnDiskPath + "] impossible\n->" + e.getMessage()
+            );
         }
         exportDataObjectGroupContent(dog, targetOnDiskPath);
         return targetOnDiskPath;
@@ -427,34 +447,45 @@ public class DataObjectPackageToDiskExporter {
      *                              rights are not high enough.
      * @throws InterruptedException if interrupted
      */
-    private void exportLink(Path target, Path containerPath, String newLink) throws SEDALibException, InterruptedException {
+    private void exportLink(Path target, Path containerPath, String newLink)
+        throws SEDALibException, InterruptedException {
         Path linkOnDiskPath;
         // write link
         linkOnDiskPath = containerPath.resolve(newLink);
-        if (filesPathSet.contains(linkOnDiskPath))
-            throw new SEDALibException("Collision de fichiers de représentation [" + linkOnDiskPath.toString()
-                    + "] pour la création d'un lien");
+        if (filesPathSet.contains(linkOnDiskPath)) throw new SEDALibException(
+            "Collision de fichiers de représentation [" + linkOnDiskPath.toString() + "] pour la création d'un lien"
+        );
         filesPathSet.add(linkOnDiskPath);
         try {
-            if (Files.exists(linkOnDiskPath, LinkOption.NOFOLLOW_LINKS))
-                Files.delete(linkOnDiskPath);
-            Files.createSymbolicLink(linkOnDiskPath, linkOnDiskPath.toAbsolutePath().getParent().relativize(target.toAbsolutePath()));
+            if (Files.exists(linkOnDiskPath, LinkOption.NOFOLLOW_LINKS)) Files.delete(linkOnDiskPath);
+            Files.createSymbolicLink(
+                linkOnDiskPath,
+                linkOnDiskPath.toAbsolutePath().getParent().relativize(target.toAbsolutePath())
+            );
         } catch (Exception e) {
             if (isWindows) {
-                doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_WARNINGS,
-                        "sedalib: la création de lien n'a pas pu avoir lieu, essai de création de raccourci sous Windows", e);
+                doProgressLog(
+                    sedaLibProgressLogger,
+                    SEDALibProgressLogger.OBJECTS_WARNINGS,
+                    "sedalib: la création de lien n'a pas pu avoir lieu, essai de création de raccourci sous Windows",
+                    e
+                );
                 ShellLink sl = new ShellLink();
                 sl.setTarget(target.toString());
                 try {
-                    if (Files.exists(Paths.get(linkOnDiskPath.toString() + ".lnk"), LinkOption.NOFOLLOW_LINKS))
-                        Files.delete(Paths.get(linkOnDiskPath.toString() + ".lnk"));
+                    if (
+                        Files.exists(Paths.get(linkOnDiskPath.toString() + ".lnk"), LinkOption.NOFOLLOW_LINKS)
+                    ) Files.delete(Paths.get(linkOnDiskPath.toString() + ".lnk"));
                     sl.saveTo(linkOnDiskPath.toString() + ".lnk");
                 } catch (IOException e1) {
-                    throw new SEDALibException("Création du lien et du raccourci [" + linkOnDiskPath
-                            + "] impossible", e1);
+                    throw new SEDALibException(
+                        "Création du lien et du raccourci [" + linkOnDiskPath + "] impossible",
+                        e1
+                    );
                 }
-            } else
-                throw new SEDALibException("Création du lien [" + linkOnDiskPath + "] impossible\n->" + e.getMessage());
+            } else throw new SEDALibException(
+                "Création du lien [" + linkOnDiskPath + "] impossible\n->" + e.getMessage()
+            );
         }
     }
 
@@ -466,21 +497,18 @@ public class DataObjectPackageToDiskExporter {
      * @throws SEDALibException     if writing has failed
      * @throws InterruptedException if interrupted
      */
-    private void exportDataObjectRefList(DataObjectRefList dorl, Path auPath) throws SEDALibException, InterruptedException {
-        for (DataObject zdo : dorl.getDataObjectList())
-            if (zdo instanceof DataObjectGroup) {
-                Path dogPath = dogPathStringMap.get(zdo);
-                if (dogPath == null)
-                    exportDataObjectGroupContent((DataObjectGroup) zdo, auPath);
-                else if (dogPath == emptyPath)
-                    dogPathStringMap.put((DataObjectGroup) zdo, exportDataObjectGroup((DataObjectGroup) zdo, auPath));
-
-                else
-                    exportLink(dogPath, auPath, "##DataObjectGroup##");
-            } else if (zdo instanceof BinaryDataObject)
-                exportBinaryDataObject((BinaryDataObject) zdo, auPath);
-            else if (zdo instanceof PhysicalDataObject)
-                exportPhysicalDataObject((PhysicalDataObject) zdo, auPath);
+    private void exportDataObjectRefList(DataObjectRefList dorl, Path auPath)
+        throws SEDALibException, InterruptedException {
+        for (DataObject zdo : dorl.getDataObjectList()) if (zdo instanceof DataObjectGroup) {
+            Path dogPath = dogPathStringMap.get(zdo);
+            if (dogPath == null) exportDataObjectGroupContent((DataObjectGroup) zdo, auPath);
+            else if (dogPath == emptyPath) dogPathStringMap.put(
+                (DataObjectGroup) zdo,
+                exportDataObjectGroup((DataObjectGroup) zdo, auPath)
+            );
+            else exportLink(dogPath, auPath, "##DataObjectGroup##");
+        } else if (zdo instanceof BinaryDataObject) exportBinaryDataObject((BinaryDataObject) zdo, auPath);
+        else if (zdo instanceof PhysicalDataObject) exportPhysicalDataObject((PhysicalDataObject) zdo, auPath);
     }
 
     /**
@@ -494,41 +522,61 @@ public class DataObjectPackageToDiskExporter {
     private void exportArchiveUnit(ArchiveUnit au, Path containerPath) throws SEDALibException, InterruptedException {
         Path targetOnDiskPath, auPath;
 
-        if (auPathStringMap.containsKey(au))
-            exportLink(auPathStringMap.get(au), containerPath, constructDirectoryName(au));
+        if (auPathStringMap.containsKey(au)) exportLink(
+            auPathStringMap.get(au),
+            containerPath,
+            constructDirectoryName(au)
+        );
         else {
             // create directory
             targetOnDiskPath = containerPath.resolve(constructDirectoryName(au));
             try {
                 Files.createDirectories(targetOnDiskPath);
             } catch (Exception e) {
-                throw new SEDALibException("Création du répertoire [" + targetOnDiskPath + "] pour l'ArchiveUnit ["
-                        + au.getInDataObjectPackageId() + "] impossible\n->" + e.getMessage());
+                throw new SEDALibException(
+                    "Création du répertoire [" +
+                    targetOnDiskPath +
+                    "] pour l'ArchiveUnit [" +
+                    au.getInDataObjectPackageId() +
+                    "] impossible\n->" +
+                    e.getMessage()
+                );
             }
             auPath = targetOnDiskPath;
             // write metadata
             targetOnDiskPath = auPath.resolve("__ArchiveUnitMetadata.xml");
-            if (filesPathSet.contains(targetOnDiskPath))
-                throw new SEDALibException("Collision de fichiers de représentation [" + targetOnDiskPath.toString()
-                        + "] détectée sur l'ArchiveUnit [" + au.getInDataObjectPackageId() + "]");
+            if (filesPathSet.contains(targetOnDiskPath)) throw new SEDALibException(
+                "Collision de fichiers de représentation [" +
+                targetOnDiskPath.toString() +
+                "] détectée sur l'ArchiveUnit [" +
+                au.getInDataObjectPackageId() +
+                "]"
+            );
             filesPathSet.add(targetOnDiskPath);
             try {
                 Files.write(targetOnDiskPath, au.toSedaXmlFragments().getBytes(StandardCharsets.UTF_8));
             } catch (Exception e) {
-                throw new SEDALibException("Ecriture des métadonnées de l'ArchiveUnit [" + au.getInDataObjectPackageId()
-                        + "] impossible\n->" + e.getMessage());
+                throw new SEDALibException(
+                    "Ecriture des métadonnées de l'ArchiveUnit [" +
+                    au.getInDataObjectPackageId() +
+                    "] impossible\n->" +
+                    e.getMessage()
+                );
             }
             // write all DataObjects
             exportDataObjectRefList(au.getDataObjectRefList(), auPath);
 
             auPathStringMap.put(au, auPath);
 
-            for (ArchiveUnit childAu : au.getChildrenAuList().getArchiveUnitList())
-                exportArchiveUnit(childAu, auPath);
+            for (ArchiveUnit childAu : au.getChildrenAuList().getArchiveUnitList()) exportArchiveUnit(childAu, auPath);
 
             int counter = dataObjectPackage.getNextInOutCounter();
-            doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                    "sedalib: " + counter + " ArchiveUnit exportées");
+            doProgressLogIfStep(
+                sedaLibProgressLogger,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                counter,
+                "sedalib: " + counter + " ArchiveUnit exportées"
+            );
         }
     }
 
@@ -553,15 +601,20 @@ public class DataObjectPackageToDiskExporter {
             Files.createDirectories(exportPath);
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Création du répertoire d'export [" + exportPath + "] impossible\n->" + e.getMessage());
+                "Création du répertoire d'export [" + exportPath + "] impossible\n->" + e.getMessage()
+            );
         }
 
         dataObjectPackage.resetInOutCounter();
         determineExplicitDataObjectGroupMap();
 
-        if (dataObjectPackage.getManagementMetadataXmlData() != null)
-            exportManagementMetadata(dataObjectPackage.getManagementMetadataXmlData(), exportPath);
-        for (ArchiveUnit au : dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList())
-            exportArchiveUnit(au, exportPath);
+        if (dataObjectPackage.getManagementMetadataXmlData() != null) exportManagementMetadata(
+            dataObjectPackage.getManagementMetadataXmlData(),
+            exportPath
+        );
+        for (ArchiveUnit au : dataObjectPackage
+            .getGhostRootAu()
+            .getChildrenAuList()
+            .getArchiveUnitList()) exportArchiveUnit(au, exportPath);
     }
 }

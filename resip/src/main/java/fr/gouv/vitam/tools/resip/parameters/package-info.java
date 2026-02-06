@@ -36,4 +36,3 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 package fr.gouv.vitam.tools.resip.parameters;
-

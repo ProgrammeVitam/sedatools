@@ -104,7 +104,14 @@ public abstract class StoreAppointment extends StoreElement {
      * Human-readable text for the statuses defined in {@link #MESSAGE_STATUS_UNKNOWN},
      * {@link #MESSAGE_STATUS_LOCAL}, etc.
      */
-    public static final String[] MESSAGE_STATUS_TEXT = {"Unknown", "Local", "Request", "Resp.Yes", "Resp.May", "Resp.No"};
+    public static final String[] MESSAGE_STATUS_TEXT = {
+        "Unknown",
+        "Local",
+        "Request",
+        "Resp.Yes",
+        "Resp.May",
+        "Resp.No",
+    };
 
     /**
      * A unique identifier for the appointment (used to differentiate it from other elements).
@@ -223,10 +230,8 @@ public abstract class StoreAppointment extends StoreElement {
     @Override
     public String getLogDescription() {
         String result = "appointment " + listLineId;
-        if (subject != null)
-            result += " [" + subject + "/";
-        else
-            result += " [no subject/";
+        if (subject != null) result += " [" + subject + "/";
+        else result += " [no subject/";
         result += getDateInDefinedTimeZone(startTime) + " - " + getDateInDefinedTimeZone(endTime) + "]";
         return result;
     }
@@ -260,10 +265,12 @@ public abstract class StoreAppointment extends StoreElement {
      */
     public static void printGlobalListCSVHeader(PrintStream ps) {
         synchronized (ps) {
-            ps.println("ID;Subject;Location;From;ToAttendees;CcAttendees;StartTime;EndTime;" +
-                    "MiscNotes;uniqID;SequenceNumber;ModificationTime;Folder;MessageStatus;" +
-                    "isRecurrent;RecurrencePattern;StartRecurrenceTime;EndRecurrenceTime;" +
-                    "ExceptionFromId;ExceptionDate;isDeletion;hasAttachment");
+            ps.println(
+                "ID;Subject;Location;From;ToAttendees;CcAttendees;StartTime;EndTime;" +
+                "MiscNotes;uniqID;SequenceNumber;ModificationTime;Folder;MessageStatus;" +
+                "isRecurrent;RecurrencePattern;StartRecurrenceTime;EndRecurrenceTime;" +
+                "ExceptionFromId;ExceptionDate;isDeletion;hasAttachment"
+            );
         }
     }
 
@@ -275,44 +282,49 @@ public abstract class StoreAppointment extends StoreElement {
      * @throws InterruptedException    the interrupted exception
      * @throws MailExtractLibException the mail extract lib exception
      */
-    public void extractAppointment(boolean writeFlag, StoreAppointment father) throws InterruptedException, MailExtractLibException {
+    public void extractAppointment(boolean writeFlag, StoreAppointment father)
+        throws InterruptedException, MailExtractLibException {
         if (writeFlag) {
-            if (storeFolder.getStoreExtractor().getOptions().extractElementsList)
-                writeToAppointmentsList(father);
+            if (storeFolder.getStoreExtractor().getOptions().extractElementsList) writeToAppointmentsList(father);
             if (storeFolder.getStoreExtractor().getOptions().extractElementsContent) {
                 if ((attachments != null) && (!attachments.isEmpty())) {
-                    ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
-                            File.separator + storeFolder.storeExtractor.destName + File.separator + "appointments", "AppointmentAttachments#" + listLineId);
+                    ArchiveUnit attachmentNode = new ArchiveUnit(
+                        storeFolder.storeExtractor,
+                        storeFolder.storeExtractor.destRootPath +
+                        File.separator +
+                        storeFolder.storeExtractor.destName +
+                        File.separator +
+                        "appointments",
+                        "AppointmentAttachments#" + listLineId
+                    );
                     attachmentNode.addMetadata("DescriptionLevel", "RecordGrp", true);
                     attachmentNode.addMetadata("Title", "Appointment Attachments #" + listLineId, true);
-                    attachmentNode.addMetadata("Description", "Appointment attachments extracted for " + subject + "[" + startTime + "-" + endTime + "]", true);
+                    attachmentNode.addMetadata(
+                        "Description",
+                        "Appointment attachments extracted for " + subject + "[" + startTime + "-" + endTime + "]",
+                        true
+                    );
                     attachmentNode.addMetadata("StartDate", getDateInUTCTimeZone(startTime), true);
                     attachmentNode.addMetadata("EndDate", getDateInUTCTimeZone(endTime), true);
                     attachmentNode.write();
                     StoreAttachment.extractAttachments(attachments, attachmentNode, writeFlag);
                 }
             }
-            if (exceptions != null)
-                for (StoreAppointment a : exceptions)
-                    a.extractAppointment(writeFlag, this);
+            if (exceptions != null) for (StoreAppointment a : exceptions) a.extractAppointment(writeFlag, this);
         }
     }
 
     private String getDateInUTCTimeZone(ZonedDateTime date) {
         String result;
-        if (date != null)
-            result = date.withZoneSameInstant(ZoneId.of("UTC")).format(ISO_8601);
-        else
-            result = "";
+        if (date != null) result = date.withZoneSameInstant(ZoneId.of("UTC")).format(ISO_8601);
+        else result = "";
         return result;
     }
 
     private String getDateInDefinedTimeZone(ZonedDateTime date) {
         String result;
-        if (date != null)
-            result = date.format(ISO_8601);
-        else
-            result = "";
+        if (date != null) result = date.format(ISO_8601);
+        else result = "";
         return result;
     }
 
@@ -359,7 +371,10 @@ public abstract class StoreAppointment extends StoreElement {
             ps.format("\"%s\";", (father != null ? father.listLineId : ""));
             ps.format("\"%s\";", getDateInDefinedTimeZone(exceptionDate));
             ps.format("\"%s\";", (isRecurrenceDeletion ? "X" : ""));
-            ps.format("\"%s\"", ((attachments != null) && (!attachments.isEmpty()) ? Integer.toString(attachments.size()) : ""));
+            ps.format(
+                "\"%s\"",
+                ((attachments != null) && (!attachments.isEmpty()) ? Integer.toString(attachments.size()) : "")
+            );
             ps.println("");
             ps.flush();
         }
@@ -380,8 +395,7 @@ public abstract class StoreAppointment extends StoreElement {
         if (storeFolder.getStoreExtractor().getOptions().extractAppointments) {
             listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
             analyzeAppointment();
-            if (statsFlag)
-                extractAppointment(false, null);
+            if (statsFlag) extractAppointment(false, null);
         }
     }
 }

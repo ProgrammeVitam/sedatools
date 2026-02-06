@@ -61,16 +61,25 @@ public class OtherMimeCharsetProvider extends CharsetProvider {
      * For example, the MIME codes for the existing Java charsets are registered with alternate canonical names.
      * </p>
      */
-    static private final List<Charset> charsets = Arrays.asList(
-            new RedirectCharset("MACINTOSH", new String[]{}, "x-MacRoman"),
-            new RedirectCharset("UNKNOWN", new String[]{"DEFAULT","iso-8859-iso-8859-1"},
-                    "ISO-8859-1"),
-             new UTF7Charset("UTF-7", new String[]{"UNICODE-1-1-UTF-7",
-                    "CSUNICODE11UTF7", "X-RFC2152", "X-RFC-2152"}, false),
-            new UTF7Charset("X-UTF-7-OPTIONAL", new String[]{"X-RFC2152-OPTIONAL",
-                    "X-RFC-2152-OPTIONAL"}, true),
-            new ModifiedUTF7Charset("X-MODIFIED-UTF-7", new String[]{"X-IMAP-MODIFIED-UTF-7",
-                    "X-IMAP4-MODIFIED-UTF7", "X-IMAP4-MODIFIED-UTF-7", "X-RFC3501", "X-RFC-3501"})
+    private static final List<Charset> charsets = Arrays.asList(
+        new RedirectCharset("MACINTOSH", new String[] {}, "x-MacRoman"),
+        new RedirectCharset("UNKNOWN", new String[] { "DEFAULT", "iso-8859-iso-8859-1" }, "ISO-8859-1"),
+        new UTF7Charset(
+            "UTF-7",
+            new String[] { "UNICODE-1-1-UTF-7", "CSUNICODE11UTF7", "X-RFC2152", "X-RFC-2152" },
+            false
+        ),
+        new UTF7Charset("X-UTF-7-OPTIONAL", new String[] { "X-RFC2152-OPTIONAL", "X-RFC-2152-OPTIONAL" }, true),
+        new ModifiedUTF7Charset(
+            "X-MODIFIED-UTF-7",
+            new String[] {
+                "X-IMAP-MODIFIED-UTF-7",
+                "X-IMAP4-MODIFIED-UTF7",
+                "X-IMAP4-MODIFIED-UTF-7",
+                "X-RFC3501",
+                "X-RFC-3501",
+            }
+        )
     );
 
     /**
@@ -106,13 +115,11 @@ public class OtherMimeCharsetProvider extends CharsetProvider {
             }
         }
         // last chance filtering the Charset name
-        String filteredCharsetName=charsetName.replaceAll("[=_]","-").replaceAll("[^a-zA-Z0-9_-]", "");
-        if (!filteredCharsetName.equals(charsetName)){
+        String filteredCharsetName = charsetName.replaceAll("[=_]", "-").replaceAll("[^a-zA-Z0-9_-]", "");
+        if (!filteredCharsetName.equals(charsetName)) {
             try {
                 return Charset.forName(filteredCharsetName);
-            }
-            catch(Exception ignored) { //NO SONAR
-            }
+            } catch (Exception ignored) {} //NO SONAR
         }
         return null;
     }

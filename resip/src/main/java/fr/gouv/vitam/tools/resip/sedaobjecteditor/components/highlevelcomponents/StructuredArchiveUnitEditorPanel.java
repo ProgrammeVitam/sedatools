@@ -77,15 +77,14 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         this.archiveUnitEditor = new ArchiveUnitEditor(null, null);
 
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{0.0, 1.0, 0.0};
-        gbl.rowWeights = new double[]{1.0, 0.0};
+        gbl.columnWeights = new double[] { 0.0, 1.0, 0.0 };
+        gbl.rowWeights = new double[] { 1.0, 0.0 };
         setLayout(gbl);
 
         SEDAObjectEditorPanel mep = null;
         try {
             mep = archiveUnitEditor.getSEDAObjectEditorPanel();
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
 
         scrollPane = new JScrollPane(mep);
         gbc = new GridBagConstraints();
@@ -109,7 +108,11 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         gbc.gridwidth = 3;
         add(warningPane, gbc);
 
-        JLabel warningLabel = new JLabel("", new ImageIcon(getClass().getResource("/icon/large-dialog-warning.png")), SwingConstants.CENTER);
+        JLabel warningLabel = new JLabel(
+            "",
+            new ImageIcon(getClass().getResource("/icon/large-dialog-warning.png")),
+            SwingConstants.CENTER
+        );
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_START;
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -129,7 +132,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         gbc.gridy = 0;
         warningPane.add(warningText, gbc);
 
-        revertButton = new JButton("Recharger "+translateTag("ArchiveUnit").toLowerCase());
+        revertButton = new JButton("Recharger " + translateTag("ArchiveUnit").toLowerCase());
         revertButton.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -141,7 +144,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
         });
         add(revertButton, gbc);
 
-        saveButton = new JButton("Sauver "+translateTag("ArchiveUnit").toLowerCase());
+        saveButton = new JButton("Sauver " + translateTag("ArchiveUnit").toLowerCase());
         saveButton.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -156,9 +159,8 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
 
     private void revertButton(ActionEvent event) {
         try {
-            editArchiveUnit((ArchiveUnit)archiveUnitEditor.getEditedObject());
-        } catch (SEDALibException ignored) {
-        }
+            editArchiveUnit((ArchiveUnit) archiveUnitEditor.getEditedObject());
+        } catch (SEDALibException ignored) {}
     }
 
     private void saveButton(ActionEvent event) {
@@ -166,8 +168,7 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
             archiveUnitEditor.extractEditedObject();
             ResipGraphicApp.getTheWindow().treePane.resetDisplayedTreeNodeTitle();
             ResipGraphicApp.getTheApp().setModifiedContext(true);
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
     }
 
     @Override
@@ -185,9 +186,14 @@ public class StructuredArchiveUnitEditorPanel extends JPanel implements ArchiveU
                 archiveUnit.getArchiveUnitProfile();
             } catch (SEDALibException e) {
                 String title = SEDAXMLEventReader.extractNamedElement("Title", archiveUnit.getContentXmlData());
-                warningText.setText(translateTag("ArchiveUnit") + " - " + (title != null ? title + " - " : "") + archiveUnit.getInDataObjectPackageId()
-                        + " a un problème de construction qui empêche de l'éditer de manière structurée.\n"
-                        + SEDALibProgressLogger.getMessagesStackString(e));
+                warningText.setText(
+                    translateTag("ArchiveUnit") +
+                    " - " +
+                    (title != null ? title + " - " : "") +
+                    archiveUnit.getInDataObjectPackageId() +
+                    " a un problème de construction qui empêche de l'éditer de manière structurée.\n" +
+                    SEDALibProgressLogger.getMessagesStackString(e)
+                );
                 scrollPane.setVisible(false);
                 warningPane.setVisible(true);
                 return;

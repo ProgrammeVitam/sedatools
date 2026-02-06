@@ -102,12 +102,14 @@ public abstract class StoreContact extends StoreElement {
     @Override
     public String getLogDescription() {
         String result = "contact " + listLineId;
-        if (fullName != null)
-            result += " [" + fullName + "]";
-        else if ((givenName != null) || (lastName != null))
-            result += " [" + (givenName != null ? givenName : "NoGivenName") + " " + (lastName != null ? lastName : "NoLastName") + "]";
-        else
-            result += " [no name]";
+        if (fullName != null) result += " [" + fullName + "]";
+        else if ((givenName != null) || (lastName != null)) result +=
+        " [" +
+        (givenName != null ? givenName : "NoGivenName") +
+        " " +
+        (lastName != null ? lastName : "NoLastName") +
+        "]";
+        else result += " [no name]";
         return result;
     }
 
@@ -122,7 +124,7 @@ public abstract class StoreContact extends StoreElement {
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      * @throws InterruptedException    the interrupted exception
      */
-    abstract public void analyzeAllContactInformations() throws MailExtractLibException, InterruptedException;
+    public abstract void analyzeAllContactInformations() throws MailExtractLibException, InterruptedException;
 
     /**
      * Analyze contact to collect contact picture if any.
@@ -134,7 +136,7 @@ public abstract class StoreContact extends StoreElement {
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      * @throws InterruptedException    the interrupted exception
      */
-    abstract public void analyzeContactPicture() throws MailExtractLibException, InterruptedException;
+    public abstract void analyzeContactPicture() throws MailExtractLibException, InterruptedException;
 
     /**
      * Analyze contact to collect contact information and optionally picture.
@@ -146,8 +148,7 @@ public abstract class StoreContact extends StoreElement {
         analyzeAllContactInformations();
         try {
             analyzeContactPicture();
-        } catch (MailExtractLibException ignored) {
-        }
+        } catch (MailExtractLibException ignored) {}
     }
 
     /**
@@ -155,7 +156,7 @@ public abstract class StoreContact extends StoreElement {
      *
      * @return the element name
      */
-    static public String getElementName() {
+    public static String getElementName() {
         return "contacts";
     }
 
@@ -164,13 +165,15 @@ public abstract class StoreContact extends StoreElement {
      *
      * @param ps the dedicated print stream
      */
-    static public void printGlobalListCSVHeader(PrintStream ps) {
+    public static void printGlobalListCSVHeader(PrintStream ps) {
         synchronized (ps) {
-            ps.println("ID;Full Name;Given Name;Last Name;Misc Notes;Company;Department;Title;Default Address;" +
-                    "SMTP Mail Address;Default Telephone Number;Mobile Telephone Number;Business HomePage;Business Location;" +
-                    "Business Telephone Number;Business Address;RefID;" +
-                    "Other Mail Addresses;Other Telephone Numbers;Assistant Name;Assistant Telephone Number;Personal HomePage;" +
-                    "Home Location;Home Telephone Number;Home Address;Nickname");
+            ps.println(
+                "ID;Full Name;Given Name;Last Name;Misc Notes;Company;Department;Title;Default Address;" +
+                "SMTP Mail Address;Default Telephone Number;Mobile Telephone Number;Business HomePage;Business Location;" +
+                "Business Telephone Number;Business Address;RefID;" +
+                "Other Mail Addresses;Other Telephone Numbers;Assistant Name;Assistant Telephone Number;Personal HomePage;" +
+                "Home Location;Home Telephone Number;Home Address;Nickname"
+            );
         }
     }
 
@@ -185,11 +188,10 @@ public abstract class StoreContact extends StoreElement {
      */
     public void extractContact(boolean writeFlag) throws InterruptedException, MailExtractLibException {
         if (writeFlag) {
-            if (storeFolder.getStoreExtractor().getOptions().extractElementsList)
-                writeToContactsList();
-            if ((pictureData != null)
-                    && storeFolder.getStoreExtractor().getOptions().extractElementsContent)
-                extractPicture();
+            if (storeFolder.getStoreExtractor().getOptions().extractElementsList) writeToContactsList();
+            if (
+                (pictureData != null) && storeFolder.getStoreExtractor().getOptions().extractElementsContent
+            ) extractPicture();
         }
     }
 
@@ -228,12 +230,23 @@ public abstract class StoreContact extends StoreElement {
     }
 
     private void extractPicture() throws InterruptedException, MailExtractLibException {
-        ArchiveUnit attachmentNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.storeExtractor.destRootPath +
-                File.separator + storeFolder.storeExtractor.destName + File.separator + "contacts", "ContactPicture#" + listLineId);
+        ArchiveUnit attachmentNode = new ArchiveUnit(
+            storeFolder.storeExtractor,
+            storeFolder.storeExtractor.destRootPath +
+            File.separator +
+            storeFolder.storeExtractor.destName +
+            File.separator +
+            "contacts",
+            "ContactPicture#" + listLineId
+        );
         attachmentNode.addMetadata("DescriptionLevel", "Item", true);
         attachmentNode.addMetadata("Title", "Contact Picture #" + listLineId, true);
         attachmentNode.addMetadata("Description", "Contact picture extracted for " + fullName, true);
-        attachmentNode.addPersonMetadata("Recipient", fullName + (smtpAddress.isEmpty() ? "" : "<" + smtpAddress + ">"), false);
+        attachmentNode.addPersonMetadata(
+            "Recipient",
+            fullName + (smtpAddress.isEmpty() ? "" : "<" + smtpAddress + ">"),
+            false
+        );
         attachmentNode.addObject(pictureData, pictureFileName, "BinaryMaster", 1);
         attachmentNode.write();
     }
@@ -249,7 +262,8 @@ public abstract class StoreContact extends StoreElement {
 
     @Override
     public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException {
-        if (storeFolder.getStoreExtractor().getOptions().extractContacts)
-            listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
+        if (storeFolder.getStoreExtractor().getOptions().extractContacts) listLineId = storeFolder
+            .getStoreExtractor()
+            .incElementCounter(this.getClass());
     }
 }

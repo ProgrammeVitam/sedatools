@@ -94,17 +94,35 @@ public class SigningInformation extends ComplexListType {
      * @param signingType      the type of the signature
      * @throws SEDALibException if sub-elements construction fails
      */
-    public SigningInformation(String signingRole, String sipInternalID, String signerFirstName, String signerBirthName, LocalDateTime signingTime, String signerIdentifier,
-                              String signingType) throws SEDALibException {
+    public SigningInformation(
+        String signingRole,
+        String sipInternalID,
+        String signerFirstName,
+        String signerBirthName,
+        LocalDateTime signingTime,
+        String signerIdentifier,
+        String signingType
+    ) throws SEDALibException {
         super("SigningInformation");
-
-
         if (signingRole != null) addNewMetadata("SigningRole", signingRole);
         if (sipInternalID != null) addNewMetadata("SignedDocumentReferenceId", sipInternalID);
-        if (signerFirstName != null ||
-                signerBirthName != null || signingTime != null || signerIdentifier != null ||
-                signingType != null) {
-            addNewMetadata("SignatureDescription", signerFirstName, signerBirthName, signingTime, signerIdentifier, null, null, signingType);
+        if (
+            signerFirstName != null ||
+            signerBirthName != null ||
+            signingTime != null ||
+            signerIdentifier != null ||
+            signingType != null
+        ) {
+            addNewMetadata(
+                "SignatureDescription",
+                signerFirstName,
+                signerBirthName,
+                signingTime,
+                signerIdentifier,
+                null,
+                null,
+                signingType
+            );
         }
         if (signingTime != null) addNewMetadata("TimestampingInformation", signingTime, null);
     }

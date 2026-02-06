@@ -93,8 +93,10 @@ public class AnyXMLListType extends ComplexListType {
      */
     public AnyXMLListType(String elementName, String rawXmlList) throws SEDALibException {
         super(elementName);
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(rawXmlList.getBytes(StandardCharsets.UTF_8));
-             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
+        try (
+            ByteArrayInputStream bais = new ByteArrayInputStream(rawXmlList.getBytes(StandardCharsets.UTF_8));
+            SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)
+        ) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();
             String tmp = xmlReader.peekName();
@@ -104,8 +106,7 @@ public class AnyXMLListType extends ComplexListType {
                 tmp = xmlReader.peekName();
             }
             XMLEvent event = xmlReader.xmlReader.peek();
-            if (!event.isEndDocument())
-                throw new SEDALibException("Il y a des champs illégaux");
+            if (!event.isEndDocument()) throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {
             throw new SEDALibException("Erreur de lecture de [" + elementName + "]", e);
         }

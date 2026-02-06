@@ -88,7 +88,6 @@ public class Coverage extends ComplexListType {
      */
     public Coverage(String elementName, String spatial, String temporal, String juridictional) throws SEDALibException {
         super(elementName);
-
         if (spatial != null) addNewMetadata("Spatial", spatial);
         if (temporal != null) addNewMetadata("Temporal", temporal);
         if (juridictional != null) addNewMetadata("Juridictional", juridictional);

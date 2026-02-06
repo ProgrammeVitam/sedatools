@@ -76,6 +76,5 @@ public class CSVMetadataImportContext extends CSVImportContext {
     /* (non-Javadoc)
      * @see CreationContext#toPrefs(Prefs)
      */
-    public void toPrefs(Preferences preferences) {
-    }
+    public void toPrefs(Preferences preferences) {}
 }

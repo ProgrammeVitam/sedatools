@@ -68,8 +68,9 @@ public class StringTypeEditor extends SEDAObjectEditor {
      */
     public StringTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof StringType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof StringType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private StringType getStringTypeMetadata() {
@@ -84,35 +85,29 @@ public class StringTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new StringType(elementName, "");
-        else
-            return new StringType(elementName, "Text");
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new StringType(elementName, "");
+        else return new StringType(elementName, "Text");
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (valueTextField!=null)
-            getStringTypeMetadata().setValue(valueTextField.getText());
-        else
-            getStringTypeMetadata().setValue(valueTextArea.getText());
+        if (valueTextField != null) getStringTypeMetadata().setValue(valueTextField.getText());
+        else getStringTypeMetadata().setValue(valueTextArea.getText());
         return getStringTypeMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        if (valueTextField!=null)
-            return valueTextField.getText();
-        else
-            return valueTextArea.getText();
+        if (valueTextField != null) return valueTextField.getText();
+        else return valueTextArea.getText();
     }
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
         JLabel label = new JLabel(getName() + " :");
@@ -127,11 +122,11 @@ public class StringTypeEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
+        gbl.rowWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
-        if (SEDAObjectEditorConstants.largeAreaTagList.contains(getTag())){
+        if (SEDAObjectEditorConstants.largeAreaTagList.contains(getTag())) {
             valueTextArea = new AutomaticGrowingTextArea(6);
             valueTextArea.setText(getStringTypeMetadata().getValue());
             valueTextArea.setCaretPosition(0);
@@ -144,7 +139,7 @@ public class StringTypeEditor extends SEDAObjectEditor {
             gbc.gridx = 0;
             gbc.gridy = 0;
             editPanel.add(valueTextArea.getScrollPane(), gbc);
-            JButton editButton=new JButton();
+            JButton editButton = new JButton();
             editButton.setIcon(new ImageIcon(getClass().getResource("/icon/text.png")));
             editButton.setToolTipText("Ouvrir pour édition...");
             editButton.setText("");
@@ -161,8 +156,7 @@ public class StringTypeEditor extends SEDAObjectEditor {
             gbc.gridx = 1;
             gbc.gridy = 0;
             editPanel.add(editButton, gbc);
-        }
-        else {
+        } else {
             valueTextField = new JTextField();
             valueTextField.setText(getStringTypeMetadata().getValue());
             valueTextField.setCaretPosition(0);
@@ -178,12 +172,14 @@ public class StringTypeEditor extends SEDAObjectEditor {
         this.sedaObjectEditorPanel = new SEDAObjectEditorSimplePanel(this, labelPanel, editPanel);
     }
 
-    private void editButton()
-    {
-        BigTextEditDialog bigTextEditDialog = new BigTextEditDialog(ResipGraphicApp.getTheWindow(), valueTextArea.getText(), getName());
+    private void editButton() {
+        BigTextEditDialog bigTextEditDialog = new BigTextEditDialog(
+            ResipGraphicApp.getTheWindow(),
+            valueTextArea.getText(),
+            getName()
+        );
         bigTextEditDialog.setVisible(true);
-        if (bigTextEditDialog.getReturnValue())
-            valueTextArea.setText(bigTextEditDialog.getResult());
+        if (bigTextEditDialog.getReturnValue()) valueTextArea.setText(bigTextEditDialog.getResult());
     }
 
     /**
@@ -191,12 +187,11 @@ public class StringTypeEditor extends SEDAObjectEditor {
      *
      * @param value the value
      */
-    public void setValue(String value){
-        if (valueTextField!=null) {
+    public void setValue(String value) {
+        if (valueTextField != null) {
             valueTextField.setText(value);
             valueTextField.setCaretPosition(0);
-        }
-        else {
+        } else {
             valueTextArea.setText(value);
             valueTextArea.setCaretPosition(0);
         }

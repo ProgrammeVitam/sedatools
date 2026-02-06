@@ -60,11 +60,7 @@ public class DigestProgressLogger {
 
     private long lastLogTimestamp;
 
-    public DigestProgressLogger(
-        SEDALibProgressLogger logger,
-        Path path,
-        long fileSize
-    ) {
+    public DigestProgressLogger(SEDALibProgressLogger logger, Path path, long fileSize) {
         this.logger = logger;
         this.filename = extractFilename(path);
         this.fileSize = fileSize;
@@ -105,12 +101,7 @@ public class DigestProgressLogger {
     }
 
     private void log(long bytesRead) {
-        doProgressLogWithoutInterruption(
-            logger,
-            GLOBAL,
-            formatMessage(bytesRead),
-            null
-        );
+        doProgressLogWithoutInterruption(logger, GLOBAL, formatMessage(bytesRead), null);
     }
 
     private String formatMessage(long bytesRead) {
@@ -134,8 +125,6 @@ public class DigestProgressLogger {
     }
 
     private static String extractFilename(Path path) {
-        return (path != null && path.getFileName() != null)
-            ? path.getFileName().toString()
-            : "inconnu";
+        return (path != null && path.getFileName() != null) ? path.getFileName().toString() : "inconnu";
     }
 }

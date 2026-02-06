@@ -58,7 +58,7 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
      * This is in default list.
      */
     public static void subscribeStoreExtractor() {
-        addExtractionRelation(null, null,"pst.embeddedmsg", false, PstEmbeddedStoreExtractor.class);
+        addExtractionRelation(null, null, "pst.embeddedmsg", false, PstEmbeddedStoreExtractor.class);
     }
 
     // Attachment to complete with decoded form
@@ -75,13 +75,27 @@ public class PstEmbeddedStoreExtractor extends StoreExtractor {
      * @param logger             logger used
      * @throws MailExtractLibException Any unrecoverable extraction exception (access trouble, major format problems...)
      */
-    public PstEmbeddedStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode,
-                                     StoreExtractorOptions options, StoreExtractor rootStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger)
-            throws MailExtractLibException {
-        super("pst.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, fatherElement, logger);
-
+    public PstEmbeddedStoreExtractor(
+        StoreAttachment attachment,
+        ArchiveUnit rootNode,
+        StoreExtractorOptions options,
+        StoreExtractor rootStoreExtractor,
+        StoreElement fatherElement,
+        MailExtractProgressLogger logger
+    ) throws MailExtractLibException {
+        super(
+            "pst.embeddedmsg://localhost/",
+            "",
+            rootNode.getFullName(),
+            options,
+            rootStoreExtractor,
+            fatherElement,
+            logger
+        );
         this.attachment = attachment;
-        setRootFolder(PstEmbeddedStoreFolder.createRootFolder((PSTMessage) attachment.getStoreContent(), this, rootNode));
+        setRootFolder(
+            PstEmbeddedStoreFolder.createRootFolder((PSTMessage) attachment.getStoreContent(), this, rootNode)
+        );
     }
 
     /* (non-Javadoc)

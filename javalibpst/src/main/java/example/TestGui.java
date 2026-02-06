@@ -41,20 +41,7 @@
 
 package example;
 
-import java.awt.BorderLayout;
-import java.awt.Font;
-import java.awt.Frame;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
+import fr.gouv.vitam.tools.javalibpst.*;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -75,14 +62,27 @@ import javax.swing.WindowConstants;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-
-import fr.gouv.vitam.tools.javalibpst.*;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
 
 /**
  * @author toweruser
  *
  */
 public class TestGui implements ActionListener {
+
     private PSTFile pstFile;
     private EmailTableModel emailTableModel;
     private JTextPane emailText;
@@ -94,7 +94,6 @@ public class TestGui implements ActionListener {
     private JFrame f;
 
     public TestGui(String filename) throws PSTException, IOException {
-
         // setup the basic window
         this.f = new JFrame("PST Browser");
 
@@ -118,14 +117,26 @@ public class TestGui implements ActionListener {
 
         final JTree folderTree = new JTree(top) {
             @Override
-            public String convertValueToText(final Object value, final boolean selected, final boolean expanded,
-                final boolean leaf, final int row, final boolean hasFocus) {
+            public String convertValueToText(
+                final Object value,
+                final boolean selected,
+                final boolean expanded,
+                final boolean leaf,
+                final int row,
+                final boolean hasFocus
+            ) {
                 final DefaultMutableTreeNode nodeValue = (DefaultMutableTreeNode) value;
                 if (nodeValue.getUserObject() instanceof PSTFolder) {
                     final PSTFolder folderValue = (PSTFolder) nodeValue.getUserObject();
 
-                    return folderValue.getDescriptorNodeId() + " - " + folderValue.getDisplayName() + " "
-                        + folderValue.getAssociateContentCount() + "";
+                    return (
+                        folderValue.getDescriptorNodeId() +
+                        " - " +
+                        folderValue.getDisplayName() +
+                        " " +
+                        folderValue.getAssociateContentCount() +
+                        ""
+                    );
                 } else if (nodeValue.getUserObject() instanceof PSTMessageStore) {
                     final PSTMessageStore folderValue = (PSTMessageStore) nodeValue.getUserObject();
                     return folderValue.getDisplayName();
@@ -167,7 +178,9 @@ public class TestGui implements ActionListener {
             final ListSelectionModel selectionModel = emailTable.getSelectionModel();
             selectionModel.addListSelectionListener(e -> {
                 final JTable source = emailTable;
-                TestGui.this.selectedMessage = TestGui.this.emailTableModel.getMessageAtRow(source.convertRowIndexToModel(source.getSelectedRow()));
+                TestGui.this.selectedMessage = TestGui.this.emailTableModel.getMessageAtRow(
+                        source.convertRowIndexToModel(source.getSelectedRow())
+                    );
                 if (TestGui.this.selectedMessage instanceof PSTContact) {
                     final PSTContact contact = (PSTContact) TestGui.this.selectedMessage;
                     TestGui.this.emailText.setText(contact.toString());
@@ -218,8 +231,11 @@ public class TestGui implements ActionListener {
         this.emailPanel.add(this.attachPanel, BorderLayout.NORTH);
         this.emailPanel.add(this.emailText, BorderLayout.CENTER);
 
-        final JSplitPane emailSplitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, emailTablePanel,
-            new JScrollPane(this.emailPanel));
+        final JSplitPane emailSplitPane = new JSplitPane(
+            JSplitPane.VERTICAL_SPLIT,
+            emailTablePanel,
+            new JScrollPane(this.emailPanel)
+        );
         emailSplitPane.setOneTouchExpandable(true);
         emailSplitPane.setDividerLocation(0.25);
 
@@ -251,8 +267,7 @@ public class TestGui implements ActionListener {
 
                 if (folder.getSubFolders().size() > 0) {
                     this.buildTree(node, folder);
-                } else {
-                }
+                } else {}
                 top.add(node);
             }
         } catch (final Exception err) {
@@ -281,8 +296,7 @@ public class TestGui implements ActionListener {
                     }
                 }
             }
-        } catch (final Exception e) {
-        }
+        } catch (final Exception e) {}
 
         this.attachText.setText(s.toString());
     }
@@ -291,7 +305,6 @@ public class TestGui implements ActionListener {
         // load up the non-folder children.
 
         this.emailTableModel.setFolder(folder);
-
     }
 
     public JMenuBar createMenu() {
@@ -369,7 +382,6 @@ public class TestGui implements ActionListener {
     public static void main(final String[] args) throws PSTException, IOException {
         new TestGui(args[0]);
     }
-
 }
 
 class EmailTableModel extends AbstractTableModel {
@@ -382,7 +394,6 @@ class EmailTableModel extends AbstractTableModel {
 
     public EmailTableModel(final PSTFolder theFolder, final PSTFile theFile) {
         super();
-
         this.theFolder = theFolder;
         this.theFile = theFile;
     }
@@ -416,12 +427,12 @@ class EmailTableModel extends AbstractTableModel {
     public PSTMessage getMessageAtRow(final int row) {
         PSTMessage next = null;
         try {
-            if (this.cache.containsKey(((Object)theFolder)+toString()+" - "+row)) {
-                next = (PSTMessage) this.cache.get(((Object)theFolder)+toString()+" - "+row);
+            if (this.cache.containsKey(((Object) theFolder) + toString() + " - " + row)) {
+                next = (PSTMessage) this.cache.get(((Object) theFolder) + toString() + " - " + row);
             } else {
                 this.theFolder.moveChildCursorTo(row);
                 next = (PSTMessage) this.theFolder.getNextChild();
-                this.cache.put(((Object)theFolder)+toString()+" - "+row, next);
+                this.cache.put(((Object) theFolder) + toString() + " - " + row, next);
             }
         } catch (final Exception e) {
             e.printStackTrace();
@@ -440,24 +451,24 @@ class EmailTableModel extends AbstractTableModel {
             }
 
             switch (col) {
-            case 0:
-                return next.getDescriptorNode().descriptorIdentifier + "";
+                case 0:
+                    return next.getDescriptorNode().descriptorIdentifier + "";
                 case 1:
                     return next.getMessageClass();
                 case 2:
                     return next.getSubject();
-            case 3:
-                return next.getSentRepresentingName() + " <" + next.getSentRepresentingEmailAddress() + ">";
-            case 4:
-                return next.getReceivedByName() + " <" + next.getReceivedByAddress() + ">" + next.getDisplayTo();
-            case 5:
-                return next.getClientSubmitTime();
-            // return next.isFlagged();
-            // return next.isDraft();
-            // PSTTask task = next.toTask();
-            // return task.toString();
-            case 6:
-                return (next.hasAttachments() ? "Yes" : "No");
+                case 3:
+                    return next.getSentRepresentingName() + " <" + next.getSentRepresentingEmailAddress() + ">";
+                case 4:
+                    return next.getReceivedByName() + " <" + next.getReceivedByAddress() + ">" + next.getDisplayTo();
+                case 5:
+                    return next.getClientSubmitTime();
+                // return next.isFlagged();
+                // return next.isDraft();
+                // PSTTask task = next.toTask();
+                // return task.toString();
+                case 6:
+                    return (next.hasAttachments() ? "Yes" : "No");
             }
         } catch (final Exception e) {
             e.printStackTrace();
@@ -482,5 +493,4 @@ class EmailTableModel extends AbstractTableModel {
         this.theFolder = theFolder;
         this.fireTableDataChanged();
     }
-
 }

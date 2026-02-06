@@ -67,9 +67,8 @@ public class Document extends ComplexListType {
     public static final Map<String, ComplexListMetadataKind> metadataMap_default;
 
     static {
-        metadataMap_default = new LinkedHashMap<>();//NOSONAR public mandatory for ComplexlistType mechanism
-        metadataMap_default.put("RecordGrpID",
-                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default = new LinkedHashMap<>(); //NOSONAR public mandatory for ComplexlistType mechanism
+        metadataMap_default.put("RecordGrpID", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("Management", new ComplexListMetadataKind(Management.class, false));
         metadataMap_default.put("Content", new ComplexListMetadataKind(Content.class, false));
         metadataMap_default.put("FileObject", new ComplexListMetadataKind(FileObject.class, true));
@@ -92,7 +91,6 @@ public class Document extends ComplexListType {
      */
     public Document(String recordGrpID, Content content) throws SEDALibException {
         super("Document");
-
         addNewMetadata("RecordGrpID", recordGrpID);
         addMetadata(content);
     }

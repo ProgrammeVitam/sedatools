@@ -37,32 +37,31 @@
  */
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.charsets.jutf7;
 
-
 /**
  * <p>The character set specified in RFC 3501 to use for IMAP4rev1 mailbox name encoding.</p>
- * 
+ *
  * @see <a href="http://tools.ietf.org/html/rfc3501">RFC 3501</a>
  * @author Jaap Beetstra
  */
 public class ModifiedUTF7Charset extends UTF7StyleCharset {
-	private static final String MODIFIED_BASE64_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-			+ "abcdefghijklmnopqrstuvwxyz" + "0123456789+,";
 
-	public ModifiedUTF7Charset(String name, String[] aliases) {
-		super(name, aliases, MODIFIED_BASE64_ALPHABET, true);
-	}
+    private static final String MODIFIED_BASE64_ALPHABET =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvwxyz" + "0123456789+,";
 
-	boolean canEncodeDirectly(char ch) {
-		if (ch == shift())
-			return false;
-		return ch >= 0x20 && ch <= 0x7E;
-	}
+    public ModifiedUTF7Charset(String name, String[] aliases) {
+        super(name, aliases, MODIFIED_BASE64_ALPHABET, true);
+    }
 
-	byte shift() {
-		return '&';
-	}
+    boolean canEncodeDirectly(char ch) {
+        if (ch == shift()) return false;
+        return ch >= 0x20 && ch <= 0x7E;
+    }
 
-	byte unshift() {
-		return '-';
-	}
+    byte shift() {
+        return '&';
+    }
+
+    byte unshift() {
+        return '-';
+    }
 }

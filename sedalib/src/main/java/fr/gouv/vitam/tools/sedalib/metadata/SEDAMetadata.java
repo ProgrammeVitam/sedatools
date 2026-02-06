@@ -67,7 +67,8 @@ import java.util.LinkedHashMap;
 //used for only json saved SEDAMetadata
 //FileInfo
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes({
+@JsonSubTypes(
+    {
         // SubTypes for BinaryDataObject
         @JsonSubTypes.Type(value = Relationship.class, name = "Relationship"),
         @JsonSubTypes.Type(value = StringType.class, name = "StringType"),
@@ -88,7 +89,9 @@ import java.util.LinkedHashMap;
         @JsonSubTypes.Type(value = TextType.class, name = "TextType"),
         @JsonSubTypes.Type(value = DateTimeType.class, name = "DateTimeType"),
         @JsonSubTypes.Type(value = DateType.class, name = "DateType"),
-        @JsonSubTypes.Type(value = Event.class, name = "Event")})
+        @JsonSubTypes.Type(value = Event.class, name = "Event"),
+    }
+)
 public abstract class SEDAMetadata {
 
     /**
@@ -107,7 +110,7 @@ public abstract class SEDAMetadata {
      * @return the linked hash map with header title as key and metadata value as value
      * @throws SEDALibException if the XML can't be written
      */
-    public abstract LinkedHashMap<String,String> toCsvList() throws SEDALibException;
+    public abstract LinkedHashMap<String, String> toCsvList() throws SEDALibException;
 
     /**
      * Return the indented XML export form as the String representation.
@@ -116,16 +119,16 @@ public abstract class SEDAMetadata {
      */
     public String toString() {
         String result = null;
-        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-             SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)) {
+        try (
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2)
+        ) {
             toSedaXml(xmlWriter);
             xmlWriter.flush();
             result = baos.toString("UTF-8");
-            if (result.startsWith("\n"))
-                result = result.substring(1);
+            if (result.startsWith("\n")) result = result.substring(1);
         } catch (XMLStreamException | IOException | SEDALibException e) {
-            if (result == null)
-                result = super.toString();
+            if (result == null) result = super.toString();
         }
         return result;
     }
@@ -138,7 +141,6 @@ public abstract class SEDAMetadata {
      * @throws SEDALibException the seda lib exception
      */
     public abstract boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException;
-
 
     /**
      * Return the SEDAMetadata object from an XML event reader.
@@ -154,20 +156,26 @@ public abstract class SEDAMetadata {
             SEDAMetadata sm;
             if (needName) {
                 XMLEvent event = xmlReader.peekUsefullEvent();
-                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, event.asStartElement().getName().getLocalPart());
-            } else
-                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, (Object[])null);
-            if (sm.fillFromSedaXml(xmlReader))
-                return sm;
+                sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(
+                    target,
+                    event.asStartElement().getName().getLocalPart()
+                );
+            } else sm = (SEDAMetadata) ConstructorUtils.invokeConstructor(target, (Object[]) null);
+            if (sm.fillFromSedaXml(xmlReader)) return sm;
             Method method = target.getMethod("fromSedaXml", SEDAXMLEventReader.class);
             return (SEDAMetadata) method.invoke(null, xmlReader);
-        } catch (IllegalAccessException | IllegalArgumentException | NoSuchMethodException
-                | SecurityException | InstantiationException e) {
+        } catch (
+            IllegalAccessException
+            | IllegalArgumentException
+            | NoSuchMethodException
+            | SecurityException
+            | InstantiationException e
+        ) {
             throw new SEDALibException("Erreur de construction du " + target.getSimpleName(), e);
         } catch (InvocationTargetException te) {
             throw new SEDALibException("Erreur de construction du " + target.getSimpleName(), te.getTargetException());
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur de lecture XML dans un élément de type "+target.getSimpleName(), e);
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type " + target.getSimpleName(), e);
         }
     }
 
@@ -182,14 +190,15 @@ public abstract class SEDAMetadata {
     public static SEDAMetadata fromString(String xmlData, Class<?> target) throws SEDALibException {
         SEDAMetadata result;
 
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
-             SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)) {
+        try (
+            ByteArrayInputStream bais = new ByteArrayInputStream(xmlData.getBytes(StandardCharsets.UTF_8));
+            SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais, true)
+        ) {
             // jump StartDocument
             xmlReader.nextUsefullEvent();
             result = fromSedaXml(xmlReader, target);
             XMLEvent event = xmlReader.xmlReader.peek();
-            if (!event.isEndDocument())
-                throw new SEDALibException("Il y a des champs illégaux");
+            if (!event.isEndDocument()) throw new SEDALibException("Il y a des champs illégaux");
         } catch (XMLStreamException | SEDALibException | IOException e) {
             throw new SEDALibException("Erreur de lecture de " + target.getSimpleName(), e);
         }

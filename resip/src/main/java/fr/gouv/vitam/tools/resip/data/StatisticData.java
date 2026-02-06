@@ -43,7 +43,8 @@ import java.util.List;
  * The type Statistic data.
  */
 public class StatisticData {
-   private String formatCategory;
+
+    private String formatCategory;
     private int objectNumber;
     private long minSize;
     private long maxSize;
@@ -56,21 +57,21 @@ public class StatisticData {
      * @param formatCategory the format category
      * @param sizeList       the size list
      */
-    public StatisticData(String formatCategory, List<Long> sizeList){
-        this.formatCategory=formatCategory;
-        this.objectNumber=sizeList.size();
-        long min=Long.MAX_VALUE;
-        long max=-1;
-        long accu=0;
-        for (long size:sizeList){
-            if (size<min) min=size;
-            if (size>max) max=size;
-            accu+=size;
+    public StatisticData(String formatCategory, List<Long> sizeList) {
+        this.formatCategory = formatCategory;
+        this.objectNumber = sizeList.size();
+        long min = Long.MAX_VALUE;
+        long max = -1;
+        long accu = 0;
+        for (long size : sizeList) {
+            if (size < min) min = size;
+            if (size > max) max = size;
+            accu += size;
         }
-        this.minSize=min;
-        this.maxSize=max;
-        this.meanSize=(double)accu/(double)this.objectNumber;
-        this.totalSize=accu;
+        this.minSize = min;
+        this.maxSize = max;
+        this.meanSize = (double) accu / (double) this.objectNumber;
+        this.totalSize = accu;
     }
 
     /**

@@ -48,7 +48,7 @@ import java.nio.file.Paths;
  */
 public class MailImportContext extends CreationContext {
 
-// prefs elements
+    // prefs elements
     /**
      * The extract message text file.
      */
@@ -82,7 +82,7 @@ public class MailImportContext extends CreationContext {
      */
     String defaultCharsetName;
 
-// session elements
+    // session elements
     /**
      * The mail folder.
      */
@@ -108,12 +108,17 @@ public class MailImportContext extends CreationContext {
      * @param onDiskInput                the on disk input
      * @param workDir                    the work dir
      */
-    public MailImportContext(boolean extractMessageTextFile,
-                             boolean extractMessageTextMetadata,
-                             boolean extractAttachmentTextFile,
-                             boolean extractAttachementMetadata,
-                             boolean allowsExternalToolsForTextExtraction,
-                             String protocol, String defaultCharsetName, String onDiskInput, String workDir) {
+    public MailImportContext(
+        boolean extractMessageTextFile,
+        boolean extractMessageTextMetadata,
+        boolean extractAttachmentTextFile,
+        boolean extractAttachementMetadata,
+        boolean allowsExternalToolsForTextExtraction,
+        String protocol,
+        String defaultCharsetName,
+        String onDiskInput,
+        String workDir
+    ) {
         super(onDiskInput, workDir);
         this.extractMessageTextFile = extractMessageTextFile;
         this.extractMessageTextMetadata = extractMessageTextMetadata;
@@ -122,7 +127,7 @@ public class MailImportContext extends CreationContext {
         this.allowsExternalToolsForTextExtraction = allowsExternalToolsForTextExtraction;
         this.protocol = protocol;
         this.mailFolder = "";
-        this.defaultCharsetName=defaultCharsetName;
+        this.defaultCharsetName = defaultCharsetName;
     }
 
     /**
@@ -133,30 +138,61 @@ public class MailImportContext extends CreationContext {
     public MailImportContext(Preferences preferences) {
         super(preferences);
         this.extractMessageTextFile = Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("importContext.mail.extractMessageTextFile", "false"));
+            preferences.getPrefProperties().getProperty("importContext.mail.extractMessageTextFile", "false")
+        );
         this.extractMessageTextMetadata = Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("importContext.mail.extractMessageTextMetadata", "true"));
+            preferences.getPrefProperties().getProperty("importContext.mail.extractMessageTextMetadata", "true")
+        );
         this.extractAttachmentTextFile = Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextFile", "true"));
+            preferences.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextFile", "true")
+        );
         this.extractAttachmentTextMetadata = Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextMetadata", "false"));
-        this.allowsExternalToolsForTextExtraction = Boolean.parseBoolean(preferences.getPrefProperties().getProperty("importContext.mail.allowsExternalToolsForTextExtraction", "false"));
+            preferences.getPrefProperties().getProperty("importContext.mail.extractAttachmentTextMetadata", "false")
+        );
+        this.allowsExternalToolsForTextExtraction = Boolean.parseBoolean(
+            preferences
+                .getPrefProperties()
+                .getProperty("importContext.mail.allowsExternalToolsForTextExtraction", "false")
+        );
         this.protocol = preferences.getPrefProperties().getProperty("importContext.mail.protocol", "thunderbird");
         this.mailFolder = "";
-        this.defaultCharsetName = preferences.getPrefProperties().getProperty("importContext.mail.defaultCharsetName", "windows-1252");
+        this.defaultCharsetName = preferences
+            .getPrefProperties()
+            .getProperty("importContext.mail.defaultCharsetName", "windows-1252");
     }
 
     /* (non-Javadoc)
      * @see CreationContext#toPrefs(Prefs)
      */
     public void toPrefs(Preferences preferences) {
-        preferences.getPrefProperties().setProperty("importContext.mail.extractMessageTextFile", Boolean.toString(extractMessageTextFile));
-        preferences.getPrefProperties().setProperty("importContext.mail.extractMessageTextMetadata", Boolean.toString(extractMessageTextMetadata));
-        preferences.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextFile", Boolean.toString(extractAttachmentTextFile));
-        preferences.getPrefProperties().setProperty("importContext.mail.extractAttachmentTextMetadata", Boolean.toString(extractAttachmentTextMetadata));
-        preferences.getPrefProperties().setProperty("importContext.mail.allowsExternalToolsForTextExtraction", Boolean.toString(allowsExternalToolsForTextExtraction));
+        preferences
+            .getPrefProperties()
+            .setProperty("importContext.mail.extractMessageTextFile", Boolean.toString(extractMessageTextFile));
+        preferences
+            .getPrefProperties()
+            .setProperty("importContext.mail.extractMessageTextMetadata", Boolean.toString(extractMessageTextMetadata));
+        preferences
+            .getPrefProperties()
+            .setProperty("importContext.mail.extractAttachmentTextFile", Boolean.toString(extractAttachmentTextFile));
+        preferences
+            .getPrefProperties()
+            .setProperty(
+                "importContext.mail.extractAttachmentTextMetadata",
+                Boolean.toString(extractAttachmentTextMetadata)
+            );
+        preferences
+            .getPrefProperties()
+            .setProperty(
+                "importContext.mail.allowsExternalToolsForTextExtraction",
+                Boolean.toString(allowsExternalToolsForTextExtraction)
+            );
         preferences.getPrefProperties().setProperty("importContext.mail.protocol", (protocol == null ? "" : protocol));
-        preferences.getPrefProperties().setProperty("importContext.mail.defaultCharsetName", (defaultCharsetName == null ? "" : defaultCharsetName));
+        preferences
+            .getPrefProperties()
+            .setProperty(
+                "importContext.mail.defaultCharsetName",
+                (defaultCharsetName == null ? "" : defaultCharsetName)
+            );
     }
 
     /* (non-Javadoc)
@@ -171,7 +207,7 @@ public class MailImportContext extends CreationContext {
         this.allowsExternalToolsForTextExtraction = false;
         this.protocol = "thunderbird";
         this.mailFolder = "";
-        this.defaultCharsetName="windows-1252";
+        this.defaultCharsetName = "windows-1252";
     }
 
     // Getters and setters
@@ -301,7 +337,6 @@ public class MailImportContext extends CreationContext {
         this.mailFolder = mailFolder;
     }
 
-
     /**
      * Gets default charset name.
      *
@@ -325,18 +360,12 @@ public class MailImportContext extends CreationContext {
         this.onDiskInput = onDiskInput;
         if (onDiskInput != null) {
             try {
-                if (Files.isDirectory(Paths.get(onDiskInput)))
-                    setProtocol("thunderbird");
-                else if (onDiskInput.endsWith(".pst"))
-                    setProtocol("pst");
-                else if (onDiskInput.endsWith(".msg"))
-                    setProtocol("msg");
-                else if (onDiskInput.endsWith(".eml"))
-                    setProtocol("eml");
-                else
-                    setProtocol("mbox");
-            } catch (Exception ignored) {
-            }
+                if (Files.isDirectory(Paths.get(onDiskInput))) setProtocol("thunderbird");
+                else if (onDiskInput.endsWith(".pst")) setProtocol("pst");
+                else if (onDiskInput.endsWith(".msg")) setProtocol("msg");
+                else if (onDiskInput.endsWith(".eml")) setProtocol("eml");
+                else setProtocol("mbox");
+            } catch (Exception ignored) {}
         }
     }
 }

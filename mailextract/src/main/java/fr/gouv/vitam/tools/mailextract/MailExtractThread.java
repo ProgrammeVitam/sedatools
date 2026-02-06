@@ -105,17 +105,41 @@ public class MailExtractThread extends Thread {
      * @param logLevel              the log level
      * @param debugFlag             the debug flag
      */
-    public MailExtractThread(MailExtractMainWindow mainWindow, int actionNumber, String protocol, String host, int port, String user, String password,
-                             String container, String folder, String destRootPath, String destName,
-                             StoreExtractorOptions storeExtractorOptions, String logLevel, boolean debugFlag) {
+    public MailExtractThread(
+        MailExtractMainWindow mainWindow,
+        int actionNumber,
+        String protocol,
+        String host,
+        int port,
+        String user,
+        String password,
+        String container,
+        String folder,
+        String destRootPath,
+        String destName,
+        StoreExtractorOptions storeExtractorOptions,
+        String logLevel,
+        boolean debugFlag
+    ) {
         this.mainWindow = mainWindow;
         try {
-            mel = new MailExtractLogger(destRootPath + File.separator + destName + ".log", MailExtractLogger.getLevel(logLevel));
-            logger = new MailExtractProgressLogger(mel.getProgressLogger(), MailExtractLogger.getLevel(logLevel), (count, log) -> {
-                String newLog = mainWindow.consoleTextArea.getText() + "\n" + log;
-                mainWindow.consoleTextArea.setText(newLog);
-                mainWindow.consoleTextArea.setCaretPosition(newLog.length());
-            }, 1000,2,MailExtractProgressLogger.MESSAGE_GROUP,1000);
+            mel = new MailExtractLogger(
+                destRootPath + File.separator + destName + ".log",
+                MailExtractLogger.getLevel(logLevel)
+            );
+            logger = new MailExtractProgressLogger(
+                mel.getProgressLogger(),
+                MailExtractLogger.getLevel(logLevel),
+                (count, log) -> {
+                    String newLog = mainWindow.consoleTextArea.getText() + "\n" + log;
+                    mainWindow.consoleTextArea.setText(newLog);
+                    mainWindow.consoleTextArea.setCaretPosition(newLog.length());
+                },
+                1000,
+                2,
+                MailExtractProgressLogger.MESSAGE_GROUP,
+                1000
+            );
             logger.setDebugFlag(debugFlag);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -124,8 +148,13 @@ public class MailExtractThread extends Thread {
         // do the job, creating a store extractor and running the extraction
         try {
             String urlString = StoreExtractor.composeStoreURL(protocol, host, user, password, container);
-            this.storeExtractor = StoreExtractor.createStoreExtractor(urlString, folder,
-                    Paths.get(destRootPath, destName).toString(), storeExtractorOptions, logger);
+            this.storeExtractor = StoreExtractor.createStoreExtractor(
+                urlString,
+                folder,
+                Paths.get(destRootPath, destName).toString(),
+                storeExtractorOptions,
+                logger
+            );
             this.actionNumber = actionNumber;
         } catch (MailExtractLibException ee) {
             doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: erreur d'extraction", ee);
@@ -150,12 +179,9 @@ public class MailExtractThread extends Thread {
                     storeExtractor.listAllFolders(true);
                     break;
                 case MailExtractGraphicApp.EXTRACT_ACTION:
-                    if (storeExtractor.hasDestName())
-                        storeExtractor.extractAllFolders();
-                    else
-                        throw new MailExtractLibException("mailextract: no destination name for extraction", null);
+                    if (storeExtractor.hasDestName()) storeExtractor.extractAllFolders();
+                    else throw new MailExtractLibException("mailextract: no destination name for extraction", null);
                     break;
-
             }
         } catch (MailExtractLibException ee) {
             doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: extraction error", ee);
@@ -166,20 +192,17 @@ public class MailExtractThread extends Thread {
             System.out.println(getPrintStackTrace(e));
         } finally {
             try {
-                if (storeExtractor != null)
-                    storeExtractor.endStoreExtractor();
+                if (storeExtractor != null) storeExtractor.endStoreExtractor();
             } catch (MailExtractLibException e) {
                 doProgressLogWithoutInterruption(logger, GLOBAL, "mailextract: closing error", e);
             }
-            if (logger != null)
-                logger.close();
-            if (mel != null)
-                mel.close();
+            if (logger != null) logger.close();
+            if (mel != null) mel.close();
         }
     }
 
     // make a String from the stack trace
-    private final static String getPrintStackTrace(Exception e) {
+    private static final String getPrintStackTrace(Exception e) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintWriter p = new PrintWriter(baos);
 
@@ -187,5 +210,4 @@ public class MailExtractThread extends Thread {
         p.close();
         return baos.toString();
     }
-
 }

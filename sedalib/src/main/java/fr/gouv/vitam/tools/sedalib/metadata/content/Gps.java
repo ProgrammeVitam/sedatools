@@ -92,29 +92,24 @@ public class Gps extends ComplexListType {
      * @param gpsDateStamp the gps date stamp
      * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
-    public Gps(String gpsVersionID, int gpsAltitude, String gpsLatitude, String gpsLongitude,
-               String gpsDateStamp) throws SEDALibException {
+    public Gps(String gpsVersionID, int gpsAltitude, String gpsLatitude, String gpsLongitude, String gpsDateStamp)
+        throws SEDALibException {
         this();
-
         if (gpsVersionID != null) addNewMetadata("GpsVersionID", gpsVersionID);
         if (gpsAltitude != -100000) {
-            if (gpsAltitude < 0)
-                addNewMetadata("GpsAltitudeRef", "1");
-            else
-                addNewMetadata("GpsAltitudeRef", "0");
+            if (gpsAltitude < 0) addNewMetadata("GpsAltitudeRef", "1");
+            else addNewMetadata("GpsAltitudeRef", "0");
             addNewMetadata("GpsAltitude", Math.abs(gpsAltitude));
         }
         if (gpsLatitude.startsWith("-")) {
             gpsLatitude = gpsLatitude.substring(1);
             addNewMetadata("GpsLatitudeRef", "S");
-        } else
-            addNewMetadata("GpsLatitudeRef", "N");
+        } else addNewMetadata("GpsLatitudeRef", "N");
         addNewMetadata("GpsLatitude", gpsLatitude);
         if (gpsLongitude.startsWith("-")) {
             gpsLongitude = gpsLongitude.substring(1);
             addNewMetadata("GpsLongitudeRef", "O");
-        } else
-            addNewMetadata("GpsLongitudeRef", "E");
+        } else addNewMetadata("GpsLongitudeRef", "E");
         addNewMetadata("GpsLongitude", gpsLongitude);
         if (gpsDateStamp != null) addNewMetadata("GpsDateStamp", gpsDateStamp);
     }

@@ -57,7 +57,8 @@ public abstract class ComplexListType extends NamedTypeMetadata implements Compl
     /**
      * The Sub type metadata map map by versions.
      */
-    protected static Map<Class<?>, Map<SedaVersion, Map<String, ComplexListMetadataKind>>> subTypeMetadataMapsMap = new HashMap<>();
+    protected static Map<Class<?>, Map<SedaVersion, Map<String, ComplexListMetadataKind>>> subTypeMetadataMapsMap =
+        new HashMap<>();
 
     /**
      * The Sub type expandable map by versions.
@@ -107,8 +108,7 @@ public abstract class ComplexListType extends NamedTypeMetadata implements Compl
             toSedaXmlMetadataList(xmlWriter);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException(
-                    "Erreur d'écriture XML dans un élément [" + getXmlElementName() + "]", e);
+            throw new SEDALibException("Erreur d'écriture XML dans un élément [" + getXmlElementName() + "]", e);
         }
     }
 
@@ -132,8 +132,7 @@ public abstract class ComplexListType extends NamedTypeMetadata implements Compl
             if (xmlReader.nextBlockIfNamed(elementName)) {
                 fillFromSedaXmlMetadataList(xmlReader);
                 xmlReader.endBlockNamed(elementName);
-            } else
-                return false;
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément [" + elementName + "]", e);
         }
@@ -163,7 +162,8 @@ public abstract class ComplexListType extends NamedTypeMetadata implements Compl
     }
 
     @JsonIgnore
-    public static LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap(Class<?> clazz) throws SEDALibException {
+    public static LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap(Class<?> clazz)
+        throws SEDALibException {
         return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(clazz);
     }
 }

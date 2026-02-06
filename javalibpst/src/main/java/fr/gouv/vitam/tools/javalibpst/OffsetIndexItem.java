@@ -40,10 +40,11 @@ package fr.gouv.vitam.tools.javalibpst;
 /**
  * OffsetIndexItem is a leaf item from the Offset index b-tree
  * Only really used internally to get the file offset for items
- * 
+ *
  * @author Richard Johnson
  */
 class OffsetIndexItem {
+
     long indexIdentifier;
     long fileOffset;
     int size;
@@ -67,10 +68,30 @@ class OffsetIndexItem {
 
     @Override
     public String toString() {
-        return "OffsetIndexItem\n" + "Index Identifier: " + this.indexIdentifier + " (0x"
-            + Long.toHexString(this.indexIdentifier) + ")\n" + "File Offset: " + this.fileOffset + " (0x"
-            + Long.toHexString(this.fileOffset) + ")\n" + "cRef: " + this.cRef + " (0x" + Long.toHexString(this.cRef)
-            + " bin:" + Long.toBinaryString(this.cRef) + ")\n" + "Size: " + this.size + " (0x"
-            + Long.toHexString(this.size) + ")";
+        return (
+            "OffsetIndexItem\n" +
+            "Index Identifier: " +
+            this.indexIdentifier +
+            " (0x" +
+            Long.toHexString(this.indexIdentifier) +
+            ")\n" +
+            "File Offset: " +
+            this.fileOffset +
+            " (0x" +
+            Long.toHexString(this.fileOffset) +
+            ")\n" +
+            "cRef: " +
+            this.cRef +
+            " (0x" +
+            Long.toHexString(this.cRef) +
+            " bin:" +
+            Long.toBinaryString(this.cRef) +
+            ")\n" +
+            "Size: " +
+            this.size +
+            " (0x" +
+            Long.toHexString(this.size) +
+            ")"
+        );
     }
 }

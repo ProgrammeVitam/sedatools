@@ -115,8 +115,7 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
     @JsonIgnore
     @Override
     public LinkedHashMap<String, ComplexListMetadataKind> getMetadataMap() throws SEDALibException {
-        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface
-            .getMetadataMap(this.getClass());
+        return (LinkedHashMap<String, ComplexListMetadataKind>) ComplexListInterface.getMetadataMap(this.getClass());
     }
 
     /**
@@ -125,8 +124,7 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
     @JsonIgnore
     @Override
     public boolean isNotExpandable() {
-        return ComplexListInterface
-            .isNotExpandable(this.getClass());
+        return ComplexListInterface.isNotExpandable(this.getClass());
     }
 
     /**
@@ -192,10 +190,16 @@ public class PhysicalDataObject extends AbstractUnitaryDataObject implements Dat
      *                              not respected
      * @throws InterruptedException if export process is interrupted
      */
-    public static PhysicalDataObject fromSedaXml(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
-                                                 SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+    public static PhysicalDataObject fromSedaXml(
+        SEDAXMLEventReader xmlReader,
+        DataObjectPackage dataObjectPackage,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException, InterruptedException {
         PhysicalDataObject pdo = new PhysicalDataObject();
-        return (importUnitaryDataObjectPackageIdElementFromSedaXml(pdo, xmlReader, dataObjectPackage, sedaLibProgressLogger)
-                ? pdo : null);
+        return (
+            importUnitaryDataObjectPackageIdElementFromSedaXml(pdo, xmlReader, dataObjectPackage, sedaLibProgressLogger)
+                ? pdo
+                : null
+        );
     }
 }

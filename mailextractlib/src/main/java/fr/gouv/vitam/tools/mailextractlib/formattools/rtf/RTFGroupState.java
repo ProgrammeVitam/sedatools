@@ -141,5 +141,4 @@ class RTFGroupState {
     public RTFGroupState getPreviousGroupState() {
         return previous;
     }
-
 }

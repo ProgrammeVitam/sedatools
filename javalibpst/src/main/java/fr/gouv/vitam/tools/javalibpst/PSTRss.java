@@ -42,7 +42,7 @@ import java.util.HashMap;
 
 /**
  * Object that represents a RSS item
- * 
+ *
  * @author Richard Johnson
  */
 public class PSTRss extends PSTMessage {
@@ -68,8 +68,12 @@ public class PSTRss extends PSTMessage {
      * @param table                the table
      * @param localDescriptorItems the local descriptor items
      */
-    public PSTRss(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    public PSTRss(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -138,12 +142,27 @@ public class PSTRss extends PSTMessage {
 
     @Override
     public String toString() {
-        return "Channel ASCII or Unicode string values: " + this.getPostRssChannelLink() + "\n"
-            + "Item link ASCII or Unicode string values: " + this.getPostRssItemLink() + "\n"
-            + "Item hash Integer 32-bit signed: " + this.getPostRssItemHash() + "\n"
-            + "Item GUID ASCII or Unicode string values: " + this.getPostRssItemGuid() + "\n"
-            + "Channel GUID ASCII or Unicode string values: " + this.getPostRssChannel() + "\n"
-            + "Item XML ASCII or Unicode string values: " + this.getPostRssItemXml() + "\n"
-            + "Subscription ASCII or Unicode string values: " + this.getPostRssSubscription();
+        return (
+            "Channel ASCII or Unicode string values: " +
+            this.getPostRssChannelLink() +
+            "\n" +
+            "Item link ASCII or Unicode string values: " +
+            this.getPostRssItemLink() +
+            "\n" +
+            "Item hash Integer 32-bit signed: " +
+            this.getPostRssItemHash() +
+            "\n" +
+            "Item GUID ASCII or Unicode string values: " +
+            this.getPostRssItemGuid() +
+            "\n" +
+            "Channel GUID ASCII or Unicode string values: " +
+            this.getPostRssChannel() +
+            "\n" +
+            "Item XML ASCII or Unicode string values: " +
+            this.getPostRssItemXml() +
+            "\n" +
+            "Subscription ASCII or Unicode string values: " +
+            this.getPostRssSubscription()
+        );
     }
 }

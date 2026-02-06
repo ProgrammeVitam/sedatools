@@ -45,7 +45,7 @@ import java.util.HashMap;
  * It allows for an item to be read and broken down into the individual
  * properties that it consists of.
  * For most PST Objects, it appears that only 7c and bc table types are used.
- * 
+ *
  * @author Richard Johnson
  */
 class PSTTable {
@@ -92,31 +92,32 @@ class PSTTable {
 
         this.tableTypeByte = headdata[3];
         switch (this.tableTypeByte) { // bClientSig
-        case 0x7c: // Table Context (TC/HN)
-            this.tableType = "7c";
-            break;
-        // case 0x9c:
-        // tableType = "9c";
-        // valid = true;
-        // break;
-        // case 0xa5:
-        // tableType = "a5";
-        // valid = true;
-        // break;
-        // case 0xac:
-        // tableType = "ac";
-        // valid = true;
-        // break;
-        // case 0xFFFFFFb5: // BTree-on-Heap (BTH)
-        // tableType = "b5";
-        // valid = true;
-        // break;
-        case 0xffffffbc:
-            this.tableType = "bc"; // Property Context (PC/BTH)
-            break;
-        default:
-            throw new PSTException(
-                "Unable to parse table, bad table type.  Unknown identifier: 0x" + Long.toHexString(headdata[3]));
+            case 0x7c: // Table Context (TC/HN)
+                this.tableType = "7c";
+                break;
+            // case 0x9c:
+            // tableType = "9c";
+            // valid = true;
+            // break;
+            // case 0xa5:
+            // tableType = "a5";
+            // valid = true;
+            // break;
+            // case 0xac:
+            // tableType = "ac";
+            // valid = true;
+            // break;
+            // case 0xFFFFFFb5: // BTree-on-Heap (BTH)
+            // tableType = "b5";
+            // valid = true;
+            // break;
+            case 0xffffffbc:
+                this.tableType = "bc"; // Property Context (PC/BTH)
+                break;
+            default:
+                throw new PSTException(
+                    "Unable to parse table, bad table type.  Unknown identifier: 0x" + Long.toHexString(headdata[3])
+                );
         }
 
         this.hidUserRoot = (int) in.seekAndReadLong(4, 4); // hidUserRoot
@@ -142,9 +143,9 @@ class PSTTable {
         }
 
         this.sizeOfItemKey = headerNodeInfo.in.read() & 0xFF; // Size of key in
-                                                              // key table
+        // key table
         this.sizeOfItemValue = headerNodeInfo.in.read() & 0xFF; // Size of value
-                                                                // in key table
+        // in key table
 
         this.numberOfIndexLevels = headerNodeInfo.in.read() & 0xFF;
         if (this.numberOfIndexLevels != 0) {
@@ -161,11 +162,30 @@ class PSTTable {
          * System.out.printf("Table %s: hidRoot 0x%08X\n", tableType, hidRoot);
          * /
          **/
-        this.description += "Table (" + this.tableType + ")\n" + "hidUserRoot: " + this.hidUserRoot + " - 0x"
-            + Long.toHexString(this.hidUserRoot) + "\n" + "Size Of Keys: " + this.sizeOfItemKey + " - 0x"
-            + Long.toHexString(this.sizeOfItemKey) + "\n" + "Size Of Values: " + this.sizeOfItemValue + " - 0x"
-            + Long.toHexString(this.sizeOfItemValue) + "\n" + "hidRoot: " + this.hidRoot + " - 0x"
-            + Long.toHexString(this.hidRoot) + "\n";
+        this.description +=
+        "Table (" +
+        this.tableType +
+        ")\n" +
+        "hidUserRoot: " +
+        this.hidUserRoot +
+        " - 0x" +
+        Long.toHexString(this.hidUserRoot) +
+        "\n" +
+        "Size Of Keys: " +
+        this.sizeOfItemKey +
+        " - 0x" +
+        Long.toHexString(this.sizeOfItemKey) +
+        "\n" +
+        "Size Of Values: " +
+        this.sizeOfItemValue +
+        " - 0x" +
+        Long.toHexString(this.sizeOfItemValue) +
+        "\n" +
+        "hidRoot: " +
+        this.hidRoot +
+        " - 0x" +
+        Long.toHexString(this.hidRoot) +
+        "\n";
     }
 
     protected void releaseRawData() {
@@ -182,6 +202,7 @@ class PSTTable {
     }
 
     class NodeInfo {
+
         int startOffset;
         int endOffset;
         // byte[] data;
@@ -190,7 +211,8 @@ class PSTTable {
         NodeInfo(final int start, final int end, final PSTNodeInputStream in) throws PSTException {
             if (start > end) {
                 throw new PSTException(
-                    String.format("Invalid NodeInfo parameters: start %1$d is greater than end %2$d", start, end));
+                    String.format("Invalid NodeInfo parameters: start %1$d is greater than end %2$d", start, end)
+                );
             }
             this.startOffset = start;
             this.endOffset = end;
@@ -208,7 +230,6 @@ class PSTTable {
     }
 
     protected NodeInfo getNodeInfo(final int hnid) throws PSTException, IOException {
-
         // Zero-length node?
         if (hnid == 0) {
             return new NodeInfo(0, 0, this.in);
@@ -267,5 +288,4 @@ class PSTTable {
         final NodeInfo out = new NodeInfo(start, end, this.in);
         return out;
     }
-
 }

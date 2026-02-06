@@ -65,6 +65,7 @@ public class TestTextExtraction {
 
         // WARNING: Deprecated in Java 17. Not recommended for production, but still good for testing.
         class NoExecSecurityManager extends SecurityManager {
+
             @Override
             public void checkExec(String cmd) {
                 assertNoProcessesRun.fail("Process run: '" + cmd + "'");
@@ -93,15 +94,34 @@ public class TestTextExtraction {
     public void testTextExtraction() throws MailExtractLibException, InterruptedException, IOException {
         //given
         AllTests.initializeTests("testTextExtraction");
-        StoreExtractorOptions storeExtractorOptions = new StoreExtractorOptions(false,
-                true, true, 12, "windows-1252",
-                false, true, true, true,
-                true, 2);
+        StoreExtractorOptions storeExtractorOptions = new StoreExtractorOptions(
+            false,
+            true,
+            true,
+            12,
+            "windows-1252",
+            false,
+            true,
+            true,
+            true,
+            true,
+            2
+        );
         MailExtractProgressLogger mepl = AllTests.initLogger("testTextExtraction");
-        String urlString = StoreExtractor.composeStoreURL("eml", "", "", "",
-                "src/test/resources/textextraction/Test text extraction.eml");
-        StoreExtractor storeExtractor = StoreExtractor.createStoreExtractor(urlString, "",
-                "target/tmpJUnit/testTextExtraction", storeExtractorOptions, mepl);
+        String urlString = StoreExtractor.composeStoreURL(
+            "eml",
+            "",
+            "",
+            "",
+            "src/test/resources/textextraction/Test text extraction.eml"
+        );
+        StoreExtractor storeExtractor = StoreExtractor.createStoreExtractor(
+            urlString,
+            "",
+            "target/tmpJUnit/testTextExtraction",
+            storeExtractorOptions,
+            mepl
+        );
 
         //when
         storeExtractor.extractAllFolders();
@@ -116,7 +136,10 @@ public class TestTextExtraction {
         assertThat(storeExtractor.getElementCounter(StoreContact.class, false)).isEqualTo(0);
 
         // compare txt and xml extracted
-        AllTests.assertThatDirectoriesContainSameFilesWithExtensions("src/test/resources/textextraction/results/M#1-Test-extract",
-                "target/tmpJUnit/testTextExtraction/M#1-Test-extract", new String[] {"txt", "xml"});
+        AllTests.assertThatDirectoriesContainSameFilesWithExtensions(
+            "src/test/resources/textextraction/results/M#1-Test-extract",
+            "target/tmpJUnit/testTextExtraction/M#1-Test-extract",
+            new String[] { "txt", "xml" }
+        );
     }
 }

@@ -88,11 +88,12 @@ public class FormatIdentification extends ComplexListType {
      * @param encoding       the encoding
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public FormatIdentification(String formatLitteral, String mimeType, String formatId, String encoding) throws SEDALibException {
+    public FormatIdentification(String formatLitteral, String mimeType, String formatId, String encoding)
+        throws SEDALibException {
         super("FormatIdentification");
-        if ((formatLitteral!=null) && !formatLitteral.isEmpty()) addNewMetadata("FormatLitteral",formatLitteral);
-        if ((mimeType!=null) && !mimeType.isEmpty()) addNewMetadata("MimeType", mimeType);
-        if ((formatId!=null) && !formatId.isEmpty()) addNewMetadata("FormatId", formatId);
-        if ((encoding!=null) && !encoding.isEmpty()) addNewMetadata("Encoding", encoding);
+        if ((formatLitteral != null) && !formatLitteral.isEmpty()) addNewMetadata("FormatLitteral", formatLitteral);
+        if ((mimeType != null) && !mimeType.isEmpty()) addNewMetadata("MimeType", mimeType);
+        if ((formatId != null) && !formatId.isEmpty()) addNewMetadata("FormatId", formatId);
+        if ((encoding != null) && !encoding.isEmpty()) addNewMetadata("Encoding", encoding);
     }
 }

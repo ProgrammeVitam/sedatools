@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.javalibpst;
 
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -46,7 +45,9 @@ import java.io.IOException;
 
 @RunWith(JUnit4.class)
 public class PSTFileContentTest {
+
     static class TestPSTFileContent extends PSTFileContent {
+
         int position = 0;
 
         @Override
@@ -77,9 +78,7 @@ public class PSTFileContentTest {
         }
 
         @Override
-        public void close() throws IOException {
-
-        }
+        public void close() throws IOException {}
     }
 
     @Test

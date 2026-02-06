@@ -109,8 +109,10 @@ public class ArchiveTransferToDiskExporter {
     public ArchiveTransferToDiskExporter(ArchiveTransfer archiveTransfer, SEDALibProgressLogger sedaLibProgressLogger) {
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.archiveTransfer = archiveTransfer;
-        dataObjectPackageToDiskExporter = new DataObjectPackageToDiskExporter(archiveTransfer.getDataObjectPackage(),
-                sedaLibProgressLogger);
+        dataObjectPackageToDiskExporter = new DataObjectPackageToDiskExporter(
+            archiveTransfer.getDataObjectPackage(),
+            sedaLibProgressLogger
+        );
     }
 
     /**
@@ -121,16 +123,19 @@ public class ArchiveTransferToDiskExporter {
      * @throws SEDALibException if writing has failed
      */
     public void exportArchiveTransferGlobalMetadata(GlobalMetadata globalMetadata, Path containerPath)
-            throws SEDALibException {
+        throws SEDALibException {
         Path targetOnDiskPath;
         // write binary file
         targetOnDiskPath = containerPath.resolve("__GlobalMetadata.xml");
-        try (FileOutputStream fos = new FileOutputStream(targetOnDiskPath.toFile());
-             Writer rawWriter = new OutputStreamWriter(fos, StandardCharsets.UTF_8)) {
+        try (
+            FileOutputStream fos = new FileOutputStream(targetOnDiskPath.toFile());
+            Writer rawWriter = new OutputStreamWriter(fos, StandardCharsets.UTF_8)
+        ) {
             rawWriter.write(globalMetadata.toSedaXmlFragments());
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Ecriture des métadonnées globales [" + targetOnDiskPath + "] impossible\n->" + e.getMessage());
+                "Ecriture des métadonnées globales [" + targetOnDiskPath + "] impossible\n->" + e.getMessage()
+            );
         }
     }
 
@@ -156,21 +161,29 @@ public class ArchiveTransferToDiskExporter {
         String log = "Début de l'export d'un ArchiveTransfer dans une hiérarchie sur disque\n";
         log += "en [" + directoryName + "]";
         log += " date=" + DateFormat.getDateTimeInstance().format(d);
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, log, null);
+        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, log, null);
 
         exportPath = Paths.get(directoryName);
         try {
             Files.createDirectories(exportPath);
         } catch (Exception e) {
             throw new SEDALibException(
-                    "Création du répertoire d'export [" + exportPath + "] impossible\n->" + e.getMessage());
+                "Création du répertoire d'export [" + exportPath + "] impossible\n->" + e.getMessage()
+            );
         }
 
-        if (archiveTransfer.getGlobalMetadata() != null)
-            exportArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata(), exportPath);
+        if (archiveTransfer.getGlobalMetadata() != null) exportArchiveTransferGlobalMetadata(
+            archiveTransfer.getGlobalMetadata(),
+            exportPath
+        );
         dataObjectPackageToDiskExporter.doExport(directoryName);
 
-        doProgressLog(sedaLibProgressLogger,SEDALibProgressLogger.GLOBAL, "sedalib: export d'un ArchiveTransfer dans une hiérarchie sur disque terminé", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            "sedalib: export d'un ArchiveTransfer dans une hiérarchie sur disque terminé",
+            null
+        );
         end = Instant.now();
     }
 
@@ -183,8 +196,8 @@ public class ArchiveTransferToDiskExporter {
         String result = "Export d'un ArchiveTransfer dans une hiérarchie sur disque\n";
         result += "en [" + exportPath + "]\n";
         result += "encodé selon un modèle V2 de la structure\n";
-        if ((start != null) && (end != null))
-            result += "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
+        if ((start != null) && (end != null)) result +=
+        "effectué en " + Duration.between(start, end).toString().substring(2) + "\n";
         return result;
     }
 }

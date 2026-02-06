@@ -62,8 +62,8 @@ public class MsgStoreExtractor extends StoreExtractor {
      * This is in default list.
      */
     public static void subscribeStoreExtractor() {
-        addExtractionRelation("application/vnd.ms-outlook", "x-fmt/430","msg", false, MsgStoreExtractor.class);
-        addExtractionRelation(null, null,"msg.embeddedmsg", false, MsgStoreExtractor.class);
+        addExtractionRelation("application/vnd.ms-outlook", "x-fmt/430", "msg", false, MsgStoreExtractor.class);
+        addExtractionRelation(null, null, "msg.embeddedmsg", false, MsgStoreExtractor.class);
     }
 
     // Attachment to complete with decoded form
@@ -81,8 +81,14 @@ public class MsgStoreExtractor extends StoreExtractor {
      * @throws MailExtractLibException the extraction exception
      * @throws InterruptedException    the interrupted exception
      */
-    public MsgStoreExtractor(String urlString, String folder, String destPathString, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, MailExtractProgressLogger logger) throws MailExtractLibException, InterruptedException {
+    public MsgStoreExtractor(
+        String urlString,
+        String folder,
+        String destPathString,
+        StoreExtractorOptions options,
+        StoreExtractor rootStoreExtractor,
+        MailExtractProgressLogger logger
+    ) throws MailExtractLibException, InterruptedException {
         super(urlString, folder, destPathString, options, rootStoreExtractor, null, logger);
         MAPIMessage message;
         long size;
@@ -93,7 +99,9 @@ public class MsgStoreExtractor extends StoreExtractor {
             size = Files.size(messageFile.toPath());
         } catch (Exception e) {
             throw new MailExtractLibException(
-                    "mailextractlib.msg: can't open " + path + ", doesn't exist or is not a msg file", e);
+                "mailextractlib.msg: can't open " + path + ", doesn't exist or is not a msg file",
+                e
+            );
         }
 
         ArchiveUnit rootNode = new ArchiveUnit(this, destRootPath, destName);
@@ -112,14 +120,27 @@ public class MsgStoreExtractor extends StoreExtractor {
      * @throws MailExtractLibException the extraction exception
      * @throws InterruptedException    the interrupted exception
      */
-    public MsgStoreExtractor(StoreAttachment attachment, ArchiveUnit rootNode, StoreExtractorOptions options,
-                             StoreExtractor rootStoreExtractor, StoreElement fatherElement, MailExtractProgressLogger logger) throws MailExtractLibException, InterruptedException {
-        super("msg.embeddedmsg://localhost/", "", rootNode.getFullName(), options, rootStoreExtractor, fatherElement, logger);
+    public MsgStoreExtractor(
+        StoreAttachment attachment,
+        ArchiveUnit rootNode,
+        StoreExtractorOptions options,
+        StoreExtractor rootStoreExtractor,
+        StoreElement fatherElement,
+        MailExtractProgressLogger logger
+    ) throws MailExtractLibException, InterruptedException {
+        super(
+            "msg.embeddedmsg://localhost/",
+            "",
+            rootNode.getFullName(),
+            options,
+            rootStoreExtractor,
+            fatherElement,
+            logger
+        );
         MAPIMessage message;
 
         this.attachment = attachment;
-        if (attachment.getStoreContent() instanceof MAPIMessage)
-            message = (MAPIMessage) attachment.getStoreContent();
+        if (attachment.getStoreContent() instanceof MAPIMessage) message = (MAPIMessage) attachment.getStoreContent();
         else if (attachment.getStoreContent() instanceof byte[]) {
             ByteArrayInputStream bais = new ByteArrayInputStream((byte[]) attachment.getStoreContent());
             try {
@@ -127,8 +148,7 @@ public class MsgStoreExtractor extends StoreExtractor {
             } catch (IOException e) {
                 throw new MailExtractLibException("mailextractlib.msg: can't extract msg store", e);
             }
-        } else
-            throw new MailExtractLibException("mailextractlib.msg: can't extract msg store", null);
+        } else throw new MailExtractLibException("mailextractlib.msg: can't extract msg store", null);
 
         setRootFolder(MsgStoreFolder.createRootFolder(this, message, 0, rootNode));
     }
@@ -152,8 +172,16 @@ public class MsgStoreExtractor extends StoreExtractor {
     /**
      * The Constant MSG_MN.
      */
-    static final byte[] MSG_MN = new byte[]{(byte) 0xD0, (byte) 0xCF, 0x11, (byte) 0xE0, (byte) 0xA1, (byte) 0xB1,
-            0x1A, (byte) 0xE1};
+    static final byte[] MSG_MN = new byte[] {
+        (byte) 0xD0,
+        (byte) 0xCF,
+        0x11,
+        (byte) 0xE0,
+        (byte) 0xA1,
+        (byte) 0xB1,
+        0x1A,
+        (byte) 0xE1,
+    };
 
     /**
      * Gets the verified scheme.
@@ -164,7 +192,6 @@ public class MsgStoreExtractor extends StoreExtractor {
     public static String getVerifiedScheme(byte[] content) {
         if (hasMagicNumber(content, MSG_MN)) {
             return "msg";
-        } else
-            return null;
+        } else return null;
     }
 }

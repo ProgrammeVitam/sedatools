@@ -39,8 +39,8 @@ package fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox;
 
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.JMMimeMessage;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
-
 import jakarta.mail.*;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -64,6 +64,7 @@ public class MboxFolder extends Folder {
     private int total; // total number of messages in mailbox
 
     private class MessageFork {
+
         long beg, end;
 
         MessageFork(long beg, long end) {
@@ -208,10 +209,8 @@ public class MboxFolder extends Folder {
      */
     @Override
     public Folder getFolder(String name) throws MessagingException {
-        if ((name == null) || (name.isEmpty()))
-            return new MboxFolder(mboxstore);
-        else
-            throw new MethodNotSupportedException("mbox: no folder supported");
+        if ((name == null) || (name.isEmpty())) return new MboxFolder(mboxstore);
+        else throw new MethodNotSupportedException("mbox: no folder supported");
     }
 
     /*
@@ -255,8 +254,7 @@ public class MboxFolder extends Folder {
      */
     @Override
     public void open(int mode) throws MessagingException {
-        if (opened)
-            throw new IllegalStateException("mbox: file " + mboxstore.getContainer() + " is already open");
+        if (opened) throw new IllegalStateException("mbox: file " + mboxstore.getContainer() + " is already open");
 
         this.mode = mode;
         switch (mode) {
@@ -271,10 +269,11 @@ public class MboxFolder extends Folder {
         MessageFork mf;
 
         try {
-            if (mboxstore.getObjectContent() != null)
-                mboxfilereader = new MboxReader(logger, (byte[]) mboxstore.getObjectContent());
-            else
-                mboxfilereader = new MboxReader(logger, new File(mboxstore.getContainer()));
+            if (mboxstore.getObjectContent() != null) mboxfilereader = new MboxReader(
+                logger,
+                (byte[]) mboxstore.getObjectContent()
+            );
+            else mboxfilereader = new MboxReader(logger, new File(mboxstore.getContainer()));
             opened = true; // now really opened
             long beg, end;
 
@@ -300,8 +299,7 @@ public class MboxFolder extends Folder {
      */
     @Override
     public void close(boolean expunge) throws MessagingException {
-        if (!opened)
-            throw new IllegalStateException("mbox: file " + mboxstore.getContainer() + " is not open");
+        if (!opened) throw new IllegalStateException("mbox: file " + mboxstore.getContainer() + " is not open");
         messages = null;
         opened = false;
         try {
@@ -318,8 +316,7 @@ public class MboxFolder extends Folder {
      */
     @Override
     public int getMessageCount() throws MessagingException {
-        if (!opened)
-            return -1;
+        if (!opened) return -1;
 
         return total;
     }
@@ -331,16 +328,17 @@ public class MboxFolder extends Folder {
      */
     @Override
     public Message getMessage(int msgno) throws MessagingException {
-        if (msgno < 1) // message-numbers start at 1
-            throw new IndexOutOfBoundsException("message number " + msgno + " < 1");
-        else if (msgno > total) // Still out of range ? Throw up ...
-            throw new IndexOutOfBoundsException("message number " + msgno + " > " + total);
+        if (msgno < 1) throw new IndexOutOfBoundsException("message number " + msgno + " < 1"); // message-numbers start at 1
+        else if (msgno > total) throw new IndexOutOfBoundsException("message number " + msgno + " > " + total); // Still out of range ? Throw up ...
         Message m;
         // each get regenerate a message with no strong link so that it can be
         // GC
         // optimal for the extraction usage with only one get by message
-        m = new JMMimeMessage(this, mboxfilereader.newStream(messages.get(msgno - 1).beg, messages.get(msgno - 1).end),
-                msgno);
+        m = new JMMimeMessage(
+            this,
+            mboxfilereader.newStream(messages.get(msgno - 1).beg, messages.get(msgno - 1).end),
+            msgno
+        );
 
         return m;
     }
@@ -370,7 +368,14 @@ public class MboxFolder extends Folder {
     public URLName getURLName() {
         URLName storeURL = getStore().getURLName();
 
-        return new URLName(storeURL.getProtocol(), storeURL.getHost(), storeURL.getPort(), mboxstore.getContainer(),
-                storeURL.getUsername(), null /* no password */);
+        return new URLName(
+            storeURL.getProtocol(),
+            storeURL.getHost(),
+            storeURL.getPort(),
+            mboxstore.getContainer(),
+            storeURL.getUsername(),
+            null
+            /* no password */
+        );
     }
 }

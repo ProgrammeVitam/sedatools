@@ -114,12 +114,14 @@ public class TextType extends NamedTypeMetadata {
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
             xmlWriter.writeStartElement(elementName);
-            if (lang != null)
-                xmlWriter.writeAttribute("xml:lang", lang);
+            if (lang != null) xmlWriter.writeAttribute("xml:lang", lang);
             xmlWriter.writeCharactersIfNotEmpty(value);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type TextType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément de type TextType [" + getXmlElementName() + "]",
+                e
+            );
         }
     }
 
@@ -133,8 +135,7 @@ public class TextType extends NamedTypeMetadata {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         if (value != null) {
             result.put("", value);
-            if (lang != null)
-                result.put("attr", "xml:lang=\""+lang+"\"");
+            if (lang != null) result.put("attr", "xml:lang=\"" + lang + "\"");
         }
         return result;
     }
@@ -149,18 +150,17 @@ public class TextType extends NamedTypeMetadata {
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
             if (xmlReader.peekBlockIfNamed(elementName)) {
-                lang = xmlReader.peekAttribute(XMLConstants.XML_NS_URI,"lang");
+                lang = xmlReader.peekAttribute(XMLConstants.XML_NS_URI, "lang");
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
                     value = event.asCharacters().getData();
                     event = xmlReader.nextUsefullEvent();
-                } else
-                    value = "";
-                if ((!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
-            } else
-                return false;
+                } else value = "";
+                if (
+                    (!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart()))
+                ) throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type TextType", e);
         }
@@ -206,6 +206,4 @@ public class TextType extends NamedTypeMetadata {
     public void setLang(String lang) {
         this.lang = lang;
     }
-
-
 }

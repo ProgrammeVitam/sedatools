@@ -51,29 +51,29 @@ import java.awt.*;
 public class StructuredArchiveUnitEditorPanelTest {
 
     public static void main(String[] args) throws Exception {
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        else
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        if (System.getProperty("os.name").toLowerCase().contains("win")) UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName()
+        );
+        else UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
         JDialog dialog = new JDialog();
         dialog.setMinimumSize(new Dimension(600, 600));
         dialog.setPreferredSize(new Dimension(600, 600));
 
-        DataObjectPackage dop=new DataObjectPackage();
-        ArchiveUnit archiveUnit=new ArchiveUnit();
+        DataObjectPackage dop = new DataObjectPackage();
+        ArchiveUnit archiveUnit = new ArchiveUnit();
         SEDAMetadata sedaMetadata;
 
         archiveUnit.setInDataObjectPackageId("TestID");
-        sedaMetadata= SEDAObjectEditor.createSEDAMetadataSample("ArchiveUnitProfile","ArchiveUnitProfile",true);
-        archiveUnit.setArchiveUnitProfile((ArchiveUnitProfile)sedaMetadata);
-        sedaMetadata= SEDAObjectEditor.createSEDAMetadataSample("Content","Content",true);
-        archiveUnit.setContent((Content)sedaMetadata);
-        sedaMetadata= SEDAObjectEditor.createSEDAMetadataSample("Management","Management",true);
-        archiveUnit.setManagement((Management)sedaMetadata);
+        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample("ArchiveUnitProfile", "ArchiveUnitProfile", true);
+        archiveUnit.setArchiveUnitProfile((ArchiveUnitProfile) sedaMetadata);
+        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample("Content", "Content", true);
+        archiveUnit.setContent((Content) sedaMetadata);
+        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample("Management", "Management", true);
+        archiveUnit.setManagement((Management) sedaMetadata);
         dop.addArchiveUnit(archiveUnit);
 
-        StructuredArchiveUnitEditorPanel sauep=new StructuredArchiveUnitEditorPanel();
+        StructuredArchiveUnitEditorPanel sauep = new StructuredArchiveUnitEditorPanel();
         sauep.editArchiveUnit(archiveUnit);
 
         dialog.setContentPane(sauep);

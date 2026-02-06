@@ -95,15 +95,25 @@ public class FileInfo extends ComplexListType {
      * @param lastModified               the last modified
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public FileInfo(String filename, String creatingApplicationName, String creatingApplicationVersion,
-                     LocalDateTime dateCreatedByApplication, String creatingOs, String creatingOsVersion, FileTime lastModified) throws SEDALibException {
+    public FileInfo(
+        String filename,
+        String creatingApplicationName,
+        String creatingApplicationVersion,
+        LocalDateTime dateCreatedByApplication,
+        String creatingOs,
+        String creatingOsVersion,
+        FileTime lastModified
+    ) throws SEDALibException {
         super("FileInfo");
-        if (filename!=null) addNewMetadata("Filename", filename);
-        if (creatingApplicationName!=null) addNewMetadata("CreatingApplicationName", creatingApplicationName);
-        if (creatingApplicationVersion!=null) addNewMetadata("CreatingApplicationVersion", creatingApplicationVersion);
-        if (dateCreatedByApplication!=null) addNewMetadata("DateCreatedByApplication", dateCreatedByApplication);
-        if (creatingOs!=null) addNewMetadata("CreatingOs", creatingOs);
-        if (creatingOsVersion!=null)  addNewMetadata("CreatingOsVersion", creatingOsVersion);
-        if (lastModified!=null) addNewMetadata("LastModified", lastModified.toString());
+        if (filename != null) addNewMetadata("Filename", filename);
+        if (creatingApplicationName != null) addNewMetadata("CreatingApplicationName", creatingApplicationName);
+        if (creatingApplicationVersion != null) addNewMetadata(
+            "CreatingApplicationVersion",
+            creatingApplicationVersion
+        );
+        if (dateCreatedByApplication != null) addNewMetadata("DateCreatedByApplication", dateCreatedByApplication);
+        if (creatingOs != null) addNewMetadata("CreatingOs", creatingOs);
+        if (creatingOsVersion != null) addNewMetadata("CreatingOsVersion", creatingOsVersion);
+        if (lastModified != null) addNewMetadata("LastModified", lastModified.toString());
     }
 }

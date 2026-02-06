@@ -57,7 +57,7 @@ public class EnumTypeEditor extends SEDAObjectEditor {
      */
     private JComboBox<String> valueComboBox;
 
-     /**
+    /**
      * Instantiates a new EnumType editor.
      *
      * @param metadata the EnumType editedObject
@@ -66,8 +66,7 @@ public class EnumTypeEditor extends SEDAObjectEditor {
      */
     public EnumTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof EnumType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof EnumType)) throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
     }
 
     private EnumType getEnumTypeMetadata() {
@@ -82,32 +81,31 @@ public class EnumTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        List<String> enumValues= EnumTypeConstants.enumListMap.get(elementName);
-        if (enumValues==null)
-            throw new SEDALibException("Type Enuméré ["+elementName+"] inconnu");
-        return new EnumType(elementName,enumValues.get(0));
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        List<String> enumValues = EnumTypeConstants.enumListMap.get(elementName);
+        if (enumValues == null) throw new SEDALibException("Type Enuméré [" + elementName + "] inconnu");
+        return new EnumType(elementName, enumValues.get(0));
     }
 
     @Override
-    public SEDAMetadata extractEditedObject() throws SEDALibException{
-        getEnumTypeMetadata().setValue((String)(valueComboBox.getSelectedItem()));
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
+        getEnumTypeMetadata().setValue((String) (valueComboBox.getSelectedItem()));
         return getEnumTypeMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        return (String)(valueComboBox.getSelectedItem());
+        return (String) (valueComboBox.getSelectedItem());
     }
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
-        JPanel labelPanel= new JPanel();
+        JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(getName()+" :");
+        JLabel label = new JLabel(getName() + " :");
         label.setToolTipText(getTag());
         label.setFont(SEDAObjectEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -117,15 +115,16 @@ public class EnumTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         labelPanel.add(label, gbc);
 
-        JPanel editPanel= new JPanel();
+        JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
-        List<String> enumValues= EnumTypeConstants.enumListMap.get(getEnumTypeMetadata().elementName);
-        if (enumValues==null)
-            throw new SEDALibException("Type Enuméré ["+getEnumTypeMetadata().elementName+"] inconnu");
-        valueComboBox=new JComboBox<String>(enumValues.toArray(new String[0]));
+        List<String> enumValues = EnumTypeConstants.enumListMap.get(getEnumTypeMetadata().elementName);
+        if (enumValues == null) throw new SEDALibException(
+            "Type Enuméré [" + getEnumTypeMetadata().elementName + "] inconnu"
+        );
+        valueComboBox = new JComboBox<String>(enumValues.toArray(new String[0]));
         valueComboBox.setEditable(true);
         valueComboBox.getEditor().getEditorComponent().setFocusable(false);
         valueComboBox.setFont(SEDAObjectEditor.EDIT_FONT);
@@ -137,6 +136,6 @@ public class EnumTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         editPanel.add(valueComboBox, gbc);
 
-        this.sedaObjectEditorPanel =new SEDAObjectEditorSimplePanel(this,labelPanel,editPanel);
+        this.sedaObjectEditorPanel = new SEDAObjectEditorSimplePanel(this, labelPanel, editPanel);
     }
 }

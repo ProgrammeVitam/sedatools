@@ -250,7 +250,6 @@ public class MailExtractMainWindow extends JFrame {
      */
     JCheckBox debugCheckBox;
 
-
     /**
      * The english check box.
      */
@@ -259,9 +258,7 @@ public class MailExtractMainWindow extends JFrame {
     /**
      * Other labels
      */
-    JLabel lblExtractElementsLabel,
-            lblExtractTextLabel, lblExtractTextToFileLabel, lblExtractTextToMetadataLabel, loglevelLabel,
-            namesLengthLabel, savedirLabel, folderLabel, charsetLabel;
+    JLabel lblExtractElementsLabel, lblExtractTextLabel, lblExtractTextToFileLabel, lblExtractTextToMetadataLabel, loglevelLabel, namesLengthLabel, savedirLabel, folderLabel, charsetLabel;
 
     /**
      * Other buttons
@@ -276,11 +273,44 @@ public class MailExtractMainWindow extends JFrame {
     /**
      * The proposed charsets.
      */
-    String[] charsetGraphicStrings = {"windows-1252", "ISO-8859-1", "UTF-8", "CESU-8", "IBM00858", "IBM437", "IBM775",
-            "IBM850", "IBM852", "IBM855", "IBM857", "IBM862", "IBM866", "ISO-8859-2", "ISO-8859-4", "ISO-8859-5",
-            "ISO-8859-7", "ISO-8859-9", "ISO-8859-13", "ISO-8859-15", "KOI8-R", "KOI8-U", "US-ASCII", "UTF-16",
-            "UTF-16BE", "UTF-16LE", "UTF-32", "UTF-32BE", "UTF-32LE", "x-UTF-32BE-BOM", "x-UTF-32LE-BOM",
-            "windows-1250", "windows-1251", "windows-1253", "windows-1254", "windows-1257"};
+    String[] charsetGraphicStrings = {
+        "windows-1252",
+        "ISO-8859-1",
+        "UTF-8",
+        "CESU-8",
+        "IBM00858",
+        "IBM437",
+        "IBM775",
+        "IBM850",
+        "IBM852",
+        "IBM855",
+        "IBM857",
+        "IBM862",
+        "IBM866",
+        "ISO-8859-2",
+        "ISO-8859-4",
+        "ISO-8859-5",
+        "ISO-8859-7",
+        "ISO-8859-9",
+        "ISO-8859-13",
+        "ISO-8859-15",
+        "KOI8-R",
+        "KOI8-U",
+        "US-ASCII",
+        "UTF-16",
+        "UTF-16BE",
+        "UTF-16LE",
+        "UTF-32",
+        "UTF-32BE",
+        "UTF-32LE",
+        "x-UTF-32BE-BOM",
+        "x-UTF-32LE-BOM",
+        "windows-1250",
+        "windows-1251",
+        "windows-1253",
+        "windows-1254",
+        "windows-1257",
+    };
 
     private JPanel panel;
 
@@ -311,7 +341,7 @@ public class MailExtractMainWindow extends JFrame {
     }
 
     // Initialize the contents of the frame.
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void initialize() {
         URL imageURL = getClass().getClassLoader().getResource("VitamIcon96.png");
         if (imageURL != null) {
@@ -325,8 +355,8 @@ public class MailExtractMainWindow extends JFrame {
         setBounds(0, 0, 800, 800);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWeights = new double[]{1.0, 1, 1, 1};
-        gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        gridBagLayout.columnWeights = new double[] { 1.0, 1, 1, 1 };
+        gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
         getContentPane().setLayout(gridBagLayout);
 
         // Panel de condition d'extraction
@@ -342,8 +372,8 @@ public class MailExtractMainWindow extends JFrame {
         gbc_extractChoicePanel.gridy = 9;
         getContentPane().add(extractChoicePanel, gbc_extractChoicePanel);
         GridBagLayout gbl_extractChoicePanel = new GridBagLayout();
-        gbl_extractChoicePanel.rowWeights = new double[]{1.0, 1.0};
-        gbl_extractChoicePanel.columnWeights = new double[]{1.0, 1, 1};
+        gbl_extractChoicePanel.rowWeights = new double[] { 1.0, 1.0 };
+        gbl_extractChoicePanel.columnWeights = new double[] { 1.0, 1, 1 };
         extractChoicePanel.setLayout(gbl_extractChoicePanel);
 
         lblExtractElementsLabel = new JLabel(MESSAGES.getString("label.extractElements"));
@@ -390,7 +420,6 @@ public class MailExtractMainWindow extends JFrame {
         gbc_extractListsCheckBox.gridy = 1;
         extractChoicePanel.add(extractListCheckBox, gbc_extractListsCheckBox);
 
-
         // Panel d'extraction du texte
         JPanel extractTextPanel = new JPanel();
         extractTextPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -404,8 +433,8 @@ public class MailExtractMainWindow extends JFrame {
         gbc_extractTextPanel.gridy = 10;
         getContentPane().add(extractTextPanel, gbc_extractTextPanel);
         GridBagLayout gbl_extractTextPanel = new GridBagLayout();
-        gbl_extractTextPanel.rowWeights = new double[]{1.0, 1.0};
-        gbl_extractTextPanel.columnWeights = new double[]{1.0, 1, 1};
+        gbl_extractTextPanel.rowWeights = new double[] { 1.0, 1.0 };
+        gbl_extractTextPanel.columnWeights = new double[] { 1.0, 1, 1 };
         extractTextPanel.setLayout(gbl_extractTextPanel);
 
         lblExtractTextLabel = new JLabel(MESSAGES.getString("label.extractText"));
@@ -927,11 +956,10 @@ public class MailExtractMainWindow extends JFrame {
     private void SetLabels(ResourceBundle messages) {
         setTitle(messages.getString("mainWindow.title"));
 
-        int index=loglevelComboBox.getSelectedIndex();
+        int index = loglevelComboBox.getSelectedIndex();
         DefaultComboBoxModel<String> model = (DefaultComboBoxModel<String>) loglevelComboBox.getModel();
         model.removeAllElements();
-        for (int i = 0; i < 7; i++)
-            model.addElement(messages.getString("log." + i));
+        for (int i = 0; i < 7; i++) model.addElement(messages.getString("log." + i));
         loglevelComboBox.setSelectedIndex(index);
 
         lblExtractElementsLabel.setText(messages.getString("label.extractElements"));

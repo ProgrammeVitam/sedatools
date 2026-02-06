@@ -126,10 +126,19 @@ public class StoreExtractorOptions {
      * @param extractFileTextMetadata    the extract file text metadata flag
      * @param model                     the model version (1 or 2)
      */
-    public StoreExtractorOptions(boolean keepOnlyDeepEmptyFolders, boolean dropEmptyFolders, boolean warningMsgProblem,
-                                 int namesLength, String defaultCharsetName, boolean extractElementsList, boolean extractMessageTextFile,
-                                 boolean extractMessageTextMetadata,
-                                 boolean extractFileTextFile, boolean extractFileTextMetadata, int model) {
+    public StoreExtractorOptions(
+        boolean keepOnlyDeepEmptyFolders,
+        boolean dropEmptyFolders,
+        boolean warningMsgProblem,
+        int namesLength,
+        String defaultCharsetName,
+        boolean extractElementsList,
+        boolean extractMessageTextFile,
+        boolean extractMessageTextMetadata,
+        boolean extractFileTextFile,
+        boolean extractFileTextMetadata,
+        int model
+    ) {
         this.keepOnlyDeepEmptyFolders = keepOnlyDeepEmptyFolders;
         this.dropEmptyFolders = dropEmptyFolders;
         this.warningMsgProblem = warningMsgProblem;
@@ -166,14 +175,23 @@ public class StoreExtractorOptions {
      * @param extractFileTextMetadata    the extract file text metadata flag
      * @param model                     the model version (1 or 2)
      */
-    public StoreExtractorOptions(boolean keepOnlyDeepEmptyFolders, boolean dropEmptyFolders, boolean warningMsgProblem,
-                                 int namesLength, String defaultCharsetName,
-                                 boolean extractMessages, boolean extractContacts, boolean extractAppointments,
-                                 boolean extractElementsContent,
-                                 boolean extractElementsList,
-                                 boolean extractMessageTextFile,
-                                 boolean extractMessageTextMetadata,
-                                 boolean extractFileTextFile, boolean extractFileTextMetadata, int model) {
+    public StoreExtractorOptions(
+        boolean keepOnlyDeepEmptyFolders,
+        boolean dropEmptyFolders,
+        boolean warningMsgProblem,
+        int namesLength,
+        String defaultCharsetName,
+        boolean extractMessages,
+        boolean extractContacts,
+        boolean extractAppointments,
+        boolean extractElementsContent,
+        boolean extractElementsList,
+        boolean extractMessageTextFile,
+        boolean extractMessageTextMetadata,
+        boolean extractFileTextFile,
+        boolean extractFileTextMetadata,
+        int model
+    ) {
         this.keepOnlyDeepEmptyFolders = keepOnlyDeepEmptyFolders;
         this.dropEmptyFolders = dropEmptyFolders;
         this.warningMsgProblem = warningMsgProblem;
@@ -190,5 +208,4 @@ public class StoreExtractorOptions {
         this.extractFileTextMetadata = extractFileTextMetadata;
         this.model = model;
     }
-
 }

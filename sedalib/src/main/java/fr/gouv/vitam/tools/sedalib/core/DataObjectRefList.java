@@ -90,14 +90,13 @@ public class DataObjectRefList extends DataObjectPackageElement {
      * @return the inDataPackageObjectId list
      */
     public ArrayList<String> getInDataObjectPackageIdList() {
-        if (inDataObjectPackageIdList != null)
-            return inDataObjectPackageIdList;
-        if (dataObjectList == null)
-            inDataObjectPackageIdList = new ArrayList<>(0);
+        if (inDataObjectPackageIdList != null) return inDataObjectPackageIdList;
+        if (dataObjectList == null) inDataObjectPackageIdList = new ArrayList<>(0);
         else {
             inDataObjectPackageIdList = new ArrayList<>(dataObjectList.size());
-            for (DataObject dataObject : dataObjectList)
-                inDataObjectPackageIdList.add(dataObject.getInDataObjectPackageId());
+            for (DataObject dataObject : dataObjectList) inDataObjectPackageIdList.add(
+                dataObject.getInDataObjectPackageId()
+            );
         }
         dataObjectList = null;
         return inDataObjectPackageIdList;
@@ -119,14 +118,13 @@ public class DataObjectRefList extends DataObjectPackageElement {
      * @return the DataObject list
      */
     public List<DataObject> getDataObjectList() {
-        if (dataObjectList != null)
-            return dataObjectList;
-        if (inDataObjectPackageIdList == null)
-            dataObjectList = new ArrayList<>(0);
+        if (dataObjectList != null) return dataObjectList;
+        if (inDataObjectPackageIdList == null) dataObjectList = new ArrayList<>(0);
         else {
             dataObjectList = new ArrayList<>(inDataObjectPackageIdList.size());
-            for (String inSipId : inDataObjectPackageIdList)
-                dataObjectList.add(getDataObjectPackage().getDataObjectById(inSipId));
+            for (String inSipId : inDataObjectPackageIdList) dataObjectList.add(
+                getDataObjectPackage().getDataObjectById(inSipId)
+            );
         }
         inDataObjectPackageIdList = null;
         return dataObjectList;
@@ -185,10 +183,8 @@ public class DataObjectRefList extends DataObjectPackageElement {
      */
     @JsonIgnore
     public int getCount() {
-        if (inDataObjectPackageIdList != null)
-            return inDataObjectPackageIdList.size();
-        else if (dataObjectList != null)
-            return dataObjectList.size();
+        if (inDataObjectPackageIdList != null) return inDataObjectPackageIdList.size();
+        else if (dataObjectList != null) return dataObjectList.size();
         return 0;
     }
 
@@ -200,10 +196,8 @@ public class DataObjectRefList extends DataObjectPackageElement {
     @JsonIgnore
     public DataObjectGroup getNormalizedDataObjectGroup() {
         getDataObjectList();
-        if (dataObjectList.size() != 1)
-            return null;
-        if (dataObjectList.get(0) instanceof DataObjectGroup)
-            return (DataObjectGroup) dataObjectList.get(0);
+        if (dataObjectList.size() != 1) return null;
+        if (dataObjectList.get(0) instanceof DataObjectGroup) return (DataObjectGroup) dataObjectList.get(0);
         return null;
     }
 }

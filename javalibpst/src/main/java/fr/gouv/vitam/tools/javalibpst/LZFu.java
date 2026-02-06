@@ -41,15 +41,15 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * An implementation of the LZFu algorithm to decompress RTF content
- * 
+ *
  * @author Richard Johnson
  */
 public class LZFu {
 
-    public static final String LZFU_HEADER = "{\\rtf1\\ansi\\mac\\deff0\\deftab720{\\fonttbl;}{\\f0\\fnil \\froman \\fswiss \\fmodern \\fscript \\fdecor MS Sans SerifSymbolArialTimes New RomanCourier{\\colortbl\\red0\\green0\\blue0\n\r\\par \\pard\\plain\\f0\\fs20\\b\\i\\u\\tab\\tx";
+    public static final String LZFU_HEADER =
+        "{\\rtf1\\ansi\\mac\\deff0\\deftab720{\\fonttbl;}{\\f0\\fnil \\froman \\fswiss \\fmodern \\fscript \\fdecor MS Sans SerifSymbolArialTimes New RomanCourier{\\colortbl\\red0\\green0\\blue0\n\r\\par \\pard\\plain\\f0\\fs20\\b\\i\\u\\tab\\tx";
 
     public static String decode(final byte[] data) throws PSTException {
-
         @SuppressWarnings("unused")
         final int compressedSize = (int) PSTObject.convertLittleEndianBytesToLong(data, 0, 4);
         final int uncompressedSize = (int) PSTObject.convertLittleEndianBytesToLong(data, 4, 8);
@@ -100,7 +100,6 @@ public class LZFu {
                         } catch (final Exception e) {
                             e.printStackTrace();
                         }
-
                     } else {
                         // copy the byte over
                         lzBuffer[bufferPosition] = data[currentDataPosition];
@@ -112,11 +111,15 @@ public class LZFu {
             }
 
             if (outputPosition != uncompressedSize) {
-                throw new PSTException(String.format("Error decompressing RTF! Expected %d bytes, got %d bytes\n",
-                    uncompressedSize, outputPosition));
+                throw new PSTException(
+                    String.format(
+                        "Error decompressing RTF! Expected %d bytes, got %d bytes\n",
+                        uncompressedSize,
+                        outputPosition
+                    )
+                );
             }
             return new String(output).trim();
-
         } else if (compressionSig == 0x414c454d) {
             // we are not compressed!
             // just return the rest of the contents as a string

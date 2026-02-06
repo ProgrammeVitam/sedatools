@@ -76,8 +76,7 @@ public class CleanThread extends SwingWorker<String, String> {
 
     private void recursiveDelete(File inFile) throws IOException, InterruptedException {
         if (inFile.isDirectory()) {
-            for (File f : inFile.listFiles())
-                recursiveDelete(f);
+            for (File f : inFile.listFiles()) recursiveDelete(f);
             inFile.delete();
         } else {
             inFile.delete();
@@ -99,11 +98,19 @@ public class CleanThread extends SwingWorker<String, String> {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
                 localLogStep = 1000;
             }
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
-                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                inOutDialog.extProgressTextArea.setText(newLog);
-                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2, SEDALibProgressLogger.OBJECTS_GROUP,1000);
+            spl = new SEDALibProgressLogger(
+                ResipLogger.getGlobalLogger().getLogger(),
+                localLogLevel,
+                (count, log) -> {
+                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                    inOutDialog.extProgressTextArea.setText(newLog);
+                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+                },
+                localLogStep,
+                2,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                1000
+            );
 
             doProgressLog(spl, GLOBAL, "Nettoyage du répertoire: " + workDir, null);
             for (File f : new File(workDir).listFiles()) {
@@ -126,12 +133,18 @@ public class CleanThread extends SwingWorker<String, String> {
         JTextArea loadText = inOutDialog.extProgressTextArea;
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
-        if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Nettoyage annulé, les fichiers sont partiellement effacées", null);
-        else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant le nettoyage du " +
-                    "répertoire de travail, les fichiers sont partiellement effacés", exitThrowable);
-        else
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Nettoyage terminé", null);
+        if (isCancelled()) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "Nettoyage annulé, les fichiers sont partiellement effacées",
+            null
+        );
+        else if (exitThrowable != null) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "Erreur durant le nettoyage du " + "répertoire de travail, les fichiers sont partiellement effacés",
+            exitThrowable
+        );
+        else doProgressLogWithoutInterruption(spl, GLOBAL, "Nettoyage terminé", null);
     }
 }

@@ -37,16 +37,15 @@
  */
 package fr.gouv.vitam.tools.javalibpst;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashSet;
-import java.util.Arrays;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 /**
  * Tests for {@link PSTDistList}.
@@ -60,25 +59,19 @@ public class PasswordTest {
      * Test for password protectedness.
      */
     @Test
-    public final void testPasswordProtected()
-            throws PSTException, IOException, URISyntaxException {
+    public final void testPasswordProtected() throws PSTException, IOException, URISyntaxException {
         URL dirUrl = ClassLoader.getSystemResource("passworded.pst");
         PSTFile pstFile = new PSTFile(new File(dirUrl.toURI()));
-        Assert.assertEquals("Is password protected",
-                pstFile.getMessageStore().isPasswordProtected(),
-                true);
+        Assert.assertEquals("Is password protected", pstFile.getMessageStore().isPasswordProtected(), true);
     }
 
     /**
      * Test for non-password protectedness.
      */
     @Test
-    public final void testNotPasswordProtected()
-            throws PSTException, IOException, URISyntaxException {
+    public final void testNotPasswordProtected() throws PSTException, IOException, URISyntaxException {
         URL dirUrl = ClassLoader.getSystemResource("dist-list.pst");
         PSTFile pstFile = new PSTFile(new File(dirUrl.toURI()));
-        Assert.assertEquals("Is password protected",
-                pstFile.getMessageStore().isPasswordProtected(),
-                false);
+        Assert.assertEquals("Is password protected", pstFile.getMessageStore().isPasswordProtected(), false);
     }
 }

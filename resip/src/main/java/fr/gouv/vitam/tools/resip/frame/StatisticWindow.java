@@ -39,11 +39,11 @@ package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.data.StatisticData;
-import fr.gouv.vitam.tools.resip.threads.StatisticThread;
-import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DefaultTableHeaderCellRenderer;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.StatisticCellRenderer;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.StatisticTableModel;
+import fr.gouv.vitam.tools.resip.threads.StatisticThread;
+import fr.gouv.vitam.tools.resip.utils.ResipException;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -92,23 +92,22 @@ public class StatisticWindow extends JFrame {
      * @throws ResipException                  the resip exception
      * @throws InterruptedException            the interrupted exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
         ResipGraphicApp rga = new ResipGraphicApp(null);
         Thread.sleep(1000);
         StatisticWindow window = new StatisticWindow();
         ArrayList<StatisticData> sdl = new ArrayList<StatisticData>();
-        sdl.add(new StatisticData("Test", Arrays.asList(new Long(1), new Long(2),
-                new Long(3), new Long(4), new Long(5))));
+        sdl.add(
+            new StatisticData("Test", Arrays.asList(new Long(1), new Long(2), new Long(3), new Long(4), new Long(5)))
+        );
         sdl.add(new StatisticData("No", Arrays.asList()));
-        ((StatisticTableModel) (window.statisticTable.getModel()))
-                .setStatisticDataList(sdl);
+        ((StatisticTableModel) (window.statisticTable.getModel())).setStatisticDataList(sdl);
         window.statisticTable.getRowSorter().toggleSortOrder(1);
         window.statisticTable.getRowSorter().toggleSortOrder(1);
         window.statisticTable.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
-        ((StatisticTableModel) (window.statisticTable.getModel()))
-                .fireTableDataChanged();
-        window.statisticTable.getColumnModel().getColumn(0)
-                .setPreferredWidth(200);
+        ((StatisticTableModel) (window.statisticTable.getModel())).fireTableDataChanged();
+        window.statisticTable.getColumnModel().getColumn(0).setPreferredWidth(200);
         window.setVisible(true);
     }
 
@@ -130,8 +129,8 @@ public class StatisticWindow extends JFrame {
 
         Container contentPane = getContentPane();
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWeights = new double[]{1.0, 1.0, 1.0};
-        gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0};
+        gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 1.0 };
+        gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0 };
         contentPane.setLayout(gridBagLayout);
 
         JLabel lblNewLabel = new JLabel("Par catégories de format");
@@ -161,23 +160,25 @@ public class StatisticWindow extends JFrame {
         statisticTable.setDefaultRenderer(Object.class, new StatisticCellRenderer());
         statisticTable.setDefaultRenderer(Long.class, new StatisticCellRenderer());
         statisticTable.getTableHeader().setDefaultRenderer(new DefaultTableHeaderCellRenderer());
-        statisticTable.getColumnModel().getColumn(0)
-                .setPreferredWidth(250);
+        statisticTable.getColumnModel().getColumn(0).setPreferredWidth(250);
         ListSelectionModel selectionModel = statisticTable.getSelectionModel();
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                handleFormatSelectionEvent(e);
+        selectionModel.addListSelectionListener(
+            new ListSelectionListener() {
+                public void valueChanged(ListSelectionEvent e) {
+                    handleFormatSelectionEvent(e);
+                }
             }
-        });
-        statisticTable.addMouseListener(new MouseAdapter() {
-            public void mousePressed(MouseEvent me) {
-                JTable table =(JTable) me.getSource();
-                Point p = me.getPoint();
-                int row = table.rowAtPoint(p);
-                if (me.getClickCount() ==2)
-                    buttonSearch();
+        );
+        statisticTable.addMouseListener(
+            new MouseAdapter() {
+                public void mousePressed(MouseEvent me) {
+                    JTable table = (JTable) me.getSource();
+                    Point p = me.getPoint();
+                    int row = table.rowAtPoint(p);
+                    if (me.getClickCount() == 2) buttonSearch();
+                }
             }
-        });
+        );
         scrollPane.setViewportView(statisticTable);
 
         JButton copyButton = new JButton("");
@@ -246,8 +247,10 @@ public class StatisticWindow extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 1;
         warningPanel.add(informationLabel, gbc);
-        JTextArea warningTextArea = new JTextArea("Attention, votre contexte de travail contient des fichiers vides ce qui n'est " +
-                "pas accepté dans le standard SEDA. Veillez à les supprimer pour construire un SIP valide.");
+        JTextArea warningTextArea = new JTextArea(
+            "Attention, votre contexte de travail contient des fichiers vides ce qui n'est " +
+            "pas accepté dans le standard SEDA. Veillez à les supprimer pour construire un SIP valide."
+        );
         warningTextArea.setFont(MainWindow.LABEL_FONT);
         warningTextArea.setEditable(false);
         warningTextArea.setLineWrap(true);
@@ -277,23 +280,20 @@ public class StatisticWindow extends JFrame {
     // actions
 
     private void handleFormatSelectionEvent(ListSelectionEvent e) {
-        if (e.getValueIsAdjusting())
-            return;
+        if (e.getValueIsAdjusting()) return;
 
         final DefaultListSelectionModel target = (DefaultListSelectionModel) e.getSource();
         int selectedIndex = target.getMinSelectionIndex();
-        if (selectedIndex>=0)
-            formatCategory = (String) statisticTable.getModel().getValueAt(statisticTable
-                .convertRowIndexToModel(selectedIndex), 0);
-        else
-            formatCategory=null;
+        if (selectedIndex >= 0) formatCategory = (String) statisticTable
+            .getModel()
+            .getValueAt(statisticTable.convertRowIndexToModel(selectedIndex), 0);
+        else formatCategory = null;
     }
 
     private void buttonSearch() {
         if (formatCategory != null) {
-            if (ResipGraphicApp.getTheApp().technicalSearchDialog == null)
-                ResipGraphicApp.getTheApp().technicalSearchDialog =
-                        new TechnicalSearchDialog(ResipGraphicApp.getTheApp().mainWindow);
+            if (ResipGraphicApp.getTheApp().technicalSearchDialog == null) ResipGraphicApp.getTheApp()
+                .technicalSearchDialog = new TechnicalSearchDialog(ResipGraphicApp.getTheApp().mainWindow);
             TechnicalSearchDialog technicalSearchDialog = ResipGraphicApp.getTheApp().technicalSearchDialog;
             technicalSearchDialog.emptyDialog();
             technicalSearchDialog.setFormatCategory(formatCategory);
@@ -328,8 +328,7 @@ public class StatisticWindow extends JFrame {
         for (int i = 0; i < numRows; i++) {
             for (int j = 0; j < numColumns; j++) {
                 Object value = statisticTable.getValueAt(i, j);
-                if (!(value instanceof Long) || ((long) value != Long.MAX_VALUE))
-                    sbf.append(value);
+                if (!(value instanceof Long) || ((long) value != Long.MAX_VALUE)) sbf.append(value);
                 if (j < numColumns - 1) sbf.append("\t");
             }
             sbf.append("\n");
@@ -343,9 +342,8 @@ public class StatisticWindow extends JFrame {
      * Empty search.
      */
     public void emptySearch() {
-        if (ResipGraphicApp.getTheApp().technicalSearchDialog == null)
-            ResipGraphicApp.getTheApp().technicalSearchDialog =
-                    new TechnicalSearchDialog(ResipGraphicApp.getTheApp().mainWindow);
+        if (ResipGraphicApp.getTheApp().technicalSearchDialog == null) ResipGraphicApp.getTheApp()
+            .technicalSearchDialog = new TechnicalSearchDialog(ResipGraphicApp.getTheApp().mainWindow);
         TechnicalSearchDialog technicalSearchDialog = ResipGraphicApp.getTheApp().technicalSearchDialog;
         technicalSearchDialog.emptyDialog();
         technicalSearchDialog.setMinMax(0, 0);

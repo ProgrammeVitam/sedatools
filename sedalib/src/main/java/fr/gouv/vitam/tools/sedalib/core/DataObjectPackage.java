@@ -184,12 +184,9 @@ public class DataObjectPackage {
      * @return true, if the id is used in DataObjectPackage
      */
     private boolean isInDataObjectPackageIdUsed(String inDataPackageObjectId) {
-        if (auInDataObjectPackageIdMap.containsKey(inDataPackageObjectId))
-            return true;
-        if (dogInDataObjectPackageIdMap.containsKey(inDataPackageObjectId))
-            return true;
-        if (bdoInDataObjectPackageIdMap.containsKey(inDataPackageObjectId))
-            return true;
+        if (auInDataObjectPackageIdMap.containsKey(inDataPackageObjectId)) return true;
+        if (dogInDataObjectPackageIdMap.containsKey(inDataPackageObjectId)) return true;
+        if (bdoInDataObjectPackageIdMap.containsKey(inDataPackageObjectId)) return true;
         return pdoInDataObjectPackageIdMap.containsKey(inDataPackageObjectId);
     }
 
@@ -205,16 +202,25 @@ public class DataObjectPackage {
      */
     public void addDataObjectPackageIdElement(DataObjectPackageIdElement element) throws SEDALibException {
         if (element.inDataPackageObjectId == null) element.inDataPackageObjectId = getNextInDataObjectPackageID();
-        if (isInDataObjectPackageIdUsed(element.inDataPackageObjectId))
-            throw new SEDALibException("Deux objets ne peuvent avoir la même référence [" + element.inDataPackageObjectId + "]");
-        if (element instanceof ArchiveUnit)
-            auInDataObjectPackageIdMap.put(element.inDataPackageObjectId, (ArchiveUnit) element);
-        else if (element instanceof DataObjectGroup)
-            dogInDataObjectPackageIdMap.put(element.inDataPackageObjectId, (DataObjectGroup) element);
-        else if (element instanceof BinaryDataObject)
-            bdoInDataObjectPackageIdMap.put(element.inDataPackageObjectId, (BinaryDataObject) element);
-        else if (element instanceof PhysicalDataObject)
-            pdoInDataObjectPackageIdMap.put(element.inDataPackageObjectId, (PhysicalDataObject) element);
+        if (isInDataObjectPackageIdUsed(element.inDataPackageObjectId)) throw new SEDALibException(
+            "Deux objets ne peuvent avoir la même référence [" + element.inDataPackageObjectId + "]"
+        );
+        if (element instanceof ArchiveUnit) auInDataObjectPackageIdMap.put(
+            element.inDataPackageObjectId,
+            (ArchiveUnit) element
+        );
+        else if (element instanceof DataObjectGroup) dogInDataObjectPackageIdMap.put(
+            element.inDataPackageObjectId,
+            (DataObjectGroup) element
+        );
+        else if (element instanceof BinaryDataObject) bdoInDataObjectPackageIdMap.put(
+            element.inDataPackageObjectId,
+            (BinaryDataObject) element
+        );
+        else if (element instanceof PhysicalDataObject) pdoInDataObjectPackageIdMap.put(
+            element.inDataPackageObjectId,
+            (PhysicalDataObject) element
+        );
         element.setDataObjectPackage(this);
     }
 
@@ -230,11 +236,10 @@ public class DataObjectPackage {
      *                          already in the DataObjectPackage
      */
     public void addArchiveUnit(ArchiveUnit au) throws SEDALibException {
-        if (au.inDataPackageObjectId == null)
-            au.inDataPackageObjectId = getNextInDataObjectPackageID();
-        if (isInDataObjectPackageIdUsed(au.inDataPackageObjectId))
-            throw new SEDALibException(
-                    "Deux objets ne peuvent avoir la même référence [" + au.inDataPackageObjectId + "]");
+        if (au.inDataPackageObjectId == null) au.inDataPackageObjectId = getNextInDataObjectPackageID();
+        if (isInDataObjectPackageIdUsed(au.inDataPackageObjectId)) throw new SEDALibException(
+            "Deux objets ne peuvent avoir la même référence [" + au.inDataPackageObjectId + "]"
+        );
         auInDataObjectPackageIdMap.put(au.inDataPackageObjectId, au);
         au.setDataObjectPackage(this);
     }
@@ -251,11 +256,10 @@ public class DataObjectPackage {
      *                          is already in the DataObjectPackage
      */
     public void addDataObjectGroup(DataObjectGroup dog) throws SEDALibException {
-        if (dog.inDataPackageObjectId == null)
-            dog.inDataPackageObjectId = getNextInDataObjectPackageID();
-        if (isInDataObjectPackageIdUsed(dog.inDataPackageObjectId))
-            throw new SEDALibException(
-                    "Deux objets ne peuvent avoir la même référence [" + dog.inDataPackageObjectId + "]");
+        if (dog.inDataPackageObjectId == null) dog.inDataPackageObjectId = getNextInDataObjectPackageID();
+        if (isInDataObjectPackageIdUsed(dog.inDataPackageObjectId)) throw new SEDALibException(
+            "Deux objets ne peuvent avoir la même référence [" + dog.inDataPackageObjectId + "]"
+        );
         dogInDataObjectPackageIdMap.put(dog.inDataPackageObjectId, dog);
         dog.setDataObjectPackage(this);
     }
@@ -301,10 +305,8 @@ public class DataObjectPackage {
      */
     public void incTouchedInDataObjectPackageId(String inDataObjectPackageId) {
         Integer value = touchedInDataObjectPackageIdMap.get(inDataObjectPackageId);
-        if (value == null)
-            touchedInDataObjectPackageIdMap.put(inDataObjectPackageId, 1);
-        else
-            touchedInDataObjectPackageIdMap.put(inDataObjectPackageId, value + 1);
+        if (value == null) touchedInDataObjectPackageIdMap.put(inDataObjectPackageId, 1);
+        else touchedInDataObjectPackageIdMap.put(inDataObjectPackageId, value + 1);
     }
 
     /**
@@ -354,8 +356,7 @@ public class DataObjectPackage {
         long result = 0;
         for (Map.Entry<String, BinaryDataObject> pair : bdoInDataObjectPackageIdMap.entrySet()) {
             IntegerType size = pair.getValue().getMetadataSize();
-            if (size != null)
-                result += size.getValue();
+            if (size != null) result += size.getValue();
         }
         return result;
     }
@@ -399,11 +400,9 @@ public class DataObjectPackage {
         DataObject dataObject;
 
         dataObject = this.dogInDataObjectPackageIdMap.get(inDataObjectPackageId);
-        if (dataObject != null)
-            return dataObject;
+        if (dataObject != null) return dataObject;
         dataObject = this.bdoInDataObjectPackageIdMap.get(inDataObjectPackageId);
-        if (dataObject != null)
-            return dataObject;
+        if (dataObject != null) return dataObject;
         dataObject = this.pdoInDataObjectPackageIdMap.get(inDataObjectPackageId);
         return dataObject;
     }
@@ -418,9 +417,12 @@ public class DataObjectPackage {
      */
     public String getNextInDataObjectPackageID() {
         String id = "ID" + idCounter++;
-        while (auInDataObjectPackageIdMap.containsKey(id) || dogInDataObjectPackageIdMap.containsKey(id)
-                || bdoInDataObjectPackageIdMap.containsKey(id) || pdoInDataObjectPackageIdMap.containsKey(id))
-            id = "ID" + idCounter++;
+        while (
+            auInDataObjectPackageIdMap.containsKey(id) ||
+            dogInDataObjectPackageIdMap.containsKey(id) ||
+            bdoInDataObjectPackageIdMap.containsKey(id) ||
+            pdoInDataObjectPackageIdMap.containsKey(id)
+        ) id = "ID" + idCounter++;
         return id;
     }
 
@@ -462,9 +464,8 @@ public class DataObjectPackage {
      * @return the size in human readable string format
      */
     private static String readableFileSize(long size) {
-        if (size <= 0)
-            return "0";
-        final String[] units = new String[]{"B", "kB", "MB", "GB", "TB"};
+        if (size <= 0) return "0";
+        final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
@@ -480,10 +481,17 @@ public class DataObjectPackage {
     public String getDescription() {
         String result;
 
-        result = "  - " + getArchiveUnitCount() + " ArchiveUnit(s)\n  - " + getDataObjectGroupCount()
-                + " DataObjectGroup(s)\n  - " + getBinaryDataObjectCount() + " BinaryDataObject(s) ("
-                + readableFileSize(getDataObjectsTotalSize()) + ")\n  - " + getPhysicalDataObjectCount()
-                + " PhysicalDataObject(s)";
+        result = "  - " +
+        getArchiveUnitCount() +
+        " ArchiveUnit(s)\n  - " +
+        getDataObjectGroupCount() +
+        " DataObjectGroup(s)\n  - " +
+        getBinaryDataObjectCount() +
+        " BinaryDataObject(s) (" +
+        readableFileSize(getDataObjectsTotalSize()) +
+        ")\n  - " +
+        getPhysicalDataObjectCount() +
+        " PhysicalDataObject(s)";
 
         return result;
     }
@@ -526,8 +534,9 @@ public class DataObjectPackage {
             }
         }
 
-        for (Map.Entry<String, DataObjectGroup> pair : childDataObjectPackage.getDogInDataObjectPackageIdMap()
-                .entrySet()) {
+        for (Map.Entry<String, DataObjectGroup> pair : childDataObjectPackage
+            .getDogInDataObjectPackageIdMap()
+            .entrySet()) {
             pair.getValue().setInDataObjectPackageId(null);
             try {
                 addDataObjectGroup(pair.getValue());
@@ -536,8 +545,9 @@ public class DataObjectPackage {
             }
         }
 
-        for (Map.Entry<String, BinaryDataObject> pair : childDataObjectPackage.getBdoInDataObjectPackageIdMap()
-                .entrySet()) {
+        for (Map.Entry<String, BinaryDataObject> pair : childDataObjectPackage
+            .getBdoInDataObjectPackageIdMap()
+            .entrySet()) {
             pair.getValue().setInDataObjectPackageId(null);
             try {
                 addDataObjectPackageIdElement(pair.getValue());
@@ -546,8 +556,9 @@ public class DataObjectPackage {
             }
         }
 
-        for (Map.Entry<String, PhysicalDataObject> pair : childDataObjectPackage.getPdoInDataObjectPackageIdMap()
-                .entrySet()) {
+        for (Map.Entry<String, PhysicalDataObject> pair : childDataObjectPackage
+            .getPdoInDataObjectPackageIdMap()
+            .entrySet()) {
             pair.getValue().setInDataObjectPackageId(null);
             try {
                 addDataObjectPackageIdElement(pair.getValue());
@@ -556,8 +567,9 @@ public class DataObjectPackage {
             }
         }
 
-        for (ArchiveUnit au : childDataObjectPackage.ghostRootAu.getChildrenAuList().getArchiveUnitList())
-            targetAU.addChildArchiveUnit(au);
+        for (ArchiveUnit au : childDataObjectPackage.ghostRootAu
+            .getChildrenAuList()
+            .getArchiveUnitList()) targetAU.addChildArchiveUnit(au);
 
         childDataObjectPackage.setAuInDataObjectPackageIdMap(new HashMap<>());
         childDataObjectPackage.setDogInDataObjectPackageIdMap(new HashMap<>());
@@ -572,7 +584,6 @@ public class DataObjectPackage {
         }
         childDataObjectPackage.getGhostRootAu().setDataObjectPackage(this);
         childDataObjectPackage.getGhostRootAu().setContent(c);
-
     }
 
     // Test and normalization methods
@@ -586,8 +597,7 @@ public class DataObjectPackage {
     private String archiveUnitPathToString(List<ArchiveUnit> path) {
         StringBuilder result = new StringBuilder();
         if (path != null) {
-            for (ArchiveUnit au : path)
-                result.append(au.getInDataObjectPackageId()).append("->");
+            for (ArchiveUnit au : path) result.append(au.getInDataObjectPackageId()).append("->");
         }
         return result.toString();
     }
@@ -600,14 +610,12 @@ public class DataObjectPackage {
      * @throws SEDALibException if the graph is cyclic
      */
     private void verifyAcyclicArchiveUnit(ArchiveUnit au, List<ArchiveUnit> path) throws SEDALibException {
-        if (path.contains(au))
-            throw new SEDALibException(
-                    "Cycle détecté " + archiveUnitPathToString(path) + au.getInDataObjectPackageId());
-        if (isTouchedInDataObjectPackageId(au.getInDataObjectPackageId()))
-            return;
+        if (path.contains(au)) throw new SEDALibException(
+            "Cycle détecté " + archiveUnitPathToString(path) + au.getInDataObjectPackageId()
+        );
+        if (isTouchedInDataObjectPackageId(au.getInDataObjectPackageId())) return;
         path.add(au);
-        for (ArchiveUnit childAu : au.getChildrenAuList().getArchiveUnitList())
-            verifyAcyclicArchiveUnit(childAu, path);
+        for (ArchiveUnit childAu : au.getChildrenAuList().getArchiveUnitList()) verifyAcyclicArchiveUnit(childAu, path);
         path.remove(au);
         addTouchedInDataObjectPackageId(au.getInDataObjectPackageId());
     }
@@ -620,8 +628,10 @@ public class DataObjectPackage {
     public void verifyAcyclic() throws SEDALibException {
         List<ArchiveUnit> path = new ArrayList<>();
         resetTouchedInDataObjectPackageIdMap();
-        for (ArchiveUnit childAu : ghostRootAu.getChildrenAuList().getArchiveUnitList())
-            verifyAcyclicArchiveUnit(childAu, path);
+        for (ArchiveUnit childAu : ghostRootAu.getChildrenAuList().getArchiveUnitList()) verifyAcyclicArchiveUnit(
+            childAu,
+            path
+        );
     }
 
     /**
@@ -631,15 +641,15 @@ public class DataObjectPackage {
      * @param archiveUnit the ArchiveUnit
      */
     private void countDogReferencesArchiveUnit(ArchiveUnit archiveUnit) {
-        if (isTouchedInDataObjectPackageId(archiveUnit.getInDataObjectPackageId()))
-            return;
+        if (isTouchedInDataObjectPackageId(archiveUnit.getInDataObjectPackageId())) return;
         for (DataObject zdo : archiveUnit.getDataObjectRefList().getDataObjectList()) {
             if (zdo instanceof DataObjectGroup) {
                 incTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId());
             }
         }
-        for (ArchiveUnit childAu : archiveUnit.getChildrenAuList().getArchiveUnitList())
-            countDogReferencesArchiveUnit(childAu);
+        for (ArchiveUnit childAu : archiveUnit.getChildrenAuList().getArchiveUnitList()) countDogReferencesArchiveUnit(
+            childAu
+        );
         addTouchedInDataObjectPackageId(archiveUnit.getInDataObjectPackageId());
     }
 
@@ -653,21 +663,25 @@ public class DataObjectPackage {
     public void verifyDogUnicityCapacity() throws SEDALibException {
         resetTouchedInDataObjectPackageIdMap();
         // count all Dog declaration and reference
-        for (ArchiveUnit childAu : ghostRootAu.getChildrenAuList().getArchiveUnitList())
-            countDogReferencesArchiveUnit(childAu);
+        for (ArchiveUnit childAu : ghostRootAu.getChildrenAuList().getArchiveUnitList()) countDogReferencesArchiveUnit(
+            childAu
+        );
         // verify that there is no Dog with reference (count>1) to merge with other
         // elements in one ArchiveUnit
         for (Entry<String, ArchiveUnit> pair : getAuInDataObjectPackageIdMap().entrySet()) {
             DataObjectRefList dorl = pair.getValue().getDataObjectRefList();
             boolean referencedDog = false;
             for (DataObject zdo : dorl.getDataObjectList()) {
-                if ((zdo instanceof DataObjectGroup) &&
-                     (getTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId()) > 1))
-                        referencedDog = true;
+                if (
+                    (zdo instanceof DataObjectGroup) &&
+                    (getTouchedInDataObjectPackageId(zdo.getInDataObjectPackageId()) > 1)
+                ) referencedDog = true;
             }
-            if (referencedDog && (dorl.getCount() > 1))
-                throw new SEDALibException("Regroupement des références de DataObject impossible sur l'ArchiveUnit ["
-                        + pair.getValue().getInDataObjectPackageId() + "]");
+            if (referencedDog && (dorl.getCount() > 1)) throw new SEDALibException(
+                "Regroupement des références de DataObject impossible sur l'ArchiveUnit [" +
+                pair.getValue().getInDataObjectPackageId() +
+                "]"
+            );
         }
     }
 
@@ -684,8 +698,9 @@ public class DataObjectPackage {
             if (zdo instanceof DataObjectGroup) {
                 dataObjectGroup.mergeDataObjectGroup((DataObjectGroup) zdo);
                 dogInDataObjectPackageIdMap.remove(zdo.getInDataObjectPackageId());
-            } else if ((zdo instanceof BinaryDataObject) || (zdo instanceof PhysicalDataObject))
-                dataObjectGroup.addDataObject(zdo);
+            } else if (
+                (zdo instanceof BinaryDataObject) || (zdo instanceof PhysicalDataObject)
+            ) dataObjectGroup.addDataObject(zdo);
         }
     }
 
@@ -703,8 +718,10 @@ public class DataObjectPackage {
 
         for (Entry<String, ArchiveUnit> pair : getAuInDataObjectPackageIdMap().entrySet()) {
             DataObjectRefList dorl = pair.getValue().getDataObjectRefList();
-            if (((dorl.getCount() == 1) && !(dorl.getDataObjectList().get(0) instanceof DataObjectGroup))
-                    || (dorl.getCount() > 1)) {
+            if (
+                ((dorl.getCount() == 1) && !(dorl.getDataObjectList().get(0) instanceof DataObjectGroup)) ||
+                (dorl.getCount() > 1)
+            ) {
                 DataObjectGroup dog = new DataObjectGroup(this, null);
                 putAllInDog(dog, pair.getValue().getDataObjectRefList());
                 dorl = new DataObjectRefList(this);
@@ -739,7 +756,14 @@ public class DataObjectPackage {
             Entry<String, DataObjectGroup> entry = iteratorDog.next();
             if (!usedDataObjects.contains(entry.getValue())) {
                 iteratorDog.remove();
-                doProgressLog(spl, SEDALibProgressLogger.GLOBAL, "sedalib: un DataObjectGroup [" + entry.getKey() + "] déclaré n'est pas utilisé, il est déréférencé.", null);
+                doProgressLog(
+                    spl,
+                    SEDALibProgressLogger.GLOBAL,
+                    "sedalib: un DataObjectGroup [" +
+                    entry.getKey() +
+                    "] déclaré n'est pas utilisé, il est déréférencé.",
+                    null
+                );
             }
         }
 
@@ -748,16 +772,32 @@ public class DataObjectPackage {
             Entry<String, BinaryDataObject> entry = iteratorBdo.next();
             if (!usedDataObjects.contains(entry.getValue())) {
                 iteratorBdo.remove();
-                doProgressLog(spl, SEDALibProgressLogger.GLOBAL, "sedalib: un BinaryDataObject [" + entry.getKey() + "] déclaré n'est pas utilisé, il est déréférencé.", null);
+                doProgressLog(
+                    spl,
+                    SEDALibProgressLogger.GLOBAL,
+                    "sedalib: un BinaryDataObject [" +
+                    entry.getKey() +
+                    "] déclaré n'est pas utilisé, il est déréférencé.",
+                    null
+                );
             }
         }
 
-        Iterator<Entry<String, PhysicalDataObject>> iteratorPdo = getPdoInDataObjectPackageIdMap().entrySet().iterator();
+        Iterator<Entry<String, PhysicalDataObject>> iteratorPdo = getPdoInDataObjectPackageIdMap()
+            .entrySet()
+            .iterator();
         while (iteratorPdo.hasNext()) {
             Entry<String, PhysicalDataObject> entry = iteratorPdo.next();
             if (!usedDataObjects.contains(entry.getValue())) {
                 iteratorPdo.remove();
-                doProgressLog(spl, SEDALibProgressLogger.GLOBAL, "sedalib: un PhysicalDataObject [" + entry.getKey() + "] déclaré n'est pas utilisé, il est déréférencé.", null);
+                doProgressLog(
+                    spl,
+                    SEDALibProgressLogger.GLOBAL,
+                    "sedalib: un PhysicalDataObject [" +
+                    entry.getKey() +
+                    "] déclaré n'est pas utilisé, il est déréférencé.",
+                    null
+                );
             }
         }
     }
@@ -772,15 +812,16 @@ public class DataObjectPackage {
     private void regenerateArchiveUnitId(ArchiveUnit archiveUnit, List<DataObjectGroup> orderedDataObjectGroupList) {
         if (archiveUnit.inDataPackageObjectId == null) {
             DataObjectGroup dog = archiveUnit.getDataObjectRefList().getNormalizedDataObjectGroup();
-            if (dog != null)
-                orderedDataObjectGroupList.add(dog);
+            if (dog != null) orderedDataObjectGroupList.add(dog);
             try {
                 addArchiveUnit(archiveUnit);
             } catch (SEDALibException ignored) {
                 // impossible
             }
-            for (ArchiveUnit childAu : archiveUnit.getChildrenAuList().getArchiveUnitList())
-                regenerateArchiveUnitId(childAu, orderedDataObjectGroupList);
+            for (ArchiveUnit childAu : archiveUnit.getChildrenAuList().getArchiveUnitList()) regenerateArchiveUnitId(
+                childAu,
+                orderedDataObjectGroupList
+            );
         }
     }
 
@@ -819,10 +860,12 @@ public class DataObjectPackage {
      * Removes the archive unit and data object group ids before regeneration.
      */
     private void removeArchiveUnitAndDataObjectGroupId() {
-        for (Map.Entry<String, ArchiveUnit> pair : auInDataObjectPackageIdMap.entrySet())
-            pair.getValue().setInDataObjectPackageId(null);
-        for (Map.Entry<String, DataObjectGroup> pair : dogInDataObjectPackageIdMap.entrySet())
-            pair.getValue().setInDataObjectPackageId(null);
+        for (Map.Entry<String, ArchiveUnit> pair : auInDataObjectPackageIdMap.entrySet()) pair
+            .getValue()
+            .setInDataObjectPackageId(null);
+        for (Map.Entry<String, DataObjectGroup> pair : dogInDataObjectPackageIdMap.entrySet()) pair
+            .getValue()
+            .setInDataObjectPackageId(null);
     }
 
     /**
@@ -840,14 +883,14 @@ public class DataObjectPackage {
         pdoInDataObjectPackageIdMap = new HashMap<>();
 
         resetInOutCounter();
-        List<DataObjectGroup> orderedDataObjectGroupList = new ArrayList<>(
-                dogInDataObjectPackageIdMap.size());
-        for (ArchiveUnit root : ghostRootAu.getChildrenAuList().getArchiveUnitList())
-            regenerateArchiveUnitId(root, orderedDataObjectGroupList);
+        List<DataObjectGroup> orderedDataObjectGroupList = new ArrayList<>(dogInDataObjectPackageIdMap.size());
+        for (ArchiveUnit root : ghostRootAu.getChildrenAuList().getArchiveUnitList()) regenerateArchiveUnitId(
+            root,
+            orderedDataObjectGroupList
+        );
 
         resetInOutCounter();
-        for (DataObjectGroup zdo : orderedDataObjectGroupList)
-            regenerateDataObjectGroup(zdo);
+        for (DataObjectGroup zdo : orderedDataObjectGroupList) regenerateDataObjectGroup(zdo);
     }
 
     /**
@@ -860,14 +903,22 @@ public class DataObjectPackage {
             if (dataObject instanceof DataObjectGroup) {
                 DataObjectGroup dataObjectGroup = (DataObjectGroup) dataObject;
                 dogInDataObjectPackageIdMap.put(dataObjectGroup.inDataPackageObjectId, dataObjectGroup);
-                for (BinaryDataObject bdo : dataObjectGroup.getBinaryDataObjectList())
-                    bdoInDataObjectPackageIdMap.put(bdo.getInDataObjectPackageId(), bdo);
-                for (PhysicalDataObject pdo : dataObjectGroup.getPhysicalDataObjectList())
-                    pdoInDataObjectPackageIdMap.put(pdo.getInDataObjectPackageId(), pdo);
-            } else if (dataObject instanceof BinaryDataObject)
-                bdoInDataObjectPackageIdMap.put(dataObject.getInDataObjectPackageId(), (BinaryDataObject) dataObject);
-            else if (dataObject instanceof PhysicalDataObject)
-                pdoInDataObjectPackageIdMap.put(dataObject.getInDataObjectPackageId(), (PhysicalDataObject) dataObject);
+                for (BinaryDataObject bdo : dataObjectGroup.getBinaryDataObjectList()) bdoInDataObjectPackageIdMap.put(
+                    bdo.getInDataObjectPackageId(),
+                    bdo
+                );
+                for (PhysicalDataObject pdo : dataObjectGroup.getPhysicalDataObjectList()) pdoInDataObjectPackageIdMap.put(
+                    pdo.getInDataObjectPackageId(),
+                    pdo
+                );
+            } else if (dataObject instanceof BinaryDataObject) bdoInDataObjectPackageIdMap.put(
+                dataObject.getInDataObjectPackageId(),
+                (BinaryDataObject) dataObject
+            );
+            else if (dataObject instanceof PhysicalDataObject) pdoInDataObjectPackageIdMap.put(
+                dataObject.getInDataObjectPackageId(),
+                (PhysicalDataObject) dataObject
+            );
         }
     }
 
@@ -883,8 +934,10 @@ public class DataObjectPackage {
             addTouchedInDataObjectPackageId(archiveUnit.inDataPackageObjectId);
             orderedDataObjectList.addAll(archiveUnit.getDataObjectRefList().getDataObjectList());
             auInDataObjectPackageIdMap.put(archiveUnit.inDataPackageObjectId, archiveUnit);
-            for (ArchiveUnit childAu : archiveUnit.getChildrenAuList().getArchiveUnitList())
-                actualiseArchiveUnitId(childAu, orderedDataObjectList);
+            for (ArchiveUnit childAu : archiveUnit.getChildrenAuList().getArchiveUnitList()) actualiseArchiveUnitId(
+                childAu,
+                orderedDataObjectList
+            );
         }
     }
 
@@ -897,9 +950,8 @@ public class DataObjectPackage {
      */
     public void actualiseIdMaps() {
         List<DataObject> orderedDataObjectList = new ArrayList<>(
-                dogInDataObjectPackageIdMap.size() +
-                        bdoInDataObjectPackageIdMap.size() +
-                        pdoInDataObjectPackageIdMap.size());
+            dogInDataObjectPackageIdMap.size() + bdoInDataObjectPackageIdMap.size() + pdoInDataObjectPackageIdMap.size()
+        );
         setAllReferencesByObjects();
         resetTouchedInDataObjectPackageIdMap();
         auInDataObjectPackageIdMap = new HashMap<>();
@@ -907,10 +959,11 @@ public class DataObjectPackage {
         bdoInDataObjectPackageIdMap = new HashMap<>();
         pdoInDataObjectPackageIdMap = new HashMap<>();
 
-        for (ArchiveUnit root : ghostRootAu.getChildrenAuList().getArchiveUnitList())
-            actualiseArchiveUnitId(root, orderedDataObjectList);
-        for (DataObject dataObject : orderedDataObjectList)
-            actualiseDataObjectId(dataObject);
+        for (ArchiveUnit root : ghostRootAu.getChildrenAuList().getArchiveUnitList()) actualiseArchiveUnitId(
+            root,
+            orderedDataObjectList
+        );
+        for (DataObject dataObject : orderedDataObjectList) actualiseDataObjectId(dataObject);
     }
 
     /**
@@ -936,22 +989,19 @@ public class DataObjectPackage {
         vitamNormalizationStatus = NORMALIZATION_STATUS_OK;
     }
 
-
     /**
      * Remove empty (no child archive unit, no data object) archive unit from all it's fathers and from the data object package.
      *
      * @param archiveUnit the empty archive unit
      * @return true if it's done, false if it's not possible (not empty or not found)
      */
-    public boolean removeEmptyArchiveUnit(ArchiveUnit archiveUnit){
-        if (archiveUnit.getChildrenAuList().getCount()!=0)
-            return false;
-        if (archiveUnit.getDataObjectRefList().getCount()!=0)
-            return false;
-        for (Map.Entry<String,ArchiveUnit> e:auInDataObjectPackageIdMap.entrySet()){
+    public boolean removeEmptyArchiveUnit(ArchiveUnit archiveUnit) {
+        if (archiveUnit.getChildrenAuList().getCount() != 0) return false;
+        if (archiveUnit.getDataObjectRefList().getCount() != 0) return false;
+        for (Map.Entry<String, ArchiveUnit> e : auInDataObjectPackageIdMap.entrySet()) {
             e.getValue().getChildrenAuList().getArchiveUnitList().remove(archiveUnit);
         }
-        return auInDataObjectPackageIdMap.remove(archiveUnit.inDataPackageObjectId)!=null;
+        return auInDataObjectPackageIdMap.remove(archiveUnit.inDataPackageObjectId) != null;
     }
 
     // SEDA XML exporter
@@ -982,8 +1032,10 @@ public class DataObjectPackage {
      * @throws InterruptedException if export process is interrupted
      * @throws SEDALibException     if the XML can't be written
      */
-    public void exportDataObjectPackageObjects(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
-            throws InterruptedException, SEDALibException {
+    public void exportDataObjectPackageObjects(
+        SEDAXMLStreamWriter xmlWriter,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws InterruptedException, SEDALibException {
         try {
             xmlWriter.writeStartElement("DataObjectPackage");
             DataObjectGroup dog;
@@ -999,10 +1051,12 @@ public class DataObjectPackage {
             for (String s : tempArray) {
                 dog = dogInDataObjectPackageIdMap.get(s);
                 dog.toSedaXml(xmlWriter, sedaLibProgressLogger);
-                for (BinaryDataObject b : dog.getBinaryDataObjectList())
-                    addTouchedInDataObjectPackageId(b.inDataPackageObjectId);
-                for (PhysicalDataObject p : dog.getPhysicalDataObjectList())
-                    addTouchedInDataObjectPackageId(p.inDataPackageObjectId);
+                for (BinaryDataObject b : dog.getBinaryDataObjectList()) addTouchedInDataObjectPackageId(
+                    b.inDataPackageObjectId
+                );
+                for (PhysicalDataObject p : dog.getPhysicalDataObjectList()) addTouchedInDataObjectPackageId(
+                    p.inDataPackageObjectId
+                );
             }
 
             // then all alone BinaryDataObject
@@ -1011,8 +1065,10 @@ public class DataObjectPackage {
             Arrays.sort(tempArray);
             for (String s : tempArray) {
                 bdo = bdoInDataObjectPackageIdMap.get(s);
-                if (!isTouchedInDataObjectPackageId(bdo.inDataPackageObjectId))
-                    bdo.toSedaXml(xmlWriter, sedaLibProgressLogger);
+                if (!isTouchedInDataObjectPackageId(bdo.inDataPackageObjectId)) bdo.toSedaXml(
+                    xmlWriter,
+                    sedaLibProgressLogger
+                );
             }
 
             // and at last all alone PhysicalDataObject
@@ -1021,14 +1077,20 @@ public class DataObjectPackage {
             Arrays.sort(tempArray);
             for (String s : tempArray) {
                 pdo = pdoInDataObjectPackageIdMap.get(s);
-                if (!isTouchedInDataObjectPackageId(pdo.inDataPackageObjectId))
-                    pdo.toSedaXml(xmlWriter, sedaLibProgressLogger);
+                if (!isTouchedInDataObjectPackageId(pdo.inDataPackageObjectId)) pdo.toSedaXml(
+                    xmlWriter,
+                    sedaLibProgressLogger
+                );
             }
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML des métadonnées des DataObjects", e);
         }
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP,
-                "sedalib: " + getNextInOutCounter() + " métadonnées DataObject exportées dans le DataObjectPackage", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.OBJECTS_GROUP,
+            "sedalib: " + getNextInOutCounter() + " métadonnées DataObject exportées dans le DataObjectPackage",
+            null
+        );
     }
 
     /**
@@ -1043,8 +1105,11 @@ public class DataObjectPackage {
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
      */
-    public void exportDataObjectPackageMetadata(SEDAXMLStreamWriter xmlWriter, boolean imbricateFlag,
-                                                SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+    public void exportDataObjectPackageMetadata(
+        SEDAXMLStreamWriter xmlWriter,
+        boolean imbricateFlag,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException, InterruptedException {
         try {
             resetTouchedInDataObjectPackageIdMap();
             xmlWriter.writeStartElement("DescriptiveMetadata");
@@ -1052,8 +1117,9 @@ public class DataObjectPackage {
                 Set<String> auSet = auInDataObjectPackageIdMap.keySet();
                 String[] tempArray = auSet.toArray(new String[0]);
                 Arrays.sort(tempArray, idComparator);
-                for (String s : tempArray)
-                    auInDataObjectPackageIdMap.get(s).toSedaXml(xmlWriter, false, sedaLibProgressLogger);
+                for (String s : tempArray) auInDataObjectPackageIdMap
+                    .get(s)
+                    .toSedaXml(xmlWriter, false, sedaLibProgressLogger);
             } else {
                 List<String> roots = ghostRootAu.getChildrenAuList().getInDataObjectPackageIdList();
                 if (roots != null) {
@@ -1065,17 +1131,19 @@ public class DataObjectPackage {
                 }
             }
             xmlWriter.writeEndElement();
-            if (managementMetadataXmlData!=null)
-                xmlWriter.writeRawXMLBlockIfNotEmpty(managementMetadataXmlData);
-            else
-                xmlWriter.writeRawXMLBlockIfNotEmpty("<ManagementMetadata/>");
+            if (managementMetadataXmlData != null) xmlWriter.writeRawXMLBlockIfNotEmpty(managementMetadataXmlData);
+            else xmlWriter.writeRawXMLBlockIfNotEmpty("<ManagementMetadata/>");
             xmlWriter.writeEndElement();
             xmlWriter.flush();
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur d'écriture XML des métadonnées dans le DataObjectPackage", e);
         }
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, "sedalib: " + getNextInOutCounter() +
-                " métadonnées ArchiveUnit exportées dans le DataObjectPackage", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.OBJECTS_GROUP,
+            "sedalib: " + getNextInOutCounter() + " métadonnées ArchiveUnit exportées dans le DataObjectPackage",
+            null
+        );
     }
 
     /**
@@ -1089,8 +1157,11 @@ public class DataObjectPackage {
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
      */
-    public void toSedaXml(SEDAXMLStreamWriter xmlWriter, boolean imbricateFlag, SEDALibProgressLogger sedaLibProgressLogger)
-            throws SEDALibException, InterruptedException {
+    public void toSedaXml(
+        SEDAXMLStreamWriter xmlWriter,
+        boolean imbricateFlag,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException, InterruptedException {
         resetRefIdCounter();
         resetInOutCounter();
         exportDataObjectPackageObjects(xmlWriter, sedaLibProgressLogger);
@@ -1111,33 +1182,56 @@ public class DataObjectPackage {
      *                              respected
      * @throws InterruptedException if export process is interrupted
      */
-    public static void importDataObjectPackageObjects(SEDAXMLEventReader xmlReader, DataObjectPackage dataObjectPackage,
-                                                      String rootDir, SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+    public static void importDataObjectPackageObjects(
+        SEDAXMLEventReader xmlReader,
+        DataObjectPackage dataObjectPackage,
+        String rootDir,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException, InterruptedException {
         String tmp;
         BinaryDataObject bdo;
         PhysicalDataObject pdo;
         boolean inDataObjectObjects = true;
 
         try {
-            if (!xmlReader.nextBlockIfNamed("DataObjectPackage"))
-                throw new SEDALibException("Pas d'élément DataObjectPackage");
+            if (!xmlReader.nextBlockIfNamed("DataObjectPackage")) throw new SEDALibException(
+                "Pas d'élément DataObjectPackage"
+            );
             while (inDataObjectObjects) {
                 tmp = xmlReader.peekName();
                 switch (tmp) {
                     case "DataObjectGroup":
-                        String dogId = DataObjectGroup.idFromSedaXml(xmlReader, dataObjectPackage, rootDir, sedaLibProgressLogger);
-                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: DataObjectGroup [" + dogId + "] " +
-                                "importé", null);
+                        String dogId = DataObjectGroup.idFromSedaXml(
+                            xmlReader,
+                            dataObjectPackage,
+                            rootDir,
+                            sedaLibProgressLogger
+                        );
+                        doProgressLog(
+                            sedaLibProgressLogger,
+                            SEDALibProgressLogger.OBJECTS,
+                            "sedalib: DataObjectGroup [" + dogId + "] " + "importé",
+                            null
+                        );
                         break;
                     case "BinaryDataObject":
                         bdo = BinaryDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                        bdo.setOnDiskPathFromString(rootDir + File.separator +  bdo.getMetadataUri().getValue());
-                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé", null);
+                        bdo.setOnDiskPathFromString(rootDir + File.separator + bdo.getMetadataUri().getValue());
+                        doProgressLog(
+                            sedaLibProgressLogger,
+                            SEDALibProgressLogger.OBJECTS,
+                            "sedalib: BinaryDataObject [" + bdo.inDataPackageObjectId + "] importé",
+                            null
+                        );
                         break;
                     case "PhysicalDataObject":
                         pdo = PhysicalDataObject.fromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: PhysicalDataObject [" + pdo.inDataPackageObjectId +
-                                "] importé", null);
+                        doProgressLog(
+                            sedaLibProgressLogger,
+                            SEDALibProgressLogger.OBJECTS,
+                            "sedalib: PhysicalDataObject [" + pdo.inDataPackageObjectId + "] importé",
+                            null
+                        );
                         break;
                     default:
                         inDataObjectObjects = false;
@@ -1146,8 +1240,14 @@ public class DataObjectPackage {
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture des métadonnées des DataObjects", e);
         }
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP,
-                "sedalib: " + dataObjectPackage.getNextInOutCounter() + " métadonnées DataObject importées depuis le DataObjectPackage", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.STEP,
+            "sedalib: " +
+            dataObjectPackage.getNextInOutCounter() +
+            " métadonnées DataObject importées depuis le DataObjectPackage",
+            null
+        );
     }
 
     /**
@@ -1161,22 +1261,29 @@ public class DataObjectPackage {
      *                              respected
      * @throws InterruptedException if export process is interrupted
      */
-    public static void importDataObjectPackageMetadata(SEDAXMLEventReader xmlReader,
-                                                       DataObjectPackage dataObjectPackage, SEDALibProgressLogger sedaLibProgressLogger)
-            throws SEDALibException, InterruptedException {
+    public static void importDataObjectPackageMetadata(
+        SEDAXMLEventReader xmlReader,
+        DataObjectPackage dataObjectPackage,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException, InterruptedException {
         String tmp;
         boolean inArchiveUnits = true;
 
         try {
-            if (!xmlReader.nextBlockIfNamed("DescriptiveMetadata"))
-                throw new SEDALibException("Pas d'élément DescriptiveMetadata");
+            if (!xmlReader.nextBlockIfNamed("DescriptiveMetadata")) throw new SEDALibException(
+                "Pas d'élément DescriptiveMetadata"
+            );
             while (inArchiveUnits) {
                 tmp = xmlReader.peekName();
-                if (tmp == null)
-                    break;
+                if (tmp == null) break;
                 if ("ArchiveUnit".equals(tmp)) {
                     String auId = ArchiveUnit.idFromSedaXml(xmlReader, dataObjectPackage, sedaLibProgressLogger);
-                    doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS, "sedalib: ArchiveUnit [" + auId + "] importé", null);
+                    doProgressLog(
+                        sedaLibProgressLogger,
+                        SEDALibProgressLogger.OBJECTS,
+                        "sedalib: ArchiveUnit [" + auId + "] importé",
+                        null
+                    );
                 } else {
                     inArchiveUnits = false;
                 }
@@ -1187,8 +1294,14 @@ public class DataObjectPackage {
         } catch (XMLStreamException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture des métadonnées des ArchiveUnits", e);
         }
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP,
-                "sedalib: " + dataObjectPackage.getNextInOutCounter() + " métadonnées ArchiveUnit importées depuis le DataObjectPackage", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.STEP,
+            "sedalib: " +
+            dataObjectPackage.getNextInOutCounter() +
+            " métadonnées ArchiveUnit importées depuis le DataObjectPackage",
+            null
+        );
     }
 
     /**
@@ -1203,8 +1316,11 @@ public class DataObjectPackage {
      *                              respected
      * @throws InterruptedException if export process is interrupted
      */
-    public static DataObjectPackage fromSedaXml(SEDAXMLEventReader xmlReader, String rootDir,
-                                                SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException, InterruptedException {
+    public static DataObjectPackage fromSedaXml(
+        SEDAXMLEventReader xmlReader,
+        String rootDir,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException, InterruptedException {
         DataObjectPackage dataObjectPackage = new DataObjectPackage();
         dataObjectPackage.resetInOutCounter();
         importDataObjectPackageObjects(xmlReader, dataObjectPackage, rootDir, sedaLibProgressLogger);
@@ -1216,18 +1332,18 @@ public class DataObjectPackage {
         ArchiveUnit tmp;
         for (Map.Entry<String, ArchiveUnit> pair : dataObjectPackage.auInDataObjectPackageIdMap.entrySet()) {
             tmp = pair.getValue();
-            if ((tmp.getChildrenAuList() != null) && (tmp.getChildrenAuList().getInDataObjectPackageIdList() != null))
-                for (String inDataObjectPackageId : pair.getValue().getChildrenAuList().getInDataObjectPackageIdList()) {
-                    if (dataObjectPackage.getArchiveUnitById(inDataObjectPackageId) == null)
-                        throw new SEDALibException(
-                                "Erreur de référence d'ArchiveUnit, [" + inDataObjectPackageId + "] n'existe pas");
-                    dataObjectPackage.addTouchedInDataObjectPackageId(inDataObjectPackageId);
-                }
+            if (
+                (tmp.getChildrenAuList() != null) && (tmp.getChildrenAuList().getInDataObjectPackageIdList() != null)
+            ) for (String inDataObjectPackageId : pair.getValue().getChildrenAuList().getInDataObjectPackageIdList()) {
+                if (dataObjectPackage.getArchiveUnitById(inDataObjectPackageId) == null) throw new SEDALibException(
+                    "Erreur de référence d'ArchiveUnit, [" + inDataObjectPackageId + "] n'existe pas"
+                );
+                dataObjectPackage.addTouchedInDataObjectPackageId(inDataObjectPackageId);
+            }
         }
-        for (Map.Entry<String, ArchiveUnit> pair : dataObjectPackage.auInDataObjectPackageIdMap.entrySet())
-            if (!dataObjectPackage.isTouchedInDataObjectPackageId(pair.getValue().inDataPackageObjectId))
-                dataObjectPackage
-                        .addRootAu(dataObjectPackage.getArchiveUnitById(pair.getValue().inDataPackageObjectId));
+        for (Map.Entry<String, ArchiveUnit> pair : dataObjectPackage.auInDataObjectPackageIdMap.entrySet()) if (
+            !dataObjectPackage.isTouchedInDataObjectPackageId(pair.getValue().inDataPackageObjectId)
+        ) dataObjectPackage.addRootAu(dataObjectPackage.getArchiveUnitById(pair.getValue().inDataPackageObjectId));
 
         doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.STEP, "sedalib: manifest importé", null);
 
@@ -1356,13 +1472,13 @@ public class DataObjectPackage {
      * @param originArchiveUnit the origin archive unit
      * @param newArchiveUnit    the new archive unit
      */
-    public void replaceArchiveUnitBy(ArchiveUnit originArchiveUnit,ArchiveUnit newArchiveUnit){
+    public void replaceArchiveUnitBy(ArchiveUnit originArchiveUnit, ArchiveUnit newArchiveUnit) {
         if (ghostRootAu.getChildrenAuList().getArchiveUnitList().contains(originArchiveUnit)) {
-            ghostRootAu.replaceChildArchiveUnit(originArchiveUnit,newArchiveUnit);
+            ghostRootAu.replaceChildArchiveUnit(originArchiveUnit, newArchiveUnit);
         }
         for (ArchiveUnit au : auInDataObjectPackageIdMap.values()) {
             if (au.getChildrenAuList().getArchiveUnitList().contains(originArchiveUnit)) {
-                au.replaceChildArchiveUnit(originArchiveUnit,newArchiveUnit);
+                au.replaceChildArchiveUnit(originArchiveUnit, newArchiveUnit);
             }
         }
         actualiseIdMaps();

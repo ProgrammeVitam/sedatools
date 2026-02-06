@@ -41,6 +41,7 @@ package fr.gouv.vitam.tools.sedalib.metadata.namedtype;
  * The type Complex list metadata kind.
  */
 public class ComplexListMetadataKind {
+
     /**
      * The metadata class.
      */

@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.sedalib.metadata.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLEventReader;
@@ -54,6 +53,7 @@ import java.util.LinkedHashMap;
  * For Relationship empty tag with link annotations.
  */
 public class Relationship extends NamedTypeMetadata {
+
     /**
      * The target reference.
      */
@@ -68,16 +68,16 @@ public class Relationship extends NamedTypeMetadata {
      * Instantiates a new Relationship.
      */
     public Relationship() {
-        this( null, null);
+        this(null, null);
     }
 
-     /**
+    /**
      * Instantiates a new Relationship.
      *
      * @param target      the target reference
      */
     public Relationship(String target) {
-        this( target, null);
+        this(target, null);
     }
 
     /**
@@ -86,7 +86,7 @@ public class Relationship extends NamedTypeMetadata {
      * @param target      the target reference
      * @param type        the relationship type
      */
-    public Relationship( String target, String type) {
+    public Relationship(String target, String type) {
         super("Relationship");
         this.target = target;
         this.type = type;
@@ -103,10 +103,8 @@ public class Relationship extends NamedTypeMetadata {
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
             xmlWriter.writeStartElement(elementName);
-            if (target != null)
-                xmlWriter.writeAttribute("xml:target", target);
-            if (type != null)
-                xmlWriter.writeAttribute("xml:type", type);
+            if (target != null) xmlWriter.writeAttribute("xml:target", target);
+            if (type != null) xmlWriter.writeAttribute("xml:type", type);
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
             throw new SEDALibException("Erreur d'écriture XML dans un élément de type Relationship", e);
@@ -121,10 +119,8 @@ public class Relationship extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
-        if (target != null)
-            result.put("attr", "xml:target=\"" + target + "\"");
-        if (type != null)
-            result.put("attr", "xml:type=\"" + type + "\"");
+        if (target != null) result.put("attr", "xml:target=\"" + target + "\"");
+        if (type != null) result.put("attr", "xml:type=\"" + type + "\"");
         return result;
     }
 
@@ -142,10 +138,10 @@ public class Relationship extends NamedTypeMetadata {
                 type = xmlReader.peekAttribute(XMLConstants.XML_NS_URI, "type");
                 xmlReader.nextUsefullEvent();
                 XMLEvent event = xmlReader.nextUsefullEvent();
-                if ((!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
-            } else
-                return false;
+                if (
+                    (!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart()))
+                ) throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type TextType", e);
         }
@@ -170,7 +166,7 @@ public class Relationship extends NamedTypeMetadata {
         return type;
     }
 
-     /**
+    /**
      * Sets the target reference.
      *
      * @param target the target reference to set

@@ -49,7 +49,9 @@ import java.time.format.DateTimeParseException;
  */
 public final class LocalDateTimeUtil {
 
-    private static final DateTimeFormatter ZONED_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm[:ss][.SSS][zz]");
+    private static final DateTimeFormatter ZONED_DATE_TIME_FORMAT = DateTimeFormatter.ofPattern(
+        "yyyy-MM-dd'T'HH:mm[:ss][.SSS][zz]"
+    );
     private static final DateTimeFormatter SLASHED_DATE = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
     /**
@@ -104,5 +106,4 @@ public final class LocalDateTimeUtil {
         LocalDateTime ldt = LocalDateTime.ofInstant(fileTime.toInstant(), ZoneId.systemDefault());
         return LocalDateTimeUtil.getFormattedDateTime(ldt);
     }
-
 }

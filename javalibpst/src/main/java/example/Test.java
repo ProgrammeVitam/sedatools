@@ -37,14 +37,15 @@
  */
 package example;
 
-import java.util.Vector;
-
 import fr.gouv.vitam.tools.javalibpst.PSTException;
 import fr.gouv.vitam.tools.javalibpst.PSTFile;
 import fr.gouv.vitam.tools.javalibpst.PSTFolder;
 import fr.gouv.vitam.tools.javalibpst.PSTMessage;
 
+import java.util.Vector;
+
 public class Test {
+
     public static void main(final String[] args) {
         new Test(args[0]);
     }
@@ -84,7 +85,14 @@ public class Test {
             while (email != null) {
                 if (!email.getMessageClass().equals("IPM.Note")) {
                     this.printDepth();
-                    System.out.println("Email: [" + email.getMessageClass() + "]" + email.getDescriptorNodeId() + " - " + email.getSubject());
+                    System.out.println(
+                        "Email: [" +
+                        email.getMessageClass() +
+                        "]" +
+                        email.getDescriptorNodeId() +
+                        " - " +
+                        email.getSubject()
+                    );
                 }
                 email = (PSTMessage) folder.getNextChild();
             }

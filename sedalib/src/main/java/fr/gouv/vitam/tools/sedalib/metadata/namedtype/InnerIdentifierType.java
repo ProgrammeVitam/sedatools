@@ -84,8 +84,8 @@ public class InnerIdentifierType extends ComplexListType {
      * @param elementName the XML element name
      * @param value       the value
      */
-    public InnerIdentifierType(String elementName, String value) throws SEDALibException{
+    public InnerIdentifierType(String elementName, String value) throws SEDALibException {
         super(elementName);
-        if ((value!=null) && !value.isEmpty()) addNewMetadata("Identifier",value);
+        if ((value != null) && !value.isEmpty()) addNewMetadata("Identifier", value);
     }
 }

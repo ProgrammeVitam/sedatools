@@ -66,18 +66,15 @@ public class Event extends ComplexListType {
 
     static {
         metadataMap_default = new LinkedHashMap<>();
-        metadataMap_default.put("EventIdentifier",
-                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default.put("EventIdentifier", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("EventType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
         metadataMap_default.put("EventDetail", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_default.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_default.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("OutcomeDetailMessage",
-                new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_default.put("EventDetailData",
-                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default.put("OutcomeDetailMessage", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_default.put("EventDetailData", new ComplexListMetadataKind(StringType.class, false));
     }
 
     @ComplexListMetadataMap(isExpandable = true, sedaVersion = { SedaVersion.V2_2, SedaVersion.V2_3 })
@@ -85,20 +82,16 @@ public class Event extends ComplexListType {
 
     static {
         metadataMap_v2 = new LinkedHashMap<>();
-        metadataMap_v2.put("EventIdentifier",
-                new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("EventIdentifier", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("EventTypeCode", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("EventType", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("EventDateTime", new ComplexListMetadataKind(DateTimeType.class, false));
         metadataMap_v2.put("EventDetail", new ComplexListMetadataKind(StringType.class, true));
         metadataMap_v2.put("Outcome", new ComplexListMetadataKind(StringType.class, false));
         metadataMap_v2.put("OutcomeDetail", new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("OutcomeDetailMessage",
-                new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("EventDetailData",
-                new ComplexListMetadataKind(StringType.class, false));
-        metadataMap_v2.put("LinkingAgentIdentifier",
-                new ComplexListMetadataKind(LinkingAgentIdentifier.class, true));
+        metadataMap_v2.put("OutcomeDetailMessage", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("EventDetailData", new ComplexListMetadataKind(StringType.class, false));
+        metadataMap_v2.put("LinkingAgentIdentifier", new ComplexListMetadataKind(LinkingAgentIdentifier.class, true));
     }
 
     /**
@@ -118,9 +111,9 @@ public class Event extends ComplexListType {
      * @param outcome         the outcome
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public Event(String eventIdentifier, String eventType, LocalDateTime eventDateTime, String outcome) throws SEDALibException {
+    public Event(String eventIdentifier, String eventType, LocalDateTime eventDateTime, String outcome)
+        throws SEDALibException {
         super("Event");
-
         if (eventIdentifier != null) addNewMetadata("EventIdentifier", eventIdentifier);
         if (eventType != null) addNewMetadata("EventType", eventType);
         if (eventDateTime != null) addNewMetadata("EventDateTime", eventDateTime);

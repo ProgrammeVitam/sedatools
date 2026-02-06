@@ -50,12 +50,16 @@ import java.util.HashMap;
 public class PSTAppointment extends PSTMessage {
 
     PSTAppointment(final PSTFile theFile, final DescriptorIndexNode descriptorIndexNode)
-            throws PSTException, IOException {
+        throws PSTException, IOException {
         super(theFile, descriptorIndexNode);
     }
 
-    PSTAppointment(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-                   final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    PSTAppointment(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -81,7 +85,9 @@ public class PSTAppointment extends PSTMessage {
 
     public LocalDateTime getLocalStartTime() {
         return this.getDateItem(this.pstFile.getNameToIdMapItem(0x0000820d, PSTFile.PSETID_Appointment))
-                .toInstant().atZone(getStartTimeZone().getSimpleTimeZone().toZoneId()).toLocalDateTime();
+            .toInstant()
+            .atZone(getStartTimeZone().getSimpleTimeZone().toZoneId())
+            .toLocalDateTime();
     }
 
     public PSTTimeZone getStartTimeZone() {
@@ -94,7 +100,9 @@ public class PSTAppointment extends PSTMessage {
 
     public LocalDateTime getLocalEndTime() {
         return this.getDateItem(this.pstFile.getNameToIdMapItem(0x0000820e, PSTFile.PSETID_Appointment))
-                .toInstant().atZone(getStartTimeZone().getSimpleTimeZone().toZoneId()).toLocalDateTime();
+            .toInstant()
+            .atZone(getStartTimeZone().getSimpleTimeZone().toZoneId())
+            .toLocalDateTime();
     }
 
     public PSTTimeZone getEndTimeZone() {
@@ -103,10 +111,9 @@ public class PSTAppointment extends PSTMessage {
 
     public PSTTimeZone getRecurrenceTimeZone() {
         String desc = this.getStringItem(this.pstFile.getNameToIdMapItem(0x00008234, PSTFile.PSETID_Appointment));
-        final byte[] tzData = this
-                .getBinaryItem(this.pstFile.getNameToIdMapItem(0x00008233, PSTFile.PSETID_Appointment));
-        if ((desc == null) || desc.isEmpty())
-            desc = "Unknown";
+        final byte[] tzData =
+            this.getBinaryItem(this.pstFile.getNameToIdMapItem(0x00008233, PSTFile.PSETID_Appointment));
+        if ((desc == null) || desc.isEmpty()) desc = "Unknown";
         if (tzData != null && tzData.length != 0) {
             return new PSTTimeZone(desc, tzData);
         }
@@ -235,20 +242,15 @@ public class PSTAppointment extends PSTMessage {
     }
 
     public PSTGlobalObjectId getGlobalObjectId() {
-
         byte[] tmp = this.getBinaryItem(this.pstFile.getNameToIdMapItem(0x00000003, PSTFile.PSETID_Meeting));
-        if (tmp != null)
-            return new PSTGlobalObjectId(tmp);
-        else
-            return null;
+        if (tmp != null) return new PSTGlobalObjectId(tmp);
+        else return null;
     }
 
     public PSTGlobalObjectId getCleanGlobalObjectId() {
         byte[] tmp = this.getBinaryItem(this.pstFile.getNameToIdMapItem(0x00000023, PSTFile.PSETID_Meeting));
-        if (tmp != null)
-            return new PSTGlobalObjectId(tmp);
-        else
-            return null;
+        if (tmp != null) return new PSTGlobalObjectId(tmp);
+        else return null;
     }
 
     /**
@@ -263,10 +265,8 @@ public class PSTAppointment extends PSTMessage {
         final long ms_since_16010101 = minutes * (60 * 1000L);
         final long ms_since_19700101 = ms_since_16010101 - EPOCH_DIFF;
         final long tzOffset;
-        if (tz == null)
-            tzOffset = 0;
-        else
-            tzOffset = tz.getSimpleTimeZone().getOffset(ms_since_19700101);
+        if (tz == null) tzOffset = 0;
+        else tzOffset = tz.getSimpleTimeZone().getOffset(ms_since_19700101);
 
         Date utcDate = new Date(ms_since_19700101 - tzOffset);
         return utcDate;
@@ -274,18 +274,64 @@ public class PSTAppointment extends PSTMessage {
 
     @Override
     public String toString() {
-        String result = "IDs:\n  GlobalObjectID: " + getGlobalObjectId() + "\n  CleanGlobalID: " + getCleanGlobalObjectId() + "\n" +
-                "  LocaleID: " + getLocaleId() + "\n";
+        String result =
+            "IDs:\n  GlobalObjectID: " +
+            getGlobalObjectId() +
+            "\n  CleanGlobalID: " +
+            getCleanGlobalObjectId() +
+            "\n" +
+            "  LocaleID: " +
+            getLocaleId() +
+            "\n";
         result += "Info:\n  Subject: " + getSubject() + "\n  Location: " + getLocation() + "\n";
-        result += "Peoples:\n  Required attendees: " + getRequiredAttendees() + "\n  All attendees: " + getAllAttendees() +
-                "\n  To attendees: " + getToAttendees() + "\n  CC attendees: " + getCCAttendees() + "\n";
-        result += "Flags:\n  Busy:" + getShowAsBusy() + "\n  MeetingStatus: " + getMeetingStatus() + "\n  ResponseStatus: " + getResponseStatus() + "\n  " +
-                "isRecursed: " + isRecurring() + "\n";
-        result += "Time:\n  Start: " + getStartTime() + " [TZ=" + (getStartTimeZone()==null?"Unknown":getStartTimeZone().getSimpleTimeZone()) + "]\n  End: " + getEndTime() + " [TZ=" + (getEndTimeZone()==null?"Unknown":getEndTimeZone().getSimpleTimeZone()) + "]\n  " +
-                "Duration: " + getDuration() + "\n";
-        result += "Recurrence:\n  Base: " + getRecurrenceBase() + "\n  Type: " + getRecurrenceType() + "\n  Pattern: " + getRecurrencePattern() + "\n";
+        result +=
+        "Peoples:\n  Required attendees: " +
+        getRequiredAttendees() +
+        "\n  All attendees: " +
+        getAllAttendees() +
+        "\n  To attendees: " +
+        getToAttendees() +
+        "\n  CC attendees: " +
+        getCCAttendees() +
+        "\n";
+        result +=
+        "Flags:\n  Busy:" +
+        getShowAsBusy() +
+        "\n  MeetingStatus: " +
+        getMeetingStatus() +
+        "\n  ResponseStatus: " +
+        getResponseStatus() +
+        "\n  " +
+        "isRecursed: " +
+        isRecurring() +
+        "\n";
+        result +=
+        "Time:\n  Start: " +
+        getStartTime() +
+        " [TZ=" +
+        (getStartTimeZone() == null ? "Unknown" : getStartTimeZone().getSimpleTimeZone()) +
+        "]\n  End: " +
+        getEndTime() +
+        " [TZ=" +
+        (getEndTimeZone() == null ? "Unknown" : getEndTimeZone().getSimpleTimeZone()) +
+        "]\n  " +
+        "Duration: " +
+        getDuration() +
+        "\n";
+        result +=
+        "Recurrence:\n  Base: " +
+        getRecurrenceBase() +
+        "\n  Type: " +
+        getRecurrenceType() +
+        "\n  Pattern: " +
+        getRecurrencePattern() +
+        "\n";
         if (isRecurring()) {
-            PSTAppointmentRecurrence par = new PSTAppointmentRecurrence(getRecurrenceStructure(), this, getRecurrenceTimeZone());
+            PSTAppointmentRecurrence par = new PSTAppointmentRecurrence(
+                getRecurrenceStructure(),
+                this,
+                getRecurrenceTimeZone()
+            );
             result += par.toString() + "\n";
         }
         result += "Others\n  Color: " + getColor() + "\n";

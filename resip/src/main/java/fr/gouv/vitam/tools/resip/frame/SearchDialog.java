@@ -95,7 +95,8 @@ public class SearchDialog extends JDialog {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         TestDialogWindow window = new TestDialogWindow(SearchDialog.class);
     }
 
@@ -116,7 +117,6 @@ public class SearchDialog extends JDialog {
      */
     public SearchDialog(MainWindow owner) {
         super(owner, "Chercher des unités d'archives", false);
-
         searchThread = null;
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
@@ -296,8 +296,10 @@ public class SearchDialog extends JDialog {
         gbc.gridx = 0;
         gbc.gridy = 1;
         optionalInfoPanel.add(informationLabel, gbc);
-        JTextArea informationTextArea = new JTextArea("Il s'agit d'une recherche par expression régulière de type java d'une partie quelconque de la chaine, avec les caractères spéciaux classiques .?+*[]^|\\\\s\\w...\n" +
-                "Pour plus d'info chercher sur Internet \"Regexp java\"");
+        JTextArea informationTextArea = new JTextArea(
+            "Il s'agit d'une recherche par expression régulière de type java d'une partie quelconque de la chaine, avec les caractères spéciaux classiques .?+*[]^|\\\\s\\w...\n" +
+            "Pour plus d'info chercher sur Internet \"Regexp java\""
+        );
         informationTextArea.setFont(MainWindow.LABEL_FONT);
         informationTextArea.setEditable(false);
         informationTextArea.setLineWrap(true);
@@ -319,12 +321,14 @@ public class SearchDialog extends JDialog {
         pack();
         setLocationRelativeTo(owner);
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                close();
+        addWindowListener(
+            new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    close();
+                }
             }
-        });
+        );
     }
 
     // actions
@@ -361,10 +365,17 @@ public class SearchDialog extends JDialog {
 
     private void buttonSearch() {
         if (searchThread == null) {
-            searchThread = new SearchThread(mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu(),
-                    withoutChildArchiveUnitCheckBox.isSelected(), withoutChildDataObjectCheckBox.isSelected(),
-                    idCheckBox.isSelected(), metadataCheckBox.isSelected(), regExpCheckBox.isSelected(), caseCheckBox.isSelected(),
-                    searchTextField.getText(), e -> setSearchResult(e));
+            searchThread = new SearchThread(
+                mainWindow.getApp().currentWork.getDataObjectPackage().getGhostRootAu(),
+                withoutChildArchiveUnitCheckBox.isSelected(),
+                withoutChildDataObjectCheckBox.isSelected(),
+                idCheckBox.isSelected(),
+                metadataCheckBox.isSelected(),
+                regExpCheckBox.isSelected(),
+                caseCheckBox.isSelected(),
+                searchTextField.getText(),
+                e -> setSearchResult(e)
+            );
             searchThread.execute();
             searchResult = null;
             resultLabel.setText("En cours");
@@ -374,7 +385,13 @@ public class SearchDialog extends JDialog {
     private void buttonNext() {
         if (searchResult != null && searchResult.size() > 0) {
             searchResultPosition = Math.min(searchResultPosition + 1, searchResult.size() - 1);
-            resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size() + " trouvé" + (searchResult.size() > 1 ? "s" : ""));
+            resultLabel.setText(
+                (searchResultPosition + 1) +
+                "/" +
+                searchResult.size() +
+                " trouvé" +
+                (searchResult.size() > 1 ? "s" : "")
+            );
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchResult.get(searchResultPosition));
         }
     }
@@ -382,7 +399,13 @@ public class SearchDialog extends JDialog {
     private void buttonPrevious() {
         if (searchResult != null && searchResult.size() > 0) {
             searchResultPosition = Math.max(searchResultPosition - 1, 0);
-            resultLabel.setText((searchResultPosition + 1) + "/" + searchResult.size() + " trouvé" + (searchResult.size() > 1 ? "s" : ""));
+            resultLabel.setText(
+                (searchResultPosition + 1) +
+                "/" +
+                searchResult.size() +
+                " trouvé" +
+                (searchResult.size() > 1 ? "s" : "")
+            );
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchResult.get(searchResultPosition));
         }
     }
@@ -398,8 +421,7 @@ public class SearchDialog extends JDialog {
         if (searchResult.size() > 0) {
             resultLabel.setText("1/" + searchResult.size() + " trouvé" + (searchResult.size() > 1 ? "s" : ""));
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchResult.get(0));
-        } else
-            resultLabel.setText("0 trouvé");
+        } else resultLabel.setText("0 trouvé");
         searchThread = null;
     }
 

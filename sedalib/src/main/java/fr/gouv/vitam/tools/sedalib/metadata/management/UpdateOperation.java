@@ -57,18 +57,22 @@ import java.util.Map;
  */
 public class UpdateOperation extends ComplexListType {
 
-    static final String SYSTEMID_TAG="SystemId";
-    static final String ARCHIVEUNITIDENTIFIERKEY_TAG="ArchiveUnitIdentifierKey";
+    static final String SYSTEMID_TAG = "SystemId";
+    static final String ARCHIVEUNITIDENTIFIERKEY_TAG = "ArchiveUnitIdentifierKey";
 
     /**
      * Init metadata map.
      */
     @ComplexListMetadataMap
     public static final Map<String, ComplexListMetadataKind> metadataMap;
+
     static {
         metadataMap = new LinkedHashMap<>();
         metadataMap.put(SYSTEMID_TAG, new ComplexListMetadataKind(StringType.class, false));
-        metadataMap.put(ARCHIVEUNITIDENTIFIERKEY_TAG, new ComplexListMetadataKind(ArchiveUnitIdentifierKey.class, false));
+        metadataMap.put(
+            ARCHIVEUNITIDENTIFIERKEY_TAG,
+            new ComplexListMetadataKind(ArchiveUnitIdentifierKey.class, false)
+        );
     }
 
     /**
@@ -86,8 +90,8 @@ public class UpdateOperation extends ComplexListType {
      */
     public UpdateOperation(String systemId) throws SEDALibException {
         this();
-            addNewMetadata(SYSTEMID_TAG, systemId);
-     }
+        addNewMetadata(SYSTEMID_TAG, systemId);
+    }
 
     /**
      * Instantiates a new update operation with a metadata name and value link.
@@ -98,6 +102,6 @@ public class UpdateOperation extends ComplexListType {
      */
     public UpdateOperation(String metadataName, String metadataValue) throws SEDALibException {
         this();
-            addNewMetadata(ARCHIVEUNITIDENTIFIERKEY_TAG, metadataName, metadataValue);
+        addNewMetadata(ARCHIVEUNITIDENTIFIERKEY_TAG, metadataName, metadataValue);
     }
 }

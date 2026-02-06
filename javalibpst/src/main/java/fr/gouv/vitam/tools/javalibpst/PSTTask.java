@@ -69,8 +69,12 @@ public class PSTTask extends PSTMessage {
      * @param table                the table
      * @param localDescriptorItems the local descriptor items
      */
-    public PSTTask(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    public PSTTask(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -220,20 +224,60 @@ public class PSTTask extends PSTMessage {
 
     @Override
     public String toString() {
-        return "Status Integer 32-bit signed 0x0 => Not started [TODO]: " + this.getTaskStatus() + "\n"
-            + "Percent Complete Floating point double precision (64-bit): " + this.getPercentComplete() + "\n"
-            + "Is team task Boolean: " + this.isTeamTask() + "\n" + "Start date Filetime: " + this.getTaskStartDate()
-            + "\n" + "Due date Filetime: " + this.getTaskDueDate() + "\n" + "Date completed Filetime: "
-            + this.getTaskDateCompleted() + "\n" + "Actual effort in minutes Integer 32-bit signed: "
-            + this.getTaskActualEffort() + "\n" + "Total effort in minutes Integer 32-bit signed: "
-            + this.getTaskEstimatedEffort() + "\n" + "Task version Integer 32-bit signed FTK: Access count: "
-            + this.getTaskVersion() + "\n" + "Complete Boolean: " + this.isTaskComplete() + "\n"
-            + "Owner ASCII or Unicode string: " + this.getTaskOwner() + "\n" + "Delegator ASCII or Unicode string: "
-            + this.getTaskAssigner() + "\n" + "Unknown ASCII or Unicode string: " + this.getTaskLastUser() + "\n"
-            + "Ordinal Integer 32-bit signed: " + this.getTaskOrdinal() + "\n" + "Is recurring Boolean: "
-            + this.isTaskFRecurring() + "\n" + "Role ASCII or Unicode string: " + this.getTaskRole() + "\n"
-            + "Ownership Integer 32-bit signed: " + this.getTaskOwnership() + "\n" + "Delegation State: "
-            + this.getAcceptanceState();
-
+        return (
+            "Status Integer 32-bit signed 0x0 => Not started [TODO]: " +
+            this.getTaskStatus() +
+            "\n" +
+            "Percent Complete Floating point double precision (64-bit): " +
+            this.getPercentComplete() +
+            "\n" +
+            "Is team task Boolean: " +
+            this.isTeamTask() +
+            "\n" +
+            "Start date Filetime: " +
+            this.getTaskStartDate() +
+            "\n" +
+            "Due date Filetime: " +
+            this.getTaskDueDate() +
+            "\n" +
+            "Date completed Filetime: " +
+            this.getTaskDateCompleted() +
+            "\n" +
+            "Actual effort in minutes Integer 32-bit signed: " +
+            this.getTaskActualEffort() +
+            "\n" +
+            "Total effort in minutes Integer 32-bit signed: " +
+            this.getTaskEstimatedEffort() +
+            "\n" +
+            "Task version Integer 32-bit signed FTK: Access count: " +
+            this.getTaskVersion() +
+            "\n" +
+            "Complete Boolean: " +
+            this.isTaskComplete() +
+            "\n" +
+            "Owner ASCII or Unicode string: " +
+            this.getTaskOwner() +
+            "\n" +
+            "Delegator ASCII or Unicode string: " +
+            this.getTaskAssigner() +
+            "\n" +
+            "Unknown ASCII or Unicode string: " +
+            this.getTaskLastUser() +
+            "\n" +
+            "Ordinal Integer 32-bit signed: " +
+            this.getTaskOrdinal() +
+            "\n" +
+            "Is recurring Boolean: " +
+            this.isTaskFRecurring() +
+            "\n" +
+            "Role ASCII or Unicode string: " +
+            this.getTaskRole() +
+            "\n" +
+            "Ownership Integer 32-bit signed: " +
+            this.getTaskOwnership() +
+            "\n" +
+            "Delegation State: " +
+            this.getAcceptanceState()
+        );
     }
 }

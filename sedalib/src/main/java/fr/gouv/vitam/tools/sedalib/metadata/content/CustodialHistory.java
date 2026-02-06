@@ -85,10 +85,11 @@ public class CustodialHistory extends ComplexListType {
      */
     public CustodialHistory(Object... args) throws SEDALibException {
         this();
-        for (int i=0;i<args.length;i++){
-            if (!(args[i] instanceof String))
-                throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
-            addNewMetadata("CustodialHistoryItem",args[i]);
+        for (int i = 0; i < args.length; i++) {
+            if (!(args[i] instanceof String)) throw new SEDALibException(
+                "Mauvais arguments pour le constructeur de l'élément [" + elementName + "]"
+            );
+            addNewMetadata("CustodialHistoryItem", args[i]);
         }
     }
 }

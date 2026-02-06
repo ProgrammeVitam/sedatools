@@ -100,12 +100,13 @@ public class WindowsShortcut {
     public static boolean isPotentialValidLink(final File file) {
         final int minimum_length = 0x64;
         boolean isPotentiallyValid = false;
-        if (file.getName().toLowerCase().endsWith(".lnk"))
-            try (final InputStream fis = new FileInputStream(file)) {
-                isPotentiallyValid = file.isFile() && fis.available() >= minimum_length && isMagicPresent(getBytes(fis, 32));
-            } catch (Exception e) {
-                // forget it
-            }
+        if (file.getName().toLowerCase().endsWith(".lnk")) try (final InputStream fis = new FileInputStream(file)) {
+            isPotentiallyValid = file.isFile() &&
+            fis.available() >= minimum_length &&
+            isMagicPresent(getBytes(fis, 32));
+        } catch (Exception e) {
+            // forget it
+        }
         return isPotentiallyValid;
     }
 
@@ -221,8 +222,7 @@ public class WindowsShortcut {
                 break;
             }
             bout.write(buff, 0, n);
-            if (max != null)
-                max -= n;
+            if (max != null) max -= n;
         }
         in.close();
         return bout.toByteArray();
@@ -248,8 +248,7 @@ public class WindowsShortcut {
      */
     private void parseLink(final byte[] link) throws ParseException {
         try {
-            if (!isMagicPresent(link))
-                throw new ParseException("Invalid shortcut; magic is missing", 0);
+            if (!isMagicPresent(link)) throw new ParseException("Invalid shortcut; magic is missing", 0);
 
             // get the flags byte
             final byte flags = link[0x14];
@@ -286,10 +285,11 @@ public class WindowsShortcut {
                 final String basename = getNullDelimitedString(link, basename_offset);
                 real_file = basename + finalname;
             } else {
-                final int networkVolumeTable_offset = bytesToDword(link, file_start + networkVolumeTable_offset_offset) + file_start;
+                final int networkVolumeTable_offset =
+                    bytesToDword(link, file_start + networkVolumeTable_offset_offset) + file_start;
                 final int shareName_offset_offset = 0x08;
-                final int shareName_offset = bytesToDword(link, networkVolumeTable_offset + shareName_offset_offset)
-                        + networkVolumeTable_offset;
+                final int shareName_offset =
+                    bytesToDword(link, networkVolumeTable_offset + shareName_offset_offset) + networkVolumeTable_offset;
                 final String shareName = getNullDelimitedString(link, shareName_offset);
                 real_file = shareName + "\\" + finalname;
             }
@@ -329,7 +329,6 @@ public class WindowsShortcut {
                 final int string_len = bytesToWord(link, next_string_start) * 2; // times 2 because UTF-16
                 command_line_arguments = getUTF16String(link, next_string_start + 2, string_len);
             }
-
         } catch (final ArrayIndexOutOfBoundsException e) {
             throw new ParseException("Could not be parsed, probably not a valid WindowsShortcut", 0);
         }
@@ -388,5 +387,4 @@ public class WindowsShortcut {
     private static int bytesToDword(final byte[] bytes, final int off) {
         return (bytesToWord(bytes, off + 2) << 16) | bytesToWord(bytes, off);
     }
-
 }

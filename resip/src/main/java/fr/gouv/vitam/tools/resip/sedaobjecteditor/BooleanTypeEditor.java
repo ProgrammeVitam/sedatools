@@ -64,8 +64,9 @@ public class BooleanTypeEditor extends SEDAObjectEditor {
      */
     public BooleanTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof BooleanType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof BooleanType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private BooleanType getBooleanTypeMetadata() {
@@ -80,27 +81,23 @@ public class BooleanTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new BooleanType(elementName, null);
-        else
-            return new BooleanType(elementName, false);
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new BooleanType(elementName, null);
+        else return new BooleanType(elementName, false);
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (valueCheckBox.getModel().isArmed() && valueCheckBox.getModel().isPressed())
-            getBooleanTypeMetadata().setValue(null);
-        else
-            getBooleanTypeMetadata().setValue(valueCheckBox.isSelected());
+        if (valueCheckBox.getModel().isArmed() && valueCheckBox.getModel().isPressed()) getBooleanTypeMetadata()
+            .setValue(null);
+        else getBooleanTypeMetadata().setValue(valueCheckBox.isSelected());
         return getBooleanTypeMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
         Boolean tmp = valueCheckBox.isSelected();
-        if (valueCheckBox.getModel().isArmed() && valueCheckBox.getModel().isPressed())
-            return "";
+        if (valueCheckBox.getModel().isArmed() && valueCheckBox.getModel().isPressed()) return "";
         return tmp.toString();
     }
 
@@ -108,7 +105,7 @@ public class BooleanTypeEditor extends SEDAObjectEditor {
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
         JLabel label = new JLabel(getName() + " :");
@@ -123,15 +120,14 @@ public class BooleanTypeEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
         valueCheckBox = new JCheckBox();
         //indeterminate
         if (getBooleanTypeMetadata().getValue() == null) {
             valueCheckBox.getModel().setPressed(true);
             valueCheckBox.getModel().setArmed(true);
-        } else
-            valueCheckBox.setSelected(getBooleanTypeMetadata().getValue());
+        } else valueCheckBox.setSelected(getBooleanTypeMetadata().getValue());
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);
         gbc.fill = GridBagConstraints.HORIZONTAL;

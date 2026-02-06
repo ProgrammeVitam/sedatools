@@ -58,7 +58,7 @@ import java.util.Map;
  */
 public class StorageRule extends RuleType {
 
-    static final String STORAGERULE_TAG="StorageRule";
+    static final String STORAGERULE_TAG = "StorageRule";
 
     /**
      * Init metadata map.
@@ -77,8 +77,7 @@ public class StorageRule extends RuleType {
     /**
      * The final action list.
      */
-    protected static 
-List<String> finalActionList;
+    protected static List<String> finalActionList;
 
     static {
         finalActionList = new ArrayList<>();
@@ -102,7 +101,7 @@ List<String> finalActionList;
      * @throws SEDALibException the seda lib exception
      */
     public StorageRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(STORAGERULE_TAG, rule , startDate);
+        super(STORAGERULE_TAG, rule, startDate);
     }
 
     /**

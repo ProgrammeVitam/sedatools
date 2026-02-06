@@ -71,17 +71,22 @@ public class SearchThread extends SwingWorker<String, String> {
     private Pattern searchPattern;
     private List<ArchiveUnit> searchResult;
 
-
     /**
      * Instantiates a new Search thread.
      *
      * @param au the au
      */
-    public SearchThread(ArchiveUnit au,
-                        boolean isWithoutChildArchiveUnitCheck, boolean isWithoutDataObjectGroupCheck,
-                        boolean isIdCheck, boolean isMetadataCheck, boolean isRegExpCheck, boolean isCaseCheck,
-                        String searchText,
-                        Consumer<List<ArchiveUnit>> callBack) {
+    public SearchThread(
+        ArchiveUnit au,
+        boolean isWithoutChildArchiveUnitCheck,
+        boolean isWithoutDataObjectGroupCheck,
+        boolean isIdCheck,
+        boolean isMetadataCheck,
+        boolean isRegExpCheck,
+        boolean isCaseCheck,
+        String searchText,
+        Consumer<List<ArchiveUnit>> callBack
+    ) {
         this.searchUnit = au;
         this.isWithoutChildArchiveUnitCheck = isWithoutChildArchiveUnitCheck;
         this.isWithoutDataObjectGroupCheck = isWithoutDataObjectGroupCheck;
@@ -103,46 +108,44 @@ public class SearchThread extends SwingWorker<String, String> {
         TreeDataObjectPackageEditorPanel treePane = ResipGraphicApp.getTheWindow().treePane;
 
         for (ArchiveUnit childUnit : auList) {
-            if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId()))
-                continue;
+            if (dataObjectPackage.isTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId())) continue;
             try {
                 String tmp;
                 int dataObjectCount = 0;
                 if (childUnit.getTheDataObjectGroup() != null) {
                     DataObjectGroup dataObjectGroup = childUnit.getTheDataObjectGroup();
-                    dataObjectCount = dataObjectGroup.getBinaryDataObjectList().size() + dataObjectGroup.getPhysicalDataObjectList().size();
+                    dataObjectCount = dataObjectGroup.getBinaryDataObjectList().size() +
+                    dataObjectGroup.getPhysicalDataObjectList().size();
                 }
-                if (!(isWithoutChildArchiveUnitCheck && (childUnit.getChildrenAuList().getCount() != 0)) &&
-                        !(isWithoutDataObjectGroupCheck && (dataObjectCount != 0))) {
+                if (
+                    !(isWithoutChildArchiveUnitCheck && (childUnit.getChildrenAuList().getCount() != 0)) &&
+                    !(isWithoutDataObjectGroupCheck && (dataObjectCount != 0))
+                ) {
                     if (isIdCheck) {
                         tmp = "<" + childUnit.getInDataObjectPackageId() + ">";
                         for (DataObject dataObject : childUnit.getDataObjectRefList().getDataObjectList()) {
                             tmp += "<" + dataObject.getInDataObjectPackageId() + ">";
                             if (dataObject instanceof DataObjectGroup) {
-                                for (BinaryDataObject bo : ((DataObjectGroup) dataObject).getBinaryDataObjectList())
-                                    tmp += "<" + bo.getInDataObjectPackageId() + ">";
-                                for (PhysicalDataObject po : ((DataObjectGroup) dataObject).getPhysicalDataObjectList())
-                                    tmp += "<" + po.getInDataObjectPackageId() + ">";
+                                for (BinaryDataObject bo : ((DataObjectGroup) dataObject).getBinaryDataObjectList()) tmp +=
+                                "<" + bo.getInDataObjectPackageId() + ">";
+                                for (PhysicalDataObject po : ((DataObjectGroup) dataObject).getPhysicalDataObjectList()) tmp +=
+                                "<" + po.getInDataObjectPackageId() + ">";
                             }
                         }
                     } else if (isMetadataCheck) {
                         tmp = childUnit.getContent().toString();
-                    } else
-                        tmp = treePane.getTreeTitle(childUnit);
+                    } else tmp = treePane.getTreeTitle(childUnit);
 
                     if (isRegExpCheck) {
                         Matcher matcher = searchPattern.matcher(tmp);
-                        if (matcher.matches())
-                            searchResult.add(childUnit);
+                        if (matcher.matches()) searchResult.add(childUnit);
                     } else {
                         if (!isCaseCheck) tmp = tmp.toLowerCase();
-                        if (tmp.contains(searchExp))
-                            searchResult.add(childUnit);
+                        if (tmp.contains(searchExp)) searchResult.add(childUnit);
                     }
                 }
                 dataObjectPackage.addTouchedInDataObjectPackageId(childUnit.getInDataObjectPackageId());
-            } catch (SEDALibException ignored) {
-            }
+            } catch (SEDALibException ignored) {}
             searchInArchiveUnit(childUnit);
         }
     }
@@ -153,7 +156,7 @@ public class SearchThread extends SwingWorker<String, String> {
         if (isRegExpCheck) searchPattern = Pattern.compile("[\\S\\s]*" + searchExp + "[\\S\\s]*");
         else if (!isCaseCheck) searchExp = searchExp.toLowerCase();
         if (isIdCheck) searchExp = "<" + searchExp + ">";
-        dataObjectPackage=searchUnit.getDataObjectPackage();
+        dataObjectPackage = searchUnit.getDataObjectPackage();
         dataObjectPackage.resetTouchedInDataObjectPackageIdMap();
         searchResult = new LinkedList<ArchiveUnit>();
 

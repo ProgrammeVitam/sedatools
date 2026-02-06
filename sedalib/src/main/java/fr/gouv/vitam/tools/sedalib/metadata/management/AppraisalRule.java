@@ -58,7 +58,7 @@ import java.util.Map;
  */
 public class AppraisalRule extends RuleType {
 
-    static final String APPRAISALRULE_TAG="AppraisalRule";
+    static final String APPRAISALRULE_TAG = "AppraisalRule";
 
     /**
      * Init metadata map.
@@ -100,7 +100,7 @@ public class AppraisalRule extends RuleType {
      * @throws SEDALibException the seda lib exception
      */
     public AppraisalRule(String rule, LocalDate startDate) throws SEDALibException {
-        super(APPRAISALRULE_TAG, rule , startDate);
+        super(APPRAISALRULE_TAG, rule, startDate);
     }
 
     /**

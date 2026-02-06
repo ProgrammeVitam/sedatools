@@ -58,8 +58,19 @@ public class LinearDimensionType extends NamedTypeMetadata {
     /**
      * Enum restricted values.
      */
-    public static final List<String> enumValues = Arrays.asList("micrometre", "4H",
-            "millimetre", "MMT", "centimetre", "CMT", "metre", "inch", "INH", "foot", "FOT");
+    public static final List<String> enumValues = Arrays.asList(
+        "micrometre",
+        "4H",
+        "millimetre",
+        "MMT",
+        "centimetre",
+        "CMT",
+        "metre",
+        "inch",
+        "INH",
+        "foot",
+        "FOT"
+    );
 
     /**
      * The value.
@@ -112,8 +123,9 @@ public class LinearDimensionType extends NamedTypeMetadata {
     public LinearDimensionType(String elementName, Double value, String unit) throws SEDALibException {
         super(elementName);
         this.value = value;
-        if ((unit != null) && !enumValues.contains(unit))
-            throw new SEDALibException("[" + unit + "] n'est pas une unité de mesure linéraire");
+        if ((unit != null) && !enumValues.contains(unit)) throw new SEDALibException(
+            "[" + unit + "] n'est pas une unité de mesure linéraire"
+        );
         this.unit = unit;
     }
 
@@ -128,13 +140,14 @@ public class LinearDimensionType extends NamedTypeMetadata {
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
             xmlWriter.writeStartElement(elementName);
-            if (unit != null)
-                xmlWriter.writeAttribute("unit", unit);
-            if (value != null)
-                xmlWriter.writeCharactersIfNotEmpty(Double.toString(value));
+            if (unit != null) xmlWriter.writeAttribute("unit", unit);
+            if (value != null) xmlWriter.writeCharactersIfNotEmpty(Double.toString(value));
             xmlWriter.writeEndElement();
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type LinearDimensionType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément de type LinearDimensionType [" + getXmlElementName() + "]",
+                e
+            );
         }
     }
 
@@ -148,8 +161,7 @@ public class LinearDimensionType extends NamedTypeMetadata {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
         if (value != null) {
             result.put("", value.toString());
-            if (unit != null)
-                result.put("attr", "unit=\"" + unit + "\"");
+            if (unit != null) result.put("attr", "unit=\"" + unit + "\"");
         }
         return result;
     }
@@ -170,12 +182,11 @@ public class LinearDimensionType extends NamedTypeMetadata {
                 if (event.isCharacters()) {
                     value = Double.parseDouble(event.asCharacters().getData());
                     event = xmlReader.nextUsefullEvent();
-                } else
-                    value = null;
-                if ((!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
-            } else
-                return false;
+                } else value = null;
+                if (
+                    (!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart()))
+                ) throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type LinearDimensionType", e);
         }
@@ -199,7 +210,7 @@ public class LinearDimensionType extends NamedTypeMetadata {
      * @return the value
      */
     @Override
-     @JsonIgnore(false)
+    @JsonIgnore(false)
     public Double getValue() {
         return value;
     }
@@ -220,8 +231,9 @@ public class LinearDimensionType extends NamedTypeMetadata {
      * @throws SEDALibException if unknown measure unit
      */
     public void setUnit(String unit) throws SEDALibException {
-        if ((unit != null) && !enumValues.contains(unit))
-            throw new SEDALibException("[" + unit + "] n'est pas une unité de mesure linéraire");
+        if ((unit != null) && !enumValues.contains(unit)) throw new SEDALibException(
+            "[" + unit + "] n'est pas une unité de mesure linéraire"
+        );
         this.unit = unit;
     }
 }

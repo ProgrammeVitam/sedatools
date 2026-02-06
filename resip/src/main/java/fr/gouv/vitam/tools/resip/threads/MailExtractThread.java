@@ -76,6 +76,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
  * The type Add thread.
  */
 public class MailExtractThread extends SwingWorker<String, String> {
+
     //input
     private Work work;
     private DataObjectPackageTreeNode targetNode;
@@ -100,16 +101,25 @@ public class MailExtractThread extends SwingWorker<String, String> {
 
         try {
             InOutDialog inOutDialog = new InOutDialog(ResipGraphicApp.mainWindow, "Extraction de messages");
-            mailExtractThread = new MailExtractThread(ResipGraphicApp.getTheApp().currentWork, node, bdoToExpand, inOutDialog);
+            mailExtractThread = new MailExtractThread(
+                ResipGraphicApp.getTheApp().currentWork,
+                node,
+                bdoToExpand,
+                inOutDialog
+            );
             mailExtractThread.execute();
             inOutDialog.setVisible(true);
         } catch (Throwable e) {
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.mainWindow,
-                    "Erreur fatale, impossible de faire l'extraction de messages \n->" + e.getMessage(), "Erreur",
-                    UserInteractionDialog.ERROR_DIALOG, null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'extraction de messages", e);
+            UserInteractionDialog.getUserAnswer(
+                ResipGraphicApp.mainWindow,
+                "Erreur fatale, impossible de faire l'extraction de messages \n->" + e.getMessage(),
+                "Erreur",
+                UserInteractionDialog.ERROR_DIALOG,
+                null
+            );
+            ResipLogger.getGlobalLogger()
+                .log(ResipLogger.ERROR, "Erreur fatale, impossible de faire l'extraction de messages", e);
         }
-
     }
 
     /**
@@ -120,8 +130,12 @@ public class MailExtractThread extends SwingWorker<String, String> {
      * @param bdoToExpand the binary data object to expand
      * @param dialog      the dialog
      */
-    public MailExtractThread(Work work, DataObjectPackageTreeNode targetNode, BinaryDataObject bdoToExpand,
-                             InOutDialog dialog) {
+    public MailExtractThread(
+        Work work,
+        DataObjectPackageTreeNode targetNode,
+        BinaryDataObject bdoToExpand,
+        InOutDialog dialog
+    ) {
         this.work = work;
         this.targetNode = targetNode;
         this.bdoToExpand = bdoToExpand;
@@ -133,17 +147,22 @@ public class MailExtractThread extends SwingWorker<String, String> {
 
     private void recursiveDelete(File inFile) throws InterruptedException {
         if (inFile.isDirectory()) {
-            for (File f : inFile.listFiles())
-                recursiveDelete(f);
+            for (File f : inFile.listFiles()) recursiveDelete(f);
             inFile.delete();
         } else {
             inFile.delete();
             fileCounter++;
-            doProgressLogIfStep(spl, SEDALibProgressLogger.OBJECTS_GROUP, fileCounter, fileCounter + " fichiers effacés");
+            doProgressLogIfStep(
+                spl,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                fileCounter,
+                fileCounter + " fichiers effacés"
+            );
         }
     }
 
-    private String getTmpDirTarget(String workDir, String srcPathName, String id) throws ResipException, InterruptedException {
+    private String getTmpDirTarget(String workDir, String srcPathName, String id)
+        throws ResipException, InterruptedException {
         String subDir = Paths.get(srcPathName).getFileName().toString() + "-" + id + "-tmpdir";
         String target = workDir + File.separator + subDir;
         if (Files.exists(Paths.get(target))) {
@@ -156,7 +175,7 @@ public class MailExtractThread extends SwingWorker<String, String> {
                 target = utdd.getResult();
             } else if ((utdd.getReturnValue() == STATUS_CONTINUE) || (utdd.getReturnValue() == STATUS_CHANGE)) {
                 target = utdd.getResult();
-            } else {// STATUS_CANCEL
+            } else { // STATUS_CANCEL
                 this.cancel(false);
                 throw new ResipException("Opération annulée");
             }
@@ -186,41 +205,78 @@ public class MailExtractThread extends SwingWorker<String, String> {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
                 localLogStep = 1000;
             }
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
-                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                inOutDialog.extProgressTextArea.setText(newLog);
-                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
+            spl = new SEDALibProgressLogger(
+                ResipLogger.getGlobalLogger().getLogger(),
+                localLogLevel,
+                (count, log) -> {
+                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                    inOutDialog.extProgressTextArea.setText(newLog);
+                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+                },
+                localLogStep,
+                2,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                1000
+            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            doProgressLog(spl, GLOBAL, "Extraction de massages du BinaryDataObject " + bdoToExpand.getInDataObjectPackageId() + ", fichier [" + bdoToExpand.getMetadataFileInfo().getSimpleMetadata("Filename") + "]", null);
+            doProgressLog(
+                spl,
+                GLOBAL,
+                "Extraction de massages du BinaryDataObject " +
+                bdoToExpand.getInDataObjectPackageId() +
+                ", fichier [" +
+                bdoToExpand.getMetadataFileInfo().getSimpleMetadata("Filename") +
+                "]",
+                null
+            );
 
-            MailExtractProgressLogger mepl = new MailExtractProgressLogger(ResipLogger.getGlobalLogger().getLogger(),
-                    localLogLevel, (count, log) -> {
-                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                inOutDialog.extProgressTextArea.setText(newLog);
-                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2,MailExtractProgressLogger.MESSAGE_GROUP,1000);
+            MailExtractProgressLogger mepl = new MailExtractProgressLogger(
+                ResipLogger.getGlobalLogger().getLogger(),
+                localLogLevel,
+                (count, log) -> {
+                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                    inOutDialog.extProgressTextArea.setText(newLog);
+                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+                },
+                localLogStep,
+                2,
+                MailExtractProgressLogger.MESSAGE_GROUP,
+                1000
+            );
             mepl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
             MailImportContext mic = new MailImportContext(Preferences.getInstance());
-            String target = getTmpDirTarget(mic.getWorkDir(), bdoToExpand.getOnDiskPathToString(), bdoToExpand.getInDataObjectPackageId());
-            MailImporter mi = new MailImporter(mic.isExtractMessageTextFile(), mic.isExtractMessageTextMetadata(),
-                    mic.isExtractAttachmentTextFile(), mic.isExtractAttachmentTextMetadata(),
-                    StoreExtractor.getProtocolFromDroidFormat(bdoToExpand.getMetadataFormatIdentification().getSimpleMetadata("FormatId")),
-                    mic.getDefaultCharsetName(), bdoToExpand.getOnDiskPathToString(), "", target, mepl);
+            String target = getTmpDirTarget(
+                mic.getWorkDir(),
+                bdoToExpand.getOnDiskPathToString(),
+                bdoToExpand.getInDataObjectPackageId()
+            );
+            MailImporter mi = new MailImporter(
+                mic.isExtractMessageTextFile(),
+                mic.isExtractMessageTextMetadata(),
+                mic.isExtractAttachmentTextFile(),
+                mic.isExtractAttachmentTextMetadata(),
+                StoreExtractor.getProtocolFromDroidFormat(
+                    bdoToExpand.getMetadataFormatIdentification().getSimpleMetadata("FormatId")
+                ),
+                mic.getDefaultCharsetName(),
+                bdoToExpand.getOnDiskPathToString(),
+                "",
+                target,
+                mepl
+            );
             mi.doExtract();
             doProgressLog(spl, GLOBAL, "resip: extraction de messages terminée\n" + mi.getSummary(), null);
             List<Path> lp = new ArrayList<>();
             try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(mi.getTarget()))) {
                 for (Path path : stream) {
-                    if (!path.toString().endsWith("__ArchiveUnitMetadata.xml"))
-                        lp.add(path);
+                    if (!path.toString().endsWith("__ArchiveUnitMetadata.xml")) lp.add(path);
                 }
             }
             di = new DiskToArchiveTransferImporter(lp, spl);
-            for (String ip : new DiskImportContext(Preferences.getInstance())
-                    .getIgnorePatternList())
-                di.addIgnorePattern(ip);
+            for (String ip : new DiskImportContext(
+                Preferences.getInstance()
+            ).getIgnorePatternList()) di.addIgnorePattern(ip);
             di.doImport();
             summary = mi.getSummary() + "\n" + di.getSummary();
         } catch (Throwable e) {
@@ -234,21 +290,41 @@ public class MailExtractThread extends SwingWorker<String, String> {
     protected void done() {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
-        if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Extraction de messages annulée, les données n'ont pas été modifiées", null);
-        else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "Erreur durant l'extraction de messages, les données n'ont pas été modifiées", exitThrowable);
+        if (isCancelled()) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "Extraction de messages annulée, les données n'ont pas été modifiées",
+            null
+        );
+        else if (exitThrowable != null) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "Erreur durant l'extraction de messages, les données n'ont pas été modifiées",
+            exitThrowable
+        );
         else {
             ResipGraphicApp.getTheApp().currentWork = this.work;
-            List<ArchiveUnit> addedNodes = di.getArchiveTransfer().getDataObjectPackage().getGhostRootAu().getChildrenAuList()
-                    .getArchiveUnitList();
-            targetNode.getArchiveUnit().getDataObjectPackage().moveContentFromDataObjectPackage(di.getArchiveTransfer().getDataObjectPackage(), targetNode.getArchiveUnit());
+            List<ArchiveUnit> addedNodes = di
+                .getArchiveTransfer()
+                .getDataObjectPackage()
+                .getGhostRootAu()
+                .getChildrenAuList()
+                .getArchiveUnitList();
+            targetNode
+                .getArchiveUnit()
+                .getDataObjectPackage()
+                .moveContentFromDataObjectPackage(
+                    di.getArchiveTransfer().getDataObjectPackage(),
+                    targetNode.getArchiveUnit()
+                );
             DataObject dataObject = targetNode.getArchiveUnit().getDataObjectRefList().getDataObjectList().get(0);
             if (dataObject instanceof DataObjectGroup) {
                 DataObjectGroup dog = (DataObjectGroup) dataObject;
                 dog.removeDataObject(bdoToExpand);
-                if (((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
-                        dog.getBinaryDataObjectList().isEmpty()){
+                if (
+                    ((dog.getPhysicalDataObjectList() == null) || (dog.getPhysicalDataObjectList().isEmpty())) &&
+                    dog.getBinaryDataObjectList().isEmpty()
+                ) {
                     targetNode.getArchiveUnit().removeEmptyDataObjectGroup();
                     try {
                         targetNode.getArchiveUnit().getContent().addNewMetadata("DescriptionLevel", "RecordGrp");

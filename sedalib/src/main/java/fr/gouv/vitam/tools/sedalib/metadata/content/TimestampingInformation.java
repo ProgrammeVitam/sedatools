@@ -83,12 +83,13 @@ public class TimestampingInformation extends ComplexListType {
      * @param additionalTimestampingInformation additional information about timestamping
      * @throws SEDALibException if sub-elements construction fails (not expected to occur)
      */
-    public TimestampingInformation(LocalDateTime timeStamp, String additionalTimestampingInformation) throws SEDALibException {
+    public TimestampingInformation(LocalDateTime timeStamp, String additionalTimestampingInformation)
+        throws SEDALibException {
         super("TimestampingInformation");
-
-        if (timeStamp != null)
-            addNewMetadata("TimeStamp", timeStamp);
-        if (additionalTimestampingInformation != null)
-            addNewMetadata("AdditionalTimestampingInformation", additionalTimestampingInformation);
+        if (timeStamp != null) addNewMetadata("TimeStamp", timeStamp);
+        if (additionalTimestampingInformation != null) addNewMetadata(
+            "AdditionalTimestampingInformation",
+            additionalTimestampingInformation
+        );
     }
 }

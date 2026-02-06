@@ -168,8 +168,7 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
         byte[] byteConversationIndex = getByteItem(CONVERSATION_INDEX);
         if (byteConversationIndex != null) {
             msgConversationIndex = new MsgConversationIndex(byteConversationIndex);
-            if (msgConversationIndex.getGuid() == null)
-                msgConversationIndex = null;
+            if (msgConversationIndex.getGuid() == null) msgConversationIndex = null;
         }
     }
 
@@ -188,13 +187,15 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
 
         if (lChunk != null) {
             if (lChunk.size() > 1) {
-                logMessageWarning("mailextractlib.msg: multiple MSG object [" + prop.name + "], keep the first one", null);
+                logMessageWarning(
+                    "mailextractlib.msg: multiple MSG object [" + prop.name + "], keep the first one",
+                    null
+                );
             }
             if (lChunk.get(0) instanceof StringChunk) {
                 StringChunk sChunk = (StringChunk) lChunk.get(0);
                 result = sChunk.getValue();
-            } else
-                logMessageWarning("mailextractlib.msg: unexpected MSG object type [" + prop.name + "]", null);
+            } else logMessageWarning("mailextractlib.msg: unexpected MSG object type [" + prop.name + "]", null);
         }
         return result;
     }
@@ -206,13 +207,15 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
 
         if (lChunk != null) {
             if (lChunk.size() > 1) {
-                logMessageWarning("mailextractlib.msg: multiple MSG object [" + prop.name + "], keep the first one", null);
+                logMessageWarning(
+                    "mailextractlib.msg: multiple MSG object [" + prop.name + "], keep the first one",
+                    null
+                );
             }
             if (lChunk.get(0) instanceof ByteChunk) {
                 ByteChunk bChunk = (ByteChunk) lChunk.get(0);
                 result = bChunk.getValue();
-            } else
-                logMessageWarning("mailextractlib.msg: unexpected MSG object type [" + prop.name + "]", null);
+            } else logMessageWarning("mailextractlib.msg: unexpected MSG object type [" + prop.name + "]", null);
         }
         return result;
     }
@@ -224,8 +227,7 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
 
         if (lVal != null) {
             Calendar cal = (Calendar) lVal.get(0).getValue();
-            if (cal != null)
-                result = cal.getTime();
+            if (cal != null) result = cal.getTime();
         }
         return result;
     }
@@ -427,8 +429,11 @@ public class MsgStoreMessage extends MicrosoftStoreMessage {
      */
     @Override
     protected int getNativeRecipientsType(int recipientNumber) {
-        return (int) message.getRecipientDetailsChunks()[recipientNumber].getProperties()
-                .get(MAPIProperty.RECIPIENT_TYPE).get(0).getValue();
+        return (int) message
+            .getRecipientDetailsChunks()[recipientNumber].getProperties()
+            .get(MAPIProperty.RECIPIENT_TYPE)
+            .get(0)
+            .getValue();
     }
 
     /* (non-Javadoc)

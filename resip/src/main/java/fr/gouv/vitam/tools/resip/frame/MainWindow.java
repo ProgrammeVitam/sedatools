@@ -39,25 +39,14 @@ package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.highlevelcomponents.*;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeModel;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeNode;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers.DataObjectPackageTreeViewer;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
-import fr.gouv.vitam.tools.resip.utils.ResipLogger;
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.DataObjectPackageIdElement;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Path;
-
-import static fr.gouv.vitam.tools.resip.app.ResipGraphicApp.OK_DIALOG;
 
 /**
  * The Class MainWindow.
@@ -125,7 +114,8 @@ public class MainWindow extends JFrame {
      * @throws ResipException                  the resip exception
      * @throws InterruptedException            the interrupted exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
         ResipGraphicApp rga = new ResipGraphicApp(null);
         Thread.sleep(1000);
     }
@@ -174,7 +164,7 @@ public class MainWindow extends JFrame {
         generalSplitPaneHoriz.setResizeWeight(0.3);
         getContentPane().add(generalSplitPaneHoriz);
 
-        treePane= new TreeDataObjectPackageEditorPanel();
+        treePane = new TreeDataObjectPackageEditorPanel();
         generalSplitPaneHoriz.setLeftComponent(treePane);
 
         itemPane = new JSplitPane();
@@ -195,24 +185,25 @@ public class MainWindow extends JFrame {
         }
 
         if (ResipGraphicApp.getTheApp().interfaceParameters.isStructuredMetadataEditionFlag()) {
-            StructuredDataObjectGroupEditorPanel structuredDataObjectGroupEditorPanel = new StructuredDataObjectGroupEditorPanel();
+            StructuredDataObjectGroupEditorPanel structuredDataObjectGroupEditorPanel =
+                new StructuredDataObjectGroupEditorPanel();
             itemPane.setBottomComponent(structuredDataObjectGroupEditorPanel);
             dogMetadataPane = structuredDataObjectGroupEditorPanel;
-        }
-        else
-        {
+        } else {
             XMLDataObjectGroupEditorPanel xmlDataObjectGroupEditorPanel = new XMLDataObjectGroupEditorPanel();
             itemPane.setBottomComponent(xmlDataObjectGroupEditorPanel);
             dogMetadataPane = xmlDataObjectGroupEditorPanel;
         }
 
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                ResipGraphicApp.getTheApp().exit();
+        addWindowListener(
+            new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    ResipGraphicApp.getTheApp().exit();
+                }
             }
-        });
+        );
 
         pack();
     }
@@ -224,7 +215,6 @@ public class MainWindow extends JFrame {
         try {
             treePane.editDataObjectPackage(app.currentWork == null ? null : app.currentWork.getDataObjectPackage());
             auMetadataPane.editArchiveUnit(null);
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
     }
 }

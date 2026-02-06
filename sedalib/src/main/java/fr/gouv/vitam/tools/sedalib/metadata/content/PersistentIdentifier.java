@@ -63,7 +63,7 @@ public class PersistentIdentifier extends ComplexListType {
     /**
      * Init metadata map.
      */
-    @ComplexListMetadataMap (sedaVersion = { SedaVersion.V2_3 })
+    @ComplexListMetadataMap(sedaVersion = { SedaVersion.V2_3 })
     public static final Map<String, ComplexListMetadataKind> metadataMap;
 
     static {
@@ -92,10 +92,12 @@ public class PersistentIdentifier extends ComplexListType {
      * @param persistentIdentifierContent   the persistent identifier content
      * @throws SEDALibException if sub-elements construction fails (not expected to occur)
      */
-    public PersistentIdentifier(String persistentIdentifierType,
-                                String persistentIdentifierOrigin,
-                                String persistentIdentifierReference,
-                                String persistentIdentifierContent) throws SEDALibException {
+    public PersistentIdentifier(
+        String persistentIdentifierType,
+        String persistentIdentifierOrigin,
+        String persistentIdentifierReference,
+        String persistentIdentifierContent
+    ) throws SEDALibException {
         super("PersistentIdentifier");
         if (persistentIdentifierType != null) {
             addNewMetadata("PersistentIdentifierType", persistentIdentifierType);
@@ -122,14 +124,18 @@ public class PersistentIdentifier extends ComplexListType {
      */
     public String getSummary() {
         List<String> summaryList = new ArrayList<>(2);
-        if (getFirstNamedMetadata("PersistentIdentifierType") != null)
-            summaryList.add(((StringType) getFirstNamedMetadata("PersistentIdentifierType")).getValue());
-        else if (getFirstNamedMetadata("PersistentIdentifierOrigin") != null)
-            summaryList.add(((StringType) getFirstNamedMetadata("PersistentIdentifierOrigin")).getValue());
-        else if (getFirstNamedMetadata("PersistentIdentifierReference") != null)
-            summaryList.add(((StringType) getFirstNamedMetadata("PersistentIdentifierReference")).getValue());
-        if (getFirstNamedMetadata("PersistentIdentifierContent") != null)
-            summaryList.add(((StringType) getFirstNamedMetadata("PersistentIdentifierContent")).getValue());
+        if (getFirstNamedMetadata("PersistentIdentifierType") != null) summaryList.add(
+            ((StringType) getFirstNamedMetadata("PersistentIdentifierType")).getValue()
+        );
+        else if (getFirstNamedMetadata("PersistentIdentifierOrigin") != null) summaryList.add(
+            ((StringType) getFirstNamedMetadata("PersistentIdentifierOrigin")).getValue()
+        );
+        else if (getFirstNamedMetadata("PersistentIdentifierReference") != null) summaryList.add(
+            ((StringType) getFirstNamedMetadata("PersistentIdentifierReference")).getValue()
+        );
+        if (getFirstNamedMetadata("PersistentIdentifierContent") != null) summaryList.add(
+            ((StringType) getFirstNamedMetadata("PersistentIdentifierContent")).getValue()
+        );
 
         return String.join(" : ", summaryList);
     }

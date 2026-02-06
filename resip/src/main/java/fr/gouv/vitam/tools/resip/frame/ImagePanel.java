@@ -45,6 +45,7 @@ import java.io.Serializable;
  * The type Image panel.
  */
 public class ImagePanel extends JPanel implements Serializable {
+
     /**
      * The Image.
      */
@@ -62,15 +63,14 @@ public class ImagePanel extends JPanel implements Serializable {
     /**
      * Instantiates a new Image panel.
      */
-    public ImagePanel() {
-    }
+    public ImagePanel() {}
 
     /**
      * Set image.
      *
      * @param image the image
      */
-    public void setImage(Image image){
+    public void setImage(Image image) {
         this.image = image;
     }
 
@@ -80,16 +80,17 @@ public class ImagePanel extends JPanel implements Serializable {
      * @param image the image
      * @return the image
      */
-    public Image getImage(Image image){
+    public Image getImage(Image image) {
         return image;
     }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g); //paint background
         if (image != null) { //there is a picture: draw it
             int height = this.getSize().height;
             int width = this.getSize().width;
             //g.drawImage(image, 0, 0, this); //use image size
-            g.drawImage(image,0,0, width, height, this);
+            g.drawImage(image, 0, 0, width, height, this);
         }
     }
 }

@@ -97,7 +97,11 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
      *                          to close ou delete, and change label font
      * @throws SEDALibException the seda lib exception
      */
-    public SEDAObjectEditorCompositePanel(SEDAObjectEditor objectEditor, JComponent moreMenuComponent, boolean topPanelFlag) throws SEDALibException {
+    public SEDAObjectEditorCompositePanel(
+        SEDAObjectEditor objectEditor,
+        JComponent moreMenuComponent,
+        boolean topPanelFlag
+    ) throws SEDALibException {
         super(objectEditor);
         this.objectEditorPanelGridBagConstraintsHashMap = new HashMap<>();
         this.maxIndex = -1;
@@ -105,12 +109,10 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
         GridBagConstraints gbc;
 
         gbl = new GridBagLayout();
-        if (topPanelFlag)
-            gbl.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
-        else
-            gbl.columnWidths = new int[]{16, SEDAObjectEditorConstants.computeLabelWidth() - 41, 10, 10, 0, 0, 0};
-        gbl.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
-        gbl.rowHeights = new int[]{20, 3};
+        if (topPanelFlag) gbl.columnWidths = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+        else gbl.columnWidths = new int[] { 16, SEDAObjectEditorConstants.computeLabelWidth() - 41, 10, 10, 0, 0, 0 };
+        gbl.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
+        gbl.rowHeights = new int[] { 20, 3 };
         setLayout(gbl);
 
         setScrollableWidth(ScrollablePanel.ScrollableSizeHint.FIT);
@@ -144,8 +146,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
 
         editedObjectLabel = new JLabel(objectEditor.getName() + " : ");
         editedObjectLabel.setToolTipText(objectEditor.getTag());
-        if (topPanelFlag)
-            editedObjectLabel.setFont(SEDAObjectEditor.BOLD_LABEL_FONT);
+        if (topPanelFlag) editedObjectLabel.setFont(SEDAObjectEditor.BOLD_LABEL_FONT);
         else {
             editedObjectLabel.setFont(SEDAObjectEditor.ITALIC_LABEL_FONT);
             editedObjectLabel.setForeground(SEDAObjectEditor.COMPOSITE_LABEL_COLOR);
@@ -179,8 +180,7 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
             add(lessButton, gbc);
         }
 
-        if ((objectEditor.getFather() != null) &&
-                objectEditor.getFather().canContainsMultiple(objectEditor.getTag())) {
+        if ((objectEditor.getFather() != null) && objectEditor.getFather().canContainsMultiple(objectEditor.getTag())) {
             JButton addButton = new JButton();
             addButton.setIcon(new ImageIcon(getClass().getResource("/icon/list-add-very-small.png")));
             addButton.setToolTipText("Ajouter un élément de même type...");
@@ -201,9 +201,12 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
             add(addButton, gbc);
         }
 
-        addMenu = new ExtensionButton(() -> {
-            return ((CompositeEditor) objectEditor).getExtensionList();
-        }, (ActionEvent arg) -> doExtend(objectEditor, arg));
+        addMenu = new ExtensionButton(
+            () -> {
+                return ((CompositeEditor) objectEditor).getExtensionList();
+            },
+            (ActionEvent arg) -> doExtend(objectEditor, arg)
+        );
         addMenu.setToolTipText("Ajouter un élément dans la liste du menu déroulant...");
         addMenu.setMargin(new Insets(0, 0, 0, 0));
         addMenu.setBorderPainted(false);
@@ -273,14 +276,16 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
                 gbc.gridx = 1;
                 gbc.gridy = i + 2;
                 gbc.gridwidth = 6;
-                oe.getSEDAObjectEditorPanel().setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
-                        SEDAObjectEditor.COMPOSITE_LABEL_SEPARATOR_COLOR));
+                oe
+                    .getSEDAObjectEditorPanel()
+                    .setBorder(
+                        BorderFactory.createMatteBorder(0, 1, 0, 0, SEDAObjectEditor.COMPOSITE_LABEL_SEPARATOR_COLOR)
+                    );
                 add(oe.getSEDAObjectEditorPanel(), gbc);
                 objectEditorPanelGridBagConstraintsHashMap.put(oe.getSEDAObjectEditorPanel(), gbc);
                 continue;
             }
-            if (gbc.gridy == i + 2)
-                continue;
+            if (gbc.gridy == i + 2) continue;
             remove(oe.getSEDAObjectEditorPanel());
             gbc.gridy = i + 2;
             add(oe.getSEDAObjectEditorPanel(), gbc);
@@ -343,18 +348,17 @@ public class SEDAObjectEditorCompositePanel extends SEDAObjectEditorPanel {
                 summary.setText("Extraction de la métadonnée impossible");
             }
             summary.setCaretPosition(0);
-            for (SEDAObjectEditorPanel mep : objectEditorPanelGridBagConstraintsHashMap.keySet())
-                mep.setVisible(false);
+            for (SEDAObjectEditorPanel mep : objectEditorPanelGridBagConstraintsHashMap.keySet()) mep.setVisible(false);
             separator.setVisible(false);
             editedObjectLabel.setHorizontalAlignment(SwingConstants.TRAILING);
             this.validate();
         } else if (event.getStateChange() == DESELECTED) {
-            if (((CompositeEditor) objectEditor).hasSubeditorsCreatedWhenExpandedFlag())
-                ((CompositeEditor) objectEditor).createSubEditors();
+            if (
+                ((CompositeEditor) objectEditor).hasSubeditorsCreatedWhenExpandedFlag()
+            ) ((CompositeEditor) objectEditor).createSubEditors();
             summary.setVisible(false);
             addMenu.setVisible(true);
-            for (SEDAObjectEditorPanel mep : objectEditorPanelGridBagConstraintsHashMap.keySet())
-                mep.setVisible(true);
+            for (SEDAObjectEditorPanel mep : objectEditorPanelGridBagConstraintsHashMap.keySet()) mep.setVisible(true);
             separator.setVisible(true);
             editedObjectLabel.setHorizontalAlignment(SwingConstants.LEADING);
             this.validate();

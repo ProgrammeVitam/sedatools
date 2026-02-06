@@ -55,4 +55,3 @@ public class SedaContextExtension implements BeforeEachCallback, AfterEachCallba
         SedaContext.setVersion(null);
     }
 }
-

@@ -57,7 +57,7 @@ import java.util.Map;
  */
 public class LogBook extends ComplexListType {
 
-    static final String EVENT_TAG="Event";
+    static final String EVENT_TAG = "Event";
 
     /**
      * Init metadata map.
@@ -85,10 +85,11 @@ public class LogBook extends ComplexListType {
      */
     public LogBook(Object... args) throws SEDALibException {
         this();
-        for (int i=0;i<args.length;i++){
-            if (!(args[i] instanceof String))
-                throw new SEDALibException("Mauvais arguments pour le constructeur de l'élément [" + elementName + "]");
-            addNewMetadata(EVENT_TAG,args[i]);
+        for (int i = 0; i < args.length; i++) {
+            if (!(args[i] instanceof String)) throw new SEDALibException(
+                "Mauvais arguments pour le constructeur de l'élément [" + elementName + "]"
+            );
+            addNewMetadata(EVENT_TAG, args[i]);
         }
     }
 }

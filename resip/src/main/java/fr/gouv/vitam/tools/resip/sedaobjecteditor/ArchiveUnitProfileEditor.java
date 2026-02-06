@@ -64,8 +64,9 @@ public class ArchiveUnitProfileEditor extends SEDAObjectEditor {
      */
     public ArchiveUnitProfileEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof ArchiveUnitProfile))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof ArchiveUnitProfile)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private ArchiveUnitProfile getArchiveUnitProfileMetadata() {
@@ -80,15 +81,13 @@ public class ArchiveUnitProfileEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new ArchiveUnitProfile( "");
-        else
-            return new ArchiveUnitProfile( "AUP-00001");
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new ArchiveUnitProfile("");
+        else return new ArchiveUnitProfile("AUP-00001");
     }
 
     @Override
-    public SEDAMetadata extractEditedObject() throws SEDALibException{
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
         getArchiveUnitProfileMetadata().setValue(valueTextField.getText());
         return getArchiveUnitProfileMetadata();
     }
@@ -100,12 +99,12 @@ public class ArchiveUnitProfileEditor extends SEDAObjectEditor {
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
-        JPanel labelPanel= new JPanel();
+        JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(getName()+" :");
+        JLabel label = new JLabel(getName() + " :");
         label.setToolTipText(getTag());
         label.setFont(SEDAObjectEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -115,9 +114,9 @@ public class ArchiveUnitProfileEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         labelPanel.add(label, gbc);
 
-        JPanel editPanel= new JPanel();
+        JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
         valueTextField = new JTextField();
@@ -131,6 +130,6 @@ public class ArchiveUnitProfileEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         editPanel.add(valueTextField, gbc);
 
-        this.sedaObjectEditorPanel =new SEDAObjectEditorSimplePanel(this,labelPanel,editPanel);
+        this.sedaObjectEditorPanel = new SEDAObjectEditorSimplePanel(this, labelPanel, editPanel);
     }
 }

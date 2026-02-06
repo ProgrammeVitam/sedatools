@@ -37,10 +37,6 @@
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
-/**
- * @(#)DefaultTableHeaderCellRenderer.java	1.0 02/24/09
- */
-
 import javax.swing.*;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -96,10 +92,15 @@ public class DefaultTableHeaderCellRenderer extends DefaultTableCellRenderer {
      * @return the default table header cell renderer
      */
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value,
-                                                   boolean isSelected, boolean hasFocus, int row, int column) {
-        super.getTableCellRendererComponent(table, value,
-                isSelected, hasFocus, row, column);
+    public Component getTableCellRendererComponent(
+        JTable table,
+        Object value,
+        boolean isSelected,
+        boolean hasFocus,
+        int row,
+        int column
+    ) {
+        super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         JTableHeader tableHeader = table.getTableHeader();
         if (tableHeader != null) {
             setForeground(tableHeader.getForeground());

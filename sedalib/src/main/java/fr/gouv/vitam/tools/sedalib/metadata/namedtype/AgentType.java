@@ -49,10 +49,10 @@ import java.util.Map;
  */
 public class AgentType extends ComplexListType {
 
-    static final String FIRSTNAME_TAG="FirstName";
-    static final String BIRTHNAME_TAG="BirthName";
-    static final String FULLNAME_TAG="FullName";
-    static final String IDENTIFIER_TAG="Identifier";
+    static final String FIRSTNAME_TAG = "FirstName";
+    static final String BIRTHNAME_TAG = "BirthName";
+    static final String FULLNAME_TAG = "FullName";
+    static final String IDENTIFIER_TAG = "Identifier";
 
     /**
      * Init metadata map.
@@ -99,7 +99,6 @@ public class AgentType extends ComplexListType {
      */
     public AgentType(String elementName, String fullName) throws SEDALibException {
         super(elementName);
-
         addNewMetadata(FULLNAME_TAG, fullName);
     }
 
@@ -113,7 +112,6 @@ public class AgentType extends ComplexListType {
      */
     public AgentType(String elementName, String firstName, String birthName) throws SEDALibException {
         super(elementName);
-
         addNewMetadata(FIRSTNAME_TAG, firstName);
         addNewMetadata(BIRTHNAME_TAG, birthName);
     }
@@ -127,9 +125,9 @@ public class AgentType extends ComplexListType {
      * @param identifier  the identifier
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public AgentType(String elementName, String firstName, String birthName, String identifier) throws SEDALibException {
+    public AgentType(String elementName, String firstName, String birthName, String identifier)
+        throws SEDALibException {
         super(elementName);
-
         addNewMetadata(FIRSTNAME_TAG, firstName);
         addNewMetadata(BIRTHNAME_TAG, birthName);
         addNewMetadata(IDENTIFIER_TAG, identifier);

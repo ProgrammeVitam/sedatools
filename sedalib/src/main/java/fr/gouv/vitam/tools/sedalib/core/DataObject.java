@@ -49,7 +49,6 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
  * edition, and linked to ArchiveUnit.
  */
 public interface DataObject {
-
     // SEDA XML exporter
 
     /**
@@ -61,7 +60,7 @@ public interface DataObject {
      * @throws SEDALibException     if the XML can't be written
      */
     void toSedaXml(SEDAXMLStreamWriter xmlWriter, SEDALibProgressLogger sedaLibProgressLogger)
-            throws InterruptedException, SEDALibException;
+        throws InterruptedException, SEDALibException;
 
     /**
      * Export the elements that can be edited without changing the structure. This

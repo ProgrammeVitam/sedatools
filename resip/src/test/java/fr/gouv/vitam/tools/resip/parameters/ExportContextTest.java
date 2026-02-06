@@ -59,20 +59,23 @@ class ExportContextTest {
      * @throws Exception the exception
      */
     @Test
-	void test() throws Exception {
-		ExportContext gmc=new ExportContext();
-		gmc.setDefaultPrefs();
-		
-		// create jackson object mapper
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    void test() throws Exception {
+        ExportContext gmc = new ExportContext();
+        gmc.setDefaultPrefs();
 
-		String ssc = mapper.writeValueAsString(gmc);
-		ExportContext reloadSipContext=mapper.readValue(ssc, ExportContext.class);
-		String dssc = mapper.writeValueAsString(reloadSipContext);
-		
-		String fromfile = new String(Files.readAllBytes(Paths.get("src/test/resources/PacketSamples/ExportContext.config")), StandardCharsets.UTF_8);
-		
-		assertThat(TestUtilities.LineEndNormalize(dssc)).isEqualTo(TestUtilities.LineEndNormalize(fromfile));
-	}
+        // create jackson object mapper
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        String ssc = mapper.writeValueAsString(gmc);
+        ExportContext reloadSipContext = mapper.readValue(ssc, ExportContext.class);
+        String dssc = mapper.writeValueAsString(reloadSipContext);
+
+        String fromfile = new String(
+            Files.readAllBytes(Paths.get("src/test/resources/PacketSamples/ExportContext.config")),
+            StandardCharsets.UTF_8
+        );
+
+        assertThat(TestUtilities.LineEndNormalize(dssc)).isEqualTo(TestUtilities.LineEndNormalize(fromfile));
+    }
 }

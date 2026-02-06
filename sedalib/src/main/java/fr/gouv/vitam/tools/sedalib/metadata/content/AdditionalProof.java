@@ -85,7 +85,9 @@ public class AdditionalProof extends ComplexListType {
      */
     public AdditionalProof(String additionalProofInformation) throws SEDALibException {
         super("AdditionalProof");
-        if (additionalProofInformation != null)
-            addNewMetadata("AdditionalProofInformation", additionalProofInformation);
+        if (additionalProofInformation != null) addNewMetadata(
+            "AdditionalProofInformation",
+            additionalProofInformation
+        );
     }
 }

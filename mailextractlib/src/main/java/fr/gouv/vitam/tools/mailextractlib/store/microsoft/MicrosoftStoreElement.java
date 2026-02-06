@@ -46,7 +46,6 @@ import java.util.List;
 import static fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessageAttachment.*;
 
 public interface MicrosoftStoreElement {
-
     String getEmbeddedMessageScheme();
 
     // try to get the best attachment name
@@ -54,16 +53,17 @@ public interface MicrosoftStoreElement {
         String result;
 
         result = nativeAttachment.longFilename;
-        if (result.isEmpty())
-            result = nativeAttachment.filename;
-        if (result.isEmpty())
-            result = nativeAttachment.displayName;
+        if (result.isEmpty()) result = nativeAttachment.filename;
+        if (result.isEmpty()) result = nativeAttachment.displayName;
 
         return result;
     }
 
     // utility function to extract attachment from different types of microsoft container (pst message, pst appointment, msg)
-    static List<StoreAttachment> getAttachments(StoreElement element, MicrosoftStoreMessageAttachment[] nativeAttachments) throws InterruptedException {
+    static List<StoreAttachment> getAttachments(
+        StoreElement element,
+        MicrosoftStoreMessageAttachment[] nativeAttachments
+    ) throws InterruptedException {
         List<StoreAttachment> result = new ArrayList<StoreAttachment>();
         int attachmentNumber;
         try {
@@ -85,10 +85,17 @@ public interface MicrosoftStoreElement {
                         element.logMessageWarning("mailextractlib.microsoft: can't extract OLE attachment", null);
                         break;
                     case ATTACHMENT_METHOD_BY_VALUE:
-                        attachment = new StoreAttachment(element,nativeAttachments[i].byteArray, "file",
-                                getAttachementFilename(nativeAttachments[i]), nativeAttachments[i].creationTime,
-                                nativeAttachments[i].modificationTime, nativeAttachments[i].mimeTag,
-                                nativeAttachments[i].contentId, StoreAttachment.INLINE_ATTACHMENT);
+                        attachment = new StoreAttachment(
+                            element,
+                            nativeAttachments[i].byteArray,
+                            "file",
+                            getAttachementFilename(nativeAttachments[i]),
+                            nativeAttachments[i].creationTime,
+                            nativeAttachments[i].modificationTime,
+                            nativeAttachments[i].mimeTag,
+                            nativeAttachments[i].contentId,
+                            StoreAttachment.INLINE_ATTACHMENT
+                        );
                         result.add(attachment);
                         break;
                     case ATTACHMENT_METHOD_BY_REFERENCE:
@@ -99,19 +106,28 @@ public interface MicrosoftStoreElement {
                         break;
                     case ATTACHMENT_METHOD_EMBEDDED:
                         if (element instanceof MicrosoftStoreElement) {
-                            attachment = new StoreAttachment(element, nativeAttachments[i].embeddedMessage,
-                                    ((MicrosoftStoreElement)element).getEmbeddedMessageScheme(), getAttachementFilename(nativeAttachments[i]), nativeAttachments[i].creationTime,
-                                    nativeAttachments[i].modificationTime, nativeAttachments[i].mimeTag,
-                                    nativeAttachments[i].contentId, StoreAttachment.STORE_ATTACHMENT);
+                            attachment = new StoreAttachment(
+                                element,
+                                nativeAttachments[i].embeddedMessage,
+                                ((MicrosoftStoreElement) element).getEmbeddedMessageScheme(),
+                                getAttachementFilename(nativeAttachments[i]),
+                                nativeAttachments[i].creationTime,
+                                nativeAttachments[i].modificationTime,
+                                nativeAttachments[i].mimeTag,
+                                nativeAttachments[i].contentId,
+                                StoreAttachment.STORE_ATTACHMENT
+                            );
                             result.add(attachment);
                         }
                         break;
                 }
             } catch (Exception e) {
-                element.logMessageWarning("mailextractlib.microsoft: can't get attachment number " + Integer.toString(i), e);
+                element.logMessageWarning(
+                    "mailextractlib.microsoft: can't get attachment number " + Integer.toString(i),
+                    e
+                );
             }
         }
-       return result;
+        return result;
     }
-
 }

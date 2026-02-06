@@ -54,9 +54,26 @@ import java.util.Date;
  *         in MS-OXOCAL (not following Java conventions)
  */
 public class PSTGlobalObjectId {
-    final protected static byte[] ReferenceByteArrayID = { 0x04, 0x00, 0x00, 0x00, (byte) 0x82, 0x00, (byte) 0xe0, 0x00,
-        0x74, (byte) 0xc5, (byte) 0xb7, 0x10, 0x1a, (byte) 0x82, (byte) 0xe0, 0x08 };
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
+    protected static final byte[] ReferenceByteArrayID = {
+        0x04,
+        0x00,
+        0x00,
+        0x00,
+        (byte) 0x82,
+        0x00,
+        (byte) 0xe0,
+        0x00,
+        0x74,
+        (byte) 0xc5,
+        (byte) 0xb7,
+        0x10,
+        0x1a,
+        (byte) 0x82,
+        (byte) 0xe0,
+        0x08,
+    };
+    protected static final char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     byte[] ByteArrayID = new byte[16];
     byte YH;
@@ -81,9 +98,11 @@ public class PSTGlobalObjectId {
             throw new AssertionError("ByteArrayID is incorrect");
         }
 
-        final ByteBuffer buffer = ByteBuffer
-            .wrap(pidData, ReferenceByteArrayID.length, pidData.length - ReferenceByteArrayID.length)
-            .order(ByteOrder.LITTLE_ENDIAN);
+        final ByteBuffer buffer = ByteBuffer.wrap(
+            pidData,
+            ReferenceByteArrayID.length,
+            pidData.length - ReferenceByteArrayID.length
+        ).order(ByteOrder.LITTLE_ENDIAN);
 
         this.YH = buffer.get();
         this.YL = buffer.get();
@@ -155,8 +174,30 @@ public class PSTGlobalObjectId {
 
     @Override
     public String toString() {
-        return "Byte Array ID[" + bytesToHex(this.ByteArrayID) + "] " + "Year [" + this.getYear() + "] " + "Month["
-            + this.M + "] " + "Day[" + this.D + "] CreationTime[" + this.CreationTime + "] " + "X[" + this.X + "] "
-            + "Size[" + this.Size + "] " + "Data[" + bytesToHex(this.Data) + "]";
+        return (
+            "Byte Array ID[" +
+            bytesToHex(this.ByteArrayID) +
+            "] " +
+            "Year [" +
+            this.getYear() +
+            "] " +
+            "Month[" +
+            this.M +
+            "] " +
+            "Day[" +
+            this.D +
+            "] CreationTime[" +
+            this.CreationTime +
+            "] " +
+            "X[" +
+            this.X +
+            "] " +
+            "Size[" +
+            this.Size +
+            "] " +
+            "Data[" +
+            bytesToHex(this.Data) +
+            "]"
+        );
     }
 }

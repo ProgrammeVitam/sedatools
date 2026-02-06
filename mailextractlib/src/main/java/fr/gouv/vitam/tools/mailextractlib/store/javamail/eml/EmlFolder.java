@@ -38,10 +38,10 @@
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.eml;
 
 import fr.gouv.vitam.tools.mailextractlib.store.javamail.JMMimeMessage;
-
 import jakarta.mail.*;
 import jakarta.mail.util.SharedByteArrayInputStream;
 import jakarta.mail.util.SharedFileInputStream;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -183,10 +183,8 @@ public class EmlFolder extends Folder {
      */
     @Override
     public Folder getFolder(String name) throws MessagingException {
-        if ((name == null) || (name.isEmpty()))
-            return new EmlFolder(emlstore);
-        else
-            throw new MethodNotSupportedException("eml: no folder supported");
+        if ((name == null) || (name.isEmpty())) return new EmlFolder(emlstore);
+        else throw new MethodNotSupportedException("eml: no folder supported");
     }
 
     /*
@@ -230,8 +228,7 @@ public class EmlFolder extends Folder {
      */
     @Override
     public void open(int mode) throws MessagingException {
-        if (opened)
-            throw new IllegalStateException("eml: simulated folder is already open");
+        if (opened) throw new IllegalStateException("eml: simulated folder is already open");
 
         this.mode = mode;
         switch (mode) {
@@ -248,7 +245,6 @@ public class EmlFolder extends Folder {
         } else {
             // create input stream from file
             try {
-
                 emlInputStream = new SharedFileInputStream(new File(emlstore.getContainer()));
             } catch (IOException e) {
                 throw new MessagingException("eml: open failure, can't read: " + emlstore.getContainer());
@@ -264,8 +260,7 @@ public class EmlFolder extends Folder {
      */
     @Override
     public void close(boolean expunge) throws MessagingException {
-        if (!opened)
-            throw new IllegalStateException("eml: simulated folder is not open");
+        if (!opened) throw new IllegalStateException("eml: simulated folder is not open");
         opened = false;
         try {
             emlInputStream.close();
@@ -291,8 +286,7 @@ public class EmlFolder extends Folder {
      */
     @Override
     public Message getMessage(int msgno) throws MessagingException {
-        if (msgno != 1)
-            throw new IndexOutOfBoundsException("Eml: only message 1, no message number " + msgno);
+        if (msgno != 1) throw new IndexOutOfBoundsException("Eml: only message 1, no message number " + msgno);
         Message m;
 
         m = new JMMimeMessage(this, emlInputStream, msgno);
@@ -325,7 +319,14 @@ public class EmlFolder extends Folder {
     public URLName getURLName() {
         URLName storeURL = getStore().getURLName();
 
-        return new URLName(storeURL.getProtocol(), storeURL.getHost(), storeURL.getPort(), emlstore.getContainer(),
-                storeURL.getUsername(), null /* no password */);
+        return new URLName(
+            storeURL.getProtocol(),
+            storeURL.getHost(),
+            storeURL.getPort(),
+            emlstore.getContainer(),
+            storeURL.getUsername(),
+            null
+            /* no password */
+        );
     }
 }

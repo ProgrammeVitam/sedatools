@@ -67,7 +67,6 @@ public class MailExtractLogger {
     public static final int MESSAGE_DETAILS = 60;
     public static final Marker MESSAGE_DETAILS_MARKER = MarkerFactory.getMarker("MESSAGE_DETAILS");
 
-
     /**
      * The global logger.
      */
@@ -89,8 +88,10 @@ public class MailExtractLogger {
      * @return the app logger
      */
     public static MailExtractLogger getGlobalLogger() {
-        if (globalLogger == null)
-            globalLogger = new MailExtractLogger(LoggerFactory.getLogger(MailExtractApp.class.getSimpleName()), GLOBAL);
+        if (globalLogger == null) globalLogger = new MailExtractLogger(
+            LoggerFactory.getLogger(MailExtractApp.class.getSimpleName()),
+            GLOBAL
+        );
         return globalLogger;
     }
 
@@ -104,11 +105,13 @@ public class MailExtractLogger {
 
         PatternLayoutEncoder consoleEncoder = new PatternLayoutEncoder();
         consoleEncoder.setContext(logCtx);
-        consoleEncoder.setPattern("%d{HH:mm:ss.SSS} [" + MailExtractApp.class.getSimpleName() + "] %-5level %marker - %msg%n");
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            consoleEncoder.setCharset(Charset.forName("cp850"));
-        else
-            consoleEncoder.setCharset(Charset.forName("UTF-8"));
+        consoleEncoder.setPattern(
+            "%d{HH:mm:ss.SSS} [" + MailExtractApp.class.getSimpleName() + "] %-5level %marker - %msg%n"
+        );
+        if (System.getProperty("os.name").toLowerCase().contains("win")) consoleEncoder.setCharset(
+            Charset.forName("cp850")
+        );
+        else consoleEncoder.setCharset(Charset.forName("UTF-8"));
         consoleEncoder.start();
 
         ConsoleAppender<ch.qos.logback.classic.spi.ILoggingEvent> logConsoleAppender = new ConsoleAppender<>();
@@ -119,11 +122,15 @@ public class MailExtractLogger {
 
         PatternLayoutEncoder fileEncoder = new PatternLayoutEncoder();
         fileEncoder.setContext(logCtx);
-        fileEncoder.setPattern("%d{HH:mm:ss.SSS} [" + MailExtractApp.class.getSimpleName() + "] %-5level %marker - %msg%n");
+        fileEncoder.setPattern(
+            "%d{HH:mm:ss.SSS} [" + MailExtractApp.class.getSimpleName() + "] %-5level %marker - %msg%n"
+        );
         fileEncoder.setCharset(Charset.forName("UTF-8"));
         fileEncoder.start();
 
-        FileAppender<ch.qos.logback.classic.spi.ILoggingEvent> logFileAppender = new FileAppender<ch.qos.logback.classic.spi.ILoggingEvent>();
+        FileAppender<ch.qos.logback.classic.spi.ILoggingEvent> logFileAppender = new FileAppender<
+            ch.qos.logback.classic.spi.ILoggingEvent
+        >();
         logFileAppender.setContext(logCtx);
         logFileAppender.setName("logFile");
         logFileAppender.setEncoder(fileEncoder);
@@ -142,20 +149,13 @@ public class MailExtractLogger {
     }
 
     public static int getLevel(String levelName) throws MailExtractException {
-        if (levelName.equals("OFF"))
-            return -1;
-        else if (levelName.equals(GLOBAL_MARKER.getName()))
-            return GLOBAL;
-        else if (levelName.equals(WARNING_MARKER.getName()))
-            return WARNING;
-        else if (levelName.equals(FOLDER_MARKER.getName()))
-            return FOLDER;
-        else if (levelName.equals(MESSAGE_GROUP_MARKER.getName()))
-            return MESSAGE_GROUP;
-        else if (levelName.equals(MESSAGE_MARKER.getName()))
-            return MESSAGE;
-        else if (levelName.equals(MESSAGE_DETAILS_MARKER.getName()))
-            return MESSAGE_DETAILS;
+        if (levelName.equals("OFF")) return -1;
+        else if (levelName.equals(GLOBAL_MARKER.getName())) return GLOBAL;
+        else if (levelName.equals(WARNING_MARKER.getName())) return WARNING;
+        else if (levelName.equals(FOLDER_MARKER.getName())) return FOLDER;
+        else if (levelName.equals(MESSAGE_GROUP_MARKER.getName())) return MESSAGE_GROUP;
+        else if (levelName.equals(MESSAGE_MARKER.getName())) return MESSAGE;
+        else if (levelName.equals(MESSAGE_DETAILS_MARKER.getName())) return MESSAGE_DETAILS;
         throw new MailExtractException("Unknown log level");
     }
 
@@ -180,10 +180,8 @@ public class MailExtractLogger {
     public void log(int level, String message) {
         if (level <= progressLogLevel) {
             if (logger != null) {
-                if (level >= GLOBAL)
-                    logger.info(getMarker(level), message);
+                if (level >= GLOBAL) logger.info(getMarker(level), message);
                 else logger.error(message);
-
             }
         }
     }
@@ -197,8 +195,8 @@ public class MailExtractLogger {
     }
 
     public void close() {
-        if (logger instanceof ch.qos.logback.classic.Logger)
-            ((ch.qos.logback.classic.Logger) logger).detachAndStopAllAppenders();
+        if (
+            logger instanceof ch.qos.logback.classic.Logger
+        ) ((ch.qos.logback.classic.Logger) logger).detachAndStopAllAppenders();
     }
-
 }

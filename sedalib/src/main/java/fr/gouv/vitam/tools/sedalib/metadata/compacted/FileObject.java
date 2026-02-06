@@ -90,7 +90,7 @@ public class FileObject extends ComplexListType {
     static {
         METADATA_MAP_V2 = new LinkedHashMap<>();
         METADATA_MAP_V2.put("DataObjectProfile", new ComplexListMetadataKind(StringType.class, false));
-         METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
+        METADATA_MAP_V2.put("Relationship", new ComplexListMetadataKind(Relationship.class, true));
         METADATA_MAP_V2.put("DataObjectVersion", new ComplexListMetadataKind(StringType.class, false));
 
         METADATA_MAP_V2.put("Uri", new ComplexListMetadataKind(StringType.class, false));
@@ -124,6 +124,7 @@ public class FileObject extends ComplexListType {
         METADATA_MAP_V3.put("Metadata", new ComplexListMetadataKind(Metadata.class, false));
         METADATA_MAP_V3.put("OtherMetadata", new ComplexListMetadataKind(AnyXMLListType.class, false));
     }
+
     /**
      * Instantiates a new FileObject.
      */
@@ -140,9 +141,7 @@ public class FileObject extends ComplexListType {
      */
     public FileObject(BinaryDataObject binaryDataObject, String uri) throws SEDALibException {
         super("FileObject");
-
-        for (SEDAMetadata sm: binaryDataObject.getMetadataList())
-            addMetadata (sm);
+        for (SEDAMetadata sm : binaryDataObject.getMetadataList()) addMetadata(sm);
         if (uri != null) addMetadata(new StringType("Uri", uri));
     }
 }

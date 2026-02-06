@@ -51,10 +51,10 @@ import java.awt.*;
 public class StructuredDataObjectGroupEditorPanelTest {
 
     public static void main(String[] args) throws Exception {
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        else
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        if (System.getProperty("os.name").toLowerCase().contains("win")) UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName()
+        );
+        else UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
         ResipGraphicApp rga = new ResipGraphicApp(null);
         Thread.sleep(1000);
@@ -63,13 +63,18 @@ public class StructuredDataObjectGroupEditorPanelTest {
         dialog.setMinimumSize(new Dimension(600, 600));
         dialog.setPreferredSize(new Dimension(600, 600));
 
-        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter("sedalib/src/test/resources/PacketSamples/TestSipDogMerge.zip",
-                "target/tmpJunit/TestSipDogMerge.zip-tmpdir", null);
+        SIPToArchiveTransferImporter si = new SIPToArchiveTransferImporter(
+            "sedalib/src/test/resources/PacketSamples/TestSipDogMerge.zip",
+            "target/tmpJunit/TestSipDogMerge.zip-tmpdir",
+            null
+        );
         si.doImport();
-        ArchiveUnit au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap()
-                .get("ID21");
-        DataObjectGroup dog = si.getArchiveTransfer().getDataObjectPackage().getDogInDataObjectPackageIdMap()
-                .get("ID16");
+        ArchiveUnit au = si.getArchiveTransfer().getDataObjectPackage().getAuInDataObjectPackageIdMap().get("ID21");
+        DataObjectGroup dog = si
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .getDogInDataObjectPackageIdMap()
+            .get("ID16");
 
         StructuredDataObjectGroupEditorPanel sdogep = new StructuredDataObjectGroupEditorPanel();
         sdogep.editDataObjectGroup(au);

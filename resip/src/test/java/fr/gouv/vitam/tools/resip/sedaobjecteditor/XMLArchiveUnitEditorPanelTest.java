@@ -52,10 +52,10 @@ import java.awt.*;
 public class XMLArchiveUnitEditorPanelTest {
 
     public static void main(String[] args) throws Exception {
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        else
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        if (System.getProperty("os.name").toLowerCase().contains("win")) UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName()
+        );
+        else UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
         ResipGraphicApp rga = new ResipGraphicApp(null);
         Thread.sleep(1000);
@@ -63,20 +63,20 @@ public class XMLArchiveUnitEditorPanelTest {
         dialog.setMinimumSize(new Dimension(600, 600));
         dialog.setPreferredSize(new Dimension(600, 600));
 
-        DataObjectPackage dop=new DataObjectPackage();
-        ArchiveUnit archiveUnit=new ArchiveUnit();
+        DataObjectPackage dop = new DataObjectPackage();
+        ArchiveUnit archiveUnit = new ArchiveUnit();
         SEDAMetadata sedaMetadata;
 
         archiveUnit.setInDataObjectPackageId("TestID");
-        sedaMetadata= SEDAObjectEditor.createSEDAMetadataSample("ArchiveUnitProfile","ArchiveUnitProfile",true);
-        archiveUnit.setArchiveUnitProfile((ArchiveUnitProfile)sedaMetadata);
-        sedaMetadata= SEDAObjectEditor.createSEDAMetadataSample("Content","Content",true);
-        archiveUnit.setContent((Content)sedaMetadata);
-        sedaMetadata= SEDAObjectEditor.createSEDAMetadataSample("Management","Management",true);
-        archiveUnit.setManagement((Management)sedaMetadata);
+        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample("ArchiveUnitProfile", "ArchiveUnitProfile", true);
+        archiveUnit.setArchiveUnitProfile((ArchiveUnitProfile) sedaMetadata);
+        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample("Content", "Content", true);
+        archiveUnit.setContent((Content) sedaMetadata);
+        sedaMetadata = SEDAObjectEditor.createSEDAMetadataSample("Management", "Management", true);
+        archiveUnit.setManagement((Management) sedaMetadata);
         dop.addArchiveUnit(archiveUnit);
 
-        XMLArchiveUnitEditorPanel xauep=new XMLArchiveUnitEditorPanel();
+        XMLArchiveUnitEditorPanel xauep = new XMLArchiveUnitEditorPanel();
         xauep.editArchiveUnit(archiveUnit);
 
         dialog.setContentPane(xauep);

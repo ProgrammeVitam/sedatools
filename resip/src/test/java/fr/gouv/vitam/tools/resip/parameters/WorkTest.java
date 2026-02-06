@@ -67,69 +67,78 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 class WorkTest implements UseTestFiles {
 
-	private void setWorkFromArchiveTransfer(Work work, ArchiveTransfer archiveTransfer) {
-		work.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
-		ExportContext newExportContext = new ExportContext();
+    private void setWorkFromArchiveTransfer(Work work, ArchiveTransfer archiveTransfer) {
+        work.setDataObjectPackage(archiveTransfer.getDataObjectPackage());
+        ExportContext newExportContext = new ExportContext();
         newExportContext.setDefaultPrefs();
-		newExportContext.setArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata());
-		newExportContext.setManagementMetadataXmlData(
-				archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData());
-		work.setExportContext(newExportContext);
-	}
+        newExportContext.setArchiveTransferGlobalMetadata(archiveTransfer.getGlobalMetadata());
+        newExportContext.setManagementMetadataXmlData(
+            archiveTransfer.getDataObjectPackage().getManagementMetadataXmlData()
+        );
+        work.setExportContext(newExportContext);
+    }
 
-	/**
-	 * Test resip work serialization deserialization.
-	 *
-	 * @throws ResipException        the resip exception
-	 * @throws FileNotFoundException the file not found exception
-	 * @throws IOException           the io exception
-	 * @throws InterruptedException  the interrupted exception
-	 * @throws SEDALibException      the seda lib exception
-	 */
-	@Test
-	void TestResipWorkSerializationDeserialization() throws ResipException, FileNotFoundException, IOException, InterruptedException, SEDALibException  {
-		String destLog = "./target/tmpJunit/" + File.separator + "junit_log.log";
+    /**
+     * Test resip work serialization deserialization.
+     *
+     * @throws ResipException        the resip exception
+     * @throws FileNotFoundException the file not found exception
+     * @throws IOException           the io exception
+     * @throws InterruptedException  the interrupted exception
+     * @throws SEDALibException      the seda lib exception
+     */
+    @Test
+    void TestResipWorkSerializationDeserialization()
+        throws ResipException, FileNotFoundException, IOException, InterruptedException, SEDALibException {
+        String destLog = "./target/tmpJunit/" + File.separator + "junit_log.log";
 
-		SEDALibProgressLogger spl= new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), SEDALibProgressLogger.OBJECTS_GROUP);
-		
-		List<String> ignorePatternList=new ArrayList<>(2);
-		ignorePatternList.add("Thumbs.db");
-		ignorePatternList.add("pagefile.sys");
-		ExportContext gmc=new ExportContext("src/test/resources/PacketSamples/ExportContext.config");
-		CreationContext oic=new DiskImportContext(ignorePatternList,false, "src/test/resources/PacketSamples/SampleWithoutLinksModelV2", destLog);
-		Work ow = new Work(null, oic, gmc);
+        SEDALibProgressLogger spl = new SEDALibProgressLogger(
+            ResipLogger.getGlobalLogger().getLogger(),
+            SEDALibProgressLogger.OBJECTS_GROUP
+        );
 
-		DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(ow.getCreationContext().getOnDiskInput(),
-				spl);
-		for (String ip : ((DiskImportContext) ow.getCreationContext()).getIgnorePatternList())
-			di.addIgnorePattern(ip);
-		di.doImport();
-		((DiskImportContext) ow.getCreationContext()).setModelVersion(di.getModelVersion());
-		setWorkFromArchiveTransfer(ow,di.getArchiveTransfer());
+        List<String> ignorePatternList = new ArrayList<>(2);
+        ignorePatternList.add("Thumbs.db");
+        ignorePatternList.add("pagefile.sys");
+        ExportContext gmc = new ExportContext("src/test/resources/PacketSamples/ExportContext.config");
+        CreationContext oic = new DiskImportContext(
+            ignorePatternList,
+            false,
+            "src/test/resources/PacketSamples/SampleWithoutLinksModelV2",
+            destLog
+        );
+        Work ow = new Work(null, oic, gmc);
 
-		// assert macro results
-		assertEquals(22,ow.getDataObjectPackage().getAuInDataObjectPackageIdMap().size());
-		assertEquals(11,ow.getDataObjectPackage().getDogInDataObjectPackageIdMap().size());
+        DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
+            ow.getCreationContext().getOnDiskInput(),
+            spl
+        );
+        for (String ip : ((DiskImportContext) ow.getCreationContext()).getIgnorePatternList()) di.addIgnorePattern(ip);
+        di.doImport();
+        ((DiskImportContext) ow.getCreationContext()).setModelVersion(di.getModelVersion());
+        setWorkFromArchiveTransfer(ow, di.getArchiveTransfer());
 
-		// create jackson object mapper
-		ObjectMapper mapper = new ObjectMapper();
-		SimpleModule module = new SimpleModule();
-		module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
-		module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
-		mapper.registerModule(module);
-		mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        // assert macro results
+        assertEquals(22, ow.getDataObjectPackage().getAuInDataObjectPackageIdMap().size());
+        assertEquals(11, ow.getDataObjectPackage().getDogInDataObjectPackageIdMap().size());
 
-		String s= mapper.writeValueAsString(gmc);
-		System.out.println(s);
+        // create jackson object mapper
+        ObjectMapper mapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(DataObjectPackage.class, new DataObjectPackageSerializer());
+        module.addDeserializer(DataObjectPackage.class, new DataObjectPackageDeserializer());
+        mapper.registerModule(module);
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-		// assert archiveTransfer serialization/deserialization
-		String ssip = mapper.writeValueAsString(ow);
-		mapper.writeValue(new FileOutputStream("./target/tmpJunit/junit_resiptWork.json"), ow);
-		Work dssip = mapper.readValue(ssip, Work.class);
-		String sdssip = mapper.writeValueAsString(dssip);
-		mapper.writeValue(new FileOutputStream("./target/tmpJunit/junit_resiptWork_after.json"), dssip);
-		assertEquals(ssip,sdssip);
-		
-	}
+        String s = mapper.writeValueAsString(gmc);
+        System.out.println(s);
 
+        // assert archiveTransfer serialization/deserialization
+        String ssip = mapper.writeValueAsString(ow);
+        mapper.writeValue(new FileOutputStream("./target/tmpJunit/junit_resiptWork.json"), ow);
+        Work dssip = mapper.readValue(ssip, Work.class);
+        String sdssip = mapper.writeValueAsString(dssip);
+        mapper.writeValue(new FileOutputStream("./target/tmpJunit/junit_resiptWork_after.json"), dssip);
+        assertEquals(ssip, sdssip);
+    }
 }

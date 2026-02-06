@@ -87,7 +87,6 @@ class PSTTableItem {
      * @return string value
      */
     public String getStringValue(final int stringType, String codepage) {
-
         if (stringType == VALUE_TYPE_PT_UNICODE) {
             // we are a nice little-endian unicode string.
             try {
@@ -96,9 +95,7 @@ class PSTTableItem {
                 }
                 return new String(this.data, "UTF-16LE").trim();
             } catch (final UnsupportedEncodingException e) {
-
-                if (PSTFile.isPrintErrors())
-                    System.err.println("Error decoding string: " + this.data.toString());
+                if (PSTFile.isPrintErrors()) System.err.println("Error decoding string: " + this.data.toString());
                 return "";
             }
         }
@@ -190,14 +187,18 @@ class PSTTableItem {
             try {
                 s = new String(this.data, "UTF-16LE");
             } catch (final UnsupportedEncodingException e) {
-                if (PSTFile.isPrintErrors())
-                    System.err.println("Error decoding string: " + this.data.toString());
+                if (PSTFile.isPrintErrors()) System.err.println("Error decoding string: " + this.data.toString());
                 s = "";
             }
 
             if (s.length() >= 2 && s.charAt(0) == 0x0001) {
-                return String.format("%s [%04X][%04X]%s", ret, (short) s.charAt(0), (short) s.charAt(1),
-                        s.substring(2));
+                return String.format(
+                    "%s [%04X][%04X]%s",
+                    ret,
+                    (short) s.charAt(0),
+                    (short) s.charAt(1),
+                    s.substring(2)
+                );
             }
 
             return ret + s;

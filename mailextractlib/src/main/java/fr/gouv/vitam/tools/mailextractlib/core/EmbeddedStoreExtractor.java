@@ -41,7 +41,6 @@ package fr.gouv.vitam.tools.mailextractlib.core;
  * The Interface EmbeddedStoreExtractor.
  */
 public interface EmbeddedStoreExtractor {
-
     /**
      * Gets the attachment in which is the embedded object.
      *

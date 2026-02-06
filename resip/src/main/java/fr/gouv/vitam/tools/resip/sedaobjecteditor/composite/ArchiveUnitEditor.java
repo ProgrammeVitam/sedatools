@@ -85,7 +85,11 @@ public class ArchiveUnitEditor extends CompositeEditor {
 
     @Override
     public String getName() {
-        return translateTag("ArchiveUnit") + " - " + (editedObject == null ? translateTag("Unknown") : getArchiveUnitMetadata().getInDataObjectPackageId());
+        return (
+            translateTag("ArchiveUnit") +
+            " - " +
+            (editedObject == null ? translateTag("Unknown") : getArchiveUnitMetadata().getInDataObjectPackageId())
+        );
     }
 
     @Override
@@ -120,27 +124,30 @@ public class ArchiveUnitEditor extends CompositeEditor {
 
     private void updateObjectEditorList() throws SEDALibException {
         List<SEDAObjectEditor> result = new ArrayList<SEDAObjectEditor>();
-        for (int i = 0; i < 3; i++)
-            if (objectEditorArray[i] != null)
-                result.add(objectEditorArray[i]);
+        for (int i = 0; i < 3; i++) if (objectEditorArray[i] != null) result.add(objectEditorArray[i]);
         objectEditorList = result;
         ((SEDAObjectEditorCompositePanel) sedaObjectEditorPanel).synchronizePanels();
     }
 
     private void renewObjectEditorList() throws SEDALibException {
-        for (int i = 0; i < 3; i++)
-            objectEditorArray[i] = null;
+        for (int i = 0; i < 3; i++) objectEditorArray[i] = null;
         if (getArchiveUnitMetadata() != null) {
             if (getArchiveUnitMetadata().getContent() != null) {
-                objectEditorArray[0] = SEDAObjectEditor.createSEDAObjectEditor(getArchiveUnitMetadata().getContent(), this);
+                objectEditorArray[0] = SEDAObjectEditor.createSEDAObjectEditor(
+                    getArchiveUnitMetadata().getContent(),
+                    this
+                );
                 ((CompositeEditor) objectEditorArray[0]).doExpand(true, false);
             }
             if (getArchiveUnitMetadata().getManagement() != null) {
-                objectEditorArray[1] = SEDAObjectEditor.createSEDAObjectEditor(getArchiveUnitMetadata().getManagement(), this);
+                objectEditorArray[1] = SEDAObjectEditor.createSEDAObjectEditor(
+                    getArchiveUnitMetadata().getManagement(),
+                    this
+                );
                 ((CompositeEditor) objectEditorArray[1]).doExpand(true, false);
             }
-            if (getArchiveUnitMetadata().getArchiveUnitProfile() != null)
-                objectEditorArray[2] = SEDAObjectEditor.createSEDAObjectEditor(getArchiveUnitMetadata().getArchiveUnitProfile(), this);
+            if (getArchiveUnitMetadata().getArchiveUnitProfile() != null) objectEditorArray[2] =
+                SEDAObjectEditor.createSEDAObjectEditor(getArchiveUnitMetadata().getArchiveUnitProfile(), this);
         }
 
         updateObjectEditorList();
@@ -154,13 +161,15 @@ public class ArchiveUnitEditor extends CompositeEditor {
 
     @Override
     public List<Pair<String, String>> getExtensionList() {
-        if (getArchiveUnitMetadata() == null)
-            return new ArrayList<Pair<String, String>>();
+        if (getArchiveUnitMetadata() == null) return new ArrayList<Pair<String, String>>();
 
-        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(Arrays.asList(
+        List<Pair<String, String>> extensionList = new ArrayList<Pair<String, String>>(
+            Arrays.asList(
                 Pair.of("ArchiveUnitProfile", translateTag("ArchiveUnitProfile")),
                 Pair.of("Content", translateTag("Content")),
-                Pair.of("Management", translateTag("Management"))));
+                Pair.of("Management", translateTag("Management"))
+            )
+        );
 
         for (SEDAObjectEditor me : objectEditorList) {
             String name = me.getTag();
@@ -186,8 +195,9 @@ public class ArchiveUnitEditor extends CompositeEditor {
                 objectEditorArray[2] = createSEDAObjectEditor(sedaMetadata, this);
                 break;
         }
-        if (sedaMetadata == null)
-            throw new SEDALibException("La métadonnée [" + metadataName + "] n'existe pas dans un ArchiveUnit");
+        if (sedaMetadata == null) throw new SEDALibException(
+            "La métadonnée [" + metadataName + "] n'existe pas dans un ArchiveUnit"
+        );
 
         updateObjectEditorList();
     }

@@ -108,7 +108,8 @@ public class CleanDialog extends JDialog {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
         TestDialogWindow window = new TestDialogWindow(CleanDialog.class);
     }
 
@@ -133,7 +134,6 @@ public class CleanDialog extends JDialog {
         GridBagConstraints gbc;
         GridBagLayout gbl;
 
-
         searchThread = null;
         technicalSearchThread = null;
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -144,8 +144,8 @@ public class CleanDialog extends JDialog {
 
         Container contentPane = getContentPane();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0, 0.1, 0.0, 0.0};
-        gbl.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0};
+        gbl.columnWeights = new double[] { 1.0, 0.1, 0.0, 0.0 };
+        gbl.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0 };
         contentPane.setLayout(gbl);
 
         JButton searchButton = new JButton();
@@ -188,8 +188,8 @@ public class CleanDialog extends JDialog {
         previousButton.addActionListener(arg0 -> buttonPrevious());
 
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{0.0, 1.0};
-        gbl.columnWidths = new int[]{30, 0};
+        gbl.columnWeights = new double[] { 0.0, 1.0 };
+        gbl.columnWidths = new int[] { 30, 0 };
         JPanel choicePanel = new JPanel(gbl);
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -328,9 +328,11 @@ public class CleanDialog extends JDialog {
         explanationTextArea.setFont(new JLabel().getFont());
         explanationTextArea.setBackground(UIManager.getColor("Dialog.background"));
         explanationTextArea.setFocusable(false);
-        explanationTextArea.setText("Le nettoyage va éliminer des éléments jugés inutiles ou contraire à la construction de paquets SEDA corrects:\n\n" +
-                "  - objet numériques de taille nulle: l'objet et ses métadonnées sont supprimés ainsi que le groupe d'objets si lui-même se retrouve vide,\n\n" +
-                "  - unité d'archives sans descendance: l'unité d'archive qui n'a ni descendance en unité d'archives, ni objet (numérique ou physique) associé est supprimée avec toutes ses métadonnées.");
+        explanationTextArea.setText(
+            "Le nettoyage va éliminer des éléments jugés inutiles ou contraire à la construction de paquets SEDA corrects:\n\n" +
+            "  - objet numériques de taille nulle: l'objet et ses métadonnées sont supprimés ainsi que le groupe d'objets si lui-même se retrouve vide,\n\n" +
+            "  - unité d'archives sans descendance: l'unité d'archive qui n'a ni descendance en unité d'archives, ni objet (numérique ou physique) associé est supprimée avec toutes ses métadonnées."
+        );
         explanationTextArea.setWrapStyleWord(true);
         gbc = new GridBagConstraints();
         gbc.gridx = 1;
@@ -347,12 +349,14 @@ public class CleanDialog extends JDialog {
         pack();
         setLocationRelativeTo(owner);
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                close();
+        addWindowListener(
+            new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    close();
+                }
             }
-        });
+        );
     }
 
     void changeChoice(ActionEvent e) {
@@ -378,25 +382,35 @@ public class CleanDialog extends JDialog {
         archiveUnit.getDataObjectPackage().getDogInDataObjectPackageIdMap().remove(dog.getInDataObjectPackageId());
     }
 
-    private boolean confirmCleanAll(int auCount, int bdoCount){
-        return (UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                "Vous allez supprimer "+(auCount!=0?auCount+" unité"+(auCount>1?"s":"")+" d'archives":"")+
-                        (bdoCount!=0?bdoCount+" objet"+(bdoCount>1?"s":"")+" binaire"+(bdoCount>1?"s":""):"")+".\n"
-                        + "Voulez-vous continuer?",
-                "Confirmation", UserInteractionDialog.WARNING_DIALOG,
-                null) == OK_DIALOG);
+    private boolean confirmCleanAll(int auCount, int bdoCount) {
+        return (
+            UserInteractionDialog.getUserAnswer(
+                ResipGraphicApp.getTheWindow(),
+                "Vous allez supprimer " +
+                (auCount != 0 ? auCount + " unité" + (auCount > 1 ? "s" : "") + " d'archives" : "") +
+                (bdoCount != 0
+                        ? bdoCount + " objet" + (bdoCount > 1 ? "s" : "") + " binaire" + (bdoCount > 1 ? "s" : "")
+                        : "") +
+                ".\n" +
+                "Voulez-vous continuer?",
+                "Confirmation",
+                UserInteractionDialog.WARNING_DIALOG,
+                null
+            ) ==
+            OK_DIALOG
+        );
     }
 
     void doCleanAll() {
         if ((searchDataObjectResult != null) && (searchResultCount > 0)) {
-            if (!confirmCleanAll(0,searchResultCount))
-                return;
+            if (!confirmCleanAll(0, searchResultCount)) return;
             for (Map.Entry<ArchiveUnit, List<BinaryDataObject>> e : searchDataObjectResult.entrySet()) {
                 for (BinaryDataObject bdo : e.getValue()) {
                     removeDataObject(e.getKey(), bdo);
                     DataObjectGroup dog = e.getKey().getTheDataObjectGroup();
-                    if (dog.getBinaryDataObjectList().size() + dog.getPhysicalDataObjectList().size() == 0)
-                        removeDataObjectGroup(e.getKey());
+                    if (
+                        dog.getBinaryDataObjectList().size() + dog.getPhysicalDataObjectList().size() == 0
+                    ) removeDataObjectGroup(e.getKey());
                 }
             }
             searchResultCount = 0;
@@ -407,9 +421,8 @@ public class CleanDialog extends JDialog {
             resultObjectLabel.setText(stepObjectInfo());
             ResipGraphicApp.getTheWindow().treePane.doRefreshTree();
         } else if ((searchArchiveUnitResult != null) && (searchArchiveUnitResult.size() > 0)) {
-            if (!confirmCleanAll(searchArchiveUnitResult.size(),0))
-                return;
-           for (ArchiveUnit archiveUnit : searchArchiveUnitResult) {
+            if (!confirmCleanAll(searchArchiveUnitResult.size(), 0)) return;
+            for (ArchiveUnit archiveUnit : searchArchiveUnitResult) {
                 archiveUnit.getDataObjectPackage().removeEmptyArchiveUnit(archiveUnit);
             }
             searchArchiveUnitResult = null;
@@ -420,10 +433,14 @@ public class CleanDialog extends JDialog {
 
     void doCleanOne() {
         if ((searchDataObjectResult != null) && (searchResultCount > 0)) {
-            removeDataObject(searchCurrentArchiveUnit, searchDataObjectResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
+            removeDataObject(
+                searchCurrentArchiveUnit,
+                searchDataObjectResult.get(searchCurrentArchiveUnit).get(searchObjectPosition)
+            );
             DataObjectGroup dog = searchCurrentArchiveUnit.getTheDataObjectGroup();
-            if (dog.getBinaryDataObjectList().size() + dog.getPhysicalDataObjectList().size() == 0)
-                removeDataObjectGroup(searchCurrentArchiveUnit);
+            if (
+                dog.getBinaryDataObjectList().size() + dog.getPhysicalDataObjectList().size() == 0
+            ) removeDataObjectGroup(searchCurrentArchiveUnit);
             searchDataObjectResult.get(searchCurrentArchiveUnit).remove(searchObjectPosition);
             searchResultCount--;
             if (searchDataObjectResult.get(searchCurrentArchiveUnit).size() == 0) {
@@ -445,25 +462,36 @@ public class CleanDialog extends JDialog {
                 resultObjectLabel.setText(stepObjectInfo());
                 ResipGraphicApp.getTheWindow().treePane.doRefreshTree();
                 if (searchResultCount > 0) {
-                    ResipGraphicApp.getTheWindow().treePane.focusDataObject(searchCurrentArchiveUnit, searchDataObjectResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
+                    ResipGraphicApp.getTheWindow()
+                        .treePane.focusDataObject(
+                            searchCurrentArchiveUnit,
+                            searchDataObjectResult.get(searchCurrentArchiveUnit).get(searchObjectPosition)
+                        );
                 }
             }
             try {
                 ResipGraphicApp.getTheWindow().auMetadataPane.editArchiveUnit(searchCurrentArchiveUnit);
-            } catch (SEDALibException ignored) {
-            }
+            } catch (SEDALibException ignored) {}
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         } else if ((searchArchiveUnitResult != null) && (searchArchiveUnitResult.size() > 0)) {
-            searchArchiveUnitResult.get(searchResultPosition).getDataObjectPackage().removeEmptyArchiveUnit(searchArchiveUnitResult.get(searchResultPosition));
+            searchArchiveUnitResult
+                .get(searchResultPosition)
+                .getDataObjectPackage()
+                .removeEmptyArchiveUnit(searchArchiveUnitResult.get(searchResultPosition));
             searchArchiveUnitResult.remove(searchResultPosition);
             searchResultPosition = Math.min(searchResultPosition, searchArchiveUnitResult.size() - 1);
             ResipGraphicApp.getTheWindow().treePane.doRefreshTree();
             if (searchResultPosition >= 0) {
-                resultArchiveUnitLabel.setText((searchResultPosition + 1) + "/" + searchArchiveUnitResult.size() + " trouvé" + (searchArchiveUnitResult.size() > 1 ? "s" : ""));
-                ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchArchiveUnitResult.get(searchResultPosition));
-            }
-            else
-                resultArchiveUnitLabel.setText("0 trouvé");
+                resultArchiveUnitLabel.setText(
+                    (searchResultPosition + 1) +
+                    "/" +
+                    searchArchiveUnitResult.size() +
+                    " trouvé" +
+                    (searchArchiveUnitResult.size() > 1 ? "s" : "")
+                );
+                ResipGraphicApp.getTheWindow()
+                    .treePane.focusArchiveUnit(searchArchiveUnitResult.get(searchResultPosition));
+            } else resultArchiveUnitLabel.setText("0 trouvé");
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         }
     }
@@ -505,14 +533,26 @@ public class CleanDialog extends JDialog {
     private void buttonSearch() {
         if ((searchThread == null) && (technicalSearchThread == null)) {
             if (withoutChildArchiveUnitRadioButton.isSelected()) {
-                searchThread = new SearchThread(ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage().getGhostRootAu(),
-                        true, true,
-                        false, false, false, false,
-                        "", e -> setSearchArchiveUnitResult(e));
+                searchThread = new SearchThread(
+                    ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage().getGhostRootAu(),
+                    true,
+                    true,
+                    false,
+                    false,
+                    false,
+                    false,
+                    "",
+                    e -> setSearchArchiveUnitResult(e)
+                );
                 searchThread.execute();
             } else {
-                technicalSearchThread = new TechnicalSearchThread(ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage().getGhostRootAu(),
-                        new ArrayList<String>(), 0, 0, e -> setDataObjectSearchResult(e));
+                technicalSearchThread = new TechnicalSearchThread(
+                    ResipGraphicApp.getTheApp().currentWork.getDataObjectPackage().getGhostRootAu(),
+                    new ArrayList<String>(),
+                    0,
+                    0,
+                    e -> setDataObjectSearchResult(e)
+                );
                 technicalSearchThread.execute();
             }
             resultArchiveUnitLabel.setText("En cours");
@@ -524,25 +564,39 @@ public class CleanDialog extends JDialog {
     }
 
     private String stepArchiveUnitInfo() {
-        if (searchResultCount == 0)
-            return "0 trouvé";
-        else
-            return "" + (searchArchiveUnitPosition + 1) + "/" + searchResultListCount + " AU trouvé" +
-                    (searchResultCount > 1 ? "s" : "");
+        if (searchResultCount == 0) return "0 trouvé";
+        else return (
+            "" +
+            (searchArchiveUnitPosition + 1) +
+            "/" +
+            searchResultListCount +
+            " AU trouvé" +
+            (searchResultCount > 1 ? "s" : "")
+        );
     }
 
     private String stepObjectInfo() {
-        if (searchResultListCount == 0)
-            return "";
-        else
-            return "" + (searchResultPosition + 1) + "/" + searchResultCount +
-                    " obj. trouvé" + (searchResultCount > 1 ? "s" : "");
+        if (searchResultListCount == 0) return "";
+        else return (
+            "" +
+            (searchResultPosition + 1) +
+            "/" +
+            searchResultCount +
+            " obj. trouvé" +
+            (searchResultCount > 1 ? "s" : "")
+        );
     }
 
     private void buttonNext() {
         if (searchArchiveUnitResult != null && searchArchiveUnitResult.size() > 0) {
             searchResultPosition = Math.min(searchResultPosition + 1, searchArchiveUnitResult.size() - 1);
-            resultArchiveUnitLabel.setText((searchResultPosition + 1) + "/" + searchArchiveUnitResult.size() + " trouvé" + (searchArchiveUnitResult.size() > 1 ? "s" : ""));
+            resultArchiveUnitLabel.setText(
+                (searchResultPosition + 1) +
+                "/" +
+                searchArchiveUnitResult.size() +
+                " trouvé" +
+                (searchArchiveUnitResult.size() > 1 ? "s" : "")
+            );
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchArchiveUnitResult.get(searchResultPosition));
         } else if ((searchDataObjectResult != null) && (searchResultCount > 0)) {
             searchObjectPosition++;
@@ -559,14 +613,24 @@ public class CleanDialog extends JDialog {
             }
             resultArchiveUnitLabel.setText(stepArchiveUnitInfo());
             resultObjectLabel.setText(stepObjectInfo());
-            ResipGraphicApp.getTheWindow().treePane.focusDataObject(searchCurrentArchiveUnit, searchDataObjectResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
+            ResipGraphicApp.getTheWindow()
+                .treePane.focusDataObject(
+                    searchCurrentArchiveUnit,
+                    searchDataObjectResult.get(searchCurrentArchiveUnit).get(searchObjectPosition)
+                );
         }
     }
 
     private void buttonPrevious() {
         if (searchArchiveUnitResult != null && searchArchiveUnitResult.size() > 0) {
             searchResultPosition = Math.max(searchResultPosition - 1, 0);
-            resultArchiveUnitLabel.setText((searchResultPosition + 1) + "/" + searchArchiveUnitResult.size() + " trouvé" + (searchArchiveUnitResult.size() > 1 ? "s" : ""));
+            resultArchiveUnitLabel.setText(
+                (searchResultPosition + 1) +
+                "/" +
+                searchArchiveUnitResult.size() +
+                " trouvé" +
+                (searchArchiveUnitResult.size() > 1 ? "s" : "")
+            );
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchArchiveUnitResult.get(searchResultPosition));
         } else if ((searchDataObjectResult != null) && (searchResultCount > 0)) {
             searchObjectPosition--;
@@ -583,7 +647,11 @@ public class CleanDialog extends JDialog {
             }
             resultArchiveUnitLabel.setText(stepArchiveUnitInfo());
             resultObjectLabel.setText(stepObjectInfo());
-            ResipGraphicApp.getTheWindow().treePane.focusDataObject(searchCurrentArchiveUnit, searchDataObjectResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
+            ResipGraphicApp.getTheWindow()
+                .treePane.focusDataObject(
+                    searchCurrentArchiveUnit,
+                    searchDataObjectResult.get(searchCurrentArchiveUnit).get(searchObjectPosition)
+                );
         }
     }
 
@@ -596,10 +664,11 @@ public class CleanDialog extends JDialog {
         this.searchArchiveUnitResult = searchArchiveUnitResult;
         searchResultPosition = 0;
         if (searchArchiveUnitResult.size() > 0) {
-            resultArchiveUnitLabel.setText("1/" + searchArchiveUnitResult.size() + " trouvé" + (searchArchiveUnitResult.size() > 1 ? "s" : ""));
+            resultArchiveUnitLabel.setText(
+                "1/" + searchArchiveUnitResult.size() + " trouvé" + (searchArchiveUnitResult.size() > 1 ? "s" : "")
+            );
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchArchiveUnitResult.get(0));
-        } else
-            resultArchiveUnitLabel.setText("0 trouvé");
+        } else resultArchiveUnitLabel.setText("0 trouvé");
         searchThread = null;
     }
 
@@ -620,7 +689,11 @@ public class CleanDialog extends JDialog {
             searchCurrentArchiveUnit = searchDataObjectResultList.get(0);
             resultArchiveUnitLabel.setText(stepArchiveUnitInfo());
             resultObjectLabel.setText(stepObjectInfo());
-            ResipGraphicApp.getTheWindow().treePane.focusDataObject(searchCurrentArchiveUnit, searchResult.get(searchCurrentArchiveUnit).get(searchObjectPosition));
+            ResipGraphicApp.getTheWindow()
+                .treePane.focusDataObject(
+                    searchCurrentArchiveUnit,
+                    searchResult.get(searchCurrentArchiveUnit).get(searchObjectPosition)
+                );
         } else {
             resultArchiveUnitLabel.setText("0 trouvé");
             resultObjectLabel.setText("");

@@ -61,47 +61,34 @@ public class AppointmentTest {
      * Test we can access appointments from the PST.
      */
     @Test
-    public final void testGetDistList()
-            throws PSTException, IOException, URISyntaxException {
+    public final void testGetDistList() throws PSTException, IOException, URISyntaxException {
         URL dirUrl = ClassLoader.getSystemResource("dist-list.pst");
         PSTFile pstFile = new PSTFile(new File(dirUrl.toURI()));
         PSTAppointment appt = (PSTAppointment) PSTObject.detectAndLoadPSTObject(pstFile, 2097348);
         PSTAppointmentRecurrence r = new PSTAppointmentRecurrence(
-                appt.getRecurrenceStructure(), appt, appt.getRecurrenceTimeZone());
+            appt.getRecurrenceStructure(),
+            appt,
+            appt.getRecurrenceTimeZone()
+        );
 
+        Assert.assertEquals("Has 3 deleted items (1 removed, 2 changed)", 3, r.getDeletedInstanceDates().length);
 
-        Assert.assertEquals(
-                "Has 3 deleted items (1 removed, 2 changed)",
-                3,
-                r.getDeletedInstanceDates().length);
-
-        Assert.assertEquals(
-                "Number of Exceptions",
-                2,
-                r.getExceptionCount());
+        Assert.assertEquals("Number of Exceptions", 2, r.getExceptionCount());
 
         String d = r.getException(0).getDescription().trim();
         Assert.assertEquals("correct app desc", "This is the appointment at 9", d);
 
         LocalDateTime ldt = LocalDateTime.ofInstant(
-                r.getException(0).getStartDate().toInstant(),
-                ZoneId.of("US/Pacific"));
-        Assert.assertEquals(
-                "First exception correct hour",
-                9,
-                ldt.getHour());
+            r.getException(0).getStartDate().toInstant(),
+            ZoneId.of("US/Pacific")
+        );
+        Assert.assertEquals("First exception correct hour", 9, ldt.getHour());
 
         d = r.getException(1).getDescription().trim();
         Assert.assertEquals("correct app desc", "This is the one at 10", d);
 
-        ldt = LocalDateTime.ofInstant(
-                r.getException(1).getStartDate().toInstant(),
-                ZoneId.of("US/Pacific"));
-        Assert.assertEquals(
-                "Second exception correct hour",
-                10,
-                ldt.getHour());
-
+        ldt = LocalDateTime.ofInstant(r.getException(1).getStartDate().toInstant(), ZoneId.of("US/Pacific"));
+        Assert.assertEquals("Second exception correct hour", 10, ldt.getHour());
         //System.out.println(r.getExceptionCount());
         //System.out.println(r.getException(0).getDTStamp());
 
@@ -110,4 +97,3 @@ public class AppointmentTest {
         //}
     }
 }
-

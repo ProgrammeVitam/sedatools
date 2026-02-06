@@ -38,8 +38,8 @@
 package fr.gouv.vitam.tools.resip.frame;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
+import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import org.fife.rsta.ui.search.SearchEvent;
 import org.fife.rsta.ui.search.SearchListener;
 import org.fife.ui.rsyntaxtextarea.RSyntaxTextArea;
@@ -84,7 +84,8 @@ public class ManifestWindow extends JFrame implements SearchListener {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException, ResipException, InterruptedException {
         ResipGraphicApp rga = new ResipGraphicApp(null);
         Thread.sleep(1000);
         ManifestWindow mw = new ManifestWindow();
@@ -103,9 +104,9 @@ public class ManifestWindow extends JFrame implements SearchListener {
         setMinimumSize(new Dimension(700, 300));
 
         gbl = new GridBagLayout();
-        gbl.rowWeights = new double[]{1.0, 0.0};
-        gbl.columnWeights = new double[]{1.0, 0, 0, 0.0};
-        gbl.columnWidths = new int[]{400, 0, 200};
+        gbl.rowWeights = new double[] { 1.0, 0.0 };
+        gbl.columnWeights = new double[] { 1.0, 0, 0, 0.0 };
+        gbl.columnWidths = new int[] { 400, 0, 200 };
         Container contentPane = getContentPane();
         contentPane.setLayout(gbl);
 
@@ -146,7 +147,6 @@ public class ManifestWindow extends JFrame implements SearchListener {
         gbc.gridy = 1;
         contentPane.add(separator, gbc);
 
-
         statusLabel = new JLabel("Prêt");
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -172,7 +172,6 @@ public class ManifestWindow extends JFrame implements SearchListener {
 
     @Override
     public void searchEvent(SearchEvent e) {
-
         SearchEvent.Type type = e.getType();
         SearchContext context = e.getSearchContext();
         SearchResult result;
@@ -202,12 +201,10 @@ public class ManifestWindow extends JFrame implements SearchListener {
             text = "Trouvé";
         }
         statusLabel.setText(text);
-
     }
 
     @Override
     public String getSelectedText() {
         return xmlTextArea.getSelectedText();
     }
-
 }

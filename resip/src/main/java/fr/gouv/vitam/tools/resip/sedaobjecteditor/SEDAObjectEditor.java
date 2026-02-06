@@ -60,7 +60,7 @@ import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstan
  * <p>
  * The data is in the SEDAMetadata... objects, and the visual is in SEDAObjectEditorPanels.
  */
-abstract public class SEDAObjectEditor {
+public abstract class SEDAObjectEditor {
 
     /**
      * The SEDA object, either SEDAMetadata or high-level objects.
@@ -126,33 +126,37 @@ abstract public class SEDAObjectEditor {
      * The constant COMPOSITE_LABEL_COLOR.
      */
     public static Color COMPOSITE_LABEL_COLOR = new Color(
-            Math.min(GENERAL_FOREGROUND.getRed() + 64, 255),
-            Math.min(GENERAL_FOREGROUND.getGreen() + 64, 255),
-            Math.min(GENERAL_FOREGROUND.getBlue() + 200, 255));
+        Math.min(GENERAL_FOREGROUND.getRed() + 64, 255),
+        Math.min(GENERAL_FOREGROUND.getGreen() + 64, 255),
+        Math.min(GENERAL_FOREGROUND.getBlue() + 200, 255)
+    );
 
     /**
      * The constant COMPOSITE_LABEL_SEPARATOR_COLOR.
      */
     public static Color COMPOSITE_LABEL_SEPARATOR_COLOR = new Color(
-            (int) (GENERAL_BACKGROUND.getRed() * 0.9),
-            (int) (GENERAL_BACKGROUND.getGreen() * 0.9),
-            (int) (GENERAL_BACKGROUND.getBlue() * 0.9));
+        (int) (GENERAL_BACKGROUND.getRed() * 0.9),
+        (int) (GENERAL_BACKGROUND.getGreen() * 0.9),
+        (int) (GENERAL_BACKGROUND.getBlue() * 0.9)
+    );
 
     /**
      * The constant COMPOSITE_LABEL_MARKUP_COLOR.
      */
     public static Color COMPOSITE_LABEL_MARKUP_COLOR = new Color(
-            (int) (GENERAL_BACKGROUND.getRed() * 0.4),
-            (int) (GENERAL_BACKGROUND.getGreen() * 0.4),
-            (int) (GENERAL_BACKGROUND.getBlue() * 0.4));
+        (int) (GENERAL_BACKGROUND.getRed() * 0.4),
+        (int) (GENERAL_BACKGROUND.getGreen() * 0.4),
+        (int) (GENERAL_BACKGROUND.getBlue() * 0.4)
+    );
 
     /**
      * The constant COMPOSITE_LABEL_ATTRIBUTE_COLOR.
      */
     public static Color COMPOSITE_LABEL_ATTRIBUTE_COLOR = new Color(
-            (int) (GENERAL_BACKGROUND.getRed() * 0.7),
-            0,
-            (int) (GENERAL_BACKGROUND.getBlue() * 0.7));
+        (int) (GENERAL_BACKGROUND.getRed() * 0.7),
+        0,
+        (int) (GENERAL_BACKGROUND.getBlue() * 0.7)
+    );
 
     //
     // All static methods dealing with SEDAMetadata and SEDAMetadata editors
@@ -180,7 +184,9 @@ abstract public class SEDAObjectEditor {
                         try {
                             result = Class.forName(metadataType);
                         } catch (ClassNotFoundException e5) {
-                            throw new SEDALibException("Le type de métadonnée [" + simpleMetadataType + "] n'est pas connu");
+                            throw new SEDALibException(
+                                "Le type de métadonnée [" + simpleMetadataType + "] n'est pas connu"
+                            );
                         }
                     }
                 }
@@ -198,22 +204,32 @@ abstract public class SEDAObjectEditor {
      * @return the seda editedObject
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata createSEDAMetadataSample(String metadataType, String elementName, boolean minimal) throws SEDALibException {
+    public static SEDAMetadata createSEDAMetadataSample(String metadataType, String elementName, boolean minimal)
+        throws SEDALibException {
         SEDAMetadata result;
         try {
             String objectEditorType = "fr.gouv.vitam.tools.resip.sedaobjecteditor." + metadataType + "Editor";
             Class<?> objectEditorClass = Class.forName(objectEditorType);
             try {
-                result = (SEDAMetadata) objectEditorClass.getMethod("getSEDAMetadataSample", String.class, boolean.class).invoke(null, elementName,minimal);
+                result = (SEDAMetadata) objectEditorClass
+                    .getMethod("getSEDAMetadataSample", String.class, boolean.class)
+                    .invoke(null, elementName, minimal);
             } catch (IllegalAccessException | NoSuchMethodException e) {
-                throw new SEDALibException("La création d'un exemple de la métadonnée de type [" + metadataType + "] n'est pas possible", e);
+                throw new SEDALibException(
+                    "La création d'un exemple de la métadonnée de type [" + metadataType + "] n'est pas possible",
+                    e
+                );
             } catch (InvocationTargetException te) {
-                throw new SEDALibException("La création d'un exemple de la métadonnée [" + metadataType + "] a généré une erreur", te.getTargetException());
+                throw new SEDALibException(
+                    "La création d'un exemple de la métadonnée [" + metadataType + "] a généré une erreur",
+                    te.getTargetException()
+                );
             }
         } catch (ClassNotFoundException e1) {
             Class objectClass = getMetadataClass(metadataType);
-            if (!ComplexListType.class.isAssignableFrom(objectClass))
-                throw new SEDALibException("L'éditeur de métadonnée [" + metadataType + "] n'existe pas");
+            if (!ComplexListType.class.isAssignableFrom(objectClass)) throw new SEDALibException(
+                "L'éditeur de métadonnée [" + metadataType + "] n'existe pas"
+            );
             result = ComplexListTypeEditor.getSEDAMetadataSample(objectClass, elementName, minimal);
         }
         return result;
@@ -227,7 +243,8 @@ abstract public class SEDAObjectEditor {
      * @return the SEDA object editor
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAObjectEditor createSEDAObjectEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
+    public static SEDAObjectEditor createSEDAObjectEditor(SEDAMetadata metadata, SEDAObjectEditor father)
+        throws SEDALibException {
         SEDAObjectEditor result;
         if (metadata instanceof RuleType) {
             result = new RuleTypeEditor(metadata, father);
@@ -240,14 +257,25 @@ abstract public class SEDAObjectEditor {
             try {
                 objectEditorClass = Class.forName(objectEditorType);
             } catch (ClassNotFoundException e) {
-                throw new SEDALibException("La métadonnée de type [" + metadata.getClass().getSimpleName() + "] n'a pas d'éditeur", e);
+                throw new SEDALibException(
+                    "La métadonnée de type [" + metadata.getClass().getSimpleName() + "] n'a pas d'éditeur",
+                    e
+                );
             }
             try {
-                result = (SEDAObjectEditor) objectEditorClass.getConstructor(SEDAMetadata.class, SEDAObjectEditor.class).newInstance(metadata, father);
+                result = (SEDAObjectEditor) objectEditorClass
+                    .getConstructor(SEDAMetadata.class, SEDAObjectEditor.class)
+                    .newInstance(metadata, father);
             } catch (InstantiationException | IllegalAccessException | NoSuchMethodException e) {
-                throw new SEDALibException("La création d'un éditeur de la métadonnée de type [" + objectEditorType + "] n'est pas possible", e);
+                throw new SEDALibException(
+                    "La création d'un éditeur de la métadonnée de type [" + objectEditorType + "] n'est pas possible",
+                    e
+                );
             } catch (InvocationTargetException te) {
-                throw new SEDALibException("La création d'un éditeur de la métadonnée [" + metadata.toString() + "] a généré une erreur", te.getTargetException());
+                throw new SEDALibException(
+                    "La création d'un éditeur de la métadonnée [" + metadata.toString() + "] a généré une erreur",
+                    te.getTargetException()
+                );
             }
         }
         return result;
@@ -263,8 +291,12 @@ abstract public class SEDAObjectEditor {
      * @return the SEDA object editor
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAObjectEditor createSEDAObjectEditor(String metadataType, String elementName, boolean minimal, SEDAObjectEditor father) throws
-            SEDALibException {
+    public static SEDAObjectEditor createSEDAObjectEditor(
+        String metadataType,
+        String elementName,
+        boolean minimal,
+        SEDAObjectEditor father
+    ) throws SEDALibException {
         return createSEDAObjectEditor(createSEDAMetadataSample(metadataType, elementName, minimal), father);
     }
 
@@ -275,21 +307,26 @@ abstract public class SEDAObjectEditor {
      * @return a SEDAMetadata of same type but empty
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getEmptySameSEDAMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
+    public static SEDAMetadata getEmptySameSEDAMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
         Constructor<?> cons;
         try {
             if (sedaMetadata.getClass().getName().contains("namedtype")) {
                 cons = sedaMetadata.getClass().getConstructor(String.class);
                 sedaMetadata = (SEDAMetadata) cons.newInstance(sedaMetadata.getXmlElementName());
-            }
-            else {
+            } else {
                 cons = sedaMetadata.getClass().getConstructor();
                 sedaMetadata = (SEDAMetadata) cons.newInstance();
             }
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
-            throw new SEDALibException("Pas de constructeur vide pour la métadonnée de type [" + sedaMetadata.getClass() + "]", e);
+            throw new SEDALibException(
+                "Pas de constructeur vide pour la métadonnée de type [" + sedaMetadata.getClass() + "]",
+                e
+            );
         } catch (InvocationTargetException e) {
-            throw new SEDALibException("Erreur durant la création de la métadonnée vide de type [" + sedaMetadata.getClass() + "]", e.getTargetException());
+            throw new SEDALibException(
+                "Erreur durant la création de la métadonnée vide de type [" + sedaMetadata.getClass() + "]",
+                e.getTargetException()
+            );
         }
         return sedaMetadata;
     }
@@ -302,7 +339,7 @@ abstract public class SEDAObjectEditor {
      * @return the SEDA metadata sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
         throw new SEDALibException("Métadonnée non implémentée pour [" + elementName + "]");
     }
 
@@ -312,7 +349,7 @@ abstract public class SEDAObjectEditor {
      * @param sedaMetadata the SEDA metadata
      * @return the SEDA metadata information
      */
-    static public String getSEDAMetadataInformation(SEDAMetadata sedaMetadata) {
+    public static String getSEDAMetadataInformation(SEDAMetadata sedaMetadata) {
         return SEDAObjectEditorConstants.sedaMetadataInformationMap.get(sedaMetadata.getXmlElementName());
     }
 
@@ -337,10 +374,9 @@ abstract public class SEDAObjectEditor {
      *
      * @return the name string
      */
-    public String getTag(){
+    public String getTag() {
         // standard case made default
-        if (editedObject instanceof SEDAMetadata)
-            return ((SEDAMetadata) editedObject).getXmlElementName();
+        if (editedObject instanceof SEDAMetadata) return ((SEDAMetadata) editedObject).getXmlElementName();
         return "";
     }
 
@@ -349,7 +385,7 @@ abstract public class SEDAObjectEditor {
      *
      * @return the name string
      */
-    public String getName(){
+    public String getName() {
         return translateTag(getTag());
     }
 
@@ -359,7 +395,7 @@ abstract public class SEDAObjectEditor {
      * @return the edited object
      * @throws SEDALibException the seda lib exception
      */
-    abstract public Object extractEditedObject() throws SEDALibException;
+    public abstract Object extractEditedObject() throws SEDALibException;
 
     /**
      * Gets edited object summary.
@@ -367,14 +403,14 @@ abstract public class SEDAObjectEditor {
      * @return the summary string
      * @throws SEDALibException the seda lib exception
      */
-    abstract public String getSummary() throws SEDALibException;
+    public abstract String getSummary() throws SEDALibException;
 
     /**
      * Create SEDA object editor panel.
      *
      * @throws SEDALibException the seda lib exception
      */
-    abstract public void createSEDAObjectEditorPanel() throws SEDALibException;
+    public abstract void createSEDAObjectEditorPanel() throws SEDALibException;
 
     /**
      * Test if the edited object can contain multiple objects with this name.
@@ -394,8 +430,7 @@ abstract public class SEDAObjectEditor {
      * @throws SEDALibException the seda lib exception
      */
     public SEDAObjectEditorPanel getSEDAObjectEditorPanel() throws SEDALibException {
-        if (sedaObjectEditorPanel == null)
-            createSEDAObjectEditorPanel();
+        if (sedaObjectEditorPanel == null) createSEDAObjectEditorPanel();
         return sedaObjectEditorPanel;
     }
 
@@ -405,8 +440,7 @@ abstract public class SEDAObjectEditor {
      * @return the SEDA object editor panel top parent
      */
     public Container getSEDAObjectEditorPanelTopParent() {
-        if (father == null)
-            return sedaObjectEditorPanel.getParent();
+        if (father == null) return sedaObjectEditorPanel.getParent();
         return father.getSEDAObjectEditorPanelTopParent();
     }
 
@@ -434,8 +468,8 @@ abstract public class SEDAObjectEditor {
 
     /**
      * Set the edited object.
-      */
+     */
     public void setEditedObject(Object metadata) {
-        this.editedObject =metadata;
+        this.editedObject = metadata;
     }
 }

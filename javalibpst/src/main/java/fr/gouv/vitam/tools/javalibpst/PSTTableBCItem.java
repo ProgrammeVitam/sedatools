@@ -39,7 +39,7 @@ package fr.gouv.vitam.tools.javalibpst;
 
 /**
  * Items within the BC Table
- * 
+ *
  * @author Richard Johnson
  */
 class PSTTableBCItem extends PSTTableItem {

@@ -78,7 +78,6 @@ public class VerifyDateDialog extends JDialog {
         GridBagConstraints gbc;
         GridBagLayout gbl;
 
-
         setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
         setMinimumSize(new Dimension(300, 200));
@@ -88,8 +87,8 @@ public class VerifyDateDialog extends JDialog {
         contentPane.setLayout(new GridBagLayout());
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWeights = new double[]{1.0,1.0};
-        gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0};
+        gridBagLayout.columnWeights = new double[] { 1.0, 1.0 };
+        gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0 };
         contentPane.setLayout(gridBagLayout);
 
         JLabel lblNewLabel = new JLabel("Informations de progression");
@@ -101,9 +100,8 @@ public class VerifyDateDialog extends JDialog {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth=2;
+        gbc.gridwidth = 2;
         contentPane.add(lblNewLabel, gbc);
-
 
         JScrollPane scrollPane = new JScrollPane();
         gbc = new GridBagConstraints();
@@ -111,7 +109,7 @@ public class VerifyDateDialog extends JDialog {
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth=5;
+        gbc.gridwidth = 5;
         contentPane.add(scrollPane, gbc);
         extProgressTextArea = new JTextArea();
         extProgressTextArea.setFont(MainWindow.LABEL_FONT);
@@ -119,8 +117,6 @@ public class VerifyDateDialog extends JDialog {
         extProgressTextArea.setEditable(false);
         extProgressTextArea.setLineWrap(true);
         scrollPane.setViewportView(extProgressTextArea);
-
-
 
         JButton searchButton = new JButton();
         searchButton.setIcon(new ImageIcon(getClass().getResource("/icon/search-system.png")));
@@ -162,8 +158,8 @@ public class VerifyDateDialog extends JDialog {
         previousButton.addActionListener(arg0 -> buttonPrevious());
 
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{0.0, 1.0};
-        gbl.columnWidths = new int[]{30, 0};
+        gbl.columnWeights = new double[] { 0.0, 1.0 };
+        gbl.columnWidths = new int[] { 30, 0 };
         JPanel choicePanel = new JPanel(gbl);
         gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -172,8 +168,6 @@ public class VerifyDateDialog extends JDialog {
         gbc.gridy = 0;
         gbc.anchor = GridBagConstraints.LINE_START;
         contentPane.add(choicePanel, gbc);
-
-
 
         JPanel resultPanel = new JPanel();
         resultPanel.setLayout(new GridBagLayout());
@@ -196,17 +190,17 @@ public class VerifyDateDialog extends JDialog {
 
         prepareProgessLogger();
 
-
-
         pack();
         setLocationRelativeTo(owner);
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                close();
+        addWindowListener(
+            new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    close();
+                }
             }
-        });
+        );
     }
 
     private void prepareProgessLogger() {
@@ -218,12 +212,19 @@ public class VerifyDateDialog extends JDialog {
             localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
             localLogStep = 1000;
         }
-        SEDALibProgressLogger spl =
-            new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
+        SEDALibProgressLogger spl = new SEDALibProgressLogger(
+            ResipLogger.getGlobalLogger().getLogger(),
+            localLogLevel,
+            (count, log) -> {
                 String newLog = extProgressTextArea.getText() + "\n" + log;
                 extProgressTextArea.setText(newLog);
                 extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
+            },
+            localLogStep,
+            2,
+            SEDALibProgressLogger.OBJECTS_GROUP,
+            1000
+        );
         spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
     }
 
@@ -244,7 +245,13 @@ public class VerifyDateDialog extends JDialog {
     private void buttonNext() {
         if (searchArchiveUnitResult != null && searchArchiveUnitResult.size() > 0) {
             searchResultPosition = Math.min(searchResultPosition + 1, searchArchiveUnitResult.size() - 1);
-            resultArchiveUnitLabel.setText((searchResultPosition + 1) + "/" + searchArchiveUnitResult.size() + " trouvé" + (searchArchiveUnitResult.size() > 1 ? "s" : ""));
+            resultArchiveUnitLabel.setText(
+                (searchResultPosition + 1) +
+                "/" +
+                searchArchiveUnitResult.size() +
+                " trouvé" +
+                (searchArchiveUnitResult.size() > 1 ? "s" : "")
+            );
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchArchiveUnitResult.get(searchResultPosition));
         }
     }
@@ -252,7 +259,13 @@ public class VerifyDateDialog extends JDialog {
     private void buttonPrevious() {
         if (searchArchiveUnitResult != null && searchArchiveUnitResult.size() > 0) {
             searchResultPosition = Math.max(searchResultPosition - 1, 0);
-            resultArchiveUnitLabel.setText((searchResultPosition + 1) + "/" + searchArchiveUnitResult.size() + " trouvé" + (searchArchiveUnitResult.size() > 1 ? "s" : ""));
+            resultArchiveUnitLabel.setText(
+                (searchResultPosition + 1) +
+                "/" +
+                searchArchiveUnitResult.size() +
+                " trouvé" +
+                (searchArchiveUnitResult.size() > 1 ? "s" : "")
+            );
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchArchiveUnitResult.get(searchResultPosition));
         }
     }
@@ -266,10 +279,11 @@ public class VerifyDateDialog extends JDialog {
         this.searchArchiveUnitResult = searchArchiveUnitResult;
         searchResultPosition = 0;
         if (searchArchiveUnitResult.size() > 0) {
-            resultArchiveUnitLabel.setText("1/" + searchArchiveUnitResult.size() + " trouvé" + (searchArchiveUnitResult.size() > 1 ? "s" : ""));
+            resultArchiveUnitLabel.setText(
+                "1/" + searchArchiveUnitResult.size() + " trouvé" + (searchArchiveUnitResult.size() > 1 ? "s" : "")
+            );
             ResipGraphicApp.getTheWindow().treePane.focusArchiveUnit(searchArchiveUnitResult.get(0));
-        } else
-            resultArchiveUnitLabel.setText("0 trouvé");
+        } else resultArchiveUnitLabel.setText("0 trouvé");
     }
 
     /**

@@ -64,7 +64,7 @@ public class DateType extends NamedTypeMetadata {
      * Instantiates a new string.
      */
     public DateType() {
-        this(null, (LocalDate)null);
+        this(null, (LocalDate) null);
     }
 
     /**
@@ -73,7 +73,7 @@ public class DateType extends NamedTypeMetadata {
      * @param elementName the XML element name
      */
     public DateType(String elementName) {
-        this(elementName, (LocalDate)null);
+        this(elementName, (LocalDate) null);
     }
 
     /**
@@ -98,9 +98,10 @@ public class DateType extends NamedTypeMetadata {
         super(elementName);
         try {
             this.value = SEDAXMLEventReader.getDateFromString(dateString);
-        }
-        catch( DateTimeParseException e) {
-            throw new SEDALibException("Problème de formatage de date à la création d'un élément [" + elementName + "]");
+        } catch (DateTimeParseException e) {
+            throw new SEDALibException(
+                "Problème de formatage de date à la création d'un élément [" + elementName + "]"
+            );
         }
     }
 
@@ -114,12 +115,13 @@ public class DateType extends NamedTypeMetadata {
     @Override
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
-            if (value == null)
-                xmlWriter.writeElementValue(elementName, null);
-            else
-                xmlWriter.writeElementValue(elementName, SEDAXMLStreamWriter.getStringFromDate(value));
+            if (value == null) xmlWriter.writeElementValue(elementName, null);
+            else xmlWriter.writeElementValue(elementName, SEDAXMLStreamWriter.getStringFromDate(value));
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type DateTimeType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément de type DateTimeType [" + getXmlElementName() + "]",
+                e
+            );
         }
     }
 
@@ -131,8 +133,7 @@ public class DateType extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
-        if (value != null)
-            result.put("",SEDAXMLStreamWriter.getStringFromDate(value));
+        if (value != null) result.put("", SEDAXMLStreamWriter.getStringFromDate(value));
         return result;
     }
 
@@ -158,10 +159,10 @@ public class DateType extends NamedTypeMetadata {
                         throw new SEDALibException("La date est mal formatée", e);
                     }
                     event = xmlReader.nextUsefullEvent();
-                } else
-                    value = null;
-                if ((!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
+                } else value = null;
+                if (
+                    (!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart()))
+                ) throw new SEDALibException("Elément " + elementName + " mal terminé");
             } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type DateTimeType", e);

@@ -95,7 +95,10 @@ public class SIPInternalIDType extends NamedTypeMetadata {
         try {
             xmlWriter.writeElementValue(elementName, value);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type SIPInternalIDType ["+getXmlElementName()+"]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément de type SIPInternalIDType [" + getXmlElementName() + "]",
+                e
+            );
         }
     }
 
@@ -107,7 +110,7 @@ public class SIPInternalIDType extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
-        result.put("",value);
+        result.put("", value);
         return result;
     }
 
@@ -126,13 +129,11 @@ public class SIPInternalIDType extends NamedTypeMetadata {
                 if (event.isCharacters()) {
                     value = event.asCharacters().getData();
                     event = xmlReader.nextUsefullEvent();
-                } else
-                    value = "";
-                if ((!event.isEndElement())
-                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
-            } else
-                return false;
+                } else value = "";
+                if (
+                    (!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart()))
+                ) throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type SIPInternalIDType", e);
         }

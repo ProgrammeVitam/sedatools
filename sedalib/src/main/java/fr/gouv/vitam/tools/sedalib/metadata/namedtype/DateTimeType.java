@@ -81,8 +81,14 @@ public class DateTimeType extends NamedTypeMetadata {
      * Enumeration of supported temporal format types.
      */
     public enum DateTimeFormatType {
-        OFFSET_DATE_TIME, DATE_TIME, DATE,
-        G_YEAR, G_YEAR_MONTH, G_MONTH, G_MONTH_DAY, G_DAY
+        OFFSET_DATE_TIME,
+        DATE_TIME,
+        DATE,
+        G_YEAR,
+        G_YEAR_MONTH,
+        G_MONTH,
+        G_MONTH_DAY,
+        G_DAY,
     }
 
     @JsonIgnore
@@ -91,22 +97,18 @@ public class DateTimeType extends NamedTypeMetadata {
     private DateTimeFormatType formatType;
 
     // --- Regex patterns for format detection ---
-    private static final Pattern OFFSET_DATE_TIME_PATTERN =
-        Pattern.compile("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?([+-]\\d{2}:\\d{2}|Z)$");
-    private static final Pattern DATE_TIME_PATTERN =
-        Pattern.compile("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$");
-    private static final Pattern DATE_PATTERN =
-        Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
-    private static final Pattern G_YEAR_PATTERN =
-        Pattern.compile("^\\d{4}$");
-    private static final Pattern G_YEAR_MONTH_PATTERN =
-        Pattern.compile("^\\d{4}-\\d{2}$");
-    private static final Pattern G_MONTH_PATTERN =
-        Pattern.compile("^--\\d{2}$");
-    private static final Pattern G_MONTH_DAY_PATTERN =
-        Pattern.compile("^--\\d{2}-\\d{2}$");
-    private static final Pattern G_DAY_PATTERN =
-        Pattern.compile("^---\\d{2}$");
+    private static final Pattern OFFSET_DATE_TIME_PATTERN = Pattern.compile(
+        "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?([+-]\\d{2}:\\d{2}|Z)$"
+    );
+    private static final Pattern DATE_TIME_PATTERN = Pattern.compile(
+        "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}(:\\d{2}(\\.\\d{1,9})?)?$"
+    );
+    private static final Pattern DATE_PATTERN = Pattern.compile("^\\d{4}-\\d{2}-\\d{2}$");
+    private static final Pattern G_YEAR_PATTERN = Pattern.compile("^\\d{4}$");
+    private static final Pattern G_YEAR_MONTH_PATTERN = Pattern.compile("^\\d{4}-\\d{2}$");
+    private static final Pattern G_MONTH_PATTERN = Pattern.compile("^--\\d{2}$");
+    private static final Pattern G_MONTH_DAY_PATTERN = Pattern.compile("^--\\d{2}-\\d{2}$");
+    private static final Pattern G_DAY_PATTERN = Pattern.compile("^---\\d{2}$");
 
     // =====================================================================================
     // Constructors
@@ -261,15 +263,24 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     private DateTimeFormatter getFormatter() throws SEDALibException {
         switch (formatType) {
-            case OFFSET_DATE_TIME: return DateTimeFormatter.ISO_OFFSET_DATE_TIME;
-            case DATE_TIME: return DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-            case DATE: return DateTimeFormatter.ISO_LOCAL_DATE;
-            case G_YEAR: return DateTimeFormatter.ofPattern("uuuu");
-            case G_YEAR_MONTH: return DateTimeFormatter.ofPattern("uuuu-MM");
-            case G_MONTH: return DateTimeFormatter.ofPattern("'--'MM");
-            case G_MONTH_DAY: return DateTimeFormatter.ofPattern("'--'MM-dd");
-            case G_DAY: return DateTimeFormatter.ofPattern("'---'dd");
-            default: throw new SEDALibException("Date type not handled: " + formatType);
+            case OFFSET_DATE_TIME:
+                return DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+            case DATE_TIME:
+                return DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+            case DATE:
+                return DateTimeFormatter.ISO_LOCAL_DATE;
+            case G_YEAR:
+                return DateTimeFormatter.ofPattern("uuuu");
+            case G_YEAR_MONTH:
+                return DateTimeFormatter.ofPattern("uuuu-MM");
+            case G_MONTH:
+                return DateTimeFormatter.ofPattern("'--'MM");
+            case G_MONTH_DAY:
+                return DateTimeFormatter.ofPattern("'--'MM-dd");
+            case G_DAY:
+                return DateTimeFormatter.ofPattern("'---'dd");
+            default:
+                throw new SEDALibException("Date type not handled: " + formatType);
         }
     }
 
@@ -303,8 +314,7 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         try {
-            if (!xmlReader.peekBlockIfNamed(elementName))
-                return false;
+            if (!xmlReader.peekBlockIfNamed(elementName)) return false;
             XMLEvent event = xmlReader.nextUsefullEvent();
             elementName = event.asStartElement().getName().getLocalPart();
             event = xmlReader.nextUsefullEvent();
@@ -315,8 +325,9 @@ public class DateTimeType extends NamedTypeMetadata {
                 temporalValue = null;
                 formatType = null;
             }
-            if (!event.isEndElement() || !elementName.equals(event.asEndElement().getName().getLocalPart()))
-                throw new SEDALibException("Element " + elementName + " not properly terminated");
+            if (
+                !event.isEndElement() || !elementName.equals(event.asEndElement().getName().getLocalPart())
+            ) throw new SEDALibException("Element " + elementName + " not properly terminated");
             return true;
         } catch (Exception e) {
             throw new SEDALibException("XML reading error in DateTimeType", e);
@@ -349,8 +360,7 @@ public class DateTimeType extends NamedTypeMetadata {
     /** @return the date/time as a formatted string */
     @JsonGetter("dateTimeString")
     public String getDateTimeString() {
-        if (temporalValue == null)
-            return "";
+        if (temporalValue == null) return "";
         try {
             return getFormatter().format(temporalValue);
         } catch (SEDALibException e) {
@@ -380,27 +390,24 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     @JsonIgnore
     public String getUtcDateTimeString() {
-        if (temporalValue == null)
-            return "";
-        if (formatType == DateTimeFormatType.G_YEAR
-            || formatType == DateTimeFormatType.G_YEAR_MONTH
-            || formatType == DateTimeFormatType.G_MONTH
-            || formatType == DateTimeFormatType.G_MONTH_DAY
-            || formatType == DateTimeFormatType.G_DAY)
-            return "";
+        if (temporalValue == null) return "";
+        if (
+            formatType == DateTimeFormatType.G_YEAR ||
+            formatType == DateTimeFormatType.G_YEAR_MONTH ||
+            formatType == DateTimeFormatType.G_MONTH ||
+            formatType == DateTimeFormatType.G_MONTH_DAY ||
+            formatType == DateTimeFormatType.G_DAY
+        ) return "";
         try {
             OffsetDateTime utcDateTime;
             if (temporalValue instanceof OffsetDateTime) {
                 utcDateTime = ((OffsetDateTime) temporalValue).withOffsetSameInstant(ZoneOffset.UTC);
             } else if (temporalValue instanceof LocalDateTime) {
-                utcDateTime = ((LocalDateTime) temporalValue)
-                    .atZone(ZoneId.systemDefault())
+                utcDateTime = ((LocalDateTime) temporalValue).atZone(ZoneId.systemDefault())
                     .withZoneSameInstant(ZoneOffset.UTC)
                     .toOffsetDateTime();
             } else if (temporalValue instanceof LocalDate) {
-                utcDateTime = ((LocalDate) temporalValue)
-                    .atStartOfDay(ZoneOffset.UTC)
-                    .toOffsetDateTime();
+                utcDateTime = ((LocalDate) temporalValue).atStartOfDay(ZoneOffset.UTC).toOffsetDateTime();
             } else {
                 return "";
             }
@@ -417,20 +424,18 @@ public class DateTimeType extends NamedTypeMetadata {
      */
     @JsonIgnore
     public LocalDateTime toLocalDateTime() {
-        if (temporalValue == null)
-            return null;
-        if (formatType == DateTimeFormatType.G_YEAR
-            || formatType == DateTimeFormatType.G_YEAR_MONTH
-            || formatType == DateTimeFormatType.G_MONTH
-            || formatType == DateTimeFormatType.G_MONTH_DAY
-            || formatType == DateTimeFormatType.G_DAY)
-            return null;
+        if (temporalValue == null) return null;
+        if (
+            formatType == DateTimeFormatType.G_YEAR ||
+            formatType == DateTimeFormatType.G_YEAR_MONTH ||
+            formatType == DateTimeFormatType.G_MONTH ||
+            formatType == DateTimeFormatType.G_MONTH_DAY ||
+            formatType == DateTimeFormatType.G_DAY
+        ) return null;
         try {
             switch (formatType) {
                 case OFFSET_DATE_TIME:
-                    return ((OffsetDateTime) temporalValue)
-                        .atZoneSameInstant(ZoneId.systemDefault())
-                        .toLocalDateTime();
+                    return ((OffsetDateTime) temporalValue).atZoneSameInstant(ZoneId.systemDefault()).toLocalDateTime();
                 case DATE_TIME:
                     return (LocalDateTime) temporalValue;
                 case DATE:

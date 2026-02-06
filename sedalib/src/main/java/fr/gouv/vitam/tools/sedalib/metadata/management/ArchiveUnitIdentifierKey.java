@@ -57,8 +57,8 @@ import java.util.Map;
  */
 public class ArchiveUnitIdentifierKey extends ComplexListType {
 
-    static final String METADATANAME="MetadataName";
-    static final String METADATAVALUE="MetadataValue";
+    static final String METADATANAME = "MetadataName";
+    static final String METADATAVALUE = "MetadataValue";
 
     /**
      * Init metadata map.
@@ -88,7 +88,7 @@ public class ArchiveUnitIdentifierKey extends ComplexListType {
      */
     public ArchiveUnitIdentifierKey(String metadataName, String metadataValue) throws SEDALibException {
         this();
-            addNewMetadata(METADATANAME, metadataName);
-            addNewMetadata(METADATAVALUE, metadataValue);
-     }
+        addNewMetadata(METADATANAME, metadataName);
+        addNewMetadata(METADATAVALUE, metadataValue);
+    }
 }

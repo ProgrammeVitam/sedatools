@@ -76,15 +76,13 @@ public class Preferences {
      */
     private static Preferences instance;
 
-
     /**
      * Gets the single instance of Prefs.
      *
      * @return single instance of Prefs
      */
     public static Preferences getInstance() {
-        if (instance == null)
-            instance = new Preferences();
+        if (instance == null) instance = new Preferences();
         return instance;
     }
 
@@ -94,8 +92,7 @@ public class Preferences {
     private Preferences() {
         try {
             // to get the properties sorted by key when stored work for java 8/9/10
-            prefProperties = new Properties(){
-
+            prefProperties = new Properties() {
                 private static final long serialVersionUID = 1L;
 
                 @Override
@@ -105,15 +102,15 @@ public class Preferences {
 
                 @Override
                 public Set<Map.Entry<Object, Object>> entrySet() {
-
                     Set<Map.Entry<Object, Object>> set1 = super.entrySet();
                     Set<Map.Entry<Object, Object>> set2 = new LinkedHashSet<>(set1.size());
 
-                    Iterator<Map.Entry<Object, Object>> iterator = set1.stream()
-                            .sorted((o1, o2) -> o1.getKey().toString().compareTo(o2.getKey().toString())).iterator();
+                    Iterator<Map.Entry<Object, Object>> iterator = set1
+                        .stream()
+                        .sorted((o1, o2) -> o1.getKey().toString().compareTo(o2.getKey().toString()))
+                        .iterator();
 
-                    while (iterator.hasNext())
-                        set2.add(iterator.next());
+                    while (iterator.hasNext()) set2.add(iterator.next());
 
                     return set2;
                 }
@@ -124,26 +121,38 @@ public class Preferences {
                 }
             };
             try {
-                prefPropertiesFilename=PREFERENCES_FILENAME;
+                prefPropertiesFilename = PREFERENCES_FILENAME;
                 load();
             } catch (ResipException e) {
-                ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,
-                        "Resip.GraphicApp: Le fichier de préférences global \"" + prefPropertiesFilename + "\" n'a pas " +
-                                "été trouvé. Recherche de la version personnelle.",e);
+                ResipLogger.getGlobalLogger()
+                    .log(
+                        ResipLogger.GLOBAL,
+                        "Resip.GraphicApp: Le fichier de préférences global \"" +
+                        prefPropertiesFilename +
+                        "\" n'a pas " +
+                        "été trouvé. Recherche de la version personnelle.",
+                        e
+                    );
 
                 try {
-                    prefPropertiesFilename= Preferences.getDefaultWorkDir()+File.separator+PREFERENCES_FILENAME;
+                    prefPropertiesFilename = Preferences.getDefaultWorkDir() + File.separator + PREFERENCES_FILENAME;
                     load();
                 } catch (ResipException ee) {
-                    ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL,
-                            "Resip.GraphicApp: Le fichier de préférences personnel \"" + prefPropertiesFilename + "\" n'a pas non plus " +
-                                    "été trouvé. Ce fichier de préférences va être créé avec les valeurs par défaut.",ee);
+                    ResipLogger.getGlobalLogger()
+                        .log(
+                            ResipLogger.GLOBAL,
+                            "Resip.GraphicApp: Le fichier de préférences personnel \"" +
+                            prefPropertiesFilename +
+                            "\" n'a pas non plus " +
+                            "été trouvé. Ce fichier de préférences va être créé avec les valeurs par défaut.",
+                            ee
+                        );
                     createDefaultPrefs();
                 }
             }
         } catch (Exception e) {
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR,
-                    "Resip.GraphicApp: Erreur fatale, impossible de manipuler les préférences.",e);
+            ResipLogger.getGlobalLogger()
+                .log(ResipLogger.ERROR, "Resip.GraphicApp: Erreur fatale, impossible de manipuler les préférences.", e);
             System.exit(1);
         }
     }
@@ -210,8 +219,12 @@ public class Preferences {
         try {
             Files.createDirectories(Paths.get(filename).getParent());
         } catch (IOException e) {
-            throw new ResipException("Impossible de créer le répertoire des préférences ["+
-                    Paths.get(filename).getParent().toString()+"]", e);
+            throw new ResipException(
+                "Impossible de créer le répertoire des préférences [" +
+                Paths.get(filename).getParent().toString() +
+                "]",
+                e
+            );
         }
         try (FileOutputStream fos = new FileOutputStream(filename)) {
             prefProperties.store(fos, "Resip preferences");
@@ -249,10 +262,10 @@ public class Preferences {
      * @return the default work dir
      */
     public static String getDefaultWorkDir() {
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            return System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Resip";
-        else
-            return System.getProperty("user.home") + File.separator + ".Resip";
+        if (System.getProperty("os.name").toLowerCase().contains("win")) return (
+            System.getProperty("user.home") + File.separator + "Documents" + File.separator + "Resip"
+        );
+        else return System.getProperty("user.home") + File.separator + ".Resip";
     }
 
     /**
@@ -280,8 +293,7 @@ public class Preferences {
      */
     public String getPrefsLoadDir() {
         String result = prefProperties.getProperty("global.loadDir", "");
-        if (result.isEmpty())
-            result = System.getProperty("user.home");
+        if (result.isEmpty()) result = System.getProperty("user.home");
 
         return result;
     }
@@ -308,8 +320,7 @@ public class Preferences {
      */
     public String getPrefsImportDir() throws ResipException {
         String result = prefProperties.getProperty("global.importDir", "");
-        if (result.isEmpty())
-            result = System.getProperty("user.home");
+        if (result.isEmpty()) result = System.getProperty("user.home");
 
         return result;
     }
@@ -335,10 +346,9 @@ public class Preferences {
      */
     public String getPrefsExportDir() {
         String result = prefProperties.getProperty("global.exportDir", "");
-        if (result.isEmpty())
-            result = System.getProperty("user.home");
+        if (result.isEmpty()) result = System.getProperty("user.home");
 
-         return result;
+        return result;
     }
 
     /**
@@ -349,7 +359,7 @@ public class Preferences {
      */
     public void setPrefsExportDirFromChild(String exportDir) throws ResipException {
         Path tmp = Paths.get(exportDir).toAbsolutePath().normalize().getParent();
-        if (tmp != null){
+        if (tmp != null) {
             prefProperties.setProperty("global.exportDir", tmp.toString());
             save();
         }

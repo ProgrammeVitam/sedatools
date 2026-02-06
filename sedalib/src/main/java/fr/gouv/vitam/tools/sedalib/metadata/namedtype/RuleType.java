@@ -80,7 +80,7 @@ public abstract class RuleType extends ComplexListType {
      */
     public RuleType(String elementName, String rule, LocalDate startDate) throws SEDALibException {
         super(elementName);
-        addNewMetadata(RULE_TAG,rule,startDate);
+        addNewMetadata(RULE_TAG, rule, startDate);
     }
 
     /**
@@ -90,7 +90,7 @@ public abstract class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void addRule(String rule) throws SEDALibException {
-        addNewMetadata(RULE_TAG,rule,null);
+        addNewMetadata(RULE_TAG, rule, null);
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void addRule(String rule, LocalDate startDate) throws SEDALibException {
-        addNewMetadata(RULE_TAG,rule,startDate);
+        addNewMetadata(RULE_TAG, rule, startDate);
     }
 
     /**
@@ -111,7 +111,7 @@ public abstract class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void setPreventInheritance(boolean preventInheritance) throws SEDALibException {
-        addNewMetadata(PREVENTINHERITANCE_TAG,preventInheritance);
+        addNewMetadata(PREVENTINHERITANCE_TAG, preventInheritance);
     }
 
     /**
@@ -121,7 +121,7 @@ public abstract class RuleType extends ComplexListType {
      * @throws SEDALibException the seda lib exception
      */
     public void addRefNonRuleId(String rule) throws SEDALibException {
-        addNewMetadata(REFNONRULEID_TAG,rule);
+        addNewMetadata(REFNONRULEID_TAG, rule);
     }
 
     /**
@@ -132,12 +132,13 @@ public abstract class RuleType extends ComplexListType {
      */
     public void setFinalAction(String finalAction) throws SEDALibException {
         List<String> finalValues = getFinalActionList();
-        if (finalValues == null)
-            throw new SEDALibException("Le type de règle [" + elementName + "] n'a pas de FinalAction");
-        if (!finalValues.contains(finalAction))
-            throw new SEDALibException(
-                    "Le type de règle [" + elementName + "] n'accepte pas la FinalAction [" + finalAction + "]");
-        addNewMetadata(FINALACTION_TAG,finalAction);
+        if (finalValues == null) throw new SEDALibException(
+            "Le type de règle [" + elementName + "] n'a pas de FinalAction"
+        );
+        if (!finalValues.contains(finalAction)) throw new SEDALibException(
+            "Le type de règle [" + elementName + "] n'accepte pas la FinalAction [" + finalAction + "]"
+        );
+        addNewMetadata(FINALACTION_TAG, finalAction);
     }
 
     /*
@@ -165,13 +166,10 @@ public abstract class RuleType extends ComplexListType {
                 if (!sm.getXmlElementName().equals(previousXMLElementName)) {
                     previousXMLElementName = sm.getXmlElementName();
                     count = 0;
-                } else
-                    count++;
+                } else count++;
                 final String addedName;
-                if (isAMultiValuedMetadata(sm.getXmlElementName()))
-                    addedName = sm.getXmlElementName() + "." + count;
-                else
-                    addedName = sm.getXmlElementName();
+                if (isAMultiValuedMetadata(sm.getXmlElementName())) addedName = sm.getXmlElementName() + "." + count;
+                else addedName = sm.getXmlElementName();
                 smCsvList = sm.toCsvList();
                 smCsvList.forEach((key, value) -> result.put(addedName + (key.isEmpty() ? "" : "." + key), value));
             }
@@ -184,8 +182,9 @@ public abstract class RuleType extends ComplexListType {
      *
      * @return the final action list
      */
-    public List<String> getFinalActionList(){return null;}
-
+    public List<String> getFinalActionList() {
+        return null;
+    }
 
     @Override
     public void addMetadata(SEDAMetadata sedaMetadata) throws SEDALibException {
@@ -195,17 +194,15 @@ public abstract class RuleType extends ComplexListType {
         i = 0;
         setFlag = false;
         if (addOrderIndex == -1) {
-            if (isNotExpandable())
-                throw new SEDALibException(
-                    "Impossible d'étendre le schéma avec des métadonnées non prévues ["
-                        + elementName + "]");
+            if (isNotExpandable()) throw new SEDALibException(
+                "Impossible d'étendre le schéma avec des métadonnées non prévues [" + elementName + "]"
+            );
             manyFlag = true;
             boolean noBeforeEqual = true;
             for (SEDAMetadata sm : metadataList) {
-                if ((sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && noBeforeEqual)
-                    noBeforeEqual = false;
-                if (!(sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && !noBeforeEqual)
-                    break;
+                if ((sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && noBeforeEqual) noBeforeEqual =
+                    false;
+                if (!(sm.getXmlElementName().equals(sedaMetadata.getXmlElementName())) && !noBeforeEqual) break;
                 i++;
             }
         } else {
@@ -221,19 +218,15 @@ public abstract class RuleType extends ComplexListType {
                     setFlag = true;
                     break;
                 }
-                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex))
-                    break;
+                if ((curOrderIndex == -1) || (curOrderIndex > addOrderIndex)) break;
                 i++;
             }
             i += lastRuleIndex;
         }
-        if (manyFlag)
-            metadataList.add(i, sedaMetadata);
+        if (manyFlag) metadataList.add(i, sedaMetadata);
         else {
-            if (setFlag)
-                metadataList.set(i, sedaMetadata);
-            else
-                metadataList.add(i, sedaMetadata);
+            if (setFlag) metadataList.set(i, sedaMetadata);
+            else metadataList.add(i, sedaMetadata);
         }
     }
 
@@ -248,13 +241,16 @@ public abstract class RuleType extends ComplexListType {
     }
 
     public List<String> getRuleMetadataKindList() throws SEDALibException {
-        return this.getMetadataMap().entrySet().stream().filter(e -> e.getValue() instanceof RuleMetadataKind)
-            .map(Entry::getKey).collect(Collectors.toList());
+        return this.getMetadataMap()
+            .entrySet()
+            .stream()
+            .filter(e -> e.getValue() instanceof RuleMetadataKind)
+            .map(Entry::getKey)
+            .collect(Collectors.toList());
     }
 
     @Override
-    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader)
-        throws SEDALibException {
+    public boolean fillFromSedaXml(SEDAXMLEventReader xmlReader) throws SEDALibException {
         Class<?> metadataClass;
         try {
             if (xmlReader.nextBlockIfNamed(elementName)) {
@@ -262,21 +258,17 @@ public abstract class RuleType extends ComplexListType {
                 while (tmp != null) {
                     ComplexListMetadataKind mi = getMetadataMap().get(tmp);
                     if (mi == null) {
-                        if (isNotExpandable())
-                            throw new SEDALibException(
-                                "Impossible d'étendre le schéma avec des métadonnées non prévues ["
-                                    + tmp + "]");
-                        else
-                            metadataClass = AnyXMLType.class;
-                    } else
-                        metadataClass = mi.getMetadataClass();
+                        if (isNotExpandable()) throw new SEDALibException(
+                            "Impossible d'étendre le schéma avec des métadonnées non prévues [" + tmp + "]"
+                        );
+                        else metadataClass = AnyXMLType.class;
+                    } else metadataClass = mi.getMetadataClass();
                     SEDAMetadata sm = SEDAMetadata.fromSedaXml(xmlReader, metadataClass);
                     addMetadata(sm);
                     tmp = xmlReader.peekName();
                 }
                 xmlReader.endBlockNamed(elementName);
-            } else
-                return false;
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément [" + elementName + "]", e);
         }

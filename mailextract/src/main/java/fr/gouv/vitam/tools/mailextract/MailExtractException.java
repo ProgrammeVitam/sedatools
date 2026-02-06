@@ -92,8 +92,12 @@ public class MailExtractException extends Exception {
      * @param enableSuppression  the enable suppression
      * @param writableStackTrace the writable stack trace
      */
-    public MailExtractException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public MailExtractException(
+        String message,
+        Throwable cause,
+        boolean enableSuppression,
+        boolean writableStackTrace
+    ) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
-
 }

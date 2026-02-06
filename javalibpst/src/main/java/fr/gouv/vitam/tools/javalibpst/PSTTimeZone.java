@@ -42,7 +42,7 @@ import java.util.SimpleTimeZone;
 
 /**
  * Class containing time zone information
- * 
+ *
  * @author Orin Eman
  *
  *
@@ -68,8 +68,11 @@ public class PSTTimeZone {
             ruleOffset = 4 + headerLen;
             for (int rule = 0; rule < nRules; ++rule) {
                 // Is this rule the effective rule?
-                final int flags = (int) PSTObject.convertLittleEndianBytesToLong(timeZoneData, ruleOffset + 4,
-                    ruleOffset + 6);
+                final int flags = (int) PSTObject.convertLittleEndianBytesToLong(
+                    timeZoneData,
+                    ruleOffset + 4,
+                    ruleOffset + 6
+                );
                 if ((flags & 0x0002) != 0) {
                     this.rule = new TZRule(timeZoneData, ruleOffset + 6);
                     break;
@@ -77,8 +80,7 @@ public class PSTTimeZone {
                 ruleOffset += 66;
             }
         } catch (final Exception e) {
-            if (PSTFile.isPrintErrors())
-                System.err.printf("Exception reading timezone: %s\n", e.toString());
+            if (PSTFile.isPrintErrors()) System.err.printf("Exception reading timezone: %s\n", e.toString());
             e.printStackTrace();
             this.rule = null;
             this.name = "";
@@ -92,8 +94,7 @@ public class PSTTimeZone {
         try {
             this.rule = new TZRule(new SYSTEMTIME(), timeZoneData, 0);
         } catch (final Exception e) {
-            if (PSTFile.isPrintErrors())
-                System.err.printf("Exception reading timezone: %s\n", e.toString());
+            if (PSTFile.isPrintErrors()) System.err.printf("Exception reading timezone: %s\n", e.toString());
             e.printStackTrace();
             this.rule = null;
             name = "";
@@ -103,7 +104,7 @@ public class PSTTimeZone {
     public PSTTimeZone(String name, SimpleTimeZone simpleTimeZone) {
         this.name = name;
         this.rule = null;
-        this.simpleTimeZone=simpleTimeZone;
+        this.simpleTimeZone = simpleTimeZone;
     }
 
     public String getName() {
@@ -117,30 +118,45 @@ public class PSTTimeZone {
 
         if (this.rule.startStandard.wMonth == 0) {
             // A time zone with no daylight savings time
-            this.simpleTimeZone = new SimpleTimeZone((this.rule.lBias + this.rule.lStandardBias) * 60 * 1000,
-                this.name);
+            this.simpleTimeZone = new SimpleTimeZone(
+                (this.rule.lBias + this.rule.lStandardBias) * 60 * 1000,
+                this.name
+            );
 
             return this.simpleTimeZone;
         }
 
         final int startMonth = (this.rule.startDaylight.wMonth - 1) + Calendar.JANUARY;
-        final int startDayOfMonth = (this.rule.startDaylight.wDay == 5) ? -1
+        final int startDayOfMonth = (this.rule.startDaylight.wDay == 5)
+            ? -1
             : ((this.rule.startDaylight.wDay - 1) * 7) + 1;
         final int startDayOfWeek = this.rule.startDaylight.wDayOfWeek + Calendar.SUNDAY;
         final int endMonth = (this.rule.startStandard.wMonth - 1) + Calendar.JANUARY;
-        final int endDayOfMonth = (this.rule.startStandard.wDay == 5) ? -1
+        final int endDayOfMonth = (this.rule.startStandard.wDay == 5)
+            ? -1
             : ((this.rule.startStandard.wDay - 1) * 7) + 1;
         final int endDayOfWeek = this.rule.startStandard.wDayOfWeek + Calendar.SUNDAY;
         final int savings = (this.rule.lStandardBias - this.rule.lDaylightBias) * 60 * 1000;
 
-        this.simpleTimeZone = new SimpleTimeZone(-((this.rule.lBias + this.rule.lStandardBias) * 60 * 1000), this.name,
-            startMonth, startDayOfMonth, -startDayOfWeek,
-            (((((this.rule.startDaylight.wHour * 60) + this.rule.startDaylight.wMinute) * 60)
-                + this.rule.startDaylight.wSecond) * 1000) + this.rule.startDaylight.wMilliseconds,
-            endMonth, endDayOfMonth, -endDayOfWeek,
-            (((((this.rule.startStandard.wHour * 60) + this.rule.startStandard.wMinute) * 60)
-                + this.rule.startStandard.wSecond) * 1000) + this.rule.startStandard.wMilliseconds,
-            savings);
+        this.simpleTimeZone = new SimpleTimeZone(
+            -((this.rule.lBias + this.rule.lStandardBias) * 60 * 1000),
+            this.name,
+            startMonth,
+            startDayOfMonth,
+            -startDayOfWeek,
+            (((((this.rule.startDaylight.wHour * 60) + this.rule.startDaylight.wMinute) * 60) +
+                    this.rule.startDaylight.wSecond) *
+                1000) +
+            this.rule.startDaylight.wMilliseconds,
+            endMonth,
+            endDayOfMonth,
+            -endDayOfWeek,
+            (((((this.rule.startStandard.wHour * 60) + this.rule.startStandard.wMinute) * 60) +
+                    this.rule.startStandard.wSecond) *
+                1000) +
+            this.rule.startStandard.wMilliseconds,
+            savings
+        );
 
         return this.simpleTimeZone;
     }
@@ -151,8 +167,10 @@ public class PSTTimeZone {
                 return true;
             }
 
-            if (PSTFile.isPrintErrors())
-                System.err.printf("Warning: different timezones with the same name: %s\n", this.name);
+            if (PSTFile.isPrintErrors()) System.err.printf(
+                "Warning: different timezones with the same name: %s\n",
+                this.name
+            );
         }
         return false;
     }
@@ -196,26 +214,37 @@ public class PSTTimeZone {
 
         SYSTEMTIME(final byte[] timeZoneData, final int offset) {
             this.wYear = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset, offset + 2) & 0x7FFF);
-            this.wMonth = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 2, offset + 4)
-                & 0x7FFF);
-            this.wDayOfWeek = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 4, offset + 6)
-                & 0x7FFF);
-            this.wDay = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 6, offset + 8)
-                & 0x7FFF);
-            this.wHour = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 8, offset + 10)
-                & 0x7FFF);
-            this.wMinute = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 10, offset + 12)
-                & 0x7FFF);
-            this.wSecond = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 12, offset + 14)
-                & 0x7FFF);
-            this.wMilliseconds = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 14,
-                offset + 16) & 0x7FFF);
+            this.wMonth = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 2, offset + 4) &
+                0x7FFF);
+            this.wDayOfWeek = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 4, offset + 6) &
+                0x7FFF);
+            this.wDay = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 6, offset + 8) &
+                0x7FFF);
+            this.wHour = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 8, offset + 10) &
+                0x7FFF);
+            this.wMinute = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 10, offset + 12) &
+                0x7FFF);
+            this.wSecond = (short) (PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 12, offset + 14) &
+                0x7FFF);
+            this.wMilliseconds = (short) (PSTObject.convertLittleEndianBytesToLong(
+                    timeZoneData,
+                    offset + 14,
+                    offset + 16
+                ) &
+                0x7FFF);
         }
 
         boolean isEqual(final SYSTEMTIME rhs) {
-            return this.wYear == rhs.wYear && this.wMonth == rhs.wMonth && this.wDayOfWeek == rhs.wDayOfWeek
-                && this.wDay == rhs.wDay && this.wHour == rhs.wHour && this.wMinute == rhs.wMinute
-                && this.wSecond == rhs.wSecond && this.wMilliseconds == rhs.wMilliseconds;
+            return (
+                this.wYear == rhs.wYear &&
+                this.wMonth == rhs.wMonth &&
+                this.wDayOfWeek == rhs.wDayOfWeek &&
+                this.wDay == rhs.wDay &&
+                this.wHour == rhs.wHour &&
+                this.wMinute == rhs.wMinute &&
+                this.wSecond == rhs.wSecond &&
+                this.wMilliseconds == rhs.wMilliseconds
+            );
         }
 
         public short wYear;
@@ -239,12 +268,18 @@ public class PSTTimeZone {
             this.dtStart = dtStart;
             this.InitBiases(timeZoneData, offset);
             @SuppressWarnings("unused")
-            final short wStandardYear = (short) PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 12,
-                offset + 14);
+            final short wStandardYear = (short) PSTObject.convertLittleEndianBytesToLong(
+                timeZoneData,
+                offset + 12,
+                offset + 14
+            );
             this.startStandard = new SYSTEMTIME(timeZoneData, offset + 14);
             @SuppressWarnings("unused")
-            final short wDaylightYear = (short) PSTObject.convertLittleEndianBytesToLong(timeZoneData, offset + 30,
-                offset + 32);
+            final short wDaylightYear = (short) PSTObject.convertLittleEndianBytesToLong(
+                timeZoneData,
+                offset + 30,
+                offset + 32
+            );
             this.startDaylight = new SYSTEMTIME(timeZoneData, offset + 32);
         }
 
@@ -262,9 +297,14 @@ public class PSTTimeZone {
         }
 
         boolean isEqual(final TZRule rhs) {
-            return this.dtStart.isEqual(rhs.dtStart) && this.lBias == rhs.lBias
-                && this.lStandardBias == rhs.lStandardBias && this.lDaylightBias == rhs.lDaylightBias
-                && this.startStandard.isEqual(rhs.startStandard) && this.startDaylight.isEqual(rhs.startDaylight);
+            return (
+                this.dtStart.isEqual(rhs.dtStart) &&
+                this.lBias == rhs.lBias &&
+                this.lStandardBias == rhs.lStandardBias &&
+                this.lDaylightBias == rhs.lDaylightBias &&
+                this.startStandard.isEqual(rhs.startStandard) &&
+                this.startDaylight.isEqual(rhs.startDaylight)
+            );
         }
 
         SYSTEMTIME dtStart;

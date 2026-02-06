@@ -116,10 +116,8 @@ public class DataObjectPackageIdElement extends DataObjectPackageElement {
      */
     @JsonIgnore
     public void setOnDiskPath(Path onDiskPath) {
-        if (onDiskPath == null)
-            this.onDiskPath = null;
-        else
-            this.onDiskPath = onDiskPath.toAbsolutePath().normalize();
+        if (onDiskPath == null) this.onDiskPath = null;
+        else this.onDiskPath = onDiskPath.toAbsolutePath().normalize();
     }
 
     /**
@@ -129,10 +127,8 @@ public class DataObjectPackageIdElement extends DataObjectPackageElement {
      */
     @JsonGetter("onDiskPath")
     public String getOnDiskPathToString() {
-        if (onDiskPath == null)
-            return null;
-        else
-            return onDiskPath.toString();
+        if (onDiskPath == null) return null;
+        else return onDiskPath.toString();
     }
 
     /**
@@ -142,11 +138,7 @@ public class DataObjectPackageIdElement extends DataObjectPackageElement {
      */
     @JsonSetter("onDiskPath")
     public void setOnDiskPathFromString(String onDiskPathString) {
-        if (onDiskPathString == null)
-            this.onDiskPath = null;
-        else
-            this.onDiskPath = Paths.get(onDiskPathString).toAbsolutePath().normalize();
+        if (onDiskPathString == null) this.onDiskPath = null;
+        else this.onDiskPath = Paths.get(onDiskPathString).toAbsolutePath().normalize();
     }
-
-
 }

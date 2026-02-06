@@ -60,11 +60,15 @@ class DataTest {
     @Test
     void testFileInfo() throws SEDALibException, FileNotFoundException {
         // Given
-        FileInfo fi = new FileInfo("TestFileName", "TestCreatingApplicationName",
-                "TestCreatingApplicationVersion",
-                LocalDateTime.parse("2006-05-04T18:13:51.0", ISO_DATE_TIME),
-                "TestCreatingOs",
-                "TestCreatingOsVersion", FileTime.fromMillis(0));
+        FileInfo fi = new FileInfo(
+            "TestFileName",
+            "TestCreatingApplicationName",
+            "TestCreatingApplicationVersion",
+            LocalDateTime.parse("2006-05-04T18:13:51.0", ISO_DATE_TIME),
+            "TestCreatingOs",
+            "TestCreatingOsVersion",
+            FileTime.fromMillis(0)
+        );
 
         String fiOut = fi.toString();
 
@@ -79,7 +83,12 @@ class DataTest {
     @Test
     void testFormatIdentification() throws SEDALibException {
         // Given
-        FormatIdentification fi = new FormatIdentification("TestFormatLitteral", "TestMimeType", "TestFormatId", "TestEncoding");
+        FormatIdentification fi = new FormatIdentification(
+            "TestFormatLitteral",
+            "TestMimeType",
+            "TestFormatId",
+            "TestEncoding"
+        );
 
         String fiOut = fi.toString();
 
@@ -88,12 +97,13 @@ class DataTest {
         String fiNextOut = fiNext.toString();
 
         //Then
-        String testOut = "<FormatIdentification>\n" +
-                "  <FormatLitteral>TestFormatLitteral</FormatLitteral>\n" +
-                "  <MimeType>TestMimeType</MimeType>\n" +
-                "  <FormatId>TestFormatId</FormatId>\n" +
-                "  <Encoding>TestEncoding</Encoding>\n" +
-                "</FormatIdentification>";
+        String testOut =
+            "<FormatIdentification>\n" +
+            "  <FormatLitteral>TestFormatLitteral</FormatLitteral>\n" +
+            "  <MimeType>TestMimeType</MimeType>\n" +
+            "  <FormatId>TestFormatId</FormatId>\n" +
+            "  <Encoding>TestEncoding</Encoding>\n" +
+            "</FormatIdentification>";
         assertThat(fiNextOut).isEqualTo(testOut);
     }
 
@@ -135,14 +145,14 @@ class DataTest {
         String mNextOut = mNext.toString();
 
         //Then
-        String testOut = "<Metadata>\n" +
-                "  <Audio>\n" +
-                "    <Codec>mp3</Codec>\n" +
-                "    <Volume>98</Volume>\n" +
-                "  </Audio>\n" +
-                "  <Quality>bad</Quality>\n" +
-                "</Metadata>";
+        String testOut =
+            "<Metadata>\n" +
+            "  <Audio>\n" +
+            "    <Codec>mp3</Codec>\n" +
+            "    <Volume>98</Volume>\n" +
+            "  </Audio>\n" +
+            "  <Quality>bad</Quality>\n" +
+            "</Metadata>";
         assertThat(mNextOut).isEqualTo(testOut);
     }
-
 }

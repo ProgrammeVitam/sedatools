@@ -88,8 +88,12 @@ public class PSTMessage extends PSTObject {
      * @param table                the table
      * @param localDescriptorItems the local descriptor items
      */
-    PSTMessage(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    PSTMessage(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -145,9 +149,10 @@ public class PSTMessage extends PSTObject {
     public int getIntBasedOnHexValue(int hexValue) {
         return this.getIntItem(hexValue);
     }
+
     /**
      * get the message class for the email
-     * 
+     *
      * @return empty string if unknown
      */
     @Override
@@ -166,12 +171,15 @@ public class PSTMessage extends PSTObject {
         // byte[] controlCodesA = {0x01, 0x01};
         // byte[] controlCodesB = {0x01, 0x05};
         // byte[] controlCodesC = {0x01, 0x10};
-        if (subject != null && (subject.length() >= 2) &&
-
-        // (subject.startsWith(new String(controlCodesA)) ||
-        // subject.startsWith(new String(controlCodesB)) ||
-        // subject.startsWith(new String(controlCodesC)))
-            subject.charAt(0) == 0x01) {
+        if (
+            subject != null &&
+            (subject.length() >= 2) &&
+            // (subject.startsWith(new String(controlCodesA)) ||
+                // subject.startsWith(new String(controlCodesB)) ||
+                // subject.startsWith(new String(controlCodesC)))
+                subject.charAt(0) ==
+                0x01
+        ) {
             if (subject.length() == 2) {
                 subject = "";
             } else {
@@ -433,6 +441,7 @@ public class PSTMessage extends PSTObject {
     public int getSensitivity() {
         return this.getIntItem(0x0036);
     }
+
     // 0x003f 0x0102 PR_RECEIVED_BY_ENTRYID (PidTagReceivedByEntr yId) Received
     // by entry identifier Binary data Contains recipient/sender structure
     // 0x0041 0x0102 PR_SENT_REPRESENTING_ENTRYID Sent representing entry
@@ -1101,8 +1110,11 @@ public class PSTMessage extends PSTObject {
     private void processRecipients() {
         try {
             final int recipientTableKey = 0x0692;
-            if (this.recipientTable == null && this.localDescriptorItems != null
-                && this.localDescriptorItems.containsKey(recipientTableKey)) {
+            if (
+                this.recipientTable == null &&
+                this.localDescriptorItems != null &&
+                this.localDescriptorItems.containsKey(recipientTableKey)
+            ) {
                 final PSTDescriptorItem item = this.localDescriptorItems.get(recipientTableKey);
                 HashMap<Integer, PSTDescriptorItem> descriptorItems = null;
                 if (item.subNodeOffsetIndexIdentifier > 0) {
@@ -1145,14 +1157,17 @@ public class PSTMessage extends PSTObject {
     /**
      * find, extract and load up all of the attachments in this email
      * necessary for the other operations.
-     * 
+     *
      * @throws PSTException the pst exception
      * @throws IOException the io exception
      */
     private void processAttachments() throws PSTException, IOException {
         final int attachmentTableKey = 0x0671;
-        if (this.attachmentTable == null && this.localDescriptorItems != null
-            && this.localDescriptorItems.containsKey(attachmentTableKey)) {
+        if (
+            this.attachmentTable == null &&
+            this.localDescriptorItems != null &&
+            this.localDescriptorItems.containsKey(attachmentTableKey)
+        ) {
             final PSTDescriptorItem item = this.localDescriptorItems.get(attachmentTableKey);
             HashMap<Integer, PSTDescriptorItem> descriptorItems = null;
             if (item.subNodeOffsetIndexIdentifier > 0) {
@@ -1229,8 +1244,11 @@ public class PSTMessage extends PSTObject {
                     categories = new String[categoryCount];
                     final int[] offsets = new int[categoryCount];
                     for (int x = 0; x < categoryCount; x++) {
-                        offsets[x] = (int) PSTObject.convertBigEndianBytesToLong(item.data, (x * 4) + 1,
-                            (x + 1) * 4 + 1);
+                        offsets[x] = (int) PSTObject.convertBigEndianBytesToLong(
+                            item.data,
+                            (x * 4) + 1,
+                            (x + 1) * 4 + 1
+                        );
                     }
                     for (int x = 0; x < offsets.length - 1; x++) {
                         final int start = offsets[x];
@@ -1293,14 +1311,15 @@ public class PSTMessage extends PSTObject {
         }
 
         if (attachmentNumber >= attachmentCount) {
-            throw new PSTException("unable to fetch attachment number " + attachmentNumber + ", only " + attachmentCount
-                + " in this email");
+            throw new PSTException(
+                "unable to fetch attachment number " + attachmentNumber + ", only " + attachmentCount + " in this email"
+            );
         }
 
         // we process the C7 table here, basically we just want the attachment
         // local descriptor...
-        final HashMap<Integer, PSTTable7CItem> attachmentDetails = this.attachmentTable.getItems()
-            .get(attachmentNumber);
+        final HashMap<Integer, PSTTable7CItem> attachmentDetails =
+            this.attachmentTable.getItems().get(attachmentNumber);
         final PSTTable7CItem attachmentTableItem = attachmentDetails.get(0x67f2);
         final int descriptorItemId = attachmentTableItem.entryValueReference;
 
@@ -1314,7 +1333,8 @@ public class PSTMessage extends PSTObject {
             // PSTTableBC(descriptorItem.getData(),
             // descriptorItem.getBlockOffsets());
             final PSTTableBC attachmentDetailsTable = new PSTTableBC(
-                new PSTNodeInputStream(this.pstFile, descriptorItem));
+                new PSTNodeInputStream(this.pstFile, descriptorItem)
+            );
 
             // create our all-precious attachment object.
             // note that all the information that was in the c7 table is
@@ -1322,14 +1342,16 @@ public class PSTMessage extends PSTObject {
             // so no need to pass it...
             HashMap<Integer, PSTDescriptorItem> attachmentDescriptorItems = new HashMap<>();
             if (descriptorItem.subNodeOffsetIndexIdentifier > 0) {
-                attachmentDescriptorItems = this.pstFile
-                    .getPSTDescriptorItems(descriptorItem.subNodeOffsetIndexIdentifier);
+                attachmentDescriptorItems = this.pstFile.getPSTDescriptorItems(
+                        descriptorItem.subNodeOffsetIndexIdentifier
+                    );
             }
             return new PSTAttachment(this.pstFile, attachmentDetailsTable, attachmentDescriptorItems);
         }
 
         throw new PSTException(
-            "unable to fetch attachment number " + attachmentNumber + ", unable to read attachment details table");
+            "unable to fetch attachment number " + attachmentNumber + ", unable to read attachment details table"
+        );
     }
 
     /**
@@ -1341,15 +1363,16 @@ public class PSTMessage extends PSTObject {
      * @throws IOException  the io exception
      */
     public PSTRecipient getRecipient(final int recipientNumber) throws PSTException, IOException {
-        if (recipientNumber >= this.getNumberOfRecipients()
-            || recipientNumber >= this.recipientTable.getItems().size()) {
+        if (
+            recipientNumber >= this.getNumberOfRecipients() || recipientNumber >= this.recipientTable.getItems().size()
+        ) {
             throw new PSTException("unable to fetch recipient number " + recipientNumber);
         }
 
         final HashMap<Integer, PSTTable7CItem> recipientDetails = this.recipientTable.getItems().get(recipientNumber);
 
         if (recipientDetails != null) {
-            return new PSTRecipient(this,recipientDetails);
+            return new PSTRecipient(this, recipientDetails);
         }
 
         return null;
@@ -1400,9 +1423,20 @@ public class PSTMessage extends PSTObject {
      */
     @Override
     public String toString() {
-        return "PSTEmail: " + this.getSubject() + "\n" + "Importance: " + this.getImportance() + "\n"
-            + "Message Class: " + this.getMessageClass() + "\n\n" + this.getTransportMessageHeaders() + "\n\n\n"
-            + this.items + this.localDescriptorItems;
+        return (
+            "PSTEmail: " +
+            this.getSubject() +
+            "\n" +
+            "Importance: " +
+            this.getImportance() +
+            "\n" +
+            "Message Class: " +
+            this.getMessageClass() +
+            "\n\n" +
+            this.getTransportMessageHeaders() +
+            "\n\n\n" +
+            this.items +
+            this.localDescriptorItems
+        );
     }
-
 }

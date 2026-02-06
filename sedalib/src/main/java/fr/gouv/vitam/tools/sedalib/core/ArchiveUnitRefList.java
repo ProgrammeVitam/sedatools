@@ -70,8 +70,7 @@ public class ArchiveUnitRefList extends DataObjectPackageElement {
     /**
      * Instantiates a new ArchiveUnit references list.
      */
-    public ArchiveUnitRefList() {
-    }
+    public ArchiveUnitRefList() {}
 
     /**
      * Instantiates a new ArchiveUnit references list.
@@ -90,14 +89,11 @@ public class ArchiveUnitRefList extends DataObjectPackageElement {
      * @return the inDataPackageObjectId list
      */
     public List<String> getInDataObjectPackageIdList() {
-        if (inDataObjectPackageIdList != null)
-            return inDataObjectPackageIdList;
-        if (archiveUnitList == null)
-            inDataObjectPackageIdList = new ArrayList<>(0);
+        if (inDataObjectPackageIdList != null) return inDataObjectPackageIdList;
+        if (archiveUnitList == null) inDataObjectPackageIdList = new ArrayList<>(0);
         else {
             inDataObjectPackageIdList = new ArrayList<>(archiveUnitList.size());
-            for (ArchiveUnit au : archiveUnitList)
-                inDataObjectPackageIdList.add(au.inDataPackageObjectId);
+            for (ArchiveUnit au : archiveUnitList) inDataObjectPackageIdList.add(au.inDataPackageObjectId);
         }
         archiveUnitList = null;
         return inDataObjectPackageIdList;
@@ -120,14 +116,13 @@ public class ArchiveUnitRefList extends DataObjectPackageElement {
      */
     @JsonIgnore
     public List<ArchiveUnit> getArchiveUnitList() {
-        if (archiveUnitList != null)
-            return archiveUnitList;
-        if (inDataObjectPackageIdList == null)
-            archiveUnitList = new ArrayList<>(0);
+        if (archiveUnitList != null) return archiveUnitList;
+        if (inDataObjectPackageIdList == null) archiveUnitList = new ArrayList<>(0);
         else {
             archiveUnitList = new ArrayList<>(inDataObjectPackageIdList.size());
-            for (String inSipId : inDataObjectPackageIdList)
-                archiveUnitList.add(getDataObjectPackage().getArchiveUnitById(inSipId));
+            for (String inSipId : inDataObjectPackageIdList) archiveUnitList.add(
+                getDataObjectPackage().getArchiveUnitById(inSipId)
+            );
         }
         inDataObjectPackageIdList = null;
         return archiveUnitList;
@@ -178,9 +173,9 @@ public class ArchiveUnitRefList extends DataObjectPackageElement {
      * @param newArchiveUnit     the new ArchiveUnit
      */
     public void replace(ArchiveUnit originArchiveUnit, ArchiveUnit newArchiveUnit) {
-        List<ArchiveUnit> listAu=getArchiveUnitList();
-        for (int i=0;i<listAu.size();i++){
-            if (listAu.get(i)==originArchiveUnit) {
+        List<ArchiveUnit> listAu = getArchiveUnitList();
+        for (int i = 0; i < listAu.size(); i++) {
+            if (listAu.get(i) == originArchiveUnit) {
                 listAu.set(i, newArchiveUnit);
                 return;
             }
@@ -203,10 +198,8 @@ public class ArchiveUnitRefList extends DataObjectPackageElement {
      */
     @JsonIgnore
     public int getCount() {
-        if (inDataObjectPackageIdList != null)
-            return inDataObjectPackageIdList.size();
-        else if (archiveUnitList != null)
-            return archiveUnitList.size();
+        if (inDataObjectPackageIdList != null) return inDataObjectPackageIdList.size();
+        else if (archiveUnitList != null) return archiveUnitList.size();
         return 0;
     }
 }

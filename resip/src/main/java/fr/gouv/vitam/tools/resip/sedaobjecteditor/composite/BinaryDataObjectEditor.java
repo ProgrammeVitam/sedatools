@@ -43,14 +43,14 @@ import fr.gouv.vitam.tools.resip.parameters.Preferences;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorCompositePanel;
-import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
-import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
 import fr.gouv.vitam.tools.sedalib.droid.DroidIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
+import fr.gouv.vitam.tools.sedalib.metadata.content.PersistentIdentifier;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.*;
+import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import fr.gouv.vitam.tools.sedalib.utils.digest.DigestSha512;
 import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
@@ -107,10 +107,8 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
         List<String> summaryList = new ArrayList<>(objectEditorList.size());
         String tmp;
         for (SEDAMetadata sm : getBinaryDataObject().getMetadataList()) {
-            if (sm instanceof StringType)
-                summaryList.add(((StringType) sm).getValue());
-            else if (sm instanceof PersistentIdentifier)
-                summaryList.add(((PersistentIdentifier) sm).getSummary());
+            if (sm instanceof StringType) summaryList.add(((StringType) sm).getValue());
+            else if (sm instanceof PersistentIdentifier) summaryList.add(((PersistentIdentifier) sm).getSummary());
             else if (sm instanceof FileInfo) {
                 summaryList.add(getItOrUnknown(((FileInfo) sm).getSimpleMetadata("Filename")));
                 summaryList.add(getItOrUnknown(((FileInfo) sm).getSimpleMetadata("LastModified")));
@@ -118,7 +116,6 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
                 summaryList.add(getItOrUnknown(((FormatIdentification) sm).getSimpleMetadata("MimeType")));
                 summaryList.add(getItOrUnknown(((FormatIdentification) sm).getSimpleMetadata("FormatId")));
             }
-
         }
         return String.join(", ", summaryList);
     }
@@ -163,14 +160,24 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
         try {
             // Office bug workaround
             // This is a special patch to prevent Office to change a file when opening it to see the content...
-            if (System.getProperty("os.name").toLowerCase().contains("win"))
-                Files.setAttribute(path, "dos:readonly", true);
+            if (System.getProperty("os.name").toLowerCase().contains("win")) Files.setAttribute(
+                path,
+                "dos:readonly",
+                true
+            );
         } catch (IOException e) {
-            return UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                    "Impossible de passer le fichier à ouvrir [" + path +
-                            "] en lecture seule\nVoulez-vous tout de même l'ouvrir?",
-                    "Confirmation", UserInteractionDialog.WARNING_DIALOG,
-                    null) == OK_DIALOG;
+            return (
+                UserInteractionDialog.getUserAnswer(
+                    ResipGraphicApp.getTheWindow(),
+                    "Impossible de passer le fichier à ouvrir [" +
+                    path +
+                    "] en lecture seule\nVoulez-vous tout de même l'ouvrir?",
+                    "Confirmation",
+                    UserInteractionDialog.WARNING_DIALOG,
+                    null
+                ) ==
+                OK_DIALOG
+            );
         }
         return true;
     }
@@ -178,51 +185,64 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     private void openButton() {
         if (editedOnDiskPath != null) {
             try {
-                if (setReadOnly(editedOnDiskPath))
-                    Desktop.getDesktop().open(editedOnDiskPath.toFile());
-            } catch (IOException ignored) {//NOSONAR
-            }
+                if (setReadOnly(editedOnDiskPath)) Desktop.getDesktop().open(editedOnDiskPath.toFile());
+            } catch (IOException ignored) {} //NOSONAR
         }
     }
 
     private SEDAObjectEditor getSEDAObjectEditor(String metadataName) {
         for (SEDAObjectEditor soe : objectEditorList) {
-            if (soe.getTag().equals(metadataName))
-                return soe;
+            if (soe.getTag().equals(metadataName)) return soe;
         }
         return null;
     }
 
     private void extractFileMetadataInEditors() {
         try {
-            replaceOrAddObjectEditor( createSEDAObjectEditor(new DigestType("MessageDigest",
-                    DigestSha512.compute(editedOnDiskPath), "SHA-512"), this));
-            replaceOrAddObjectEditor( createSEDAObjectEditor(new IntegerType("Size" ,
-                    Files.size(editedOnDiskPath)), this));
+            replaceOrAddObjectEditor(
+                createSEDAObjectEditor(
+                    new DigestType("MessageDigest", DigestSha512.compute(editedOnDiskPath), "SHA-512"),
+                    this
+                )
+            );
+            replaceOrAddObjectEditor(
+                createSEDAObjectEditor(new IntegerType("Size", Files.size(editedOnDiskPath)), this)
+            );
 
             boolean expanded = false;
-            SEDAObjectEditor formatInformationObjectEditor= getSEDAObjectEditor("FormatIdentification");
-            if (formatInformationObjectEditor != null)
-                expanded = ((SEDAObjectEditorCompositePanel) formatInformationObjectEditor.getSEDAObjectEditorPanel()).isExpanded();
+            SEDAObjectEditor formatInformationObjectEditor = getSEDAObjectEditor("FormatIdentification");
+            if (formatInformationObjectEditor != null) expanded =
+                ((SEDAObjectEditorCompositePanel) formatInformationObjectEditor.getSEDAObjectEditorPanel()).isExpanded();
             IdentificationResult ir = DroidIdentifier.getInstance().getIdentificationResult(editedOnDiskPath);
             FormatIdentification formatIdentification;
-            if (ir != null)
-                formatIdentification = new FormatIdentification(ir.getName(), ir.getMimeType(),
-                        ir.getPuid(), null);
-            else
-                formatIdentification = new FormatIdentification(translateTag(UNKNOWN), null,
-                        translateTag(UNKNOWN), null);
-            formatInformationObjectEditor=createSEDAObjectEditor(formatIdentification, this);
-            ((SEDAObjectEditorCompositePanel) formatInformationObjectEditor.getSEDAObjectEditorPanel()).setExpanded(expanded);
+            if (ir != null) formatIdentification = new FormatIdentification(
+                ir.getName(),
+                ir.getMimeType(),
+                ir.getPuid(),
+                null
+            );
+            else formatIdentification = new FormatIdentification(
+                translateTag(UNKNOWN),
+                null,
+                translateTag(UNKNOWN),
+                null
+            );
+            formatInformationObjectEditor = createSEDAObjectEditor(formatIdentification, this);
+            ((SEDAObjectEditorCompositePanel) formatInformationObjectEditor.getSEDAObjectEditorPanel()).setExpanded(
+                    expanded
+                );
             replaceOrAddObjectEditor(formatInformationObjectEditor);
 
             expanded = false;
-            SEDAObjectEditor fileInfoObjectEditor= getSEDAObjectEditor("FileInfo");
-            if (fileInfoObjectEditor != null)
-                expanded = ((SEDAObjectEditorCompositePanel) fileInfoObjectEditor.getSEDAObjectEditorPanel()).isExpanded();
+            SEDAObjectEditor fileInfoObjectEditor = getSEDAObjectEditor("FileInfo");
+            if (fileInfoObjectEditor != null) expanded =
+                ((SEDAObjectEditorCompositePanel) fileInfoObjectEditor.getSEDAObjectEditorPanel()).isExpanded();
             FileInfo fileInfo = new FileInfo();
             fileInfo.addNewMetadata("Filename", editedOnDiskPath.getFileName().toString());
-            fileInfo.addNewMetadata("LastModified", LocalDateTimeUtil.getFormattedDateTime(Files.getLastModifiedTime(editedOnDiskPath)));
+            fileInfo.addNewMetadata(
+                "LastModified",
+                LocalDateTimeUtil.getFormattedDateTime(Files.getLastModifiedTime(editedOnDiskPath))
+            );
             fileInfoObjectEditor = createSEDAObjectEditor(fileInfo, this);
             ((SEDAObjectEditorCompositePanel) fileInfoObjectEditor.getSEDAObjectEditorPanel()).setExpanded(expanded);
             replaceOrAddObjectEditor(fileInfoObjectEditor);
@@ -234,8 +254,11 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     }
 
     private void defineButton() {
-        JFileChooser fileChooser = new JFileChooser((editedOnDiskPath == null ? Preferences.getInstance().getPrefsLoadDir() :
-                editedOnDiskPath.toAbsolutePath().getParent().toString()));
+        JFileChooser fileChooser = new JFileChooser(
+            (editedOnDiskPath == null
+                    ? Preferences.getInstance().getPrefsLoadDir()
+                    : editedOnDiskPath.toAbsolutePath().getParent().toString())
+        );
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
 
         if (fileChooser.showOpenDialog(ResipGraphicApp.getTheWindow()) == JFileChooser.APPROVE_OPTION) {
@@ -245,15 +268,23 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
             openButton.setToolTipText(editedOnDiskPath.toAbsolutePath().toString());
 
             String filename = null;
-            if (getSEDAObjectEditor("FileInfo") != null)
-                filename = ((ComplexListTypeEditor) getSEDAObjectEditor("FileInfo")).getComplexListTypeMetadata().getSimpleMetadata("Filename");
-            if ((getSEDAObjectEditor("FileInfo") == null) ||
-                    (filename == null) ||
-                    filename.isEmpty() ||
-                    UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                            "Voulez-vous extraire automatiquement les informations de ce fichier?",
-                            "Question", UserInteractionDialog.WARNING_DIALOG,
-                            null) == OK_DIALOG) {
+            if (getSEDAObjectEditor("FileInfo") != null) filename = ((ComplexListTypeEditor) getSEDAObjectEditor(
+                    "FileInfo"
+                )).getComplexListTypeMetadata()
+                .getSimpleMetadata("Filename");
+            if (
+                (getSEDAObjectEditor("FileInfo") == null) ||
+                (filename == null) ||
+                filename.isEmpty() ||
+                UserInteractionDialog.getUserAnswer(
+                        ResipGraphicApp.getTheWindow(),
+                        "Voulez-vous extraire automatiquement les informations de ce fichier?",
+                        "Question",
+                        UserInteractionDialog.WARNING_DIALOG,
+                        null
+                    ) ==
+                    OK_DIALOG
+            ) {
                 extractFileMetadataInEditors();
 
                 sedaObjectEditorPanel.revalidate();
@@ -272,9 +303,10 @@ public class BinaryDataObjectEditor extends AbstractUnitaryDataObjectEditor {
     public static BinaryDataObject createBinaryDataObjectSample(boolean minimal) throws SEDALibException {
         BinaryDataObject result = new BinaryDataObject();
 
-        for (Map.Entry<String, ComplexListMetadataKind> e: result.getMetadataMap().entrySet()) {
-            if (SEDAObjectEditorConstants.minimalTagList.contains(e.getKey()))
-                result.addMetadata(createSEDAMetadataSample(e.getValue().getMetadataClass().getName(),e.getKey(),minimal));
+        for (Map.Entry<String, ComplexListMetadataKind> e : result.getMetadataMap().entrySet()) {
+            if (SEDAObjectEditorConstants.minimalTagList.contains(e.getKey())) result.addMetadata(
+                createSEDAMetadataSample(e.getValue().getMetadataClass().getName(), e.getKey(), minimal)
+            );
         }
 
         return result;

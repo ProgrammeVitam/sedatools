@@ -74,8 +74,9 @@ public class AnyXMLTypeEditor extends SEDAObjectEditor {
      */
     public AnyXMLTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof AnyXMLType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof AnyXMLType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private AnyXMLType getAnyXMLTypeMetadata() {
@@ -90,15 +91,16 @@ public class AnyXMLTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new AnyXMLType("AnyXMLType", "");
-        else
-            return new AnyXMLType("AnyXMLType", "<"+elementName+"><BlockTag1>Text1</BlockTag1><BlockTag2>Text2</BlockTag2></"+elementName+">");
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new AnyXMLType("AnyXMLType", "");
+        else return new AnyXMLType(
+            "AnyXMLType",
+            "<" + elementName + "><BlockTag1>Text1</BlockTag1><BlockTag2>Text2</BlockTag2></" + elementName + ">"
+        );
     }
 
     @Override
-    public SEDAMetadata extractEditedObject() throws SEDALibException{
+    public SEDAMetadata extractEditedObject() throws SEDALibException {
         getAnyXMLTypeMetadata().setRawXml(valueTextArea.getText());
         return getAnyXMLTypeMetadata();
     }
@@ -110,12 +112,12 @@ public class AnyXMLTypeEditor extends SEDAObjectEditor {
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
-        JPanel labelPanel= new JPanel();
+        JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translateTag("AnyXMLType")+" :");
+        JLabel label = new JLabel(translateTag("AnyXMLType") + " :");
         label.setToolTipText(getTag());
         label.setFont(SEDAObjectEditor.LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -125,10 +127,10 @@ public class AnyXMLTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         labelPanel.add(label, gbc);
 
-        JPanel editPanel= new JPanel();
+        JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.rowHeights = new int[]{100};
-        gbl.columnWeights = new double[]{1.0};
+        gbl.rowHeights = new int[] { 100 };
+        gbl.columnWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
         valueTextArea = new RSyntaxTextArea(4, 80);
@@ -143,9 +145,11 @@ public class AnyXMLTypeEditor extends SEDAObjectEditor {
         JScrollPane scrollArea = new RTextScrollPane(valueTextArea);
         String xmlData;
         try {
-            xmlData  = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(getAnyXMLTypeMetadata().getRawXml());
+            xmlData = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(
+                getAnyXMLTypeMetadata().getRawXml()
+            );
         } catch (SEDALibException e) {
-            xmlData=getAnyXMLTypeMetadata().getRawXml();
+            xmlData = getAnyXMLTypeMetadata().getRawXml();
         }
         valueTextArea.setText(xmlData);
         valueTextArea.setCaretPosition(0);
@@ -155,7 +159,7 @@ public class AnyXMLTypeEditor extends SEDAObjectEditor {
         gbc.gridx = 0;
         gbc.gridy = 0;
         editPanel.add(scrollArea, gbc);
-        JButton editButton=new JButton();
+        JButton editButton = new JButton();
         editButton.setIcon(new ImageIcon(getClass().getResource("/icon/text.png")));
         editButton.setToolTipText("Ouvrir pour édition...");
         editButton.setText("");
@@ -173,14 +177,12 @@ public class AnyXMLTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         editPanel.add(editButton, gbc);
 
-        this.sedaObjectEditorPanel =new SEDAObjectEditorSimplePanel(this,labelPanel,editPanel);
+        this.sedaObjectEditorPanel = new SEDAObjectEditorSimplePanel(this, labelPanel, editPanel);
     }
 
-    private void editButton()
-    {
+    private void editButton() {
         XmlEditDialog xmlEditDialog = new XmlEditDialog(ResipGraphicApp.getTheWindow(), valueTextArea.getText());
         xmlEditDialog.setVisible(true);
-        if (xmlEditDialog.getReturnValue())
-            valueTextArea.setText((String) xmlEditDialog.getResult());
+        if (xmlEditDialog.getReturnValue()) valueTextArea.setText((String) xmlEditDialog.getResult());
     }
 }

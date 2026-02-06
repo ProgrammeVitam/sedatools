@@ -52,7 +52,6 @@ public class SEDAValidationTest {
 
     @Test
     public void testSeda2_1ArchiveTransferCompliance() throws SEDALibException {
-
         // Given
         String sedaFilePath = "src/test/resources/xml/seda2_1ArchiveTransfer.xml"; // Modify with actual path
         SedaContext.setVersion(SedaVersion.V2_1);
@@ -65,6 +64,5 @@ public class SEDAValidationTest {
         // Then
         assertThat(isValid).as("Validation process on SEDA 2.1 failed").isTrue();
     }
-
     // TODO test seda 2.2 et 2.3
 }

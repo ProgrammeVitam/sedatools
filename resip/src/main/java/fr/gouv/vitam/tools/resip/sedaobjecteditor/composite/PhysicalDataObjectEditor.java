@@ -50,12 +50,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * The PhysicalDataObject object editor class.
  */
 public class PhysicalDataObjectEditor extends AbstractUnitaryDataObjectEditor {
-
 
     /**
      * Instantiates a new PhysicalDataObject editor.
@@ -81,17 +79,15 @@ public class PhysicalDataObjectEditor extends AbstractUnitaryDataObjectEditor {
         List<String> summaryList = new ArrayList<>(objectEditorList.size());
         String tmp;
         for (SEDAMetadata sm : getPhysicalDataObject().getMetadataList()) {
-            if (sm instanceof StringType)
-                summaryList.add(((StringType) sm).getValue());
-            else if (sm instanceof PersistentIdentifier)
-                summaryList.add(((PersistentIdentifier) sm).getSummary());
+            if (sm instanceof StringType) summaryList.add(((StringType) sm).getValue());
+            else if (sm instanceof PersistentIdentifier) summaryList.add(((PersistentIdentifier) sm).getSummary());
         }
         return String.join(", ", summaryList);
     }
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
-        prepareSEDAObjectEditorPanel(null );
+        prepareSEDAObjectEditorPanel(null);
     }
 
     /**
@@ -105,8 +101,9 @@ public class PhysicalDataObjectEditor extends AbstractUnitaryDataObjectEditor {
         PhysicalDataObject result = new PhysicalDataObject();
 
         for (Map.Entry<String, ComplexListMetadataKind> e : result.getMetadataMap().entrySet()) {
-            if (SEDAObjectEditorConstants.minimalTagList.contains(e.getKey()))
-                result.addMetadata(createSEDAMetadataSample(e.getValue().getMetadataClass().getName(), e.getKey(), minimal));
+            if (SEDAObjectEditorConstants.minimalTagList.contains(e.getKey())) result.addMetadata(
+                createSEDAMetadataSample(e.getValue().getMetadataClass().getName(), e.getKey(), minimal)
+            );
         }
 
         return result;

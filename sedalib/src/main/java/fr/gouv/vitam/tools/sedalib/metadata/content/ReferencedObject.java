@@ -82,7 +82,6 @@ public class ReferencedObject extends ComplexListType {
      */
     public ReferencedObject(String signedObjectId, String signedObjectDigest) throws SEDALibException {
         this();
-
         addNewMetadata("SignedObjectId", signedObjectId);
         addNewMetadata("SignedObjectDigest", signedObjectDigest);
     }
@@ -95,10 +94,10 @@ public class ReferencedObject extends ComplexListType {
      * @param signedObjectDigestAlgorithm the signed object digest algorithm
      * @throws SEDALibException if sub element construction is not possible (not supposed to occur)
      */
-    public ReferencedObject(String signedObjectId, String signedObjectDigest, String signedObjectDigestAlgorithm) throws SEDALibException {
+    public ReferencedObject(String signedObjectId, String signedObjectDigest, String signedObjectDigestAlgorithm)
+        throws SEDALibException {
         this();
-
         addNewMetadata("SignedObjectId", signedObjectId);
-        addNewMetadata("SignedObjectDigest", signedObjectDigest,signedObjectDigestAlgorithm);
+        addNewMetadata("SignedObjectDigest", signedObjectDigest, signedObjectDigestAlgorithm);
     }
 }

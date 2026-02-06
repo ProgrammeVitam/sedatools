@@ -44,6 +44,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class LinkingAgentIdentifier extends ComplexListType {
+
     /**
      * Init metadata map.
      */
@@ -75,16 +76,21 @@ public class LinkingAgentIdentifier extends ComplexListType {
      * @param linkingAgentRole            the linking agent role
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public LinkingAgentIdentifier(String elementName,
-                                      String linkingAgentIdentifierType,
-                                      String linkingAgentIdentifierValue,
-                                      String linkingAgentRole) throws SEDALibException{
+    public LinkingAgentIdentifier(
+        String elementName,
+        String linkingAgentIdentifierType,
+        String linkingAgentIdentifierValue,
+        String linkingAgentRole
+    ) throws SEDALibException {
         super(elementName);
-        if (linkingAgentIdentifierType!=null)
-            addNewMetadata("LinkingAgentIdentifierType", linkingAgentIdentifierType);
-        if (linkingAgentIdentifierValue!=null)
-            addNewMetadata("LinkingAgentIdentifierValue", linkingAgentIdentifierValue);
-        if (linkingAgentRole!=null)
-            addNewMetadata("LinkingAgentRole", linkingAgentRole);
+        if (linkingAgentIdentifierType != null) addNewMetadata(
+            "LinkingAgentIdentifierType",
+            linkingAgentIdentifierType
+        );
+        if (linkingAgentIdentifierValue != null) addNewMetadata(
+            "LinkingAgentIdentifierValue",
+            linkingAgentIdentifierValue
+        );
+        if (linkingAgentRole != null) addNewMetadata("LinkingAgentRole", linkingAgentRole);
     }
 }

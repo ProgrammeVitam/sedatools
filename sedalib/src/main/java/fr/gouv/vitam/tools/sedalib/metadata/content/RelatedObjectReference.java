@@ -88,7 +88,6 @@ public class RelatedObjectReference extends ComplexListType {
      */
     public RelatedObjectReference(String signedObjectID, String signedObjectDigest) throws SEDALibException {
         this();
-
         addNewMetadata("SignedObjectID", signedObjectID);
         addNewMetadata("SignedObjectDigest", signedObjectDigest);
     }

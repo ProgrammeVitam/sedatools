@@ -79,8 +79,11 @@ public class ContainerDroidIdentifier {
      * @param binarySignatureFile the binary signature file from a " DROID_SignatureFile_Vxxx.xml"
      * @param containerType the container type ("OLE2", "ZIP"...)
      */
-    public ContainerDroidIdentifier(final ContainerSignatureDefinitions defs, final FFSignatureFile binarySignatureFile,
-                                    final String containerType) {
+    public ContainerDroidIdentifier(
+        final ContainerSignatureDefinitions defs,
+        final FFSignatureFile binarySignatureFile,
+        final String containerType
+    ) {
         containerIdentifierInit = new ContainerIdentifierInit();
         containerIdentifierInit.init(defs, containerType, formats, null);
         this.binarySignatureFile = binarySignatureFile;
@@ -96,16 +99,19 @@ public class ContainerDroidIdentifier {
      * @return the identification results list completed, if a new format have been identified, or the original list
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    public IdentificationResultCollection getContainerIdentification(final InputStream inputStream,
-                                                                     final IdentificationResultCollection identificationResults) throws IOException {
-
-        try (IdentificationRequest<InputStream> request = new ContainerFileIdentificationRequest(null)){
+    public IdentificationResultCollection getContainerIdentification(
+        final InputStream inputStream,
+        final IdentificationResultCollection identificationResults
+    ) throws IOException {
+        try (IdentificationRequest<InputStream> request = new ContainerFileIdentificationRequest(null)) {
             request.open(inputStream);
 
             int maxBytesToScan = -1;
             ContainerSignatureMatchCollection matches = new ContainerSignatureMatchCollection(
-                    getContainerIdentifierInit().getContainerSignatures(),
-                    getContainerIdentifierInit().getUniqueFileEntries(), maxBytesToScan);
+                getContainerIdentifierInit().getContainerSignatures(),
+                getContainerIdentifierInit().getUniqueFileEntries(),
+                maxBytesToScan
+            );
 
             identifierEngine.process(request, matches);
 

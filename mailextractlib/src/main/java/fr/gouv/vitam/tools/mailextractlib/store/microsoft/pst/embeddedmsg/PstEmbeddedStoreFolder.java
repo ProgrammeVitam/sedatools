@@ -38,9 +38,9 @@
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.embeddedmsg;
 
 import fr.gouv.vitam.tools.javalibpst.PSTMessage;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreExtractor;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
-import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst.PstStoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
@@ -60,7 +60,6 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
     // for the root folder
     private PstEmbeddedStoreFolder(PSTMessage content, StoreExtractor storeExtractor) {
         super(storeExtractor);
-
         this.lpStoreMessage = new PstStoreMessage(this, content);
         this.fullName = "";
         this.name = "";
@@ -77,8 +76,11 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
      *            Root ArchiveUnit
      * @return the LP store folder
      */
-    public static PstEmbeddedStoreFolder createRootFolder(PSTMessage content, PstEmbeddedStoreExtractor storeExtractor,
-                                                          ArchiveUnit rootArchiveUnit) {
+    public static PstEmbeddedStoreFolder createRootFolder(
+        PSTMessage content,
+        PstEmbeddedStoreExtractor storeExtractor,
+        ArchiveUnit rootArchiveUnit
+    ) {
         PstEmbeddedStoreFolder result = new PstEmbeddedStoreFolder(content, storeExtractor);
         result.folderArchiveUnit = rootArchiveUnit;
 
@@ -99,8 +101,9 @@ public class PstEmbeddedStoreFolder extends StoreFolder {
         StoreAttachment attachment = ((PstEmbeddedStoreExtractor) storeExtractor).getAttachment();
         attachment.setStoreContent(lpStoreMessage.getMimeContent());
         attachment.setMimeType("message/rfc822");
-        if ((attachment.getName() == null) || attachment.getName().isEmpty())
-            attachment.setName(lpStoreMessage.getSubject() + ".eml");
+        if ((attachment.getName() == null) || attachment.getName().isEmpty()) attachment.setName(
+            lpStoreMessage.getSubject() + ".eml"
+        );
     }
 
     /*

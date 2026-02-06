@@ -50,12 +50,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
-import java.io.ByteArrayInputStream;
-import java.nio.charset.StandardCharsets;
 
 @ExtendWith(SedaContextExtension.class)
 public class SedaVersionConverterTest {
@@ -103,9 +103,10 @@ public class SedaVersionConverterTest {
             "</DataObjectPackage>";
 
         DataObjectPackage dop;
-        try (ByteArrayInputStream bais = new ByteArrayInputStream(xmlFragments.getBytes(StandardCharsets.UTF_8));
-            SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais)) {
-
+        try (
+            ByteArrayInputStream bais = new ByteArrayInputStream(xmlFragments.getBytes(StandardCharsets.UTF_8));
+            SEDAXMLEventReader xmlReader = new SEDAXMLEventReader(bais)
+        ) {
             xmlReader.nextUsefullEvent(); // skip StartDocument
             dop = DataObjectPackage.fromSedaXml(xmlReader, "", logger);
         }
@@ -131,9 +132,7 @@ public class SedaVersionConverterTest {
             }
         }
 
-        assertThat(foundLinking)
-            .as("LinkingAgentIdentifierType should be present after conversion")
-            .isTrue();
+        assertThat(foundLinking).as("LinkingAgentIdentifierType should be present after conversion").isTrue();
     }
 
     @Test

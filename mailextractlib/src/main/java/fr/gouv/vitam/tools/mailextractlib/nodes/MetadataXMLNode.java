@@ -68,15 +68,10 @@ public class MetadataXMLNode extends MetadataXML {
         StringBuilder sb = new StringBuilder();
         String tabs = depthTabs(depth);
 
-        sb.append(tabs)
-                .append('<').append(tag);
+        sb.append(tabs).append('<').append(tag);
 
         if (attributename != null) {
-            sb.append(' ')
-                    .append(attributename)
-                    .append("=\"")
-                    .append(attributevalue)
-                    .append('"');
+            sb.append(' ').append(attributename).append("=\"").append(attributevalue).append('"');
         }
 
         sb.append('>');
@@ -84,15 +79,10 @@ public class MetadataXMLNode extends MetadataXML {
         if (value instanceof MetadataXMLString) {
             sb.append(value.writeXML(depth + 1));
         } else {
-            sb.append('\n')
-                    .append(value.writeXML(depth + 1))
-                    .append('\n')
-                    .append(tabs);
+            sb.append('\n').append(value.writeXML(depth + 1)).append('\n').append(tabs);
         }
 
-        sb.append("</")
-                .append(tag)
-                .append('>');
+        sb.append("</").append(tag).append('>');
 
         return sb.toString();
     }
@@ -196,5 +186,4 @@ public class MetadataXMLNode extends MetadataXML {
     public String writeXML() {
         return writeXML(0);
     }
-
 }

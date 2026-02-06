@@ -74,7 +74,8 @@ public class SedaVersionSelector extends JPanel {
     }
 
     public SedaVersion getSelectedVersion() {
-        return versionButtons.entrySet()
+        return versionButtons
+            .entrySet()
             .stream()
             .filter(entry -> entry.getValue().isSelected())
             .map(Map.Entry::getKey)
@@ -93,4 +94,3 @@ public class SedaVersionSelector extends JPanel {
         return versionButtons;
     }
 }
-

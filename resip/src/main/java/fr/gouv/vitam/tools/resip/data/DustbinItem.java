@@ -47,6 +47,7 @@ import java.util.List;
  * The type Dustbin item.
  */
 public class DustbinItem {
+
     /**
      * The Former root.
      */
@@ -79,13 +80,13 @@ public class DustbinItem {
      * @param node       the node
      */
     public DustbinItem(DataObjectPackageTreeNode parentNode, DataObjectPackageTreeNode node) {
-		this.node = node;
-		this.formerRoot = parentNode;
-		this.removedArchiveUnitList = new ArrayList<>();
-		this.removedDataObjectGroupList = new ArrayList<>();
-		this.removedBinaryDataObjectList = new ArrayList<>();
-		this.removedPhysicalDataObjectList = new ArrayList<>();
-	}
+        this.node = node;
+        this.formerRoot = parentNode;
+        this.removedArchiveUnitList = new ArrayList<>();
+        this.removedDataObjectGroupList = new ArrayList<>();
+        this.removedBinaryDataObjectList = new ArrayList<>();
+        this.removedPhysicalDataObjectList = new ArrayList<>();
+    }
 
     /**
      * Add tree node.
@@ -93,15 +94,13 @@ public class DustbinItem {
      * @param node the node
      */
     public void addTreeNode(DataObjectPackageTreeNode node) {
-		if (node.getArchiveUnit()!=null)
-			addArchiveUnit(node.getArchiveUnit());
-		else if (node.getDataObject()!=null) {
-			DataObject zod=node.getDataObject();
-			if (zod instanceof DataObjectGroup)
-				addDataObjectGroup((DataObjectGroup)zod);
-			//FIXME ne traite les autres DataObject car à terme un TreeNode ne sera qu'un ArchiveUnit ou un DataObjectGroup
-		}
-	}
+        if (node.getArchiveUnit() != null) addArchiveUnit(node.getArchiveUnit());
+        else if (node.getDataObject() != null) {
+            DataObject zod = node.getDataObject();
+            if (zod instanceof DataObjectGroup) addDataObjectGroup((DataObjectGroup) zod);
+            //FIXME ne traite les autres DataObject car à terme un TreeNode ne sera qu'un ArchiveUnit ou un DataObjectGroup
+        }
+    }
 
     /**
      * Add archive unit.
@@ -109,8 +108,8 @@ public class DustbinItem {
      * @param archiveUnit the archive unit
      */
     public void addArchiveUnit(ArchiveUnit archiveUnit) {
-		removedArchiveUnitList.add(archiveUnit);
-	}
+        removedArchiveUnitList.add(archiveUnit);
+    }
 
     /**
      * Add data object group.
@@ -118,8 +117,8 @@ public class DustbinItem {
      * @param dataObjectGroup the data object group
      */
     public void addDataObjectGroup(DataObjectGroup dataObjectGroup) {
-		removedDataObjectGroupList.add(dataObjectGroup);
-		removedBinaryDataObjectList.addAll(dataObjectGroup.getBinaryDataObjectList());
-		removedPhysicalDataObjectList.addAll(dataObjectGroup.getPhysicalDataObjectList());
-	}
+        removedDataObjectGroupList.add(dataObjectGroup);
+        removedBinaryDataObjectList.addAll(dataObjectGroup.getBinaryDataObjectList());
+        removedPhysicalDataObjectList.addAll(dataObjectGroup.getPhysicalDataObjectList());
+    }
 }

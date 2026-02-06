@@ -45,13 +45,13 @@ import java.awt.*;
 
 public class AllMetadataEditorTest {
 
-    static String[] demoMetadataTypes = {"ArchiveUnitProfile", "Management", "Content","PhysicalDimensions"};
+    static String[] demoMetadataTypes = { "ArchiveUnitProfile", "Management", "Content", "PhysicalDimensions" };
 
     public static void main(String[] args) throws Exception {
-        if (System.getProperty("os.name").toLowerCase().contains("win"))
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        else
-            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        if (System.getProperty("os.name").toLowerCase().contains("win")) UIManager.setLookAndFeel(
+            UIManager.getSystemLookAndFeelClassName()
+        );
+        else UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 
         JDialog dialog = new JDialog();
         dialog.setMinimumSize(new Dimension(600, 800));
@@ -68,9 +68,16 @@ public class AllMetadataEditorTest {
 
         int i;
         for (i = 0; i < demoMetadataTypes.length; i++) {
-            SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(demoMetadataTypes[i], demoMetadataTypes[i] + "Name", false, null);
-            if (objectEditor instanceof ComplexListTypeEditor)
-                ((ComplexListTypeEditor) objectEditor).doExpand(true, false);
+            SEDAObjectEditor objectEditor = SEDAObjectEditor.createSEDAObjectEditor(
+                demoMetadataTypes[i],
+                demoMetadataTypes[i] + "Name",
+                false,
+                null
+            );
+            if (objectEditor instanceof ComplexListTypeEditor) ((ComplexListTypeEditor) objectEditor).doExpand(
+                    true,
+                    false
+                );
             contentPane.add(objectEditor.getSEDAObjectEditorPanel());
         }
         dialog.setVisible(true);

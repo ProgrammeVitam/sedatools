@@ -55,21 +55,16 @@ public class NioDigestComputer {
     private static final int MIN_BUFFER_SIZE = 1;
     private static final int MAX_BUFFER_SIZE = 64 * (int) FileUtils.ONE_KB;
 
-    public byte[] compute(MessageDigest digest, Path path, SEDALibProgressLogger logger)
-        throws SEDALibException {
-
+    public byte[] compute(MessageDigest digest, Path path, SEDALibProgressLogger logger) throws SEDALibException {
         final long fileSize;
         try {
             fileSize = Files.size(path);
         } catch (IOException e) {
-            throw new SEDALibException(
-                String.format("Impossible d'accéder au fichier [%s]", path), e);
+            throw new SEDALibException(String.format("Impossible d'accéder au fichier [%s]", path), e);
         }
 
         try (FileChannel channel = FileChannel.open(path, READ)) {
-
-            DigestProgressLogger progressLogger =
-                new DigestProgressLogger(logger, path, fileSize);
+            DigestProgressLogger progressLogger = new DigestProgressLogger(logger, path, fileSize);
 
             final int bufferSize = (int) Math.max(MIN_BUFFER_SIZE, Math.min(fileSize, MAX_BUFFER_SIZE));
             ByteBuffer buffer = ByteBuffer.allocateDirect(bufferSize);
@@ -88,10 +83,8 @@ public class NioDigestComputer {
 
             progressLogger.logEnd();
             return digest.digest();
-
         } catch (IOException e) {
-            throw new SEDALibException(
-                String.format("Impossible de calculer le hash du fichier [%s]", path), e);
+            throw new SEDALibException(String.format("Impossible de calculer le hash du fichier [%s]", path), e);
         }
     }
 }

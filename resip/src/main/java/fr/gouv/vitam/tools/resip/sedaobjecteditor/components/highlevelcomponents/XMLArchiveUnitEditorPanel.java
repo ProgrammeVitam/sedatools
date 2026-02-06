@@ -60,7 +60,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +67,7 @@ import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor.*;
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 
 public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEditorPanel {
+
     /**
      * The editedObject.
      */
@@ -87,7 +87,7 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
      *
      * @return the string [ ]
      */
-    static public String[] getAddContentMetadataArray() {
+    public static String[] getAddContentMetadataArray() {
         List<String> options = new ArrayList<>();
 
         try {
@@ -111,7 +111,8 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
             managementMetadataList.sort(String::compareTo);
             options.addAll(managementMetadataList);
         } catch (SEDALibException e) {
-            ResipLogger.getGlobalLogger().log(ResipLogger.GLOBAL, "Errors occurs while computing add metadata options", e);
+            ResipLogger.getGlobalLogger()
+                .log(ResipLogger.GLOBAL, "Errors occurs while computing add metadata options", e);
         }
 
         return options.toArray(new String[0]);
@@ -123,11 +124,11 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
     public XMLArchiveUnitEditorPanel() {
         this.archiveUnit = null;
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{0.0, 1.0, 0.0};
-        gbl.rowWeights = new double[]{0.0, 1.0, 0.0};
+        gbl.columnWeights = new double[] { 0.0, 1.0, 0.0 };
+        gbl.rowWeights = new double[] { 0.0, 1.0, 0.0 };
         setLayout(gbl);
 
-        globalLabel = new JLabel(translateTag("ArchiveUnit") + " - "+ translateTag("Unknown"));
+        globalLabel = new JLabel(translateTag("ArchiveUnit") + " - " + translateTag("Unknown"));
         globalLabel.setFont(SEDAObjectEditor.BOLD_LABEL_FONT);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridwidth = 3;
@@ -186,7 +187,6 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
         gbc.gridx = 2;
         gbc.gridy = 2;
         add(choiceComboBox, gbc);
-
     }
 
     private void editButton(ActionEvent event) {
@@ -214,10 +214,16 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
             } else {
                 metadataMap = new Management().getMetadataMap();
             }
-            if (elementName.equals("AnyOtherMetadata"))
-                result = SEDAObjectEditor.createSEDAMetadataSample("AnyXMLType", elementName, false);
-            else
-                result = SEDAObjectEditor.createSEDAMetadataSample(metadataMap.get(elementName).getMetadataClass().getSimpleName(), elementName, false);
+            if (elementName.equals("AnyOtherMetadata")) result = SEDAObjectEditor.createSEDAMetadataSample(
+                "AnyXMLType",
+                elementName,
+                false
+            );
+            else result = SEDAObjectEditor.createSEDAMetadataSample(
+                metadataMap.get(elementName).getMetadataClass().getSimpleName(),
+                elementName,
+                false
+            );
         }
         return result;
     }
@@ -247,12 +253,15 @@ public class XMLArchiveUnitEditorPanel extends JPanel implements ArchiveUnitEdit
                 ResipGraphicApp.getTheApp().setModifiedContext(true);
             }
         } catch (SEDALibException e) {
-            UserInteractionDialog.getUserAnswer((JFrame) (SwingUtilities.windowForComponent(this)),
-                    "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.\n->"
-                            + e.getMessage(),
-                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
-                    null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.",e);
+            UserInteractionDialog.getUserAnswer(
+                (JFrame) (SwingUtilities.windowForComponent(this)),
+                "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.\n->" + e.getMessage(),
+                "Erreur",
+                UserInteractionDialog.ERROR_DIALOG,
+                null
+            );
+            ResipLogger.getGlobalLogger()
+                .log(ResipLogger.ERROR, "L'édition des métadonnées de l'ArchiveUnit n'a pas été possible.", e);
         }
     }
 

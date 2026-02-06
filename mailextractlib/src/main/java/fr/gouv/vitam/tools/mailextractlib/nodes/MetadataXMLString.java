@@ -73,19 +73,17 @@ public class MetadataXMLString extends MetadataXML {
         return (value == null) || value.isEmpty();
     }
 
-
     // Vitam XML value sanity check
     private static final String TAG_START =
-            "\\<\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\>\\s]+))?)+\\s*|\\s*)\\>";
-    private static final String TAG_END =
-            "\\</\\w+\\>";
+        "\\<\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\>\\s]+))?)+\\s*|\\s*)\\>";
+    private static final String TAG_END = "\\</\\w+\\>";
     private static final String TAG_SELF_CLOSING =
-            "\\<\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\>\\s]+))?)+\\s*|\\s*)/\\>";
-    private static final String HTML_ENTITY =
-            "&[a-zA-Z][a-zA-Z0-9]+;";
+        "\\<\\w+((\\s+\\w+(\\s*\\=\\s*(?:\".*?\"|'.*?'|[^'\"\\>\\s]+))?)+\\s*|\\s*)/\\>";
+    private static final String HTML_ENTITY = "&[a-zA-Z][a-zA-Z0-9]+;";
     public static final Pattern HTML_PATTERN = Pattern.compile(
-            "(" + TAG_START + ".*" + TAG_END + ")|(" + TAG_SELF_CLOSING + ")|(" + HTML_ENTITY + ")",
-            Pattern.DOTALL);
+        "(" + TAG_START + ".*" + TAG_END + ")|(" + TAG_SELF_CLOSING + ")|(" + HTML_ENTITY + ")",
+        Pattern.DOTALL
+    );
 
     private static final Pattern FORBIDDEN_PATTERN = Pattern.compile("[\\p{C}&&[^\\r\\n\\t]]");
 
@@ -105,10 +103,10 @@ public class MetadataXMLString extends MetadataXML {
         // remove all forbidden and invisible characters
         String normalized = FORBIDDEN_PATTERN.matcher(value).replaceAll("");
         // unescape all HMTL characters
-        normalized= HtmlAndXmlEscape.unescapeHtmlAndXMLEntities(normalized);
+        normalized = HtmlAndXmlEscape.unescapeHtmlAndXMLEntities(normalized);
         // break XML tags in metadata if any, based on Vitam sanity check
         Matcher m = HTML_PATTERN.matcher(normalized);
-       if (m.find()) {
+        if (m.find()) {
             StringBuffer sb = new StringBuffer();
             do {
                 String match = m.group();
@@ -117,7 +115,7 @@ public class MetadataXMLString extends MetadataXML {
                 m.appendReplacement(sb, Matcher.quoteReplacement(replacement));
             } while (m.find());
             m.appendTail(sb);
-           normalized = sb.toString();
+            normalized = sb.toString();
         }
 
         // suppress and escape all non XML compliance

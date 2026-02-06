@@ -42,10 +42,11 @@ import java.io.IOException;
 /**
  * DescriptorIndexNode is a leaf item from the Descriptor index b-tree
  * It is like a pointer to an element in the PST file, everything has one...
- * 
+ *
  * @author Richard Johnson
  */
 public class DescriptorIndexNode {
+
     public int descriptorIdentifier;
     public long dataOffsetIndexIdentifier;
     public long localDescriptorsOffsetIndexIdentifier;
@@ -96,14 +97,33 @@ public class DescriptorIndexNode {
 
     @Override
     public String toString() {
-
-        return "DescriptorIndexNode\n" + "Descriptor Identifier: " + this.descriptorIdentifier + " (0x"
-            + Long.toHexString(this.descriptorIdentifier) + ")\n" + "Data offset identifier: "
-            + this.dataOffsetIndexIdentifier + " (0x" + Long.toHexString(this.dataOffsetIndexIdentifier) + ")\n"
-            + "Local descriptors offset index identifier: " + this.localDescriptorsOffsetIndexIdentifier + " (0x"
-            + Long.toHexString(this.localDescriptorsOffsetIndexIdentifier) + ")\n"
-            + "Parent Descriptor Index Identifier: " + this.parentDescriptorIndexIdentifier + " (0x"
-            + Long.toHexString(this.parentDescriptorIndexIdentifier) + ")\n" + "Item Type: " + this.itemType + " (0x"
-            + Long.toHexString(this.itemType) + ")";
+        return (
+            "DescriptorIndexNode\n" +
+            "Descriptor Identifier: " +
+            this.descriptorIdentifier +
+            " (0x" +
+            Long.toHexString(this.descriptorIdentifier) +
+            ")\n" +
+            "Data offset identifier: " +
+            this.dataOffsetIndexIdentifier +
+            " (0x" +
+            Long.toHexString(this.dataOffsetIndexIdentifier) +
+            ")\n" +
+            "Local descriptors offset index identifier: " +
+            this.localDescriptorsOffsetIndexIdentifier +
+            " (0x" +
+            Long.toHexString(this.localDescriptorsOffsetIndexIdentifier) +
+            ")\n" +
+            "Parent Descriptor Index Identifier: " +
+            this.parentDescriptorIndexIdentifier +
+            " (0x" +
+            Long.toHexString(this.parentDescriptorIndexIdentifier) +
+            ")\n" +
+            "Item Type: " +
+            this.itemType +
+            " (0x" +
+            Long.toHexString(this.itemType) +
+            ")"
+        );
     }
 }

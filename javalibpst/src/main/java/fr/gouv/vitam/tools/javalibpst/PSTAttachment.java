@@ -57,8 +57,11 @@ public class PSTAttachment extends PSTObject {
      * @param table                the table
      * @param localDescriptorItems the local descriptor items
      */
-    PSTAttachment(final PSTFile theFile, final PSTTableBC table,
-                  final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    PSTAttachment(
+        final PSTFile theFile,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, null, table, localDescriptorItems);
     }
 
@@ -109,9 +112,9 @@ public class PSTAttachment extends PSTObject {
                 final PSTDescriptorItem descriptorItemNested = this.localDescriptorItems.get(descriptorItem);
                 in = new PSTNodeInputStream(this.pstFile, descriptorItemNested);
                 if (descriptorItemNested.subNodeOffsetIndexIdentifier > 0) {
-                    this.localDescriptorItems
-                        .putAll(this.pstFile
-                                    .getPSTDescriptorItems(descriptorItemNested.subNodeOffsetIndexIdentifier));
+                    this.localDescriptorItems.putAll(
+                            this.pstFile.getPSTDescriptorItems(descriptorItemNested.subNodeOffsetIndexIdentifier)
+                        );
                 }
                 /*
                  * if ( descriptorItemNested != null ) {
@@ -120,7 +123,7 @@ public class PSTAttachment extends PSTObject {
                  * blockOffsets = descriptorItemNested.getBlockOffsets();
                  * } catch (Exception e) {
                  * e.printStackTrace();
-                 * 
+                 *
                  * data = null;
                  * blockOffsets = null;
                  * }
@@ -135,8 +138,12 @@ public class PSTAttachment extends PSTObject {
 
             try {
                 final PSTTableBC attachmentTable = new PSTTableBC(in);
-                return PSTObject.createAppropriatePSTMessageObject(this.pstFile, this.descriptorIndexNode,
-                    attachmentTable, this.localDescriptorItems);
+                return PSTObject.createAppropriatePSTMessageObject(
+                    this.pstFile,
+                    this.descriptorIndexNode,
+                    attachmentTable,
+                    this.localDescriptorItems
+                );
             } catch (final PSTException e) {
                 e.printStackTrace();
             }
@@ -153,20 +160,18 @@ public class PSTAttachment extends PSTObject {
      * @throws PSTException the pst exception
      */
     public InputStream getFileInputStream() throws IOException, PSTException {
-
         final PSTTableBCItem attachmentDataObject = this.items.get(0x3701);
 
         if (null == attachmentDataObject) {
             return new ByteArrayInputStream(new byte[0]);
         } else if (attachmentDataObject.isExternalValueReference) {
-            final PSTDescriptorItem descriptorItemNested = this.localDescriptorItems
-                .get(attachmentDataObject.entryValueReference);
+            final PSTDescriptorItem descriptorItemNested =
+                this.localDescriptorItems.get(attachmentDataObject.entryValueReference);
             return new PSTNodeInputStream(this.pstFile, descriptorItemNested);
         } else {
             // internal value references are never encrypted
             return new PSTNodeInputStream(this.pstFile, attachmentDataObject.data, false);
         }
-
     }
 
     /**
@@ -179,18 +184,18 @@ public class PSTAttachment extends PSTObject {
     public int getFilesize() throws PSTException, IOException {
         final PSTTableBCItem attachmentDataObject = this.items.get(0x3701);
         if (attachmentDataObject.isExternalValueReference) {
-            final PSTDescriptorItem descriptorItemNested = this.localDescriptorItems
-                .get(attachmentDataObject.entryValueReference);
+            final PSTDescriptorItem descriptorItemNested =
+                this.localDescriptorItems.get(attachmentDataObject.entryValueReference);
             if (descriptorItemNested == null) {
                 throw new PSTException(
-                    "missing attachment descriptor item for: " + attachmentDataObject.entryValueReference);
+                    "missing attachment descriptor item for: " + attachmentDataObject.entryValueReference
+                );
             }
             return descriptorItemNested.getDataSize();
         } else {
             // raw attachment data, right there!
             return attachmentDataObject.data.length;
         }
-
     }
 
     // attachment properties
@@ -370,7 +375,6 @@ public class PSTAttachment extends PSTObject {
      * @return the boolean
      */
     public boolean isContactPhoto() {
-        return this.getBooleanItem(0x7FFF,false);
+        return this.getBooleanItem(0x7FFF, false);
     }
-
 }

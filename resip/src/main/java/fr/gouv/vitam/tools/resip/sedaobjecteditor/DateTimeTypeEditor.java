@@ -39,9 +39,10 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
 import com.github.lgooddatepicker.components.DateTimePicker;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorSimplePanel;
-import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateTimeType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateTimeType.DateTimeFormatType;
+import fr.gouv.vitam.tools.sedalib.utils.LocalDateTimeUtil;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.JLabel;
@@ -53,8 +54,6 @@ import java.awt.Insets;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.temporal.TemporalAccessor;
-
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DateTimeType.DateTimeFormatType;
 
 /**
  * The DateTimeType object editor class.
@@ -77,14 +76,14 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
      */
     public DateTimeTypeEditor(SEDAMetadata metadata, SEDAObjectEditor parent) throws SEDALibException {
         super(metadata, parent);
-
-        if (!(metadata instanceof DateTimeType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof DateTimeType)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
 
         this.update(getInitialValue());
 
         valueDateTimePicker.setDateTimePermissive(getInitialValue().toLocalDateTime());
-        valueDateTimePicker.addDateTimeChangeListener((event) -> {
+        valueDateTimePicker.addDateTimeChangeListener(event -> {
             LocalDateTime old = event.getOldDateTimePermissive();
             LocalDateTime next = event.getNewDateTimePermissive();
 
@@ -145,10 +144,8 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
      * @throws SEDALibException the seda lib exception
      */
     public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new DateTimeType(elementName);
-        else
-            return new DateTimeType(elementName, LocalDateTime.of(1970, 1, 1, 1, 0, 0));
+        if (minimal) return new DateTimeType(elementName);
+        else return new DateTimeType(elementName, LocalDateTime.of(1970, 1, 1, 1, 0, 0));
     }
 
     @Override
@@ -159,29 +156,23 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
     @Override
     public String getSummary() throws SEDALibException {
         LocalDateTime tmp = valueDateTimePicker.getDateTimePermissive();
-        if (tmp != null)
-            return LocalDateTimeUtil.getFormattedDateTime(tmp);
+        if (tmp != null) return LocalDateTimeUtil.getFormattedDateTime(tmp);
         return "";
     }
 
     @Override
-    public void createSEDAObjectEditorPanel() throws SEDALibException {
-
-    }
+    public void createSEDAObjectEditorPanel() throws SEDALibException {}
 
     private String computeWarningMessage(DateTimeType dateTimeType) {
         String warning = "";
-        if (dateTimeType.getFormatTypeEnum() == DateTimeFormatType.OFFSET_DATE_TIME)
-            warning += " (Timezone)";
+        if (dateTimeType.getFormatTypeEnum() == DateTimeFormatType.OFFSET_DATE_TIME) warning += " (Timezone)";
         TemporalAccessor ta = dateTimeType.getTemporalValue();
         if (ta instanceof LocalDateTime) {
             LocalDateTime ldt = (LocalDateTime) ta;
-            if (ldt.getSecond() != 0 || ldt.getNano() != 0)
-                warning += " (Secondes/Millisecondes)";
+            if (ldt.getSecond() != 0 || ldt.getNano() != 0) warning += " (Secondes/Millisecondes)";
         } else if (ta instanceof OffsetDateTime) {
             OffsetDateTime odt = (OffsetDateTime) ta;
-            if (odt.getSecond() != 0 || odt.getNano() != 0)
-                warning += " (Secondes/Millisecondes)";
+            if (odt.getSecond() != 0 || odt.getNano() != 0) warning += " (Secondes/Millisecondes)";
         }
 
         if (!warning.isEmpty()) {
@@ -192,8 +183,9 @@ public class DateTimeTypeEditor extends SEDAObjectEditor {
     }
 
     private String computeWarningTooltip() {
-        return "Afin de ne pas perdre d'information, \n" +
-            "il est nécessaire de modifier les dates en mode non structuré.";
+        return (
+            "Afin de ne pas perdre d'information, \n" + "il est nécessaire de modifier les dates en mode non structuré."
+        );
     }
 
     private void updateWarning(DateTimeType dateTimeType) {

@@ -84,12 +84,13 @@ public class DataObjectReference extends ComplexListType {
      * @param dataObjectGroupReferenceId the data object group reference id
      * @throws SEDALibException the seda lib exception
      */
-    public DataObjectReference(String dataObjectReferenceId, String dataObjectGroupReferenceId) throws SEDALibException {
+    public DataObjectReference(String dataObjectReferenceId, String dataObjectGroupReferenceId)
+        throws SEDALibException {
         this();
-
-        if (dataObjectReferenceId!=null)
-            addNewMetadata("DataObjectReferenceId", dataObjectReferenceId);
-        if (dataObjectGroupReferenceId!=null)
-            addNewMetadata("DataObjectGroupReferenceId", dataObjectGroupReferenceId);
+        if (dataObjectReferenceId != null) addNewMetadata("DataObjectReferenceId", dataObjectReferenceId);
+        if (dataObjectGroupReferenceId != null) addNewMetadata(
+            "DataObjectGroupReferenceId",
+            dataObjectGroupReferenceId
+        );
     }
 }

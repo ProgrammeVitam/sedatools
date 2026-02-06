@@ -55,11 +55,11 @@ import java.util.Map;
  */
 public class Signer extends ComplexListType {
 
-    static final String FIRSTNAME_TAG="FirstName";
-    static final String BIRTHNAME_TAG="BirthName";
-    static final String FULLNAME_TAG="FullName";
-    static final String IDENTIFIER_TAG="Identifier";
-    static final String SIGNINGTIME_TAG="SigningTime";
+    static final String FIRSTNAME_TAG = "FirstName";
+    static final String BIRTHNAME_TAG = "BirthName";
+    static final String FULLNAME_TAG = "FullName";
+    static final String IDENTIFIER_TAG = "Identifier";
+    static final String SIGNINGTIME_TAG = "SigningTime";
 
     /**
      * Init metadata map.
@@ -105,7 +105,6 @@ public class Signer extends ComplexListType {
      */
     public Signer(String fullName, LocalDateTime signingTime) throws SEDALibException {
         this();
-
         addNewMetadata(FULLNAME_TAG, fullName);
         addNewMetadata(SIGNINGTIME_TAG, signingTime);
     }
@@ -120,7 +119,6 @@ public class Signer extends ComplexListType {
      */
     public Signer(String firstName, String birthName, LocalDateTime signingTime) throws SEDALibException {
         this();
-
         addNewMetadata(FIRSTNAME_TAG, firstName);
         addNewMetadata(BIRTHNAME_TAG, birthName);
         addNewMetadata(SIGNINGTIME_TAG, signingTime);
@@ -135,9 +133,9 @@ public class Signer extends ComplexListType {
      * @param signingTime the signing time
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public Signer(String firstName, String birthName, LocalDateTime signingTime, String identifier) throws SEDALibException {
+    public Signer(String firstName, String birthName, LocalDateTime signingTime, String identifier)
+        throws SEDALibException {
         this();
-
         addNewMetadata(FIRSTNAME_TAG, firstName);
         addNewMetadata(BIRTHNAME_TAG, birthName);
         addNewMetadata(IDENTIFIER_TAG, identifier);

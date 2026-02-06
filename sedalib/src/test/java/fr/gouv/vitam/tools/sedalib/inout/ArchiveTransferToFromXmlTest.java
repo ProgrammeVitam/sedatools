@@ -65,11 +65,12 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
 
     @Test
     void testToFromSedaXml()
-            throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
-
+        throws IllegalArgumentException, SEDALibException, XMLStreamException, IOException, InterruptedException {
         // do import of test directory
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/SampleWithLinksModelV2", null);
+            "src/test/resources/PacketSamples/SampleWithLinksModelV2",
+            null
+        );
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
 
@@ -79,30 +80,34 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
         di.getArchiveTransfer().getGlobalMetadata().comment = "2eme SIP";
         di.getArchiveTransfer().getGlobalMetadata().messageIdentifier = "MessageIdentifier0";
         di.getArchiveTransfer().getGlobalMetadata().archivalAgreement = "ArchivalAgreement0";
-        di.getArchiveTransfer().getGlobalMetadata().codeListVersionsXmlData = "<CodeListVersions>\n"
-                + "    <ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion>\n"
-                + "<MessageDigestAlgorithmCodeListVersion>MessageDigestAlgorithmCodeListVersion0</MessageDigestAlgorithmCodeListVersion>\n"
-                + "<MimeTypeCodeListVersion>MimeTypeCodeListVersion0</MimeTypeCodeListVersion>\n"
-                + "<EncodingCodeListVersion>EncodingCodeListVersion0</EncodingCodeListVersion>\n"
-                + "<FileFormatCodeListVersion>FileFormatCodeListVersion0</FileFormatCodeListVersion>\n"
-                + "<CompressionAlgorithmCodeListVersion>CompressionAlgorithmCodeListVersion0</CompressionAlgorithmCodeListVersion>\n"
-                + "<DataObjectVersionCodeListVersion>DataObjectVersionCodeListVersion0</DataObjectVersionCodeListVersion>\n"
-                + "<StorageRuleCodeListVersion>StorageRuleCodeListVersion0</StorageRuleCodeListVersion>\n"
-                + "<AppraisalRuleCodeListVersion>AppraisalRuleCodeListVersion0</AppraisalRuleCodeListVersion>\n"
-                + "<AccessRuleCodeListVersion>AccessRuleCodeListVersion0</AccessRuleCodeListVersion>\n"
-                + "<DisseminationRuleCodeListVersion>DisseminationRuleCodeListVersion0</DisseminationRuleCodeListVersion>\n"
-                + "<ReuseRuleCodeListVersion>ReuseRuleCodeListVersion0</ReuseRuleCodeListVersion>\n"
-                + "<ClassificationRuleCodeListVersion>ClassificationRuleCodeListVersion0</ClassificationRuleCodeListVersion>\n"
-                + "<AuthorizationReasonCodeListVersion>AuthorizationReasonCodeListVersion0</AuthorizationReasonCodeListVersion>\n"
-                + "<RelationshipCodeListVersion>RelationshipCodeListVersion0</RelationshipCodeListVersion>\n"
-                + "  </CodeListVersions>";
-        di.getArchiveTransfer().getDataObjectPackage()
-                .setManagementMetadataXmlData("<ManagementMetadata>\n"
-                        + "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n"
-                        + "<LegalStatus>Public Archive</LegalStatus>\n"
-                        + "<OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>\n"
-                        + "<SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>\n"
-                        + "    </ManagementMetadata>");
+        di.getArchiveTransfer().getGlobalMetadata().codeListVersionsXmlData = "<CodeListVersions>\n" +
+        "    <ReplyCodeListVersion>ReplyCodeListVersion0</ReplyCodeListVersion>\n" +
+        "<MessageDigestAlgorithmCodeListVersion>MessageDigestAlgorithmCodeListVersion0</MessageDigestAlgorithmCodeListVersion>\n" +
+        "<MimeTypeCodeListVersion>MimeTypeCodeListVersion0</MimeTypeCodeListVersion>\n" +
+        "<EncodingCodeListVersion>EncodingCodeListVersion0</EncodingCodeListVersion>\n" +
+        "<FileFormatCodeListVersion>FileFormatCodeListVersion0</FileFormatCodeListVersion>\n" +
+        "<CompressionAlgorithmCodeListVersion>CompressionAlgorithmCodeListVersion0</CompressionAlgorithmCodeListVersion>\n" +
+        "<DataObjectVersionCodeListVersion>DataObjectVersionCodeListVersion0</DataObjectVersionCodeListVersion>\n" +
+        "<StorageRuleCodeListVersion>StorageRuleCodeListVersion0</StorageRuleCodeListVersion>\n" +
+        "<AppraisalRuleCodeListVersion>AppraisalRuleCodeListVersion0</AppraisalRuleCodeListVersion>\n" +
+        "<AccessRuleCodeListVersion>AccessRuleCodeListVersion0</AccessRuleCodeListVersion>\n" +
+        "<DisseminationRuleCodeListVersion>DisseminationRuleCodeListVersion0</DisseminationRuleCodeListVersion>\n" +
+        "<ReuseRuleCodeListVersion>ReuseRuleCodeListVersion0</ReuseRuleCodeListVersion>\n" +
+        "<ClassificationRuleCodeListVersion>ClassificationRuleCodeListVersion0</ClassificationRuleCodeListVersion>\n" +
+        "<AuthorizationReasonCodeListVersion>AuthorizationReasonCodeListVersion0</AuthorizationReasonCodeListVersion>\n" +
+        "<RelationshipCodeListVersion>RelationshipCodeListVersion0</RelationshipCodeListVersion>\n" +
+        "  </CodeListVersions>";
+        di
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .setManagementMetadataXmlData(
+                "<ManagementMetadata>\n" +
+                "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n" +
+                "<LegalStatus>Public Archive</LegalStatus>\n" +
+                "<OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>\n" +
+                "<SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>\n" +
+                "    </ManagementMetadata>"
+            );
         di.getArchiveTransfer().getGlobalMetadata().archivalAgencyIdentifier = "Identifier4";
         di.getArchiveTransfer().getGlobalMetadata().transferringAgencyIdentifier = "Identifier5";
 
@@ -111,26 +116,31 @@ class ArchiveTransferToFromXmlTest implements UseTestFiles {
         SEDAXMLStreamWriter xmlWriter = new SEDAXMLStreamWriter(baos, 2);
         di.getArchiveTransfer().toSedaXml(xmlWriter, false, null);
         xmlWriter.close();
-        String generatedFlatManifest = baos.toString(StandardCharsets.UTF_8).replaceAll("<LastModified>.*</LastModified>\n", "");
+        String generatedFlatManifest = baos
+            .toString(StandardCharsets.UTF_8)
+            .replaceAll("<LastModified>.*</LastModified>\n", "");
 
         // hierarchical
         baos.reset();
         xmlWriter = new SEDAXMLStreamWriter(baos, 2);
         di.getArchiveTransfer().toSedaXml(xmlWriter, true, null);
         xmlWriter.close();
-        String generatedHierarchicalManifest = baos.toString(StandardCharsets.UTF_8).replaceAll("<LastModified>.*</LastModified>\n", "");
+        String generatedHierarchicalManifest = baos
+            .toString(StandardCharsets.UTF_8)
+            .replaceAll("<LastModified>.*</LastModified>\n", "");
 
         String fileManifest = readFileToString("src/test/resources/PacketSamples/SampleWithLinkFlatManifest.xml");
         generatedFlatManifest = generatedFlatManifest.substring(generatedFlatManifest.indexOf("MessageIdentifier"));
         fileManifest = fileManifest.substring(fileManifest.indexOf("MessageIdentifier"));
-//WARNING: if Git is not set to respect LF this test will fail
+        //WARNING: if Git is not set to respect LF this test will fail
         assertThat(generatedFlatManifest).isEqualToNormalizingNewlines(fileManifest);
 
         fileManifest = readFileToString("src/test/resources/PacketSamples/SampleWithLinkHierarchicalManifest.xml");
-        generatedHierarchicalManifest = generatedHierarchicalManifest
-                .substring(generatedHierarchicalManifest.indexOf("MessageIdentifier"));
+        generatedHierarchicalManifest = generatedHierarchicalManifest.substring(
+            generatedHierarchicalManifest.indexOf("MessageIdentifier")
+        );
         fileManifest = fileManifest.substring(fileManifest.indexOf("MessageIdentifier"));
-//WARNING: if Git is not set to respect LF this test will fail
-		assertThat(generatedHierarchicalManifest).isEqualToNormalizingNewlines(fileManifest);
+        //WARNING: if Git is not set to respect LF this test will fail
+        assertThat(generatedHierarchicalManifest).isEqualToNormalizingNewlines(fileManifest);
     }
 }

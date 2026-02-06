@@ -49,7 +49,7 @@ import java.util.Map;
  */
 public class AgencyType extends ComplexListType {
 
-    static final String IDENTIFIER_TAG="Identifier";
+    static final String IDENTIFIER_TAG = "Identifier";
 
     /**
      * Init metadata map.
@@ -81,6 +81,6 @@ public class AgencyType extends ComplexListType {
      */
     public AgencyType(String elementName, String identifier) throws SEDALibException {
         super(elementName);
-            addNewMetadata(IDENTIFIER_TAG, identifier);
+        addNewMetadata(IDENTIFIER_TAG, identifier);
     }
 }

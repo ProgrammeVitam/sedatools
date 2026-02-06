@@ -67,8 +67,7 @@ public class WeightEditor extends SEDAObjectEditor {
      */
     public WeightEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof Weight))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof Weight)) throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
     }
 
     private Weight getWeightMetadata() {
@@ -83,33 +82,32 @@ public class WeightEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new Weight();
-        else
-            return new Weight(42.42, "gram");
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new Weight();
+        else return new Weight(42.42, "gram");
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (valueTextField.getText().isEmpty())
-            getWeightMetadata().setValue(null);
-        else
-            getWeightMetadata().setValue(Double.parseDouble(valueTextField.getText()));
+        if (valueTextField.getText().isEmpty()) getWeightMetadata().setValue(null);
+        else getWeightMetadata().setValue(Double.parseDouble(valueTextField.getText()));
         getWeightMetadata().setUnit((String) (unitComboBox.getSelectedItem()));
         return getWeightMetadata();
     }
 
     @Override
     public String getSummary() throws SEDALibException {
-        return (valueTextField.getText() == null ? "" : valueTextField.getText() + " ") + (unitComboBox.getSelectedItem()==null?"":unitComboBox.getSelectedItem());
+        return (
+            (valueTextField.getText() == null ? "" : valueTextField.getText() + " ") +
+            (unitComboBox.getSelectedItem() == null ? "" : unitComboBox.getSelectedItem())
+        );
     }
 
     @Override
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         JPanel labelPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
         JLabel label = new JLabel(getName() + " :");
@@ -124,14 +122,16 @@ public class WeightEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWidths = new int[]{100, 0};
-        gbl.columnWeights = new double[]{0.0, 1.0};
+        gbl.columnWidths = new int[] { 100, 0 };
+        gbl.columnWeights = new double[] { 0.0, 1.0 };
         editPanel.setLayout(gbl);
 
         valueTextField = new JTextField();
         DocumentFilter filter = new DoubleFilter();
         ((AbstractDocument) valueTextField.getDocument()).setDocumentFilter(filter);
-        valueTextField.setText((getWeightMetadata().getValue() == null ? "" : Double.toString(getWeightMetadata().getValue())));
+        valueTextField.setText(
+            (getWeightMetadata().getValue() == null ? "" : Double.toString(getWeightMetadata().getValue()))
+        );
         valueTextField.setFont(SEDAObjectEditor.EDIT_FONT);
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(0, 0, 0, 0);

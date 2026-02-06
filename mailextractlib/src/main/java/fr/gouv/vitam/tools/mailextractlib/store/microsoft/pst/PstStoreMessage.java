@@ -37,7 +37,6 @@
  */
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.pst;
 
-import fr.gouv.vitam.tools.javalibpst.PSTAppointment;
 import fr.gouv.vitam.tools.javalibpst.PSTConversationIndex.ResponseLevel;
 import fr.gouv.vitam.tools.javalibpst.PSTException;
 import fr.gouv.vitam.tools.javalibpst.PSTMessage;
@@ -47,8 +46,6 @@ import fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessage;
 import fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessageAttachment;
 
 import java.io.IOException;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -220,10 +217,8 @@ public class PstStoreMessage extends MicrosoftStoreMessage {
     protected int getNativeCINumberOfResponseLevels() {
         List<ResponseLevel> lResponseLevel = message.getConversationIndex().getResponseLevels();
 
-        if (lResponseLevel == null)
-            return 0;
-        else
-            return lResponseLevel.size();
+        if (lResponseLevel == null) return 0;
+        else return lResponseLevel.size();
     }
 
     /* (non-Javadoc)
@@ -233,10 +228,8 @@ public class PstStoreMessage extends MicrosoftStoreMessage {
     protected short getNativeCIResponseLevelDeltaCode(int responseLevelNumber) {
         List<ResponseLevel> lResponseLevel = message.getConversationIndex().getResponseLevels();
 
-        if (lResponseLevel == null)
-            return 0;
-        else
-            return lResponseLevel.get(responseLevelNumber).getDeltaCode();
+        if (lResponseLevel == null) return 0;
+        else return lResponseLevel.get(responseLevelNumber).getDeltaCode();
     }
 
     /* (non-Javadoc)
@@ -246,10 +239,8 @@ public class PstStoreMessage extends MicrosoftStoreMessage {
     protected long getNativeCIResponseLevelTimeDelta(int responseLevelNumber) {
         List<ResponseLevel> lResponseLevel = message.getConversationIndex().getResponseLevels();
 
-        if (lResponseLevel == null)
-            return 0;
-        else
-            return lResponseLevel.get(responseLevelNumber).getTimeDelta();
+        if (lResponseLevel == null) return 0;
+        else return lResponseLevel.get(responseLevelNumber).getTimeDelta();
     }
 
     /* (non-Javadoc)
@@ -259,10 +250,8 @@ public class PstStoreMessage extends MicrosoftStoreMessage {
     protected short getNativeCIResponseLevelRandom(int responseLevelNumber) {
         List<ResponseLevel> lResponseLevel = message.getConversationIndex().getResponseLevels();
 
-        if (lResponseLevel == null)
-            return 0;
-        else
-            return lResponseLevel.get(responseLevelNumber).getRandom();
+        if (lResponseLevel == null) return 0;
+        else return lResponseLevel.get(responseLevelNumber).getRandom();
     }
 
     /* (non-Javadoc)

@@ -45,6 +45,7 @@ import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import java.io.IOException;
 
 public class NullDeserializer<T> extends StdDeserializer<T> {
+
     protected NullDeserializer() {
         super((Class<T>) null);
     }
@@ -56,12 +57,9 @@ public class NullDeserializer<T> extends StdDeserializer<T> {
         parser.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
         while (objectCount >= 0) {
             token = parser.nextToken();
-            if (token == JsonToken.START_OBJECT)
-                objectCount++;
-            else if (token == JsonToken.END_OBJECT)
-                objectCount--;
+            if (token == JsonToken.START_OBJECT) objectCount++;
+            else if (token == JsonToken.END_OBJECT) objectCount--;
         }
         return null;
     }
 }
-

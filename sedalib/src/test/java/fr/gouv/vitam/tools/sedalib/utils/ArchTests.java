@@ -53,27 +53,34 @@ import java.time.LocalDateTime;
 @ExtendWith(SedaContextExtension.class)
 public class ArchTests {
 
-
     @Test
     @Disabled("Only for research purpose")
     public void testStaticMethodsOfLocalDateTime() {
         JavaClasses importedClasses = new ClassFileImporter().importPackages("fr.gouv.vitam");
 
         ArchRuleDefinition.noClasses()
-                .that()
-                .doNotHaveFullyQualifiedName(LocalDateTimeUtil.class.getName())
-                .should()
-                .callMethodWhere(
-                        new DescribedPredicate<>("static methods of LocalDateTime are invoked instead of LocalDateUtil helpers") {
-                            @Override
-                            public boolean test(JavaMethodCall javaMethodCall) {
-                                return javaMethodCall.getTargetOwner().getFullName().equals(LocalDateTime.class.getName())
-                                        && javaMethodCall.getTarget().resolveMember().orElseThrow()
-                                        .getModifiers().contains(JavaModifier.STATIC);
-                            }
-                        }
-                )
-                .check(importedClasses);
+            .that()
+            .doNotHaveFullyQualifiedName(LocalDateTimeUtil.class.getName())
+            .should()
+            .callMethodWhere(
+                new DescribedPredicate<>(
+                    "static methods of LocalDateTime are invoked instead of LocalDateUtil helpers"
+                ) {
+                    @Override
+                    public boolean test(JavaMethodCall javaMethodCall) {
+                        return (
+                            javaMethodCall.getTargetOwner().getFullName().equals(LocalDateTime.class.getName()) &&
+                            javaMethodCall
+                                .getTarget()
+                                .resolveMember()
+                                .orElseThrow()
+                                .getModifiers()
+                                .contains(JavaModifier.STATIC)
+                        );
+                    }
+                }
+            )
+            .check(importedClasses);
     }
 
     @Test
@@ -81,20 +88,23 @@ public class ArchTests {
         JavaClasses importedClasses = new ClassFileImporter().importPackages("fr.gouv.vitam");
 
         ArchRuleDefinition.noClasses()
-                .that()
-                .doNotHaveFullyQualifiedName(LocalDateTimeUtil.class.getName())
-                .should()
-                .callMethodWhere(
-                        new DescribedPredicate<>("LocalDateTime.toString is invoked instead of LocalDateTimeUtil.getFormattedDateTime") {
-                            @Override
-                            public boolean test(JavaMethodCall javaMethodCall) {
-                                return javaMethodCall.getTargetOwner().getFullName().equals(LocalDateTime.class.getName())
-                                        && (javaMethodCall.getTarget().getName().equals("toString")
-                                        || javaMethodCall.getTarget().getName().equals("format"));
-                            }
-                        }
-                )
-                .check(importedClasses);
+            .that()
+            .doNotHaveFullyQualifiedName(LocalDateTimeUtil.class.getName())
+            .should()
+            .callMethodWhere(
+                new DescribedPredicate<>(
+                    "LocalDateTime.toString is invoked instead of LocalDateTimeUtil.getFormattedDateTime"
+                ) {
+                    @Override
+                    public boolean test(JavaMethodCall javaMethodCall) {
+                        return (
+                            javaMethodCall.getTargetOwner().getFullName().equals(LocalDateTime.class.getName()) &&
+                            (javaMethodCall.getTarget().getName().equals("toString") ||
+                                javaMethodCall.getTarget().getName().equals("format"))
+                        );
+                    }
+                }
+            )
+            .check(importedClasses);
     }
-
 }

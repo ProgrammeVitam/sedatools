@@ -53,8 +53,8 @@ public class ResipException extends Exception {
      * Instantiates a new validation exception.
      */
     public ResipException() {
-		super();
-	}
+        super();
+    }
 
     /**
      * Instantiates a new validation exception.
@@ -62,8 +62,8 @@ public class ResipException extends Exception {
      * @param message the message
      */
     public ResipException(String message) {
-		super(message);
-	}
+        super(message);
+    }
 
     /**
      * Instantiates a new validation exception.
@@ -71,8 +71,8 @@ public class ResipException extends Exception {
      * @param cause the cause
      */
     public ResipException(Throwable cause) {
-		super(cause);
-	}
+        super(cause);
+    }
 
     /**
      * Instantiates a new validation exception.
@@ -81,8 +81,8 @@ public class ResipException extends Exception {
      * @param cause   the cause
      */
     public ResipException(String message, Throwable cause) {
-		super(message, cause);
-	}
+        super(message, cause);
+    }
 
     /**
      * Instantiates a new validation exception.
@@ -93,7 +93,6 @@ public class ResipException extends Exception {
      * @param writableStackTrace the writable stack trace
      */
     public ResipException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
-	}
-
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
 }

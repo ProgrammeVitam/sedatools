@@ -44,7 +44,6 @@ import fr.gouv.vitam.tools.sedalib.xml.SEDAXMLStreamWriter;
 
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -69,7 +68,7 @@ public class EnumType extends NamedTypeMetadata {
      * Instantiates a new enum type.
      */
     public EnumType() throws SEDALibException {
-        this(null,null);
+        this(null, null);
     }
 
     /**
@@ -88,19 +87,14 @@ public class EnumType extends NamedTypeMetadata {
      * @param value the value
      * @throws SEDALibException the seda lib exception
      */
-    public EnumType(String elementName,String value) throws SEDALibException {
+    public EnumType(String elementName, String value) throws SEDALibException {
         super(elementName);
-        List<String> enumValues= EnumTypeConstants.enumListMap.get(elementName);
-        if (enumValues==null)
-            throw new SEDALibException("Type Enuméré ["+elementName+"] inconnu");
-        if (value==null)
-            this.value= "";
-        else if (value.isEmpty() || enumValues.contains(value))
-            this.value = value;
-        else
-            throw new SEDALibException("Valeur interdite ["+value+"] dans un élément [" + elementName + "]");
+        List<String> enumValues = EnumTypeConstants.enumListMap.get(elementName);
+        if (enumValues == null) throw new SEDALibException("Type Enuméré [" + elementName + "] inconnu");
+        if (value == null) this.value = "";
+        else if (value.isEmpty() || enumValues.contains(value)) this.value = value;
+        else throw new SEDALibException("Valeur interdite [" + value + "] dans un élément [" + elementName + "]");
     }
-
 
     /*
      * (non-Javadoc)
@@ -114,7 +108,10 @@ public class EnumType extends NamedTypeMetadata {
         try {
             xmlWriter.writeElementValue(elementName, value);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type KeywordType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément de type KeywordType [" + getXmlElementName() + "]",
+                e
+            );
         }
     }
 
@@ -126,7 +123,7 @@ public class EnumType extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
-        result.put("",value);
+        result.put("", value);
         return result;
     }
 
@@ -144,19 +141,17 @@ public class EnumType extends NamedTypeMetadata {
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
                     value = event.asCharacters().getData();
-                    List<String> enumValues= EnumTypeConstants.enumListMap.get(elementName);
-                    if (enumValues==null)
-                        throw new SEDALibException("Type Enuméré ["+elementName+"] inconnu");
-                    if (!enumValues.contains(value))
-                        throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
+                    List<String> enumValues = EnumTypeConstants.enumListMap.get(elementName);
+                    if (enumValues == null) throw new SEDALibException("Type Enuméré [" + elementName + "] inconnu");
+                    if (!enumValues.contains(value)) throw new SEDALibException(
+                        "Valeur interdite dans un élément [" + elementName + "]"
+                    );
                     event = xmlReader.nextUsefullEvent();
-                } else
-                    value = "";
-                if ((!event.isEndElement())
-                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
-            } else
-                return false;
+                } else value = "";
+                if (
+                    (!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart()))
+                ) throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type KeywordType", e);
         }
@@ -183,14 +178,10 @@ public class EnumType extends NamedTypeMetadata {
      * @throws SEDALibException the seda lib exception
      */
     public void setValue(String value) throws SEDALibException {
-        List<String> enumValues= EnumTypeConstants.enumListMap.get(elementName);
-        if (enumValues==null)
-            throw new SEDALibException("Type Enuméré ["+elementName+"] inconnu");
-        if (value==null)
-            this.value= "";
-        else if (value.isEmpty() || enumValues.contains(value))
-            this.value = value;
-        else
-            throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
+        List<String> enumValues = EnumTypeConstants.enumListMap.get(elementName);
+        if (enumValues == null) throw new SEDALibException("Type Enuméré [" + elementName + "] inconnu");
+        if (value == null) this.value = "";
+        else if (value.isEmpty() || enumValues.contains(value)) this.value = value;
+        else throw new SEDALibException("Valeur interdite dans un élément [" + elementName + "]");
     }
 }

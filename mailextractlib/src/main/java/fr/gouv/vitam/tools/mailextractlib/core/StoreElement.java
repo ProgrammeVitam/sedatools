@@ -64,7 +64,7 @@ public abstract class StoreElement {
      */
     public StoreElement(StoreFolder storeFolder) {
         this.storeFolder = storeFolder;
-        this.listLineId=-1;
+        this.listLineId = -1;
     }
 
     /**
@@ -100,21 +100,23 @@ public abstract class StoreElement {
      * @throws InterruptedException the interrupted exception
      */
     public void logMessageWarning(String msg, Throwable t) throws InterruptedException {
-        msg+= " for "+ getLogDescription();
-        StoreElement fatherElement=getStoreExtractor().getFatherElement();
-        while (fatherElement!=null) {
-            msg+=" in "+ fatherElement.getLogDescription();
-            fatherElement=fatherElement.getStoreExtractor().getFatherElement();
+        msg += " for " + getLogDescription();
+        StoreElement fatherElement = getStoreExtractor().getFatherElement();
+        while (fatherElement != null) {
+            msg += " in " + fatherElement.getLogDescription();
+            fatherElement = fatherElement.getStoreExtractor().getFatherElement();
         }
 
         Exception ex = null;
-        if (t instanceof Exception)
-            ex = (Exception) t;
+        if (t instanceof Exception) ex = (Exception) t;
 
-        if (storeFolder.getStoreExtractor().options.warningMsgProblem)
-            doProgressLog(getProgressLogger(), MailExtractProgressLogger.WARNING, msg, ex);
-        else
-            doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, ex);
+        if (storeFolder.getStoreExtractor().options.warningMsgProblem) doProgressLog(
+            getProgressLogger(),
+            MailExtractProgressLogger.WARNING,
+            msg,
+            ex
+        );
+        else doProgressLog(getProgressLogger(), MailExtractProgressLogger.MESSAGE_DETAILS, msg, ex);
     }
 
     /**
@@ -122,7 +124,7 @@ public abstract class StoreElement {
      *
      * @return the log description
      */
-    abstract public String getLogDescription();
+    public abstract String getLogDescription();
 
     /**
      * Whole process of extraction on one element (analysis, extraction, count...).
@@ -131,7 +133,7 @@ public abstract class StoreElement {
      * @throws InterruptedException    the interrupted exception
      * @throws MailExtractLibException the mail extract lib exception
      */
-    abstract public void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException;
+    public abstract void processElement(boolean writeFlag) throws InterruptedException, MailExtractLibException;
 
     /**
      * Limited process of listing on one element (analysis, count...).
@@ -140,7 +142,7 @@ public abstract class StoreElement {
      * @throws InterruptedException    the interrupted exception
      * @throws MailExtractLibException the mail extract lib exception
      */
-    abstract public void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException;
+    public abstract void listElement(boolean statsFlag) throws InterruptedException, MailExtractLibException;
 
     /**
      * Filter hyphen for csv string.

@@ -64,18 +64,17 @@ class DeCompactorTest implements UseTestFiles {
     private void eraseAll(String dirOrFile) {
         try {
             Files.delete(Paths.get(dirOrFile));
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         try {
             FileUtils.deleteDirectory(new File(dirOrFile));
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
     }
 
     /**
      * The Sort by title tool.
      */
     static class SortByTitle implements Comparator<ArchiveUnit> {
+
         public int compare(ArchiveUnit a, ArchiveUnit b) {
             String titleA = null;
             String titleB = null;
@@ -88,8 +87,7 @@ class DeCompactorTest implements UseTestFiles {
             return titleA.compareTo(titleB);
         }
 
-        public SortByTitle() {
-        }
+        public SortByTitle() {}
     }
 
     private void sortDataObjectPackage(DataObjectPackage dataObjectPackage) {
@@ -100,45 +98,50 @@ class DeCompactorTest implements UseTestFiles {
         Collections.sort(dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList(), sortByTitle);
     }
 
-    private String removeLines(String s, int number){
+    private String removeLines(String s, int number) {
         String[] lines = s.split("\\R");
         List<String> linelist = new ArrayList<>(lines.length);
-        for (int i=number;i<lines.length;i++)
-            linelist.add(lines[i]);
-        return String.join(System.lineSeparator(),linelist);
+        for (int i = number; i < lines.length; i++) linelist.add(lines[i]);
+        return String.join(System.lineSeparator(), linelist);
     }
 
     @Test
     void TestDeCompactor() throws Exception {
-
         // Given this test directory imported with Management metadata put on root and ArchiveUnit sorted
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/SampleWithoutLinksModelV1", null);
+            "src/test/resources/PacketSamples/SampleWithoutLinksModelV1",
+            null
+        );
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
         di.doImport();
         ArchiveTransferToSIPExporter sm = new ArchiveTransferToSIPExporter(di.getArchiveTransfer(), null);
         di.getArchiveTransfer().setGlobalMetadata(new GlobalMetadata());
         DataObjectPackage dataObjectPackage = di.getArchiveTransfer().getDataObjectPackage();
-        dataObjectPackage.setManagementMetadataXmlData("    <ManagementMetadata>\n" +
-                "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n" +
-                "      <LegalStatus>Public Archive</LegalStatus>\n" +
-                "      <OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>\n" +
-                "      <SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>\n" +
-                "    </ManagementMetadata>");
+        dataObjectPackage.setManagementMetadataXmlData(
+            "    <ManagementMetadata>\n" +
+            "      <AcquisitionInformation>Acquisition Information</AcquisitionInformation>\n" +
+            "      <LegalStatus>Public Archive</LegalStatus>\n" +
+            "      <OriginatingAgencyIdentifier>Service_producteur</OriginatingAgencyIdentifier>\n" +
+            "      <SubmissionAgencyIdentifier>Service_versant</SubmissionAgencyIdentifier>\n" +
+            "    </ManagementMetadata>"
+        );
         sortDataObjectPackage(dataObjectPackage);
         dataObjectPackage.regenerateContinuousIds();
         Management management = dataObjectPackage.getArchiveUnitById("ID11").getManagement();
         dataObjectPackage.getArchiveUnitById("ID11").setManagement(null);
         dataObjectPackage.getArchiveUnitById("ID10").setManagement(management);
-        String originManifestString = removeLines(sm.getSEDAXMLManifest(true, true),2);
+        String originManifestString = removeLines(sm.getSEDAXMLManifest(true, true), 2);
         Map<String, BinaryDataObject> originBinaryMap = Map.copyOf(dataObjectPackage.getBdoInDataObjectPackageIdMap());
 
         // When compact the root ArchiveUnit and decompact it
         ArchiveUnit rootAu = dataObjectPackage.getGhostRootAu().getChildrenAuList().getArchiveUnitList().get(0);
         eraseAll("target/tmpJunit/CompactorTest");
         Compactor compactor = new Compactor(rootAu, "target/tmpJunit/CompactorTest", null);
-        compactor.setObjectVersionFilters(List.of("BinaryMaster", "TextContent"), List.of("BinaryMaster", "TextContent"));
+        compactor.setObjectVersionFilters(
+            List.of("BinaryMaster", "TextContent"),
+            List.of("BinaryMaster", "TextContent")
+        );
         compactor.setCompactedDocumentPackLimit(4096, 4);
         compactor.setDeflatedFlag(true);
         ArchiveUnit compactedAU = compactor.doCompact();
@@ -149,7 +152,7 @@ class DeCompactorTest implements UseTestFiles {
         ArchiveUnit decompactedAU = decompactor.doDeCompact();
         sortDataObjectPackage(dataObjectPackage);
         dataObjectPackage.regenerateContinuousIds();
-        String destManifestString = removeLines(sm.getSEDAXMLManifest(true, true),2);
+        String destManifestString = removeLines(sm.getSEDAXMLManifest(true, true), 2);
 
         // Then assert that
         // - there are only 2 ArchiveUnits in compacted version
@@ -159,11 +162,14 @@ class DeCompactorTest implements UseTestFiles {
         // - a Management has been kept
         assertThat(destManifestString).contains("<Management>");
         // - there are the same number of BinaryDataObjects that in origin, and that all have the same size on disk
-        assertThat(dataObjectPackage.getBdoInDataObjectPackageIdMap().size())
-                .isEqualTo(originBinaryMap.size());
+        assertThat(dataObjectPackage.getBdoInDataObjectPackageIdMap().size()).isEqualTo(originBinaryMap.size());
         for (Map.Entry<String, BinaryDataObject> e : dataObjectPackage.getBdoInDataObjectPackageIdMap().entrySet()) {
             File originBinary = e.getValue().getOnDiskPath().toFile();
-            File newBinary = dataObjectPackage.getBdoInDataObjectPackageIdMap().get(e.getKey()).getOnDiskPath().toFile();
+            File newBinary = dataObjectPackage
+                .getBdoInDataObjectPackageIdMap()
+                .get(e.getKey())
+                .getOnDiskPath()
+                .toFile();
             assertThat(originBinary.length()).isEqualTo(newBinary.length());
         }
     }

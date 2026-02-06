@@ -82,7 +82,9 @@ class DataObjectListTransferHandler extends TransferHandler {
 
     @Override
     public boolean canImport(TransferSupport ts) {
-        return ts.isDataFlavorSupported(DataFlavor.javaFileListFlavor) && (list.container.getEditedArchiveUnit() != null);
+        return (
+            ts.isDataFlavorSupported(DataFlavor.javaFileListFlavor) && (list.container.getEditedArchiveUnit() != null)
+        );
     }
 
     @Override
@@ -91,17 +93,19 @@ class DataObjectListTransferHandler extends TransferHandler {
             return false;
         }
         try {
-            List<File> files = (List<File>) ts.getTransferable().getTransferData(
-                    DataFlavor.javaFileListFlavor);
+            List<File> files = (List<File>) ts.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
             if (files.size() < 1) {
                 return false;
             }
             for (File file : files) {
                 if (file.isDirectory()) {
-                    UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheApp().mainWindow,
-                            "Il n'est pas possible de mettre\nen objet un répertoire",
-                            "Avertissement", UserInteractionDialog.IMPORTANT_DIALOG,
-                            null);
+                    UserInteractionDialog.getUserAnswer(
+                        ResipGraphicApp.getTheApp().mainWindow,
+                        "Il n'est pas possible de mettre\nen objet un répertoire",
+                        "Avertissement",
+                        UserInteractionDialog.IMPORTANT_DIALOG,
+                        null
+                    );
                     return false;
                 }
             }
@@ -124,10 +128,14 @@ class DataObjectListTransferHandler extends TransferHandler {
                 list.container.getEditedArchiveUnit().addDataObjectById(dataObjectGroup.getInDataObjectPackageId());
                 ResipGraphicApp.getTheWindow().treePane.displayedTreeNodeChanged();
             }
-            if (dataObject instanceof BinaryDataObject)
-                list.container.getEditedArchiveUnit().getDataObjectPackage().addDataObjectPackageIdElement((BinaryDataObject) dataObject);
-            else
-                list.container.getEditedArchiveUnit().getDataObjectPackage().addDataObjectPackageIdElement((PhysicalDataObject) dataObject);
+            if (dataObject instanceof BinaryDataObject) list.container
+                .getEditedArchiveUnit()
+                .getDataObjectPackage()
+                .addDataObjectPackageIdElement((BinaryDataObject) dataObject);
+            else list.container
+                .getEditedArchiveUnit()
+                .getDataObjectPackage()
+                .addDataObjectPackageIdElement((PhysicalDataObject) dataObject);
             dataObjectGroup.addDataObject(dataObject);
         } catch (SEDALibException ignored) {}
     }
@@ -138,15 +146,23 @@ class DataObjectListTransferHandler extends TransferHandler {
         String filename = path.getFileName().toString();
         if (filename.matches("__\\w+(_[0-9]+)?__PhysicalDataObjectMetadata.xml")) {
             try {
-                PhysicalDataObject pdo = new PhysicalDataObject(archiveUnit.getDataObjectPackage(), new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
+                PhysicalDataObject pdo = new PhysicalDataObject(
+                    archiveUnit.getDataObjectPackage(),
+                    new String(Files.readAllBytes(path), StandardCharsets.UTF_8)
+                );
                 addToArchiveUnitDataObjectGroup(pdo);
                 ((DefaultListModel<DataObject>) list.getModel()).addElement(pdo);
                 list.selectDataObjectListItem(pdo);
             } catch (IOException | SEDALibException e) {
-                UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                        "Impossible d'ouvrir le fichier " + path.toString()
-                                + "\nLes données peuvent avoir été parteillement modifiées",
-                        "Erreur", UserInteractionDialog.ERROR_DIALOG, null);
+                UserInteractionDialog.getUserAnswer(
+                    ResipGraphicApp.getTheWindow(),
+                    "Impossible d'ouvrir le fichier " +
+                    path.toString() +
+                    "\nLes données peuvent avoir été parteillement modifiées",
+                    "Erreur",
+                    UserInteractionDialog.ERROR_DIALOG,
+                    null
+                );
                 return;
             }
         } else {
@@ -161,11 +177,15 @@ class DataObjectListTransferHandler extends TransferHandler {
                     dataObjectVersion = "Undefined_Undefined";
                 }
             }
-            BinaryDataObject bdo = new BinaryDataObject(archiveUnit.getDataObjectPackage(), path, filename, dataObjectVersion);
+            BinaryDataObject bdo = new BinaryDataObject(
+                archiveUnit.getDataObjectPackage(),
+                path,
+                filename,
+                dataObjectVersion
+            );
             try {
                 bdo.extractTechnicalElements(null);
-            } catch (SEDALibException ignored) {
-            }
+            } catch (SEDALibException ignored) {}
             addToArchiveUnitDataObjectGroup(bdo);
             ((DefaultListModel<DataObject>) list.getModel()).addElement(bdo);
             list.selectDataObjectListItem(bdo);

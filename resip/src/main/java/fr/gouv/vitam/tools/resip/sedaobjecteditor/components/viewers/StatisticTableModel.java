@@ -47,7 +47,7 @@ import java.util.List;
  */
 public class StatisticTableModel extends AbstractTableModel {
 
-    private final String[] entetes = { "Catégorie", "Nombre", "Taille min", "Taille moy", "Taille max", "Total"};
+    private final String[] entetes = { "Catégorie", "Nombre", "Taille min", "Taille moy", "Taille max", "Total" };
     private List<StatisticData> statisticDataList;
 
     /**
@@ -80,9 +80,8 @@ public class StatisticTableModel extends AbstractTableModel {
 
     @Override
     public Class getColumnClass(int col) {
-        if (col >0)       //second column accepts only Integer values
-            return Long.class;
-        else return String.class;  //other columns accept String values
+        if (col > 0) return Long.class; //second column accepts only Integer values
+        else return String.class; //other columns accept String values
     }
 
     @Override
@@ -94,8 +93,7 @@ public class StatisticTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int arg0, int arg1) {
         if (statisticDataList == null) return null;
-        if (arg0 >= statisticDataList.size())
-            throw new IllegalArgumentException();
+        if (arg0 >= statisticDataList.size()) throw new IllegalArgumentException();
         StatisticData statisticData = statisticDataList.get(arg0);
         switch (arg1) {
             case 0:
@@ -103,20 +101,16 @@ public class StatisticTableModel extends AbstractTableModel {
             case 1:
                 return statisticData.getObjectNumber();
             case 2:
-                if (statisticData.getObjectNumber() == 0)
-                    return Long.MAX_VALUE;
+                if (statisticData.getObjectNumber() == 0) return Long.MAX_VALUE;
                 return statisticData.getMinSize();
             case 3:
-                if (statisticData.getObjectNumber() == 0)
-                    return Long.MAX_VALUE;
+                if (statisticData.getObjectNumber() == 0) return Long.MAX_VALUE;
                 return Math.round(statisticData.getMeanSize());
             case 4:
-                if (statisticData.getObjectNumber() == 0)
-                    return Long.MAX_VALUE;
+                if (statisticData.getObjectNumber() == 0) return Long.MAX_VALUE;
                 return statisticData.getMaxSize();
             case 5:
-                if (statisticData.getObjectNumber() == 0)
-                    return Long.MAX_VALUE;
+                if (statisticData.getObjectNumber() == 0) return Long.MAX_VALUE;
                 return statisticData.getTotalSize();
             default:
                 throw new IllegalArgumentException();

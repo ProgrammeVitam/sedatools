@@ -39,7 +39,7 @@ package fr.gouv.vitam.tools.javalibpst;
 
 /**
  * Items found in the 7c tables
- * 
+ *
  * @author Richard Johnson
  */
 class PSTTable7CItem extends PSTTableItem {

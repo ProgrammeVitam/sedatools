@@ -94,7 +94,10 @@ public class AnyXMLType extends NamedTypeMetadata {
         try {
             xmlWriter.writeRawXMLBlockIfNotEmpty(rawXml);
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type AnyXMLType ["+getXmlElementName()+"]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément de type AnyXMLType [" + getXmlElementName() + "]",
+                e
+            );
         }
     }
 
@@ -106,7 +109,7 @@ public class AnyXMLType extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
-        result.put("",rawXml);
+        result.put("", rawXml);
         return result;
     }
 
@@ -123,8 +126,7 @@ public class AnyXMLType extends NamedTypeMetadata {
             elementName = event.asStartElement().getName().getLocalPart();
             rawXml = xmlReader.nextBlockAsStringIfNamed(elementName);
         } catch (XMLStreamException | IllegalArgumentException e) {
-            throw new SEDALibException(
-                    "Erreur de lecture XML dans un élément de type AnyXMLType", e);
+            throw new SEDALibException("Erreur de lecture XML dans un élément de type AnyXMLType", e);
         }
         return true;
     }

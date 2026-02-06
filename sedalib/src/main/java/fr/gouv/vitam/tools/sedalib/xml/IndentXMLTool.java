@@ -126,8 +126,10 @@ public class IndentXMLTool {
             appTransformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             if (indentLength > 0) {
                 appTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                appTransformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount",
-                        Integer.toString(indentLength));
+                appTransformer.setOutputProperty(
+                    "{http://xml.apache.org/xslt}indent-amount",
+                    Integer.toString(indentLength)
+                );
             }
         } catch (Exception e) {
             appTransformer = null;
@@ -145,8 +147,7 @@ public class IndentXMLTool {
      * @return single instance of IndentXMLTool
      */
     public static IndentXMLTool getInstance(int indentLength) {
-        if ((instance == null) || (instance.indentLength != indentLength))
-            instance = new IndentXMLTool(indentLength);
+        if ((instance == null) || (instance.indentLength != indentLength)) instance = new IndentXMLTool(indentLength);
         return instance;
     }
 
@@ -160,19 +161,21 @@ public class IndentXMLTool {
     public String indentString(String xml) throws SEDALibException {
         String result;
 
-        xml=xml.trim();
-        if (xml.isEmpty())
-            return "";
+        xml = xml.trim();
+        if (xml.isEmpty()) return "";
 
-        if (appTransformer == null)
-            return xml;
+        if (appTransformer == null) return xml;
 
         DocumentBuilder appDocumentBuilder;
         try {
             appDocumentBuilder = dbf.newDocumentBuilder(); // NOSONAR no Doctype risk as all is encapsulated in a <INDENT> tag
             Document doc = appDocumentBuilder.parse(new InputSource(new StringReader("<INDENT>" + xml + "</INDENT>")));
             XPath xPath = xpf.newXPath();
-            NodeList nodeList = (NodeList) xPath.evaluate("//text()[normalize-space()='']", doc, XPathConstants.NODESET);
+            NodeList nodeList = (NodeList) xPath.evaluate(
+                "//text()[normalize-space()='']",
+                doc,
+                XPathConstants.NODESET
+            );
 
             for (int i = 0; i < nodeList.getLength(); ++i) {
                 Node node = nodeList.item(i);
@@ -187,23 +190,26 @@ public class IndentXMLTool {
             result = stringWriter.toString();
             result = result.substring(0, result.lastIndexOf("</INDENT>") - 1).substring(9);
             // trim beginning CR
-            while (result.startsWith("\n"))
-                result = result.substring(1);
+            while (result.startsWith("\n")) result = result.substring(1);
 
             StringBuilder sb = new StringBuilder();
             String tmp;
             try (Scanner s = new Scanner(result)) {
                 while (s.hasNextLine()) {
                     tmp = s.nextLine();
-                    if (tmp.startsWith(indentElement) && tmp.trim().startsWith("<"))
-                        tmp = tmp.substring(indentLength);
+                    if (tmp.startsWith(indentElement) && tmp.trim().startsWith("<")) tmp = tmp.substring(indentLength);
                     sb.append(tmp).append('\n');
                 }
             }
-            if (sb.length() > 1)
-                sb.setLength(sb.length() - 1);
+            if (sb.length() > 1) sb.setLength(sb.length() - 1);
             return sb.toString();
-        } catch (ParserConfigurationException | SAXException | IOException | XPathExpressionException | TransformerException e) {
+        } catch (
+            ParserConfigurationException
+            | SAXException
+            | IOException
+            | XPathExpressionException
+            | TransformerException e
+        ) {
             throw new SEDALibException("XML mal formé", e);
         }
     }

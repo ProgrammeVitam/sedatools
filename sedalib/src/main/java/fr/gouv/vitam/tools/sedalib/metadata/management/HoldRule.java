@@ -56,12 +56,12 @@ import java.util.Map;
  */
 public class HoldRule extends RuleType {
 
-    static final String HOLDRULE_TAG="HoldRule";
-    static final String HOLDENDDATE_TAG="HoldEndDate";
-    static final String HOLDOWNER_TAG="HoldOwner";
-    static final String HOLDREASSESSINGDATE_TAG="HoldReassessingDate";
-    static final String HOLDREASON_TAG="HoldReason";
-    static final String HOLDPREVENTREARRANGEMENT_TAG="PreventRearrangement";
+    static final String HOLDRULE_TAG = "HoldRule";
+    static final String HOLDENDDATE_TAG = "HoldEndDate";
+    static final String HOLDOWNER_TAG = "HoldOwner";
+    static final String HOLDREASSESSINGDATE_TAG = "HoldReassessingDate";
+    static final String HOLDREASON_TAG = "HoldReason";
+    static final String HOLDPREVENTREARRANGEMENT_TAG = "PreventRearrangement";
 
     /**
      * Init metadata map.

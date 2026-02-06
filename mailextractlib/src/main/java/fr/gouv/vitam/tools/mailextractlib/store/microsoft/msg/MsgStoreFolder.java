@@ -37,8 +37,8 @@
  */
 package fr.gouv.vitam.tools.mailextractlib.store.microsoft.msg;
 
-import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.core.StoreAttachment;
+import fr.gouv.vitam.tools.mailextractlib.core.StoreFolder;
 import fr.gouv.vitam.tools.mailextractlib.nodes.ArchiveUnit;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import org.apache.poi.hsmf.MAPIMessage;
@@ -61,9 +61,9 @@ public class MsgStoreFolder extends StoreFolder {
      * @param size           the size
      * @throws InterruptedException the interrupted exception
      */
-    public MsgStoreFolder(MsgStoreExtractor storeExtractor, MAPIMessage message, long size) throws InterruptedException {
+    public MsgStoreFolder(MsgStoreExtractor storeExtractor, MAPIMessage message, long size)
+        throws InterruptedException {
         super(storeExtractor);
-
         this.msgStoreMessage = new MsgStoreMessage(this, message, size);
     }
 
@@ -77,8 +77,12 @@ public class MsgStoreFolder extends StoreFolder {
      * @return the LP store folder
      * @throws InterruptedException the interrupted exception
      */
-    public static MsgStoreFolder createRootFolder(MsgStoreExtractor storeExtractor, MAPIMessage message, long size,
-                                                  ArchiveUnit rootArchiveUnit) throws InterruptedException {
+    public static MsgStoreFolder createRootFolder(
+        MsgStoreExtractor storeExtractor,
+        MAPIMessage message,
+        long size,
+        ArchiveUnit rootArchiveUnit
+    ) throws InterruptedException {
         MsgStoreFolder result = new MsgStoreFolder(storeExtractor, message, size);
         result.folderArchiveUnit = rootArchiveUnit;
 
@@ -118,8 +122,9 @@ public class MsgStoreFolder extends StoreFolder {
         if (attachment != null) {
             attachment.setStoreContent(msgStoreMessage.getMimeContent());
             attachment.setMimeType("message/rfc822");
-            if ((attachment.getName() == null) || attachment.getName().isEmpty())
-                attachment.setName(msgStoreMessage.getSubject() + ".eml");
+            if ((attachment.getName() == null) || attachment.getName().isEmpty()) attachment.setName(
+                msgStoreMessage.getSubject() + ".eml"
+            );
         }
     }
 
@@ -131,8 +136,7 @@ public class MsgStoreFolder extends StoreFolder {
      * int, boolean)
      */
     @Override
-    protected void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException {
-    }
+    protected void doExtractSubFolders(int level, boolean writeFlag) throws MailExtractLibException {}
 
     /*
      * (non-Javadoc)
@@ -174,6 +178,5 @@ public class MsgStoreFolder extends StoreFolder {
      * boolean)
      */
     @Override
-    protected void doListSubFolders(boolean stats) throws MailExtractLibException {
-    }
+    protected void doListSubFolders(boolean stats) throws MailExtractLibException {}
 }

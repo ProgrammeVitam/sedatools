@@ -36,7 +36,7 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 /*
- * 
+ *
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
@@ -49,8 +49,8 @@ public class CSVTreeImportContext extends CSVImportContext {
      * Instantiates a new csv tree import context.
      */
     public CSVTreeImportContext() {
-		this(null, ';', null, null);
-	}
+        this(null, ';', null, null);
+    }
 
     /**
      * Instantiates a new csv tree import context.
@@ -61,8 +61,8 @@ public class CSVTreeImportContext extends CSVImportContext {
      * @param workDir        the work dir
      */
     public CSVTreeImportContext(String csvCharsetName, char delimiter, String onDiskInput, String workDir) {
-		super(csvCharsetName, delimiter, onDiskInput, workDir);
-	}
+        super(csvCharsetName, delimiter, onDiskInput, workDir);
+    }
 
     /**
      * Instantiates a new csv tree import context from preferences.
@@ -70,12 +70,11 @@ public class CSVTreeImportContext extends CSVImportContext {
      * @param preferences the prefs
      */
     public CSVTreeImportContext(Preferences preferences) {
-		super(preferences);
-	}
+        super(preferences);
+    }
 
-	/* (non-Javadoc)
-	 * @see CreationContext#toPrefs(Prefs)
-	 */
-	public void toPrefs(Preferences preferences) {
-	}
+    /* (non-Javadoc)
+     * @see CreationContext#toPrefs(Prefs)
+     */
+    public void toPrefs(Preferences preferences) {}
 }

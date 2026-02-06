@@ -67,19 +67,21 @@ public class InterfaceParameters {
         experimentalFlag = false;
     }
 
-
     /**
      * Instantiates a new creation context.
      *
      * @param preferences the prefs
      */
     public InterfaceParameters(Preferences preferences) {
-        structuredMetadataEditionFlag=Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("interfaceParameters.structuredEdtionFlag", "true"));
+        structuredMetadataEditionFlag = Boolean.parseBoolean(
+            preferences.getPrefProperties().getProperty("interfaceParameters.structuredEdtionFlag", "true")
+        );
         debugFlag = Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("interfaceParameters.debugFlag", "false"));
+            preferences.getPrefProperties().getProperty("interfaceParameters.debugFlag", "false")
+        );
         experimentalFlag = Boolean.parseBoolean(
-            preferences.getPrefProperties().getProperty("interfaceParameters.experimentalFlag", "false"));
+            preferences.getPrefProperties().getProperty("interfaceParameters.experimentalFlag", "false")
+        );
     }
 
     /**
@@ -88,16 +90,20 @@ public class InterfaceParameters {
      * @param preferences the prefs
      */
     public void toPrefs(Preferences preferences) {
-        preferences.getPrefProperties().setProperty("interfaceParameters.structuredEdtionFlag",Boolean.toString(structuredMetadataEditionFlag));
+        preferences
+            .getPrefProperties()
+            .setProperty("interfaceParameters.structuredEdtionFlag", Boolean.toString(structuredMetadataEditionFlag));
         preferences.getPrefProperties().setProperty("interfaceParameters.debugFlag", Boolean.toString(debugFlag));
-        preferences.getPrefProperties().setProperty("interfaceParameters.experimentalFlag", Boolean.toString(experimentalFlag));
+        preferences
+            .getPrefProperties()
+            .setProperty("interfaceParameters.experimentalFlag", Boolean.toString(experimentalFlag));
     }
 
     /**
      * Sets the default prefs.
      */
     public void setDefaultPrefs() {
-        structuredMetadataEditionFlag=true;
+        structuredMetadataEditionFlag = true;
         debugFlag = false;
         experimentalFlag = false;
     }

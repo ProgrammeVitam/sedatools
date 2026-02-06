@@ -36,7 +36,7 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 /*
- * 
+ *
  */
 package fr.gouv.vitam.tools.resip.parameters;
 
@@ -49,8 +49,8 @@ public class SIPImportContext extends CreationContext {
      * Instantiates a new SIP import context.
      */
     public SIPImportContext() {
-		this(null, null);
-	}
+        this(null, null);
+    }
 
     /**
      * Instantiates a new SIP import context.
@@ -58,9 +58,9 @@ public class SIPImportContext extends CreationContext {
      * @param onDiskInput the on disk input
      * @param workDir     the work dir
      */
-    public SIPImportContext(String onDiskInput, String workDir){
-		super (onDiskInput, workDir);
-	}
+    public SIPImportContext(String onDiskInput, String workDir) {
+        super(onDiskInput, workDir);
+    }
 
     /**
      * Instantiates a new SIP import context.
@@ -68,12 +68,11 @@ public class SIPImportContext extends CreationContext {
      * @param preferences the prefs
      */
     public SIPImportContext(Preferences preferences) {
-		super(preferences);
-	}
+        super(preferences);
+    }
 
-	/* (non-Javadoc)
-	 * @see CreationContext#toPrefs(Prefs)
-	 */
-	public void toPrefs(Preferences preferences) {
-	}
+    /* (non-Javadoc)
+     * @see CreationContext#toPrefs(Prefs)
+     */
+    public void toPrefs(Preferences preferences) {}
 }

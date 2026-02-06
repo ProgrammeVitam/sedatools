@@ -37,13 +37,9 @@
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
-import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
-import fr.gouv.vitam.tools.resip.frame.BigTextEditDialog;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.AutomaticGrowingTextArea;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorSimplePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.data.Relationship;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 
 import javax.swing.*;
@@ -86,8 +82,9 @@ public class RelationshipEditor extends SEDAObjectEditor {
      */
     public RelationshipEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof Relationship))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof Relationship)) throw new SEDALibException(
+            "La métadonnée à éditer n'est pas du bon type"
+        );
     }
 
     private Relationship getRelationshipMetadata() {
@@ -102,7 +99,7 @@ public class RelationshipEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
         return new Relationship();
     }
 
@@ -120,8 +117,9 @@ public class RelationshipEditor extends SEDAObjectEditor {
     @Override
     public String getSummary() throws SEDALibException {
         String result = "";
-        if ((attributeTargetField.getText() != null) && !attributeTargetField.getText().isEmpty())
-            result = "(" + attributeTargetField.getText() + ")";
+        if ((attributeTargetField.getText() != null) && !attributeTargetField.getText().isEmpty()) result = "(" +
+        attributeTargetField.getText() +
+        ")";
         return result;
     }
 
@@ -136,8 +134,8 @@ public class RelationshipEditor extends SEDAObjectEditor {
         typeWidth = (int) SEDAObjectEditor.LABEL_FONT.getStringBounds("0123456789", frc).getWidth();
 
         labelGBL = new GridBagLayout();
-        labelGBL.columnWidths = new int[]{0, targetWidth, typeWidth,0};
-        labelGBL.columnWeights = new double[]{1.0, 0.0, 0.0,0.0};
+        labelGBL.columnWidths = new int[] { 0, targetWidth, typeWidth, 0 };
+        labelGBL.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0 };
         labelPanel.setLayout(labelGBL);
 
         beforeLabel = new JLabel(getName() + (getRelationshipMetadata().getTarget() == null ? "" : "("));
@@ -226,8 +224,8 @@ public class RelationshipEditor extends SEDAObjectEditor {
 
         JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0, 0.0};
-        gbl.rowWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0, 0.0 };
+        gbl.rowWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
         this.sedaObjectEditorPanel = new SEDAObjectEditorSimplePanel(this, labelPanel, editPanel);

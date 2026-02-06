@@ -54,40 +54,39 @@ public class StatisticCellRenderer extends DefaultTableCellRenderer {
      * @return the string
      */
     private static String readableFileSize(long size) {
-        if (size <= 0)
-            return "0";
+        if (size <= 0) return "0";
         final String[] units = new String[] { "B", "kB", "MB", "GB", "TB" };
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
-                                                   boolean hasFocus, int row, int column) {
-        super.getTableCellRendererComponent(table,"",isSelected,hasFocus,row,column);
+    public Component getTableCellRendererComponent(
+        JTable table,
+        Object value,
+        boolean isSelected,
+        boolean hasFocus,
+        int row,
+        int column
+    ) {
+        super.getTableCellRendererComponent(table, "", isSelected, hasFocus, row, column);
 
         String cellContent;
         if (value != null) {
-            if (value instanceof String)
-                cellContent = (String) value;
+            if (value instanceof String) cellContent = (String) value;
             else if (value instanceof Long) {
-                if ((Long) value == Long.MAX_VALUE)
-                    cellContent = "-";
-                else if (column==5)
-                    cellContent=readableFileSize((Long)value);
-                else
-                    cellContent = String.format("%,d", (Long) value);
+                if ((Long) value == Long.MAX_VALUE) cellContent = "-";
+                else if (column == 5) cellContent = readableFileSize((Long) value);
+                else cellContent = String.format("%,d", (Long) value);
             } else cellContent = value.toString();
 
             if (column <= 1) {
                 setHorizontalAlignment(SwingConstants.CENTER);
                 setText(cellContent);
-            }
-            else {
+            } else {
                 setHorizontalAlignment(SwingConstants.RIGHT);
-                setText(cellContent+" ");
+                setText(cellContent + " ");
             }
-
-            }
+        }
         return this;
     }
 }

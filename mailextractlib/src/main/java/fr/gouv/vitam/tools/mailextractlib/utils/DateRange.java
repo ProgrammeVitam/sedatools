@@ -49,6 +49,7 @@ import java.util.TimeZone;
  * it directly contains and of the start and end dates of all its subfolders.
  */
 public class DateRange {
+
     private Date start, end;
 
     /**
@@ -86,7 +87,7 @@ public class DateRange {
      *            Date
      * @return the ISO date string
      */
-    static public String getISODateString(Date date) {
+    public static String getISODateString(Date date) {
         if (date == null) {
             return null;
         } else {
@@ -134,10 +135,8 @@ public class DateRange {
                 start = date;
                 end = date;
             } else {
-                if (start.after(date))
-                    start = date;
-                else if (end.before(date))
-                    end = date;
+                if (start.after(date)) start = date;
+                else if (end.before(date)) end = date;
             }
         }
     }
@@ -155,10 +154,8 @@ public class DateRange {
                 start = dateRange.start;
                 end = dateRange.end;
             } else {
-                if (start.after(dateRange.start))
-                    start = dateRange.start;
-                if (end.before(dateRange.end))
-                    end = dateRange.end;
+                if (start.after(dateRange.start)) start = dateRange.start;
+                if (end.before(dateRange.end)) end = dateRange.end;
             }
         }
     }

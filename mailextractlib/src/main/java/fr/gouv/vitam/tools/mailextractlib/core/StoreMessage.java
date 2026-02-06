@@ -46,9 +46,6 @@ import fr.gouv.vitam.tools.mailextractlib.utils.DateRange;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractLibException;
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
 import fr.gouv.vitam.tools.mailextractlib.utils.RawDataSource;
-import org.apache.poi.hmef.Attachment;
-import org.apache.poi.hmef.HMEFMessage;
-
 import jakarta.activation.DataHandler;
 import jakarta.mail.MessagingException;
 import jakarta.mail.Session;
@@ -56,10 +53,11 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 import jakarta.mail.internet.MimeUtility;
+import org.apache.poi.hmef.Attachment;
+import org.apache.poi.hmef.HMEFMessage;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -127,22 +125,22 @@ public abstract class StoreMessage extends StoreElement {
     /**
      * The Constant TEXT_BODY.
      */
-    static public final int TEXT_BODY = 0;
+    public static final int TEXT_BODY = 0;
 
     /**
      * The Constant HTML_BODY.
      */
-    static public final int HTML_BODY = 1;
+    public static final int HTML_BODY = 1;
 
     /**
      * The Constant RTF_BODY.
      */
-    static public final int RTF_BODY = 2;
+    public static final int RTF_BODY = 2;
 
     /**
      * The Constant OUT_OF_BODY.
      */
-    static public final int OUT_OF_BODY = 3;
+    public static final int OUT_OF_BODY = 3;
 
     /**
      * Complete mail header from original smtp format, if any.
@@ -286,10 +284,8 @@ public abstract class StoreMessage extends StoreElement {
     @Override
     public String getLogDescription() {
         String result = "message " + listLineId;
-        if (subject != null)
-            result += " [" + subject + "]";
-        else
-            result += " [no subject]";
+        if (subject != null) result += " [" + subject + "]";
+        else result += " [no subject]";
         return result;
     }
 
@@ -400,10 +396,12 @@ public abstract class StoreMessage extends StoreElement {
             List<StoreAttachment> newAttachments = new ArrayList<>();
             for (StoreAttachment a : attachments) {
                 partialExtraction = false;
-                if ((a.attachmentType != StoreAttachment.STORE_ATTACHMENT)
-                        && (a.attachmentContent instanceof byte[])
-                        && ((a.mimeType.toLowerCase().equals("application/ms-tnef")
-                        || (a.mimeType.toLowerCase().equals("application/vnd.ms-tnef"))))) {
+                if (
+                    (a.attachmentType != StoreAttachment.STORE_ATTACHMENT) &&
+                    (a.attachmentContent instanceof byte[]) &&
+                    ((a.mimeType.toLowerCase().equals("application/ms-tnef") ||
+                            (a.mimeType.toLowerCase().equals("application/vnd.ms-tnef"))))
+                ) {
                     try {
                         ByteArrayInputStream bais = new ByteArrayInputStream((byte[]) a.attachmentContent);
                         HMEFMessage tnefPart = new HMEFMessage(bais);
@@ -411,28 +409,42 @@ public abstract class StoreMessage extends StoreElement {
                         String rtfBody = tnefPart.getBody();
                         List<Attachment> tnefAttachments = tnefPart.getAttachments();
 
-                        if ((bodyContent[RTF_BODY] == null) || bodyContent[RTF_BODY].isEmpty())
-                            bodyContent[RTF_BODY] = rtfBody;
-                        else
-                            logMessageWarning("mailextractlib: redondant rtf body extracted from winmail.dat droped", null);
+                        if ((bodyContent[RTF_BODY] == null) || bodyContent[RTF_BODY].isEmpty()) bodyContent[RTF_BODY] =
+                            rtfBody;
+                        else logMessageWarning(
+                            "mailextractlib: redondant rtf body extracted from winmail.dat droped",
+                            null
+                        );
 
                         for (Attachment tnefAttachment : tnefAttachments) {
                             try {
-                                StoreAttachment smAttachment = new StoreAttachment(this, tnefAttachment.getContents(),
-                                        "file", tnefAttachment.getLongFilename(),
-                                        null, tnefAttachment.getModifiedDate(),
-                                        TikaExtractor.getInstance().getMimeType(tnefAttachment.getContents()),
-                                        null, StoreAttachment.FILE_ATTACHMENT);
+                                StoreAttachment smAttachment = new StoreAttachment(
+                                    this,
+                                    tnefAttachment.getContents(),
+                                    "file",
+                                    tnefAttachment.getLongFilename(),
+                                    null,
+                                    tnefAttachment.getModifiedDate(),
+                                    TikaExtractor.getInstance().getMimeType(tnefAttachment.getContents()),
+                                    null,
+                                    StoreAttachment.FILE_ATTACHMENT
+                                );
                                 newAttachments.add(smAttachment);
                             } catch (Exception e) {
-                                logMessageWarning("mailextractlib: can't extract all informations from winmail.dat content, " +
-                                        "it will be extracted partially and it will be extracted as a file", e);
+                                logMessageWarning(
+                                    "mailextractlib: can't extract all informations from winmail.dat content, " +
+                                    "it will be extracted partially and it will be extracted as a file",
+                                    e
+                                );
                                 partialExtraction = true;
                             }
                         }
                         if (partialExtraction) newAttachments.add(a);
                     } catch (Exception e) {
-                        logMessageWarning("mailextractlib: can't analyze winmail.dat content, it will be extracted as a file", e);
+                        logMessageWarning(
+                            "mailextractlib: can't analyze winmail.dat content, it will be extracted as a file",
+                            e
+                        );
                         newAttachments.add(a);
                     }
                 } else newAttachments.add(a);
@@ -472,16 +484,14 @@ public abstract class StoreMessage extends StoreElement {
         // header metadata extraction
         // * special global
         analyzeSubject();
-        if ((subject == null) || subject.isEmpty())
-            subject = "[SubjectVide]";
+        if ((subject == null) || subject.isEmpty()) subject = "[SubjectVide]";
 
         // header content extraction
         prepareAnalyze();
 
         // * messageID
         analyzeMessageID();
-        if ((messageID == null) || messageID.isEmpty())
-            messageID = "[MessageIDVide]";
+        if ((messageID == null) || messageID.isEmpty()) messageID = "[MessageIDVide]";
 
         // * recipients and co
         analyzeFrom();
@@ -513,12 +523,9 @@ public abstract class StoreMessage extends StoreElement {
     // desencapsulate html and text from rtf
     private void optimizeBodies() {
         // get rid of useless beginning and ending spaces, carriage returns...
-        if (bodyContent[TEXT_BODY] != null)
-            bodyContent[TEXT_BODY] = bodyContent[TEXT_BODY].trim();
-        if (bodyContent[HTML_BODY] != null)
-            bodyContent[HTML_BODY] = bodyContent[HTML_BODY].trim();
-        if (bodyContent[RTF_BODY] != null)
-            bodyContent[RTF_BODY] = bodyContent[RTF_BODY].trim();
+        if (bodyContent[TEXT_BODY] != null) bodyContent[TEXT_BODY] = bodyContent[TEXT_BODY].trim();
+        if (bodyContent[HTML_BODY] != null) bodyContent[HTML_BODY] = bodyContent[HTML_BODY].trim();
+        if (bodyContent[RTF_BODY] != null) bodyContent[RTF_BODY] = bodyContent[RTF_BODY].trim();
 
         try {
             // de-encapsulate TEXT and HTML from RTF if defined as encapsulated
@@ -533,12 +540,13 @@ public abstract class StoreMessage extends StoreElement {
                             bodyContent[TEXT_BODY] = result;
                             bodyContent[RTF_BODY] = null;
                         } else {
-                            if (bodyContent[TEXT_BODY].equals(result))
-                                bodyContent[RTF_BODY] = null;
+                            if (bodyContent[TEXT_BODY].equals(result)) bodyContent[RTF_BODY] = null;
                         }
                     }
-                } else if (htmlExtractor.isEncapsulatedHTMLinRTF()
-                        && ((bodyContent[HTML_BODY] == null) || bodyContent[HTML_BODY].isEmpty())) {
+                } else if (
+                    htmlExtractor.isEncapsulatedHTMLinRTF() &&
+                    ((bodyContent[HTML_BODY] == null) || bodyContent[HTML_BODY].isEmpty())
+                ) {
                     String result = htmlExtractor.getDeEncapsulateHTMLFromRTF();
                     if ((result != null) && !result.isEmpty()) {
                         result = result.trim();
@@ -546,7 +554,6 @@ public abstract class StoreMessage extends StoreElement {
                         bodyContent[RTF_BODY] = null;
                     }
                 }
-
             }
         } catch (MailExtractLibException e) {
             doProgressLogIfDebug(getProgressLogger(), "Bodies optimization error", e);
@@ -569,10 +576,8 @@ public abstract class StoreMessage extends StoreElement {
         if (storeFolder.getStoreExtractor().getOptions().extractMessages) {
             listLineId = storeFolder.getStoreExtractor().incElementCounter(this.getClass());
             analyzeMessage();
-            if (statsFlag)
-                extractMessage(false);
+            if (statsFlag) extractMessage(false);
             countMessage();
-
         }
     }
 
@@ -593,8 +598,7 @@ public abstract class StoreMessage extends StoreElement {
         String textContent = null;
 
         // create message unit
-        if ((subject == null) || subject.trim().isEmpty())
-            subject = "[Vide]";
+        if ((subject == null) || subject.trim().isEmpty()) subject = "[Vide]";
 
         messageNode = new ArchiveUnit(storeFolder.storeExtractor, storeFolder.folderArchiveUnit, "Message", subject);
 
@@ -611,22 +615,27 @@ public abstract class StoreMessage extends StoreElement {
         messageNode.addMetadata("ReceivedDate", DateRange.getISODateString(receivedDate), false);
 
         // reply-to messageID
-        if ((inReplyToUID != null) && !inReplyToUID.isEmpty())
-            messageNode.addMetadata("OriginatingSystemIdReplyTo", inReplyToUID, false);
+        if ((inReplyToUID != null) && !inReplyToUID.isEmpty()) messageNode.addMetadata(
+            "OriginatingSystemIdReplyTo",
+            inReplyToUID,
+            false
+        );
 
         // get textContent if TEXT_CONTENT not empty
-        if ((bodyContent[TEXT_BODY] != null) && !bodyContent[TEXT_BODY].isEmpty())
-            textContent = bodyContent[TEXT_BODY];
+        if ((bodyContent[TEXT_BODY] != null) && !bodyContent[TEXT_BODY].isEmpty()) textContent = bodyContent[TEXT_BODY];
 
         // get text content from html if no textContent
-        if ((textContent == null) && (bodyContent[HTML_BODY] != null))
-            textContent = HTMLTextExtractor.getInstance().act(bodyContent[HTML_BODY]);
+        if ((textContent == null) && (bodyContent[HTML_BODY] != null)) textContent = HTMLTextExtractor.getInstance()
+            .act(bodyContent[HTML_BODY]);
 
         // purify textContent and put in metadata
         if ((textContent != null) && (!textContent.trim().isEmpty())) {
-            if (getStoreExtractor().options.extractMessageTextFile)
-                messageNode.addObject(HTMLTextExtractor.getInstance().htmlStringtoString(textContent), messageID + ".txt",
-                        "TextContent", 1);
+            if (getStoreExtractor().options.extractMessageTextFile) messageNode.addObject(
+                HTMLTextExtractor.getInstance().htmlStringtoString(textContent),
+                messageID + ".txt",
+                "TextContent",
+                1
+            );
             if (getStoreExtractor().options.extractMessageTextMetadata) {
                 messageNode.addLongMetadata("TextContent", textContent, true);
             }
@@ -648,33 +657,38 @@ public abstract class StoreMessage extends StoreElement {
                 logMessageWarning("mailextractlib: can't extract raw content", e);
             }
         }
-        if (mimeContent == null)
-            mimeContent = "".getBytes();
+        if (mimeContent == null) mimeContent = "".getBytes();
 
         // add object binary master except if empty one
         messageNode.addObject(mimeContent, messageID + ".eml", "BinaryMaster", 1);
 
-        if (writeFlag
-                && storeFolder.getStoreExtractor().getOptions().extractElementsContent)
-            messageNode.write();
+        if (writeFlag && storeFolder.getStoreExtractor().getOptions().extractElementsContent) messageNode.write();
 
         int logLevel;
         if (getStoreExtractor().isRoot()) {
-            doProgressLogOneMoreCountedObject(getProgressLogger(), MailExtractProgressLogger.MESSAGE_GROUP, "mailextractlib: %count extracted messages");
+            doProgressLogOneMoreCountedObject(
+                getProgressLogger(),
+                MailExtractProgressLogger.MESSAGE_GROUP,
+                "mailextractlib: %count extracted messages"
+            );
             logLevel = MailExtractProgressLogger.MESSAGE;
-        } else
-            logLevel = MailExtractProgressLogger.MESSAGE_DETAILS;
+        } else logLevel = MailExtractProgressLogger.MESSAGE_DETAILS;
 
-        doProgressLog(getProgressLogger(), logLevel, "mailextractlib: extracted " + getLogDescription() +
-                " with SentDate=" + (sentDate == null ? "Unknown sent date" : sentDate.toString()), null);
+        doProgressLog(
+            getProgressLogger(),
+            logLevel,
+            "mailextractlib: extracted " +
+            getLogDescription() +
+            " with SentDate=" +
+            (sentDate == null ? "Unknown sent date" : sentDate.toString()),
+            null
+        );
 
         // write in csv list if asked for
-        if (writeFlag
-                && getStoreExtractor().options.extractElementsList
-                && getStoreExtractor().canExtractObjectsLists())
-            writeToMailsList();
-        if (Thread.interrupted())
-            throw new InterruptedException("mailextractlib: interrupted");
+        if (
+            writeFlag && getStoreExtractor().options.extractElementsList && getStoreExtractor().canExtractObjectsLists()
+        ) writeToMailsList();
+        if (Thread.interrupted()) throw new InterruptedException("mailextractlib: interrupted");
     }
 
     /**
@@ -682,7 +696,7 @@ public abstract class StoreMessage extends StoreElement {
      *
      * @return the element name
      */
-    static public String getElementName() {
+    public static String getElementName() {
         return "messages";
     }
 
@@ -691,11 +705,13 @@ public abstract class StoreMessage extends StoreElement {
      *
      * @param ps the dedicated print stream
      */
-    static public void printGlobalListCSVHeader(PrintStream ps) {
+    public static void printGlobalListCSVHeader(PrintStream ps) {
         synchronized (ps) {
-            ps.println("ID;SentDate;ReceivedDate;FromName;FromAddress;" +
-                    "ToList;Subject;MessageID;" +
-                    "AttachmentList;ReplyTo;Folder;Size;Attached");
+            ps.println(
+                "ID;SentDate;ReceivedDate;FromName;FromAddress;" +
+                "ToList;Subject;MessageID;" +
+                "AttachmentList;ReplyTo;Folder;Size;Attached"
+            );
         }
     }
 
@@ -704,31 +720,24 @@ public abstract class StoreMessage extends StoreElement {
         synchronized (ps) {
             try {
                 ps.format("\"%d\";", listLineId);
-                ps.format("\"%s\";",
-                        (sentDate == null ? "" : DateRange.getISODateString(sentDate)));
-                ps.format("\"%s\";",
-                        (receivedDate == null ? "" : DateRange.getISODateString(receivedDate)));
+                ps.format("\"%s\";", (sentDate == null ? "" : DateRange.getISODateString(sentDate)));
+                ps.format("\"%s\";", (receivedDate == null ? "" : DateRange.getISODateString(receivedDate)));
                 if ((from != null) && !from.isEmpty()) {
                     MetadataPerson p = new MetadataPerson(from);
-                    ps.format("\"%s\";\"%s\";", filterHyphenForCsv(p.fullName),
-                            filterHyphenForCsv(p.identifier));
-                } else
-                    ps.print("\"\";\"\";");
-                ps.format("\"%s\";",
-                        filterHyphenForCsv(personStringListToIndentifierString(recipientTo)));
+                    ps.format("\"%s\";\"%s\";", filterHyphenForCsv(p.fullName), filterHyphenForCsv(p.identifier));
+                } else ps.print("\"\";\"\";");
+                ps.format("\"%s\";", filterHyphenForCsv(personStringListToIndentifierString(recipientTo)));
                 ps.format("\"%s\";", filterHyphenForCsv(subject));
                 ps.format("\"%s\";", filterHyphenForCsv(messageID));
                 ps.format("\"%s\";", filterHyphenForCsv(attachmentsNamesList()));
-                if ((replyTo == null) || replyTo.isEmpty())
-                    ps.format("\"\";");
+                if ((replyTo == null) || replyTo.isEmpty()) ps.format("\"\";");
                 else {
                     MetadataPerson p = new MetadataPerson(replyTo.get(0));
                     ps.format("\"%s\";", filterHyphenForCsv(p.identifier));
                 }
                 ps.format("\"%s\";", filterHyphenForCsv(storeFolder.getFullName()));
                 ps.format("\"%d\";", this.getMessageSize());
-                if (!storeFolder.getStoreExtractor().isRoot())
-                    ps.format("\"Attached\"");
+                if (!storeFolder.getStoreExtractor().isRoot()) ps.format("\"Attached\"");
                 ps.println();
                 ps.flush();
             } catch (Exception e) {
@@ -744,10 +753,8 @@ public abstract class StoreMessage extends StoreElement {
 
         if (sList != null) {
             for (String s : sList) {
-                if (first)
-                    first = false;
-                else
-                    result += ", ";
+                if (first) first = false;
+                else result += ", ";
                 p = new MetadataPerson(s);
                 result += p.identifier;
             }
@@ -761,10 +768,8 @@ public abstract class StoreMessage extends StoreElement {
 
         if (attachments != null) {
             for (StoreAttachment a : attachments) {
-                if (first)
-                    first = false;
-                else
-                    result += ", ";
+                if (first) first = false;
+                else result += ", ";
                 result += a.getName();
             }
         }
@@ -804,7 +809,7 @@ public abstract class StoreMessage extends StoreElement {
     }
 
     private static void setAddressList(MimeMessage mime, String tag, List<String> addressList)
-            throws MessagingException, UnsupportedEncodingException {
+        throws MessagingException, UnsupportedEncodingException {
         if ((addressList != null) && (!addressList.isEmpty())) {
             String value = "";
             int countline = 0;
@@ -814,8 +819,7 @@ public abstract class StoreMessage extends StoreElement {
                 if (countline + tmp.length() > 80) {
                     value += "\n\t";
                     countline = 1;
-                } else
-                    countline += tmp.length();
+                } else countline += tmp.length();
                 value += MimeUtility.encodeText(tmp, "UTF-8", "Q") + ",";
             }
             value = value.substring(0, value.length() - 1);
@@ -829,8 +833,7 @@ public abstract class StoreMessage extends StoreElement {
             if ((mailHeader != null) && (mailHeader.size() > 0)) {
                 String tag, value;
                 for (String tmp : mailHeader) {
-                    if (tmp.indexOf(':') < 0)
-                        continue;
+                    if (tmp.indexOf(':') < 0) continue;
                     tag = tmp.substring(0, tmp.indexOf(':'));
                     value = tmp.substring(tmp.indexOf(':') + 1);
                     mime.setHeader(tag, value);
@@ -838,35 +841,28 @@ public abstract class StoreMessage extends StoreElement {
             }
 
             // Return-Path
-            if (returnPath != null)
-                mime.setHeader("Return-Path", MimeUtility.encodeText(returnPath, "UTF-8", "Q"));
+            if (returnPath != null) mime.setHeader("Return-Path", MimeUtility.encodeText(returnPath, "UTF-8", "Q"));
             // From
-            if (from != null)
-                mime.setHeader("From", MimeUtility.encodeText(from, "UTF-8", "Q"));
+            if (from != null) mime.setHeader("From", MimeUtility.encodeText(from, "UTF-8", "Q"));
             // To
-            if (recipientTo != null)
-                setAddressList(mime, "To", recipientTo);
+            if (recipientTo != null) setAddressList(mime, "To", recipientTo);
             // cc
-            if (recipientCc != null)
-                setAddressList(mime, "cc", recipientCc);
+            if (recipientCc != null) setAddressList(mime, "cc", recipientCc);
             // bcc
-            if (recipientBcc != null)
-                setAddressList(mime, "bcc", recipientBcc);
+            if (recipientBcc != null) setAddressList(mime, "bcc", recipientBcc);
             // Reply-To
-            if (replyTo != null)
-                setAddressList(mime, "Reply-To", replyTo);
+            if (replyTo != null) setAddressList(mime, "Reply-To", replyTo);
             // Date, if null Date is deleted
             mime.setSentDate(sentDate);
             // Subject
-            if (subject != null)
-                mime.setSubject(MimeUtility.encodeText(subject, "UTF-8", "Q"));
+            if (subject != null) mime.setSubject(MimeUtility.encodeText(subject, "UTF-8", "Q"));
             // Message-ID
-            if (messageID != null)
-                mime.setHeader("Message-ID", MimeUtility.encodeText(messageID, "UTF-8", "Q"));
+            if (messageID != null) mime.setHeader("Message-ID", MimeUtility.encodeText(messageID, "UTF-8", "Q"));
             // In-Reply-To
-            if ((inReplyToUID != null) && (!inReplyToUID.isEmpty()))
-                mime.setHeader("In-Reply-To", MimeUtility.encodeText(inReplyToUID, "UTF-8", "Q"));
-
+            if ((inReplyToUID != null) && (!inReplyToUID.isEmpty())) mime.setHeader(
+                "In-Reply-To",
+                MimeUtility.encodeText(inReplyToUID, "UTF-8", "Q")
+            );
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new MailExtractLibException("Unable to generate mime header of message " + subject, e);
         }
@@ -885,18 +881,16 @@ public abstract class StoreMessage extends StoreElement {
                     String cidName;
                     if ((a.contentID != null) && !a.contentID.trim().isEmpty()) {
                         attachPart.setContentID("<" + a.contentID.trim() + ">");
-                        if (a.contentID.indexOf('@') < 0)
-                            cidName = a.contentID;
-                        else
-                            cidName = a.contentID.substring(0, a.contentID.indexOf('@'));
-                    } else
-                        cidName = "unknown";
+                        if (a.contentID.indexOf('@') < 0) cidName = a.contentID;
+                        else cidName = a.contentID.substring(0, a.contentID.indexOf('@'));
+                    } else cidName = "unknown";
 
                     // set object and Content-Type
                     String attachmentFilename = encodedFilename(a.name, a.mimeType, cidName);
-                    if ((a.mimeType == null) || (a.mimeType.isEmpty()))
-                        attachPart.setContent(a.getRawAttachmentContent(),
-                                "application/octet-stream; name=\"" + attachmentFilename + "\"");
+                    if ((a.mimeType == null) || (a.mimeType.isEmpty())) attachPart.setContent(
+                        a.getRawAttachmentContent(),
+                        "application/octet-stream; name=\"" + attachmentFilename + "\""
+                    );
                     else {
                         if (a.mimeType.startsWith("text")) {
                             String s;
@@ -904,32 +898,40 @@ public abstract class StoreMessage extends StoreElement {
                             attachPart.setContent(s, a.mimeType + "; name=\"" + attachmentFilename + "\"");
                         } else if (a.mimeType.startsWith("message")) {
                             // bypass datahandler as the rfc822 form is provided
-                            RawDataSource rds = new RawDataSource(a.getRawAttachmentContent(), a.mimeType,
-                                    attachmentFilename);
+                            RawDataSource rds = new RawDataSource(
+                                a.getRawAttachmentContent(),
+                                a.mimeType,
+                                attachmentFilename
+                            );
                             DataHandler dh = new DataHandler(rds);
                             attachPart.setDataHandler(dh);
                         } else if (a.mimeType.startsWith("multipart")) {
                             // wrong attachment type corrected to neutral application/octet-stream
-                            attachPart.setContent(a.getRawAttachmentContent(),
-                                    "application/octet-stream; name=\"" + attachmentFilename + "\"");
+                            attachPart.setContent(
+                                a.getRawAttachmentContent(),
+                                "application/octet-stream; name=\"" + attachmentFilename + "\""
+                            );
                         } else {
-                            attachPart.setContent(a.getRawAttachmentContent(),
-                                    a.mimeType + "; name=\"" + attachmentFilename + "\"");
+                            attachPart.setContent(
+                                a.getRawAttachmentContent(),
+                                a.mimeType + "; name=\"" + attachmentFilename + "\""
+                            );
                         }
                     }
                     // set Content-Disposition
-                    if (a.attachmentType == StoreAttachment.INLINE_ATTACHMENT)
-                        attachPart.setDisposition("inline; filename=\"" + attachmentFilename + "\"");
-                    else
-                        attachPart.setDisposition("attachment; filename=\"" + attachmentFilename + "\"");
+                    if (a.attachmentType == StoreAttachment.INLINE_ATTACHMENT) attachPart.setDisposition(
+                        "inline; filename=\"" + attachmentFilename + "\""
+                    );
+                    else attachPart.setDisposition("attachment; filename=\"" + attachmentFilename + "\"");
                     root.addBodyPart(attachPart);
                 }
             }
         } catch (MessagingException | UnsupportedEncodingException e) {
             throw new MailExtractLibException(
-                    "Unable to generate " + (isInline ? "inlines" : "attachments") + " of message " + subject, e);
+                "Unable to generate " + (isInline ? "inlines" : "attachments") + " of message " + subject,
+                e
+            );
         }
-
     }
 
     private MimeMultipart newChild(MimeMultipart parent, String type) throws MessagingException {
@@ -942,12 +944,9 @@ public abstract class StoreMessage extends StoreElement {
 
     // some extraction has no body only headers
     private boolean isEmptyBodies() {
-        if ((bodyContent[TEXT_BODY] != null) && !bodyContent[TEXT_BODY].isEmpty())
-            return false;
-        if ((bodyContent[HTML_BODY] != null) && !bodyContent[HTML_BODY].isEmpty())
-            return false;
-        if ((bodyContent[RTF_BODY] != null) && !bodyContent[RTF_BODY].isEmpty())
-            return false;
+        if ((bodyContent[TEXT_BODY] != null) && !bodyContent[TEXT_BODY].isEmpty()) return false;
+        if ((bodyContent[HTML_BODY] != null) && !bodyContent[HTML_BODY].isEmpty()) return false;
+        if ((bodyContent[RTF_BODY] != null) && !bodyContent[RTF_BODY].isEmpty()) return false;
         // if (attachments.size() > 0)
         // return false;
         return true;
@@ -969,10 +968,8 @@ public abstract class StoreMessage extends StoreElement {
                 }
 
                 // determine in which part to add related
-                if ((bodyContent[HTML_BODY] != null) && !bodyContent[HTML_BODY].isEmpty())
-                    relatedPart = HTML_BODY;
-                else if ((bodyContent[RTF_BODY] != null) && !bodyContent[RTF_BODY].isEmpty())
-                    relatedPart = RTF_BODY;
+                if ((bodyContent[HTML_BODY] != null) && !bodyContent[HTML_BODY].isEmpty()) relatedPart = HTML_BODY;
+                else if ((bodyContent[RTF_BODY] != null) && !bodyContent[RTF_BODY].isEmpty()) relatedPart = RTF_BODY;
 
                 // build message part
                 MimeMultipart msgMp = newChild(rootMp, "alternative");
@@ -993,31 +990,26 @@ public abstract class StoreMessage extends StoreElement {
                         MimeMultipart upperpart;
                         if (hasInline && (relatedPart == HTML_BODY)) {
                             upperpart = newChild(msgMp, "related");
-                        } else
-                            upperpart = msgMp;
+                        } else upperpart = msgMp;
 
                         MimeBodyPart part = new MimeBodyPart();
                         part.setContent(bodyContent[HTML_BODY], "text/html; charset=utf-8");
                         upperpart.addBodyPart(part);
 
-                        if (hasInline && (relatedPart == HTML_BODY))
-                            addAttachmentPart(upperpart, true);
+                        if (hasInline && (relatedPart == HTML_BODY)) addAttachmentPart(upperpart, true);
                     }
                     if ((bodyContent[RTF_BODY] != null) && !bodyContent[RTF_BODY].isEmpty()) {
                         MimeMultipart upperpart;
                         if (hasInline && (relatedPart == RTF_BODY)) {
                             upperpart = newChild(msgMp, "related");
-                        } else
-                            upperpart = msgMp;
+                        } else upperpart = msgMp;
 
                         MimeBodyPart part = new MimeBodyPart();
-                        part.setContent(bodyContent[RTF_BODY], "text/rtf; charset=US-ASCII");// ;
+                        part.setContent(bodyContent[RTF_BODY], "text/rtf; charset=US-ASCII"); // ;
                         // charset=utf-8");
                         upperpart.addBodyPart(part);
 
-                        if (hasInline && (relatedPart == RTF_BODY))
-                            addAttachmentPart(upperpart, true);
-
+                        if (hasInline && (relatedPart == RTF_BODY)) addAttachmentPart(upperpart, true);
                     }
                 }
             } catch (MessagingException e) {
@@ -1025,8 +1017,7 @@ public abstract class StoreMessage extends StoreElement {
             }
 
             // add inline part of attachments if not added to HTML body
-            if (relatedPart == OUT_OF_BODY)
-                addAttachmentPart(rootMp, true);
+            if (relatedPart == OUT_OF_BODY) addAttachmentPart(rootMp, true);
             addAttachmentPart(rootMp, false);
 
             try {
@@ -1041,19 +1032,14 @@ public abstract class StoreMessage extends StoreElement {
         return StandardCharsets.US_ASCII.newEncoder().canEncode(v);
     }
 
-
     private String encodedFilename(String filename, String mimetype, String ifnone) {
         String tmp;
-        if ((filename != null) && !filename.trim().isEmpty())
-            tmp = filename;
-        else
-            tmp = ifnone;
-        if ("message/rfc822".equals(mimetype) && (!tmp.endsWith(".eml")))
-            tmp += ".eml";
+        if ((filename != null) && !filename.trim().isEmpty()) tmp = filename;
+        else tmp = ifnone;
+        if ("message/rfc822".equals(mimetype) && (!tmp.endsWith(".eml"))) tmp += ".eml";
 
         // prevent a bug when quotes are in ascii filename (encodeWord is then not encoding)
-        if (isPureAscii(tmp) && tmp.contains("\""))
-            tmp = tmp.replaceAll("\"", "'");
+        if (isPureAscii(tmp) && tmp.contains("\"")) tmp = tmp.replaceAll("\"", "'");
 
         try {
             return MimeUtility.encodeWord(tmp, "UTF-8", "Q");
@@ -1089,8 +1075,7 @@ public abstract class StoreMessage extends StoreElement {
         protected synchronized void updateHeaders() throws MessagingException {
             String[] date = getHeader("Date");
             super.updateHeaders();
-            if (date == null)
-                removeHeader("Date");
+            if (date == null) removeHeader("Date");
         }
     }
 }

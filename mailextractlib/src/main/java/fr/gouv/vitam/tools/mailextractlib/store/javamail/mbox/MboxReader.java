@@ -38,10 +38,10 @@
 package fr.gouv.vitam.tools.mailextractlib.store.javamail.mbox;
 
 import fr.gouv.vitam.tools.mailextractlib.utils.MailExtractProgressLogger;
-
 import jakarta.mail.internet.SharedInputStream;
 import jakarta.mail.util.SharedByteArrayInputStream;
 import jakarta.mail.util.SharedFileInputStream;
+
 import java.io.*;
 
 /**
@@ -115,10 +115,8 @@ public class MboxReader {
      * @throws IOException Unable to close the file.
      */
     public void close() throws IOException {
-        if (raf != null)
-            raf.close();
-        if (sifs instanceof InputStream)
-            ((InputStream) sifs).close();
+        if (raf != null) raf.close();
+        if (sifs instanceof InputStream) ((InputStream) sifs).close();
     }
 
     /**
@@ -141,8 +139,7 @@ public class MboxReader {
             // if File
             if (curPos >= len) {
                 bufferPos = raf.getFilePointer();
-                if ((len = raf.read(buffer)) == -1)
-                    return -1;
+                if ((len = raf.read(buffer)) == -1) return -1;
                 curPos = 0;
             }
         } else {
@@ -150,8 +147,7 @@ public class MboxReader {
             // TODO get rid of buffer when byte[]
             if (curPos >= len) {
                 bufferPos = sifs.getPosition();
-                if ((len = ((ByteArrayInputStream) sifs).read(buffer)) == -1)
-                    return -1;
+                if ((len = ((ByteArrayInputStream) sifs).read(buffer)) == -1) return -1;
                 curPos = 0;
             }
         }
@@ -171,10 +167,8 @@ public class MboxReader {
         lineNum++;
         while (true) {
             b = read();
-            if (b == -1)
-                return -1;
-            if (b == '\n')
-                return i;
+            if (b == -1) return -1;
+            if (b == '\n') return i;
             if (i < 64) {
                 buffer[i++] = (byte) b;
             }
@@ -186,8 +180,7 @@ public class MboxReader {
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < len; i++) {
             final char c = (char) (buffer[i]);
-            if (c >= 32)
-                stringBuilder.append(c);
+            if (c >= 32) stringBuilder.append(c);
         }
         return stringBuilder.toString();
     }
@@ -206,12 +199,10 @@ public class MboxReader {
     //After the "From " line is the message itself in RFC 5322 format. The final line is a completely blank line with no spaces or tabs.
     // WARNING: due to tested mbox files diversity the only kept filter is the beginning "From " pattern!
     private boolean isCompliantMBoxDelimiterLine(byte[] buffer, int len) {
-        if ((buffer[0] == 'F') && (buffer[1] == 'r') && (buffer[2] == 'o') && (buffer[3] == 'm')
-                && (buffer[4] == ' '))
-            return true;
-        else
-            return false;
-
+        if (
+            (buffer[0] == 'F') && (buffer[1] == 'r') && (buffer[2] == 'o') && (buffer[3] == 'm') && (buffer[4] == ' ')
+        ) return true;
+        else return false;
     }
 
     /**
@@ -232,10 +223,10 @@ public class MboxReader {
                 fromLineEnd = -1;
                 return -1;
             }
-                if (isCompliantMBoxDelimiterLine(buffer, len)) {
-                    fromLineEnd = getPointer();
-                    return beg;
-                }
+            if (isCompliantMBoxDelimiterLine(buffer, len)) {
+                fromLineEnd = getPointer();
+                return beg;
+            }
         }
     }
 

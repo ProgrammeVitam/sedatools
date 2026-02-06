@@ -69,8 +69,12 @@ public class PSTActivity extends PSTMessage {
      * @param table                the table
      * @param localDescriptorItems the local descriptor items
      */
-    public PSTActivity(final PSTFile theFile, final DescriptorIndexNode folderIndexNode, final PSTTableBC table,
-        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems) {
+    public PSTActivity(
+        final PSTFile theFile,
+        final DescriptorIndexNode folderIndexNode,
+        final PSTTableBC table,
+        final HashMap<Integer, PSTDescriptorItem> localDescriptorItems
+    ) {
         super(theFile, folderIndexNode, table, localDescriptorItems);
     }
 
@@ -166,13 +170,36 @@ public class PSTActivity extends PSTMessage {
 
     @Override
     public String toString() {
-        return "Type ASCII or Unicode string: " + this.getLogType() + "\n" + "Start Filetime: " + this.getLogStart()
-            + "\n" + "Duration Integer 32-bit signed: " + this.getLogDuration() + "\n" + "End Filetime: "
-            + this.getLogEnd() + "\n" + "LogFlags Integer 32-bit signed: " + this.getLogFlags() + "\n"
-            + "DocPrinted Boolean: " + this.isDocumentPrinted() + "\n" + "DocSaved Boolean: " + this.isDocumentSaved()
-            + "\n" + "DocRouted Boolean: " + this.isDocumentRouted() + "\n" + "DocPosted Boolean: "
-            + this.isDocumentPosted() + "\n" + "TypeDescription ASCII or Unicode string: " + this.getLogTypeDesc();
-
+        return (
+            "Type ASCII or Unicode string: " +
+            this.getLogType() +
+            "\n" +
+            "Start Filetime: " +
+            this.getLogStart() +
+            "\n" +
+            "Duration Integer 32-bit signed: " +
+            this.getLogDuration() +
+            "\n" +
+            "End Filetime: " +
+            this.getLogEnd() +
+            "\n" +
+            "LogFlags Integer 32-bit signed: " +
+            this.getLogFlags() +
+            "\n" +
+            "DocPrinted Boolean: " +
+            this.isDocumentPrinted() +
+            "\n" +
+            "DocSaved Boolean: " +
+            this.isDocumentSaved() +
+            "\n" +
+            "DocRouted Boolean: " +
+            this.isDocumentRouted() +
+            "\n" +
+            "DocPosted Boolean: " +
+            this.isDocumentPosted() +
+            "\n" +
+            "TypeDescription ASCII or Unicode string: " +
+            this.getLogTypeDesc()
+        );
     }
-
 }

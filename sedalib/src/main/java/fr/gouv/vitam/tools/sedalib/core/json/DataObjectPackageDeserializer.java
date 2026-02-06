@@ -79,8 +79,7 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
      * @see com.fasterxml.jackson.databind.JsonDeserializer#deserialize(com.fasterxml.jackson.core.JsonParser, com.fasterxml.jackson.databind.DeserializationContext)
      */
     @Override
-    public DataObjectPackage deserialize(JsonParser parser, DeserializationContext deserializer)
-            throws IOException {
+    public DataObjectPackage deserialize(JsonParser parser, DeserializationContext deserializer) throws IOException {
         DataObjectPackage dataObjectPackage = new DataObjectPackage();
 
         parser.disable(JsonParser.Feature.AUTO_CLOSE_SOURCE);
@@ -93,10 +92,12 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
                         while (parser.nextToken() != JsonToken.END_ARRAY) {
                             DataObjectGroup og = parser.readValueAs(DataObjectGroup.class);
                             dataObjectPackage.addDataObjectGroup(og);
-                            for (BinaryDataObject bdo : og.getBinaryDataObjectList())
-                                dataObjectPackage.addDataObjectPackageIdElement(bdo);
-                            for (PhysicalDataObject pdo : og.getPhysicalDataObjectList())
-                                dataObjectPackage.addDataObjectPackageIdElement(pdo);
+                            for (BinaryDataObject bdo : og.getBinaryDataObjectList()) dataObjectPackage.addDataObjectPackageIdElement(
+                                bdo
+                            );
+                            for (PhysicalDataObject pdo : og.getPhysicalDataObjectList()) dataObjectPackage.addDataObjectPackageIdElement(
+                                pdo
+                            );
                         }
                         break;
                     case "ArchiveUnitList":
@@ -114,11 +115,13 @@ public class DataObjectPackageDeserializer extends StdDeserializer<DataObjectPac
                         dataObjectPackage.setVitamNormalizationStatus(status);
                         break;
                     default:
-                        // ignore other fields
+                    // ignore other fields
                 }
             }
         } catch (SEDALibException e) {
-            throw new SEDALibJsonProcessingException("Erreur dans la deserialisation de l'ArchiveTransfer\n->" + e.getMessage());
+            throw new SEDALibJsonProcessingException(
+                "Erreur dans la deserialisation de l'ArchiveTransfer\n->" + e.getMessage()
+            );
         }
 
         return dataObjectPackage;

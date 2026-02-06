@@ -84,6 +84,7 @@ public class CompressedFileToArchiveTransferImporter {
      * Wrap org.apache.commons.compress SevenZFile to have same ArchiveInputStream behavior
      */
     private static class SevenZWrapper extends ArchiveInputStream {
+
         private SevenZFile file;
 
         private SevenZWrapper(SevenZFile file) {
@@ -224,8 +225,7 @@ public class CompressedFileToArchiveTransferImporter {
         return false;
     }
 
-    private ArchiveInputStream createArchiveInputStream()
-            throws SEDALibException {
+    private ArchiveInputStream createArchiveInputStream() throws SEDALibException {
         Path onDiskPath = null;
         FileInputStream fis = null;
         ArchiveInputStream ais;
@@ -263,14 +263,12 @@ public class CompressedFileToArchiveTransferImporter {
                     //ignore
                 }
             }
-            throw new SEDALibException("Impossible d'ouvrir le fichier compressé ["
-                    + onDiskPath.toString() + "]", e);
+            throw new SEDALibException("Impossible d'ouvrir le fichier compressé [" + onDiskPath.toString() + "]", e);
         }
         return ais;
     }
 
-    private void unCompressContainer()
-            throws SEDALibException, InterruptedException {
+    private void unCompressContainer() throws SEDALibException, InterruptedException {
         int counter = 0;
 
         try (final ArchiveInputStream archiveInputStream = createArchiveInputStream()) {
@@ -281,8 +279,14 @@ public class CompressedFileToArchiveTransferImporter {
                     String entryName = entry.getName();
                     if (entryName.contains("?")) {
                         entryName = entryName.replace("?", "_");
-                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL,
-                                "Le nom du fichier [" + entryName + "] a un problème d'encodage, le(s) caractère(s) problématique à été rempalcé par _ ", null);
+                        doProgressLog(
+                            sedaLibProgressLogger,
+                            SEDALibProgressLogger.GLOBAL,
+                            "Le nom du fichier [" +
+                            entryName +
+                            "] a un problème d'encodage, le(s) caractère(s) problématique à été rempalcé par _ ",
+                            null
+                        );
                     }
                     final Path target = Paths.get(unCompressDirectory, entryName);
                     final Path parent = target.getParent();
@@ -291,13 +295,20 @@ public class CompressedFileToArchiveTransferImporter {
                         Files.createDirectories(parent);
                     }
                     if (!entry.isDirectory()) {
-                        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS,
-                                "Décompresse le fichier [" + entryName + "]", null);
+                        doProgressLog(
+                            sedaLibProgressLogger,
+                            SEDALibProgressLogger.OBJECTS,
+                            "Décompresse le fichier [" + entryName + "]",
+                            null
+                        );
                         Files.copy(archiveInputStream, target, StandardCopyOption.REPLACE_EXISTING);
                         counter++;
-                        doProgressLogIfStep(sedaLibProgressLogger, SEDALibProgressLogger.OBJECTS_GROUP, counter,
-                                Integer.toString(counter) +
-                                " fichiers extraits");
+                        doProgressLogIfStep(
+                            sedaLibProgressLogger,
+                            SEDALibProgressLogger.OBJECTS_GROUP,
+                            counter,
+                            Integer.toString(counter) + " fichiers extraits"
+                        );
                     } else if (!Files.exists(target)) {
                         Files.createDirectories(target);
                     }
@@ -319,9 +330,13 @@ public class CompressedFileToArchiveTransferImporter {
      * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
      * @throws SEDALibException if file or directory doesn't exist
      */
-    public CompressedFileToArchiveTransferImporter(String compressedFile, String unCompressDirectory, String encoding,
-                                                   Function<String, String> extractTitleFromFileNameFunction,
-                                                   SEDALibProgressLogger sedaLibProgressLogger) throws SEDALibException {
+    public CompressedFileToArchiveTransferImporter(
+        String compressedFile,
+        String unCompressDirectory,
+        String encoding,
+        Function<String, String> extractTitleFromFileNameFunction,
+        SEDALibProgressLogger sedaLibProgressLogger
+    ) throws SEDALibException {
         Path compressedFilePath;
         Path unCompressDirectoryPath;
 
@@ -337,18 +352,23 @@ public class CompressedFileToArchiveTransferImporter {
         this.onDiskRootPaths = new ArrayList<>();
 
         compressedFilePath = Paths.get(compressedFile);
-        if (!Files.isRegularFile(compressedFilePath, java.nio.file.LinkOption.NOFOLLOW_LINKS))
-            throw new SEDALibException("Le chemin [" + compressedFile + "] pointant vers le fichier compressé ne désigne pas un fichier");
+        if (
+            !Files.isRegularFile(compressedFilePath, java.nio.file.LinkOption.NOFOLLOW_LINKS)
+        ) throw new SEDALibException(
+            "Le chemin [" + compressedFile + "] pointant vers le fichier compressé ne désigne pas un fichier"
+        );
         unCompressDirectoryPath = Paths.get(unCompressDirectory).toAbsolutePath();
         this.unCompressDirectory = unCompressDirectoryPath.normalize().toString();
-        if (!Files.exists(unCompressDirectoryPath))
-            try {
-                Files.createDirectories(unCompressDirectoryPath);
-            } catch (IOException e) {
-                throw new SEDALibException("Impossible de créer le répertoire d'extraction [" + unCompressDirectory + "]");
-            }
-        if (!Files.isDirectory(unCompressDirectoryPath, java.nio.file.LinkOption.NOFOLLOW_LINKS))
-            throw new SEDALibException("Le chemin [" + unCompressDirectory + "] pointant le répertoire d'extraction ne désigne pas un répertoire");
+        if (!Files.exists(unCompressDirectoryPath)) try {
+            Files.createDirectories(unCompressDirectoryPath);
+        } catch (IOException e) {
+            throw new SEDALibException("Impossible de créer le répertoire d'extraction [" + unCompressDirectory + "]");
+        }
+        if (
+            !Files.isDirectory(unCompressDirectoryPath, java.nio.file.LinkOption.NOFOLLOW_LINKS)
+        ) throw new SEDALibException(
+            "Le chemin [" + unCompressDirectory + "] pointant le répertoire d'extraction ne désigne pas un répertoire"
+        );
     }
 
     /**
@@ -359,7 +379,6 @@ public class CompressedFileToArchiveTransferImporter {
     public void addIgnorePattern(String patternString) {
         ignorePatternStrings.add(patternString);
     }
-
 
     /**
      * Process the GlobalMetadata file.
@@ -373,8 +392,10 @@ public class CompressedFileToArchiveTransferImporter {
         try {
             atgm.fromSedaXmlFragments(new String(Files.readAllBytes(path), StandardCharsets.UTF_8));
         } catch (SEDALibException | IOException e) {
-            throw new SEDALibException("Lecture des métadonnées globales à partir du fichier [" + path
-                    + "] impossible", e);
+            throw new SEDALibException(
+                "Lecture des métadonnées globales à partir du fichier [" + path + "] impossible",
+                e
+            );
         }
         return atgm;
     }
@@ -402,10 +423,8 @@ public class CompressedFileToArchiveTransferImporter {
 
         // determine encoding from the compressed format
         if (encoding == null) {
-            if (ZIP.equals(droidFormat))
-                encoding = "CP850";
-            else
-                encoding = "UTF8";
+            if (ZIP.equals(droidFormat)) encoding = "CP850";
+            else encoding = "UTF8";
         }
 
         unCompressContainer();
@@ -415,30 +434,40 @@ public class CompressedFileToArchiveTransferImporter {
             pi = sp.iterator();
             while (pi.hasNext()) {
                 path = pi.next();
-                if (path.getFileName().toString().equals("__GlobalMetadata.xml"))
-                    this.onDiskGlobalMetadataPath = path;
-                else
-                    this.onDiskRootPaths.add(path);
+                if (path.getFileName().toString().equals("__GlobalMetadata.xml")) this.onDiskGlobalMetadataPath = path;
+                else this.onDiskRootPaths.add(path);
             }
         } catch (IOException e) {
             throw new SEDALibException(
-                    "Impossible de lister les fichiers du répertoire [" + unCompressDirectory + "]", e);
+                "Impossible de lister les fichiers du répertoire [" + unCompressDirectory + "]",
+                e
+            );
         }
 
-        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(this.onDiskRootPaths, true,
-                extractTitleFromFileNameFunction,
-                sedaLibProgressLogger);
+        this.diskToDataObjectPackageImporter = new DiskToDataObjectPackageImporter(
+            this.onDiskRootPaths,
+            true,
+            extractTitleFromFileNameFunction,
+            sedaLibProgressLogger
+        );
         this.archiveTransfer = new ArchiveTransfer();
 
-        if (onDiskGlobalMetadataPath != null)
-            archiveTransfer.setGlobalMetadata(processGlobalMetadata(onDiskGlobalMetadataPath));
-        for (String patternString : ignorePatternStrings)
-            diskToDataObjectPackageImporter.addIgnorePattern(patternString);
+        if (onDiskGlobalMetadataPath != null) archiveTransfer.setGlobalMetadata(
+            processGlobalMetadata(onDiskGlobalMetadataPath)
+        );
+        for (String patternString : ignorePatternStrings) diskToDataObjectPackageImporter.addIgnorePattern(
+            patternString
+        );
         diskToDataObjectPackageImporter.doImport();
         archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
 
         end = Instant.now();
-        doProgressLog(sedaLibProgressLogger, SEDALibProgressLogger.GLOBAL, "sedalib: import d'un ArchiveTransfer depuis un fichier compressé sur disque terminé", null);
+        doProgressLog(
+            sedaLibProgressLogger,
+            SEDALibProgressLogger.GLOBAL,
+            "sedalib: import d'un ArchiveTransfer depuis un fichier compressé sur disque terminé",
+            null
+        );
     }
 
     /**
@@ -459,11 +488,8 @@ public class CompressedFileToArchiveTransferImporter {
         String result = null;
         if (archiveTransfer != null) {
             result = archiveTransfer.getDescription() + "\n";
-            if (start != null)
-                result += "chargé en "
-                        + Duration.between(start, end).toString().substring(2) + "\n";
+            if (start != null) result += "chargé en " + Duration.between(start, end).toString().substring(2) + "\n";
         }
         return result;
     }
-
 }

@@ -56,6 +56,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * The change SEDA2 version thread.
  */
 public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
+
     //input
     private final SedaVersion currentVersion;
     private final SedaVersion nextVersion;
@@ -104,15 +105,22 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
                 localLogStep = 1000;
             }
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
-                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                inOutDialog.extProgressTextArea.setText(newLog);
-                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
+            spl = new SEDALibProgressLogger(
+                ResipLogger.getGlobalLogger().getLogger(),
+                localLogLevel,
+                (count, log) -> {
+                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                    inOutDialog.extProgressTextArea.setText(newLog);
+                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+                },
+                localLogStep,
+                2,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                1000
+            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            if (work == null)
-                throw new ResipException("Pas de contenu à transformer");
+            if (work == null) throw new ResipException("Pas de contenu à transformer");
 
             convertedDop = new SedaVersionConverter(spl).convert(dop, currentVersion, nextVersion);
         } catch (Throwable e) { //NOSONAR
@@ -126,12 +134,14 @@ public class ChangeSeda2VersionThread extends SwingWorker<String, String> {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
 
-        if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: conversion annulée", null);
-        else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant la conversion", exitThrowable);
-        else
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: conversion OK", null);
+        if (isCancelled()) doProgressLogWithoutInterruption(spl, GLOBAL, "resip: conversion annulée", null);
+        else if (exitThrowable != null) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "resip: erreur durant la conversion",
+            exitThrowable
+        );
+        else doProgressLogWithoutInterruption(spl, GLOBAL, "resip: conversion OK", null);
     }
 
     public DataObjectPackage getResult() {

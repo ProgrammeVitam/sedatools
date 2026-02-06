@@ -44,6 +44,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ManifestFindToolBar extends FindToolBar {
+
     public ManifestFindToolBar(SearchListener listener) {
         super(listener);
     }
@@ -100,6 +101,4 @@ public class ManifestFindToolBar extends FindToolBar {
         //panel.add(this.markAllCheckBox);
         return panel;
     }
-
-
 }

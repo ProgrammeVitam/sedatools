@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.mailextractlib.utils;
 
 import jakarta.activation.DataSource;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,8 +70,7 @@ public class RawDataSource implements DataSource {
      *            the name
      */
     public RawDataSource(byte[] rawContent, String mimeType, String name) {
-        if (rawContent == null)
-            rawContent = new byte[0];
+        if (rawContent == null) rawContent = new byte[0];
         inputStream = new ByteArrayInputStream(rawContent);
         this.mimeType = mimeType;
         this.name = name;
@@ -129,5 +129,4 @@ public class RawDataSource implements DataSource {
     public String getName() {
         return name;
     }
-
 }

@@ -49,6 +49,7 @@ import java.io.PushbackInputStream;
  * but considering that LF alone in content are CRLF. This is especially to correct encoding in TNEF.
  */
 public class LFFixingQPDecoderStream extends FilterInputStream {
+
     /**
      * The back buffer.
      */
@@ -151,8 +152,7 @@ public class LFFixingQPDecoderStream extends FilterInputStream {
 
     public long skip(long n) throws IOException {
         long skipped;
-        for (skipped = 0L; n-- > 0L && this.read() >= 0; ++skipped) {
-        }
+        for (skipped = 0L; n-- > 0L && this.read() >= 0; ++skipped) {}
 
         return skipped;
     }

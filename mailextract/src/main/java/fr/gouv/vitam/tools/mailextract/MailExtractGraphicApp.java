@@ -63,9 +63,9 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
     int port;
     private String container, folder;
     private String rootpath, outputname;
-    
+
     StoreExtractorOptions storeExtractorOptions;
-    
+
     private boolean debug = false;
     private String verbatim;
     private boolean english;
@@ -87,9 +87,21 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
      * @param verbatim              the verbosity level for logging
      * @param english               the flag indicating if English language is used
      */
-    MailExtractGraphicApp(String type, String user, String password, String hostname, int port, String container, String folder,
-                          String rootpath, String outputname, StoreExtractorOptions storeExtractorOptions,
-                          boolean debug, String verbatim, boolean english) {
+    MailExtractGraphicApp(
+        String type,
+        String user,
+        String password,
+        String hostname,
+        int port,
+        String container,
+        String folder,
+        String rootpath,
+        String outputname,
+        StoreExtractorOptions storeExtractorOptions,
+        boolean debug,
+        String verbatim,
+        boolean english
+    ) {
         this.type = type;
         this.user = user;
         this.password = password;
@@ -249,20 +261,14 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
             mainWindow.passwordField.setEnabled(true);
         } else if (command.equals("container")) {
             String filename = selectPath(mainWindow.containerField.getText(), false);
-            if (filename != null)
-                mainWindow.containerField.setText(filename);
+            if (filename != null) mainWindow.containerField.setText(filename);
         } else if (command.equals("savedir")) {
             String dirname = selectPath(mainWindow.savedirField.getText(), true);
-            if (dirname != null)
-                mainWindow.savedirField.setText(dirname);
-        } else if (command.equals("list"))
-            doAction(LIST_ACTION);
-        else if (command.equals("stat"))
-            doAction(STAT_ACTION);
-        else if (command.equals("extract"))
-            doAction(EXTRACT_ACTION);
-        else if (command.equals("empty"))
-            doAction(EMPTY_LOG);
+            if (dirname != null) mainWindow.savedirField.setText(dirname);
+        } else if (command.equals("list")) doAction(LIST_ACTION);
+        else if (command.equals("stat")) doAction(STAT_ACTION);
+        else if (command.equals("extract")) doAction(EXTRACT_ACTION);
+        else if (command.equals("empty")) doAction(EMPTY_LOG);
     }
 
     // get a file and/or directory from a standard selection dialog
@@ -271,19 +277,18 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
         File file;
 
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser
-                .setFileSelectionMode((dirBool ? JFileChooser.DIRECTORIES_ONLY : JFileChooser.FILES_AND_DIRECTORIES));
+        fileChooser.setFileSelectionMode(
+            (dirBool ? JFileChooser.DIRECTORIES_ONLY : JFileChooser.FILES_AND_DIRECTORIES)
+        );
         fileChooser.setFileHidingEnabled(false);
         file = new File(folder);
-        if (file.exists())
-            fileChooser.setSelectedFile(file);
+        if (file.exists()) fileChooser.setSelectedFile(file);
         int returnVal = fileChooser.showOpenDialog(this.mainWindow);
 
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             file = fileChooser.getSelectedFile();
             return (file.getAbsolutePath());
-        } else
-            return null;
+        } else return null;
     }
 
     /**
@@ -312,44 +317,49 @@ public class MailExtractGraphicApp implements ActionListener, Runnable {
 
         if (actionNumber == EMPTY_LOG) {
             mainWindow.consoleTextArea.setText("");
-        } else
-            new MailExtractThread(mainWindow, actionNumber, type, hostname, port, user, password, container, folder, rootpath,
-                    outputname, storeExtractorOptions, verbatim, debug).start();
+        } else new MailExtractThread(
+            mainWindow,
+            actionNumber,
+            type,
+            hostname,
+            port,
+            user,
+            password,
+            container,
+            folder,
+            rootpath,
+            outputname,
+            storeExtractorOptions,
+            verbatim,
+            debug
+        ).start();
     }
 
     /**
      * The loglevel strings.
      */
-    String[] loglevelStrings = {"OFF", "GLOBAL", "WARNING", "FOLDER", "MESSAGE_GROUP", "MESSAGE", "MESSAGE_DETAILS"};
+    String[] loglevelStrings = { "OFF", "GLOBAL", "WARNING", "FOLDER", "MESSAGE_GROUP", "MESSAGE", "MESSAGE_DETAILS" };
 
     // get the global parameters from the graphic fields
     private void parseParams() {
         // local
         if (mainWindow.localRadioButton.isSelected()) {
-            if (mainWindow.thunderbirdRadioButton.isSelected())
-                type = "thunderbird";
-            else if (mainWindow.emlRadioButton.isSelected())
-                type = "eml";
-            else if (mainWindow.msgRadioButton.isSelected())
-                type = "msg";
-            else if (mainWindow.mboxRadioButton.isSelected())
-                type = "mbox";
-            else if (mainWindow.pstRadioButton.isSelected())
-                type = "pst";
+            if (mainWindow.thunderbirdRadioButton.isSelected()) type = "thunderbird";
+            else if (mainWindow.emlRadioButton.isSelected()) type = "eml";
+            else if (mainWindow.msgRadioButton.isSelected()) type = "msg";
+            else if (mainWindow.mboxRadioButton.isSelected()) type = "mbox";
+            else if (mainWindow.pstRadioButton.isSelected()) type = "pst";
             container = mainWindow.containerField.getText();
         }
         // server
         else {
-            if (mainWindow.imapsRadioButton.isSelected())
-                type = "imaps";
-            else
-                type = "imap";
+            if (mainWindow.imapsRadioButton.isSelected()) type = "imaps";
+            else type = "imap";
             String server = mainWindow.serverField.getText();
             if (server.indexOf(':') >= 0) {
                 hostname = server.substring(0, server.indexOf(':'));
                 port = Integer.parseInt(server.substring(server.indexOf(':') + 1));
-            } else
-                hostname = server;
+            } else hostname = server;
             user = mainWindow.userField.getText();
             password = mainWindow.passwordField.getText();
         }

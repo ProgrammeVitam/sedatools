@@ -75,8 +75,12 @@ class ManagementMetadataTest {
         appraisalRule.setFinalAction("Keep");
         mm.addMetadata(appraisalRule);
         mm.addNewMetadata("AppraisalRule", "TestAppRule2", null);
-        mm.addNewMetadata("HoldRule", "HoldRule1", LocalDate.of(1970, 1, 1),
-            Collections.singletonMap("HoldEndDate", LocalDate.of(1970, 1, 1)));
+        mm.addNewMetadata(
+            "HoldRule",
+            "HoldRule1",
+            LocalDate.of(1970, 1, 1),
+            Collections.singletonMap("HoldEndDate", LocalDate.of(1970, 1, 1))
+        );
         HoldRule holdRule = new HoldRule();
         holdRule.addRule("HoldRule2");
         holdRule.addHoldReason("HoldRule2Reason");
@@ -93,7 +97,8 @@ class ManagementMetadataTest {
         String mmNextOut = mmNext.toString();
 
         // Then
-        String testOut = "<ManagementMetadata>\n" +
+        String testOut =
+            "<ManagementMetadata>\n" +
             "  <ArchivalProfile>TestArchivalProfile</ArchivalProfile>\n" +
             "  <OriginatingAgencyIdentifier>TestOriginatingAgencyIdentifier</OriginatingAgencyIdentifier>\n" +
             "  <SubmissionAgencyIdentifier>TestSubmissionAgencyIdentifier</SubmissionAgencyIdentifier>\n" +

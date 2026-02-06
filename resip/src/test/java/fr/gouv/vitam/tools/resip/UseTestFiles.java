@@ -49,7 +49,6 @@ import java.nio.file.Paths;
  * The interface Use test files.
  */
 public interface UseTestFiles {
-
     /**
      * Initialize test files.
      *

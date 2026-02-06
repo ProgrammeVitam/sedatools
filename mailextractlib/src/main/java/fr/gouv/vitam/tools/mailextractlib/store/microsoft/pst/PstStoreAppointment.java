@@ -105,21 +105,24 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
      * @param isRecurrenceDeletion the is recurrence deletion
      * @param exceptionDate        the exception date
      */
-    protected PstStoreAppointment(StoreFolder storeFolder, String uniqId,
-                                  int sequenceNumber,
-                                  String subject,
-                                  String location,
-                                  String from,
-                                  String toAttendees,
-                                  String ccAttendees,
-                                  ZonedDateTime startTime,
-                                  ZonedDateTime endTime,
-                                  String miscNotes,
-                                  String otherMiscNotes,
-                                  int messageStatus,
-                                  List<StoreAttachment> attachments,
-                                  boolean isRecurrenceDeletion,
-                                  ZonedDateTime exceptionDate) {
+    protected PstStoreAppointment(
+        StoreFolder storeFolder,
+        String uniqId,
+        int sequenceNumber,
+        String subject,
+        String location,
+        String from,
+        String toAttendees,
+        String ccAttendees,
+        ZonedDateTime startTime,
+        ZonedDateTime endTime,
+        String miscNotes,
+        String otherMiscNotes,
+        int messageStatus,
+        List<StoreAttachment> attachments,
+        boolean isRecurrenceDeletion,
+        ZonedDateTime exceptionDate
+    ) {
         super(storeFolder);
         this.uniqId = uniqId;
         this.sequenceNumber = sequenceNumber;
@@ -143,7 +146,6 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
         this.exceptionDate = exceptionDate;
     }
 
-
     /* (non-Javadoc)
      * @see fr.gouv.vitam.tools.mailextractlib.store.microsoft.MicrosoftStoreMessage#getEmbeddedMessageScheme()
      */
@@ -155,12 +157,10 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
     private String getUniqId() {
         String result;
         PSTGlobalObjectId id = appointment.getCleanGlobalObjectId();
-        if (id == null)
-            result = appointment.getGlobalObjectId().toString();
+        if (id == null) result = appointment.getGlobalObjectId().toString();
         else {
-            result=id.toString();
-            if (result.isEmpty())
-                result = appointment.getGlobalObjectId().toString();
+            result = id.toString();
+            if (result.isEmpty()) result = appointment.getGlobalObjectId().toString();
         }
         return result;
     }
@@ -169,25 +169,28 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
         String fromAddr = appointment.getSenderEmailAddress();
         String fromName = appointment.getSenderName();
         String result = "";
-        if ((fromName != null) && !fromName.isEmpty())
-            result = fromName + " ";
-        if ((fromAddr != null) && !fromAddr.isEmpty())
-            result += "<" + fromAddr + ">";
+        if ((fromName != null) && !fromName.isEmpty()) result = fromName + " ";
+        if ((fromAddr != null) && !fromAddr.isEmpty()) result += "<" + fromAddr + ">";
         return result.trim();
     }
 
-    static HashMap<String,ZoneId> normalizedZoneIdMap=new HashMap<>();
-    private ZoneId getNormalizedZoneId(Date date,PSTTimeZone pstTimeZone) throws InterruptedException {
-        ZoneId result=normalizedZoneIdMap.get(pstTimeZone.getName());
-        if (result!=null)
-            return result;
+    static HashMap<String, ZoneId> normalizedZoneIdMap = new HashMap<>();
+
+    private ZoneId getNormalizedZoneId(Date date, PSTTimeZone pstTimeZone) throws InterruptedException {
+        ZoneId result = normalizedZoneIdMap.get(pstTimeZone.getName());
+        if (result != null) return result;
         try {
-            result=ZoneId.of(pstTimeZone.getName());
-        }
-        catch (DateTimeException e) {
-            result = ZoneOffset.ofTotalSeconds(pstTimeZone.getSimpleTimeZone().getOffset(date.getTime())/1000);
-            logMessageWarning("mailextractlib: can't determine time zone id ["+pstTimeZone.getName()+
-                    "], replace by "+result.toString()+" format", null);
+            result = ZoneId.of(pstTimeZone.getName());
+        } catch (DateTimeException e) {
+            result = ZoneOffset.ofTotalSeconds(pstTimeZone.getSimpleTimeZone().getOffset(date.getTime()) / 1000);
+            logMessageWarning(
+                "mailextractlib: can't determine time zone id [" +
+                pstTimeZone.getName() +
+                "], replace by " +
+                result.toString() +
+                " format",
+                null
+            );
         }
         normalizedZoneIdMap.put(pstTimeZone.getName(), result);
         return result;
@@ -195,10 +198,8 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
 
     private ZonedDateTime getZonedDateTime(Date date, PSTTimeZone pstTimeZone) throws InterruptedException {
         ZoneId zoneId;
-        if (pstTimeZone == null)
-            zoneId = ZoneId.of("UTC");
-        else
-            zoneId = getNormalizedZoneId(date,pstTimeZone);
+        if (pstTimeZone == null) zoneId = ZoneId.of("UTC");
+        else zoneId = getNormalizedZoneId(date, pstTimeZone);
         return ZonedDateTime.ofInstant(date.toInstant(), zoneId);
     }
 
@@ -215,37 +216,34 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
 
                 if (htmlExtractor.isEncapsulatedTEXTinRTF()) {
                     test = htmlExtractor.getDeEncapsulateHTMLFromRTF();
-                    if (text.isEmpty())
-                        text=test;
-                    else if (!text.equals(test))
-                        logMessageWarning("mailextractlib: rtf version different from text version, rtf version dropped",null);
+                    if (text.isEmpty()) text = test;
+                    else if (!text.equals(test)) logMessageWarning(
+                        "mailextractlib: rtf version different from text version, rtf version dropped",
+                        null
+                    );
                     rtf = "";
                 } else if (htmlExtractor.isEncapsulatedHTMLinRTF()) {
                     test = htmlExtractor.getDeEncapsulateHTMLFromRTF();
-                    if (html.isEmpty())
-                        html=test;
-                    else if (!html.equals(test))
-                        logMessageWarning("mailextractlib: rtf version different from html version, rtf version dropped",null);
+                    if (html.isEmpty()) html = test;
+                    else if (!html.equals(test)) logMessageWarning(
+                        "mailextractlib: rtf version different from html version, rtf version dropped",
+                        null
+                    );
                     rtf = "";
-                }
-                else {
-                    test=htmlExtractor.getDeEncapsulateHTMLFromRTF().trim();
-                    if (test.isEmpty())
-                        rtf="";
+                } else {
+                    test = htmlExtractor.getDeEncapsulateHTMLFromRTF().trim();
+                    if (test.isEmpty()) rtf = "";
                 }
             }
         } catch (PSTException | IOException | MailExtractLibException ignored) {
             //ignore
         }
-        test=HTMLTextExtractor.getInstance().act(html).trim();
-        if (test.isEmpty())
-            html="";
+        test = HTMLTextExtractor.getInstance().act(html).trim();
+        if (test.isEmpty()) html = "";
 
         miscNotes = text;
-        if (!html.isEmpty())
-            otherMiscNotes = html;
-        else
-            otherMiscNotes = rtf;
+        if (!html.isEmpty()) otherMiscNotes = html;
+        else otherMiscNotes = rtf;
     }
 
     private List<StoreAttachment> getAttachments(PSTMessage message) throws InterruptedException {
@@ -253,58 +251,64 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
         for (int i = 0; i < message.getNumberOfAttachments(); i++) {
             try {
                 final PSTMessage child = message.getAttachment(i).getEmbeddedPSTMessage();
-                if (child instanceof PSTAppointment)
-                    continue;
+                if (child instanceof PSTAppointment) continue;
             } catch (PSTException | IOException ignored) {
                 //ignore
             }
             nativeAttachments.add(new PstStoreMessageAttachment(message, i));
         }
-        if (nativeAttachments.isEmpty())
-            return new ArrayList<>(0);
-        return MicrosoftStoreElement.getAttachments(this, nativeAttachments.toArray(new MicrosoftStoreMessageAttachment[0]));
+        if (nativeAttachments.isEmpty()) return new ArrayList<>(0);
+        return MicrosoftStoreElement.getAttachments(
+            this,
+            nativeAttachments.toArray(new MicrosoftStoreMessageAttachment[0])
+        );
     }
 
     private int getMessageStatus() {
-        String messageClass=appointment.getMessageClass();
-        if (messageClass.contains("Appointment"))
-            return MESSAGE_STATUS_LOCAL;
-        else if (messageClass.contains("Meeting.Request"))
-            return MESSAGE_STATUS_REQUEST;
-        else if (messageClass.contains("Meeting.Resp.Pos"))
-            return MESSAGE_STATUS_RESPONSE_YES;
-        else if (messageClass.contains("Meeting.Resp.Tent"))
-            return MESSAGE_STATUS_RESPONSE_MAY;
-        else if (messageClass.contains("Meeting.Resp.Neg"))
-            return MESSAGE_STATUS_RESPONSE_NO;
-        else
-            return MESSAGE_STATUS_UNKNOWN;
+        String messageClass = appointment.getMessageClass();
+        if (messageClass.contains("Appointment")) return MESSAGE_STATUS_LOCAL;
+        else if (messageClass.contains("Meeting.Request")) return MESSAGE_STATUS_REQUEST;
+        else if (messageClass.contains("Meeting.Resp.Pos")) return MESSAGE_STATUS_RESPONSE_YES;
+        else if (messageClass.contains("Meeting.Resp.Tent")) return MESSAGE_STATUS_RESPONSE_MAY;
+        else if (messageClass.contains("Meeting.Resp.Neg")) return MESSAGE_STATUS_RESPONSE_NO;
+        else return MESSAGE_STATUS_UNKNOWN;
     }
 
     private StoreAppointment generateDeletionAppointment(ZonedDateTime zdt) {
-        PstStoreAppointment result= new PstStoreAppointment(storeFolder,
-                uniqId, sequenceNumber, subject, location, from, toAttendees, ccAttendees,
-                null, null, "", "",messageStatus, null,
-                true, zdt);
-        result.listLineId=getStoreExtractor().incElementCounter(this.getClass());
+        PstStoreAppointment result = new PstStoreAppointment(
+            storeFolder,
+            uniqId,
+            sequenceNumber,
+            subject,
+            location,
+            from,
+            toAttendees,
+            ccAttendees,
+            null,
+            null,
+            "",
+            "",
+            messageStatus,
+            null,
+            true,
+            zdt
+        );
+        result.listLineId = getStoreExtractor().incElementCounter(this.getClass());
         return result;
     }
 
     private String getChangedFrom(PSTAppointmentException exception) {
-        if (exception.getEmbeddedMessage() == null)
-            return this.from;
+        if (exception.getEmbeddedMessage() == null) return this.from;
         return getFrom(exception.getEmbeddedMessage());
     }
 
     private String getChangedToAttendees(PSTAppointmentException exception) {
-        if (exception.getEmbeddedMessage() == null)
-            return this.toAttendees;
+        if (exception.getEmbeddedMessage() == null) return this.toAttendees;
         return exception.getEmbeddedMessage().getToAttendees();
     }
 
     private String getChangedCCAttendees(PSTAppointmentException exception) {
-        if (exception.getEmbeddedMessage() == null)
-            return this.ccAttendees;
+        if (exception.getEmbeddedMessage() == null) return this.ccAttendees;
         return exception.getEmbeddedMessage().getCCAttendees();
     }
 
@@ -312,28 +316,33 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
         return ZonedDateTime.ofInstant(d.toInstant(), zdt.getZone());
     }
 
-    private StoreAppointment generateExceptionAppointment(ZonedDateTime zdt, PSTAppointmentException exception) throws InterruptedException {
-        PstStoreAppointment result = new PstStoreAppointment(storeFolder,
-                uniqId, sequenceNumber,
-                exception.getSubject(),
-                exception.getLocation(),
-                getChangedFrom(exception),
-                getChangedToAttendees(exception),
-                getChangedCCAttendees(exception),
-                getChangedZonedDateTime(startTime, exception.getStartDate()),
-                getChangedZonedDateTime(startTime, exception.getEndDate()),
-                "", "",
-                messageStatus,
-                null,
-                false,
-                zdt);
+    private StoreAppointment generateExceptionAppointment(ZonedDateTime zdt, PSTAppointmentException exception)
+        throws InterruptedException {
+        PstStoreAppointment result = new PstStoreAppointment(
+            storeFolder,
+            uniqId,
+            sequenceNumber,
+            exception.getSubject(),
+            exception.getLocation(),
+            getChangedFrom(exception),
+            getChangedToAttendees(exception),
+            getChangedCCAttendees(exception),
+            getChangedZonedDateTime(startTime, exception.getStartDate()),
+            getChangedZonedDateTime(startTime, exception.getEndDate()),
+            "",
+            "",
+            messageStatus,
+            null,
+            false,
+            zdt
+        );
         // special treatment when embedded message
         if (exception.getEmbeddedMessage() != null) {
             result.appointment = exception.getEmbeddedMessage();
             result.analyzeMiscNotes();
-            result.attachments=getAttachments(result.appointment);
+            result.attachments = getAttachments(result.appointment);
         }
-        result.listLineId=getStoreExtractor().incElementCounter(this.getClass());
+        result.listLineId = getStoreExtractor().incElementCounter(this.getClass());
         return result;
     }
 
@@ -351,23 +360,26 @@ public class PstStoreAppointment extends StoreAppointment implements MicrosoftSt
         analyzeMiscNotes();
         attachments = getAttachments(appointment);
         sequenceNumber = appointment.getAppointmentSequence();
-        modificationTime=getZonedDateTime(appointment.getLastModificationTime(),null);
+        modificationTime = getZonedDateTime(appointment.getLastModificationTime(), null);
         messageStatus = getMessageStatus();
         if (appointment.isRecurring()) {
-            PSTTimeZone tz=appointment.getRecurrenceTimeZone();
-            if (tz==null)
-                tz=new PSTTimeZone("Unknown", PSTTimeZone.utcTimeZone);
-            PSTAppointmentRecurrence par = new PSTAppointmentRecurrence(appointment.getRecurrenceStructure(), appointment,tz);
+            PSTTimeZone tz = appointment.getRecurrenceTimeZone();
+            if (tz == null) tz = new PSTTimeZone("Unknown", PSTTimeZone.utcTimeZone);
+            PSTAppointmentRecurrence par = new PSTAppointmentRecurrence(
+                appointment.getRecurrenceStructure(),
+                appointment,
+                tz
+            );
             recurencePattern = appointment.getRecurrencePattern();
             startRecurrenceTime = getZonedDateTime(par.getStartDate(), appointment.getRecurrenceTimeZone());
             endRecurrenceTime = getZonedDateTime(par.getEndDate(), appointment.getRecurrenceTimeZone());
             exceptions = new ArrayList<StoreAppointment>(10);
             for (Date d : par.getDeletedInstanceDates()) {
-                ZonedDateTime zdt=getZonedDateTime(d, par.getTimeZone());
+                ZonedDateTime zdt = getZonedDateTime(d, par.getTimeZone());
                 exceptions.add(generateDeletionAppointment(zdt));
             }
             for (int i = 0; i < par.getExceptionCount(); i++) {
-                ZonedDateTime zdt=getZonedDateTime(par.getModifiedInstanceDates()[i], par.getTimeZone());
+                ZonedDateTime zdt = getZonedDateTime(par.getModifiedInstanceDates()[i], par.getTimeZone());
                 exceptions.add(generateExceptionAppointment(zdt, par.getException(i)));
             }
         } else {

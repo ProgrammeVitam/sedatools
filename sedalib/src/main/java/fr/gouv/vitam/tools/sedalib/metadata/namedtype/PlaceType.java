@@ -49,7 +49,7 @@ import java.util.Map;
  */
 public class PlaceType extends ComplexListType {
 
-    static final String GEOGNAME="Geogname";
+    static final String GEOGNAME = "Geogname";
 
     /**
      * Init metadata map.
@@ -83,8 +83,8 @@ public class PlaceType extends ComplexListType {
      * @param geogname    the geogname
      * @throws SEDALibException if sub elements construction is not possible (not supposed to occur)
      */
-    public PlaceType(String elementName, String geogname) throws SEDALibException{
+    public PlaceType(String elementName, String geogname) throws SEDALibException {
         super(elementName);
-            addNewMetadata(GEOGNAME, geogname);
+        addNewMetadata(GEOGNAME, geogname);
     }
 }

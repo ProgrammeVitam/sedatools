@@ -79,8 +79,7 @@ public class RuleEditor extends SEDAObjectEditor {
      */
     public RuleEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof Rule))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof Rule)) throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
     }
 
     private Rule getRuleMetadata() {
@@ -95,11 +94,9 @@ public class RuleEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new Rule("", null);
-        else
-            return new Rule("Text", LocalDate.of(2000, 1, 1));
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new Rule("", null);
+        else return new Rule("Text", LocalDate.of(2000, 1, 1));
     }
 
     @Override
@@ -111,7 +108,7 @@ public class RuleEditor extends SEDAObjectEditor {
 
     @Override
     public String getSummary() throws SEDALibException {
-        LocalDate tmp=startDatePicker.getDate();
+        LocalDate tmp = startDatePicker.getDate();
         return ruleIDTextField.getText() + (tmp == null ? "" : ", " + tmp);
     }
 
@@ -119,7 +116,7 @@ public class RuleEditor extends SEDAObjectEditor {
     public void createSEDAObjectEditorPanel() throws SEDALibException {
         JPanel editPanel = new JPanel();
         GridBagLayout gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
         ruleIDTextField = new JTextField();
@@ -132,9 +129,10 @@ public class RuleEditor extends SEDAObjectEditor {
         gbc.gridx = 0;
         gbc.gridy = 0;
         editPanel.add(ruleIDTextField, gbc);
-        int height= SEDAObjectEditor.EDIT_FONT.getSize();
-        if (ruleIDTextField.getBorder()!=null)
-            height+=ruleIDTextField.getBorder().getBorderInsets(ruleIDTextField).bottom+ruleIDTextField.getBorder().getBorderInsets(ruleIDTextField).top;
+        int height = SEDAObjectEditor.EDIT_FONT.getSize();
+        if (ruleIDTextField.getBorder() != null) height +=
+        ruleIDTextField.getBorder().getBorderInsets(ruleIDTextField).bottom +
+        ruleIDTextField.getBorder().getBorderInsets(ruleIDTextField).top;
 
         startDatePicker = new DatePicker();
         startDatePicker.setDate(getRuleMetadata().getStartDate());
@@ -147,11 +145,11 @@ public class RuleEditor extends SEDAObjectEditor {
 
         JPanel labelPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.rowHeights = new int[]{height,height};
-        gbl.columnWeights = new double[]{1.0};
+        gbl.rowHeights = new int[] { height, height };
+        gbl.columnWeights = new double[] { 1.0 };
         labelPanel.setLayout(gbl);
 
-        JLabel label = new JLabel(translateTag("Rule")+" :");
+        JLabel label = new JLabel(translateTag("Rule") + " :");
         label.setToolTipText("Rule");
         label.setFont(SEDAObjectEditor.LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -161,7 +159,7 @@ public class RuleEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         labelPanel.add(label, gbc);
 
-        JLabel dateLabel = new JLabel(translateTag("StartDate")+" :");
+        JLabel dateLabel = new JLabel(translateTag("StartDate") + " :");
         dateLabel.setToolTipText("StartDate");
         dateLabel.setFont(SEDAObjectEditor.LABEL_FONT);
         gbc = new GridBagConstraints();
@@ -176,8 +174,7 @@ public class RuleEditor extends SEDAObjectEditor {
 
     private static class RuleEditorPanel extends SEDAObjectEditorSimplePanel {
 
-        public RuleEditorPanel(RuleEditor ruleEditor,
-            JPanel labelPanel, JPanel editPanel) throws SEDALibException {
+        public RuleEditorPanel(RuleEditor ruleEditor, JPanel labelPanel, JPanel editPanel) throws SEDALibException {
             super(ruleEditor, labelPanel, editPanel);
         }
 
@@ -190,8 +187,10 @@ public class RuleEditor extends SEDAObjectEditor {
                     List<String> ruleMetadataKindList =
                         ((RuleType) objectEditor.getFather().getEditedObject()).getRuleMetadataKindList();
 
-                    List<SEDAObjectEditor> itemsToDelete =
-                        prepareEditorListToDelete(rulesEditorList, ruleMetadataKindList);
+                    List<SEDAObjectEditor> itemsToDelete = prepareEditorListToDelete(
+                        rulesEditorList,
+                        ruleMetadataKindList
+                    );
 
                     for (SEDAObjectEditor sedaObjectEditor : itemsToDelete) {
                         ((CompositeEditor) objectEditor.getFather()).removeChild(sedaObjectEditor);
@@ -199,18 +198,22 @@ public class RuleEditor extends SEDAObjectEditor {
 
                     super.lessButton();
                 }
-            } catch (SEDALibException ignored) {
-            }
+            } catch (SEDALibException ignored) {}
         }
 
-        private List<SEDAObjectEditor> prepareEditorListToDelete(List<SEDAObjectEditor> rulesEditorList,
-            List<String> ruleMetadataKindList) {
+        private List<SEDAObjectEditor> prepareEditorListToDelete(
+            List<SEDAObjectEditor> rulesEditorList,
+            List<String> ruleMetadataKindList
+        ) {
             List<SEDAObjectEditor> itemsToDelete = new ArrayList<>();
             int ruleIndexToDelete = retrieveRuleIndex();
-            for (SEDAObjectEditor ruleObjectEditor : rulesEditorList
-                .subList(ruleIndexToDelete + 1, rulesEditorList.size())) {
-                if (ruleMetadataKindList
-                    .contains(((NamedTypeMetadata) ruleObjectEditor.getEditedObject()).elementName)) {
+            for (SEDAObjectEditor ruleObjectEditor : rulesEditorList.subList(
+                ruleIndexToDelete + 1,
+                rulesEditorList.size()
+            )) {
+                if (
+                    ruleMetadataKindList.contains(((NamedTypeMetadata) ruleObjectEditor.getEditedObject()).elementName)
+                ) {
                     itemsToDelete.add(ruleObjectEditor);
                 } else {
                     break;
@@ -220,10 +223,12 @@ public class RuleEditor extends SEDAObjectEditor {
         }
 
         private int retrieveRuleIndex() {
-            int index = ((RuleTypeEditor) objectEditor.getFather()).objectEditorList.stream()
-                .map(SEDAObjectEditor::getEditedObject).collect(Collectors.toList())
-                .indexOf(objectEditor.getEditedObject());
-            if(index == -1) {
+            int index =
+                ((RuleTypeEditor) objectEditor.getFather()).objectEditorList.stream()
+                    .map(SEDAObjectEditor::getEditedObject)
+                    .collect(Collectors.toList())
+                    .indexOf(objectEditor.getEditedObject());
+            if (index == -1) {
                 throw new IllegalStateException("Cannot find rule to delete index");
             }
             return index;
@@ -236,19 +241,24 @@ public class RuleEditor extends SEDAObjectEditor {
             try {
                 List<String> ruleMetadataKindList =
                     ((RuleType) objectEditor.getFather().getEditedObject()).getRuleMetadataKindList();
-                extensionList = ruleMetadataKindList.stream().map(e -> new ImmutablePair<>(e, translateTag(e))).collect(
-                    Collectors.toList());
+                extensionList = ruleMetadataKindList
+                    .stream()
+                    .map(e -> new ImmutablePair<>(e, translateTag(e)))
+                    .collect(Collectors.toList());
             } catch (SEDALibException e) {
                 extensionList = null;
             }
 
             if ((extensionList != null) && !extensionList.isEmpty()) {
-                for (Pair<String,String> names : extensionList) {
+                for (Pair<String, String> names : extensionList) {
                     JMenuItem mi = new JMenuItem(names.getValue());
-                    mi.addActionListener((ev) -> {
+                    mi.addActionListener(ev -> {
                         if (objectEditor.getFather() != null) {
                             try {
-                                ((RuleTypeEditor) objectEditor.getFather()).addChildTo(ev.getActionCommand(), (Rule) objectEditor.getEditedObject());
+                                ((RuleTypeEditor) objectEditor.getFather()).addChildTo(
+                                        ev.getActionCommand(),
+                                        (Rule) objectEditor.getEditedObject()
+                                    );
                                 objectEditor.getFather().getSEDAObjectEditorPanelTopParent().validate();
                             } catch (SEDALibException e) {
                                 System.err.println(getAllJavaStackString(e));

@@ -52,18 +52,44 @@ class CSVMetadataFormatterTest {
 
     @Test
     void newCSVMetadataFormatter_tests_bad_headers() {
-        final String[] bad_row = {"One", "Two", "three"};
+        final String[] bad_row = { "One", "Two", "three" };
         Assertions.assertThrows(SEDALibException.class, () -> new CSVMetadataFormatter(bad_row, Paths.get("whatever")));
 
-        String[] row_with_one_error = {"Id", "ParentId", "File", "ObjectFiles", "Content.DescriptionLevel", "Content.Title", "Content.Description", "Content.TransactedDate", "Content.StartDate", "CeaCategory"};
-        Assertions.assertThrows(SEDALibException.class, () -> new CSVMetadataFormatter(row_with_one_error, Paths.get("whatever")));
+        String[] row_with_one_error = {
+            "Id",
+            "ParentId",
+            "File",
+            "ObjectFiles",
+            "Content.DescriptionLevel",
+            "Content.Title",
+            "Content.Description",
+            "Content.TransactedDate",
+            "Content.StartDate",
+            "CeaCategory",
+        };
+        Assertions.assertThrows(
+            SEDALibException.class,
+            () -> new CSVMetadataFormatter(row_with_one_error, Paths.get("whatever"))
+        );
     }
 
     @Test
     void newCSVMetadataFormatter_test_OK() throws FileNotFoundException, SEDALibException {
-        String[] row = {"Id", "ParentId", "File", "ObjectFiles", "Content.DescriptionLevel", "Content.Title", "Content.Description", "Content.TransactedDate", "Content.StartDate"};
-        CSVMetadataFormatter csvMetadataFormatter = new CSVMetadataFormatter(row, ResourceUtils.getResourcePath("metadata_OK.csv").getParent());
+        String[] row = {
+            "Id",
+            "ParentId",
+            "File",
+            "ObjectFiles",
+            "Content.DescriptionLevel",
+            "Content.Title",
+            "Content.Description",
+            "Content.TransactedDate",
+            "Content.StartDate",
+        };
+        CSVMetadataFormatter csvMetadataFormatter = new CSVMetadataFormatter(
+            row,
+            ResourceUtils.getResourcePath("metadata_OK.csv").getParent()
+        );
         Assertions.assertTrue(csvMetadataFormatter.isExtendedFormat());
     }
-
 }

@@ -81,8 +81,9 @@ public class InOutDialog extends JDialog {
      * @throws NoSuchMethodException           the no such method exception
      * @throws InvocationTargetException       the invocation target exception
      */
-    public static void main(String[] args) throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        TestDialogWindow window = new TestDialogWindow(InOutDialog.class);//NOSONAR used for debug run
+    public static void main(String[] args)
+        throws ClassNotFoundException, UnsupportedLookAndFeelException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
+        TestDialogWindow window = new TestDialogWindow(InOutDialog.class); //NOSONAR used for debug run
     }
 
     /**
@@ -112,8 +113,8 @@ public class InOutDialog extends JDialog {
         contentPane.setLayout(new GridBagLayout());
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        gridBagLayout.columnWeights = new double[]{1.0,1.0};
-        gridBagLayout.rowWeights = new double[]{0.0, 1.0, 0.0};
+        gridBagLayout.columnWeights = new double[] { 1.0, 1.0 };
+        gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 0.0 };
         contentPane.setLayout(gridBagLayout);
 
         JLabel lblNewLabel = new JLabel("Informations de progression");
@@ -125,7 +126,7 @@ public class InOutDialog extends JDialog {
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth=2;
+        gbc.gridwidth = 2;
         contentPane.add(lblNewLabel, gbc);
 
         JScrollPane scrollPane = new JScrollPane();
@@ -134,7 +135,7 @@ public class InOutDialog extends JDialog {
         gbc.insets = new Insets(0, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth=2;
+        gbc.gridwidth = 2;
         contentPane.add(scrollPane, gbc);
         extProgressTextArea = new JTextArea();
         extProgressTextArea.setFont(MainWindow.LABEL_FONT);
@@ -161,13 +162,15 @@ public class InOutDialog extends JDialog {
         okButton.addActionListener(arg -> buttonOk());
         getRootPane().setDefaultButton(okButton);
 
-        addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                cancelButton.doClick();
-                okButton.doClick();
+        addWindowListener(
+            new WindowAdapter() {
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    cancelButton.doClick();
+                    okButton.doClick();
+                }
             }
-        });
+        );
 
         pack();
         setLocationRelativeTo(owner);
@@ -176,10 +179,8 @@ public class InOutDialog extends JDialog {
     // actions
 
     private void buttonCancel() {
-        if (thread != null)
-            thread.cancel(true);
-        else
-            setVisible(false);
+        if (thread != null) thread.cancel(true);
+        else setVisible(false);
     }
 
     private void buttonOk() {

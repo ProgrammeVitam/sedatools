@@ -37,6 +37,27 @@
  */
 package fr.gouv.vitam.tools.testsipgenerator;
 
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
+import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
+import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
+import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
+import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
+import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,29 +70,6 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.LoggerFactory;
-
-import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
-import fr.gouv.vitam.tools.sedalib.core.BinaryDataObject;
-import fr.gouv.vitam.tools.sedalib.inout.SIPBuilder;
-import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
-import fr.gouv.vitam.tools.sedalib.metadata.data.FormatIdentification;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.DigestType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.IntegerType;
-import fr.gouv.vitam.tools.sedalib.metadata.namedtype.StringType;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
-import fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger;
-import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
-
 /**
  * TestSipGeneratorApp class for launching the command.
  *
@@ -81,9 +79,9 @@ import uk.gov.nationalarchives.droid.core.interfaces.IdentificationResult;
 
 public class TestSipGeneratorApp {
 
-    final static int ZERO_CONTENT = 0;
-    final static int TEXT_CONTENT = 1;
-    final static int RANDOM_CONTENT = 2;
+    static final int ZERO_CONTENT = 0;
+    static final int TEXT_CONTENT = 1;
+    static final int RANDOM_CONTENT = 2;
 
     static Options options;
     static CommandLineParser parser = new DefaultParser();
@@ -117,57 +115,91 @@ public class TestSipGeneratorApp {
         Option help = new Option("h", "help", false, "help");
         options.addOption(help);
 
-        Option depth = new Option("d", "depth", true,
-                "profondeur de l'arbre des ArchiveUnits (1 par défaut, min 1, max 128)");
+        Option depth = new Option(
+            "d",
+            "depth",
+            true,
+            "profondeur de l'arbre des ArchiveUnits (1 par défaut, min 1, max 128)"
+        );
         depth.setArgName("num");
         options.addOption(depth);
 
-        Option number = new Option("n", "number", true,
-                "nombre d'objets de taille standard (0 par défaut, min 0, max 1000000)");
+        Option number = new Option(
+            "n",
+            "number",
+            true,
+            "nombre d'objets de taille standard (0 par défaut, min 0, max 1000000)"
+        );
         number.setArgName("num");
         options.addOption(number);
 
-        Option size = new Option("s", "size", true,
-                "taille des objets standards en ko (100ko par défaut, min 1ko, max 1Go)");
+        Option size = new Option(
+            "s",
+            "size",
+            true,
+            "taille des objets standards en ko (100ko par défaut, min 1ko, max 1Go)"
+        );
         size.setArgName("num");
         options.addOption(size);
 
-        Option bigNumber = new Option("N", "Number", true,
-                "nombre d'objets de grande taille (0 par défaut, min 0, max 100)");
+        Option bigNumber = new Option(
+            "N",
+            "Number",
+            true,
+            "nombre d'objets de grande taille (0 par défaut, min 0, max 100)"
+        );
         bigNumber.setArgName("num");
         options.addOption(bigNumber);
 
-        Option bigSize = new Option("S", "Size", true,
-                "taille des gros objets en Mo (1Go par défaut, min 1Mo, max 1TO)");
+        Option bigSize = new Option(
+            "S",
+            "Size",
+            true,
+            "taille des gros objets en Mo (1Go par défaut, min 1Mo, max 1TO)"
+        );
         bigSize.setArgName("num");
         options.addOption(bigSize);
 
-        Option random = new Option("r", "random", false,
-                "génère des contenus aléatoires (donc peu compressibles) dans les fichiers d'objets");
+        Option random = new Option(
+            "r",
+            "random",
+            false,
+            "génère des contenus aléatoires (donc peu compressibles) dans les fichiers d'objets"
+        );
         options.addOption(random);
 
-        Option text = new Option("t", "text", false,
-                "génère des contenus textuels (donc compressibles) dans les fichiers d'objets");
+        Option text = new Option(
+            "t",
+            "text",
+            false,
+            "génère des contenus textuels (donc compressibles) dans les fichiers d'objets"
+        );
         options.addOption(text);
 
-        Option zero = new Option("z", "zero", false,
-                "met uniquement des zéros dans les fichiers d'objets (contenu par défaut)");
+        Option zero = new Option(
+            "z",
+            "zero",
+            false,
+            "met uniquement des zéros dans les fichiers d'objets (contenu par défaut)"
+        );
         options.addOption(zero);
 
-        Option out = new Option("o", "out", true,
-                "nom du fichier de sortie (out.sip par défaut)");
+        Option out = new Option("o", "out", true, "nom du fichier de sortie (out.sip par défaut)");
         out.setArgName("FILE");
         options.addOption(out);
 
-        Option word = new Option("w", "word", true,
-                "mot utilisé dans le titre des ArchiveUnits");
+        Option word = new Option("w", "word", true, "mot utilisé dans le titre des ArchiveUnits");
         word.setArgName("WORD");
         options.addOption(word);
-        
-        Option generatedMetadatas = new Option("gm", "generated-metadatas", true,
-                "listes de metadonnées par leur nom seda présentes à la racine de la balise <Content> "
-                + "des unités archivistiques à générer automatiquement, séparées par des virgules. "
-                + "Seules les métadonnées de type 'texte' sont prises en compte.");
+
+        Option generatedMetadatas = new Option(
+            "gm",
+            "generated-metadatas",
+            true,
+            "listes de metadonnées par leur nom seda présentes à la racine de la balise <Content> " +
+            "des unités archivistiques à générer automatiquement, séparées par des virgules. " +
+            "Seules les métadonnées de type 'texte' sont prises en compte."
+        );
         generatedMetadatas.setArgName("gm");
         options.addOption(generatedMetadatas);
 
@@ -211,8 +243,7 @@ public class TestSipGeneratorApp {
         } catch (ParseException e) {
             exitHelp(1);
         }
-        if (cmd.hasOption("help"))
-            exitHelp(0);
+        if (cmd.hasOption("help")) exitHelp(0);
         if (cmd.hasOption("depth")) {
             depth = getIntOrExit("depth");
             if ((depth < 1) || (depth > 128)) {
@@ -250,31 +281,33 @@ public class TestSipGeneratorApp {
         }
         if (cmd.hasOption("out")) {
             out = cmd.getOptionValue("out");
-            if (out == null)
-                exitHelp(1);
+            if (out == null) exitHelp(1);
         }
         if (cmd.hasOption("word")) {
             word = cmd.getOptionValue("word");
-            if (word == null)
-                exitHelp(1);
+            if (word == null) exitHelp(1);
         }
-        if (cmd.hasOption("text"))
-            contentType = TEXT_CONTENT;
-        if (cmd.hasOption("random"))
-            contentType = RANDOM_CONTENT;
-        
+        if (cmd.hasOption("text")) contentType = TEXT_CONTENT;
+        if (cmd.hasOption("random")) contentType = RANDOM_CONTENT;
+
         if (cmd.hasOption("gm")) {
-        	String gms = cmd.getOptionValue("gm");
-        	if(StringUtils.isNotBlank(gms)) {
-        		for(String metadata : StringUtils.split(gms, ",")) {
-        			if (Content.metadataMap.containsKey(metadata) 
-        					&& Content.metadataMap.get(metadata).getMetadataClass().getSimpleName().equals(StringType.class.getSimpleName())) {
-        				generatedMetadatas.add(metadata);	
-        			} else {
-        				System.out.println("Invalid metadata will not be generated: " + metadata);
-        			}
-        		}
-        	}
+            String gms = cmd.getOptionValue("gm");
+            if (StringUtils.isNotBlank(gms)) {
+                for (String metadata : StringUtils.split(gms, ",")) {
+                    if (
+                        Content.metadataMap.containsKey(metadata) &&
+                        Content.metadataMap
+                            .get(metadata)
+                            .getMetadataClass()
+                            .getSimpleName()
+                            .equals(StringType.class.getSimpleName())
+                    ) {
+                        generatedMetadatas.add(metadata);
+                    } else {
+                        System.out.println("Invalid metadata will not be generated: " + metadata);
+                    }
+                }
+            }
         }
     }
 
@@ -327,7 +360,9 @@ public class TestSipGeneratorApp {
             }
             return formatter.toString();
         } catch (Exception e) {
-            System.out.println("Impossible d'encoder le hash du fichier [" + onDiskPath.toString() + "]->" + e.getMessage());
+            System.out.println(
+                "Impossible d'encoder le hash du fichier [" + onDiskPath.toString() + "]->" + e.getMessage()
+            );
             System.exit(1);
         }
         return null;
@@ -352,31 +387,41 @@ public class TestSipGeneratorApp {
      * @param depth     the tree depth to generate
      * @throws SEDALibException the seda lib exception
      */
-    static void generateTree(SIPBuilder sb, String auName, int number, int bigNumber, int depth) throws SEDALibException {
+    static void generateTree(SIPBuilder sb, String auName, int number, int bigNumber, int depth)
+        throws SEDALibException {
         String childAuName;
         ArchiveUnit au;
 
-        if ((number == 0) && (bigNumber == 0))
-            return;
+        if ((number == 0) && (bigNumber == 0)) return;
 
         if (depth == 0) {
             for (int i = 0; i < number; i++) {
-            	String uniqueNodeId = Integer.toString(getUniqNodeID());
+                String uniqueNodeId = Integer.toString(getUniqNodeID());
                 childAuName = "Leaf" + uniqueNodeId;
-                au = sb.addNewSubArchiveUnit(auName, childAuName, "Item", word + " " + childAuName,
-                        "Description " + childAuName);
-                for (String metadataName: generatedMetadatas) {
-                	au.getContent().addNewMetadata(metadataName, metadataName +"_" + uniqueNodeId);
+                au = sb.addNewSubArchiveUnit(
+                    auName,
+                    childAuName,
+                    "Item",
+                    word + " " + childAuName,
+                    "Description " + childAuName
+                );
+                for (String metadataName : generatedMetadatas) {
+                    au.getContent().addNewMetadata(metadataName, metadataName + "_" + uniqueNodeId);
                 }
                 addKnownFileToArchiveUnit(au, onDiskStandardPath, standardFileDigest);
             }
             for (int i = 0; i < bigNumber; i++) {
-            	String uniqueNodeId = Integer.toString(getUniqNodeID());
+                String uniqueNodeId = Integer.toString(getUniqNodeID());
                 childAuName = "BigLeaf" + uniqueNodeId;
-                au = sb.addNewSubArchiveUnit(auName, childAuName, "Item", word + " " + childAuName,
-                        "Description " + childAuName);
-                for (String metadataName: generatedMetadatas) {
-                	au.getContent().addNewMetadata(metadataName, metadataName +"_" + uniqueNodeId);
+                au = sb.addNewSubArchiveUnit(
+                    auName,
+                    childAuName,
+                    "Item",
+                    word + " " + childAuName,
+                    "Description " + childAuName
+                );
+                for (String metadataName : generatedMetadatas) {
+                    au.getContent().addNewMetadata(metadataName, metadataName + "_" + uniqueNodeId);
                 }
                 addKnownFileToArchiveUnit(au, onDiskBigPath, bigFileDigest);
             }
@@ -385,15 +430,31 @@ public class TestSipGeneratorApp {
 
         if ((Math.floor(number / 2.0) > 0) || (Math.floor(bigNumber / 2.0) > 0)) {
             childAuName = "Node" + Integer.toString(getUniqNodeID());
-            sb.addNewSubArchiveUnit(auName, childAuName, "RecordGrp", word + " " + childAuName,
-                    "Description " + childAuName);
+            sb.addNewSubArchiveUnit(
+                auName,
+                childAuName,
+                "RecordGrp",
+                word + " " + childAuName,
+                "Description " + childAuName
+            );
             generateTree(sb, childAuName, (int) Math.floor(number / 2.0), (int) Math.floor(bigNumber / 2.0), depth - 1);
         }
         if ((number - Math.floor(number / 2.0) > 0) || (bigNumber - Math.floor(bigNumber / 2.0) > 0)) {
             childAuName = "Node" + Integer.toString(getUniqNodeID());
-            sb.addNewSubArchiveUnit(auName, childAuName, "RecordGrp", word + " " + childAuName,
-                    "Description " + childAuName);
-            generateTree(sb, childAuName, (int) (number - Math.floor(number / 2.0)), (int) (bigNumber - Math.floor(bigNumber / 2.0)), depth - 1);
+            sb.addNewSubArchiveUnit(
+                auName,
+                childAuName,
+                "RecordGrp",
+                word + " " + childAuName,
+                "Description " + childAuName
+            );
+            generateTree(
+                sb,
+                childAuName,
+                (int) (number - Math.floor(number / 2.0)),
+                (int) (bigNumber - Math.floor(bigNumber / 2.0)),
+                depth - 1
+            );
         }
     }
 
@@ -407,8 +468,12 @@ public class TestSipGeneratorApp {
      *                          ArchiveUnit with the same UniqID
      */
     static void addKnownFileToArchiveUnit(ArchiveUnit au, Path onDiskPath, String digest) throws SEDALibException {
-        BinaryDataObject bdo = new BinaryDataObject(au.getDataObjectPackage(), onDiskPath, onDiskPath.getFileName().toString(),
-                "BinaryMaster_1");
+        BinaryDataObject bdo = new BinaryDataObject(
+            au.getDataObjectPackage(),
+            onDiskPath,
+            onDiskPath.getFileName().toString(),
+            "BinaryMaster_1"
+        );
         putKnownTechnicalElements(bdo, digest);
         au.addDataObjectById(bdo.getInDataObjectPackageId());
     }
@@ -431,15 +496,20 @@ public class TestSipGeneratorApp {
             lfilename = bdo.getOnDiskPath().getFileName().toString();
             llastModified = Files.getLastModifiedTime(bdo.getOnDiskPath());
         } catch (IOException e) {
-            throw new SEDALibException("Impossible de générer les infos techniques pour le fichier [" + bdo.getOnDiskPath().toString() + "]\n->" + e.getMessage());
+            throw new SEDALibException(
+                "Impossible de générer les infos techniques pour le fichier [" +
+                bdo.getOnDiskPath().toString() +
+                "]\n->" +
+                e.getMessage()
+            );
         }
 
-        bdo.addMetadata(new DigestType("MessageDigest",digest,"SHA-512"));
-        bdo.addNewMetadata("Size",lsize);
-        if (contentType == TEXT_CONTENT)
-            bdo.addMetadata(new FormatIdentification("Plain Text File", "text/plain", "x-fmt/111", null));
-        else
-            bdo.addNewMetadata("FormatIdentification","Unknown", null, null, null);
+        bdo.addMetadata(new DigestType("MessageDigest", digest, "SHA-512"));
+        bdo.addNewMetadata("Size", lsize);
+        if (contentType == TEXT_CONTENT) bdo.addMetadata(
+            new FormatIdentification("Plain Text File", "text/plain", "x-fmt/111", null)
+        );
+        else bdo.addNewMetadata("FormatIdentification", "Unknown", null, null, null);
 
         FileInfo fileInfo = new FileInfo();
         fileInfo.addNewMetadata("Filename", lfilename);
@@ -459,20 +529,28 @@ public class TestSipGeneratorApp {
 
         Path outPath = Paths.get(out).toAbsolutePath().normalize();
         Path dirPath = outPath.getParent();
-        if (dirPath == null)
-            dirPath = Paths.get("/");
+        if (dirPath == null) dirPath = Paths.get("/");
         onDiskStandardPath = dirPath.resolve("standardfile.tmp");
         onDiskBigPath = dirPath.resolve("bigfile.tmp");
 
         standardFileDigest = generateFile(onDiskStandardPath, size, 1024, contentType);
         bigFileDigest = generateFile(onDiskBigPath, bigSize, 1024 * 1024, contentType);
 
-        SEDALibProgressLogger spl = new SEDALibProgressLogger(LoggerFactory.getLogger("fr/gouv/vitam/tools/testsipgenerator"), SEDALibProgressLogger.OBJECTS_GROUP, null, 100);
+        SEDALibProgressLogger spl = new SEDALibProgressLogger(
+            LoggerFactory.getLogger("fr/gouv/vitam/tools/testsipgenerator"),
+            SEDALibProgressLogger.OBJECTS_GROUP,
+            null,
+            100
+        );
         try (SIPBuilder sb = new SIPBuilder(outPath.toString(), spl)) {
             sb.setAgencies("FRAN_NP_000001", "FRAN_NP_000010", "FRAN_NP_000015", "FRAN_NP_000019");
             sb.setArchivalAgreement("Accepte_les_objets_non_identifies");
-            sb.createRootArchiveUnit("Root", "Subseries", "TestSIPRoot-" + word,
-                    "Racine du SIP de test généré avec les arguments [" + String.join(" ", args) + "]");
+            sb.createRootArchiveUnit(
+                "Root",
+                "Subseries",
+                "TestSIPRoot-" + word,
+                "Racine du SIP de test généré avec les arguments [" + String.join(" ", args) + "]"
+            );
             generateTree(sb, "Root", number, bigNumber, depth - 1);
             sb.generateSIP();
         } catch (SEDALibException e) {

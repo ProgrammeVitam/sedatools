@@ -54,6 +54,7 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * The type Check profile thread.
  */
 public class CheckProfileThread extends SwingWorker<String, String> {
+
     //input
     private String profileFileName;
     private InOutDialog inOutDialog;
@@ -89,15 +90,22 @@ public class CheckProfileThread extends SwingWorker<String, String> {
                 localLogLevel = SEDALibProgressLogger.OBJECTS_GROUP;
                 localLogStep = 1000;
             }
-            spl = new SEDALibProgressLogger(ResipLogger.getGlobalLogger().getLogger(), localLogLevel, (count, log) -> {
-                String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
-                inOutDialog.extProgressTextArea.setText(newLog);
-                inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
-            }, localLogStep, 2,SEDALibProgressLogger.OBJECTS_GROUP,1000);
+            spl = new SEDALibProgressLogger(
+                ResipLogger.getGlobalLogger().getLogger(),
+                localLogLevel,
+                (count, log) -> {
+                    String newLog = inOutDialog.extProgressTextArea.getText() + "\n" + log;
+                    inOutDialog.extProgressTextArea.setText(newLog);
+                    inOutDialog.extProgressTextArea.setCaretPosition(newLog.length());
+                },
+                localLogStep,
+                2,
+                SEDALibProgressLogger.OBJECTS_GROUP,
+                1000
+            );
             spl.setDebugFlag(ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag());
 
-            if (work == null)
-                throw new ResipException("Pas de contenu à valider");
+            if (work == null) throw new ResipException("Pas de contenu à valider");
 
             // first verify and reindex if neccesary
             if (work.getExportContext().isReindex()) {
@@ -106,7 +114,9 @@ public class CheckProfileThread extends SwingWorker<String, String> {
             }
 
             ArchiveTransfer archiveTransfer = new ArchiveTransfer();
-            work.getDataObjectPackage().setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
+            work
+                .getDataObjectPackage()
+                .setManagementMetadataXmlData(work.getExportContext().getManagementMetadataXmlData());
             archiveTransfer.setDataObjectPackage(work.getDataObjectPackage());
             archiveTransfer.setGlobalMetadata(work.getExportContext().getArchiveTransferGlobalMetadata());
 
@@ -115,7 +125,7 @@ public class CheckProfileThread extends SwingWorker<String, String> {
             } else {
                 archiveTransfer.sedaProfileValidate(profileFileName, spl);
             }
-        } catch (Throwable e) {//NOSONAR
+        } catch (Throwable e) { //NOSONAR
             exitThrowable = e;
         }
         return "OK";
@@ -125,11 +135,13 @@ public class CheckProfileThread extends SwingWorker<String, String> {
     protected void done() {
         inOutDialog.okButton.setEnabled(true);
         inOutDialog.cancelButton.setEnabled(false);
-        if (isCancelled())
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation annulée", null);
-        else if (exitThrowable != null)
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: erreur durant la validation", exitThrowable);
-        else
-            doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation OK", null);
+        if (isCancelled()) doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation annulée", null);
+        else if (exitThrowable != null) doProgressLogWithoutInterruption(
+            spl,
+            GLOBAL,
+            "resip: erreur durant la validation",
+            exitThrowable
+        );
+        else doProgressLogWithoutInterruption(spl, GLOBAL, "resip: validation OK", null);
     }
 }

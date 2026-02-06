@@ -63,26 +63,31 @@ class CompactorTest implements UseTestFiles {
     private void eraseAll(String dirOrFile) {
         try {
             Files.delete(Paths.get(dirOrFile));
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         try {
             FileUtils.deleteDirectory(new File(dirOrFile));
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
     }
 
     @Test
     void TestCompactor() throws Exception {
-
         // Given this test directory imported
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/SampleWithoutLinksModelV1", null);
+            "src/test/resources/PacketSamples/SampleWithoutLinksModelV1",
+            null
+        );
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
         di.doImport();
 
         // When Compact the root ArchiveUnit
-        ArchiveUnit rootAu = di.getArchiveTransfer().getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList().get(0);
+        ArchiveUnit rootAu = di
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .getGhostRootAu()
+            .getChildrenAuList()
+            .getArchiveUnitList()
+            .get(0);
         eraseAll("target/tmpJunit/CompactorTest");
         Compactor compactor = new Compactor(rootAu, "target/tmpJunit/CompactorTest", null);
         compactor.setObjectVersionFilters(List.of("BinaryMaster"), List.of("BinaryMaster", "TextContent"));
@@ -101,9 +106,13 @@ class CompactorTest implements UseTestFiles {
         // And assert the first DocumentPack AU content
         ArchiveUnit packAU = compactedAU.getChildrenAuList().getArchiveUnitList().get(0);
 
-        assertThat(TestUtilities.SlackNormalize(packAU.getContentXmlData().replaceAll("<LastModified>.+<\\/LastModified>",
-            "<LastModified>###TIMESTAMP###<\\/LastModified>")))
-                .isEqualTo(ResourceUtils.getResourceAsString("import/AU_ID2.xml"));
+        assertThat(
+            TestUtilities.SlackNormalize(
+                packAU
+                    .getContentXmlData()
+                    .replaceAll("<LastModified>.+<\\/LastModified>", "<LastModified>###TIMESTAMP###<\\/LastModified>")
+            )
+        ).isEqualTo(ResourceUtils.getResourceAsString("import/AU_ID2.xml"));
 
         // And assert created files
         File doc = new File("target/tmpJunit/CompactorTest/Document1.zip");
@@ -118,20 +127,31 @@ class CompactorTest implements UseTestFiles {
 
     @Test
     void TestCompactorSeda2V3() throws Exception {
-
         // Given this test directory imported
         SedaContext.setVersion(SedaVersion.V2_3);
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
-                "src/test/resources/PacketSamples/SampleWithoutLinksModelV1", null);
+            "src/test/resources/PacketSamples/SampleWithoutLinksModelV1",
+            null
+        );
         di.addIgnorePattern("Thumbs.db");
         di.addIgnorePattern("pagefile.sys");
         di.doImport();
 
         // When Compact the root ArchiveUnit
-        ArchiveUnit rootAu = di.getArchiveTransfer().getDataObjectPackage().getGhostRootAu().getChildrenAuList().getArchiveUnitList().get(0);
-        BinaryDataObject bdo=di.getArchiveTransfer().getDataObjectPackage().getBdoInDataObjectPackageIdMap().get("ID18");
-        bdo.addNewMetadata("DataObjectUse","BinaryMaster");
-        bdo.addNewMetadata("DataObjectNumber",1);
+        ArchiveUnit rootAu = di
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .getGhostRootAu()
+            .getChildrenAuList()
+            .getArchiveUnitList()
+            .get(0);
+        BinaryDataObject bdo = di
+            .getArchiveTransfer()
+            .getDataObjectPackage()
+            .getBdoInDataObjectPackageIdMap()
+            .get("ID18");
+        bdo.addNewMetadata("DataObjectUse", "BinaryMaster");
+        bdo.addNewMetadata("DataObjectNumber", 1);
         eraseAll("target/tmpJunit/CompactorTest");
         Compactor compactor = new Compactor(rootAu, "target/tmpJunit/CompactorTest", null);
         compactor.setObjectVersionFilters(List.of("BinaryMaster"), List.of("BinaryMaster", "TextContent"));
@@ -142,8 +162,12 @@ class CompactorTest implements UseTestFiles {
         // Then assert the first DocumentPack AU content
         ArchiveUnit packAU = compactedAU.getChildrenAuList().getArchiveUnitList().get(0);
 
-        assertThat(TestUtilities.SlackNormalize(packAU.getContentXmlData().replaceAll("<LastModified>.+<\\/LastModified>",
-                "<LastModified>###TIMESTAMP###<\\/LastModified>")))
-                .isEqualTo(ResourceUtils.getResourceAsString("import/AU_ID2V3.xml"));
+        assertThat(
+            TestUtilities.SlackNormalize(
+                packAU
+                    .getContentXmlData()
+                    .replaceAll("<LastModified>.+<\\/LastModified>", "<LastModified>###TIMESTAMP###<\\/LastModified>")
+            )
+        ).isEqualTo(ResourceUtils.getResourceAsString("import/AU_ID2V3.xml"));
     }
 }

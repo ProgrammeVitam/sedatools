@@ -48,6 +48,7 @@ import java.util.UUID;
  * @author Nick Buller
  */
 public class PSTConversationIndex {
+
     private static final int HUNDRED_NS_TO_MS = 1000;
     private static final int MINIMUM_HEADER_SIZE = 22;
     private static final int RESPONSE_LEVEL_SIZE = 5;
@@ -74,6 +75,7 @@ public class PSTConversationIndex {
     }
 
     public class ResponseLevel {
+
         short deltaCode;
         long timeDelta;
         short random;
@@ -130,10 +132,16 @@ public class PSTConversationIndex {
         final int responseLevelCount = (rawConversationIndex.length - MINIMUM_HEADER_SIZE) / RESPONSE_LEVEL_SIZE;
         this.responseLevels = new ArrayList<>(responseLevelCount);
 
-        for (int responseLevelIndex = 0, position = 22; responseLevelIndex < responseLevelCount; responseLevelIndex++, position += RESPONSE_LEVEL_SIZE) {
-
-            final long responseLevelValue = PSTObject.convertBigEndianBytesToLong(rawConversationIndex, position,
-                position + 5);
+        for (
+            int responseLevelIndex = 0, position = 22;
+            responseLevelIndex < responseLevelCount;
+            responseLevelIndex++, position += RESPONSE_LEVEL_SIZE
+        ) {
+            final long responseLevelValue = PSTObject.convertBigEndianBytesToLong(
+                rawConversationIndex,
+                position,
+                position + 5
+            );
             final short deltaCode = (short) (responseLevelValue >> 39);
             final short random = (short) (responseLevelValue & 0xFF);
 

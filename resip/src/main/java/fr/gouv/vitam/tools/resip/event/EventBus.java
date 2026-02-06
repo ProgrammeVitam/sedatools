@@ -46,9 +46,7 @@ public class EventBus {
     private static final Map<Class<? extends Event>, List<EventListener<?>>> listenersMap = new ConcurrentHashMap<>();
 
     public static <T extends Event> void subscribe(Class<T> eventType, EventListener<T> listener) {
-        listenersMap
-            .computeIfAbsent(eventType, k -> new CopyOnWriteArrayList<>())
-            .add(listener);
+        listenersMap.computeIfAbsent(eventType, k -> new CopyOnWriteArrayList<>()).add(listener);
     }
 
     @SuppressWarnings("unchecked")

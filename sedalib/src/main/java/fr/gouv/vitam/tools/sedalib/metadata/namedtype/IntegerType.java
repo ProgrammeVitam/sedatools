@@ -62,7 +62,7 @@ public class IntegerType extends NamedTypeMetadata {
      * Instantiates a new integer.
      */
     public IntegerType() {
-        this(null, (Long)null);
+        this(null, (Long) null);
     }
 
     /**
@@ -71,7 +71,7 @@ public class IntegerType extends NamedTypeMetadata {
      * @param elementName the XML element name
      */
     public IntegerType(String elementName) {
-        this(elementName, (Long)null);
+        this(elementName, (Long) null);
     }
 
     /**
@@ -93,7 +93,7 @@ public class IntegerType extends NamedTypeMetadata {
      */
     public IntegerType(String elementName, int value) {
         super(elementName);
-        this.value = ((long)value);
+        this.value = ((long) value);
     }
 
     /**
@@ -107,8 +107,7 @@ public class IntegerType extends NamedTypeMetadata {
         super(elementName);
         if ((args.length == 1) && (args[0] instanceof Integer)) {
             this.value = (Long) args[0];
-        } else
-            throw new SEDALibException("Mauvais constructeur de l'élément [" + elementName + "]");
+        } else throw new SEDALibException("Mauvais constructeur de l'élément [" + elementName + "]");
     }
 
     /*
@@ -121,9 +120,12 @@ public class IntegerType extends NamedTypeMetadata {
     @Override
     public void toSedaXml(SEDAXMLStreamWriter xmlWriter) throws SEDALibException {
         try {
-            xmlWriter.writeElementValue(elementName, (value==null?"":Long.toString(value)));
+            xmlWriter.writeElementValue(elementName, (value == null ? "" : Long.toString(value)));
         } catch (XMLStreamException e) {
-            throw new SEDALibException("Erreur d'écriture XML dans un élément de type IntegerType [" + getXmlElementName() + "]", e);
+            throw new SEDALibException(
+                "Erreur d'écriture XML dans un élément de type IntegerType [" + getXmlElementName() + "]",
+                e
+            );
         }
     }
 
@@ -135,7 +137,7 @@ public class IntegerType extends NamedTypeMetadata {
      */
     public LinkedHashMap<String, String> toCsvList() throws SEDALibException {
         LinkedHashMap<String, String> result = new LinkedHashMap<>();
-        result.put("", (value==null?"":Long.toString(value)));
+        result.put("", (value == null ? "" : Long.toString(value)));
         return result;
     }
 
@@ -153,18 +155,16 @@ public class IntegerType extends NamedTypeMetadata {
                 XMLEvent event = xmlReader.nextUsefullEvent();
                 if (event.isCharacters()) {
                     String tmp = event.asCharacters().getData();
-                    if ((tmp == null) || tmp.isEmpty())
-                        value = null;
-                    else
-                        value = Long.parseLong(tmp);
+                    if ((tmp == null) || tmp.isEmpty()) value = null;
+                    else value = Long.parseLong(tmp);
                     event = xmlReader.nextUsefullEvent();
-                } else
-                    throw new SEDALibException("Erreur de lecture XML dans un élément de type IntegerType qui est vide");
-                if ((!event.isEndElement())
-                        || (!elementName.equals(event.asEndElement().getName().getLocalPart())))
-                    throw new SEDALibException("Elément " + elementName + " mal terminé");
-            } else
-                return false;
+                } else throw new SEDALibException(
+                    "Erreur de lecture XML dans un élément de type IntegerType qui est vide"
+                );
+                if (
+                    (!event.isEndElement()) || (!elementName.equals(event.asEndElement().getName().getLocalPart()))
+                ) throw new SEDALibException("Elément " + elementName + " mal terminé");
+            } else return false;
         } catch (XMLStreamException | IllegalArgumentException | SEDALibException e) {
             throw new SEDALibException("Erreur de lecture XML dans un élément de type IntegerType", e);
         }

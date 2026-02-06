@@ -39,8 +39,8 @@ package fr.gouv.vitam.tools.resip.sedaobjecteditor;
 
 import fr.gouv.vitam.tools.resip.app.ResipGraphicApp;
 import fr.gouv.vitam.tools.resip.frame.BigTextEditDialog;
-import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorSimplePanel;
 import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.AutomaticGrowingTextArea;
+import fr.gouv.vitam.tools.resip.sedaobjecteditor.components.structuredcomponents.SEDAObjectEditorSimplePanel;
 import fr.gouv.vitam.tools.sedalib.metadata.SEDAMetadata;
 import fr.gouv.vitam.tools.sedalib.metadata.namedtype.TextType;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
@@ -71,7 +71,7 @@ public class TextTypeEditor extends SEDAObjectEditor {
     /**
      * The graphic elements
      */
-    private JLabel beforeLabel,innerLabel;
+    private JLabel beforeLabel, innerLabel;
     private JButton langButton;
     private GridBagLayout labelGBL;
     private int algorithmWidth;
@@ -85,8 +85,7 @@ public class TextTypeEditor extends SEDAObjectEditor {
      */
     public TextTypeEditor(SEDAMetadata metadata, SEDAObjectEditor father) throws SEDALibException {
         super(metadata, father);
-        if (!(metadata instanceof TextType))
-            throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
+        if (!(metadata instanceof TextType)) throw new SEDALibException("La métadonnée à éditer n'est pas du bon type");
     }
 
     private TextType getTextTypeMetadata() {
@@ -101,19 +100,15 @@ public class TextTypeEditor extends SEDAObjectEditor {
      * @return the seda editedObject sample
      * @throws SEDALibException the seda lib exception
      */
-    static public SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
-        if (minimal)
-            return new TextType(elementName, "");
-        else
-            return new TextType(elementName, "Text");
+    public static SEDAMetadata getSEDAMetadataSample(String elementName, boolean minimal) throws SEDALibException {
+        if (minimal) return new TextType(elementName, "");
+        else return new TextType(elementName, "Text");
     }
 
     @Override
     public SEDAMetadata extractEditedObject() throws SEDALibException {
-        if (valueTextField!=null)
-            getTextTypeMetadata().setValue(valueTextField.getText());
-        else
-            getTextTypeMetadata().setValue(valueTextArea.getText());
+        if (valueTextField != null) getTextTypeMetadata().setValue(valueTextField.getText());
+        else getTextTypeMetadata().setValue(valueTextArea.getText());
         String attr = attributeTextField.getText();
         if (attr.isEmpty()) attr = null;
         getTextTypeMetadata().setLang(attr);
@@ -123,14 +118,13 @@ public class TextTypeEditor extends SEDAObjectEditor {
     @Override
     public String getSummary() throws SEDALibException {
         String tmp;
-        String result="";
-        if (valueTextField!=null)
-            tmp= valueTextField.getText();
-        else
-            tmp= valueTextArea.getText();
-        if ((attributeTextField.getText()!=null) && !attributeTextField.getText().isEmpty())
-            result="("+ attributeTextField.getText()+")";
-        return result+tmp;
+        String result = "";
+        if (valueTextField != null) tmp = valueTextField.getText();
+        else tmp = valueTextArea.getText();
+        if ((attributeTextField.getText() != null) && !attributeTextField.getText().isEmpty()) result = "(" +
+        attributeTextField.getText() +
+        ")";
+        return result + tmp;
     }
 
     @Override
@@ -139,12 +133,12 @@ public class TextTypeEditor extends SEDAObjectEditor {
         GridBagLayout gbl;
 
         AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
-        algorithmWidth=(int) SEDAObjectEditor.LABEL_FONT.getStringBounds("ww",frc).getWidth();
+        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+        algorithmWidth = (int) SEDAObjectEditor.LABEL_FONT.getStringBounds("ww", frc).getWidth();
 
-        labelGBL= new GridBagLayout();
-        labelGBL.columnWidths = new int[]{0, 0, 0};
-        labelGBL.columnWeights = new double[]{1.0, 0.0, 0.0};
+        labelGBL = new GridBagLayout();
+        labelGBL.columnWidths = new int[] { 0, 0, 0 };
+        labelGBL.columnWeights = new double[] { 1.0, 0.0, 0.0 };
         labelPanel.setLayout(labelGBL);
 
         beforeLabel = new JLabel(getName() + (getTextTypeMetadata().getLang() == null ? "" : "("));
@@ -182,12 +176,11 @@ public class TextTypeEditor extends SEDAObjectEditor {
         if (getTextTypeMetadata().getLang() == null) {
             langButton.setVisible(true);
             attributeTextField.setVisible(false);
-            labelGBL.columnWidths = new int[]{0, 0, 0};
-        }
-        else{
+            labelGBL.columnWidths = new int[] { 0, 0, 0 };
+        } else {
             langButton.setVisible(false);
             attributeTextField.setVisible(true);
-            labelGBL.columnWidths = new int[]{0,algorithmWidth, 0};
+            labelGBL.columnWidths = new int[] { 0, algorithmWidth, 0 };
         }
 
         innerLabel = new JLabel((getTextTypeMetadata().getLang() == null ? ":" : ") :"));
@@ -200,13 +193,13 @@ public class TextTypeEditor extends SEDAObjectEditor {
         gbc.gridy = 0;
         labelPanel.add(innerLabel, gbc);
 
-        JPanel editPanel= new JPanel();
+        JPanel editPanel = new JPanel();
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0,0.0};
-        gbl.rowWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0, 0.0 };
+        gbl.rowWeights = new double[] { 1.0 };
         editPanel.setLayout(gbl);
 
-        if (SEDAObjectEditorConstants.largeAreaTagList.contains(getTag())){
+        if (SEDAObjectEditorConstants.largeAreaTagList.contains(getTag())) {
             valueTextArea = new AutomaticGrowingTextArea(6);
             valueTextArea.setText(getTextTypeMetadata().getValue());
             valueTextArea.setCaretPosition(0);
@@ -219,7 +212,7 @@ public class TextTypeEditor extends SEDAObjectEditor {
             gbc.gridx = 0;
             gbc.gridy = 0;
             editPanel.add(valueTextArea.getScrollPane(), gbc);
-            JButton editButton=new JButton();
+            JButton editButton = new JButton();
             editButton.setIcon(new ImageIcon(getClass().getResource("/icon/text.png")));
             editButton.setToolTipText("Ouvrir pour édition...");
             editButton.setText("");
@@ -236,8 +229,7 @@ public class TextTypeEditor extends SEDAObjectEditor {
             gbc.gridx = 1;
             gbc.gridy = 0;
             editPanel.add(editButton, gbc);
-        }
-        else {
+        } else {
             valueTextField = new JTextField();
             valueTextField.setText(getTextTypeMetadata().getValue());
             valueTextField.setCaretPosition(0);
@@ -250,24 +242,25 @@ public class TextTypeEditor extends SEDAObjectEditor {
             editPanel.add(valueTextField, gbc);
         }
 
-        this.sedaObjectEditorPanel =new SEDAObjectEditorSimplePanel(this,labelPanel,editPanel);
+        this.sedaObjectEditorPanel = new SEDAObjectEditorSimplePanel(this, labelPanel, editPanel);
     }
 
-    private void langActivate()
-    {
+    private void langActivate() {
         langButton.setVisible(false);
         attributeTextField.setVisible(true);
-        labelGBL.columnWidths = new int[]{0,algorithmWidth, 0};
+        labelGBL.columnWidths = new int[] { 0, algorithmWidth, 0 };
         beforeLabel.setText(getName() + " (");
         innerLabel.setText(") :");
         attributeTextField.grabFocus();
     }
 
-    private void editButton()
-    {
-        BigTextEditDialog bigTextEditDialog = new BigTextEditDialog(ResipGraphicApp.getTheWindow(), valueTextArea.getText(), getName());
+    private void editButton() {
+        BigTextEditDialog bigTextEditDialog = new BigTextEditDialog(
+            ResipGraphicApp.getTheWindow(),
+            valueTextArea.getText(),
+            getName()
+        );
         bigTextEditDialog.setVisible(true);
-        if (bigTextEditDialog.getReturnValue())
-            valueTextArea.setText(bigTextEditDialog.getResult());
+        if (bigTextEditDialog.getReturnValue()) valueTextArea.setText(bigTextEditDialog.getResult());
     }
 }

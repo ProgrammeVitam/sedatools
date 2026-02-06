@@ -36,7 +36,7 @@
  * knowledge of the CeCILL-C license and that you accept its terms.
  */
 /*
- * 
+ *
  */
 package fr.gouv.vitam.tools.resip.sedaobjecteditor.components.viewers;
 
@@ -52,68 +52,77 @@ import java.awt.datatransfer.UnsupportedFlavorException;
  */
 public class DataObjectPackageTreeNodesTransferable implements Transferable {
 
-	/**
-	 * The paths.
-	 */
-	TreePath[] paths;
+    /**
+     * The paths.
+     */
+    TreePath[] paths;
 
-	/**
-	 * The flavors.
-	 */
-	static DataFlavor[] flavors;
+    /**
+     * The flavors.
+     */
+    static DataFlavor[] flavors;
 
-	/**
-	 * Gets the flavor.
-	 *
-	 * @return the flavor
-	 */
-	static public DataFlavor getFlavor(){
-		if (flavors==null)
-			try {
-				flavors = new DataFlavor[] {new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + ";class=\""
-						+ javax.swing.tree.DefaultMutableTreeNode[].class.getName() + "\"")};
-			} catch (ClassNotFoundException e) {
-				//impossible
-			}
-		return flavors[0];
-	}
+    /**
+     * Gets the flavor.
+     *
+     * @return the flavor
+     */
+    public static DataFlavor getFlavor() {
+        if (flavors == null) try {
+            flavors = new DataFlavor[] {
+                new DataFlavor(
+                    DataFlavor.javaJVMLocalObjectMimeType +
+                    ";class=\"" +
+                    javax.swing.tree.DefaultMutableTreeNode[].class.getName() +
+                    "\""
+                ),
+            };
+        } catch (ClassNotFoundException e) {
+            //impossible
+        }
+        return flavors[0];
+    }
 
-	/**
-	 * Instantiates a new archive transfer tree nodes transferable.
-	 *
-	 * @param paths the paths
-	 */
-	public DataObjectPackageTreeNodesTransferable(TreePath[] paths) {
-		this.paths = paths;
-	}
+    /**
+     * Instantiates a new archive transfer tree nodes transferable.
+     *
+     * @param paths the paths
+     */
+    public DataObjectPackageTreeNodesTransferable(TreePath[] paths) {
+        this.paths = paths;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
-	 */
+    /* (non-Javadoc)
+     * @see java.awt.datatransfer.Transferable#getTransferData(java.awt.datatransfer.DataFlavor)
+     */
     public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException {
-		if (!isDataFlavorSupported(flavor))
-			throw new UnsupportedFlavorException(flavor);
-		return paths;
-	}
+        if (!isDataFlavorSupported(flavor)) throw new UnsupportedFlavorException(flavor);
+        return paths;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
-	 */
-	public DataFlavor[] getTransferDataFlavors() {
-		if (flavors==null)
-			try {
-				flavors = new DataFlavor[] {new DataFlavor(DataFlavor.javaJVMLocalObjectMimeType + ";class=\""
-						+ javax.swing.tree.DefaultMutableTreeNode[].class.getName() + "\"")};
-			} catch (ClassNotFoundException e) {
-				//impossible
-			}
-	return flavors;
-	}
+    /* (non-Javadoc)
+     * @see java.awt.datatransfer.Transferable#getTransferDataFlavors()
+     */
+    public DataFlavor[] getTransferDataFlavors() {
+        if (flavors == null) try {
+            flavors = new DataFlavor[] {
+                new DataFlavor(
+                    DataFlavor.javaJVMLocalObjectMimeType +
+                    ";class=\"" +
+                    javax.swing.tree.DefaultMutableTreeNode[].class.getName() +
+                    "\""
+                ),
+            };
+        } catch (ClassNotFoundException e) {
+            //impossible
+        }
+        return flavors;
+    }
 
-	/* (non-Javadoc)
-	 * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
-	 */
-	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		return getFlavor().equals(flavor);
-	}
+    /* (non-Javadoc)
+     * @see java.awt.datatransfer.Transferable#isDataFlavorSupported(java.awt.datatransfer.DataFlavor)
+     */
+    public boolean isDataFlavorSupported(DataFlavor flavor) {
+        return getFlavor().equals(flavor);
+    }
 }

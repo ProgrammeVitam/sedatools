@@ -42,12 +42,13 @@ import java.util.HashMap;
 
 /**
  * Class containing recipient information
- * 
+ *
  * @author Orin Eman
  *
  *
  */
 public class PSTRecipient {
+
     private final HashMap<Integer, PSTTable7CItem> details;
 
     public static final int MAPI_TO = 1;
@@ -56,8 +57,8 @@ public class PSTRecipient {
 
     private PSTMessage message;
 
-    PSTRecipient(PSTMessage message,final HashMap<Integer, PSTTable7CItem> recipientDetails) {
-        this.message=message;
+    PSTRecipient(PSTMessage message, final HashMap<Integer, PSTTable7CItem> recipientDetails) {
+        this.message = message;
         this.details = recipientDetails;
     }
 
@@ -118,7 +119,7 @@ public class PSTRecipient {
      * return (item.entryValueReference & 0xFF) == 0 ? false : true;
      * }
      * }
-     * 
+     *
      * return false;
      * }
      */
@@ -137,18 +138,17 @@ public class PSTRecipient {
 
         return 0;
     }
-
     /*
      * private Date getDate(int id) {
      * long lDate = 0;
-     * 
+     *
      * if ( details.containsKey(id) ) {
      * PSTTable7CItem item = details.get(id);
      * if ( item.entryValueType == 0x0040 ) {
      * int high = (int)PSTObject.convertLittleEndianBytesToLong(item.data, 4,
      * 8);
      * int low = (int)PSTObject.convertLittleEndianBytesToLong(item.data, 0, 4);
-     * 
+     *
      * return PSTObject.filetimeToDate(high, low);
      * }
      * }

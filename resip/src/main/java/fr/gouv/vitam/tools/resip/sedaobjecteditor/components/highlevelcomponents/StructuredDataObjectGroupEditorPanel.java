@@ -84,15 +84,14 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
         this.editedArchiveUnit = null;
 
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{0.0, 1.0, 0.0};
-        gbl.rowWeights = new double[]{1.0, 0.0};
+        gbl.columnWeights = new double[] { 0.0, 1.0, 0.0 };
+        gbl.rowWeights = new double[] { 1.0, 0.0 };
         setLayout(gbl);
 
         SEDAObjectEditorPanel mep = null;
         try {
             mep = dataObjectGroupEditor.getSEDAObjectEditorPanel();
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
 
         scrollPane = new JScrollPane(mep);
         gbc = new GridBagConstraints();
@@ -116,7 +115,9 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
         gbc.gridwidth = 3;
         add(addPane, gbc);
 
-        JLabel addText = new JLabel(translateTag("ArchiveUnit") + " sans " + translateTag("DataObjectGroup").toLowerCase());
+        JLabel addText = new JLabel(
+            translateTag("ArchiveUnit") + " sans " + translateTag("DataObjectGroup").toLowerCase()
+        );
         addText.setFont(SEDAObjectEditor.LABEL_FONT);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.LINE_START;
@@ -136,7 +137,7 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
         });
         addPane.add(addButton, gbc);
 
-        revertButton = new JButton("Recharger "+translateTag("DataObjectGroup").toLowerCase());
+        revertButton = new JButton("Recharger " + translateTag("DataObjectGroup").toLowerCase());
         revertButton.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -148,7 +149,7 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
         });
         add(revertButton, gbc);
 
-        saveButton = new JButton("Sauver "+translateTag("DataObjectGroup").toLowerCase());
+        saveButton = new JButton("Sauver " + translateTag("DataObjectGroup").toLowerCase());
         saveButton.setEnabled(false);
         gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.CENTER;
@@ -164,22 +165,31 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
     private void revertButton(ActionEvent event) {
         try {
             editDataObjectGroup(editedArchiveUnit);
-        } catch (SEDALibException ignored) {
-        }
+        } catch (SEDALibException ignored) {}
     }
 
     private void saveButton(ActionEvent event) {
         try {
             // when a new DataObjectGroup has been created
-            if ((dataObjectGroupEditor.getEditedObject()!=null) && (((DataObjectGroup)dataObjectGroupEditor.getEditedObject()).getInDataObjectPackageId() == null)) {
-                editedDataObjectGroup = (DataObjectGroup)dataObjectGroupEditor.getEditedObject();
-                editedArchiveUnit.getDataObjectPackage().addDataObjectGroup((DataObjectGroup)dataObjectGroupEditor.getEditedObject());
-                editedArchiveUnit.addDataObjectById(((DataObjectGroup)dataObjectGroupEditor.getEditedObject()).getInDataObjectPackageId());
+            if (
+                (dataObjectGroupEditor.getEditedObject() != null) &&
+                (((DataObjectGroup) dataObjectGroupEditor.getEditedObject()).getInDataObjectPackageId() == null)
+            ) {
+                editedDataObjectGroup = (DataObjectGroup) dataObjectGroupEditor.getEditedObject();
+                editedArchiveUnit
+                    .getDataObjectPackage()
+                    .addDataObjectGroup((DataObjectGroup) dataObjectGroupEditor.getEditedObject());
+                editedArchiveUnit.addDataObjectById(
+                    ((DataObjectGroup) dataObjectGroupEditor.getEditedObject()).getInDataObjectPackageId()
+                );
                 ResipGraphicApp.getTheWindow().treePane.addDataObjectGroupToDisplayedTreeNode(editedDataObjectGroup);
                 ((CompositeEditor) dataObjectGroupEditor).refreshEditedObjectLabel();
             }
             DataObjectGroup dog = dataObjectGroupEditor.extractEditedObject();
-            if ((dog.getBinaryDataObjectList().size() + dog.getPhysicalDataObjectList().size() == 0) && (dog.logBook == null)) {
+            if (
+                (dog.getBinaryDataObjectList().size() + dog.getPhysicalDataObjectList().size() == 0) &&
+                (dog.logBook == null)
+            ) {
                 ArchiveUnit memoryArchiveUnit = editedArchiveUnit;
                 editedArchiveUnit.removeEmptyDataObjectGroup();
                 dataObjectGroupEditor.editDataObjectGroup(null);
@@ -216,14 +226,14 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
     @Override
     public void editDataObjectGroup(ArchiveUnit archiveUnit) throws SEDALibException {
         this.editedArchiveUnit = archiveUnit;
-        if (editedArchiveUnit==null){
+        if (editedArchiveUnit == null) {
             dataObjectGroupEditor.editDataObjectGroup(null);
             scrollPane.setVisible(true);
             saveButton.setEnabled(false);
             revertButton.setEnabled(false);
             revalidate();
             repaint();
-       } else if (editedArchiveUnit.getTheDataObjectGroup() == null) {
+        } else if (editedArchiveUnit.getTheDataObjectGroup() == null) {
             dataObjectGroupEditor.editDataObjectGroup(null);
             scrollPane.setVisible(false);
             addPane.setVisible(true);
@@ -246,9 +256,9 @@ public class StructuredDataObjectGroupEditorPanel extends JPanel implements Data
     }
 
     @Override
-    public void selectDataObject(DataObject dataObject) throws SEDALibException{
-        for (SEDAObjectEditor soe:dataObjectGroupEditor.objectEditorList){
-                ((CompositeEditor)soe).doExpand((soe.getEditedObject()==dataObject),false);
+    public void selectDataObject(DataObject dataObject) throws SEDALibException {
+        for (SEDAObjectEditor soe : dataObjectGroupEditor.objectEditorList) {
+            ((CompositeEditor) soe).doExpand((soe.getEditedObject() == dataObject), false);
         }
     }
 }

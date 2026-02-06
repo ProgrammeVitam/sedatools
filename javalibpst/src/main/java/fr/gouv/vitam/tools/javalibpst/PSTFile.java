@@ -82,21 +82,22 @@ public class PSTFile {
 
     // Now the string guids
     private static final String guidStrings[] = {
-            "00020329-0000-0000-C000-000000000046",
-            "00062008-0000-0000-C000-000000000046",
-            "00062004-0000-0000-C000-000000000046",
-            "00020386-0000-0000-C000-000000000046",
-            "00062002-0000-0000-C000-000000000046",
-            "6ED8DA90-450B-101B-98DA-00AA003F1305",
-            "0006200A-0000-0000-C000-000000000046",
-            "41F28F13-83F4-4114-A584-EEDB5A6B0BFF",
-            "0006200E-0000-0000-C000-000000000046",
-            "00062041-0000-0000-C000-000000000046",
-            "00062003-0000-0000-C000-000000000046",
-            "4442858E-A9E3-4E80-B900-317A210CC15B",
-            "00020328-0000-0000-C000-000000000046",
-            "71035549-0739-4DCB-9163-00F0580DBBDF",
-            "00062040-0000-0000-C000-000000000046"};
+        "00020329-0000-0000-C000-000000000046",
+        "00062008-0000-0000-C000-000000000046",
+        "00062004-0000-0000-C000-000000000046",
+        "00020386-0000-0000-C000-000000000046",
+        "00062002-0000-0000-C000-000000000046",
+        "6ED8DA90-450B-101B-98DA-00AA003F1305",
+        "0006200A-0000-0000-C000-000000000046",
+        "41F28F13-83F4-4114-A584-EEDB5A6B0BFF",
+        "0006200E-0000-0000-C000-000000000046",
+        "00062041-0000-0000-C000-000000000046",
+        "00062003-0000-0000-C000-000000000046",
+        "4442858E-A9E3-4E80-B900-317A210CC15B",
+        "00020328-0000-0000-C000-000000000046",
+        "71035549-0739-4DCB-9163-00F0580DBBDF",
+        "00062040-0000-0000-C000-000000000046",
+    };
 
     private final HashMap<UUID, Integer> guidMap = new HashMap<>();
 
@@ -161,10 +162,11 @@ public class PSTFile {
      * @throws IOException           the io exception
      */
     public PSTFile(final PSTFileContent content) throws FileNotFoundException, PSTException, IOException {
-         this(content, false);
+        this(content, false);
     }
 
-    private  PSTFile(final PSTFileContent content, boolean closeFileContant) throws FileNotFoundException, PSTException, IOException {
+    private PSTFile(final PSTFileContent content, boolean closeFileContant)
+        throws FileNotFoundException, PSTException, IOException {
         // attempt to open the file.
         this.in = content;
 
@@ -187,8 +189,11 @@ public class PSTFile {
                 if (fileTypeBytes[0] == PSTFile.PST_TYPE_ANSI_2) {
                     fileTypeBytes[0] = PSTFile.PST_TYPE_ANSI;
                 }
-                if (fileTypeBytes[0] != PSTFile.PST_TYPE_ANSI && fileTypeBytes[0] != PSTFile.PST_TYPE_UNICODE
-                        && fileTypeBytes[0] != PSTFile.PST_TYPE_2013_UNICODE) {
+                if (
+                    fileTypeBytes[0] != PSTFile.PST_TYPE_ANSI &&
+                    fileTypeBytes[0] != PSTFile.PST_TYPE_UNICODE &&
+                    fileTypeBytes[0] != PSTFile.PST_TYPE_2013_UNICODE
+                ) {
                     throw new PSTException("Unrecognised PST File version: " + fileTypeBytes[0]);
                 }
                 this.pstFileType = fileTypeBytes[0];
@@ -210,13 +215,10 @@ public class PSTFile {
                 // get the default codepage
                 globalCodepage = inferGlobalCodepage();
             } catch (final IOException err) {
-                if (closeFileContant)
-                    this.in.close();
+                if (closeFileContant) this.in.close();
                 throw new PSTException("Unable to read PST Sig", err);
-            }
-            catch (Exception overException) {
-                if (closeFileContant)
-                    this.in.close();
+            } catch (Exception overException) {
+                if (closeFileContant) this.in.close();
                 throw overException;
             }
         }
@@ -231,8 +233,7 @@ public class PSTFile {
         } catch (PSTException | IOException e) {
             return null;
         }
-        if (codepageIdentifier != 0)
-            return getInternetCodePageCharset(codepageIdentifier);
+        if (codepageIdentifier != 0) return getInternetCodePageCharset(codepageIdentifier);
         return Charset.defaultCharset().name();
     }
 
@@ -258,7 +259,6 @@ public class PSTFile {
      * @throws PSTException PSTException
      */
     private void processNameToIdMap(final PSTFileContent in) throws IOException, PSTException {
-
         // Create our guid map
         for (int i = 0; i < guidStrings.length; ++i) {
             final UUID uuid = UUID.fromString(guidStrings[i]);
@@ -279,8 +279,9 @@ public class PSTFile {
             // PSTDescriptor descriptor = new PSTDescriptor(this,
             // nameToIdMapDescriptorNode.localDescriptorsOffsetIndexIdentifier);
             // localDescriptorItems = descriptor.getChildren();
-            localDescriptorItems = this
-                    .getPSTDescriptorItems(nameToIdMapDescriptorNode.localDescriptorsOffsetIndexIdentifier);
+            localDescriptorItems = this.getPSTDescriptorItems(
+                    nameToIdMapDescriptorNode.localDescriptorsOffsetIndexIdentifier
+                );
         }
 
         // process the map
@@ -302,9 +303,10 @@ public class PSTFile {
         final int[] uuidIndexes = new int[nGuids];
         int offset = 0;
         for (int i = 0; i < nGuids; ++i) {
-            final long mostSigBits = (PSTObject.convertLittleEndianBytesToLong(this.guids, offset, offset + 4) << 32)
-                    | (PSTObject.convertLittleEndianBytesToLong(this.guids, offset + 4, offset + 6) << 16)
-                    | PSTObject.convertLittleEndianBytesToLong(this.guids, offset + 6, offset + 8);
+            final long mostSigBits =
+                (PSTObject.convertLittleEndianBytesToLong(this.guids, offset, offset + 4) << 32) |
+                (PSTObject.convertLittleEndianBytesToLong(this.guids, offset + 4, offset + 6) << 16) |
+                PSTObject.convertLittleEndianBytesToLong(this.guids, offset + 6, offset + 8);
             final long leastSigBits = PSTObject.convertBigEndianBytesToLong(this.guids, offset + 8, offset + 16);
             uuidArray[i] = new UUID(mostSigBits, leastSigBits);
             if (this.guidMap.containsKey(uuidArray[i])) {
@@ -355,8 +357,11 @@ public class PSTFile {
                 // else the identifier is a string
                 // dwPropertyId becomes thHke byte offset into the String stream
                 // in which the string name of the property is stored.
-                final int len = (int) PSTObject.convertLittleEndianBytesToLong(stringNameToIdByte, dwPropertyId,
-                        dwPropertyId + 4);
+                final int len = (int) PSTObject.convertLittleEndianBytesToLong(
+                    stringNameToIdByte,
+                    dwPropertyId,
+                    dwPropertyId + 4
+                );
                 if (len > 0 && len < stringNameToIdByte.length) {
                     final byte[] keyByteValue = new byte[len];
                     System.arraycopy(stringNameToIdByte, dwPropertyId + 4, keyByteValue, 0, keyByteValue.length);
@@ -370,7 +375,7 @@ public class PSTFile {
     }
 
     private byte[] getData(final PSTTableItem item, final HashMap<Integer, PSTDescriptorItem> localDescriptorItems)
-            throws IOException, PSTException {
+        throws IOException, PSTException {
         if (item.data.length != 0) {
             return item.data;
         }
@@ -407,9 +412,7 @@ public class PSTFile {
         return i;
     }
 
-    static long getNameToIdMapKey(final int id)
-    // throws PSTException
-    {
+    static long getNameToIdMapKey(final int id) { // throws PSTException
         final Long i = idToName.get(id);
         if (i == null) {
             // throw new PSTException("Name to Id mapping not found");
@@ -418,8 +421,8 @@ public class PSTFile {
         return i;
     }
 
-    static private Properties propertyInternetCodePages = null;
-    static private boolean bCPFirstTime = true;
+    private static Properties propertyInternetCodePages = null;
+    private static boolean bCPFirstTime = true;
 
     static String getInternetCodePageCharset(final int propertyId) {
         if (bCPFirstTime) {
@@ -446,8 +449,8 @@ public class PSTFile {
         return null;
     }
 
-    static private Properties propertyNames = null;
-    static private boolean bFirstTime = true;
+    private static Properties propertyNames = null;
+    private static boolean bFirstTime = true;
 
     static String getPropertyName(final int propertyId, final boolean bNamed) {
         if (bFirstTime) {
@@ -558,8 +561,8 @@ public class PSTFile {
      * @throws IOException  the io exception
      */
     public PSTMessageStore getMessageStore() throws PSTException, IOException {
-        final DescriptorIndexNode messageStoreDescriptor = this
-                .getDescriptorIndexNode(MESSAGE_STORE_DESCRIPTOR_IDENTIFIER);
+        final DescriptorIndexNode messageStoreDescriptor =
+            this.getDescriptorIndexNode(MESSAGE_STORE_DESCRIPTOR_IDENTIFIER);
         return new PSTMessageStore(this, messageStoreDescriptor);
     }
 
@@ -584,7 +587,6 @@ public class PSTFile {
         // get the index node for the descriptor index
         final OffsetIndexItem offsetItem = this.getOffsetIndexNode(bid);
         return new PSTNodeInputStream(this, offsetItem);
-
     }
 
     /**
@@ -665,8 +667,7 @@ public class PSTFile {
      * @throws PSTException the pst exception
      */
     private byte[] findBtreeItem(final PSTFileContent in, final long index, final boolean descTree)
-            throws IOException, PSTException {
-
+        throws IOException, PSTException {
         synchronized (in) {
             long btreeStartOffset;
             int fileTypeAdjustment;
@@ -697,8 +698,10 @@ public class PSTFile {
             in.seek(btreeStartOffset + fileTypeAdjustment);
             in.readCompletely(temp);
 
-            while ((temp[0] == 0xffffff80 && temp[1] == 0xffffff80 && !descTree)
-                    || (temp[0] == 0xffffff81 && temp[1] == 0xffffff81 && descTree)) {
+            while (
+                (temp[0] == 0xffffff80 && temp[1] == 0xffffff80 && !descTree) ||
+                (temp[0] == 0xffffff81 && temp[1] == 0xffffff81 && descTree)
+            ) {
                 // get the rest of the data....
                 byte[] branchNodeItems;
                 if (this.getPSTFileType() == PST_TYPE_ANSI) {
@@ -755,11 +758,15 @@ public class PSTFile {
                     if (!found) {
                         // it must be in the very last branch...
                         if (this.getPSTFileType() == PST_TYPE_ANSI) {
-                            btreeStartOffset = this.extractLEFileOffset(btreeStartOffset + ((numberOfItems - 1) * 12) + 8);
+                            btreeStartOffset = this.extractLEFileOffset(
+                                    btreeStartOffset + ((numberOfItems - 1) * 12) + 8
+                                );
                             in.seek(btreeStartOffset + 500);
                             in.readCompletely(temp);
                         } else {
-                            btreeStartOffset = this.extractLEFileOffset(btreeStartOffset + ((numberOfItems - 1) * 24) + 16);
+                            btreeStartOffset = this.extractLEFileOffset(
+                                    btreeStartOffset + ((numberOfItems - 1) * 24) + 16
+                                );
                             in.seek(btreeStartOffset + fileTypeAdjustment);
                             in.readCompletely(temp);
                         }
@@ -770,7 +777,6 @@ public class PSTFile {
                     // we are at the bottom of the tree...
                     // we want to get our file offset!
                     for (long x = 0; x < numberOfItems; x++) {
-
                         if (this.getPSTFileType() == PSTFile.PST_TYPE_ANSI) {
                             if (descTree) {
                                 // The 32-bit descriptor index b-tree leaf node item
@@ -786,7 +792,8 @@ public class PSTFile {
                                 }
                             } else {
                                 // The 32-bit (file) offset index item
-                                final long indexIdOfFirstChildNode = this.extractLEFileOffset(btreeStartOffset + (x * 12));
+                                final long indexIdOfFirstChildNode =
+                                    this.extractLEFileOffset(btreeStartOffset + (x * 12));
 
                                 if (indexIdOfFirstChildNode == index) {
                                     // we found it!!!! OMG
@@ -816,7 +823,8 @@ public class PSTFile {
                                 }
                             } else {
                                 // The 64-bit (file) offset index item
-                                final long indexIdOfFirstChildNode = this.extractLEFileOffset(btreeStartOffset + (x * 24));
+                                final long indexIdOfFirstChildNode =
+                                    this.extractLEFileOffset(btreeStartOffset + (x * 24));
 
                                 if (indexIdOfFirstChildNode == index) {
                                     // we found it!!!! OMG
@@ -866,7 +874,7 @@ public class PSTFile {
      * parse a PSTDescriptor and get all of its items
      */
     HashMap<Integer, PSTDescriptorItem> getPSTDescriptorItems(final long localDescriptorsOffsetIndexIdentifier)
-            throws PSTException, IOException {
+        throws PSTException, IOException {
         return this.getPSTDescriptorItems(this.readLeaf(localDescriptorsOffsetIndexIdentifier));
     }
 
@@ -874,7 +882,7 @@ public class PSTFile {
     static final int SIBLOCK_ENTRY = 1;
 
     HashMap<Integer, PSTDescriptorItem> getPSTDescriptorItems(final PSTNodeInputStream pstNodeInputStream)
-            throws PSTException, IOException {
+        throws PSTException, IOException {
         // make sure the signature is correct
         pstNodeInputStream.seek(0);
         final int sig = pstNodeInputStream.read();
@@ -901,20 +909,14 @@ public class PSTFile {
 
         for (int x = 0; x < numberOfItems; x++) {
             final PSTDescriptorItem item = new PSTDescriptorItem(data, offset, this, blockType);
-            if (blockType == SLBLOCK_ENTRY)
-                output.put(item.descriptorIdentifier, item);
-            else
-                output.putAll(getPSTDescriptorItems(item.offsetIndexIdentifier));
+            if (blockType == SLBLOCK_ENTRY) output.put(item.descriptorIdentifier, item);
+            else output.putAll(getPSTDescriptorItems(item.offsetIndexIdentifier));
             if (this.getPSTFileType() == PSTFile.PST_TYPE_ANSI) {
-                if (blockType == SLBLOCK_ENTRY)
-                    offset += 12;
-                else
-                    offset += 8;
+                if (blockType == SLBLOCK_ENTRY) offset += 12;
+                else offset += 8;
             } else {
-                if (blockType == SLBLOCK_ENTRY)
-                    offset += 24;
-                else
-                    offset += 16;
+                if (blockType == SLBLOCK_ENTRY) offset += 24;
+                else offset += 16;
             }
         }
         return output;
@@ -970,7 +972,6 @@ public class PSTFile {
         this.in.readCompletely(temp);
 
         if ((temp[0] == 0xffffff81 && temp[1] == 0xffffff81)) {
-
             if (this.getPSTFileType() == PST_TYPE_ANSI) {
                 this.in.seek(btreeStartOffset + 496);
             } else if (this.getPSTFileType() == PST_TYPE_2013_UNICODE) {
@@ -1026,8 +1027,8 @@ public class PSTFile {
                         // skip!
                     } else if (this.childrenDescriptorTree.containsKey(tempNode.parentDescriptorIndexIdentifier)) {
                         // add this entry to the existing list of children
-                        final LinkedList<DescriptorIndexNode> children = this.childrenDescriptorTree
-                                .get(tempNode.parentDescriptorIndexIdentifier);
+                        final LinkedList<DescriptorIndexNode> children =
+                            this.childrenDescriptorTree.get(tempNode.parentDescriptorIndexIdentifier);
                         children.add(tempNode);
                     } else {
                         // create a new entry and add this one to that
@@ -1048,13 +1049,13 @@ public class PSTFile {
         this.in.close();
     }
 
-    static private boolean printErrors=true;
+    private static boolean printErrors = true;
 
-    static public boolean isPrintErrors() {
+    public static boolean isPrintErrors() {
         return printErrors;
     }
 
-    static public void setPrintErrors(boolean printErrors) {
-        PSTFile.printErrors=printErrors;
+    public static void setPrintErrors(boolean printErrors) {
+        PSTFile.printErrors = printErrors;
     }
 }

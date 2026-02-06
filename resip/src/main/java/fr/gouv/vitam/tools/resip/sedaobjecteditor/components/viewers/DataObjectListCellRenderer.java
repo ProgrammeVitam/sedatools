@@ -46,7 +46,6 @@ import javax.swing.*;
 import java.awt.*;
 
 import static fr.gouv.vitam.tools.resip.frame.MainWindow.BOLD_LABEL_FONT;
-import static fr.gouv.vitam.tools.resip.frame.MainWindow.GENERAL_BACKGROUND;
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 
 // TODO: Auto-generated Javadoc
@@ -56,38 +55,49 @@ import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstan
  */
 public class DataObjectListCellRenderer extends JLabel implements ListCellRenderer<DataObject> {
 
-	/**
-	 * Instantiates a new data object list cell renderer.
-	 */
-	public DataObjectListCellRenderer() {
-		setOpaque(true);
-		setHorizontalAlignment(LEFT);
-		setVerticalAlignment(CENTER);
-	}
+    /**
+     * Instantiates a new data object list cell renderer.
+     */
+    public DataObjectListCellRenderer() {
+        setOpaque(true);
+        setHorizontalAlignment(LEFT);
+        setVerticalAlignment(CENTER);
+    }
 
-	@Override
-	public Component getListCellRendererComponent(JList<? extends DataObject> list, DataObject value, int index,
-			boolean isSelected, boolean cellHasFocus) {
+    @Override
+    public Component getListCellRendererComponent(
+        JList<? extends DataObject> list,
+        DataObject value,
+        int index,
+        boolean isSelected,
+        boolean cellHasFocus
+    ) {
+        if (isSelected) {
+            setBackground(list.getSelectionBackground());
+            setForeground(list.getSelectionForeground());
+        } else {
+            setBackground(list.getBackground());
+            setForeground(list.getForeground());
+        }
 
-		if (isSelected) {
-			setBackground(list.getSelectionBackground());
-			setForeground(list.getSelectionForeground());
-		} else {
-			setBackground(list.getBackground());
-			setForeground(list.getForeground());
-		}
-
-		setFont(BOLD_LABEL_FONT);
-		if (value instanceof BinaryDataObject) {
-			BinaryDataObject bdo=(BinaryDataObject)value;
-			StringType dataObjectVersion=bdo.getMetadataDataObjectVersion();
-			setText(bdo.getInDataObjectPackageId()+"-"+(dataObjectVersion==null?translateTag("Unknown"):dataObjectVersion.getValue()));
-		}
-		else if (value instanceof PhysicalDataObject) {
-			PhysicalDataObject pdo=(PhysicalDataObject)value;
-			StringType dataObjectVersion=pdo.getMetadataDataObjectVersion();
-			setText(pdo.getInDataObjectPackageId()+"-"+(dataObjectVersion==null?translateTag("Unknown"):dataObjectVersion.getValue()));
-		}
-		return this;
-	}
+        setFont(BOLD_LABEL_FONT);
+        if (value instanceof BinaryDataObject) {
+            BinaryDataObject bdo = (BinaryDataObject) value;
+            StringType dataObjectVersion = bdo.getMetadataDataObjectVersion();
+            setText(
+                bdo.getInDataObjectPackageId() +
+                "-" +
+                (dataObjectVersion == null ? translateTag("Unknown") : dataObjectVersion.getValue())
+            );
+        } else if (value instanceof PhysicalDataObject) {
+            PhysicalDataObject pdo = (PhysicalDataObject) value;
+            StringType dataObjectVersion = pdo.getMetadataDataObjectVersion();
+            setText(
+                pdo.getInDataObjectPackageId() +
+                "-" +
+                (dataObjectVersion == null ? translateTag("Unknown") : dataObjectVersion.getValue())
+            );
+        }
+        return this;
+    }
 }

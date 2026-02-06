@@ -49,23 +49,27 @@ import java.nio.file.Paths;
  * The Class CreationContext.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
-@JsonSubTypes({ @JsonSubTypes.Type(value = DiskImportContext.class, name = "DiskImportContext"),
-		@JsonSubTypes.Type(value = ZipImportContext.class, name = "ZipImportContext"),
-		@JsonSubTypes.Type(value = CSVImportContext.class, name = "CSVImportContext"),
-		@JsonSubTypes.Type(value = CSVTreeImportContext.class, name = "CSVTreeImportContext"),
-		@JsonSubTypes.Type(value = CSVMetadataImportContext.class, name = "CSVMetadataImportContext"),
-		@JsonSubTypes.Type(value = SIPImportContext.class, name = "SIPImportContext"),
-		@JsonSubTypes.Type(value = DIPImportContext.class, name = "DIPImportContext"),
-		@JsonSubTypes.Type(value = MailImportContext.class, name = "MailImportContext") })
+@JsonSubTypes(
+    {
+        @JsonSubTypes.Type(value = DiskImportContext.class, name = "DiskImportContext"),
+        @JsonSubTypes.Type(value = ZipImportContext.class, name = "ZipImportContext"),
+        @JsonSubTypes.Type(value = CSVImportContext.class, name = "CSVImportContext"),
+        @JsonSubTypes.Type(value = CSVTreeImportContext.class, name = "CSVTreeImportContext"),
+        @JsonSubTypes.Type(value = CSVMetadataImportContext.class, name = "CSVMetadataImportContext"),
+        @JsonSubTypes.Type(value = SIPImportContext.class, name = "SIPImportContext"),
+        @JsonSubTypes.Type(value = DIPImportContext.class, name = "DIPImportContext"),
+        @JsonSubTypes.Type(value = MailImportContext.class, name = "MailImportContext"),
+    }
+)
 public class CreationContext {
 
-// prefs elements
+    // prefs elements
     /**
      * The work dir.
      */
     String workDir;
 
-// session elements
+    // session elements
     /**
      * The on disk input.
      */
@@ -85,8 +89,8 @@ public class CreationContext {
      * Instantiates a new creation context.
      */
     public CreationContext() {
-		this(null, null);
-	}
+        this(null, null);
+    }
 
     /**
      * Instantiates a new creation context.
@@ -95,11 +99,11 @@ public class CreationContext {
      * @param workDir     the work dir
      */
     public CreationContext(String onDiskInput, String workDir) {
-		this.onDiskInput = onDiskInput;
-		this.workDir = workDir;
-		this.summary = null;
-		this.structureChanged = false;
-	}
+        this.onDiskInput = onDiskInput;
+        this.workDir = workDir;
+        this.summary = null;
+        this.structureChanged = false;
+    }
 
     /**
      * Instantiates a new creation context from preferences.
@@ -107,19 +111,17 @@ public class CreationContext {
      * @param preferences the prefs
      */
     public CreationContext(Preferences preferences) {
-		workDir = preferences.getPrefProperties().getProperty("importContext.workDir", "");
-		try {
-			 Paths.get(workDir);
-		}
-		catch (InvalidPathException e){
-			workDir="";
-		}
-		if (workDir.isEmpty())
-				workDir = Preferences.getDefaultWorkDir();
-		onDiskInput = null;
-		summary = null;
-		structureChanged = false;
-	}
+        workDir = preferences.getPrefProperties().getProperty("importContext.workDir", "");
+        try {
+            Paths.get(workDir);
+        } catch (InvalidPathException e) {
+            workDir = "";
+        }
+        if (workDir.isEmpty()) workDir = Preferences.getDefaultWorkDir();
+        onDiskInput = null;
+        summary = null;
+        structureChanged = false;
+    }
 
     /**
      * Put in preferences the values specific of this context class.
@@ -128,20 +130,20 @@ public class CreationContext {
      * @param preferences the prefs
      */
     public void toPrefs(Preferences preferences) {
-		preferences.getPrefProperties().setProperty("importContext.workDir", (workDir == null ? "" : workDir));
-	}
+        preferences.getPrefProperties().setProperty("importContext.workDir", (workDir == null ? "" : workDir));
+    }
 
     /**
      * Sets the default prefs.
      */
     public void setDefaultPrefs() {
-		workDir = Preferences.getDefaultWorkDir();
-		onDiskInput = null;
-		summary = null;
-		structureChanged = false;
-	}
+        workDir = Preferences.getDefaultWorkDir();
+        onDiskInput = null;
+        summary = null;
+        structureChanged = false;
+    }
 
-	// Getters and setters
+    // Getters and setters
 
     /**
      * Gets the work dir.
@@ -149,8 +151,8 @@ public class CreationContext {
      * @return the work dir
      */
     public String getWorkDir() {
-		return workDir;
-	}
+        return workDir;
+    }
 
     /**
      * Sets the work dir.
@@ -158,8 +160,8 @@ public class CreationContext {
      * @param workDir the new work dir
      */
     public void setWorkDir(String workDir) {
-		this.workDir = workDir;
-	}
+        this.workDir = workDir;
+    }
 
     /**
      * Gets the on disk input.
@@ -167,8 +169,8 @@ public class CreationContext {
      * @return the on disk input
      */
     public String getOnDiskInput() {
-		return onDiskInput;
-	}
+        return onDiskInput;
+    }
 
     /**
      * Sets the on disk input.
@@ -176,8 +178,8 @@ public class CreationContext {
      * @param onDiskInput the new on disk input
      */
     public void setOnDiskInput(String onDiskInput) {
-		this.onDiskInput = onDiskInput;
-	}
+        this.onDiskInput = onDiskInput;
+    }
 
     /**
      * Gets the actualised summary.
@@ -186,15 +188,13 @@ public class CreationContext {
      * @return the actualised summary
      */
     @JsonIgnore
-	public String getActualisedSummary(DataObjectPackage at) {
-		if (structureChanged) {
-			String result=(summary==null?"":summary+"\n") + "Structure modifiée\n";
-			result += at.getDescription();
-			return result;
-		}
-		else
-			return summary + "\nPas de modification";
-	}
+    public String getActualisedSummary(DataObjectPackage at) {
+        if (structureChanged) {
+            String result = (summary == null ? "" : summary + "\n") + "Structure modifiée\n";
+            result += at.getDescription();
+            return result;
+        } else return summary + "\nPas de modification";
+    }
 
     /**
      * Gets the summary.
@@ -202,8 +202,8 @@ public class CreationContext {
      * @return the summary
      */
     public String getSummary() {
-		return summary;
-	}
+        return summary;
+    }
 
     /**
      * Sets the summary.
@@ -211,8 +211,8 @@ public class CreationContext {
      * @param summary the new summary
      */
     public void setSummary(String summary) {
-		this.summary = summary;
-	}
+        this.summary = summary;
+    }
 
     /**
      * Checks if is structure changed.
@@ -220,8 +220,8 @@ public class CreationContext {
      * @return true, if is structure changed
      */
     public boolean isStructureChanged() {
-		return structureChanged;
-	}
+        return structureChanged;
+    }
 
     /**
      * Sets the structure changed.
@@ -229,7 +229,6 @@ public class CreationContext {
      * @param structureChanged the new structure changed
      */
     public void setStructureChanged(boolean structureChanged) {
-		this.structureChanged = structureChanged;
-	}
-
+        this.structureChanged = structureChanged;
+    }
 }

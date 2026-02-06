@@ -62,6 +62,7 @@ import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditor.BOLD_L
 import static fr.gouv.vitam.tools.resip.sedaobjecteditor.SEDAObjectEditorConstants.translateTag;
 
 public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectGroupEditorPanel {
+
     /**
      * The ArchiveUnit owning the original edited DataObjectGroup
      */
@@ -90,8 +91,8 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
         this.displayedDataObject = null;
 
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{1.0};
+        gbl.columnWeights = new double[] { 1.0 };
+        gbl.rowWeights = new double[] { 1.0 };
         setLayout(gbl);
 
         JSplitPane dataObjectGroupSplitPane = new JSplitPane();
@@ -105,8 +106,8 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
         add(dataObjectGroupSplitPane, gbc);
 
         gbl = new GridBagLayout();
-        gbl.columnWeights = new double[]{1.0};
-        gbl.rowWeights = new double[]{0.0, 1.0};
+        gbl.columnWeights = new double[] { 1.0 };
+        gbl.rowWeights = new double[] { 0.0, 1.0 };
         JPanel dataObjectListPane = new JPanel(gbl);
 
         JLabel dataObjectListPaneLabel = new JLabel(translateTag("DataObjectGroup"));
@@ -164,8 +165,8 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
         dataObjectGroupSplitPane.setLeftComponent(dataObjectListPane);
 
         gbl = new GridBagLayout();
-        gbl.rowWeights = new double[]{0.0, 1.0, 0.0};
-        gbl.columnWeights = new double[]{1.0};
+        gbl.rowWeights = new double[] { 0.0, 1.0, 0.0 };
+        gbl.columnWeights = new double[] { 1.0 };
         JPanel dataObjectDetailPane = new JPanel(gbl);
 
         JLabel dataObjectDetailPaneLabel = new JLabel("Détails");
@@ -212,19 +213,27 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                     try {
                         // Office bug workaround
                         // This is a special patch to prevent Office to change a file when opening it to see the content...
-                        if (System.getProperty("os.name").toLowerCase().contains("win"))
-                            Files.setAttribute(path, "dos:readonly", true);
+                        if (System.getProperty("os.name").toLowerCase().contains("win")) Files.setAttribute(
+                            path,
+                            "dos:readonly",
+                            true
+                        );
                     } catch (IOException e) {
-                        UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                                "Impossible de passer le fichier à ouvrir ["+path.toString()+"] en lecture seule \n->" + e.getMessage(),
-                                "Erreur", UserInteractionDialog.ERROR_DIALOG,
-                                null);
+                        UserInteractionDialog.getUserAnswer(
+                            ResipGraphicApp.getTheWindow(),
+                            "Impossible de passer le fichier à ouvrir [" +
+                            path.toString() +
+                            "] en lecture seule \n->" +
+                            e.getMessage(),
+                            "Erreur",
+                            UserInteractionDialog.ERROR_DIALOG,
+                            null
+                        );
                     }
                     Desktop.getDesktop().open(path.toFile());
                 }
             }
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
     }
 
     private String chooseNewObject() {
@@ -238,15 +247,25 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                     throw new ResipException("Le nom choisi ne correspond pas à un fichier existant");
                 }
                 return tmp.toString();
-            } else
-                return null;
+            } else return null;
         } catch (Exception e) {
-            UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                    "Le fichier choisi " + (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + " ne peut être pris en compte",
-                    "Erreur", UserInteractionDialog.ERROR_DIALOG,
-                    null);
-            ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Erreur fatale, impossible de choisir le fichier "
-                    + (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") + "",e);
+            UserInteractionDialog.getUserAnswer(
+                ResipGraphicApp.getTheWindow(),
+                "Le fichier choisi " +
+                (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") +
+                " ne peut être pris en compte",
+                "Erreur",
+                UserInteractionDialog.ERROR_DIALOG,
+                null
+            );
+            ResipLogger.getGlobalLogger()
+                .log(
+                    ResipLogger.ERROR,
+                    "Erreur fatale, impossible de choisir le fichier " +
+                    (tmp != null ? "[" + tmp.getAbsolutePath() + "]" : "") +
+                    "",
+                    e
+                );
             return null;
         }
     }
@@ -261,13 +280,23 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                     bdo.removeFirstNamedMetadata("FileInfo");
                     bdo.extractTechnicalElements(null);
                 } catch (SEDALibException e) {
-                    UserInteractionDialog.getUserAnswer(ResipGraphicApp.getTheWindow(),
-                            "Les informations techniques du fichier choisi [" + newBinary
-                                    + "] n'ont pas pu être toutes extraites, la mise à jour est partielle.",
-                            "Erreur", UserInteractionDialog.ERROR_DIALOG,
-                            null);
-                    ResipLogger.getGlobalLogger().log(ResipLogger.ERROR, "Les informations techniques du fichier choisi [" + newBinary
-                            + "] n'ont pas pu être toutes extraites, la mise à jour est partielle.",e);
+                    UserInteractionDialog.getUserAnswer(
+                        ResipGraphicApp.getTheWindow(),
+                        "Les informations techniques du fichier choisi [" +
+                        newBinary +
+                        "] n'ont pas pu être toutes extraites, la mise à jour est partielle.",
+                        "Erreur",
+                        UserInteractionDialog.ERROR_DIALOG,
+                        null
+                    );
+                    ResipLogger.getGlobalLogger()
+                        .log(
+                            ResipLogger.ERROR,
+                            "Les informations techniques du fichier choisi [" +
+                            newBinary +
+                            "] n'ont pas pu être toutes extraites, la mise à jour est partielle.",
+                            e
+                        );
                 }
                 selectDataObject(displayedDataObject);
                 ResipGraphicApp.getTheApp().setModifiedContext(true);
@@ -279,8 +308,10 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
         XmlEditDialog xmlEditDialog = new XmlEditDialog(ResipGraphicApp.getTheWindow(), displayedDataObject);
         xmlEditDialog.setVisible(true);
         if (xmlEditDialog.getReturnValue()) {
-            ((DefaultListModel<DataObject>) dataObjectListViewer.getModel()).set(0,
-                    ((DefaultListModel<DataObject>) dataObjectListViewer.getModel()).get(0));
+            ((DefaultListModel<DataObject>) dataObjectListViewer.getModel()).set(
+                    0,
+                    ((DefaultListModel<DataObject>) dataObjectListViewer.getModel()).get(0)
+                );
             selectDataObject(displayedDataObject);
             ResipGraphicApp.getTheApp().setModifiedContext(true);
         }
@@ -291,10 +322,8 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
         this.editedArchiveUnit = archiveUnit;
         this.displayedDataObject = null;
 
-        if (editedArchiveUnit == null)
-            dataObjectListViewer.initDataObjectGroup(null);
-        else
-            dataObjectListViewer.initDataObjectGroup(editedArchiveUnit.getTheDataObjectGroup());
+        if (editedArchiveUnit == null) dataObjectListViewer.initDataObjectGroup(null);
+        else dataObjectListViewer.initDataObjectGroup(editedArchiveUnit.getTheDataObjectGroup());
 
         openObjectButton.setEnabled(false);
         changeObjectButton.setEnabled(false);
@@ -324,8 +353,14 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                     tmp = bdo.toSedaXmlFragments();
                     //tmp = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(tmp);
                 } catch (SEDALibException e) {
-                    ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation du BinaryDataObject ["
-                            + bdo.getInDataObjectPackageId() + "]",e);
+                    ResipLogger.getGlobalLogger()
+                        .log(
+                            ResipLogger.STEP,
+                            "Resip.InOut: Erreur à l'indentation du BinaryDataObject [" +
+                            bdo.getInDataObjectPackageId() +
+                            "]",
+                            e
+                        );
                 }
                 dataObjectDetailText.setText(tmp);
                 openObjectButton.setEnabled(true);
@@ -337,8 +372,14 @@ public class XMLDataObjectGroupEditorPanel extends JPanel implements DataObjectG
                     tmp = pdo.toSedaXmlFragments();
                     //tmp = IndentXMLTool.getInstance(IndentXMLTool.STANDARD_INDENT).indentString(tmp);
                 } catch (SEDALibException e) {
-                    ResipLogger.getGlobalLogger().log(ResipLogger.STEP, "Resip.InOut: Erreur à l'indentation du PhysicalDataObject ["
-                            + pdo.getInDataObjectPackageId() + "]",e);
+                    ResipLogger.getGlobalLogger()
+                        .log(
+                            ResipLogger.STEP,
+                            "Resip.InOut: Erreur à l'indentation du PhysicalDataObject [" +
+                            pdo.getInDataObjectPackageId() +
+                            "]",
+                            e
+                        );
                 }
                 dataObjectDetailText.setText(tmp);
                 openObjectButton.setEnabled(false);

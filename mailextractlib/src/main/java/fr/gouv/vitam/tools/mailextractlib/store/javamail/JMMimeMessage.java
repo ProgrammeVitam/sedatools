@@ -40,6 +40,7 @@ package fr.gouv.vitam.tools.mailextractlib.store.javamail;
 import jakarta.mail.Folder;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+
 import java.io.InputStream;
 
 /**

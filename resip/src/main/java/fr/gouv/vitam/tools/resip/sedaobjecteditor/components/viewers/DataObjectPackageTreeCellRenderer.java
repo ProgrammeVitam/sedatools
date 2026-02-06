@@ -48,30 +48,36 @@ import java.awt.*;
  */
 public class DataObjectPackageTreeCellRenderer extends DefaultTreeCellRenderer {
 
-	/** The Constant serialVersionUID. */
-	private static final long serialVersionUID = -7719104276024284446L;
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = -7719104276024284446L;
 
-	/* (non-Javadoc)
-	 * @see javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
-	 */
-	@Override
-	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean exp, boolean leaf,
-			int row, boolean hasFocus) {
-		super.getTreeCellRendererComponent(tree, value, sel, exp, leaf, row, hasFocus);
+    /* (non-Javadoc)
+     * @see javax.swing.tree.DefaultTreeCellRenderer#getTreeCellRendererComponent(javax.swing.JTree, java.lang.Object, boolean, boolean, boolean, int, boolean)
+     */
+    @Override
+    public Component getTreeCellRendererComponent(
+        JTree tree,
+        Object value,
+        boolean sel,
+        boolean exp,
+        boolean leaf,
+        int row,
+        boolean hasFocus
+    ) {
+        super.getTreeCellRendererComponent(tree, value, sel, exp, leaf, row, hasFocus);
 
-		// Assuming you have a tree of DataObjectPackageTreeNode
-		DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) value;
+        // Assuming you have a tree of DataObjectPackageTreeNode
+        DataObjectPackageTreeNode node = (DataObjectPackageTreeNode) value;
 
-		// If the node is a leaf and ends with "xxx"
-		if ((node.getParents()!=null) && (node.getParents().size()>1)) {
-			// Paint the node in blue
-			setForeground(new Color(25, 25, 225));
-		}
-		else if (leaf) {
-			// Paint the node in blue
-			setForeground(new Color(25, 175, 25));
-		}
+        // If the node is a leaf and ends with "xxx"
+        if ((node.getParents() != null) && (node.getParents().size() > 1)) {
+            // Paint the node in blue
+            setForeground(new Color(25, 25, 225));
+        } else if (leaf) {
+            // Paint the node in blue
+            setForeground(new Color(25, 175, 25));
+        }
 
-		return this;
-	}
+        return this;
+    }
 }

@@ -52,8 +52,7 @@ public class DigestSha512 {
     private static final String SHA512_ALGORITHM = "SHA-512";
 
     // Private constructor to hide the implicit public one
-    private DigestSha512() {
-    }
+    private DigestSha512() {}
 
     /**
      * compute SHA-512 digest for a file.
