@@ -1,0 +1,26 @@
+name: Lint
+run-name: Linting branch ${{ github.ref }}
+on: [push, pull_request]
+jobs:
+  lint-java:
+    name: Lint Java
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: "21"
+      - name: Restore maven cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+            **/target/spotless-prettier-node-modules-*
+          key: maven-lint-${{ runner.os }}-${{ hashFiles('**/pom.xml') }}
+      - name: License and Format Check
+        run: mvn --settings .ci/github-actions-settings.xml -Pvitam -T1C license:check spotless:check
+        env:
+          SERVICE_NEXUS_URL: ${{ secrets.SERVICE_NEXUS_URL }}
+          CI_USR: ${{ secrets.CI_USR }}
+          CI_PSW: ${{ secrets.CI_PSW }}

@@ -182,24 +182,6 @@
                     <artifactId>versions-maven-plugin</artifactId>
                     <version>${versions.version}</version>
                 </plugin>
-                <!-- Directory plugin to find parent root directory absolute path -->
-                <plugin>
-                    <groupId>org.commonjava.maven.plugins</groupId>
-                    <artifactId>directory-maven-plugin</artifactId>
-                    <version>0.1</version>
-                    <executions>
-                        <execution>
-                            <id>directories</id>
-                            <goals>
-                                <goal>highest-basedir</goal>
-                            </goals>
-                            <phase>initialize</phase>
-                            <configuration>
-                                <property>main.basedir</property>
-                            </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -207,8 +189,9 @@
                 <groupId>com.mycila</groupId>
                 <artifactId>license-maven-plugin</artifactId>
                 <version>${license-maven-plugin.version}</version>
+                <inherited>false</inherited>
                 <configuration>
-                    <header>${maven.multiModuleProjectDirectory}/LICENSE.txt</header>
+                    <header>LICENSE.txt</header>
                     <properties>
                         <owner>Vitam</owner>
                         <email>contact@programmevitam.fr</email>
