@@ -1025,7 +1025,7 @@ public class PreferencesDialog extends JDialog {
         gbc.weighty = 1.0;
         importParametersPanel.add(ignorePatternsLabel, gbc);
 
-        ignoreLinksChexBox = new JCheckBox("ignorer les liens symboliques et rassourcis");
+        ignoreLinksChexBox = new JCheckBox("Ignorer les liens symboliques et raccourcis");
         ignoreLinksChexBox.setSelected(dic.isNoLinkFlag());
         gbc = new GridBagConstraints();
         gbc.gridwidth = 2;
