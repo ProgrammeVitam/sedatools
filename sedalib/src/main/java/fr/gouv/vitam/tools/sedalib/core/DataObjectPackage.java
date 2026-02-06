@@ -59,9 +59,12 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * in tree structure ArchiveUnits and DataObjects.
  * <p>
  * It has also a specific exportMetadataList field which define the list
- * of descriptive metadata elements kept in export to XML manifest or csv metadata file. This is used to restrict
- * to the set of metadata that an archiving system can handle. This export filter do not apply to any other XML
- * or csv format function (for example toString, toSedaXMLFragments, toCsvList...).
+ * of descriptive metadata elements kept in export to XML manifest or csv
+ * metadata file. This is used to restrict
+ * to the set of metadata that an archiving system can handle. This export
+ * filter do not apply to any other XML
+ * or csv format function (for example toString, toSedaXMLFragments,
+ * toCsvList...).
  */
 public class DataObjectPackage {
 
@@ -96,6 +99,11 @@ public class DataObjectPackage {
      * level.
      */
     private ArchiveUnit ghostRootAu;
+
+    /**
+     * The digest algorithm.
+     */
+    private String digestAlgorithm;
 
     // Inner objects
 
@@ -163,7 +171,7 @@ public class DataObjectPackage {
         try {
             c.addNewMetadata("Title", "GhostRootAu");
         } catch (SEDALibException ignored) {
-            //ignored
+            // ignored
         }
         this.ghostRootAu.setDataObjectPackage(this);
 
@@ -173,6 +181,7 @@ public class DataObjectPackage {
         this.resetInOutCounter();
         this.touchedInDataObjectPackageIdMap = new HashMap<>();
         this.vitamNormalizationStatus = NORMALIZATION_STATUS_UNKNOWN;
+        this.digestAlgorithm = "SHA-512";
     }
 
     // Methods
@@ -191,14 +200,18 @@ public class DataObjectPackage {
     }
 
     /**
-     * Adds a DataObjectPackageIdElement (ArchiveUnit, BinaryDataObject, PhysicalDataObject, DataObjectGroup) as
-     * a DataObjectPackage element, defining a unique ID if not already defined (null).
+     * Adds a DataObjectPackageIdElement (ArchiveUnit, BinaryDataObject,
+     * PhysicalDataObject, DataObjectGroup) as
+     * a DataObjectPackage element, defining a unique ID if not already defined
+     * (null).
      * <p>
-     * This is only useful when creating a DataObjectPackageIdElement without providing an outer
+     * This is only useful when creating a DataObjectPackageIdElement without
+     * providing an outer
      * DataObjectPackage in constructor, for example during JSON deserialization.
      *
      * @param element the DataObjectPackageIdElement to add
-     * @throws SEDALibException if the element has a defined ID which is already present in the DataObjectPackage
+     * @throws SEDALibException if the element has a defined ID which is already
+     *                          present in the DataObjectPackage
      */
     public void addDataObjectPackageIdElement(DataObjectPackageIdElement element) throws SEDALibException {
         if (element.inDataPackageObjectId == null) element.inDataPackageObjectId = getNextInDataObjectPackageID();
@@ -314,7 +327,7 @@ public class DataObjectPackage {
      *
      * @param inDataObjectPackageId the id in DataObjectPackage
      * @return the count value for the touched id in DataObjectPackage, or null if
-     * not touched
+     *         not touched
      */
     public Integer getTouchedInDataObjectPackageId(String inDataObjectPackageId) {
         return touchedInDataObjectPackageIdMap.get(inDataObjectPackageId);
@@ -497,6 +510,24 @@ public class DataObjectPackage {
     }
 
     /**
+     * Gets digest algorithm.
+     *
+     * @return the digest algorithm
+     */
+    public String getDigestAlgorithm() {
+        return digestAlgorithm;
+    }
+
+    /**
+     * Sets digest algorithm.
+     *
+     * @param digestAlgorithm the digest algorithm
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = digestAlgorithm;
+    }
+
+    /**
      * Sets the all references by objects.
      * <p>
      * In {@link DataObjectRefList} and {@link ArchiveUnitRefList} the objects can
@@ -580,7 +611,7 @@ public class DataObjectPackage {
         try {
             c.addNewMetadata("Title", "GhostRootAu");
         } catch (SEDALibException ignored) {
-            //ignored
+            // ignored
         }
         childDataObjectPackage.getGhostRootAu().setDataObjectPackage(this);
         childDataObjectPackage.getGhostRootAu().setContent(c);
@@ -732,7 +763,8 @@ public class DataObjectPackage {
     }
 
     /**
-     * Remove from DataObjectPackage lists all DataObjects (DataObjectGroup, BinaryDataObject,
+     * Remove from DataObjectPackage lists all DataObjects (DataObjectGroup,
+     * BinaryDataObject,
      * PhysicalDataObject) not used by an ArchiveUnit
      *
      * @param spl the SEDALib progress logger
@@ -923,7 +955,8 @@ public class DataObjectPackage {
     }
 
     /**
-     * Actualise ArchiveUnit in maps and maintain an ordered list of all DataObjects to
+     * Actualise ArchiveUnit in maps and maintain an ordered list of all DataObjects
+     * to
      * reindex.
      *
      * @param archiveUnit           the archive unit
@@ -942,10 +975,12 @@ public class DataObjectPackage {
     }
 
     /**
-     * Actualise all maps used to reference oll ArchiveUnits, DataObjectGroup, BinaryDataObject and
+     * Actualise all maps used to reference oll ArchiveUnits, DataObjectGroup,
+     * BinaryDataObject and
      * PhysicalDataObject IDs.
      * <p>
-     * This is usefull when an ArchiveUnit is removed, as the non more usefull reference is kept in the maps,
+     * This is usefull when an ArchiveUnit is removed, as the non more usefull
+     * reference is kept in the maps,
      * and so all ArchiveUnit defining the object can't be garbage collected.
      */
     public void actualiseIdMaps() {
@@ -978,7 +1013,8 @@ public class DataObjectPackage {
      * and set the vitamNormalizationStatus value.
      *
      * @param spl the SEDALib progress logger
-     * @throws SEDALibException     if one verification fail. Important: nothing has                          been modified in the DataObjectPackage.
+     * @throws SEDALibException     if one verification fail. Important: nothing has
+     *                              been modified in the DataObjectPackage.
      * @throws InterruptedException if interrupted
      */
     public void vitamNormalize(SEDALibProgressLogger spl) throws SEDALibException, InterruptedException {
@@ -990,10 +1026,12 @@ public class DataObjectPackage {
     }
 
     /**
-     * Remove empty (no child archive unit, no data object) archive unit from all it's fathers and from the data object package.
+     * Remove empty (no child archive unit, no data object) archive unit from all
+     * it's fathers and from the data object package.
      *
      * @param archiveUnit the empty archive unit
-     * @return true if it's done, false if it's not possible (not empty or not found)
+     * @return true if it's done, false if it's not possible (not empty or not
+     *         found)
      */
     public boolean removeEmptyArchiveUnit(ArchiveUnit archiveUnit) {
         if (archiveUnit.getChildrenAuList().getCount() != 0) return false;
@@ -1018,7 +1056,7 @@ public class DataObjectPackage {
                 num2 = Integer.parseInt(id2.substring(2));
                 return num1 - num2;
             } catch (NumberFormatException ignored) {
-                //ignored
+                // ignored
             }
         }
         return id1.compareTo(id2);
@@ -1027,8 +1065,10 @@ public class DataObjectPackage {
     /**
      * Export data object package, DataObjects part, of SEDA DataObjectPackage XML.
      *
-     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA manifest
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA
+     *                              manifest
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @throws InterruptedException if export process is interrupted
      * @throws SEDALibException     if the XML can't be written
      */
@@ -1097,11 +1137,14 @@ public class DataObjectPackage {
      * Export data object package, ArchiveUnits and global metadata part, of SEDA
      * DataObjectPackage XML.
      *
-     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA manifest
+     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA
+     *                              manifest
      * @param imbricateFlag         indicates if the manifest ArchiveUnits are to be
-     *                              exported in imbricate mode (true) or in flat mode
+     *                              exported in imbricate mode (true) or in flat
+     *                              mode
      *                              (false)
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
      */
@@ -1149,11 +1192,14 @@ public class DataObjectPackage {
     /**
      * Export the whole structure in XML SEDA Manifest.
      *
-     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA manifest
+     * @param xmlWriter             the SEDAXMLStreamWriter generating the SEDA
+     *                              manifest
      * @param imbricateFlag         indicates if the manifest ArchiveUnits are to be
-     *                              exported in imbricate mode (true) or in flat mode
+     *                              exported in imbricate mode (true) or in flat
+     *                              mode
      *                              (false)
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @throws SEDALibException     if the XML can't be written
      * @throws InterruptedException if export process is interrupted
      */
@@ -1177,7 +1223,8 @@ public class DataObjectPackage {
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @param dataObjectPackage     the DataObjectPackage to be completed
      * @param rootDir               the directory of the BinaryDataObject files
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected
      * @throws InterruptedException if export process is interrupted
@@ -1256,7 +1303,8 @@ public class DataObjectPackage {
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
      * @param dataObjectPackage     the DataObjectPackage to be completed
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected
      * @throws InterruptedException if export process is interrupted
@@ -1308,9 +1356,11 @@ public class DataObjectPackage {
      * Import the whole structure in XML SEDA Manifest.
      *
      * @param xmlReader             the SEDAXMLEventReader reading the SEDA manifest
-     * @param rootDir               the directory where the BinaryDataObject files are
+     * @param rootDir               the directory where the BinaryDataObject files
+     *                              are
      *                              exported
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @return the read DataObjectPackage
      * @throws SEDALibException     if the XML can't be read or SEDA scheme is not
      *                              respected
@@ -1466,7 +1516,8 @@ public class DataObjectPackage {
     }
 
     /**
-     * Replace an archive unit by another, everywhere possible in the DataObjectPackage
+     * Replace an archive unit by another, everywhere possible in the
+     * DataObjectPackage
      * and purge all archive units no more linked to root.
      *
      * @param originArchiveUnit the origin archive unit

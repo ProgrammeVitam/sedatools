@@ -67,41 +67,67 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
 /**
  * The Class CSVMetadataToDataObjectPackageImporter.
  * <p>
- * It will import a DataObjectPackage from metadata being defined in a csv file and files on disk.
+ * It will import a DataObjectPackage from metadata being defined in a csv file
+ * and files on disk.
  * <p>
  * The csv has one header line. At the beginning there must be either:
  * <ul>
- * <li>only one column with 'File': then this column contains the file (or directory) path which is also used as uniq ID and which defines the hierarchy as the file hierarchy;</li>
- * <li>two columns with 'File' and 'ParentFile': then the 'File' column contains the file (or directory) path which is also used as uniq ID  and
- * the 'ParentFile' column contains the file (or directory )name of the parent ArchiveUnit;</li>
- * <li>three columns with 'ID', 'File' and 'ParentFile': then the 'File' column contains the file (or directory) path which is also used as uniq ID  and
- * the 'ParentFile' column contains the file (or directory )name of the parent ArchiveUnit. ID is ignored;</li>
- * <li>three columns with 'ID', 'ParentID' and 'File' : then the 'File' column contains the file (or directory) path,
- * the 'ID' column is used as uniq ID  and the 'ParentID' column contains the ID of the parent ArchiveUnit.</li>
- * <li>three columns with 'ID', 'ParentID' and 'ObjectFiles' : then the 'ObjectFiles' column contains the concatenated
- * binary data objects files path with '|' joiner, the 'ID' column is used as uniq ID  and the 'ParentID' column contains the ID of the parent ArchiveUnit.</li>
- * <li>four columns with 'ID', 'ParentID', 'File' and 'ObjectFiles' : then the 'File' column contains the file
- * (or directory) path for ArchiveUnit (only given for easy human reading), the 'ObjectFiles' column contains the concatenated
+ * <li>only one column with 'File': then this column contains the file (or
+ * directory) path which is also used as uniq ID and which defines the hierarchy
+ * as the file hierarchy;</li>
+ * <li>two columns with 'File' and 'ParentFile': then the 'File' column contains
+ * the file (or directory) path which is also used as uniq ID and
+ * the 'ParentFile' column contains the file (or directory )name of the parent
+ * ArchiveUnit;</li>
+ * <li>three columns with 'ID', 'File' and 'ParentFile': then the 'File' column
+ * contains the file (or directory) path which is also used as uniq ID and
+ * the 'ParentFile' column contains the file (or directory )name of the parent
+ * ArchiveUnit. ID is ignored;</li>
+ * <li>three columns with 'ID', 'ParentID' and 'File' : then the 'File' column
+ * contains the file (or directory) path,
+ * the 'ID' column is used as uniq ID and the 'ParentID' column contains the ID
+ * of the parent ArchiveUnit.</li>
+ * <li>three columns with 'ID', 'ParentID' and 'ObjectFiles' : then the
+ * 'ObjectFiles' column contains the concatenated
+ * binary data objects files path with '|' joiner, the 'ID' column is used as
+ * uniq ID and the 'ParentID' column contains the ID of the parent
+ * ArchiveUnit.</li>
+ * <li>four columns with 'ID', 'ParentID', 'File' and 'ObjectFiles' : then the
+ * 'File' column contains the file
+ * (or directory) path for ArchiveUnit (only given for easy human reading), the
+ * 'ObjectFiles' column contains the concatenated
  * binary data objects files path with '|' joiner,
- * the 'ID' column is used as uniq ID  and the 'ParentID' column contains the ID of the parent ArchiveUnit.
- * This is the extended format written by csv exporter {@link  fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter}.</li>
+ * the 'ID' column is used as uniq ID and the 'ParentID' column contains the ID
+ * of the parent ArchiveUnit.
+ * This is the extended format written by csv exporter
+ * {@link fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter}.</li>
  * </ul>
- * Paths are absolute or if relative this is from the metadata csv file directory.
+ * Paths are absolute or if relative this is from the metadata csv file
+ * directory.
  * <p>
- * After that the columns defines metadata path, each tag being separeted by a dot, or an attribute ('attr' column) of the metadata in the previous colum.
+ * After that the columns defines metadata path, each tag being separeted by a
+ * dot, or an attribute ('attr' column) of the metadata in the previous colum.
  * <p>
- * For example: Writer.FullName|Description|attr defines first colum of values to put in
- * &lt;Writer&gt;&lt;FullName&gt;VALUE&lt;/FullName&gt;&lt;/Writer&gt;, then values to put in &lt;Description&gt;VALUE&lt;/Description&gt;
+ * For example: Writer.FullName|Description|attr defines first colum of values
+ * to put in
+ * &lt;Writer&gt;&lt;FullName&gt;VALUE&lt;/FullName&gt;&lt;/Writer&gt;, then
+ * values to put in &lt;Description&gt;VALUE&lt;/Description&gt;
  * and finally attributes to put in &lt;Description&gt; if any.
- * If many values of a tag has to be defined in csv, for example 2 Writers, then it's defined has Writer.0 and Writer.1, and FullName is Writer.0.FullName.
+ * If many values of a tag has to be defined in csv, for example 2 Writers, then
+ * it's defined has Writer.0 and Writer.1, and FullName is Writer.0.FullName.
  * <p>
  * The importer imports objects:
  * <ul>
- * <li>For the non extended formats, the importer try to integrate all files in the ArchiveUnits directories defined on disk.</li>
- * <li>For the extended format, the importer simply try to import in the DataObjectPackage all files defined in ObjectFiles.</li>
+ * <li>For the non extended formats, the importer try to integrate all files in
+ * the ArchiveUnits directories defined on disk.</li>
+ * <li>For the extended format, the importer simply try to import in the
+ * DataObjectPackage all files defined in ObjectFiles.</li>
  * </ul>
  * The file name are analysed to extract Usage Version if encoded like in
- * {@link  fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter} (filename formatted __Usage_Version__originalfilename or by default considered as BinaryMaster_1). If the file doesn't exist, this is only logged (no import fail) and the object is not imported.
+ * {@link fr.gouv.vitam.tools.sedalib.inout.importer.DiskToDataObjectPackageImporter}
+ * (filename formatted __Usage_Version__originalfilename or by default
+ * considered as BinaryMaster_1). If the file doesn't exist, this is only logged
+ * (no import fail) and the object is not imported.
  */
 public class CSVMetadataToDataObjectPackageImporter {
 
@@ -209,14 +235,24 @@ public class CSVMetadataToDataObjectPackageImporter {
     private SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
-     * Instantiates a new DataObjectPackage importer from a csv metadata file with associated file collection.
+     * The digest algorithm.
+     */
+    private String digestAlgorithm;
+
+    /**
+     * Instantiates a new DataObjectPackage importer from a csv metadata file with
+     * associated file collection.
      * <p>
-     * It will analyse the csv metadata file, verify that described files exist and associates metadata and file.
+     * It will analyse the csv metadata file, verify that described files exist and
+     * associates metadata and file.
      *
      * @param csvMetadataFileName   the csv metadata file name
-     * @param encoding              the encoding format string (most of the time UTF8 or Cp1252)
-     * @param separator             the char used as column separator (; or , or \t...)
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param encoding              the encoding format string (most of the time
+     *                              UTF8 or Cp1252)
+     * @param separator             the char used as column separator (; or , or
+     *                              \t...)
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @throws SEDALibException if file doesn't exist
      */
     public CSVMetadataToDataObjectPackageImporter(
@@ -236,13 +272,16 @@ public class CSVMetadataToDataObjectPackageImporter {
         this.sedaLibProgressLogger = sedaLibProgressLogger;
         this.encoding = encoding;
         this.separator = separator;
+        this.digestAlgorithm = "SHA-512";
     }
 
     /**
-     * Read csv file and construct the map with all parsed csv lines by GUID either ID or file name
+     * Read csv file and construct the map with all parsed csv lines by GUID either
+     * ID or file name
      *
      * @return the need ID regeneration flag
-     * @throws SEDALibException     if csv file can't be accessed or is badly formatted
+     * @throws SEDALibException     if csv file can't be accessed or is badly
+     *                              formatted
      * @throws InterruptedException if import process is interrupted
      */
     private boolean readCSVFile() throws SEDALibException, InterruptedException {
@@ -273,7 +312,7 @@ public class CSVMetadataToDataObjectPackageImporter {
                 try {
                     currentLine = new Line(
                         metadataFormatter.getGUID(row),
-                        metadataFormatter.getParentGUID(row), //NOSONAR
+                        metadataFormatter.getParentGUID(row), // NOSONAR
                         metadataFormatter.getFile(row),
                         metadataFormatter.getObjectFiles(row),
                         metadataFormatter.doFormatAndExtractContentXML(row),
@@ -294,7 +333,7 @@ public class CSVMetadataToDataObjectPackageImporter {
             throw new SEDALibException("Le fichier csv [" + csvMetadataFileName + "] n'est pas accessible");
         }
         if (metadataFormatter != null) return metadataFormatter.needIdRegeneration();
-        else return false; //if file empty...
+        else return false; // if file empty...
     }
 
     private Path getAbsolutePath(String file) {
@@ -431,6 +470,7 @@ public class CSVMetadataToDataObjectPackageImporter {
 
         boolean needIdRegeneration = readCSVFile();
         dataObjectPackage = new DataObjectPackage();
+        dataObjectPackage.setDigestAlgorithm(digestAlgorithm);
 
         int lineCount = 0;
         for (Map.Entry<String, Line> e : linesMap.entrySet()) {
@@ -481,6 +521,15 @@ public class CSVMetadataToDataObjectPackageImporter {
             "sedalib: import du fichier csv de métadonnées terminé",
             null
         );
+    }
+
+    /**
+     * Sets the digest algorithm.
+     *
+     * @param digestAlgorithm the digest algorithm
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = digestAlgorithm;
     }
 
     /**

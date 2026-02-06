@@ -68,10 +68,10 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.*;
  */
 public class ImportThread extends SwingWorker<String, String> {
 
-    //input
+    // input
     private Work work;
     private InOutDialog inOutDialog;
-    //run output
+    // run output
     private String summary;
     private int fileCounter;
     private Throwable exitThrowable;
@@ -124,9 +124,9 @@ public class ImportThread extends SwingWorker<String, String> {
     private void recursiveDelete(File inFile) throws InterruptedException {
         if (inFile.isDirectory()) {
             for (File f : inFile.listFiles()) recursiveDelete(f);
-            inFile.delete(); //NOSONAR use the quickest method
+            inFile.delete(); // NOSONAR use the quickest method
         } else {
-            inFile.delete(); //NOSONAR use the quickest method
+            inFile.delete(); // NOSONAR use the quickest method
             fileCounter++;
             doProgressLogIfStep(
                 spl,
@@ -159,13 +159,18 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doZipImport() throws ResipException, InterruptedException, SEDALibException {
+        String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
         inOutDialog.extProgressTextArea.setText(
-            "Import depuis un fichier zip en " + work.getCreationContext().getOnDiskInput() + "\n"
+            "Import depuis un fichier zip en " +
+            work.getCreationContext().getOnDiskInput() +
+            " (algorithme: " +
+            algorithm +
+            ")\n"
         );
         ZipImportContext zic = (ZipImportContext) work.getCreationContext();
         String target = getTmpDirTarget(zic.getWorkDir(), zic.getOnDiskInput());
 
-        //TODO add preferences for compressed filename import
+        // TODO add preferences for compressed filename import
         String encoding;
         if (work.getCreationContext().getOnDiskInput().endsWith("zip")) encoding = "CP850";
         else encoding = "UTF8";
@@ -176,6 +181,7 @@ public class ImportThread extends SwingWorker<String, String> {
             null,
             spl
         );
+        zi.setDigestAlgorithm(algorithm);
         for (String ip : zic.getIgnorePatternList()) zi.addIgnorePattern(ip);
         zi.doImport();
         setWorkFromArchiveTransfer(zi.getArchiveTransfer());
@@ -183,8 +189,13 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doDiskImport() throws SEDALibException, InterruptedException {
+        String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
         inOutDialog.extProgressTextArea.setText(
-            "Import depuis une hiérarchie disque en " + work.getCreationContext().getOnDiskInput() + "\n"
+            "Import depuis une hiérarchie disque en " +
+            work.getCreationContext().getOnDiskInput() +
+            " (algorithme: " +
+            algorithm +
+            ")\n"
         );
         DiskImportContext diskImportContext = (DiskImportContext) work.getCreationContext();
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(
@@ -193,6 +204,7 @@ public class ImportThread extends SwingWorker<String, String> {
             null,
             spl
         );
+        di.setDigestAlgorithm(algorithm);
         for (String ip : diskImportContext.getIgnorePatternList()) di.addIgnorePattern(ip);
         di.doImport();
         diskImportContext.setModelVersion(di.getModelVersion());
@@ -229,8 +241,13 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doCSVTreeImport() throws SEDALibException, InterruptedException {
+        String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
         inOutDialog.extProgressTextArea.setText(
-            "Import depuis un csv d'arbre de classement en " + work.getCreationContext().getOnDiskInput() + "\n"
+            "Import depuis un csv d'arbre de classement en " +
+            work.getCreationContext().getOnDiskInput() +
+            " (algorithme: " +
+            algorithm +
+            ")\n"
         );
         CSVTreeImportContext ctic = (CSVTreeImportContext) work.getCreationContext();
         CSVTreeToDataObjectPackageImporter cti = new CSVTreeToDataObjectPackageImporter(
@@ -239,6 +256,7 @@ public class ImportThread extends SwingWorker<String, String> {
             ctic.getDelimiter(),
             spl
         );
+        cti.setDigestAlgorithm(algorithm);
         cti.doImport();
         work.setDataObjectPackage(cti.getDataObjectPackage());
         work.setExportContext(new ExportContext(Preferences.getInstance()));
@@ -246,8 +264,13 @@ public class ImportThread extends SwingWorker<String, String> {
     }
 
     private void doCSVMetadataImportContext() throws SEDALibException, InterruptedException {
+        String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
         inOutDialog.extProgressTextArea.setText(
-            "Import depuis un csv de métadonnées en " + work.getCreationContext().getOnDiskInput() + "\n"
+            "Import depuis un csv de métadonnées en " +
+            work.getCreationContext().getOnDiskInput() +
+            " (algorithme: " +
+            algorithm +
+            ")\n"
         );
         CSVMetadataImportContext cmic = (CSVMetadataImportContext) work.getCreationContext();
         CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
@@ -256,6 +279,7 @@ public class ImportThread extends SwingWorker<String, String> {
             cmic.getDelimiter(),
             spl
         );
+        cmi.setDigestAlgorithm(algorithm);
         cmi.doImport();
         work.setDataObjectPackage(cmi.getDataObjectPackage());
         work.setExportContext(new ExportContext(Preferences.getInstance()));
@@ -265,8 +289,13 @@ public class ImportThread extends SwingWorker<String, String> {
     private void doMailImportContext() throws ResipException, InterruptedException, SEDALibException {
         int localLogLevel;
         int localLogStep;
+        String algorithm = ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm();
         inOutDialog.extProgressTextArea.setText(
-            "Import depuis un conteneur courriel en " + work.getCreationContext().getOnDiskInput() + "\n"
+            "Import depuis un conteneur courriel en " +
+            work.getCreationContext().getOnDiskInput() +
+            " (algorithme: " +
+            algorithm +
+            ")\n"
         );
         if (ResipGraphicApp.getTheApp().interfaceParameters.isDebugFlag()) {
             localLogLevel = MailExtractProgressLogger.MESSAGE_DETAILS;
@@ -309,6 +338,7 @@ public class ImportThread extends SwingWorker<String, String> {
         List<Path> lp = new ArrayList<>();
         lp.add(Paths.get(mi.getTarget()));
         DiskToArchiveTransferImporter di = new DiskToArchiveTransferImporter(lp, spl);
+        di.setDigestAlgorithm(ResipGraphicApp.getTreatmentParameters().getDigestAlgorithm());
         for (String ip : new DiskImportContext(Preferences.getInstance()).getIgnorePatternList()) di.addIgnorePattern(
             ip
         );

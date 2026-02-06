@@ -387,6 +387,27 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
             result = stn.getDataObject().getClass().getSimpleName() +
             " " +
             stn.getDataObject().getInDataObjectPackageId();
+
+            String algorithm = null;
+            if (stn.getDataObject() instanceof DataObjectGroup) {
+                DataObjectGroup dog = (DataObjectGroup) stn.getDataObject();
+                for (BinaryDataObject bdo : dog.getBinaryDataObjectList()) {
+                    if (
+                        bdo.getMetadataMessageDigest() != null && bdo.getMetadataMessageDigest().getAlgorithm() != null
+                    ) {
+                        algorithm = bdo.getMetadataMessageDigest().getAlgorithm();
+                        break;
+                    }
+                }
+            } else if (stn.getDataObject() instanceof BinaryDataObject) {
+                BinaryDataObject bdo = (BinaryDataObject) stn.getDataObject();
+                if (bdo.getMetadataMessageDigest() != null && bdo.getMetadataMessageDigest().getAlgorithm() != null) {
+                    algorithm = bdo.getMetadataMessageDigest().getAlgorithm();
+                }
+            }
+            if (algorithm != null) {
+                result += " (" + algorithm + ")";
+            }
         }
         return result;
     }
@@ -614,7 +635,7 @@ public class DataObjectPackageTreeViewer extends JTree implements ActionListener
         resetTouchedFromNode(childNode);
         countTouchedFromNode(childNode);
         removeNode(fatherNode, childNode, be);
-        //be.removeContentFromDataObjectPackage(fatherAU.getDataObjectPackage());
+        // be.removeContentFromDataObjectPackage(fatherAU.getDataObjectPackage());
 
         if (childAU != null) {
             fatherAU.removeChildArchiveUnit(childAU);

@@ -76,7 +76,8 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * file itself, being the BinaryMaster_1 and with format identification
  * compliant to PRONOM register</li>
  * <li>the title of ArchiveUnit is the directory/file name, if no other metadata
- * is defined. A lambda function can also be defined to derive the title from directory/file name.</li>
+ * is defined. A lambda function can also be defined to derive the title from
+ * directory/file name.</li>
  * </ul>
  * For example, if you import this disk hierarchy:
  * <p>
@@ -125,7 +126,8 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * <p>
  * Model V2-Extended model
  * <ul>
- * <li>in a directory when there is a __ArchiveUnitMetadata.xml file, it's used to
+ * <li>in a directory when there is a __ArchiveUnitMetadata.xml file, it's used
+ * to
  * define the generated ArchiveUnit metadata. At root level you can have one or
  * more XML elements that define metadata but not structure that is to say
  * &gt;ArchiveUnitProfile&lt;, &gt;Management&lt; or &gt;Content&lt;</li>
@@ -148,10 +150,13 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * reference to the ArchiveUnit or the DataObjectGroup represented by the
  * target</li>
  * </ul>
- * There are also two options in any model, that can be added to the constructors:
+ * There are also two options in any model, that can be added to the
+ * constructors:
  * <ul>
- * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored (default false)</li>
- * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (default simple copy)</li>
+ * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic
+ * link are ignored (default false)</li>
+ * <li>extractTitleFromFileNameFunction: define the function used to extract
+ * Title from file name (default simple copy)</li>
  * </ul>
  */
 public class DiskToDataObjectPackageImporter {
@@ -256,14 +261,18 @@ public class DiskToDataObjectPackageImporter {
      * <p>
      * It will take into account two options:
      * <ul>
-     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored</li>
-     * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
+     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic
+     * link are ignored</li>
+     * <li>extractTitleFromFileNameFunction: define the function used to extract
+     * Title from file name (if null simpleCopy is used)</li>
      * </ul>
      *
      * @param directory                        the directory
      * @param noLinkFlag                       the no link flag
-     * @param extractTitleFromFileNameFunction the extract title from file name function
-     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
+     * @param extractTitleFromFileNameFunction the extract title from file name
+     *                                         function
+     * @param sedaLibProgressLogger            the progress logger or null if no
+     *                                         progress log expected
      * @throws SEDALibException if not a directory
      */
     public DiskToDataObjectPackageImporter(
@@ -296,7 +305,8 @@ public class DiskToDataObjectPackageImporter {
      * ArchiveUnit or the management metadata file
      *
      * @param paths                 the paths
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      */
     public DiskToDataObjectPackageImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
         this(paths, false, simpleCopy, sedaLibProgressLogger);
@@ -310,14 +320,18 @@ public class DiskToDataObjectPackageImporter {
      * <p>
      * It will take into account two options:
      * <ul>
-     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored</li>
-     * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
+     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic
+     * link are ignored</li>
+     * <li>extractTitleFromFileNameFunction: define the function used to extract
+     * Title from file name (if null simpleCopy is used)</li>
      * </ul>
      *
      * @param paths                            the paths
      * @param noLinkFlag                       the no link flag
-     * @param extractTitleFromFileNameFunction the extract title from file name function
-     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
+     * @param extractTitleFromFileNameFunction the extract title from file name
+     *                                         function
+     * @param sedaLibProgressLogger            the progress logger or null if no
+     *                                         progress log expected
      */
     public DiskToDataObjectPackageImporter(
         List<Path> paths,
@@ -376,7 +390,7 @@ public class DiskToDataObjectPackageImporter {
                 return true;
             }
         } catch (IOException | ParseException ignored) {
-            //ignored
+            // ignored
         }
         lastAnalyzedLinkTarget = null;
         return false;
@@ -485,7 +499,8 @@ public class DiskToDataObjectPackageImporter {
     }
 
     /**
-     * Extract data object version string either usage or usage_version from file name.
+     * Extract data object version string either usage or usage_version from file
+     * name.
      *
      * @param filename the filename
      * @return the data object version string
@@ -506,9 +521,12 @@ public class DiskToDataObjectPackageImporter {
      * @param path     the path
      * @param filename the file name
      * @param au       the au
-     * @param dog      the DataObjectGroup containing this DataObject, if null has to be created
+     * @param dog      the DataObjectGroup containing this DataObject, if null has
+     *                 to be created
      * @return the data object group containing this DataObject
-     * @throws SEDALibException if there's a usage_version problem (coherence between file content and file name), or access problem to metadata file
+     * @throws SEDALibException if there's a usage_version problem (coherence
+     *                          between file content and file name), or access
+     *                          problem to metadata file
      */
     private DataObjectGroup addPhysicalDataObjectMetadata(
         Path path,
@@ -549,9 +567,12 @@ public class DiskToDataObjectPackageImporter {
      * @param path     the path
      * @param filename the file name
      * @param au       the au
-     * @param dog      the DataObjectGroup containing this DataObject, if null has to be created
+     * @param dog      the DataObjectGroup containing this DataObject, if null has
+     *                 to be created
      * @return the data object group containing this DataObject
-     * @throws SEDALibException if there's a usage_version problem (coherence between file content and file name), or access problem to metadata file
+     * @throws SEDALibException if there's a usage_version problem (coherence
+     *                          between file content and file name), or access
+     *                          problem to metadata file
      */
     private DataObjectGroup addBinaryDataObjectMetadata(
         Path path,
@@ -608,7 +629,8 @@ public class DiskToDataObjectPackageImporter {
      * @param path     the path
      * @param filename the file name
      * @param au       the au
-     * @param dog      the DataObjectGroup containing this DataObject, if null has to be created
+     * @param dog      the DataObjectGroup containing this DataObject, if null has
+     *                 to be created
      * @return the data object group containing this DataObject
      * @throws SEDALibException if there's an access problem to binary file
      */
@@ -1005,6 +1027,15 @@ public class DiskToDataObjectPackageImporter {
      */
     private DataObjectGroup getDataObjectGroup(Path path) {
         return dogPathStringMap.get(path.toAbsolutePath().normalize().toString());
+    }
+
+    /**
+     * Sets the digest algorithm.
+     *
+     * @param algorithm the algorithm
+     */
+    public void setDigestAlgorithm(String algorithm) {
+        dataObjectPackage.setDigestAlgorithm(algorithm);
     }
 
     /**

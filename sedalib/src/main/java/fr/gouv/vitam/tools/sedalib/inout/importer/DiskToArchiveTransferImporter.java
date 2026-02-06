@@ -70,7 +70,8 @@ import static fr.gouv.vitam.tools.sedalib.utils.SEDALibProgressLogger.doProgress
  * <li>GlobalMetadata XML fragments from the __GlobalMetadata.xml file</li>
  * <li>ManagementMetadata XML element at the end of DataObjectPackage from the
  * __ManagementMetadata.xml file</li>
- * <li>each root ArchiveUnit from a sub directory or other file, and recursively all the
+ * <li>each root ArchiveUnit from a sub directory or other file, and recursively
+ * all the
  * DataObjectPackage structure (see {@link DiskToDataObjectPackageImporter} for
  * details)</li>
  * </ul>
@@ -109,13 +110,19 @@ public class DiskToArchiveTransferImporter {
     private SEDALibProgressLogger sedaLibProgressLogger;
 
     /**
+     * The digest algorithm.
+     */
+    private String digestAlgorithm;
+
+    /**
      * Instantiates a new ArchiveTransfer importer from a single directory name.
      * <p>
      * It will consider each directory and each file in this directory as a root
      * ArchiveUnit or a special metadata file
      *
      * @param directory             the directory name
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      * @throws SEDALibException if not a directory
      */
     public DiskToArchiveTransferImporter(String directory, SEDALibProgressLogger sedaLibProgressLogger)
@@ -131,14 +138,18 @@ public class DiskToArchiveTransferImporter {
      * <p>
      * It will take into account two options:
      * <ul>
-     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored</li>
-     * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
+     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic
+     * link are ignored</li>
+     * <li>extractTitleFromFileNameFunction: define the function used to extract
+     * Title from file name (if null simpleCopy is used)</li>
      * </ul>
      *
      * @param directory                        the directory name
      * @param noLinkFlag                       the no link flag
-     * @param extractTitleFromFileNameFunction the extract title from file name function
-     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
+     * @param extractTitleFromFileNameFunction the extract title from file name
+     *                                         function
+     * @param sedaLibProgressLogger            the progress logger or null if no
+     *                                         progress log expected
      * @throws SEDALibException if not a directory
      */
     public DiskToArchiveTransferImporter(
@@ -176,6 +187,7 @@ public class DiskToArchiveTransferImporter {
             extractTitleFromFileNameFunction,
             sedaLibProgressLogger
         );
+        this.digestAlgorithm = "SHA-512";
     }
 
     /**
@@ -185,7 +197,8 @@ public class DiskToArchiveTransferImporter {
      * ArchiveUnit or a special metadata file
      *
      * @param paths                 the paths
-     * @param sedaLibProgressLogger the progress logger or null if no progress log expected
+     * @param sedaLibProgressLogger the progress logger or null if no progress log
+     *                              expected
      */
     public DiskToArchiveTransferImporter(List<Path> paths, SEDALibProgressLogger sedaLibProgressLogger) {
         this(paths, false, simpleCopy, sedaLibProgressLogger);
@@ -199,14 +212,18 @@ public class DiskToArchiveTransferImporter {
      * <p>
      * It will take into account two options:
      * <ul>
-     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic link are ignored</li>
-     * <li>extractTitleFromFileNameFunction: define the function used to extract Title from file name (if null simpleCopy is used)</li>
+     * <li>noLinkFlag: determine if the windows shortcut or windows/linux symbolic
+     * link are ignored</li>
+     * <li>extractTitleFromFileNameFunction: define the function used to extract
+     * Title from file name (if null simpleCopy is used)</li>
      * </ul>
      *
      * @param paths                            the paths
      * @param noLinkFlag                       the no link flag
-     * @param extractTitleFromFileNameFunction the extract title from file name function
-     * @param sedaLibProgressLogger            the progress logger or null if no progress log expected
+     * @param extractTitleFromFileNameFunction the extract title from file name
+     *                                         function
+     * @param sedaLibProgressLogger            the progress logger or null if no
+     *                                         progress log expected
      */
     public DiskToArchiveTransferImporter(
         List<Path> paths,
@@ -230,6 +247,7 @@ public class DiskToArchiveTransferImporter {
             extractTitleFromFileNameFunction,
             sedaLibProgressLogger
         );
+        this.digestAlgorithm = "SHA-512";
     }
 
     /**
@@ -295,6 +313,7 @@ public class DiskToArchiveTransferImporter {
         if (onDiskGlobalMetadataPath != null) archiveTransfer.setGlobalMetadata(
             processGlobalMetadata(onDiskGlobalMetadataPath)
         );
+        diskToDataObjectPackageImporter.setDigestAlgorithm(digestAlgorithm);
         diskToDataObjectPackageImporter.doImport();
         archiveTransfer.setDataObjectPackage(diskToDataObjectPackageImporter.getDataObjectPackage());
 
@@ -305,6 +324,15 @@ public class DiskToArchiveTransferImporter {
             "sedalib: import d'un ArchiveTransfer depuis une hiérarchie sur disque terminé",
             null
         );
+    }
+
+    /**
+     * Sets the digest algorithm.
+     *
+     * @param digestAlgorithm the digest algorithm
+     */
+    public void setDigestAlgorithm(String digestAlgorithm) {
+        this.digestAlgorithm = digestAlgorithm;
     }
 
     /**

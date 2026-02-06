@@ -53,6 +53,7 @@ import fr.gouv.vitam.tools.resip.threads.CheckProfileThread;
 import fr.gouv.vitam.tools.resip.threads.CleanThread;
 import fr.gouv.vitam.tools.resip.threads.ExportThread;
 import fr.gouv.vitam.tools.resip.threads.ImportThread;
+import fr.gouv.vitam.tools.resip.threads.RecalculateDigestsThread;
 import fr.gouv.vitam.tools.resip.utils.ResipException;
 import fr.gouv.vitam.tools.resip.utils.ResipLogger;
 import fr.gouv.vitam.tools.sedalib.core.seda.SedaVersion;
@@ -128,7 +129,8 @@ public class ResipGraphicApp implements ActionListener, Runnable {
     // GUI elements. */
     public static MainWindow mainWindow;
 
-    // MainWindow menu elements dis/enabled depending on work state and used by controller. */
+    // MainWindow menu elements dis/enabled depending on work state and used by
+    // controller. */
     private JMenuItem saveMenuItem, saveAsMenuItem, closeMenuItem;
     private JMenuItem sedaValidationMenuItem, sedaProfileValidationMenuItem;
     private JCheckBoxMenuItem structuredMenuItem, debugMenuItem, experimentalMenuItem;
@@ -227,7 +229,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
 
     public void run() {
         try {
-            mainWindow = new MainWindow(this); //NOSONAR
+            mainWindow = new MainWindow(this); // NOSONAR
             mainWindow.setVisible(true);
             mainWindow.setLocationRelativeTo(null);
             this.searchDialog = new SearchDialog(mainWindow);
@@ -437,6 +439,11 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         actionByMenuItem.put(menuItem, "RegenerateContinuousIds");
         treatMenu.add(menuItem);
 
+        menuItem = new JMenuItem("Recalculer les empreintes");
+        menuItem.addActionListener(this);
+        actionByMenuItem.put(menuItem, "RecalculateDigests");
+        treatMenu.add(menuItem);
+
         importMenu = new JMenu("Import");
         menuBar.add(importMenu);
 
@@ -599,6 +606,9 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     break;
                 case "SortTreeViewer":
                     doSortTreeViewer();
+                    break;
+                case "RecalculateDigests":
+                    recalculateDigests();
                     break;
                 // Context Menu
                 case "SeeImportContext":
@@ -934,6 +944,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                 preferencesDialog.ip.toPrefs(Preferences.getInstance());
                 Preferences.getInstance().save();
                 interfaceParameters = preferencesDialog.ip;
+                treatmentParameters = preferencesDialog.tp;
                 debugMenuItem.setState(interfaceParameters.isDebugFlag());
                 experimentalMenuItem.setState(interfaceParameters.isExperimentalFlag());
                 structuredMenuItem.setState(interfaceParameters.isStructuredMetadataEditionFlag());
@@ -1155,6 +1166,20 @@ public class ResipGraphicApp implements ActionListener, Runnable {
         if (currentWork != null) {
             currentWork.getDataObjectPackage().regenerateContinuousIds();
             mainWindow.treePane.allTreeChanged();
+            setModifiedContext(true);
+        }
+    }
+
+    /**
+     * Recalculate digests.
+     */
+    void recalculateDigests() {
+        if (currentWork != null) {
+            InOutDialog inOutDialog = new InOutDialog(mainWindow, "Recalcul des empreintes");
+            RecalculateDigestsThread recalculateDigestsThread = new RecalculateDigestsThread(inOutDialog);
+            recalculateDigestsThread.execute();
+            inOutDialog.setVisible(true);
+            setModifiedContext(true);
         }
     }
 
@@ -1609,7 +1634,7 @@ public class ResipGraphicApp implements ActionListener, Runnable {
             );
             dialog.setVisible(true);
         } catch (Exception ignored) {
-            //no real case
+            // no real case
         }
     }
 
@@ -1682,5 +1707,14 @@ public class ResipGraphicApp implements ActionListener, Runnable {
                     e
                 );
         }
+    }
+
+    /**
+     * Gets treatment parameters.
+     *
+     * @return the treatment parameters
+     */
+    public static TreatmentParameters getTreatmentParameters() {
+        return getTheApp().treatmentParameters;
     }
 }
