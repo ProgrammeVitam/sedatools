@@ -124,7 +124,7 @@ public class CSVMetadataFormatter {
         PARENTFILE,
         OBJECTFILES
     );
-    private MetadataTag rootTag, contentTag, managementTag;
+    private MetadataTag rootTag, contentTag, managementTag, archiveUnitProfileTag;
     private LinkedHashMap<Integer, ValueAttrMetadataTag> tagHeaderColumnMapping;
     private int numberOfMandatoryHeaderFound;
     private int columnCount;
@@ -224,6 +224,8 @@ public class CSVMetadataFormatter {
                 contentTag = subTag;
             } else if (name.equals("Management")) {
                 managementTag = subTag;
+            } else if (name.equals("ArchiveUnitProfile")) {
+                archiveUnitProfileTag = subTag;
             } else {
                 throw new SEDALibException("Métadonnées [" + name + "] non conforme SEDA.");
             }
@@ -272,7 +274,8 @@ public class CSVMetadataFormatter {
         }
         if (
             headerRow[numberOfMandatoryHeaderFound].startsWith("Content.") ||
-            headerRow[numberOfMandatoryHeaderFound].startsWith("Management.")
+            headerRow[numberOfMandatoryHeaderFound].startsWith("Management.") ||
+            headerRow[numberOfMandatoryHeaderFound].startsWith("ArchiveUnitProfile")
         ) {
             rootTag = new MetadataTag(null, null);
             contentTag = null;
@@ -576,6 +579,19 @@ public class CSVMetadataFormatter {
             return "";
         }
         return generateTagXML(managementTag);
+    }
+
+    /**
+     * Extract the XML ArchiveUnitProfile metadata
+     *
+     * @return the XML ArchiveUnitProfile metadata or null
+     * @throws SEDALibException the seda lib exception
+     */
+    public String extractArchiveUnitProfileXML() throws SEDALibException {
+        if (archiveUnitProfileTag == null) {
+            return "";
+        }
+        return generateTagXML(archiveUnitProfileTag);
     }
 
     /**

@@ -47,12 +47,17 @@ import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageDeserializer;
 import fr.gouv.vitam.tools.sedalib.core.json.DataObjectPackageSerializer;
 import fr.gouv.vitam.tools.sedalib.inout.importer.CSVMetadataToDataObjectPackageImporter;
+import fr.gouv.vitam.tools.sedalib.metadata.namedtype.NamedTypeMetadata;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -220,5 +225,32 @@ class CSVMetadataToDataObjectPackageImporterTest {
         );
 
         assertThatThrownBy(cmi::doImport).hasMessageContaining("ligne 4"); // for StringType;
+    }
+
+    @Test
+    void importCSVWithArchiveUnitProfile() throws IOException, SEDALibException, InterruptedException {
+        Path tempDir = Files.createTempDirectory("csvImportTest");
+        Files.createFile(tempDir.resolve("AU1"));
+        Path csvFile = tempDir.resolve("metadata.csv");
+        String csvContent =
+            "ID;File;ParentID;ArchiveUnitProfile;Content.Title;Content.DescriptionLevel\n" +
+            "AU1;AU1;;MyProfile;Title AU1;Item\n";
+        Files.write(csvFile, csvContent.getBytes(StandardCharsets.UTF_8));
+
+        CSVMetadataToDataObjectPackageImporter cmi = new CSVMetadataToDataObjectPackageImporter(
+            csvFile.toString(),
+            "UTF-8",
+            ';',
+            null
+        );
+        cmi.doImport();
+
+        DataObjectPackage dop = cmi.getDataObjectPackage();
+        ArchiveUnit au = dop.getArchiveUnitById("Import-AU1");
+        assertThat(au).isNotNull();
+        assertThat(au.getArchiveUnitProfile().getValue()).isEqualTo("MyProfile");
+        assertThat(((NamedTypeMetadata) au.getContent().getFirstNamedMetadata("Title")).getValue()).isEqualTo(
+            "Title AU1"
+        );
     }
 }
