@@ -67,4 +67,22 @@ public class ArchiveUnitProfile extends StringType {
     public ArchiveUnitProfile(String value) {
         super("ArchiveUnitProfile", value);
     }
+
+    /**
+     * Export the ArchiveUnitProfile metadata to csv List for the csv metadata file.
+     * <p>
+     * In the HashMap result, the key is a metadata path of a leaf and the value is
+     * the leaf of the metadata value.
+     *
+     * @return the linked hash map with header title as key and metadata value as
+     *         value
+     * @throws fr.gouv.vitam.tools.sedalib.utils.SEDALibException the seda lib
+     *                                                            exception
+     */
+    public java.util.LinkedHashMap<String, String> externToCsvList()
+        throws fr.gouv.vitam.tools.sedalib.utils.SEDALibException {
+        java.util.LinkedHashMap<String, String> result = new java.util.LinkedHashMap<>();
+        result.put("ArchiveUnitProfile", getValue());
+        return result;
+    }
 }

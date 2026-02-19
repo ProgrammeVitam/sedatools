@@ -38,6 +38,7 @@
 package fr.gouv.vitam.tools.sedalib.inout.exporter;
 
 import fr.gouv.vitam.tools.sedalib.core.*;
+import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.metadata.content.Content;
 import fr.gouv.vitam.tools.sedalib.metadata.data.FileInfo;
 import fr.gouv.vitam.tools.sedalib.metadata.management.Management;
@@ -350,11 +351,20 @@ public class DataObjectPackageToCSVMetadataExporter {
         Set<String> curHeaderNames = new HashSet<>();
         List<String> sortedHeaderNames;
         for (ArchiveUnit au : dataObjectPackage.getAuInDataObjectPackageIdMap().values()) {
+            ArchiveUnitProfile archiveUnitProfile = au.getArchiveUnitProfile();
+            if (archiveUnitProfile != null) curHeaderNames.addAll(archiveUnitProfile.externToCsvList().keySet());
             Management management = au.getManagement();
             if (management != null) curHeaderNames.addAll(management.externToCsvList().keySet());
             curHeaderNames.addAll(au.getContent().externToCsvList(dataObjectPackage.getExportMetadataList()).keySet());
         }
-        sortedHeaderNames = getSortedHeaderNames(new ArrayList<>(), curHeaderNames, "", "Content", Content.class);
+        sortedHeaderNames = getSortedHeaderNames(
+            new ArrayList<>(),
+            curHeaderNames,
+            "",
+            "ArchiveUnitProfile",
+            ArchiveUnitProfile.class
+        );
+        sortedHeaderNames.addAll(getSortedHeaderNames(new ArrayList<>(), curHeaderNames, "", "Content", Content.class));
         sortedHeaderNames.addAll(
             getSortedHeaderNames(new ArrayList<>(), curHeaderNames, "", "Management", Management.class)
         );
@@ -461,9 +471,15 @@ public class DataObjectPackageToCSVMetadataExporter {
         contentMetadataHashMap = au.getContent().externToCsvList(dataObjectPackage.getExportMetadataList());
         Management management = au.getManagement();
         if (management != null) managementMetadataHashMap = management.externToCsvList();
+        ArchiveUnitProfile archiveUnitProfile = au.getArchiveUnitProfile();
+        LinkedHashMap<String, String> archiveUnitProfileMetadataHashMap = null;
+        if (archiveUnitProfile != null) archiveUnitProfileMetadataHashMap = archiveUnitProfile.externToCsvList();
+
         for (String header : headerNames) {
             value = contentMetadataHashMap.get(header);
             if ((value == null) && (managementMetadataHashMap != null)) value = managementMetadataHashMap.get(header);
+            if ((value == null) && (archiveUnitProfileMetadataHashMap != null)) value =
+                archiveUnitProfileMetadataHashMap.get(header);
             if (value == null) value = "";
             else value = "\"" + value.replace("\"", "\"\"") + "\"";
             csvPrintStream.print(separator + value);

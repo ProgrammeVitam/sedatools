@@ -39,9 +39,12 @@ package fr.gouv.vitam.tools.sedalib.inout;
 
 import fr.gouv.vitam.tools.sedalib.SedaContextExtension;
 import fr.gouv.vitam.tools.sedalib.TestUtilities;
+import fr.gouv.vitam.tools.sedalib.core.ArchiveUnit;
+import fr.gouv.vitam.tools.sedalib.core.DataObjectPackage;
 import fr.gouv.vitam.tools.sedalib.inout.exporter.DataObjectPackageToCSVMetadataExporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.DiskToArchiveTransferImporter;
 import fr.gouv.vitam.tools.sedalib.inout.importer.WindowsShortcut;
+import fr.gouv.vitam.tools.sedalib.metadata.ArchiveUnitProfile;
 import fr.gouv.vitam.tools.sedalib.utils.ResourceUtils;
 import fr.gouv.vitam.tools.sedalib.utils.SEDALibException;
 import org.apache.commons.io.FileUtils;
@@ -353,5 +356,34 @@ class CSVMetadataExporterTest {
                 Paths.get("target/tmpJunit/CSVMetadataExporterZIP/unzip")
             )
         ).isTrue();
+    }
+
+    @Test
+    void exportCSVWithArchiveUnitProfile() throws SEDALibException, InterruptedException, IOException {
+        DataObjectPackage dop = new DataObjectPackage();
+        ArchiveUnit au = new ArchiveUnit();
+        au.setInDataObjectPackageId("AU1");
+        au.setDefaultContent("Title AU1", "Item");
+        au.setArchiveUnitProfile(new ArchiveUnitProfile("MyProfile"));
+        dop.addArchiveUnit(au);
+        dop.addRootAu(au);
+
+        DataObjectPackageToCSVMetadataExporter csvMetadataExporter;
+        String temporaryFile = "target/tmpJunit/CSVMetadataExporterProfile/ExportedMetadata.csv";
+        eraseAll("target/tmpJunit/CSVMetadataExporterProfile");
+        csvMetadataExporter = new DataObjectPackageToCSVMetadataExporter(
+            dop,
+            "UTF8",
+            ';',
+            ALL_DATAOBJECTS,
+            false,
+            0,
+            null
+        );
+        csvMetadataExporter.doExportToCSVMetadataFile(temporaryFile);
+
+        String generatedFileContent = FileUtils.readFileToString(new File(temporaryFile), "UTF8");
+        assertThat(generatedFileContent).contains("ArchiveUnitProfile");
+        assertThat(generatedFileContent).contains("MyProfile");
     }
 }

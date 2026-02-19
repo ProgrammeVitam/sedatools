@@ -134,6 +134,10 @@ public class CSVMetadataToDataObjectPackageImporter {
          */
         String managementXMLMetadata;
         /**
+         * The ArchiveUnitProfile xml metadata.
+         */
+        String archiveUnitProfileXMLMetadata;
+        /**
          * The Au.
          */
         ArchiveUnit au;
@@ -152,7 +156,8 @@ public class CSVMetadataToDataObjectPackageImporter {
             String file,
             String objectFiles,
             String contentXMLMetadata,
-            String managementXMLMetadata
+            String managementXMLMetadata,
+            String archiveUnitProfileXMLMetadata
         ) {
             this.guid = guid;
             this.parentGUID = parentGUID;
@@ -161,6 +166,7 @@ public class CSVMetadataToDataObjectPackageImporter {
             else this.objectFiles = Arrays.asList(objectFiles.split("\\|"));
             this.contentXMLMetadata = contentXMLMetadata;
             this.managementXMLMetadata = managementXMLMetadata;
+            this.archiveUnitProfileXMLMetadata = archiveUnitProfileXMLMetadata;
             this.au = null;
         }
     }
@@ -273,11 +279,12 @@ public class CSVMetadataToDataObjectPackageImporter {
                 try {
                     currentLine = new Line(
                         metadataFormatter.getGUID(row),
-                        metadataFormatter.getParentGUID(row), //NOSONAR
+                        metadataFormatter.getParentGUID(row), // NOSONAR
                         metadataFormatter.getFile(row),
                         metadataFormatter.getObjectFiles(row),
                         metadataFormatter.doFormatAndExtractContentXML(row),
-                        metadataFormatter.extractManagementXML()
+                        metadataFormatter.extractManagementXML(),
+                        metadataFormatter.extractArchiveUnitProfileXML()
                     );
                 } catch (SEDALibException e) {
                     throw new SEDALibException("Erreur sur la ligne " + lineCount, e);
@@ -316,6 +323,10 @@ public class CSVMetadataToDataObjectPackageImporter {
         if (!line.managementXMLMetadata.isEmpty()) {
             au.setManagementXmlData(line.managementXMLMetadata);
             au.getManagement();
+        }
+        if (!line.archiveUnitProfileXMLMetadata.isEmpty()) {
+            au.setArchiveUnitProfileXmlData(line.archiveUnitProfileXMLMetadata);
+            au.getArchiveUnitProfile();
         }
         Path path = getAbsolutePath(line.file);
         DataObjectGroup implicitDog = null;
